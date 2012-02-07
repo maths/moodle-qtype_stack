@@ -14,23 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
- * String answer test
+ * Regular expression answer-test.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_ATString extends STACK_AnsTest {
+class STACK_AnsTest_ATRegExp extends STACK_AnsTest {
 
     public function doAnsTest() {
-        if (trim($this->sAnsKey) == trim($this->tAnsKey)) {
-            $this->ATMark = 1;
-            return true;
+        if ($this->ATOption == null) {
+            $this->ATError = 'Missing regular expression in CAS Option field';
+            $this->ATFeedback = ' STACK_Legacy::trans("TEST_FAILED");';
+            $this->ATAnsNote = 'STACKERROR_OPTION_REGEX';
+            $this->ATMark = 0;
+            return null;
 
         } else {
-            $this->ATMark = 0;
-            return false;
+            if (preg_match($this->ATOption, $this->sAnsKey, $pattern)) {
+                $this->ATMark = 1;
+                $this->ATAnsNote = ' Pattern matched: '.$pattern[0];
+                return true;
+            } else {
+                $this->ATMark = 0;
+                return false;
+            }
         }
     }
 }

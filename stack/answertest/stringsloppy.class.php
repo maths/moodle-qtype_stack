@@ -14,23 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Stack question renderer class.
- *
- * @package    qtype_stack
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
-defined('MOODLE_INTERNAL') || die();
-
 
 /**
- * Generates the output for Stack questions.
+ * Loose string comparison answer test.
  *
- * @copyright  2012 The Open University
+ * This test ignores the case of letters, and whitespace.
+ *
+ * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_stack_renderer extends qtype_renderer {
+class STACK_AnsTest_StringSloppy extends STACK_AnsTest {
+
+    public function doAnsTest() {
+        $sa = str_replace(' ', '', strtolower(trim($this->sAnsKey)));
+        $sa = str_replace("\n", '', $sa);
+        $sa = str_replace("\t", '', $sa);
+
+        $ta = str_replace(' ', '', strtolower(trim($this->tAnsKey)));
+        $ta = str_replace("\n", '', $ta);
+        $ta = str_replace("\t", '', $ta);
+
+        if ($sa == $ta) {
+            $this->ATMark = 1;
+            return true;
+        } else {
+            $this->ATMark = 0;
+            return false;
+        }
+    }
 }
+ 

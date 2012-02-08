@@ -1,36 +1,33 @@
 <?php
 
-// This file is part of Stack - http://stack.bham.ac.uk//
-//
-// Stack is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Stack is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ This file is part of Stack - http://stack.bham.ac.uk//
 
-/**
-*  This deals with Maxima strings.
-*  Mainly a home for all validation functions.
+ Stack is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Stack is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require_once(dirname(__FILE__) . '/../stringutil.class.php');
 
 class STACK_CAS_CasString {
 
-    private $rawCASString; 	// As typed in by the user.
-    private $CASString;		// As modified by the validation.
-    private $valid;  		// true or false
-    private $key;		
-    private $errors;		// string for the user
+    private $rawCASString;    // As typed in by the user.
+    private $CASString;       // As modified by the validation.
+    private $valid;           // true or false
+    private $key;
+    private $errors;          // string for the user
 
-    private $value;		// Note these two values only become activated when the CASString goes to the CAS.
+    private $value;           // Note these two values only become activated when the CASString goes to the CAS.
     private $display;
 
     // Option values
@@ -39,44 +36,40 @@ class STACK_CAS_CasString {
     private $strictSyntax;
 
     function __construct($rawString, $securityLevel='s', $strictSyntax=true, $insertStars=false) {
-        $this->rawCASString   	= $rawString;
-	    $this->security     	= $securityLevel; // by default, student
-        $this->insertStars     	= $insertStars;         	// by default don't add stars
-        $this->strictSyntax 	= $strictSyntax;        	// by default strict
+        $this->rawCASString   = $rawString;
+        $this->security       = $securityLevel;   // by default, student
+        $this->insertStars    = $insertStars;     // by default don't add stars
+        $this->strictSyntax   = $strictSyntax;    // by default strict
 
-        $this->valid 		= NULL;  // If NULL then the validate command has not yet been run....
-        
-        if(!is_string($this->rawCASString))
-        {
-        	throw new Exception('STACK_CAS_CAS_String: rawString must be a STRING.');
+        $this->valid          =  null;  // If NULL then the validate command has not yet been run....
+
+        if (!is_string($this->rawCASString)) {
+            throw new Exception('STACK_CAS_CAS_String: rawString must be a STRING.');
         }
-        
-        if(!('s'===$securityLevel || 't'===$securityLevel))
-        {
-        	throw new Exception('STACK_CAS_CAS_String: 2nd argument, security level, must be "s" or "t" only.');
+
+        if (!('s'===$securityLevel || 't'===$securityLevel)) {
+            throw new Exception('STACK_CAS_CAS_String: 2nd argument, security level, must be "s" or "t" only.');
         }
-        
-        if(!is_bool($strictSyntax))
-        {
-        	throw new Exception('STACK_CAS_CAS_String: 3rd argument, stringSyntax, must be Boolean.');
+
+        if (!is_bool($strictSyntax)) {
+            throw new Exception('STACK_CAS_CAS_String: 3rd argument, stringSyntax, must be Boolean.');
         }
-        
-        if(!is_bool($insertStars))
-        {
-        	throw new Exception('STACK_CAS_CAS_String: 4th argument, insertStars, must be Boolean.');
+
+        if (!is_bool($insertStars)) {
+            throw new Exception('STACK_CAS_CAS_String: 4th argument, insertStars, must be Boolean.');
         }
-}
-	
-	/*********************************************************/
-	/* Validation functions 				 */
-	/*********************************************************/
+    }
+
+    /*********************************************************/
+    /* Validation functions                                  */
+    /*********************************************************/
 
     function validate() {
 
         $this->valid     = true;
         $cmd             = $this->rawCASString;
-        $this->CASString = $this->rawCASString;	
-        
+        $this->CASString = $this->rawCASString;
+
         // CASStrings must be non-empty.
         if (''==trim($this->CASString)) {
             $this->valid = false;
@@ -84,11 +77,11 @@ class STACK_CAS_CasString {
         }
 
         //if student, check for spaces between letters or numbers in expressions
-        if($this->security != 't') {
+        if ($this->security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
-            if (preg_match($pat,$cmd)) {
+            if (preg_match($pat, $cmd)) {
                 $this->valid = false;
-                $cmds = str_replace(' ','<font color="red">_</font>',$cmd);
+                $cmds = str_replace(' ', '<font color="red">_</font>', $cmd);
                 $this->errors.=stack_string("stackCas_spaces").$this->format_error_string($cmds).'. ';
             }
         }
@@ -103,8 +96,8 @@ class STACK_CAS_CasString {
                     //%e and %pi are allowed. Any other percentages dissallowed.
                 } else {
                     //problem
-                    $this->valid = false;
-                    $this->errors.=stack_string("stackCas_percent").$this->format_error_string($cmd).'. ';
+                    $this->valid   = false;
+                    $this->errors .= stack_string("stackCas_percent").$this->format_error_string($cmd).'. ';
                 }
             }
         }
@@ -113,80 +106,77 @@ class STACK_CAS_CasString {
         $inline = $cs->checkBookends('(', ')');
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
-            if($inline == 'left') {
-                $this->errors.=stack_string("stackCas_missingLeftBracket", '(').$this->format_error_string($cmd).'. ';
+            if ($inline == 'left') {
+                $this->errors .= stack_string('stackCas_missingLeftBracket', '(').$this->format_error_string($cmd).'. ';
             } else {
-                $this->errors.=stack_string("stackCas_missingRightBracket", '(').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingRightBracket', '(').$this->format_error_string($cmd).'. ';
             }
         }
         $inline = $cs->checkBookends('{', '}');
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
-            if($inline == 'left') {
-                $this->errors.=stack_string("stackCas_missingLeftBracket", '{').$this->format_error_string($cmd).'. ';
+            if ($inline == 'left') {
+                $this->errors .= stack_string('stackCas_missingLeftBracket', '{').$this->format_error_string($cmd).'. ';
             } else {
-                $this->errors.=stack_string("stackCas_missingRightBracket", '}').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingRightBracket', '}').$this->format_error_string($cmd).'. ';
             }
         }
         $inline = $cs->checkBookends('[', ']');
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
-                if($inline == 'left') {
-            $this->errors.=stack_string("stackCas_missingLeftBracket", '[').$this->format_error_string($cmd).'. ';
-                } else {
-            $this->errors.=stack_string("stackCas_missingRightBracket", ']').$this->format_error_string($cmd).'. ';
+            if ($inline == 'left') {
+                $this->errors.=stack_string('stackCas_missingLeftBracket', '[').$this->format_error_string($cmd).'. ';
+            } else {
+                $this->errors.=stack_string('stackCas_missingRightBracket', ']').$this->format_error_string($cmd).'. ';
             }
         }
 
-		/*
+/*
         //check for apostrophes if a student
-        if($this->security == 's')
-        {
-		if(strpos($cmd, "'") !== false)
-                {
-			$this->valid = false;
-			$this->errors.=stack_string("stackCas_apostrophe").$this->format_error_string($cmd).'. ';
-                }
+        if ($this->security == 's') {
+            if(strpos($cmd, "'") !== false) {
+                $this->valid = false;
+                $this->errors.=stack_string("stackCas_apostrophe").$this->format_error_string($cmd).'. ';
+            }
         }
-		*/
+*/
 
         // Only permit the following characters to be sent to the CAS.
-        $testSet='0123456789,./\%&{}[]()$�@!"?`^~*_-+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: '."'";
+        $testSet = '0123456789,./\%&{}[]()$�@!"?`^~*_-+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: '."'";
         $cmd = trim($cmd);
         $length = strlen($cmd);
         $lastChar = $cmd[($length -1)];
 
         // Check for permitted characters
         $invalidChars=array();
-        foreach(str_split($cmd,1) as $chr) {
-                if(strpos($testSet,$chr)===false) {
-                        $invalidChars[]=$chr;
-                }
+        foreach (str_split($cmd,1) as $chr) {
+            if (strpos($testSet, $chr) === false) {
+                $invalidChars[] = $chr;
+            }
         }
 
-        if(count($invalidChars)>0) {
+        if (count($invalidChars)>0) {
             $this->valid = false;
-            $a = array( 0 => implode(", ",array_unique($invalidChars)));
+            $a = array( 0 => implode(", ", array_unique($invalidChars)));
             $this->errors.=stack_string('stackCas_forbiddenChar', $a);
         }
 
         // Check for disallowed final characters,  / * + - ^ £ # = & ~ | , ? : ;
-        $disallowedChars = array('/','+','*','/','-','^','£','#','~','=','?',',','_','&','`','¬',';',':','$');
-        if(in_array($lastChar, $disallowedChars)) {
+        $disallowedChars = array('/', '+', '*', '/', '-', '^', '£', '#', '~', '=', '?', ',', '_', '&', '`', '¬', ';', ':', '$');
+        if (in_array($lastChar, $disallowedChars)) {
             $this->valid = false;
             $a = array();
             $a[0] = $lastChar;
             $a[1] = $this->format_error_string($cmd);
             $this->errors.=stack_string('stackCas_finalChar', $a);
         }
-        
+
         $this->checkStars();
-        
+
         $this->checkSecurity();
-        
+
         $this->key_val_split();
-        
-	return $this->valid;
+        return $this->valid;
     }
 
     /**
@@ -195,16 +185,14 @@ class STACK_CAS_CasString {
     * @return bool|string true if no missing *s, false if missing stars but automatically added
     * if stack is set to not add stars automatically, a string indicating the missing stars is returned.
     */
-    function checkStars()
-    {
+    function checkStars() {
         // We assume f and g are single letter functions.
-        $patterns[]  = "|(\))(\()|";                // Simply the pattern ")(".  Must be wrong!
-        $patterns[]  = "|([0-9]+)([A-DF-Za-eh-z])|";   // eg 3x
-        $patterns[]  = "|([0-9])([A-DF-Za-z]\()|";     // eg 3 x (
-        $patterns[]  = "|(\))([0-9A-DF-Za-z])|";         // eg )a
+        $patterns[] = "|(\))(\()|";                // Simply the pattern ")(".  Must be wrong!
+        $patterns[] = "|([0-9]+)([A-DF-Za-eh-z])|";   // eg 3x
+        $patterns[] = "|([0-9])([A-DF-Za-z]\()|";     // eg 3 x (
+        $patterns[] = "|(\))([0-9A-DF-Za-z])|";         // eg )a
 
-        if ($this->security == 's')
-        {
+        if ($this->security == 's') {
             // Teachers have more options for functions
             $patterns[]  = "|([0-9]+)(\()|";            // eg 3212 (
             $patterns[]  = "|(^[A-DF-Za-eh-z])(\()|";      // eg a(  , that is a single letter.
@@ -212,49 +200,39 @@ class STACK_CAS_CasString {
         }
 
         //loop over every CAS command checking for missing stars
-        $missingStar 	= false;
-	$missingString	= '';
+        $missingStar     = false;
+        $missingString   = '';
 
-	$cmd =  $this->rawCASString;
+        $cmd =  $this->rawCASString;
 
-	foreach ($patterns as $pat) {
-		if (preg_match($pat,$cmd))
-                {
-                    //found a missing star.
-                    $missingStar = true;
-                    if (($this->strictSyntax == false) || ($this->insertStars))
-                    {
-                        //then we automatically add stars
-                        $cmd = preg_replace($pat,"\${1}*\${2}",$cmd);
-                    }
-                    if($this->strictSyntax == true)
-                    {
-                        //flag up the error
-                        $missingString .= $this->format_error_string(preg_replace($pat,"\${1}<strong>*</strong>\${2}",$cmd)).'<br />';
-                    }
-
+        foreach ($patterns as $pat) {
+            if (preg_match($pat, $cmd)) {
+                //found a missing star.
+                $missingStar = true;
+                if (($this->strictSyntax == false) || ($this->insertStars)) {
+                    //then we automatically add stars
+                    $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
                 }
-	}
-
-        if(false == $missingStar)  //if no missing stars return true
-        {
-		return true;
+                if ($this->strictSyntax == true) {
+                    //flag up the error
+                    $missingString .= $this->format_error_string(preg_replace($pat, "\${1}<strong>*</strong>\${2}", $cmd)).'<br />';
+                }
+            }
         }
-	else if (false == $this->strictSyntax)
-	{
+
+        if (false == $missingStar) {
+            //if no missing stars return true
+            return true;
+        } else if (false == $this->strictSyntax) {
             //if missing stars, but strictSyntax is off, return false (stars will have been added)
-		$this->CASString=$cmd;
-		return false;
-	}
-        else
-        {
+            $this->CASString=$cmd;
+            return false;
+        } else {
             //if missing stars & strict syntax is on return errors
             $this->errors .= stack_string('stackCas_MissingStars').' '.$missingString;
-	    return false;
+            return false;
         }
     }
-
-
 
 
     /**
@@ -262,130 +240,121 @@ class STACK_CAS_CasString {
     *
     * @return bool|string true if passes checks if fails, returns string of forbidden commands
     */
-    function checkSecurity()
-    {
- 	$cmd		= $this->CASString;
+    function checkSecurity() {
+        $cmd = $this->CASString;
         $strin_keywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
-        preg_match_all($pat,$cmd,$out,PREG_PATTERN_ORDER);
+        preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
 
-	// Filter out some of these matches.
-        foreach($out[0] as $key)
-        {
-                // Do we have only numbers, or only 2 characters?
-                // These strings are fine.
-                preg_match("|[0-9]+|",$key,$justnum);
+        // Filter out some of these matches.
+        foreach ($out[0] as $key) {
+            // Do we have only numbers, or only 2 characters?
+            // These strings are fine.
+            preg_match("|[0-9]+|", $key, $justnum);
 
-                if (empty($justnum) and strlen($key)>2)
-                {
-			//echo "Keyword found: $key <br />";
-                        $upKey = strtoupper($key);
-                        array_push($strin_keywords, $upKey);
-
-                }
+            if (empty($justnum) and strlen($key)>2) {
+                //echo "Keyword found: $key <br />";
+                $upKey = strtoupper($key);
+                array_push($strin_keywords, $upKey);
+            }
         }
         $strin_keywords = array_unique($strin_keywords);
 
         //check for global forbidden words
         // TODO: this file should be eventually autogenerated at install time.
         require('keywords.php');
-        foreach($strin_keywords as $key)
-        {
-            if(in_array($key, $stack_cas['globalForbid'])) {
+        foreach ($strin_keywords as $key) {
+            if (in_array($key, $stack_cas['globalForbid'])) {
                 //very bad!.
                 $this->valid = false;
-                $this->errors.= stack_string("stackCas_forbiddenWord").' '.$key.'. ';
+                $this->errors.= stack_string('stackCas_forbiddenWord').' '.$key.'. ';
             } else {
-                if($this->security == 't') {
-                    if(in_array($key,$stack_cas['teacherNotAllow'])) {
+                if ($this->security == 't') {
+                    if (in_array($key, $stack_cas['teacherNotAllow'])) {
                         //if a teacher check against forbidden commands
                         $this->valid = false;
-                        $this->errors.= stack_string("stackCas_unsupportedKeyword").' '.$key.'. ';
+                        $this->errors.= stack_string('stackCas_unsupportedKeyword').' '.$key.'. ';
                     }
                 } else {
                     //if not teacher allow only set commands.
-                    if(!in_array($key, $stack_cas['studentAllow'])) {
+                    if (!in_array($key, $stack_cas['studentAllow'])) {
                         $this->valid = false;
-                        $this->errors.= stack_string("stackCas_unknownFunction").' '.$key.'. ';
-                    } // else 
-                      //is valid student command
+                        $this->errors.= stack_string('stackCas_unknownFunction').' '.$key.'. ';
+                    }
+                    // else is valid student command.
                 }
             }
-    }
-        return NULL;
+        }
+        return null;
     }
 
     /**
     * Check for CAS commands which appear in the $keywords array
-    * Notes, 	(i)  this is case insensitive.
-    *		(ii) returns true if we find the element of the array.
+    * Notes, (i)  this is case insensitive.
+    *        (ii) returns true if we find the element of the array.
     * @return bool|string true if an element of array is found in the CASString.
     */
-    public function checkExternalForbiddenWords($keywords)
-    {
+    public function checkExternalForbiddenWords($keywords) {
         $found          = false;
         $cmd            = $this->CASString;
         $strin_keywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
-        preg_match_all($pat,$cmd,$out,PREG_PATTERN_ORDER);
-        
+        preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
+
         // Ensure all $keywords are upper case
-        foreach ($keywords as $key => $val)
-        {
-        	$keywords[$key] = strtoupper($val);
+        foreach ($keywords as $key => $val) {
+            $keywords[$key] = strtoupper($val);
         }
-        
+
         // Filter out some of these matches.
-        foreach($out[0] as $key) {
+        foreach ($out[0] as $key) {
             // Do we have only numbers, or only 2 characters?
             // These strings are fine.
-            preg_match("|[0-9]+|",$key,$justnum);
-        
+            preg_match("|[0-9]+|", $key, $justnum);
+
             if (empty($justnum) and strlen($key)>2) {
                 //echo "Keyword found: $key <br />";
                 $upKey = strtoupper($key);
                 array_push($strin_keywords, $upKey);
-        	}
+            }
         }
         $strin_keywords = array_unique($strin_keywords);
-        
-        foreach($strin_keywords as $key) {
-            if(in_array($key, $keywords)) {
+
+        foreach ($strin_keywords as $key) {
+            if (in_array($key, $keywords)) {
                 $found = true;
             }
         }
         return $found;
     }
-    
+
     /*********************************************************/
     /* Internal utility functions				 */
     /*********************************************************/
-    
-    function format_error_string($str)
-    {
+
+    function format_error_string($str) {
         return "<span class='SyntaxExample2'>".$str."</span>";
     }
-    
-    function key_val_split()
-    {
-        $i = strpos($this->CASString,':');
+
+    function key_val_split() {
+        $i = strpos($this->CASString, ':');
         if (false === $i) {
             $this->key   = '';
             //$this->CASString = $this->CASString;
         } else {
             // Need to check we don't have a function definition...
-            if ('='===substr($this->CASString,$i+1,1)) {
+            if ('='===substr($this->CASString, $i+1, 1)) {
                 $this->key   = '';
                 //$this->CASString = $this->CASString;
             } else {
-                $this->key       = substr($this->CASString,0,$i);
-                $this->CASString = substr($this->CASString,$i+1);
+                $this->key       = substr($this->CASString, 0, $i);
+                $this->CASString = substr($this->CASString, $i+1);
             }
         }
     }
-    
+
     /*********************************************************/
-    /* Return and modify information			 */
+    /* Return and modify information                         */
     /*********************************************************/
 
     public function Get_valid() {
@@ -410,7 +379,7 @@ class STACK_CAS_CasString {
         return $this->value;
     }
 
-    public function Set_key($key,$append_key=true) {
+    public function Set_key($key, $append_key=true) {
         if (null===$this->valid) {
             $this->validate();
         }
@@ -421,7 +390,7 @@ class STACK_CAS_CasString {
             $this->key=$key;
         }
     }
-    
+
     public function Get_rawCASString() {
         return $this->rawCASString;
     }
@@ -434,11 +403,11 @@ class STACK_CAS_CasString {
     }
 
     public function Set_value($val) {
-    	$this->value=$val;
+        $this->value=$val;
     }
 
     public function Set_display($val) {
-    	$this->display=$val;
+        $this->display=$val;
     }
 
     public function Get_errors() {
@@ -450,15 +419,15 @@ class STACK_CAS_CasString {
 
     public function Add_errors($err) {
         if (''==trim($err)) {
-        	return false;
+            return false;
         } else {
-        	return $this->errors.=$err;
+            return $this->errors.=$err;
         }
     }
 
     /* If we "CAS validate" this string, then we need to set various options. */
     /* If the teacher's answer is NULL then we use typeless validation, otherwise we check type */
-    public function Set_CAS_validation_CASString($key,$forbidFloats=true,$lowestTerms=true,$tans=null) {
+    public function Set_CAS_validation_CASString($key, $forbidFloats=true, $lowestTerms=true, $tans=null) {
         if (null===$this->valid) {
             $this->validate();
         }
@@ -468,18 +437,25 @@ class STACK_CAS_CasString {
 
         $this->key = $key;
         $starredAnswer = $this->CASString;
-        
+
         //Turn PHP Booleans into Maxima true & false.
-        if ($forbidFloats) {$forbidFloats='true';} else {$forbidFloats='false';}
-        if ($lowestTerms) {$lowestTerms='true';} else {$lowestTerms='false';}
-        
-        if (null===$tans) {
-        	$this->CASString = 'stack_validate_typeless(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.')';
+        if ($forbidFloats) {
+            $forbidFloats='true';
         } else {
-        	$this->CASString = 'stack_validate(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.','.$tans.')';
+            $forbidFloats='false';
+        }
+        if ($lowestTerms) {
+            $lowestTerms='true';
+        } else {
+            $lowestTerms='false';
+        }
+
+        if (null===$tans) {
+            $this->CASString = 'stack_validate_typeless(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.')';
+        } else {
+            $this->CASString = 'stack_validate(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.','.$tans.')';
         }
         return true;
     }
-
 
 } // end of class 

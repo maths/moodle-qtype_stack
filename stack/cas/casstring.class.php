@@ -290,242 +290,195 @@ class STACK_CAS_CasString {
         require_once('keywords.php');
         foreach($strin_keywords as $key)
         {
-
-            if(in_array($key, $stack_cas['globalForbid']))
-            {
+            if(in_array($key, $stack_cas['globalForbid'])) {
                 //very bad!.
-		$this->valid = false;
+                $this->valid = false;
                 $this->errors.= STACK_Translator::translate("stackCas_forbiddenWord").' '.$key.'. ';
-            }
-            else
-            {
-                if($this->security == 't')
-                {
-                    if(in_array($key,$stack_cas['teacherNotAllow']))
-                    {
+            } else {
+                if($this->security == 't') {
+                    if(in_array($key,$stack_cas['teacherNotAllow'])) {
                         //if a teacher check against forbidden commands
-			$this->valid = false;
+                        $this->valid = false;
                         $this->errors.= STACK_Translator::translate("stackCas_unsupportedKeyword").' '.$key.'. ';
                     }
-
-                }
-                else
-                {
+                } else {
                     //if not teacher allow only set commands.
-                    if(!in_array($key, $stack_cas['studentAllow']))
-                    {
-			$this->valid = false;
+                    if(!in_array($key, $stack_cas['studentAllow'])) {
+                        $this->valid = false;
                         $this->errors.= STACK_Translator::translate("stackCas_unknownFunction").' '.$key.'. ';
-                    }
-                    else
-                    {
-                        //is valid student command
-                    }
+                    } // else 
+                      //is valid student command
                 }
             }
 	}
         return NULL;
     }
 
-	/**
-	* Check for CAS commands which appear in the $keywords array
-	* Notes, 	(i)  this is case insensitive.
-	*		(ii) returns true if we find the element of the array.
-	* @return bool|string true if an element of array is found in the CASString.
-	*/
-	public function checkExternalForbiddenWords($keywords)
-	{
-		$found 		= false;
-		$cmd		= $this->CASString;
-		$strin_keywords = array();
-		$pat = "|[\?_A-Za-z0-9]+|";
-		preg_match_all($pat,$cmd,$out,PREG_PATTERN_ORDER);
+    /**
+    * Check for CAS commands which appear in the $keywords array
+    * Notes, 	(i)  this is case insensitive.
+    *		(ii) returns true if we find the element of the array.
+    * @return bool|string true if an element of array is found in the CASString.
+    */
+    public function checkExternalForbiddenWords($keywords)
+    {
+        $found          = false;
+        $cmd            = $this->CASString;
+        $strin_keywords = array();
+        $pat = "|[\?_A-Za-z0-9]+|";
+        preg_match_all($pat,$cmd,$out,PREG_PATTERN_ORDER);
+        
+        // Ensure all $keywords are upper case
+        foreach ($keywords as $key => $val)
+        {
+        	$keywords[$key] = strtoupper($val);
+        }
+        
+        // Filter out some of these matches.
+        foreach($out[0] as $key) {
+            // Do we have only numbers, or only 2 characters?
+            // These strings are fine.
+            preg_match("|[0-9]+|",$key,$justnum);
+        
+            if (empty($justnum) and strlen($key)>2) {
+                //echo "Keyword found: $key <br />";
+                $upKey = strtoupper($key);
+                array_push($strin_keywords, $upKey);
+        	}
+        }
+        $strin_keywords = array_unique($strin_keywords);
+        
+        foreach($strin_keywords as $key) {
+            if(in_array($key, $keywords)) {
+                $found = true;
+            }
+        }
+        return $found;
+    }
+    
+    /*********************************************************/
+    /* Internal utility functions				 */
+    /*********************************************************/
+    
+    function format_error_string($str)
+    {
+        return "<span class='SyntaxExample2'>".$str."</span>";
+    }
+    
+    function key_val_split()
+    {
+        $i = strpos($this->CASString,':');
+        if (false === $i) {
+            $this->key   = '';
+            $this->CASString = $this->CASString;
+        } else {
+            // Need to check we don't have a function definition...
+            if ('='===substr($this->CASString,$i+1,1)) {
+                $this->key   = '';
+                $this->CASString = $this->CASString;
+            } else {
+                $this->key       = substr($this->CASString,0,$i);
+                $this->CASString = substr($this->CASString,$i+1);
+            }
+        }
+    }
+    
+    /*********************************************************/
+    /* Return and modify information			 */
+    /*********************************************************/
 
-		// Ensure all $keywords are upper case
-		foreach ($keywords as $key => $val)
-		{
-			$keywords[$key] = strtoupper($val);
-		}
+    public function Get_valid() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        return $this->valid;
+    }
 
-		// Filter out some of these matches.
-		foreach($out[0] as $key)
-		{
-			// Do we have only numbers, or only 2 characters?
-			// These strings are fine.
-			preg_match("|[0-9]+|",$key,$justnum);
+    public function Get_key() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        return $this->key;
+    }
 
-			if (empty($justnum) and strlen($key)>2)
-			{
-				//echo "Keyword found: $key <br />";
-				$upKey = strtoupper($key);
-				array_push($strin_keywords, $upKey);
+    public function Get_display() {
+        return $this->display;
+    }
 
-			}
-		}
-		$strin_keywords = array_unique($strin_keywords);
+    public function Get_value() {
+        return $this->value;
+    }
 
-		foreach($strin_keywords as $key)
-		{
-			if(in_array($key, $keywords))
-			{
-				$found = true;
-			}
-		}
-		return $found;
-	}
-	
-	/*********************************************************/
-	/* Internal utility functions				 */
-	/*********************************************************/
+    public function Set_key($key,$append_key=true) {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        if (''!=$this->key && $append_key) {
+            $this->CASString = $this->key.':'.$this->CASString;	
+            $this->key=$key;
+        } else {
+            $this->key=$key;
+        }
+    }
+    
+    public function Get_rawCASString() {
+        return $this->rawCASString;
+    }
 
-	function format_error_string($str)
-	{
-	  return "<span class='SyntaxExample2'>".$str."</span>";
-	}
+    public function Get_CASString() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        return $this->CASString;
+    }
 
-	function key_val_split()
-	{
-		$i = strpos($this->CASString,':');
-		if (false === $i)
-		{
-			$this->key   = '';
-			$this->CASString = $this->CASString;
-		}
-		else
-		{
-			// Need to check we don't have a function definition...
-			if ('='===substr($this->CASString,$i+1,1))
-			{
-				$this->key   = '';
-				$this->CASString = $this->CASString;
-			}
-			else
-			{			
-				$this->key       = substr($this->CASString,0,$i);
-				$this->CASString = substr($this->CASString,$i+1);
-			}
-		}
-	}
-	
-	/*********************************************************/
-	/* Return and modify information			 */
-	/*********************************************************/
+    public function Set_value($val) {
+    	$this->value=$val;
+    }
 
-	public function Get_valid()
-	{
-	    if (NULL===$this->valid)
-	    {
-		$this->validate();
-	    }
-	    return $this->valid;
-	}
+    public function Set_display($val) {
+    	$this->display=$val;
+    }
 
-	public function Get_key()
-	{
-	    if (NULL===$this->valid)
-	    {
-		$this->validate();
-	    }
-	    return $this->key;
-	}
-	public function Get_display()
-	{
-	    return $this->display;
-	}
-	public function Get_value()
-	{
-	    return $this->value;
-	}
-	public function Set_key($key,$append_key=true)
-	{
-	    if (NULL===$this->valid)
-	    {
-		$this->validate();
-	    }
-	    if (''!=$this->key && $append_key) {
-		$this->CASString = $this->key.':'.$this->CASString;	
-		$this->key=$key;
-	    }
-	    else
-	    {
-		$this->key=$key;
-	    }
-	}
+    public function Get_errors() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        return $this->errors;
+    }
 
-	public function Get_rawCASString()
-	{
-	    return $this->rawCASString;
-	}
+    public function Add_errors($err) {
+        if (''==trim($err)) {
+        	return false;
+        } else {
+        	return $this->errors.=$err;
+        }
+    }
 
-	public function Get_CASString()
-	{
-	    if (NULL===$this->valid)
-	    {
-		$this->validate();
-	    }
-	    return $this->CASString;
-	}
+    /* If we "CAS validate" this string, then we need to set various options. */
+    /* If the teacher's answer is NULL then we use typeless validation, otherwise we check type */
+    public function Set_CAS_validation_CASString($key,$forbidFloats=true,$lowestTerms=true,$tans=null) {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        if (false === $this->valid) {
+            return false;
+        }
 
-	public function Set_value($val)
-	{
-		$this->value=$val;
-	}
-	public function Set_display($val)
-	{
-		$this->display=$val;
-	}
-	public function Get_errors()
-	{
-	    if (NULL===$this->valid)
-	    {
-		$this->validate();
-	    }
-	    return $this->errors;
-	}
-	public function Add_errors($err)
-	{
-		if (''==trim($err))
-		{
-			return false;
-		}
-		else
-		{
-			return $this->errors.=$err;
-		}
-	}
-	
-	/* If we "CAS validate" this string, then we need to set various options. */
-	/* If the teacher's answer is NULL then we use typeless validation, otherwise we check type */
-	public function Set_CAS_validation_CASString($key,$forbidFloats=true,$lowestTerms=true,$tans=NULL) {
-		if (NULL===$this->valid)
-		{
-			$this->validate();
-		}
-		if (false === $this->valid)
-		{
-			return false;
-		}
-	
-		$this->key=$key;
-	
-		$starredAnswer = $this->CASString;
-
-		//Turn PHP Booleans into Maxima true & false.
-		if ($forbidFloats) {$forbidFloats='true';} else {$forbidFloats='false';}
-		if ($lowestTerms) {$lowestTerms='true';} else {$lowestTerms='false';}
-		
-		if (NULL===$tans)
-		{
-			$this->CASString = 'stack_validate_typeless(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.')';
-		}
-		else
-		{
-			$this->CASString = 'stack_validate(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.','.$tans.')';
-		}
-		
-		return true;
-
-	}
+        $this->key = $key;
+        $starredAnswer = $this->CASString;
+        
+        //Turn PHP Booleans into Maxima true & false.
+        if ($forbidFloats) {$forbidFloats='true';} else {$forbidFloats='false';}
+        if ($lowestTerms) {$lowestTerms='true';} else {$lowestTerms='false';}
+        
+        if (null===$tans) {
+        	$this->CASString = 'stack_validate_typeless(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.')';
+        } else {
+        	$this->CASString = 'stack_validate(['.$starredAnswer.'],'.$forbidFloats.','.$lowestTerms.','.$tans.')';
+        }
+        return true;
+    }
 
 
 } // end of class 

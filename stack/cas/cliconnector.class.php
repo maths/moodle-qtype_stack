@@ -1,21 +1,22 @@
 <?php
 
-/**
-*
-* Welcome to STACK.  A system for teaching and assessment using a
-* computer algebra kernel.
-* <br />
-* This file is licensed under the GPL License.
-* <br />
-* A copy of the license is in your STACK distribution called
-* license.txt.  If you are missing this file you can obtain
-* it from:
-* http://www.stack.bham.ac.uk/license.txt
-* <br />
-*
-* @author Jonathan Hart
-* @package stackCAS
-*/
+// This file is part of Stack - http://stack.bham.ac.uk//
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
 /**
 * Object which handles maxima specific code.
 *

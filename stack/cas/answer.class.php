@@ -1,19 +1,21 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk//
-//
-// Stack is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Stack is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/*
+ This file is part of Stack - http://stack.bham.ac.uk//
+
+ Stack is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Stack is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /**
 * A single result returned by maxima
@@ -59,8 +61,7 @@ class STACK_CAS_Maxima_Answer {
     * @param string $error
     *
     */
-    public function __construct($label, $value, $display, $error)
-    {
+    public function __construct($label, $value, $display, $error) {
         $this->label = $label;
         $this->display = $display;
         $this->error = $error;
@@ -73,8 +74,7 @@ class STACK_CAS_Maxima_Answer {
     * @access public
     * @return string
     */
-    public function getLabel()
-    {
+    public function getLabel() {
         return $this->label;
     }
 
@@ -84,8 +84,7 @@ class STACK_CAS_Maxima_Answer {
     * @access public
     * @return string
     */
-    public function getDisplay()
-    {
+    public function getDisplay() {
         return $this->display;
     }
 
@@ -95,8 +94,7 @@ class STACK_CAS_Maxima_Answer {
     * @access public
     * @return string
     */
-    public function getValue()
-    {
+    public function getValue() {
         return $this->value;
     }
 
@@ -106,8 +104,7 @@ class STACK_CAS_Maxima_Answer {
     * @access public
     * @return string
     */
-    public function getError()
-    {
+    public function getError() {
         return $this->error;
     }
 
@@ -117,10 +114,8 @@ class STACK_CAS_Maxima_Answer {
     * @access public
     * @param string
     */
-    public function setDisplay($text)
-    {
+    public function setDisplay($text) {
         $this->display = $text;
     }
-
 
 }

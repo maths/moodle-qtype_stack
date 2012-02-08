@@ -3,7 +3,7 @@
 //~		TODO: this needs to be made into a static class.	
 
 class STACK_StringUtil {
-	
+
     private $string;
 
     /**
@@ -11,8 +11,7 @@ class STACK_StringUtil {
     * @access public
     * @param string $stringIn
     */
-    public function __construct($stringIn)
-    {
+    public function __construct($stringIn) {
         $this->string = $stringIn;
     }
 
@@ -22,16 +21,12 @@ class STACK_StringUtil {
     * @param string
     * @return bool
     */
-    public function checkMatchingPairs($char)
-    {
+    public function checkMatchingPairs($char) {
         $no = substr_count($this->string, $char);
 
-        if (($no % 2) == 1)
-        {
+        if (($no % 2) == 1) {
             return false; //odd number, so missing pair
-        }
-        else
-        {
+        } else {
             return true; //even
         }
     }
@@ -46,21 +41,15 @@ class STACK_StringUtil {
     * @param string $right
     * @return bool
     */
-    public function checkBookends($left, $right)
-    {
+    public function checkBookends($left, $right) {
         $noLeft = substr_count($this->string, $left);
         $noRight = substr_count($this->string, $right);
 
-        if($noLeft == $noRight)
-        {
+        if($noLeft == $noRight) {
             return true;
-        }
-        else if ($noLeft > $noRight)
-        {
+        } else if ($noLeft > $noRight) {
             return 'right'; // missing right
-        }
-        else
-        {
+        } else {
             return 'left'; //missing left
         }
     }
@@ -74,10 +63,8 @@ class STACK_StringUtil {
     * @param string $last the char to stop at (optional, if missing searches till another $first char
     * @return array of matchs without $first or $last pre/suffixes
     */
-    function getBetweenChars($first, $last=NULL)
-    {
-        if ($last == NULL)
-        {
+    function getBetweenChars($first, $last=null) {
+        if ($last == null) {
             $last = $first;
         }
 
@@ -88,26 +75,18 @@ class STACK_StringUtil {
         $i = 0;
         $start = false;
         $found = '';
-        while($i < $length)
-        {
-            if ($start == false)
-            {
+        while($i < $length) {
+            if ($start == false) {
                 //find starting @
-                if ($char[$i] == $first)
-                {
+                if ($char[$i] == $first) {
                     $start = true;
                     $found .= $char[$i];
-                }
-                else
-                {
+                } else {
                     //do nothing
                 }
-            }
-            else
-            {
+            } else {
                 //we have the first @ find ending @
-                if ($char[$i] == $last)
-                {
+                if ($char[$i] == $last) {
                     //end of cas command found
                     $found .= $char[$i];
                     $found = str_replace($first, '', $found);
@@ -117,9 +96,7 @@ class STACK_StringUtil {
                     $j++;
                     $found = '';
                     $start = false;
-                }
-                else
-                {
+                } else {
                     $found .= $char[$i];
                 }
             }
@@ -137,65 +114,46 @@ class STACK_StringUtil {
     * if the number of replacements does not match the number of strings to replaces, nothing is replaced
     * @return string
     */
-    function replaceBetween($startChar, $endChar, $replacements)
-    {
+    function replaceBetween($startChar, $endChar, $replacements) {
         //do error checking
         $noSC = substr_count($this->string, $startChar);
         $noEC = substr_count($this->string, $endChar);
         $no = count($replacements);
         $valid = true;
-        if($startChar == $endChar)
-        {
-            if($no != ($noSC /2))
-            {
+        if ($startChar == $endChar) {
+            if ($no != ($noSC /2)) {
                 $valid = false;
             }
-        }
-        else
-        {
-            if (($noSC != $noEC) || ($no != $noSC))
-            {
+        } else {
+            if (($noSC != $noEC) || ($no != $noSC)) {
                 $valid = false;
             }
         }
 
-        if($valid)
-        {
-
+        if ($valid) {
             $toReturn = '';
             $matches = 0;
             $char = str_split($this->string);
             $length = count($char);
             $i = 0;
             $searching = true;
-            while ($i < $length)
-            {
-                if ($searching)
-                {
+            while ($i < $length) {
+                if ($searching) {
                     //trying to find startChar
-                    if($char[$i] == $startChar)
-                    {
+                    if ($char[$i] == $startChar) {
                         $searching = false;
                         $toReturn .= $char[$i];
                         $toReturn .= $replacements[$matches];
                         $matches++;
-                    }
-                    else
-                    {
-
+                    } else {
                         $toReturn .= $char[$i];
                     }
-                }
-                else
-                {
+                } else {
                     //found startChar, looking for end
-                    if($char[$i] == $endChar)
-                    {
+                    if ($char[$i] == $endChar) {
                         $searching = true;
                         $toReturn .= $char[$i];
-                    }
-                    else
-                    {
+                    } else {
                         //throw away chars between start and end
                     }
                 }
@@ -212,12 +170,10 @@ class STACK_StringUtil {
     * @access public
     * @param array (Optional) additional characters to convert to underscores
     */
-    public function underscore($additional=NULL)
-    {
+    public function underscore($additional=null) {
         $toReturn = str_replace('-','_',$this->string);
         $toReturn = str_replace(' ', '_', $toReturn);
-        if($additional != NULL)
-        {
+        if ($additional != null) {
             $toReturn = str_replace($additional, '_', $toReturn);
         }
         return $toReturn;
@@ -227,38 +183,31 @@ class STACK_StringUtil {
     * Converts windows style paths to unix style with forward slashes
     *
     * @access public
-    * @return string|NULL
+    * @return string|null
     */
-    public function convertSlashPaths()
-    {
+    public function convertSlashPaths() {
         $in = trim($this->string);
         $length = strlen($in);
         $lastChar = $in[($length -1)];
         $trailingSlash = false;
-        if($lastChar == '\\')
-        {
+        if ($lastChar == '\\') {
             $trailingSlash = true;
         }
         $pathArray = $this->cvsToArray("\\");
-        if(!empty($pathArray))
-        {
+        if (!empty($pathArray)) {
             $newPath = $pathArray[0];
-            for($i = 1; $i < count($pathArray); $i++)
-            {
+            for ($i = 1; $i < count($pathArray); $i++) {
                 $newPath .= "/".$pathArray[$i];
             }
-            if($trailingSlash == true)
-            {
+            if ($trailingSlash == true) {
                 return $newPath.'/';
-            }
-            else
-            {
+            } else {
                 return $newPath;
             }
         }
         else
         {
-            return NULL;
+            return null;
         }
     }
 
@@ -270,89 +219,90 @@ class STACK_StringUtil {
     * @access public
     * @return string
     */
-    public function wrapAround()
-    {
-    	$this->string = preg_replace('/\\\\\$/', 'escapeddollar', $this->string);
-    	$this->string = $this->wrap($this->string);
-    	$this->string = preg_replace('/escapeddollar/', '\\\\$', $this->string);
-
+    public function wrapAround() {
+        $this->string = preg_replace('/\\\\\$/', 'escapeddollar', $this->string);
+        $this->string = $this->wrap($this->string);
+        $this->string = preg_replace('/escapeddollar/', '\\\\$', $this->string);
         return $this->string;
     }
 
     public function CASdelimit($text) {
-    	return eregi_replace('|@(.*)@|U', '$\1$', $text);
+        return eregi_replace('|@(.*)@|U', '$\1$', $text);
     }
 
-	/**
-	* Ensures that all elements within this text that need to be in math mode, are so.
- 	* Specifically, CAS elements and inline input macros.
- 	*/
-	public function delimit($text) {
-		return preg_replace('/@(.*)?@/U', '$@\1@$', $text);
-		//return preg_replace('/\\\\answer{.*}{.*}{.*}(.*)/U', '$@\1@$', $text);
-	}
+    /**
+     * Ensures that all elements within this text that need to be in math mode, are so.
+     * Specifically, CAS elements and inline input macros.
+    */
+    public function delimit($text) {
+        return preg_replace('/@(.*)?@/U', '$@\1@$', $text);
+        //return preg_replace('/\\\\answer{.*}{.*}{.*}(.*)/U', '$@\1@$', $text);
+    }
 
-	/**
-	 * Returns the first position of an opening math delimiter in $text from the $offset.
-	 * Helper function for wrap().
-	 */
-	public function mathStart($text, $offset = 0) {
-  		$delimiters = array('$', '$$', '\(', '\[');
-  		$at = false; // not yet found
-  		foreach($delimiters as $d) {
-    		$pos = strpos($text, $d, $offset);
-    		if($pos !== false) { // found one
-      			//echo "<br />found '$d' at pos $pos";
-      			if(($at === false || $pos <= $at)) {// take earliest ($$ taken over $)
-         		//echo " \$at is bring set to $pos";
-        		$at = $pos; // take earliest
-      			}
-    		}
-  		}
-  	return $at;
-	}
+    /**
+     * Returns the first position of an opening math delimiter in $text from the $offset.
+     * Helper function for wrap().
+     */
+    public function mathStart($text, $offset = 0) {
+        $delimiters = array('$', '$$', '\(', '\[');
+        $at = false; // not yet found
+        foreach ($delimiters as $d) {
+            $pos = strpos($text, $d, $offset);
+            if ($pos !== false) { // found one
+                //echo "<br />found '$d' at pos $pos";
+                if (($at === false || $pos <= $at)) {// take earliest ($$ taken over $)
+                //echo " \$at is bring set to $pos";
+                $at = $pos; // take earliest
+                }
+            }
+        }
+        return $at;
+    }
 
-	/**
-	 * Returns the position of the character following a closing math delimiter in $text from the $offset.
-	 * Helper function for wrap().
-	 */
-	public function mathLength($text, $start) {
-  		$delimiters = array('$', '$$', '\)', '\]');
-  		$at = false;
-  		$ender = '';
-  		$len = strlen($text);
+    /**
+     * Returns the position of the character following a closing math delimiter in $text from the $offset.
+     * Helper function for wrap().
+     */
+    public function mathLength($text, $start) {
+        $delimiters = array('$', '$$', '\)', '\]');
+        $at = false;
+        $ender = '';
+        $len = strlen($text);
 
-  		// handle case where less than 3 chars to consider
-  		if($len <= $start + 2) return $len - $start;
+        // handle case where less than 3 chars to consider
+        if($len <= $start + 2) return $len - $start;
 
-  			foreach($delimiters as $d) {
-    			$pos = strpos($text, $d, $start + 2); // check long enough
-    			if($pos !== false) { // found one
- 	     			//echo "<br />found '$d' at pos $pos";
-    	  			if($at === false || $pos <= $at) {// take earliest ($$ taken over $)
-        				$at = $pos;
-        				$ender = $d;
-      				}
-    			}
-  			}
-  		if($ender=='') return strlen($text - $start); // math mode to the end
-  		else return $at - $start + strlen($ender);
-	}
+        foreach($delimiters as $d) {
+            $pos = strpos($text, $d, $start + 2); // check long enough
+            if ($pos !== false) { // found one
+                //echo "<br />found '$d' at pos $pos";
+                if ($at === false || $pos <= $at) {// take earliest ($$ taken over $)
+                    $at = $pos;
+                    $ender = $d;
+                }
+            }
+        }
+        if($ender=='') {
+            return strlen($text - $start); 
+            // math mode to the end
+        } else {
+            return $at - $start + strlen($ender);
+        }
+    }
 
-	public function wrap($text) {
-		$mathStart = $this->mathStart($text);
-		if($mathStart !== false) { // we have some maths ahead
-			$pre = substr($text, 0, $mathStart); // get previous text
-			$for = $this->mathLength($text, $mathStart);
-			$maths = substr($text, $mathStart, $for);
-			$rest = substr($text, $mathStart + $for);
-			//echo '<br />wrapping '.$pre.':'.$maths.':'.$rest;
-			return $this->delimit($pre).$maths.$this->wrap($rest);
-		}
-		else { // no math sections left
-			return $this->delimit($text);
-		}
-	}
+    public function wrap($text) {
+        $mathStart = $this->mathStart($text);
+        if ($mathStart !== false) { // we have some maths ahead
+            $pre = substr($text, 0, $mathStart); // get previous text
+            $for = $this->mathLength($text, $mathStart);
+            $maths = substr($text, $mathStart, $for);
+            $rest = substr($text, $mathStart + $for);
+            //echo '<br />wrapping '.$pre.':'.$maths.':'.$rest;
+            return $this->delimit($pre).$maths.$this->wrap($rest);
+        } else { // no math sections left
+            return $this->delimit($text);
+        }
+    }
 
     /**
     * Removes any whitespace, ';' ':' or '$' signs from the end of cas command.
@@ -360,22 +310,17 @@ class STACK_StringUtil {
     * @return string out
     * @access public
     */
-    public function trimCommands()
-    {
+    public function trimCommands() {
         $in = trim($this->string);
         $length = strlen($in);
         $lastChar = $in[($length -1)];
 
-        if(($lastChar == '$') || ($lastChar == ';') || ($lastChar == ':'))
-        {
+        if (($lastChar == '$') || ($lastChar == ';') || ($lastChar == ':')) {
             $out = substr($in, 0, ($length -1));
             return $out;
-        }
-        else
-        {
+        } else {
             return $in;
         }
-
     }
 
 
@@ -385,23 +330,17 @@ class STACK_StringUtil {
     * @access private
     * @return string
     */
-    public function removeComments()
-    {
-        if (strstr($this->string,'/*'))
-        {
+    public function removeComments() {
+        if (strstr($this->string,'/*')) {
             $out = $this->string;
-            preg_match_all('|/\*(.*)\*/|U',$out,$html_match);
-            foreach ($html_match[0] as $val)
-            {
+            preg_match_all('|/\*(.*)\*/|U', $out,$html_match);
+            foreach ($html_match[0] as $val) {
                 $out = str_replace($val,'',$out);
             }
             return $out;
-        }
-        else
-        {
+        } else {
             return $this->string;
         }
-
     }
 
     /**
@@ -413,27 +352,21 @@ class STACK_StringUtil {
     * @return string
     * @access public
     */
-    public function removeBetween($start, $end)
-    {
-        if (strstr($this->string,$start) && strstr($this->string,$end))
-        {
+    public function removeBetween($start, $end) {
+        if (strstr($this->string,$start) && strstr($this->string,$end)) {
             $out = $this->string;
             preg_match_all('|'.$start.'(.*)'.$end.'|U',$out,$html_match);
 
-            foreach ($html_match[0] as $val)
-            {
+            foreach ($html_match[0] as $val) {
                 $out = str_replace($val,'',$out);
             }
             $this->string = $out;
 
             return $out;
-        }
-        else
-        {
+        } else {
             return $this->string;
         }
     }
-
 
     /**
     * Converts a CSV string into an array, removing empty entries.
@@ -442,155 +375,145 @@ class STACK_StringUtil {
     * @return array out
     * @access public
     */
-    public function cvsToArray($token=',')
-    {
+    public function cvsToArray($token=',') {
         $exploded = explode($token, $this->string);
-
         //remove any null entries
-        for($i = 0; $i < count($exploded); $i++)
-        {
+        for ($i = 0; $i < count($exploded); $i++) {
             $trim = trim($exploded[$i]);
-            if(!empty($trim))
-            {
+            if (!empty($trim)) {
                 $toReturn[] = $exploded[$i];
             }
         }
-
         return $toReturn;
     }
 
-
-	/**
-	 * Converts an array to a CSV
-	 *
-	 * @return String
-	 * @param $array Object
-	 */
-	public function arrayToCSV($array)
-	{
-			if(!empty($array))
-			{
-				$string = "";
-				$i = 0;
-				foreach($array as $element){
-					if($i > 0){
-						$string .= ', ';
-					}
-					if(is_bool($element)){
-						if($element){
-							$string .= 'TRUE';
-						}
-						else{
-							$string .= 'FALSE';
-						}
-					}
-					else
-					{
-						$string .= $element;
-					}
-					$i++;
+/**
+ * Converts an array to a CSV
+ *
+ * @return String
+ * @param $array Object
+ */
+public function arrayToCSV($array)
+{
+		if(!empty($array))
+		{
+			$string = "";
+			$i = 0;
+			foreach($array as $element){
+				if($i > 0){
+					$string .= ', ';
 				}
-				return $string;
+				if(is_bool($element)){
+					if($element){
+						$string .= 'TRUE';
+					}
+					else{
+						$string .= 'FALSE';
+					}
+				}
+				else
+				{
+					$string .= $element;
+				}
+				$i++;
 			}
-			else
-			{
-				return "";
-			}
-	}
-
-	/**
-	 *  Handles complex (comma-containing) list elements,
-	 * 	i.e. sets {}, functions() and nested lists[[]]
-	 *	Strict checking on nesting.
-	 *  Helper for listToArrayWorkhorse()
-	 */
-	private function nextElement($list) {
-		if($list == '') return null;
-  		// delimited by next comma at same degree of nesting
-  		$startDelimiter = "[({";
-  		$endDelimiter = "])}";
-  		$nesting = array(0=>0, 1=>0, 2=>0); // stores nesting for delimiters above
-		for($i = 0; $i < strlen($list); $i++) {
-    		$startChar = strpos($startDelimiter, $list[$i]);// which start delimiter
-    		$endChar = strpos($endDelimiter, $list[$i]);// which end delimiter (if any)
-
-    		// change nesting for delimiter if specified
-    		if($startChar !== false) $nesting[$startChar]++;
-    		else if($endChar !== false) $nesting[$endChar]--;
-
-    		// otherwise, return element if all nestings are zero
-    		else if($list[$i] == ','
-      			&& $nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
-      			return substr($list, 0, $i);
-			}
+			return $string;
 		}
-
-  		// end of list reached
-  		if($nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
-    		return $list;
-  		}
-  		else return null; // invalid nesting
-	}
-
-	/**
-	 * Converts a list structure into an array.
-	 * Handles nested lists, sets and functions with help from nextElement().
-	 */
-	private function listToArrayWorkhorse($list,$rec=true) {
-		$list = trim($list);
-		$list = substr($list, 1, strlen($list) - 2);// trims outermost [] only
-		$e = $this->nextElement($list);
-		while($e !== null) {
-			if($e[0]=='[') {
-              if ($rec) {
-                 $array[] = $this->listToArrayWorkhorse($e,$rec);
-              }	else {
-              	 $array[] = $e;
-              }
-			}
-	    	else $array[] = $e;
-	    	$list = substr($list, strlen($e)+1);
-	    	$e = $this->nextElement($list);
+		else
+		{
+			return "";
 		}
-		return $array;
-	}
-
-		/**
-	 * Converts a list structure into an array.
-	 * Handles nested lists, sets and functions with help from nextElement().
-	 */
-	public function listToArray($rec=true) {
-        $array = $this->listToArrayWorkhorse($this->string,$rec);
-    return $array;
-	}
-
-	/**
-	 * Returns a more intuitive datestamp
-	 */
-	public static function prettifyDate($datestamp) {
-		/*
-		 * Rules:
-		 * show time if this week
-		 * show day + month if this year
-		 * show month + year if not this year
-*/
-
-		$dayStart = strtotime("00:00");
-		$monthAgo = strtotime('-1 month');
-		$yearAgo = strtotime('-1 year');
-
-		//echo "yearstart: $yearStart monthStart: $monthStart dayStart: $dayStart";
-
-		$time = strtotime($datestamp);
-
-		if($time >= $dayStart) return date("g:ia", $time);// today
-		if($time > $monthAgo) return date("g:ia, j M", $time);// not today
-		if($time > $yearAgo) return date("M Y", $time); // not this year
-		if($time > $yearAgo) return date("j M", $time); // not this month
-
-
-		// failed to prettify somehow
-		return $datestamp;
-	}
 }
 
+/**
+ *  Handles complex (comma-containing) list elements,
+ * 	i.e. sets {}, functions() and nested lists[[]]
+ *	Strict checking on nesting.
+ *  Helper for listToArrayWorkhorse()
+ */
+    private function nextElement($list) {
+        if ($list == '') {
+            return null;
+        }
+        // delimited by next comma at same degree of nesting
+        $startDelimiter = "[({";
+        $endDelimiter   = "])}";
+        $nesting = array(0=>0, 1=>0, 2=>0); // stores nesting for delimiters above
+        for ($i = 0; $i < strlen($list); $i++) {
+            $startChar = strpos($startDelimiter, $list[$i]);// which start delimiter
+            $endChar = strpos($endDelimiter, $list[$i]);// which end delimiter (if any)
+
+            // change nesting for delimiter if specified
+            if ($startChar !== false) {
+                $nesting[$startChar]++;
+            } else if ($endChar !== false) {
+                $nesting[$endChar]--;
+            } else if ($list[$i] == ',' && $nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
+            // otherwise, return element if all nestings are zero
+                return substr($list, 0, $i);
+            }
+        }
+
+        // end of list reached
+        if ($nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
+            return $list;
+        } else return null; // invalid nesting
+    }
+
+    private function listToArrayWorkhorse($list, $rec=true) {
+        $list = trim($list);
+        $list = substr($list, 1, strlen($list) - 2);// trims outermost [] only
+        $e = $this->nextElement($list);
+        while ($e !== null) {
+            if ($e[0]=='[') {
+                if ($rec) {
+                    $array[] = $this->listToArrayWorkhorse($e,$rec);
+                } else {
+                    $array[] = $e;
+                }
+            } else {
+                $array[] = $e;
+            }
+            $list = substr($list, strlen($e)+1);
+            $e = $this->nextElement($list);
+        }
+        return $array;
+    }
+
+    /**
+     * Converts a list structure into an array.
+     * Handles nested lists, sets and functions with help from nextElement().
+    */
+    public function listToArray($rec=true) {
+        $array = $this->listToArrayWorkhorse($this->string,$rec);
+    return $array;
+    }
+
+    /**
+     * Returns a more intuitive datestamp
+     */
+    public static function prettifyDate($datestamp) {
+        /*
+         * Rules:
+         * show time if this week
+         * show day + month if this year
+         * show month + year if not this year
+        */
+
+        $dayStart = strtotime("00:00");
+        $monthAgo = strtotime('-1 month');
+        $yearAgo = strtotime('-1 year');
+
+        //echo "yearstart: $yearStart monthStart: $monthStart dayStart: $dayStart";
+
+        $time = strtotime($datestamp);
+
+        if($time >= $dayStart) return date("g:ia", $time);// today
+        if($time > $monthAgo) return date("g:ia, j M", $time);// not today
+        if($time > $yearAgo) return date("M Y", $time); // not this year
+        if($time > $yearAgo) return date("j M", $time); // not this month
+
+        // failed to prettify somehow
+        return $datestamp;
+	}
+}

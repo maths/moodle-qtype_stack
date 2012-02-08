@@ -19,6 +19,7 @@
 
 require_once('casstring.class.php');
 require_once('connector.class.php');
+require_once('cliconnector.class.php');
 require_once(dirname(__FILE__) . '/../options.class.php');
 
 
@@ -155,26 +156,11 @@ class STACK_CAS_CasSession {
             } else {
                 $key = $cs->Get_key();
             }
-            $casCommands[$key]=$cs->Get_CASString();
+            $cascommands[$key]=$cs->Get_CASString();
         }
 
-        // TODO: add this to some configuration.
-        $platform = 'win';
-        if ($platform == 'server') {
-            //send to maximaXMLConnector
-            $mconn = new maximaXMLConnector($this->options, $this->seed, $this->security);
-            $display = $mconn->sendCASCommands($casCommands);
-
-            if ($forDisplay === false) {
-                //Error connecting to a maxima proxy, switch to CLI mode
-                $mconn = new STACK_CAS_Maxima_CLIConnector($this->options, $this->seed, $this->security);
-                $display = $mconn->sendCASCommands($casCommands);
-            }
-        } else {
-            //send to STACK_CAS_Maxima_CLIConnector
-            $mconn = new STACK_CAS_Maxima_CLIConnector($this->options, $this->seed, $this->security);
-            $display = $mconn->sendCASCommands($casCommands);
-        }
+        $mconn = new STACK_CAS_Maxima_CLIConnector($this->options, $this->seed, $this->security);
+        $display = $mconn->sendCASCommands($cascommands);
 
         $errors = $mconn->returnErrors();
         $values = $mconn->returnValues();
@@ -213,10 +199,10 @@ class STACK_CAS_CasSession {
         $this->session = $new_session;
 
         if (''!= $new_errors) {
-            $this->errors .= '<span class="error">'.stack_string("stackCas_CASError").'</span>'.$new_errors;
+            $this->errors .= '<span class="error">'.stack_string('stackCas_CASError').'</span>'.$new_errors;
         }
         if ($all_fail) {
-            $this->errors = '<span class="error">'.stack_string("stackCas_allFailed").'</span>';
+            $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
         }
 
         $this->instantiated = true;

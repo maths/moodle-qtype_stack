@@ -125,9 +125,6 @@ class	STACK_options {
             throw new Exception('STACK_options: $settings must be an array.');
         }
 
-        // Set up default values
-        $this->settings = $this->_settings;
-
         // Overright them from any input
         foreach ($settings as $key => $val) {
             if (!array_key_exists($key, $this->settings)) {

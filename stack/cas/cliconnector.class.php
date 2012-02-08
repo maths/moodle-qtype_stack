@@ -24,7 +24,9 @@
 * sends this string to maxima, then extracts the results from the returned string
 * Also handles errors from maxima.
 */
-    require_once('answer.class.php');
+
+require_once('answer.class.php');
+require_once(dirname(__FILE__) . '/../legacy.class.php');
 
     class STACK_CAS_Maxima_CLIConnector {
 
@@ -469,7 +471,7 @@
 
            if (FALSE===strpos($errstr,'0 to a negative exponent')) {
            } else {
-               $errstr = STACK_Translator::translate('Maxima_DivisionZero');
+               $errstr = stack_string('Maxima_DivisionZero');
            }
 
         return $errstr;

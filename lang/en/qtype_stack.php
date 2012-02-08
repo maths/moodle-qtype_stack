@@ -27,3 +27,38 @@ $string['pluginname_help'] = 'Stack is a maths assessment system ...';
 $string['pluginnameadding'] = 'Adding a stack question';
 $string['pluginnameediting'] = 'Editing a stack question';
 $string['pluginnamesummary'] = 'Stack questions use a computer algebra system to mark the students work. ...';
+
+// casstring.class.php
+$string['stackCas_spaces']                  = 'Spaces found in expression: ';
+$string['stackCas_percent']                 = '&#037; found in expression: ';
+$string['stackCas_missingLeftBracket']      = 'You have a missing left bracket $a in the expression: ';
+$string['stackCas_missingRightBracket']     = 'You have a missing right bracket $a in the expression: ';
+$string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses: ';
+$string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a[0]}.';
+$string['stackCas_finalChar']               = '\'{$a[0]}\' is an invalid final character in {$a[1]}';
+$string['stackCas_MissingStars']            = 'You seem to be missing *\'s.<br /> Perhaps you meant to type ';
+$string['stackCas_unknownFunction']         = 'Unknown function:';
+$string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: ';
+$string['stackCas_forbiddenWord']           = 'Forbidden Word: ';
+
+// cassession.class.php
+$string['stackCas_CASError']                = 'The CAS returned the following error(s):';
+$string['stackCas_allFailed']               = 'CAS failed to return any evaluated expressions.  Please check your connection with the CAS.';
+
+// castext.class.php
+$string['stackCas_tooLong']                 = 'CASText statement is too long.';
+$string['stackCas_MissingAt']               = 'You are missing a @ sign.';
+$string['stackCas_MissingDollar']           = 'You are missing a $ sign';
+$string['stackCas_MissingOpenHint']         = 'Missing opening hint';
+$string['stackCas_MissingClosingHint']      = 'Missing closing /hint';
+$string['stackCas_MissingOpenDisplay']      = 'Missing \[';
+$string['stackCas_MissingCloseDisplay']     = 'Missing \]';
+$string['stackCas_MissingOpenInline']       = 'Missing \(';
+$string['stackCas_MissingCloseInline']      = 'Missing \)';
+$string['stackCas_MissingOpenHTML']         = 'Missing opening html tag';
+$string['stackCas_MissingCloseHTML']        = 'Missing closing html tag';
+$string['stackCas_failedValidation']        = 'CASText failed validation. ';
+$string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
+$string['stackCas_CASErrorCaused']          = 'caused the following error:';
+
+$string['Maxima_DivisionZero']  = 'Division by zero.';

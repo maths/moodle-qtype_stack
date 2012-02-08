@@ -20,6 +20,7 @@
 *  Mainly a home for all validation functions.
 */
 
+require_once(dirname(__FILE__) . '/../stringutil.class.php');
 
 class STACK_CAS_CasString {
 
@@ -82,13 +83,13 @@ class STACK_CAS_CasString {
             return false;
         }
 
-	//if student, check for spaces between letters or numbers in expressions
+        //if student, check for spaces between letters or numbers in expressions
         if($this->security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
             if (preg_match($pat,$cmd)) {
                 $this->valid = false;
                 $cmds = str_replace(' ','<font color="red">_</font>',$cmd);
-                $this->errors.=STACK_Translator::translate("stackCas_spaces").$this->format_error_string($cmds).'. ';
+                $this->errors.=stack_string("stackCas_spaces").$this->format_error_string($cmds).'. ';
             }
         }
 
@@ -103,7 +104,7 @@ class STACK_CAS_CasString {
                 } else {
                     //problem
                     $this->valid = false;
-                    $this->errors.=STACK_Translator::translate("stackCas_percent").$this->format_error_string($cmd).'. ';
+                    $this->errors.=stack_string("stackCas_percent").$this->format_error_string($cmd).'. ';
                 }
             }
         }
@@ -113,27 +114,27 @@ class STACK_CAS_CasString {
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
             if($inline == 'left') {
-                $this->errors.=STACK_Translator::translate("stackCas_missingLeftBracket", '(').$this->format_error_string($cmd).'. ';
+                $this->errors.=stack_string("stackCas_missingLeftBracket", '(').$this->format_error_string($cmd).'. ';
             } else {
-                $this->errors.=STACK_Translator::translate("stackCas_missingRightBracket", '(').$this->format_error_string($cmd).'. ';
+                $this->errors.=stack_string("stackCas_missingRightBracket", '(').$this->format_error_string($cmd).'. ';
             }
         }
         $inline = $cs->checkBookends('{', '}');
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
             if($inline == 'left') {
-                $this->errors.=STACK_Translator::translate("stackCas_missingLeftBracket", '{').$this->format_error_string($cmd).'. ';
+                $this->errors.=stack_string("stackCas_missingLeftBracket", '{').$this->format_error_string($cmd).'. ';
             } else {
-                $this->errors.=STACK_Translator::translate("stackCas_missingRightBracket", '}').$this->format_error_string($cmd).'. ';
+                $this->errors.=stack_string("stackCas_missingRightBracket", '}').$this->format_error_string($cmd).'. ';
             }
         }
         $inline = $cs->checkBookends('[', ']');
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
                 if($inline == 'left') {
-            $this->errors.=STACK_Translator::translate("stackCas_missingLeftBracket", '[').$this->format_error_string($cmd).'. ';
+            $this->errors.=stack_string("stackCas_missingLeftBracket", '[').$this->format_error_string($cmd).'. ';
                 } else {
-            $this->errors.=STACK_Translator::translate("stackCas_missingRightBracket", ']').$this->format_error_string($cmd).'. ';
+            $this->errors.=stack_string("stackCas_missingRightBracket", ']').$this->format_error_string($cmd).'. ';
             }
         }
 
@@ -144,7 +145,7 @@ class STACK_CAS_CasString {
 		if(strpos($cmd, "'") !== false)
                 {
 			$this->valid = false;
-			$this->errors.=STACK_Translator::translate("stackCas_apostrophe").$this->format_error_string($cmd).'. ';
+			$this->errors.=stack_string("stackCas_apostrophe").$this->format_error_string($cmd).'. ';
                 }
         }
 		*/
@@ -166,7 +167,7 @@ class STACK_CAS_CasString {
         if(count($invalidChars)>0) {
             $this->valid = false;
             $a = array( 0 => implode(", ",array_unique($invalidChars)));
-            $this->errors.=STACK_Translator::translate('stackCas_forbiddenChar', $a);
+            $this->errors.=stack_string('stackCas_forbiddenChar', $a);
         }
 
         // Check for disallowed final characters,  / * + - ^ £ # = & ~ | , ? : ;
@@ -176,7 +177,7 @@ class STACK_CAS_CasString {
             $a = array();
             $a[0] = $lastChar;
             $a[1] = $this->format_error_string($cmd);
-            $this->errors.=STACK_Translator::translate('stackCas_finalChar', $a);
+            $this->errors.=stack_string('stackCas_finalChar', $a);
         }
         
         $this->checkStars();
@@ -248,7 +249,7 @@ class STACK_CAS_CasString {
         else
         {
             //if missing stars & strict syntax is on return errors
-            $this->errors .= STACK_Translator::translate("MissingStars").' '.$missingString;
+            $this->errors .= stack_string('stackCas_MissingStars').' '.$missingString;
 	    return false;
         }
     }
@@ -287,30 +288,30 @@ class STACK_CAS_CasString {
 
         //check for global forbidden words
         // TODO: this file should be eventually autogenerated at install time.
-        require_once('keywords.php');
+        require('keywords.php');
         foreach($strin_keywords as $key)
         {
             if(in_array($key, $stack_cas['globalForbid'])) {
                 //very bad!.
                 $this->valid = false;
-                $this->errors.= STACK_Translator::translate("stackCas_forbiddenWord").' '.$key.'. ';
+                $this->errors.= stack_string("stackCas_forbiddenWord").' '.$key.'. ';
             } else {
                 if($this->security == 't') {
                     if(in_array($key,$stack_cas['teacherNotAllow'])) {
                         //if a teacher check against forbidden commands
                         $this->valid = false;
-                        $this->errors.= STACK_Translator::translate("stackCas_unsupportedKeyword").' '.$key.'. ';
+                        $this->errors.= stack_string("stackCas_unsupportedKeyword").' '.$key.'. ';
                     }
                 } else {
                     //if not teacher allow only set commands.
                     if(!in_array($key, $stack_cas['studentAllow'])) {
                         $this->valid = false;
-                        $this->errors.= STACK_Translator::translate("stackCas_unknownFunction").' '.$key.'. ';
+                        $this->errors.= stack_string("stackCas_unknownFunction").' '.$key.'. ';
                     } // else 
                       //is valid student command
                 }
             }
-	}
+    }
         return NULL;
     }
 
@@ -370,12 +371,12 @@ class STACK_CAS_CasString {
         $i = strpos($this->CASString,':');
         if (false === $i) {
             $this->key   = '';
-            $this->CASString = $this->CASString;
+            //$this->CASString = $this->CASString;
         } else {
             // Need to check we don't have a function definition...
             if ('='===substr($this->CASString,$i+1,1)) {
                 $this->key   = '';
-                $this->CASString = $this->CASString;
+                //$this->CASString = $this->CASString;
             } else {
                 $this->key       = substr($this->CASString,0,$i);
                 $this->CASString = substr($this->CASString,$i+1);

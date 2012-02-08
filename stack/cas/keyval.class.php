@@ -87,7 +87,7 @@ class STACK_CAS_KeyVal { // originally extended QuestionType
 		$this->valid   = $valid;
 		if (!$valid)
 		{
-			$this->errors .= STACK_Translator::translate('stackCas_invalidCommand').'<br />'.$errors;
+			$this->errors .= stack_string('stackCas_invalidCommand').'<br />'.$errors;
 		}
 
 	}

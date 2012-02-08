@@ -234,12 +234,12 @@ class STACK_CAS_CasSession {
 			if ('' != $errors[$key])
 			{
 				$cs->Add_errors($errors[$key]);
-				$new_errors .= ' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> '.STACK_Translator::translate("stackCas_CASErrorCaused").' '.$errors[$key].' ';
+				$new_errors .= ' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> '.stack_string("stackCas_CASErrorCaused").' '.$errors[$key].' ';
 			}
 		}
 		else
 		{
-			$errstr = STACK_Translator::translate("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> ';
+			$errstr = stack_string("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> ';
 			$cs->Add_errors($errstr);
 			$new_errors .= $errstr;
 		}
@@ -248,10 +248,10 @@ class STACK_CAS_CasSession {
 	$this->session = $new_session;
 
 	if (''!= $new_errors) {
-		$this->errors .= '<span class="error">'.STACK_Translator::translate("stackCas_CASError").'</span>'.$new_errors;
+		$this->errors .= '<span class="error">'.stack_string("stackCas_CASError").'</span>'.$new_errors;
 	}
 	if ($all_fail) {
-		$this->errors = '<span class="error">'.STACK_Translator::translate("stackCas_allFailed").'</span>';
+		$this->errors = '<span class="error">'.stack_string("stackCas_allFailed").'</span>';
     }
 
 	$this->instantiated = true;

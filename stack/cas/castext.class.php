@@ -105,7 +105,7 @@ class STACK_CAS_CasText {
     {
 	if(strlen(trim($this->rawCASText)) > 64000) //Limit to just less than 64kb. Maximum practical size of a post. (about 14pages).
         {
-            $this->errors = STACK_Translator::translate("stackCas_tooLong");
+            $this->errors = stack_string("stackCas_tooLong");
 	    $this->valid = false;
 	    return false;
         }
@@ -130,70 +130,70 @@ class STACK_CAS_CasText {
         $amps = $cs->checkMatchingPairs('@');
         if($amps == false)
         {
-            $this->errors .= STACK_Translator::translate("MissingAt");
+            $this->errors .= stack_string('stackCas_MissingAt');
 	    $this->valid = false;
         }
 
         $dollar = $cs->checkMatchingPairs('$');
         if($dollar == false)
         {
-            $this->errors .= STACK_Translator::translate("MissingDollar");
+            $this->errors .= stack_string('stackCas_MissingDollar');
 	    $this->valid = false;
         }
 
         $hints = $cs->checkBookends('<hint>', '</hint>');
         if ($hints !== true) //checkbookends does not return false
         {
-	    $this->valid = false;
+        $this->valid = false;
             if($hints == 'left')
             {
-                $this->errors .= STACK_Translator::translate("MissingOpenHint");
+                $this->errors .= stack_string('stackCas_MissingOpenHint');
             }
             else
             {
-                $this->errors .= STACK_Translator::translate("MissingClosingHint");
+                $this->errors .= stack_string('stackCas_MissingClosingHint');
             }
         }
 
         $html = $cs->checkBookends('<html>', '</html>');
         if ($html !== true) //checkbookends does not return false
         {
-	    $this->valid = false;
+        $this->valid = false;
             if($html == 'left')
             {
-                $this->errors .= STACK_Translator::translate("MissingOpenHTML");
+                $this->errors .= stack_string('stackCas_MissingOpenHTML');
             }
             else
             {
-                $this->errors .= STACK_Translator::translate("MissingCloseHTML");
+                $this->errors .= stack_string('stackCas_MissingCloseHTML');
             }
         }
 
         $inline = $cs->checkBookends('\[', '\]');
         if ($inline !== true) //checkbookends does not return false
         {
-	    $this->valid = false;
+        $this->valid = false;
             if($inline == 'left')
             {
-                $this->errors .= STACK_Translator::translate("MissingOpenDisplay");
+                $this->errors .= stack_string('stackCas_MissingOpenDisplay');
             }
             else
             {
-                $this->errors .= STACK_Translator::translate("MissingCloseDisplay");
+                $this->errors .= stack_string('stackCas_MissingCloseDisplay');
             }
         }
 
         $inline = $cs->checkBookends('\(', '\)');
         if ($inline !== true) //checkbookends does not return false
         {
-	    $this->valid = false;
+        $this->valid = false;
             if($inline == 'left')
             {
-                $this->errors .= STACK_Translator::translate("MissingOpenInline");
+                $this->errors .= stack_string('stackCas_MissingOpenInline');
             }
             else
             {
-                $this->errors .= STACK_Translator::translate("MissingCloseInline");
+                $this->errors .= stack_string('stackCas_MissingCloseInline');
             }
         }
 
@@ -213,7 +213,7 @@ class STACK_CAS_CasText {
 
         if (false === $this->valid) 
 	{
-		$this->errors = '<span class="error">'.STACK_Translator::translate("stackCas_failedValidation").'</span>'.$this->errors;
+		$this->errors = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$this->errors;
 	}
 	return $this->valid;
     }
@@ -269,7 +269,7 @@ class STACK_CAS_CasText {
 	    if (!$valid)
 	    {
 		$this->valid = false;
-		$this->errors .= STACK_Translator::translate('stackCas_invalidCommand').'</br>'.$errors;
+		$this->errors .= stack_string('stackCas_invalidCommand').'</br>'.$errors;
 	    } 
 	    
 	    if (!empty($cmdArray))

@@ -1,6 +1,5 @@
 <?php 
 
-require_once('legacy.class.php');
 require_once('stringutil.class.php');
 require_once('options.class.php');
 require_once('cas/castext.class.php');

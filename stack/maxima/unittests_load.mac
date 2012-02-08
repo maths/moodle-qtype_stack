@@ -1,0 +1,33 @@
+/* Unit tests for STACK Maxima */
+kill(all);
+/*load("C:/xampp/htdocs/stack-dev/logfiles/maximalocal.mac")$*/
+LOADDIR:"C:/xampp/htdocs/stack/stack-dev/stacklocal/maximalocal.mac"$
+print("Working from: ")$
+print(LOADDIR)$
+load(LOADDIR)$
+/* NOTE: we need to run tests with simp:false and simp:true */
+
+
+/* C:\Program Files\Maxima-5.22.1\share\maxima\5.22.1\src */
+/* The testsuite uses the function approx-alike (defined in src/mload.lisp) to check for equality. */
+/* I think you'll need to write your own approx-alike function. */
+
+no_fails:0$ all_pass:true$
+
+simp:true$  
+STT:batch("rtest_assessment_simptrue.mac", test);
+STB:batch("rtest_assessment_simpboth.mac", test);
+
+simp:false$  
+SFF:batch("rtest_assessment_simpfalse.mac", test);
+SFB:batch("rtest_assessment_simpboth.mac", test);
+
+print("************ simp is true");
+print(STT);
+print(STB);
+
+print("************ simp is false.");
+print(SFF);
+print(SFB);
+
+

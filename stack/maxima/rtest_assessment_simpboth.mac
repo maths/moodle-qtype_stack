@@ -1,0 +1,268 @@
+decimalplaces(1.123456789,3); 
+1.123$ 
+decimalplaces(1.123456789,8); 
+1.12345679$ 
+decimalplaces(1.1292,2); 
+1.13$ 
+decimalplaces(-1.1292,2); 
+-1.13$
+decimalplaces(%pi,5); 
+3.14159$ 
+decimalplaces(%pi,4); 
+3.1416$ 
+
+significantfigures(11292,2); 
+11000$ 
+significantfigures(11292,3); 
+11300$ 
+significantfigures(1.1292,3); 
+1.13$ 
+significantfigures(0.011292,3); 
+0.0113$ 
+significantfigures(0.09999,3); 
+0.1$ 
+scientific_notation(1.123); 
+1.123$ 
+scientific_notation(1123); 
+1123.0$ 
+significantfigures(-0.99,1);
+-1$
+
+all_listp(real_numberp,[1,exp(1)^(%i*%pi),sqrt(2)+1,sin(1)]); 
+true$ 
+any_listp(real_numberp,[%i,%i+1,3+x,sqrt(-3)+1]); 
+false$ 
+
+expandp((x-1)*(1+x)); 
+false$ 
+expandp(2*(x-1)); 
+false$ 
+expandp(2*x-1); 
+true$ 
+expandp(x-1); 
+true$ 
+expandp((p-1)*(1+p)); 
+false$ 
+expandp(2*(p-1)); 
+false$ 
+expandp(3*y+6*p); 
+true$ 
+
+
+
+stack_ineqprepare(x>1);
+x-1>0$
+
+
+
+list_expression_numbers(x); 
+[]$ 
+list_expression_numbers(%pi); 
+[]$ 
+list_expression_numbers(1+x); 
+[1]$ 
+list_expression_numbers(1/2+x); 
+[1/2]$ 
+list_expression_numbers(4/2+x); 
+[4/2]$ 
+list_expression_numbers(1/sin(2*x)); 
+[1,2]$ 
+
+filter(floatnump,0.5); 
+false$ 
+filter(floatnump,[0.5]); 
+[0.5]$ 
+filter(floatnump,[1,0.5]); 
+[0.5]$ 
+
+anyfloatex(0.5); 
+true$ 
+anyfloatex(x); 
+false$ 
+anyfloatex(1+x); 
+false$ 
+anyfloatex(0.5*x); 
+true$ 
+anyfloatex(sin(x*0.2)); 
+true$ 
+
+irred_Q(0,x); 
+[true,""]$ 
+irred_Q(x,x); 
+[true,""]$ 
+irred_Q(1+x,x); 
+[true,""]$ 
+irred_Q(1-x,x); 
+[true,""]$ 
+irred_Q(2-3*x,x); 
+[true,""]$ 
+irred_Q(2*x-2,x); 
+[false,"stack_trans('irred_Q_commonint'); "]$ 
+irred_Q(t+t*x,x); 
+[false,""]$ 
+irred_Q(3*x^2,x); 
+[true,""]$ 
+irred_Q(4*x^2,x); 
+[true,"stack_trans('irred_Q_optional_fac' , !quot!$4\\,x^2$!quot! ); "]$ 
+irred_Q(x^2-4,x); 
+[false,""]$ 
+irred_Q(x^2-2,x); 
+[true,""]$ 
+irred_Q(n+n^2,n); 
+[false,""]$ 
+irred_Q(n*(1+n),n); 
+[false,""]$ 
+irred_Q(n^3-1,n); 
+[false,""]$ 
+irred_Q(0.5+x,x); 
+[true,""]$ 
+irred_Q(2-3*x+x^2,x); 
+[false,""]$ 
+irred_Q(9-3*x+3*x^5,x); 
+[false,"stack_trans('irred_Q_commonint'); "]$ 
+irred_Q(1+x^2+x^5,x); 
+[true,""]$ 
+
+continuousp(x^2,x,1); 
+true$ 
+continuousp(abs(x),x,1); 
+true$ 
+continuousp(abs(x),x,0); 
+true$ 
+continuousp(sgn(x),x,0); 
+false$ 
+continuousp(sin(1/x),x,0); 
+false$ 
+continuousp(x*sin(1/x),x,0); 
+true$ 
+
+diffp(x^2,x,1); 
+true$ 
+diffp(abs(x),x,1); 
+true$ 
+diffp(abs(x),x,0); 
+false$ 
+diffp(sgn(x),x,0); 
+false$ 
+diffp(sin(1/x),x,0); 
+false$ 
+diffp(x^2*sin(1/x),x,0); 
+false$ 
+diffp(x^3*sin(1/x),x,0); 
+true$ 
+
+listsoverlap([1,2],[2,3]); 
+true$ 
+listsoverlap([8,9],[2,3]); 
+false$ 
+listscontain([1,2],[2,3],1); 
+false$ 
+listscontain([8,9],[2,3],1); 
+false$ 
+listscontain([1,2],[1,3],1); 
+true$ 
+
+subst_int_const(x^4/4+c*x+x = %c9,k); 
+x^4/4+c*x+x = k$ 
+subst_int_const(x^4/4+c*x+x = %c9,v); 
+x^4/4+c*x+x = v$ 
+subst_int_const(x^2,k); 
+x^2$ 
+subst_int_const(c*x^4/4+c^2*x/2+c*x = %c9*c+%c10,[v]); 
+c*x^4/4+c^2*x/2+c*x = %c9*c+v$ 
+subst_int_const(c*x^4/4+c^2*x/2+c*x = %c9*c+%c10,[k1,k2]); 
+c*x^4/4+c^2*x/2+c*x = k1+c*k2$ 
+subst_int_const(c*x^4/4+c^2*x/2+c*x = %c9*c+%c10,[k1,k2,k3]); 
+c*x^4/4+c^2*x/2+c*x = k1+c*k2$ 
+
+subst_equiv(y+x^2,1+a^2); 
+[]$ 
+subst_equiv(1-2*x+x^2,(X-1)^2); 
+[x = X]$ 
+subst_equiv(y+x^2,b+a^2); 
+[x = a,y = b]$ 
+subst_equiv(y+x^2,b+a^2); 
+[x = a,y = b]$ 
+subst_equiv(y/z+x^2,c/b+a^2); 
+[x = a,y = c,z = b]$ 
+subst_equiv(y/z+x^2,z/x+y^2); 
+[x = y,y = z,z = x]$ 
+subst_equiv(y+x^2,x^2+y^2); 
+[]$ 
+subst_equiv(u^6+w^5+v^4+z^3+y^2+x,f+g^2+d^3+c^4+b^5+a^6); 
+false$ 
+subst_equiv(w+u+v+y+x^2,w+v+y+b+a^2); 
+[u = b,x = a]$ 
+
+exdowncase(1+X+X^2); 
+1+x+x^2$ 
+
+exdowncase(%pi); 
+%pi$ 
+
+stack_assignmentp(x = 1); 
+true$ 
+stack_assignmentp(x = sqrt(2)); 
+true$ 
+stack_assignmentp(3 = 1); 
+false$ 
+stack_assignmentp(d = v*t); 
+false$ 
+stack_assignmentp(1 = x); 
+false$ 
+
+safe_op(1); 
+""$ 
+safe_op(x); 
+""$ 
+safe_op(%pi); 
+""$ 
+safe_op(z+3); 
+"+"$ 
+safe_op(3*z); 
+"*"$ 
+safe_op(3^z); 
+"^"$ 
+safe_op(3/z); 
+"/"$ 
+safe_op(sin(3*z)); 
+"sin"$ 
+safe_op((-1)/(1+x^2)); 
+"/"$ 
+safe_op(1-x); 
+"+"$ 
+safe_op(x-1); 
+"+"$ 
+safe_op(-(x-1)); 
+"-"$ 
+safe_op(-1/(1+x^2)); 
+"/"$ 
+safe_op(-2*x); 
+"*"$ 
+
+StackDISP(a/b,""); 
+"\\frac{a}{b}"$ 
+StackDISP(-27,""); 
+"-27"$ 
+StackDISP(-sin(x^2),""); 
+"-\\sin \\left( x^2 \\right)"$ 
+StackDISP(asin(x),""); 
+"\\sin^{-1} \\left( x \\right)"$ 
+StackDISP(log(x),""); 
+"\\ln \\left( x \\right)"$ 
+
+strip_int_const(k+x,x); 
+x$ 
+strip_int_const(k+1+x,x); 
+1+x$ 
+strip_int_const(k^2+(x-1)^2,x); 
+(x-1)^2$ 
+strip_int_const(c+(t-1)^4/4,t); 
+(t-1)^4/4$ 
+
+buggy_pow((x+1)^2);
+1^2+x^2$
+buggy_pow(sin((x+y)^3));
+sin(x^3+y^3)$
+
+

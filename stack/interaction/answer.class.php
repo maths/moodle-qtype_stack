@@ -73,11 +73,21 @@ abstract class STACK_Input_Answer {
     public function __construct($name, $width = NULL, $default = NULL, $maxLength = NULL,
             $height = NULL, $param = NULL) {
         $this->name = $name;
-        $this->boxWidth = $width;
-        $this->default = $default;
-        $this->maxLength = $maxLength;
-        $this->boxHeight = $height;
-        $this->parameters = $param;
+        if (!is_null($width)) {
+            $this->boxWidth = $width;
+        }
+        if (!is_null($default)) {
+            $this->default = $default;
+        }
+        if (!is_null($maxLength)) {
+            $this->maxLength = $maxLength;
+        }
+        if (!is_null($height)) {
+            $this->boxHeight = $height;
+        }
+        if (!is_null($param)) {
+            $this->parameters = $param;
+        }
     }
 
     /**

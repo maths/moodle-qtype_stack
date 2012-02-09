@@ -88,70 +88,12 @@ class STACK_Input_TextArea extends STACK_Input_Answer {
     /**
      * Take a list in maxima syntax, and split it into its component elements.
      *
-     * The parsing probalby does not cope with every detail of Maxima syntax (yet).
-     *
-     * The unit tests provide several good examples of what this does.
-     * Takes comma separated list of elements and returns them as an array
-     * while at the same time making sure that the braces stay balanced
-     *
-     * @author Matti Harjula
-     *
      * @param string $in a list in Maxima syntax.
      * @return array the list elements.
      */
     protected function tokenize_list($in) {
-        $counts = array(
-            '(' => 0,
-            '{' => 0,
-            '[' => 0,
-        );
-
-        $matching = array(
-            ')' => '(',
-            '}' => '{',
-            ']' => '[',
-        );
-
-        // Strip delimiters, and append a comma.
-        // We should probably check the first and last chars really are [ and ].
-        // The comma is a sneaky way to get the last value is added to the list.
-        $in = substr($in, 1, -1) . ',';
-        if ($in == ',') {
-            return array();
-        }
-        $out = array();
-        $current = '';
-
-        $length = strlen($in);
-        for ($i = 0; $i < $length; $i++) {
-            $char = $in[$i];
-
-            if (array_key_exists($char, $counts)) {
-                $counts[$char] += 1;
-
-            } else if (array_key_exists($char, $matching)) {
-                $counts[$matching[$char]] -= 1;
-
-            } else if ($char == ',') {
-                $allzero = true;
-                foreach ($counts as $count) {
-                    $allzero = $allzero && ($count == 0);
-                }
-                if ($allzero) {
-                    $out[] = $current;
-                    $current = '';
-                    $char = '';
-                }
-            }
-
-            $current .= $char;
-        }
-
-        if ($current) {
-            // TODO We will get here if the brackes in the input did not match.
-            // Presumably we should throw an exception here or something.
-        }
-        return $out;
+        $su = new STACK_StringUtil($in);
+        return $su->listToArray(false);
     }
 
     public function getTestPostData($value) {

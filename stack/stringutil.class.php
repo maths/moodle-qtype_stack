@@ -461,6 +461,7 @@ public function arrayToCSV($array)
     }
 
     private function listToArrayWorkhorse($list, $rec=true) {
+        $array = array();
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2);// trims outermost [] only
         $e = $this->nextElement($list);

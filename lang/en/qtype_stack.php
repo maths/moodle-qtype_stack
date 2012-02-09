@@ -48,6 +48,7 @@ $string['settingplatformtypewin'] = 'Windows';
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
+$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values link a,b,c,d';
 
 // casstring.class.php
 $string['stackCas_spaces']                  = 'Spaces found in expression: ';

@@ -32,7 +32,7 @@ class STACK_Input_Controller {
     protected static $types = array(
         'algebraic'  => 'STACK_Input_Algebra',
         'boolean'    => 'STACK_Input_Boolean',
-//        'dropDown'   => 'STACK_Input_DropDownList',
+        'dropDown'   => 'STACK_Input_DropDownList',
         'list'       => 'STACK_Input_List',
 //        'matrix'     => 'STACK_Input_Matrix',
         'singleChar' => 'STACK_Input_SingleChar',

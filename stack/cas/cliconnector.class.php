@@ -128,8 +128,11 @@ class STACK_CAS_Maxima_CLIConnector {
 
         make_upload_directory('stack');
         $path = $CFG->dataroot . '/stack';
+        
         $initCommand = 'load("' . $path . '/maximalocal.mac");' . "\n";
-
+        $initCommand = str_replace("\\", "/", $initCommand);
+        $initCommand .= "\n";
+        
         return array(
             'platform'       => $settings->platform,
             'logs'           => $path,

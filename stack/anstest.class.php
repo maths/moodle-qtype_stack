@@ -161,7 +161,7 @@ class STACK_AnsTest {
      */
     public function getATFeedback() {
         if (!empty($this->ATFeedback)) {
-            $translated = STACK_Translator::translate($this->ATFeedback);
+            $translated = stack_string($this->ATFeedback);
         } else {
             $translated = '';
         }

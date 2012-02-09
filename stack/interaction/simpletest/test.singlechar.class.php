@@ -22,8 +22,7 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../answer.class.php');
-require_once(dirname(__FILE__) . '/../singlechar.class.php');
+require_once(dirname(__FILE__) . '/../controller.class.php');
 
 
 /**
@@ -35,20 +34,20 @@ require_once(dirname(__FILE__) . '/../singlechar.class.php');
 class STACK_Input_SingleChar_test extends UnitTestCase {
 
     public function test_getXHTML_blank() {
-        $el = new STACK_Input_SingleChar('ans1');
+        $el = STACK_Input_Controller::make_element('singleChar', 'ans1');
         $this->assertEqual('<input type="text" name="ans1" size="1" maxlength="1" />',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_pre_filled() {
-        $el = new STACK_Input_SingleChar('test');
+        $el = STACK_Input_Controller::make_element('singleChar', 'test');
         $el->setDefault('Y');
         $this->assertEqual('<input type="text" name="test" size="1" maxlength="1" value="Y" />',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_disabled() {
-        $el = new STACK_Input_SingleChar('input');
+        $el = STACK_Input_Controller::make_element('singleChar', 'input');
         $this->assertEqual('<input type="text" name="input" size="1" maxlength="1" readonly="readonly" />',
                 $el->getXHTML(true));
     }

@@ -22,7 +22,7 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../answer.class.php');
+require_once(dirname(__FILE__) . '/../controller.class.php');
 require_once(dirname(__FILE__) . '/../textarea.class.php');
 
 
@@ -53,13 +53,13 @@ class STACK_Input_TextArea_test extends UnitTestCase {
     }
 
     public function test_getXHTML_blank() {
-        $el = new STACK_Input_TextArea('ans1', 10, NULL, NULL, 2);
+        $el = STACK_Input_Controller::make_element('textArea', 'ans1', 10, NULL, NULL, 2);
         $this->assertEqual('<textarea name="ans1" rows="2" cols="10"></textarea>',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_pre_filled() {
-        $el = new STACK_Input_TextArea('test');
+        $el = STACK_Input_Controller::make_element('textArea', 'test');
         $el->setDefault('[1,1/sum([1,3]),matrix([1],[2])]');
         $this->assertEqual('<textarea name="test" rows="4" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])\n</textarea>",
@@ -67,7 +67,7 @@ class STACK_Input_TextArea_test extends UnitTestCase {
     }
 
     public function test_getXHTML_disabled() {
-        $el = new STACK_Input_TextArea('input');
+        $el = STACK_Input_Controller::make_element('textArea', 'input');
         $this->assertEqual('<textarea name="input" rows="1" cols="5" readonly="readonly"></textarea>',
                 $el->getXHTML(true));
     }

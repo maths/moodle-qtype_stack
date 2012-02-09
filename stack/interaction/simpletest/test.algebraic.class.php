@@ -22,8 +22,7 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../answer.class.php');
-require_once(dirname(__FILE__) . '/../algebra.class.php');
+require_once(dirname(__FILE__) . '/../controller.class.php');
 
 
 /**
@@ -35,34 +34,34 @@ require_once(dirname(__FILE__) . '/../algebra.class.php');
 class STACK_Input_Algebra_test extends UnitTestCase {
 
     public function test_getXHTML_blank() {
-        $el = new STACK_Input_Algebra('ans1');
+        $el = STACK_Input_Controller::make_element('algebraic', 'ans1');
         $this->assertEqual('<input type="text" name="ans1" size="15" />',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_pre_filled() {
-        $el = new STACK_Input_Algebra('test');
+        $el = STACK_Input_Controller::make_element('algebraic', 'test');
         $el->setDefault('x+y');
         $this->assertEqual('<input type="text" name="test" size="15" value="x+y" />',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_pre_filled_nasty_input() {
-        $el = new STACK_Input_Algebra('test');
+        $el = STACK_Input_Controller::make_element('algebraic', 'test');
         $el->setDefault('x<y');
         $this->assertEqual('<input type="text" name="test" size="15" value="x&lt;y" />',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_max_length() {
-        $el = new STACK_Input_Algebra('test', NULL, NULL, 20);
+        $el = STACK_Input_Controller::make_element('algebraic', 'test', NULL, NULL, 20);
         $el->setDefault('x+y');
         $this->assertEqual('<input type="text" name="test" size="15" value="x+y" maxlength="20" />',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_disabled() {
-        $el = new STACK_Input_Algebra('input');
+        $el = STACK_Input_Controller::make_element('algebraic', 'input');
         $this->assertEqual('<input type="text" name="input" size="15" readonly="readonly" />',
                 $el->getXHTML(true));
     }

@@ -44,6 +44,11 @@ $string['settingplatformtypeunix'] = 'Linux';
 $string['settingplatformtypeserver'] = 'Server mode';
 $string['settingplatformtypewin'] = 'Windows';
 
+// Strings used by interation elements
+$string['false'] = 'False';
+$string['notanswered'] = 'Not answered';
+$string['true'] = 'True';
+
 // casstring.class.php
 $string['stackCas_spaces']                  = 'Spaces found in expression: ';
 $string['stackCas_percent']                 = '&#037; found in expression: ';

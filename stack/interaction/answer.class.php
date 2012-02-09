@@ -62,12 +62,13 @@ abstract class STACK_Input_Answer {
     /**
      * Constructor
      *
-     * @param string $name
-     * @param int $width
-     * @param string $default
-     * @param int $maxLength
-     * @param int $height
-     * @param array $param An array of Meta objects, or Null.
+     * @param string $name the name of the interaction element. This is the name of the
+     *      POST variable that the input from this element will be submitted as.
+     * @param int $width size of the input.
+     * @param string $default initial contets of the input.
+     * @param int $maxLength limit on the maximum input length.
+     * @param int $height height of the input.
+     * @param array $param some sort of options.
      */
     public function __construct($name, $width = NULL, $default = NULL, $maxLength = NULL,
             $height = NULL, $param = NULL) {

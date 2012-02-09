@@ -31,6 +31,19 @@ $string['pluginnameadding'] = 'Adding a stack question';
 $string['pluginnameediting'] = 'Editing a stack question';
 $string['pluginnamesummary'] = 'Stack questions use a computer algebra system to mark the students work. ...';
 
+// admin settings
+$string['settingcasdebugging'] = 'CAS debugging';
+$string['settingcasdebugging_desc'] = 'Whether to store debugging information about the CAS connection.';
+$string['settingcasmaximaversion'] = 'Maxima version';
+$string['settingcasmaximaversion_desc'] = 'The version of Maxima being used.';
+$string['settingcastimeout'] = 'CAS connection timeout';
+$string['settingcastimeout_desc'] = 'The timout to use when trying to connect to Maxima.';
+$string['settingplatformtype'] = 'Platform type';
+$string['settingplatformtype_desc'] = 'Stack needs to know what sort of operating system it is running on.';
+$string['settingplatformtypeunix'] = 'Linux';
+$string['settingplatformtypeserver'] = 'Server mode';
+$string['settingplatformtypewin'] = 'Windows';
+
 // casstring.class.php
 $string['stackCas_spaces']                  = 'Spaces found in expression: ';
 $string['stackCas_percent']                 = '&#037; found in expression: ';
@@ -47,6 +60,7 @@ $string['stackCas_forbiddenWord']           = 'Forbidden Word: ';
 // cassession.class.php
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
 $string['stackCas_allFailed']               = 'CAS failed to return any evaluated expressions.  Please check your connection with the CAS.';
+$string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 
 // castext.class.php
 $string['stackCas_tooLong']                 = 'CASText statement is too long.';

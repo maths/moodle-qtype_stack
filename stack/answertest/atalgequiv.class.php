@@ -15,11 +15,11 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* Algebraic equivalence answer test
-*
-* @copyright  2012 University of Birmingham
-* @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ * Algebraic equivalence answer test
+ *
+ * @copyright  2012 University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_AlgEquiv extends STACK_AnsTest {
 
     /**

@@ -7,20 +7,20 @@ class STACK_StringUtil {
     private $string;
 
     /**
-    *
-    * @access public
-    * @param string $stringIn
-    */
-    public function __construct($stringIn) {
-        $this->string = $stringIn;
+     *
+     * @access public
+     * @param string $stringIn
+     */
+    public function __construct($str) {
+        $this->string = $str;
     }
 
     /**
-    * Checks for matching pairs of characters in a string. Eg there are a even number of '@' chars in 'blah @blah@ blah'
-    *
-    * @param string
-    * @return bool
-    */
+     * Checks for matching pairs of characters in a string. Eg there are a even number of '@' chars in 'blah @blah@ blah'
+     *
+     * @param string
+     * @return bool
+     */
     public function checkMatchingPairs($char) {
         $no = substr_count($this->string, $char);
 
@@ -32,20 +32,20 @@ class STACK_StringUtil {
     }
 
     /**
-    * Check number of left and right substrings match
-    * eg every <html> has a </html>
-    * Returns true if equal, left left is missing, right if right is missing
-    *
-    * @access public
-    * @param string $left
-    * @param string $right
-    * @return bool
-    */
+     * Check number of left and right substrings match
+     * eg every <html> has a </html>
+     * Returns true if equal, left left is missing, right if right is missing
+     *
+     * @access public
+     * @param string $left
+     * @param string $right
+     * @return bool
+     */
     public function checkBookends($left, $right) {
         $noLeft = substr_count($this->string, $left);
         $noRight = substr_count($this->string, $right);
 
-        if($noLeft == $noRight) {
+        if ($noLeft == $noRight) {
             return true;
         } else if ($noLeft > $noRight) {
             return 'right'; // missing right
@@ -56,13 +56,13 @@ class STACK_StringUtil {
 
 
     /**
-    * Gets the characters between two chars
-    * Works throughout a string returning an array of matches
-    *
-    * @param string $first the starting char to grab from
-    * @param string $last the char to stop at (optional, if missing searches till another $first char
-    * @return array of matchs without $first or $last pre/suffixes
-    */
+     * Gets the characters between two chars
+     * Works throughout a string returning an array of matches
+     *
+     * @param string $first the starting char to grab from
+     * @param string $last the char to stop at (optional, if missing searches till another $first char
+     * @return array of matchs without $first or $last pre/suffixes
+     */
     function getBetweenChars($first, $last=null) {
         if ($last == null) {
             $last = $first;
@@ -75,15 +75,13 @@ class STACK_StringUtil {
         $i = 0;
         $start = false;
         $found = '';
-        while($i < $length) {
+        while ($i < $length) {
             if ($start == false) {
                 //find starting @
                 if ($char[$i] == $first) {
                     $start = true;
                     $found .= $char[$i];
-                } else {
-                    //do nothing
-                }
+                } 
             } else {
                 //we have the first @ find ending @
                 if ($char[$i] == $last) {
@@ -106,14 +104,14 @@ class STACK_StringUtil {
     }
 
     /**
-    * Replaces the text between startchar and endchar with the next string from the array
-    *
-    * @param char $startChar the begining char to match against
-    * @param char $endChar the end character of the replacement
-    * @param array $replacements array of replacement strings, must equal the number of replacements
-    * if the number of replacements does not match the number of strings to replaces, nothing is replaced
-    * @return string
-    */
+     * Replaces the text between startchar and endchar with the next string from the array
+     *
+     * @param char $startChar the begining char to match against
+     * @param char $endChar the end character of the replacement
+     * @param array $replacements array of replacement strings, must equal the number of replacements
+     * if the number of replacements does not match the number of strings to replaces, nothing is replaced
+     * @return string
+     */
     function replaceBetween($startChar, $endChar, $replacements) {
         //do error checking
         $noSC = substr_count($this->string, $startChar);
@@ -153,8 +151,6 @@ class STACK_StringUtil {
                     if ($char[$i] == $endChar) {
                         $searching = true;
                         $toReturn .= $char[$i];
-                    } else {
-                        //throw away chars between start and end
                     }
                 }
                 $i++;
@@ -165,13 +161,13 @@ class STACK_StringUtil {
 
 
     /**
-    * Removes spaces & hyphens from a string, replacing with an underscore character
-    *
-    * @access public
-    * @param array (Optional) additional characters to convert to underscores
-    */
+     * Removes spaces & hyphens from a string, replacing with an underscore character
+     *
+     * @access public
+     * @param array (Optional) additional characters to convert to underscores
+     */
     public function underscore($additional=null) {
-        $toReturn = str_replace('-','_',$this->string);
+        $toReturn = str_replace('-', '_', $this->string);
         $toReturn = str_replace(' ', '_', $toReturn);
         if ($additional != null) {
             $toReturn = str_replace($additional, '_', $toReturn);
@@ -180,11 +176,11 @@ class STACK_StringUtil {
     }
 
     /**
-    * Converts windows style paths to unix style with forward slashes
-    *
-    * @access public
-    * @return string|null
-    */
+     * Converts windows style paths to unix style with forward slashes
+     *
+     * @access public
+     * @return string|null
+     */
     public function convertSlashPaths() {
         $in = trim($this->string);
         $length = strlen($in);
@@ -204,21 +200,19 @@ class STACK_StringUtil {
             } else {
                 return $newPath;
             }
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
 
     /**
-    * Replaces @blah@ with $@blah@$ if the castext is not otherwise enclosed by $'s.
-    *
-    *
-    * @access public
-    * @return string
-    */
+     * Replaces @blah@ with $@blah@$ if the castext is not otherwise enclosed by $'s.
+     *
+     *
+     * @access public
+     * @return string
+     */
     public function wrapAround() {
         $this->string = preg_replace('/\\\\\$/', 'escapeddollar', $this->string);
         $this->string = $this->wrap($this->string);
@@ -233,7 +227,7 @@ class STACK_StringUtil {
     /**
      * Ensures that all elements within this text that need to be in math mode, are so.
      * Specifically, CAS elements and inline input macros.
-    */
+     */
     public function delimit($text) {
         return preg_replace('/@(.*)?@/U', '$@\1@$', $text);
         //return preg_replace('/\\\\answer{.*}{.*}{.*}(.*)/U', '$@\1@$', $text);
@@ -251,8 +245,8 @@ class STACK_StringUtil {
             if ($pos !== false) { // found one
                 //echo "<br />found '$d' at pos $pos";
                 if (($at === false || $pos <= $at)) {// take earliest ($$ taken over $)
-                //echo " \$at is bring set to $pos";
-                $at = $pos; // take earliest
+                    //echo " \$at is bring set to $pos";
+                    $at = $pos; // take earliest
                 }
             }
         }
@@ -270,9 +264,11 @@ class STACK_StringUtil {
         $len = strlen($text);
 
         // handle case where less than 3 chars to consider
-        if($len <= $start + 2) return $len - $start;
+        if ($len <= $start + 2) {
+            return $len - $start;
+        }
 
-        foreach($delimiters as $d) {
+        foreach ($delimiters as $d) {
             $pos = strpos($text, $d, $start + 2); // check long enough
             if ($pos !== false) { // found one
                 //echo "<br />found '$d' at pos $pos";
@@ -305,11 +301,11 @@ class STACK_StringUtil {
     }
 
     /**
-    * Removes any whitespace, ';' ':' or '$' signs from the end of cas command.
-    *
-    * @return string out
-    * @access public
-    */
+     * Removes any whitespace, ';' ':' or '$' signs from the end of cas command.
+     *
+     * @return string out
+     * @access public
+     */
     public function trimCommands() {
         $in = trim($this->string);
         $length = strlen($in);
@@ -325,17 +321,17 @@ class STACK_StringUtil {
 
 
     /**
-    * Removes C style block comments from a string,
-    *
-    * @access private
-    * @return string
-    */
+     * Removes C style block comments from a string,
+     *
+     * @access private
+     * @return string
+     */
     public function removeComments() {
-        if (strstr($this->string,'/*')) {
+        if (strstr($this->string, '/*')) {
             $out = $this->string;
             preg_match_all('|/\*(.*)\*/|U', $out,$html_match);
             foreach ($html_match[0] as $val) {
-                $out = str_replace($val,'',$out);
+                $out = str_replace($val, '', $out);
             }
             return $out;
         } else {
@@ -344,21 +340,21 @@ class STACK_StringUtil {
     }
 
     /**
-    * Removes characters between the start and end characters inclusive.
-    * All instances are removed.
-    *
-    * @param string $start
-    * @param string $end
-    * @return string
-    * @access public
-    */
+     * Removes characters between the start and end characters inclusive.
+     * All instances are removed.
+     *
+     * @param string $start
+     * @param string $end
+     * @return string
+     * @access public
+     */
     public function removeBetween($start, $end) {
-        if (strstr($this->string,$start) && strstr($this->string,$end)) {
+        if (strstr($this->string,$start) && strstr($this->string, $end)) {
             $out = $this->string;
-            preg_match_all('|'.$start.'(.*)'.$end.'|U',$out,$html_match);
+            preg_match_all('|'.$start.'(.*)'.$end.'|U', $out, $html_match);
 
             foreach ($html_match[0] as $val) {
-                $out = str_replace($val,'',$out);
+                $out = str_replace($val, '', $out);
             }
             $this->string = $out;
 
@@ -369,12 +365,12 @@ class STACK_StringUtil {
     }
 
     /**
-    * Converts a CSV string into an array, removing empty entries.
-    *
-    * @param string in
-    * @return array out
-    * @access public
-    */
+     * Converts a CSV string into an array, removing empty entries.
+     *
+     * @param string in
+     * @return array out
+     * @access public
+     */
     public function cvsToArray($token=',') {
         $exploded = explode($token, $this->string);
         //remove any null entries
@@ -387,50 +383,43 @@ class STACK_StringUtil {
         return $toReturn;
     }
 
-/**
- * Converts an array to a CSV
- *
- * @return String
- * @param $array Object
- */
-public function arrayToCSV($array)
-{
-		if(!empty($array))
-		{
-			$string = "";
-			$i = 0;
-			foreach($array as $element){
-				if($i > 0){
-					$string .= ', ';
-				}
-				if(is_bool($element)){
-					if($element){
-						$string .= 'TRUE';
-					}
-					else{
-						$string .= 'FALSE';
-					}
-				}
-				else
-				{
-					$string .= $element;
-				}
-				$i++;
-			}
-			return $string;
-		}
-		else
-		{
-			return "";
-		}
-}
+    /**
+     * Converts an array to a CSV
+     *
+     * @return String
+     * @param $array Object
+     */
+    public function arrayToCSV($array) {
+        if (!empty($array)) {
+        $string = "";
+        $i = 0;
+        foreach ($array as $element){
+            if ($i > 0) {
+                $string .= ', ';
+            }
+            if (is_bool($element)) {
+                if ($element) {
+                    $string .= 'TRUE';
+                } else {
+                    $string .= 'FALSE';
+                }
+            } else {
+                $string .= $element;
+            }
+            $i++;
+        }
+        return $string;
+        } else {
+            return "";
+        }
+    }
 
-/**
- *  Handles complex (comma-containing) list elements,
- * 	i.e. sets {}, functions() and nested lists[[]]
- *	Strict checking on nesting.
- *  Helper for listToArrayWorkhorse()
- */
+    /**
+     *  Handles complex (comma-containing) list elements,
+     * 	i.e. sets {}, functions() and nested lists[[]]
+     *	Strict checking on nesting.
+     *  Helper for listToArrayWorkhorse()
+     */
     private function nextElement($list) {
         if ($list == '') {
             return null;
@@ -484,7 +473,7 @@ public function arrayToCSV($array)
     /**
      * Converts a list structure into an array.
      * Handles nested lists, sets and functions with help from nextElement().
-    */
+     */
     public function listToArray($rec=true) {
         $array = $this->listToArrayWorkhorse($this->string,$rec);
     return $array;
@@ -516,5 +505,5 @@ public function arrayToCSV($array)
 
         // failed to prettify somehow
         return $datestamp;
-	}
+    }
 }

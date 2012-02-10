@@ -20,18 +20,16 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
 require_once(dirname(__FILE__) . '/../../anstest.class.php');
 require_once(dirname(__FILE__) . '/../atalgequiv.class.php');
 
 
 /**
- * Unit tests for STACK_AnsTest_ATString.
- *
- * @copyright  2012 The University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+  * Unit tests for STACK_AnsTest_ATString.
+  *
+  * @copyright  2012 The University of Birmingham
+  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+  */
 class STACK_AnsTest_AlgEquiv_test extends UnitTestCase {
 
     public function test_is_true_for_equal_expressions() {

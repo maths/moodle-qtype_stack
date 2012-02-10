@@ -1,4 +1,18 @@
 <?php
+// This file is part of Stack - http://stack.bham.ac.uk//
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(__FILE__) . '/../../../locallib.php');
 require_once(dirname(__FILE__) . '/../cassession.class.php');
@@ -6,29 +20,30 @@ require_once(dirname(__FILE__) . '/../cassession.class.php');
 class STACK_CAS_CasSessionTest
 extends UnitTestCase {
 
-    function Get_valid($s, $val) {
-        $at1 = new STACK_CAS_CasSession($s);
+    function Get_valid($cs, $val) {
+
+        if (is_array($cs)) {
+            $s1=array();
+            foreach ($cs as $s) {
+                $s1[] = new STACK_CAS_CasString($s);
+            }
+        } else {
+            $s1 = null;
+        }
+
+        $at1 = new STACK_CAS_CasSession($s1);
         $this->assertEqual($val, $at1->Get_valid());
     }
 
     public function testGet_valid() {
 
         $a1=array('x^2', '(x+1)^2');
-        $s1=array();
-        foreach ($a1 as $s) {
-            $s1[] = new STACK_CAS_CasString($s);
-        }
-
-        $a1=array('x^2', 'x+1)^2');
-        $s2=array();
-        foreach ($a1 as $s) {
-            $s2[] = new STACK_CAS_CasString($s);
-        }
+        $a2=array('x^2', 'x+1)^2');
 
         $cases =  array(
                 array(null, true),
-                array($s1, true),
-                array($s2, false)
+                array($a1, true),
+                array($a2, false)
             );
 
         foreach ($cases as $case) {

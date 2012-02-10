@@ -32,9 +32,9 @@ class STACK_CAS_KeyVal { // originally extended QuestionType
     private $addStars;
     private $strictSyntax;
 
-    public function __construct($raw, $securityLevel='s', $syntax=true, $stars=false) {
+    public function __construct($raw, $security='s', $syntax=true, $stars=false) {
         $this->raw          = $raw;
-        $this->security     = $securityLevel; // by default, student
+        $this->security     = $security; // by default, student
         $this->addStars     = $stars;         // by default don't add stars
         $this->strictSyntax = $syntax;        // by default strict
 
@@ -44,7 +44,7 @@ class STACK_CAS_KeyVal { // originally extended QuestionType
             throw new Exception('STACK_CAS_KeyVal: raw must be a STRING.');
         }
 
-        if (!('s'===$securityLevel || 't'===$securityLevel)) {
+        if (!('s'===$security || 't'===$security)) {
             throw new Exception('STACK_CAS_KeyVal: 2nd argument, security level, must be "s" or "t" only.');
         }
 
@@ -72,7 +72,7 @@ class STACK_CAS_KeyVal { // originally extended QuestionType
         $errors  = '';
         $valid   = true;
         $session = array();
-        foreach($kv_array as $kvs) {
+        foreach ($kv_array as $kvs) {
             $cs        = new STACK_CAS_CasString($kvs, $this->security, $this->addStars, $this->strictSyntax);
             $valid     = $valid && $cs->Get_valid();
             $errors   .= $cs->Get_errors();
@@ -127,13 +127,13 @@ class STACK_CAS_KeyVal { // originally extended QuestionType
     }
 
     /**
-    * Generates a form element for editing this question type. If values have
-    * been specified then a drop down list is generate, otherwise a text input box
-    * @param name string the name of the element in the form
-    * @param size int the size of the text box, defaults to 15
-    * @access public
-    * @return string XHTML for insertion into a form field.
-    */
+     * Generates a form element for editing this question type. If values have
+     * been specified then a drop down list is generate, otherwise a text input box
+     * @param name string the name of the element in the form
+     * @param size int the size of the text box, defaults to 15
+     * @access public
+     * @return string XHTML for insertion into a form field.
+     */
     public function editWidget($name, $size=100) {
 
         $edit_text = str_replace(';', "\n", $this->raw);

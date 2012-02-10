@@ -36,7 +36,7 @@ class stack_cas_maxima_connector {
 
         $this->debuginfo ='';
     }
-    
+
     protected function load_config() {
         global $CFG;
         static $settings = null;
@@ -48,15 +48,15 @@ class stack_cas_maxima_connector {
         make_upload_directory('stack');
         $path = $CFG->dataroot . '/stack';
 
-        $initCommand = 'load("' . $path . '/maximalocal.mac");' . "\n";
-        $initCommand = str_replace("\\", "/", $initCommand);
-        $initCommand .= "\n";
+        $initcommand = 'load("' . $path . '/maximalocal.mac");' . "\n";
+        $initcommand = str_replace("\\", "/", $initcommand);
+        $initcommand .= "\n";
 
         return array(
                 'platform'        => $settings->platform,
                 'logs'            => $path,
                 'command'         => $path . '/maxima.bat',
-                'init_command'    => $initCommand,
+                'init_command'    => $initcommand,
                 'timeout'         => $settings->castimeout,
                 'debug'           => $settings->casdebugging,
                 'version'         => $settings->maximaversion,
@@ -68,30 +68,26 @@ class stack_cas_maxima_connector {
     }
 
     /**
-    * Deal with platforms, and send a string to Maxima.
-    *
-    * @param string $strin The raw Maxima command to be processed.
-    * @return array
-    */
+     * Deal with platforms, and send a string to Maxima.
+     *
+     * @param string $strin The raw Maxima command to be processed.
+     * @return array
+     */
     public function send_to_maxima($command) {
 
         if ($this->config['debug']) {
             $this->debuginfo .= '<h2>CAS command:</h2> <pre>'.$command.'</pre>';
         }
-        
+
         $platform = $this->config['platform'];
 
         if ($platform == 'win') {
             $result = $this->send_win($command);
             //echo "result: $result";
-        }
-        //server mode may fall back to launching a maxima process if connecting to the servers fail.
-        elseif (($platform == 'unix') || ($platform == 'server'))
-        {
+        } else if (($platform == 'unix') || ($platform == 'server')) {
+            // TODO:server mode currently falls back to launching a Maxima process.
             $result = $this->send_unix($command);
-        }
-        else
-        {
+        } else {
             throw new Exception('stack_cas_maxima_connector: Unknown platform '.$platform);
         }
 
@@ -101,19 +97,19 @@ class stack_cas_maxima_connector {
 
         $unp = $this->maxima_receive_raw_result($result);
         if ($this->config['debug']) {
-            $this->debuginfo .= '<h2>Unpacked result as:</h2> <pre>'.print_r($unp,true).'</pre>';
+            $this->debuginfo .= '<h2>Unpacked result as:</h2> <pre>'.print_r($unp, true).'</pre>';
         }
-        
+
         return $unp;
     }
 
     /**
-    * Starts a instance of maxima and sends the maxima command under a Windows OS
-    *
-    * @param string $strin
-    * @return string
-    * @access public
-    */
+     * Starts a instance of maxima and sends the maxima command under a Windows OS
+     *
+     * @param string $strin
+     * @return string
+     * @access public
+     */
     private function send_win($command) {
         $ret = false;
 
@@ -124,12 +120,12 @@ class stack_cas_maxima_connector {
 
         $cmd = '"'.$this->config['command'].'"';
 
-        $CASProcess = proc_open($cmd, $descriptors, $pipes);
-        if(is_resource($CASProcess)) {
+        $casprocess = proc_open($cmd, $descriptors, $pipes);
+        if (is_resource($casprocess)) {
             if (!fwrite($pipes[0], $this->config['init_command'])) {
                 //echo "<br />Could not write to the CAS process!<br/ >\n";
                 //$this->logger->critical('Could not write to CAS process '.$cmd);
-                return(FALSE);
+                return(false);
             }
             fwrite($pipes[0], $command);
             fwrite($pipes[0], 'quit();\n\n');
@@ -157,7 +153,7 @@ class stack_cas_maxima_connector {
 
         return $ret;
     }
-    
+
     /**
      * Connect directly to the CAS, and return the raw string result.
      * This does not use sockets, but calls a new CAS session each time.
@@ -180,23 +176,23 @@ class stack_cas_maxima_connector {
         $err = '';
         $cwd = null;
         $env = array('why'=>'itworks');
-    
+
         $descriptors = array(
             0 => array('pipe', 'r'),
             1 => array('pipe', 'w'),
             2 => array('pipe', 'w'));
-        $CASProcess = proc_open($this->config['command'], $descriptors, $pipes, $cwd, $env);
+        $casprocess = proc_open($this->config['command'], $descriptors, $pipes, $cwd, $env);
         /*$proc_array = proc_get_status($CASProcess);
          echo $proc_array['command'].'<br />';
         echo $proc_array['pid'].'<br />';
         echo $proc_array['running'].'<br />';*/
 
-        if (is_resource($CASProcess)) {
+        if (is_resource($casprocess)) {
 
             if (!fwrite($pipes[0], $this->config['init_command'])) {
                 echo "<br />Could not write to the CAS process!<br />\n";
                 //$this->logger->critical('Could not write to the CAS process: '.$cmd);
-                return(FALSE);
+                return(false);
             }
             fwrite($pipes[0], $strin);
             fwrite($pipes[0], 'quit();'."\n\n");
@@ -215,16 +211,16 @@ class stack_cas_maxima_connector {
                 $now =  microtime(true);
 
                 if (($now-$start_time) > $this->config['timeout']) {
-                $proc_array = proc_get_status($CASProcess);
-                if ($proc_array['running']) {
-                    proc_terminate($CASProcess);
-                }
-                $continue = false;
+                    $proc_array = proc_get_status($casprocess);
+                    if ($proc_array['running']) {
+                        proc_terminate($casprocess);
+                    }
+                    $continue = false;
                 } else {
                     $out = fread($pipes[1], 1024);
                     if ('' == $out) {
-                    // PAUSE
-                    usleep(1000);
+                        // PAUSE
+                        usleep(1000);
                     }
                     $ret .= $out;
                 }
@@ -251,12 +247,12 @@ class stack_cas_maxima_connector {
         return $ret;
     }
 
-    /**
-    * Top level Maxima-specific function used to parse CAS output into an array.
-    *
-    * @param array $strin Raw CAS output
-    * @return array
-    */
+    /*
+     * Top level Maxima-specific function used to parse CAS output into an array.
+     *
+     * @param array $strin Raw CAS output
+     * @return array
+     */
     private function maxima_receive_raw_result($strin) {
         $result = '';
         $errors = false;
@@ -275,27 +271,27 @@ class stack_cas_maxima_connector {
 
         $unp = $this->maxima_unpack_helper($result);
 
-        if (array_key_exists('Locals',$unp)) {
+        if (array_key_exists('Locals', $unp)) {
             $uplocs = $unp['Locals']; // Grab the local variables
             unset($unp['Locals']);
         } else {
             $uplocs = '';
         }
-        
+
         $rawlocals = $this->maxima_unpack_helper($uplocs);
         // Now we need to turn the (error,key,value,display) tuple into an array
         foreach ($rawlocals as $var => $valdval) {
             if (is_array($valdval)) {
                 $errors["CAS"] = "CAS failed to generate any useful output.";
             } else {
-                if (preg_match('/.*\[.*\].*/',$valdval)) {
+                if (preg_match('/.*\[.*\].*/', $valdval)) {
                     // There are some []'s in the string.
                     $loc = $this->maxima_unpack_helper($valdval);
                     if ('' == trim($loc['error'])) {
                         unset($loc['error']);
                     }
-                    $locals[]=$loc;        
-                    
+                    $locals[]=$loc;
+
                 } else {
                     $errors["LocalVarGet$var"] = "Couldn't unpack the local variable $var from the string $valdval.";
                 }
@@ -317,7 +313,7 @@ class stack_cas_maxima_connector {
                 //for mathml display, remove the mathml that is inserted wrongly round the plot.
                 $locals[$i]['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>', '', $locals[$i]['display']);
                 $locals[$i]['display'] = str_replace('</math>', '', $locals[$i]['display']);
-                
+
                 // for latex mode, remove the mbox
                 // handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}
                 $locals[$i]['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $locals[$i]['display']);
@@ -334,15 +330,15 @@ class stack_cas_maxima_connector {
         $unparsed = '';
         $errors = '';
 
-        if ($eqpos = strpos($strin,'=',$offset)) {
+        if ($eqpos = strpos($strin, '=', $offset)) {
             // Check there are ='s
             do {
-                $gb = STACK_Legacy::util_grabbetween($strin, '[' ,']' ,$eqpos);
+                $gb = STACK_Legacy::util_grabbetween($strin, '[', ']', $eqpos);
                 $val = substr($gb[0], 1, strlen($gb[0])-2);
                 $val = str_replace('"', '', $val);
                 $val = trim($val);
 
-                if (preg_match('/[A-Za-z0-9].*/',substr($strin,$offset,$eqpos-$offset),$regs)) {
+                if (preg_match('/[A-Za-z0-9].*/', substr($strin, $offset, $eqpos-$offset), $regs)) {
                     $var = trim($regs[0]);
                 } else {
                     $var = 'errors';
@@ -363,17 +359,17 @@ class stack_cas_maxima_connector {
 
         return($unparsed);
     }
-    
+
     /**
-    * Deals with Maxima errors.   Enables some translation.
-    *
-    * @param string $errstr a Maxima error string
-    * @return string
-    */
+     * Deals with Maxima errors.   Enables some translation.
+     *
+     * @param string $errstr a Maxima error string
+     * @return string
+     */
     private function tidy_error($errstr) {
-        if (strpos($errstr,'0 to a negative exponent') !== false) {
+        if (strpos($errstr, '0 to a negative exponent') !== false) {
             $errstr = stack_string('Maxima_DivisionZero');
         }
         return $errstr;
-    }    
+    }
 }

@@ -22,8 +22,7 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../answer.class.php');
-require_once(dirname(__FILE__) . '/../boolean.class.php');
+require_once(dirname(__FILE__) . '/../controller.class.php');
 
 
 /**
@@ -43,27 +42,27 @@ class STACK_Input_Boolean_test extends UnitTestCase {
     }
 
     public function test_getXHTML_not_answered() {
-        $el = new STACK_Input_Boolean('ans1');
+        $el = STACK_Input_Controller::make_element('boolean', 'ans1');
         $this->assert(new ContainsSelectExpectation('ans1', $this->expected_choices(),
                 STACK_Input_Boolean::NA), $el->getXHTML(false));
     }
 
     public function test_getXHTML_true() {
-        $el = new STACK_Input_Boolean('ans2');
+        $el = STACK_Input_Controller::make_element('boolean', 'ans2');
         $el->setDefault(STACK_Input_Boolean::T);
         $this->assert(new ContainsSelectExpectation('ans2', $this->expected_choices(),
                 STACK_Input_Boolean::T), $el->getXHTML(false));
     }
 
     public function test_getXHTML_false() {
-        $el = new STACK_Input_Boolean('ans3');
+        $el = STACK_Input_Controller::make_element('boolean', 'ans3');
         $el->setDefault(STACK_Input_Boolean::F);
         $this->assert(new ContainsSelectExpectation('ans3', $this->expected_choices(),
                 STACK_Input_Boolean::F), $el->getXHTML(false));
     }
 
     public function test_getXHTML_disabled() {
-        $el = new STACK_Input_Boolean('input');
+        $el = STACK_Input_Controller::make_element('boolean', 'input');
         $this->assert(new ContainsSelectExpectation('input', $this->expected_choices(),
                 STACK_Input_Boolean::NA, false), $el->getXHTML(true));
     }

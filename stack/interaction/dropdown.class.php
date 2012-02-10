@@ -16,30 +16,43 @@
 
 
 /**
- * Interaction element for inputting true/false using a select dropdown.
+ * Interaction element to display a dropdown list of choices that the teacher
+ * has specified.
+ *
+ * TODO add extra validation to really make sure that only allowed values are submitted.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_Input_Boolean extends STACK_Input_Answer {
-    const F = 'false';
-    const T = 'true';
-    const NA = '';
+class STACK_Input_DropDownList extends STACK_Input_Answer {
 
     public function __construct($name, $width = NULL, $default = NULL, $maxLength = NULL,
             $height = NULL, $param = NULL) {
-        if (!in_array($default, array(self::T, self::F))) {
-            $default = self::NA;
+        if (!$param) {
+            // TODO $param['ddl_values'] = new Meta('optional','');
         }
         parent::__construct($name, $width, $default, $maxLength, $height, $param);
     }
 
     public function getXHTML($readonly) {
-        $choices = array(
-            self::F => stack_string('false'),
-            self::T => stack_string('true'),
-            self::NA => stack_string('notanswered'),
-        );
+        if (empty($this->parameters['ddl_values'])) {
+            return stack_string('ddl_empty');
+        }
+
+        $su       = new STACK_StringUtil('[' . trim($this->parameters['ddl_values']) . ']');
+        $values = $su->listToArray(false);
+
+        if (empty($values)) {
+            return stack_string('ddl_empty');
+        }
+
+        if (!in_array($this->default, $values)) {
+            $this->default = '';
+        }
+
+        $values = array_merge(
+                array('' => stack_string('notanswered')),
+                array_combine($values, $values));
 
         $disabled = '';
         if ($readonly) {
@@ -47,13 +60,13 @@ class STACK_Input_Boolean extends STACK_Input_Answer {
         }
 
         $output = '<select name="' . $this->name . '"' . $disabled . '>';
-        foreach ($choices as $value => $choice) {
+        foreach($values as $value => $choice) {
             $selected = '';
             if ($value === $this->default) {
                 $selected = ' selected="selected"';
             }
 
-            $output .= '<option value="' . $value . '"' . $selected . '>' .
+            $output .= '<option value="' . htmlspecialchars($value) . '"' . $selected . '>' .
                     htmlspecialchars($choice) . '</option>';
         }
         $output .= '</select>';
@@ -61,20 +74,10 @@ class STACK_Input_Boolean extends STACK_Input_Answer {
         return $output;
     }
 
-    /**
-     * Returns a list of the names of all the opitions that this type of interaction
-     * element uses. (Default implementation returns all options.)
-     * @return array of option names.
-     */
     public static function getOptionsUsed() {
         return array('teacherAns', 'studentVerify', 'hideFeedback');
     }
 
-    /**
-     * Return the default values for the options. Using this is optional, in this
-     * base class implementation, no default options are set.
-     * @return array option => default value.
-     */
     public static function getOptionDefaults() {
         return array(
             'studentVerify' => 'false',

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-class	STACK_options {
+class STACK_options {
 
     private $options;   // Exactly the CASText entered.
     
@@ -152,11 +152,11 @@ class	STACK_options {
         }
     }
 
-    public function getcascommands(){
+    public function get_cas_commands() {
 
         $names = '';
         $commands = '';
-        
+
         foreach ($this->options as $key => $opt){
             if (null!=$opt['castype']) {
                 if ('boolean'===$opt['type']) {

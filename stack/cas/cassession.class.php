@@ -1,22 +1,27 @@
 <?php
+// This file is part of Stack - http://stack.bham.ac.uk//
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
- This file is part of Stack - http://stack.bham.ac.uk//
-
- Stack is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- Stack is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Stack.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+/**
+ * A CAS session is a list of Maxima expressions, which are validated
+ * sent to the CAS Maxima to be evaluated, and then used.  This class
+ * prepares expressions for the CAS and deals with return information.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 require_once('casstring.class.php');
 require_once('connector.class.php');
 require_once('cliconnector.class.php');
@@ -147,23 +152,11 @@ class STACK_CAS_CasSession {
             return true;
         }
 
-        // Ensure that every command has a valid key.
-        $i=0;
-        foreach ($this->session as $cs) {
-            $i++;
-            if ('' ==  $cs->Get_key()) {
-                $key = 'dumvar'.$i;
-            } else {
-                $key = $cs->Get_key();
-            }
-            $cascommands[$key]=$cs->Get_CASString();
-        }
+        $mconn = new stack_cas_maxima_connector();
+        $results = $mconn->send_to_maxima($this->construct_maxima_command());
 
-        $mconn = new STACK_CAS_Maxima_CLIConnector($this->options, $this->seed, $this->security);
-        $display = $mconn->sendCASCommands($cascommands);
-
-        $errors = $mconn->returnErrors();
-        $values = $mconn->returnValues();
+        // TODO: how to sort out debug info back to a user?
+        //echo $mconn->get_debuginfo();
 
         // Now put the information back into the correct slots.
         $session = $this->session;
@@ -172,29 +165,44 @@ class STACK_CAS_CasSession {
         $all_fail = true;
         $i=0;
 
+        // We loop over each entry in the session, not over the result.
+        // This way we can add an error for missing values.
         foreach ($session as $cs) {
-            $i++;
+            $gotvalue = false;
+            
             if ('' ==  $cs->Get_key()) {
                 $key = 'dumvar'.$i;
             } else {
                 $key = $cs->Get_key();
             }
 
-            if (array_key_exists($key, $values)) {
+            if (array_key_exists($i, $results)) {
                 $all_fail = false; // We at least got one result back from the CAS!
-                $cs->Set_value($values[$key]);
+                
+                $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
+                if (array_key_exists('value', $result)) {
+                    $cs->Set_value($result['value']);
+                    $gotvalue = true;
+                } 
 
-                $cs->Set_display($display[$key]);
-                if ('' != $errors[$key]) {
-                    $cs->Add_errors($errors[$key]);
-                    $new_errors .= ' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> '.stack_string("stackCas_CASErrorCaused").' '.$errors[$key].' ';
+                if (array_key_exists('display', $result)) {
+                    $cs->Set_display($result['display']);
                 }
-            } else {
+
+                if ('' != $result['error']) {
+                    $cs->Add_errors($result['error']);
+                    $new_errors .= ' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
+                }
+            }
+
+            if (!$gotvalue) {
                 $errstr = stack_string("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> ';
                 $cs->Add_errors($errstr);
                 $new_errors .= $errstr;
             }
+
             $new_session[]=$cs;
+            $i++;
         }
         $this->session = $new_session;
 
@@ -316,4 +324,43 @@ class STACK_CAS_CasSession {
         return $strin;
     }
 
+    /**
+    * Creates the string which Maxima will execute
+    * 
+    * @return string
+    */
+    private function construct_maxima_command() {
+        // Ensure that every command has a valid key.
+
+        $cas_options = $this->options->get_cas_commands();
+        $csnames = $cas_options['names'];
+        $csvars  = $cas_options['commands'];
+        $cascommands= '';
+        
+        $i=0;
+        foreach ($this->session as $cs) {
+            if ('' ==  $cs->Get_key()) {
+                $label = 'dumvar'.$i;
+            } else {
+                $label = $cs->Get_key();
+            }
+
+            $cmd = str_replace('?', 'qmchar', $cs->Get_CASString()); // replace any ?'s that slipped through
+
+            $csnames   .= ", $label";
+            $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
+            $i++;
+        }
+
+        $cass ='cab:block([ RANDOM_SEED';
+        $cass .= $csnames;
+        $cass .='], stack_randseed(';
+        $cass .= $this->seed.')'.$csvars;
+        $cass .= ", print(\"[TimeStamp= [ $this->seed ], Locals= [ \") ";
+        $cass .= $cascommands;
+        $cass .= ", print(\"] ]\") , return(true) ); \n ";
+
+        return $cass;
+    }
+    
 } // end class 

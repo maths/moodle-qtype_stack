@@ -384,7 +384,7 @@ class STACK_CAS_CasString {
             $this->validate();
         }
         if (''!=$this->key && $append_key) {
-            $this->CASString = $this->key.':'.$this->CASString;	
+            $this->CASString = $this->key.':'.$this->CASString;
             $this->key=$key;
         } else {
             $this->key=$key;

@@ -32,7 +32,7 @@ extends UnitTestCase {
             );
 
         foreach ($cases as $case) {
-            $this->Get_valid($case[0], $case[1]);
+           $this->Get_valid($case[0], $case[1]);
         }
 
     }

@@ -1,15 +1,45 @@
 # Development track
 
-## Current tasks in approximate order of importance. ## 
+## Milestone 1. ## 
 
-1. Refactor connection to the CAS
-   1. castext
+Have basic CAS functionality working and incorported into Moodle.  Supply basic data
+
+1. CJS: Refactor connection to the CAS
+   1. castext.
    2. answer tests.
-2. Add "healthcheck pages", installation instructions and confirm configuration settings.
-3. Importer for STACK 2 questions.
-4. Move 
+   3. unit tests for answer tests which need a CAS connection.
+2. MATTI: Importer for STACK 2 questions.
+3. Move STACK_StringUtil to be a static class.  Search project for uses of this.
+   (Probably a good idea to do this before the project gets to big!)
+4. Add "healthcheck pages", installation instructions and confirm configuration settings.
+   Links from the settings page.
+5. Tim: Question stub ready for further development.
 
 Gradually change variable and function names to conform to Maxima coding standards.
+
+## Milestone 2. ## 
+
+Basic skelaton import of STACK 2 questions and storage in the database.
+Teacher can create a question version and attempt this from the database, with no caching.  
+
+## Milestone 3. ## 
+
+Ininstate the dynamic cache and make it work with one Moodle behaviour.
+
+## Milestone 4. ## 
+
+Editing forms in Moodle to allow creation of questions.
+Import and export of STACK 3 questions in Moodle's format.
+
+## Milestone 5. ## 
+
+Add reporting functionality.
+Add user documentation.
+Ensure all fields are imported by the question importer.
+Installation documentation, and reporting.
+Make it work with all Moodle behaviours.
+
+##########################################################################################
 
 ## Maxima
 
@@ -30,21 +60,6 @@ Gradually change variable and function names to conform to Maxima coding standar
 
      \stack\www\lib\maxima\maximafun.php
 
-
-
-0. Git-hub repository: moodle-qtype_stack
-0.5  Minimal install....  settings.php, CASKeywords.php
-1. Teacher can attempt a question from the database, with no caching.
-2. Can import STACK 2 XML questions into the database.
-3. Moodle XML import/export for this question type.
-4. Editing forms in Moodle to allow creation of questions.
-5. Make it work with all Moodle behaviours.
-6. Implement caching.  
-7. Reporting.
-8. Install, STACK docs, healthcheck stuff. 
-
-1. Database tables.
-2. Question definition.
 
 
 #######################################################################################

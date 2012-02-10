@@ -20,6 +20,7 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once(dirname(__FILE__) . '/../legacy.class.php');
 
 
 class stack_cas_maxima_connector {
@@ -27,14 +28,22 @@ class stack_cas_maxima_connector {
     /** @var array Contains all system configuration, e.g. location of Maxima  */
     private $config;
 
+    /** @var STACK_options  */
+    private $options;
+
     /** @var string This collects all debug information.  */
     private $debuginfo;
 
-    public function __construct() {
+    public function __construct($options=null) {
 
         $this->config = $this->load_config();
+        $this->options = $options;
 
         $this->debuginfo ='';
+
+        if (null===$options) {
+            $this->options = new STACK_options();
+        }
     }
 
     protected function load_config() {
@@ -389,7 +398,11 @@ class stack_cas_maxima_connector {
      */
     public function maxima_answer_test($exp1, $exp2, $anstest) {
 
-        $cs  = "cab:block([ STACK_SA, STACK_TA], ";
+        $cas_options = $this->options->get_cas_commands();
+        $csnames = $cas_options['names'];
+        $csvars  = $cas_options['commands'];
+
+        $cs  = "cab:block([ STACK_SA, STACK_TA $csnames] $csvars,";
         $cs .= " print(\"[TimeStamp = [ 123 ], Ans= [ error = [\"), STACK_SA:cte(\"STACK_SA\",errcatch($exp1)),";
         $cs .= " print(\" TAAns= [ error = [\"), STACK_TA:cte(\"STACK_TA\",errcatch(STACK_TA:$exp2)),";
         $cs .= " print(\" AnswerTestError = [  \"), str:StackReturn($anstest(STACK_SA,STACK_TA)), print(\" ], \"), print(str), return(true)); \n";
@@ -407,6 +420,8 @@ class stack_cas_maxima_connector {
 
         if (array_key_exists('error', $unp)) {
             $unp['error']=$this->tidy_error($unp['error']);
+        } else {
+            $unp['error']='';
         }
 
         if (array_key_exists('Ans', $unp)) {

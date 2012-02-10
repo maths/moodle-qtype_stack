@@ -55,7 +55,9 @@ $mconn = new stack_cas_maxima_connector();
 $result = $mconn -> maxima_answer_test('x^2','x^2','ATAlgEquiv');
 echo "<pre>";
 print_r($result);
+echo $mconn ->get_debuginfo();
 echo "</pre>";
+
 
 if ($string) {
     echo '<p>', $displayText, '</p>';

@@ -46,17 +46,17 @@ class STACK_AnsTest {
     /**
      * @var    CasString
      */
-    protected $ATOption = NULL;
+    protected $ATOption = null;
 
     /**
      * @var    string
      */
-    protected $casFunction = NULL;
+    protected $casFunction = null;
 
     /**
      * @var    bool
      */
-    protected $ATResult = NULL;
+    protected $ATResult = null;
 
     /**
      * @var    float
@@ -101,11 +101,11 @@ class STACK_AnsTest {
      * @param  int $seed
      * @param  CasString $casOption
      */
-    public function __construct($sAnsKey, $tAnsKey, $STACK_CAS_Maxima_Preferences, $casOption = NULL) {
-        $this->sAnsKey = $sAnsKey;
-        $this->tAnsKey = $tAnsKey;
+    public function __construct($sAnsKey, $tAnsKey, $options=null, $casOption = null) {
+        $this->sAnsKey  = $sAnsKey;
+        $this->tAnsKey  = $tAnsKey;
         $this->ATOption = $casOption;
-        $this->STACK_CAS_Maxima_Preferences = $STACK_CAS_Maxima_Preferences;
+        $this->options  = $options;
         $this->CASProcessTestOps = false;
     }
 
@@ -115,7 +115,7 @@ class STACK_AnsTest {
      * @return bool
      */
     public function doAnsTest() {
-        return NULL;
+        return null;
     }
 
     /**

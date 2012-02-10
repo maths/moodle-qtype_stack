@@ -24,7 +24,6 @@
  */
 require_once('casstring.class.php');
 require_once('connector.class.php');
-require_once('cliconnector.class.php');
 require_once(dirname(__FILE__) . '/../options.class.php');
 
 

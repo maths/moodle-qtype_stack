@@ -80,11 +80,11 @@ class STACK_CAS_CasText {
     }
 
     /**
-    * Checks the castext syntax is valid, no missing @'s, $'s etc
-    *
-    * @access public
-    * @return bool
-    */
+     * Checks the castext syntax is valid, no missing @'s, $'s etc
+     *
+     * @access public
+     * @return bool
+     */
     private function validate() {
         if (strlen(trim($this->rawCASText)) > 64000) {
             //Limit to just less than 64kb. Maximum practical size of a post. (about 14pages).
@@ -187,11 +187,11 @@ class STACK_CAS_CasText {
 
 
     /**
-    * Extract the CAS commands from the string
-    *
-    * @access public
-    * @return bool false if no commands to extract, true if succeeds.
-    */
+     * Extract the CAS commands from the string
+     *
+     * @access public
+     * @return bool false if no commands to extract, true if succeeds.
+     */
     private function ExtractCASCommands() {
         //first check contains @s
         $count = substr_count($this->TrimmedCASText, '@');

@@ -73,7 +73,7 @@ class stack_cas_maxima_connector {
      * @param string $strin The raw Maxima command to be processed.
      * @return array
      */
-    public function send_to_maxima($command) {
+    private function send_to_maxima($command) {
 
         if ($this->config['debug']) {
             $this->debuginfo .= '<h2>CAS command:</h2> <pre>'.$command.'</pre>';
@@ -95,12 +95,7 @@ class stack_cas_maxima_connector {
             $this->debuginfo .= '<h2>CAS result:</h2> <pre>'.$result.'</pre>';
         }
 
-        $unp = $this->maxima_receive_raw_result($result);
-        if ($this->config['debug']) {
-            $this->debuginfo .= '<h2>Unpacked result as:</h2> <pre>'.print_r($unp, true).'</pre>';
-        }
-
-        return $unp;
+        return $result;
     }
 
     /**
@@ -247,13 +242,24 @@ class stack_cas_maxima_connector {
         return $ret;
     }
 
+    public function maxima_session($command) {
+
+        $result = $this->send_to_maxima($command);
+        $unp = $this->maxima_raw_session($result);
+        if ($this->config['debug']) {
+            $this->debuginfo .= '<h2>Unpacked result as:</h2> <pre>'.print_r($unp, true).'</pre>';
+        }
+
+        return $unp;
+    }
+
     /*
      * Top level Maxima-specific function used to parse CAS output into an array.
      *
      * @param array $strin Raw CAS output
      * @return array
      */
-    private function maxima_receive_raw_result($strin) {
+    private function maxima_raw_session($strin) {
         $result = '';
         $errors = false;
         //check we have a timestamp & remove everything before it.
@@ -372,4 +378,85 @@ class stack_cas_maxima_connector {
         }
         return $errstr;
     }
+
+    /**
+     * Sends a answertest to Maxima
+     *
+     * @param string $student
+     * @param string $teacher
+     * @param string $anstest
+     * @return array
+     */
+    public function maxima_answer_test($exp1, $exp2, $anstest) {
+
+        $cs  = "cab:block([ STACK_SA, STACK_TA], ";
+        $cs .= " print(\"[TimeStamp = [ 123 ], Ans= [ error = [\"), STACK_SA:cte(\"STACK_SA\",errcatch($exp1)),";
+        $cs .= " print(\" TAAns= [ error = [\"), STACK_TA:cte(\"STACK_TA\",errcatch(STACK_TA:$exp2)),";
+        $cs .= " print(\" AnswerTestError = [  \"), str:StackReturn($anstest(STACK_SA,STACK_TA)), print(\" ], \"), print(str), return(true)); \n";
+
+        $rawresult = $this->send_to_maxima($cs);
+
+        $result = $this->maxima_raw_answer_test($rawresult);
+
+        return $result;
+    }
+
+    private function maxima_raw_answer_test($instr) {
+
+        $unp = $this->maxima_unpack_helper($instr);
+
+        if (array_key_exists('error', $unp)) {
+            $unp['error']=$this->tidy_error($unp['error']);
+        }
+
+        if (array_key_exists('Ans', $unp)) {
+            $unp['Ans'] = $this->maxima_unpack_helper($unp['Ans']);
+
+            if (''==$unp['Ans']['error']) {
+                unset($unp['Ans']['error']);
+            } else {
+                $unp['Ans']['error']=$this->tidy_error($unp['Ans']['error']);
+            }
+        }
+
+        if (array_key_exists('TAAns', $unp)) {
+            $unp['TAAns'] = $this->maxima_unpack_helper($unp['TAAns']);
+
+            if (''!=$unp['TAAns']['error']) {
+                $unp['error'].=$this->tidy_error($unp['TAAns']['error']);
+            }
+            unset($unp['TAAns']);
+        }
+
+        if (array_key_exists('AnswerTestError', $unp)) {
+            if (''!=$unp['AnswerTestError']) {
+                $unp['error'].=$unp['AnswerTestError'];
+            }
+        }
+        unset($unp['AnswerTestError']);
+
+        /* If the fields are not here, Maxima didn't generate them = problem! */
+        if (!array_key_exists('result', $unp)) {
+            $unp['result']     = 0;
+            $unp['valid']      = 0;
+            if (array_key_exists('feedback', $unp)) {
+                $unp['feedback']   .= ' STACK_Legacy::trans("TEST_FAILED");';
+            } else {
+                $unp['feedback']    = ' STACK_Legacy::trans("TEST_FAILED");';
+            }
+            if (array_key_exists('answernote', $unp)) {
+                $unp['answernote'] .= ' TEST_FAILED ';
+            } else {
+                $unp['answernote']  = ' TEST_FAILED';
+            }
+            if (array_key_exists('error', $unp)) {
+                $unp['error']      .= ' TEST_FAILED';
+            } else {
+                $unp['error']       = ' TEST_FAILED';
+            }
+        }
+
+        return $unp;
+    }
+
 }

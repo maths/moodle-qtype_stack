@@ -242,8 +242,8 @@ StackAddFeedback(fb,key,[ex]):=block([str,exprs,j],
 /* ********************************************************* */
 /*  Turns answertest output to a STACK return object string  */
 /*                                                           */
-/* ex[1] =  validity should be true/false -not sent to STACK */
-/* ex[2] =  rawmark should be true/false                     */
+/* ex[1] =  validity should be true/false                    */
+/* ex[2] =  result should be true/false, (often rawmark)     */
 /* ex[3] =  feedback, a string                               */
 /* ex[4] =  answernote, is for teacher stats                 */
 /*                                                           */
@@ -252,23 +252,12 @@ StackAddFeedback(fb,key,[ex]):=block([str,exprs,j],
 StackReturn(ex):=block([str],
   if not(listp(ex)) then (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),
   if length(ex)#4 then (print("StackReturn failed: argument wrong length: "), print(string(ex)), return("")),
-  str:concat(" rawmark = [ ",(if ex[2] then "1" else "0")," ], answernote = [ ",ex[3]," ], feedback= [ ",ex[4]," ]  ] "),
+  str:concat(" valid = [ ", (if ex[1] then "1" else "0")," ], result = [ ",(if ex[2] then "1" else "0")," ], answernote = [ ",ex[3]," ], feedback= [ ",ex[4]," ]  ] "),
   return(str)
 )$
 
 /* note the extra closing ] here.  The corresponding opening [ is generated in PHP */
 /* This is about the most ugly API ever, but there we go.....                      */
-
-/* ********************************************************* */
-/* To do: (to complete API update)                           */
-/*                                                           */
-/* (1) update STACK PHP to accept true/false                 */
-/*                                                           */
-/* (2) update STACK to accept validity as a return parameter */
-/*                                                           */
-/* ********************************************************* */
-
-
 
 /* ******************************************* */
 /* Validate an expression                      */

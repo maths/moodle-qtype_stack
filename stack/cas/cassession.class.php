@@ -153,7 +153,7 @@ class STACK_CAS_CasSession {
         }
 
         $mconn = new stack_cas_maxima_connector();
-        $results = $mconn->send_to_maxima($this->construct_maxima_command());
+        $results = $mconn->maxima_session($this->construct_maxima_command());
 
         // TODO: how to sort out debug info back to a user?
         //echo $mconn->get_debuginfo();

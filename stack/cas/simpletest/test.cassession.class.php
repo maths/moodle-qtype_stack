@@ -52,6 +52,22 @@ extends UnitTestCase {
 
     }
 
+    public function test_get_display() {
+
+        $cs=array('a:x^2', 'b:1/(1+x^2)','c:e^(i*pi)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+        
+        $options = new STACK_options();
+        $options->set_option('simplify', 0);
+
+        $at1 = new stack_cas_session($s1,$options);
+        $this->assertEqual('x^2', $at1->get_display_key('a'));
+        $this->assertEqual('\frac{1}{1+x^2}', $at1->get_display_key('b'));
+        $this->assertEqual('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
+
+    }
 }
 
 

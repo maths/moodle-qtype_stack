@@ -47,6 +47,7 @@ Make it work with all Moodle behaviours.
 2. Check out better ways of connecting to Maxima.
   1. https://code.google.com/p/remote-maxima/
   2. http://www.lon-capa.org/maximaasserver.html
+3. Refactor Maxima code to change from $'s and $$'s to \[ \] and \( and \).
   
 ## Documentation system
 

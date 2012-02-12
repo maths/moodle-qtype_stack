@@ -52,7 +52,7 @@ if ($string) {
 echo $OUTPUT->header();
 
 if ($string) {
-    echo '<p>', $displayText, '</p>';
+    echo '<p>', format_text($displayText), '</p>';
     echo $errs;
 }
 

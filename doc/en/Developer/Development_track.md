@@ -60,6 +60,9 @@ Make it work with all Moodle behaviours.
 
      \stack\www\lib\maxima\maximafun.php
 
+## Other longer term jobs
+
+1. Refactor the answer tests to remove duplicate code.
 
 
 #######################################################################################

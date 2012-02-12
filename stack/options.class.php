@@ -136,19 +136,19 @@ class STACK_options {
 
 }
 
-    public function getoption($key) {
-        if (!array_key_exists($key, $_settings)) {
-            throw new Exception('STACK_options getoption: $key '.$key.' is not a valid option name.');
+    public function get_option($key) {
+        if (!array_key_exists($key, $this->options)) {
+            throw new Exception('STACK_options get_option: $key '.$key.' is not a valid option name.');
         } else {
-            return $this->options[$key];
+            return $this->options[$key]['value'];
         }
     }
 
-    public function setoption($key,$val) {
-        if (!array_key_exists($key, $_settings)) {
-            throw new Exception('STACK_options getoption: $key '.$key.' is not a valid option name.');
+    public function set_option($key,$val) {
+        if (!array_key_exists($key, $this->options)) {
+            throw new Exception('STACK_options set_option: $key '.$key.' is not a valid option name.');
         } else {
-            $this->options[$key]=$val;
+            $this->options[$key]['value']=$val;
         }
     }
 
@@ -168,11 +168,11 @@ class STACK_options {
                 } else {
                     $value = $opt['value'];
                 }
-                
-                if ('ex'===$opt['castype']) {
+
+                if ('ex' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
                     $commands   .= ', '.$opt['caskey'].':'.$value;
-                } else if ('fun' === $opt['castype']) {
+                } else if ('fun' == $opt['castype']) {
                     $commands   .= ', '.$opt['caskey'].'('.$value.')';
                 }
             }

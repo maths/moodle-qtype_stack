@@ -15,37 +15,37 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for STACK_AnsTest_AlgEquiv.
+ * Unit tests for STACK_AnsTest_CasEqual.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/../../anstest.class.php');
-require_once(dirname(__FILE__) . '/../atalgequiv.class.php');
+require_once(dirname(__FILE__) . '/../casequal.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_ATString.
+  * Unit tests for STACK_AnsTest_CasEqual.
   *
   * @copyright  2012 The University of Birmingham
   * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
   */
-class STACK_AnsTest_AlgEquiv_test extends UnitTestCase {
+class STACK_AnsTest_CasEqual_test extends UnitTestCase {
 
     public function test_is_true_for_equal_expressions() {
-        $at = new STACK_AnsTest_AlgEquiv('1', '1');
+        $at = new STACK_AnsTest_CasEqual('1', '1');
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
 
     public function test_is_false_for_unequal_expressions() {
-        $at = new STACK_AnsTest_AlgEquiv('x^2+2*x-1', '(x+1)^2');
+        $at = new STACK_AnsTest_CasEqual('x^2+2*x', '(x+1)^2');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }
 
-    public function test_is_false_for_expressions_with_different_type() {
-        $at = new STACK_AnsTest_AlgEquiv('(x+1)^2', '[a,b,c]');
+    public function test_is_false_for_expressions_with_different_form() {
+        $at = new STACK_AnsTest_CasEqual('(x+1)^2', 'x^2+2*x+1');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }

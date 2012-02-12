@@ -25,15 +25,15 @@ require_once(dirname(__FILE__) . '/../numsigfigs.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_NumSigFigs.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_NumSigFigs.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_NumSigFigs_test extends UnitTestCase {
 
     public function test_is_true() {
-        $at = new STACK_AnsTest_NumSigFigs('3.142', '3.1415927',null,'4');
+        $at = new STACK_AnsTest_NumSigFigs('3.142', '3.1415927', null, '4');
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }

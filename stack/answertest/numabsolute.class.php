@@ -42,7 +42,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
      */
     public function doAnsTest() {
 
-        if(trim($this->ATOption) == '') {
+        if (trim($this->ATOption) == '') {
             $atest_ops = '0.05';
         } else {
             $atest_ops = $this->ATOption;
@@ -50,8 +50,8 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
 
         $commands = array($this->sAnsKey, $this->tAnsKey, $atest_ops);
         foreach ($commands as $com) {
-            $cs = new STACK_CAS_CasString($com, 't', true, false);
-            if (!$cs->Get_valid()) {
+            $cs = new stack_cas_casstring($com, 't', true, false);
+            if (!$cs->get_valid()) {
                 $this->ATError      = 'TEST_FAILED';
                 $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
                 $this->ATAnsNote    = 'TEST_FAILED';
@@ -59,56 +59,54 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
             }
         }
 
-        $casCommands = array();
-        $casCommands[] = "caschat0:ev(float($this->sAnsKey),simp)";
-        $casCommands[] = "caschat1:ev(float($this->tAnsKey),simp)";
-        $casCommands[] = "caschat2:ev({$atest_ops},simp)";
-        $casCommands[] = "caschat3:ev(abs(float({$this->sAnsKey}-{$this->tAnsKey})),simp)";
-        $casCommands[] = "caschat4:ev(abs(float({$atest_ops})),simp)";
+        $cascommands = array();
+        $cascommands[] = "caschat0:ev(float($this->sAnsKey),simp)";
+        $cascommands[] = "caschat1:ev(float($this->tAnsKey),simp)";
+        $cascommands[] = "caschat2:ev({$atest_ops},simp)";
+        $cascommands[] = "caschat3:ev(abs(float({$this->sAnsKey}-{$this->tAnsKey})),simp)";
+        $cascommands[] = "caschat4:ev(abs(float({$atest_ops})),simp)";
 
         $cts = array();
-        foreach ($casCommands as $com)
-        {
-            $cts[] = new STACK_CAS_CasString($com, 't', true, false);
+        foreach ($cascommands as $com) {
+            $cts[] = new stack_cas_casstring($com, 't', true, false);
         }
-        $session = new STACK_CAS_CasSession($cts, null, null, 't', true, false);
-        $session -> instantiate();
+        $session = new stack_cas_session($cts, null, null, 't', true, false);
+        $session->instantiate();
 
-
-        if (''!=$session->Get_errors_key('caschat0')) {
+        if (''!=$session->get_errors_key('caschat0')) {
             $this->ATError      = 'TEST_FAILED';
             $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_SAns';
             return null;
         }
 
-        if (''!=$session->Get_errors_key('caschat1')) {
+        if (''!=$session->get_errors_key('caschat1')) {
             $this->ATError      = 'TEST_FAILED';
             $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_TAns';
             return null;
         }
 
-        if (''!=$session->Get_errors_key('caschat2')) {
+        if (''!=$session->get_errors_key('caschat2')) {
             $this->ATError      = 'TEST_FAILED';
             $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
-            $this->ATFeedback  .= ' STACK_Legacy::trans("AT_InvalidOptions","'.$session->Get_errors_key('caschat2').'"); ';
+            $this->ATFeedback  .= ' STACK_Legacy::trans("AT_InvalidOptions","'.$session->get_errors_key('caschat2').'"); ';
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_Options';
             return null;
         }
 
-        $flsa = $session->Get_value_key('caschat3');
-        $flta = $session->Get_value_key('caschat4');
+        $flsa = $session->get_value_key('caschat3');
+        $flta = $session->get_value_key('caschat4');
         $this->ATAnsNote = " |sa-ta|={$flsa}<={$flta}=tol";
 
-        if($flsa <= $flta) {
+        if ($flsa <= $flta) {
             $this->ATMark = 1;
             return true;
         } else {
             $this->ATMark = 0;
             return false;
         }
-    
+
     }
 
 }

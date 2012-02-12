@@ -26,8 +26,8 @@
  */
 class STACK_Input_DropDownList extends STACK_Input_Answer {
 
-    public function __construct($name, $width = NULL, $default = NULL, $maxLength = NULL,
-            $height = NULL, $param = NULL) {
+    public function __construct($name, $width = null, $default = null, $maxLength = null,
+            $height = null, $param = null) {
         if (!$param) {
             // TODO $param['ddl_values'] = new Meta('optional','');
         }

@@ -26,7 +26,7 @@ class STACK_AnsTest_LowestTerms extends STACK_AnsTest {
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATLowestTerms';
+    const CASFUNCTION = 'ATLowestTerms';
     /**
      *
      *
@@ -53,7 +53,7 @@ class STACK_AnsTest_LowestTerms extends STACK_AnsTest {
         $this->options->set_option('simplify',0);
 
         $mconn = new stack_cas_maxima_connector($this->options);
-        $result = $mconn->maxima_answer_test($this->sAnsKey, $this->tAnsKey, self::casfunction);
+        $result = $mconn->maxima_answer_test($this->sAnsKey, $this->tAnsKey, self::CASFUNCTION);
 
         $this->ATMark     = $result['result'];
         $this->ATAnsNote  = $result['answernote'];

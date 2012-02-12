@@ -43,7 +43,7 @@ class STACK_Input_DropDownList_test extends UnitTestCase {
 
     public function test_getXHTML_not_answered() {
         $choices = array('x', 'y', 'z');
-        $el = STACK_Input_Controller::make_element('dropDown', 'ans1', NULL, NULL, NULL, NULL,
+        $el = STACK_Input_Controller::make_element('dropDown', 'ans1', null, null, null, null,
                 array('ddl_values' => implode(',', $choices)));
 
         $this->assert(new ContainsSelectExpectation('ans1',
@@ -52,7 +52,7 @@ class STACK_Input_DropDownList_test extends UnitTestCase {
 
     public function test_getXHTML_true() {
         $choices = array('x', 'y', 'z');
-        $el = STACK_Input_Controller::make_element('dropDown', 'ans2', NULL, NULL, NULL, NULL,
+        $el = STACK_Input_Controller::make_element('dropDown', 'ans2', null, null, null, null,
                 array('ddl_values' => implode(',', $choices)));
         $el->setDefault('y');
         $this->assert(new ContainsSelectExpectation('ans2',
@@ -61,7 +61,7 @@ class STACK_Input_DropDownList_test extends UnitTestCase {
 
     public function test_getXHTML_disabled() {
         $choices = array('x > 1', 'x = 1', 'x < 1');
-        $el = STACK_Input_Controller::make_element('dropDown', 'tricky', NULL, NULL, NULL, NULL,
+        $el = STACK_Input_Controller::make_element('dropDown', 'tricky', null, null, null, null,
                 array('ddl_values' => implode(',', $choices)));
 
         $this->assert(new ContainsSelectExpectation('tricky',

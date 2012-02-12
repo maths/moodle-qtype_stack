@@ -26,7 +26,7 @@ class STACK_AnsTest_SameType extends STACK_AnsTest {
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATSameType';
+    const CASFUNCTION = 'ATSameType';
     /**
      *
      *
@@ -47,7 +47,7 @@ class STACK_AnsTest_SameType extends STACK_AnsTest {
      */
     public function doAnsTest() {
         $mconn = new stack_cas_maxima_connector($this->options);
-        $result = $mconn->maxima_answer_test($this->sAnsKey, $this->tAnsKey, self::casfunction);
+        $result = $mconn->maxima_answer_test($this->sAnsKey, $this->tAnsKey, self::CASFUNCTION);
 
         $this->ATMark     = $result['result'];
         $this->ATAnsNote  = $result['answernote'];

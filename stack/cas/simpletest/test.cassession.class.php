@@ -17,25 +17,25 @@
 require_once(dirname(__FILE__) . '/../../../locallib.php');
 require_once(dirname(__FILE__) . '/../cassession.class.php');
 
-class STACK_CAS_CasSessionTest
+class stack_cas_session_test
 extends UnitTestCase {
 
-    function Get_valid($cs, $val) {
+    public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
             $s1=array();
             foreach ($cs as $s) {
-                $s1[] = new STACK_CAS_CasString($s);
+                $s1[] = new stack_cas_casstring($s);
             }
         } else {
             $s1 = null;
         }
 
-        $at1 = new STACK_CAS_CasSession($s1);
-        $this->assertEqual($val, $at1->Get_valid());
+        $at1 = new stack_cas_session($s1);
+        $this->assertEqual($val, $at1->get_valid());
     }
 
-    public function testGet_valid() {
+    public function test_get_valid() {
 
         $a1=array('x^2', '(x+1)^2');
         $a2=array('x^2', 'x+1)^2');
@@ -47,7 +47,7 @@ extends UnitTestCase {
             );
 
         foreach ($cases as $case) {
-           $this->Get_valid($case[0], $case[1]);
+           $this->get_valid($case[0], $case[1]);
         }
 
     }
@@ -55,15 +55,15 @@ extends UnitTestCase {
 }
 
 
-class STACK_CAS_CasSession_ExceptionTest 
+class stack_cas_session_exception_test 
 extends UnitTestCase {
-    public function Exception($a, $b, $c, $d, $e, $f) {
+    public function exception($a, $b, $c, $d, $e, $f) {
         $this->expectException();
-        $at1 = new STACK_CAS_CasSession($a, $b, $c, $d, $e, $f);
-        $at1->Get_valid();
+        $at1 = new stack_cas_session($a, $b, $c, $d, $e, $f);
+        $at1->get_valid();
     }
 
-    public function testException() {
+    public function test_exception() {
     // __construct($session, $options = null, $seed=null, $securityLevel='s', $syntax=true, $stars=false)
         $pref = new STACK_options();
 

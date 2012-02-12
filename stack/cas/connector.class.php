@@ -474,7 +474,7 @@ class stack_cas_maxima_connector {
         //Result comes back as a string.  We need to change this to integers.
         $unp['result'] = intval($unp['result']);
         $unp['valid']  = intval($unp['valid']);
-        
+
         return $unp;
     }
 

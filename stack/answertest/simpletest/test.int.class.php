@@ -25,21 +25,21 @@ require_once(dirname(__FILE__) . '/../int.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_Int.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_Int.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_Int_test extends UnitTestCase {
 
     public function test_is_true_for_equivalent_expressions() {
-        $at = new STACK_AnsTest_Int('x^3/3+c', 'x^3/3',null,'x');
+        $at = new STACK_AnsTest_Int('x^3/3+c', 'x^3/3', null, 'x');
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
 
     public function test_is_false_for_equivalent_expressions() {
-        $at = new STACK_AnsTest_Int('x^3/3', '2*x',null,'x');
+        $at = new STACK_AnsTest_Int('x^3/3', '2*x', null, 'x');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }

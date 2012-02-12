@@ -25,11 +25,11 @@ require_once(dirname(__FILE__) . '/../expanded.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_Expanded.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_Expanded.
+ *
+ * @copyright  2012 The University of Birmingham  
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_Expanded_test extends UnitTestCase {
 
     public function test_is_true_for_equal_expressions() {

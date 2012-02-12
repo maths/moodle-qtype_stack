@@ -25,21 +25,21 @@ require_once(dirname(__FILE__) . '/../partfrac.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_PartFrac.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_PartFrac.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_PartFrac_test extends UnitTestCase {
 
     public function test_is_true() {
-        $at = new STACK_AnsTest_PartFrac('1/n+1/(n+1)', '1/n+1/(n+1)',null,'n');
+        $at = new STACK_AnsTest_PartFrac('1/n+1/(n+1)', '1/n+1/(n+1)', null, 'n');
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
 
     public function test_is_false() {
-        $at = new STACK_AnsTest_PartFrac('1/(x*(x+1))', '1/(x*(x+1))',null,'x');
+        $at = new STACK_AnsTest_PartFrac('1/(x*(x+1))', '1/(x*(x+1))', null, 'x');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }

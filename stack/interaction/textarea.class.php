@@ -25,12 +25,12 @@
  */
 class STACK_Input_TextArea extends STACK_Input_Answer {
 
-    public function __construct($name, $width = NULL, $default = NULL, $maxLength = NULL,
-            $height = NULL, $param = NULL) {
+    public function __construct($name, $width = null, $default = null, $maxLength = null,
+            $height = null, $param = null) {
         if (is_null($width)) {
             $width = 5;
         }
-        if (!$default == NULL) {
+        if (!$default == null) {
             $default = '';
         }
         parent::__construct($name, $width, $default, $maxLength, $height, $param);

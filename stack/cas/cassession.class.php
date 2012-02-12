@@ -32,7 +32,7 @@ require_once(dirname(__FILE__) . '/../options.class.php');
  *  This is the class which actually sends variables to the CAS itself.
  */
 
-class STACK_CAS_CasSession {
+class stack_cas_session {
 
     private $session;
     private $options;    // STACK_CAS_Maxima_Preferences
@@ -43,44 +43,44 @@ class STACK_CAS_CasSession {
     private $errors;           // string for the user
 
     private $security;
-    private $addStars;
-    private $strictSyntax;
+    private $insertstars;
+    private $syntax;
 
-    function __construct($session, $options = null, $seed=null, $securityLevel='s', $syntax=true, $stars=false) {
+    function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
-        $this->session       = $session;        // An array of STACK_CAS_CasString
-        $this->security      = $securityLevel;  // by default, student
-        $this->addStars      = $stars;          // by default don't add stars
-        $this->strictSyntax  = $syntax;         // by default strict
+        $this->session       = $session;   // An array of stack_cas_casstring
+        $this->security      = $security;  // by default, student
+        $this->insertstars   = $insertstars;     // by default don't add insertstars
+        $this->syntax        = $syntax;    // by default strict
 
         if (null===$options) {
             $this->options = new STACK_options();
         } else if (is_a($options, 'STACK_options')) {
             $this->options = $options;
         } else {
-            throw new Exception('STACK_CAS_CasSession: $options must be STACK_options.');
+            throw new Exception('stack_cas_session: $options must be STACK_options.');
         }
 
         if ($seed != null) {
             if (is_int($seed)) {
                 $this->seed = $seed;
             } else {
-                throw new Exception('STACK_CAS_CasSession: $seed must be a number.');
+                throw new Exception('stack_cas_session: $seed must be a number.');
             }
         } else {
             $this->seed = time();
         }
 
-        if (!('s'===$securityLevel || 't'===$securityLevel)) {
-            throw new Exception('STACK_CAS_CAS_String: 4th argument, security level, must be "s" or "t" only.');
+        if (!('s'===$security || 't'===$security)) {
+            throw new Exception('stack_cas_session: 4th argument, security level, must be "s" or "t" only.');
         }
 
         if (!is_bool($syntax)) {
-            throw new Exception('STACK_CAS_CAS_String: 5th argument, stringSyntax, must be Boolean.');
+            throw new Exception('stack_cas_session: 5th argument, stringSyntax, must be Boolean.');
         }
 
-        if (!is_bool($stars)) {
-            throw new Exception('STACK_CAS_CAS_String: 6th argument, insertStars, must be Boolean.');
+        if (!is_bool($insertstars)) {
+            throw new Exception('stack_cas_session: 6th argument, insertStars, must be Boolean.');
         }
 
     }
@@ -89,7 +89,7 @@ class STACK_CAS_CasSession {
     /* Validation functions                                  */
     /*********************************************************/
 
-    function validate() {
+    private function validate() {
         if (null === $this->session) { // Empty sessions are ok.
             $this->valid = true;
             return true;
@@ -109,30 +109,30 @@ class STACK_CAS_CasSession {
         return $this->valid;
     }
 
-    /* A helper function which enables an array of STACK_CAS_CasString to be validated */
-    function validate_array($cmd) {
+    /* A helper function which enables an array of stack_cas_casstring to be validated */
+    private function validate_array($cmd) {
         $valid  = true;
         foreach ($cmd as $key => $val) {
-            if (is_a($val, 'STACK_CAS_CasString')) {
-                if ( !$val->Get_valid() ) {
+            if (is_a($val, 'stack_cas_casstring')) {
+                if ( !$val->get_valid() ) {
                     $valid = false;
-                    $this->errors .= $val->Get_errors();
+                    $this->errors .= $val->get_errors();
                 }
             } else {
-                throw new Exception('STACK_CAS_CasSession: $session must be null or an array of STACK_CAS_CasString.');
+                throw new Exception('stack_cas_session: $session must be null or an array of stack_cas_casstring.');
             }
         }
         return $valid;
     }
 
     /* Check each of the CASStrings for any of the keywords */
-    public function checkExternalForbiddenWords($keywords) {
+    public function check_external_forbidden_words($keywords) {
         if (null===$this->valid) {
             $this->validate();
         }
         $found = false;
-        foreach ($this->session as $casStr) {
-            $found = $found || $casStr->checkExternalForbiddenWords($keywords);
+        foreach ($this->session as $casstr) {
+            $found = $found || $casstr->check_external_forbidden_words($keywords);
         }
         return $found;
     }
@@ -168,34 +168,34 @@ class STACK_CAS_CasSession {
         // This way we can add an error for missing values.
         foreach ($session as $cs) {
             $gotvalue = false;
-            
-            if ('' ==  $cs->Get_key()) {
+
+            if ('' ==  $cs->get_key()) {
                 $key = 'dumvar'.$i;
             } else {
-                $key = $cs->Get_key();
+                $key = $cs->get_key();
             }
 
             if (array_key_exists($i, $results)) {
                 $all_fail = false; // We at least got one result back from the CAS!
-                
+
                 $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
                 if (array_key_exists('value', $result)) {
-                    $cs->Set_value($result['value']);
+                    $cs->set_value($result['value']);
                     $gotvalue = true;
-                } 
+                }
 
                 if (array_key_exists('display', $result)) {
-                    $cs->Set_display($result['display']);
+                    $cs->set_display($result['display']);
                 }
 
                 if ('' != $result['error']) {
-                    $cs->Add_errors($result['error']);
-                    $new_errors .= ' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
+                    $cs->add_errors($result['error']);
+                    $new_errors .= ' <span class="SyntaxExample2">'.$cs->get_raw_casstring().'</span> '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
                 }
             }
 
             if (!$gotvalue) {
-                $errstr = stack_string("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->Get_rawCASString().'</span> ';
+                $errstr = stack_string("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->get_raw_casstring.'</span> ';
                 $cs->Add_errors($errstr);
                 $new_errors .= $errstr;
             }
@@ -220,13 +220,13 @@ class STACK_CAS_CasSession {
     public function add_vars($vars) {
         if (is_array($vars)) {
             foreach ($vars as $var) {
-                if (is_a($var, 'STACK_CAS_CasString')) {
+                if (is_a($var, 'stack_cas_casstring')) {
                     $this->instantiated = null;
                     $this->instantiated = null;
                     $this->errors       = null;
                     $this->session[]    = $var;
                 } else {
-                    throw new Exception('STACK_CAS_CasSession: trying to add a non-STACK_CAS_CasString to an existing session.');
+                    throw new Exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
                 }
             }
         }
@@ -236,67 +236,67 @@ class STACK_CAS_CasSession {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function Get_valid() {
+    public function get_valid() {
         if (null===$this->valid) {
             $this->validate();
         }
         return $this->valid;
     }
 
-    public function Get_errors() {
+    public function get_errors() {
         if (null===$this->valid) {
             $this->validate();
         }
         return $this->errors;
     }
 
-    public function Get_value_key($key) {
+    public function get_value_key($key) {
         if (null===$this->valid) {
             $this->validate();
         }
         if ($this->valid && null===$this->instantiated) {
             $this->instantiate();
         }
-        foreach ($this->session as $CASstr) {
-            if ($CASstr->Get_key()===$key) {
-                return $CASstr->Get_value();
+        foreach ($this->session as $casstr) {
+            if ($casstr->get_key()===$key) {
+                return $casstr->get_value();
             }
         }
         return false;
     }
 
-    public function Get_display_key($key) {
+    public function get_display_key($key) {
         if (null===$this->valid) {
             $this->validate();
         }
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
-        foreach ($this->session as $CASstr) {
-            if ($CASstr->Get_key()===$key) {
-                return $CASstr->Get_display();
+        foreach ($this->session as $casstr) {
+            if ($casstr->get_key()===$key) {
+                return $casstr->get_display();
             }
         }
         return false;
     }
 
-    public function Get_errors_key($key) {
+    public function get_errors_key($key) {
         if (null===$this->valid) {
             $this->validate();
         }
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
-        foreach ($this->session as $CASstr) {
-            if ($CASstr->Get_key()===$key) {
-                return $CASstr->Get_errors();
+        foreach ($this->session as $casstr) {
+            if ($casstr->get_key()===$key) {
+                return $casstr->get_errors();
             }
         }
         return false;
     }
 
     /* This returns the values of the variables with keys */
-    public function Get_display_castext($strin) {
+    public function get_display_castext($strin) {
         if (null===$this->valid) {
             $this->validate();
         }
@@ -304,30 +304,29 @@ class STACK_CAS_CasSession {
             $this->instantiate();
         }
 
-        foreach($this->session as $CASstr) {
-            $key    = $CASstr->Get_key();
-            $errors = $CASstr->Get_errors();
-            $disp   = $CASstr->Get_display();
-            $value  = $CASstr->Get_CASString();
+        foreach ($this->session as $casstr) {
+            $key    = $casstr->get_key();
+            $errors = $casstr->get_errors();
+            $disp   = $casstr->get_display();
+            $value  = $casstr->get_casstring();
 
             $dummy = '@'.$key.'@';
 
             if (''!==$errors && null!=$errors) {
                 //$replace = '<font = "red"><tt>'.$value.'</tt></font>';
                 $strin = str_replace($dummy, $value, $strin);
-            }
-            elseif (strstr($strin, $dummy)) {
-                $strin = str_replace($dummy, $disp,$strin);
+            } else if (strstr($strin, $dummy)) {
+                $strin = str_replace($dummy, $disp, $strin);
             }//if work to be done
         }
         return $strin;
     }
 
     /**
-    * Creates the string which Maxima will execute
-    * 
-    * @return string
-    */
+     * Creates the string which Maxima will execute
+     * 
+     * @return string
+     */
     private function construct_maxima_command() {
         // Ensure that every command has a valid key.
 
@@ -335,16 +334,16 @@ class STACK_CAS_CasSession {
         $csnames = $cas_options['names'];
         $csvars  = $cas_options['commands'];
         $cascommands= '';
-        
+
         $i=0;
         foreach ($this->session as $cs) {
-            if ('' ==  $cs->Get_key()) {
+            if ('' ==  $cs->get_key()) {
                 $label = 'dumvar'.$i;
             } else {
-                $label = $cs->Get_key();
+                $label = $cs->get_key();
             }
 
-            $cmd = str_replace('?', 'qmchar', $cs->Get_CASString()); // replace any ?'s that slipped through
+            $cmd = str_replace('?', 'qmchar', $cs->get_casstring()); // replace any ?'s that slipped through
 
             $csnames   .= ", $label";
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
@@ -361,5 +360,5 @@ class STACK_CAS_CasSession {
 
         return $cass;
     }
-    
+
 } // end class 

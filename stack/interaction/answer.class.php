@@ -50,7 +50,7 @@ abstract class STACK_Input_Answer {
     /**
      * @var    int
      */
-    protected $maxLength = NULL;
+    protected $maxLength = null;
 
     /**
      * Answertest paramaters. An array of the Meta datatype. May be empty. Defaults initialised by the inputtypes constructor.
@@ -70,8 +70,8 @@ abstract class STACK_Input_Answer {
      * @param int $height height of the input.
      * @param array $param some sort of options.
      */
-    public function __construct($name, $width = NULL, $default = NULL, $maxLength = NULL,
-            $height = NULL, $param = NULL) {
+    public function __construct($name, $width = null, $default = null, $maxLength = null,
+            $height = null, $param = null) {
         $this->name = $name;
         if (!is_null($width)) {
             $this->boxWidth = $width;
@@ -109,12 +109,12 @@ abstract class STACK_Input_Answer {
     }
 
     /**
-     * Returns the default Input type parameters. Either NULL or an array of the Meta datatype.
+     * Returns the default Input type parameters. Either null or an array of the Meta datatype.
      *
      * @param array $param
      * @return array(Meta)
      */
-    public function getDefaultParam($param = NULL) {
+    public function getDefaultParam($param = null) {
         return $this->parameters;
     }
 

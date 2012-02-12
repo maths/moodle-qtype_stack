@@ -25,21 +25,21 @@ require_once(dirname(__FILE__) . '/../compsquare.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_CompSquare.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_CompSquare.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_CompSquare_test extends UnitTestCase {
 
     public function test_is_true_for_completed_quadratics() {
-        $at = new STACK_AnsTest_CompSquare('(x-1)^2-2', '(x-1)^2-2',null,'x');
+        $at = new STACK_AnsTest_CompSquare('(x-1)^2-2', '(x-1)^2-2', null, 'x');
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
 
     public function test_is_false_for_wrong_form() {
-        $at = new STACK_AnsTest_CompSquare('x^2+2*x+1', '(x+1)^2',null,'x');
+        $at = new STACK_AnsTest_CompSquare('x^2+2*x+1', '(x+1)^2', null,'x');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }

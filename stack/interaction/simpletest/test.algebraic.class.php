@@ -54,7 +54,7 @@ class STACK_Input_Algebra_test extends UnitTestCase {
     }
 
     public function test_getXHTML_max_length() {
-        $el = STACK_Input_Controller::make_element('algebraic', 'test', NULL, NULL, 20);
+        $el = STACK_Input_Controller::make_element('algebraic', 'test', null, null, 20);
         $el->setDefault('x+y');
         $this->assertEqual('<input type="text" name="test" size="15" value="x+y" maxlength="20" />',
                 $el->getXHTML(false));

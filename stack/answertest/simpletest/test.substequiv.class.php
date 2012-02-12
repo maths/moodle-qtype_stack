@@ -25,11 +25,11 @@ require_once(dirname(__FILE__) . '/../substequiv.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_SubstEquiv.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_SubstEquiv.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_SubstEquiv_test extends UnitTestCase {
 
     public function test_is_true() {

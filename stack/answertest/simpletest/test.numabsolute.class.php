@@ -25,11 +25,11 @@ require_once(dirname(__FILE__) . '/../numabsolute.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_NumAbsolute.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_NumAbsolute.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_NumAbsolute_test extends UnitTestCase {
 
     public function test_is_true_for_equal_expressions() {
@@ -39,7 +39,7 @@ class STACK_AnsTest_NumAbsolute_test extends UnitTestCase {
     }
 
     public function test_is_false_for_unequal_expressions() {
-        $at = new STACK_AnsTest_NumAbsolute('2', '1',null,'0.5');
+        $at = new STACK_AnsTest_NumAbsolute('2', '1', null, '0.5');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }

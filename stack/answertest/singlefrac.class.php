@@ -26,7 +26,7 @@ class STACK_AnsTest_SingleFrac extends STACK_AnsTest {
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATSingleFrac';
+    const CASFUNCTION = 'ATSingleFrac';
     /**
      *
      *
@@ -50,10 +50,10 @@ class STACK_AnsTest_SingleFrac extends STACK_AnsTest {
         if (null == $this->options) {
             $this->options = new STACK_options();
         }
-        $this->options->set_option('simplify',0);
+        $this->options->set_option('simplify', 0);
 
         $mconn = new stack_cas_maxima_connector($this->options);
-        $result = $mconn->maxima_answer_test($this->sAnsKey, $this->tAnsKey, self::casfunction);
+        $result = $mconn->maxima_answer_test($this->sAnsKey, $this->tAnsKey, self::CASFUNCTION);
 
         $this->ATMark     = $result['result'];
         $this->ATAnsNote  = $result['answernote'];

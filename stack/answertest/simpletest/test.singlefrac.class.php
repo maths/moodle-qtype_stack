@@ -25,11 +25,11 @@ require_once(dirname(__FILE__) . '/../singlefrac.class.php');
 
 
 /**
-  * Unit tests forSTACK_AnsTest_SingleFrac.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests forSTACK_AnsTest_SingleFrac.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_SingleFrac_test extends UnitTestCase {
 
     public function test_is_true() {

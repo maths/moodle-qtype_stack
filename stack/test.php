@@ -38,15 +38,15 @@ $s1=array();
 foreach ($a1 as $s) {
     $s1[] = new stack_cas_casstring($s);
 }
-$cs1 = new STACK_CAS_CasSession($s1);
+$cs1 = new stack_cas_session($s1);
 
 
 $string = optional_param('cas', '', PARAM_RAW);
 
 if ($string) {
-    $ct           = new STACK_CAS_CasText($string);
-    $displayText  = $ct->Get_display_castext();
-    $errs         = $ct->Get_errors();
+    $ct           = new stack_cas_text($string);
+    $displayText  = $ct->get_display_castext();
+    $errs         = $ct->get_errors();
 }
 
 echo $OUTPUT->header();

@@ -26,8 +26,8 @@ class STACK_Input_Boolean extends STACK_Input_Answer {
     const T = 'true';
     const NA = '';
 
-    public function __construct($name, $width = NULL, $default = NULL, $maxLength = NULL,
-            $height = NULL, $param = NULL) {
+    public function __construct($name, $width = null, $default = null, $maxLength = null,
+            $height = null, $param = null) {
         if (!in_array($default, array(self::T, self::F))) {
             $default = self::NA;
         }

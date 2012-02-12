@@ -25,11 +25,11 @@ require_once(dirname(__FILE__) . '/../greaterthan.class.php');
 
 
 /**
-  * Unit tests for STACK_AnsTest_GreaterThan.
-  *
-  * @copyright  2012 The University of Birmingham
-  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-  */
+ * Unit tests for STACK_AnsTest_GreaterThan.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class STACK_AnsTest_GreaterThan_test extends UnitTestCase {
 
     public function test_is_true_for_equal_expressions() {

@@ -53,8 +53,8 @@ class STACK_Input_Controller {
      * @param array $param some sort of options.
      * @return STACK_Input_Answer the requested interaction element.
      */
-    public static function make_element($type, $name, $width = NULL,
-            $default = NULL, $maxLength = NULL, $height = NULL, $param = NULL) {
+    public static function make_element($type, $name, $width = null,
+            $default = null, $maxLength = null, $height = null, $param = null) {
 
         $class = self::class_for_type($type);
         require_once(dirname(__FILE__) . '/' . strtolower($type) . '.class.php');

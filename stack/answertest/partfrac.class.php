@@ -26,7 +26,7 @@ class STACK_AnsTest_PartFrac extends STACK_AnsTest {
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATPartFrac';
+    const CASFUNCTION = 'ATPartFrac';
     /**
      *
      *
@@ -54,28 +54,28 @@ class STACK_AnsTest_PartFrac extends STACK_AnsTest {
                 $this->ATMark       = 0;
                 return null;
         } else {
-            $ct  = new STACK_CAS_CasString($this->ATOption, 't', true, true); //validate with teacher privileges, strict syntax & no automatically adding stars.
+            $ct  = new stack_cas_casstring($this->ATOption, 't', true, true); //validate with teacher privileges, strict syntax & no automatically adding stars.
 
-            if ($ct->Get_valid()) {
-                $atOpt = $this->ATOption;
-                $ta   = "[$this->tAnsKey,$atOpt]";
+            if ($ct->get_valid()) {
+                $atopt = $this->ATOption;
+                $ta   = "[$this->tAnsKey,$atopt]";
 
-                    $mconn = new stack_cas_maxima_connector($this->options);
-                    $result = $mconn->maxima_answer_test($this->sAnsKey, $ta, self::casfunction);
+                $mconn = new stack_cas_maxima_connector($this->options);
+                $result = $mconn->maxima_answer_test($this->sAnsKey, $ta, self::CASFUNCTION);
 
-                    $this->ATMark     = $result['result'];
-                    $this->ATAnsNote  = $result['answernote'];
-                    $this->ATFeedback = $result['feedback'];
-                    $this->ATError    = $result['error'];
+                $this->ATMark     = $result['result'];
+                $this->ATAnsNote  = $result['answernote'];
+                $this->ATFeedback = $result['feedback'];
+                $this->ATError    = $result['error'];
 
-                    if (1==$this->ATMark) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                if (1==$this->ATMark) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 $this->ATError      = 'TEST_FAILED';
-                $errors = $ct->Get_errors();
+                $errors = $ct->get_errors();
                 $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
                 $this->ATFeedback  .= ' STACK_Legacy::trans("AT_InvalidOptions","'.$errors.' ."); ';
                 $this->ATAnsNote    = 'STACKERROR_OPTION';

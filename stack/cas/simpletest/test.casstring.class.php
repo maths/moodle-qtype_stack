@@ -1,20 +1,40 @@
 <?php
+// This file is part of Stack - http://stack.bham.ac.uk//
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Unit tests for stack_cas_casstring.
+ *
+ * @copyright  2012 The University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 require_once(dirname(__FILE__) . '/../../../locallib.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 
-class stack_cas_casstringTest
+class stack_cas_casstring_test
 extends UnitTestCase {
 
-    function Get_valid($s, $st, $te) {
+    public function get_valid($s, $st, $te) {
         $at1 = new stack_cas_casstring($s, 's');
-        $this->assertEqual($st, $at1->Get_valid());
+        $this->assertEqual($st, $at1->get_valid());
 
         $at2 = new stack_cas_casstring($s, 't');
-        $this->assertEqual($te, $at2->Get_valid());
+        $this->assertEqual($te, $at2->get_valid());
     }
 
-    public function testGet_valid() {
+    public function test_get_valid() {
         $cases = array(
             array('', false, false),
             array('1', true, true),
@@ -32,18 +52,18 @@ extends UnitTestCase {
         );
 
         foreach ($cases as $case) {
-            $this->Get_valid($case[0], $case[1], $case[2]);
+            $this->get_valid($case[0], $case[1], $case[2]);
         }
     }
 
-    function Get_key($s, $key, $val) {
+    public function get_key($s, $key, $val) {
         $at1 = new stack_cas_casstring($s);
-        $this->assertEqual($key, $at1->Get_key());
-        $this->assertEqual($s, $at1->Get_rawCASString());    //Note the difference between the two!
-        $this->assertEqual($val, $at1->Get_CASString());
+        $this->assertEqual($key, $at1->get_key());
+        $this->assertEqual($s, $at1->get_raw_casstring());    //Note the difference between the two!
+        $this->assertEqual($val, $at1->get_casstring());
     }
 
-    public function testGet_key() {
+    public function test_get_key() {
         $cases = array(
             array('x=1', '', 'x=1'),
             array('a:1', 'a', '1'),
@@ -53,25 +73,25 @@ extends UnitTestCase {
         );
 
         foreach ($cases as $case) {
-            $this->Get_key($case[0], $case[1], $case[2]);
+            $this->get_key($case[0], $case[1], $case[2]);
         }
     }
 }
 
-class stack_cas_casstring_ExceptionTest
+class stack_cas_casstring_exception_test
 extends UnitTestCase {
 
-    function Exception($a, $b, $c, $d) {
+    public function exception($a, $b, $c, $d) {
         $this->expectException();
         $at1 = new stack_cas_casstring($a, $b, $c, $d);
     }
 
-    public function testException() {
+    public function test_exception() {
         $cases = array(
-            array(array(), false, false, false), 
-            array("x=1", false, false, false), 
-            array("x=1", 'z', false, false), 
-            array("x=1", 't', 'a', false), 
+            array(array(), false, false, false),
+            array("x=1", false, false, false),
+            array("x=1", 'z', false, false),
+            array("x=1", 't', 'a', false),
             array("x=1", 't', true, 'a')
         );
 

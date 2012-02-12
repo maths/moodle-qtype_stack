@@ -41,8 +41,12 @@ $string['settingcastimeout_desc'] = 'The timout to use when trying to connect to
 $string['settingplatformtype'] = 'Platform type';
 $string['settingplatformtype_desc'] = 'Stack needs to know what sort of operating system it is running on.';
 $string['settingplatformtypeunix'] = 'Linux';
-$string['settingplatformtypeserver'] = 'Server mode';
-$string['settingplatformtypewin'] = 'Windows';
+$string['settingplatformtypewin']  = 'Windows';
+$string['settingplatformtypeserver'] = 'Server';
+$string['settingplatformmaximacommand'] = 'Maxima command';
+$string['settingplatformmaximacommand_desc'] = 'Stack needs to know the shell command to start Maxima.  If this is blank, Stack will make an educated guess.';
+$string['settingplatformplotcommand'] = 'Plot command';
+$string['settingplatformplotcommand_desc'] = 'Stack needs to know the gnuplot command.  If this is blank, Stack will make an educated guess.';
 
 // Strings used by interation elements
 $string['false'] = 'False';

@@ -64,4 +64,8 @@ if ($string) {
 </form>
 <?php
 
+echo "<pre>";
+echo stack_generate_maximalocal();
+echo "</pre>";
+
 echo $OUTPUT->footer();

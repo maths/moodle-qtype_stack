@@ -54,6 +54,7 @@ class stack_cas_maxima_connector {
             $settings = get_config('qtype_stack');
         }
 
+        //TODO should this really be here, or somewhere in the installer?
         make_upload_directory('stack');
         $path = $CFG->dataroot . '/stack';
 
@@ -61,10 +62,19 @@ class stack_cas_maxima_connector {
         $initcommand = str_replace("\\", "/", $initcommand);
         $initcommand .= "\n";
 
+        $cmd = $settings->maximacommand;
+        if ('' == trim($cmd) ) {
+            if ('win'==$settings->platform) {
+                $cmd = $path . '/maxima.bat';
+            } else {
+                $cmd = 'maxima';
+            }
+        }
+
         return array(
                 'platform'        => $settings->platform,
                 'logs'            => $path,
-                'command'         => $path . '/maxima.bat',
+                'command'         => $cmd,
                 'init_command'    => $initcommand,
                 'timeout'         => $settings->castimeout,
                 'debug'           => $settings->casdebugging,

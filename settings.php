@@ -40,6 +40,14 @@ $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
         get_string('settingcastimeout_desc', 'qtype_stack'), 5, PARAM_INT, 3));
 
+$settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
+        get_string('settingplatformmaximacommand', 'qtype_stack'),
+        get_string('settingplatformmaximacommand_desc', 'qtype_stack'), ''));
+
+$settings->add(new admin_setting_configtext('qtype_stack/plotcommand',
+        get_string('settingplatformplotcommand', 'qtype_stack'),
+        get_string('settingplatformplotcommand_desc', 'qtype_stack'), ''));
+
 $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));

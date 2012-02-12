@@ -15,18 +15,18 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Differentiation answer test
+ * Equality according to the CAS test
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_Diff extends STACK_AnsTest {
+class STACK_AnsTest_FacForm extends STACK_AnsTest {
 
     /**
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATDiff';
+    const casfunction = 'ATFacForm';
     /**
      *
      *
@@ -46,7 +46,7 @@ class STACK_AnsTest_Diff extends STACK_AnsTest {
      * @access public
      */
     public function doAnsTest() {
-        if (null === $this->ATOption) {
+            if(null === $this->ATOption) {
                 //$this->errorLog->addError('Missing variable in CAS Option field');
                 $this->ATError      = 'TEST_FAILED';
                 $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); STACK_Legacy::trans("AT_MissingOptions");';
@@ -84,4 +84,3 @@ class STACK_AnsTest_Diff extends STACK_AnsTest {
         }
     }
 }
-

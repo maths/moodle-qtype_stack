@@ -692,7 +692,7 @@ ATLowestTerms(SA,SB) := block([simp:false,ret,validity,mark,FeedBack,AnswerNote,
      if (is(SB=[STACKERROR]) or is(SB=[])) then return([false,false,"ATLowestTerms_STACKERROR_TAns",""]),
      SB:SB[1],
    /* Unpack and check other property */
-   valiity:true,mark:true,AnswerNote:"",FeedBack:"",
+   validity:true,mark:true,AnswerNote:"",FeedBack:"",
    if all_lowest_termsex(SA)=false then block([badNos,a],
       mark:false,
       badNos:list_expression_numbers(SA),

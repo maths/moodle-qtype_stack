@@ -15,18 +15,18 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Differentiation answer test
+ * Tests number of significant figures
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_Diff extends STACK_AnsTest {
+class STACK_AnsTest_NumSigFigs extends STACK_AnsTest {
 
     /**
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATDiff';
+    const casfunction = 'ATNumSigFigs';
     /**
      *
      *
@@ -46,6 +46,13 @@ class STACK_AnsTest_Diff extends STACK_AnsTest {
      * @access public
      */
     public function doAnsTest() {
+
+        $atopt = $this->ATOption;
+        // Set a default option
+        if ('' == trim($atopt)) {
+            $atopt = '3';
+        }
+        
         if (null === $this->ATOption) {
                 //$this->errorLog->addError('Missing variable in CAS Option field');
                 $this->ATError      = 'TEST_FAILED';
@@ -54,11 +61,11 @@ class STACK_AnsTest_Diff extends STACK_AnsTest {
                 $this->ATMark       = 0;
                 return null;
         } else {
-            $ct  = new STACK_CAS_CasString($this->ATOption, 't', true, true); //validate with teacher privileges, strict syntax & no automatically adding stars.
+            $ct  = new STACK_CAS_CasString($atopt, 't', true, true); //validate with teacher privileges, strict syntax & no automatically adding stars.
 
             if ($ct->Get_valid()) {
                 $atOpt = $this->ATOption;
-                $ta   = "[$this->tAnsKey,$atOpt]";
+                $ta   = "[$this->tAnsKey,$atopt]";
 
                     $mconn = new stack_cas_maxima_connector($this->options);
                     $result = $mconn->maxima_answer_test($this->sAnsKey, $ta, self::casfunction);

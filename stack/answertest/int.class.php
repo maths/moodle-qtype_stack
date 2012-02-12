@@ -15,18 +15,18 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Differentiation answer test
+ * Integration answer test
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_Diff extends STACK_AnsTest {
+class STACK_AnsTest_Int extends STACK_AnsTest {
 
     /**
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATDiff';
+    const casfunction = 'ATInt';
     /**
      *
      *

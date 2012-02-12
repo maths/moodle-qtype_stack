@@ -45,14 +45,24 @@ $string = optional_param('cas', '', PARAM_RAW);
 
 if ($string) {
     $ct           = new stack_cas_text($string);
-    $displayText  = $ct->get_display_castext();
+    $displaytext  = $ct->get_display_castext();
     $errs         = $ct->get_errors();
 }
 
 echo $OUTPUT->header();
 
+?>
+<h1 class="section">Test the connection to the CAS</h1>
+<br />
+
+<p>
+This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a
+handy way to check if the CAS is working, and to test various inputs.
+</p>
+<?php
+
 if ($string) {
-    echo '<p>', format_text($displayText), '</p>';
+    echo '<p>', format_text($displaytext), '</p>';
     echo $errs;
 }
 
@@ -63,9 +73,5 @@ if ($string) {
     <input type="submit" value="Chat" />
 </form>
 <?php
-
-echo "<pre>";
-echo stack_generate_maximalocal();
-echo "</pre>";
 
 echo $OUTPUT->footer();

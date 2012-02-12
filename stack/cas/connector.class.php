@@ -334,7 +334,7 @@ class stack_cas_maxima_connector {
             $plot = isset($locals[$i]['display']) ? substr_count($locals[$i]['display'], '<img') : 0; // if theres a plot being returned
             if ($plot > 0) {
                 //plots always contain errors, so remove
-                $error = '';
+                $locals[$i]['error'] = '';
                 //for mathml display, remove the mathml that is inserted wrongly round the plot.
                 $locals[$i]['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>', '', $locals[$i]['display']);
                 $locals[$i]['display'] = str_replace('</math>', '', $locals[$i]['display']);

@@ -3,14 +3,14 @@
 require_once(dirname(__FILE__) . '/../../../locallib.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 
-class STACK_CAS_CasStringTest
+class stack_cas_casstringTest
 extends UnitTestCase {
 
     function Get_valid($s, $st, $te) {
-        $at1 = new STACK_CAS_CasString($s, 's');
+        $at1 = new stack_cas_casstring($s, 's');
         $this->assertEqual($st, $at1->Get_valid());
 
-        $at2 = new STACK_CAS_CasString($s, 't');
+        $at2 = new stack_cas_casstring($s, 't');
         $this->assertEqual($te, $at2->Get_valid());
     }
 
@@ -37,7 +37,7 @@ extends UnitTestCase {
     }
 
     function Get_key($s, $key, $val) {
-        $at1 = new STACK_CAS_CasString($s);
+        $at1 = new stack_cas_casstring($s);
         $this->assertEqual($key, $at1->Get_key());
         $this->assertEqual($s, $at1->Get_rawCASString());    //Note the difference between the two!
         $this->assertEqual($val, $at1->Get_CASString());
@@ -58,12 +58,12 @@ extends UnitTestCase {
     }
 }
 
-class STACK_CAS_CasString_ExceptionTest
+class stack_cas_casstring_ExceptionTest
 extends UnitTestCase {
 
     function Exception($a, $b, $c, $d) {
         $this->expectException();
-        $at1 = new STACK_CAS_CasString($a, $b, $c, $d);
+        $at1 = new stack_cas_casstring($a, $b, $c, $d);
     }
 
     public function testException() {

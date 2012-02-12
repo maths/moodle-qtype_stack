@@ -15,18 +15,18 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Algebraic equivalence answer test
+ * Equality according to the CAS test
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_AlgEquiv extends STACK_AnsTest {
+class STACK_AnsTest_CasEqual extends STACK_AnsTest {
 
     /**
      * constant
      * The name of the cas function this answer test uses.
      */
-    const casfunction = 'ATAlgEquiv';
+    const casfunction = 'ATCASEqual';
     /**
      *
      *

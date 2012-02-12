@@ -19,7 +19,7 @@
 
 require_once(dirname(__FILE__) . '/../stringutil.class.php');
 
-class STACK_CAS_CasString {
+class stack_cas_casstring {
 
     private $rawCASString;    // As typed in by the user.
     private $CASString;       // As modified by the validation.

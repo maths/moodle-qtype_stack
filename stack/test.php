@@ -36,7 +36,7 @@ $PAGE->set_url('/question/type/stack/stack/test.php');
 $a1=array('a:x^2','b:(x+1)^2');
 $s1=array();
 foreach($a1 as $s) {
-    $s1[] = new STACK_CAS_CasString($s);
+    $s1[] = new stack_cas_casstring($s);
 }
 $cs1 = new STACK_CAS_CasSession($s1);
 

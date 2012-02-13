@@ -19,24 +19,23 @@ Gradually change variable and function names to conform to Maxima coding standar
 
 ## Milestone 2.  
 
-Basic skeleton import of STACK 2 questions and storage in the database.
-Teacher can create a question version and attempt this from the database, with no caching.  
+Basic skeleton import of STACK 2 questions and storage in the database. Teacher can create a question version and attempt this from the database, with no caching.  
 
 ## Milestone 3. 
 
-Reinstate the dynamic cache and make it work with one Moodle behaviour.
+Reinstate the dynamic cache and make it work with one Moodle behaviour. At this point we should be able to include a STACK question into a moodle quiz, for demonstration and testing purposes.  
 
 ## Milestone 4.  
 
-* Editing forms in Moodle to allow creation of questions.
+* Editing forms in Moodle to allow creation and editing of questions.
 * Import and export of STACK 3 questions in Moodle's format.
 
 ## Milestone 5.  
 
-* Finish STACK 2 importer: ensure all fields are imported by the question importer.
+* Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
 * Add reporting functionality.
 * Add user documentation.
-* Installation documentation, and reporting.
+* Installation, documentation, and reporting.
 * Make STACK respect all Moodle behaviours.
 
 ---

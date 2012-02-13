@@ -66,7 +66,7 @@ echo $OUTPUT->heading($title);
 echo html_writer::tag('p', stack_string('chatintro'));
 
 if ($string) {
-    html_writer::tag('p', format_text($displaytext));
+    echo html_writer::tag('p', format_text($displaytext));
     echo $errs;
 }
 

@@ -28,6 +28,7 @@
 require_once(dirname(__FILE__).'/../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
+require_once($CFG->libdir .'/tablelib.php');
 
 require_once(dirname(__FILE__) . '/locallib.php');
 require_once(dirname(__FILE__) . '/stack/options.class.php');

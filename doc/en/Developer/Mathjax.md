@@ -2,6 +2,8 @@
 
 STACK generates LaTeX code on the fly and expects a moodle filter to convert this into something the user's browser will display.  There are a variety of mathematics filters for moodle, but STACK currently has been tuned to work with MathJax, <http://www.mathjax.org>.
 
+One reason for adopting MathJax is that it speaks mathematics, so will aid [accessibility](../Students/Accessibility).
+
 These instructions are adapted from http://moodle.org/mod/forum/discuss.php?d=193064
 
 ### Option 1: link to external MathJax setup. ###

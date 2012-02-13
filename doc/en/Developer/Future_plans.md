@@ -4,12 +4,11 @@ The following features are in approximate priority order.  Please contact the de
 
 ## Minor features to add immediately on completion of 3.0 ##
 
+* Introduce a variable so the maxima code "knows the attempt number".
 * Fix MCQs so that the displayed text is full CASText.  
 * Better deploy reatures, including "drop all" and "redeploy".
 * Systematic deploying of all versions?
 * Reinstate dragmath.
-* Support for MathJAX.  This speaks mathematics, so will aid [accessibility](../Students/Accessibility).
-* Create "worksheets" interface to new code.
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 2.3. (Aalto)
 * Add a feature to display the Maxima form of an internal variable - useful for helping students.  (Aalto: contact Matti).
 * Re-check Maxima functions for security settings.
@@ -18,7 +17,6 @@ The following features are in approximate priority order.  Please contact the de
 ### Existing bugs to confirm ###
 
 * What is the status of interaction elements in equations, particularly with MathJAX.  Confirm what happends when these are locked once a worked solution has been called for.
-
 
 ### Consolidation of mailing lists, forum, wiki etc. ###
 
@@ -39,7 +37,9 @@ We need to consolidate all of these things.
 
 ## Features to add - possible self contained projects ##
 
-* Read WebWork files and set these questions in STACK?  
+* Read other file formats into STACK.  In particular
+  * AIM
+  * WebWork  
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
  * Package for scientific units, and a science answer test

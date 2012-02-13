@@ -195,7 +195,7 @@ class stack_cas_session {
             }
 
             if (!$gotvalue) {
-                $errstr = stack_string("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->get_raw_casstring.'</span> ';
+                $errstr = stack_string("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->get_raw_casstring().'</span> ';
                 $cs->Add_errors($errstr);
                 $new_errors .= $errstr;
             }

@@ -1668,5 +1668,5 @@ assess(ex1,ex2):=block([ret],
 
 
 /* Stack expects some output */
-print("[ Stack-Maxima started V3.0 20/9/12]");
+print("[ Stack-Maxima started V3.0, 13/2/12]");
 

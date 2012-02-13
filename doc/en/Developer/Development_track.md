@@ -1,57 +1,59 @@
 # Development track
 
-## Milestone 1. ## 
+## Milestone 1.  
 
-Have basic CAS functionality working and incorported into Moodle.  Supply basic data
+Have basic CAS functionality working and incorporated into Moodle.  Supply basic data
 
 1. CJS: Refactor connection to the CAS
    1. castext.
    2. answer tests.
    3. unit tests for answer tests which need a CAS connection.
-2. MATTI: Importer for STACK 2 questions.
+2. MP: Importer for STACK 2 questions.
 3. Move STACK_StringUtil to be a static class.  Search project for uses of this.
    (Probably a good idea to do this before the project gets to big!)
-4. Add "healthcheck pages", installation instructions and confirm configuration settings.
+4. CJS: Add "healthcheck pages", installation instructions and confirm configuration settings.
    Links from the settings page.
-5. Tim: Question stub ready for further development.
+5. TH: Question stub ready for further development.
 
 Gradually change variable and function names to conform to Maxima coding standards.
 
-## Milestone 2. ## 
+## Milestone 2.  
 
-Basic skelaton import of STACK 2 questions and storage in the database.
+Basic skeleton import of STACK 2 questions and storage in the database.
 Teacher can create a question version and attempt this from the database, with no caching.  
 
-## Milestone 3. ## 
+## Milestone 3. 
 
-Ininstate the dynamic cache and make it work with one Moodle behaviour.
+Reinstate the dynamic cache and make it work with one Moodle behaviour.
 
-## Milestone 4. ## 
+## Milestone 4.  
 
-Editing forms in Moodle to allow creation of questions.
-Import and export of STACK 3 questions in Moodle's format.
+* Editing forms in Moodle to allow creation of questions.
+* Import and export of STACK 3 questions in Moodle's format.
 
-## Milestone 5. ## 
+## Milestone 5.  
 
-Add reporting functionality.
-Add user documentation.
-Ensure all fields are imported by the question importer.
-Installation documentation, and reporting.
-Make it work with all Moodle behaviours.
+* Finish STACK 2 importer: ensure all fields are imported by the question importer.
+* Add reporting functionality.
+* Add user documentation.
+* Installation documentation, and reporting.
+* Make STACK respect all Moodle behaviours.
 
-##########################################################################################
+---
+
+Other tasks which need to be completed.
 
 ## Maxima
 
 1. Update the list of forbidden keywords....
-2. Check out better ways of connecting to Maxima.
-  1. https://code.google.com/p/remote-maxima/
-  2. http://www.lon-capa.org/maximaasserver.html
+2. Investigate better ways of connecting to Maxima.
+  *  <http://code.google.com/p/remote-maxima/>
+  *  <http://www.lon-capa.org/maximaasserver.html>
 3. Refactor Maxima code to change from $'s and $$'s to \[ \] and \( and \).
   
 ## Documentation system
 
-1. 404 error does not add an entry to the log.  See line 79 of 
+1. 404 error does not add an entry to the log.   
 2. What happened to `docMaintenance.php`?  This hasn't been incorporated yet.  We need the ReportWidgets to be included for this to function.  Ben?
 3. Update the file, and link this to the documentation system (or just abandon it and use .md!) :
 
@@ -65,14 +67,14 @@ Make it work with all Moodle behaviours.
 
 1. Refactor the answer tests to remove duplicate code.
 
+---
+# History of previous versions of STACK
 
-#######################################################################################
-
-### Version 3.0 ###
+### Version 3.0 
 
 _Not yet released_.  Target, September 2012.
 
-Major re-engineering of the code by  the Open University.  Reporting and documentation added by Ben Holmes.
+Major re-engineering of the code by the Open University.  Reporting and documentation added by Ben Holmes.
 
 This round of development does not plan to introduce major new features, or to make major changes to
 the core functionality. An explicit aim is that "old questions will still work".  
@@ -85,16 +87,16 @@ Key features
 * Move from CVS to GIT.
 * Language support added: nl, de.
 
-## Future plans ##
+## Future plans 
 
 We have a dedicated page for [future plans](Future_plans).
 
-## Past versions and History ##
+## Past versions and History 
 
 STACK is a direct development of the CABLE project which ran at the University of Birmingham.
 CABLE was a development of the AiM computer aided assessment system.
 
-### Version 2.2 ###
+### Version 2.2 
 
 Released: October 2010 session.
 
@@ -104,7 +106,7 @@ Released: October 2010 session.
 * Slider interaction elements.
 
 
-### Version 2.1 ###
+### Version 2.1 
 
 Developed by Chris Sangwin and Simon Hammond at the University of Birmingham.
 Released: Easter 2010 session.
@@ -121,7 +123,7 @@ Key features
 * Sample resources included as part of the [FETLAR](http://www.fetlar.bham.ac.uk) project.
 
 
-### Version 2.0 ###
+### Version 2.0 
 
 Released, September 2007.  Developed by Jonathan Hart and Chris Sangwin at the University of Birmingham. 
 
@@ -134,7 +136,7 @@ Key features
 * Cache. 
 * Item tests. 
 
-### Version 1.0 ### 
+### Version 1.0 
 
 Released, 2005.  Developed by Chris Sangwin at the University of Birmingham.
 

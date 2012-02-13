@@ -33,7 +33,7 @@ class STACK_Input_Controller {
         'algebraic'  => 'STACK_Input_Algebra',
         'boolean'    => 'STACK_Input_Boolean',
         'dropDown'   => 'STACK_Input_DropDownList',
-        'list'       => 'STACK_Input_List',
+//        'list'       => 'STACK_Input_List',
 //        'matrix'     => 'STACK_Input_Matrix',
         'singleChar' => 'STACK_Input_SingleChar',
 //        'slider'     => 'STACK_Input_Slider',

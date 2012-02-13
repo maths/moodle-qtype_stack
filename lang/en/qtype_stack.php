@@ -1,21 +1,19 @@
 <?php
+// This file is part of Stack - http://stack.bham.ac.uk//
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/*
-This file is part of Stack - http://stack.bham.ac.uk//
-
-Stack is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Stack is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Stack.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 /**
  * Language strings for the Stack question type.
@@ -57,12 +55,12 @@ $string['ddl_empty'] = 'No choices were provided for this drop-down. Please inpu
 // casstring.class.php
 $string['stackCas_spaces']                  = 'Spaces found in expression: ';
 $string['stackCas_percent']                 = '&#037; found in expression: ';
-$string['stackCas_missingLeftBracket']      = 'You have a missing left bracket $a in the expression: ';
-$string['stackCas_missingRightBracket']     = 'You have a missing right bracket $a in the expression: ';
+$string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="SyntaxExample2">{$a->bracket}</span> in the expression: {$a->cmd}.';
+$string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="SyntaxExample2">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses: ';
-$string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a[0]}.';
-$string['stackCas_finalChar']               = '\'{$a[0]}\' is an invalid final character in {$a[1]}';
-$string['stackCas_MissingStars']            = 'You seem to be missing *\'s.<br /> Perhaps you meant to type ';
+$string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a->char}.';
+$string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid final character in {$a->cmd}';
+$string['stackCas_MissingStars']            = 'You seem to be missing *\'s.<br /> Perhaps you meant to type {$a->cmd}';
 $string['stackCas_unknownFunction']         = 'Unknown function:';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: ';
 $string['stackCas_forbiddenWord']           = 'Forbidden Word: ';
@@ -117,7 +115,7 @@ $string['stackOptions_AnsTest_values_RegExp']             =  "RegExp";
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
 $string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. ';
 $string['AT_MissingOptions']        = 'Missing variable in CAS Option field. ';
-$string['AT_InvalidOptions']        = 'Option field is invalid. ';
+$string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
@@ -126,7 +124,7 @@ $string['ATAlgEquiv_SA_not_set']        = 'Your answer should be a set, but is n
 $string['ATAlgEquiv_SA_not_equation']   = 'Your answer should be an equation, but is not. ';
 $string['ATAlgEquiv_TA_not_equation']   = 'Your answer is an equation, but the expression to which it is being compared is not.  You may have typed something like y=2 when you only needed to type 2. ';
 $string['ATAlgEquiv_SA_not_inequality'] = 'Your answer should be an inequality, but is not. ';
-$string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a[0]} ';
+$string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 
 
 $string['ATInequality_nonstrict']       = 'Your inequality should be strict, but is not! ';
@@ -134,23 +132,23 @@ $string['ATInequality_strict']          = 'Your inequality should not be strict!
 $string['ATInequality_backwards']       = 'Your inequality appears to be backwards. ';
 
 $string['ATLowestTerms_wrong']          = 'You need to cancel fractions within your answer. ';
-$string['ATLowestTerms_entries']        = 'The following terms in your answer are not in lowest terms.  {$a[0]} Please try again.  ';
+$string['ATLowestTerms_entries']        = 'The following terms in your answer are not in lowest terms.  {$a->m0} Please try again.  ';
 
 
-$string['ATList_wronglen']          = 'Your list should have {$a[0]} elements, but it actually has {$a[1]}. ';
-$string['ATList_wrongentries']      = 'The entries in red below are those that are incorrect. {$a[0]} ';
+$string['ATList_wronglen']          = 'Your list should have {$a->m0} elements, but it actually has {$a->m1}. ';
+$string['ATList_wrongentries']      = 'The entries in red below are those that are incorrect. {$a->m0} ';
 
-$string['ATMatrix_wrongsz']         = 'Your matrix should be {$a[0]} by {$a[1]}, but it is actually {$a[2]} by {$a[3]}. ';
-$string['ATMatrix_wrongentries']    = 'The entries in red below are those that are incorrect. {$a[0]} ';
+$string['ATMatrix_wrongsz']         = 'Your matrix should be {$a->m0} by {$a->m1}, but it is actually {$a->m2} by {$a->m3}. ';
+$string['ATMatrix_wrongentries']    = 'The entries in red below are those that are incorrect. {$a->m0} ';
 
-$string['ATSet_wrongsz']            = 'Your set should have {$a[0]} different elements, but it is actually has {$a[1]}. ';
-$string['ATSet_wrongentries']       = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a[0]} ';
+$string['ATSet_wrongsz']            = 'Your set should have {$a->m0} different elements, but it is actually has {$a->m1}. ';
+$string['ATSet_wrongentries']       = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';
 
-$string['irred_Q_factored']         = 'The term {$a[0]} should be unfactored, but is not. ';
+$string['irred_Q_factored']         = 'The term {$a->m0} should be unfactored, but is not. ';
 $string['irred_Q_commonint']        = 'You need to take out a common factor. ';  // needs a space at the end.
-$string['irred_Q_optional_fac']     = 'You could do more work, since {$a[0]} can be further factored.  However, you don\'t need to. ';
+$string['irred_Q_optional_fac']     = 'You could do more work, since {$a->m0} can be further factored.  However, you don\'t need to. ';
 
-$string['FacForm_UnPick_morework']  = 'You could still do some more work on the term {$a[0]}. ';
+$string['FacForm_UnPick_morework']  = 'You could still do some more work on the term {$a->m0}. ';
 $string['FacForm_UnPick_intfac']    = $string['irred_Q_commonint'];
 
 $string['ATFacForm_error_list']     = 'The answer test failed.  Please contact your systems administrator';
@@ -163,8 +161,8 @@ $string['ATPartFrac_error_list']        = $string['ATFacForm_error_list'];
 $string['ATPartFrac_true']              = '';
 $string['ATPartFrac_single_fraction']   ='Your answer seems to be a single fraction, it needs to be in a partial fraction form. ';
 $string['ATPartFrac_diff_variables']    ='The variables in your answer are different to those of the question, please check them. ';
-$string['ATPartFrac_denom_ret']         ='If your answer is written as a single fraction then the denominator would be {$a[0]}. In fact, it should be {$a[1]}. ';
-$string['ATPartFrac_ret_expression']    ='Your answer as a single fraction is {$a[0]} ';
+$string['ATPartFrac_denom_ret']         ='If your answer is written as a single fraction then the denominator would be {$a->m0}. In fact, it should be {$a->m1}. ';
+$string['ATPartFrac_ret_expression']    ='Your answer as a single fraction is {$a->m0} ';
 
 $string['ATSingleFrac_error_list']     = $string['ATFacForm_error_list'];
 $string['ATSingleFrac_true']           = '';
@@ -185,7 +183,7 @@ $string['ATInt_const']              = 'You need to add a constant of integration
 $string['ATInt_EqFormalDiff']       = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, eg, a constant of integration.  Please ask your teacher about this.';
 $string['ATInt_wierdconst']         = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, you have a strange constant of integration.  Please ask your teacher about this.';
 $string['ATInt_diff']               = 'It looks like you have differentiated instead!';
-$string['ATInt_generic']            = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a[0]}  In fact, the derivative of your answer, with respect to {$a[1]} is: {$a[2]} so you must have done something wrong!';
+$string['ATInt_generic']            = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
 
 $string['ATDiff_error_list']        = $string['ATFacForm_error_list'];
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';
@@ -204,7 +202,7 @@ $string['ATSysEquiv_SB_not_poly_eq_list']       = 'The Teacher\'s answer should 
 $string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or more variables!';
 $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
 $string['ATSysEquiv_SA_system_underdetermined']	= 'The equations in your system appear to be correct, but you need others besides.';
-$string['ATSysEquiv_SA_system_overdetermined'] 	= 'The entries in red below are those that are incorrect. {$a[0]} ';
+$string['ATSysEquiv_SA_system_overdetermined'] 	= 'The entries in red below are those that are incorrect. {$a->m0} ';
 
 // Answer testsuite front end strings
 $string['stackInstall_testsuite_title']   = 'A test suite for STACK Answer tests';
@@ -212,4 +210,4 @@ $string['stackInstall_testsuite_intro']   = 'This page allows you to test that t
 $string['stackInstall_testsuite_choose']  = 'Please choose an answer test.';
 $string['stackInstall_testsuite_pass']    = 'All tests passed!';
 $string['stackInstall_testsuite_fail']    = 'Not all tests passed!';
-$string['stackInstall_testsuite_for']     = 'Test suite for {$a[0]}';
+$string['stackInstall_testsuite_for']     = 'Test suite for {$a->test}';

@@ -35,12 +35,18 @@ class stack_cas_maxima_connector {
     public function __construct($options=null) {
 
         $this->config = $this->load_config();
+
         $this->options = $options;
 
         $this->debuginfo ='';
 
         if (null===$options) {
             $this->options = new STACK_options();
+        }
+
+        if (!is_a($options, 'STACK_options')) {
+            // TODO: enforce this check.
+            //throw new Exception('stack_cas_maxima_connector: options must be STACK_options or null.');
         }
     }
 

@@ -573,7 +573,6 @@ $anstest = optional_param('anstest', '', PARAM_RAW);
 if (!$anstest) {
     $anstest = '';
 }
-// $anstest = 'ALL';
 
 
 echo '<div class="box">';
@@ -598,10 +597,10 @@ if ('' == $anstest OR 'default' == $anstest) {
 
 // Decide how many answer tests to choose!
 if ('ALL'===$anstest) {
-	$testtist = $availabletests;
+    $testlist = $availabletests;
     //$TestList = array('String','StringSloppy');
 
-    foreach($testtist as $anstest) {
+    foreach($testlist as $anstest) {
         echo '<a href="#'.$anstest.'">'.$anstest.'</a><br />';
     }
     echo '<hr />';
@@ -614,7 +613,7 @@ if ('ALL'===$anstest) {
 // Loop over the required tests
 foreach($testlist as $anstest) {
 
-  echo '<h1><a name="'.$anstest.'">'.stack_trans('stackInstall_testsuite_for',$anstest)."</a></h2>\n";
+  echo '<h2><a name="'.$anstest.'">'.stack_string('stackInstall_testsuite_for',array('test'=>$anstest))."</a></h2>\n";
 
   $all_passed = true;
 

@@ -45,7 +45,7 @@ These tasks also need to be done, but do not block progress towards getting STAC
 
 ## Languages
 
-* Add in other languages.   Copy over only those strings which are really needed.
+* Add in other languages.   Copy over only those strings which are really needed.  NOTE: the new format of the language strings containing parameters.  In particular, strings {$a[0]} need to be changed to {$a->m0}, etc.
 
 ## Maxima
 
@@ -68,8 +68,6 @@ These tasks also need to be done, but do not block progress towards getting STAC
      \stack\www\lib\maxima\maximafun.php
 
 ## Other longer term jobs
-
-1. Refactor the answer tests to remove duplicate code.
 
 ---
 # History of previous versions of STACK

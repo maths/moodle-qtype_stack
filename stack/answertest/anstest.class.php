@@ -34,24 +34,14 @@ class STACK_AnsTest {
     protected $tAnsKey;
 
     /**
-     * @var    array
+     * @var    string
      */
-    protected $preCalculated;
-
-    /**
-     * @var    int
-     */
-    protected $seed;
+    protected $options;
 
     /**
      * @var    CasString
      */
     protected $ATOption = null;
-
-    /**
-     * @var    string
-     */
-    protected $casFunction = null;
 
     /**
      * @var    bool
@@ -97,11 +87,8 @@ class STACK_AnsTest {
      *
      * @param  string $sAnsKey
      * @param  string $tAnsKey
-     * @param  array $preCalculated
-     * @param  int $seed
-     * @param  CasString $casOption
      */
-    public function __construct($sans, $tans, $options=null, $casoption = null) {
+    public function __construct($sans, $tans, $options = null, $casoption = null) {
         $this->sAnsKey  = $sans;
         $this->tAnsKey  = $tans;
         $this->options  = $options;

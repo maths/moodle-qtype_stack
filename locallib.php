@@ -33,7 +33,8 @@ function stack_trans() {
         $a = array();
         if ($nargs>1) {
             for ($i=1; $i<$nargs; $i++) {
-                $a[] = func_get_arg($i);
+                $index=$i-1;
+                $a["m{$index}"] = func_get_arg($i);
             }
         }
         $return = get_string($identifier, 'qtype_stack', $a);

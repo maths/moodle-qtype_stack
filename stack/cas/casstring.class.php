@@ -115,27 +115,27 @@ class stack_cas_casstring {
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
-                $this->errors .= stack_string('stackCas_missingLeftBracket', '(').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingLeftBracket', array('bracket'=>'(', 'cmd'=>$this->format_error_string($cmd)));
             } else {
-                $this->errors .= stack_string('stackCas_missingRightBracket', '(').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingRightBracket', array('bracket'=>')', 'cmd'=>$this->format_error_string($cmd)));
             }
         }
         $inline = $cs->checkBookends('{', '}');
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
-                $this->errors .= stack_string('stackCas_missingLeftBracket', '{').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingLeftBracket', array('bracket'=>'{', 'cmd'=>$this->format_error_string($cmd)));
             } else {
-                $this->errors .= stack_string('stackCas_missingRightBracket', '}').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingRightBracket', array('bracket'=>'}', 'cmd'=>$this->format_error_string($cmd)));
             }
         }
         $inline = $cs->checkBookends('[', ']');
         if ($inline !== true) { //checkBookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
-                $this->errors.=stack_string('stackCas_missingLeftBracket', '[').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingLeftBracket', array('bracket'=>'[', 'cmd'=>$this->format_error_string($cmd)));
             } else {
-                $this->errors.=stack_string('stackCas_missingRightBracket', ']').$this->format_error_string($cmd).'. ';
+                $this->errors .= stack_string('stackCas_missingRightBracket', array('bracket'=>']', 'cmd'=>$this->format_error_string($cmd)));
             }
         }
 
@@ -163,8 +163,7 @@ class stack_cas_casstring {
 
         if (count($invalidchars)>0) {
             $this->valid = false;
-            $a = array( 0 => implode(", ", array_unique($invalidchars)));
-            $this->errors.=stack_string('stackCas_forbiddenChar', $a);
+            $this->errors .= stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars))));
         }
 
         // Check for disallowed final characters,  / * + - ^ £ # = & ~ | , ? : ;
@@ -172,8 +171,8 @@ class stack_cas_casstring {
         if (in_array($lastchar, $disallowedchars)) {
             $this->valid = false;
             $a = array();
-            $a[0] = $lastchar;
-            $a[1] = $this->format_error_string($cmd);
+            $a['char'] = $lastchar;
+            $a['cmd']  = $this->format_error_string($cmd);
             $this->errors.=stack_string('stackCas_finalChar', $a);
         }
 
@@ -229,13 +228,15 @@ class stack_cas_casstring {
         if (false == $missingstar) {
             //if no missing stars return true
             return true;
-        } else if (false == $this->syntax) {
+        } else if (false == $this->syntax) {// 
             //if missing stars, but syntax is off, return false (stars will have been added)
             $this->casstring=$cmd;
             return false;
         } else {
             //if missing stars & strict syntax is on return errors
-            $this->errors .= stack_string('stackCas_MissingStars').' '.$missingstring;
+            $a['cmd']  = $missingstring;
+            $this->errors .= stack_string('stackCas_MissingStars',$a);
+            $this->valid = false;
             return false;
         }
     }

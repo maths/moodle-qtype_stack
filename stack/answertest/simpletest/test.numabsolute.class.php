@@ -20,7 +20,7 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../../anstest.class.php');
+require_once(dirname(__FILE__) . '/../anstest.class.php');
 require_once(dirname(__FILE__) . '/../numabsolute.class.php');
 
 

@@ -21,6 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(dirname(__FILE__) . '/anstest.class.php');
+require_once(dirname(__FILE__) . '/at_general_cas.class.php');
 require_once(dirname(__FILE__) . '/../cas/connector.class.php');
 require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
 require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
@@ -81,53 +82,43 @@ class STACK_AnsTestController {
         //echo "<br>In Anstest controller: $AnsTest<br>";
         switch($anstest) {
             case 'AlgEquiv':
-                require_once(dirname(__FILE__) . '/atalgequiv.class.php');
-                $this->at = new STACK_AnsTest_AlgEquiv($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATAlgEquiv', false, $casoption, $options);
                 break;
 
             case 'Equal_Com_Ass':
-                require_once(dirname(__FILE__) . '/equalcomass.class.php');
-                $this->at = new STACK_AnsTest_EqualComAss($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATEqual_com_ass', false, $casoption, $options, 0);
                 break;
 
             case 'CasEqual':
-                require_once(dirname(__FILE__) . '/casequal.class.php');
-                $this->at = new STACK_AnsTest_CasEqual($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATCASEqual', false, $casoption, $options);
                 break;
 
             case 'SameType':
-                require_once(dirname(__FILE__) . '/sametype.class.php');
-                $this->at = new STACK_AnsTest_SameType($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSameType', false, $casoption, $options);
                 break;
 
             case 'SubstEquiv':
-                require_once(dirname(__FILE__) . '/substequiv.class.php');
-                $this->at = new STACK_AnsTest_SubstEquiv($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSubstEquiv', false, $casoption, $options);
                 break;
 
             case 'Expanded':
-                require_once(dirname(__FILE__) . '/expanded.class.php');
-                $this->at = new STACK_AnsTest_Expanded($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATExpanded', false, $casoption, $options);
                 break;
 
             case 'FacForm':
-                require_once(dirname(__FILE__) . '/facform.class.php');
-                $this->at = new STACK_AnsTest_FacForm($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATFacForm', true, $casoption, $options);
                 break;
 
             case 'SingleFrac':
-                require_once(dirname(__FILE__) . '/singlefrac.class.php');
-                $this->at = new STACK_AnsTest_SingleFrac($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSingleFrac', false, $casoption, $options, 0);
                 break;
 
             case 'PartFrac':
-                require_once(dirname(__FILE__) . '/partfrac.class.php');
-                $this->at = new STACK_AnsTest_PartFrac($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATPartFrac', true, $casoption, $options);
                 break;
 
             case 'CompSquare':
-                require_once(dirname(__FILE__) . '/compsquare.class.php');
-                $this->at = new STACK_AnsTest_CompSquare($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATCompSquare', true, $casoption, $options);
                 break;
 
             case 'String':
@@ -146,23 +137,19 @@ class STACK_AnsTestController {
                 break;
 
             case 'Diff':
-                require_once(dirname(__FILE__) . '/diff.class.php');
-                $this->at = new STACK_AnsTest_Diff($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATDiff', true, $casoption, $options);
                 break;
 
             case 'Int':
-                require_once(dirname(__FILE__) . '/int.class.php');
-                $this->at = new STACK_AnsTest_Int($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATInt', true, $casoption, $options);
                 break;
 
             case 'GT':
-                require_once(dirname(__FILE__) . '/greaterthan.class.php');
-                $this->at = new STACK_AnsTest_GreaterThan($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATGT', false, $casoption, $options);
                 break;
 
             case 'GTE':
-                require_once(dirname(__FILE__) . '/greaterthanequal.class.php');
-                $this->at = new STACK_AnsTest_GreaterThanEqual($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATGTE', false, $casoption, $options);
                 break;
 
             case 'NumAbsolute':
@@ -176,18 +163,19 @@ class STACK_AnsTestController {
                 break;
 
             case 'NumSigFigs':
-                require_once(dirname(__FILE__) . '/numsigfigs.class.php');
-                $this->at = new STACK_AnsTest_NumSigFigs($sans, $tans, $options, $casoption);
+                // Set a default option
+                if ('' == trim($casoption)) {
+                    $casoption = '3';
+                }
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATNumSigFigs', true, $casoption, $options);
                 break;
 
             case 'LowestTerms':
-                require_once(dirname(__FILE__) . '/lowestterms.class.php');
-                $this->at = new STACK_AnsTest_LowestTerms($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATLowestTerms', false, $casoption, $options, 0);
                 break;
 
             case 'SysEquiv':
-                require_once(dirname(__FILE__) . '/sysequiv.class.php');
-                $this->at = new STACK_AnsTest_SysEquiv($sans, $tans, $options, $casoption);
+                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSysEquiv', false, $casoption, $options);
                 break;
         }
 

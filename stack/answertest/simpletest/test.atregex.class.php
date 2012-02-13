@@ -22,7 +22,7 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../../anstest.class.php');
+require_once(dirname(__FILE__) . '/../anstest.class.php');
 require_once(dirname(__FILE__) . '/../atregexp.class.php');
 
 

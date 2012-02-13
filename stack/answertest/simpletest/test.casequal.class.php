@@ -20,7 +20,7 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../../anstest.class.php');
+require_once(dirname(__FILE__) . '/../anstest.class.php');
 require_once(dirname(__FILE__) . '/../casequal.class.php');
 
 
@@ -32,21 +32,5 @@ require_once(dirname(__FILE__) . '/../casequal.class.php');
  */
 class STACK_AnsTest_CasEqual_test extends UnitTestCase {
 
-    public function test_is_true_for_equal_expressions() {
-        $at = new STACK_AnsTest_CasEqual('1', '1');
-        $this->assertTrue($at->doAnsTest());
-        $this->assertEqual(1, $at->getATMark());
-    }
-
-    public function test_is_false_for_unequal_expressions() {
-        $at = new STACK_AnsTest_CasEqual('x^2+2*x', '(x+1)^2');
-        $this->assertFalse($at->doAnsTest());
-        $this->assertEqual(0, $at->getATMark());
-    }
-
-    public function test_is_false_for_expressions_with_different_form() {
-        $at = new STACK_AnsTest_CasEqual('(x+1)^2', 'x^2+2*x+1');
-        $this->assertFalse($at->doAnsTest());
-        $this->assertEqual(0, $at->getATMark());
-    }
+ 
 }

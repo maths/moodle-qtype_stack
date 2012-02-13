@@ -45,12 +45,10 @@ class stack_cas_configuration {
         $this->logpath = $logpath->convertSlashPaths();
 
         $vnum = substr($settings->maximaversion, 2);
+
         $this->blocksettings = array();
-        $this->blocksettings['MAXIMA_VERSION_NUM'] = $vnum;
-        $this->blocksettings['MAXIMA_VERSION'] = $settings->maximaversion;
         $this->blocksettings['TMP_IMAGE_DIR'] = $CFG->dataroot . '/stack/tmp/';
         $this->blocksettings['IMAGE_DIR']     = $CFG->dataroot . '/stack/plots/';
-        $this->blocksettings['URL_BASE']      = moodle_url::make_file_url('/question/type/stack/plot.php', '');
 
         // These are used by the GNUplot "set terminal" command.  Currently no user interface...
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
@@ -61,9 +59,18 @@ class stack_cas_configuration {
             $this->blocksettings['GNUPLOT_CMD']   =
                     $this->get_plotcommand_win($vnum, $settings->maximaversion);
         } else {
-            $this->blocksettings['DEL_CMD']       = "rm";
+            $this->blocksettings['DEL_CMD']       = 'rm';
             $this->blocksettings['GNUPLOT_CMD' ]  = $settings->plotcommand;
         }
+        // Loop over this array to format them correctly...
+        if ($settings->platform == 'win') {
+            foreach ($this->blocksettings as $var => $val) {
+                $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
+            }
+        }
+        $this->blocksettings['MAXIMA_VERSION_NUM'] = floatval($vnum);  //TODO: This needs to be a number, e.g. 25.1 not a string "25.1".
+        $this->blocksettings['MAXIMA_VERSION']     = $settings->maximaversion;
+        $this->blocksettings['URL_BASE']           = moodle_url::make_file_url('/question/type/stack/plot.php', '/');
     }
 
     /**
@@ -71,6 +78,8 @@ class stack_cas_configuration {
      * @return string the command.
      */
     public function get_plotcommand_win($vnum, $maximaversion) {
+
+        $settings = get_config('qtype_stack');
         if ($settings->plotcommand && $settings->plotcommand != 'gnuplot') {
             return $settings->plotcommand;
         }
@@ -147,6 +156,7 @@ END;
         make_upload_directory('stack');
         make_upload_directory('stack/tmp');
         make_upload_directory('stack/plots');
+        // TODO: on windows this needs to overwrite the file if it exists. Doesn't seem to do this.
         file_put_contents(self::maximalocal_location(),
                 self::generate_maximalocal_contents());
     }

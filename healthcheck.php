@@ -74,7 +74,7 @@ echo html_writer::tag('p', stack_string('healthcheckconfigintro'));
 stack_cas_configuration::verify_maximalocal_exists();
 
 echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
-        array('readonly' => 'readonly', 'wrap' => 'virtual'));
+        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
 
 // Test Maxima connection
 echo $OUTPUT->heading(stack_string('healthcheckconnect'), 3);

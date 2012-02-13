@@ -356,7 +356,8 @@ class stack_cas_maxima_connector {
         if ($eqpos = strpos($strin, '=', $offset)) {
             // Check there are ='s
             do {
-                $gb = STACK_Legacy::util_grabbetween($strin, '[', ']', $eqpos);
+                $s = new STACK_StringUtil('');
+                $gb = $s->util_grabbetween($strin, '[', ']', $eqpos);
                 $val = substr($gb[0], 1, strlen($gb[0])-2);
                 $val = str_replace('"', '', $val);
                 $val = trim($val);
@@ -463,9 +464,9 @@ class stack_cas_maxima_connector {
             $unp['result']     = 0;
             $unp['valid']      = 0;
             if (array_key_exists('feedback', $unp)) {
-                $unp['feedback']   .= ' STACK_Legacy::trans("TEST_FAILED");';
+                $unp['feedback']   .= ' stack_trans("TEST_FAILED");';
             } else {
-                $unp['feedback']    = ' STACK_Legacy::trans("TEST_FAILED");';
+                $unp['feedback']    = ' stack_trans("TEST_FAILED");';
             }
             if (array_key_exists('answernote', $unp)) {
                 $unp['answernote'] .= ' TEST_FAILED ';

@@ -6,17 +6,17 @@ The following features are in approximate priority order.  Please contact the de
 
 * Introduce a variable so the maxima code "knows the attempt number".
 * Fix MCQs so that the displayed text is full CASText.  
-* Better deploy reatures, including "drop all" and "redeploy".
+* Better deploy features, including "drop all" and "redeploy".
 * Systematic deploying of all versions?
 * Reinstate dragmath.
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 2.3. (Aalto)
 * Add a feature to display the Maxima form of an internal variable - useful for helping students.  (Aalto: contact Matti).
 * Re-check Maxima functions for security settings.
-* Move sample_questions into the languge directory.
+* Move sample_questions into the language directory.
 
 ### Existing bugs to confirm ###
 
-* What is the status of interaction elements in equations, particularly with MathJAX.  Confirm what happends when these are locked once a worked solution has been called for.
+* What is the status of interaction elements in equations, particularly with MathJAX.  Confirm what happens when these are locked once a worked solution has been called for.
 
 ### Consolidation of mailing lists, forum, wiki etc. ###
 

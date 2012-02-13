@@ -18,4 +18,25 @@ function stack_string($key, $a = null) {
     return get_string($key, 'qtype_stack', $a);
 }
 
+/**
+* Translates a string taken as output from Maxima.
+*
+* This function takes a variable number of arguments, the first of which is assumed to be the identifier
+* of the string to be translated.
+*/
+function stack_trans() {
+    $nargs = func_num_args();
 
+    if ($nargs>0) {
+        $arg_list = func_get_args();
+        $identifier = func_get_arg(0);
+        $a = array();
+        if ($nargs>1) {
+            for ($i=1; $i<$nargs; $i++) {
+                $a[] = func_get_arg($i);
+            }
+        }
+        $return = get_string($identifier, $identifier, $a);
+        echo $return;
+    }
+}

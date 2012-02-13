@@ -53,7 +53,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
             $cs = new stack_cas_casstring($com, 't', true, false);
             if (!$cs->get_valid()) {
                 $this->ATError      = 'TEST_FAILED';
-                $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
+                $this->ATFeedback   = ' stack_trans("TEST_FAILED"); ';
                 $this->ATAnsNote    = 'TEST_FAILED';
                 return null;
             }
@@ -75,22 +75,22 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
 
         if (''!=$session->get_errors_key('caschat0')) {
             $this->ATError      = 'TEST_FAILED';
-            $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
+            $this->ATFeedback   = ' stack_trans("TEST_FAILED"); ';
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_SAns';
             return null;
         }
 
         if (''!=$session->get_errors_key('caschat1')) {
             $this->ATError      = 'TEST_FAILED';
-            $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
+            $this->ATFeedback   = ' stack_trans("TEST_FAILED"); ';
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_TAns';
             return null;
         }
 
         if (''!=$session->get_errors_key('caschat2')) {
             $this->ATError      = 'TEST_FAILED';
-            $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
-            $this->ATFeedback  .= ' STACK_Legacy::trans("AT_InvalidOptions","'.$session->get_errors_key('caschat2').'"); ';
+            $this->ATFeedback   = ' stack_trans("TEST_FAILED"); ';
+            $this->ATFeedback  .= ' stack_trans("AT_InvalidOptions","'.$session->get_errors_key('caschat2').'"); ';
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_Options';
             return null;
         }

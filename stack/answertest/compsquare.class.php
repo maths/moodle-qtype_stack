@@ -49,7 +49,7 @@ class STACK_AnsTest_CompSquare extends STACK_AnsTest {
         if (null === $this->ATOption) {
             //$this->errorLog->addError('Missing variable in CAS Option field');
             $this->ATError      = 'TEST_FAILED';
-            $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); STACK_Legacy::trans("AT_MissingOptions");';
+            $this->ATFeedback   = ' stack_trans("TEST_FAILED"); stack_trans("AT_MissingOptions");';
             $this->ATAnsNote    = 'STACKERROR_OPTION';
             $this->ATMark       = 0;
             return null;
@@ -76,8 +76,8 @@ class STACK_AnsTest_CompSquare extends STACK_AnsTest {
             } else {
                 $this->ATError      = 'TEST_FAILED';
                 $errors = $ct->get_errors();
-                $this->ATFeedback   = ' STACK_Legacy::trans("TEST_FAILED"); ';
-                $this->ATFeedback  .= ' STACK_Legacy::trans("AT_InvalidOptions","'.$errors.' ."); ';
+                $this->ATFeedback   = ' stack_trans("TEST_FAILED"); ';
+                $this->ATFeedback  .= ' stack_trans("AT_InvalidOptions","'.$errors.' ."); ';
                 $this->ATAnsNote    = 'STACKERROR_OPTION';
                 return null;
             }

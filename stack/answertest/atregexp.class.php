@@ -25,7 +25,7 @@ class STACK_AnsTest_ATRegExp extends STACK_AnsTest {
     public function doAnsTest() {
         if ($this->ATOption == null) {
             $this->ATError = 'Missing regular expression in CAS Option field';
-            $this->ATFeedback = ' STACK_Legacy::trans("TEST_FAILED");';
+            $this->ATFeedback = ' stack_trans("TEST_FAILED");';
             $this->ATAnsNote = 'STACKERROR_OPTION_REGEX';
             $this->ATMark = 0;
             return null;

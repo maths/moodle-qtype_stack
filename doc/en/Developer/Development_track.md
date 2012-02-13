@@ -40,8 +40,13 @@ Reinstate the dynamic cache and make it work with one Moodle behaviour.
 * Make STACK respect all Moodle behaviours.
 
 ---
+# Other tasks
 
-Other tasks which need to be completed.
+These tasks also need to be done, but do not block progress towards getting STACK basically working in moodle.
+
+## Languages
+
+* Add in other languages.   Copy over only those strings which are really needed.
 
 ## Maxima
 

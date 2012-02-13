@@ -53,9 +53,8 @@ abstract class STACK_Input_Answer {
     protected $maxLength = null;
 
     /**
-     * Answertest paramaters. An array of the Meta datatype. May be empty. Defaults initialised by the inputtypes constructor.
-     *
-     * @var array
+     * Answertest paramaters.
+     * @var array paramer name => current value.
      */
     protected $parameters;
 
@@ -109,10 +108,10 @@ abstract class STACK_Input_Answer {
     }
 
     /**
-     * Returns the default Input type parameters. Either null or an array of the Meta datatype.
+     * Returns the default parameters for this input, optionally updating them first.
      *
-     * @param array $param
-     * @return array(Meta)
+     * @param array $param array of new parameter values to set.
+     * @return array the parameter values for this field.
      */
     public function getDefaultParam($param = null) {
         return $this->parameters;

@@ -115,4 +115,121 @@ class STACK_AnsTest_General_CAS_test extends UnitTestCase {
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }
+    public function test_is_true_substequiv() {
+        $at = new STACK_AnsTest_General_CAS('a^2+b^2=c^2', 'x^2+y^2=z^2','ATSubstEquiv');
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+
+    public function test_is_false_substequiv() {
+        $at = new STACK_AnsTest_General_CAS('2*x', '3*z', 'ATSubstEquiv');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+    public function test_is_true_for_equal_expressions_expanded() {
+        $at = new STACK_AnsTest_General_CAS('x^2+2*x-1', 'x^2+2*x-1', 'ATExpanded');
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+
+    public function test_is_false_for_unequal_expressions_expanded() {
+        $at = new STACK_AnsTest_General_CAS('(x+1)^2', '(x+1)^2', 'ATExpanded');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+    public function test_is_true_for_equal_expression_FacForms() {
+        $at = new STACK_AnsTest_General_CAS('(x+1)^2', '(x+1)^2', 'ATFacForm', true, 'x', null);
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+
+    public function test_is_false_for_unequal_expressions_FacForm() {
+        $at = new STACK_AnsTest_General_CAS('x^2+2*x+1', '(x+1)^2', 'ATFacForm', true, 'x', null);
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+
+    public function test_is_false_for_missing_option_FacForm() {
+        $at = new STACK_AnsTest_General_CAS('(x+1)^2', '(x+1)^2', 'ATFacForm', true, '', null);
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+
+    public function test_is_true_ATSingleFrac() {
+        $at = new STACK_AnsTest_General_CAS('1/(x*(x+1))', '1/(x*(x+1))', 'ATSingleFrac', false, '', null, 0);
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+
+    public function test_is_false_ATSingleFrac() {
+        $at = new STACK_AnsTest_General_CAS('1/n+1/(n+1)', '1/n+1/(n+1)', 'ATSingleFrac', false, '', null, 0);
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+
+    public function test_is_true_partfrac() {
+        $at = new STACK_AnsTest_General_CAS('1/n+1/(n+1)', '1/n+1/(n+1)', 'ATPartFrac', true, 'n');
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+    
+    public function test_is_false_partfrac() {
+        $at = new STACK_AnsTest_General_CAS('1/(x*(x+1))', '1/(x*(x+1))', 'ATPartFrac', true, 'x');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+    
+    public function test_is_false_for_missing_option_partfrac() {
+        $at = new STACK_AnsTest_General_CAS('(x+1)^2', '(x+1)^2', 'ATPartFrac', true, '');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+    
+    public function test_is_true_for_completed_quadratics_compsquare() {
+        $at = new STACK_AnsTest_General_CAS('(x-1)^2-2', '(x-1)^2-2', 'ATCompSquare', true, 'x');
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+
+    public function test_is_false_for_wrong_form_compsquare() {
+        $at = new STACK_AnsTest_General_CAS('x^2+2*x+1', '(x+1)^2', 'ATCompSquare', true, 'x');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+
+    public function test_is_false_for_missing_option_compsquare() {
+        $at = new STACK_AnsTest_General_CAS('(x+1)^2', '(x+1)^2', 'ATCompSquare', true, '');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+
+    public function test_is_true_for_equal_expressions_GT() {
+        $at = new STACK_AnsTest_General_CAS('2', '1', 'ATGT');
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+    
+    public function test_is_true_for_equal_expressions_GTE() {
+        $at = new STACK_AnsTest_General_CAS('2', '1', 'ATGTE');
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+
+    public function test_is_true_for_equivalent_expressions_int() {
+        $at = new STACK_AnsTest_General_CAS('x^3/3+c', 'x^3/3', 'ATInt', true, 'x');
+        $this->assertTrue($at->doAnsTest());
+        $this->assertEqual(1, $at->getATMark());
+    }
+
+    public function test_is_false_for_equivalent_expressions_int() {
+        $at = new STACK_AnsTest_General_CAS('x^3/3', '2*x', 'ATInt', true, 'x');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
+
+    public function test_is_false_for_missing_option_int() {
+        $at = new STACK_AnsTest_General_CAS('(x+1)^2', '(x+1)^2', 'ATInt', true, '');
+        $this->assertFalse($at->doAnsTest());
+        $this->assertEqual(0, $at->getATMark());
+    }
 }

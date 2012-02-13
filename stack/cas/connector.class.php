@@ -481,6 +481,12 @@ class stack_cas_maxima_connector {
             } else {
                 $unp['error']       = ' TEST_FAILED';
             }
+        } else {
+            if (''==$unp['result']) {
+                $unp['result']     = 0;
+                $unp['valid']      = 0;
+                $unp['answernote'] .= ' EMPTY_RESULT ';
+            }
         }
 
         //Result comes back as a string.  We need to change this to integers.

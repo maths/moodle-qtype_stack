@@ -582,8 +582,9 @@ class stack_answertest_test_data {
         $feedback = $anst->getATFeedback();
         $ansnote  = $anst->getATAnsNote();
 
-        $passed = true;
-        if ($errors) {
+        if ($rawmark===$test->expectedscore) {
+            $passed = true;
+        } else {
             $passed = false;
         }
 

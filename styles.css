@@ -1,0 +1,13 @@
+.path-question-type-stack dt {
+    font-weight: bold;
+}
+.path-question-type-stack dd {
+    margin-left: 2em;
+}
+#page-question-type-stack-healthcheck textarea {
+    font-family: monospace;
+    font-size: 0.8em;
+    width: 100%;
+    height: 32em;
+    white-space: pre;
+}

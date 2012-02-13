@@ -281,8 +281,7 @@ class stack_cas_maxima_connector {
         $ts = substr_count($strin, '[TimeStamp');
         if ($ts != 1) {
             $this->debuginfo .= 'receive_raw_maxima: no timestamp returned.<br />';
-            $errors = true;
-            return null;
+            return array();
         } else {
             $result = strstr($strin, '[TimeStamp'); //remove everything before the timestamp
         }

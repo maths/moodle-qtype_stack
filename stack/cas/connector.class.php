@@ -54,8 +54,6 @@ class stack_cas_maxima_connector {
             $settings = get_config('qtype_stack');
         }
 
-        //TODO should this really be here, or somewhere in the installer?
-        make_upload_directory('stack');
         $path = $CFG->dataroot . '/stack';
 
         $initcommand = 'load("' . $path . '/maximalocal.mac");' . "\n";

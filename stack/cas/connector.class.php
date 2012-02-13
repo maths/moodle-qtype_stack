@@ -20,8 +20,6 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../legacy.class.php');
-
 
 class stack_cas_maxima_connector {
 

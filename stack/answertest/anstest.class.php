@@ -101,11 +101,11 @@ class STACK_AnsTest {
      * @param  int $seed
      * @param  CasString $casOption
      */
-    public function __construct($sAnsKey, $tAnsKey, $options=null, $casOption = null) {
-        $this->sAnsKey  = $sAnsKey;
-        $this->tAnsKey  = $tAnsKey;
-        $this->ATOption = $casOption;
+    public function __construct($sans, $tans, $options=null, $casoption = null) {
+        $this->sAnsKey  = $sans;
+        $this->tAnsKey  = $tans;
         $this->options  = $options;
+        $this->ATOption = $casoption;
         $this->CASProcessTestOps = false;
     }
 
@@ -160,12 +160,7 @@ class STACK_AnsTest {
      * @return string
      */
     public function getATFeedback() {
-        if (!empty($this->ATFeedback)) {
-            $translated = stack_string($this->ATFeedback);
-        } else {
-            $translated = '';
-        }
-        return $translated;
+        return $this->ATFeedback;
     }
 
     /**

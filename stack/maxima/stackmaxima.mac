@@ -235,7 +235,7 @@ StackAddFeedback(fb,key,[ex]):=block([str,exprs,j],
  ev(for j:1 thru length(ex) do
     /* HACK: !quot! needs to be replaced with " when we get into PHP.  */
     exprs:concat(exprs," , !quot!",ex[j],"!quot! "),simp),
- str:concat(fb,"STACK_Legacy::trans('",key,"'",exprs,"); "),
+ str:concat(fb,"stack_trans('",key,"'",exprs,"); "),
  return(str)
  );
 
@@ -985,7 +985,7 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
 Returns true/false */ 
 irred_power_Qp(p,v) := block([ret],
  if safe_op(p)="^" then ret:irred_Q(first(args(p)),v) else ret:irred_Q(p,v),
- if second(ret)="STACK_Legacy::trans('irred_Q_commonint')\; " then true else first(ret)
+ if second(ret)="stack_trans('irred_Q_commonint')\; " then true else first(ret)
 ); 
 /* Picks apart an expression p of v, and gives some feedback */
 /* on why this is not a factored expression */

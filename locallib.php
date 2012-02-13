@@ -36,7 +36,7 @@ function stack_trans() {
                 $a[] = func_get_arg($i);
             }
         }
-        $return = get_string($identifier, $identifier, $a);
+        $return = get_string($identifier, 'qtype_stack', $a);
         echo $return;
     }
 }

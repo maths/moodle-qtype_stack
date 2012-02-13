@@ -91,10 +91,33 @@ $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 
 // Answer tests
+$string['stackOptions_AnsTest_values_AlgEquiv']           =  "AlgEquiv";
+$string['stackOptions_AnsTest_values_Equal_com_ass']      =  "Equal_com_ass";
+$string['stackOptions_AnsTest_values_CASEqual']           =  "CASEqual";
+$string['stackOptions_AnsTest_values_SameType']           =  "SameType";
+$string['stackOptions_AnsTest_values_SubstEquiv']         =  "SubstEquiv";
+$string['stackOptions_AnsTest_values_SysEquiv']           =  "SysEquiv";
+$string['stackOptions_AnsTest_values_Expanded']           =  "Expanded";
+$string['stackOptions_AnsTest_values_FacForm']            =  "FacForm";
+$string['stackOptions_AnsTest_values_SingleFrac']         =  "SingleFrac";
+$string['stackOptions_AnsTest_values_PartFrac']           =  "PartFrac";
+$string['stackOptions_AnsTest_values_CompSquare']         =  "CompletedSquare";
+$string['stackOptions_AnsTest_values_Num_tol_relative']   =  "Num_tol_relative";
+$string['stackOptions_AnsTest_values_Num_tol_absolute']   =  "Num_tol_absolute";
+$string['stackOptions_AnsTest_values_Num_sig_figs']       =  "Num_sig_figs";
+$string['stackOptions_AnsTest_values_Num_GT']             =  "Num_GT";
+$string['stackOptions_AnsTest_values_Num_GTE']            =  "Num_GTE";
+$string['stackOptions_AnsTest_values_Num_LowestTerms']    =  "LowestTerms";
+$string['stackOptions_AnsTest_values_Diff']               =  "Diff";
+$string['stackOptions_AnsTest_values_Int']                =  "Int";
+$string['stackOptions_AnsTest_values_String']             =  "String";
+$string['stackOptions_AnsTest_values_StringSloppy']       =  "StringSloppy";
+$string['stackOptions_AnsTest_values_RegExp']             =  "RegExp";
+
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
-$string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher.';
-$string['AT_MissingOptions']        = 'Missing variable in CAS Option field.';
-$string['AT_InvalidOptions']        = 'Option field is invalid. {$a[0]}';
+$string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. ';
+$string['AT_MissingOptions']        = 'Missing variable in CAS Option field. ';
+$string['AT_InvalidOptions']        = 'Option field is invalid. ';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
@@ -182,3 +205,11 @@ $string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or
 $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
 $string['ATSysEquiv_SA_system_underdetermined']	= 'The equations in your system appear to be correct, but you need others besides.';
 $string['ATSysEquiv_SA_system_overdetermined'] 	= 'The entries in red below are those that are incorrect. {$a[0]} ';
+
+// Answer testsuite front end strings
+$string['stackInstall_testsuite_title']   = 'A test suite for STACK Answer tests';
+$string['stackInstall_testsuite_intro']   = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';
+$string['stackInstall_testsuite_choose']  = 'Please choose an answer test.';
+$string['stackInstall_testsuite_pass']    = 'All tests passed!';
+$string['stackInstall_testsuite_fail']    = 'Not all tests passed!';
+$string['stackInstall_testsuite_for']     = 'Test suite for {$a[0]}';

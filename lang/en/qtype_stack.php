@@ -52,6 +52,46 @@ $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
 $string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values link a,b,c,d';
 
+// Support scripts (CAS chat, healthcheck, etc.)
+$string['all'] = 'All';
+$string['chat'] = 'Send to the CAS';
+$string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
+$string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.';
+$string['chattitle'] = 'Test the connection to the CAS';
+$string['healthcheck'] = 'STACK healthcheck';
+$string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of Stack are working properly.';
+$string['healthcheckconfig'] = 'Maxima configuration file';
+$string['healthcheckconfigintro'] = 'Trying to automatically write the Maxima configuration file.';
+$string['healthcheckconnect'] = 'Trying to connect to the CAS';
+$string['healthcheckconnectintro'] = 'We are trying to evaluate the following cas text:';
+$string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
+$string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. Stack only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
+$string['healthcheckplots'] = 'Graph plotting';
+$string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
+$string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
+$string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
+$string['stackInstall_testsuite_intro'] = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';
+$string['stackInstall_testsuite_choose'] = 'Please choose an answer test.';
+$string['stackInstall_testsuite_pass'] = 'All tests passed!';
+$string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
+$string['answertest'] = 'Answer test';
+$string['testsuitecolpassed'] = 'Passed?';
+$string['studentanswer'] = 'Student response';
+$string['teacheranswer'] = 'Teacher answer';
+$string['options'] = 'Options';
+$string['testsuitecolerror'] = 'CAS errors';
+$string['testsuitecolrawmark'] = 'Raw mark';
+$string['testsuitecolexpectedscore'] = 'Expected score';
+$string['testsuitepass'] = 'Pass';
+$string['testsuitefail'] = 'Fail';
+$string['feedback'] = 'Feedback';
+$string['answernote'] = 'Answer note';
+
+$string['texdisplayedbracket'] = 'Displayed bracket';
+$string['texinlinebracket'] = 'Inline bracket';
+$string['texdoubledollar'] = 'Double dollar';
+$string['texsingledollar'] = 'Single dollar';
+
 // casstring.class.php
 $string['stackCas_spaces']                  = 'Spaces found in expression: ';
 $string['stackCas_percent']                 = '&#037; found in expression: ';
@@ -203,11 +243,3 @@ $string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or
 $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
 $string['ATSysEquiv_SA_system_underdetermined']	= 'The equations in your system appear to be correct, but you need others besides.';
 $string['ATSysEquiv_SA_system_overdetermined'] 	= 'The entries in red below are those that are incorrect. {$a->m0} ';
-
-// Answer testsuite front end strings
-$string['stackInstall_testsuite_title']   = 'A test suite for STACK Answer tests';
-$string['stackInstall_testsuite_intro']   = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';
-$string['stackInstall_testsuite_choose']  = 'Please choose an answer test.';
-$string['stackInstall_testsuite_pass']    = 'All tests passed!';
-$string['stackInstall_testsuite_fail']    = 'Not all tests passed!';
-$string['stackInstall_testsuite_for']     = 'Test suite for {$a->test}';

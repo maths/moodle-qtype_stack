@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk//
+// This file is part of Stack - http://stack.bham.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,3 +52,17 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
 
+$settings->add(new admin_setting_heading('healthcheck',
+        get_string('healthcheck', 'qtype_stack'),
+        get_string('healthcheck_desc', 'qtype_stack',
+                array('link' => (string) new moodle_url('/question/type/stack/healthcheck.php')))));
+
+$settings->add(new admin_setting_heading('chat',
+        get_string('chattitle', 'qtype_stack'),
+        get_string('chat_desc', 'qtype_stack',
+                array('link' => (string) new moodle_url('/question/type/stack/caschat.php')))));
+
+$settings->add(new admin_setting_heading('answertests',
+        get_string('stackInstall_testsuite_title', 'qtype_stack'),
+        get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
+                array('link' => (string) new moodle_url('/question/type/stack/answertests.php')))));

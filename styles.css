@@ -1,13 +1,26 @@
-.path-question-type-stack dt {
+body.path-question-type-stack dt {
     font-weight: bold;
 }
-.path-question-type-stack dd {
+body.path-question-type-stack dd {
     margin-left: 2em;
 }
-#page-question-type-stack-healthcheck textarea {
+body#page-question-type-stack-healthcheck textarea {
     font-family: monospace;
     font-size: 0.8em;
     width: 100%;
     height: 32em;
     white-space: pre;
+}
+
+body.path-question-type-stack table.stacktestsuite .pass td {
+    background-color: #dfd;
+}
+body.path-question-type-stack table.stacktestsuite .fail td {
+    background-color: #fdd;
+}
+body.path-question-type-stack h2.fail {
+    color: #f00;
+}
+body.path-question-type-stack h2.pass {
+    color: #080;
 }

@@ -358,4 +358,8 @@ class stack_cas_text {
         return $this->session->check_external_forbidden_words($keywords);
     }
 
+    public function get_debuginfo() {
+        return $this->session->get_debuginfo();
+    }
+
 } // end class

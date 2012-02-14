@@ -46,6 +46,8 @@ class stack_cas_session {
     private $insertstars;
     private $syntax;
 
+    private $debuginfo;
+
     function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
         $this->session       = $session;   // An array of stack_cas_casstring
@@ -212,7 +214,13 @@ class stack_cas_session {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
         }
 
+        $this->debuginfo = $mconn->get_debuginfo();
+
         $this->instantiated = true;
+    }
+
+    public function get_debuginfo() {
+        return $this->debuginfo;
     }
 
     /* Add extra variables to the end of the existing session */

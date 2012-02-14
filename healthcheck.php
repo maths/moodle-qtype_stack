@@ -76,28 +76,44 @@ stack_cas_configuration::create_maximalocal();
 echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
         array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
 
+// Maxima config
+if (stack_cas_configuration::maxima_bat_is_missing()) {
+    echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
+    echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $CFG->dataroot));
+}
+
 // Test Maxima connection
-echo $OUTPUT->heading(stack_string('healthcheckconnect'), 3);
-echo html_writer::tag('p', stack_string('healthcheckconnectintro'));
-echo html_writer::tag('pre', s($samplecastext));
-
-$ct          = new stack_cas_text($samplecastext);
-$displaytext = $ct->get_display_castext();
-$errs        = $ct->get_errors();
-
-echo html_writer::tag('p', format_text($displaytext));
-echo $errs;
+output_cas_text(stack_string('healthcheckconnect'),
+        stack_string('healthcheckconnectintro'), $samplecastext);
 
 // Test plots
-echo $OUTPUT->heading(stack_string('healthcheckplots'), 3);
-echo html_writer::tag('p', stack_string('healthcheckplotsintro'));
-echo html_writer::tag('pre', s($sampleplots));
-
-$ct          = new stack_cas_text($sampleplots);
-$displaytext = $ct->get_display_castext();
-$errs        = $ct->get_errors();
-
-echo html_writer::tag('p', format_text($displaytext));
-echo $errs;
+output_cas_text(stack_string('healthcheckplots'),
+        stack_string('healthcheckplotsintro'), $sampleplots);
 
 echo $OUTPUT->footer();
+
+
+function output_cas_text($title, $intro, $castext) {
+    global $OUTPUT;
+
+    echo $OUTPUT->heading($title, 3);
+    echo html_writer::tag('p', $intro);
+    echo html_writer::tag('pre', s($castext));
+
+    $ct = new stack_cas_text($castext);
+
+    echo html_writer::tag('p', format_text($ct->get_display_castext()));
+    echo output_debug(stack_string('errors'), $ct->get_errors());
+    echo output_debug(stack_string('debuginfo'), $ct->get_debuginfo());
+}
+
+
+function output_debug($title, $message) {
+    global $OUTPUT;
+
+    if (!$message) {
+        return;
+    }
+
+    return $OUTPUT->box($OUTPUT->heading($title) . $message);
+}

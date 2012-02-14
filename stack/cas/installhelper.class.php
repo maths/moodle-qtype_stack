@@ -132,15 +132,6 @@ END;
     }
 
     /**
-     * Check whether the maximalocal.mac file exists, and if not, create it.
-     */
-    public static function verify_maximalocal_exists() {
-        if (!is_readable(self::maximalocal_location())) {
-            self::create_maximalocal();
-        }
-    }
-
-    /**
      * Get the full path for the maximalocal.mac file.
      * @return string the full path to where the maximalocal.mac file should be stored.
      */
@@ -156,9 +147,14 @@ END;
         make_upload_directory('stack');
         make_upload_directory('stack/tmp');
         make_upload_directory('stack/plots');
-        // TODO: on windows this needs to overwrite the file if it exists. Doesn't seem to do this.
-        file_put_contents(self::maximalocal_location(),
-                self::generate_maximalocal_contents());
+
+        $fh = fopen(self::maximalocal_location(),'w');
+        if ($fh === false) {
+            throw new Exception('Failed to write Maxima configuration file.');
+        } else {
+            fwrite($fh, self::generate_maximalocal_contents());
+            fclose($fh);
+        }
     }
 
     /**

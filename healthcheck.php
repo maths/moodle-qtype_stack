@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script helps verify that the stack is installed correctly, and that
+ * This script helps  that the stack is installed correctly, and that
  * all the parts are working properly, including the conection to the CAS,
  * graph plotting, and equation rendering.
  *
@@ -71,7 +71,7 @@ echo html_writer::tag('dd', format_text('\(' . $sampletex . '\)'));
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 echo html_writer::tag('p', stack_string('healthcheckconfigintro'));
 
-stack_cas_configuration::verify_maximalocal_exists();
+stack_cas_configuration::create_maximalocal();
 
 echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
         array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));

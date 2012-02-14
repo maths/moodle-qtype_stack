@@ -24,7 +24,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class STACK_Input_Answer {
+abstract class stack_interaction_element {
 
     /**
      * @var string the name of the interaction element. This is the name of the

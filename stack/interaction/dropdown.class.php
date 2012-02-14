@@ -24,7 +24,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_Input_DropDownList extends STACK_Input_Answer {
+class stack_interaction_dropdown extends stack_interaction_element {
 
     public function __construct($name, $width = null, $default = null, $maxLength = null,
             $height = null, $param = null) {

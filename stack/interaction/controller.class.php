@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defined the STACK_Input_Controller class.
+ * Defined the stack_interaction_controller class.
  */
 
 require_once(dirname(__FILE__) . '/answer.class.php');
@@ -28,16 +28,16 @@ require_once(dirname(__FILE__) . '/answer.class.php');
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_Input_Controller {
+class stack_interaction_controller {
     protected static $types = array(
-        'algebraic'  => 'STACK_Input_Algebra',
-        'boolean'    => 'STACK_Input_Boolean',
-        'dropDown'   => 'STACK_Input_DropDownList',
-//        'list'       => 'STACK_Input_List',
-//        'matrix'     => 'STACK_Input_Matrix',
-        'singleChar' => 'STACK_Input_SingleChar',
-//        'slider'     => 'STACK_Input_Slider',
-        'textArea'   => 'STACK_Input_TextArea',
+        'algebraic'  => 'stack_interaction_algebra',
+        'boolean'    => 'stack_interaction_boolean',
+        'dropDown'   => 'stack_interaction_dropdown',
+//        'list'       => 'stack_interaction_list',
+//        'matrix'     => 'stack_interaction_matrix',
+        'singleChar' => 'stack_interaction_singlechar',
+//        'slider'     => 'stack_interaction_slider',
+        'textArea'   => 'stack_interaction_textarea',
     );
 
     /**
@@ -51,7 +51,7 @@ class STACK_Input_Controller {
      * @param int $maxLength limit on the maximum input length.
      * @param int $height height of the input.
      * @param array $param some sort of options.
-     * @return STACK_Input_Answer the requested interaction element.
+     * @return stack_interaction_element the requested interaction element.
      */
     public static function make_element($type, $name, $width = null,
             $default = null, $maxLength = null, $height = null, $param = null) {

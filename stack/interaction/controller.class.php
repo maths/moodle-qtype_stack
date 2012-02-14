@@ -18,7 +18,7 @@
  * Defined the stack_interaction_controller class.
  */
 
-require_once(dirname(__FILE__) . '/answer.class.php');
+require_once(dirname(__FILE__) . '/interactionelement.class.php');
 
 
 /**

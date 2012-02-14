@@ -17,20 +17,81 @@
 /**
  * Stack question definition class.
  *
- * @package    qtype_stack
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_stack
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(dirname(__FILE__) . '/stack/interaction/controller.class.php');
+
 
 /**
- * Represents a drag-and-drop words into sentences question.
+ * Represents a Stack question.
  *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_question extends question_graded_automatically {
+
+    /**
+     * @var array string name as it appears in the question text => stack_interaction_element
+     */
+    public $interactions;
+
+    /**
+     * @var array int respones tree number => ...
+     */
+    public $prts;
+
+    /**
+     * @var array question-level options.
+     */
+    public $options;
+
+    public function start_attempt(question_attempt_step $step, $variant) {
+        // TODO
+    }
+
+    public function apply_attempt_state(question_attempt_step $step) {
+        // TODO
+    }
+
+    public function get_expected_data() {
+        $expected = array();
+        foreach ($this->interactions as $name => $ie) {
+            $expected[$name] = PARAM_RAW;
+        }
+        return $expected;
+    }
+
+    public function summarise_response(array $response) {
+        return ''; // TODO
+    }
+
+    public function get_correct_response() {
+        return null; // TODO can we implement this?
+    }
+
+    public function is_same_response(array $prevresponse, array $newresponse) {
+        return false; // TODO
+    }
+
+    public function is_complete_response(array $response) {
+        return false; // TODO
+    }
+
+    public function is_gradable_response(array $response) {
+        return false; // TODO
+    }
+
+    public function get_validation_error(array $response) {
+        return ''; // TODO
+    }
+
+    public function grade_response(array $response) {
+        return array(0, question_state::$gradedwrong);
+    }
 }

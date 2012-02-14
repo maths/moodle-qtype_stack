@@ -17,9 +17,9 @@
 /**
  * Stack question renderer class.
  *
- * @package    qtype_stack
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_stack
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
@@ -29,8 +29,28 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Generates the output for Stack questions.
  *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_renderer extends qtype_renderer {
+    public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
+        $question = $qa->get_question();
+
+        $questiontext = $question->questiontext;
+        foreach ($question->interactions as $name => $interaction) {
+            $questiontext = str_replace("#{$name}#",
+                    $interaction->getXHTML($options->readonly), $questiontext);
+
+            // TODO see stack_old/lib/ui/DisplayItem.php.
+            $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", '', $questiontext);
+        }
+
+        foreach ($question->prts as $index => $prt) {
+            // TODO see stack_old/lib/ui/DisplayItem.php.
+            $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", '', $questiontext);
+        }
+
+        return $question->format_text($questiontext, $question->questiontextformat,
+                $qa, 'question', 'questiontext', $question->id);
+    }
 }

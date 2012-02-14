@@ -69,27 +69,38 @@ extends UnitTestCase {
 class stack_cas_keyval_exception_test
 extends UnitTestCase
 {
-    public function exception($a, $b, $c, $d) {
+    public function test_exception_1() {
         $this->expectException();
-        $at1 = new stack_cas_keyval($a, $b, $c, $d);
+        $at1 = new stack_cas_keyval(array(), false, false, false);
     }
 
-    public function test_exception() {
-        // __construct($raw, $securityLevel='s', $syntax=true, $stars=false)
+    public function test_exception_2() {
+        $this->expectException();
+        $at1 = new stack_cas_keyval(1, false, false, false);
+    }
 
-        $cases = array(
-                array(array(), false, false, false),
-                array(1, false, false, false),
-                array('x=1', false, false, false),
-                array('x=1', null, false, false),
-                array('x=1', 'z', false, false),
-                array('x=1', 't', 1, false),
-                array('x=1', 't', false, 1),
-            );
+    public function test_exception_3() {
+        $this->expectException();
+        $at1 = new stack_cas_keyval('x=1', false, false, false);
+    }
 
-        foreach ($cases as $case) {
-            $this->exception($case[0], $case[1], $case[2], $case[3]);
-        }
+    public function test_exception_4() {
+        $this->expectException();
+        $at1 = new stack_cas_keyval('x=1', null, false, false);
+    }
 
+    public function test_exception_5() {
+        $this->expectException();
+        $at1 = new stack_cas_keyval('x=1', 'z', false, false);
+    }
+
+    public function test_exception_6() {
+        $this->expectException();
+        $at1 = new stack_cas_keyval('x=1', 't', 1, false);
+    }
+
+    public function test_exception_7() {
+        $this->expectException();
+        $at1 = new stack_cas_keyval('x=1', 't', false, 1);
     }
 }

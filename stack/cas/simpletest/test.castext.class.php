@@ -98,31 +98,60 @@ extends UnitTestCase{
 class stack_cas_text_exception_test
 extends UnitTestCase {
 
-    public function exception($a, $b, $c, $d, $e, $f) {
+    public function test_exception_1() {
+        $session = new stack_cas_session(null);
         $this->expectException();
-        $at1 = new stack_cas_session($a, $b, $c, $d, $e, $f);
+        $at1 = new stack_cas_session(array(), null, null, null, false, false);
         $at1->get_valid();
     }
 
-    public function test_exception() {
-        // __construct($rawCASText, $session=null, $seed=null, $securityLevel='s', $syntax=true, $stars=false)
-
+    public function test_exception_2() {
         $session = new stack_cas_session(null);
-
-        $cases = array(
-            array(array(), null, null, null, false, false),
-            array("Hello world", array(1), null, null, false, false),
-            array("Hello world", $session, null, null, false, false),
-            array("Hello world", $session, "abc", null, false, false),
-            array("Hello world", $session, 123, 123, false, false),
-            array("Hello world", $session, null, 'z', false, false),
-            array("Hello world", $session, null, 't', 1, false),
-            array("Hello world", $session, null, 't', false, 1)
-            );
-
-        foreach ($cases as $case) {
-            $this->Exception($case[0], $case[1], $case[2], $case[3], $case[4], $case[5]);
-        }
-
+        $this->expectException();
+        $at1 = new stack_cas_session("Hello world", array(1), null, null, false, false);
+        $at1->get_valid();
     }
+
+    public function test_exception_3() {
+        $session = new stack_cas_session(null);
+        $this->expectException();
+        $at1 = new stack_cas_session("Hello world", $session, null, null, false, false);
+        $at1->get_valid();
+    }
+
+    public function test_exception_4() {
+        $session = new stack_cas_session(null);
+        $this->expectException();
+        $at1 = new stack_cas_session("Hello world", $session, "abc", null, false, false);
+        $at1->get_valid();
+    }
+
+    public function test_exception_5() {
+        $session = new stack_cas_session(null);
+        $this->expectException();
+        $at1 = new stack_cas_session("Hello world", $session, 123, 123, false, false);
+        $at1->get_valid();
+    }
+
+    public function test_exception_6() {
+        $session = new stack_cas_session(null);
+        $this->expectException();
+        $at1 = new stack_cas_session("Hello world", $session, null, 'z', false, false);
+        $at1->get_valid();
+    }
+
+    public function test_exception_7() {
+        $session = new stack_cas_session(null);
+        $this->expectException();
+        $at1 = new stack_cas_session("Hello world", $session, null, 't', 1, false);
+        $at1->get_valid();
+    }
+
+    public function test_exception_8() {
+        $session = new stack_cas_session(null);
+        $this->expectException();
+        $at1 = new stack_cas_session("Hello world", $session, null, 't', false, 1);
+        $at1->get_valid();
+    }
+
 }

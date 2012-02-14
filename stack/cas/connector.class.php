@@ -26,7 +26,7 @@ class stack_cas_maxima_connector {
     /** @var array Contains all system configuration, e.g. location of Maxima  */
     private $config;
 
-    /** @var STACK_options  */
+    /** @var stack_options  */
     private $options;
 
     /** @var string This collects all debug information.  */
@@ -41,12 +41,12 @@ class stack_cas_maxima_connector {
         $this->debuginfo ='';
 
         if (null===$options) {
-            $this->options = new STACK_options();
+            $this->options = new stack_options();
         }
 
-        if (!is_a($options, 'STACK_options')) {
-            // TODO: enforce this check.
-            //throw new Exception('stack_cas_maxima_connector: options must be STACK_options or null.');
+        if (!is_a($this->options, 'stack_options')) {
+            var_dump($options);
+            throw new Exception('stack_cas_maxima_connector: options must be stack_options or null.');
         }
     }
 

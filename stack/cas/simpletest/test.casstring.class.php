@@ -81,23 +81,29 @@ extends UnitTestCase {
 class stack_cas_casstring_exception_test
 extends UnitTestCase {
 
-    public function exception($a, $b, $c, $d) {
+    public function test_exception_1() {
         $this->expectException();
-        $at1 = new stack_cas_casstring($a, $b, $c, $d);
+        $at1 = new stack_cas_casstring(array(), false, false, false);
     }
 
-    public function test_exception() {
-        $cases = array(
-            array(array(), false, false, false),
-            array("x=1", false, false, false),
-            array("x=1", 'z', false, false),
-            array("x=1", 't', 'a', false),
-            array("x=1", 't', true, 'a')
-        );
-
-        foreach ($cases as $case) {
-            $this->Exception($case[0], $case[1], $case[2], $case[3]);
-        }
-
+    public function test_exception_2() {
+        $this->expectException();
+        $at1 = new stack_cas_casstring("x=1", false, false, false);
     }
+
+    public function test_exception_3() {
+        $this->expectException();
+        $at1 = new stack_cas_casstring("x=1", 'z', false, false);
+    }
+
+    public function test_exception_4() {
+        $this->expectException();
+        $at1 = new stack_cas_casstring("x=1", 't', 'a', false);
+    }
+
+    public function test_exception_5() {
+        $this->expectException();
+        $at1 = new stack_cas_casstring("x=1", 't', true, 'a');
+    }
+
 }

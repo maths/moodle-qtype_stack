@@ -51,8 +51,8 @@ class STACK_AnsTest_General_CAS extends STACK_AnsTest {
             throw new Exception('STACK_AnsTest_General_CAS: requirecasoptions, must be Boolean.');
         }
         
-        if (!(null===$options || is_a($options, 'STACK_options'))) {
-            throw new Exception('STACK_AnsTest_General_CAS: options must be STACK_options or null.');
+        if (!(null===$options || is_a($options, 'stack_options'))) {
+            throw new Exception('STACK_AnsTest_General_CAS: options must be stack_options or null.');
         }
         
         $this->casfunction       = $casfunction;
@@ -95,9 +95,9 @@ class STACK_AnsTest_General_CAS extends STACK_AnsTest {
 
         // Sort out options
         if (null === $this->options) {
-            $this->options = new STACK_options();
+            $this->options = new stack_options();
         }
-        if (is_int($this->simp)) {
+        if (!(null===$this->simp)) {
             $this->options->set_option('simplify', $this->simp);
         }
         

@@ -21,13 +21,13 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- class STACK_options {
+ class stack_options {
 
     private $options;   // Exactly the CASText entered.
 
     public function __construct($settings = array()) {
 
-        //i		OptionType can be: boolean, string, html, email, url, number, list
+        //i		OptionType can be: boolean, string, html, list
         $this->options  = array( // Array of public class settings for this class.
             'display'   =>  array(
                 'type'       =>  'list',
@@ -128,13 +128,13 @@
         );
 
         if (!is_array($settings)) {
-            throw new Exception('STACK_options: $settings must be an array.');
+            throw new Exception('stack_options: $settings must be an array.');
         }
 
         // Overright them from any input
         foreach ($settings as $key => $val) {
             if (!array_key_exists($key, $this->settings)) {
-                throw new Exception('STACK_options construct: $key '.$key.' is not a valid option name.');
+                throw new Exception('stack_options construct: $key '.$key.' is not a valid option name.');
             } else {
                 $this->options[$key] = $val;
             }
@@ -142,20 +142,52 @@
 
 }
 
+    /*
+     * This function validates the information.
+     * TODO: this will need to be refactored to return messages to users who enter data in forms, not just throw exceptions.
+     */
+    private function validate_key($key,$val) {
+        if (!array_key_exists($key, $this->options)) {
+            throw new Exception('stack_options set_option: $key '.$key.' is not a valid option name.');
+        } 
+        $optiontype = $this->options[$key]['type'];
+        switch($optiontype) {
+            case 'boolean':
+                if (!(0===$val || 1===$val)) {
+                    throw new Exception('stack_options set boolean option: options store booleans as 1 or 0, not true or false.  Recieved '.$val);
+                }
+                break;
+
+            case 'string':
+                //TODO
+                break;
+
+            case 'html':
+                //TODO
+                break;
+
+            case 'list':
+                if (!in_array($val, $this->options[$key]['values'])) {
+                    throw new Exception('stack_options set option '.$val.' for '.$key.' is invalid');
+                }
+                break;
+        }
+        return true;
+    }
+
     public function get_option($key) {
         if (!array_key_exists($key, $this->options)) {
-            throw new Exception('STACK_options get_option: $key '.$key.' is not a valid option name.');
+            throw new Exception('stack_options get_option: $key '.$key.' is not a valid option name.');
         } else {
             return $this->options[$key]['value'];
         }
     }
 
     public function set_option($key, $val) {
-        if (!array_key_exists($key, $this->options)) {
-            throw new Exception('STACK_options set_option: $key '.$key.' is not a valid option name.');
-        } else {
+        if ($this->validate_key($key, $val)) {
             $this->options[$key]['value']=$val;
-        }
+        } // Else an exception will have been thrown.  
+          // TODO: return useful errors to users who enter data....
     }
 
     public function get_cas_commands() {

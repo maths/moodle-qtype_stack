@@ -54,11 +54,11 @@ class stack_cas_session {
         $this->syntax        = $syntax;    // by default strict
 
         if (null===$options) {
-            $this->options = new STACK_options();
-        } else if (is_a($options, 'STACK_options')) {
+            $this->options = new stack_options();
+        } else if (is_a($options, 'stack_options')) {
             $this->options = $options;
         } else {
-            throw new Exception('stack_cas_session: $options must be STACK_options.');
+            throw new Exception('stack_cas_session: $options must be stack_options.');
         }
 
         if ($seed != null) {

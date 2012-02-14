@@ -15,34 +15,20 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for STACK_AnsTest_ATRegExp.
+ * Deals with whole potential response trees.
  *
- * @copyright  2012 The Open University
+ * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-require_once(dirname(__FILE__) . '/../anstest.class.php');
-require_once(dirname(__FILE__) . '/../atregexp.class.php');
-
+require_once(dirname(__FILE__) . 'potentialresponse.class.php');
 
 /**
- * Unit tests for STACK_AnsTest_ATRegExp.
+ * Deals with whole potential response trees.
  *
- * @copyright  2012 The Open University
+ * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_ATRegExp_test extends UnitTestCase {
+class stack_potentialresponse {
 
-    public function test_true_when_matches() {
-        $at = new STACK_AnsTest_ATRegExp('3.1415927', '', array(), '{[0-9]*\.[0-9]*}');
-        $this->assertTrue($at->do_test());
-        $this->assertEqual(1, $at->get_at_mark());
-    }
-
-    public function test_false_when_doesnt_match() {
-        $at = new STACK_AnsTest_ATRegExp('cxcxcz', '', array(), '{[0-9]*\.[0-9]*}');
-        $this->assertFalse($at->do_test());
-        $this->assertEqual(0, $at->get_at_mark());
-    }
 }

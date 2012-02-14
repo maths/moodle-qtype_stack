@@ -34,14 +34,14 @@ class STACK_AnsTest_NumRelative_test extends UnitTestCase {
 
     public function test_is_true_for_equal_expressions() {
         $at = new STACK_AnsTest_NumRelative('1.01', '1');
-        $this->assertTrue($at->doAnsTest());
-        $this->assertEqual(1, $at->getATMark());
+        $this->assertTrue($at->do_test());
+        $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_expressions() {
         $at = new STACK_AnsTest_NumRelative('2', '1', null, '0.5');
-        $this->assertFalse($at->doAnsTest());
-        $this->assertEqual(0, $at->getATMark());
+        $this->assertFalse($at->do_test());
+        $this->assertEqual(0, $at->get_at_mark());
     }
 
 }

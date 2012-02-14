@@ -37,10 +37,10 @@ class STACK_AnsTestController {
     private static $avaliable_ans_tests;
 
     /**
-    * The answertest object that the functions call
-    * @var AnsTest
-    * @access private
-    */
+     * The answertest object that the functions call
+     * @var string
+     * @access private
+     */
     private $at;
 
     // Operations
@@ -61,7 +61,7 @@ class STACK_AnsTestController {
               'CasEqual'     => stack_string("stackOptions_AnsTest_values_CASEqual"),
               'SameType'     => stack_string("stackOptions_AnsTest_values_SameType"),
               'SubstEquiv'   => stack_string("stackOptions_AnsTest_values_SubstEquiv"),
-              'SysEquiv'     => stack_string("stackOptions_AnsTest_values_SysEquiv"),              
+              'SysEquiv'     => stack_string("stackOptions_AnsTest_values_SysEquiv"),
               'Expanded'     => stack_string("stackOptions_AnsTest_values_Expanded"),
               'FacForm'      => stack_string("stackOptions_AnsTest_values_FacForm"),
               'SingleFrac'   => stack_string("stackOptions_AnsTest_values_SingleFrac"),
@@ -82,43 +82,43 @@ class STACK_AnsTestController {
         //echo "<br>In Anstest controller: $AnsTest<br>";
         switch($anstest) {
             case 'AlgEquiv':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATAlgEquiv', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATAlgEquiv', false, $casoption, $options);
                 break;
 
             case 'Equal_Com_Ass':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATEqual_com_ass', false, $casoption, $options, 0);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEqual_com_ass', false, $casoption, $options, 0);
                 break;
 
             case 'CasEqual':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATCASEqual', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCASEqual', false, $casoption, $options);
                 break;
 
             case 'SameType':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSameType', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSameType', false, $casoption, $options);
                 break;
 
             case 'SubstEquiv':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSubstEquiv', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSubstEquiv', false, $casoption, $options);
                 break;
 
             case 'Expanded':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATExpanded', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATExpanded', false, $casoption, $options);
                 break;
 
             case 'FacForm':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATFacForm', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATFacForm', true, $casoption, $options);
                 break;
 
             case 'SingleFrac':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSingleFrac', false, $casoption, $options, 0);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSingleFrac', false, $casoption, $options, 0);
                 break;
 
             case 'PartFrac':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATPartFrac', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATPartFrac', true, $casoption, $options);
                 break;
 
             case 'CompSquare':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATCompSquare', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCompSquare', true, $casoption, $options);
                 break;
 
             case 'String':
@@ -137,19 +137,19 @@ class STACK_AnsTestController {
                 break;
 
             case 'Diff':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATDiff', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATDiff', true, $casoption, $options);
                 break;
 
             case 'Int':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATInt', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATInt', true, $casoption, $options);
                 break;
 
             case 'GT':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATGT', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATGT', false, $casoption, $options);
                 break;
 
             case 'GTE':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATGTE', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATGTE', false, $casoption, $options);
                 break;
 
             case 'NumAbsolute':
@@ -167,15 +167,15 @@ class STACK_AnsTestController {
                 if ('' == trim($casoption)) {
                     $casoption = '3';
                 }
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATNumSigFigs', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumSigFigs', true, $casoption, $options);
                 break;
 
             case 'LowestTerms':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATLowestTerms', false, $casoption, $options, 0);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATLowestTerms', false, $casoption, $options, 0);
                 break;
 
             case 'SysEquiv':
-                $this->at = new STACK_AnsTest_General_CAS($sans, $tans, 'ATSysEquiv', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSysEquiv', false, $casoption, $options);
                 break;
         }
 
@@ -188,8 +188,8 @@ class STACK_AnsTestController {
      * @return bool
      * @access public
      */
-    public function doAnsTest() {
-        $result = $this->at->doAnsTest();
+    public function do_test() {
+        $result = $this->at->do_test();
         return $result;
     }
 
@@ -199,8 +199,8 @@ class STACK_AnsTestController {
      * @return string
      * @access public
      */
-    public function getATErrors() {
-        return $this->at->getATErrors();
+    public function get_at_errors() {
+        return $this->at->get_at_errors();
     }
 
     /**
@@ -209,8 +209,8 @@ class STACK_AnsTestController {
      * @return float
      * @access public
      */
-    public function getATMark() {
-        return $this->at->getATMark();
+    public function get_at_mark() {
+        return $this->at->get_at_mark();
     }
 
     /**
@@ -219,8 +219,8 @@ class STACK_AnsTestController {
      * @return bool
      * @access public
      */
-    public function getATValid() {
-        return $this->at->getATValid();
+    public function get_at_valid() {
+        return $this->at->get_at_valid();
     }
 
     /**
@@ -229,10 +229,9 @@ class STACK_AnsTestController {
      * @return string
      * @access public
      */
-    public function getATAnsNote() {
-        return $this->at->getATAnsNote();
+    public function get_at_answernote() {
+        return $this->at->get_at_answernote();
     }
-
 
     /**
      *
@@ -240,11 +239,11 @@ class STACK_AnsTestController {
      * @return string
      * @access public
      */
-    public function getATFeedback() {
-        $rawfeedback = $this->at->getATFeedback();
+    public function get_at_feedback() {
+        $rawfeedback = $this->at->get_at_feedback();
 
         if (strpos($rawfeedback, 'stack_trans') === false) {
-            return $this->at->getATFeedback();
+            return $this->at->get_at_feedback();
         } else {
             //echo "<br />Raw string:<pre>$rawfeedback</pre>";
             $rawfeedback = str_replace('[[', '', $rawfeedback);
@@ -252,8 +251,7 @@ class STACK_AnsTestController {
             $rawfeedback = str_replace('\n', '', $rawfeedback);
             $rawfeedback = str_replace('\\', '\\\\', $rawfeedback);
             $rawfeedback = str_replace('$', '\$', $rawfeedback);
-            $rawfeedback = str_replace('!quot!','"', $rawfeedback);
-            //echo "<br />Subs string:<pre>$rawfeedback</pre>";
+            $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
             ob_start();
             eval($rawfeedback);
@@ -261,7 +259,7 @@ class STACK_AnsTestController {
             ob_end_clean();
 
             if ('' != trim($translated)) {
-              $translated .= " \n\n";
+                $translated .= " \n\n";
             }
 
             return $translated;
@@ -271,39 +269,19 @@ class STACK_AnsTestController {
     /**
      *
      *
-     * @return ErrorLog
-     * @access public
-     */
-    public function getErrorLog() {
-        return $this->at->getErrorLog();
-    }
-
-    /**
-     *
-     *
-     * @return string
-     * @access public
-     */
-    public function getErrors() {
-        return $this->at->getErrors();
-    }
-
-    /**
-     *
-     *
      * @return array(string)
      * @access public
      */
-    public function getAvaliableAnsTests() {
+    public function stack_available_answer_tests() {
         return $this->avaliableAnsTests;
     }
 
     /**
-    * Returns a list of available answertests
-    * @access public
-    * @return string xhtml
-    *
-    */
+     * Returns a list of available answertests
+     * @access public
+     * @return string xhtml
+     *
+     */
     public function get_edit_dropdown($current, $name='') {
 
         $widget = "<select name=\"$name\">";
@@ -319,14 +297,13 @@ class STACK_AnsTestController {
         return $widget;
     }
 
-
     /**
-    * Returns whether the testops should be processed by the CAS for this AnswerTest
-    * Returns true if the Testops should be processed.
-    *
-    * @return bool
-    * @access public
-    */
+     * Returns whether the testops should be processed by the CAS for this AnswerTest
+     * Returns true if the Testops should be processed.
+     *
+     * @return bool
+     * @access public
+     */
     public function processTestOps() {
         return $this->at->processTestOps();
     }

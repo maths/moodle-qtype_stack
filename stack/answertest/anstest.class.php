@@ -101,7 +101,7 @@ class STACK_AnsTest {
      *
      * @return bool
      */
-    public function doAnsTest() {
+    public function do_test() {
         return null;
     }
 
@@ -110,7 +110,7 @@ class STACK_AnsTest {
      *
      * @return string
      */
-    public function getATErrors() {
+    public function get_at_errors() {
         return $this->ATError;
     }
 
@@ -119,7 +119,7 @@ class STACK_AnsTest {
      *
      * @return float
      */
-    public function getATMark() {
+    public function get_at_mark() {
         return $this->ATMark;
     }
 
@@ -128,7 +128,7 @@ class STACK_AnsTest {
      *
      * @return bool
      */
-    public function getATValid() {
+    public function get_at_valid() {
         return $this->ATValid;
     }
 
@@ -137,7 +137,7 @@ class STACK_AnsTest {
      *
      * @return string
      */
-    public function getATAnsNote() {
+    public function get_at_answernote() {
         return $this->ATAnsNote;
     }
 
@@ -146,7 +146,7 @@ class STACK_AnsTest {
      *
      * @return string
      */
-    public function getATFeedback() {
+    public function get_at_feedback() {
         return $this->ATFeedback;
     }
 

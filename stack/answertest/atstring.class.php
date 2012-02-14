@@ -23,7 +23,8 @@
  */
 class STACK_AnsTest_ATString extends STACK_AnsTest {
 
-    public function doAnsTest() {
+    public function do_test() {
+        $this->ATValid = true;
         if (trim($this->sAnsKey) == trim($this->tAnsKey)) {
             $this->ATMark = 1;
             return true;

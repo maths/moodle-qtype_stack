@@ -36,19 +36,19 @@ class STACK_AnsTest_ATString_test extends UnitTestCase {
 
     public function test_is_true_for_equal_strings() {
         $at = new STACK_AnsTest_ATString('hello', 'hello', array());
-        $this->assertTrue($at->doAnsTest());
-        $this->assertEqual(1, $at->getATMark());
+        $this->assertTrue($at->do_test());
+        $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings() {
         $at = new STACK_AnsTest_ATString('hello', 'heloo', array());
-        $this->assertFalse($at->doAnsTest());
-        $this->assertEqual(0, $at->getATMark());
+        $this->assertFalse($at->do_test());
+        $this->assertEqual(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_strings_with_different_case() {
         $at = new STACK_AnsTest_ATString('Hello', 'hello', array());
-        $this->assertFalse($at->doAnsTest());
-        $this->assertEqual(0, $at->getATMark());
+        $this->assertFalse($at->do_test());
+        $this->assertEqual(0, $at->get_at_mark());
     }
 }

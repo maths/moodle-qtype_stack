@@ -40,7 +40,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
      * @return bool
      * @access public
      */
-    public function doAnsTest() {
+    public function do_test() {
 
         if (trim($this->ATOption) == '') {
             $atest_ops = '0.05';
@@ -58,6 +58,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
                 $this->ATFeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
                 $this->ATAnsNote    = 'STACKERROR_OPTION';
                 $this->ATMark       = 0;
+                $this->ATValid      = false;
                 return null;
             }
         }
@@ -81,6 +82,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
             $this->ATFeedback   = ' stack_trans("TEST_FAILED"); ';
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_SAns';
             $this->ATMark       = 0;
+            $this->ATValid      = false;
             return null;
         }
 
@@ -89,6 +91,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
             $this->ATFeedback   = stack_string("TEST_FAILED");
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_TAns';
             $this->ATMark       = 0;
+            $this->ATValid      = false;
             return null;
         }
 
@@ -99,6 +102,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
             $this->ATFeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
             $this->ATAnsNote    = 'NumAbsolute_STACKERROR_Options';
             $this->ATMark       = 0;
+            $this->ATValid      = false;
             return null;
         }
 
@@ -106,6 +110,7 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
         $flta = $session->get_value_key('caschat4');
         $this->ATAnsNote = " |sa-ta|={$flsa}<={$flta}=tol";
 
+        $this->ATValid = true;
         if ($flsa <= $flta) {
             $this->ATMark = 1;
             return true;

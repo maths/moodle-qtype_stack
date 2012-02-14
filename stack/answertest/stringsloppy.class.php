@@ -25,7 +25,7 @@
  */
 class STACK_AnsTest_StringSloppy extends STACK_AnsTest {
 
-    public function doAnsTest() {
+    public function do_test() {
         $sa = str_replace(' ', '', strtolower(trim($this->sAnsKey)));
         $sa = str_replace("\n", '', $sa);
         $sa = str_replace("\t", '', $sa);

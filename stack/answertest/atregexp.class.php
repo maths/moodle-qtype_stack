@@ -22,15 +22,17 @@
  */
 class STACK_AnsTest_ATRegExp extends STACK_AnsTest {
 
-    public function doAnsTest() {
+    public function do_test() {
         if ($this->ATOption == null) {
             $this->ATError = 'Missing regular expression in CAS Option field';
             $this->ATFeedback = ' stack_trans("TEST_FAILED");';
             $this->ATAnsNote = 'STACKERROR_OPTION_REGEX';
             $this->ATMark = 0;
+            $this->ATValid = false;
             return null;
 
         } else {
+            $this->ATValid = true;
             if (preg_match($this->ATOption, $this->sAnsKey, $pattern)) {
                 $this->ATMark = 1;
                 $this->ATAnsNote = ' Pattern matched: '.$pattern[0];

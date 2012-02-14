@@ -58,7 +58,7 @@ extends UnitTestCase {
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
-        
+
         $options = new stack_options();
         $options->set_option('simplify', 0);
 
@@ -71,8 +71,7 @@ extends UnitTestCase {
 }
 
 
-class stack_cas_session_exception_test 
-extends UnitTestCase {
+class stack_cas_session_exception_test extends UnitTestCase {
 
     public function test_exception_1() {
         $this->expectException();

@@ -55,13 +55,13 @@ class STACK_AnsTest_General_CAS_test extends UnitTestCase {
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
-    
+
     public function test_is_false_for_unequal_expressions_algequiv() {
         $at = new STACK_AnsTest_General_CAS('x^2+2*x-1', '(x+1)^2', 'ATAlgEquiv');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }
-    
+
     public function test_is_false_for_expressions_with_different_type_algequiv() {
         $at = new STACK_AnsTest_General_CAS('(x+1)^2', '[a,b,c]', 'ATAlgEquiv');
         $this->assertFalse($at->doAnsTest());
@@ -109,12 +109,13 @@ class STACK_AnsTest_General_CAS_test extends UnitTestCase {
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
-    
+
     public function test_is_false_sametype() {
         $at = new STACK_AnsTest_General_CAS('x^2+2*x-1', '{(x+1)^2}', 'ATSameType');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }
+
     public function test_is_true_substequiv() {
         $at = new STACK_AnsTest_General_CAS('a^2+b^2=c^2', 'x^2+y^2=z^2','ATSubstEquiv');
         $this->assertTrue($at->doAnsTest());
@@ -172,19 +173,19 @@ class STACK_AnsTest_General_CAS_test extends UnitTestCase {
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
-    
+
     public function test_is_false_partfrac() {
         $at = new STACK_AnsTest_General_CAS('1/(x*(x+1))', '1/(x*(x+1))', 'ATPartFrac', true, 'x');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }
-    
+
     public function test_is_false_for_missing_option_partfrac() {
         $at = new STACK_AnsTest_General_CAS('(x+1)^2', '(x+1)^2', 'ATPartFrac', true, '');
         $this->assertFalse($at->doAnsTest());
         $this->assertEqual(0, $at->getATMark());
     }
-    
+
     public function test_is_true_for_completed_quadratics_compsquare() {
         $at = new STACK_AnsTest_General_CAS('(x-1)^2-2', '(x-1)^2-2', 'ATCompSquare', true, 'x');
         $this->assertTrue($at->doAnsTest());
@@ -208,7 +209,7 @@ class STACK_AnsTest_General_CAS_test extends UnitTestCase {
         $this->assertTrue($at->doAnsTest());
         $this->assertEqual(1, $at->getATMark());
     }
-    
+
     public function test_is_true_for_equal_expressions_GTE() {
         $at = new STACK_AnsTest_General_CAS('2', '1', 'ATGTE');
         $this->assertTrue($at->doAnsTest());

@@ -1,4 +1,4 @@
-<?php 
+<?php
 // This file is part of Stack - http://stack.bham.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
@@ -72,7 +72,7 @@ if ($string) {
 
 echo html_writer::tag('form',
             html_writer::tag('p', html_writer::tag('textarea', $string,
-                    array('cols' => 80, 'rows' => 5, 'name' => 'cas'))) . 
+                    array('cols' => 80, 'rows' => 5, 'name' => 'cas'))) .
             html_writer::tag('p', html_writer::empty_tag('input',
                     array('type' => 'submit', 'value' => stack_string('chat')))),
         array('action' => $PAGE->url, 'method' => 'post'));

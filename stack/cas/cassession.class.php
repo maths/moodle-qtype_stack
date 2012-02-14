@@ -332,7 +332,7 @@ class stack_cas_session {
 
     /**
      * Creates the string which Maxima will execute
-     * 
+     *
      * @return string
      */
     private function construct_maxima_command() {
@@ -369,4 +369,4 @@ class stack_cas_session {
         return $cass;
     }
 
-} // end class 
+}

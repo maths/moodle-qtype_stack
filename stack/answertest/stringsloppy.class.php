@@ -43,4 +43,3 @@ class STACK_AnsTest_StringSloppy extends STACK_AnsTest {
         }
     }
 }
- 

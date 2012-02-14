@@ -33,7 +33,6 @@ class stack_answertest_test_data {
     const SCORE   = 3;
     const OPTIONS = 4;
     const NOTES   = 5;
-    
 
     protected static $rawdata = array(
         // AlgEquiv Answer tests.
@@ -575,7 +574,7 @@ class stack_answertest_test_data {
     public static function run_test($test) {
         $anst = new STACK_AnsTestController($test->name, $test->studentanswer,
                 $test->teacheranswer, new stack_options(), $test->options);
-    
+
         $result   = $anst->doAnsTest(); // This actually executes the answer test in the CAS.
         $errors   = $anst->getATErrors();
         $rawmark  = $anst->getATmark();

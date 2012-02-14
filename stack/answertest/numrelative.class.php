@@ -105,7 +105,7 @@ class STACK_AnsTest_NumRelative extends STACK_AnsTest {
         $flsa = $session->get_value_key('caschat3');
         $flta = $session->get_value_key('caschat4');
         $this->ATAnsNote = " |sa-ta|={$flsa}<={$flta}=tol*ta";
-        
+
         if ($flsa <= $flta) {
             $this->ATMark = 1;
             return true;

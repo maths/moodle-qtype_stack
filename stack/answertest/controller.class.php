@@ -61,7 +61,7 @@ class STACK_AnsTestController {
               'CasEqual'     => stack_string("stackOptions_AnsTest_values_CASEqual"),
               'SameType'     => stack_string("stackOptions_AnsTest_values_SameType"),
               'SubstEquiv'   => stack_string("stackOptions_AnsTest_values_SubstEquiv"),
-              'SysEquiv'     => stack_string("stackOptions_AnsTest_values_SysEquiv"),              
+              'SysEquiv'     => stack_string("stackOptions_AnsTest_values_SysEquiv"),
               'Expanded'     => stack_string("stackOptions_AnsTest_values_Expanded"),
               'FacForm'      => stack_string("stackOptions_AnsTest_values_FacForm"),
               'SingleFrac'   => stack_string("stackOptions_AnsTest_values_SingleFrac"),

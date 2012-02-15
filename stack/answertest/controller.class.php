@@ -177,6 +177,9 @@ class stack_ans_test_controller {
             case 'SysEquiv':
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSysEquiv', false, $casoption, $options);
                 break;
+
+            default:
+                throw new Exception('stack_ans_test_controller: called with invalid answer test name: '.$anstest);
         }
 
     }
@@ -257,10 +260,6 @@ class stack_ans_test_controller {
             eval($rawfeedback);
             $translated = ob_get_contents();
             ob_end_clean();
-
-            if ('' != trim($translated)) {
-                $translated .= " \n\n";
-            }
 
             return $translated;
         }

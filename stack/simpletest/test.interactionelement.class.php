@@ -23,6 +23,7 @@
 
 
 require_once(dirname(__FILE__) . '/../interactionelement.class.php');
+require_once(dirname(__FILE__) . '/../stringutil.class.php');
 
 
 /**

@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . 'answertest/controller.class.php');
+require_once(dirname(__FILE__) . '/answertest/controller.class.php');
 
 /**
  * Individual "potential responses".
@@ -34,12 +34,12 @@ class stack_potentialresponse {
     /*
      * @var stack_cas_casstring Hold's nominal "student's answer".
      */
-    private $sans;
+    public $sans;
 
     /*
      * @var stack_cas_casstring Hold's nominal "teacher's answer".
      */
-    private $tans;
+    public $tans;
 
     /*
      * @var string Name of answer test to be used here.
@@ -49,7 +49,7 @@ class stack_potentialresponse {
     /*
      * @var string Any options for the answer test
      */
-    private $atoptions;
+    public $atoptions;
 
     /*
     * @var boolean Suppress any feedback from the answer test itself?
@@ -76,11 +76,26 @@ class stack_potentialresponse {
      */
     private $branches;
     
-    public function __construct($sans, $tans, $answertest, $atoption = null, $quiet=false) {
-        $this->sans        = $sans;
-        $this->tans        = $tans;
+    public function __construct($sans, $tans, $answertest, $atoptions = null, $quiet=false, $notes='') {
+        if (is_a($sans, 'stack_cas_casstring')) {
+            $this->sans        = $sans;
+        } else {
+            throw new Exception('stack_potentialresponse: sans must be a stack_cas_casstring');
+        }
+        if (is_a($tans, 'stack_cas_casstring')) {
+            $this->tans        = $tans;
+        } else {
+            throw new Exception('stack_potentialresponse: tans must be a stack_cas_casstring');
+        }
         $this->answertest  = $answertest;
-        $this->atoption    = $atoption;
+        if (!is_bool($quiet)) {
+            throw new Exception('stack_cas_session: quiet must be a boolean.');
+        } else {
+            $this->quiet        = $quiet;
+        }
+
+        $this->atoptions = $atoptions;// This is not a stack_options class, but a string.
+        $this->notes = $notes;
 
         $this->instantiated = false;
         $this->branches     = array();
@@ -90,10 +105,10 @@ class stack_potentialresponse {
      * Add information into each branch
      */
     public function add_branch($tf, $mod, $mark, $penalty, $nextpr, $feedback, $answernote) {
-        if ($tf) {
-            $branch = 1;
+        if (1===$tf or 0===$tf) {
+            $branch = $tf;
         } else {
-            $branch = 0;
+            throw new Exception('stack_potentialresponse: branches can only be 0 or 1.');
         }
         $this->branches[$branch]['markmodification']     = $mod;
         $this->branches[$branch]['mark']                 = $mark;
@@ -116,7 +131,7 @@ class stack_potentialresponse {
         $result['result'] = $at->get_at_mark();
         $this->instantiated = true;
 
-        if ($this->result) {
+        if ($result['result']) {
             $branch = 1;
         } else {
             $branch = 0;
@@ -130,15 +145,19 @@ class stack_potentialresponse {
         $result['penalty']          = $this->branches[$branch]['penalty'];
         $result['nextpr']           = $this->branches[$branch]['nextpr'];
 
-        //TODO remove unesessary '|'s.
-        $result['answernote']       = $at->get_at_answernote().' | '.$this->branches[$branch]['answernote'];
+        if (''!=trim($at->get_at_answernote()) and ''!=trim($this->branches[$branch]['answernote'])) {
+            $result['answernote']       = ' | '.$at->get_at_answernote().' | '.$this->branches[$branch]['answernote'];
+        } else {
+            $result['answernote']       = ' | '.trim($at->get_at_answernote().' '.$this->branches[$branch]['answernote']);
+        }
 
         // If the answer test is running in "quiet mode" we suppress any automatically generated feedback from the answertest itself.
         if ($this->quiet) {
             $result['feedback']     = $this->branches[$branch]['feedback'];
         } else {
-            $result['feedback']     = $at->get_at_feedback().' | '.$this->branches[$branch]['feedback'];
+            $result['feedback']     = trim($at->get_at_feedback()).' '.trim($this->branches[$branch]['feedback']);
         }
+        $result['feedback']     = trim($result['feedback']);
 
         $this->result = $result;
         return $result;
@@ -149,18 +168,6 @@ class stack_potentialresponse {
     */
     public function visited_before() {
         return $this->instantiated;
-    }
-
-    public function get_sans() {
-        return $this->sans;
-    }
-
-    public function get_tans() {
-        return $this->tans;
-    }
-
-    public function get_atoptions() {
-        return $this->atoptions;
     }
 
     /*
@@ -176,22 +183,25 @@ class stack_potentialresponse {
             throw new Exception('stack_potentialresponse: potential response must be instantiated before marks can be updated.');
         }
 
-        switch($result['markmodification']) {
+        switch($this->result['markmodification']) {
             case '=':
-                $newmark = $result['mark'];
+                $newmark = $this->result['mark'];
                 break;
 
             case '+':
-                $newmark = $oldmark + $result['mark'];
+                $newmark = $oldmark + $this->result['mark'];
                 break;
 
             case '-':
-                $newmark = $oldmark - $result['mark'];
+                $newmark = $oldmark - $this->result['mark'];
                 break;
 
             case '=AT':
-                $newmark = $result['mark'];
+                $newmark = $this->result['mark'];
                 break;
+
+            default:
+                throw new Exception('stack_potentialresponse: update_mark called with invalid mark modificiation method: '.$result['markmodification']);
         }//switch
         return $newmark;
     }

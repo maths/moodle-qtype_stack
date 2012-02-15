@@ -52,23 +52,23 @@ class stack_potentialresponse_tree {
     private $value;
 
     /*
-     * @var stack_cas_cassession Feeback variables. 
+     * @var stack_cas_cassession Feeback variables.
      */
     private $feedbackvars;
 
     /*
-     * @var array of stack_potentialresponse.  
+     * @var array of stack_potentialresponse.
      */
     private $potentialresponses;
 
-    function __construct() {
+    public function __construct() {
     }
     /*
      * This function actually traverses the tree and generates outcomes.
      */
     public function traverse_tree($questionvars, $options, $answers, $seed) {
 
-        if(empty($this->potentialresponses)) {
+        if (empty($this->potentialresponses)) {
             throw new Exception ('stack_potentialresponse_tree: traverse_tree attempting to traverse an empty tree.  Something is wrong here.');
         }
 
@@ -86,32 +86,32 @@ class stack_potentialresponse_tree {
         $cascontext = clone $questionvars;
         // Add in students' answers....
         $cascontext->merge_session($this->feedbackvars);
-        
+
         // (2) Traverse the $potentialresponses and pull out all sans, tans and options.
         $answervars = array();
         foreach ($this->potentialresponses as $key => $pr) {
-            $sans = $pr->get_sans();
+            $sans = $pr->sans;
             $sans->set_key('PRSANS'.$key);
             $answervars[]=$sans;
 
-            $tans = $pr->get_tans();
+            $tans = $pr->tans;
             $tans->set_key('PRTANS'.$key);
             $answervars[]=$tans;
 
             if ($pr->process_atoptions()) {
-                $atopts = new stack_cas_casstring($pr->get_atoptions(),'t',false,false);
+                $atopts = new stack_cas_casstring($pr->atoptions, 't', false, false);
                 $atopts->set_key('PRATOPT'.$key);
                 $answervars[]=$atopts;
             }
         }
         $cascontext->add_vars($answervars);
-        
+
         // (3) Instantiate these background variables
         $cascontext->instantiate();
         //TODO error trapping at this stage....?
         // (4) Traverse the tree.
         $nextpr = 0;
-        while($nextpr != -1) {
+        while ($nextpr != -1) {
 
             $pr = $this->potentialresponses[$nextpr];
 
@@ -147,7 +147,7 @@ class stack_potentialresponse_tree {
         }
         // (5) Instantiate the feedback castext.
 
-        $feedbackct = new stack_cas_text($feedback,$cascontext,$seed,'t',false,false);
+        $feedbackct = new stack_cas_text($feedback, $cascontext, $seed, 't', false, false);
         $feedback = $feedbackct->get_display_castext();
         $errors .= $feedbackct->get_errors();
         // (6) Return the results and clean up.

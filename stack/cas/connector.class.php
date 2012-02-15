@@ -30,15 +30,13 @@ class stack_cas_maxima_connector {
     private $options;
 
     /** @var string This collects all debug information.  */
-    private $debuginfo;
+    private $debuginfo = '';
 
     public function __construct($options=null) {
 
         $this->config = $this->load_config();
 
         $this->options = $options;
-
-        $this->debuginfo ='';
 
         if (null===$options) {
             $this->options = new stack_options();
@@ -68,6 +66,9 @@ class stack_cas_maxima_connector {
         if ('' == trim($cmd) ) {
             if ('win'==$settings->platform) {
                 $cmd = $path . '/maxima.bat';
+                if (!is_readable($cmd)) {
+                    throw new Exception("stack_cas_maxima_connector: maxima launch script {$cmd} does not exist.");
+                }
             } else {
                 $cmd = 'maxima';
             }
@@ -88,6 +89,18 @@ class stack_cas_maxima_connector {
         return $this->debuginfo;
     }
 
+    private function debug($heading, $message) {
+        if (!$this->config['debug']) {
+            return;
+        }
+        if ($heading) {
+            $this->debuginfo .= html_writer::tag('h3', $heading);
+        }
+        if ($message) {
+            $this->debuginfo .= html_writer::tag('pre', $message);
+        }
+    }
+
     /**
      * Deal with platforms, and send a string to Maxima.
      *
@@ -96,15 +109,12 @@ class stack_cas_maxima_connector {
      */
     private function send_to_maxima($command) {
 
-        if ($this->config['debug']) {
-            $this->debuginfo .= '<h2>CAS command:</h2> <pre>'.$command.'</pre>';
-        }
+        $this->debug('CAS command', $command);
 
         $platform = $this->config['platform'];
 
         if ($platform == 'win') {
             $result = $this->send_win($command);
-            //echo "result: $result";
         } else if (($platform == 'unix') || ($platform == 'server')) {
             // TODO:server mode currently falls back to launching a Maxima process.
             $result = $this->send_unix($command);
@@ -112,9 +122,7 @@ class stack_cas_maxima_connector {
             throw new Exception('stack_cas_maxima_connector: Unknown platform '.$platform);
         }
 
-        if ($this->config['debug']) {
-            $this->debuginfo .= '<h2>CAS result:</h2> <pre>'.$result.'</pre>';
-        }
+        $this->debug('CAS result', $result);
 
         return $result;
     }
@@ -135,39 +143,36 @@ class stack_cas_maxima_connector {
             2 => array('file', $this->config['logs']."cas_errors.txt", 'a'));
 
         $cmd = '"'.$this->config['command'].'"';
+        $this->debug('Command line', $cmd);
 
         $casprocess = proc_open($cmd, $descriptors, $pipes);
-        if (is_resource($casprocess)) {
-            if (!fwrite($pipes[0], $this->config['init_command'])) {
-                //echo "<br />Could not write to the CAS process!<br/ >\n";
-                //$this->logger->critical('Could not write to CAS process '.$cmd);
-                return(false);
-            }
-            fwrite($pipes[0], $command);
-            fwrite($pipes[0], 'quit();\n\n');
-            fflush($pipes[0]);
-
-            $ret = '';
-            // read output from stdout
-
-            while (!feof($pipes[1])) {
-                $out = fgets($pipes[1], 1024);
-                if ('' == $out) {
-                    // PAUSE
-                    usleep(1000);
-                }
-                $ret .= $out;
-            }
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-
-        } else {
-            $this->debuginfo .= 'Could not open a CAS process.';
-            die();
+        if (!is_resource($casprocess)) {
+            throw new Exception('stack_cas_maxima_connector: Could not open a CAS process.');
         }
-        $ret = trim($ret);
 
-        return $ret;
+        if (!fwrite($pipes[0], $this->config['init_command'])) {
+            //echo "<br />Could not write to the CAS process!<br/ >\n";
+            //$this->logger->critical('Could not write to CAS process '.$cmd);
+            return(false);
+        }
+        fwrite($pipes[0], $command);
+        fwrite($pipes[0], 'quit();\n\n');
+        fflush($pipes[0]);
+
+        // read output from stdout
+        $ret = '';
+        while (!feof($pipes[1])) {
+            $out = fgets($pipes[1], 1024);
+            if ('' == $out) {
+                // PAUSE
+                usleep(1000);
+            }
+            $ret .= $out;
+        }
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+
+        return trim($ret);
     }
 
     /**
@@ -183,11 +188,6 @@ class stack_cas_maxima_connector {
     private function send_unix($strin) {
         // Sends the $st to maxima.
 
-        if ($this->config['debug']) {
-            $debug = true;
-        } else {
-            $debug = false;
-        }
         $ret = false;
         $err = '';
         $cwd = null;
@@ -203,63 +203,59 @@ class stack_cas_maxima_connector {
         echo $proc_array['pid'].'<br />';
         echo $proc_array['running'].'<br />';*/
 
-        if (is_resource($casprocess)) {
+        if (!is_resource($casprocess)) {
+            throw new Exception('stack_cas_maxima_connector: could not open a CAS process');
+        }
 
-            if (!fwrite($pipes[0], $this->config['init_command'])) {
-                echo "<br />Could not write to the CAS process!<br />\n";
-                //$this->logger->critical('Could not write to the CAS process: '.$cmd);
-                return(false);
-            }
-            fwrite($pipes[0], $strin);
-            fwrite($pipes[0], 'quit();'."\n\n");
+        if (!fwrite($pipes[0], $this->config['init_command'])) {
+            echo "<br />Could not write to the CAS process!<br />\n";
+            //$this->logger->critical('Could not write to the CAS process: '.$cmd);
+            return(false);
+        }
+        fwrite($pipes[0], $strin);
+        fwrite($pipes[0], 'quit();'."\n\n");
 
-            $ret = '';
-            // read output from stdout
-            $start_time = microtime(true);
-            $continue   = true;
+        $ret = '';
+        // read output from stdout
+        $start_time = microtime(true);
+        $continue   = true;
 
-            if (!stream_set_blocking($pipes[1], false)) {
-                $this->debuginfo .= "<br />Warning: could not stream_set_blocking to be FALSE on the CAS process.";
-            }
+        if (!stream_set_blocking($pipes[1], false)) {
+            $this->debug('', 'Warning: could not stream_set_blocking to be FALSE on the CAS process.');
+        }
 
-            while ($continue and !feof($pipes[1])) {
+        while ($continue and !feof($pipes[1])) {
 
-                $now =  microtime(true);
+            $now = microtime(true);
 
-                if (($now-$start_time) > $this->config['timeout']) {
-                    $proc_array = proc_get_status($casprocess);
-                    if ($proc_array['running']) {
-                        proc_terminate($casprocess);
-                    }
-                    $continue = false;
-                } else {
-                    $out = fread($pipes[1], 1024);
-                    if ('' == $out) {
-                        // PAUSE
-                        usleep(1000);
-                    }
-                    $ret .= $out;
+            if (($now-$start_time) > $this->config['timeout']) {
+                $proc_array = proc_get_status($casprocess);
+                if ($proc_array['running']) {
+                    proc_terminate($casprocess);
                 }
-
-            }
-
-            if ($continue) {
-                fclose($pipes[0]);
-                fclose($pipes[1]);
-                if ($debug) {
-                    $time_taken = $now-$start_time;
-                    $this->debuginfo .=  "Start: $start_time<br >End: $now<br >Taken = $time_taken";
-                };
-
+                $continue = false;
             } else {
-                // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
-                $ret .=' The CAS timed out. ] ] ] ]';
+                $out = fread($pipes[1], 1024);
+                if ('' == $out) {
+                    // PAUSE
+                    usleep(1000);
+                }
+                $ret .= $out;
             }
+
+        }
+
+        if ($continue) {
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            $this->debug('Timings', "Start: {$start_time}, End: {$now}, Taken = " .
+                    ($now - $start_time));
 
         } else {
-            echo "STACK error: could not open a CAS process<br />\n";
-            die();
+            // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
+            $ret .=' The CAS timed out. ] ] ] ]';
         }
+
         return $ret;
     }
 
@@ -267,9 +263,8 @@ class stack_cas_maxima_connector {
 
         $result = $this->send_to_maxima($command);
         $unp = $this->maxima_raw_session($result);
-        if ($this->config['debug']) {
-            $this->debuginfo .= '<h2>Unpacked result as:</h2> <pre>'.print_r($unp, true).'</pre>';
-        }
+
+        $this->debug('Unpacked result as', print_r($unp, true));
 
         return $unp;
     }
@@ -286,7 +281,7 @@ class stack_cas_maxima_connector {
         //check we have a timestamp & remove everything before it.
         $ts = substr_count($strin, '[TimeStamp');
         if ($ts != 1) {
-            $this->debuginfo .= 'receive_raw_maxima: no timestamp returned.<br />';
+            $this->debug('', 'receive_raw_maxima: no timestamp returned.');
             return array();
         } else {
             $result = strstr($strin, '[TimeStamp'); //remove everything before the timestamp

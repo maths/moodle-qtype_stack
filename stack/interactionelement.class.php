@@ -21,7 +21,7 @@
  * Interaction elements are the controls that the teacher can put into the question
  * text to receive the student's input.
  *
- * TODO merge this with interaction/answer.class.php
+ * TODO merge this with interaction/interactionelement.class.php
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

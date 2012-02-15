@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the STACK_Input_Boolean class.
+ * Unit tests for the stack_interaction_boolean class.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,44 +26,44 @@ require_once(dirname(__FILE__) . '/../controller.class.php');
 
 
 /**
- * Unit tests for STACK_Input_Boolean_test.
+ * Unit tests for stack_interaction_boolean_test.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_Input_Boolean_test extends UnitTestCase {
+class stack_interaction_boolean_test extends UnitTestCase {
 
     protected function expected_choices() {
         return array(
-            STACK_Input_Boolean::F => stack_string('false'),
-            STACK_Input_Boolean::T => stack_string('true'),
-            STACK_Input_Boolean::NA => stack_string('notanswered'),
+            stack_interaction_boolean::F => stack_string('false'),
+            stack_interaction_boolean::T => stack_string('true'),
+            stack_interaction_boolean::NA => stack_string('notanswered'),
         );
     }
 
     public function test_getXHTML_not_answered() {
-        $el = STACK_Input_Controller::make_element('boolean', 'ans1');
+        $el = stack_interaction_controller::make_element('boolean', 'ans1');
         $this->assert(new ContainsSelectExpectation('ans1', $this->expected_choices(),
-                STACK_Input_Boolean::NA), $el->getXHTML(false));
+                stack_interaction_boolean::NA), $el->getXHTML(false));
     }
 
     public function test_getXHTML_true() {
-        $el = STACK_Input_Controller::make_element('boolean', 'ans2');
-        $el->setDefault(STACK_Input_Boolean::T);
+        $el = stack_interaction_controller::make_element('boolean', 'ans2');
+        $el->setDefault(stack_interaction_boolean::T);
         $this->assert(new ContainsSelectExpectation('ans2', $this->expected_choices(),
-                STACK_Input_Boolean::T), $el->getXHTML(false));
+                stack_interaction_boolean::T), $el->getXHTML(false));
     }
 
     public function test_getXHTML_false() {
-        $el = STACK_Input_Controller::make_element('boolean', 'ans3');
-        $el->setDefault(STACK_Input_Boolean::F);
+        $el = stack_interaction_controller::make_element('boolean', 'ans3');
+        $el->setDefault(stack_interaction_boolean::F);
         $this->assert(new ContainsSelectExpectation('ans3', $this->expected_choices(),
-                STACK_Input_Boolean::F), $el->getXHTML(false));
+                stack_interaction_boolean::F), $el->getXHTML(false));
     }
 
     public function test_getXHTML_disabled() {
-        $el = STACK_Input_Controller::make_element('boolean', 'input');
+        $el = stack_interaction_controller::make_element('boolean', 'input');
         $this->assert(new ContainsSelectExpectation('input', $this->expected_choices(),
-                STACK_Input_Boolean::NA, false), $el->getXHTML(true));
+                stack_interaction_boolean::NA, false), $el->getXHTML(true));
     }
 }

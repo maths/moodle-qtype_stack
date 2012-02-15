@@ -122,4 +122,3 @@ class STACK_AnsTest_NumRelative extends STACK_AnsTest {
     }
 
 }
-

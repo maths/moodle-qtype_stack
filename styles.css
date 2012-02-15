@@ -11,6 +11,20 @@ body#page-question-type-stack-healthcheck textarea {
     height: 32em;
     white-space: pre;
 }
+body#page-question-type-stack-healthcheck div.box {
+    background: #ddd;
+}
+body#page-question-type-stack-healthcheck div.box h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+body#page-question-type-stack-healthcheck div.box h3 {
+    margin-top: 0.7em;
+    margin-bottom: 0.3em;
+}
+body#page-question-type-stack-healthcheck div.box pre {
+    margin-bottom: 0;
+}
 
 body.path-question-type-stack table.stacktestsuite .pass td {
     background-color: #dfd;

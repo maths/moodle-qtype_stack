@@ -29,6 +29,10 @@ $string['pluginnameadding'] = 'Adding a stack question';
 $string['pluginnameediting'] = 'Editing a stack question';
 $string['pluginnamesummary'] = 'Stack questions use a computer algebra system to mark the students work. ...';
 
+// general strings
+$string['errors'] = 'Errors';
+$string['debuginfo'] = 'Debug info';
+
 // admin settings
 $string['settingcasdebugging'] = 'CAS debugging';
 $string['settingcasdebugging_desc'] = 'Whether to store debugging information about the CAS connection.';
@@ -66,6 +70,8 @@ $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following cas text:';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. Stack only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
+$string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
+$string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';

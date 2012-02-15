@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the STACK_Input_TextArea class.
+ * Unit tests for the stack_interaction_textarea class.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,15 +27,15 @@ require_once(dirname(__FILE__) . '/../textarea.class.php');
 
 
 /**
- * Unit tests for STACK_Input_TextArea.
+ * Unit tests for stack_interaction_textarea.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_Input_TextArea_test extends UnitTestCase {
+class stack_interaction_textarea_test extends UnitTestCase {
 
     public function test_tokenize() {
-        $el = new testable_STACK_Input_TextArea('notused');
+        $el = new testable_stack_interaction_textarea('notused');
 
         $this->assertEqual(array(), $el->tokenize_list(''));
 
@@ -53,13 +53,13 @@ class STACK_Input_TextArea_test extends UnitTestCase {
     }
 
     public function test_getXHTML_blank() {
-        $el = STACK_Input_Controller::make_element('textArea', 'ans1', 10, NULL, NULL, 2);
+        $el = stack_interaction_controller::make_element('textArea', 'ans1', 10, NULL, NULL, 2);
         $this->assertEqual('<textarea name="ans1" rows="2" cols="10"></textarea>',
                 $el->getXHTML(false));
     }
 
     public function test_getXHTML_pre_filled() {
-        $el = STACK_Input_Controller::make_element('textArea', 'test');
+        $el = stack_interaction_controller::make_element('textArea', 'test');
         $el->setDefault('[1,1/sum([1,3]),matrix([1],[2])]');
         $this->assertEqual('<textarea name="test" rows="4" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])\n</textarea>",
@@ -67,7 +67,7 @@ class STACK_Input_TextArea_test extends UnitTestCase {
     }
 
     public function test_getXHTML_disabled() {
-        $el = STACK_Input_Controller::make_element('textArea', 'input');
+        $el = stack_interaction_controller::make_element('textArea', 'input');
         $this->assertEqual('<textarea name="input" rows="1" cols="5" readonly="readonly"></textarea>',
                 $el->getXHTML(true));
     }
@@ -80,7 +80,7 @@ class STACK_Input_TextArea_test extends UnitTestCase {
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class testable_STACK_Input_TextArea extends STACK_Input_TextArea {
+class testable_stack_interaction_textarea extends stack_interaction_textarea {
     public function tokenize_list($in) {
         return parent::tokenize_list($in);
     }

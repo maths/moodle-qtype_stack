@@ -228,7 +228,7 @@ class stack_cas_casstring {
         if (false == $missingstar) {
             //if no missing stars return true
             return true;
-        } else if (false == $this->syntax) {// 
+        } else if (false == $this->syntax) {
             //if missing stars, but syntax is off, return false (stars will have been added)
             $this->casstring=$cmd;
             return false;
@@ -463,4 +463,4 @@ class stack_cas_casstring {
         return true;
     }
 
-} // end of class 
+}

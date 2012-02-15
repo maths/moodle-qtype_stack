@@ -1,4 +1,4 @@
-<?php 
+<?php
 // This file is part of Stack - http://stack.bham.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
@@ -25,9 +25,20 @@ require_once(dirname(__FILE__) . '/../stringutil.class.php');
 
 
 class stack_cas_configuration {
+    protected static $instance = null;
+
+    protected $settings;
 
     /** @var string the date when these settings were worked out. */
     protected $date;
+
+    protected $maximacodepath;
+
+    protected $logpath;
+
+    protected $vnum;
+
+    protected $blocksettings;
 
     /**
      * Constructor, initialises all the settings.
@@ -35,63 +46,82 @@ class stack_cas_configuration {
     public function __construct() {
         global $CFG;
 
-        $settings = get_config('qtype_stack');
+        $this->settings = get_config('qtype_stack');
         $this->date = date("F j, Y, g:i a");
 
         $maximacodepath = new STACK_StringUtil($CFG->dirroot . '/question/type/stack/stack/maxima');
         $this->maximacodepath = $maximacodepath->convertSlashPaths();
 
-        $logpath = new STACK_StringUtil($CFG->dataroot . '/stack');
+        $logpath = new STACK_StringUtil($CFG->dataroot . '/stack/logs');
         $this->logpath = $logpath->convertSlashPaths();
 
-        $vnum = substr($settings->maximaversion, 2);
+        $this->vnum = (float) substr($this->settings->maximaversion, 2);
 
         $this->blocksettings = array();
         $this->blocksettings['TMP_IMAGE_DIR'] = $CFG->dataroot . '/stack/tmp/';
         $this->blocksettings['IMAGE_DIR']     = $CFG->dataroot . '/stack/plots/';
 
-        // These are used by the GNUplot "set terminal" command.  Currently no user interface...
+        // These are used by the GNUplot "set terminal" command. Currently no user interface...
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
         $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
 
-        if ($settings->platform == 'win') {
-            $this->blocksettings['DEL_CMD']       = 'del';
-            $this->blocksettings['GNUPLOT_CMD']   =
-                    $this->get_plotcommand_win($vnum, $settings->maximaversion);
+        if ($this->settings->platform == 'win') {
+            $this->blocksettings['DEL_CMD']     = 'del';
+            $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
         } else {
-            $this->blocksettings['DEL_CMD']       = 'rm';
-            $this->blocksettings['GNUPLOT_CMD' ]  = $settings->plotcommand;
+            $this->blocksettings['DEL_CMD']     = 'rm';
+            $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
         }
+
         // Loop over this array to format them correctly...
-        if ($settings->platform == 'win') {
+        if ($this->settings->platform == 'win') {
             foreach ($this->blocksettings as $var => $val) {
                 $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
             }
         }
-        $this->blocksettings['MAXIMA_VERSION_NUM'] = floatval($vnum);  //TODO: This needs to be a number, e.g. 25.1 not a string "25.1".
-        $this->blocksettings['MAXIMA_VERSION']     = $settings->maximaversion;
-        $this->blocksettings['URL_BASE']           = moodle_url::make_file_url('/question/type/stack/plot.php', '/');
+
+        $this->blocksettings['MAXIMA_VERSION'] = $this->settings->maximaversion;
+        $this->blocksettings['URL_BASE']       = moodle_url::make_file_url('/question/type/stack/plot.php', '/');
     }
 
     /**
      * Try to guess the gnuplot command on Windows.
      * @return string the command.
      */
-    public function get_plotcommand_win($vnum, $maximaversion) {
-
-        $settings = get_config('qtype_stack');
-        if ($settings->plotcommand && $settings->plotcommand != 'gnuplot') {
-            return $settings->plotcommand;
+    public function get_plotcommand_win() {
+        if ($this->settings->plotcommand && $this->settings->plotcommand != 'gnuplot') {
+            return $this->settings->plotcommand;
         }
 
         // This does its best to find your version of Gnuplot...
-        if ($vnum > 25) {
-            return '"c:/Program Files/Maxima-' . $maximaversion . '-gcl/gnuplot/wgnuplot.exe"';
-        } else if ($vnum > 23) {
-            return '"c:/Program Files/Maxima-' . $maximaversion . '/gnuplot/wgnuplot.exe"';
+        if ($this->vnum > 25) {
+            return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '-gcl/gnuplot/wgnuplot.exe"';
+        } else if ($this->vnum > 23) {
+            return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '/gnuplot/wgnuplot.exe"';
         } else {
-            return '"c:/Program Files/Maxima-' . $maximaversion . '/bin/wgnuplot.exe"';
+            return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/wgnuplot.exe"';
         }
+    }
+
+    public function copy_maxima_bat() {
+        global $CFG;
+
+        if ($this->settings->platform != 'win') {
+            return true;
+        }
+
+        copy('C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/maxima.bat',
+                $CFG->dataroot . '/stack/maxima.bat');
+    }
+
+    public function maxima_bat_is_ok() {
+        global $CFG;
+
+        if ($this->settings->platform != 'win') {
+            return true;
+        }
+
+        return is_readable($CFG->dataroot . '/stack/maxima.bat');
     }
 
     public function get_maximalocal_contents() {
@@ -112,6 +142,7 @@ file_search_maxima:append( [sconcat("{$this->logpath}/###.{mac,mc}")] , file_sea
 file_search_lisp:append( [sconcat("{$this->logpath}/###.{lisp}")] , file_search_lisp)$
 
 STACK_SETUP(ex):=block(
+    MAXIMA_VERSION_NUM:{$this->vnum},
 
 END;
         foreach ($this->blocksettings as $name => $value) {
@@ -132,6 +163,16 @@ END;
     }
 
     /**
+     * @return stack_cas_configuration the singleton instance of this class.
+     */
+    protected static function get_instance() {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
      * Get the full path for the maximalocal.mac file.
      * @return string the full path to where the maximalocal.mac file should be stored.
      */
@@ -145,8 +186,11 @@ END;
      */
     public static function create_maximalocal() {
         make_upload_directory('stack');
-        make_upload_directory('stack/tmp');
+        make_upload_directory('stack/logs');
         make_upload_directory('stack/plots');
+        make_upload_directory('stack/tmp');
+
+        self::get_instance()->copy_maxima_bat();
 
         $fh = fopen(self::maximalocal_location(),'w');
         if ($fh === false) {
@@ -162,7 +206,14 @@ END;
      * @return string the contets that the maximalocal.mac file should have.
      */
     public static function generate_maximalocal_contents() {
-        $settings = new self();
-        return $settings->get_maximalocal_contents();
+        return self::get_instance()->get_maximalocal_contents();
+    }
+
+    /**
+     * Generate the contents for the maximalocal configuration file.
+     * @return string the contets that the maximalocal.mac file should have.
+     */
+    public static function maxima_bat_is_missing() {
+        return !self::get_instance()->maxima_bat_is_ok();
     }
 }

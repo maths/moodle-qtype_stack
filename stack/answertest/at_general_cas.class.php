@@ -20,33 +20,29 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+class STACK_AnsTest_General_CAS extends STACK_AnsTest {
 class stack_answertest_general_cas extends STACK_AnsTest {
 
     /**
-     * 
-     * The name of the cas function this answer test uses.
+     * @var string The name of the cas function this answer test uses.
      */
     private $casfunction;
 
     /**
-     * 
-     * Are options required.
+     * $var bool Are options required.
      */
     private $requirecasoptions;
 
     /**
-     * 
-     * If this variable is set to true or false we override the simplification options in the CAS variables.
+     * $var bool If this variable is set to true or false we override the
+     *      simplification options in the CAS variables.
      */
     private $simp;
 
     /**
-     *
-     *
      * @param  string $sans
      * @param  string $tans
      * @param  string $casoption
-     * @access public
      */
     public function __construct($sans, $tans, $casfunction, $requirecasoptions=false, $casoption = null, $options=null, $simp=null) {
         parent::__construct($sans, $tans, $options, $casoption);
@@ -106,7 +102,7 @@ class stack_answertest_general_cas extends STACK_AnsTest {
         if (!(null===$this->simp)) {
             $this->options->set_option('simplify', $this->simp);
         }
-        
+
         $mconn = new stack_cas_maxima_connector($this->options);
         $result = $mconn->maxima_answer_test($this->sAnsKey, $ta, $this->casfunction);
 

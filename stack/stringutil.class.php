@@ -92,23 +92,23 @@ class STACK_StringUtil {
             $left_bracket=0;
             $right_bracket=0;
             $end=$start;
-    
+
             do {
                 if ($strin[$end] == $leftc) {
                     $left_bracket++;
                 } else if ($strin[$end] == $rightc) {
                     $right_bracket++;
                 }
-    
+
                 $end++;
             } while ($left_bracket != $right_bracket and $end<$strin_len);
-    
+
         }
-    
+
         $ret[0]= substr($strin, $start, $end-$start);
         $ret[1]= $start;
         $ret[2]= $end-1;
-    
+
         return $ret;
     }
 
@@ -138,7 +138,7 @@ class STACK_StringUtil {
                 if ($char[$i] == $first) {
                     $start = true;
                     $found .= $char[$i];
-                } 
+                }
             } else {
                 //we have the first @ find ending @
                 if ($char[$i] == $last) {
@@ -336,7 +336,7 @@ class STACK_StringUtil {
             }
         }
         if($ender=='') {
-            return strlen($text - $start); 
+            return strlen($text - $start);
             // math mode to the end
         } else {
             return $at - $start + strlen($ender);

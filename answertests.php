@@ -97,6 +97,14 @@ echo $OUTPUT->single_select($PAGE->url, 'anstest', $availabletests, $anstest);
 // Run the tests.
 $allpassed = true;
 foreach ($tests as $test) {
+
+    if ($test->notes) {
+        reset($columns);
+        $firstcol = key($columns);
+        $table->add_data_keyed(array($firstcol => $test->notes), 'notes');
+    }
+
+    set_time_limit(30);
     list($passed, $error, $rawmark, $feedback, $ansnote) = stack_answertest_test_data::run_test($test);
     $allpassed = $allpassed && $passed;
 
@@ -121,6 +129,7 @@ foreach ($tests as $test) {
         'answernote'    => $ansnote,
     );
     $table->add_data_keyed($row, $class);
+    flush();
 }
 $table->finish_output();
 

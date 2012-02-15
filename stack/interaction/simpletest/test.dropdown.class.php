@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the STACK_Input_DropDownList class.
+ * Unit tests for the stack_interaction_dropdown class.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,12 +26,12 @@ require_once(dirname(__FILE__) . '/../controller.class.php');
 
 
 /**
- * Unit tests for STACK_Input_DropDownList.
+ * Unit tests for stack_interaction_dropdown.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_Input_DropDownList_test extends UnitTestCase {
+class stack_interaction_dropdown_test extends UnitTestCase {
 
     protected function expected_choices($choices) {
         $expected = array('' => stack_string('notanswered'));
@@ -43,7 +43,7 @@ class STACK_Input_DropDownList_test extends UnitTestCase {
 
     public function test_getXHTML_not_answered() {
         $choices = array('x', 'y', 'z');
-        $el = STACK_Input_Controller::make_element('dropDown', 'ans1', null, null, null, null,
+        $el = stack_interaction_controller::make_element('dropDown', 'ans1', null, null, null, null,
                 array('ddl_values' => implode(',', $choices)));
 
         $this->assert(new ContainsSelectExpectation('ans1',
@@ -52,7 +52,7 @@ class STACK_Input_DropDownList_test extends UnitTestCase {
 
     public function test_getXHTML_true() {
         $choices = array('x', 'y', 'z');
-        $el = STACK_Input_Controller::make_element('dropDown', 'ans2', null, null, null, null,
+        $el = stack_interaction_controller::make_element('dropDown', 'ans2', null, null, null, null,
                 array('ddl_values' => implode(',', $choices)));
         $el->setDefault('y');
         $this->assert(new ContainsSelectExpectation('ans2',
@@ -61,7 +61,7 @@ class STACK_Input_DropDownList_test extends UnitTestCase {
 
     public function test_getXHTML_disabled() {
         $choices = array('x > 1', 'x = 1', 'x < 1');
-        $el = STACK_Input_Controller::make_element('dropDown', 'tricky', null, null, null, null,
+        $el = stack_interaction_controller::make_element('dropDown', 'tricky', null, null, null, null,
                 array('ddl_values' => implode(',', $choices)));
 
         $this->assert(new ContainsSelectExpectation('tricky',
@@ -69,7 +69,7 @@ class STACK_Input_DropDownList_test extends UnitTestCase {
     }
 
     public function test_getXHTML_empty() {
-        $el = STACK_Input_Controller::make_element('dropDown', 'oops');
+        $el = stack_interaction_controller::make_element('dropDown', 'oops');
         $this->assertEqual(stack_string('ddl_empty'), $el->getXHTML(false));
     }
 }

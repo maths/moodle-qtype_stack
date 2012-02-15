@@ -149,7 +149,7 @@
     private function validate_key($key,$val) {
         if (!array_key_exists($key, $this->options)) {
             throw new Exception('stack_options set_option: $key '.$key.' is not a valid option name.');
-        } 
+        }
         $optiontype = $this->options[$key]['type'];
         switch($optiontype) {
             case 'boolean':
@@ -186,7 +186,7 @@
     public function set_option($key, $val) {
         if ($this->validate_key($key, $val)) {
             $this->options[$key]['value']=$val;
-        } // Else an exception will have been thrown.  
+        } // Else an exception will have been thrown.
           // TODO: return useful errors to users who enter data....
     }
 

@@ -112,7 +112,8 @@ class stack_potentialresponse_tree {
         $penalty     = 0;
 
         // (1) Concatinate the question_variables and $feedbackvars
-        $cascontext = clone $questionvars;
+        $cascontext = new stack_cas_session(null, $options, $seed, 't', true, false);
+        $cascontext->merge_session($questionvars);
         // Add in students' answers....
         $cascontext->merge_session($this->feedbackvars);
 

@@ -63,7 +63,7 @@
             ),
             'sqrtsign'   =>  array(
                 'type'       =>  'boolean',
-                'value'      =>  1,
+                'value'      =>  true,
                 'strict'     =>  true,
                 'values'     =>  array(),
                 'caskey'     =>  'sqrtdispflag',
@@ -71,7 +71,7 @@
             ),
             'simplify'   =>  array(
                 'type'       =>  'boolean',
-                'value'      =>  1,
+                'value'      =>  true,
                 'strict'     =>  true,
                 'values'     =>  array(),
                 'caskey'     =>  'simp',
@@ -87,7 +87,7 @@
              ),
             'assumepos'   =>  array(
                 'type'       =>  'boolean',
-                'value'      =>  0,
+                'value'      =>  false,
                 'strict'     =>  true,
                 'values'     =>  array(),
                 'caskey'     =>  'assume_pos',
@@ -153,8 +153,8 @@
         $optiontype = $this->options[$key]['type'];
         switch($optiontype) {
             case 'boolean':
-                if (!(0===$val || 1===$val)) {
-                    throw new Exception('stack_options set boolean option: options store booleans as 1 or 0, not true or false.  Recieved '.$val);
+                if (!is_bool($val)) {
+                    throw new Exception('stack_options: set: boolean option '.$key.' Recieved non-boolean value '.$val);
                 }
                 break;
 

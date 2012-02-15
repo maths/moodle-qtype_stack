@@ -69,19 +69,19 @@ class stack_answertest_general_cas_test extends UnitTestCase {
     }
 
     public function test_is_true_for_equal_expressions_comass() {
-        $at = new stack_answertest_general_cas('x+y', 'x+y', 'ATEqual_com_ass', false, null, null, 0);
+        $at = new stack_answertest_general_cas('x+y', 'x+y', 'ATEqual_com_ass', false, null, null, false);
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_expressions_comass() {
-        $at = new stack_answertest_general_cas('x+x', '2*x', 'ATEqual_com_ass', false, null, null, 0);
+        $at = new stack_answertest_general_cas('x+x', '2*x', 'ATEqual_com_ass', false, null, null, false);
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_expressions_with_different_type_comass() {
-        $at = new stack_answertest_general_cas('(x+1)^2', '[a,b,c]', 'ATEqual_com_ass', false, null, null, 0);
+        $at = new stack_answertest_general_cas('(x+1)^2', '[a,b,c]', 'ATEqual_com_ass', false, null, null, false);
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }
@@ -159,13 +159,13 @@ class stack_answertest_general_cas_test extends UnitTestCase {
     }
 
     public function test_is_true_ATSingleFrac() {
-        $at = new stack_answertest_general_cas('1/(x*(x+1))', '1/(x*(x+1))', 'ATSingleFrac', false, '', null, 0);
+        $at = new stack_answertest_general_cas('1/(x*(x+1))', '1/(x*(x+1))', 'ATSingleFrac', false, '', null, false);
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_false_ATSingleFrac() {
-        $at = new stack_answertest_general_cas('1/n+1/(n+1)', '1/n+1/(n+1)', 'ATSingleFrac', false, '', null, 0);
+        $at = new stack_answertest_general_cas('1/n+1/(n+1)', '1/n+1/(n+1)', 'ATSingleFrac', false, '', null, false);
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }

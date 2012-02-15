@@ -51,10 +51,10 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $options = new stack_options();
         $anwers[] = array('sans'=>'(x+1)^2/3+c');
         $seed = 12345;
-        $result = $tree->traverse_tree($questionvars, $options, $answers, $seed);
+        //$result = $tree->traverse_tree($questionvars, $options, $answers, $seed);
         
         echo "<pre>";
-        print_r($result);
+        //print_r($result);
         echo "</pre>";
     }
 

@@ -38,42 +38,42 @@ class stack_potentialresponse {
 
     /*
      * @var stack_cas_casstring Hold's nominal "teacher's answer".
-    */
+     */
     private $tans;
 
     /*
-    * @var string Name of answer test to be used here.
-    */
+     * @var string Name of answer test to be used here.
+     */
     private $answertest;
 
     /*
-    * @var string Any options for the answer test
-    */
+     * @var string Any options for the answer test
+     */
     private $atoptions;
 
     /*
     * @var boolean Suppress any feedback from the answer test itself?
-    */
+     */
     private $quiet;
 
     /*
-    * @var string Private notes/memos about this potential response.
-    */
+     * @var string Private notes/memos about this potential response.
+     */
     private $notes;
 
     /*
-    * @var boolean Has this node been visited before?  Used for lazy evaluation, and also to ensure the node isn't visited twice.
-    */
+     * @var boolean Has this node been visited before?  Used for lazy evaluation, and also to ensure the node isn't visited twice.
+     */
     private $instantiated;
 
     /*
-    * @var array Holds the result of doing the answer test.
-    */
+     * @var array Holds the result of doing the answer test.
+     */
     private $result;
 
     /*
-    * @var array Holds the information for each branch.
-    */
+     * @var array Holds the information for each branch.
+     */
     private $branches;
     
     public function __construct($sans, $tans, $answertest, $atoption = null, $quiet=false) {
@@ -139,10 +139,37 @@ class stack_potentialresponse {
         $this->result = $result;
         return $result;
     }
+
     /*
     * Has this node been visited before?  Uses instantiation infomation.
     */
     public function visited_before() {
         return $this->instantiated;
     }
+
+    public function update_mark($oldmark){
+        if (!$this->instantiated) {
+            throw new Exception('stack_potentialresponse: potential response must be instantiated before marks can be updated.');
+        }
+
+        switch($result['markmodification']) {
+            case '=':
+                $newmark = $result['mark'];
+                break;
+
+            case '+':
+                $newmark = $oldmark + $result['mark'];
+                break;
+
+            case '-':
+                $newmark = $oldmark - $result['mark'];
+                break;
+
+            case '=AT':
+                $newmark = $result['mark'];
+                break;
+        }//switch
+        return $newmark;
+    }
+
 }

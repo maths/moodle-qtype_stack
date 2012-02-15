@@ -113,11 +113,20 @@ class stack_potentialresponse_tree {
 
         // (1) Concatinate the question_variables and $feedbackvars
         $cascontext = new stack_cas_session(null, $options, $seed, 't', true, false);
+        // (1.1) Start with the question variables.
         $cascontext->merge_session($questionvars);
-        // Add in students' answers....
+        // (1.2) Add in student's answers.
+        $answervars = array();
+        foreach ($answers as $key=>$val) {
+            $cs = new stack_cas_casstring($val);
+            $cs->set_key($key);
+            $answervars[]=$cs;
+        }
+        $cascontext->add_vars($answervars);
+        // (1.2) Add in feedback variables.
         $cascontext->merge_session($this->feedbackvars);
 
-        // (2) Traverse the $potentialresponses and pull out all sans, tans and options.
+        // (1.3) Traverse the $potentialresponses and pull out all sans, tans and options.
         $answervars = array();
         foreach ($this->potentialresponses as $key => $pr) {
             $sans = $pr->sans;
@@ -136,13 +145,20 @@ class stack_potentialresponse_tree {
         }
         $cascontext->add_vars($answervars);
 
-        // (3) Instantiate these background variables
+        // (2) Instantiate these background variables
         $cascontext->instantiate();
+
+        //echo "<pre>";
+        //print_r($cascontext);
+        //echo "</pre>";        
         //TODO error trapping at this stage....?
-        // (4) Traverse the tree.
+        // (3) Traverse the tree.
         $nextpr = 0;
         while ($nextpr != -1) {
 
+            if (!array_key_exists($nextpr, $this->potentialresponses)) {
+                throw new Exception('stack_potentialresponse_tree: traverse_tree: attempted to jump to a potential response which does not exist in this question.  This is a question authoring/validation problem.');
+            }
             $pr = $this->potentialresponses[$nextpr];
 
             if ($pr->visited_before()) {
@@ -156,7 +172,7 @@ class stack_potentialresponse_tree {
                 if (false === $atopts) {
                     $atopts = null;
                 }
-                $results = $pr->do_test($sans, $tans, $atopts, $options);
+                $result = $pr->do_test($sans, $tans, $atopts, $options);
 
                 $valid = $valid && $result['valid'];
                 $mark  = $pr->update_mark($mark);
@@ -175,13 +191,20 @@ class stack_potentialresponse_tree {
                 }
             }
         }
-        // (5) Instantiate the feedback castext.
 
+        // (4) Sort out feedback and answernotes
+        // (4.1) Instantiate the feedback castext.
         $feedbackct = new stack_cas_text($feedback, $cascontext, $seed, 't', false, false);
         $feedback = $feedbackct->get_display_castext();
         $errors .= $feedbackct->get_errors();
-        // (6) Return the results and clean up.
-
+        // (4.2) Tidy up the answernote
+        if ('|'==substr(trim($answernote), 0, 1)) {
+            $answernote = substr(trim($answernote), 1);
+        }
+        $answernote = trim($answernote);
+        
+        // (5) Return the results and clean up.
+        $result = array();
         $result['valid']      = $valid;
         $result['errors']     = $errors;
         $result['mark']       = $mark;

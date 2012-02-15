@@ -57,7 +57,7 @@ class stack_ans_test_controller {
      */
     public function __construct($anstest = null, $sans = null, $tans = null, $options = null, $casoption = null) {
         $this->avaliableAnsTests = array('AlgEquiv'=>stack_string("stackOptions_AnsTest_values_AlgEquiv"),
-              'Equal_Com_Ass'=> stack_string("stackOptions_AnsTest_values_Equal_com_ass"),
+              'EqualComAss'=> stack_string("stackOptions_AnsTest_values_Equal_com_ass"),
               'CasEqual'     => stack_string("stackOptions_AnsTest_values_CASEqual"),
               'SameType'     => stack_string("stackOptions_AnsTest_values_SameType"),
               'SubstEquiv'   => stack_string("stackOptions_AnsTest_values_SubstEquiv"),
@@ -85,7 +85,7 @@ class stack_ans_test_controller {
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATAlgEquiv', false, $casoption, $options);
                 break;
 
-            case 'Equal_Com_Ass':
+            case 'EqualComAss':
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEqual_com_ass', false, $casoption, $options, 0);
                 break;
 

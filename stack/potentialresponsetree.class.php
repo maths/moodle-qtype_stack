@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . 'potentialresponse.class.php');
+require_once(dirname(__FILE__) . '/potentialresponse.class.php');
 
 /**
  * Deals with whole potential response trees.
@@ -61,7 +61,36 @@ class stack_potentialresponse_tree {
      */
     private $potentialresponses;
 
-    public function __construct() {
+    public function __construct($name, $description, $simp, $value, $feedbackvars, $potentialresponses) {
+
+        $this->name               = $name;
+        $this->description        = $description;
+
+        if (!is_bool($simp)) {
+            throw new Exception('stack_potentialresponse_tree: __construct: simp must be a boolean.');
+        } else {
+            $this->simp               = $simp;
+        }
+
+        $this->value              = $value;
+
+        if (is_a($feedbackvars, 'stack_cas_session') || null===$feedbackvars) {
+            $this->feedbackvars       = $feedbackvars;
+        } else {
+            throw new Exception('stack_potentialresponse_tree: __construct: expects $feedbackvars to be null or a stack_cas_session.');
+        }
+
+        if (is_array($potentialresponses)) {
+            foreach ($potentialresponses as $pr) {
+                if (!is_a($pr, 'stack_potentialresponse')) {
+                    throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not stack_potentialresponse');
+                }
+            }
+        } else if (!(null===$potentialresponses)) {
+            throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not an array of stack_potentialresponse');
+        }
+        $this->potentialresponses = $potentialresponses;
+
     }
     /*
      * This function actually traverses the tree and generates outcomes.

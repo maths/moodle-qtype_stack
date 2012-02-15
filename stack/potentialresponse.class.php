@@ -89,7 +89,7 @@ class stack_potentialresponse {
         }
         $this->answertest  = $answertest;
         if (!is_bool($quiet)) {
-            throw new Exception('stack_cas_session: quiet must be a boolean.');
+            throw new Exception('stack_potentialresponse: quiet must be a boolean.');
         } else {
             $this->quiet        = $quiet;
         }

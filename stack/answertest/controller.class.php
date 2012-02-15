@@ -26,7 +26,7 @@ require_once(dirname(__FILE__) . '/../cas/connector.class.php');
 require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
 require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
 
-class STACK_AnsTestController {
+class stack_ans_test_controller {
     // Attributes
     /**
      *
@@ -123,17 +123,17 @@ class STACK_AnsTestController {
 
             case 'String':
                 require_once(dirname(__FILE__) . '/atstring.class.php');
-                $this->at = new STACK_AnsTest_ATString($sans, $tans, $options, $casoption);
+                $this->at = new stack_anstest_atstring($sans, $tans, $options, $casoption);
                 break;
 
             case 'StringSloppy':
                 require_once(dirname(__FILE__) . '/stringsloppy.class.php');
-                $this->at = new STACK_AnsTest_StringSloppy($sans, $tans, $options, $casoption);
+                $this->at = new stack_anstest_stringsloppy($sans, $tans, $options, $casoption);
                 break;
 
             case 'RegExp':
                 require_once(dirname(__FILE__) . '/atregexp.class.php');
-                $this->at = new STACK_AnsTest_ATRegExp($sans, $tans, $options, $casoption);
+                $this->at = new stack_anstest_atregexp($sans, $tans, $options, $casoption);
                 break;
 
             case 'Diff':
@@ -154,12 +154,12 @@ class STACK_AnsTestController {
 
             case 'NumAbsolute':
                 require_once(dirname(__FILE__) . '/numabsolute.class.php');
-                $this->at = new STACK_AnsTest_NumAbsolute($sans, $tans, $options, $casoption);
+                $this->at = new stack_anstest_numabsolute($sans, $tans, $options, $casoption);
                 break;
 
             case 'NumRelative':
                 require_once(dirname(__FILE__) . '/numrelative.class.php');
-                $this->at = new STACK_AnsTest_NumRelative($sans, $tans, $options, $casoption);
+                $this->at = new stack_anstest_numrelative($sans, $tans, $options, $casoption);
                 break;
 
             case 'NumSigFigs':
@@ -304,8 +304,8 @@ class STACK_AnsTestController {
      * @return bool
      * @access public
      */
-    public function processTestOps() {
-        return $this->at->processTestOps();
+    public function process_atoptions() {
+        return $this->at->process_atoptions();
     }
 
 }

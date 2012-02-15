@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for STACK_AnsTest_StringSloppy.
+ * Unit tests for stack_anstest_stringsloppy.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,33 +27,33 @@ require_once(dirname(__FILE__) . '/../stringsloppy.class.php');
 
 
 /**
- * Unit tests for STACK_AnsTest_StringSloppy.
+ * Unit tests for stack_anstest_stringsloppy.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_StringSloppy_test extends UnitTestCase {
+class stack_anstest_stringsloppy_test extends UnitTestCase {
 
     public function test_is_true_for_equal_strings() {
-        $at = new STACK_AnsTest_StringSloppy('hello', 'hello', array());
+        $at = new stack_anstest_stringsloppy('hello', 'hello', array());
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings() {
-        $at = new STACK_AnsTest_StringSloppy('hello', 'heloo', array());
+        $at = new stack_anstest_stringsloppy('hello', 'heloo', array());
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }
 
     public function test_is_true_for_strings_with_different_case() {
-        $at = new STACK_AnsTest_StringSloppy('Hello', 'hello', array());
+        $at = new stack_anstest_stringsloppy('Hello', 'hello', array());
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_true_for_nearly_equal_strings() {
-        $at = new STACK_AnsTest_StringSloppy('hel lo', 'Hello', array());
+        $at = new stack_anstest_stringsloppy('hel lo', 'Hello', array());
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }

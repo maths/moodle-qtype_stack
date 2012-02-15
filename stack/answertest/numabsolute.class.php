@@ -20,7 +20,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
+class stack_anstest_numabsolute extends stack_anstest {
 
     /**
      *
@@ -121,5 +121,8 @@ class STACK_AnsTest_NumAbsolute extends STACK_AnsTest {
 
     }
 
+    public function process_atoptions() {
+        return true;
+    }
 }
 

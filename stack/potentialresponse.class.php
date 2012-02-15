@@ -106,9 +106,12 @@ class stack_potentialresponse {
     /*
      * Has this node been visited before?  Uses instantiation infomation.
      */
-    public function do_test($options) {
+    public function do_test($nsans, $ntans, $ncasopts, $options) {
 
-        $at = new STACK_AnsTestController($this->answertest, $this->sans, $this->tans, $options, $this->atoption);
+        if (false === $ncasopts) {
+            $ncasopts = $this->atoptions;
+        }
+        $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
         $result['result'] = $at->get_at_mark();
         $this->instantiated = true;
@@ -127,6 +130,7 @@ class stack_potentialresponse {
         $result['penalty']          = $this->branches[$branch]['penalty'];
         $result['nextpr']           = $this->branches[$branch]['nextpr'];
 
+        //TODO remove unesessary '|'s.
         $result['answernote']       = $at->get_at_answernote().' | '.$this->branches[$branch]['answernote'];
 
         // If the answer test is running in "quiet mode" we suppress any automatically generated feedback from the answertest itself.
@@ -145,6 +149,26 @@ class stack_potentialresponse {
     */
     public function visited_before() {
         return $this->instantiated;
+    }
+
+    public function get_sans() {
+        return $this->sans;
+    }
+
+    public function get_tans() {
+        return $this->tans;
+    }
+
+    public function get_atoptions() {
+        return $this->atoptions;
+    }
+
+    /*
+     * Does this answer test actually require options,?
+     */
+    public function process_atoptions() {
+        $at = new stack_ans_test_controller($this->answertest, '', '', null, '');
+        return $at->process_atoptions();
     }
 
     public function update_mark($oldmark){

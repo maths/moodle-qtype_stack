@@ -21,7 +21,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest {
+class stack_anstest {
 
     /**
      * @var    string
@@ -73,15 +73,6 @@ class STACK_AnsTest {
      */
     protected $ATFeedback;
 
-
-    /**
-     * Should the test ops be processed in the CAS. By default no.
-     *
-     * @var  bool
-     * @access protected
-     */
-    protected $CASProcessTestOps = false;
-
     /**
      * Constructor
      *
@@ -93,7 +84,6 @@ class STACK_AnsTest {
         $this->tAnsKey  = $tans;
         $this->options  = $options;
         $this->ATOption = $casoption;
-        $this->CASProcessTestOps = false;
     }
 
     /**
@@ -156,7 +146,7 @@ class STACK_AnsTest {
      *
      * @return bool
      */
-    public function processTestOps() {
-        return $this->CASProcessTestOps;
+    public function process_atoptions() {
+        return false;
     }
 }

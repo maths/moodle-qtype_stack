@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for STACK_AnsTest_ATString.
+ * Unit tests for stack_anstest_atstring.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,27 +27,27 @@ require_once(dirname(__FILE__) . '/../atstring.class.php');
 
 
 /**
- * Unit tests for STACK_AnsTest_ATString.
+ * Unit tests for stack_anstest_atstring.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_ATString_test extends UnitTestCase {
+class stack_anstest_atstring_test extends UnitTestCase {
 
     public function test_is_true_for_equal_strings() {
-        $at = new STACK_AnsTest_ATString('hello', 'hello', array());
+        $at = new stack_anstest_atstring('hello', 'hello', array());
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings() {
-        $at = new STACK_AnsTest_ATString('hello', 'heloo', array());
+        $at = new stack_anstest_atstring('hello', 'heloo', array());
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_strings_with_different_case() {
-        $at = new STACK_AnsTest_ATString('Hello', 'hello', array());
+        $at = new stack_anstest_atstring('Hello', 'hello', array());
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }

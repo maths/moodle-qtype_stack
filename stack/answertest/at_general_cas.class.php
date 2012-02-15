@@ -20,7 +20,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_answertest_general_cas extends STACK_AnsTest {
+class stack_answertest_general_cas extends stack_anstest {
 
     /**
      * @var string The name of the cas function this answer test uses.
@@ -116,5 +116,9 @@ class stack_answertest_general_cas extends STACK_AnsTest {
         } else {
             return false;
         }
+    }
+
+    public function process_atoptions() {
+        return $this->requirecasoptions;
     }
 }

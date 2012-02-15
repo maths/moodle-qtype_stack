@@ -572,7 +572,7 @@ class stack_answertest_test_data {
     }
 
     public static function run_test($test) {
-        $anst = new STACK_AnsTestController($test->name, $test->studentanswer,
+        $anst = new stack_ans_test_controller($test->name, $test->studentanswer,
                 $test->teacheranswer, new stack_options(), $test->options);
 
         $result   = $anst->do_test(); // This actually executes the answer test in the CAS.

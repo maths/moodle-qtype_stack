@@ -20,7 +20,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_ATRegExp extends STACK_AnsTest {
+class stack_anstest_atregexp extends stack_anstest {
 
     public function do_test() {
         if ($this->ATOption == null) {
@@ -42,5 +42,9 @@ class STACK_AnsTest_ATRegExp extends STACK_AnsTest {
                 return false;
             }
         }
+    }
+
+    public function process_atoptions() {
+        return false;
     }
 }

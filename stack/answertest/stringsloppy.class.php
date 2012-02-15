@@ -23,7 +23,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_StringSloppy extends STACK_AnsTest {
+class stack_anstest_stringsloppy extends stack_anstest {
 
     public function do_test() {
         $sa = str_replace(' ', '', strtolower(trim($this->sAnsKey)));
@@ -41,5 +41,8 @@ class STACK_AnsTest_StringSloppy extends STACK_AnsTest {
             $this->ATMark = 0;
             return false;
         }
+    }
+    public function process_atoptions() {
+        return false;
     }
 }

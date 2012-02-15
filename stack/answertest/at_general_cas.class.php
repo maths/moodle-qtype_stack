@@ -20,7 +20,6 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_General_CAS extends STACK_AnsTest {
 class stack_answertest_general_cas extends STACK_AnsTest {
 
     /**

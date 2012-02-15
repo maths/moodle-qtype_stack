@@ -52,7 +52,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $options = new stack_options();
         $answers = array('sans'=>'(x+1)^3/3+c');
         $seed = 12345;
-        $result = $tree->traverse_tree($questionvars, $options, $answers, $seed);
+        /* $result = $tree->traverse_tree($questionvars, $options, $answers, $seed);
         
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
@@ -60,31 +60,52 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('Yeah!', $result['feedback']);
         $this->assertEqual('ATInt_true | 1-0-1', $result['answernote']);
-
+*/
     }
 
     public function test_do_test_2() {
 
         $sans = new stack_cas_casstring('sans', 't');
-        $tans = new stack_cas_casstring('p+c', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'Int', 'x', false);
-        $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $pr->add_branch(1, '=', 2, '', -1, 'Yeah!', '1-0-1');
-    
+        $tans = new stack_cas_casstring('ta', 't');
+        $pr = new stack_potentialresponse($sans, $tans, 'Diff', 'x', false);
+        $pr->add_branch(0, '=', 0, '', -1, 'Can not diff!', '1-0-0');
+        $pr->add_branch(1, '=', 2, '', 1, 'Ok, you can diff. ', '1-0-1');
         $potentialresponses[] = $pr;
 
+        $sans = new stack_cas_casstring('sans', 't');
+        $tans = new stack_cas_casstring('ta', 't');
+        $pr = new stack_potentialresponse($sans, $tans, 'FacForm', 'x', true);
+        $pr->add_branch(0, '+', 0, '', -1, 'Do not expand!', '1-1-0');
+        $pr->add_branch(1, '+', 0, '', -1, 'Yeah!', '1-1-1');
+        $potentialresponses[] = $pr;
+        
         $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses);
 
         $seed = 12345;
         $options = new stack_options();
-        $questionvars = new stack_cas_keyval('n=2; p=(x+1)^2; ta=int(p,x)+c', $options, $seed, 't');
+        $questionvars = new stack_cas_keyval('n=3; p=(x+1)^n; ta=diff(p,x);', $options, $seed, 't');
         $questionvars->instantiate();
 
-        $answers = array('sans'=>'(x+1)^3/3+c');
-        //$result = $tree->traverse_tree($questionvars->get_session(), $options, $answers, $seed);
+        $answers = array('sans'=>'3*x^2+6*x+3');
+        $result = $tree->traverse_tree($questionvars->get_session(), $options, $answers, $seed);
         
-        echo "<pre>";
-        //print_r($result);
-        echo "</pre>";
+        $this->assertTrue($result['valid']);
+        $this->assertEqual('', $result['errors']);
+        $this->assertEqual(2, $result['mark']);
+        $this->assertEqual(0, $result['penalty']);
+        $this->assertEqual('Ok, you can diff. Do not expand!', $result['feedback']);
+        $this->assertEqual('ATDiff_true | 1-0-1 | ATFacForm_notfactored. | 1-1-0', $result['answernote']);
+
+        // Now have another attempt at the same PRT!   
+        $answers = array('sans'=>'3*(x+1)^2');
+        $result = $tree->traverse_tree($questionvars->get_session(), $options, $answers, $seed);
+        
+        $this->assertTrue($result['valid']);
+        $this->assertEqual('', $result['errors']);
+        $this->assertEqual(2, $result['mark']);
+        $this->assertEqual(0, $result['penalty']);
+        $this->assertEqual('Ok, you can diff. Yeah!', $result['feedback']);
+        $this->assertEqual('ATDiff_true | 1-0-1 | ATFacForm_true | 1-1-1', $result['answernote']);
+
     }
 }

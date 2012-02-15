@@ -266,7 +266,7 @@ class stack_cas_session {
                 if (is_a($var, 'stack_cas_casstring')) {
                     $this->instantiated = null;
                     $this->errors       = null;
-                    $this->session[]    = $var;
+                    $this->session[]    = clone $var;
                 } else {
                     throw new Exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
                 }

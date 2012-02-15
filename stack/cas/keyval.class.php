@@ -74,21 +74,24 @@ class stack_cas_keyval { // originally extended QuestionType
         $valid   = true;
         $vars = array();
         foreach ($kv_array as $kvs) {
-            // Split over the first occurance of the equals sign, turning this into normal Maxima assignment.
-                $i = strpos($kvs, '=');
-                if (false === $i) {
-                    $val = trim($kvs); 
-                } else {
-                // Need to check we don't have a function definition...
-                    if (':'===substr($kvs, $i-1, 1)) {
-                        $val = trim($kvs); 
+            $kvs = trim($kvs);
+            if ('' != $kvs) {
+                // Split over the first occurance of the equals sign, turning this into normal Maxima assignment.
+                    $i = strpos($kvs, '=');
+                    if (false === $i) {
+                        $val = $kvs; 
                     } else {
-                        $val = trim(trim(substr($kvs, 0, $i)).':'.trim(substr($kvs, $i+1)));
+                    // Need to check we don't have a function definition...
+                        if (':'===substr($kvs, $i-1, 1)) {
+                            $val = $kvs; 
+                        } else {
+                            $val = trim(trim(substr($kvs, 0, $i)).':'.trim(substr($kvs, $i+1)));
+                        }
                     }
-                }
 
-            $cs = new stack_cas_casstring($val, $this->security, $this->syntax, $this->insertstars);
-            $vars[] = $cs;
+                $cs = new stack_cas_casstring($val, $this->security, $this->syntax, $this->insertstars);
+                $vars[] = $cs;
+            }
         }
 
         $this->session->add_vars($vars);

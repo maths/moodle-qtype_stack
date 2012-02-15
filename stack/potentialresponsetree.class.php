@@ -149,8 +149,9 @@ class stack_potentialresponse_tree {
         $cascontext->instantiate();
 
         //echo "<pre>";
-        //print_r($cascontext);
+        //print_r($cascontext->get_session());
         //echo "</pre>";        
+
         //TODO error trapping at this stage....?
         // (3) Traverse the tree.
         $nextpr = 0;
@@ -176,7 +177,7 @@ class stack_potentialresponse_tree {
 
                 $valid = $valid && $result['valid'];
                 $mark  = $pr->update_mark($mark);
-                $feedback .= $result['feedback'];
+                $feedback = trim($feedback).' '.trim($result['feedback']);
                 $answernote .= $result['answernote'];
 
                 if (''!=$result['penalty']) {
@@ -202,6 +203,10 @@ class stack_potentialresponse_tree {
             $answernote = substr(trim($answernote), 1);
         }
         $answernote = trim($answernote);
+        // (4.3) Reset all the potential responses for the next attempt
+        foreach ($this->potentialresponses as $pr) {
+            $pr->reset();
+        }
         
         // (5) Return the results and clean up.
         $result = array();

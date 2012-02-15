@@ -171,6 +171,14 @@ class stack_potentialresponse {
     }
 
     /*
+    * Clean out information from previous traverses.
+    */
+    public function reset() {
+        $this->instantiated = false;
+        $this->results      = array();
+    }
+
+    /*
      * Does this answer test actually require options,?
      */
     public function process_atoptions() {

@@ -331,7 +331,7 @@ class stack_cas_text {
         if (null !== $this->session) {
             return $this->session->get_all_raw_casstrings();
         } else {
-            return false;
+            return array();
         }
     }
 

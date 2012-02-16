@@ -47,11 +47,9 @@ class qtype_stack_test_helper extends question_test_helper {
         test_question_maker::initialise_a_question($q);
 
         $q->name = 'Stack question: test0';
-        $q->questiontext = 'What is $$1+1$$?
-
-#ans1#
-
-<IEfeedback>ans1</IEfeedback><PRTfeedback>1</PRTfeedback>';
+        $q->questiontext = 'What is $$1+1$$? #ans1# 
+                           <IEfeedback>ans1</IEfeedback>
+                           <PRTfeedback>firsttree</PRTfeedback>';
         $q->generalfeedback = '';
         $q->qtype = question_bank::get_qtype('stack');
 
@@ -60,9 +58,15 @@ class qtype_stack_test_helper extends question_test_helper {
                 'algebraic', 'ans1', 5);
 
         $q->prts = array();
-        $q->prts[1] = 'TODO';
+            $sans = new stack_cas_casstring('ans1', 't');
+            $tans = new stack_cas_casstring('2', 't');
+            $pr = new stack_potentialresponse($sans, $tans, 'EqualComAss');
+            $pr->add_branch(0, '=', 0, '', -1, 'Come on, add them together!', 'firsttree-0-0');
+            $pr->add_branch(1, '=', 1, '', 1, 'Yeah!', 'firsttree-0-1');
+            $potentialresponses[] = $pr;
+        $q->prts[1] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, $potentialresponses);
 
-        $q->options = array();
+        $q->options = new stack_options();
 
         return $q;
     }

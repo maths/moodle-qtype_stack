@@ -26,6 +26,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(__FILE__) . '/stack/interaction/controller.class.php');
+require_once(dirname(__FILE__) . '/stack/cas/keyval.class.php');
+require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
+require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
 
 
 /**

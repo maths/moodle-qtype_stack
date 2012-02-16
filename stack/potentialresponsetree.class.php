@@ -117,7 +117,7 @@ class stack_potentialresponse_tree {
         $cascontext->merge_session($questionvars);
         // (1.2) Add in student's answers.
         $answervars = array();
-        foreach ($answers as $key=>$val) {
+        foreach ($answers as $key => $val) {
             $cs = new stack_cas_casstring($val);
             $cs->set_key($key);
             $answervars[]=$cs;
@@ -147,10 +147,6 @@ class stack_potentialresponse_tree {
 
         // (2) Instantiate these background variables
         $cascontext->instantiate();
-
-        //echo "<pre>";
-        //print_r($cascontext->get_session());
-        //echo "</pre>";        
 
         //TODO error trapping at this stage....?
         // (3) Traverse the tree.
@@ -208,7 +204,7 @@ class stack_potentialresponse_tree {
         foreach ($this->potentialresponses as $pr) {
             $pr->reset();
         }
-        
+
         // (5) Return the results and clean up.
         $result = array();
         $result['valid']      = $valid;
@@ -226,7 +222,7 @@ class stack_potentialresponse_tree {
      * potential response tree to be executed.
      * TODO: Since this is a time consuming operation, it needs to be done once and cached within the object.
      *
-	 * @ var array of interaction element names.
+     * @ var array of interaction element names.
      */
     public function get_ie_requirements($ies) {
         $rawcasstrings = array();
@@ -259,52 +255,52 @@ class stack_potentialresponse_tree {
     private function find_string_whole($needle, $haystack) {
         $needle = strtolower($needle);
         $haystack = strtolower($haystack);
-        $charArray = str_split($haystack);
+        $chararray = str_split($haystack);
 
         $characters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         //characters that are invalid, if the needle is surrounded by these then the find returns false
 
-        $noToSearch = substr_count($haystack, $needle);
+        $notosearch = substr_count($haystack, $needle);
         $pos = 0;//position (index) in the string;
         $i = 0;
 
-        $toReturn = false;
-        while ($i < $noToSearch) {
-            $toReturn = true;
+        $return = false;
+        while ($i < $notosearch) {
+            $return = true;
 
             if ($needle == '' || $haystack == '') {
-                $toReturn = false;
+                $return = false;
             } else {
                 $pos = stripos($haystack, $needle);
 
-            if ($pos === false) {
-                $toReturn = false;
-            } else {
-                if (($pos -1) >= 0) {
-                    //check preceeding character
-                    if (in_array($charArray[($pos -1)], $characters)) {
-                        $toReturn = false;
+                if ($pos === false) {
+                    $return = false;
+                } else {
+                    if (($pos -1) >= 0) {
+                        //check preceeding character
+                        if (in_array($chararray[($pos -1)], $characters)) {
+                            $return = false;
+                        }
                     }
-                }
-                $endChar = $pos + strlen($needle);
+                    $endchar = $pos + strlen($needle);
 
-                if (($endChar +1) <= count($charArray)) {
-                    //check end character + 1
-                    if (in_array($charArray[($endChar)], $characters)) {
-                        $toReturn = false;
+                    if (($endchar +1) <= count($chararray)) {
+                        //check end character + 1
+                        if (in_array($chararray[($endchar)], $characters)) {
+                            $return = false;
+                        }
                     }
-                }
-                if ($toReturn == true) {
-                    return true;
+                    if ($return == true) {
+                        return true;
+                    }
                 }
             }
+            $i++;
+            $end = ($pos + strlen($needle) -1);
+            $haystack = substr($haystack, $end); //stripos only matches first occurence. We
+            $chararray = str_split($haystack);
         }
-        $i++;
-        $end = ($pos + strlen($needle) -1);
-        $haystack = substr($haystack, $end); //stripos only matches first occurence. We
-        $charArray = str_split($haystack);
-        }
-        return $toReturn;
+        return $return;
     }
 
 }

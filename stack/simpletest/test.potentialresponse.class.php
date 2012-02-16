@@ -128,7 +128,7 @@ class stack_potentialresponse_test extends UnitTestCase {
 
         $options = new stack_options();
         $result = $pr->do_test('3*x+6', '3*(x+2)', 'x', $options);
-        
+
         $this->assertEqual(true, $result['valid']);
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(0, $result['result']);

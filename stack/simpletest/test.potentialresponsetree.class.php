@@ -130,7 +130,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $sans = new stack_cas_casstring('sa1', 't');
         $tans = new stack_cas_casstring('ta', 't');
         $pr = new stack_potentialresponse($sans, $tans, 'AlgEquiv', '', true);
-        $pr->add_branch(0, '=', 0, '', -1, 'Test 1 false.', '1-0-0');
+        $pr->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[@(sa1)^2@ \neq @(sa2)^2@\]', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 1, 'Test 1 true. ', '1-0-1');
         $potentialresponses[] = $pr;
 
@@ -152,7 +152,8 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual(1, $result['mark']);
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('Test 1 true. Test 2 false.', $result['feedback']);
-        $this->assertEqual('1-0-1 | ATFacForm_notfactored. | 1-1-0', $result['answernote']);
+        $this->assertEqual('1-0-1 | ATFacForm_notfactored. | 1-1-0 | [PRT-CIRCULARITY]=0', $result['answernote']);
 
+        $this->assertEqual(array('sa1', 'ta'), $tree->get_ie_requirements(array('sa1', 'sa3', 'ta', 'ssa1', 'a1', 't')));
     }
 }

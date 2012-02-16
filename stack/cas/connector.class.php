@@ -109,7 +109,7 @@ class stack_cas_maxima_connector {
      */
     private function send_to_maxima($command) {
 
-        $this->debug('CAS command', $command);
+        $this->debug('Maxima command', $command);
 
         $platform = $this->config['platform'];
 

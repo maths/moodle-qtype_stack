@@ -75,7 +75,7 @@ class stack_potentialresponse_tree {
         $this->value              = $value;
 
         if (is_a($feedbackvars, 'stack_cas_session') || null===$feedbackvars) {
-            $this->feedbackvars       = $feedbackvars;
+            $this->feedbackvars = $feedbackvars;
         } else {
             throw new Exception('stack_potentialresponse_tree: __construct: expects $feedbackvars to be null or a stack_cas_session.');
         }
@@ -163,6 +163,7 @@ class stack_potentialresponse_tree {
             $pr = $this->potentialresponses[$nextpr];
 
             if ($pr->visited_before()) {
+                $answernote .= ' | [PRT-CIRCULARITY]='.$nextpr;
                 $nextpr = -1;
             } else {
                 //TODO check for errors here
@@ -218,6 +219,92 @@ class stack_potentialresponse_tree {
         $result['feedback']   = $feedback;
 
         return $result;
+    }
+
+    /*
+     * Takes an array of interaction element keys, e.g. sans1, a, and returns those needed for the
+     * potential response tree to be executed.
+     * TODO: Since this is a time consuming operation, it needs to be done once and cached within the object.
+     *
+	 * @ var array of interaction element names.
+     */
+    public function get_ie_requirements($ies) {
+        $rawcasstrings = array();
+        if (null !== $this->feedbackvars) {
+            $rawcasstrings = $this->feedbackvars->get_all_raw_casstrings();
+        }
+        foreach ($this->potentialresponses as $pr) {
+            $rawcasstrings = array_merge($rawcasstrings, $pr->get_ie_requirements_data());
+        }
+
+        $neededies = array();
+        foreach ($ies as $ie) {
+            // Don't just "foreach ($rawcastrings as..." here.  Very wasteful.
+            $i=0;
+            $found = false;
+            while ($i<count($rawcasstrings) && !$found) {
+                $found = $this->find_string_whole($ie, $rawcasstrings[$i]);
+                $i++;
+            }
+            if ($found) {
+                $neededies[]=$ie;
+            }
+        }
+        return $neededies;
+    }
+
+    /*
+     * Looks for occurances of $needle in $haystack as whole words only.
+     */
+    private function find_string_whole($needle, $haystack) {
+        $needle = strtolower($needle);
+        $haystack = strtolower($haystack);
+        $charArray = str_split($haystack);
+
+        $characters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        //characters that are invalid, if the needle is surrounded by these then the find returns false
+
+        $noToSearch = substr_count($haystack, $needle);
+        $pos = 0;//position (index) in the string;
+        $i = 0;
+
+        $toReturn = false;
+        while ($i < $noToSearch) {
+            $toReturn = true;
+
+            if ($needle == '' || $haystack == '') {
+                $toReturn = false;
+            } else {
+                $pos = stripos($haystack, $needle);
+
+            if ($pos === false) {
+                $toReturn = false;
+            } else {
+                if (($pos -1) >= 0) {
+                    //check preceeding character
+                    if (in_array($charArray[($pos -1)], $characters)) {
+                        $toReturn = false;
+                    }
+                }
+                $endChar = $pos + strlen($needle);
+
+                if (($endChar +1) <= count($charArray)) {
+                    //check end character + 1
+                    if (in_array($charArray[($endChar)], $characters)) {
+                        $toReturn = false;
+                    }
+                }
+                if ($toReturn == true) {
+                    return true;
+                }
+            }
+        }
+        $i++;
+        $end = ($pos + strlen($needle) -1);
+        $haystack = substr($haystack, $end); //stripos only matches first occurence. We
+        $charArray = str_split($haystack);
+        }
+        return $toReturn;
     }
 
 }

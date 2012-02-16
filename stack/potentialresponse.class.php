@@ -214,4 +214,19 @@ class stack_potentialresponse {
         return $newmark;
     }
 
+    /* We need to decide if anything in this PR depends on an interaction element.
+     * This is a helper function which returns an array of strings for that purpose.
+     */ 
+    public function get_ie_requirements_data() {
+        $castext  = $this->branches[0]['feedback'];
+        $castext .= $this->branches[1]['feedback'];
+        $ct = new stack_cas_text($castext);
+        $return = $ct->get_all_raw_casstrings();
+        $return[] = $this->sans->get_raw_casstring();
+        $return[] = $this->tans->get_raw_casstring();
+        if ($this->process_atoptions() and '' != trim($this->atoptions)) {
+            $return[] = $this->atoptions;
+        }
+        return $return;
+    }
 }

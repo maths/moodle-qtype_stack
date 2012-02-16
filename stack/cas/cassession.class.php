@@ -308,6 +308,16 @@ class stack_cas_session {
         return $this->errors;
     }
 
+    public function get_all_raw_casstrings() {
+        $return = array();
+        if (!(null === $this->session)) { // Empty sessions are ok.
+            foreach ($this->session as $casstr) {
+                $return[] = $casstr->get_raw_casstring();
+            }
+        }
+        return $return;
+    }
+    
     public function get_value_key($key) {
         if (null===$this->valid) {
             $this->validate();

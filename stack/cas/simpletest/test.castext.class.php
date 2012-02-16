@@ -65,6 +65,35 @@ extends UnitTestCase{
 
     }
 
+    public function test_get_all_raw_casstrings() {
+        $raw = 'Take @x^2+2*x@ and then @sin(z^2)@.';
+        $at1 = new stack_cas_text($raw);
+        $val = array('x^2+2*x','sin(z^2)');
+        $this->assertEqual($val, $at1->get_all_raw_casstrings());
+    }
+
+    public function test_get_all_raw_casstrings_empty() {
+        $raw = 'Take some text without cas commands.';
+        $at1 = new stack_cas_text($raw);
+        $val = array();
+        $this->assertEqual($val, $at1->get_all_raw_casstrings());
+    }
+
+    public function test_get_all_raw_casstrings_session() {
+
+        $sa = array('p:diff(sans)', 'q=int(tans)');
+        foreach ($sa as $s) {
+            $s1[] = new stack_cas_casstring($s,'t');
+        }
+        $cs1 = new stack_cas_session($s1);
+
+        $raw = 'Take @ 1/(1+x^2) @ and then @sin(z^2)@.';
+        $at1 = new stack_cas_text($raw,$cs1);
+        $val = array('p:diff(sans)', 'q=int(tans)', '1/(1+x^2)','sin(z^2)');
+        $this->assertEqual($val, $at1->get_all_raw_casstrings());
+
+    }
+
     public function check_external_forbidden_words($ct, $val, $words) {
 
         $a2=array('a:x^2)', 'b:(sin(x)+1)^2');

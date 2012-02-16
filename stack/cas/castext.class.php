@@ -323,6 +323,18 @@ class stack_cas_text {
         return $this->errors;
     }
 
+    public function get_all_raw_casstrings() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+
+        if (null !== $this->session) {
+            return $this->session->get_all_raw_casstrings();
+        } else {
+            return false;
+        }
+    }
+
     public function get_display_castext() {
         if (null===$this->valid) {
             $this->validate();

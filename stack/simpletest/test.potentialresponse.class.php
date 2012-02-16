@@ -134,13 +134,14 @@ class stack_potentialresponse_test extends UnitTestCase {
         $this->assertEqual(0, $result['result']);
         $this->assertEqual(0, $result['mark']);
         $this->assertEqual('Your answer is not factored. You need to take out a common factor. Boo!', $result['feedback']);
+
     }
 
     public function test_do_test_fail_quiet() {
         $sans = new stack_cas_casstring('ans1', 's');
         $tans = new stack_cas_casstring('3*(x+2)', 't');
         $pr = new stack_potentialresponse($sans, $tans, 'FacForm', 'x', true);
-        $pr->add_branch(0, '+', 0.5, '', -1, 'Boo!', '1-0-0');
+        $pr->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
         $options = new stack_options();
@@ -148,11 +149,13 @@ class stack_potentialresponse_test extends UnitTestCase {
         $result = $pr->do_test('3*x+6', '3*(x+2)', 'x', $options);
         $this->assertTrue($pr->visited_before());
 
-        $this->assertEqual('Boo!', $result['feedback']);
+        $this->assertEqual('Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', $result['feedback']);
 
         $oldmark = 1;
         $newmark = $pr->update_mark($oldmark);
         $this->assertEqual(1.5, $newmark);
 
+        $data = array('factor(ans1)', 'ans1', '3*(x+2)', 'x');
+        $this->assertEqual($data, $pr->get_ie_requirements_data());
     }
 }

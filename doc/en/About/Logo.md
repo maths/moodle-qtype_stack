@@ -6,7 +6,7 @@ The STACK logo is based on the following problem.
 
 The answer is that there is no limit to how far it can lean!  A physical model is shown below.
 
-![A model of the STACK logo](../../pix/logoJB.jpg)
+![A model of the STACK logo](%CONTENT/logoJB.jpg)
 
 ## The mathematics of this problem
 

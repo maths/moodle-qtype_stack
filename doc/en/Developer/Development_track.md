@@ -21,6 +21,8 @@ Gradually change variable and function names to conform to Maxima coding standar
 
 Basic skeleton import of STACK 2 questions and storage in the database. Teacher can create a question version and attempt this from the database, with no caching.  
 
+1. Get this plumbed together without any validation.
+
 ## Milestone 3. 
 
 Reinstate the dynamic cache and make it work with one Moodle behaviour. At this point we should be able to include a STACK question into a moodle quiz, for demonstration and testing purposes.  

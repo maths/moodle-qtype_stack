@@ -249,3 +249,13 @@ $string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or
 $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
 $string['ATSysEquiv_SA_system_underdetermined']	= 'The equations in your system appear to be correct, but you need others besides.';
 $string['ATSysEquiv_SA_system_overdetermined'] 	= 'The entries in red below are those that are incorrect. {$a->m0} ';
+
+// Documentation strings
+$string['stackDoc_404']                 = 'Error 404';
+$string['stackDoc_docs']                = 'STACK Documentation';
+$string['stackDoc_home']                = 'Documentation home';
+$string['stackDoc_index']               = 'Category index';
+$string['stackDoc_parent']              = 'Parent';
+$string['stackDoc_siteMap']             = 'Site map';
+$string['stackDoc_404message']          = 'File not found.';
+$string['stackDoc_directoryStructure']  = 'Directory structure';

@@ -48,12 +48,10 @@ false$
 expandp(3*y+6*p); 
 true$ 
 
-
-
-stack_ineqprepare(x>1);
+ineqprepare(x>1);
 x-1>0$
-
-
+ineqprepare(3*x<=7-x);
+7-4*x>=0$
 
 list_expression_numbers(x); 
 []$ 

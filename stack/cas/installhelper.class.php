@@ -94,7 +94,7 @@ class stack_cas_configuration {
         }
 
         // This does its best to find your version of Gnuplot...
-        if ($this->vnum > 25) {
+        if ('5.25.1' == $this->settings->maximaversion) {
             return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '-gcl/gnuplot/wgnuplot.exe"';
         } else if ($this->vnum > 23) {
             return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '/gnuplot/wgnuplot.exe"';
@@ -110,8 +110,13 @@ class stack_cas_configuration {
             return true;
         }
 
-        copy('C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/maxima.bat',
-                $CFG->dataroot . '/stack/maxima.bat');
+        $batchfilename = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/maxima.bat';
+        if ($this->settings->maximaversion = '5.25.1') {
+            $batchfilename = 'C:/Program Files/Maxima-5.25.1-gcl/bin/maxima.bat';
+        }
+        if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
+            throw new Exception('Could not copy the Maxima batch file '.$batchfilename.' to location '.$CFG->dataroot . '/stack/maxima.bat');
+        }
     }
 
     public function maxima_bat_is_ok() {

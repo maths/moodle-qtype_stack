@@ -108,6 +108,7 @@ class stack_cas_session {
             $this->seed = time();
         }
 
+        // TODO: does session security actually do anything?  Perhaps, if not null, this should override any security set in the casstrings?
         if (!('s'===$security || 't'===$security)) {
             throw new Exception('stack_cas_session: 4th argument, security level, must be "s" or "t" only.');
         }
@@ -266,7 +267,7 @@ class stack_cas_session {
                 if (is_a($var, 'stack_cas_casstring')) {
                     $this->instantiated = null;
                     $this->errors       = null;
-                    $this->session[]    = clone $var;
+                    $this->session[]    = clone $var; //Yes, we reall need new versions of the variables.
                 } else {
                     throw new Exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
                 }

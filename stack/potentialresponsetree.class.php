@@ -196,7 +196,7 @@ class stack_potentialresponse_tree {
         // (4) Sort out feedback and answernotes
         // (4.1) Instantiate the feedback castext.
         $feedbackct = new stack_cas_text($feedback, $cascontext, $seed, 't', false, false);
-        $feedback = $feedbackct->get_display_castext();
+        $feedback = trim($feedbackct->get_display_castext());
         $errors .= $feedbackct->get_errors();
         // (4.2) Tidy up the answernote
         if ('|'==substr(trim($answernote), 0, 1)) {

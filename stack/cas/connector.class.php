@@ -437,8 +437,9 @@ class stack_cas_maxima_connector {
             if (''==$unp['Ans']['error']) {
                 unset($unp['Ans']['error']);
             } else {
-                $unp['Ans']['error']=$this->tidy_error($unp['Ans']['error']);
+                $unp['error'] .= $this->tidy_error($unp['Ans']['error']);
             }
+            unset($unp['Ans']);
         }
 
         if (array_key_exists('TAAns', $unp)) {

@@ -106,9 +106,6 @@ class stack_answertest_general_cas extends stack_anstest {
         $result = $mconn->maxima_answer_test($this->sAnsKey, $ta, $this->casfunction);
 
         $this->ATError    = $result['error'];
-        if (array_key_exists('error', $result['Ans'])) {
-            $this->ATError   .= $result['Ans']['error'];
-        }
         $this->ATAnsNote  = $result['answernote'];
         $this->ATMark     = $result['result'];
         $this->ATFeedback = $result['feedback'];

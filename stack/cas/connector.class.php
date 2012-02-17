@@ -70,7 +70,13 @@ class stack_cas_maxima_connector {
                     throw new Exception("stack_cas_maxima_connector: maxima launch script {$cmd} does not exist.");
                 }
             } else {
-                $cmd = 'maxima';
+                if (is_readable('/Applications/Maxima.app/Contents/Resources/maxima.sh')) {
+                    // This is the path on Macs, if Maxima has been installed following
+                    // the instructions on Sourceforge.
+                    $cmd = '/Applications/Maxima.app/Contents/Resources/maxima.sh';
+                } else {
+                    $cmd = 'maxima';
+                }
             }
         }
 

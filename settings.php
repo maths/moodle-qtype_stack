@@ -52,6 +52,11 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
 
+$settings->add(new admin_setting_heading('docs',
+        get_string('stackDoc_docs', 'qtype_stack'),
+        get_string('stackDoc_docs_desc', 'qtype_stack',
+                array('link' => (string) new moodle_url('/question/type/stack/doc/docs.php')))));
+
 $settings->add(new admin_setting_heading('healthcheck',
         get_string('healthcheck', 'qtype_stack'),
         get_string('healthcheck_desc', 'qtype_stack',

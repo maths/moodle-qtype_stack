@@ -43,6 +43,15 @@ Reinstate the dynamic cache and make it work with one Moodle behaviour. At this 
 
 These tasks also need to be done, but do not block progress towards getting STACK basically working in moodle.
 
+1. Refactor the way STACK surrounds mathematics with LaTeX 
+environments.  Really we need a function 
+
+stack_maths($ex,$format = INLINE/DISPLAY)
+
+which takes the castring $ex, and surrounds it by strings 
+depending on whether we want an inline or displayed equation.   
+Similar to the translator function... 
+
 ## Languages
 
 * Add in other languages.   Copy over only those strings which are really needed.  NOTE: the new format of the language strings containing parameters.  In particular, strings {$a[0]} need to be changed to {$a->m0}, etc.

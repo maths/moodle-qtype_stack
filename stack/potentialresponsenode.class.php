@@ -111,8 +111,8 @@ class stack_potentialresponse_node {
             'mark'             => $mark,
             'penalty'          => $penalty,
             'nextnode'         => $nextnode,
-            'feedback'         => $feedback,
-            'answernote'       => $answernote,
+            'feedback'         => trim($feedback),
+            'answernote'       => trim($answernote),
         );
     }
 
@@ -127,35 +127,89 @@ class stack_potentialresponse_node {
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
 
-        $result['result'] = $at->get_at_mark();
-        if ($result['result']) {
+        $result = $at->get_at_mark();
+        if ($result) {
             $resultbranch = $this->branches[1];
         } else {
             $resultbranch = $this->branches[0];
         }
 
-        $result['valid']    = $at->get_at_valid();
-        $result['errors']   = $at->get_at_errors();
-
-        $result['newmark']  = $this->update_mark($currentmark, $resultbranch);
-        $result['penalty']  = $resultbranch['penalty'];
-        $result['nextnode'] = $resultbranch['nextnode'];
-
-        if (trim($at->get_at_answernote()) !== '' && trim($resultbranch['answernote']) !== '') {
-            $result['answernote'] = trim($at->get_at_answernote() . ' | ' . $resultbranch['answernote']);
-        } else {
-            $result['answernote'] = trim($at->get_at_answernote() . ' ' . $resultbranch['answernote']);
+        $answernotes = array();
+        if ($at->get_at_answernote()) {
+            $answernotes[] = $at->get_at_answernote();
+        }
+        if ($resultbranch['answernote']) {
+            $answernotes[] = $resultbranch['answernote'];
         }
 
         // If the answer test is running in quiet mode we suppress any
         // automatically generated feedback from the answertest itself.
-        $result['feedback'] = trim($resultbranch['feedback']);
-        if (!$this->quiet) {
-            $result['feedback'] = trim(trim($at->get_at_feedback()) . ' ' . $result['feedback']);
+        $feedback = array();
+        if (!$this->quiet && $at->get_at_feedback()) {
+            $feedback[] = $at->get_at_feedback();
+        }
+        if ($resultbranch['feedback']) {
+            $feedback[] = $resultbranch['feedback'];
         }
 
         $this->result = $result;
-        return $result;
+        return array(
+            'result' => $result,
+            'valid' => $at->get_at_valid(),
+            'errors' => $at->get_at_errors(),
+            'newmark' => $this->update_mark($currentmark, $resultbranch),
+            'penalty' => $resultbranch['penalty'],
+            'nextnode' => $resultbranch['nextnode'],
+            'answernote' => implode(' | ', $answernotes),
+            'feedback' => implode(' ', $feedback),
+        );
+    }
+
+    /**
+     * Traverse this node, updating the results array that is used by
+     * {@link stack_potentialresponse_tree::evaluate_response()}.
+     *
+     * @param array $results to ne updated.
+     * @param int $key the index of this node.
+     * @param stack_cas_session $cascontext the CAS context that holds all the relevant variables.
+     * @param stack_options $options
+     * @return array with two elements, the updated $results and the index of the next node.
+     */
+    public function traverse($results, $key, $cascontext, $options) {
+
+        $sans   = $cascontext->get_value_key('PRSANS' . $key);
+        $tans   = $cascontext->get_value_key('PRTANS' . $key);
+        $atopts = $cascontext->get_value_key('PRATOPT' . $key);
+
+        // If we can't find atopts then they were not processed by the CAS.
+        // They might still be some in the potential response which do not
+        // need to be processed.
+        if (false === $atopts) {
+            $atopts = null;
+        }
+
+        list($result, $valid, $errors, $newmark, $penalty, $nextnode, $answernote, $feedback) =
+                array_values($this->do_test($sans, $tans, $atopts, $options, $results['mark']));
+        // TODO check for errors here?
+
+        $results['valid'] = $results['valid'] && $valid;
+        $results['mark']  = $newmark;
+
+        if ($answernote) {
+            $results['answernote'][] = $answernote;
+        }
+
+        if ($feedback) {
+            $results['feedback'][] = $feedback;
+        }
+
+        if ($penalty !== '') {
+            $results['penalty'] = $penalty;
+        }
+
+        $results['errors'] = $errors;
+
+        return array($results, $nextnode);
     }
 
     /*

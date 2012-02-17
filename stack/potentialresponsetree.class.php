@@ -142,77 +142,44 @@ class stack_potentialresponse_tree {
         $cascontext = $this->create_cas_context_for_evaluation($questionvars, $options, $answers, $seed);
 
         // Set up the outcomes for this travsersal of the tree
-        $feedback    = array();
-        $answernotes = array();
-        $errors      = '';
-        $valid       = true;
-        $mark        = 0;
-        $penalty     = 0;
+        $results = array(
+            'feedback'    => array(),
+            'answernote' => array(),
+            'errors'      => '',
+            'valid'       => true,
+            'mark'        => 0,
+            'penalty'     => 0,
+        );
 
         // Traverse the tree.
-        $nextnode = 0;
+        $nodekey = 0;
         $visitednodes = array();
-        while ($nextnode != -1) {
+        while ($nodekey != -1) {
 
-            if (!array_key_exists($nextnode, $this->nodes)) {
+            if (!array_key_exists($nodekey, $this->nodes)) {
                 throw new Exception('stack_potentialresponse_tree: evaluate_response: attempted to jump to a potential response which does not exist in this question.  This is a question authoring/validation problem.');
             }
 
-            if (array_key_exists($nextnode, $visitednodes)) {
-                $answernotes[] = '[PRT-CIRCULARITY]=' . $nextnode;
+            if (array_key_exists($nodekey, $visitednodes)) {
+                $results['answernote'][] = '[PRT-CIRCULARITY]=' . $nodekey;
                 break;
             }
 
-            $currentnode = $this->nodes[$nextnode];
-            $visitednodes[$nextnode] = true;
+            $visitednodes[$nodekey] = true;
+            list($results, $nodekey) = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $options);
 
-            $sans   = $cascontext->get_value_key('PRSANS' . $nextnode);
-            $tans   = $cascontext->get_value_key('PRTANS' . $nextnode);
-            $atopts = $cascontext->get_value_key('PRATOPT' . $nextnode);
-
-            // If we can't find atopts then they were not processed by the CAS.
-            // They might still be some in the potential response which do not
-            // need to be processed.
-            if (false === $atopts) {
-                $atopts = null;
-            }
-
-            $result = $currentnode->do_test($sans, $tans, $atopts, $options, $mark);
-            // TODO check for errors here
-
-            $valid         = $valid && $result['valid'];
-            $mark          = $result['newmark'];
-            $answernotes[] = $result['answernote'];
-
-            if ($result['feedback']) {
-                $feedback[] = $result['feedback'];
-            }
-
-            if ($result['penalty'] !== '') {
-                $penalty = $result['penalty'];
-            }
-
-            if ($result['errors']) {
-                $errors = $result['errors'];
+            if ($results['errors']) {
                 break;
             }
-
-            $nextnode = $result['nextnode'];
         }
 
-        // Tidy up the feedback.
-        $feedbackct = new stack_cas_text(implode(' ', $feedback), $cascontext, $seed, 't', false, false);
-        $feedback = trim($feedbackct->get_display_castext());
-        $errors .= $feedbackct->get_errors();
+        // Tidy up the results.
+        $feedbackct = new stack_cas_text(implode(' ', $results['feedback']), $cascontext, $seed, 't', false, false);
+        $results['feedback'] = trim($feedbackct->get_display_castext());
+        $results['errors'] .= $feedbackct->get_errors();
+        $results['answernote'] = implode(' | ', $results['answernote']);
 
-        return array(
-            'valid'      => $valid,
-            'errors'     => $errors,
-            'mark'       => $mark,
-            'penalty'    => $penalty,
-            'answernote' => implode(' | ', $answernotes),
-            'feedback'   => $feedback,
-        );
+        return $results;
     }
 
     /**

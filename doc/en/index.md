@@ -12,10 +12,10 @@ More about what we are trying to achieve can be found under [the philosophy of S
 ## Where to start ##
 
 * **Teachers**
-  1. [Authoring questions](Authoring/), including an [authoring quick start guide](Authoring/Authoring_quick_start).
+  1. [Authoring questions](Authoring/index.md), including an [authoring quick start guide](Authoring/Authoring_quick_start).
   2. [Question testing](Authoring/Testing).
   3. [Deploying questions](Authoring/Deploying).
-  4. [Including questions in a Moodle Quiz](Components/Moodle#Including_questions)
+  4. Including questions in a Moodle Quiz: TODO.
   5. [Reviewing](Authoring/Reviewing)
   *  [Frequently asked questions](Authoring/Author_FAQ)
 * [**Students**](Students/)
@@ -23,17 +23,12 @@ More about what we are trying to achieve can be found under [the philosophy of S
   * [Input instructions](Students/Answer_input).
   * [How answers are assessed](Students/Answer_assessment).
 * **Administrators**
-  * For [Installation instructions](Installation/) there is a [detailed installation guide](Installation/Installation_instructions). There is also specific information for platforms:
-	 * [Microsoft](Installation/Installing_STACK_on_an_MS_Platform)
-	 * [Linux](Installation/Installing_STACK_on_linux)
-	 * [Mac OS X](Installation/Installing_STACK_on_Mac_OS_X)
+  * For [Installation instructions](Installation/) there is a [detailed installation guide](Installation/Installation_instructions). 
 * **Reference**
   * Documentation is arranged in categories as a reference to STACK.  Please use the [site map](Site_map).
 * **[Developers]()**
   * [Developer docs](Developer/)
   * [Development track](Developer/Development_track)
-  * STACK source code is hosted on [sourceForge](https://sourceforge.net/tracker2/?group_id=119224) by cvs.
-    From here you can track development and report bugs.
 
 ## Community ##
 

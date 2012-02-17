@@ -27,14 +27,30 @@ require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
 require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
 
 class stack_ans_test_controller {
-    // Attributes
-    /**
-     *
-     *
-     * @var    array(string)
-     * @access private
-     */
-    private static $avaliable_ans_tests;
+    protected static $types = array(
+              'AlgEquiv'     => 'stackOptions_AnsTest_values_AlgEquiv',
+              'EqualComAss'  => 'stackOptions_AnsTest_values_EqualComAss',
+              'CasEqual'     => 'stackOptions_AnsTest_values_CasEqual',
+              'SameType'     => 'stackOptions_AnsTest_values_SameType',
+              'SubstEquiv'   => 'stackOptions_AnsTest_values_SubstEquiv',
+              'SysEquiv'     => 'stackOptions_AnsTest_values_SysEquiv',
+              'Expanded'     => 'stackOptions_AnsTest_values_Expanded',
+              'FacForm'      => 'stackOptions_AnsTest_values_FacForm',
+              'SingleFrac'   => 'stackOptions_AnsTest_values_SingleFrac',
+              'PartFrac'     => 'stackOptions_AnsTest_values_PartFrac',
+              'CompSquare'   => 'stackOptions_AnsTest_values_CompSquare',
+              'GT'           => 'stackOptions_AnsTest_values_GT',
+              'GTE'          => 'stackOptions_AnsTest_values_GTE',
+              'NumAbsolute'  => 'stackOptions_AnsTest_values_NumAbsolute',
+              'NumRelative'  => 'stackOptions_AnsTest_values_NumRelative',
+              'NumSigFigs'   => 'stackOptions_AnsTest_values_NumSigFigs',
+              'LowestTerms'  => 'stackOptions_AnsTest_values_LowestTerms',
+              'Diff'         => 'stackOptions_AnsTest_values_Diff',
+              'Int'          => 'stackOptions_AnsTest_values_Int',
+              'String'       => 'stackOptions_AnsTest_values_String',
+              'StringSloppy' => 'stackOptions_AnsTest_values_StringSloppy',
+              'RegExp'       => 'stackOptions_AnsTest_values_RegExp',
+              );
 
     /**
      * The answertest object that the functions call
@@ -56,30 +72,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public function __construct($anstest = null, $sans = null, $tans = null, $options = null, $casoption = null) {
-        $this->avaliableAnsTests = array('AlgEquiv'=>stack_string("stackOptions_AnsTest_values_AlgEquiv"),
-              'EqualComAss'=> stack_string("stackOptions_AnsTest_values_Equal_com_ass"),
-              'CasEqual'     => stack_string("stackOptions_AnsTest_values_CASEqual"),
-              'SameType'     => stack_string("stackOptions_AnsTest_values_SameType"),
-              'SubstEquiv'   => stack_string("stackOptions_AnsTest_values_SubstEquiv"),
-              'SysEquiv'     => stack_string("stackOptions_AnsTest_values_SysEquiv"),
-              'Expanded'     => stack_string("stackOptions_AnsTest_values_Expanded"),
-              'FacForm'      => stack_string("stackOptions_AnsTest_values_FacForm"),
-              'SingleFrac'   => stack_string("stackOptions_AnsTest_values_SingleFrac"),
-              'PartFrac'     => stack_string("stackOptions_AnsTest_values_PartFrac"),
-              'CompSquare'   => stack_string("stackOptions_AnsTest_values_CompSquare"),
-              'GT'           => stack_string("stackOptions_AnsTest_values_Num_GT"),
-              'GTE'          => stack_string("stackOptions_AnsTest_values_Num_GTE"),
-              'NumAbsolute'  => stack_string("stackOptions_AnsTest_values_Num_tol_absolute"),
-              'NumRelative'  => stack_string("stackOptions_AnsTest_values_Num_tol_relative"),
-              'NumSigFigs'   => stack_string("stackOptions_AnsTest_values_Num_sig_figs"),
-              'LowestTerms'  => stack_string("stackOptions_AnsTest_values_Num_LowestTerms"),
-              'Diff'         => stack_string("stackOptions_AnsTest_values_Diff"),
-              'Int'          => stack_string("stackOptions_AnsTest_values_Int"),
-              'String'       => stack_string("stackOptions_AnsTest_values_String"),
-              'StringSloppy' => stack_string("stackOptions_AnsTest_values_StringSloppy"),
-              'RegExp'       => stack_string("stackOptions_AnsTest_values_RegExp"),
-              );
-        //echo "<br>In Anstest controller: $AnsTest<br>";
+
         switch($anstest) {
             case 'AlgEquiv':
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATAlgEquiv', false, $casoption, $options);
@@ -271,29 +264,8 @@ class stack_ans_test_controller {
      * @return array(string)
      * @access public
      */
-    public function stack_available_answer_tests() {
-        return $this->avaliableAnsTests;
-    }
-
-    /**
-     * Returns a list of available answertests
-     * @access public
-     * @return string xhtml
-     *
-     */
-    public function get_edit_dropdown($current, $name='') {
-
-        $widget = "<select name=\"$name\">";
-        foreach ($this->avaliableAnsTests as $label => $localName) {
-        //answertests have been localised, this displays the correct name
-            if ($label == $current) {
-                $widget .= "<option value=\"$label\" selected>$localName</option>";
-            } else {
-                $widget .= "<option value=\"$label\">$localName</option>";
-            }
-        }
-        $widget .= '</select>';
-        return $widget;
+    public function get_available_ans_tests() {
+        return self::$types;
     }
 
     /**

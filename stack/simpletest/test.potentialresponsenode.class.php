@@ -39,100 +39,95 @@ class stack_potentialresponse_node_test extends UnitTestCase {
         $sans = new stack_cas_casstring('x^2+2*x+1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
         $options = new stack_options();
-        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $pr->add_branch(0, '=', 0, '', -1, '', '1-0-0');
-        $pr->add_branch(1, '=', 1, '', -1, '', '1-0-1');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
+        $node->add_branch(0, '=', 0, '', -1, '', '1-0-0');
+        $node->add_branch(1, '=', 1, '', -1, '', '1-0-1');
 
-        $this->assertEqual($sans, $pr->sans);
-        $this->assertEqual($tans, $pr->tans);
+        $this->assertEqual($sans, $node->sans);
+        $this->assertEqual($tans, $node->tans);
     }
 
     public function test_do_test_pass() {
         $sans = new stack_cas_casstring('x^2+2*x+1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
         $options = new stack_options();
-        $result = $pr->do_test('x^2+2*x+1', '(x+1)^2', '', $options);
+        $result = $node->do_test('x^2+2*x+1', '(x+1)^2', '', $options, 0);
 
         $this->assertEqual(true, $result['valid']);
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(1, $result['result']);
-        $this->assertEqual(2, $result['mark']);
         $this->assertEqual('Yeah!', $result['feedback']);
-        $this->assertEqual(3, $result['nextpr']);
+        $this->assertEqual(3, $result['nextnode']);
     }
 
     public function test_do_test_fail() {
         $sans = new stack_cas_casstring('x^2+2*x-1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
         $options = new stack_options();
-        $result = $pr->do_test('x^2+2*x-1', '(x+1)^2', '', $options);
+        $result = $node->do_test('x^2+2*x-1', '(x+1)^2', '', $options, 0);
 
         $this->assertEqual(true, $result['valid']);
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(0, $result['result']);
-        $this->assertEqual(0, $result['mark']);
         $this->assertEqual('Boo!', $result['feedback']);
-        $this->assertEqual(-1, $result['nextpr']);
+        $this->assertEqual(-1, $result['nextnode']);
     }
 
     public function test_do_test_cas_error() {
         $sans = new stack_cas_casstring('x^2+2*x-1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
         $options = new stack_options();
-        $result = $pr->do_test('1/0', '(x+1)^2', '', $options);
+        $result = $node->do_test('1/0', '(x+1)^2', '', $options, 0);
 
         $this->assertEqual(false, $result['valid']);
         $this->assertNotEqual('', $result['errors']);
         $this->assertEqual(0, $result['result']);
-        $this->assertEqual(0, $result['mark']);
         $this->assertEqual('Boo!', $result['feedback']);
-        $this->assertEqual(-1, $result['nextpr']);
+        $this->assertEqual(-1, $result['nextnode']);
     }
 
     public function test_do_test_pass_atoption() {
         $sans = new stack_cas_casstring('(x+1)^2', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
-        $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
         $options = new stack_options();
-        $result = $pr->do_test('(x+1)^2', '(x+1)^2', 'x', $options);
+        $result = $node->do_test('(x+1)^2', '(x+1)^2', 'x', $options, 0);
 
         $this->assertEqual(true, $result['valid']);
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(1, $result['result']);
-        $this->assertEqual(2, $result['mark']);
         $this->assertEqual('Yeah!', $result['feedback']);
-        $this->assertEqual(3, $result['nextpr']);
+        $this->assertEqual(3, $result['nextnode']);
     }
 
     public function test_do_test_fail_atoption() {
         $sans = new stack_cas_casstring('ans1', 's');
         $tans = new stack_cas_casstring('3*(x+2)', 't');
-        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
-        $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
         $options = new stack_options();
-        $result = $pr->do_test('3*x+6', '3*(x+2)', 'x', $options);
+        $result = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, 0);
 
         $this->assertEqual(true, $result['valid']);
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(0, $result['result']);
-        $this->assertEqual(0, $result['mark']);
         $this->assertEqual('Your answer is not factored. You need to take out a common factor. Boo!', $result['feedback']);
 
     }
@@ -140,22 +135,18 @@ class stack_potentialresponse_node_test extends UnitTestCase {
     public function test_do_test_fail_quiet() {
         $sans = new stack_cas_casstring('ans1', 's');
         $tans = new stack_cas_casstring('3*(x+2)', 't');
-        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
-        $pr->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', '1-0-0');
-        $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
+        $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
         $options = new stack_options();
-        $this->assertFalse($pr->visited_before());
-        $result = $pr->do_test('3*x+6', '3*(x+2)', 'x', $options);
-        $this->assertTrue($pr->visited_before());
+        $result = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, 1);
 
         $this->assertEqual('Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', $result['feedback']);
 
-        $oldmark = 1;
-        $newmark = $pr->update_mark($oldmark);
-        $this->assertEqual(1.5, $newmark);
+        $this->assertEqual(1.5, $result['newmark']);
 
         $data = array('factor(ans1)', 'ans1', '3*(x+2)', 'x');
-        $this->assertEqual($data, $pr->get_required_cas_strings());
+        $this->assertEqual($data, $node->get_required_cas_strings());
     }
 }

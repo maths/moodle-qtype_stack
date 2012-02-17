@@ -62,16 +62,6 @@ class stack_potentialresponse_node {
     private $notes;
 
     /*
-     * @var boolean Has this node been visited before?  Used for lazy evaluation, and also to ensure the node isn't visited twice.
-     */
-    private $instantiated;
-
-    /*
-     * @var array Holds the result of doing the answer test.
-     */
-    private $result;
-
-    /*
      * @var array Holds the information for each branch.
      */
     private $branches;
@@ -97,85 +87,75 @@ class stack_potentialresponse_node {
         $this->atoptions = $atoptions;// This is not a stack_options class, but a string.
         $this->notes = $notes;
 
-        $this->instantiated = false;
         $this->branches     = array();
     }
 
-    /*
+    /**
      * Add information into each branch
+
+     * @param int $trueorfalse 0 or 1, which branch to set.
+     * @param string $mod mark modification method. One of the values recognised by {@link update_mark()}
+     * @param float $mark mark value used by update_mark.
+     * @param float $penalty penalty for this branch.
+     * @param int $nextnode index of the node to process next on this branch.
+     * @param string $feedback feedback for this branch.
+     * @param string $answernote answer note for this branch.
      */
-    public function add_branch($tf, $mod, $mark, $penalty, $nextpr, $feedback, $answernote) {
-        if (1===$tf or 0===$tf) {
-            $branch = $tf;
-        } else {
+    public function add_branch($trueorfalse, $mod, $mark, $penalty, $nextnode, $feedback, $answernote) {
+        if ($trueorfalse !== 0 && $trueorfalse !== 1) {
             throw new Exception('stack_potentialresponse_node: branches can only be 0 or 1.');
         }
-        $this->branches[$branch]['markmodification']     = $mod;
-        $this->branches[$branch]['mark']                 = $mark;
-        $this->branches[$branch]['penalty']              = $penalty;
-        $this->branches[$branch]['nextpr']               = $nextpr;
-        $this->branches[$branch]['feedback']             = $feedback;
-        $this->branches[$branch]['answernote']           = $answernote;
+
+        $this->branches[$trueorfalse] = array(
+            'markmodification' => $mod,
+            'mark'             => $mark,
+            'penalty'          => $penalty,
+            'nextnode'         => $nextnode,
+            'feedback'         => $feedback,
+            'answernote'       => $answernote,
+        );
     }
 
-    /*
-     * Has this node been visited before?  Uses instantiation infomation.
+    /**
+     * Actually execute the test for this node.
      */
-    public function do_test($nsans, $ntans, $ncasopts, $options) {
+    public function do_test($nsans, $ntans, $ncasopts, $options, $currentmark) {
 
         if (false === $ncasopts) {
             $ncasopts = $this->atoptions;
         }
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
+
         $result['result'] = $at->get_at_mark();
-        $this->instantiated = true;
-
         if ($result['result']) {
-            $branch = 1;
+            $resultbranch = $this->branches[1];
         } else {
-            $branch = 0;
+            $resultbranch = $this->branches[0];
         }
 
-        $result['valid']  = $at->get_at_valid();
-        $result['errors'] = $at->get_at_errors();
+        $result['valid']    = $at->get_at_valid();
+        $result['errors']   = $at->get_at_errors();
 
-        $result['markmodification'] = $this->branches[$branch]['markmodification'];
-        $result['mark']             = $this->branches[$branch]['mark'];
-        $result['penalty']          = $this->branches[$branch]['penalty'];
-        $result['nextpr']           = $this->branches[$branch]['nextpr'];
+        $result['newmark']  = $this->update_mark($currentmark, $resultbranch);
+        $result['penalty']  = $resultbranch['penalty'];
+        $result['nextnode'] = $resultbranch['nextnode'];
 
-        if (''!=trim($at->get_at_answernote()) and ''!=trim($this->branches[$branch]['answernote'])) {
-            $result['answernote']       = ' | '.$at->get_at_answernote().' | '.$this->branches[$branch]['answernote'];
+        if (trim($at->get_at_answernote()) !== '' && trim($resultbranch['answernote']) !== '') {
+            $result['answernote'] = trim($at->get_at_answernote() . ' | ' . $resultbranch['answernote']);
         } else {
-            $result['answernote']       = ' | '.trim($at->get_at_answernote().' '.$this->branches[$branch]['answernote']);
+            $result['answernote'] = trim($at->get_at_answernote() . ' ' . $resultbranch['answernote']);
         }
 
-        // If the answer test is running in "quiet mode" we suppress any automatically generated feedback from the answertest itself.
-        if ($this->quiet) {
-            $result['feedback']     = $this->branches[$branch]['feedback'];
-        } else {
-            $result['feedback']     = trim($at->get_at_feedback()).' '.trim($this->branches[$branch]['feedback']);
+        // If the answer test is running in quiet mode we suppress any
+        // automatically generated feedback from the answertest itself.
+        $result['feedback'] = trim($resultbranch['feedback']);
+        if (!$this->quiet) {
+            $result['feedback'] = trim(trim($at->get_at_feedback()) . ' ' . $result['feedback']);
         }
-        $result['feedback']     = trim($result['feedback']);
 
         $this->result = $result;
         return $result;
-    }
-
-    /*
-    * Has this node been visited before?  Uses instantiation infomation.
-    */
-    public function visited_before() {
-        return $this->instantiated;
-    }
-
-    /*
-    * Clean out information from previous traverses.
-    */
-    public function reset() {
-        $this->instantiated = false;
-        $this->results      = array();
     }
 
     /*
@@ -186,32 +166,24 @@ class stack_potentialresponse_node {
         return $at->process_atoptions();
     }
 
-    public function update_mark($oldmark){
-        if (!$this->instantiated) {
-            throw new Exception('stack_potentialresponse_node: potential response must be instantiated before marks can be updated.');
-        }
-
-        switch($this->result['markmodification']) {
+    protected function update_mark($oldmark, $resultbranch) {
+        switch($resultbranch['markmodification']) {
             case '=':
-                $newmark = $this->result['mark'];
-                break;
+                return $resultbranch['mark'];
 
             case '+':
-                $newmark = $oldmark + $this->result['mark'];
-                break;
+                return $oldmark + $resultbranch['mark'];
 
             case '-':
-                $newmark = $oldmark - $this->result['mark'];
-                break;
+                return $oldmark - $resultbranch['mark'];
 
             case '=AT':
-                $newmark = $this->result['mark'];
-                break;
+                return $resultbranch['mark'];
 
             default:
-                throw new Exception('stack_potentialresponse_node: update_mark called with invalid mark modificiation method: '.$result['markmodification']);
-        }//switch
-        return $newmark;
+                throw new Exception('stack_potentialresponse_node: update_mark called ' .
+                        'with invalid mark modificiation method: ' . $markmodification);
+        }
     }
 
     /**

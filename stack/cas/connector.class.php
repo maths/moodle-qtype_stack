@@ -354,8 +354,7 @@ class stack_cas_maxima_connector {
         if ($eqpos = strpos($strin, '=', $offset)) {
             // Check there are ='s
             do {
-                $s = new STACK_StringUtil('');
-                $gb = $s->util_grabbetween($strin, '[', ']', $eqpos);
+                $gb = stack_utils::substring_between($strin, '[', ']', $eqpos);
                 $val = substr($gb[0], 1, strlen($gb[0])-2);
                 $val = str_replace('"', '', $val);
                 $val = trim($val);

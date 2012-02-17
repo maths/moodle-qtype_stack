@@ -99,11 +99,9 @@ class stack_cas_text {
         }
 
         // Remove any comments from the castext
-        $str = str_replace("\n", ' ', $this->rawcastext);
-        $str = new STACK_StringUtil($str);
-        $this->trimmedcastext = $str->removeComments();
+        $this->trimmedcastext = stack_utils::removeComments(str_replace("\n", ' ', $this->rawcastext));
 
-        if (''===trim($this->trimmedcastext)) {
+        if (trim($this->trimmedcastext) === '') {
             $this->valid = true;
             return true;
         }
@@ -111,24 +109,22 @@ class stack_cas_text {
         // Find reasons to invalidate the text....
         $this->valid = true;
 
-        $cs = new STACK_StringUtil($this->trimmedcastext);
-
         //check @'s match
-        $amps = $cs->checkMatchingPairs('@');
+        $amps = stack_utils::check_matching_pairs($this->trimmedcastext, '@');
         if ($amps == false) {
             $this->errors .= stack_string('stackCas_MissingAt');
             $this->valid = false;
         }
 
-        $dollar = $cs->checkMatchingPairs('$');
+        $dollar = stack_utils::check_matching_pairs($this->trimmedcastext, '$');
         if ($dollar == false) {
             $this->errors .= stack_string('stackCas_MissingDollar');
             $this->valid = false;
         }
 
-        $hints = $cs->checkBookends('<hint>', '</hint>');
+        $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
         if ($hints !== true) {
-            //checkbookends does not return false
+            //check_bookends does not return false
             $this->valid = false;
             if ($hints == 'left') {
                 $this->errors .= stack_string('stackCas_MissingOpenHint');
@@ -137,9 +133,9 @@ class stack_cas_text {
             }
         }
 
-        $html = $cs->checkBookends('<html>', '</html>');
+        $html = stack_utils::check_bookends($this->trimmedcastext, '<html>', '</html>');
         if ($html !== true) {
-            //checkbookends does not return false
+            //check_bookends does not return false
 
             $this->valid = false;
             if ($html == 'left') {
@@ -149,9 +145,9 @@ class stack_cas_text {
             }
         }
 
-        $inline = $cs->checkBookends('\[', '\]');
+        $inline = stack_utils::check_bookends($this->trimmedcastext, '\[', '\]');
         if ($inline !== true) {
-            //checkbookends does not return false
+            //check_bookends does not return false
 
             $this->valid = false;
             if ($inline == 'left') {
@@ -161,9 +157,9 @@ class stack_cas_text {
             }
         }
 
-        $inline = $cs->checkBookends('\(', '\)');
+        $inline = stack_utils::check_bookends($this->trimmedcastext, '\(', '\)');
         if ($inline !== true) {
-            //checkbookends does not return false
+            //check_bookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
                 $this->errors .= stack_string('stackCas_MissingOpenInline');
@@ -206,8 +202,7 @@ class stack_cas_text {
             return null;
         } else {
             //extract the CAS commands
-            $cs = new STACK_StringUtil($this->trimmedcastext);
-            $temp = $cs->getBetweenChars('@'); //returns an array
+            $temp = stack_utils::getBetweenChars($this->trimmedcastext, '@'); //returns an array
 
             //create array of commands matching with their labels
             $i = 0;
@@ -218,8 +213,7 @@ class stack_cas_text {
 
             foreach ($temp as $cmd) {
                 // Trim of surrounding white space and CAS commands.
-                $str = new STACK_StringUtil($cmd);
-                $cmd = $str->trimCommands();
+                $cmd = stack_utils::trimCommands($cmd);
 
                 $cs = new stack_cas_casstring($cmd, $this->security, $this->insertstars, $this->syntax);
 
@@ -248,8 +242,7 @@ class stack_cas_text {
                 $this->session = $new_session;
 
                 // Now replace the commannds with their labels in the text.
-                $string = new STACK_StringUtil($this->trimmedcastext);
-                $this->trimmedcastext = $string->replaceBetween('@', '@', $labels);
+                $this->trimmedcastext = stack_utils::replaceBetween($this->trimmedcastext, '@', '@', $labels);
             }
         }
     }
@@ -278,8 +271,7 @@ class stack_cas_text {
         } else {
             // Assume STACK returns raw LaTeX for subsequent processing, e.g. with JSMath.
 
-            $str = new STACK_StringUtil($this->trimmedcastext);
-            $this->castext = $str->wrapAround();
+            $this->castext = stack_utils::wrapAround($this->trimmedcastext);
             //$this->captureFeedbackTags();
             //$this->capturePRTFeedbackTags();
             if (null !== $this->session) {

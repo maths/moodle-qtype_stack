@@ -92,8 +92,7 @@ class stack_interaction_textarea extends stack_interaction_element {
      * @return array the list elements.
      */
     protected function tokenize_list($in) {
-        $su = new STACK_StringUtil($in);
-        return $su->listToArray(false);
+        return stack_utils::listToArray($in, false);
     }
 
     public function getTestPostData($value) {

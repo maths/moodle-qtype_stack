@@ -28,7 +28,7 @@ require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
 
 require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/stack/stringutil.class.php');
+require_once(dirname(__FILE__) . '/stack/utils.class.php');
 require_once(dirname(__FILE__) . '/stack/options.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/casstring.class.php');

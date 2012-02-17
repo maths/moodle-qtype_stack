@@ -39,8 +39,7 @@ class stack_interaction_dropdown extends stack_interaction_element {
             return stack_string('ddl_empty');
         }
 
-        $su       = new STACK_StringUtil('[' . trim($this->parameters['ddl_values']) . ']');
-        $values = $su->listToArray(false);
+        $values = stack_utils::listToArray('[' . trim($this->parameters['ddl_values']) . ']', false);
 
         if (empty($values)) {
             return stack_string('ddl_empty');

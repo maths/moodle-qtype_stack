@@ -8,7 +8,6 @@ body#page-question-type-stack-healthcheck textarea {
     font-family: monospace;
     font-size: 0.8em;
     width: 100%;
-    height: 32em;
     white-space: pre;
 }
 body#page-question-type-stack-healthcheck div.box {

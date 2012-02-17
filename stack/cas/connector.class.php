@@ -97,7 +97,7 @@ class stack_cas_maxima_connector {
             $this->debuginfo .= html_writer::tag('h3', $heading);
         }
         if ($message) {
-            $this->debuginfo .= html_writer::tag('pre', $message);
+            $this->debuginfo .= html_writer::tag('pre', s($message));
         }
     }
 

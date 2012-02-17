@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Individual "potential responses".
+ * Node in a potential response tree.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,12 +24,12 @@
 require_once(dirname(__FILE__) . '/answertest/controller.class.php');
 
 /**
- * Individual "potential responses".
+ * A node in a potential response tree.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_potentialresponse {
+class stack_potentialresponse_node {
 
     /*
      * @var stack_cas_casstring Hold's nominal "student's answer".
@@ -75,21 +75,21 @@ class stack_potentialresponse {
      * @var array Holds the information for each branch.
      */
     private $branches;
-    
+
     public function __construct($sans, $tans, $answertest, $atoptions = null, $quiet=false, $notes='') {
         if (is_a($sans, 'stack_cas_casstring')) {
             $this->sans        = $sans;
         } else {
-            throw new Exception('stack_potentialresponse: sans must be a stack_cas_casstring');
+            throw new Exception('stack_potentialresponse_node: sans must be a stack_cas_casstring');
         }
         if (is_a($tans, 'stack_cas_casstring')) {
             $this->tans        = $tans;
         } else {
-            throw new Exception('stack_potentialresponse: tans must be a stack_cas_casstring');
+            throw new Exception('stack_potentialresponse_node: tans must be a stack_cas_casstring');
         }
         $this->answertest  = $answertest;
         if (!is_bool($quiet)) {
-            throw new Exception('stack_potentialresponse: quiet must be a boolean.');
+            throw new Exception('stack_potentialresponse_node: quiet must be a boolean.');
         } else {
             $this->quiet        = $quiet;
         }
@@ -108,7 +108,7 @@ class stack_potentialresponse {
         if (1===$tf or 0===$tf) {
             $branch = $tf;
         } else {
-            throw new Exception('stack_potentialresponse: branches can only be 0 or 1.');
+            throw new Exception('stack_potentialresponse_node: branches can only be 0 or 1.');
         }
         $this->branches[$branch]['markmodification']     = $mod;
         $this->branches[$branch]['mark']                 = $mark;
@@ -139,7 +139,7 @@ class stack_potentialresponse {
 
         $result['valid']  = $at->get_at_valid();
         $result['errors'] = $at->get_at_errors();
-        
+
         $result['markmodification'] = $this->branches[$branch]['markmodification'];
         $result['mark']             = $this->branches[$branch]['mark'];
         $result['penalty']          = $this->branches[$branch]['penalty'];
@@ -188,7 +188,7 @@ class stack_potentialresponse {
 
     public function update_mark($oldmark){
         if (!$this->instantiated) {
-            throw new Exception('stack_potentialresponse: potential response must be instantiated before marks can be updated.');
+            throw new Exception('stack_potentialresponse_node: potential response must be instantiated before marks can be updated.');
         }
 
         switch($this->result['markmodification']) {
@@ -209,24 +209,27 @@ class stack_potentialresponse {
                 break;
 
             default:
-                throw new Exception('stack_potentialresponse: update_mark called with invalid mark modificiation method: '.$result['markmodification']);
+                throw new Exception('stack_potentialresponse_node: update_mark called with invalid mark modificiation method: '.$result['markmodification']);
         }//switch
         return $newmark;
     }
 
-    /* We need to decide if anything in this PR depends on an interaction element.
-     * This is a helper function which returns an array of strings for that purpose.
-     */ 
-    public function get_ie_requirements_data() {
-        $castext  = $this->branches[0]['feedback'];
-        $castext .= $this->branches[1]['feedback'];
-        $ct = new stack_cas_text($castext);
-        $return = $ct->get_all_raw_casstrings();
-        $return[] = $this->sans->get_raw_casstring();
-        $return[] = $this->tans->get_raw_casstring();
-        if ($this->process_atoptions() and '' != trim($this->atoptions)) {
-            $return[] = $this->atoptions;
+    /**
+     * @return array of CAS strings. These cas strings include the names of all
+     * the input variables that are required by this node.
+     */
+    public function get_required_cas_strings() {
+
+        $ct = new stack_cas_text($this->branches[0]['feedback'] . $this->branches[1]['feedback']);
+        $requiredcasstrings = $ct->get_all_raw_casstrings();
+
+        $requiredcasstrings[] = $this->sans->get_raw_casstring();
+        $requiredcasstrings[] = $this->tans->get_raw_casstring();
+
+        if ($this->process_atoptions() && trim($this->atoptions) != '') {
+            $requiredcasstrings[] = $this->atoptions;
         }
-        return $return;
+
+        return $requiredcasstrings;
     }
 }

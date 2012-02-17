@@ -40,7 +40,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
         $sans = new stack_cas_casstring('sans', 't');
         $tans = new stack_cas_casstring('(x+1)^3/3+c', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'Int', 'x', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'Int', 'x', false);
         $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $pr->add_branch(1, '=', 2, '', -1, 'Yeah!', '1-0-1');
 
@@ -52,7 +52,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $options = new stack_options();
         $answers = array('sans'=>'(x+1)^3/3+c');
         $seed = 12345;
-        $result = $tree->traverse_tree($questionvars, $options, $answers, $seed);
+        $result = $tree->evaluate_response($questionvars, $options, $answers, $seed);
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
@@ -66,14 +66,14 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
         $sans = new stack_cas_casstring('sans', 't');
         $tans = new stack_cas_casstring('ta', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'Diff', 'x', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'Diff', 'x', false);
         $pr->add_branch(0, '=', 0, '', -1, 'Can not diff!', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 1, 'Ok, you can diff. ', '1-0-1');
         $potentialresponses[] = $pr;
 
         $sans = new stack_cas_casstring('sans', 't');
         $tans = new stack_cas_casstring('ta', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'FacForm', 'x', true);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $pr->add_branch(0, '+', 0, '', -1, 'Do not expand!', '1-1-0');
         $pr->add_branch(1, '+', 0, '', -1, 'Yeah!', '1-1-1');
         $potentialresponses[] = $pr;
@@ -86,7 +86,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $questionvars->instantiate();
 
         $answers = array('sans'=>'3*x^2+6*x+3');
-        $result = $tree->traverse_tree($questionvars->get_session(), $options, $answers, $seed);
+        $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
@@ -98,7 +98,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         // Now have another attempt at the same PRT!
         // Need this test to ensure PRT is "reset" and has no hangover data inside the potential resposnes.
         $answers = array('sans'=>'3*(x+1)^2');
-        $result = $tree->traverse_tree($questionvars->get_session(), $options, $answers, $seed);
+        $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
@@ -129,14 +129,14 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         // Define the tree itself.
         $sans = new stack_cas_casstring('sa1', 't');
         $tans = new stack_cas_casstring('ta', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'AlgEquiv', '', true);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
         $pr->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[@(sa1)^2@ \neq @(sa2)^2@\]', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 1, 'Test 1 true. ', '1-0-1');
         $potentialresponses[] = $pr;
 
         $sans = new stack_cas_casstring('sa2', 't');
         $tans = new stack_cas_casstring('ta', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'FacForm', 'x', true);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $pr->add_branch(0, '+', -1, '', 0, 'Test 2 false.', '1-1-0');
         $pr->add_branch(1, '+', 3, '', 3, 'Test 2 true', '1-1-1');
         $potentialresponses[] = $pr;
@@ -145,7 +145,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
         // Some data from students
         $answers = array('sans'=>'(x+1)^3');
-        $result = $tree->traverse_tree($questionvars->get_session(), $options, $answers, $seed);
+        $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
@@ -154,6 +154,6 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual('Test 1 true. Test 2 false.', $result['feedback']);
         $this->assertEqual('1-0-1 | ATFacForm_notfactored. | 1-1-0 | [PRT-CIRCULARITY]=0', $result['answernote']);
 
-        $this->assertEqual(array('sa1', 'ta'), $tree->get_ie_requirements(array('sa1', 'sa3', 'ta', 'ssa1', 'a1', 't')));
+        $this->assertEqual(array('sa1', 'ta'), $tree->get_required_variables(array('sa1', 'sa3', 'ta', 'ssa1', 'a1', 't')));
     }
 }

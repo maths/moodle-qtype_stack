@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/potentialresponse.class.php');
+require_once(dirname(__FILE__) . '/potentialresponsenode.class.php');
 
 /**
  * Deals with whole potential response trees.
@@ -31,77 +31,68 @@ require_once(dirname(__FILE__) . '/potentialresponse.class.php');
  */
 class stack_potentialresponse_tree {
 
-    /*
-     * @var string Name of the PRT.
-     */
+    /** @var string Name of the PRT. */
     private $name;
 
-    /*
-     * @var string Description of the PRT.
-     */
+    /** @var string Description of the PRT. */
     private $description;
 
-    /*
-     * @var boolean Should this PRT simplify when its arguments are evaluated?
-     */
-    private $simp;
+    /** @var boolean Should this PRT simplify when its arguments are evaluated? */
+    private $simplify;
 
-    /*
-     * @var float Number of marks available from this PRT.
-     */
+    /** @var float Number of marks available from this PRT. */
     private $value;
 
-    /*
-     * @var stack_cas_cassession Feeback variables.
-     */
-    private $feedbackvars;
+    /** @var stack_cas_cassession Feeback variables. */
+    private $feedbackvariables;
 
-    /*
-     * @var array of stack_potentialresponse.
-     */
-    private $potentialresponses;
+    /** @var array of stack_potentialresponse_node. */
+    private $nodes;
 
-    public function __construct($name, $description, $simp, $value, $feedbackvars, $potentialresponses) {
+    public function __construct($name, $description, $simplify, $value, $feedbackvariables, $nodes) {
 
-        $this->name               = $name;
-        $this->description        = $description;
+        $this->name        = $name;
+        $this->description = $description;
 
-        if (!is_bool($simp)) {
-            throw new Exception('stack_potentialresponse_tree: __construct: simp must be a boolean.');
+        if (!is_bool($simplify)) {
+            throw new Exception('stack_potentialresponse_tree: __construct: simplify must be a boolean.');
         } else {
-            $this->simp               = $simp;
+            $this->simplify = $simplify;
         }
 
-        $this->value              = $value;
+        $this->value = $value;
 
-        if (is_a($feedbackvars, 'stack_cas_session') || null===$feedbackvars) {
-            $this->feedbackvars = $feedbackvars;
+        if (is_a($feedbackvariables, 'stack_cas_session') || null===$feedbackvariables) {
+            $this->feedbackvariables = $feedbackvariables;
         } else {
-            throw new Exception('stack_potentialresponse_tree: __construct: expects $feedbackvars to be null or a stack_cas_session.');
+            throw new Exception('stack_potentialresponse_tree: __construct: expects $feedbackvariables to be null or a stack_cas_session.');
         }
 
-        if (is_array($potentialresponses)) {
-            foreach ($potentialresponses as $pr) {
-                if (!is_a($pr, 'stack_potentialresponse')) {
-                    throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not stack_potentialresponse');
-                }
-            }
-        } else if (!(null===$potentialresponses)) {
+        if ($nodes === null) {
+            $nodes = array();
+        }
+        if (!is_array($nodes)) {
             throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not an array of stack_potentialresponse');
         }
-        $this->potentialresponses = $potentialresponses;
-
-    }
-    /*
-     * This function actually traverses the tree and generates outcomes.
-     */
-    public function traverse_tree($questionvars, $options, $answers, $seed) {
-
-        if (empty($this->potentialresponses)) {
-            throw new Exception ('stack_potentialresponse_tree: traverse_tree attempting to traverse an empty tree.  Something is wrong here.');
+        foreach ($nodes as $pr) {
+            if (!is_a($pr, 'stack_potentialresponse_node')) {
+                throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not stack_potentialresponse');
+            }
         }
 
-        $options->set_option('simplify', $this->simp);
+        $this->nodes = $nodes;
+    }
+
+    /**
+     * This function actually traverses the tree and generates outcomes.
+     */
+    public function evaluate_response($questionvars, $options, $answers, $seed) {
+
+        if (empty($this->nodes)) {
+            throw new Exception ('stack_potentialresponse_tree: evaluate_response attempting to traverse an empty tree.  Something is wrong here.');
+        }
+
+        $options->set_option('simplify', $this->simplify);
 
         // Set up the outcomes for this travserse of the tree
         $feedback    = '';
@@ -111,7 +102,7 @@ class stack_potentialresponse_tree {
         $mark        = 0;
         $penalty     = 0;
 
-        // (1) Concatinate the question_variables and $feedbackvars
+        // (1) Concatinate the question_variables and $feedbackvariables
         $cascontext = new stack_cas_session(null, $options, $seed, 't', true, false);
         // (1.1) Start with the question variables.
         $cascontext->merge_session($questionvars);
@@ -124,11 +115,11 @@ class stack_potentialresponse_tree {
         }
         $cascontext->add_vars($answervars);
         // (1.2) Add in feedback variables.
-        $cascontext->merge_session($this->feedbackvars);
+        $cascontext->merge_session($this->feedbackvariables);
 
-        // (1.3) Traverse the $potentialresponses and pull out all sans, tans and options.
+        // (1.3) Traverse the $nodes and pull out all sans, tans and options.
         $answervars = array();
-        foreach ($this->potentialresponses as $key => $pr) {
+        foreach ($this->nodes as $key => $pr) {
             $sans = $pr->sans;
             $sans->set_key('PRSANS'.$key);
             $answervars[]=$sans;
@@ -153,10 +144,10 @@ class stack_potentialresponse_tree {
         $nextpr = 0;
         while ($nextpr != -1) {
 
-            if (!array_key_exists($nextpr, $this->potentialresponses)) {
-                throw new Exception('stack_potentialresponse_tree: traverse_tree: attempted to jump to a potential response which does not exist in this question.  This is a question authoring/validation problem.');
+            if (!array_key_exists($nextpr, $this->nodes)) {
+                throw new Exception('stack_potentialresponse_tree: evaluate_response: attempted to jump to a potential response which does not exist in this question.  This is a question authoring/validation problem.');
             }
-            $pr = $this->potentialresponses[$nextpr];
+            $pr = $this->nodes[$nextpr];
 
             if ($pr->visited_before()) {
                 $answernote .= ' | [PRT-CIRCULARITY]='.$nextpr;
@@ -201,7 +192,7 @@ class stack_potentialresponse_tree {
         }
         $answernote = trim($answernote);
         // (4.3) Reset all the potential responses for the next attempt
-        foreach ($this->potentialresponses as $pr) {
+        foreach ($this->nodes as $pr) {
             $pr->reset();
         }
 
@@ -217,90 +208,48 @@ class stack_potentialresponse_tree {
         return $result;
     }
 
-    /*
-     * Takes an array of interaction element keys, e.g. sans1, a, and returns those needed for the
-     * potential response tree to be executed.
-     * TODO: Since this is a time consuming operation, it needs to be done once and cached within the object.
+    /**
+     * Take an array of interaction element names, or equivalently response
+     * varaibles, (for example sans1, a) and return those that are used by this
+     * potential response tree.
      *
-     * @ var array of interaction element names.
+     * TODO: Since this is a time consuming operation, it needs to be done once
+     * and cached within the object.
+     *
+     * @param array of string variable names.
+     * @return array filter list of variable names. Only those variable names
+     * referred to be this PRT are returned.
      */
-    public function get_ie_requirements($ies) {
+    public function get_required_variables($variablenames) {
+
         $rawcasstrings = array();
-        if (null !== $this->feedbackvars) {
-            $rawcasstrings = $this->feedbackvars->get_all_raw_casstrings();
+        if ($this->feedbackvariables !== null) {
+            $rawcasstrings = $this->feedbackvariables->get_all_raw_casstrings();
         }
-        foreach ($this->potentialresponses as $pr) {
-            $rawcasstrings = array_merge($rawcasstrings, $pr->get_ie_requirements_data());
+        foreach ($this->nodes as $node) {
+            $rawcasstrings = array_merge($rawcasstrings, $node->get_required_cas_strings());
         }
 
-        $neededies = array();
-        foreach ($ies as $ie) {
-            // Don't just "foreach ($rawcastrings as..." here.  Very wasteful.
-            $i=0;
-            $found = false;
-            while ($i<count($rawcasstrings) && !$found) {
-                $found = $this->find_string_whole($ie, $rawcasstrings[$i]);
-                $i++;
-            }
-            if ($found) {
-                $neededies[]=$ie;
-            }
-        }
-        return $neededies;
-    }
-
-    /*
-     * Looks for occurances of $needle in $haystack as whole words only.
-     */
-    private function find_string_whole($needle, $haystack) {
-        $needle = strtolower($needle);
-        $haystack = strtolower($haystack);
-        $chararray = str_split($haystack);
-
-        $characters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-        //characters that are invalid, if the needle is surrounded by these then the find returns false
-
-        $notosearch = substr_count($haystack, $needle);
-        $pos = 0;//position (index) in the string;
-        $i = 0;
-
-        $return = false;
-        while ($i < $notosearch) {
-            $return = true;
-
-            if ($needle == '' || $haystack == '') {
-                $return = false;
-            } else {
-                $pos = stripos($haystack, $needle);
-
-                if ($pos === false) {
-                    $return = false;
-                } else {
-                    if (($pos -1) >= 0) {
-                        //check preceeding character
-                        if (in_array($chararray[($pos -1)], $characters)) {
-                            $return = false;
-                        }
-                    }
-                    $endchar = $pos + strlen($needle);
-
-                    if (($endchar +1) <= count($chararray)) {
-                        //check end character + 1
-                        if (in_array($chararray[($endchar)], $characters)) {
-                            $return = false;
-                        }
-                    }
-                    if ($return == true) {
-                        return true;
-                    }
+        $requirednames = array();
+        foreach ($variablenames as $name) {
+            foreach ($rawcasstrings as $string) {
+                if ($this->string_contains_variable($name, $string)) {
+                    $requirednames[] = $name;
+                    break;
                 }
             }
-            $i++;
-            $end = ($pos + strlen($needle) -1);
-            $haystack = substr($haystack, $end); //stripos only matches first occurence. We
-            $chararray = str_split($haystack);
         }
-        return $return;
+        return $requirednames;
     }
 
+    /**
+     * Looks for occurances of $variable in $string as whole words only.
+     * @param string $variable a variable name.
+     * @param string $string a cas string.
+     * @return bool whether the string refers to the variable.
+     */
+    private function string_contains_variable($variable, $string) {
+        $regex = '~\b' . preg_quote(strtolower($variable)) . '\b~';
+        return preg_match($regex, strtolower($string));
+    }
 }

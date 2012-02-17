@@ -15,31 +15,31 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for stack_potentialresponse.
+ * Unit tests for stack_potentialresponse_node.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
-require_once(dirname(__FILE__) . '/../potentialresponse.class.php');
+require_once(dirname(__FILE__) . '/../potentialresponsenode.class.php');
 require_once(dirname(__FILE__) . '/../cas/castext.class.php');
 require_once(dirname(__FILE__) . '/../../locallib.php');
 
 
 /**
- * Unit tests for stack_potentialresponse.
+ * Unit tests for stack_potentialresponse_node.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_potentialresponse_test extends UnitTestCase {
+class stack_potentialresponse_node_test extends UnitTestCase {
 
     public function test_constructor() {
         $sans = new stack_cas_casstring('x^2+2*x+1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
         $options = new stack_options();
-        $pr = new stack_potentialresponse($sans, $tans, 'AlgEquiv', '', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $pr->add_branch(0, '=', 0, '', -1, '', '1-0-0');
         $pr->add_branch(1, '=', 1, '', -1, '', '1-0-1');
 
@@ -50,7 +50,7 @@ class stack_potentialresponse_test extends UnitTestCase {
     public function test_do_test_pass() {
         $sans = new stack_cas_casstring('x^2+2*x+1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'AlgEquiv', '', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
@@ -68,7 +68,7 @@ class stack_potentialresponse_test extends UnitTestCase {
     public function test_do_test_fail() {
         $sans = new stack_cas_casstring('x^2+2*x-1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'AlgEquiv', '', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
@@ -86,7 +86,7 @@ class stack_potentialresponse_test extends UnitTestCase {
     public function test_do_test_cas_error() {
         $sans = new stack_cas_casstring('x^2+2*x-1', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'AlgEquiv', '', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
@@ -104,7 +104,7 @@ class stack_potentialresponse_test extends UnitTestCase {
     public function test_do_test_pass_atoption() {
         $sans = new stack_cas_casstring('(x+1)^2', 's');
         $tans = new stack_cas_casstring('(x+1)^2', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'FacForm', 'x', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
         $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
@@ -122,7 +122,7 @@ class stack_potentialresponse_test extends UnitTestCase {
     public function test_do_test_fail_atoption() {
         $sans = new stack_cas_casstring('ans1', 's');
         $tans = new stack_cas_casstring('3*(x+2)', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'FacForm', 'x', false);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
         $pr->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
@@ -140,7 +140,7 @@ class stack_potentialresponse_test extends UnitTestCase {
     public function test_do_test_fail_quiet() {
         $sans = new stack_cas_casstring('ans1', 's');
         $tans = new stack_cas_casstring('3*(x+2)', 't');
-        $pr = new stack_potentialresponse($sans, $tans, 'FacForm', 'x', true);
+        $pr = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $pr->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', '1-0-0');
         $pr->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
 
@@ -156,6 +156,6 @@ class stack_potentialresponse_test extends UnitTestCase {
         $this->assertEqual(1.5, $newmark);
 
         $data = array('factor(ans1)', 'ans1', '3*(x+2)', 'x');
-        $this->assertEqual($data, $pr->get_ie_requirements_data());
+        $this->assertEqual($data, $pr->get_required_cas_strings());
     }
 }

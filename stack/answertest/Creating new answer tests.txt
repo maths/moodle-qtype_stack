@@ -1,40 +1,35 @@
 ****************************
 Adding answer tests to STACK
 
-Changelog: Version 9th October 2011 - Chris Sangwin
+Changelog: Version 15th February 2011 - Chris Sangwin
 
 ****************************
 
 There are 3 types of answer tests:
-    A) Those which use PHP to perform some calculation or comparison.
-    B) Those which use a Answertest built into Maxima (E.g. in assessment.mac).
-    C) Those which use standard CasText to perform a calculation and derive an answer.
-
+    A) Those which use a Answertest built into Maxima (E.g. in assessment.mac).
+    B) Those which use standard CasText to perform a calculation and derive an answer.
+    C) Those which use PHP to perform some calculation or comparison.
 
 Common Background Information
 -----------------------------
-Each answertest is stored as a individual object and stored in
-a individual file in the answertest directory. Answertest must
-all extend the base class AnsTest which provides methods for
-accessing marks and feedback, these may be overridden if
-required.
+Each answertest is potentially stored as a individual object,
+in a individual file in the answertest directory. In most
+cases, (A), we have just one class which does all the work.
+This prevents duplication of code.
 
-In most cases just two methods are needed, the constructor
-which calls the super class's constructor and a doAnsTest()
-method. No other public methods are allowed.
+Normally, just three methods are needed, the constructor which
+calls the super class's constructor, a do_test() method which
+does the work and a helper function process_atoptions() wich
+decides if the options need to be evaluated by the CAS in the
+context of this question before the test is allowed. For
+example, you might ask students for a random number of
+significant figures. No other public methods are allowed.
 
-The doAnsTest method should return true or false depending on
-the result of the answertest. If an error occurs the doAnsTest
-should return NULL.
+The do_test() method should return true or false depending on
+the result. If an error occurs the do_test() should return
+null.
 
-
-
-A) PHP Answertests
-------------------
-For an example see STACK_AnsTest_StringSloppy
-
-
-B) Maxima Answertests
+A) Maxima Answertests
 ---------------------
 Open assessment.mac and add or link to the Maxima code to
 perform the answertest.
@@ -50,45 +45,25 @@ FeedBack is a string - later translated by STACK.
 To turn this Maxima list into something which the PHP interface can deal with,
 STACK calls the Maxima function StackReturn() defined in stackmaxima.mac
 
-For an example see STACK_AnsTest_AlgEquiv
+The prototype is ATAlgEquiv, but a simpler test is
+ATCasEqual.
 
-Note, however, that the Maxima code for this test is
-particularly complicated.
-
-
-C) CASText Answertests
+B) CAStext Answertests
 ----------------------
 
-CASText Answertests are the most complex to create.
+CAStext answer tests are the most complex to create. Here we
+can create a bespoke CAS session with the required commands and
+mix some maxima with some PHP logic.
 
-(See NumRelative.php for a more complex example).
+(See stack_anstest_numabsolute for an example).
+
+C) PHP Answertests
+------------------
+For an example see stack_anstest_stringsloppy
 
 
-D) Adding the Answertest to STACK
+Adding the new Answertest to STACK
 ---------------------------------
 
-Open AnsTestController.php, this file passes information onto the correct
-answertest class. In the constructor, modify the $this->AvaliableAnsTest array
-to include your answertest in the form:
-
-'Answertest class name' => 'Display name for answertest',
-
-Below this add the code to pass link the answer test to STACK.
-
-Inside the switch statement add:
-
-case 'ClassName':
-        require_once 'ClassName.php';
-                $this->AT = new ClassName($sAnsKey, $tAnsKey, $maximaPreferencs, $casOption);
-                break;
-
-
-Answertest variables
---------------------
-Full list of variables that may be returned by an answertest
-
-(float)   $this->ATMark     - The raw mark
-(bool)    $this->ATValid    - Whether the answertest result was valid or not
-(string)  $this->ATAnsNote  - The answernote for the teacher
-(castext) $this->ATFeedback - Feedback for the student
-(string)  $this->ATError    - Any errors that occurred.
+Open controller.class.php, passes information onto the correct
+answertest class. There are plenty of examples here.

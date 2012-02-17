@@ -60,7 +60,7 @@ extends UnitTestCase {
         }
 
         $options = new stack_options();
-        $options->set_option('simplify', 0);
+        $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1,$options);
         $this->assertEqual('x^2', $at1->get_display_key('a'));

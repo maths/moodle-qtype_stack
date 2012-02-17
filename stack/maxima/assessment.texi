@@ -1,0 +1,563 @@
+\input texinfo
+
+@c %**start of header (This is for running texinfo on a region.)
+@setfilename assessment.info
+@settitle An Assessment Package for Maxima
+
+@macro mybibitem{ref}
+@item
+@anchor{\ref\}[\ref\]
+@end macro
+
+
+@c %**end of header (This is for running texinfo on a region.)
+
+@ifinfo
+@macro var {expr}
+<\expr\>
+@end macro
+@end ifinfo
+
+@titlepage
+@title An Assessment Package for Maxima
+@subtitle Draft
+@subtitle August 2011
+@author Chris Sangwin
+@end titlepage
+
+
+@node Top, Introduction to Assessment, (dir), (dir)
+@top
+@menu
+* Introduction::
+@end menu
+
+@node Introduction to Assessment, , Top, Top
+
+@chapter The Assessment Package
+
+@section Introduction to Assessment
+
+This document describes an assessment package for the computer algebra system Maxima.
+
+Note, the assessment package is designed to be used with @code{simp:false}.  Otherwise it will not always function correctly.
+
+A computer algebra system (CAS) is software for manipulating mathematical expressions symbolically.   For example, we can expand out, or differentiate.  Increasingly, CAS is being used to assess students' mathematical work automatically.
+When doing this we seek to @emph{establish mathematical properties} of expressions, rather than performing calculations with them.  For example, if @math{p(x)} is an expression provided by a student, we might try to establish @emph{``is @math{p(x)} an odd expression?''}.  The prototype property is to establish if a student's answer @code{sa} is @emph{``equivalent to the teacher's answer @code{ta}''}.  Establishing such properties is a key step in the assessment process.
+
+The STACK CAA system uses Maxima.
+See @cite{Sangwin2006CASAlgebra}, @cite{WebALT2006}, @cite{Sangwin2007CAME}, @cite{SangwinTMA03},
+@cite{CervalPena2008}, @cite{Wild2009}, @cite{Lowe2010}, @cite{2010STACKReport}, @cite{Rasila2007}, @cite{Rasila2010}, @cite{Ruokokoski2009}, @cite{Harjula2008} and @cite{Nakamura2010}.
+The assessment package comprises much of the code developed for STACK, but factored out into a more general package.   In this way it can be used in other software projects, and others can more easily contribute to the development of other features.
+
+The design decisions made here are appropriate for @emph{elementary mathematics}.  In particular, we are usually interested in working over the real numbers rather than the complex plane.
+
+
+@node Simplification, , , Top
+@section Representation of expressions and simplification
+
+Everything in Maxima is an @emph{expression}, including mathematical expressions,
+objects, and programming constructs. An expression is either an atom, or
+an operator together with its arguments.
+
+An atom is a symbol (a name), a string enclosed in quotation marks, an integer or floating point number.  Note that rational numbers and complex numbers are not atoms.
+
+All other expressions have an @emph{operator} and list of @emph{arguments}.
+
+For the purposes of assessment we usually deal with expressions @emph{as provided by students}.  In particular, we do not initially wish to manipulate them in any way.  As a specific example, a student might enter an answer such as
+@math{ {{3}\over{21}}x^2+0.5.}
+We would certainly want to know that this is @emph{equivalent} to the correct answer @math{x^2/7+1/2}, but that it also contains (i) rational numbers not in lowest terms, and (ii) floating point numbers which are exact representations of rational numbers.   Clearly there are a number of separate properties here, each of which needs an individual test.  We do @emph{not} want the system to manipulate this expression into
+@math{{{x^2}\over{7}}+0.5}, or even to rationalize it to @math{{{x^2}\over{7}}+{{1}\over{2}}}, before we have had a chance to establish these properties.
+
+Maxima is unusual in that @emph{all simplification} can be switched off using the command
+@code{simp:false}.
+The assessment package is designed to be used with @code{simp:false}.  Otherwise it will not always function correctly.   When this flag is set, even expressions such as @math{1+1} remain unchanged.  Individual expressions can be evaluated with simplification using
+@example
+ev(ex,simp);
+@end example
+
+The difficulty now, of course, is performing the @emph{correct} manipulations.  This is not so simple.  Internally, Maxima stores expressions as LISP trees.  It is possible to obtain the internal data structure of the expression @code{ex} by using the command @code{?print(ex)}.  Notice there is no space after the @code{?}, otherwise we would call for the helpfile.
+
+Notice the subtle differences when simplification is on or off, as illustrated by the following session.
+@example
+(%i1)  p:x-1;
+(%o1)  x-1
+
+(%i2)  ?print(p)$
+((MPLUS SIMP) -1 $X)
+
+(%i3)  simp:false$
+
+(%i4)  p:x-1;
+(%o4)  x-1
+
+(%i5)  ?print(p)$
+((MPLUS) $X ((MMINUS) 1))
+@end example
+
+In the first example we literally have @code{"+"(-1,x)}, while in the second we have @code{"+"(x,"-"(1))}.  I.e., in the second we have a unary minus function applied to the number @math{1}.  However, at the display level these expressions are indistinguishable.
+The unary minus is particularly troublesome!
+
+Note that the flag @code{SIMP} in @code{((MPLUS SIMP) -1 $X)} indicates that the arguments have have already been simplified.
+
+@deffn {Function} safe_op (@var{ex})
+Note that applying @var{op} to an atom throws an error.  Sometimes @var{op} returns a string, and sometimes a function name.  (Compare @code{op(sin(x))} to @code{op(x+1)}).  This function always returns a string.
+If @var{ex} is an atom then we return the empty string @code{""}.
+@end deffn
+
+@deffn {Function} coeff_list (@var{ex},@var{v})
+This function takes an expression @var{ex} and returns a list of coefficients of @var{v}.
+@end deffn
+
+
+
+
+@section Utility functions
+
+A predicate function returns either @code{true} or @code{false}.  In Maxima, most predicate functions end with the letter @code{p}.
+
+@deffn {Function} element_listp (@var{ex},@var{l})
+Is @var{ex} an element of the list @var{l}?  Note, ``sameness" is established with Maxima's @var{is} command.
+@end deffn
+
+@deffn {Function} any_listp (@var{p},@var{l})
+Maps the predicate @var{p} to the list @var{l}, and then applies the Boolean connective @code{or}.
+@end deffn
+
+@deffn {Function} all_listp (@var{p},@var{l})
+Maps the predicate @var{p} to the list @var{l}, and then applies the Boolean connective @code{and}.
+@end deffn
+
+@deffn {Function} filter (@var{p},@var{l})
+Returns a list of those elements of @var{l} for which the predicate @var{p} is @code{true}.
+@end deffn
+
+@deffn {Function} zip_with (@var{f},@var{a},@var{b})
+This takes a binary function @var{f} and two lists @var{a} and @var{b}.  It returns the list
+@example
+[ f(a[1],b[1]), f(a[2],b[2]), ... ]
+@end example
+I.e. it @emph{zips} the two lists together with @var{f}.  @code{zip_with} quietly gives up when one of the lists runs out of elements.  For example, to implement the dot product of two lists @code{l1} and @code{l2} we could use
+@example
+apply("*",zip_with("+",l1,l2));
+@end example
+@end deffn
+
+@deffn {Function} exdowncase (@var{ex})
+This function makes a substitution of all variables for their lower case equivalents.
+Useful when wanting to do a specific case sensitivity
+check, e.g. that @math{X^2=1} is @math{x^2=1}, without using @code{subst_equiv}.
+Note that @code{exdowncase(X-x)} simplifies to zero, of course!
+@end deffn
+
+@section Types of elementary object
+
+Maxima is a relatively weakly typed CAS.  In particular, while Maxima tolerates polynomials with a mixture of floating point coefficients and integers, other CAS do not.  In other CAS such as Axiom, see @cite{Jenks1992}, there is a much stronger sense of `type'.
+
+In the assessment world, we have the following types of objects
+@enumerate
+@item  sets,
+@item  lists,
+@item  matrices,
+@item  equations and inequalities,
+@item  polynomials or other "expressions".
+@end enumerate
+This sense of type is useful, because it is nonsense to attempt to compare an equation, e.g. @math{y=mx+c} with an expression, e.g. @math{mx+c}.  In assessment we need to establish which type of object we are dealing with before we can proceed.
+
+Maxima already has predicate functions such as @code{listp}, @code{matrixp} and @code{setp}.  This package defines the rest.
+
+@deffn {Function} equationp (@var{ex})
+True if @code{op(ex)="="}@.  Safe for atoms.
+@end deffn
+
+@deffn {Function} inequalityp (@var{ex})
+True if @code{op(ex)}@ is some kind of inequality.  Safe for atoms.
+@end deffn
+
+@deffn {Function} expressionp (@var{ex})
+True if @code{op(ex)}@ is not a set, list, matrix, inequality or equation.  Safe for atoms.
+@end deffn
+
+Notice that in sets duplicates are removed.  It is important to establish which notion of ``sameness'' is applied.  In Maxima we currently have little control, other than @code{simp:true} and @code{simp:false}.
+
+Maxima already has a function @code{polynomialp(p,L)} which requires a list, @code{L}, of variable names.  Hence, we define the following.
+
+@deffn {Function} polynomialpsimp (@var{p})
+This simply establishes if @var{p} is a polynomial in its own variables, i.e.
+@example
+ polynomialpsimp(p):= polynomialp(p, listofvars(p))$
+@end example
+@end deffn
+
+@section Numerical operations
+
+The assessment package defines the following functions for dealing with numbers.
+
+@deffn {Function} simp_numberp (@var{ex})
+@code{numberp(ex)} does not work when @code{simp:false}, since unary minus is an unevaluated function.  Literally, input of @code{-1} is treated as @code{"-"(1)}.  Hence, @code{simp_numberp} should be used instead.
+@end deffn
+
+@deffn {Function} real_numberp (@var{ex})
+Surds and mathematical constants @math{\pi}, @math{e}, @math{\gamma} should also be considered as ``numbers'', even if from a formal point of view they are atomic CAS symbols, or operators and arguments, rather than numeric datatypes.  Constants such as @math{\pi} are not considered numbers by Maxima's function @code{numberp}, so we need this separate predicate function to test for real numbers.
+@end deffn
+
+@deffn {Function} decimalplaces (@var{x},@var{n})
+This function evaluates, i.e. rounds, @var{x} to @var{n} decimal places.  Note that the number of decimal digits displayed by Maxima is controlled by @code{fpprintprec} which is currently limited to 16, so the displayed result of this calculation may not appear to be correct.
+@end deffn
+
+@deffn {Function} significantfigures (@var{x},@var{n})
+This function evaluates, i.e. rounds, @var{x} into @var{n} significant figures.  See @code{decimalplaces} for comments on numerical precision.
+@end deffn
+
+@deffn {Function} scientific_notation (@var{ex})
+This writes the argument in the form @math{a\ 10^b}, where @math{0\leq a < 10}.
+@end deffn
+
+
+@deffn {Function} commonfaclist (@var{l})
+Returns the @code{gcd} of a list of numbers.
+@end deffn
+
+@deffn {Function} factorlist (@var{ex})
+Returns a list of factors of @var{ex} without multiplicities.
+@end deffn
+
+@deffn {Function} lowesttermsp (@var{ex})
+This returns @code{false} if @code{op(ex)} is division and the arguments are not coprime.
+@end deffn
+
+@deffn {Function} list_expression_numbers (@var{ex})
+Create a list with all parts for which @code{numberp(ex)=true}, or which appear to be rational numbers.
+@end deffn
+
+@deffn {Function} all_lowest_termsex (@var{ex})
+This is @code{true} if and only if all numbers appearing in the expression are written in lowest terms.
+@end deffn
+
+@deffn {Function} anyfloatex (@var{ex})
+This is @code{true} if @var{ex} contains any floating point numbers.
+@end deffn
+
+@section Inequalities
+
+The assessment package defines non-strict inequalities @code{>=} and @code {<=} as infix operators.
+
+@deffn {Function} ineqprepare (@var{ex})
+Reduces an inequality to either @code{? > 0} or @code{? >=0}.
+@end deffn
+
+
+@section Equivalence of expressions
+
+The assessment package defines the following senses in which two expressions are considered equivalent.
+@enumerate
+@item Same ``type'' of object.
+@item Substitution equivalence.
+@item Algebraic equivalence.
+@item Equivalent up to associativity and commutativity of elementary algebraic operations.
+@item Identical LISP trees.
+@end enumerate
+These tests return a boolean result, so strictly speaking could be predicate functions.  However, they also return feedback which is suitable, and very useful, for computer aided assessment system.
+
+For example, the system might generate string such as ``@emph{Your answer should be a list, but is not.}" or ``@emph{Your inequality should not be strict! Your inequality appears to be backwards.}".  Hence the answer tests are actually asymmetric when they might reasonably be expected to be symmertical/commutative in their arguments.  The first argument is assumed to be the student's and the second argument the teacher's.  In particular situations such feedback may be inappropriate or even irrelevant.  It is much easier to generate this from the test and then subsequently suppress it than it would be to try to generate it again retrospectively with separate functions.
+
+Furthermore, the teacher is likely to want to compile statistics which include details of the logical mistake, regardless of the actual values used in the question.  Hence, each test actually returns a list of three things, @code{[valid,value,feedback,note]}.
+
+The Boolean variable @code{valid} indicates if a test could be applied, or if @code{false} if for some reason occurred why this might be invalid.  For example, a set cannot be compared with a list.   The @code{value} is a Boolean of the outcome.  The @code{feedback} is a language-independent string which can later be translated into actual feedback to the student.  This may have displayed forms of expressions embedded within it.  The @code{note} is used for statistical analysis.
+
+@subsection Same ``type'' of object
+
+This test establishes that expressions are of the same ``type''.
+It works recursively over the entire expression, so a list of equations is different from a list of polynomials.
+In order to provide feedback, it acts recursively on objects such as sets and lists to identify which members differ in type.
+Matrices are checked for size and matrix elements are examined individually.
+
+@subsection  Substitution equivalence
+
+Consider a situation where a student types in @math{X^2+1} rather than @math{x^2+1}.  In this case we could establish algebraic equivalence by using case insensitivity.   However, given two expressions @var{ex1} and @var{ex2}, we could also seek a substitution of the variables of @var{ex2}  into @var{ex1} which renders @var{ex1}  algebraically equivalent to @var{ex2}.
+If @code{ex1=X^2+1} and @code{ex2=x^2+1} then for our example, the required substitution is @code{X=x}.
+This test is surprisingly useful, especially in establishing whether the student has used the wrong variable name beyond case insensitivity.
+
+@deffn {Function} subst_equiv (@var{ex1},@var{ex2})
+This function establishes if there exists a substitution of the variables of @var{ex2} into @var{ex1} which renders @var{ex1} algebraically equivalent to @var{ex2}.
+   If such a substitution exists the function returns it in a form so that
+   @code{ex2 = ev(ex1, subst_equiv(ex1,ex2))}.
+   If no such permutation exists it returns the empty list @code{[]}.
+   This algorithm is of factorial order in the number of variables.
+   If there are more than 4 variables then the system returns @code{false} to prevent instability.
+@end deffn
+
+
+@subsection Algebraic equivalence
+
+This is the prototype test. The student's answer is assigned internally to a CAS variable @var{sa} and the  teacher's expression to @var{ta}.
+Essentially we evaluate the following pseudo-code
+@example
+    if simplify(sa-ta)=0 then true else false.
+@end example
+
+There are theoretical limits on the extent to which this test works.
+See @cite{Richardson1966},  @cite{Caviness1970} and @cite{Moses1971}.
+In practice, for learning and teaching, this test works very well indeed on the limited range of expressions used.
+As @cite{Fenichel1966} comments @emph{``recursive undecidability can be a remote and unthreatening form of hopelessness''}.
+
+@deffn {Function} algebraic_equivalence (@var{ex1},@var{ex2})
+This function tests for algebraic equivalence of @var{ex1} and @var{ex2} by attempting to establish that the difference is zero.  This function expects @var{ex1} and @var{ex2} to be expressions, but no checking is done.
+@end deffn
+
+@subsection Associativity and Commutativity
+
+This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, @math{2x+y=y+2x} but @math{x+x+y\neq 2x+y}.  The real difficulties here are the inverse operations, and in particular the unary minus.
+
+The first step is to replace all arithmetic operations by a pseudo-noun form as follows.
+
+@deffn {Function} noun+ (@var{[ex]})
+This is a commutative, associative, nary operator.  Normal addition is replaced by this operator when we are testing for equivalence up to associativity and commutativity.
+@end deffn
+
+@deffn {Function} noun* (@var{[ex]})
+This is a commutative, associative, nary operator.  Normal multiplication is replaced by this operator when we are testing for equivalence up to associativity and commutativity.
+@end deffn
+
+@deffn {Function} noun^ (@var{a},@var{b})
+This is a binary infix operator.  Normal exponentiation is replaced by this operator when we are testing for equivalence up to associativity and commutativity.
+@end deffn
+
+@deffn {Function} noun- (@var{ex})
+This is a prefix operator.  This is to match unary minus when we are testing for equivalence up to associativity and commutativity.  However, in practice unary minus, @code{"-"(ex)}, is replaced by @code{UNARY_MINUS noun* ex} so that it correctly commutes with multiplication.
+@end deffn
+
+We need functions which will transform expressions between these forms.
+
+@deffn {Function} noun_arith (@var{ex})
+All operations are replaced with their noun forms.  Note that unary minus function, @code{"-"(ex)} is replaced by @code{UNARY_MINUS noun* ex} so that it correctly commutes with multiplication.  Similarly, @code{ex1/ex2} is replaced by @code{ex1 noun* (UNARY_RECIP ex2)}.
+@end deffn
+
+@deffn {Function} verb_arith (@var{ex})
+All noun operations are replaced with their verb forms.
+@end deffn
+
+@deffn {Function} equals_commute_associate (@var{ex1},@var{ex2})
+Returns @code{true} if and only if @var{ex1} and @var{ex2} are equal up to associativity and commutativity of the elementary algebraic operations.
+@end deffn
+
+Notice, that these functions would enable us to define specific rule-based transformations such as @math{-(-x)\rightarrow x}, but at this stage we have not done this.
+
+
+@subsection  Parse tree equality
+
+This ensures that the two expressions have the same representation in the data structure of Maxima.
+This is the strictest notion of all and in practice it is surprisingly rarely helpful.  For example, the expressions @math{x+y} and @math{y+x} have different representations as trees, but in few situations would a teacher  accept one but not the other.
+
+There is no need for a function.  With @code{simp:false} we simply use the code
+@example
+  if ex1=ex2 then true else false
+@end example
+
+@section Equivalence of equations
+
+Single equations and inequalities are transformed into the forms @math{p=0}, @math{p>0} and @math{p\geq 0} and are then compared.
+
+Systems of polynomial equations are dealt with using Grobner basis techniques.
+See @cite{Sangwin2010IGI} for more details.
+
+@section Analysis
+
+The assessment package has predicates which establish that an expression is continuous or differentiable at a particular point.  There are, of course, theoretical limits on the extent to which these functions can possibly work and also practical limitations of Maxima's current implementation of the @code{limit} function.
+
+@deffn {Function} continuousp (@var{ex},@var{v},@var{p})
+Establishes is @var{ex} is continuous in the variable @var{v} at the point @var{p}.
+@end deffn
+
+@deffn {Function} diffp (@var{ex},@var{v},@var{p},@var{n})
+Establishes is @var{ex} is @var{n}-times differentiable in the variable @var{v} at the point @var{p}.
+The argument @var{n}@ is optional.
+@end deffn
+
+There are also specific tests for assessment questions in calculus, e.g. differentiation and integration, as constants of integration can be difficult to spot reliably.
+
+@section Algebraic forms
+
+The assessment package has a number of tests for particular algebraic forms.
+
+@subsection Expanded @emph{vs} Factored
+
+Checking whether an expression is factored is significantly different from comparing an expression @var{ex} with the result of @code{factor(ex)}.
+Consider the following forms of @math{x^2-4x+4}
+
+
+@math{(x-2)(x-2)}, @math{(x-2)^2}, @math{(2-x)^2}, @math{4\left(1-{{x}\over{2}}\right)^2}.
+
+One might argue that each of these is factored, if not fully ``simplified''.
+
+Such a test seeks to establish that the expression is a product of powers of distinct irreducible factors.  @cite{Sangwin2009CalculumusII} identified the following meanings.
+For example, consider @math{x^8+16x^4+48}.
+@enumerate
+@item Any non-trivial factorization, e.g. @math{(x^4+4)(x^4+12)}.
+@item A factorization into irreducible factors over the integers, @*
+i.e. @math{(x^2+2x+x)(x^2-2x+2)(x^4+12)}.
+@item A factorization into terms irreducible over the reals, @*
+      i.e. @math{(x^2+2x+x)(x^2-2x+2)(x^2+2\root 4\of{3}x+2\root 4\of{3})(x^2-2\root 4\of{3}x+2\root 4\of{3})}.
+@item A factorization into irreducible polynomials over the Gaussian integers, with @math{i} allowed,@*
+i.e. @math{(x+1+i)(x+1-i)(x-1+i)(x-1-i)(x^4+12)}.
+@item A factorization over the complex numbers, where the factor @math{(x^4+12)} would also be split into the four terms @math{x\pm\root 4\of{3}(1\pm i)}.
+@end enumerate
+In elementary teaching, meaning 4. is unlikely to occur.  Indeed, we might take this example to represent factoring over any extension field of the rational numbers.  We normally seek to establish that the factors are irreducible over the integers (which is equivalent to irreducibility over the rational numbers) or the reals.  But, unlike a canonical form, we are not particularly interested in the order of the terms in this product, or the order of summands inside these terms.  Strictly speaking, in establishing that an expression is in factored form, we might not even care whether the terms in the product are fully simplified, as long as they are irreducible.
+
+There are some delicate cases such as:  @math{(2-x)(3-x)} vs  @math{(x-2)(x-3)}  and @math{(1-x)^2} vs @math{(x-1)^2}.
+
+Establishing that an expression, @var{ex}, is expanded is much more straightforward.  Essentially, we compare  @var{ex} with  @code{expand(ex)} up to commutativity and associativity of the algebraic operations.
+
+@deffn {Function} factorp (@var{ex})
+Returns @code{true} if @var{ex} equals @code{factor(ex)}.  Note, some wrinkles with unary minus etc. are ironed out quietly with this function.
+@end deffn
+
+@deffn {Function} expoandp (@var{ex})
+Returns @code{true} if @var{ex} equals @code{expand(ex)}.
+@end deffn
+
+@subsection Rational expression @emph{vs} Partial fraction
+
+Testing for a rational expression is relatively simple.  We do need to establish the denominator and numerator have no common factors, otherwise feedback is available.
+
+Partial fractions form is more difficult to recognize.  Just as with the factor test this is significantly different from checking equivalence with the result of the @code{partfrac} function.  There are also subtleties here, as illustrated by
+@math{{{1}\over{n+1}}+{{1}\over{1-n}} =   {{1}\over{n+1}}-{{1}\over{n-1}}}
+and
+@math{{{1}\over{4n-2}}-{{1}\over{4n+2}}={{n}\over{2n-1}}-{{n+1}\over{2n+1}}.}
+
+@section Buggy rules
+
+In order to establish that the student has done something particular but wrong, it is useful for us to be able to apply @emph{wrong} or @emph{buggy} rules to expressions.  A typical example would be to expand out powers in the wrong way, e.g. @math{(x+y)^2=x^2+y^2}.  The following function does this!
+
+@deffn {Function} buggy_pow (@var{ex})
+Implements the ``buggy'' linearity rule for exponentiation, i.e. @math{(a+b)^n \rightarrow a^n+b^n}.  This is useful if we want to compare a student's answer to the result of having done something wrong.
+@end deffn
+
+The following is not always a ``buggy rule'', when used for example in connection with Farey sequences, but it is included here as in assessment this function is useful for checking a common mistake when adding fractions.
+@deffn {Function} mediant (@var{ex1},@var{ex2})
+The mediant of two fractions @math{{p_1}\over {q_1}} and @math{{p_2}\over{q_2}} is @math{{p_1+p_2}\over {q_1+q_2}}.  Note that both @code{denom} and @code{num} work on non-rational expressions, assuming the expression to be ``over one'' by implication.  Hence @code{mediant} will also assume the denominator is also one in such cases.
+@end deffn
+
+There is scope for further examples of such rules.
+See, for example, @cite{Sleeman1982} for more details.
+
+@section Future plans
+
+Better support is needed for the following features:
+
+@enumerate
+@item Dealing with systems of inequalities, and intervals.
+  Canonical form for systems of inequalities.  Note that Maxima already can represent expressions such as @code{x>1 and x<4}, and the library @code{to_poly_solver} can solve systems such as the following
+  @example
+  (%i1)  load("to_poly_solver")$
+  (%i2)  to_poly_solve((x-1)*(x-4)<0,x);
+  (%o2)  %union([1<x,x<4])
+  (%i3)  to_poly_solve(abs(x)<2,x);
+  (%o3)  %union([-2<x,x<2])
+  @end example
+  These need to be incorporated, expanded and developed.
+@item A test which finds a mapping of variable names which makes two expressions equal (or returns ``false'').  Also known as unification.
+@item Tests which deal with scientific units.
+@item Step-by-step derivation of standard types of problems.
+@item A larger range of buggy rules.
+@end enumerate
+
+
+@chapter References
+
+@itemize @asis
+
+@mybibitem{Sangwin2010IGI}
+M. Badger and C.J. Sangwin. My equations are the same as yours!: computer aided assessment using a Grobner basis approach.
+In A. A. Juan, M. A. Huertas, and C. Steegmann, editors, Teaching Mathematics Online: Emergent Technologies and Methodologies. IGI  Global, 2011.
+
+@mybibitem{Sangwin2009CalculumusII}
+R. Bradford, J. H. Davenport, and C. J. Sangwin. A comparison of equality in computer algebra and correctness in mathematical pedagogy. The International Journal for Technology in Mathematics Education, 2010.
+
+@mybibitem{Caviness1970}
+B. F. Caviness. On canonical forms and simplification. Journal of the ACM (JACM), 17(2):385-396, 1970.
+
+@mybibitem{CervalPena2008}
+E. R. Cerval-Pena. Automated computer-aided formative assessment with ordinary differential equations. Master's thesis, University of Birmingham, 2008.
+
+@mybibitem{Fenichel1966}
+R. R. Fenichel. An On-line System for Algebraic Manipulation.  Phd thesis, Harvard Graduate School of Arts and Sciences, 1966.
+
+@mybibitem{Harjula2008}
+M. Harjula. Mathematics exercise system with automatic assessment. Master's thesis, Helsinki University of Technology, 2008.
+
+@mybibitem{Jenks1992}
+R. D. Jenks and R. S. Sutor. AXIOM: the scientific computation system. The Numerical Algorithms Group Ltd, 1992. ISBN: 0-387-07855-0.
+
+@mybibitem{Lowe2010}
+T. Lowe. e-Assessment using Symbolic Manipulation Tools. Technical report, Centre for Open Learning of Mathematics, Science, Computing and Technology, The Open University, 2010.
+
+@mybibitem{Moses1971}
+J. Moses. Algebraic simplification a guide for the perplexed. Communications of the ACM, 14(8):527-537, August 1971.
+
+@mybibitem{Nakamura2010}
+Y. Nakamura. The STACK e-Learning and Assessment System for mathematics,  science and engineering education through Moodle, chapter Preface, pages vi-vii.
+Tokyo Denki University Press, 2010. In Japanese. ISBN 978-4-501-54820-9.
+
+@mybibitem{Rasila2007}
+A. Rasila, M. Harjula, and K. Zenger.
+Automatic assessment of mathematics exercises: Experiences and future  prospects.
+In ReflekTori 2007: Symposium of Engineering Education, pages 70-80. Helsinki University of Technology, Finland, Teaching and Learning Development Unit, http://www.dipoli.tkk.fi/ok, 2007.
+
+@mybibitem{Rasila2010}
+A. Rasila, L. Havola, Majander H., and J. Malinen. Automatic assessment in engineering mathematics: evaluation of the impact.
+In ReflekTori 2010: Symposium of Engineering Education. Aalto University, Finland, Teaching and Learning Development Unit, http://www.dipoli.tkk.fi/ok, 2010.
+
+@mybibitem{Richardson1966}
+D. Richardson. Solvable and Unsolable Problems Involving Elementary Functions of a Real Variable. PhD thesis, University of Bristol, 1966.
+
+@mybibitem{Ruokokoski2009}
+J. Ruokokoski. Automatic assessment in university-level mathematics. Master's thesis, Helsinki University of Technology, 2009.
+
+@mybibitem{SangwinTMA03}
+C. J. Sangwin.  Assessing mathematics automatically using computer algebra and the internet. Teaching Mathematics and its Applications, 23(1):1-14, 2004.
+
+@mybibitem{Sangwin2006CASAlgebra}
+C. J. Sangwin. Assessing Elementary Algebra with STACK.
+International Journal of Mathematical Education in Science and Technology, 38(8):987-1002, December 2008.
+
+@mybibitem{2010STACKReport}
+C. J. Sangwin. Who uses STACK? A report on the use of the STACK CAA system.  Technical report, The Maths Stats and OR Network, School of Mathematics, The University of Birmingham, 2010.
+
+@mybibitem{WebALT2006}
+C. J. Sangwin and M. J. Grove.
+STACK: addressing the needs of the ``neglected learners''.  In Proceedings of the First WebALT Conference and Exhibition January 5-6, Technical University of Eindhoven, Netherlands, pages 81-95. Oy WebALT Inc,  University of Helsinki, ISBN 952-99666-0-1, 2006.
+
+@mybibitem{Sleeman1982}
+D. Sleeman and J. S. Brown, editors.  Intelligent Tutoring Systems. Academic Press, 1982.
+
+@mybibitem{Wild2009}
+I. Wild. Moodle 1.9 Math. Packt Publishing, 2009.
+
+@end itemize
+
+@bye
+
+
+@node Function and variable index,  , Definitions for MYTOPIC, Top
+@appendix Function and variable index
+@printindex fn
+@printindex vr
+
+@bye
+
+@C   \documentclass[11pt]{article}
+@C   \newcommand{\href}[2]{#2}
+@C   \begin{document}
+@C   \bibliographystyle{plain}
+@C
+@C   \cite{Jenks1992,Richardson1966,Caviness1970,Moses1971}\cite{Fenichel1966,Sleeman1982}\cite{Sangwin2010IGI,Sangwin2009CalculumusII}\cite{Sangwin2006CASAlgebra, WebALT2006,SangwinTMA03} \cite{CervalPena2008,Wild2009,Lowe2010,2010STACKReport}\cite{Rasila2007,Rasila2010,Ruokokoski2009,Harjula2008,Nakamura2010}.
+@C
+@C   \bibliography{/Bib/education,/Bib/sangwin,/Bib/PUS,/Bib/MathsTexts,/Bib/CAA,/Bib/sr,/Bib/students}
+@C
+@C   \end{document}
+
+@c %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@deffn {Function} expressionp (@var{ex})
+@end deffn 

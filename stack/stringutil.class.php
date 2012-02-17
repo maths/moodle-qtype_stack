@@ -563,4 +563,5 @@ class STACK_StringUtil {
         // failed to prettify somehow
         return $datestamp;
     }
+
 }

@@ -1,7 +1,7 @@
 /* Unit tests for STACK Maxima */
 kill(all);
 /*load("C:/xampp/htdocs/stack-dev/logfiles/maximalocal.mac")$*/
-LOADDIR:"C:/xampp/htdocs/stack/stack-dev/stacklocal/maximalocal.mac"$
+LOADDIR:"C:/xampp/data/moodledata/stack/maximalocal.mac"$
 print("Working from: ")$
 print(LOADDIR)$
 load(LOADDIR)$
@@ -17,6 +17,7 @@ no_fails:0$ all_pass:true$
 simp:true$  
 STT:batch("rtest_assessment_simptrue.mac", test);
 STB:batch("rtest_assessment_simpboth.mac", test);
+
 
 simp:false$  
 SFF:batch("rtest_assessment_simpfalse.mac", test);

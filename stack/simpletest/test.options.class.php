@@ -42,7 +42,7 @@ extends UnitTestCase {
     public function test_set_exception_2() {
         $opts = new stack_options();
         $this->expectException();
-        $opts->set_option('floats', false);
+        $opts->set_option('floats', 0);
     }
 
     public function test_set_exception_3() {

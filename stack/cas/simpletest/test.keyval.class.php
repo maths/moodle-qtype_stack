@@ -16,22 +16,28 @@
 
 require_once(dirname(__FILE__) . '/../keyval.class.php');
 
-class stack_cas_keyval_test
-extends UnitTestCase {
+class stack_cas_keyval_test extends UnitTestCase {
 
-    public function get_valid($s, $val) {
-        $at1 = new stack_cas_keyval($s);
+    public function get_valid($s, $val, $session) {
+        $at1 = new stack_cas_keyval($s, null, 123, 's', true, false);
+        $at1->instantiate();
         $this->assertEqual($val, $at1->get_valid());
+
+        $atsession = $at1->get_session();
+        $this->assertEqual($session, $atsession);
     }
 
     public function test_get_valid() {
+
+        $cs0 = new stack_cas_session(null, null, 123, 's', true, false);
+        $cs0->instantiate();
 
         $a1=array('a:x^2', 'b:(x+1)^2');
         $s1=array();
         foreach ($a1 as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
-        $cs1 = new stack_cas_session($s1);
+        $cs1 = new stack_cas_session($s1, null, 123, 's', true, false);
         $cs1->instantiate();
 
         $a2=array('a:x^2)', 'b:(x+1)^2');
@@ -39,7 +45,7 @@ extends UnitTestCase {
         foreach ($a2 as $s) {
             $s2[] = new stack_cas_casstring($s);
         }
-        $cs2 = new stack_cas_session($s2);
+        $cs2 = new stack_cas_session($s2, null, 123, 's', true, false);
         $cs2->instantiate();
 
         $a3=array('a:1/0');
@@ -47,11 +53,11 @@ extends UnitTestCase {
         foreach ($a3 as $s) {
             $s3[] = new stack_cas_casstring($s);
         }
-        $cs3 = new stack_cas_session($s3);
+        $cs3 = new stack_cas_session($s3, null, 123, 's', true, false);
         $cs3->instantiate();
 
-        return array(
-                array('', true, null),
+        $cases = array(
+                array('', true, $cs0),
                 array("a=x^2 \n b=(x+1)^2", true, $cs1),
                 array("a:x^2 \n b:(x+1)^2", true, $cs1),
                 array("a=x^2; b=(x+1)^2", true, $cs1),

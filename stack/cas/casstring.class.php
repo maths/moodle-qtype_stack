@@ -369,6 +369,24 @@ class stack_cas_casstring {
         return $this->valid;
     }
 
+    public function get_errors() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        return $this->errors;
+    }
+
+    public function get_raw_casstring() {
+        return $this->rawcasstring;
+    }
+
+    public function get_casstring() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        return $this->casstring;
+    }
+
     public function get_key() {
         if (null===$this->valid) {
             $this->validate();
@@ -376,12 +394,12 @@ class stack_cas_casstring {
         return $this->key;
     }
 
-    public function get_display() {
-        return $this->display;
-    }
-
     public function get_value() {
         return $this->value;
+    }
+
+    public function get_display() {
+        return $this->display;
     }
 
     public function set_key($key, $append_key=true) {
@@ -396,30 +414,12 @@ class stack_cas_casstring {
         }
     }
 
-    public function get_raw_casstring() {
-        return $this->rawcasstring;
-    }
-
-    public function get_casstring() {
-        if (null===$this->valid) {
-            $this->validate();
-        }
-        return $this->casstring;
-    }
-
     public function set_value($val) {
         $this->value=$val;
     }
 
     public function set_display($val) {
         $this->display=$val;
-    }
-
-    public function get_errors() {
-        if (null===$this->valid) {
-            $this->validate();
-        }
-        return $this->errors;
     }
 
     public function add_errors($err) {

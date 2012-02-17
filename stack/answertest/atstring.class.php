@@ -21,9 +21,10 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_ATString extends STACK_AnsTest {
+class stack_anstest_atstring extends stack_anstest {
 
-    public function doAnsTest() {
+    public function do_test() {
+        $this->ATValid = true;
         if (trim($this->sAnsKey) == trim($this->tAnsKey)) {
             $this->ATMark = 1;
             return true;
@@ -32,5 +33,9 @@ class STACK_AnsTest_ATString extends STACK_AnsTest {
             $this->ATMark = 0;
             return false;
         }
+    }
+
+    public function process_atoptions() {
+        return false;
     }
 }

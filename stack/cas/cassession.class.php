@@ -33,19 +33,54 @@ require_once(dirname(__FILE__) . '/../options.class.php');
  */
 
 class stack_cas_session {
-
+    /*
+     * @var array stack_cas_casstring
+     */
     private $session;
-    private $options;    // STACK_CAS_Maxima_Preferences
+
+    /*
+     * @var stack_options
+     */
+    private $options;
+
+    /*
+     * @var int Needed to seed any randomization when instantated.
+     */
     private $seed;
 
-    private $valid;            // true or false
-    private $instantiated;     // Has this been sent to the CAS yet?
-    private $errors;           // string for the user
+    /*
+     * @var boolean
+     */
+    private $valid;
 
+    /*
+     * @var boolean Has this been sent to the CAS yet?
+     */
+    private $instantiated;
+
+    /*
+     * @var string Error messages for the user.
+     */
+    private $errors;
+
+    /*
+     * @var boolean
+     */
     private $security;
+
+    /*
+     * @var boolean
+     */
     private $insertstars;
+
+    /*
+     * @var boolean
+     */
     private $syntax;
 
+    /*
+     * @var boolean
+     */
     private $debuginfo;
 
     function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
@@ -73,6 +108,7 @@ class stack_cas_session {
             $this->seed = time();
         }
 
+        // TODO: does session security actually do anything?  Perhaps, if not null, this should override any security set in the casstrings?
         if (!('s'===$security || 't'===$security)) {
             throw new Exception('stack_cas_session: 4th argument, security level, must be "s" or "t" only.');
         }
@@ -230,9 +266,8 @@ class stack_cas_session {
             foreach ($vars as $var) {
                 if (is_a($var, 'stack_cas_casstring')) {
                     $this->instantiated = null;
-                    $this->instantiated = null;
                     $this->errors       = null;
-                    $this->session[]    = $var;
+                    $this->session[]    = clone $var; //Yes, we reall need new versions of the variables.
                 } else {
                     throw new Exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
                 }
@@ -240,6 +275,21 @@ class stack_cas_session {
         }
     }
 
+    /* Concatinates the variables from $incoming onto the end of $this->session
+     * Treats this as essentially a new session
+     * The settings for this session are respected (currently)
+     */
+    public function merge_session($incoming) {
+        if (null===$incoming) {
+            return true;
+        }
+        if (is_a($incoming, 'stack_cas_session')) {
+            $this->add_vars($incoming->get_session()); // This method resets errors and instantiated fields.
+            $this->valid        = null;
+        } else {
+            throw new Exception('stack_cas_session: merge_session expects its argument to be a stack_cas_session');
+        }
+    }
     /*********************************************************/
     /* Return and modify information                         */
     /*********************************************************/
@@ -258,6 +308,16 @@ class stack_cas_session {
         return $this->errors;
     }
 
+    public function get_all_raw_casstrings() {
+        $return = array();
+        if (!(null === $this->session)) { // Empty sessions are ok.
+            foreach ($this->session as $casstr) {
+                $return[] = $casstr->get_raw_casstring();
+            }
+        }
+        return $return;
+    }
+    
     public function get_value_key($key) {
         if (null===$this->valid) {
             $this->validate();
@@ -303,6 +363,10 @@ class stack_cas_session {
         return false;
     }
 
+    public function get_session() {
+        return $this->session;
+    }
+    
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
         if (null===$this->valid) {

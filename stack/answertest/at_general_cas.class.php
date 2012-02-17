@@ -20,7 +20,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_General_CAS extends STACK_AnsTest {
+class stack_answertest_general_cas extends stack_anstest {
 
     /**
      * @var string The name of the cas function this answer test uses.
@@ -47,11 +47,11 @@ class STACK_AnsTest_General_CAS extends STACK_AnsTest {
         parent::__construct($sans, $tans, $options, $casoption);
 
         if (!is_bool($requirecasoptions)) {
-            throw new Exception('STACK_AnsTest_General_CAS: requirecasoptions, must be Boolean.');
+            throw new Exception('stack_answertest_general_cas: requirecasoptions, must be Boolean.');
         }
 
         if (!(null===$options || is_a($options, 'stack_options'))) {
-            throw new Exception('STACK_AnsTest_General_CAS: options must be stack_options or null.');
+            throw new Exception('stack_answertest_general_cas: options must be stack_options or null.');
         }
 
         $this->casfunction       = $casfunction;
@@ -65,13 +65,14 @@ class STACK_AnsTest_General_CAS extends STACK_AnsTest {
      * @return bool
      * @access public
      */
-    public function doAnsTest() {
+    public function do_test() {
         if ($this->requirecasoptions) {
             if (null == $this->ATOption or '' == $this->ATOption) {
                 $this->ATError      = 'TEST_FAILED';
                 $this->ATFeedback   =  stack_string("TEST_FAILED").stack_string("AT_MissingOptions");
                 $this->ATAnsNote    = 'STACKERROR_OPTION';
                 $this->ATMark       = 0;
+                $this->ATValid      = false;
                 return null;
             } else {
                 $ct  = new stack_cas_casstring($this->ATOption, 't', true, true); //validate with teacher privileges, strict syntax & no automatically adding stars.
@@ -83,6 +84,7 @@ class STACK_AnsTest_General_CAS extends STACK_AnsTest {
                     $this->ATFeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
                     $this->ATAnsNote    = 'STACKERROR_OPTION';
                     $this->ATMark       = 0;
+                    $this->ATValid      = false;
                     return null;
                 }
             }
@@ -107,6 +109,7 @@ class STACK_AnsTest_General_CAS extends STACK_AnsTest {
         $this->ATAnsNote  = $result['answernote'];
         $this->ATMark     = $result['result'];
         $this->ATFeedback = $result['feedback'];
+        $this->ATValid    = $result['valid'];
 
         if (1==$this->ATMark) {
             return true;
@@ -114,5 +117,8 @@ class STACK_AnsTest_General_CAS extends STACK_AnsTest {
             return false;
         }
     }
-}
 
+    public function process_atoptions() {
+        return $this->requirecasoptions;
+    }
+}

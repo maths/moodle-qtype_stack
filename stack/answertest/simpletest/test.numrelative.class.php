@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for STACK_AnsTest_NumRelative.
+ * Unit tests for stack_anstest_numrelative.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,23 +25,23 @@ require_once(dirname(__FILE__) . '/../numrelative.class.php');
 
 
 /**
- * Unit tests for STACK_AnsTest_NumRelative.
+ * Unit tests for stack_anstest_numrelative.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class STACK_AnsTest_NumRelative_test extends UnitTestCase {
+class stack_anstest_numrelative_test extends UnitTestCase {
 
     public function test_is_true_for_equal_expressions() {
-        $at = new STACK_AnsTest_NumRelative('1.01', '1');
-        $this->assertTrue($at->doAnsTest());
-        $this->assertEqual(1, $at->getATMark());
+        $at = new stack_anstest_numrelative('1.01', '1');
+        $this->assertTrue($at->do_test());
+        $this->assertEqual(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_expressions() {
-        $at = new STACK_AnsTest_NumRelative('2', '1', null, '0.5');
-        $this->assertFalse($at->doAnsTest());
-        $this->assertEqual(0, $at->getATMark());
+        $at = new stack_anstest_numrelative('2', '1', null, '0.5');
+        $this->assertFalse($at->do_test());
+        $this->assertEqual(0, $at->get_at_mark());
     }
 
 }

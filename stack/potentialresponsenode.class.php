@@ -232,4 +232,28 @@ class stack_potentialresponse_node {
 
         return $requiredcasstrings;
     }
+
+    /**
+     * Get the context variables that this node uses, so that they can be
+     * pre-evaluated prior to transversing the tree.
+     * @param string $key used to make the variable names unique to this node.
+     * @return array of stack_cas_casstring
+     */
+    public function get_context_variables($key) {
+        $variables = array();
+
+        $this->sans->set_key('PRSANS' . $key);
+        $variables[] = $this->sans;
+
+        $this->tans->set_key('PRTANS' . $key);
+        $variables[] = $this->tans;
+
+        if ($this->process_atoptions()) {
+            $atopts = new stack_cas_casstring($this->atoptions, 't', false, false);
+            $atopts->set_key('PRATOPT' . $key);
+            $variables[] = $atopts;
+        }
+
+        return $variables;
+    }
 }

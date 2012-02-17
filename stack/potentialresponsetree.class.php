@@ -74,8 +74,8 @@ class stack_potentialresponse_tree {
         if (!is_array($nodes)) {
             throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not an array of stack_potentialresponse');
         }
-        foreach ($nodes as $pr) {
-            if (!is_a($pr, 'stack_potentialresponse_node')) {
+        foreach ($nodes as $node) {
+            if (!is_a($node, 'stack_potentialresponse_node')) {
                 throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not stack_potentialresponse');
             }
         }
@@ -84,7 +84,52 @@ class stack_potentialresponse_tree {
     }
 
     /**
+     * Create the CAS context in which we will evaluate this PRT. This contains
+     * all the question variables, student responses, feedback variables, and all
+     * the sans, tans and atoptions expressions from all the nodes.
+     *
+     * @param stack_cas_session $questionvars the question varaibles.
+     * @param stack_options $options
+     * @param array $answers name => value the student response.
+     * @param int $seed the random number seed.
+     * @return stack_cas_session initialised with all the expressions this PRT will need.
+     */
+    protected function create_cas_context_for_evaluation($questionvars, $options, $answers, $seed) {
+
+        // Start with the quetsion variables (note that order matters here).
+        $cascontext = new stack_cas_session(null, $options, $seed, 't', true, false);
+        $cascontext->merge_session($questionvars);
+
+        // Add the student's responses.
+        $answervars = array();
+        foreach ($answers as $key => $val) {
+            $cs = new stack_cas_casstring($val);
+            $cs->set_key($key);
+            $answervars[] = $cs;
+        }
+        $cascontext->add_vars($answervars);
+
+        // Add the feedback variables.
+        $cascontext->merge_session($this->feedbackvariables);
+
+        // Add all the expressions from all the nodes.
+        foreach ($this->nodes as $key => $node) {
+            $cascontext->add_vars($node->get_context_variables($key));
+        }
+
+        $cascontext->instantiate();
+        //TODO error trapping at this stage....?
+
+        return $cascontext;
+    }
+
+    /**
      * This function actually traverses the tree and generates outcomes.
+     *
+     * @param stack_cas_session $questionvars the question varaibles.
+     * @param stack_options $options
+     * @param array $answers name => value the student response.
+     * @param int $seed the random number seed.
      */
     public function evaluate_response($questionvars, $options, $answers, $seed) {
 
@@ -94,7 +139,9 @@ class stack_potentialresponse_tree {
 
         $options->set_option('simplify', $this->simplify);
 
-        // Set up the outcomes for this travserse of the tree
+        $cascontext = $this->create_cas_context_for_evaluation($questionvars, $options, $answers, $seed);
+
+        // Set up the outcomes for this travsersal of the tree
         $feedback    = '';
         $answernote  = '';
         $errors      = '';
@@ -102,44 +149,6 @@ class stack_potentialresponse_tree {
         $mark        = 0;
         $penalty     = 0;
 
-        // (1) Concatinate the question_variables and $feedbackvariables
-        $cascontext = new stack_cas_session(null, $options, $seed, 't', true, false);
-        // (1.1) Start with the question variables.
-        $cascontext->merge_session($questionvars);
-        // (1.2) Add in student's answers.
-        $answervars = array();
-        foreach ($answers as $key => $val) {
-            $cs = new stack_cas_casstring($val);
-            $cs->set_key($key);
-            $answervars[]=$cs;
-        }
-        $cascontext->add_vars($answervars);
-        // (1.2) Add in feedback variables.
-        $cascontext->merge_session($this->feedbackvariables);
-
-        // (1.3) Traverse the $nodes and pull out all sans, tans and options.
-        $answervars = array();
-        foreach ($this->nodes as $key => $pr) {
-            $sans = $pr->sans;
-            $sans->set_key('PRSANS'.$key);
-            $answervars[]=$sans;
-
-            $tans = $pr->tans;
-            $tans->set_key('PRTANS'.$key);
-            $answervars[]=$tans;
-
-            if ($pr->process_atoptions()) {
-                $atopts = new stack_cas_casstring($pr->atoptions, 't', false, false);
-                $atopts->set_key('PRATOPT'.$key);
-                $answervars[]=$atopts;
-            }
-        }
-        $cascontext->add_vars($answervars);
-
-        // (2) Instantiate these background variables
-        $cascontext->instantiate();
-
-        //TODO error trapping at this stage....?
         // (3) Traverse the tree.
         $nextpr = 0;
         while ($nextpr != -1) {

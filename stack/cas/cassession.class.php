@@ -259,25 +259,32 @@ class stack_cas_session {
         return $this->debuginfo;
     }
 
-    /* Add extra variables to the end of the existing session */
-    /* Note, this resets instantiation and validation, which will need to be done again if used. */
+    /**
+     * Add extra variables to the end of the existing session.
+     * Note that this resets instantiation and validation, which will need to be
+     * done again if used.
+     * @param array $vars variable name => stack_cas_casstring, the variables to add.
+     */
     public function add_vars($vars) {
-        if (is_array($vars)) {
-            foreach ($vars as $var) {
-                if (is_a($var, 'stack_cas_casstring')) {
-                    $this->instantiated = null;
-                    $this->errors       = null;
-                    $this->session[]    = clone $var; //Yes, we reall need new versions of the variables.
-                } else {
-                    throw new Exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
-                }
+        if (!is_array($vars)) {
+            return;
+        }
+        foreach ($vars as $var) {
+            if (!is_a($var, 'stack_cas_casstring')) {
+                throw new Exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
             }
+
+            $this->instantiated = null;
+            $this->errors       = null;
+            $this->session[]    = clone $var; //Yes, we reall need new versions of the variables.
         }
     }
 
-    /* Concatinates the variables from $incoming onto the end of $this->session
+    /**
+     * Concatenates the variables from $incoming onto the end of $this->session
      * Treats this as essentially a new session
      * The settings for this session are respected (currently)
+     * @param stack_cas_session $incoming
      */
     public function merge_session($incoming) {
         if (null===$incoming) {
@@ -290,6 +297,7 @@ class stack_cas_session {
             throw new Exception('stack_cas_session: merge_session expects its argument to be a stack_cas_session');
         }
     }
+
     /*********************************************************/
     /* Return and modify information                         */
     /*********************************************************/

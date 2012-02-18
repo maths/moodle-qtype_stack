@@ -104,6 +104,7 @@ Key features
 
 * Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
 * Feature "allowed words" dropped from interaction elements. 
+* Interaction element "Dropdown" lost -> should be automatically imported to "list"
 
 ## Future plans 
 

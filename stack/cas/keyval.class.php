@@ -20,18 +20,30 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_cas_keyval { // originally extended QuestionType
-    // Attributes
+class stack_cas_keyval {
 
-    private $raw;            // Holds the raw text as entered by a question author.
-    private $session;        // An array of stack_cas_casstring (not a fully fledged stack_cas_session)
+    /** @var Holds the raw text as entered by a question author. */
+    private $raw;
 
-    private $valid;          // true or false
-    private $instantiated;   // has this been sent to the CAS yet?
-    private $errors;         // string for the user
+    /** @var stack_cas_session */
+    private $session;
 
+    /** @var bool */
+    private $valid;
+
+    /** @var bool has this been sent to the CAS yet? */
+    private $instantiated;
+
+    /** @var string HTML error message that can be displayed to the user. */
+    private $errors;
+
+    /** @var string 's' or 't' for student or teacher security level. */
     private $security;
+
+    /** @var bool whether to insert *s where there are implied multipliations. */
     private $insertstars;
+
+    /** @var bool if true, apply strict syntax checks. */
     private $syntax;
 
     public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $stars=false) {

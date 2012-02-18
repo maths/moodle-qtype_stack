@@ -38,8 +38,10 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $questiontext = $question->questiontext;
         foreach ($question->interactions as $name => $interaction) {
-            $questiontext = str_replace("#{$name}#",
-                    $interaction->getXHTML($options->readonly), $questiontext);
+            // TODO: get the value of the current answer to put into the html.
+            $currentanswer = ''; //$qa->get_last_qt_var('answer');
+             $questiontext = str_replace("#{$name}#",
+                 $interaction->get_xhtml($currentanswer, $options->readonly), $questiontext);
 
             // TODO see stack_old/lib/ui/DisplayItem.php.
             $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", '', $questiontext);

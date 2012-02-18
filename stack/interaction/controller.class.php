@@ -33,10 +33,10 @@ class stack_interaction_controller {
         'algebraic'  => 'stack_interaction_algebra',
         'boolean'    => 'stack_interaction_boolean',
         'dropDown'   => 'stack_interaction_dropdown',
-//        'list'       => 'stack_interaction_list',
-//        'matrix'     => 'stack_interaction_matrix',
+    //    'list'       => 'stack_interaction_list',
+    //    'matrix'     => 'stack_interaction_matrix',
         'singleChar' => 'stack_interaction_singlechar',
-//        'slider'     => 'stack_interaction_slider',
+    //    'slider'     => 'stack_interaction_slider',
         'textArea'   => 'stack_interaction_textarea',
     );
 
@@ -53,12 +53,11 @@ class stack_interaction_controller {
      * @param array $param some sort of options.
      * @return stack_interaction_element the requested interaction element.
      */
-    public static function make_element($type, $name, $width = null,
-            $default = null, $maxLength = null, $height = null, $param = null) {
+    public static function make_element($type, $name, $teacheranswer, $parameters = null) {
 
         $class = self::class_for_type($type);
         require_once(dirname(__FILE__) . '/' . strtolower($type) . '.class.php');
-        return new $class($name, $width, $default, $maxLength, $height, $param);
+        return new $class($name, $teacheranswer, $parameters);
     }
 
     /**
@@ -76,7 +75,7 @@ class stack_interaction_controller {
     /**
      * @return array of available type names.
      */
-    public static function getAvailableTypes() {
+    public static function get_available_types() {
         return array_keys(self::$types);
     }
 
@@ -85,10 +84,10 @@ class stack_interaction_controller {
      * use in authoring interface.
      * @return array $typename => array of names of options used.
      */
-    public static function getOptionsUsed() {
+    public static function get_parameters_used() {
         $used = array();
         foreach (self::$types as $type => $class) {
-            $used[$type] = $class::getOptionDefaults();
+            $used[$type] = $class::get_parameters_used();
             $used[$type][] = 'inputType';
         }
         return $used;
@@ -99,10 +98,10 @@ class stack_interaction_controller {
      * for use in authoring interface.
      * @return array $typename => array of option names => default.
      */
-    public static function getOptionDefaults() {
+    public static function get_parameters_defaults() {
         $defaults = array();
         foreach (self::$types as $type => $class) {
-            $defaults[$type] = $class::getOptionDefaults();
+            $defaults[$type] = $class::get_parameters_defaults();
         }
         return $defaults;
     }

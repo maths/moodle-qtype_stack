@@ -83,9 +83,11 @@ Similar to the translator function...
 
 ### Version 3.0 
 
-_Not yet released_.  Target, September 2012.
+_Not yet released_.  Target, September 2013.
 
-Major re-engineering of the code by the Open University.  Reporting and documentation added by Ben Holmes.
+Major re-engineering of the code by the Open University, The 
+University of Birmingham and the University of Helsinki.  
+Reporting and documentation added by Ben Holmes. 
 
 This round of development does not plan to introduce major new features, or to make major changes to
 the core functionality. An explicit aim is that "old questions will still work".  
@@ -97,6 +99,11 @@ Key features
 * Documentation moved from the wiki to within the code base.
 * Move from CVS to GIT.
 * Language support added: nl, de.
+
+## Changes in features between STACK 2 and STACK 3.
+
+* Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
+* Feature "allowed words" dropped from interaction elements. 
 
 ## Future plans 
 

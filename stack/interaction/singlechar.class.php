@@ -26,10 +26,11 @@
  */
 class stack_interaction_singlechar extends stack_interaction_element {
 
-    public function getXHTML($readonly) {
-        $value = '';
-        if ($this->default) {
-            $value = ' value="' . htmlspecialchars($this->default) . '"';
+    public function get_xhtml($studentanswer, $readonly) {
+        if ($studentanswer) {
+            $value = ' value="' . htmlspecialchars($studentanswer) . '"';
+        } else {
+            $value = ' value=""';
         }
 
         $disabled = '';
@@ -42,11 +43,12 @@ class stack_interaction_singlechar extends stack_interaction_element {
     }
 
     /**
-     * Returns a list of the names of all the opitions that this type of interaction
-     * element uses. (Default implementation returns all options.)
-     * @return array of option names.
+     * Return the default values for the parameters.
+     * @return array parameters` => default value.
      */
-    public static function getOptionsUsed() {
-        return array('teacherAns', 'forbid', 'sameType', 'studentVerify', 'hideFeedback');
+    public static function get_parameters_defaults() {
+        return array(
+            'mustVerify'     => false, 
+            'hideFeedback'   => true);
     }
 }

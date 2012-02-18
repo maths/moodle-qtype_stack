@@ -23,6 +23,7 @@
 
 
 require_once(dirname(__FILE__) . '/../controller.class.php');
+require_once(dirname(__FILE__) . '/../boolean.class.php');
 
 
 /**
@@ -41,29 +42,27 @@ class stack_interaction_boolean_test extends UnitTestCase {
         );
     }
 
-    public function test_getXHTML_not_answered() {
-        $el = stack_interaction_controller::make_element('boolean', 'ans1');
+    public function test_get_xhtml_not_answered() {
+        $el = stack_interaction_controller::make_element('boolean', 'ans1', stack_interaction_boolean::T);
         $this->assert(new ContainsSelectExpectation('ans1', $this->expected_choices(),
-                stack_interaction_boolean::NA), $el->getXHTML(false));
+                stack_interaction_boolean::NA), $el->get_xhtml(stack_interaction_boolean::NA, false));
     }
 
-    public function test_getXHTML_true() {
-        $el = stack_interaction_controller::make_element('boolean', 'ans2');
-        $el->setDefault(stack_interaction_boolean::T);
+    public function test_get_xhtml_true() {
+        $el = stack_interaction_controller::make_element('boolean', 'ans2', stack_interaction_boolean::T);
         $this->assert(new ContainsSelectExpectation('ans2', $this->expected_choices(),
-                stack_interaction_boolean::T), $el->getXHTML(false));
+                stack_interaction_boolean::T), $el->get_xhtml(stack_interaction_boolean::T, false));
     }
 
-    public function test_getXHTML_false() {
-        $el = stack_interaction_controller::make_element('boolean', 'ans3');
-        $el->setDefault(stack_interaction_boolean::F);
+    public function test_get_xhtml_false() {
+        $el = stack_interaction_controller::make_element('boolean', 'ans3', stack_interaction_boolean::T);
         $this->assert(new ContainsSelectExpectation('ans3', $this->expected_choices(),
-                stack_interaction_boolean::F), $el->getXHTML(false));
+                stack_interaction_boolean::F), $el->get_xhtml(stack_interaction_boolean::F, false));
     }
 
-    public function test_getXHTML_disabled() {
-        $el = stack_interaction_controller::make_element('boolean', 'input');
+    public function test_get_xhtml_disabled() {
+        $el = stack_interaction_controller::make_element('boolean', 'input', stack_interaction_boolean::T);
         $this->assert(new ContainsSelectExpectation('input', $this->expected_choices(),
-                stack_interaction_boolean::NA, false), $el->getXHTML(true));
+                stack_interaction_boolean::NA, false), $el->get_xhtml('', true));
     }
 }

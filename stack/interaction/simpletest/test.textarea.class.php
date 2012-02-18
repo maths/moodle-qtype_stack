@@ -35,7 +35,7 @@ require_once(dirname(__FILE__) . '/../textarea.class.php');
 class stack_interaction_textarea_test extends UnitTestCase {
 
     public function test_tokenize() {
-        $el = new testable_stack_interaction_textarea('notused');
+        $el = new testable_stack_interaction_textarea('notused', null);
 
         $this->assertEqual(array(), $el->tokenize_list(''));
 
@@ -45,31 +45,30 @@ class stack_interaction_textarea_test extends UnitTestCase {
 
         $this->assertEqual(array('1', '2'), $el->tokenize_list('[1,2]'));
 
-        $this->assertEqual(array('1','x+y'), $el->tokenize_list('[1,x+y]'));
+        $this->assertEqual(array('1', 'x+y'), $el->tokenize_list('[1,x+y]'));
 
         $this->assertEqual(array('[1,2]'), $el->tokenize_list('[[1,2]]'));
 
         $this->assertEqual(array(1, '1/sum([1,3])', 'matrix([1],[2])'), $el->tokenize_list('[1,1/sum([1,3]),matrix([1],[2])]'));
     }
 
-    public function test_getXHTML_blank() {
-        $el = stack_interaction_controller::make_element('textArea', 'ans1', 10, NULL, NULL, 2);
-        $this->assertEqual('<textarea name="ans1" rows="2" cols="10"></textarea>',
-                $el->getXHTML(false));
+    public function test_get_xhtml_blank() {
+        $el = stack_interaction_controller::make_element('textArea', 'ans1', null);
+        $this->assertEqual('<textarea name="ans1" rows="5" cols="20"></textarea>',
+                $el->get_xhtml('', false));
     }
 
-    public function test_getXHTML_pre_filled() {
-        $el = stack_interaction_controller::make_element('textArea', 'test');
-        $el->setDefault('[1,1/sum([1,3]),matrix([1],[2])]');
-        $this->assertEqual('<textarea name="test" rows="4" cols="20">' .
+    public function test_get_xhtml_pre_filled() {
+        $el = stack_interaction_controller::make_element('textArea', 'test', null);
+        $this->assertEqual('<textarea name="test" rows="5" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])\n</textarea>",
-                $el->getXHTML(false));
+                $el->get_xhtml('[1,1/sum([1,3]),matrix([1],[2])]', false));
     }
 
-    public function test_getXHTML_disabled() {
-        $el = stack_interaction_controller::make_element('textArea', 'input');
-        $this->assertEqual('<textarea name="input" rows="1" cols="5" readonly="readonly"></textarea>',
-                $el->getXHTML(true));
+    public function test_get_xhtml_disabled() {
+        $el = stack_interaction_controller::make_element('textArea', 'input', null);
+        $this->assertEqual('<textarea name="input" rows="5" cols="20" readonly="readonly"></textarea>',
+                $el->get_xhtml('', true));
     }
 }
 

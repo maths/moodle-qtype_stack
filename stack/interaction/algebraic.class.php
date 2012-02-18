@@ -23,15 +23,12 @@
  */
 class stack_interaction_algebra extends stack_interaction_element {
 
-    public function getXHTML($readonly) {
+    public function get_xhtml($studentanswer, $readonly) {
         $value = '';
-        if ($this->default) {
-            $value = ' value="' . htmlspecialchars($this->default) . '"';
-        }
-
-        $maxlength = '';
-        if ($this->maxLength) {
-            $maxlength = ' maxlength="' . $this->maxLength . '"';
+        if ($studentanswer) {
+            $value = ' value="' . htmlspecialchars($studentanswer) . '"';
+        } else {
+            $value = ' value="' . htmlspecialchars($this->parameters['syntaxHint']) . '"';
         }
 
         $disabled = '';
@@ -39,16 +36,41 @@ class stack_interaction_algebra extends stack_interaction_element {
             $disabled = ' readonly="readonly"';
         }
 
-        return '<input type="text" name="' . $this->name . '" size="' . $this->boxWidth . '"' .
-                 $value . $maxlength . $disabled . ' />';
+        $boxwidth = $this->parameters['boxWidth'];
+        return '<input type="text" name="' . $this->name . '" size="' . $boxwidth . '"' .
+                 $value . $disabled . ' />';
     }
 
     /**
-     * Return the default values for the options. Using this is optional, in this
-     * base class implementation, no default options are set.
-     * @return array option => default value.
+     * Return the default values for the parameters.
+     * @return array parameters` => default value.
      */
-    public static function getOptionDefaults() {
-        return array('boxSize'=>'20');
+    public static function get_parameters_defaults() {
+        return array(
+            'mustVerify'     => true,
+            'hideFeedback'   => false,
+            'boxWidth'       => 15,
+            'strinctSyntax'  => true,
+            'insertStars'    => false,
+            'syntaxHint'     => '',
+            'forbidWords'    => '',
+            'forbidFloats'   => true,
+            'lowestTerms'    => true,
+            'sameType'       => true);
+    }
+
+    /**
+     * Each actual extension of this base class must decide what parameter values are valid 
+     * @return array of parameters names.
+     */
+    // TODO: I don't understand why this can't be a private function.... CJS
+    public function internal_validate_parameter($parameter, $value) {
+        $valid = true;
+        switch($parameter) {
+            case 'boxWidth':
+                $valid = is_int($value) && $value>0;
+                break;
+        }
+        return $valid;
     }
 }

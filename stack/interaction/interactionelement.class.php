@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once(dirname(__FILE__) . '/../../locallib.php');
 
 /**
  * The base class for interaction elements.
@@ -24,33 +25,34 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class stack_interaction_element {
-
+class stack_interaction_element {
+    protected static $perametersavailable = array(
+        'mustVerify',
+        'hideFeedback',
+        'boxWidth',
+        'boxHeight',
+        'strinctSyntax',
+        'insertStars',
+        'syntaxHint',
+        'forbidWords',
+        'forbidFloats',
+        'lowestTerms',
+        'sameType');
     /**
-     * @var string the name of the interaction element. This is the name of the
-     * POST variable that the input from this element will be submitted as.
+     * @var string the name of the interaction element. 
+     * This name has two functions
+     *  (1) it is the name of thename of the POST variable that the input from this 
+     *  element will be submitted as.
+     *  (2) it is the name of the CAS variable to which the student's answer is assigned.
+     *  Note, that during authoring, the teacher simply types #name# in the question stem to
+     *  create these interaction elements.
      */
     protected $name;
 
-    /**
-     * @var int TODO I'm not really sure why this is in the base class.
+    /*
+     * @var string Every interaction element must have a non-empty "teacher's answer".
      */
-    protected $boxWidth = 15;
-
-    /**
-     * @var int TODO I'm not really sure why this is in the base class.
-     */
-    protected $boxHeight = 1;
-
-    /**
-     * @var string|array
-     */
-    protected $default;
-
-    /**
-     * @var    int
-     */
-    protected $maxLength = null;
+    private $teacheranswer;
 
     /**
      * Answertest paramaters.
@@ -67,54 +69,28 @@ abstract class stack_interaction_element {
      * @param string $default initial contets of the input.
      * @param int $maxLength limit on the maximum input length.
      * @param int $height height of the input.
-     * @param array $param some sort of options.
+     * @param array $parameters some sort of options.
      */
-    public function __construct($name, $width = null, $default = null, $maxLength = null,
-            $height = null, $param = null) {
+    public function __construct($name, $teacheranswer, $parameters = null) {
         $this->name = $name;
-        if (!is_null($width)) {
-            $this->boxWidth = $width;
-        }
-        if (!is_null($default)) {
-            $this->default = $default;
-        }
-        if (!is_null($maxLength)) {
-            $this->maxLength = $maxLength;
-        }
-        if (!is_null($height)) {
-            $this->boxHeight = $height;
-        }
-        if (!is_null($param)) {
-            $this->parameters = $param;
+        $this->teacheranswer = $teacheranswer;
+        if (is_null($parameters)) {
+            $this->parameters = $this->get_parameters_defaults();
+        } else {
+            // TODO validate incoming data here.
+            $this->parameters = $parameters;
         }
     }
 
     /**
      * Returns the XHTML for embedding this interaction element in a page.
      *
+     * @param string student's current answer to insert into the xhtml.
      * @param bool $readonly whether the contro should be displayed read-only.
      * @return string HTML fragment.
      */
-    public abstract function getXHTML($readonly);
-
-    /**
-     * Sets the text in the Answerinput type to a new default,
-     * Used to put the students last answer back in the input type when the page is submitted.
-     *
-     * @param string $newDefault
-     */
-    public function setDefault($newDefault) {
-        $this->default = $newDefault;
-    }
-
-    /**
-     * Returns the default parameters for this input, optionally updating them first.
-     *
-     * @param array $param array of new parameter values to set.
-     * @return array the parameter values for this field.
-     */
-    public function getDefaultParam($param = null) {
-        return $this->parameters;
+    public function get_xhtml($studentanswer, $readonly) {
+        return '';
     }
 
     /**
@@ -128,33 +104,104 @@ abstract class stack_interaction_element {
     }
 
     /**
+     * Sets the value of an interaction element parameters. 
+     * @return array of parameters names.
+     */
+    public function set_parameter($parameter, $value) {
+        if (in_array($parameter, $this->get_parameters_used())) {
+            $this->parameters[$parameter] = $value;
+        } else {
+            //TODO how do we know the name of the class for the error message?
+            throw new Exception('stack_interaction_element: setting parameter '.$parameter.' which does not exist for interaction elements of type ?', $code, $previous);
+        }
+    }
+
+    /**
+     * Validates the value of an interaction element parameters. 
+     * @return array of parameters names.
+     */
+    public function validate_parameter($parameter, $value) {
+        if (!in_array($parameter, $this->get_parameters_used())) {
+            //TODO how do we know the name of the class for the error message?
+            throw new Exception('stack_interaction_element: trying to validate parameter '.$parameter.' which does not exist for interaction elements of type ?', $code, $previous);
+        }
+
+        switch($parameter) {
+            case 'mustVerify':
+                $valid = is_bool($value);
+                break;
+
+            case 'hideFeedback':
+                $valid = is_bool($value);
+                break;
+
+            case 'strinctSyntax':
+                $valid = is_bool($value);
+                break;
+
+            case 'insertStars':
+                $valid = is_bool($value);
+                break;
+
+            case 'forbidFloats':
+                $valid = is_bool($value);
+                break;
+
+            case 'lowestTerms':
+                $valid = is_bool($value);
+                break;
+
+            case 'sameType':
+                $valid = is_bool($value);
+                break;
+
+            default:
+                $valid = $this->internal_validate_parameter($parameter, $value);
+        }
+        return $valid;
+    }
+
+    /**
+     * Each actual extension of this base class must decide what parameter values are valid 
+     * @return array of parameters names.
+     */
+    public function internal_validate_parameter($parameter, $value) {
+        return true;
+    }
+
+    /**
+     * Returns a list of the names of all the parameters. 
+     * @return array of parameters names.
+     */
+    public function get_parameters_available() {
+        return $this->$perametersavailable;
+    }
+
+    /**
+     * Returns a list of the names of all the parameters that this type of interaction
+     * element uses. 
+     * @return array of parameters names.
+     */
+    public function get_parameters_used() {
+        return array_keys($this->get_parameters_defaults());
+    }
+
+    /**
+     * Return the default values for the parameters.
+     * @return array parameters` => default value.
+     */
+    public static function get_parameters_defaults() {
+        return array();
+    }
+
+    /**
      * A helper method used in testing. Given a value returned by this input element,
      * returns the POST data variables that generate that value.
      *
      * @param string $value a value for this input element.
      * @return array simulated POST data.
      */
-    public function getTestPostData($value) {
+    public function get_test_post_data($value) {
         return array($this->name=>$value);
-    }
-
-    /**
-     * Returns a list of the names of all the opitions that this type of interaction
-     * element uses. (Default implementation returns all options.)
-     * @return array of option names.
-     */
-    public static function getOptionsUsed() {
-        return array('teacherAns', 'boxSize', 'informalSyntax', 'insertStars',
-                'syntaxHint', 'forbid', 'allow', 'floats', 'lowest', 'sameType',
-                'studentVerify', 'hideFeedback');
-    }
-
-    /**
-     * Return the default values for the options. Using this is optional, in this
-     * base class implementation, no default options are set.
-     * @return array option => default value.
-     */
-    public static function getOptionDefaults() {
-        return array();
     }
 }

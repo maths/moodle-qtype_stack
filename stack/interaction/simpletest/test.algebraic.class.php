@@ -21,9 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 require_once(dirname(__FILE__) . '/../controller.class.php');
-
 
 /**
  * Unit tests for stack_interaction_algebra.
@@ -33,36 +31,56 @@ require_once(dirname(__FILE__) . '/../controller.class.php');
  */
 class stack_interaction_algebra_test extends UnitTestCase {
 
-    public function test_getXHTML_blank() {
-        $el = stack_interaction_controller::make_element('algebraic', 'ans1');
-        $this->assertEqual('<input type="text" name="ans1" size="15" />',
-                $el->getXHTML(false));
+    public function test_internal_validate_parameter() {
+        $el = stack_interaction_controller::make_element('algebraic', 'input', 'x^2');
+        $this->assertTrue($el->validate_parameter('boxWidth', 30));
+        $this->assertFalse($el->validate_parameter('boxWidth', -10));
+        $this->assertFalse($el->validate_parameter('boxWidth', "30"));
+        $this->assertFalse($el->validate_parameter('boxWidth', ''));
+        $this->assertFalse($el->validate_parameter('boxWidth', null));
     }
 
-    public function test_getXHTML_pre_filled() {
-        $el = stack_interaction_controller::make_element('algebraic', 'test');
-        $el->setDefault('x+y');
+    public function test_get_xhtml_blank() {
+        $el = stack_interaction_controller::make_element('algebraic', 'ans1', 'x^2');
+        $this->assertEqual('<input type="text" name="ans1" size="15" value="" />',
+                $el->get_xhtml('', false));
+    }
+
+    public function test_get_xhtml_pre_filled() {
+        $el = stack_interaction_controller::make_element('algebraic', 'test', 'x^2');
         $this->assertEqual('<input type="text" name="test" size="15" value="x+y" />',
-                $el->getXHTML(false));
+                $el->get_xhtml('x+y', false));
     }
 
-    public function test_getXHTML_pre_filled_nasty_input() {
-        $el = stack_interaction_controller::make_element('algebraic', 'test');
-        $el->setDefault('x<y');
+    public function test_get_xhtml_pre_filled_nasty_input() {
+        $el = stack_interaction_controller::make_element('algebraic', 'test', 'x^2');
         $this->assertEqual('<input type="text" name="test" size="15" value="x&lt;y" />',
-                $el->getXHTML(false));
+                $el->get_xhtml('x<y', false));
     }
 
-    public function test_getXHTML_max_length() {
-        $el = stack_interaction_controller::make_element('algebraic', 'test', null, null, 20);
-        $el->setDefault('x+y');
-        $this->assertEqual('<input type="text" name="test" size="15" value="x+y" maxlength="20" />',
-                $el->getXHTML(false));
+    public function test_get_xhtml_max_length() {
+        $el = stack_interaction_controller::make_element('algebraic', 'test', 'x^2');
+        $this->assertEqual('<input type="text" name="test" size="15" value="x+y" />',
+                $el->get_xhtml('x+y', false));
     }
 
-    public function test_getXHTML_disabled() {
-        $el = stack_interaction_controller::make_element('algebraic', 'input');
-        $this->assertEqual('<input type="text" name="input" size="15" readonly="readonly" />',
-                $el->getXHTML(true));
+    public function test_get_xhtml_disabled() {
+        $el = stack_interaction_controller::make_element('algebraic', 'input', 'x^2');
+        $this->assertEqual('<input type="text" name="input" size="15" value="x+1" readonly="readonly" />',
+                $el->get_xhtml('x+1', true));
+    }
+
+    public function test_get_xhtml_different_size() {
+        $el = stack_interaction_controller::make_element('algebraic', 'input', 'x^2');
+        $el->set_parameter('boxWidth', 30);
+        $this->assertEqual('<input type="text" name="input" size="30" value="x+1" />',
+                $el->get_xhtml('x+1', false));
+    }
+
+    public function test_get_xhtml_syntaxhint() {
+        $el = stack_interaction_controller::make_element('algebraic', 'input', '[a, b, c]');
+        $el->set_parameter('syntaxHint', '[?, ?, ?]');
+        $this->assertEqual('<input type="text" name="input" size="15" value="[?, ?, ?]" />',
+                $el->get_xhtml('', false));
     }
 }

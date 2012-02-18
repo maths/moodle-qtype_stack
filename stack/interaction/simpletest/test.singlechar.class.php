@@ -33,22 +33,21 @@ require_once(dirname(__FILE__) . '/../controller.class.php');
  */
 class stack_interaction_singlechar_test extends UnitTestCase {
 
-    public function test_getXHTML_blank() {
-        $el = stack_interaction_controller::make_element('singleChar', 'ans1');
-        $this->assertEqual('<input type="text" name="ans1" size="1" maxlength="1" />',
-                $el->getXHTML(false));
+    public function test_get_xhtml_blank() {
+        $el = stack_interaction_controller::make_element('singleChar', 'ans1', null);
+        $this->assertEqual('<input type="text" name="ans1" size="1" maxlength="1" value="" />',
+                $el->get_xhtml('', false));
     }
 
-    public function test_getXHTML_pre_filled() {
-        $el = stack_interaction_controller::make_element('singleChar', 'test');
-        $el->setDefault('Y');
+    public function test_get_xhtml_pre_filled() {
+        $el = stack_interaction_controller::make_element('singleChar', 'test', null);
         $this->assertEqual('<input type="text" name="test" size="1" maxlength="1" value="Y" />',
-                $el->getXHTML(false));
+                $el->get_xhtml('Y', false));
     }
 
-    public function test_getXHTML_disabled() {
-        $el = stack_interaction_controller::make_element('singleChar', 'input');
-        $this->assertEqual('<input type="text" name="input" size="1" maxlength="1" readonly="readonly" />',
-                $el->getXHTML(true));
+    public function test_get_xhtml_disabled() {
+        $el = stack_interaction_controller::make_element('singleChar', 'input', null);
+        $this->assertEqual('<input type="text" name="input" size="1" maxlength="1" value="a" readonly="readonly" />',
+                $el->get_xhtml('a', true));
     }
 }

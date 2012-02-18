@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Interaction element for inputting true/false using a select dropdown.
  *
@@ -26,15 +25,14 @@ class stack_interaction_boolean extends stack_interaction_element {
     const T = 'true';
     const NA = '';
 
-    public function __construct($name, $width = null, $default = null, $maxLength = null,
-            $height = null, $param = null) {
-        if (!in_array($default, array(self::T, self::F))) {
-            $default = self::NA;
+    public function __construct($name, $teacheranswer, $parameters) {
+        if (!in_array($teacheranswer, array(self::T, self::F))) {
+            $teacheranswer = self::NA;
         }
-        parent::__construct($name, $width, $default, $maxLength, $height, $param);
+        parent::__construct($name, $teacheranswer, $parameters);
     }
 
-    public function getXHTML($readonly) {
+    public function get_xhtml($studentanswer, $readonly) {
         $choices = array(
             self::F => stack_string('false'),
             self::T => stack_string('true'),
@@ -49,7 +47,7 @@ class stack_interaction_boolean extends stack_interaction_element {
         $output = '<select name="' . $this->name . '"' . $disabled . '>';
         foreach ($choices as $value => $choice) {
             $selected = '';
-            if ($value === $this->default) {
+            if ($value === $studentanswer) {
                 $selected = ' selected="selected"';
             }
 
@@ -62,23 +60,13 @@ class stack_interaction_boolean extends stack_interaction_element {
     }
 
     /**
-     * Returns a list of the names of all the opitions that this type of interaction
-     * element uses. (Default implementation returns all options.)
-     * @return array of option names.
+     * Return the default values for the parameters.
+     * @return array parameters` => default value.
      */
-    public static function getOptionsUsed() {
-        return array('teacherAns', 'studentVerify', 'hideFeedback');
+    public static function get_parameters_defaults() {
+        return array(
+                'mustVerify'     => false,
+                'hideFeedback'   => true);
     }
 
-    /**
-     * Return the default values for the options. Using this is optional, in this
-     * base class implementation, no default options are set.
-     * @return array option => default value.
-     */
-    public static function getOptionDefaults() {
-        return array(
-            'studentVerify' => 'false',
-            'hideFeedback'  => 'true'
-        );
-    }
 }

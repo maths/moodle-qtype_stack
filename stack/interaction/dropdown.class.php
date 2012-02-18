@@ -26,15 +26,7 @@
  */
 class stack_interaction_dropdown extends stack_interaction_element {
 
-    public function __construct($name, $width = null, $default = null, $maxLength = null,
-            $height = null, $param = null) {
-        if (!$param) {
-            // TODO $param['ddl_values'] = new Meta('optional','');
-        }
-        parent::__construct($name, $width, $default, $maxLength, $height, $param);
-    }
-
-    public function getXHTML($readonly) {
+    public function get_xhtml($studentanswer, $readonly) {
         if (empty($this->parameters['ddl_values'])) {
             return stack_string('ddl_empty');
         }
@@ -46,8 +38,8 @@ class stack_interaction_dropdown extends stack_interaction_element {
             return stack_string('ddl_empty');
         }
 
-        if (!in_array($this->default, $values)) {
-            $this->default = '';
+        if (!in_array($studentanswer, $values)) {
+            $studentanswer = '';
         }
 
         $values = array_merge(
@@ -60,9 +52,9 @@ class stack_interaction_dropdown extends stack_interaction_element {
         }
 
         $output = '<select name="' . $this->name . '"' . $disabled . '>';
-        foreach($values as $value => $choice) {
+        foreach ($values as $value => $choice) {
             $selected = '';
-            if ($value === $this->default) {
+            if ($value === $studentanswer) {
                 $selected = ' selected="selected"';
             }
 
@@ -74,14 +66,14 @@ class stack_interaction_dropdown extends stack_interaction_element {
         return $output;
     }
 
-    public static function getOptionsUsed() {
-        return array('teacherAns', 'studentVerify', 'hideFeedback');
-    }
-
-    public static function getOptionDefaults() {
+    /**
+     * Return the default values for the parameters.
+     * @return array parameters` => default value.
+     */
+    public static function get_parameters_defaults() {
         return array(
-            'studentVerify' => 'false',
-            'hideFeedback'  => 'true'
-        );
+            'mustVerify'     => false,
+            'hideFeedback'   => true
+            );
     }
 }

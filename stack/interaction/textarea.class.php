@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once(dirname(__FILE__) . '/../stringutil.class.php');
 
 /**
  * Interaction element that is a text area. Each line input becomes one element of a list.
@@ -25,29 +26,22 @@
  */
 class stack_interaction_textarea extends stack_interaction_element {
 
-    public function __construct($name, $width = null, $default = null, $maxLength = null,
-            $height = null, $param = null) {
-        if (is_null($width)) {
-            $width = 5;
-        }
-        if (!$default == null) {
-            $default = '';
-        }
-        parent::__construct($name, $width, $default, $maxLength, $height, $param);
-    }
-
-    public function getXHTML($readonly) {
+    public function get_xhtml($studentanswer, $readonly) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
-        $rows = $this->tokenize_list($this->default);
 
-        $height = max($this->boxHeight, count($rows) + 1);
+        if ('' == $studentanswer) {
+            $studentanswer = $this->parameters['syntaxHint'];
+        }
+        $rows = $this->tokenize_list($studentanswer);
+
+        $boxheight = max($this->parameters['boxHeight'], count($rows) + 1);
 
         $value = '';
-        $width = $this->boxWidth;
+        $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
             $value .= $row . "\n";
-            $width = max($width, strlen($row) + 5);
+            $boxwidth = max($boxwidth, strlen($row) + 5);
         }
 
         $disabled = '';
@@ -55,8 +49,8 @@ class stack_interaction_textarea extends stack_interaction_element {
             $disabled = ' readonly="readonly"';
         }
 
-        return '<textarea name="' . $this->name . '" rows="' . $height .
-                '" cols="' . $width . '"' . $disabled . '>' . htmlspecialchars($value) . '</textarea>';
+        return '<textarea name="' . $this->name . '" rows="' . $boxheight .
+                '" cols="' . $boxwidth . '"' . $disabled . '>' . htmlspecialchars($value) . '</textarea>';
     }
 
     /**
@@ -64,7 +58,7 @@ class stack_interaction_textarea extends stack_interaction_element {
      *
      * TODO worry about lines of input that contain ','.
      *
-     * @param string|array $in
+     * @param string $in
      * @return string
      * @access public
      */
@@ -85,18 +79,12 @@ class stack_interaction_textarea extends stack_interaction_element {
         return '[' . implode(',', $rowsout) . ']';
     }
 
-    /**
-     * Take a list in maxima syntax, and split it into its component elements.
-     *
-     * @param string $in a list in Maxima syntax.
-     * @return array the list elements.
-     */
     protected function tokenize_list($in) {
         $su = new STACK_StringUtil($in);
         return $su->listToArray(false);
     }
 
-    public function getTestPostData($value) {
+    public function get_test_post_data($value) {
         // This looks wrong to me. Or, at least, if it is right, it makes no sense yet.
         // It looks like it is expecting $value to be like "[a,b]", but if so, stripping
         // the delimiters is not really enough. We should tokenise, and then join with \n.
@@ -108,11 +96,37 @@ class stack_interaction_textarea extends stack_interaction_element {
      * base class implementation, no default options are set.
      * @return array option => default value.
      */
-    public static function getOptionDefaults() {
+    public static function get_parameters_defaults() {
         return array(
-            'boxSize'       => 25,
-            'studentVerify' => 'true',
-            'hideFeedback'  => 'false'
-        );
+            'mustVerify'     => true,
+            'hideFeedback'   => false,
+            'boxWidth'       => 20,
+            'boxHeight'      => 5,
+            'strinctSyntax'  => true,
+            'insertStars'    => false,
+            'syntaxHint'     => '',
+            'forbidWords'    => '',
+            'forbidFloats'   => true,
+            'lowestTerms'    => true,
+            'sameType'       => true);
+    }
+
+    /**
+     * Each actual extension of this base class must decide what parameter values are valid 
+     * @return array of parameters names.
+     */
+    // TODO: I don't understand why this can't be a private function.... CJS
+    public function internal_validate_parameter($parameter, $value) {
+        $valid = true;
+        switch($parameter) {
+            case 'boxWidth':
+                $valid = is_int($value) && $value>0;
+                break;
+
+            case 'boxHeight':
+                $valid = is_int($value) && $value>0;
+                break;
+        }
+        return $valid;
     }
 }

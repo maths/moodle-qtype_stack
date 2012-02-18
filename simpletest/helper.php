@@ -55,7 +55,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->interactions = array();
         $q->interactions['ans1'] = stack_interaction_controller::make_element(
-                'algebraic', 'ans1', 5);
+                'algebraic', 'ans1', 5, null);
 
         $q->prts = array();
             $sans = new stack_cas_casstring('ans1', 't');

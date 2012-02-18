@@ -28,7 +28,7 @@ require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
 
 require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/stack/stringutil.class.php');
+require_once(dirname(__FILE__) . '/stack/utils.class.php');
 require_once(dirname(__FILE__) . '/stack/options.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/casstring.class.php');
@@ -67,6 +67,23 @@ echo html_writer::tag('dd', format_text('\[' . $sampletex . '\]'));
 echo html_writer::tag('dt', stack_string('texinlinebracket'));
 echo html_writer::tag('dd', format_text('\(' . $sampletex . '\)'));
 
+echo html_writer::tag('p', stack_string('healthchecklatexmathjax', $CFG->wwwroot .
+        '/' . $CFG->admin . '/settings.php?section=additionalhtml'));
+$mathjaxcode = <<<END
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    MMLorHTML: { prefer: "HTML" },
+    tex2jax: {
+        displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
+        inlineMath:  [['$',  '$' ], ['\\\\(', '\\\\)']]
+    }
+});
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+END;
+echo html_writer::tag('textarea', s($mathjaxcode),
+        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
+
 // Maxima config
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 echo html_writer::tag('p', stack_string('healthcheckconfigintro'));
@@ -74,7 +91,7 @@ echo html_writer::tag('p', stack_string('healthcheckconfigintro'));
 stack_cas_configuration::create_maximalocal();
 
 echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
-        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
+        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'32', 'cols'=>'100'));
 
 // Maxima config
 if (stack_cas_configuration::maxima_bat_is_missing()) {

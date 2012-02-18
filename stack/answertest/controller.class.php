@@ -226,7 +226,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public function get_at_answernote() {
-        return $this->at->get_at_answernote();
+        return trim($this->at->get_at_answernote());
     }
 
     /**
@@ -239,7 +239,7 @@ class stack_ans_test_controller {
         $rawfeedback = $this->at->get_at_feedback();
 
         if (strpos($rawfeedback, 'stack_trans') === false) {
-            return $this->at->get_at_feedback();
+            return trim($this->at->get_at_feedback());
         } else {
             //echo "<br />Raw string:<pre>$rawfeedback</pre>";
             $rawfeedback = str_replace('[[', '', $rawfeedback);
@@ -254,7 +254,7 @@ class stack_ans_test_controller {
             $translated = ob_get_contents();
             ob_end_clean();
 
-            return $translated;
+            return trim($translated);
         }
     }
 

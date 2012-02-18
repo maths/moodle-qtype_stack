@@ -80,8 +80,7 @@ class stack_interaction_textarea extends stack_interaction_element {
     }
 
     protected function tokenize_list($in) {
-        $su = new STACK_StringUtil($in);
-        return $su->listToArray(false);
+        return stack_utils::listToArray($in, false);
     }
 
     public function get_test_post_data($value) {

@@ -21,7 +21,7 @@
 require_once(dirname(__FILE__).'/../../../../../config.php');
 
 require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../stringutil.class.php');
+require_once(dirname(__FILE__) . '/../utils.class.php');
 
 
 class stack_cas_configuration {
@@ -49,11 +49,10 @@ class stack_cas_configuration {
         $this->settings = get_config('qtype_stack');
         $this->date = date("F j, Y, g:i a");
 
-        $maximacodepath = new STACK_StringUtil($CFG->dirroot . '/question/type/stack/stack/maxima');
-        $this->maximacodepath = $maximacodepath->convertSlashPaths();
+        $this->maximacodepath = stack_utils::convertSlashPaths(
+                $CFG->dirroot . '/question/type/stack/stack/maxima');
 
-        $logpath = new STACK_StringUtil($CFG->dataroot . '/stack/logs');
-        $this->logpath = $logpath->convertSlashPaths();
+        $this->logpath = stack_utils::convertSlashPaths($CFG->dataroot . '/stack/logs');
 
         $this->vnum = (float) substr($this->settings->maximaversion, 2);
 
@@ -70,7 +69,11 @@ class stack_cas_configuration {
             $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
         } else {
             $this->blocksettings['DEL_CMD']     = 'rm';
-            $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
+            if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
+                $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
+            } else {
+                $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
+            }
         }
 
         // Loop over this array to format them correctly...

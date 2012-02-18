@@ -20,7 +20,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../stringutil.class.php');
+require_once(dirname(__FILE__) . '/../utils.class.php');
 
 class stack_cas_casstring {
 
@@ -79,22 +79,22 @@ class stack_cas_casstring {
         $this->casstring = $this->rawcasstring;
 
         // casstrings must be non-empty.
-        if (''==trim($this->casstring)) {
+        if (trim($this->casstring) == '') {
             $this->valid = false;
             return false;
         }
 
-        //if student, check for spaces between letters or numbers in expressions
+        // If student, check for spaces between letters or numbers in expressions
         if ($this->security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
             if (preg_match($pat, $cmd)) {
                 $this->valid = false;
                 $cmds = str_replace(' ', '<font color="red">_</font>', $cmd);
-                $this->errors.=stack_string("stackCas_spaces").$this->format_error_string($cmds).'. ';
+                $this->errors .= stack_string("stackCas_spaces") . $this->format_error_string($cmds) . '. ';
             }
         }
 
-        //Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else
+        // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else
         if (strstr($cmd, '%') !== false) {
             $cmdl = strtolower($cmd);
             preg_match_all("(\%.*)", $cmdl, $found);
@@ -110,9 +110,8 @@ class stack_cas_casstring {
             }
         }
 
-        $cs = new STACK_StringUtil($cmd);
-        $inline = $cs->checkBookends('(', ')');
-        if ($inline !== true) { //checkBookends does not return false
+        $inline = stack_utils::check_bookends($cmd, '(', ')');
+        if ($inline !== true) { //check_bookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
                 $this->errors .= stack_string('stackCas_missingLeftBracket', array('bracket'=>'(', 'cmd'=>$this->format_error_string($cmd)));
@@ -120,8 +119,8 @@ class stack_cas_casstring {
                 $this->errors .= stack_string('stackCas_missingRightBracket', array('bracket'=>')', 'cmd'=>$this->format_error_string($cmd)));
             }
         }
-        $inline = $cs->checkBookends('{', '}');
-        if ($inline !== true) { //checkBookends does not return false
+        $inline = stack_utils::check_bookends($cmd, '{', '}');
+        if ($inline !== true) { //check_bookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
                 $this->errors .= stack_string('stackCas_missingLeftBracket', array('bracket'=>'{', 'cmd'=>$this->format_error_string($cmd)));
@@ -129,8 +128,8 @@ class stack_cas_casstring {
                 $this->errors .= stack_string('stackCas_missingRightBracket', array('bracket'=>'}', 'cmd'=>$this->format_error_string($cmd)));
             }
         }
-        $inline = $cs->checkBookends('[', ']');
-        if ($inline !== true) { //checkBookends does not return false
+        $inline = stack_utils::check_bookends($cmd, '[', ']');
+        if ($inline !== true) { //check_bookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
                 $this->errors .= stack_string('stackCas_missingLeftBracket', array('bracket'=>'[', 'cmd'=>$this->format_error_string($cmd)));

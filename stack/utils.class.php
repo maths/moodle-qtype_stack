@@ -1,115 +1,116 @@
 <?php
+// This file is part of Stack - http://stack.bham.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-//~		TODO: this needs to be made into a static class.	
-
-class STACK_StringUtil {
-
-    private $string;
+/**
+ * Utility methods for processing strings.
+ *
+ * @copyright  2012 University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class stack_utils {
 
     /**
-     *
-     * @access public
-     * @param string $stringIn
+     * Static class. You cannot create instances.
      */
-    public function __construct($str) {
-        $this->string = $str;
+    private function __construct() {
+        throw new Exception('stack_utils: you cannot create instances of this class.');
     }
 
     /**
-     * Checks for matching pairs of characters in a string. Eg there are a even number of '@' chars in 'blah @blah@ blah'
+     * Checks for matching pairs of characters in a string. Eg there are a even
+     * number of '@' chars in 'blah @blah@ blah'
      *
-     * @param string
-     * @return bool
+     * @param string $string the string to test
+     * @param string $char the character to test.
+     * @return bool whether there are an even number of $chars in $string.
      */
-    public function checkMatchingPairs($char) {
-        $no = substr_count($this->string, $char);
-
-        if (($no % 2) == 1) {
-            return false; //odd number, so missing pair
-        } else {
-            return true; //even
-        }
+    public static function check_matching_pairs($string, $char) {
+        // Check the number of occurences are even.
+        return (substr_count($string, $char) % 2) == 0;
     }
 
     /**
-     * Check number of left and right substrings match
-     * eg every <html> has a </html>
-     * Returns true if equal, left left is missing, right if right is missing
+     * Check whether the number of left and right substrings match, for example
+     * whether every <html> has a matching </html>.
+     * Returns true if equal, 'left' left is missing, 'right' if right is missing.
      *
-     * @access public
-     * @param string $left
-     * @param string $right
-     * @return bool
+     * @param string $string the string to test.
+     * @param string $left the left delimiter.
+     * @param string $right the right delimiter.
+     * @return bool|string true if they match; 'left' if there are left delimiters
+     *      missing; or 'right' if there are right delimiters missing.
      */
-    public function checkBookends($left, $right) {
-        $noLeft = substr_count($this->string, $left);
-        $noRight = substr_count($this->string, $right);
+    public static function check_bookends($string, $left, $right) {
+        $leftcount = substr_count($string, $left);
+        $rightcount = substr_count($string, $right);
 
-        if ($noLeft == $noRight) {
+        if ($leftcount == $rightcount) {
             return true;
-        } else if ($noLeft > $noRight) {
-            return 'right'; // missing right
+        } else if ($leftcount > $rightcount) {
+            return 'right';
         } else {
-            return 'left'; //missing left
+            return 'left';
         }
     }
 
     /**
-    * Gets the string between two specified characters.
-    *
-    * @param int $start The position of the string to start searching at.
-    * @param char $leftc Finds the first occurence of this character
-    * @param char $rightc Finds the first occurence of this character after $leftc
-    * @return array Field [0] contains the string between the two characters, Field [1] contains the start position of -1 if it does not exist and Field [2] contains the end position of -1 if there was no match.
-    */
-    public function util_grabbetween($strin, $leftc, $rightc, $start) {
-        // Starting at $start, (a number)
-        // Find the first occurance of $leftc, match with an occurance of
-        // $rightc and grab everything in between.
-        // Returns an array:
-        // ret[0] = stuff grabbed
-        // ret[1] = start position, or -1 if it does not exist
-        // ret[2] = end position, or -1 if there is no match
-        $strin_len = strlen($strin);
-        $start = strpos($strin, $leftc, $start);
+     * Gets the the first sub-string between two specified delimiters from within
+     * a larger string.
+     *
+     * @param string $string the string to analyse.
+     * @param string $left the left delimiter character.
+     * @param string $right the right delimiter character.
+     * @param int $start the position of the string to start searching at. (Default 0)
+     * @return array with three elements: (the extracted string including the delimiters,
+     *      the start position of the substring, and the end position of the stubstring.
+     *      If there is no match, ('', -1, -1) is returned. Well, acutally it is more
+     *      complex than that. If you really care read the code.
+     */
+    public static function substring_between($string, $left, $right, $start = 0) {
+
+        $start = strpos($string, $left, $start);
         if ($start === false) {
-            $ret[0]='';
-            $ret[1]=-1;
-            $ret[2]=0;
-            return $ret;
+            return array('', -1, 0);
         }
-        if ($leftc == $rightc) {
+
+        if ($left == $right) {
             // Left and right are the same
-            $end = strpos($strin, $rightc, $start+1); // Just go for the next one
+            $end = strpos($string, $right, $start + 1); // Just go for the next one
             if ($end === false) {
-                $ret[0]='';
-                $ret[1]=$start;
-                $ret[2]=-1;
-                return $ret;
+                return array('', $start, -1);
             }
-            $end++;
+            $end += 1;
+
         } else {
-            $left_bracket=0;
-            $right_bracket=0;
-            $end=$start;
+            $length = strlen($string);
+            $nesting = 1;
+            $end = $start + 1;
 
-            do {
-                if ($strin[$end] == $leftc) {
-                    $left_bracket++;
-                } else if ($strin[$end] == $rightc) {
-                    $right_bracket++;
+            while ($nesting > 0 && $end < $length) {
+                if ($string[$end] == $left) {
+                    $nesting += 1;
+                } else if ($string[$end] == $right) {
+                    $nesting -= 1;
                 }
-
                 $end++;
-            } while ($left_bracket != $right_bracket and $end<$strin_len);
+            }
 
         }
 
-        $ret[0]= substr($strin, $start, $end-$start);
-        $ret[1]= $start;
-        $ret[2]= $end-1;
-
-        return $ret;
+        return array(substr($string, $start, $end - $start), $start, $end - 1);
     }
 
     /**
@@ -120,12 +121,12 @@ class STACK_StringUtil {
      * @param string $last the char to stop at (optional, if missing searches till another $first char
      * @return array of matchs without $first or $last pre/suffixes
      */
-    function getBetweenChars($first, $last=null) {
+    static function getBetweenChars($string, $first, $last=null) {
         if ($last == null) {
             $last = $first;
         }
 
-        $char = str_split($this->string);
+        $char = str_split($string);
         $length = count($char);
         $var = array();
         $j = 0;
@@ -169,10 +170,10 @@ class STACK_StringUtil {
      * if the number of replacements does not match the number of strings to replaces, nothing is replaced
      * @return string
      */
-    function replaceBetween($startChar, $endChar, $replacements) {
+    static function replaceBetween($string, $startChar, $endChar, $replacements) {
         //do error checking
-        $noSC = substr_count($this->string, $startChar);
-        $noEC = substr_count($this->string, $endChar);
+        $noSC = substr_count($string, $startChar);
+        $noEC = substr_count($string, $endChar);
         $no = count($replacements);
         $valid = true;
         if ($startChar == $endChar) {
@@ -188,7 +189,7 @@ class STACK_StringUtil {
         if ($valid) {
             $toReturn = '';
             $matches = 0;
-            $char = str_split($this->string);
+            $char = str_split($string);
             $length = count($char);
             $i = 0;
             $searching = true;
@@ -223,8 +224,8 @@ class STACK_StringUtil {
      * @access public
      * @param array (Optional) additional characters to convert to underscores
      */
-    public function underscore($additional=null) {
-        $toReturn = str_replace('-', '_', $this->string);
+    public static function underscore($string, $additional=null) {
+        $toReturn = str_replace('-', '_', $string);
         $toReturn = str_replace(' ', '_', $toReturn);
         if ($additional != null) {
             $toReturn = str_replace($additional, '_', $toReturn);
@@ -238,15 +239,15 @@ class STACK_StringUtil {
      * @access public
      * @return string|null
      */
-    public function convertSlashPaths() {
-        $in = trim($this->string);
+    public static function convertSlashPaths($string) {
+        $in = trim($string);
         $length = strlen($in);
         $lastChar = $in[($length -1)];
         $trailingSlash = false;
         if ($lastChar == '\\') {
             $trailingSlash = true;
         }
-        $pathArray = $this->cvsToArray("\\");
+        $pathArray = self::cvsToArray($string, "\\");
         if (!empty($pathArray)) {
             $newPath = $pathArray[0];
             for ($i = 1; $i < count($pathArray); $i++) {
@@ -270,14 +271,14 @@ class STACK_StringUtil {
      * @access public
      * @return string
      */
-    public function wrapAround() {
-        $this->string = preg_replace('/\\\\\$/', 'escapeddollar', $this->string);
-        $this->string = $this->wrap($this->string);
-        $this->string = preg_replace('/escapeddollar/', '\\\\$', $this->string);
-        return $this->string;
+    public static function wrapAround($string) {
+        $string = preg_replace('/\\\\\$/', 'escapeddollar', $string);
+        $string = self::wrap($string);
+        $string = preg_replace('/escapeddollar/', '\\\\$', $string);
+        return $string;
     }
 
-    public function CASdelimit($text) {
+    public static function CASdelimit($text) {
         return eregi_replace('|@(.*)@|U', '$\1$', $text);
     }
 
@@ -285,7 +286,7 @@ class STACK_StringUtil {
      * Ensures that all elements within this text that need to be in math mode, are so.
      * Specifically, CAS elements and inline input macros.
      */
-    public function delimit($text) {
+    public static function delimit($text) {
         return preg_replace('/@(.*)?@/U', '$@\1@$', $text);
         //return preg_replace('/\\\\answer{.*}{.*}{.*}(.*)/U', '$@\1@$', $text);
     }
@@ -294,7 +295,7 @@ class STACK_StringUtil {
      * Returns the first position of an opening math delimiter in $text from the $offset.
      * Helper function for wrap().
      */
-    public function mathStart($text, $offset = 0) {
+    public static function mathStart($text, $offset = 0) {
         $delimiters = array('$', '$$', '\(', '\[');
         $at = false; // not yet found
         foreach ($delimiters as $d) {
@@ -314,7 +315,7 @@ class STACK_StringUtil {
      * Returns the position of the character following a closing math delimiter in $text from the $offset.
      * Helper function for wrap().
      */
-    public function mathLength($text, $start) {
+    public static function mathLength($text, $start) {
         $delimiters = array('$', '$$', '\)', '\]');
         $at = false;
         $ender = '';
@@ -343,17 +344,17 @@ class STACK_StringUtil {
         }
     }
 
-    public function wrap($text) {
-        $mathStart = $this->mathStart($text);
+    public static function wrap($text) {
+        $mathStart = self::mathStart($text);
         if ($mathStart !== false) { // we have some maths ahead
             $pre = substr($text, 0, $mathStart); // get previous text
-            $for = $this->mathLength($text, $mathStart);
+            $for = self::mathLength($text, $mathStart);
             $maths = substr($text, $mathStart, $for);
             $rest = substr($text, $mathStart + $for);
             //echo '<br />wrapping '.$pre.':'.$maths.':'.$rest;
-            return $this->delimit($pre).$maths.$this->wrap($rest);
+            return self::delimit($pre).$maths.self::wrap($rest);
         } else { // no math sections left
-            return $this->delimit($text);
+            return self::delimit($text);
         }
     }
 
@@ -363,8 +364,8 @@ class STACK_StringUtil {
      * @return string out
      * @access public
      */
-    public function trimCommands() {
-        $in = trim($this->string);
+    public static function trimCommands($string) {
+        $in = trim($string);
         $length = strlen($in);
         $lastChar = $in[($length -1)];
 
@@ -383,16 +384,16 @@ class STACK_StringUtil {
      * @access private
      * @return string
      */
-    public function removeComments() {
-        if (strstr($this->string, '/*')) {
-            $out = $this->string;
+    public static function removeComments($string) {
+        if (strstr($string, '/*')) {
+            $out = $string;
             preg_match_all('|/\*(.*)\*/|U', $out,$html_match);
             foreach ($html_match[0] as $val) {
                 $out = str_replace($val, '', $out);
             }
             return $out;
         } else {
-            return $this->string;
+            return $string;
         }
     }
 
@@ -405,19 +406,18 @@ class STACK_StringUtil {
      * @return string
      * @access public
      */
-    public function removeBetween($start, $end) {
-        if (strstr($this->string,$start) && strstr($this->string, $end)) {
-            $out = $this->string;
+    public static function removeBetween($string, $start, $end) {
+        if (strstr($string,$start) && strstr($string, $end)) {
+            $out = $string;
             preg_match_all('|'.$start.'(.*)'.$end.'|U', $out, $html_match);
 
             foreach ($html_match[0] as $val) {
                 $out = str_replace($val, '', $out);
             }
-            $this->string = $out;
 
             return $out;
         } else {
-            return $this->string;
+            return $string;
         }
     }
 
@@ -428,9 +428,9 @@ class STACK_StringUtil {
      * @return array out
      * @access public
      */
-    public function cvsToArray($token=',') {
-        $exploded = explode($token, $this->string);
-        //remove any null entries
+    public static function cvsToArray($string, $token = ',') {
+        $exploded = explode($token, $string);
+        // Remove any null entries
         for ($i = 0; $i < count($exploded); $i++) {
             $trim = trim($exploded[$i]);
             if (!empty($trim)) {
@@ -446,7 +446,7 @@ class STACK_StringUtil {
      * @return String
      * @param $array Object
      */
-    public function arrayToCSV($array) {
+    public static function arrayToCSV($array) {
         if (!empty($array)) {
         $string = "";
         $i = 0;
@@ -477,7 +477,7 @@ class STACK_StringUtil {
      *	Strict checking on nesting.
      *  Helper for listToArrayWorkhorse()
      */
-    private function nextElement($list) {
+    private static function nextElement($list) {
         if ($list == '') {
             return null;
         }
@@ -506,15 +506,15 @@ class STACK_StringUtil {
         } else return null; // invalid nesting
     }
 
-    private function listToArrayWorkhorse($list, $rec=true) {
+    private static function listToArrayWorkhorse($list, $rec=true) {
         $array = array();
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2);// trims outermost [] only
-        $e = $this->nextElement($list);
+        $e = self::nextElement($list);
         while ($e !== null) {
             if ($e[0]=='[') {
                 if ($rec) {
-                    $array[] = $this->listToArrayWorkhorse($e,$rec);
+                    $array[] = self::listToArrayWorkhorse($e,$rec);
                 } else {
                     $array[] = $e;
                 }
@@ -522,7 +522,7 @@ class STACK_StringUtil {
                 $array[] = $e;
             }
             $list = substr($list, strlen($e)+1);
-            $e = $this->nextElement($list);
+            $e = self::nextElement($list);
         }
         return $array;
     }
@@ -531,21 +531,17 @@ class STACK_StringUtil {
      * Converts a list structure into an array.
      * Handles nested lists, sets and functions with help from nextElement().
      */
-    public function listToArray($rec=true) {
-        $array = $this->listToArrayWorkhorse($this->string,$rec);
-    return $array;
+    public static function listToArray($string, $rec = true) {
+        return self::listToArrayWorkhorse($string, $rec);
     }
 
     /**
      * Returns a more intuitive datestamp
+     * show time if this week
+     * show day + month if this year
+     * show month + year if not this year
      */
     public static function prettifyDate($datestamp) {
-        /*
-         * Rules:
-         * show time if this week
-         * show day + month if this year
-         * show month + year if not this year
-        */
 
         $dayStart = strtotime("00:00");
         $monthAgo = strtotime('-1 month');
@@ -555,10 +551,15 @@ class STACK_StringUtil {
 
         $time = strtotime($datestamp);
 
-        if($time >= $dayStart) return date("g:ia", $time);// today
-        if($time > $monthAgo) return date("g:ia, j M", $time);// not today
-        if($time > $yearAgo) return date("M Y", $time); // not this year
-        if($time > $yearAgo) return date("j M", $time); // not this month
+        if ($time >= $dayStart) {
+            return date("g:ia", $time);// today
+        } else if ($time > $monthAgo) {
+            return date("g:ia, j M", $time);// not today
+        } else if ($time > $yearAgo) {
+            return date("M Y", $time); // not this year
+        } else if ($time > $yearAgo) {
+            return date("j M", $time); // not this month
+        }
 
         // failed to prettify somehow
         return $datestamp;

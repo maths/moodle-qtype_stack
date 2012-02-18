@@ -70,6 +70,7 @@ $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following cas text:';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. Stack only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
+$string['healthchecklatexmathjax'] = 'One way to get equiation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
 $string['healthcheckplots'] = 'Graph plotting';

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once(dirname(__FILE__) . '/../../../locallib.php');
+require_once(dirname(__FILE__) . '/../cassession.class.php');
 require_once(dirname(__FILE__) . '/../keyval.class.php');
 
 class stack_cas_keyval_test extends UnitTestCase {

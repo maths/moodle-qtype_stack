@@ -70,7 +70,13 @@ class stack_cas_maxima_connector {
                     throw new Exception("stack_cas_maxima_connector: maxima launch script {$cmd} does not exist.");
                 }
             } else {
-                $cmd = 'maxima';
+                if (is_readable('/Applications/Maxima.app/Contents/Resources/maxima.sh')) {
+                    // This is the path on Macs, if Maxima has been installed following
+                    // the instructions on Sourceforge.
+                    $cmd = '/Applications/Maxima.app/Contents/Resources/maxima.sh';
+                } else {
+                    $cmd = 'maxima';
+                }
             }
         }
 
@@ -97,7 +103,7 @@ class stack_cas_maxima_connector {
             $this->debuginfo .= html_writer::tag('h3', $heading);
         }
         if ($message) {
-            $this->debuginfo .= html_writer::tag('pre', $message);
+            $this->debuginfo .= html_writer::tag('pre', s($message));
         }
     }
 
@@ -354,8 +360,7 @@ class stack_cas_maxima_connector {
         if ($eqpos = strpos($strin, '=', $offset)) {
             // Check there are ='s
             do {
-                $s = new STACK_StringUtil('');
-                $gb = $s->util_grabbetween($strin, '[', ']', $eqpos);
+                $gb = stack_utils::substring_between($strin, '[', ']', $eqpos);
                 $val = substr($gb[0], 1, strlen($gb[0])-2);
                 $val = str_replace('"', '', $val);
                 $val = trim($val);

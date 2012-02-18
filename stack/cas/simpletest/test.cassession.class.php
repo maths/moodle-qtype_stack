@@ -23,7 +23,7 @@ extends UnitTestCase {
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
-            $s1=array();
+            $s1 = array();
             foreach ($cs as $s) {
                 $s1[] = new stack_cas_casstring($s);
             }
@@ -37,14 +37,14 @@ extends UnitTestCase {
 
     public function test_get_valid() {
 
-        $a1=array('x^2', '(x+1)^2');
-        $a2=array('x^2', 'x+1)^2');
+        $a1 = array('x^2', '(x+1)^2');
+        $a2 = array('x^2', 'x+1)^2');
 
-        $cases =  array(
-                array(null, true),
-                array($a1, true),
-                array($a2, false)
-            );
+        $cases = array(
+            array(null, true),
+            array($a1, true),
+            array($a2, false)
+        );
 
         foreach ($cases as $case) {
            $this->get_valid($case[0], $case[1]);

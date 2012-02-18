@@ -79,22 +79,22 @@ class stack_cas_casstring {
         $this->casstring = $this->rawcasstring;
 
         // casstrings must be non-empty.
-        if (''==trim($this->casstring)) {
+        if (trim($this->casstring) == '') {
             $this->valid = false;
             return false;
         }
 
-        //if student, check for spaces between letters or numbers in expressions
+        // If student, check for spaces between letters or numbers in expressions
         if ($this->security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
             if (preg_match($pat, $cmd)) {
                 $this->valid = false;
                 $cmds = str_replace(' ', '<font color="red">_</font>', $cmd);
-                $this->errors.=stack_string("stackCas_spaces").$this->format_error_string($cmds).'. ';
+                $this->errors .= stack_string("stackCas_spaces") . $this->format_error_string($cmds) . '. ';
             }
         }
 
-        //Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else
+        // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else
         if (strstr($cmd, '%') !== false) {
             $cmdl = strtolower($cmd);
             preg_match_all("(\%.*)", $cmdl, $found);

@@ -27,6 +27,7 @@ class stack_cas_casstring_test
 extends UnitTestCase {
 
     public function get_valid($s, $st, $te) {
+
         $at1 = new stack_cas_casstring($s, 's');
         $this->assertEqual($st, $at1->get_valid());
 

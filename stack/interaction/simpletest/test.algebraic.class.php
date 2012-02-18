@@ -104,4 +104,16 @@ class stack_interaction_algebra_test extends UnitTestCase {
         $this->assertTrue($cs->get_valid());
         $this->assertEqual('sans1', $cs->get_key());
     }
+
+    public function test_validate_student_response_4() {
+        $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
+        $el->set_parameter('insertStars', true);
+        $el->set_parameter('strictSyntax', false);
+        $cs = $el->validate_student_response('2x(1+x^2)');
+        $this->assertTrue($cs->get_valid());
+        $this->assertEqual('sans1', $cs->get_key());
+echo "<pre>";
+print_r($cs);
+echo "<pre>";
+    }
 }

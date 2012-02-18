@@ -65,4 +65,22 @@ class stack_interaction_boolean_test extends UnitTestCase {
         $this->assert(new ContainsSelectExpectation('input', $this->expected_choices(),
                 stack_interaction_boolean::NA, false), $el->get_xhtml('', true));
     }
+
+    public function test_validate_student_response_true() {
+        $el = stack_interaction_controller::make_element('boolean', 'sans1', 'true');
+        $cs = $el->validate_student_response('true');
+        $this->assertTrue($cs->get_valid());
+    }
+
+    public function test_validate_student_response_false() {
+        $el = stack_interaction_controller::make_element('boolean', 'sans1', 'true');
+        $cs = $el->validate_student_response('false');
+        $this->assertTrue($cs->get_valid());
+    }
+
+    public function test_validate_student_response_na() {
+        $el = stack_interaction_controller::make_element('boolean', 'sans1', 'true');
+        $cs = $el->validate_student_response('');
+        $this->assertFalse($cs->get_valid());
+    }
 }

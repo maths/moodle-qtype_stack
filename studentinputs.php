@@ -1,0 +1,121 @@
+<?php
+// This file is part of Stack - http://stack.bham.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * This script runs attempts to "validate" a list of potential answer strings from students and verifies the results.
+ *
+ * @copyright  2012 University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+require_once(dirname(__FILE__).'/../../../config.php');
+require_once($CFG->dirroot .'/course/lib.php');
+require_once($CFG->libdir .'/filelib.php');
+require_once($CFG->libdir .'/tablelib.php');
+
+require_once(dirname(__FILE__) . '/locallib.php');
+require_once(dirname(__FILE__) . '/stack/interaction/controller.class.php');
+require_once(dirname(__FILE__) . '/stack/interaction/simpletest/fixtures.class.php');
+
+// Authentication.
+require_login();
+$context = context_system::instance();
+require_capability('moodle/site:config', $context);
+
+// Set up the page object.
+$PAGE->set_context($context);
+$PAGE->set_url('/question/type/stack/studentinput.php');
+$title = stack_string('stackInstall_input_title');
+$PAGE->set_title($title);
+
+// Set up the results table.
+$columns = array(
+    'passed'             => stack_string('testsuitecolpassed'),
+    'studentanswer'      => stack_string('studentanswer'),
+    'phpvalid'           => stack_string('phpvalid'),
+    'phpcasstring'       => stack_string('phpcasstring'),
+    'expectedcasvalid'   => stack_string('expectedcasvalid'),
+    'error'              => stack_string('phpsuitecolerror'),
+);
+
+$table = new flexible_table('stack_answertests');
+$table->define_columns(array_keys($columns));
+$table->define_headers(array_values($columns));
+$table->set_attribute('class', 'generaltable generalbox stacktestsuite');
+$table->define_baseurl($PAGE->url);
+$table->setup();
+
+// Start output.
+echo $OUTPUT->header();
+echo $OUTPUT->heading($title);
+echo html_writer::tag('p', stack_string('stackInstall_input_intro'));
+
+$tests = stack_inputvalidation_test_data::get_all();
+// Run the tests.
+$allpassed = true;
+foreach ($tests as $test) {
+
+    if ($test->notes) {
+        reset($columns);
+        $firstcol = key($columns);
+        $table->add_data_keyed(array($firstcol => $test->notes), 'notes');
+    }
+
+    set_time_limit(30);
+    list($passed, $phpvalid, $phpcasstring, $error) = stack_inputvalidation_test_data::run_test($test);
+    $allpassed = $allpassed && $passed;
+
+    if ($passed) {
+        $class = 'pass';
+        $passedcol = stack_string('testsuitepass');
+    } else {
+        $class = 'fail';
+        $passedcol = stack_string('testsuitefail');
+    }
+
+    if ('cas_true'==$test->casvalid) {
+        $casexpected = true;
+    } else {
+        $casexpected = false;
+    }
+    
+    if ('php_true'!=$test->phpvalid) {
+        $casexpected = '';
+    }
+
+    
+    $row = array(
+        'passed'             => $passedcol,
+        'studentanswer'      => s($test->rawstring),
+        'phpvalid'           => s($phpvalid),
+        'phpcasstring'       => s($phpcasstring),
+        'expectedcasvalid'   => s($casexpected),
+        'error'              => $error,
+    );
+    $table->add_data_keyed($row, $class);
+    flush();
+}
+$table->finish_output();
+
+// Overall summary.
+if ($allpassed) {
+   echo $OUTPUT->heading(stack_string('stackInstall_testsuite_pass'), 2, 'pass');
+} else {
+   echo $OUTPUT->heading(stack_string('stackInstall_testsuite_fail'), 2, 'fail');
+}
+
+// Finish output.
+echo $OUTPUT->footer();

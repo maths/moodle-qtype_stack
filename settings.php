@@ -66,3 +66,8 @@ $settings->add(new admin_setting_heading('answertests',
         get_string('stackInstall_testsuite_title', 'qtype_stack'),
         get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
                 array('link' => (string) new moodle_url('/question/type/stack/answertests.php')))));
+
+$settings->add(new admin_setting_heading('inputtests',
+        get_string('stackInstall_input_title', 'qtype_stack'),
+        get_string('stackInstall_input_title_desc', 'qtype_stack',
+                array('link' => (string) new moodle_url('/question/type/stack/studentinputs.php')))));

@@ -53,4 +53,17 @@ class stack_utils_test extends UnitTestCase {
         $this->assertEqual(array('[[[]w[o]r[[l]d]]]', 6, 22), stack_utils::substring_between('hello [[[]w[o]r[[l]d]]]!', '[', ']'));
     }
 
+    public function test_check_bookends() {
+        $this->assertIdentical('left', stack_utils::check_bookends('x+1)^2', '(', ')'));
+        $this->assertIdentical('right', stack_utils::check_bookends('(x+1', '(', ')'));
+        $this->assertIdentical('left', stack_utils::check_bookends('(y^2+1))', '(', ')'));
+        $this->assertIdentical('left', stack_utils::check_bookends('[sin(x)+1)', '(', ')'));
+        $this->assertIdentical('right', stack_utils::check_bookends('[sin(x)+1)', '[', ']'));
+        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '(', ')'));
+        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '[', ']'));
+        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '{', '}'));
+        $this->assertIdentical(true, stack_utils::check_bookends('(sin(x)+1)', '[', ']'));
+        $this->assertIdentical(true, stack_utils::check_bookends('(sin(x)+1)', '(', ')'));
+        $this->assertIdentical(true, stack_utils::check_bookends('[sin(x)+1)', '{', '}'));
+    }
 }

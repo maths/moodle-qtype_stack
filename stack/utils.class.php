@@ -57,7 +57,7 @@ class stack_utils {
         $leftcount = substr_count($string, $left);
         $rightcount = substr_count($string, $right);
 
-        if ($leftcount == $leftcount) {
+        if ($leftcount == $rightcount) {
             return true;
         } else if ($leftcount > $rightcount) {
             return 'right';

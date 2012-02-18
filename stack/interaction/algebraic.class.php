@@ -50,7 +50,7 @@ class stack_interaction_algebra extends stack_interaction_element {
             'mustVerify'     => true,
             'hideFeedback'   => false,
             'boxWidth'       => 15,
-            'strinctSyntax'  => true,
+            'strictSyntax'  => true,
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',

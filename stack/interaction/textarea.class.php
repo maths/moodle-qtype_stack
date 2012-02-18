@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(__FILE__) . '/../stringutil.class.php');
+require_once(dirname(__FILE__) . '/../utils.class.php');
 
 /**
  * Interaction element that is a text area. Each line input becomes one element of a list.
@@ -101,7 +101,7 @@ class stack_interaction_textarea extends stack_interaction_element {
             'hideFeedback'   => false,
             'boxWidth'       => 20,
             'boxHeight'      => 5,
-            'strinctSyntax'  => true,
+            'strictSyntax'  => true,
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',

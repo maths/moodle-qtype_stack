@@ -78,9 +78,30 @@ class stack_interaction_algebra_test extends UnitTestCase {
     }
 
     public function test_get_xhtml_syntaxhint() {
-        $el = stack_interaction_controller::make_element('algebraic', 'input', '[a, b, c]');
+        $el = stack_interaction_controller::make_element('algebraic', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '[?, ?, ?]');
-        $this->assertEqual('<input type="text" name="input" size="15" value="[?, ?, ?]" />',
+        $this->assertEqual('<input type="text" name="sans1" size="15" value="[?, ?, ?]" />',
                 $el->get_xhtml('', false));
+    }
+
+    public function test_validate_student_response_1() {
+        $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
+        $cs = $el->validate_student_response('x^2');
+        $this->assertTrue($cs->get_valid());
+    }
+
+    public function test_validate_student_response_2() {
+        $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
+        $cs = $el->validate_student_response('2x(1+x^2)');
+        $this->assertFalse($cs->get_valid());
+    }
+
+    public function test_validate_student_response_3() {
+        $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
+        $el->set_parameter('insertStars', true);
+        $el->set_parameter('strictSyntax', false);
+        $cs = $el->validate_student_response('2x');
+        $this->assertTrue($cs->get_valid());
+        $this->assertEqual('sans1', $cs->get_key());
     }
 }

@@ -15,6 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(__FILE__) . '/../../locallib.php');
+require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
 
 /**
  * The base class for interaction elements.
@@ -31,7 +32,7 @@ class stack_interaction_element {
         'hideFeedback',
         'boxWidth',
         'boxHeight',
-        'strinctSyntax',
+        'strictSyntax',
         'insertStars',
         'syntaxHint',
         'forbidWords',
@@ -94,16 +95,6 @@ class stack_interaction_element {
     }
 
     /**
-     * Transforms the student's input into a casstring if needed. From most returns same as went in.
-     *
-     * @param array|string $in
-     * @return string
-     */
-    public function transform($in) {
-        return $in;
-    }
-
-    /**
      * Sets the value of an interaction element parameters. 
      * @return array of parameters names.
      */
@@ -112,7 +103,7 @@ class stack_interaction_element {
             $this->parameters[$parameter] = $value;
         } else {
             //TODO how do we know the name of the class for the error message?
-            throw new Exception('stack_interaction_element: setting parameter '.$parameter.' which does not exist for interaction elements of type ?', $code, $previous);
+            throw new Exception('stack_interaction_element: setting parameter '.$parameter.' which does not exist for interaction elements of type ?');
         }
     }
 
@@ -135,7 +126,7 @@ class stack_interaction_element {
                 $valid = is_bool($value);
                 break;
 
-            case 'strinctSyntax':
+            case 'strictSyntax':
                 $valid = is_bool($value);
                 break;
 
@@ -203,5 +194,66 @@ class stack_interaction_element {
      */
     public function get_test_post_data($value) {
         return array($this->name=>$value);
+    }
+
+    /**
+     * Validate any attempts at this question.
+     *
+     * @param string
+     * @return stack_cas_casstring
+     */
+    public function validate_student_response($sans) {
+
+        $transformedanswer = $this->transform($sans);
+
+        if (array_key_exists('insertStars', $this->parameters)) {
+            $insertstars = $this->parameters['insertStars'];
+        } else {
+            $insertstars = true;
+        }
+        if (array_key_exists('strictSyntax', $this->parameters)) {
+            $syntax = $this->parameters['strictSyntax'];
+        } else {
+            $syntax = true;
+        }
+        
+        $answer = new stack_cas_casstring($transformedanswer, $security='s', $syntax, $insertstars);
+
+        if (array_key_exists('forbidWords', $this->parameters)) {
+            if ('' !=  $this->parameters['forbidWords']) {
+                $keywords = explode(',', $this->parameters['forbidWords']);
+                $answer->check_external_forbidden_words('forbidWords');
+            }
+        }        
+
+        if (array_key_exists('forbidFloats', $this->parameters)) {
+            $forbidfloats = $this->parameters['forbidFloats'];
+        } else {
+            $forbidfloats = false;
+        }
+        if (array_key_exists('lowestTerms', $this->parameters)) {
+            $lowestterms = $this->parameters['lowestTerms'];
+        } else {
+            $lowestterms = false;
+        }
+        $tans = null;
+        if (array_key_exists('sameType', $this->parameters)) {
+            if ($this->parameters['sameType']) {
+                $tans = $this->teacheranswer;
+            }
+        }
+        $answer->set_cas_validation_casstring($this->name, $forbidfloats, $lowestterms, $tans);
+
+        return $answer;
+    }
+
+    /**
+     * Transforms the student's input into a casstring if needed. From most returns same as went in.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    private  function transform($in) {
+        return $in;
     }
 }

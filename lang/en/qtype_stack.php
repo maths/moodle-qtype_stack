@@ -100,17 +100,17 @@ $string['texdoubledollar'] = 'Double dollar';
 $string['texsingledollar'] = 'Single dollar';
 
 // casstring.class.php
-$string['stackCas_spaces']                  = 'Spaces found in expression: ';
-$string['stackCas_percent']                 = '&#037; found in expression: ';
+$string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';
+$string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="SyntaxExample2">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="SyntaxExample2">{$a->bracket}</span> in the expression: {$a->cmd}.';
-$string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses: ';
+$string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses.';
 $string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a->char}.';
 $string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid final character in {$a->cmd}';
-$string['stackCas_MissingStars']            = 'You seem to be missing *\'s.<br /> Perhaps you meant to type {$a->cmd}';
-$string['stackCas_unknownFunction']         = 'Unknown function:';
-$string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: ';
-$string['stackCas_forbiddenWord']           = 'Forbidden Word: ';
+$string['stackCas_MissingStars']            = 'You seem to be missing *\'s. Perhaps you meant to type {$a->cmd}.';
+$string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid}.';
+$string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
+$string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
 
 // cassession.class.php
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';

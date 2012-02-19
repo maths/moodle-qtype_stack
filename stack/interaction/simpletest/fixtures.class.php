@@ -348,7 +348,7 @@ class stack_inputvalidation_test_data {
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
-            $errors .= " <span class='SyntaxExample2'>".$phpcasstring."</span>".'\(\neq \)'."<span class='SyntaxExample2'>".$test->phpcasstring."</span>";
+            $errors .= ' '.stack_maxima_format_casstring($phpcasstring).' \(\neq \) '.stack_maxima_format_casstring($test);
         }
 
         $casvalid = '';
@@ -364,7 +364,7 @@ class stack_inputvalidation_test_data {
             $session = $session->get_session();
             $cs = $session[0];
             $caserrors = stack_maxima_translate($cs->get_errors());
-            $casvalue = "<span class='SyntaxExample2'>".$cs->get_value()."</span>";
+            $casvalue = stack_maxima_format_casstring($cs->get_value());
             if ('cas_true'==$test->casvalid) {
                 $casexpected = true;
             } else {

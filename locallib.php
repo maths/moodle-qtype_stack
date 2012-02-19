@@ -63,3 +63,7 @@ function stack_maxima_translate($rawfeedback) {
         return trim($translated);
     }
 }
+
+function stack_maxima_format_casstring($str) {
+    return '<span class=\'SyntaxExample2\'>'.$str.'</span>';
+}

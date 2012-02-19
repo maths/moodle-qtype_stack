@@ -228,12 +228,12 @@ class stack_cas_session {
 
                 if ('' != $result['error']) {
                     $cs->add_errors($result['error']);
-                    $new_errors .= ' <span class="SyntaxExample2">'.$cs->get_raw_casstring().'</span> '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
+                    $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring()).' '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
                 }
             }
 
             if (!$gotvalue) {
-                $errstr = stack_string("stackCas_failedReturn").' <span class="SyntaxExample2">'.$cs->get_raw_casstring().'</span> ';
+                $errstr = stack_string("stackCas_failedReturn").' '.stack_maxima_format_casstring($cs->get_raw_casstring());
                 $cs->Add_errors($errstr);
                 $new_errors .= $errstr;
             }

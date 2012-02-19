@@ -20,6 +20,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once(dirname(__FILE__) . '/../../locallib.php');
 require_once(dirname(__FILE__) . '/../utils.class.php');
 
 class stack_cas_casstring {
@@ -90,7 +91,7 @@ class stack_cas_casstring {
             if (preg_match($pat, $cmd)) {
                 $this->valid = false;
                 $cmds = str_replace(' ', '<font color="red">_</font>', $cmd);
-                $this->add_error(stack_string("stackCas_spaces", array('expr'=>$this->format_error_string($cmds))));
+                $this->add_error(stack_string("stackCas_spaces", array('expr'=>stack_maxima_format_casstring($cmds))));
             }
         }
 
@@ -105,7 +106,7 @@ class stack_cas_casstring {
                 } else {
                     //problem
                     $this->valid   = false;
-                    $this->add_error(stack_string('stackCas_percent', array('expr'=>$this->format_error_string($cmd))));
+                    $this->add_error(stack_string('stackCas_percent', array('expr' => stack_maxima_format_casstring($cmd))));
                 }
             }
         }
@@ -114,27 +115,27 @@ class stack_cas_casstring {
         if ($inline !== true) { //check_bookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
-                $this->add_error(stack_string('stackCas_missingLeftBracket', array('bracket'=>'(', 'cmd'=>$this->format_error_string($cmd))));
+                $this->add_error(stack_string('stackCas_missingLeftBracket', array('bracket'=>'(', 'cmd' => stack_maxima_format_casstring($cmd))));
             } else {
-                $this->add_error(stack_string('stackCas_missingRightBracket', array('bracket'=>')', 'cmd'=>$this->format_error_string($cmd))));
+                $this->add_error(stack_string('stackCas_missingRightBracket', array('bracket'=>')', 'cmd' => stack_maxima_format_casstring($cmd))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '{', '}');
         if ($inline !== true) { //check_bookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
-                $this->add_error(stack_string('stackCas_missingLeftBracket', array('bracket'=>'{', 'cmd'=>$this->format_error_string($cmd))));
+                $this->add_error(stack_string('stackCas_missingLeftBracket', array('bracket'=>'{', 'cmd' => stack_maxima_format_casstring($cmd))));
             } else {
-                $this->add_error(stack_string('stackCas_missingRightBracket', array('bracket'=>'}', 'cmd'=>$this->format_error_string($cmd))));
+                $this->add_error(stack_string('stackCas_missingRightBracket', array('bracket'=>'}', 'cmd' => stack_maxima_format_casstring($cmd))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '[', ']');
         if ($inline !== true) { //check_bookends does not return false
             $this->valid = false;
             if ($inline == 'left') {
-                $this->add_error(stack_string('stackCas_missingLeftBracket', array('bracket'=>']', 'cmd'=>$this->format_error_string($cmd))));
+                $this->add_error(stack_string('stackCas_missingLeftBracket', array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($cmd))));
             } else {
-                $this->add_error(stack_string('stackCas_missingRightBracket', array('bracket'=>']', 'cmd'=>$this->format_error_string($cmd))));
+                $this->add_error(stack_string('stackCas_missingRightBracket', array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($cmd))));
             }
         }
 
@@ -171,7 +172,7 @@ class stack_cas_casstring {
             $this->valid = false;
             $a = array();
             $a['char'] = $lastchar;
-            $a['cmd']  = $this->format_error_string($cmd);
+            $a['cmd']  = stack_maxima_format_casstring($cmd);
             $this->add_error(stack_string('stackCas_finalChar', $a));
         }
 
@@ -219,7 +220,7 @@ class stack_cas_casstring {
                 }
                 if ($this->syntax == true) {
                     //flag up the error
-                    $missingstring = $this->format_error_string(preg_replace($pat, "\${1}<font color=\"red\">*</font>\${2}", $cmd));
+                    $missingstring = stack_maxima_format_casstring(preg_replace($pat, "\${1}<font color=\"red\">*</font>\${2}", $cmd));
                 }
             }
         }
@@ -272,19 +273,19 @@ class stack_cas_casstring {
                 //very bad!.
                 // TODO altert the teacher of this....
                 $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>$this->format_error_string($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
             } else {
                 if ($this->security == 't') {
                     if (in_array($key, self::$teachernotallow)) {
                         //if a teacher check against forbidden commands
                         $this->valid = false;
-                        $this->add_error(stack_string('stackCas_unsupportedKeyword', array('forbid'=>$this->format_error_string($key))));
+                        $this->add_error(stack_string('stackCas_unsupportedKeyword', array('forbid'=>stack_maxima_format_casstring($key))));
                     }
                 } else {
                     //if not teacher allow only set commands.
                     if (!in_array($key, self::$studentallow)) {
                         $this->valid = false;
-                        $this->add_error(stack_string('stackCas_unknownFunction', array('forbid'=>$this->format_error_string($key))));
+                        $this->add_error(stack_string('stackCas_unknownFunction', array('forbid'=>stack_maxima_format_casstring($key))));
                     }
                     // else is valid student command.
                 }
@@ -329,7 +330,7 @@ class stack_cas_casstring {
             if (in_array($key, $keywords)) {
                 $found = true;
                 $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>$this->format_error_string($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
             }
         }
         return $found;
@@ -339,9 +340,6 @@ class stack_cas_casstring {
     /* Internal utility functions				 */
     /*********************************************************/
 
-    private function format_error_string($str) {
-        return "<span class='SyntaxExample2'>".$str."</span>";
-    }
 
     private function add_error($err) {
         $this->errors = trim(trim($this->errors).' '.trim($err));

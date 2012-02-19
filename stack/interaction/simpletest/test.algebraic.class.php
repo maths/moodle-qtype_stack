@@ -112,8 +112,5 @@ class stack_interaction_algebra_test extends UnitTestCase {
         $cs = $el->validate_student_response('2x(1+x^2)');
         $this->assertTrue($cs->get_valid());
         $this->assertEqual('sans1', $cs->get_key());
-echo "<pre>";
-print_r($cs);
-echo "<pre>";
     }
 }

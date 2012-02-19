@@ -27,6 +27,7 @@ require_once($CFG->libdir .'/filelib.php');
 require_once($CFG->libdir .'/tablelib.php');
 
 require_once(dirname(__FILE__) . '/locallib.php');
+require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
 require_once(dirname(__FILE__) . '/stack/interaction/controller.class.php');
 require_once(dirname(__FILE__) . '/stack/interaction/simpletest/fixtures.class.php');
 
@@ -47,8 +48,12 @@ $columns = array(
     'studentanswer'      => stack_string('studentanswer'),
     'phpvalid'           => stack_string('phpvalid'),
     'phpcasstring'       => stack_string('phpcasstring'),
-    'expectedcasvalid'   => stack_string('expectedcasvalid'),
     'error'              => stack_string('phpsuitecolerror'),
+    'casvalid'           => stack_string('casvalid'),
+    'casvalue'           => stack_string('casvalue'),
+ //   'casdisplayraw'      => '',
+    'casdisplay'         => stack_string('casdisplay'),
+    'caserrors'          => stack_string('cassuitecolerrors'),
 );
 
 $table = new flexible_table('stack_answertests');
@@ -75,7 +80,7 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $phpvalid, $phpcasstring, $error) = stack_inputvalidation_test_data::run_test($test);
+    list($passed, $phpvalid, $phpcasstring, $error, $casvalid, $caserrors, $casdisplay, $casvalue) = stack_inputvalidation_test_data::run_test($test);
     $allpassed = $allpassed && $passed;
 
     if ($passed) {
@@ -86,24 +91,21 @@ foreach ($tests as $test) {
         $passedcol = stack_string('testsuitefail');
     }
 
-    if ('cas_true'==$test->casvalid) {
-        $casexpected = true;
-    } else {
-        $casexpected = false;
+    $display = '';
+    if ('' != $casdisplay) {
+        $display = '\('.$casdisplay.'\)';
     }
-    
-    if ('php_true'!=$test->phpvalid) {
-        $casexpected = '';
-    }
-
-    
     $row = array(
         'passed'             => $passedcol,
         'studentanswer'      => s($test->rawstring),
         'phpvalid'           => s($phpvalid),
         'phpcasstring'       => s($phpcasstring),
-        'expectedcasvalid'   => s($casexpected),
         'error'              => $error,
+        'casvalid'           => s($casvalid),
+        'casvalue'           => $casvalue,
+ //       'casdisplayraw'      => '<span style="font-size:8px"><pre>'.$casdisplay.'</pre></span>',
+        'casdisplay'         => s($display).'<br /><span style="font-size:8px"><pre>'.$casdisplay.'</pre></span>',
+        'caserrors'          => $caserrors,
     );
     $table->add_data_keyed($row, $class);
     flush();

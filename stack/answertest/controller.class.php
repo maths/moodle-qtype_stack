@@ -236,26 +236,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public function get_at_feedback() {
-        $rawfeedback = $this->at->get_at_feedback();
-
-        if (strpos($rawfeedback, 'stack_trans') === false) {
-            return trim($this->at->get_at_feedback());
-        } else {
-            //echo "<br />Raw string:<pre>$rawfeedback</pre>";
-            $rawfeedback = str_replace('[[', '', $rawfeedback);
-            $rawfeedback = str_replace(']]', '', $rawfeedback);
-            $rawfeedback = str_replace('\n', '', $rawfeedback);
-            $rawfeedback = str_replace('\\', '\\\\', $rawfeedback);
-            $rawfeedback = str_replace('$', '\$', $rawfeedback);
-            $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
-
-            ob_start();
-            eval($rawfeedback);
-            $translated = ob_get_contents();
-            ob_end_clean();
-
-            return trim($translated);
-        }
+        return stack_maxima_translate($this->at->get_at_feedback());
     }
 
     /**

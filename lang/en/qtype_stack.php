@@ -96,11 +96,16 @@ $string['answernote'] = 'Answer note';
 $string['inputtest'] ='Input test';
 $string['stackInstall_input_title'] = "A test suite for validation of student's input";
 $string['stackInstall_input_title_desc'] = 'The <a href="{$a->link}">input-tests script</a> verifies that student\'s answers are interpreted by STACK correctly. They are also useful to learn by example how each answer-test can be used.';
-$string['stackInstall_input_intro'] = "This page allows you to test how STACK interprets various inputs from a student.  This currently only checks with the most liberal settings, trying to adopt an informal syntax an insert stars.";
-$string['phpvalid'] = 'PHP valid';
+$string['stackInstall_input_intro'] = "This page allows you to test how STACK interprets various inputs from a student.  This currently only checks with the most liberal settings, trying to adopt an informal syntax an insert stars.  <br />'V' columns record validity as judged by PHP and the CAS.  V1 = PHP valid, V2 = CAS valid.";
+$string['phpvalid'] = 'V1';
 $string['phpcasstring'] = 'PHP output';
 $string['phpsuitecolerror'] = 'PHP errors';
-$string['expectedcasvalid'] = 'CAS valid';
+$string['phpvalidatemismatch'] = '[PHP validate mismatch]';
+$string['casvalidatemismatch'] = '[CAS validate mismatch]';
+$string['casvalid'] = 'V2';
+$string['casvalue'] = 'CAS value';
+$string['casdisplay'] = 'CAS display';
+$string['cassuitecolerrors'] = 'CAS errors';
 
 $string['texdisplayedbracket'] = 'Displayed bracket';
 $string['texinlinebracket'] = 'Inline bracket';
@@ -142,6 +147,10 @@ $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
+$string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
+$string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
+//TODO add this to STACK....
+//$string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
 
 // Answer tests
 $string['stackOptions_AnsTest_values_AlgEquiv']           =  "AlgEquiv";

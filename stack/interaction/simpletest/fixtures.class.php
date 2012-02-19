@@ -46,7 +46,7 @@ class stack_inputvalidation_test_data {
         array('.1', 'php_true', '.1', 'cas_true', "This is an option."),
         array('1/2', 'php_true', '1/2', 'cas_true', ""),
         array('2/4', 'php_true', '2/4', 'cas_true', "Rejecting this as 'invalid' not 'wrong' is a question option."),
-        array('1/0', 'php_true', '1/0', 'cas_true', ""),
+        array('1/0', 'php_true', '1/0', 'cas_false', ""),
         array('pi', 'php_true', 'pi', 'cas_true', ""),
         array('e', 'php_true', 'e', 'cas_true', "Cannot easily make \(e\) a variable name."),
         array('i', 'php_true', 'i', 'cas_true', "Options to make i a variable, or a vector unit.  Note this is not italic."),
@@ -90,9 +90,9 @@ class stack_inputvalidation_test_data {
         array('x or y', 'php_false', '', '', ""),
         array('x xor y', 'php_false', '', '', ""),
         array('x isa "number"', 'php_false', '', '', ""),
-        array('x && y', 'php_false', 'x && y', '', ""),
-        array('x || y', 'php_false', 'x || y', '', ""),
-        array('x | y', 'php_false', 'x | y', '', ""),
+        array('x && y', 'php_true', 'x && y', '', ""),
+        array('x || y', 'php_true', 'x || y', '', ""),
+        array('x | y', 'php_true', 'x | y', '', ""),
         array('x * y', 'php_true', 'x * y', 'cas_true', "Operations: There are options on how this is displayed, either as \(x\cdot y\), \(x\\times y\), or as \(x\, y\)."),
         array('x + y', 'php_true', 'x + y', 'cas_true', ""),
         array('x - y', 'php_true', 'x - y', 'cas_true', ""),
@@ -102,7 +102,7 @@ class stack_inputvalidation_test_data {
         array('x > y', 'php_true', 'x > y', 'cas_true', ""),
         array('x = y', 'php_true', 'x = y', 'cas_true', ""),
         array('x!', 'php_true', 'x!', 'cas_true', ""),
-        array('!x', 'php_false', '', '', ""),
+        array('!x', 'php_true', '!x', 'cas_false', ""),
         array('x_1', 'php_true', 'x_1', 'cas_true', ""),
         array('x_y', 'php_true', 'x_y', 'cas_true', ""),
         array('x <= y', 'php_true', 'x <= y', 'cas_true', "Only single inequalities are currently acceptable."),
@@ -112,7 +112,7 @@ class stack_inputvalidation_test_data {
         array('y*', 'php_false', 'y*', '', ""),
         array('x^', 'php_flase', 'x^', '', ""),
         array('x and', 'php_false', '', '', ""),
-        array('!', 'php_false', '', '', ""),
+        array('!', 'php_true', '!', '', ""),
         array('sin', 'php_true', 'sin', 'cas_true', "This names the operator sine, which is a valid expression on its own.  Maybe a 'gocha' for the question author...."),
         array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true', "Check display: brackets only go round operands when strictly necessary"),
         array('x+(y^z)', 'php_true', 'x+(y^z)', 'cas_true', ""),
@@ -126,9 +126,9 @@ class stack_inputvalidation_test_data {
         array('(1+i)+x', 'php_true', '(1+i)+x', 'cas_true', ""),
         array('(x)', 'php_true', '(x)', 'cas_true', "Brackets"),
         array('((x))', 'php_true', '((x))', 'cas_true', ""),
-        array('(()x)', 'php_true', '(()x)', 'cas_true', ""),
-        array('()x', 'php_true', '()x', 'cas_true', ""),
-        array('x()', 'php_true', 'x()', 'cas_true', ""),
+        array('(()x)', 'php_true', '(()*x)', 'cas_false', ""),
+        array('()x', 'php_true', '()*x', 'cas_false', ""),
+        array('x()', 'php_true', 'x*()', 'cas_false', ""),
         array('(', 'php_false', '', '', "Brackets"),
         array(')', 'php_false', '', '', ""),
         array('[', 'php_false', '', '', ""),
@@ -142,7 +142,7 @@ class stack_inputvalidation_test_data {
         array('f(x))', 'php_false', '', '', ""),
         array('[x', 'php_false', '', '', ""),
         array('x]', 'php_false', '', '', ""),
-        array('([x)]', 'php_false', '', '', ""),
+        array('([x)]', 'php_false', '([x)]', '', ""),
         array('{x', 'php_false', '', '', ""),
         array('alpha', 'php_true', 'alpha', 'cas_true', "Greek letters - quite a few have meanings in Maxima already."),
         array('beta', 'php_true', 'beta', 'cas_true', "The beta function is defined as $\gamma(a) \gamma(b)/\gamma(a+b)$."),
@@ -206,7 +206,7 @@ class stack_inputvalidation_test_data {
         array('sqr(x)', 'php_true', 'sqr(x)', 'cas_true', ""),
         array('sqrt(x)', 'php_true', 'sqrt(x)', 'cas_true', "There is an option to display this as \(x^{1/2}|\)."),
         array('gcf(x,y)', 'php_true', 'gcf(x,y)', 'cas_true', ""),
-        array('gcd(x,y)', 'php_true', 'gcd(x,y)', 'cas_true', "Don't understand why this is evaluated..."),
+        array('gcd(x,y)', 'php_true', 'gcd(x,y)', 'cas_true', "Don't understand why this is evaluated by Maxima..."),
         array('sgn(x)', 'php_true', 'sgn(x)', 'cas_true', ""),
         array('sign(x)', 'php_true', 'sign(x)', 'cas_true', ""),
         array('len(x)', 'php_true', 'len(x)', 'cas_true', ""),
@@ -321,11 +321,6 @@ class stack_inputvalidation_test_data {
         $el->set_parameter('sameType', false);
         $cs = $el->validate_student_response($test->rawstring);
 
-/*
-        echo "<pre>";
-        print_r($cs);
-        echo "</pre>";
-*/
         $phpvalid     = $cs->get_valid();
         if ($phpvalid) {
         // Trim off stack_validate_typeless([..],true,true)
@@ -349,13 +344,44 @@ class stack_inputvalidation_test_data {
         $passed = true;
         if ($phpvalid != $expected) {
             $passed = false;
-            $errors .= '';
+            $errors .= stack_string('phpvalidatemismatch');
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
             $errors .= " <span class='SyntaxExample2'>".$phpcasstring."</span>".'\(\neq \)'."<span class='SyntaxExample2'>".$test->phpcasstring."</span>";
         }
-        
-        return array($passed, $phpvalid, $phpcasstring, $errors);
+
+        $casvalid = '';
+        $caserrors = '';
+        $casvalue = '';
+        $casdisplay = '';
+        if ($cs->get_valid()) {
+            $options = new stack_options();
+            $options->set_option('simplify', false);
+
+            $session = new stack_cas_session(array($cs), $options);
+            $session -> instantiate();
+            $session = $session->get_session();
+            $cs = $session[0];
+            $caserrors = stack_maxima_translate($cs->get_errors());
+            $casvalue = "<span class='SyntaxExample2'>".$cs->get_value()."</span>";
+            if ('cas_true'==$test->casvalid) {
+                $casexpected = true;
+            } else {
+                $casexpected = false;
+            }
+            if ('' == $cs->get_value()) {
+                $casvalid = false;
+            } else {
+                $casvalid = true;
+            }
+            if ($casexpected != $casvalid) {
+                $passed = false;
+                $caserrors .= stack_string('casvalidatemismatch');
+            }
+            $casdisplay = $cs->get_display();
+        }
+
+        return array($passed, $phpvalid, $phpcasstring, $errors, $casvalid, $caserrors, $casdisplay, $casvalue);
     }
 }

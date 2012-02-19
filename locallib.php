@@ -41,3 +41,25 @@ function stack_trans() {
         echo $return;
     }
 }
+
+function stack_maxima_translate($rawfeedback) {
+
+    if (strpos($rawfeedback, 'stack_trans') === false) {
+        return trim($rawfeedback);
+    } else {
+        //echo "<br />Raw string:<pre>$rawfeedback</pre>";
+        $rawfeedback = str_replace('[[', '', $rawfeedback);
+        $rawfeedback = str_replace(']]', '', $rawfeedback);
+        $rawfeedback = str_replace('\n', '', $rawfeedback);
+        $rawfeedback = str_replace('\\', '\\\\', $rawfeedback);
+        $rawfeedback = str_replace('$', '\$', $rawfeedback);
+        $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
+
+        ob_start();
+        eval($rawfeedback);
+        $translated = ob_get_contents();
+        ob_end_clean();
+
+        return trim($translated);
+    }
+}

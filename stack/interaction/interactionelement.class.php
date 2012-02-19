@@ -15,7 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(__FILE__) . '/../../locallib.php');
+require_once(dirname(__FILE__) . '/../options.class.php');
 require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
+require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
 
 /**
  * The base class for interaction elements.
@@ -202,7 +204,11 @@ class stack_interaction_element {
      * @param string
      * @return stack_cas_casstring
      */
-    public function validate_student_response($sans) {
+    public function validate_student_response($sans, $options) {
+
+        if (!is_a($options, 'stack_options')) {
+            throw new Exception('stack_interaction_element: validate_student_response: options not of class stack_options');
+        }
 
         $transformedanswer = $this->transform($sans);
 
@@ -216,7 +222,7 @@ class stack_interaction_element {
         } else {
             $syntax = true;
         }
-        
+
         $answer = new stack_cas_casstring($transformedanswer, $security='s', $syntax, $insertstars);
 
         if (array_key_exists('forbidWords', $this->parameters)) {
@@ -224,7 +230,7 @@ class stack_interaction_element {
                 $keywords = explode(',', $this->parameters['forbidWords']);
                 $answer->check_external_forbidden_words('forbidWords');
             }
-        }        
+        }
 
         if (array_key_exists('forbidFloats', $this->parameters)) {
             $forbidfloats = $this->parameters['forbidFloats'];
@@ -242,11 +248,55 @@ class stack_interaction_element {
                 $tans = $this->teacheranswer;
             }
         }
-        $answer->set_cas_validation_casstring($this->name, $forbidfloats, $lowestterms, $tans);
 
-        return $answer;
+        $valid = $answer->get_valid();
+        $errors = $answer->get_errors();
+        // If we can't get a "displayed value" back from the CAS, show the student their original expression.
+        $display = stack_maxima_format_casstring($sans);'. ';
+        // Send the string to the CAS.
+        if ($valid) {
+            $answer->set_cas_validation_casstring($this->name, $forbidfloats, $lowestterms, $tans);
+            $options->set_option('simplify', false);
+
+            // TODO: refactor all this as an answer test?
+            $session = new stack_cas_session(array($answer), $options);
+            $session -> instantiate();
+            $session = $session->get_session();
+            $answer = $session[0];
+            $errors = stack_maxima_translate($answer->get_errors());
+            if ('' == $answer->get_value()) {
+                $valid = false;
+            } else {
+                $display = '\[ '.$answer->get_display().'. \]';
+            }
+        }
+
+        $feedback = $this->generate_validation_feedback($valid, $display, $errors);
+        return array($valid, $feedback);
     }
 
+    private function generate_validation_feedback($valid, $display, $errors) {
+        if (array_key_exists('hideFeedback', $this->parameters)) {
+            $hidefeedback = $this->parameters['hideFeedback'];
+        } else {
+            $hidefeedback = false;  // This should be an exception...
+        }
+        if ($hidefeedback && $valid) {
+            return '';
+        }
+
+        $feedback  = '<div class="InteractionElementFeedback">';
+        $feedback .= '<p class="studentFeedback">'.stack_string('studentValidation_yourLastAnswer').$display.'</p>';
+        if (!$valid) {
+            $feedback .= '<span class="studentFeedback">'.stack_string('studentValidation_invalidAnswer').'</span>';
+        }
+        if ('' != $errors) {
+            $feedback .= '<span class="studentFeedback">'.$errors.'</span>';
+        }
+        $feedback .= '</div>';
+        return $feedback;
+    }
+    
     /**
      * Transforms the student's input into a casstring if needed. From most returns same as went in.
      *

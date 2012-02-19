@@ -67,20 +67,23 @@ class stack_interaction_boolean_test extends UnitTestCase {
     }
 
     public function test_validate_student_response_true() {
+        $options = new stack_options();
         $el = stack_interaction_controller::make_element('boolean', 'sans1', 'true');
-        $cs = $el->validate_student_response('true');
-        $this->assertTrue($cs->get_valid());
+        list ($valid, $feedback) = $el->validate_student_response('true', $options);
+        $this->assertTrue($valid);
     }
 
     public function test_validate_student_response_false() {
+        $options = new stack_options();
         $el = stack_interaction_controller::make_element('boolean', 'sans1', 'true');
-        $cs = $el->validate_student_response('false');
-        $this->assertTrue($cs->get_valid());
+        list ($valid, $feedback) = $el->validate_student_response('false', $options);
+        $this->assertTrue($valid);
     }
 
     public function test_validate_student_response_na() {
+        $options = new stack_options();
         $el = stack_interaction_controller::make_element('boolean', 'sans1', 'true');
-        $cs = $el->validate_student_response('');
-        $this->assertFalse($cs->get_valid());
+        list ($valid, $feedback) = $el->validate_student_response('', $options);
+        $this->assertFalse($valid);
     }
 }

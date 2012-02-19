@@ -55,3 +55,36 @@ body.path-question-type-stack h2.pass {
     font-weight: bold;
 }
 
+/*feedback to student */
+
+div.InteractionElementFeedback{
+    background-color: #FFFF99;
+    border: 1px solid #EEEE66;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.2em;
+    width: 80%;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+/*Make the paragraph have only a single line break between paragraphs*/
+p.studentFeedback{
+    margin: 0em;
+}
+
+/*PRT feedback */
+div.PRTFeedback{
+    border: 1px solid #ccf;
+    background-color: #ddf;
+    width: 80%;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.2em;
+
+
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    padding-bottom: 0.2em;
+    /*Top has enough padding with the <h3>tag */
+}

@@ -316,6 +316,7 @@ class stack_inputvalidation_test_data {
 
     public static function run_test($test) {
         $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x');
+        // TODO: expose these options to the teacher>
         $el->set_parameter('insertStars', true);
         $el->set_parameter('strictSyntax', false);
         $el->set_parameter('sameType', false);

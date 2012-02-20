@@ -305,9 +305,9 @@ class stack_cas_maxima_connector {
             $uplocs = '';
         }
 
-        $rawlocals = $this->maxima_unpack_helper($uplocs);
         // Now we need to turn the (error,key,value,display) tuple into an array
-        foreach ($rawlocals as $var => $valdval) {
+        $locals = array();
+        foreach ($this->maxima_unpack_helper($uplocs) as $var => $valdval) {
             if (is_array($valdval)) {
                 $errors["CAS"] = "CAS failed to generate any useful output.";
             } else {

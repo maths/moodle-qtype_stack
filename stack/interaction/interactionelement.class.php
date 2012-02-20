@@ -79,6 +79,9 @@ class stack_interaction_element {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $this->parameters = $this->get_parameters_defaults();
+        if (is_null($parameters)) {
+            $parameters = array();
+        }
         foreach ($parameters as $name => $value) {
             if (!array_key_exists($name, $this->parameters)) {
                 // Parameter not recognised.

@@ -35,25 +35,75 @@ $context = context_system::instance();
 require_capability('moodle/site:config', $context);
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/test.php');
-$title = 'Display test Stack question';
+$title = 'Stack test questions';
 $PAGE->set_title($title);
 
-$testquestions = test_question_maker::get_test_helper('stack')->get_test_questions();
-$testquestions = array_combine($testquestions, $testquestions);
+// Make sure the global question category exists.
+$category = $DB->get_record('question_categories', array('contextid' => $context->id, 'name' => 'Stack test questions'));
+if (!$category) {
+    $category = new stdClass();
+    $category->name = 'Stack test questions';
+    $category->contextid = $context->id;
+    $category->info = '';
+    $category->infoformat = FORMAT_HTML;
+    $category->stamp = make_unique_id_code();
+    $category->parent = 0;
+    $category->sort = 999;
+    $category->id = $DB->insert_record('question_categories', $category);
+}
 
-$options = new question_display_options();
-$q = test_question_maker::make_question('stack', $question);
-$quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
-$quba->set_preferred_behaviour('deferredfeedback');
-$slot = $quba->add_question($q, 1);
-$quba->start_question($slot);
+// See what existing and expected question definitions we have.
+$existing = $DB->get_records('question', array('qtype' => 'stack', 'category' => $category->id),
+        'questiontext', 'questiontext, id');
+$known = test_question_maker::get_test_helper('stack')->get_test_questions();
+
+// Create any missing ones.
+foreach ($known as $name) {
+    if (array_key_exists($name, $existing)) {
+        continue;
+    }
+    $question = new stdClass();
+    $question->id = 0;
+    $question->category = $category->id;
+    $question->parent = 0;
+    $question->qtype = 'stack';
+    $question->name = 'Fake Stack question ' . $name;
+    $question->questiontext = $name;
+    $question->questiontextformat = FORMAT_HTML;
+    $question->generalfeedback = '';
+    $question->generalfeedbackformat = FORMAT_HTML;
+    $question->defaultmark = 1;
+    $question->penalty = 0.3333333;
+    $question->length = 1;
+    $question->stamp = make_unique_id_code();
+    $question->version = make_unique_id_code();
+    $question->hidden = 0;
+    $question->timecreated = time();
+    $question->timemodified = time();
+    $question->createdby = $USER->id;
+    $question->modifiedby = $USER->id;
+    $question->id = $DB->insert_record('question', $question);
+    $existing[$name] = $question;
+}
+ksort($existing);
+
+// Prepare some bits for output.
+$qburl = new moodle_url('/question/edit.php', array('courseid' => $PAGE->course->id,
+        'category' => $category->id . ',' . $context->id));
+$previewurl = new moodle_url('/question/preview.php', array('courseid' => $PAGE->course->id));
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-echo html_writer::tag('p', 'Which question do you want to display: ' .
-        $OUTPUT->single_select($PAGE->url, 'question', $testquestions, $question));
+echo html_writer::tag('p', 'These faked Stack questions can also be found in ' .
+        html_writer::link($qburl, 'the top level of the question bank') . '.');
 
-echo $quba->render_question($slot, $options);
+echo html_writer::start_tag('ul');
+foreach ($existing as $name => $q) {
+    echo html_writer::tag('li', html_writer::tag('b', $name) . ' ' .
+            html_writer::link(new moodle_url($previewurl, array('id' => $q->id)),
+                    '[preview]'));
+}
+echo html_writer::end_tag('ul');
 
 echo $OUTPUT->footer();

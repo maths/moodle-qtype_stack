@@ -136,9 +136,9 @@ $table->finish_output();
 // Overall summary.
 if ($anstest) {
     if ($allpassed) {
-       echo $OUTPUT->heading(stack_string('stackInstall_testsuite_pass'), 2, 'pass');
+        echo $OUTPUT->heading(stack_string('stackInstall_testsuite_pass'), 2, 'pass');
     } else {
-       echo $OUTPUT->heading(stack_string('stackInstall_testsuite_fail'), 2, 'fail');
+        echo $OUTPUT->heading(stack_string('stackInstall_testsuite_fail'), 2, 'fail');
     }
 }
 

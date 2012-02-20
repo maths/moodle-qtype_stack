@@ -90,7 +90,7 @@ class stack_utils_test extends UnitTestCase {
         $this->assertEqual('$goodbye$ $all$!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('goodbye', 'all')));
 
         $this->expectException();
-        $this->assertEqual('goodbye all!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('goodbye', 'all', 'oops')));
+        $this->assertEqual('goodbye all!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('1', '2', '3')));
     }
 
     public function test_underscore() {

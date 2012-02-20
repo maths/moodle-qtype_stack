@@ -43,7 +43,8 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $tans
      * @param  string $casoption
      */
-    public function __construct($sans, $tans, $casfunction, $requirecasoptions=false, $casoption = null, $options=null, $simp=null) {
+    public function __construct($sans, $tans, $casfunction, $requirecasoptions = false,
+            $casoption = null, $options = null, $simp = null) {
         parent::__construct($sans, $tans, $options, $casoption);
 
         if (!is_bool($requirecasoptions)) {
@@ -75,7 +76,8 @@ class stack_answertest_general_cas extends stack_anstest {
                 $this->ATValid      = false;
                 return null;
             } else {
-                $ct  = new stack_cas_casstring($this->ATOption, 't', true, true); //validate with teacher privileges, strict syntax & no automatically adding stars.
+                //validate with teacher privileges, strict syntax & no automatically adding stars.
+                $ct  = new stack_cas_casstring($this->ATOption, 't', true, true);
 
                 if (!$ct->get_valid()) {
                     $this->ATError      = 'TEST_FAILED';

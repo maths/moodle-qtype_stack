@@ -85,6 +85,10 @@ class stack_cas_session {
 
     function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
+        if (is_null($session)) {
+            $session = array();
+        }
+
         $this->session     = $session;     // An array of stack_cas_casstring
         $this->security    = $security;    // by default, student
         $this->insertstars = $insertstars; // by default don't add insertstars

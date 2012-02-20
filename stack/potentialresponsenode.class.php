@@ -92,7 +92,7 @@ class stack_potentialresponse_node {
 
     /**
      * Add information into each branch
-
+     *
      * @param int $trueorfalse 0 or 1, which branch to set.
      * @param string $mod mark modification method. One of the values recognised by {@link update_mark()}
      * @param float $mark mark value used by update_mark.

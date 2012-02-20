@@ -25,18 +25,6 @@ class stack_anstest_numrelative extends stack_anstest {
     /**
      *
      *
-     * @param  string $sans
-     * @param  string $tans
-     * @param  string $casoption
-     * @access public
-     */
-    public function __construct($sans, $tans, $options=null, $casoption = null) {
-        parent::__construct($sans, $tans, $options, $casoption);
-    }
-
-    /**
-     *
-     *
      * @return bool
      * @access public
      */

@@ -202,7 +202,7 @@ class stack_cas_text {
             return null;
         } else {
             //extract the CAS commands
-            $temp = stack_utils::getBetweenChars($this->trimmedcastext, '@'); //returns an array
+            $temp = stack_utils::all_substring_between($this->trimmedcastext, '@'); //returns an array
 
             //create array of commands matching with their labels
             $i = 0;
@@ -242,7 +242,7 @@ class stack_cas_text {
                 $this->session = $new_session;
 
                 // Now replace the commannds with their labels in the text.
-                $this->trimmedcastext = stack_utils::replaceBetween($this->trimmedcastext, '@', '@', $labels);
+                $this->trimmedcastext = stack_utils::replace_between($this->trimmedcastext, '@', '@', $labels);
             }
         }
     }

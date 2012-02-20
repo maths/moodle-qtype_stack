@@ -117,13 +117,14 @@ class stack_utils {
      * Gets the characters between two chars
      * Works throughout a string returning an array of matches
      *
-     * @param string $first the starting char to grab from
-     * @param string $last the char to stop at (optional, if missing searches till another $first char
-     * @return array of matchs without $first or $last pre/suffixes
+     * @param string $string the string to analyse.
+     * @param string $left the opening delimiter.
+     * @param string $right the closing delimiter. If omitted, uses $left.
+     * @return array of matches without $left or $right pre/suffixes
      */
-    static function getBetweenChars($string, $first, $last=null) {
-        if ($last == null) {
-            $last = $first;
+    static function all_substring_between($string, $left, $right = null) {
+        if ($right == null) {
+            $right = $left;
         }
 
         $char = str_split($string);
@@ -136,17 +137,17 @@ class stack_utils {
         while ($i < $length) {
             if ($start == false) {
                 //find starting @
-                if ($char[$i] == $first) {
+                if ($char[$i] == $left) {
                     $start = true;
                     $found .= $char[$i];
                 }
             } else {
                 //we have the first @ find ending @
-                if ($char[$i] == $last) {
+                if ($char[$i] == $right) {
                     //end of cas command found
                     $found .= $char[$i];
-                    $found = str_replace($first, '', $found);
-                    $found = str_replace($last, '', $found);
+                    $found = str_replace($left, '', $found);
+                    $found = str_replace($right, '', $found);
                     $found = trim($found);
                     $var[$j] = $found;
                     $j++;
@@ -162,75 +163,73 @@ class stack_utils {
     }
 
     /**
-     * Replaces the text between startchar and endchar with the next string from the array
+     * Replaces the text between $left and $right with the next string from the array.
+     * If the number of replacements does not match the number of strings to
+     * replaces, an exception is thrown.
      *
-     * @param char $startChar the begining char to match against
-     * @param char $endChar the end character of the replacement
-     * @param array $replacements array of replacement strings, must equal the number of replacements
-     * if the number of replacements does not match the number of strings to replaces, nothing is replaced
+     * @param string $string the string to analyse.
+     * @param string $left the opening delimiter.
+     * @param string $right the closing delimiter. If omitted, uses $left.
+     * @param array $replacements array of replacement strings, must equal the
+     * number of replacements.
      * @return string
      */
-    static function replaceBetween($string, $startChar, $endChar, $replacements) {
-        //do error checking
-        $noSC = substr_count($string, $startChar);
-        $noEC = substr_count($string, $endChar);
-        $no = count($replacements);
-        $valid = true;
-        if ($startChar == $endChar) {
-            if ($no != ($noSC /2)) {
-                $valid = false;
+    static function replace_between($string, $left, $right, $replacements) {
+        // Do error checking
+        $leftcount = substr_count($string, $left);
+        $rightcount = substr_count($string, $right);
+        $replacecount = count($replacements);
+        if ($left == $right) {
+            if (2 * $replacecount != $leftcount) {
+                throw new Exception('replace_between: wrong number of replacements');
             }
         } else {
-            if (($noSC != $noEC) || ($no != $noSC)) {
-                $valid = false;
+            if (($leftcount != $rightcount) || ($replacecount != $leftcount)) {
+                throw new Exception('replace_between: wrong number of replacements or delimiters don\'t match.');
             }
         }
 
-        if ($valid) {
-            $toReturn = '';
-            $matches = 0;
-            $char = str_split($string);
-            $length = count($char);
-            $i = 0;
-            $searching = true;
-            while ($i < $length) {
-                if ($searching) {
-                    //trying to find startChar
-                    if ($char[$i] == $startChar) {
-                        $searching = false;
-                        $toReturn .= $char[$i];
-                        $toReturn .= $replacements[$matches];
-                        $matches++;
-                    } else {
-                        $toReturn .= $char[$i];
-                    }
+        $result = '';
+        $matches = 0;
+        $char = str_split($string);
+        $length = count($char);
+        $i = 0;
+        $searching = true;
+        while ($i < $length) {
+            if ($searching) {
+                //trying to find startChar
+                if ($char[$i] == $left) {
+                    $searching = false;
+                    $result .= $char[$i];
+                    $result .= $replacements[$matches];
+                    $matches++;
                 } else {
-                    //found startChar, looking for end
-                    if ($char[$i] == $endChar) {
-                        $searching = true;
-                        $toReturn .= $char[$i];
-                    }
+                    $result .= $char[$i];
                 }
-                $i++;
+            } else {
+                //found startChar, looking for end
+                if ($char[$i] == $right) {
+                    $searching = true;
+                    $result .= $char[$i];
+                }
             }
-        }//if
-        return $toReturn;
+            $i++;
+        }
+        return $result;
     }
 
-
     /**
-     * Removes spaces & hyphens from a string, replacing with an underscore character
+     * Removes spaces, hyphens, and optionally other character from a string,
+     * replacing them with an underscore characters.
      *
-     * @access public
-     * @param array (Optional) additional characters to convert to underscores
+     * @param string the string to process.
+     * @param array (Optional) additional characters to convert to underscores.
+     * @return string with characters replaced.
      */
-    public static function underscore($string, $additional=null) {
-        $toReturn = str_replace('-', '_', $string);
-        $toReturn = str_replace(' ', '_', $toReturn);
-        if ($additional != null) {
-            $toReturn = str_replace($additional, '_', $toReturn);
-        }
-        return $toReturn;
+    public static function underscore($string, $toreplace = array()) {
+        $toreplace[] = '-';
+        $toreplace[] = ' ';
+        return str_replace($toreplace, '_', $string);
     }
 
     /**

@@ -38,6 +38,20 @@ class stack_utils_test extends UnitTestCase {
         $this->assertTrue(stack_utils::check_matching_pairs('', '$'));
     }
 
+    public function test_check_bookends() {
+        $this->assertIdentical('left', stack_utils::check_bookends('x+1)^2', '(', ')'));
+        $this->assertIdentical('right', stack_utils::check_bookends('(x+1', '(', ')'));
+        $this->assertIdentical('left', stack_utils::check_bookends('(y^2+1))', '(', ')'));
+        $this->assertIdentical('left', stack_utils::check_bookends('[sin(x)+1)', '(', ')'));
+        $this->assertIdentical('right', stack_utils::check_bookends('[sin(x)+1)', '[', ']'));
+        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '(', ')'));
+        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '[', ']'));
+        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '{', '}'));
+        $this->assertIdentical(true, stack_utils::check_bookends('(sin(x)+1)', '[', ']'));
+        $this->assertIdentical(true, stack_utils::check_bookends('(sin(x)+1)', '(', ')'));
+        $this->assertIdentical(true, stack_utils::check_bookends('[sin(x)+1)', '{', '}'));
+    }
+
     public function test_substring_between() {
         $this->assertEqual(array('[hello]', 0, 6), stack_utils::substring_between('[hello] world!', '[', ']'));
         $this->assertEqual(array('[world]', 6, 12), stack_utils::substring_between('hello [world]!', '[', ']'));
@@ -53,17 +67,34 @@ class stack_utils_test extends UnitTestCase {
         $this->assertEqual(array('[[[]w[o]r[[l]d]]]', 6, 22), stack_utils::substring_between('hello [[[]w[o]r[[l]d]]]!', '[', ']'));
     }
 
-    public function test_check_bookends() {
-        $this->assertIdentical('left', stack_utils::check_bookends('x+1)^2', '(', ')'));
-        $this->assertIdentical('right', stack_utils::check_bookends('(x+1', '(', ')'));
-        $this->assertIdentical('left', stack_utils::check_bookends('(y^2+1))', '(', ')'));
-        $this->assertIdentical('left', stack_utils::check_bookends('[sin(x)+1)', '(', ')'));
-        $this->assertIdentical('right', stack_utils::check_bookends('[sin(x)+1)', '[', ']'));
-        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '(', ')'));
-        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '[', ']'));
-        $this->assertIdentical(true, stack_utils::check_bookends('x+1', '{', '}'));
-        $this->assertIdentical(true, stack_utils::check_bookends('(sin(x)+1)', '[', ']'));
-        $this->assertIdentical(true, stack_utils::check_bookends('(sin(x)+1)', '(', ')'));
-        $this->assertIdentical(true, stack_utils::check_bookends('[sin(x)+1)', '{', '}'));
+    public function test_all_substring_between() {
+        $this->assertEqual(array(), stack_utils::all_substring_between('hello world!', '[', ']'));
+        $this->assertEqual(array('hello'), stack_utils::all_substring_between('[hello] world!', '[', ']'));
+        $this->assertEqual(array('hello', 'world'), stack_utils::all_substring_between('[hello] [world]!', '[', ']'));
+
+        $this->assertEqual(array(), stack_utils::all_substring_between('hello world!', '$'));
+        $this->assertEqual(array('hello'), stack_utils::all_substring_between('$hello$ world!', '$'));
+        $this->assertEqual(array('hello', 'world'), stack_utils::all_substring_between('$hello$ $world$!', '$'));
+
+        // This is current behaviour, but I am not sure it is correct.
+        $this->assertEqual(array('hello', 'wor'), stack_utils::all_substring_between('[he[llo] [wor]ld]!', '[', ']'));
+    }
+
+    public function test_replace_between() {
+        $this->assertEqual('hello world!', stack_utils::replace_between('hello world!', '[', ']', array()));
+        $this->assertEqual('[goodbye] world!', stack_utils::replace_between('[hello] world!', '[', ']', array('goodbye')));
+        $this->assertEqual('[goodbye] [all]!', stack_utils::replace_between('[hello] [world]!', '[', ']', array('goodbye', 'all')));
+
+        $this->assertEqual('hello world!', stack_utils::replace_between('hello world!', '$', '$', array()));
+        $this->assertEqual('$goodbye$ world!', stack_utils::replace_between('$hello$ world!', '$', '$', array('goodbye')));
+        $this->assertEqual('$goodbye$ $all$!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('goodbye', 'all')));
+
+        $this->expectException();
+        $this->assertEqual('goodbye all!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('1', '2', '3')));
+    }
+
+    public function test_underscore() {
+        $this->assertEqual('hello_world!', stack_utils::underscore('hello world!'));
+        $this->assertEqual('he_he_hello_world_', stack_utils::underscore('he-he-hello world!', array('!')));
     }
 }

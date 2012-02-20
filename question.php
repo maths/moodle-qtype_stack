@@ -64,16 +64,19 @@ class qtype_stack_question extends question_graded_automatically {
         $seed = time();
         $step->set_qt_var('_seed', $seed);
 
-        $questionvars = new stack_cas_keyval($this->questionvariables);
+        $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $seed, 't');
         $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $seed, 't', false, true);
+
+        //HACK - this represents my confusion between "question" and "render"...
+        $this->questiontext = $qtext->get_display_castext();
+        $step->set_qt_var('_questiontext', $qtext->get_display_castext());
+        $step->set_qt_var('_questiontext', $qtext->get_display_castext());
 
         if ($qtext->get_errors()) {
             //TODO better error trapping that this.
             throw new Exception('Error rendering question text: ' . $qtext->get_errors());
         }
 
-        $step->set_qt_var('_questiontext', $qtext->get_display_castext());
-        $step->set_qt_var('_session', $qtext->get_session());
     }
 
     public function apply_attempt_state(question_attempt_step $step) {

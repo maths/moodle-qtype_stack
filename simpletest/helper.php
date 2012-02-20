@@ -198,7 +198,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts = array();
 
-        $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans1)+ans1');
+        $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans1)+ans1', null, null, 't');
         $sans = new stack_cas_casstring('sa', 't');
         $tans = new stack_cas_casstring('0', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
@@ -207,7 +207,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['PotResTree_odd']     = new stack_potentialresponse_tree('PotResTree_odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
-        $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans2)-ans2');
+        $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans2)-ans2', null, null, 't');
         $sans = new stack_cas_casstring('sa', 't');
         $tans = new stack_cas_casstring('0', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);

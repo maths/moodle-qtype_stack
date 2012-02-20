@@ -140,7 +140,12 @@ class stack_cas_session {
             $this->valid = false;
             return false;
         }
-
+        if (empty($this->session)) {
+            $this->valid = true;
+            $this->session = null;
+            return true;
+        }
+        
         $this->valid = $this->validate_array($this->session);
 
         // Ensure the array is number ordered.  We use this later when getting back the values of expressions
@@ -386,6 +391,9 @@ class stack_cas_session {
         }
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
+        }
+        if (null === $this->session) {
+            return $strin;
         }
 
         foreach ($this->session as $casstr) {

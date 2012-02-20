@@ -18,12 +18,12 @@ function stack_string($key, $a = null) {
     return get_string($key, 'qtype_stack', $a);
 }
 
-/**
-* Translates a string taken as output from Maxima.
-*
-* This function takes a variable number of arguments, the first of which is assumed to be the identifier
-* of the string to be translated.
-*/
+ /**
+  * Translates a string taken as output from Maxima.
+  *
+  * This function takes a variable number of arguments, the first of which is assumed to be the identifier
+  * of the string to be translated.
+  */
 function stack_trans() {
     $nargs = func_num_args();
 
@@ -47,7 +47,6 @@ function stack_maxima_translate($rawfeedback) {
     if (strpos($rawfeedback, 'stack_trans') === false) {
         return trim($rawfeedback);
     } else {
-        //echo "<br />Raw string:<pre>$rawfeedback</pre>";
         $rawfeedback = str_replace('[[', '', $rawfeedback);
         $rawfeedback = str_replace(']]', '', $rawfeedback);
         $rawfeedback = str_replace('\n', '', $rawfeedback);

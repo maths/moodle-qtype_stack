@@ -71,8 +71,12 @@ class stack_cas_keyval_test extends UnitTestCase {
             $this->get_valid($case[0], $case[1], $case[2]);
         }
     }
-}
 
+    public function test_empty_case_1() {
+        $at1 = new stack_cas_keyval('', null, 123, 's', true, false);
+        $this->assertTrue($at1->get_valid());        
+    }
+}
 
 class stack_cas_keyval_exception_test extends UnitTestCase
 {

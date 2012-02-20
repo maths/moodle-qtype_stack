@@ -72,16 +72,20 @@ class stack_interaction_element {
      * @param string $default initial contets of the input.
      * @param int $maxLength limit on the maximum input length.
      * @param int $height height of the input.
-     * @param array $parameters some sort of options.
+     * @param array $parameters The options for this input. All the opitions have default
+     *      values, so you only have to give options that are different from the default.
      */
     public function __construct($name, $teacheranswer, $parameters = null) {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
-        if (is_null($parameters)) {
-            $this->parameters = $this->get_parameters_defaults();
-        } else {
-            // TODO validate incoming data here.
-            $this->parameters = $parameters;
+        $this->parameters = $this->get_parameters_defaults();
+        foreach ($parameters as $name => $value) {
+            if (!array_key_exists($name, $this->parameters)) {
+                // Parameter not recognised.
+                continue;
+            }
+            // TODO validate $value here.
+            $this->parameters[$name] = $value;
         }
     }
 

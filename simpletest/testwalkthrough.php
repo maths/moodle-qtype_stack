@@ -49,7 +49,7 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $this->check_current_mark(null);
         $this->check_current_output(
                 new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => 'ans1')),
-                new PatternExpectation('/What is /'),
+                new PatternExpectation('/Find/'),
                 new DoesNotContainTagWithAttributes('div', array('class' => 'interationfeedback')),
                 new DoesNotContainTagWithAttributes('div', array('class' => 'prtfeedback')),
                 $this->get_does_not_contain_feedback_expectation(),

@@ -27,6 +27,8 @@ require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/unittest/simpletestlib.p
 require_once($CFG->dirroot . '/question/engine/simpletest/helpers.php');
 
 
+$question = optional_param('question', null, PARAM_ALPHANUM);
+
 require_login();
 
 $context = context_system::instance();
@@ -36,9 +38,11 @@ $PAGE->set_url('/question/type/stack/test.php');
 $title = 'Display test Stack question';
 $PAGE->set_title($title);
 
+$testquestions = test_question_maker::get_test_helper('stack')->get_test_questions();
+$testquestions = array_combine($testquestions, $testquestions);
 
 $options = new question_display_options();
-$q = test_question_maker::make_question('stack');
+$q = test_question_maker::make_question('stack', $question);
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('deferredfeedback');
 $slot = $quba->add_question($q, 1);
@@ -46,6 +50,9 @@ $quba->start_question($slot);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
+
+echo html_writer::tag('p', 'Which question do you want to display: ' .
+        $OUTPUT->single_select($PAGE->url, 'question', $testquestions, $question));
 
 echo $quba->render_question($slot, $options);
 

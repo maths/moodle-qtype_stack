@@ -78,18 +78,18 @@ class stack_interaction_element {
     public function __construct($name, $teacheranswer, $parameters = null) {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
-        if (null === $parameters) {
-            $this->parameters = $this->get_parameters_defaults();
-        } else {
-            if (is_array($parameters)) {
-                foreach ($parameters as $name => $value) {
-                    if (!array_key_exists($name, $this->parameters)) {
-                        // Parameter not recognised.
-                        throw new Execption('stack_interaction_element: __construct: parameter '.$name.' is not a valid parameter name.');
-                    }
-                    // TODO validate $value here.
-                    $this->parameters[$name] = $value;
+        $this->parameters = $this->get_parameters_defaults();
+        if (!(null===$parameters || is_array($parameters))) {
+            throw new Exception('stack_interaction_element: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');
+        }
+        if (is_array($parameters)) {
+            foreach ($parameters as $name => $value) {
+                if (!array_key_exists($name, $this->parameters)) {
+                    // Parameter not recognised.
+                    throw new Exception('stack_interaction_element: __construct: parameter '.$name.' is not a valid parameter name.');
                 }
+                // TODO validate $value here.
+                $this->parameters[$name] = $value;
             }
         }
     }

@@ -210,6 +210,11 @@ class stack_interaction_element {
             throw new Exception('stack_interaction_element: validate_student_response: options not of class stack_options');
         }
 
+        if ('' == $sans) {
+            $status = '';
+            $feedback = '';
+            return array($status, $feedback);
+        }
         $transformedanswer = $this->transform($sans);
 
         if (array_key_exists('insertStars', $this->parameters)) {
@@ -225,6 +230,7 @@ class stack_interaction_element {
 
         $answer = new stack_cas_casstring($transformedanswer, $security='s', $syntax, $insertstars);
 
+        // TODO: we need to run this check over the names of the question variables....
         if (array_key_exists('forbidWords', $this->parameters)) {
             if ('' !=  $this->parameters['forbidWords']) {
                 $keywords = explode(',', $this->parameters['forbidWords']);
@@ -272,7 +278,15 @@ class stack_interaction_element {
         }
 
         $feedback = $this->generate_validation_feedback($valid, $display, $errors);
-        return array($valid, $feedback);
+        // TODO - deal with status.....
+        if ($valid) {
+            $status = 'valid';
+            $status = 'score'; //TODO status transitions.
+        } else {
+            $status = 'invalid';
+        }
+        $status = $valid;
+        return array($status, $feedback);
     }
 
     private function generate_validation_feedback($valid, $display, $errors) {

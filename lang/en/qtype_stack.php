@@ -271,3 +271,4 @@ $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are 
 $string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as ';
 $string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';
 
+$string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';

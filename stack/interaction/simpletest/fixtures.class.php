@@ -315,12 +315,16 @@ class stack_inputvalidation_test_data {
     }
 
     public static function run_test($test) {
-        $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x');
-        // TODO: expose these options to the teacher>
-        $el->set_parameter('insertStars', true);
-        $el->set_parameter('strictSyntax', false);
-        $el->set_parameter('sameType', false);
-        $cs = $el->validate_student_response($test->rawstring);
+        // Note: we would really like to do this, but want to pull apart the bits to 
+        // expose where the various errors occur.
+        //$el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x');
+        //$el->set_parameter('insertStars', true);
+        //$el->set_parameter('strictSyntax', false);
+        //$el->set_parameter('sameType', false);
+        //$cs = $el->validate_student_response($test->rawstring);
+
+        $cs= new stack_cas_casstring($test->rawstring, $security='s', false, true);
+        $cs->set_cas_validation_casstring('sans1', true, true, null);
 
         $phpvalid     = $cs->get_valid();
         if ($phpvalid) {
@@ -349,7 +353,7 @@ class stack_inputvalidation_test_data {
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
-            $errors .= ' '.stack_maxima_format_casstring($phpcasstring).' \(\neq \) '.stack_maxima_format_casstring($test);
+            $errors .= ' '.stack_maxima_format_casstring($phpcasstring).' \(\neq \) '.stack_maxima_format_casstring($test->phpcasstring);
         }
 
         $casvalid = '';

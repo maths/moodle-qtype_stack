@@ -37,22 +37,64 @@ class qtype_stack_renderer extends qtype_renderer {
         $question = $qa->get_question();
 
         $questiontext = $question->questiontext;
-        foreach ($question->interactions as $name => $interaction) {
-            // TODO: get the value of the current answer to put into the html.
-            $currentanswer = ''; //$qa->get_last_qt_var('answer');
-             $questiontext = str_replace("#{$name}#",
-                 $interaction->get_xhtml($currentanswer, $options->readonly), $questiontext);
+        if (empty($question->interactions)) {
+            $xhtml = '<div class="secondaryFeedback">'.stack_string('stackQuestion_noQuestionParts').'</div>'.$questiontext;
+        } else {
+            foreach ($question->interactions as $name => $interaction) {
+                // TODO: get the value of the current answer to put into the html.
+                $currentanswer = ''; //$qa->get_last_qt_var('answer');
+                $questiontext = str_replace("#{$name}#",
+                     $interaction->get_xhtml($currentanswer, $options->readonly), $questiontext);
 
-            // TODO see stack_old/lib/ui/DisplayItem.php.
-            $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", '', $questiontext);
+                list ($status, $iefeedback) = $interaction->validate_student_response($currentanswer, $question->options);
+                $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", $iefeedback, $questiontext);
+                $attemptstatus[$name] = $status;
+            }
+
+            foreach ($question->prts as $index => $prt) {
+                // TODO see stack_old/lib/ui/DisplayItem.php.
+                $requirednames = $prt->get_required_variables(array_keys($question->interactions));
+                if ($this->execute_prt($requirednames, $attemptstatus)) {
+                    list($feedback, $answernote, $errors, $valid, $mark, $penalty) = $prt->evaluate_response($questionvars, $options, $answers, $seed);
+                    if (!$valid) {
+                        $penalty = 0;
+                    }
+                    // TODO store the outcomes of the attempt..
+                    // TODO update the mark....
+                } else { // TODO...
+                    $feedback = '';
+                }
+                $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $feedback, $questiontext);
+            }
         }
-
-        foreach ($question->prts as $index => $prt) {
-            // TODO see stack_old/lib/ui/DisplayItem.php.
-            $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", '', $questiontext);
-        }
-
         return $question->format_text($questiontext, $question->questiontextformat,
                 $qa, 'question', 'questiontext', $question->id);
     }
+
+    /**
+     * Decides if the potential response tree should be executed.
+     */
+    private function execute_prt($requirednames, $attemptstatus) {
+        $execute = true;
+        foreach ($requirednames as $name) {
+            if (array_key_exists ($name, $attemptstatus)) {
+                if ('score' != $attemptstatus[$name]) {
+                    $execute = false;
+                }
+            } else {
+                $execute = false;
+            }
+        }
+        return $execute;
+    }
+    /**
+     * Tests whether the interaction element exists inside a math region.
+     */
+    private function is_inside_maths($ie, $string) {
+        // remove all delimited regions and see if $ie remains in $string
+        $patterns = array('/\\$\\$(.+?)\\$\\$/', '/\\$(.+?)\\$/', '/\\\\\[(.+?)\\\\\]/', '/\\\\\((.+?)\\\\\)/');
+        $string = preg_replace($patterns, '', $string);
+        return strpos($string, $ie) === true;
+    }
+    
 }

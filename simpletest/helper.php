@@ -47,7 +47,7 @@ class qtype_stack_test_helper extends question_test_helper {
         test_question_maker::initialise_a_question($q);
 
         $q->name = 'Stack question: test0';
-        $q->questionvariables = 'n=rand(3)+2; m=n+rand(3)+2; ta=n+m';
+        $q->questionvariables = 'n=4; m=2; ta=n+m';
         $q->questiontext = 'What is $@n@+@m@$? #ans1#
                            <IEfeedback>ans1</IEfeedback>
                            <PRTfeedback>firsttree</PRTfeedback>';

@@ -34,7 +34,7 @@ class qtype_stack_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         $question = $qa->get_question();
 
-        $questiontext = $question->questiontext;
+        $questiontext = $question->get_qt_var('_questiontext');
         if (empty($question->interactions)) {
             $xhtml = '<div class="secondaryFeedback">'.stack_string('stackQuestion_noQuestionParts').'</div>'.$questiontext;
         } else {
@@ -94,5 +94,5 @@ class qtype_stack_renderer extends qtype_renderer {
         $string = preg_replace($patterns, '', $string);
         return strpos($string, $ie) === true;
     }
-    
+
 }

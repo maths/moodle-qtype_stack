@@ -40,11 +40,6 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
 class qtype_stack_question extends question_graded_automatically {
 
     /**
-     * @var int STACK specific: seeds Maxima's random number generator.
-     */
-    public $seed;
-
-    /**
      * @var array STACK specific: string name as it appears in the question text => stack_interaction_element
      */
     public $interactions;
@@ -53,11 +48,6 @@ class qtype_stack_question extends question_graded_automatically {
      * @var string STACK specific: variables, as authored by the teacher.
      */
     public $questionvariables;
-
-    /**
-    * @var stack_cas_session Stores STACK specific: the variables actually created by the question.
-    */
-    public $session;
 
     /**
      * @var array stack_potentialresponse_tree STACK specific: respones tree number => ...
@@ -72,14 +62,13 @@ class qtype_stack_question extends question_graded_automatically {
     public function start_attempt(question_attempt_step $step, $variant) {
 
         $seed = time();
-        $this->seed = $seed;
+        $step->set_qt_var('_seed') = $seed;
 
         $questionvars = new stack_cas_keyval($this->questionvariables);
         $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $seed, 't', false, true);
         //TODO error trapping if a question version breaks things.
-        //TODO should we over write $this->questiontext or use another field here?
-        $this->questiontext = $qtext->get_display_castext();
-        $this->session = $qtext->get_session();
+        $step->set_qt_var('_questiontext', $qtext->get_display_castext());
+        $step->set_qt_var('_session', $qtext->get_session());
     }
 
     public function apply_attempt_state(question_attempt_step $step) {
@@ -121,4 +110,12 @@ class qtype_stack_question extends question_graded_automatically {
     public function grade_response(array $response) {
         return array(0, question_state::$gradedwrong);
     }
+
+    /**
+     * @return int the number of vaiants that this question has.
+     */
+    public function get_num_variants() {
+        return 1; //TODO
+    }
+
 }

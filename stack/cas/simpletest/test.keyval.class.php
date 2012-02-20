@@ -74,8 +74,7 @@ class stack_cas_keyval_test extends UnitTestCase {
 }
 
 
-class stack_cas_keyval_exception_test
-extends UnitTestCase
+class stack_cas_keyval_exception_test extends UnitTestCase
 {
     public function test_exception_1() {
         $this->expectException();

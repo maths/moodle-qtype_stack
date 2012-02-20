@@ -66,7 +66,12 @@ class qtype_stack_question extends question_graded_automatically {
 
         $questionvars = new stack_cas_keyval($this->questionvariables);
         $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $seed, 't', false, true);
-        //TODO error trapping if a question version breaks things.
+
+        if ($qtext->get_errors()) {
+            //TODO better error trapping that this.
+            throw new Exception('Error rendering question text: ' . $qtext->get_errors());
+        }
+
         $step->set_qt_var('_questiontext', $qtext->get_display_castext());
         $step->set_qt_var('_session', $qtext->get_session());
     }

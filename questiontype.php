@@ -35,4 +35,15 @@ require_once($CFG->libdir . '/questionlib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack extends question_type {
+
+    public function make_question($questiondata) {
+        global $CFG;
+        require_once($CFG->libdir . '/questionlib.php');
+        require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/unittest/simpletestlib.php');
+        require_once($CFG->dirroot . '/question/engine/simpletest/helpers.php');
+        $q = test_question_maker::make_question('stack', $questiondata->questiontext);
+        $q->id = $questiondata->id;
+        $q->category = $questiondata->category;
+        return $q;
+    }
 }

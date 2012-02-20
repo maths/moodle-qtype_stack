@@ -165,7 +165,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         test_question_maker::initialise_a_question($q);
 
-        $q->name = 'test-2';
+        $q->name = 'test-3';
         $q->questionvariables = '';
         $q->questiontext = '<p>1. Give an example of an odd function by typing
                                   an expression which represents it.
@@ -204,7 +204,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, '', -1, '', 'odd-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'odd-0-1');
-        $q->prts['PotResTree_odd']     = new stack_potentialresponse_tree('PotResTree_odd',
+        $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
         $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans2)-ans2', null, null, 't');
@@ -213,7 +213,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, '', -1, '', 'odd-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'odd-0-1');
-        $q->prts['PotResTree_even']    = new stack_potentialresponse_tree('PotResTree_even',
+        $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
         $feedbackvars = new stack_cas_keyval('sa1 = subst(x=-x,ans3)+ans3; sa2 = ans3-subst(x=-x,ans3)');
@@ -230,7 +230,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1->add_branch(0, '+', 0,   '', -1, 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
         $node1->add_branch(1, '+', 0.5, '', -1, '', 'EVEN');
 
-        $q->prts['PotResTree_oddeven'] = new stack_potentialresponse_tree('PotResTree_oddeven',
+        $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
                 '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1));
 
         $sans = new stack_cas_casstring('ans4', 't');
@@ -238,7 +238,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, '', -1, '', 'unique-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'unique-0-1');
-        $q->prts['PotResTree_unique']  = new stack_potentialresponse_tree('PotResTree_unique',
+        $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node));
 
         $q->options = new stack_options();

@@ -32,7 +32,7 @@ class stack_interaction_boolean extends stack_interaction_element {
         parent::__construct($name, $teacheranswer, $parameters);
     }
 
-    public function get_xhtml($studentanswer, $readonly) {
+    public function get_xhtml($studentanswer, $fieldname, $readonly) {
         $choices = array(
             self::F => stack_string('false'),
             self::T => stack_string('true'),
@@ -44,7 +44,7 @@ class stack_interaction_boolean extends stack_interaction_element {
             $disabled = ' disabled="disabled"';
         }
 
-        $output = '<select name="' . $this->name . '"' . $disabled . '>';
+        $output = '<select name="' . $fieldname . '"' . $disabled . '>';
         foreach ($choices as $value => $choice) {
             $selected = '';
             if ($value === $studentanswer) {

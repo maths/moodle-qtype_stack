@@ -44,26 +44,26 @@ class stack_interaction_boolean_test extends UnitTestCase {
 
     public function test_get_xhtml_not_answered() {
         $el = stack_interaction_controller::make_element('boolean', 'ans1', stack_interaction_boolean::T);
-        $this->assert(new ContainsSelectExpectation('ans1', $this->expected_choices(),
-                stack_interaction_boolean::NA), $el->get_xhtml(stack_interaction_boolean::NA, false));
+        $this->assert(new ContainsSelectExpectation('stack1__ans1', $this->expected_choices(),
+                stack_interaction_boolean::NA), $el->get_xhtml(stack_interaction_boolean::NA, 'stack1__ans1', false));
     }
 
     public function test_get_xhtml_true() {
         $el = stack_interaction_controller::make_element('boolean', 'ans2', stack_interaction_boolean::T);
-        $this->assert(new ContainsSelectExpectation('ans2', $this->expected_choices(),
-                stack_interaction_boolean::T), $el->get_xhtml(stack_interaction_boolean::T, false));
+        $this->assert(new ContainsSelectExpectation('stack1__ans2', $this->expected_choices(),
+                stack_interaction_boolean::T), $el->get_xhtml(stack_interaction_boolean::T, 'stack1__ans2', false));
     }
 
     public function test_get_xhtml_false() {
         $el = stack_interaction_controller::make_element('boolean', 'ans3', stack_interaction_boolean::T);
-        $this->assert(new ContainsSelectExpectation('ans3', $this->expected_choices(),
-                stack_interaction_boolean::F), $el->get_xhtml(stack_interaction_boolean::F, false));
+        $this->assert(new ContainsSelectExpectation('stack1__ans3', $this->expected_choices(),
+                stack_interaction_boolean::F), $el->get_xhtml(stack_interaction_boolean::F, 'stack1__ans3', false));
     }
 
     public function test_get_xhtml_disabled() {
         $el = stack_interaction_controller::make_element('boolean', 'input', stack_interaction_boolean::T);
-        $this->assert(new ContainsSelectExpectation('input', $this->expected_choices(),
-                stack_interaction_boolean::NA, false), $el->get_xhtml('', true));
+        $this->assert(new ContainsSelectExpectation('stack1__ans1', $this->expected_choices(),
+                stack_interaction_boolean::NA, false), $el->get_xhtml('', 'stack1__ans1', true));
     }
 
     public function test_validate_student_response_true() {

@@ -26,7 +26,7 @@
  */
 class stack_interaction_singlechar extends stack_interaction_element {
 
-    public function get_xhtml($studentanswer, $readonly) {
+    public function get_xhtml($studentanswer, $fieldname, $readonly) {
         if ($studentanswer) {
             $value = ' value="' . htmlspecialchars($studentanswer) . '"';
         } else {
@@ -38,7 +38,7 @@ class stack_interaction_singlechar extends stack_interaction_element {
             $disabled = ' readonly="readonly"';
         }
 
-        return '<input type="text" name="' . $this->name . '" size="1" maxlength="1"' .
+        return '<input type="text" name="' . $fieldname . '" size="1" maxlength="1"' .
                 $value . $disabled . ' />';
     }
 

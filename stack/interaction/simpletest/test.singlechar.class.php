@@ -35,19 +35,19 @@ class stack_interaction_singlechar_test extends UnitTestCase {
 
     public function test_get_xhtml_blank() {
         $el = stack_interaction_controller::make_element('singleChar', 'ans1', null);
-        $this->assertEqual('<input type="text" name="ans1" size="1" maxlength="1" value="" />',
-                $el->get_xhtml('', false));
+        $this->assertEqual('<input type="text" name="question__ans1" size="1" maxlength="1" value="" />',
+                $el->get_xhtml('', 'question__ans1', false));
     }
 
     public function test_get_xhtml_pre_filled() {
         $el = stack_interaction_controller::make_element('singleChar', 'test', null);
-        $this->assertEqual('<input type="text" name="test" size="1" maxlength="1" value="Y" />',
-                $el->get_xhtml('Y', false));
+        $this->assertEqual('<input type="text" name="question__ans1" size="1" maxlength="1" value="Y" />',
+                $el->get_xhtml('Y', 'question__ans1', false));
     }
 
     public function test_get_xhtml_disabled() {
         $el = stack_interaction_controller::make_element('singleChar', 'input', null);
-        $this->assertEqual('<input type="text" name="input" size="1" maxlength="1" value="a" readonly="readonly" />',
-                $el->get_xhtml('a', true));
+        $this->assertEqual('<input type="text" name="question__stack1" size="1" maxlength="1" value="a" readonly="readonly" />',
+                $el->get_xhtml('a', 'question__stack1', true));
     }
 }

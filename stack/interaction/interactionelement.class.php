@@ -29,7 +29,7 @@ require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_interaction_element {
-    protected static $perametersavailable = array(
+    protected static $perameterstack_interaction_elementsavailable = array(
         'mustVerify',
         'hideFeedback',
         'boxWidth',
@@ -78,14 +78,19 @@ class stack_interaction_element {
     public function __construct($name, $teacheranswer, $parameters = null) {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
-        $this->parameters = $this->get_parameters_defaults();
-        foreach ($parameters as $name => $value) {
-            if (!array_key_exists($name, $this->parameters)) {
-                // Parameter not recognised.
-                continue;
+        if (null === $parameters) {
+            $this->parameters = $this->get_parameters_defaults();
+        } else {
+            if (is_array($parameters)) {
+                foreach ($parameters as $name => $value) {
+                    if (!array_key_exists($name, $this->parameters)) {
+                        // Parameter not recognised.
+                        throw new Execption('stack_interaction_element: __construct: parameter '.$name.' is not a valid parameter name.');
+                    }
+                    // TODO validate $value here.
+                    $this->parameters[$name] = $value;
+                }
             }
-            // TODO validate $value here.
-            $this->parameters[$name] = $value;
         }
     }
 
@@ -96,7 +101,7 @@ class stack_interaction_element {
      * @param bool $readonly whether the contro should be displayed read-only.
      * @return string HTML fragment.
      */
-    public function get_xhtml($studentanswer, $readonly) {
+    public function get_xhtml($studentanswer, $fieldname, $readonly) {
         return '';
     }
 

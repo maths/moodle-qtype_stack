@@ -43,46 +43,46 @@ class stack_interaction_algebra_test extends UnitTestCase {
 
     public function test_get_xhtml_blank() {
         $el = stack_interaction_controller::make_element('algebraic', 'ans1', 'x^2');
-        $this->assertEqual('<input type="text" name="ans1" size="15" value="" />',
-                $el->get_xhtml('', false));
+        $this->assertEqual('<input type="text" name="stack1__ans1" size="15" value="" />',
+                $el->get_xhtml('', 'stack1__ans1', false));
     }
 
     public function test_get_xhtml_pre_filled() {
         $el = stack_interaction_controller::make_element('algebraic', 'test', 'x^2');
-        $this->assertEqual('<input type="text" name="test" size="15" value="x+y" />',
-                $el->get_xhtml('x+y', false));
+        $this->assertEqual('<input type="text" name="stack1__test" size="15" value="x+y" />',
+                $el->get_xhtml('x+y', 'stack1__test', false));
     }
 
     public function test_get_xhtml_pre_filled_nasty_input() {
         $el = stack_interaction_controller::make_element('algebraic', 'test', 'x^2');
-        $this->assertEqual('<input type="text" name="test" size="15" value="x&lt;y" />',
-                $el->get_xhtml('x<y', false));
+        $this->assertEqual('<input type="text" name="stack1__test" size="15" value="x&lt;y" />',
+                $el->get_xhtml('x<y', 'stack1__test', false));
     }
 
     public function test_get_xhtml_max_length() {
         $el = stack_interaction_controller::make_element('algebraic', 'test', 'x^2');
-        $this->assertEqual('<input type="text" name="test" size="15" value="x+y" />',
-                $el->get_xhtml('x+y', false));
+        $this->assertEqual('<input type="text" name="stack1__test" size="15" value="x+y" />',
+                $el->get_xhtml('x+y', 'stack1__test', false));
     }
 
     public function test_get_xhtml_disabled() {
         $el = stack_interaction_controller::make_element('algebraic', 'input', 'x^2');
-        $this->assertEqual('<input type="text" name="input" size="15" value="x+1" readonly="readonly" />',
-                $el->get_xhtml('x+1', true));
+        $this->assertEqual('<input type="text" name="stack1__input" size="15" value="x+1" readonly="readonly" />',
+                $el->get_xhtml('x+1', 'stack1__input', true));
     }
 
     public function test_get_xhtml_different_size() {
         $el = stack_interaction_controller::make_element('algebraic', 'input', 'x^2');
         $el->set_parameter('boxWidth', 30);
-        $this->assertEqual('<input type="text" name="input" size="30" value="x+1" />',
-                $el->get_xhtml('x+1', false));
+        $this->assertEqual('<input type="text" name="stack1__input" size="30" value="x+1" />',
+                $el->get_xhtml('x+1', 'stack1__input', false));
     }
 
     public function test_get_xhtml_syntaxhint() {
         $el = stack_interaction_controller::make_element('algebraic', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '[?, ?, ?]');
-        $this->assertEqual('<input type="text" name="sans1" size="15" value="[?, ?, ?]" />',
-                $el->get_xhtml('', false));
+        $this->assertEqual('<input type="text" name="stack1__sans1" size="15" value="[?, ?, ?]" />',
+                $el->get_xhtml('', 'stack1__sans1', false));
     }
 
     public function test_validate_student_response_1() {

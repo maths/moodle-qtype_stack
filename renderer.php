@@ -34,15 +34,16 @@ class qtype_stack_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         $question = $qa->get_question();
 
-        $questiontext = $question->get_qt_var('_questiontext');
+        $questiontext = ''; //$question->get_qt_var('_questiontext');
         if (empty($question->interactions)) {
             $xhtml = '<div class="secondaryFeedback">'.stack_string('stackQuestion_noQuestionParts').'</div>'.$questiontext;
         } else {
             foreach ($question->interactions as $name => $interaction) {
                 // TODO: get the value of the current answer to put into the html.
                 $currentanswer = ''; //$qa->get_last_qt_var('answer');
+                $fieldname = $qa->get_qt_field_name($name);
                 $questiontext = str_replace("#{$name}#",
-                     $interaction->get_xhtml($currentanswer, $options->readonly), $questiontext);
+                $interaction->get_xhtml($currentanswer, $fieldname, $options->readonly), $questiontext);
 
                 list ($status, $iefeedback) = $interaction->validate_student_response($currentanswer, $question->options);
                 $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", $iefeedback, $questiontext);

@@ -23,7 +23,7 @@
  */
 class stack_interaction_algebra extends stack_interaction_element {
 
-    public function get_xhtml($studentanswer, $readonly) {
+    public function get_xhtml($studentanswer, $fieldname, $readonly) {
         $value = '';
         if ($studentanswer) {
             $value = ' value="' . htmlspecialchars($studentanswer) . '"';
@@ -37,7 +37,7 @@ class stack_interaction_algebra extends stack_interaction_element {
         }
 
         $boxwidth = $this->parameters['boxWidth'];
-        return '<input type="text" name="' . $this->name . '" size="' . $boxwidth . '"' .
+        return '<input type="text" name="' . $fieldname . '" size="' . $boxwidth . '"' .
                  $value . $disabled . ' />';
     }
 
@@ -50,7 +50,7 @@ class stack_interaction_algebra extends stack_interaction_element {
             'mustVerify'     => true,
             'hideFeedback'   => false,
             'boxWidth'       => 15,
-            'strictSyntax'  => true,
+            'strictSyntax'   => true,
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',

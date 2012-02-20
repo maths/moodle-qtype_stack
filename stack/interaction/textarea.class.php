@@ -26,7 +26,7 @@ require_once(dirname(__FILE__) . '/../utils.class.php');
  */
 class stack_interaction_textarea extends stack_interaction_element {
 
-    public function get_xhtml($studentanswer, $readonly) {
+    public function get_xhtml($studentanswer, $fieldname, $readonly) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
 
@@ -49,7 +49,7 @@ class stack_interaction_textarea extends stack_interaction_element {
             $disabled = ' readonly="readonly"';
         }
 
-        return '<textarea name="' . $this->name . '" rows="' . $boxheight .
+        return '<textarea name="' . $fieldname . '" rows="' . $boxheight .
                 '" cols="' . $boxwidth . '"' . $disabled . '>' . htmlspecialchars($value) . '</textarea>';
     }
 

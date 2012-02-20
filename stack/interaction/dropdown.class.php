@@ -26,7 +26,7 @@
  */
 class stack_interaction_dropdown extends stack_interaction_element {
 
-    public function get_xhtml($studentanswer, $readonly) {
+    public function get_xhtml($studentanswer, $fieldname, $readonly) {
         if (empty($this->parameters['ddl_values'])) {
             return stack_string('ddl_empty');
         }
@@ -50,7 +50,7 @@ class stack_interaction_dropdown extends stack_interaction_element {
             $disabled = ' disabled="disabled"';
         }
 
-        $output = '<select name="' . $this->name . '"' . $disabled . '>';
+        $output = '<select name="' . $fieldname . '"' . $disabled . '>';
         foreach ($values as $value => $choice) {
             $selected = '';
             if ($value === $studentanswer) {

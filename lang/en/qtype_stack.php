@@ -96,7 +96,7 @@ $string['answernote'] = 'Answer note';
 $string['inputtest'] ='Input test';
 $string['stackInstall_input_title'] = "A test suite for validation of student's input";
 $string['stackInstall_input_title_desc'] = 'The <a href="{$a->link}">input-tests script</a> verifies that student\'s answers are interpreted by STACK correctly. They are also useful to learn by example how each answer-test can be used.';
-$string['stackInstall_input_intro'] = "This page allows you to test how STACK interprets various inputs from a student.  This currently only checks with the most liberal settings, trying to adopt an informal syntax an insert stars.  <br />'V' columns record validity as judged by PHP and the CAS.  V1 = PHP valid, V2 = CAS valid.";
+$string['stackInstall_input_intro'] = "This page allows you to test how STACK interprets various inputs from a student.  This currently only checks with the most liberal settings, trying to adopt an informal syntax and insert stars.  <br />'V' columns record validity as judged by PHP and the CAS.  V1 = PHP valid, V2 = CAS valid.";
 $string['phpvalid'] = 'V1';
 $string['phpcasstring'] = 'PHP output';
 $string['phpsuitecolerror'] = 'PHP errors';

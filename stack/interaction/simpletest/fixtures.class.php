@@ -73,7 +73,7 @@ class stack_inputvalidation_test_data {
         array("f''(x)", 'php_false', '' , '', "Apostrophies again..."),
         array('g(x)', 'php_true', 'g(x)', 'cas_true', ""),
         array('a(x)', 'php_true', 'a*(x)', 'cas_true', "By default, only f and g are assumed to be function names.  This is where the 'insert stars' option is important.  It removes the implied multiplication in other cases."),
-        array('dosomething(x,y,z)', 'php_false', '', '', "Student's have a restricted list of function names.  Teachers are less restricted."),
+        array('dosomething(x,y,z)', 'php_false', '', '', "Students have a restricted list of function names.  Teachers are less restricted."),
         array('f()', 'php_true', 'f()', 'cas_true', ""),
         array('[]', 'php_true', '[]', 'cas_true', "Lists"),
         array('[1]', 'php_true', '[1]', 'cas_true', ""),
@@ -93,7 +93,7 @@ class stack_inputvalidation_test_data {
         array('x && y', 'php_true', 'x && y', '', ""),
         array('x || y', 'php_true', 'x || y', '', ""),
         array('x | y', 'php_true', 'x | y', '', ""),
-        array('x * y', 'php_true', 'x * y', 'cas_true', "Operations: There are options on how this is displayed, either as \(x\cdot y\), \(x\\times y\), or as \(x\, y\)."),
+        array('x * y', 'php_true', 'x * y', 'cas_true', "Operations: there are options on how this is displayed, either as \(x\cdot y\), \(x\\times y\), or as \(x\, y\)."),
         array('x + y', 'php_true', 'x + y', 'cas_true', ""),
         array('x - y', 'php_true', 'x - y', 'cas_true', ""),
         array('x / y', 'php_true', 'x / y', 'cas_true', ""),
@@ -113,8 +113,8 @@ class stack_inputvalidation_test_data {
         array('x^', 'php_flase', 'x^', '', ""),
         array('x and', 'php_false', '', '', ""),
         array('!', 'php_true', '!', '', ""),
-        array('sin', 'php_true', 'sin', 'cas_true', "This names the operator sine, which is a valid expression on its own.  Maybe a 'gocha' for the question author...."),
-        array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true', "Check display: brackets only go round operands when strictly necessary"),
+        array('sin', 'php_true', 'sin', 'cas_true', "This names the operator sine, which is a valid expression on its own.  The classic difference between the function \(f\) and the value of the function at a point \(f(x)\).  Maybe a 'gocha' for the question author...."),
+        array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true', "Check display: brackets only go round operands when strictly necessary, but student validation respects the input."),
         array('x+(y^z)', 'php_true', 'x+(y^z)', 'cas_true', ""),
         array('x-(y+z)', 'php_true', 'x-(y+z)', 'cas_true', ""),
         array('(x-y)+z', 'php_true', '(x-y)+z', 'cas_true', ""),
@@ -349,7 +349,7 @@ class stack_inputvalidation_test_data {
         $passed = true;
         if ($phpvalid != $expected) {
             $passed = false;
-            $errors .= stack_string('phpvalidatemismatch');
+            $errors .= ' '.stack_string('phpvalidatemismatch');
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
@@ -382,7 +382,7 @@ class stack_inputvalidation_test_data {
             }
             if ($casexpected != $casvalid) {
                 $passed = false;
-                $caserrors .= stack_string('casvalidatemismatch');
+                $caserrors .= ' '.stack_string('casvalidatemismatch');
             }
             $casdisplay = $cs->get_display();
         }

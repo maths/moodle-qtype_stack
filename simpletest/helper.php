@@ -47,7 +47,8 @@ class qtype_stack_test_helper extends question_test_helper {
         test_question_maker::initialise_a_question($q);
 
         $q->name = 'Stack question: test0';
-        $q->questiontext = 'What is $1+1$? #ans1#
+        $q->questionvariables = 'n=rand(3)+2; m=n+rand(3)+2; ta=n+m';
+        $q->questiontext = 'What is $@n@+@m@$? #ans1#
                            <IEfeedback>ans1</IEfeedback>
                            <PRTfeedback>firsttree</PRTfeedback>';
         $q->generalfeedback = '';
@@ -59,7 +60,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts = array();
             $sans = new stack_cas_casstring('ans1', 't');
-            $tans = new stack_cas_casstring('2', 't');
+            $tans = new stack_cas_casstring('ta', 't');
             $pr = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
             $pr->add_branch(0, '=', 0, '', -1, 'Come on, add them together!', 'firsttree-0-0');
             $pr->add_branch(1, '=', 1, '', 1, 'Yeah!', 'firsttree-0-1');

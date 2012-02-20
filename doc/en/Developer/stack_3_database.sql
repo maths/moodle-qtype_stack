@@ -21,12 +21,12 @@ CREATE TABLE IF NOT EXISTS `question` (
   `name`            varchar(255) DEFAULT '',
   `description`     text,
 
-  `variables`   text,
-  `stem`        text,
-  `solution`    text,
-  `note`        text,
-  `options`     text,	-- JSON array?
-  `tests`       text,	-- JSON array?
+  `variables`    text,
+  `questiontext` text,
+  `solution`     text,
+  `note`         text,
+  `options`      text,	-- JSON array?
+  `tests`        text,	-- JSON array?
 
   `valid`       tinyint(1) unsigned NOT NULL DEFAULT '0',	
   
@@ -94,10 +94,10 @@ CREATE TABLE IF NOT EXISTS `deployed_question` (
 
   `max_marks`     decimal(11,5) DEFAULT NULL,
   
-  `variables`   text, -- Instantiated verion.
-  `stem`        text, -- All the CAS variables have been replaced by their displayed values, but the tags remain for the IEs and PRTs.
-  `solution`    text, -- Instantiated verion.
-  `note`        text, -- Instantiated verion.
+  `variables`     text, -- Instantiated verion.
+  `questiontext`  text, -- All the CAS variables have been replaced by their displayed values, but the tags remain for the IEs and PRTs.
+  `solution`      text, -- Instantiated verion.
+  `note`          text, -- Instantiated verion.
 
   PRIMARY KEY (`id`)
 ); 

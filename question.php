@@ -40,22 +40,46 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
 class qtype_stack_question extends question_graded_automatically {
 
     /**
-     * @var array string name as it appears in the question text => stack_interaction_element
+     * @var int STACK specific: seeds Maxima's random number generator.
+     */
+    public $seed;
+
+    /**
+     * @var array STACK specific: string name as it appears in the question text => stack_interaction_element
      */
     public $interactions;
 
     /**
-     * @var array int respones tree number => ...
+     * @var string STACK specific: variables, as authored by the teacher.
+     */
+    public $questionvariables;
+
+    /**
+    * @var stack_cas_session Stores STACK specific: the variables actually created by the question.
+    */
+    public $session;
+
+    /**
+     * @var array stack_potentialresponse_tree STACK specific: respones tree number => ...
      */
     public $prts;
 
     /**
-     * @var array question-level options.
+     * @var stack_options STACK specific: question-level options.
      */
     public $options;
 
     public function start_attempt(question_attempt_step $step, $variant) {
-        // TODO
+
+        $seed = time();
+        $this->seed = $seed;
+
+        $questionvars = new stack_cas_keyval($this->questionvariables);
+        $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $seed, 't', false, true);
+        //TODO error trapping if a question version breaks things.
+        //TODO should we over write $this->questiontext or use another field here?
+        $this->questiontext = $qtext->get_display_castext();
+        $this->session = $qtext->get_session();
     }
 
     public function apply_attempt_state(question_attempt_step $step) {

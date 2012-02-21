@@ -42,9 +42,9 @@ class stack_interaction_element {
         'lowestTerms',
         'sameType');
     /**
-     * @var string the name of the interaction element. 
+     * @var string the name of the interaction element.
      * This name has two functions
-     *  (1) it is the name of thename of the POST variable that the input from this 
+     *  (1) it is the name of thename of the POST variable that the input from this
      *  element will be submitted as.
      *  (2) it is the name of the CAS variable to which the student's answer is assigned.
      *  Note, that during authoring, the teacher simply types #name# in the question stem to
@@ -106,7 +106,7 @@ class stack_interaction_element {
     }
 
     /**
-     * Sets the value of an interaction element parameters. 
+     * Sets the value of an interaction element parameters.
      * @return array of parameters names.
      */
     public function set_parameter($parameter, $value) {
@@ -119,7 +119,7 @@ class stack_interaction_element {
     }
 
     /**
-     * Validates the value of an interaction element parameters. 
+     * Validates the value of an interaction element parameters.
      * @return array of parameters names.
      */
     public function validate_parameter($parameter, $value) {
@@ -164,7 +164,7 @@ class stack_interaction_element {
     }
 
     /**
-     * Each actual extension of this base class must decide what parameter values are valid 
+     * Each actual extension of this base class must decide what parameter values are valid
      * @return array of parameters names.
      */
     public function internal_validate_parameter($parameter, $value) {
@@ -172,7 +172,7 @@ class stack_interaction_element {
     }
 
     /**
-     * Returns a list of the names of all the parameters. 
+     * Returns a list of the names of all the parameters.
      * @return array of parameters names.
      */
     public function get_parameters_available() {
@@ -181,7 +181,7 @@ class stack_interaction_element {
 
     /**
      * Returns a list of the names of all the parameters that this type of interaction
-     * element uses. 
+     * element uses.
      * @return array of parameters names.
      */
     public function get_parameters_used() {
@@ -308,18 +308,19 @@ class stack_interaction_element {
             return '';
         }
 
-        $feedback  = '<div class="InteractionElementFeedback">';
-        $feedback .= '<p class="studentFeedback">'.stack_string('studentValidation_yourLastAnswer').$display.'</p>';
+
+        $feedback  = html_writer::start_tag('div', array('class' => 'InteractionElementFeedback'));
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer').$display, array('class' => 'studentFeedback'));
         if (!$valid) {
-            $feedback .= '<span class="studentFeedback">'.stack_string('studentValidation_invalidAnswer').'</span>';
+            $feedback .= html_writer::tag('span', stack_string('studentValidation_invalidAnswer'), array('class' => 'studentFeedback'));
         }
         if ('' != $errors) {
-            $feedback .= '<span class="studentFeedback">'.$errors.'</span>';
+            $feedback .= html_writer::tag('span', $errors, array('class' => 'errors'));
         }
-        $feedback .= '</div>';
+        $feedback .= html_writer::end_tag('div');
         return $feedback;
     }
-    
+
     /**
      * Transforms the student's input into a casstring if needed. From most returns same as went in.
      *

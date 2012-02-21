@@ -144,7 +144,7 @@ class stack_potentialresponse_tree {
         // Set up the outcomes for this travsersal of the tree
         $results = array(
             'feedback'    => array(),
-            'answernote' => array(),
+            'answernote'  => array(),
             'errors'      => '',
             'valid'       => true,
             'mark'        => 0,

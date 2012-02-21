@@ -25,10 +25,10 @@ class stack_interaction_algebra extends stack_interaction_element {
 
     public function get_xhtml($studentanswer, $fieldname, $readonly) {
         $value = '';
-        if ($studentanswer) {
-            $value = ' value="' . htmlspecialchars($studentanswer) . '"';
-        } else {
+        if (''===trim($studentanswer)) {
             $value = ' value="' . htmlspecialchars($this->parameters['syntaxHint']) . '"';
+        } else {
+            $value = ' value="' . htmlspecialchars($studentanswer) . '"';
         }
 
         $disabled = '';
@@ -60,7 +60,7 @@ class stack_interaction_algebra extends stack_interaction_element {
     }
 
     /**
-     * Each actual extension of this base class must decide what parameter values are valid 
+     * Each actual extension of this base class must decide what parameter values are valid
      * @return array of parameters names.
      */
     // TODO: I don't understand why this can't be a private function.... CJS

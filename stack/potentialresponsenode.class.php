@@ -152,7 +152,6 @@ class stack_potentialresponse_node {
             $feedback[] = $resultbranch['feedback'];
         }
 
-        $this->result = $result;
         return array(
             'result' => $result,
             'valid' => $at->get_at_valid(),
@@ -236,7 +235,7 @@ class stack_potentialresponse_node {
 
             default:
                 throw new Exception('stack_potentialresponse_node: update_mark called ' .
-                        'with invalid mark modificiation method: ' . $markmodification);
+                        'with invalid mark modificiation method: ' . $resultbranch['markmodification']);
         }
     }
 

@@ -64,5 +64,5 @@ function stack_maxima_translate($rawfeedback) {
 }
 
 function stack_maxima_format_casstring($str) {
-    return '<span class=\'SyntaxExample2\'>'.$str.'</span>';
+    return html_writer::tag('span', $str, array('class' => 'SyntaxExample2'));
 }

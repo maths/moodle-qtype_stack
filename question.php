@@ -72,6 +72,7 @@ class qtype_stack_question extends question_graded_automatically {
     public function start_attempt(question_attempt_step $step, $variant) {
 
         $seed = time();
+        $this->seed = $seed;
         $step->set_qt_var('_seed', $seed);
 
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $seed, 't');

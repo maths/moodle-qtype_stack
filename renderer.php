@@ -33,13 +33,13 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_stack_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         $question = $qa->get_question();
-        //$response = $question->get_response($qa);
 
         $questiontext = $question->questiontext;
-        $seed = 0; // $question->seed;
-        $session = null; // $question->session;
+        $seed = 0; //$question->seed;
+
+        $session = null; // $questionvars->get_session(); // $question->session;
         if (empty($question->interactions)) {
-            $xhtml = '<div class="secondaryFeedback">'.stack_string('stackQuestion_noQuestionParts').'</div>'.$questiontext;
+            $xhtml = html_writer::tag('div', stack_string('stackQuestion_noQuestionParts'), array('class' => 'secondaryFeedback')).$questiontext;
         } else {
             foreach ($question->interactions as $name => $interaction) {
                 $fieldname = $qa->get_qt_field_name($name);
@@ -61,9 +61,8 @@ class qtype_stack_renderer extends qtype_renderer {
                 } else { // TODO...
                     $results['feedback'] = '';
                 }
-                $feedback = $this->format_prt_feedback($results['feedback']);
 
-                $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $feedback, $questiontext);
+                $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $results['feedback'], $questiontext);
             }
         }
         return $question->format_text($questiontext, $question->questiontextformat,

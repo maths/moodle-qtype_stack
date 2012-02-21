@@ -33,15 +33,18 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_stack_renderer extends qtype_renderer {
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         $question = $qa->get_question();
+        //$response = $question->get_response($qa);
 
-        $questiontext = $question->questiontext; //$question->get_qt_var('_questiontext');
+        $questiontext = $question->questiontext;
+        $seed = 0; // $question->seed;
+        $session = null; // $question->session;
         if (empty($question->interactions)) {
             $xhtml = '<div class="secondaryFeedback">'.stack_string('stackQuestion_noQuestionParts').'</div>'.$questiontext;
         } else {
             foreach ($question->interactions as $name => $interaction) {
-                // TODO: get the value of the current answer to put into the html.
-                $currentanswer = ''; //$qa->get_last_qt_var('answer');
                 $fieldname = $qa->get_qt_field_name($name);
+                $currentanswer = $qa->get_last_qt_var($name);
+                $answers[$name] = $currentanswer;
                 $questiontext = str_replace("#{$name}#",
                 $interaction->get_xhtml($currentanswer, $fieldname, $options->readonly), $questiontext);
 
@@ -54,21 +57,22 @@ class qtype_stack_renderer extends qtype_renderer {
                 // TODO see stack_old/lib/ui/DisplayItem.php.
                 $requirednames = $prt->get_required_variables(array_keys($question->interactions));
                 if ($this->execute_prt($requirednames, $attemptstatus)) {
-                    list($feedback, $answernote, $errors, $valid, $mark, $penalty) = $prt->evaluate_response($questionvars, $options, $answers, $seed);
-                    if (!$valid) {
-                        $penalty = 0;
-                    }
-                    // TODO store the outcomes of the attempt..
-                    // TODO update the mark....
+                    $results = $prt->evaluate_response($session, $question->options, $answers, $seed);
                 } else { // TODO...
-                    $feedback = '';
+                    $results['feedback'] = '';
                 }
+                $feedback = $this->format_prt_feedback($results['feedback']);
+
                 $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $feedback, $questiontext);
             }
         }
         return $question->format_text($questiontext, $question->questiontextformat,
                 $qa, 'question', 'questiontext', $question->id);
     }
+
+private function format_prt_feedback($feedback) {
+        return '<div class="PRTFeedback">'.$feedback.'</div>';
+}
 
     /**
      * Decides if the potential response tree should be executed.

@@ -47,6 +47,12 @@ class stack_interaction_algebra_test extends UnitTestCase {
                 $el->get_xhtml('', 'stack1__ans1', false));
     }
 
+    public function test_get_xhtml_zero() {
+        $el = stack_interaction_controller::make_element('algebraic', 'ans1', '0');
+        $this->assertEqual('<input type="text" name="stack1__ans1" size="15" value="0" />',
+                $el->get_xhtml('0', 'stack1__ans1', false));
+    }
+
     public function test_get_xhtml_pre_filled() {
         $el = stack_interaction_controller::make_element('algebraic', 'test', 'x^2');
         $this->assertEqual('<input type="text" name="stack1__test" size="15" value="x+y" />',

@@ -40,6 +40,11 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
 class qtype_stack_question extends question_graded_automatically {
 
     /**
+     * @var int STACK specific: seeds Maxima's random number generator.
+     */
+    public $seed;
+
+    /**
      * @var array STACK specific: string name as it appears in the question text => stack_interaction_element
      */
     public $interactions;
@@ -55,6 +60,11 @@ class qtype_stack_question extends question_graded_automatically {
     public $prts;
 
     /**
+     * @var array stack_cas_session STACK specific: session of variables.
+     */
+    public $session;
+
+    /**
      * @var stack_options STACK specific: question-level options.
      */
     public $options;
@@ -67,20 +77,24 @@ class qtype_stack_question extends question_graded_automatically {
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $seed, 't');
         $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $seed, 't', false, true);
 
-        //HACK - this represents my confusion between "question" and "render"...
         $this->questiontext = $qtext->get_display_castext();
+        $this->session = $qtext->get_session();
         $step->set_qt_var('_questiontext', $qtext->get_display_castext());
-        $step->set_qt_var('_questiontext', $qtext->get_display_castext());
+        $step->set_qt_var('_session', $qtext->get_session());
 
         if ($qtext->get_errors()) {
             //TODO better error trapping that this.
             throw new Exception('Error rendering question text: ' . $qtext->get_errors());
         }
 
+        //$generalfeedback = new stack_cas_text($this->generalfeedback, $this->session, $seed, 't', false, true);
+        //$this->generalfeedback = $generalfeedback->get_display_castext();
     }
 
     public function apply_attempt_state(question_attempt_step $step) {
-        // TODO
+        $this->seed         = $step->get_qt_var('_seed');
+        $this->questiontext = $step->get_qt_var('_questiontext');
+        $this->session      = $step->get_qt_var('_session');
     }
 
     public function get_expected_data() {
@@ -96,7 +110,7 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function get_correct_response() {
-        return null; // TODO can we implement this?
+        return null; // TODO can we implement this?  Yes!  Take the teacher's answer from each interaction element.
     }
 
     public function is_same_response(array $prevresponse, array $newresponse) {

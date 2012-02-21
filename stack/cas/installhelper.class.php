@@ -114,7 +114,7 @@ class stack_cas_configuration {
         }
 
         $batchfilename = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/maxima.bat';
-        if ($this->settings->maximaversion = '5.25.1') {
+        if ('5.25.1' == $this->settings->maximaversion) {
             $batchfilename = 'C:/Program Files/Maxima-5.25.1-gcl/bin/maxima.bat';
         }
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {

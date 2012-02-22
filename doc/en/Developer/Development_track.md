@@ -15,7 +15,7 @@ Have basic CAS functionality working and incorporated into Moodle.  Supply basic
    Links from the settings page.
 5. TH: Question stub ready for further development.
 
-Gradually change variable and function names to conform to Maxima coding standards.
+Gradually change variable and function names to conform to Moodle coding standards.
 
 ## Milestone 2.  
 
@@ -51,6 +51,15 @@ stack_maths($ex,$format = INLINE/DISPLAY)
 which takes the castring $ex, and surrounds it by strings 
 depending on whether we want an inline or displayed equation.   
 Similar to the translator function... 
+
+
+## Some miscellaneous things Tim wants to do
+
+* Making an answer test should be like interaction elements. We should return an answer test object, not a controller object.
+* $at->get_at_mark() really ought to be $at->matches(), since that is how it is used.
+* Finish renaming interaction elements to input elements.
+* Finish cleaning up stack_utils.
+
 
 ## Languages
 

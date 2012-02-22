@@ -89,7 +89,7 @@ class STACK_InteractionElement {
 
     public function getRawAns() {
         // Strip $, ;, or : from answer
-        return stack_utils::trimCommands($this->rawAns);
+        return stack_utils::trim_commands($this->rawAns);
     }
 
     public function getStatus() {

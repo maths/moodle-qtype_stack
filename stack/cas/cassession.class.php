@@ -83,7 +83,7 @@ class stack_cas_session {
      */
     private $debuginfo;
 
-    function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
         if (is_null($session)) {
             $session = array();
@@ -112,7 +112,8 @@ class stack_cas_session {
             $this->seed = time();
         }
 
-        // TODO: does session security actually do anything?  Perhaps, if not null, this should override any security set in the casstrings?
+        // TODO: does session security actually do anything?
+        // If not null, this should override any security set in the casstrings?
         if (!('s'===$security || 't'===$security)) {
             throw new Exception('stack_cas_session: 4th argument, security level, must be "s" or "t" only.');
         }
@@ -145,7 +146,7 @@ class stack_cas_session {
             $this->session = null;
             return true;
         }
-        
+
         $this->valid = $this->validate_array($this->session);
 
         // Ensure the array is number ordered.  We use this later when getting back the values of expressions
@@ -202,7 +203,6 @@ class stack_cas_session {
         $results = $mconn->maxima_session($this->construct_maxima_command());
 
         // TODO: how to sort out debug info back to a user?
-        //echo $mconn->get_debuginfo();
 
         // Now put the information back into the correct slots.
         $session = $this->session;
@@ -237,7 +237,8 @@ class stack_cas_session {
 
                 if ('' != $result['error']) {
                     $cs->add_errors($result['error']);
-                    $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring()).' '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
+                    $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring());
+                    $new_errors .= ' '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
                 }
             }
 
@@ -334,7 +335,7 @@ class stack_cas_session {
         }
         return $return;
     }
-    
+
     public function get_value_key($key) {
         if (null===$this->valid) {
             $this->validate();
@@ -383,7 +384,7 @@ class stack_cas_session {
     public function get_session() {
         return $this->session;
     }
-    
+
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
         if (null===$this->valid) {
@@ -405,11 +406,10 @@ class stack_cas_session {
             $dummy = '@'.$key.'@';
 
             if (''!==$errors && null!=$errors) {
-                //$replace = '<font = "red"><tt>'.$value.'</tt></font>';
                 $strin = str_replace($dummy, $value, $strin);
             } else if (strstr($strin, $dummy)) {
                 $strin = str_replace($dummy, $disp, $strin);
-            }//if work to be done
+            }
         }
         return $strin;
     }

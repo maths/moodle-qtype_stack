@@ -23,22 +23,22 @@
 class stack_anstest_atregexp extends stack_anstest {
 
     public function do_test() {
-        if ($this->ATOption == null) {
-            $this->ATError = 'Missing regular expression in CAS Option field';
-            $this->ATFeedback = ' stack_trans("TEST_FAILED");';
-            $this->ATAnsNote = 'STACKERROR_OPTION_REGEX';
-            $this->ATMark = 0;
-            $this->ATValid = false;
+        if ($this->atoption == null) {
+            $this->aterror = 'Missing regular expression in CAS Option field';
+            $this->atfeedback = ' stack_trans("TEST_FAILED");';
+            $this->atansnote = 'STACKERROR_OPTION_REGEX';
+            $this->atmark = 0;
+            $this->atvalid = false;
             return null;
 
         } else {
-            $this->ATValid = true;
-            if (preg_match($this->ATOption, $this->sAnsKey, $pattern)) {
-                $this->ATMark = 1;
-                $this->ATAnsNote = ' Pattern matched: '.$pattern[0];
+            $this->atvalid = true;
+            if (preg_match($this->atoption, $this->sanskey, $pattern)) {
+                $this->atmark = 1;
+                $this->atansnote = ' Pattern matched: '.$pattern[0];
                 return true;
             } else {
-                $this->ATMark = 0;
+                $this->atmark = 0;
                 return false;
             }
         }

@@ -68,32 +68,32 @@ class stack_answertest_general_cas extends stack_anstest {
      */
     public function do_test() {
         if ($this->requirecasoptions) {
-            if (null == $this->ATOption or '' == $this->ATOption) {
-                $this->ATError      = 'TEST_FAILED';
-                $this->ATFeedback   =  stack_string("TEST_FAILED").stack_string("AT_MissingOptions");
-                $this->ATAnsNote    = 'STACKERROR_OPTION';
-                $this->ATMark       = 0;
-                $this->ATValid      = false;
+            if (null == $this->atoption or '' == $this->atoption) {
+                $this->aterror      = 'TEST_FAILED';
+                $this->atfeedback   =  stack_string("TEST_FAILED").stack_string("AT_MissingOptions");
+                $this->atansnote    = 'STACKERROR_OPTION';
+                $this->atmark       = 0;
+                $this->atvalid      = false;
                 return null;
             } else {
                 //validate with teacher privileges, strict syntax & no automatically adding stars.
-                $ct  = new stack_cas_casstring($this->ATOption, 't', true, true);
+                $ct  = new stack_cas_casstring($this->atoption, 't', true, true);
 
                 if (!$ct->get_valid()) {
-                    $this->ATError      = 'TEST_FAILED';
-                    $this->ATFeedback   = stack_string("TEST_FAILED");
+                    $this->aterror      = 'TEST_FAILED';
+                    $this->atfeedback   = stack_string("TEST_FAILED");
                     $errors = $ct->get_errors();
-                    $this->ATFeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
-                    $this->ATAnsNote    = 'STACKERROR_OPTION';
-                    $this->ATMark       = 0;
-                    $this->ATValid      = false;
+                    $this->atfeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
+                    $this->atansnote    = 'STACKERROR_OPTION';
+                    $this->atmark       = 0;
+                    $this->atvalid      = false;
                     return null;
                 }
             }
-            $atopt = $this->ATOption;
-            $ta   = "[$this->tAnsKey,$atopt]";
+            $atopt = $this->atoption;
+            $ta   = "[$this->tanskey,$atopt]";
         } else {
-            $ta = $this->tAnsKey;
+            $ta = $this->tanskey;
         }
 
         // Sort out options
@@ -105,15 +105,15 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         $mconn = new stack_cas_maxima_connector($this->options);
-        $result = $mconn->maxima_answer_test($this->sAnsKey, $ta, $this->casfunction);
+        $result = $mconn->maxima_answer_test($this->sanskey, $ta, $this->casfunction);
 
-        $this->ATError    = $result['error'];
-        $this->ATAnsNote  = $result['answernote'];
-        $this->ATMark     = $result['result'];
-        $this->ATFeedback = $result['feedback'];
-        $this->ATValid    = $result['valid'];
+        $this->aterror    = $result['error'];
+        $this->atansnote  = $result['answernote'];
+        $this->atmark     = $result['result'];
+        $this->atfeedback = $result['feedback'];
+        $this->atvalid    = $result['valid'];
 
-        if (1==$this->ATMark) {
+        if (1==$this->atmark) {
             return true;
         } else {
             return false;

@@ -77,8 +77,7 @@ class stack_cas_keyval {
             return true;
         }
 
-        //TODO remove comments from the raw string before processing.
-        $str = $this->raw;
+        $str = stack_utils::remove_comments(str_replace("\n", '; ', $this->raw));
         $str = str_replace(';', "\n", $str);
         $kv_array = explode("\n", $str);
 
@@ -89,17 +88,17 @@ class stack_cas_keyval {
             $kvs = trim($kvs);
             if ('' != $kvs) {
                 // Split over the first occurance of the equals sign, turning this into normal Maxima assignment.
-                    $i = strpos($kvs, '=');
-                    if (false === $i) {
-                        $val = $kvs; 
-                    } else {
+                $i = strpos($kvs, '=');
+                if (false === $i) {
+                    $val = $kvs;
+                } else {
                     // Need to check we don't have a function definition...
-                        if (':'===substr($kvs, $i-1, 1)) {
-                            $val = $kvs; 
-                        } else {
-                            $val = trim(trim(substr($kvs, 0, $i)).':'.trim(substr($kvs, $i+1)));
-                        }
+                    if (':'===substr($kvs, $i-1, 1)) {
+                        $val = $kvs;
+                    } else {
+                        $val = trim(trim(substr($kvs, 0, $i)).':'.trim(substr($kvs, $i+1)));
                     }
+                }
 
                 $cs = new stack_cas_casstring($val, $this->security, $this->syntax, $this->insertstars);
                 $vars[] = $cs;

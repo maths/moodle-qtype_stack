@@ -26,19 +26,19 @@
 class stack_anstest_stringsloppy extends stack_anstest {
 
     public function do_test() {
-        $sa = str_replace(' ', '', strtolower(trim($this->sAnsKey)));
+        $sa = str_replace(' ', '', strtolower(trim($this->sanskey)));
         $sa = str_replace("\n", '', $sa);
         $sa = str_replace("\t", '', $sa);
 
-        $ta = str_replace(' ', '', strtolower(trim($this->tAnsKey)));
+        $ta = str_replace(' ', '', strtolower(trim($this->tanskey)));
         $ta = str_replace("\n", '', $ta);
         $ta = str_replace("\t", '', $ta);
 
         if ($sa == $ta) {
-            $this->ATMark = 1;
+            $this->atmark = 1;
             return true;
         } else {
-            $this->ATMark = 0;
+            $this->atmark = 0;
             return false;
         }
     }

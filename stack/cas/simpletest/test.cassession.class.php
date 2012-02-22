@@ -47,14 +47,14 @@ extends UnitTestCase {
         );
 
         foreach ($cases as $case) {
-           $this->get_valid($case[0], $case[1]);
+            $this->get_valid($case[0], $case[1]);
         }
 
     }
 
     public function test_get_display() {
 
-        $cs=array('a:x^2', 'b:1/(1+x^2)','c:e^(i*pi)');
+        $cs=array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
@@ -62,7 +62,7 @@ extends UnitTestCase {
         $options = new stack_options();
         $options->set_option('simplify', false);
 
-        $at1 = new stack_cas_session($s1,$options);
+        $at1 = new stack_cas_session($s1, $options);
         $this->assertEqual('x^2', $at1->get_display_key('a'));
         $this->assertEqual('\frac{1}{1+x^2}', $at1->get_display_key('b'));
         $this->assertEqual('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));

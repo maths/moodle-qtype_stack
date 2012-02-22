@@ -74,7 +74,22 @@ class stack_cas_keyval_test extends UnitTestCase {
 
     public function test_empty_case_1() {
         $at1 = new stack_cas_keyval('', null, 123, 's', true, false);
-        $this->assertTrue($at1->get_valid());        
+        $this->assertTrue($at1->get_valid());
+    }
+
+    public function test_remove_comment() {
+        $at1 = new stack_cas_keyval("a=1\n /* This is a comment \n b:2\n */\n c=3", null, 123, 's', true, false);
+        $this->assertTrue($at1->get_valid());
+
+        $a3=array('a:1', 'c:3');
+        $s3=array();
+        foreach ($a3 as $s) {
+            $s3[] = new stack_cas_casstring($s);
+        }
+        $cs3 = new stack_cas_session($s3, null, 123, 's', true, false);
+        $cs3->instantiate();
+        $at1->instantiate();
+        $this->assertEqual($cs3, $at1->get_session());
     }
 }
 

@@ -157,8 +157,6 @@ class stack_cas_maxima_connector {
         }
 
         if (!fwrite($pipes[0], $this->config['init_command'])) {
-            //echo "<br />Could not write to the CAS process!<br/ >\n";
-            //$this->logger->critical('Could not write to CAS process '.$cmd);
             return(false);
         }
         fwrite($pipes[0], $command);
@@ -204,10 +202,6 @@ class stack_cas_maxima_connector {
             1 => array('pipe', 'w'),
             2 => array('pipe', 'w'));
         $casprocess = proc_open($this->config['command'], $descriptors, $pipes, $cwd, $env);
-        /*$proc_array = proc_get_status($CASProcess);
-         echo $proc_array['command'].'<br />';
-        echo $proc_array['pid'].'<br />';
-        echo $proc_array['running'].'<br />';*/
 
         if (!is_resource($casprocess)) {
             throw new Exception('stack_cas_maxima_connector: could not open a CAS process');
@@ -215,7 +209,6 @@ class stack_cas_maxima_connector {
 
         if (!fwrite($pipes[0], $this->config['init_command'])) {
             echo "<br />Could not write to the CAS process!<br />\n";
-            //$this->logger->critical('Could not write to the CAS process: '.$cmd);
             return(false);
         }
         fwrite($pipes[0], $strin);
@@ -333,12 +326,14 @@ class stack_cas_maxima_connector {
             } else {
                 $locals[$i]['error'] = '';
             }
-            $plot = isset($locals[$i]['display']) ? substr_count($locals[$i]['display'], '<img') : 0; // if theres a plot being returned
+            // if theres a plot being returned
+            $plot = isset($locals[$i]['display']) ? substr_count($locals[$i]['display'], '<img') : 0;
             if ($plot > 0) {
                 //plots always contain errors, so remove
                 $locals[$i]['error'] = '';
                 //for mathml display, remove the mathml that is inserted wrongly round the plot.
-                $locals[$i]['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>', '', $locals[$i]['display']);
+                $locals[$i]['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>',
+                    '', $locals[$i]['display']);
                 $locals[$i]['display'] = str_replace('</math>', '', $locals[$i]['display']);
 
                 // for latex mode, remove the mbox

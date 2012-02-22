@@ -48,7 +48,7 @@ class stack_interaction_singlechar extends stack_interaction_element {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => false, 
+            'mustVerify'     => false,
             'hideFeedback'   => true);
     }
 }

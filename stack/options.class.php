@@ -21,9 +21,9 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- class stack_options {
+class stack_options {
 
-    private $options;   // Exactly the CASText entered.
+    private $options; // Exactly the CASText entered.
 
     public function __construct($settings = array()) {
 
@@ -139,14 +139,13 @@
                 $this->options[$key] = $val;
             }
         }
-
-}
+    }
 
     /*
      * This function validates the information.
      * TODO: this will need to be refactored to return messages to users who enter data in forms, not just throw exceptions.
      */
-    private function validate_key($key,$val) {
+    private function validate_key($key, $val) {
         if (!array_key_exists($key, $this->options)) {
             throw new Exception('stack_options set_option: $key '.$key.' is not a valid option name.');
         }

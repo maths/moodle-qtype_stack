@@ -24,13 +24,13 @@
 class stack_anstest_atstring extends stack_anstest {
 
     public function do_test() {
-        $this->ATValid = true;
-        if (trim($this->sAnsKey) == trim($this->tAnsKey)) {
-            $this->ATMark = 1;
+        $this->atvalid = true;
+        if (trim($this->sanskey) == trim($this->tanskey)) {
+            $this->atmark = 1;
             return true;
 
         } else {
-            $this->ATMark = 0;
+            $this->atmark = 0;
             return false;
         }
     }

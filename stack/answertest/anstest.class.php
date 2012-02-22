@@ -26,12 +26,12 @@ class stack_anstest {
     /**
      * @var    string
      */
-    protected $sAnsKey;
+    protected $sanskey;
 
     /**
      * @var    string
      */
-    protected $tAnsKey;
+    protected $tanskey;
 
     /**
      * @var    string
@@ -41,49 +41,44 @@ class stack_anstest {
     /**
      * @var    CasString
      */
-    protected $ATOption = null;
-
-    /**
-     * @var    bool
-     */
-    protected $ATResult = null;
+    protected $atoption = null;
 
     /**
      * @var    float
      */
-    protected $ATMark;
+    protected $atmark;
 
     /**
      * @var    string
      */
-    protected $ATError;
+    protected $aterror;
 
     /**
      * @var    bool
      */
-    protected $ATValid;
+    protected $atvalid;
 
     /**
      * @var    string
      */
-    protected $ATAnsNote;
+    protected $atansnote;
 
     /**
      * @var    string
      */
-    protected $ATFeedback;
+    protected $atfeedback;
 
     /**
      * Constructor
      *
-     * @param  string $sAnsKey
-     * @param  string $tAnsKey
+     * @param  string $sanskey
+     * @param  string $tanskey
      */
     public function __construct($sans, $tans, $options = null, $casoption = null) {
-        $this->sAnsKey  = $sans;
-        $this->tAnsKey  = $tans;
+        $this->sanskey  = $sans;
+        $this->tanskey  = $tans;
         $this->options  = $options;
-        $this->ATOption = $casoption;
+        $this->atoption = $casoption;
     }
 
     /**
@@ -101,7 +96,7 @@ class stack_anstest {
      * @return string
      */
     public function get_at_errors() {
-        return $this->ATError;
+        return $this->aterror;
     }
 
     /**
@@ -110,7 +105,7 @@ class stack_anstest {
      * @return float
      */
     public function get_at_mark() {
-        return $this->ATMark;
+        return $this->atmark;
     }
 
     /**
@@ -119,7 +114,7 @@ class stack_anstest {
      * @return bool
      */
     public function get_at_valid() {
-        return $this->ATValid;
+        return $this->atvalid;
     }
 
     /**
@@ -128,7 +123,7 @@ class stack_anstest {
      * @return string
      */
     public function get_at_answernote() {
-        return $this->ATAnsNote;
+        return $this->atansnote;
     }
 
     /**
@@ -137,7 +132,7 @@ class stack_anstest {
      * @return string
      */
     public function get_at_feedback() {
-        return $this->ATFeedback;
+        return $this->atfeedback;
     }
 
     /**

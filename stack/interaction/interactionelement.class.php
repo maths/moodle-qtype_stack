@@ -275,7 +275,7 @@ class stack_interaction_element {
 
             // TODO: refactor all this as an answer test?
             $session = new stack_cas_session(array($answer), $options);
-            $session -> instantiate();
+            $session->instantiate();
             $session = $session->get_session();
             $answer = $session[0];
             $errors = stack_maxima_translate($answer->get_errors());
@@ -307,7 +307,6 @@ class stack_interaction_element {
         if ($hidefeedback && $valid) {
             return '';
         }
-
 
         $feedback  = html_writer::start_tag('div', array('class' => 'InteractionElementFeedback'));
         $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer').$display, array('class' => 'studentFeedback'));

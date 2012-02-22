@@ -30,33 +30,33 @@ class stack_anstest_numrelative extends stack_anstest {
      */
     public function do_test() {
 
-        if (trim($this->ATOption) == '') {
+        if (trim($this->atoption) == '') {
             $atest_ops = '0.05';
         } else {
-            $atest_ops = $this->ATOption;
+            $atest_ops = $this->atoption;
         }
 
-        $commands = array($this->sAnsKey, $this->tAnsKey, $atest_ops);
+        $commands = array($this->sanskey, $this->tanskey, $atest_ops);
         foreach ($commands as $com) {
             $cs = new stack_cas_casstring($com, 't', true, false);
             if (!$cs->get_valid()) {
-                $this->ATError      = 'TEST_FAILED';
-                $this->ATFeedback   = stack_string("TEST_FAILED");
+                $this->aterror      = 'TEST_FAILED';
+                $this->atfeedback   = stack_string("TEST_FAILED");
                 $errors = $cs->get_errors();
-                $this->ATFeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
-                $this->ATAnsNote    = 'STACKERROR_OPTION';
-                $this->ATMark       = 0;
-                $this->ATValid = false;
+                $this->atfeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
+                $this->atansnote    = 'STACKERROR_OPTION';
+                $this->atmark       = 0;
+                $this->atvalid = false;
                 return null;
             }
         }
 
         $cascommands = array();
-        $cascommands[] = "caschat0:ev(float($this->sAnsKey),simp)";
-        $cascommands[] = "caschat1:ev(float($this->tAnsKey),simp)";
+        $cascommands[] = "caschat0:ev(float($this->sanskey),simp)";
+        $cascommands[] = "caschat1:ev(float($this->tanskey),simp)";
         $cascommands[] = "caschat2:ev({$atest_ops},simp)";
-        $cascommands[] = "caschat3:ev(abs(float({$this->sAnsKey}-{$this->tAnsKey})),simp)";
-        $cascommands[] = "caschat4:ev(abs(float({$this->tAnsKey}*{$atest_ops})),simp)";
+        $cascommands[] = "caschat3:ev(abs(float({$this->sanskey}-{$this->tanskey})),simp)";
+        $cascommands[] = "caschat4:ev(abs(float({$this->tanskey}*{$atest_ops})),simp)";
 
         $cts = array();
         foreach ($cascommands as $com) {
@@ -66,44 +66,44 @@ class stack_anstest_numrelative extends stack_anstest {
         $session->instantiate();
 
         if (''!=$session->get_errors_key('caschat0')) {
-            $this->ATError      = 'TEST_FAILED';
-            $this->ATFeedback   = ' stack_trans("TEST_FAILED"); ';
-            $this->ATAnsNote    = 'NumRelative_STACKERROR_SAns';
-            $this->ATMark       = 0;
-            $this->ATValid      = false;
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = ' stack_trans("TEST_FAILED"); ';
+            $this->atansnote    = 'NumRelative_STACKERROR_SAns';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
             return null;
         }
 
         if (''!=$session->get_errors_key('caschat1')) {
-            $this->ATError      = 'TEST_FAILED';
-            $this->ATFeedback   = stack_string("TEST_FAILED");
-            $this->ATAnsNote    = 'NumRelative_STACKERROR_TAns';
-            $this->ATMark       = 0;
-            $this->ATValid      = false;
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string("TEST_FAILED");
+            $this->atansnote    = 'NumRelative_STACKERROR_TAns';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
             return null;
         }
 
         if (''!=$session->get_errors_key('caschat2')) {
-            $this->ATError      = 'TEST_FAILED';
-            $this->ATFeedback   = stack_string("TEST_FAILED");
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string("TEST_FAILED");
             $errors = $session->get_errors_key('caschat2');
-            $this->ATFeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
-            $this->ATAnsNote    = 'NumRelative_STACKERROR_Options';
-            $this->ATMark       = 0;
-            $this->ATValid      = false;
+            $this->atfeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
+            $this->atansnote    = 'NumRelative_STACKERROR_Options';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
             return null;
         }
 
         $flsa = $session->get_value_key('caschat3');
         $flta = $session->get_value_key('caschat4');
-        $this->ATAnsNote = " |sa-ta|={$flsa}<={$flta}=tol*ta";
+        $this->atansnote = " |sa-ta|={$flsa}<={$flta}=tol*ta";
 
-        $this->ATValid = true;
+        $this->atvalid = true;
         if ($flsa <= $flta) {
-            $this->ATMark = 1;
+            $this->atmark = 1;
             return true;
         } else {
-            $this->ATMark = 0;
+            $this->atmark = 0;
             return false;
         }
 

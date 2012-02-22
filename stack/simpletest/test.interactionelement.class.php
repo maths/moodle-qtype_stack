@@ -50,7 +50,7 @@ class STACK_InteractionElement_test extends UnitTestCase {
         $this->assertNull($el->casValue, 'cas answer');
     }
 
-    public function test_constructor_getRawAns() {
+    public function test_constructor_get_raw_ans() {
         $el = new STACK_InteractionElement('label', 'raw answer;');
         $this->assertEqual('raw answer', $el->getRawAns());
 

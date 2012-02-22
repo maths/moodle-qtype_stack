@@ -140,31 +140,31 @@ class stack_answertest_general_cas_test extends UnitTestCase {
         $this->assertEqual(0, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_expression_FacForms() {
+    public function test_is_true_for_equal_expression_facforms() {
         $at = new stack_answertest_general_cas('(x+1)^2', '(x+1)^2', 'ATFacForm', true, 'x', null);
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
-    public function test_is_false_for_unequal_expressions_FacForm() {
+    public function test_is_false_for_unequal_expressions_facform() {
         $at = new stack_answertest_general_cas('x^2+2*x+1', '(x+1)^2', 'ATFacForm', true, 'x', null);
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }
 
-    public function test_is_false_for_missing_option_FacForm() {
+    public function test_is_false_for_missing_option_facform() {
         $at = new stack_answertest_general_cas('(x+1)^2', '(x+1)^2', 'ATFacForm', true, '', null);
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
     }
 
-    public function test_is_true_ATSingleFrac() {
+    public function test_is_true_atsinglefrac() {
         $at = new stack_answertest_general_cas('1/(x*(x+1))', '1/(x*(x+1))', 'ATSingleFrac', false, '', null, false);
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
-    public function test_is_false_ATSingleFrac() {
+    public function test_is_false_atsinglefrac() {
         $at = new stack_answertest_general_cas('1/n+1/(n+1)', '1/n+1/(n+1)', 'ATSingleFrac', false, '', null, false);
         $this->assertFalse($at->do_test());
         $this->assertEqual(0, $at->get_at_mark());
@@ -206,13 +206,13 @@ class stack_answertest_general_cas_test extends UnitTestCase {
         $this->assertEqual(0, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_expressions_GT() {
+    public function test_is_true_for_equal_expressions_gt() {
         $at = new stack_answertest_general_cas('2', '1', 'ATGT');
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());
     }
 
-    public function test_is_true_for_equal_expressions_GTE() {
+    public function test_is_true_for_equal_expressions_gte() {
         $at = new stack_answertest_general_cas('2', '1', 'ATGTE');
         $this->assertTrue($at->do_test());
         $this->assertEqual(1, $at->get_at_mark());

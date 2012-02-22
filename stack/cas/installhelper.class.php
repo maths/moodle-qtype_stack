@@ -49,10 +49,10 @@ class stack_cas_configuration {
         $this->settings = get_config('qtype_stack');
         $this->date = date("F j, Y, g:i a");
 
-        $this->maximacodepath = stack_utils::convertSlashPaths(
+        $this->maximacodepath = stack_utils::convert_slash_paths(
                 $CFG->dirroot . '/question/type/stack/stack/maxima');
 
-        $this->logpath = stack_utils::convertSlashPaths($CFG->dataroot . '/stack/logs');
+        $this->logpath = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/logs');
 
         $this->vnum = (float) substr($this->settings->maximaversion, 2);
 

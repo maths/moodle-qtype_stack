@@ -122,7 +122,7 @@ class stack_utils {
      * @param string $right the closing delimiter. If omitted, uses $left.
      * @return array of matches without $left or $right pre/suffixes
      */
-    static function all_substring_between($string, $left, $right = null) {
+    public static function all_substring_between($string, $left, $right = null) {
         if ($right == null) {
             $right = $left;
         }
@@ -174,7 +174,7 @@ class stack_utils {
      * number of replacements.
      * @return string
      */
-    static function replace_between($string, $left, $right, $replacements) {
+    public static function replace_between($string, $left, $right, $replacements) {
         // Do error checking
         $leftcount = substr_count($string, $left);
         $rightcount = substr_count($string, $right);
@@ -197,7 +197,7 @@ class stack_utils {
         $searching = true;
         while ($i < $length) {
             if ($searching) {
-                //trying to find startChar
+                //trying to find startchar
                 if ($char[$i] == $left) {
                     $searching = false;
                     $result .= $char[$i];
@@ -207,7 +207,7 @@ class stack_utils {
                     $result .= $char[$i];
                 }
             } else {
-                //found startChar, looking for end
+                //found startchar, looking for end
                 if ($char[$i] == $right) {
                     $searching = true;
                     $result .= $char[$i];
@@ -238,24 +238,24 @@ class stack_utils {
      * @access public
      * @return string|null
      */
-    public static function convertSlashPaths($string) {
+    public static function convert_slash_paths($string) {
         $in = trim($string);
         $length = strlen($in);
-        $lastChar = $in[($length -1)];
-        $trailingSlash = false;
-        if ($lastChar == '\\') {
-            $trailingSlash = true;
+        $lastchar = $in[($length -1)];
+        $trailingslash = false;
+        if ($lastchar == '\\') {
+            $trailingslash = true;
         }
-        $pathArray = self::cvsToArray($string, "\\");
-        if (!empty($pathArray)) {
-            $newPath = $pathArray[0];
-            for ($i = 1; $i < count($pathArray); $i++) {
-                $newPath .= "/".$pathArray[$i];
+        $patharray = self::cvs_to_array($string, "\\");
+        if (!empty($patharray)) {
+            $newpath = $patharray[0];
+            for ($i = 1; $i < count($patharray); $i++) {
+                $newpath .= "/".$patharray[$i];
             }
-            if ($trailingSlash == true) {
-                return $newPath.'/';
+            if ($trailingslash == true) {
+                return $newpath.'/';
             } else {
-                return $newPath;
+                return $newpath;
             }
         } else {
             return null;
@@ -270,15 +270,11 @@ class stack_utils {
      * @access public
      * @return string
      */
-    public static function wrapAround($string) {
+    public static function wrap_around($string) {
         $string = preg_replace('/\\\\\$/', 'escapeddollar', $string);
         $string = self::wrap($string);
         $string = preg_replace('/escapeddollar/', '\\\\$', $string);
         return $string;
-    }
-
-    public static function CASdelimit($text) {
-        return eregi_replace('|@(.*)@|U', '$\1$', $text);
     }
 
     /**
@@ -287,22 +283,19 @@ class stack_utils {
      */
     public static function delimit($text) {
         return preg_replace('/@(.*)?@/U', '$@\1@$', $text);
-        //return preg_replace('/\\\\answer{.*}{.*}{.*}(.*)/U', '$@\1@$', $text);
     }
 
     /**
      * Returns the first position of an opening math delimiter in $text from the $offset.
      * Helper function for wrap().
      */
-    public static function mathStart($text, $offset = 0) {
+    public static function math_start($text, $offset = 0) {
         $delimiters = array('$', '$$', '\(', '\[');
         $at = false; // not yet found
         foreach ($delimiters as $d) {
             $pos = strpos($text, $d, $offset);
             if ($pos !== false) { // found one
-                //echo "<br />found '$d' at pos $pos";
                 if (($at === false || $pos <= $at)) {// take earliest ($$ taken over $)
-                    //echo " \$at is bring set to $pos";
                     $at = $pos; // take earliest
                 }
             }
@@ -314,7 +307,7 @@ class stack_utils {
      * Returns the position of the character following a closing math delimiter in $text from the $offset.
      * Helper function for wrap().
      */
-    public static function mathLength($text, $start) {
+    public static function math_length($text, $start) {
         $delimiters = array('$', '$$', '\)', '\]');
         $at = false;
         $ender = '';
@@ -328,14 +321,13 @@ class stack_utils {
         foreach ($delimiters as $d) {
             $pos = strpos($text, $d, $start + 2); // check long enough
             if ($pos !== false) { // found one
-                //echo "<br />found '$d' at pos $pos";
                 if ($at === false || $pos <= $at) {// take earliest ($$ taken over $)
                     $at = $pos;
                     $ender = $d;
                 }
             }
         }
-        if($ender=='') {
+        if ($ender=='') {
             return strlen($text - $start);
             // math mode to the end
         } else {
@@ -344,13 +336,12 @@ class stack_utils {
     }
 
     public static function wrap($text) {
-        $mathStart = self::mathStart($text);
-        if ($mathStart !== false) { // we have some maths ahead
-            $pre = substr($text, 0, $mathStart); // get previous text
-            $for = self::mathLength($text, $mathStart);
-            $maths = substr($text, $mathStart, $for);
-            $rest = substr($text, $mathStart + $for);
-            //echo '<br />wrapping '.$pre.':'.$maths.':'.$rest;
+        $mathstart = self::math_start($text);
+        if ($mathstart !== false) { // we have some maths ahead
+            $pre = substr($text, 0, $mathstart); // get previous text
+            $for = self::math_length($text, $mathstart);
+            $maths = substr($text, $mathstart, $for);
+            $rest = substr($text, $mathstart + $for);
             return self::delimit($pre).$maths.self::wrap($rest);
         } else { // no math sections left
             return self::delimit($text);
@@ -363,12 +354,12 @@ class stack_utils {
      * @return string out
      * @access public
      */
-    public static function trimCommands($string) {
+    public static function trim_commands($string) {
         $in = trim($string);
         $length = strlen($in);
-        $lastChar = $in[($length -1)];
+        $lastchar = $in[($length -1)];
 
-        if (($lastChar == '$') || ($lastChar == ';') || ($lastChar == ':')) {
+        if (($lastchar == '$') || ($lastchar == ';') || ($lastchar == ':')) {
             $out = substr($in, 0, ($length -1));
             return $out;
         } else {
@@ -383,37 +374,13 @@ class stack_utils {
      * @access private
      * @return string
      */
-    public static function removeComments($string) {
+    public static function remove_comments($string) {
         if (strstr($string, '/*')) {
             $out = $string;
-            preg_match_all('|/\*(.*)\*/|U', $out,$html_match);
+            preg_match_all('|/\*(.*)\*/|U', $out, $html_match);
             foreach ($html_match[0] as $val) {
                 $out = str_replace($val, '', $out);
             }
-            return $out;
-        } else {
-            return $string;
-        }
-    }
-
-    /**
-     * Removes characters between the start and end characters inclusive.
-     * All instances are removed.
-     *
-     * @param string $start
-     * @param string $end
-     * @return string
-     * @access public
-     */
-    public static function removeBetween($string, $start, $end) {
-        if (strstr($string,$start) && strstr($string, $end)) {
-            $out = $string;
-            preg_match_all('|'.$start.'(.*)'.$end.'|U', $out, $html_match);
-
-            foreach ($html_match[0] as $val) {
-                $out = str_replace($val, '', $out);
-            }
-
             return $out;
         } else {
             return $string;
@@ -427,16 +394,16 @@ class stack_utils {
      * @return array out
      * @access public
      */
-    public static function cvsToArray($string, $token = ',') {
+    public static function cvs_to_array($string, $token = ',') {
         $exploded = explode($token, $string);
         // Remove any null entries
         for ($i = 0; $i < count($exploded); $i++) {
             $trim = trim($exploded[$i]);
             if (!empty($trim)) {
-                $toReturn[] = $exploded[$i];
+                $toreturn[] = $exploded[$i];
             }
         }
-        return $toReturn;
+        return $toreturn;
     }
 
     /**
@@ -445,26 +412,26 @@ class stack_utils {
      * @return String
      * @param $array Object
      */
-    public static function arrayToCSV($array) {
+    public static function array_to_cvs($array) {
         if (!empty($array)) {
-        $string = "";
-        $i = 0;
-        foreach ($array as $element){
-            if ($i > 0) {
-                $string .= ', ';
-            }
-            if (is_bool($element)) {
-                if ($element) {
-                    $string .= 'TRUE';
-                } else {
-                    $string .= 'FALSE';
+            $string = "";
+            $i = 0;
+            foreach ($array as $element) {
+                if ($i > 0) {
+                    $string .= ', ';
                 }
-            } else {
-                $string .= $element;
+                if (is_bool($element)) {
+                    if ($element) {
+                        $string .= 'TRUE';
+                    } else {
+                        $string .= 'FALSE';
+                    }
+                } else {
+                    $string .= $element;
+                }
+                $i++;
             }
-            $i++;
-        }
-        return $string;
+            return $string;
         } else {
             return "";
         }
@@ -474,27 +441,27 @@ class stack_utils {
      *  Handles complex (comma-containing) list elements,
      * 	i.e. sets {}, functions() and nested lists[[]]
      *	Strict checking on nesting.
-     *  Helper for listToArrayWorkhorse()
+     *  Helper for list_to_array_workhorse()
      */
-    private static function nextElement($list) {
+    private static function next_element($list) {
         if ($list == '') {
             return null;
         }
         // delimited by next comma at same degree of nesting
-        $startDelimiter = "[({";
-        $endDelimiter   = "])}";
+        $startdelimiter = "[({";
+        $enddelimiter   = "])}";
         $nesting = array(0=>0, 1=>0, 2=>0); // stores nesting for delimiters above
         for ($i = 0; $i < strlen($list); $i++) {
-            $startChar = strpos($startDelimiter, $list[$i]);// which start delimiter
-            $endChar = strpos($endDelimiter, $list[$i]);// which end delimiter (if any)
+            $startchar = strpos($startdelimiter, $list[$i]);// which start delimiter
+            $endchar = strpos($enddelimiter, $list[$i]);// which end delimiter (if any)
 
             // change nesting for delimiter if specified
-            if ($startChar !== false) {
-                $nesting[$startChar]++;
-            } else if ($endChar !== false) {
-                $nesting[$endChar]--;
+            if ($startchar !== false) {
+                $nesting[$startchar]++;
+            } else if ($endchar !== false) {
+                $nesting[$endchar]--;
             } else if ($list[$i] == ',' && $nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
-            // otherwise, return element if all nestings are zero
+                // otherwise, return element if all nestings are zero
                 return substr($list, 0, $i);
             }
         }
@@ -502,18 +469,20 @@ class stack_utils {
         // end of list reached
         if ($nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
             return $list;
-        } else return null; // invalid nesting
+        } else {
+            return null;
+        }
     }
 
-    private static function listToArrayWorkhorse($list, $rec=true) {
+    private static function list_to_array_workhorse($list, $rec=true) {
         $array = array();
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2);// trims outermost [] only
-        $e = self::nextElement($list);
+        $e = self::next_element($list);
         while ($e !== null) {
             if ($e[0]=='[') {
                 if ($rec) {
-                    $array[] = self::listToArrayWorkhorse($e,$rec);
+                    $array[] = self::list_to_array_workhorse($e, $rec);
                 } else {
                     $array[] = $e;
                 }
@@ -521,47 +490,16 @@ class stack_utils {
                 $array[] = $e;
             }
             $list = substr($list, strlen($e)+1);
-            $e = self::nextElement($list);
+            $e = self::next_element($list);
         }
         return $array;
     }
 
     /**
      * Converts a list structure into an array.
-     * Handles nested lists, sets and functions with help from nextElement().
+     * Handles nested lists, sets and functions with help from next_element().
      */
-    public static function listToArray($string, $rec = true) {
-        return self::listToArrayWorkhorse($string, $rec);
+    public static function list_to_array($string, $rec = true) {
+        return self::list_to_array_workhorse($string, $rec);
     }
-
-    /**
-     * Returns a more intuitive datestamp
-     * show time if this week
-     * show day + month if this year
-     * show month + year if not this year
-     */
-    public static function prettifyDate($datestamp) {
-
-        $dayStart = strtotime("00:00");
-        $monthAgo = strtotime('-1 month');
-        $yearAgo = strtotime('-1 year');
-
-        //echo "yearstart: $yearStart monthStart: $monthStart dayStart: $dayStart";
-
-        $time = strtotime($datestamp);
-
-        if ($time >= $dayStart) {
-            return date("g:ia", $time);// today
-        } else if ($time > $monthAgo) {
-            return date("g:ia, j M", $time);// not today
-        } else if ($time > $yearAgo) {
-            return date("M Y", $time); // not this year
-        } else if ($time > $yearAgo) {
-            return date("j M", $time); // not this month
-        }
-
-        // failed to prettify somehow
-        return $datestamp;
-    }
-
 }

@@ -99,7 +99,7 @@ class stack_cas_text {
         }
 
         // Remove any comments from the castext
-        $this->trimmedcastext = stack_utils::removeComments(str_replace("\n", ' ', $this->rawcastext));
+        $this->trimmedcastext = stack_utils::remove_comments(str_replace("\n", ' ', $this->rawcastext));
 
         if (trim($this->trimmedcastext) === '') {
             $this->valid = true;
@@ -213,7 +213,7 @@ class stack_cas_text {
 
             foreach ($temp as $cmd) {
                 // Trim of surrounding white space and CAS commands.
-                $cmd = stack_utils::trimCommands($cmd);
+                $cmd = stack_utils::trim_commands($cmd);
 
                 $cs = new stack_cas_casstring($cmd, $this->security, $this->insertstars, $this->syntax);
 
@@ -235,7 +235,8 @@ class stack_cas_text {
             if (!empty($cmdarray)) {
                 $new_session   = $this->session;
                 if (null===$new_session) {
-                    $new_session = new stack_cas_session($cmdarray, null, $this->seed, $this->security, $this->insertstars, $this->syntax);
+                    $new_session = new stack_cas_session($cmdarray, null, $this->seed,
+                        $this->security, $this->insertstars, $this->syntax);
                 } else {
                     $new_session->add_vars($cmdarray);
                 }
@@ -271,18 +272,15 @@ class stack_cas_text {
         } else {
             // Assume STACK returns raw LaTeX for subsequent processing, e.g. with JSMath.
 
-            $this->castext = stack_utils::wrapAround($this->trimmedcastext);
-            //$this->captureFeedbackTags();
-            //$this->capturePRTFeedbackTags();
+            $this->castext = stack_utils::wrap_around($this->trimmedcastext);
             if (null !== $this->session) {
                 $this->castext = $this->session->get_display_castext($this->castext);
             }
-            $this->castext = str_replace('$<html>', '', $this->castext); //another modification. Stops <html> tags from being given $ tags and therefore breaking tth
-            $this->castext = str_replace('</html>$', '', $this->castext); //bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors
+            //another modification. Stops <html> tags from being given $ tags and therefore breaking tth
+            $this->castext = str_replace('$<html>', '', $this->castext);
+            //bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors
+            $this->castext = str_replace('</html>$', '', $this->castext);
             $this->latex_tidy();
-            //$this->restoreHTML();
-            //$this->restoreFeedback();
-            //$this->restorePRTFeedback();
         }
         $this->instantiated = true;
     }
@@ -291,9 +289,6 @@ class stack_cas_text {
     */
     private function latex_tidy() {
         // Need to create line breaks in sensible places.
-        //$this->strin = str_replace("\n\n",'<br />',$this->strin);
-        //$this->strin = str_replace("\n\r\n",'<br />',$this->strin);
-
         $this->castext = str_replace('\begin{itemize}', '<ol>', $this->castext);
         $this->castext = str_replace('\end{itemize}', '</ol>', $this->castext);
         $this->castext = str_replace('\begin{enumerate}', '<ul>', $this->castext);
@@ -301,7 +296,7 @@ class stack_cas_text {
         $this->castext = str_replace('\item', '<li>', $this->castext);
     }
 
-    public function get_valid()  {
+    public function get_valid() {
         if (null===$this->valid) {
             $this->validate();
         }

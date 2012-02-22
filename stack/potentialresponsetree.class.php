@@ -40,7 +40,7 @@ class stack_potentialresponse_tree {
     /** @var boolean Should this PRT simplify when its arguments are evaluated? */
     private $simplify;
 
-    /** @var float Number of marks available from this PRT. */
+    /** @var float total amount of fraction available from this PRT. */
     private $value;
 
     /** @var stack_cas_cassession Feeback variables. */
@@ -147,7 +147,7 @@ class stack_potentialresponse_tree {
             'answernote'  => array(),
             'errors'      => '',
             'valid'       => true,
-            'mark'        => 0,
+            'score'       => 0,
             'penalty'     => 0,
         );
 
@@ -178,6 +178,7 @@ class stack_potentialresponse_tree {
         $results['feedback'] =  html_writer::tag('div', $feedbackct->get_display_castext(), array('class' => 'PRTFeedback'));
         $results['errors'] .= $feedbackct->get_errors();
         $results['answernote'] = implode(' | ', $results['answernote']);
+        $results['fraction'] = $results['score'] * $this->value;
 
         return $results;
     }

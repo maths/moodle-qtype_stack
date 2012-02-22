@@ -55,7 +55,7 @@ class stack_interaction_element {
     /*
      * @var string Every interaction element must have a non-empty "teacher's answer".
      */
-    private $teacheranswer;
+    protected $teacheranswer;
 
     /**
      * Answertest paramaters.
@@ -204,7 +204,11 @@ class stack_interaction_element {
      * @return array simulated POST data.
      */
     public function get_test_post_data($value) {
-        return array($this->name=>$value);
+        return array($this->name => $value);
+    }
+
+    public function get_teacher_answer() {
+        return $this->teacheranswer;
     }
 
     /**

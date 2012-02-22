@@ -60,8 +60,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->generalfeedback = '';
         $q->qtype = question_bank::get_qtype('stack');
 
-        $q->interactions = array();
-        $q->interactions['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs = array();
+        $q->inputs['ans1'] = stack_interaction_controller::make_element(
                 'algebraic', 'ans1', '2', array('boxWidth' => 5));
 
         $q->prts = array();
@@ -100,8 +100,8 @@ class qtype_stack_test_helper extends question_test_helper {
                                \[ \int @p@ d@v@ = \int u^@n@ du = \frac{u^@n+1@}{@n+1@}+c = @ta@+c.\]';
         $q->qtype = question_bank::get_qtype('stack');
 
-        $q->interactions = array();
-        $q->interactions['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs = array();
+        $q->inputs['ans1'] = stack_interaction_controller::make_element(
                         'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20));
 
         $q->prts = array();
@@ -135,10 +135,10 @@ class qtype_stack_test_helper extends question_test_helper {
                             <PRTfeedback>PotResTree_1</PRTfeedback>';
         $q->qtype = question_bank::get_qtype('stack');
 
-        $q->interactions = array();
-        $q->interactions['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs = array();
+        $q->inputs['ans1'] = stack_interaction_controller::make_element(
                         'algebraic', 'ans1', '5', array('boxWidth' => 3));
-        $q->interactions['ans2'] = stack_interaction_controller::make_element(
+        $q->inputs['ans2'] = stack_interaction_controller::make_element(
                         'algebraic', 'ans2', '6', array('boxWidth' => 3));
 
         $q->prts = array();
@@ -184,14 +184,14 @@ class qtype_stack_test_helper extends question_test_helper {
                                   <PRTfeedback>unique</PRTfeedback></p>';
         $q->qtype = question_bank::get_qtype('stack');
 
-        $q->interactions = array();
-        $q->interactions['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs = array();
+        $q->inputs['ans1'] = stack_interaction_controller::make_element(
                         'algebraic', 'ans1', 'x^3', array('boxWidth' => 15));
-        $q->interactions['ans2'] = stack_interaction_controller::make_element(
+        $q->inputs['ans2'] = stack_interaction_controller::make_element(
                         'algebraic', 'ans2', 'x^4', array('boxWidth' => 15));
-        $q->interactions['ans3'] = stack_interaction_controller::make_element(
+        $q->inputs['ans3'] = stack_interaction_controller::make_element(
                         'algebraic', 'ans3', '0',   array('boxWidth' => 15));
-        $q->interactions['ans4'] = stack_interaction_controller::make_element(
+        $q->inputs['ans4'] = stack_interaction_controller::make_element(
                         'boolean',   'ans4', 'true');
 
         $q->prts = array();
@@ -263,8 +263,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->generalfeedback = 'The graph @plot(p,[x,-2,2])@ has algebraic expression \[ f(x)=@p@. \]';
         $q->qtype = question_bank::get_qtype('stack');
 
-        $q->interactions = array();
-        $q->interactions['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs = array();
+        $q->inputs['ans1'] = stack_interaction_controller::make_element(
                         'algebraic', 'ans1', 'x^2', array('boxWidth' => 15));
 
         $q->prts = array();
@@ -310,8 +310,8 @@ class qtype_stack_test_helper extends question_test_helper {
                                   <PRTfeedback>short</PRTfeedback></p>';
         $q->generalfeedback = 'If $x$cm is the width then $(x+@sg@)$ is the length.
                                Now the area is $@abs(ar)@cm^2$ and so
-                               \[ @x*(x+sg)=-ar@.\]
-                               \[ @x^2+sg*x+ar@=0\]
+                               \[ @x*(x+sg)=-ar@. \]
+                               \[ @x^2+sg*x+ar@=0 \]
                                \[ @(x+rp)*(x+rn)=0@ \]
                                So that $x=@-rp@$ or $x=@-rn@$. Since lengths are positive quantities $x>0$
                                and we discard the negative root. Hence the length of the shorter side is
@@ -320,12 +320,12 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->questionnote = '@ta1@, @rp@.';
 
-        $q->interactions = array();
-        $q->interactions['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs = array();
+        $q->inputs['ans1'] = stack_interaction_controller::make_element(
                             'algebraic', 'ans1', 'ta1', array('boxWidth' => 15));
-        $q->interactions['ans2'] = stack_interaction_controller::make_element(
+        $q->inputs['ans2'] = stack_interaction_controller::make_element(
                             'algebraic', 'ans2', 'tas', array('boxWidth' => 15));
-        $q->interactions['ans3'] = stack_interaction_controller::make_element(
+        $q->inputs['ans3'] = stack_interaction_controller::make_element(
                             'algebraic', 'ans3', 'rp', array('boxWidth' => 5));
 
         $q->prts = array();

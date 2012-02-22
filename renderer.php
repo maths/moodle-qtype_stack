@@ -31,69 +31,73 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_renderer extends qtype_renderer {
+
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         $question = $qa->get_question();
-
-        $questiontext = $question->questiontext;
-        $seed = 0; //$question->seed;
-
-        $session = null; // $questionvars->get_session(); // $question->session;
-        if (empty($question->interactions)) {
-            $xhtml = html_writer::tag('div', stack_string('stackQuestion_noQuestionParts'), array('class' => 'secondaryFeedback')).$questiontext;
-        } else {
-            foreach ($question->interactions as $name => $interaction) {
-                $fieldname = $qa->get_qt_field_name($name);
-                $currentanswer = $qa->get_last_qt_var($name);
-                $answers[$name] = $currentanswer;
-                $questiontext = str_replace("#{$name}#",
-                $interaction->get_xhtml($currentanswer, $fieldname, $options->readonly), $questiontext);
-
-                list ($status, $iefeedback) = $interaction->validate_student_response($currentanswer, $question->options);
-                $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", $iefeedback, $questiontext);
-                $attemptstatus[$name] = $status;
-            }
-
-            foreach ($question->prts as $index => $prt) {
-                // TODO see stack_old/lib/ui/DisplayItem.php.
-                $requirednames = $prt->get_required_variables(array_keys($question->interactions));
-                if ($this->execute_prt($requirednames, $attemptstatus)) {
-                    $results = $prt->evaluate_response($session, $question->options, $answers, $seed);
-                } else { // TODO...
-                    $results['feedback'] = '';
-                }
-
-                $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $results['feedback'], $questiontext);
-            }
+        if (empty($question->inputs)) {
+            throw new coding_exception('This question does not have any inputs.');
         }
+
+        $response = $qa->get_last_qt_data();
+
+        $questiontext = $qa->get_last_qt_var('_questiontext');
+
+        // Replace interaction elements.
+        foreach ($question->inputs as $name => $input) {
+
+            if (array_key_exists($name, $response)) {
+                $currentvalue = $response[$name];
+            } else {
+                $currentvalue = '';
+            }
+            $questiontext = str_replace("#{$name}#",
+                    $input->get_xhtml($currentvalue, $qa->get_qt_field_name($name), $options->readonly),
+                    $questiontext);
+
+            if ($options->feedback) {
+                $feedback = $this->input_feedback($question->get_input_feedback($name, $response));
+            } else {
+                $feedback = '';
+            }
+            $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", $feedback, $questiontext);
+        }
+
+        foreach ($question->prts as $index => $prt) {
+            if ($options->feedback) {
+                $result = $question->get_prt_result($response);
+                $feedback = $this->input_feedback($question->get_input_feedback($name, $response));
+            } else {
+                $feedback = '';
+            }
+            $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $feedback, $questiontext);
+        }
+
         return $question->format_text($questiontext, $question->questiontextformat,
                 $qa, 'question', 'questiontext', $question->id);
     }
 
-private function format_prt_feedback($feedback) {
-        return '<div class="PRTFeedback">'.$feedback.'</div>';
-}
+    /**
+     * @param string $feedback the raw feedback message from the intput element.
+     * @return string Nicely formatted feedback, for display.
+     */
+    protected function input_feedback($feedback) {
+        return html_writer::nonempty_tag('div', $feedback, array('class' => 'IEFeedback'));
+    }
 
     /**
-     * Decides if the potential response tree should be executed.
+     * @param string $feedback the raw feedback message from the PRT.
+     * @return string Nicely formatted feedback, for display.
      */
-    private function execute_prt($requirednames, $attemptstatus) {
-        $execute = true;
-        foreach ($requirednames as $name) {
-            if (array_key_exists ($name, $attemptstatus)) {
-                if ('score' != $attemptstatus[$name]) {
-                    $execute = false;
-                }
-            } else {
-                $execute = false;
-            }
-        }
-        return $execute;
+    protected function prt_feedback($feedback) {
+        return html_writer::nonempty_tag('div', $feedback, array('class' => 'PRTFeedback'));
     }
+
     /**
      * Tests whether the interaction element exists inside a math region.
      */
-    private function is_inside_maths($ie, $string) {
-        // remove all delimited regions and see if $ie remains in $string
+    protected function is_inside_maths($ie, $string) {
+        // Remove all delimited regions and see if $ie remains in $string
+        // TODO move this to stack_utils? NOT CURRENTLY USED
         $patterns = array('/\\$\\$(.+?)\\$\\$/', '/\\$(.+?)\\$/', '/\\\\\[(.+?)\\\\\]/', '/\\\\\((.+?)\\\\\)/');
         $string = preg_replace($patterns, '', $string);
         return strpos($string, $ie) === true;

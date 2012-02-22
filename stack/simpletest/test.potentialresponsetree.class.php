@@ -56,7 +56,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
-        $this->assertEqual(2, $result['mark']);
+        $this->assertEqual(2, $result['score']);
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('<div class="PRTFeedback">Yeah!</div>', $result['feedback']);
         $this->assertEqual('ATInt_true | 1-0-1', $result['answernote']);
@@ -90,7 +90,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
-        $this->assertEqual(2, $result['mark']);
+        $this->assertEqual(2, $result['score']);
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('<div class="PRTFeedback">Ok, you can diff. Do not expand!</div>', $result['feedback']);
         $this->assertEqual('ATDiff_true | 1-0-1 | ATFacForm_notfactored. | 1-1-0', $result['answernote']);
@@ -102,7 +102,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
-        $this->assertEqual(2, $result['mark']);
+        $this->assertEqual(2, $result['score']);
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('<div class="PRTFeedback">Ok, you can diff. Yeah!</div>', $result['feedback']);
         $this->assertEqual('ATDiff_true | 1-0-1 | ATFacForm_true | 1-1-1', $result['answernote']);
@@ -149,7 +149,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
         $this->assertTrue($result['valid']);
         $this->assertEqual('', $result['errors']);
-        $this->assertEqual(1, $result['mark']);
+        $this->assertEqual(1, $result['score']);
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('<div class="PRTFeedback">Test 1 true. Test 2 false.</div>', $result['feedback']);
         $this->assertEqual('1-0-1 | ATFacForm_notfactored. | 1-1-0 | [PRT-CIRCULARITY]=0', $result['answernote']);

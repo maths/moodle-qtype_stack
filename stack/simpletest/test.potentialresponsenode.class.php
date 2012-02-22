@@ -144,7 +144,7 @@ class stack_potentialresponse_node_test extends UnitTestCase {
 
         $this->assertEqual('Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', $result['feedback']);
 
-        $this->assertEqual(1.5, $result['newmark']);
+        $this->assertEqual(1.5, $result['newscore']);
 
         $data = array('factor(ans1)', 'ans1', '3*(x+2)', 'x');
         $this->assertEqual($data, $node->get_required_cas_strings());

@@ -94,21 +94,21 @@ class stack_potentialresponse_node {
      * Add information into each branch
      *
      * @param int $trueorfalse 0 or 1, which branch to set.
-     * @param string $mod mark modification method. One of the values recognised by {@link update_mark()}
-     * @param float $mark mark value used by update_mark.
+     * @param string $mod score modification method. One of the values recognised by {@link update_score()}
+     * @param float $score score value used by update_score.
      * @param float $penalty penalty for this branch.
      * @param int $nextnode index of the node to process next on this branch.
      * @param string $feedback feedback for this branch.
      * @param string $answernote answer note for this branch.
      */
-    public function add_branch($trueorfalse, $mod, $mark, $penalty, $nextnode, $feedback, $answernote) {
+    public function add_branch($trueorfalse, $mod, $score, $penalty, $nextnode, $feedback, $answernote) {
         if ($trueorfalse !== 0 && $trueorfalse !== 1) {
             throw new Exception('stack_potentialresponse_node: branches can only be 0 or 1.');
         }
 
         $this->branches[$trueorfalse] = array(
-            'markmodification' => $mod,
-            'mark'             => $mark,
+            'scoremodification' => $mod,
+            'score'             => $score,
             'penalty'          => $penalty,
             'nextnode'         => $nextnode,
             'feedback'         => trim($feedback),
@@ -119,7 +119,7 @@ class stack_potentialresponse_node {
     /**
      * Actually execute the test for this node.
      */
-    public function do_test($nsans, $ntans, $ncasopts, $options, $currentmark) {
+    public function do_test($nsans, $ntans, $ncasopts, $options, $currentscore) {
 
         if (false === $ncasopts) {
             $ncasopts = $this->atoptions;
@@ -156,7 +156,7 @@ class stack_potentialresponse_node {
             'result' => $result,
             'valid' => $at->get_at_valid(),
             'errors' => $at->get_at_errors(),
-            'newmark' => $this->update_mark($currentmark, $resultbranch),
+            'newscore' => $this->update_score($currentscore, $resultbranch),
             'penalty' => $resultbranch['penalty'],
             'nextnode' => $resultbranch['nextnode'],
             'answernote' => implode(' | ', $answernotes),
@@ -187,12 +187,12 @@ class stack_potentialresponse_node {
             $atopts = null;
         }
 
-        list($result, $valid, $errors, $newmark, $penalty, $nextnode, $answernote, $feedback) =
-                array_values($this->do_test($sans, $tans, $atopts, $options, $results['mark']));
+        list($result, $valid, $errors, $newscore, $penalty, $nextnode, $answernote, $feedback) =
+                array_values($this->do_test($sans, $tans, $atopts, $options, $results['score']));
         // TODO check for errors here?
 
         $results['valid'] = $results['valid'] && $valid;
-        $results['mark']  = $newmark;
+        $results['score']  = $newscore;
 
         if ($answernote) {
             $results['answernote'][] = $answernote;
@@ -219,23 +219,23 @@ class stack_potentialresponse_node {
         return $at->process_atoptions();
     }
 
-    protected function update_mark($oldmark, $resultbranch) {
-        switch($resultbranch['markmodification']) {
+    protected function update_score($oldscore, $resultbranch) {
+        switch($resultbranch['scoremodification']) {
             case '=':
-                return $resultbranch['mark'];
+                return $resultbranch['score'];
 
             case '+':
-                return $oldmark + $resultbranch['mark'];
+                return $oldscore + $resultbranch['score'];
 
             case '-':
-                return $oldmark - $resultbranch['mark'];
+                return $oldscore - $resultbranch['score'];
 
             case '=AT':
-                return $resultbranch['mark'];
+                return $resultbranch['score'];
 
             default:
-                throw new Exception('stack_potentialresponse_node: update_mark called ' .
-                        'with invalid mark modificiation method: ' . $resultbranch['markmodification']);
+                throw new Exception('stack_potentialresponse_node: update_score called ' .
+                        'with invalid score modificiation method: ' . $resultbranch['scoremodification']);
         }
     }
 

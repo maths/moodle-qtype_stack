@@ -48,7 +48,7 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->check_current_output(
-                new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => 'ans1')),
+                new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
                 new PatternExpectation('/Find/'),
                 new DoesNotContainTagWithAttributes('div', array('class' => 'interationfeedback')),
                 new DoesNotContainTagWithAttributes('div', array('class' => 'prtfeedback')),

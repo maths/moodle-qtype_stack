@@ -331,7 +331,7 @@ class stack_inputvalidation_test_data {
     public static function run_test($test) {
         // Note: we would really like to do this, but want to pull apart the bits to
         // expose where the various errors occur.
-        //$el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x');
+        //$el = stack_input_factory::make('algebraic', 'sans1', 'x');
         //$el->set_parameter('insertStars', true);
         //$el->set_parameter('strictSyntax', false);
         //$el->set_parameter('sameType', false);

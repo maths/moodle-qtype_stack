@@ -61,7 +61,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs = array();
-        $q->inputs['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', array('boxWidth' => 5));
 
         $q->prts = array();
@@ -101,7 +101,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs = array();
-        $q->inputs['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20));
 
         $q->prts = array();
@@ -136,9 +136,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs = array();
-        $q->inputs['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', '5', array('boxWidth' => 3));
-        $q->inputs['ans2'] = stack_interaction_controller::make_element(
+        $q->inputs['ans2'] = stack_input_factory::make(
                         'algebraic', 'ans2', '6', array('boxWidth' => 3));
 
         $q->prts = array();
@@ -185,13 +185,13 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs = array();
-        $q->inputs['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'x^3', array('boxWidth' => 15));
-        $q->inputs['ans2'] = stack_interaction_controller::make_element(
+        $q->inputs['ans2'] = stack_input_factory::make(
                         'algebraic', 'ans2', 'x^4', array('boxWidth' => 15));
-        $q->inputs['ans3'] = stack_interaction_controller::make_element(
+        $q->inputs['ans3'] = stack_input_factory::make(
                         'algebraic', 'ans3', '0',   array('boxWidth' => 15));
-        $q->inputs['ans4'] = stack_interaction_controller::make_element(
+        $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
         $q->prts = array();
@@ -264,7 +264,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs = array();
-        $q->inputs['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'x^2', array('boxWidth' => 15));
 
         $q->prts = array();
@@ -321,11 +321,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '@ta1@, @rp@.';
 
         $q->inputs = array();
-        $q->inputs['ans1'] = stack_interaction_controller::make_element(
+        $q->inputs['ans1'] = stack_input_factory::make(
                             'algebraic', 'ans1', 'ta1', array('boxWidth' => 15));
-        $q->inputs['ans2'] = stack_interaction_controller::make_element(
+        $q->inputs['ans2'] = stack_input_factory::make(
                             'algebraic', 'ans2', 'tas', array('boxWidth' => 15));
-        $q->inputs['ans3'] = stack_interaction_controller::make_element(
+        $q->inputs['ans3'] = stack_input_factory::make(
                             'algebraic', 'ans3', 'rp', array('boxWidth' => 5));
 
         $q->prts = array();

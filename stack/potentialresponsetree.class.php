@@ -184,12 +184,8 @@ class stack_potentialresponse_tree {
     }
 
     /**
-     * Take an array of interaction element names, or equivalently response
-     * varaibles, (for example sans1, a) and return those that are used by this
-     * potential response tree.
-     *
-     * TODO: Since this is a time consuming operation, it needs to be done once
-     * and cached within the object.
+     * Take an array of input names, or equivalently response varaibles, (for
+     * example sans1, a) and return those that are used by this potential response tree.
      *
      * @param array of string variable names.
      * @return array filter list of variable names. Only those variable names

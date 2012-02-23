@@ -15,45 +15,45 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defined the stack_interaction_controller class.
+ * Defined the stack_input_factory class.
  */
 
-require_once(dirname(__FILE__) . '/interactionelement.class.php');
+require_once(dirname(__FILE__) . '/inputbase.class.php');
 
 
 /**
- * Interaction element factory. Provides a convenient way to create an
- * interaction element of any type, and to get metadata about element types.
+ * Input factory. Provides a convenient way to create an input of any type,
+ * and to get metadata about the input types.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_controller {
+class stack_input_factory {
     protected static $types = array(
-        'algebraic'  => 'stack_interaction_algebra',
-        'boolean'    => 'stack_interaction_boolean',
-        'dropDown'   => 'stack_interaction_dropdown',
-    //    'list'       => 'stack_interaction_list',
-    //    'matrix'     => 'stack_interaction_matrix',
-        'singleChar' => 'stack_interaction_singlechar',
-    //    'slider'     => 'stack_interaction_slider',
-        'textArea'   => 'stack_interaction_textarea',
+        'algebraic'  => 'stack_algebra_input',
+        'boolean'    => 'stack_boolean_input',
+        'dropDown'   => 'stack_dropdown_input',
+    //    'list'       => 'stack_list_input',
+    //    'matrix'     => 'stack_matrix_input',
+        'singleChar' => 'stack_singlechar_input',
+    //    'slider'     => 'stack_slider_input',
+        'textArea'   => 'stack_textarea_input',
     );
 
     /**
-     * Create an element of a given type and return it.
+     * Create an input of a given type and return it.
      * @param string $type the required type. Must be one of the values retured by
      *      {@link getAvailableTypes()}.
-     * @param string $name the name of the interaction element. This is the name of the
+     * @param string $name the name of the input. This is the name of the
      *      POST variable that the input from this element will be submitted as.
      * @param int $width size of the input.
      * @param string $default initial contets of the input.
      * @param int $maxLength limit on the maximum input length.
      * @param int $height height of the input.
      * @param array $param some sort of options.
-     * @return stack_interaction_element the requested interaction element.
+     * @return stack_input the requested input.
      */
-    public static function make_element($type, $name, $teacheranswer, $parameters = null) {
+    public static function make($type, $name, $teacheranswer, $parameters = null) {
 
         $class = self::class_for_type($type);
         require_once(dirname(__FILE__) . '/' . strtolower($type) . '.class.php');
@@ -61,8 +61,8 @@ class stack_interaction_controller {
     }
 
     /**
-     * The the class name corresponding to an interaction element type.
-     * @param string $type interaction element type name.
+     * The the class name corresponding to an input type.
+     * @param string $type input type name.
      * @return string corresponding class name.
      */
     protected static function class_for_type($type) {
@@ -80,7 +80,7 @@ class stack_interaction_controller {
     }
 
     /**
-     * Return array of the options used by each type of interaction element, for
+     * Return array of the options used by each type of input, for
      * use in authoring interface.
      * @return array $typename => array of names of options used.
      */
@@ -94,7 +94,7 @@ class stack_interaction_controller {
     }
 
     /**
-     * Return array of the default option values for each type of interaction element,
+     * Return array of the default option values for each type of input,
      * for use in authoring interface.
      * @return array $typename => array of option names => default.
      */

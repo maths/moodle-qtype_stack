@@ -16,7 +16,7 @@
 
 
 /**
- * Interaction element for inputting a single character.
+ * Input that accepts a single character.
  *
  * TODO add extra validation to really make sure the user can never enter more than
  * one character, or that setDefault cannot be called with a longer string.
@@ -24,7 +24,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_singlechar extends stack_interaction_element {
+class stack_singlechar_input extends stack_input {
 
     public function get_xhtml($studentanswer, $fieldname, $readonly) {
         if ($studentanswer) {

@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/stack/interaction/controller.class.php');
+require_once(dirname(__FILE__) . '/stack/input/factory.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/keyval.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
 require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
@@ -40,7 +40,7 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
 class qtype_stack_question extends question_graded_automatically {
 
     /**
-     * @var array STACK specific: string name as it appears in the question text => stack_interaction_element
+     * @var array STACK specific: string name as it appears in the question text => stack_input
      */
     public $inputs;
 
@@ -135,6 +135,10 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function format_generalfeedback($qa) {
+        if (empty($this->generalfeedback)) {
+            return '';
+        }
+
         $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, true);
 
         if ($gftext->get_errors()) {

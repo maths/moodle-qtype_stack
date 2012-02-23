@@ -21,7 +21,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_algebra extends stack_interaction_element {
+class stack_algebra_input extends stack_input {
 
     public function get_xhtml($studentanswer, $fieldname, $readonly) {
         $value = '';

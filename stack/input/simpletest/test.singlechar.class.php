@@ -15,38 +15,38 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the stack_interaction_singlechar class.
+ * Unit tests for the stack_singlechar_input class.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
-require_once(dirname(__FILE__) . '/../controller.class.php');
+require_once(dirname(__FILE__) . '/../factory.class.php');
 
 
 /**
- * Unit tests for stack_interaction_singlechar.
+ * Unit tests for stack_singlechar_input.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_singlechar_test extends UnitTestCase {
+class stack_singlechar_input_test extends UnitTestCase {
 
     public function test_get_xhtml_blank() {
-        $el = stack_interaction_controller::make_element('singleChar', 'ans1', null);
+        $el = stack_input_factory::make('singleChar', 'ans1', null);
         $this->assertEqual('<input type="text" name="question__ans1" size="1" maxlength="1" value="" />',
                 $el->get_xhtml('', 'question__ans1', false));
     }
 
     public function test_get_xhtml_pre_filled() {
-        $el = stack_interaction_controller::make_element('singleChar', 'test', null);
+        $el = stack_input_factory::make('singleChar', 'test', null);
         $this->assertEqual('<input type="text" name="question__ans1" size="1" maxlength="1" value="Y" />',
                 $el->get_xhtml('Y', 'question__ans1', false));
     }
 
     public function test_get_xhtml_disabled() {
-        $el = stack_interaction_controller::make_element('singleChar', 'input', null);
+        $el = stack_input_factory::make('singleChar', 'input', null);
         $this->assertEqual('<input type="text" name="question__stack1" size="1" maxlength="1" value="a" readonly="readonly" />',
                 $el->get_xhtml('a', 'question__stack1', true));
     }

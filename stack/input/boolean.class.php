@@ -14,36 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
- * Interaction element to display a dropdown list of choices that the teacher
- * has specified.
- *
- * TODO add extra validation to really make sure that only allowed values are submitted.
+ * Input for entering true/false using a select dropdown.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_dropdown extends stack_interaction_element {
+class stack_boolean_input extends stack_input {
+    const F = 'false';
+    const T = 'true';
+    const NA = '';
+
+    public function __construct($name, $teacheranswer, $parameters) {
+        if (!in_array($teacheranswer, array(self::T, self::F))) {
+            $teacheranswer = self::NA;
+        }
+        parent::__construct($name, $teacheranswer, $parameters);
+    }
 
     public function get_xhtml($studentanswer, $fieldname, $readonly) {
-        if (empty($this->parameters['ddl_values'])) {
-            return stack_string('ddl_empty');
-        }
-
-        $values = stack_utils::list_to_array('[' . trim($this->parameters['ddl_values']) . ']', false);
-
-        if (empty($values)) {
-            return stack_string('ddl_empty');
-        }
-
-        if (!in_array($studentanswer, $values)) {
-            $studentanswer = '';
-        }
-
-        $values = array_merge(
-                array('' => stack_string('notanswered')),
-                array_combine($values, $values));
+        $choices = array(
+            self::F => stack_string('false'),
+            self::T => stack_string('true'),
+            self::NA => stack_string('notanswered'),
+        );
 
         $disabled = '';
         if ($readonly) {
@@ -51,13 +45,13 @@ class stack_interaction_dropdown extends stack_interaction_element {
         }
 
         $output = '<select name="' . $fieldname . '"' . $disabled . '>';
-        foreach ($values as $value => $choice) {
+        foreach ($choices as $value => $choice) {
             $selected = '';
             if ($value === $studentanswer) {
                 $selected = ' selected="selected"';
             }
 
-            $output .= '<option value="' . htmlspecialchars($value) . '"' . $selected . '>' .
+            $output .= '<option value="' . $value . '"' . $selected . '>' .
                     htmlspecialchars($choice) . '</option>';
         }
         $output .= '</select>';
@@ -71,8 +65,8 @@ class stack_interaction_dropdown extends stack_interaction_element {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => false,
-            'hideFeedback'   => true
-            );
+                'mustVerify'     => false,
+                'hideFeedback'   => true);
     }
+
 }

@@ -42,7 +42,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $questiontext = $qa->get_last_qt_var('_questiontext');
 
-        // Replace interaction elements.
+        // Replace inputs.
         foreach ($question->inputs as $name => $input) {
 
             if (array_key_exists($name, $response)) {
@@ -89,14 +89,14 @@ class qtype_stack_renderer extends qtype_renderer {
     }
 
     /**
-     * Tests whether the interaction element exists inside a math region.
+     * Tests whether the input element exists inside a math region.
      */
-    protected function is_inside_maths($ie, $string) {
-        // Remove all delimited regions and see if $ie remains in $string
+    protected function is_inside_maths($input, $string) {
+        // Remove all delimited regions and see if $input remains in $string
         // TODO move this to stack_utils? NOT CURRENTLY USED
         $patterns = array('/\\$\\$(.+?)\\$\\$/', '/\\$(.+?)\\$/', '/\\\\\[(.+?)\\\\\]/', '/\\\\\((.+?)\\\\\)/');
         $string = preg_replace($patterns, '', $string);
-        return strpos($string, $ie) === true;
+        return strpos($string, $input) === true;
     }
 
 }

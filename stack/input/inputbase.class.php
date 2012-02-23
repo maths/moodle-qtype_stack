@@ -20,16 +20,16 @@ require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
 require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
 
 /**
- * The base class for interaction elements.
+ * The base class for inputs in Stack.
  *
- * Interaction elements are the controls that the teacher can put into the question
- * text to receive the student's input.
+ * Inputs are the controls that the teacher can put into the question
+ * text to receive the student's response.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_element {
-    protected static $perameterstack_interaction_elementsavailable = array(
+class stack_input {
+    protected static $perameterstack_inputsavailable = array(
         'mustVerify',
         'hideFeedback',
         'boxWidth',
@@ -41,19 +41,20 @@ class stack_interaction_element {
         'forbidFloats',
         'lowestTerms',
         'sameType');
+
     /**
-     * @var string the name of the interaction element.
+     * @var string the name of the input.
      * This name has two functions
      *  (1) it is the name of thename of the POST variable that the input from this
      *  element will be submitted as.
      *  (2) it is the name of the CAS variable to which the student's answer is assigned.
      *  Note, that during authoring, the teacher simply types #name# in the question stem to
-     *  create these interaction elements.
+     *  create these inputs.
      */
     protected $name;
 
-    /*
-     * @var string Every interaction element must have a non-empty "teacher's answer".
+    /**
+     * @var string Every input must have a non-empty "teacher's answer".
      */
     protected $teacheranswer;
 
@@ -66,7 +67,7 @@ class stack_interaction_element {
     /**
      * Constructor
      *
-     * @param string $name the name of the interaction element. This is the name of the
+     * @param string $name the name of the input. This is the name of the
      *      POST variable that the input from this element will be submitted as.
      * @param int $width size of the input.
      * @param string $default initial contets of the input.
@@ -80,13 +81,13 @@ class stack_interaction_element {
         $this->teacheranswer = $teacheranswer;
         $this->parameters = $this->get_parameters_defaults();
         if (!(null===$parameters || is_array($parameters))) {
-            throw new Exception('stack_interaction_element: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');
+            throw new Exception('stack_input: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');
         }
         if (is_array($parameters)) {
             foreach ($parameters as $name => $value) {
                 if (!array_key_exists($name, $this->parameters)) {
                     // Parameter not recognised.
-                    throw new Exception('stack_interaction_element: __construct: parameter '.$name.' is not a valid parameter name.');
+                    throw new Exception('stack_input: __construct: parameter '.$name.' is not a valid parameter name.');
                 }
                 // TODO validate $value here.
                 $this->parameters[$name] = $value;
@@ -95,7 +96,7 @@ class stack_interaction_element {
     }
 
     /**
-     * Returns the XHTML for embedding this interaction element in a page.
+     * Returns the XHTML for embedding this input in a page.
      *
      * @param string student's current answer to insert into the xhtml.
      * @param bool $readonly whether the contro should be displayed read-only.
@@ -106,7 +107,7 @@ class stack_interaction_element {
     }
 
     /**
-     * Sets the value of an interaction element parameters.
+     * Sets the value of an input parameter.
      * @return array of parameters names.
      */
     public function set_parameter($parameter, $value) {
@@ -114,18 +115,18 @@ class stack_interaction_element {
             $this->parameters[$parameter] = $value;
         } else {
             //TODO how do we know the name of the class for the error message?
-            throw new Exception('stack_interaction_element: setting parameter '.$parameter.' which does not exist for interaction elements of type ?');
+            throw new Exception('stack_input: setting parameter '.$parameter.' which does not exist for inputs of type ?');
         }
     }
 
     /**
-     * Validates the value of an interaction element parameters.
+     * Validates the value of an input parameter.
      * @return array of parameters names.
      */
     public function validate_parameter($parameter, $value) {
         if (!in_array($parameter, $this->get_parameters_used())) {
             //TODO how do we know the name of the class for the error message?
-            throw new Exception('stack_interaction_element: trying to validate parameter '.$parameter.' which does not exist for interaction elements of type ?', $code, $previous);
+            throw new Exception('stack_input: trying to validate parameter '.$parameter.' which does not exist for inputs of type ?', $code, $previous);
         }
 
         switch($parameter) {
@@ -180,8 +181,7 @@ class stack_interaction_element {
     }
 
     /**
-     * Returns a list of the names of all the parameters that this type of interaction
-     * element uses.
+     * Returns a list of the names of all the parameters that this type of input uses.
      * @return array of parameters names.
      */
     public function get_parameters_used() {
@@ -197,16 +197,9 @@ class stack_interaction_element {
     }
 
     /**
-     * A helper method used in testing. Given a value returned by this input element,
-     * returns the POST data variables that generate that value.
-     *
-     * @param string $value a value for this input element.
-     * @return array simulated POST data.
+     * @return string the teacher answer, and example of what could be typed into
+     * this input as part of a correct response to the question.
      */
-    public function get_test_post_data($value) {
-        return array($this->name => $value);
-    }
-
     public function get_teacher_answer() {
         return $this->teacheranswer;
     }
@@ -220,7 +213,7 @@ class stack_interaction_element {
     public function validate_student_response($sans, $options) {
 
         if (!is_a($options, 'stack_options')) {
-            throw new Exception('stack_interaction_element: validate_student_response: options not of class stack_options');
+            throw new Exception('stack_input: validate_student_response: options not of class stack_options');
         }
 
         if ('' == $sans) {
@@ -311,7 +304,7 @@ class stack_interaction_element {
             return '';
         }
 
-        $feedback  = html_writer::start_tag('div', array('class' => 'InteractionElementFeedback'));
+        $feedback  = html_writer::start_tag('div', array('class' => 'InputFeedback'));
         $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer').$display, array('class' => 'studentFeedback'));
         if (!$valid) {
             $feedback .= html_writer::tag('span', stack_string('studentValidation_invalidAnswer'), array('class' => 'studentFeedback'));
@@ -329,7 +322,7 @@ class stack_interaction_element {
      * @param array|string $in
      * @return string
      */
-    private  function transform($in) {
+    private function transform($in) {
         return $in;
     }
 }

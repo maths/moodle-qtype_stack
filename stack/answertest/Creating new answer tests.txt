@@ -65,5 +65,5 @@ For an example see stack_anstest_stringsloppy
 Adding the new Answertest to STACK
 ---------------------------------
 
-Open controller.class.php, passes information onto the correct
+Open factory.class.php, passes information onto the correct
 answertest class. There are plenty of examples here.

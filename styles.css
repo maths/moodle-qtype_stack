@@ -38,7 +38,7 @@ body.path-question-type-stack h2.pass {
     color: #080;
 }
 
-.SyntaxExample1{
+.SyntaxExample1 {
     border: 1px dotted #333;
     padding: 0.2em;
     color: blue;
@@ -48,7 +48,7 @@ body.path-question-type-stack h2.pass {
     font-weight: bold;
 }
 
-.SyntaxExample2{
+.SyntaxExample2 {
     color: blue;
     font-family: monospace;
     font-size: 100%;
@@ -57,7 +57,7 @@ body.path-question-type-stack h2.pass {
 
 /*feedback to student */
 
-div.InteractionElementFeedback{
+div.InputFeedback {
     background-color: #FFFF99;
     border: 1px solid #EEEE66;
     margin-left: auto;
@@ -67,13 +67,13 @@ div.InteractionElementFeedback{
     margin-top: 0.2em;
     margin-bottom: 0.2em;
 }
-/*Make the paragraph have only a single line break between paragraphs*/
-p.studentFeedback{
+/* Make the paragraph have only a single line break between paragraphs */
+p.studentFeedback {
     margin: 0em;
 }
 
-/*PRT feedback */
-div.PRTFeedback{
+/* PRT feedback */
+div.PRTFeedback {
     border: 1px solid #ccf;
     background-color: #ddf;
     width: 80%;

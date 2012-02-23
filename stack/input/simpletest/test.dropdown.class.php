@@ -15,22 +15,22 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the stack_interaction_dropdown class.
+ * Unit tests for the stack_dropdown_input class.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
-require_once(dirname(__FILE__) . '/../controller.class.php');
+require_once(dirname(__FILE__) . '/../factory.class.php');
 
 
 /**
- * Unit tests for stack_interaction_dropdown.
+ * Unit tests for stack_dropdown_input.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_dropdown_test extends UnitTestCase {
+class stack_dropdown_input_test extends UnitTestCase {
 
 }

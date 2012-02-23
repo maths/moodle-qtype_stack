@@ -17,14 +17,14 @@
 require_once(dirname(__FILE__) . '/../utils.class.php');
 
 /**
- * Interaction element that is a text area. Each line input becomes one element of a list.
+ *Input that is a text area. Each line input becomes one element of a list.
  *
  * The value is stored as a string maxima list. For example [1,hello,x + y].
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_interaction_textarea extends stack_interaction_element {
+class stack_textarea_input extends stack_input {
 
     public function get_xhtml($studentanswer, $fieldname, $readonly) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
@@ -81,13 +81,6 @@ class stack_interaction_textarea extends stack_interaction_element {
 
     protected function tokenize_list($in) {
         return stack_utils::list_to_array($in, false);
-    }
-
-    public function get_test_post_data($value) {
-        // This looks wrong to me. Or, at least, if it is right, it makes no sense yet.
-        // It looks like it is expecting $value to be like "[a,b]", but if so, stripping
-        // the delimiters is not really enough. We should tokenise, and then join with \n.
-        return array($this->name => substr($value, 1, strlen($value) - 2));
     }
 
     /**

@@ -92,7 +92,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(2, $result['score']);
         $this->assertEqual(0, $result['penalty']);
-        $this->assertEqual('<div class="PRTFeedback">Ok, you can diff. Do not expand!</div>', $result['feedback']);
+        $this->assertEqual('Ok, you can diff. Do not expand!', $result['feedback']);
         $this->assertEqual('ATDiff_true | 1-0-1 | ATFacForm_notfactored. | 1-1-0', $result['answernote']);
 
         // Now have another attempt at the same PRT!
@@ -104,7 +104,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(2, $result['score']);
         $this->assertEqual(0, $result['penalty']);
-        $this->assertEqual('<div class="PRTFeedback">Ok, you can diff. Yeah!</div>', $result['feedback']);
+        $this->assertEqual('Ok, you can diff. Yeah!', $result['feedback']);
         $this->assertEqual('ATDiff_true | 1-0-1 | ATFacForm_true | 1-1-1', $result['answernote']);
 
     }

@@ -95,14 +95,14 @@ class stack_interaction_algebra_test extends UnitTestCase {
         $options = new stack_options();
         $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
         list ($valid, $feedback) = $el->validate_student_response('x^2', $options);
-        $this->assertTrue($valid);
+        $this->assertEqual('score', $valid);
     }
 
     public function test_validate_student_response_2() {
         $options = new stack_options();
         $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
-        list ($valid, $feedback) = $el->validate_student_response('2x(1+x^2)', $options);
-        $this->assertFalse($valid);
+        list($valid, $feedback) = $el->validate_student_response('2x(1+x^2)', $options);
+        $this->assertEqual('invalid', $valid);
     }
 
     public function test_validate_student_response_3() {
@@ -110,8 +110,8 @@ class stack_interaction_algebra_test extends UnitTestCase {
         $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', true);
         $el->set_parameter('strictSyntax', false);
-        list ($valid, $feedback) = $el->validate_student_response('2x', $options);
-        $this->assertTrue($valid);
+        list($valid, $feedback) = $el->validate_student_response('2x', $options);
+        $this->assertEqual('score', $valid);
     }
 
     public function test_validate_student_response_4() {
@@ -119,7 +119,7 @@ class stack_interaction_algebra_test extends UnitTestCase {
         $el = stack_interaction_controller::make_element('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', true);
         $el->set_parameter('strictSyntax', false);
-        list ($valid, $feedback) = $el->validate_student_response('2x(1+x^2)', $options);
-        $this->assertTrue($valid);
+        list($valid, $feedback) = $el->validate_student_response('2x(1+x^2)', $options);
+        $this->assertEqual('score', $valid);
     }
 }

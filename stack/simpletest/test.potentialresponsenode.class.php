@@ -94,7 +94,7 @@ class stack_potentialresponse_node_test extends UnitTestCase {
         $this->assertEqual(false, $result['valid']);
         $this->assertNotEqual('', $result['errors']);
         $this->assertEqual(0, $result['result']);
-        $this->assertEqual('Boo!', $result['feedback']);
+        $this->assertEqual('The answer test failed to execute correctly: please alert your teacher. Boo!', $result['feedback']);
         $this->assertEqual(-1, $result['nextnode']);
     }
 

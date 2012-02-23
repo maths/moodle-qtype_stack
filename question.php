@@ -65,15 +65,48 @@ class qtype_stack_question extends question_graded_automatically {
     protected $seed;
 
     /**
+    * @var array stack_cas_session STACK specific: session of variables.
+     */
+    protected $session;
+
+    /**
+     * The next three fields cache the results of some expensive computations.
+     * The chache is only vaid for a particular response, so we store the current
+     * response, so that we can clearn the cached information in the result changes.
+     * See {@link validate_cache()}.
+     * @var array = null;
+     */
+    protected $lastresponse = null;
+
+    /**
      * @var array input name => result of validate_student_response, if known.
      */
     protected $inputstates = array();
 
     /**
-     * @var array stack_cas_session STACK specific: session of variables.
+     * @var array prt name => result of evaluate_response, if known.
      */
-    protected $session;
+    protected $prtresults = array();
 
+    /**
+     * Make sure the cache is valid for the current response. If not, clear it.
+     */
+    protected function validate_cache($response) {
+        if (is_null($this->lastresponse)) {
+            // Nothing cached yet. No worries.
+            $this->lastresponse = $response;
+            return;
+        }
+
+        if ($this->lastresponse == $response) {
+            return; // Cache is good.
+        }
+
+        // Clear the cache.
+        $this->lastresponse = $response;
+        $this->inputstates = array();
+        $this->prtresults = array();
+    }
 
     public function start_attempt(question_attempt_step $step, $variant) {
 
@@ -95,7 +128,7 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function apply_attempt_state(question_attempt_step $step) {
-        $this->seed         = $step->get_qt_var('_seed');
+        $this->seed = (int) $step->get_qt_var('_seed');
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
         $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $this->seed, 't', false, true);
         $this->session = $qtext->get_session();
@@ -123,8 +156,10 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function summarise_response(array $response) {
         $bits = array();
-        foreach ($response as $name => $value) {
-            $bits[] = $name . ': ' . $value;
+        foreach ($this->inputs as $name => $notused) {
+            if (array_key_exists($name, $response)) {
+                $bits[] = $name . ': ' . $response[$name];
+            }
         }
         return implode('; ', $bits);
     }
@@ -139,7 +174,7 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function is_same_response(array $prevresponse, array $newresponse) {
         foreach ($this->inputs as $name => $input) {
-            if (!question_utils::arrays_same_at_key_integer(
+            if (!question_utils::arrays_same_at_key_missing_is_blank(
                     $prevresponse, $newresponse, $name)) {
                 return false;
             }
@@ -147,7 +182,15 @@ class qtype_stack_question extends question_graded_automatically {
         return true;
     }
 
+    /**
+     * Get the results of validating one of the input elements.
+     * @param string $name the name of one of the input elements.
+     * @param array $response the response.
+     * @return array the result of calling validate_student_response() on the input.
+     */
     protected function get_input_state($name, $response) {
+        $this->validate_cache($response);
+
         if (array_key_exists($name, $this->inputstates)) {
             return $this->inputstates[$name];
         }
@@ -164,13 +207,25 @@ class qtype_stack_question extends question_graded_automatically {
         return $this->inputstates[$name];
     }
 
+    /**
+     * Get the status of the input element.
+     * @param string $name the name of one of the input elements.
+     * @param array $response the response.
+     * @return string 'score', 'invalid' etc.
+     */
     public function get_input_status($name, $response) {
-        $state = get_input_state($name, $response);
+        $state = $this->get_input_state($name, $response);
         return $state[0];
     }
 
+    /**
+     * Get the feedback from one of the input elements.
+     * @param string $name the name of one of the input elements.
+     * @param array $response the response.
+     * @return string the feedback from this input element for this response.
+     */
     public function get_input_feedback($name, $response) {
-        $state = get_input_state($name, $response);
+        $state = $this->get_input_state($name, $response);
         return $state[1];
     }
 
@@ -184,12 +239,15 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function is_gradable_response(array $response) {
+        $allblank = true;
         foreach ($this->inputs as $name => $input) {
-            if ('invalid' == $this->get_input_status($name, $response)) {
+            $status = $this->get_input_status($name, $response);
+            if ('invalid' == $status) {
                 return false;
             }
+            $allblank = $allblank && ($status == '');
         }
-        return false;
+        return !$allblank;
     }
 
     public function get_validation_error(array $response) {
@@ -201,35 +259,54 @@ class qtype_stack_question extends question_graded_automatically {
         $fraction = 0;
 
         foreach ($this->prts as $index => $prt) {
-            $requirednames = $prt->get_required_variables(array_keys($question->inputs));
-
-            if ($this->can_execute_prt($requirednames, $attemptstatus)) {
-                $results = $prt->evaluate_response($session, $question->options, $response, $seed);
-                $fraction += $results['fraction'];
-
-            } else {
-                // TODO better error handling.
-                $results['feedback'] = '';
-            }
+            $results = $this->get_prt_result($index, $response);
+            $fraction += $results['fraction'];
         }
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
 
     /**
-     * Decides if the potential response tree should be executed.
+     * Do we have all the necssary inputs to execute one of the potential response trees?
+     * @param stack_potentialresponse_tree $prt the tree in question.
+     * @param array $response the response.
+     * @return bool can this PRT be executed for that response.
      */
-    protected function can_execute_prt($requirednames, $attemptstatus) {
-        $execute = true;
-        foreach ($requirednames as $name) {
-            if (array_key_exists ($name, $attemptstatus)) {
-                if ('score' != $attemptstatus[$name]) {
-                    $execute = false;
-                }
-            } else {
-                $execute = false;
+    protected function can_execute_prt(stack_potentialresponse_tree $prt, $response) {
+        foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
+            if ($this->get_input_status($name, $response) != 'score') {
+                return false;
             }
         }
-        return $execute;
+        return true;
+    }
+
+    /**
+     * Evaluate a PRT for a particular response.
+     * @param string $index the index of the PRT to evaluate.
+     * @param array $response the response to process.
+     * @return array the result from $prt->evaluate_response(), or a fake array
+     *      if the tree cannot be executed.
+     */
+    public function get_prt_result($index, $response) {
+        $this->validate_cache($response);
+
+        if (array_key_exists($index, $this->prtresults)) {
+            return $this->prtresults[$index];
+        }
+
+        $prt = $this->prts[$index];
+        if ($this->can_execute_prt($prt, $response)) {
+            $this->prtresults[$index] = $prt->evaluate_response(
+                    $this->session, $this->options, $response, $this->seed);
+
+        } else {
+            $this->prtresults[$index] = array(
+                'fraction' => null,
+                'feedback' => '',
+            );
+        }
+
+        return $this->prtresults[$index];
     }
 
     public function get_num_variants() {

@@ -54,18 +54,14 @@ class qtype_stack_renderer extends qtype_renderer {
                     $input->get_xhtml($currentvalue, $qa->get_qt_field_name($name), $options->readonly),
                     $questiontext);
 
-            if ($options->feedback) {
-                $feedback = $this->input_feedback($question->get_input_feedback($name, $response));
-            } else {
-                $feedback = '';
-            }
+            $feedback = $this->input_feedback($question->get_input_feedback($name, $response));
             $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", $feedback, $questiontext);
         }
 
         foreach ($question->prts as $index => $prt) {
             if ($options->feedback) {
-                $result = $question->get_prt_result($response);
-                $feedback = $this->input_feedback($question->get_input_feedback($name, $response));
+                $result = $question->get_prt_result($index, $response);
+                $feedback = $this->prt_feedback($result['feedback']);
             } else {
                 $feedback = '';
             }

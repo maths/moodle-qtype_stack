@@ -298,7 +298,6 @@ class stack_interaction_element {
         } else {
             $status = 'invalid';
         }
-        $status = $valid;
         return array($status, $feedback);
     }
 

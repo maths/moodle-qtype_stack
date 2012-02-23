@@ -58,7 +58,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(2, $result['score']);
         $this->assertEqual(0, $result['penalty']);
-        $this->assertEqual('<div class="PRTFeedback">Yeah!</div>', $result['feedback']);
+        $this->assertEqual('Yeah!', $result['feedback']);
         $this->assertEqual('ATInt_true | 1-0-1', $result['answernote']);
     }
 
@@ -151,7 +151,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual('', $result['errors']);
         $this->assertEqual(1, $result['score']);
         $this->assertEqual(0, $result['penalty']);
-        $this->assertEqual('<div class="PRTFeedback">Test 1 true. Test 2 false.</div>', $result['feedback']);
+        $this->assertEqual('Test 1 true. Test 2 false.', $result['feedback']);
         $this->assertEqual('1-0-1 | ATFacForm_notfactored. | 1-1-0 | [PRT-CIRCULARITY]=0', $result['answernote']);
 
         $this->assertEqual(array('sa1', 'ta'), $tree->get_required_variables(array('sa1', 'sa3', 'ta', 'ssa1', 'a1', 't')));

@@ -175,7 +175,7 @@ class stack_potentialresponse_tree {
 
         // Tidy up the results.
         $feedbackct = new stack_cas_text(implode(' ', $results['feedback']), $cascontext, $seed, 't', false, false);
-        $results['feedback'] =  html_writer::tag('div', $feedbackct->get_display_castext(), array('class' => 'PRTFeedback'));
+        $results['feedback'] =  $feedbackct->get_display_castext();
         $results['errors'] .= $feedbackct->get_errors();
         $results['answernote'] = implode(' | ', $results['answernote']);
         $results['fraction'] = $results['score'] * $this->value;

@@ -57,6 +57,7 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_no_hint_visible_expectation()
         );
 
+        // Submit the correct response:
         // TODO.
     }
 }

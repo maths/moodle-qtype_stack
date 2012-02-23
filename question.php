@@ -134,7 +134,7 @@ class qtype_stack_question extends question_graded_automatically {
         $this->session = $qtext->get_session();
     }
 
-    public function format_general_feedback() {
+    public function format_generalfeedback($qa) {
         $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, true);
 
         if ($gftext->get_errors()) {

@@ -44,7 +44,7 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $casoption
      */
     public function __construct($sans, $tans, $casfunction, $requirecasoptions = false,
-            $casoption = null, $options = null, $simp = null) {
+            $casoption = null, $options = null, $simp = false) {
         parent::__construct($sans, $tans, $options, $casoption);
 
         if (!is_bool($requirecasoptions)) {
@@ -57,7 +57,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $this->casfunction       = $casfunction;
         $this->requirecasoptions = $requirecasoptions;
-        $this->simp              = $simp;
+        $this->simp              = (bool) $simp;
     }
 
     /**

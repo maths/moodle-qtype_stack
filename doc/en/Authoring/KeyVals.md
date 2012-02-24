@@ -40,7 +40,7 @@ Hence, in STACK we add an abstraction layer to enforce a syntax where every expr
 
 The question variables are executed when a version of a question is created.   The displayed forms are available to all other [CASText](CASText) fields and the values to other parts of the question, e.g.
 
-* Teacher's answers in [interaction elements](Interaction_elements) are defined in terms of question variables.
+* Teacher's answers in [inputs](Inputs) are defined in terms of question variables.
 * [Question note](Question_note).
 * All fields in each of the [potential response tree](Potential_response_trees). 
 * Each input when [testing](testing) the item.
@@ -57,7 +57,7 @@ Of course, using these makes interoperability very difficult.
 Before each answer test is applied the following list of variables is assembled and evaluated
 
 1. The values of the [question variables](KeyVals#Question_variables).
-2. The values of each [interaction elements](Interaction_elements).
+2. The values of each [inputs](Inputs).
 3. The feedback variables.
 
 The values of the evaluated feedback variables can be used as expressions in the answer tests and in the feedback.

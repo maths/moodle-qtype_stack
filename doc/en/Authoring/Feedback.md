@@ -14,15 +14,15 @@ and on the basis of the properties we establish to assign _feedback_.
 
 In STACK there is a complete separation between two important components.
 
-1. a list of [interaction elements](Interaction_elements)
+1. a list of [inputs](Inputs)
 2. a list of [potential response trees](Potential_response_trees)
 
 Feedback is associated with each of these and it can be positioned anywhere within the [question stem](CASText#Question_stem).
 
 # Validation #
 
-Before an interaction element is available to a [potential response trees](Potential_response_trees)
-it must be validated.  In particular, at each attempt, each interaction element is assigned a status.
+Before an input is available to a [potential response trees](Potential_response_trees)
+it must be validated.  In particular, at each attempt, each input is assigned a status.
 
 1. NULL, which indicates the field has not been previously given a value by the student,
    or the field is now empty since the student has deleted an answer.
@@ -32,7 +32,7 @@ it must be validated.  In particular, at each attempt, each interaction element 
 5. score.  In this case, the answer is available to any potential response tree requiring it.
 
 Whether a string entered by the student is valid or invalid does not depend on the question.
-However, some [interaction element options](Interaction_elements#Interaction_element_options)
+However, some [input options](Inputs#Input_options)
 do affect validity, such as _forbid floats_.
 
 # Properties #

@@ -7,18 +7,18 @@ in the quick start guide.
 
 ## When is the tree used? ##
 
-Each potential response tree relies on one or more of the [interaction elements](Interaction_elements).
+Each potential response tree relies on one or more of the [inputs](Inputs).
 STACK automatically detects which elements are needed in the [answer tests](Answer_tests) or
 [feedback variables](KeyVals#Feedback_variables).
-The first time a student submits an interaction element it is validated.
+The first time a student submits an input it is validated.
 The second time it is submitted it is available for assessment by a potential response tree.
-Only when all interactions upon which a tree relies are valid and submitted will the tree be traversed.
+Only when all inputs upon which a tree relies are valid and submitted will the tree be traversed.
 
 ## Before the tree is traversed ##
 
 Each potential response tree can set Maxima's level of [simplification](../CAS/Maxima#Simplification).
 Before the tree is traversed the [feedback variables](KeyVals#Feedback_variables) are evaluated.
-The feedback variables may depend on the values of the [question variables](KeyVals#Question_variables) and the [interaction elements](interaction_elements).
+The feedback variables may depend on the values of the [question variables](KeyVals#Question_variables) and the [inputs](Inputs).
 The values of these variables are available to the [answer tests](Answer_tests) and all [CASText](CASText) fields within the tree, for example the feedback could be built using these variables.
 
 ## Traversing the tree ##

@@ -37,7 +37,7 @@ Enter the following information into the question stem. It should be possible to
 Then press the update button. 
 
 Notice this text contains LaTeX.  Full details are given under [CASText](CASText).
-When the form is refreshed scroll down:  there will be an [interaction elements](Interaction_elements) section of the editing form.
+When the form is refreshed scroll down:  there will be an [inputs](Inputs) section of the editing form.
 Into the Teacher's Answer type in the answer as a syntactically valid CAS expression, e.g.
 
 	3*(x-1)^2
@@ -75,7 +75,7 @@ Each branch can
 * Assign formative [feedback](Feedback) to the student.
 * Leave an [answer note](Potential_response_trees#Answer_note) for [reviewing](Reviewing) purposes.
 * Nominate the next potential response node, or end the process (-1).
-We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the interaction element in the question stem.  The Teacher's answer was `3*(x-1)^2`.  Update the form fields so that
+We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question stem.  The Teacher's answer was `3*(x-1)^2`.  Update the form fields so that
 
 	SAns = ans1
 	TAns = 3*(x-1)^2
@@ -199,7 +199,7 @@ Then change the [question stem](CASText#Question_stem) to
 	Differentiate @p@ with respect to $x$.
 	#ans1#
 
-and in the interaction elements change the Teacher's answer to
+and in the inputs change the Teacher's answer to
 
 	diff(p,x)
 

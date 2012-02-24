@@ -16,7 +16,7 @@ The following features are in approximate priority order.  Please contact the de
 
 ### Existing bugs to confirm ###
 
-* What is the status of interaction elements in equations, particularly with MathJAX.  Confirm what happens when these are locked once a worked solution has been called for.
+* What is the status of inputs in equations, particularly with MathJAX.  Confirm what happens when these are locked once a worked solution has been called for.
 
 ### Consolidation of mailing lists, forum, wiki etc. ###
 
@@ -29,8 +29,8 @@ We need to consolidate all of these things.
 
 ## Features to add - round two! ##
 
-* Geogebra interaction element.
-* Look at the Numbas "see as you type" javascript interface.  Could we include this as an interaction element?
+* Geogebra input.
+* Look at the Numbas "see as you type" javascript interface.  Could we include this as an input?
 * Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers. 
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)

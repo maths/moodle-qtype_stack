@@ -34,7 +34,7 @@ This system is the brain child of [Chris Sangwin](mailto:chris@sangwin.com).
 In STACK a lot of attention has been paid to allowing teachers to author and manage their own questions. The following are the key features.
 
 * Question versions are randomly generated within structured templates.
-* There are many different kinds of interaction elements. These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
+* There are many different kinds of inputs. These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
 * Mathematical properties of students' answers are established using answer tests within the CAS Maxima.
 * Feedback is assigned on the basis of these properties using a potential response tree. This feedback includes:
 	1. Textual comments.
@@ -44,7 +44,7 @@ In STACK a lot of attention has been paid to allowing teachers to author and man
 These broadly correspond to formative, summative and evaluative functions of assessment.
 
 * [Multi-part mathematical questions](../Authoring/Multi-part_mathematical_questions) are possible:
-  each question may have any number of interaction elements and any number of potential response trees.
+  each question may have any number of inputs and any number of potential response trees.
   There need not be a one-to-one correspondence between these.
 * Partial credit is possible when an expression only satisfies some of the required properties.
 * Plots can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.

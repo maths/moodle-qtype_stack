@@ -55,7 +55,7 @@ Similar to the translator function...
 
 ## Some miscellaneous things Tim wants to do
 
-* Making an answer test should be like interaction elements. We should return an answer test object, not a controller object.
+* Answer tests should be like inputs. We should return an answer test object, not a controller object.
 * $at->get_at_mark() really ought to be $at->matches(), since that is how it is used.
 * Finish cleaning up stack_utils.
 
@@ -142,7 +142,7 @@ Key features
 
 * [Precision](../Authoring/Answer_tests#Precision) answer test added to allow significant to be checked.
 * [Form](../Authoring/Answer_tests#Form) answer test added to test if an expression is in completed square form.
-* List interaction element expanded to include checkboxes.  See [List](../Authoring/Interaction_elements#List).
+* List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs#List).
 * Move to Maxima's `random()` function, rather then generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)
 * Support for Maxima 5.20.1

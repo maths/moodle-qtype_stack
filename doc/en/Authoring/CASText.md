@@ -39,17 +39,17 @@ the variables in the [feedback variables](KeyVals#Feedback_variables) may also b
 
 The question stem, i.e. the text the student actually sees, is a slightly modified form of CAS text.
 
-To allow a student to answer a question you must include an [interaction elements](Interaction_elements) in the question stem. For example, students need a box into which their answer will be put.
+To allow a student to answer a question you must include an [inputs](Inputs) in the question stem. For example, students need a box into which their answer will be put.
 
-To place an [interaction elements](Interaction_elements) into the question enclose the
+To place an [inputs](Inputs) into the question enclose the
 name of the [Maxima](../CAS/Maxima) variable to which the student's answer is assigned between hash symbols, e.g. `#ans1#`
 
-When the question is created this is replaced with the appropriate [interaction elements](Interaction_elements).
+When the question is created this is replaced with the appropriate [inputs](Inputs).
 When the student answers, this variable name is available to each [potential response trees](Potential_response_trees).
 
 Feedback can be included anywhere within the question stem.
 
-* When you create an [interaction elements](Interaction_elements) STACK automatically adds
+* When you create an [inputs](Inputs) STACK automatically adds
   a string such as the following.  `<IEfeedback>ans1</IEfeedback>`
 * When you create a [potential response trees](Potential_response_trees) STACK automatically adds
   a string such as the following `<PRTfeedback>1</PRTfeedback>`
@@ -62,7 +62,7 @@ Do **not** place feedback within LaTeX equations!
 
 The worked solution is shown to the student after the due date.
 The worked solution may depend on any question variables,
-but may _not_ depend on any of the interaction elements. 
+but may _not_ depend on any of the inputs. 
 While this design decision is restrictive, it is a deliberate separation of feedback
 which should be done via potential response trees, from a model solution to this
 problem which can be written before a question is deployed.

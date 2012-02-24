@@ -31,11 +31,11 @@ for example differentiation rather than integration.  These are included at the 
 ### test_2.xml ###
 
 This is the simplest multi-part question.
-There are multiple [interaction elements](Interaction_elements) in an equation with one potential response tree.
+There are multiple [inputs](Inputs) in an equation with one potential response tree.
 
 ### test_3.xml ###
 
-This is another simple multi-part question.  Here there are four [interaction elements](Interaction_elements) each with its own potential response tree.
+This is another simple multi-part question.  Here there are four [inputs](Inputs) each with its own potential response tree.
 Note also in this item that 'properties' of the student's answer are being established, not just "a correct answer".
 
 ### test_4.xml ###
@@ -53,7 +53,7 @@ Is this sensible?  Maybe not, but this question demonstrates this feature.
 
 ### test_6.xml ###
 
-Demonstrates a simple matrix question, with the grid [interaction elements](Interaction_elements) within a displayed equation.
+Demonstrates a simple matrix question, with the grid [inputs](Inputs) within a displayed equation.
 Notes on how Maxima deals with matrices are given in [Maxima](../CAS/Maxima).
 
 ### test_7.xml ###
@@ -86,9 +86,9 @@ This question demonstrates how to include external images into a STACK question,
 in particular using the dynamically generated [Google charts](http://code.google.com/apis/chart/).
 This is a powerful feature which out-sources the production of graphics to another web service.
 
-### interaction_element_test.xml ###
+### input_test.xml ###
 
-This file contains questions which demonstrate the range of [interaction elements](Interaction_elements) available to question authors.   These are not serious questions, but just examples.
+This file contains questions which demonstrate the range of [inputs](Inputs) available to question authors.   These are not serious questions, but just examples.
 
 # Other sources of questions #
 

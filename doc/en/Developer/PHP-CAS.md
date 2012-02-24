@@ -136,7 +136,7 @@ numbers.    See the section below on options.
 
 We need to ensure the current options are respected in the new CAS setup.  See [options](../Authoring/Options).
 
-Note that some of the interaction elements enable options to be set there.  We might have a multi-part question in which part one forbids floating point numbers, whereas the next part allows them.  Validity is a concept tied to the interaction element.
+Note that some of the inputs enable options to be set there.  We might have a multi-part question in which part one forbids floating point numbers, whereas the next part allows them.  Validity is a concept tied to the input.
 
 # Code layout 
 

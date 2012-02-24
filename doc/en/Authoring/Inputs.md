@@ -1,16 +1,16 @@
-# Interaction elements
+# inputs
 
-Interaction elements are the points at which the student interacts with the question.
+inputs are the points at which the student interacts with the question.
 For example, it might be a form box into which the student enters their answer.
 
-* Only the [question stem](CASText#Question_stem) may have interaction elements. 
-* Interaction elements are not required. Hence it is possible for the teacher to make a
+* Only the [question stem](CASText#Question_stem) may have inputs. 
+* inputs are not required. Hence it is possible for the teacher to make a
   statement which asks for no response from the student, i.e. a rhetorical question.
-* A question may have as many interaction elements as needed.
-* Interaction elements can be positioned anywhere within the
+* A question may have as many inputs as needed.
+* inputs can be positioned anywhere within the
   [question stem](CASText#Question_stem).  If JSMath is used for display this includes within equations.  MathJax does not currently support this feature.
 
-The position of an interaction element in the [question stem](CASText#Question_stem) is denoted by
+The position of an input in the [question stem](CASText#Question_stem) is denoted by
 
 	#stuff#
  
@@ -22,17 +22,17 @@ This must only be letters (optionally) followed by numbers, e.g.
 No special characters are permitted.
 
 Feedback as to the syntactic validity of a response is by default inserted just after
-the interaction element. Feedback is positioned using tags such as
+the input. Feedback is positioned using tags such as
 
 	<IEfeedback>stuff</IEfeedback>
  
 where stuff is the name of the variable. This string is automatically generated if it
-does not exist and is placed after the interaction element. This feedback must be given.
-Interaction elements have a number of options. Specific interaction elements may have extra options.
+does not exist and is placed after the input. This feedback must be given.
+inputs have a number of options. Specific inputs may have extra options.
 
-## Interaction element options ##
+## input options ##
 
-Each interaction element may have a number of options.
+Each input may have a number of options.
 
 ## Student's Answer Key ##  {#Answer_Key}
 
@@ -45,7 +45,7 @@ Internally you can refer to the student's answer using the variable name `ans1`.
 
 ### Input Type ### {#Input_Type}
 
-Currently STACK supports the following kinds of interaction elements.   
+Currently STACK supports the following kinds of inputs.   
 
 #### Algebraic input ####
 
@@ -83,7 +83,7 @@ Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxi
 
 ### Teacher's Answer ###  {#Teacher_Ans}
 
-**This field is compulsory.** Every interaction element must have an answer, although this answer is not necessarily the unique correct answer. 
+**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer. 
 This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...)
 
 ### Box Size ### {#Box_Size}
@@ -154,7 +154,7 @@ then the attempt will be rejected as invalid.
 This is very useful for ensuring the student has typed in an "equation", such as \(y=mx+c\)
 and not an expression such as \(mx+c\).  Remember, you can't compare an expression with an equation!
 
-Another useful way of avoiding this problem is to put a LaTeX string such as \(y=\) just before the interaction element.  E.g.
+Another useful way of avoiding this problem is to put a LaTeX string such as \(y=\) just before the input.  E.g.
 
 	\(y=\)#ans1#.
 
@@ -169,7 +169,7 @@ Experience strongly supports the use of verification by "validating" input whene
 
 (New in 2.2) Feedback to students is in two forms.  
 
-* feedback tied to interaction elements, in particular if the answer is invalid.
+* feedback tied to inputs, in particular if the answer is invalid.
 * feedback tied to each potential response tree.
 
 Setting this option does not display any feedback from this input.
@@ -177,7 +177,7 @@ Generally, feedback and verification are used in conjunction.
 
 ### Options ### {#Options}
 
-Different types of interaction elements have various options.   These are described under the IE type.
+Different types of inputs have various options.   These are described under the IE type.
 
 ### List			{#List}
 
@@ -187,7 +187,7 @@ This allows the following kinds of interactions to be included in STACK question
 * Dropdown lists.
 * Check boxes.
 
-The teacher can choose to construct an interaction which displays a random selection,
+The teacher can choose to construct an input which displays a random selection,
 in a random order, from a list of potential "distractors".  The top element, named "Correct answer",
 is always included, although this isn't really needed for the checkbox type.
 
@@ -198,17 +198,17 @@ STACK will automatically add space to ensure you have at least two blank distrac
 you update the question. In the case of the radio button or dropdown list a single expression will be returned.
 In the case of the check boxes, we return a list of expressions.  Note, 
 
-* The Teacher's Answer in the Interaction element needs to be a list of objects, even if only one is correct.
+* The Teacher's Answer in the input needs to be a list of objects, even if only one is correct.
 * The order of elements in this list is not certain, because we display them in a random order to students.
   It will be necessary to `setify()` this to compare with a set of answers without order becoming a problem.
 
 ## Future plans ##
 
-Adding new interaction elements should be a straightforward job for the developers.  We have plans to add interaction elements as follows.
+Adding new inputs should be a straightforward job for the developers.  We have plans to add inputs as follows.
 
 | Package   | Functionality                                                                                                                                                                                                                     
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-| Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an interaction element.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.  
+| Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.  
 | GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.                                                                                                                                                        
 
 The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

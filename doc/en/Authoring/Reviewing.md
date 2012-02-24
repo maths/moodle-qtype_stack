@@ -36,8 +36,8 @@ Then return a simple table with columns for
 * Item name
 * Links to try question version user got at that point.
 * Question note
-* All inputs, i.e. all interaction elements
-* All outcomes, i.e. valid, score for each interaction element, answer notes etc.
+* All inputsinputs
+* All outcomes, i.e. valid, score for each input, answer notes etc.
 
 When a user changes their Item id, or question note
 

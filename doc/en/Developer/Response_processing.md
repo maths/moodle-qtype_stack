@@ -12,7 +12,7 @@ The reasons why this design was adopted are given in the page on [question state
 
 This table contains the information authored by the teacher.   There are other tables which link to this.
 
-1. `interaction_element`.  This holds details of each separate interaction element.  Many interaction elements, unique for each question.
+1. `interaction_element`.  This holds details of each separate input.  Many inputs, unique for each question.
 2. `response_tree`.  This holds details of each separate potential response tree.  Many potential response trees, unique for each question.
 3. `keywords` and `question_keywords` link in a many-many way between keywords and questions.
 
@@ -20,7 +20,7 @@ This table contains the information authored by the teacher.   There are other t
 
 The [options](../Authoring/Options) will be needed - more thought needed on which of these should be explicit table columns.   Would be nice to be able to add new options without altering the database if possible.
 
-Remember that we have a total disconnect between [interaction elements](../Authoring/Interaction_elements)
+Remember that we have a total disconnect between [inputs](../Authoring/Inputs)
 and [potential response trees](../Authoring/Potential_response_trees) within a [multi-part mathematical question](../Authoring/Multi-part_mathematical_questions).
 
 
@@ -39,7 +39,7 @@ To do:  what happens when a teacher edits a question which has been (i) deployed
 4. Instantiate the [question note](../Authoring/Question_note).  Does this note already appear in `deployed_question` for this `id.question`? Yes. Repeat 1-3 a reasonable number of times. 
 5. Instantiate all other fields.
 6. Create a new line in `deployed_question`.
-7. Take `stem.deployed_question` and (i) replace all feedback tags in `stem.deployed_question` with empty strings (ii) add all interaction element html.
+7. Take `stem.deployed_question` and (i) replace all feedback tags in `stem.deployed_question` with empty strings (ii) add all input html.
 8. Create a new line in the `cache` to seed this deployed version.
 9. Create a new line in `cache_sequence` where `current.cache_sequence` has the special value of 0 to signify the root of the tree.
 
@@ -71,7 +71,7 @@ Not sure how we deal with navigation away from the page.
 
 Ok, so now the student has submitted this response to this position in the `cache`.  We now actually have some work to do.
 
-1. Take each `interaction_element` for the question.  `history.cache` contains an array giving the previous answer and its status.  Has the answer changed?
+1. Take each `input` for the question.  `history.cache` contains an array giving the previous answer and its status.  Has the answer changed?
   1. Yes.  Validate the answer, and set new status.
   2. No.   If `valid`, update the status from `valid` to `score`.
   3. (Note, that at this point something has changed!)  Create new entry in `attempt_answer`.

@@ -22,7 +22,7 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../factory.class.php');
+require_once(dirname(__FILE__) . '/../../factory.class.php');
 require_once(dirname(__FILE__) . '/../boolean.class.php');
 
 

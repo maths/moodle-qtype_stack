@@ -18,6 +18,7 @@
  * Defined the stack_input_factory class.
  */
 
+require_once(dirname(__FILE__) . '/../options.class.php');
 require_once(dirname(__FILE__) . '/inputbase.class.php');
 
 
@@ -29,16 +30,6 @@ require_once(dirname(__FILE__) . '/inputbase.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_input_factory {
-    protected static $types = array(
-        'algebraic'  => 'stack_algebra_input',
-        'boolean'    => 'stack_boolean_input',
-        'dropDown'   => 'stack_dropdown_input',
-    //    'list'       => 'stack_list_input',
-    //    'matrix'     => 'stack_matrix_input',
-        'singleChar' => 'stack_singlechar_input',
-    //    'slider'     => 'stack_slider_input',
-        'textArea'   => 'stack_textarea_input',
-    );
 
     /**
      * Create an input of a given type and return it.
@@ -54,9 +45,7 @@ class stack_input_factory {
      * @return stack_input the requested input.
      */
     public static function make($type, $name, $teacheranswer, $parameters = null) {
-
         $class = self::class_for_type($type);
-        require_once(dirname(__FILE__) . '/' . strtolower($type) . '.class.php');
         return new $class($name, $teacheranswer, $parameters);
     }
 
@@ -66,17 +55,65 @@ class stack_input_factory {
      * @return string corresponding class name.
      */
     protected static function class_for_type($type) {
-        if (!array_key_exists($type, self::$types)) {
-            // TODO throw an appropriate error.
+        $typelc = strtolower($type);
+        $file = dirname(__FILE__) . "/{$typelc}/{$typelc}.class.php";
+        $class = "stack_{$typelc}_input";
+
+        if (!is_readable($file)) {
+            throw new Exception('stack_input_factory: unknown input type ' . $type);
         }
-        return self::$types[$type];
+        include_once($file);
+
+        if (!class_exists($class)) {
+            throw new Exception('stack_input_factory: input type ' . $type .
+                    ' does not define the expected class ' . $class);
+        }
+        return $class;
     }
 
     /**
      * @return array of available type names.
      */
     public static function get_available_types() {
-        return array_keys(self::$types);
+        $ignored = array('CVS', '_vti_cnf', 'simpletest', 'yui', 'phpunit');
+        $types = array();
+
+        $types = array();
+        foreach (new DirectoryIterator(dirname(__FILE__)) as $item) {
+            // Skip . and .. and non-dirs.
+            if ($item->isDot() or !$item->isDir()) {
+                continue;
+            }
+
+            // Skip folders from the ignored array above.
+            $foldername = $item->getFilename();
+            if (in_array($foldername, $ignored)) {
+                continue;
+            }
+
+            // Skip folders with dubious names.
+            $inputname = clean_param($foldername, PARAM_PLUGIN);
+            if (empty($inputname) || $inputname != $foldername) {
+                continue;
+            }
+
+            // Skip folders that don't contain the right file.
+            $result[$pluginname] = $fulldir.'/'.$pluginname;
+            $file = dirname(__FILE__) . "/{$inputname}/{$inputname}.class.php";
+            if (!is_readable($file)) {
+                continue;
+            }
+
+            // Skip folders that don't define the right class.
+            include_once($file);
+            $class = "stack_{$inputname}_input";
+            if (!class_exists($class)) {
+                continue;
+            }
+
+            // Yay! finally we have confirmed we have a valid input plugin!
+            $types[$inputname] = $class;
+        }
     }
 
     /**
@@ -86,7 +123,7 @@ class stack_input_factory {
      */
     public static function get_parameters_used() {
         $used = array();
-        foreach (self::$types as $type => $class) {
+        foreach (self::get_available_types() as $type => $class) {
             $used[$type] = $class::get_parameters_used();
             $used[$type][] = 'inputType';
         }
@@ -100,7 +137,7 @@ class stack_input_factory {
      */
     public static function get_parameters_defaults() {
         $defaults = array();
-        foreach (self::$types as $type => $class) {
+        foreach (self::get_available_types() as $type => $class) {
             $defaults[$type] = $class::get_parameters_defaults();
         }
         return $defaults;

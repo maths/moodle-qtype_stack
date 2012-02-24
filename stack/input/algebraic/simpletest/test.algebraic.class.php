@@ -21,8 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/../factory.class.php');
-require_once(dirname(__FILE__) . '/../../options.class.php');
+require_once(dirname(__FILE__) . '/../../factory.class.php');
 
 /**
  * Unit tests for stack_algebra_input.

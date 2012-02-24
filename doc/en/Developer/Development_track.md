@@ -110,9 +110,10 @@ Key features
 
 ## Changes in features between STACK 2 and STACK 3.
 
+* What used to be called Interaction elements are now known as Inputs.
 * Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
 * Feature "allowed words" dropped from interaction elements. 
-* Interaction element "Dropdown" lost -> should be automatically imported to "list"
+* Input "Dropdown" list -> should be automatically imported to "list"
 
 ## Future plans 
 

@@ -44,17 +44,13 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Replace inputs.
         foreach ($question->inputs as $name => $input) {
+            $state = $question->get_input_state($name, $response);
 
-            if (array_key_exists($name, $response)) {
-                $currentvalue = $response[$name];
-            } else {
-                $currentvalue = '';
-            }
             $questiontext = str_replace("#{$name}#",
-                    $input->get_xhtml($currentvalue, $qa->get_qt_field_name($name), $options->readonly),
+                    $input->get_xhtml($state->contents, $qa->get_qt_field_name($name), $options->readonly),
                     $questiontext);
 
-            $feedback = $this->input_feedback($question->get_input_feedback($name, $response));
+            $feedback = $this->input_feedback($state->feedback);
             $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", $feedback, $questiontext);
         }
 

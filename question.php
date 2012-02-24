@@ -79,7 +79,8 @@ class qtype_stack_question extends question_graded_automatically {
     protected $lastresponse = null;
 
     /**
-     * @var array input name => result of validate_student_response, if known.
+     * @var array input name => stack_input_state.
+     * This caches the results of validate_student_response for $lastresponse.
      */
     protected $inputstates = array();
 
@@ -190,9 +191,9 @@ class qtype_stack_question extends question_graded_automatically {
      * Get the results of validating one of the input elements.
      * @param string $name the name of one of the input elements.
      * @param array $response the response.
-     * @return array the result of calling validate_student_response() on the input.
+     * @return stack_input_state the result of calling validate_student_response() on the input.
      */
-    protected function get_input_state($name, $response) {
+    public function get_input_state($name, $response) {
         $this->validate_cache($response);
 
         if (array_key_exists($name, $this->inputstates)) {
@@ -211,31 +212,9 @@ class qtype_stack_question extends question_graded_automatically {
         return $this->inputstates[$name];
     }
 
-    /**
-     * Get the status of the input element.
-     * @param string $name the name of one of the input elements.
-     * @param array $response the response.
-     * @return string 'score', 'invalid' etc.
-     */
-    public function get_input_status($name, $response) {
-        $state = $this->get_input_state($name, $response);
-        return $state[0];
-    }
-
-    /**
-     * Get the feedback from one of the input elements.
-     * @param string $name the name of one of the input elements.
-     * @param array $response the response.
-     * @return string the feedback from this input element for this response.
-     */
-    public function get_input_feedback($name, $response) {
-        $state = $this->get_input_state($name, $response);
-        return $state[1];
-    }
-
     public function is_complete_response(array $response) {
         foreach ($this->inputs as $name => $input) {
-            if ('score' != $this->get_input_status($name, $response)) {
+            if (stack_input::SCORE != $this->get_input_state($name, $response)->status) {
                 return false;
             }
         }
@@ -245,11 +224,11 @@ class qtype_stack_question extends question_graded_automatically {
     public function is_gradable_response(array $response) {
         $allblank = true;
         foreach ($this->inputs as $name => $input) {
-            $status = $this->get_input_status($name, $response);
-            if ('invalid' == $status) {
+            $status = $this->get_input_state($name, $response)->status;
+            if (stack_input::INVALID == $status) {
                 return false;
             }
-            $allblank = $allblank && ($status == '');
+            $allblank = $allblank && ($status == stack_input::BLANK);
         }
         return !$allblank;
     }
@@ -277,7 +256,7 @@ class qtype_stack_question extends question_graded_automatically {
      */
     protected function can_execute_prt(stack_potentialresponse_tree $prt, $response) {
         foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
-            if ($this->get_input_status($name, $response) != 'score') {
+            if (stack_input::SCORE != $this->get_input_state($name, $response)->status) {
                 return false;
             }
         }

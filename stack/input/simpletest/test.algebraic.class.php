@@ -94,15 +94,15 @@ class stack_algebra_input_test extends UnitTestCase {
     public function test_validate_student_response_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        list ($valid, $feedback) = $el->validate_student_response('x^2', $options);
-        $this->assertEqual('score', $valid);
+        $state = $el->validate_student_response('x^2', $options);
+        $this->assertEqual(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_2() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        list($valid, $feedback) = $el->validate_student_response('2x(1+x^2)', $options);
-        $this->assertEqual('invalid', $valid);
+        $state = $el->validate_student_response('2x(1+x^2)', $options);
+        $this->assertEqual(stack_input::INVALID, $state->status);
     }
 
     public function test_validate_student_response_3() {
@@ -110,8 +110,8 @@ class stack_algebra_input_test extends UnitTestCase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', true);
         $el->set_parameter('strictSyntax', false);
-        list($valid, $feedback) = $el->validate_student_response('2x', $options);
-        $this->assertEqual('score', $valid);
+        $state = $el->validate_student_response('2x', $options);
+        $this->assertEqual(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_4() {
@@ -119,7 +119,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', true);
         $el->set_parameter('strictSyntax', false);
-        list($valid, $feedback) = $el->validate_student_response('2x(1+x^2)', $options);
-        $this->assertEqual('score', $valid);
+        $state = $el->validate_student_response('2x(1+x^2)', $options);
+        $this->assertEqual('score', $state->status);
     }
 }

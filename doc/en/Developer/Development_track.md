@@ -57,7 +57,6 @@ Similar to the translator function...
 
 * Making an answer test should be like interaction elements. We should return an answer test object, not a controller object.
 * $at->get_at_mark() really ought to be $at->matches(), since that is how it is used.
-* Finish renaming interaction elements to input elements.
 * Finish cleaning up stack_utils.
 
 

@@ -18,6 +18,8 @@ require_once(dirname(__FILE__) . '/../../locallib.php');
 require_once(dirname(__FILE__) . '/../options.class.php');
 require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
 require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
+require_once(dirname(__FILE__) . '/inputstate.class.php');
+
 
 /**
  * The base class for inputs in Stack.
@@ -29,6 +31,11 @@ require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_input {
+    const BLANK = '';
+    const VALID = 'valid';
+    const INVALID = 'invalid';
+    const SCORE = 'score';
+
     protected static $perameterstack_inputsavailable = array(
         'mustVerify',
         'hideFeedback',
@@ -208,7 +215,7 @@ class stack_input {
      * Validate any attempts at this question.
      *
      * @param string
-     * @return stack_cas_casstring
+     * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($sans, $options) {
 
@@ -217,9 +224,7 @@ class stack_input {
         }
 
         if ('' == $sans) {
-            $status = '';
-            $feedback = '';
-            return array($status, $feedback);
+            return new stack_input_state('', stack_input::BLANK, '');
         }
         $transformedanswer = $this->transform($sans);
 
@@ -286,12 +291,12 @@ class stack_input {
         $feedback = $this->generate_validation_feedback($valid, $display, $errors);
         // TODO - deal with status.....
         if ($valid) {
-            $status = 'valid';
-            $status = 'score'; //TODO status transitions.
+            $status = stack_input::VALID;
+            $status = stack_input::SCORE; //TODO status transitions.
         } else {
-            $status = 'invalid';
+            $status = stack_input::INVALID;
         }
-        return array($status, $feedback);
+        return new stack_input_state($sans, $status, $feedback);
     }
 
     private function generate_validation_feedback($valid, $display, $errors) {

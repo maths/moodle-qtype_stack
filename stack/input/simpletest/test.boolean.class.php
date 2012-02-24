@@ -69,21 +69,21 @@ class stack_boolean_input_test extends UnitTestCase {
     public function test_validate_student_response_true() {
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
-        list ($valid, $feedback) = $el->validate_student_response('true', $options);
-        $this->assertTrue($valid);
+        $state = $el->validate_student_response('true', $options);
+        $this->assertEqual(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_false() {
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
-        list ($valid, $feedback) = $el->validate_student_response('false', $options);
-        $this->assertTrue($valid);
+        $state = $el->validate_student_response('false', $options);
+        $this->assertEqual(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_na() {
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');
-        list ($valid, $feedback) = $el->validate_student_response('', $options);
-        $this->assertFalse($valid);
+        $state = $el->validate_student_response('', $options);
+        $this->assertEqual(stack_input::BLANK, $state->status);
     }
 }

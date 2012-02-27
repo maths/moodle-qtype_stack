@@ -93,14 +93,14 @@ class stack_algebra_input_test extends UnitTestCase {
     public function test_validate_student_response_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        $state = $el->validate_student_response('x^2', $options);
+        $state = $el->validate_student_response(array('sans1' => 'x^2'), $options);
         $this->assertEqual(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_2() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        $state = $el->validate_student_response('2x(1+x^2)', $options);
+        $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)'), $options);
         $this->assertEqual(stack_input::INVALID, $state->status);
     }
 
@@ -109,7 +109,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', true);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response('2x', $options);
+        $state = $el->validate_student_response(array('sans1' => '2x'), $options);
         $this->assertEqual(stack_input::SCORE, $state->status);
     }
 
@@ -118,7 +118,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $el->set_parameter('insertStars', true);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response('2x(1+x^2)', $options);
+        $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)'), $options);
         $this->assertEqual('score', $state->status);
     }
 }

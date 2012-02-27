@@ -229,13 +229,18 @@ class stack_input {
     /**
      * Validate any attempts at this question.
      *
-     * @param string
+     * @param array $response the student reponse to the question.
      * @return stack_input_state represents the current state of the input.
      */
-    public function validate_student_response($sans, $options) {
-
+    public function validate_student_response($response, $options) {
         if (!is_a($options, 'stack_options')) {
             throw new Exception('stack_input: validate_student_response: options not of class stack_options');
+        }
+
+        if (array_key_exists($this->name, $response)) {
+            $sans = $response[$this->name];
+        } else {
+            $sans = '';
         }
 
         if ('' == $sans) {
@@ -249,8 +254,7 @@ class stack_input {
         // TODO: we need to run this check over the names of the question variables....
         $forbiddenwords = $this->get_parameter('forbidWords', '');
         if ($forbiddenwords) {
-            $keywords = explode(',', $this->parameters['forbidWords']);
-            $answer->check_external_forbidden_words($keywords);
+            $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
         }
 
         $valid = $answer->get_valid();

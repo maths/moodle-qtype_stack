@@ -73,6 +73,6 @@ class stack_dropdown_input extends stack_input {
         return array(
             'mustVerify'     => false,
             'hideFeedback'   => true
-            );
+       );
     }
 }

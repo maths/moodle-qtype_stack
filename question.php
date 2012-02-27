@@ -133,12 +133,15 @@ class qtype_stack_question extends question_graded_automatically {
         $step->set_qt_var('_questiontext', $qtext->get_display_castext());
 
         if ($qtext->get_errors()) {
-            //TODO better error trapping that this.
-            throw new Exception('Error rendering question text: ' . $qtext->get_errors());
+            throw new Exception('Error rendering the question text: ' . $qtext->get_errors());
         }
 
         $feedbacktext = new stack_cas_text($this->specificfeedback, $this->session, $this->seed, 't', false, true);
         $step->set_qt_var('_feedback', $feedbacktext->get_display_castext());
+
+        if ($qtext->get_errors()) {
+            throw new Exception('Error rendering the feedback text: ' . $feedbacktext->get_errors());
+        }
 
         $this->session = $qtext->get_session();
     }
@@ -158,8 +161,7 @@ class qtype_stack_question extends question_graded_automatically {
         $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, true);
 
         if ($gftext->get_errors()) {
-            //TODO better error trapping that this.
-            throw new Exception('Error rendering question text: ' . $qtext->get_errors());
+            throw new Exception('Error rendering the general feedback text: ' . $qtext->get_errors());
         }
 
         return $this->format_text($gftext->get_display_castext(), $this->generalfeedbackformat,
@@ -215,14 +217,8 @@ class qtype_stack_question extends question_graded_automatically {
             return $this->inputstates[$name];
         }
 
-        if (array_key_exists($name, $response)) {
-            $currentvalue = $response[$name];
-        } else {
-            $currentvalue = '';
-        }
-
         $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
-                $currentvalue, $this->options);
+                $response, $this->options);
 
         return $this->inputstates[$name];
     }

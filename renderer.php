@@ -68,6 +68,26 @@ class qtype_stack_renderer extends qtype_renderer {
                 $qa, 'question', 'questiontext', $question->id);
     }
 
+    protected function specific_feedback(question_attempt $qa) {
+        $question = $qa->get_question();
+        $response = $qa->get_last_qt_data();
+        $feedbacktext = $qa->get_last_qt_var('_feedback');
+
+        if (!$feedbacktext) {
+            return '';
+        }
+
+        // Replace any PRT feedback.
+        foreach ($question->prts as $index => $prt) {
+            $result = $question->get_prt_result($index, $response);
+            $feedback = $this->prt_feedback($result['feedback']);
+            $feedbacktext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $feedback, $feedbacktext);
+        }
+
+        return $question->format_text($feedbacktext, $question->specificfeedbackformat,
+                $qa, 'question', 'specificfeedback', $question->id);
+    }
+
     /**
      * @param string $feedback the raw feedback message from the intput element.
      * @return string Nicely formatted feedback, for display.
@@ -94,5 +114,4 @@ class qtype_stack_renderer extends qtype_renderer {
         $string = preg_replace($patterns, '', $string);
         return strpos($string, $input) === true;
     }
-
 }

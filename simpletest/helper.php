@@ -44,35 +44,51 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * Does the basical initialisation of a new Stack question that all the test
+     * questions will need.
+     * @return qtype_stack_question the new question.
+     */
+    protected static function make_a_stack_question() {
+        question_bank::load_question_definition_classes('stack');
+
+        $q = new qtype_stack_question();
+        test_question_maker::initialise_a_question($q);
+        $q->qtype = question_bank::get_qtype('stack');
+
+        $q->questionvariables = '';
+        $q->specificfeedback = '';
+        $q->specificfeedbackformat = FORMAT_HTML;
+        $q->generalfeedback = '';
+
+        $q->inputs = array();
+        $q->prts = array();
+
+        $q->options = new stack_options();
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question the question from the test0.xml file.
      */
     public static function make_stack_question_test0() {
-        question_bank::load_question_definition_classes('stack');
-        $q = new qtype_stack_question();
-
-        test_question_maker::initialise_a_question($q);
+        $q = self::make_a_stack_question();
 
         $q->name = 'test-0';
-        $q->questionvariables = '';
         $q->questiontext = 'What is $1+1$? #ans1#
-                           <IEfeedback>ans1</IEfeedback>
-                           <PRTfeedback>firsttree</PRTfeedback>';
-        $q->generalfeedback = '';
-        $q->qtype = question_bank::get_qtype('stack');
+                           <IEfeedback>ans1</IEfeedback>';
 
-        $q->inputs = array();
+        $q->specificfeedback = '<PRTfeedback>firsttree</PRTfeedback>';
+
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', array('boxWidth' => 5));
 
-        $q->prts = array();
-            $sans = new stack_cas_casstring('ans1', 't');
-            $tans = new stack_cas_casstring('2', 't');
-            $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-            $node->add_branch(0, '=', 0, '', -1, '', 'firsttree-0-0');
-            $node->add_branch(1, '=', 1, '', -1, '', 'firsttree-0-1');
+        $sans = new stack_cas_casstring('ans1', 't');
+        $tans = new stack_cas_casstring('2', 't');
+        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node->add_branch(0, '=', 0, '', -1, '', 'firsttree-0-0');
+        $node->add_branch(1, '=', 1, '', -1, '', 'firsttree-0-1');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node));
-
-        $q->options = new stack_options();
 
         return $q;
     }
@@ -81,38 +97,31 @@ class qtype_stack_test_helper extends question_test_helper {
      * @return qtype_stack_question the question from the test1.xml file.
      */
     public static function make_stack_question_test1() {
-        question_bank::load_question_definition_classes('stack');
-        $q = new qtype_stack_question();
-
-        test_question_maker::initialise_a_question($q);
+        $q = self::make_a_stack_question();
 
         $q->name = 'test-1';
         $q->questionvariables = 'n = rand(5)+3; a = rand(5)+3; v = x; p = (v-a)^n; ta = (v-a)^(n+1)/(n+1)';
         $q->questiontext = 'Find
                             \[ \int @p@ d@v@\]
                             #ans1#
-                            <IEfeedback>ans1</IEfeedback>
-                            <PRTfeedback>PotResTree_1</PRTfeedback>';
+                            <IEfeedback>ans1</IEfeedback>';
         $q->generalfeedback = 'We can either do this question by inspection (i.e. spot the answer)
                                or in a more formal manner by using the substitution
                                \[ u = (@v@-@a@).\]
                                Then, since $\frac{d}{d@v@}u=1$ we have
                                \[ \int @p@ d@v@ = \int u^@n@ du = \frac{u^@n+1@}{@n+1@}+c = @ta@+c.\]';
-        $q->qtype = question_bank::get_qtype('stack');
 
-        $q->inputs = array();
+        $q->specificfeedback = '<PRTfeedback>PotResTree_1</PRTfeedback>';
+
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20));
 
-        $q->prts = array();
         $sans = new stack_cas_casstring('ans1', 't');
         $tans = new stack_cas_casstring('ta', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
         $node->add_branch(0, '=', 0, '', -1, '', 'PotResTree_1-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'PotResTree_1-0-1');
         $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node));
-
-        $q->options = new stack_options();
 
         return $q;
     }
@@ -121,35 +130,27 @@ class qtype_stack_test_helper extends question_test_helper {
      * @return qtype_stack_question the question from the test2.xml file.
      */
     public static function make_stack_question_test2() {
-        question_bank::load_question_definition_classes('stack');
-        $q = new qtype_stack_question();
-
-        test_question_maker::initialise_a_question($q);
+        $q = self::make_a_stack_question();
 
         $q->name = 'test-2';
-        $q->questionvariables = '';
         $q->questiontext = 'Expand
                             \[ (x-2)(x-3) = x^2-#ans1# x+#ans2#. \]
                             <IEfeedback>ans1</IEfeedback>
-                            <IEfeedback>ans2</IEfeedback>
-                            <PRTfeedback>PotResTree_1</PRTfeedback>';
-        $q->qtype = question_bank::get_qtype('stack');
+                            <IEfeedback>ans2</IEfeedback>';
 
-        $q->inputs = array();
+        $q->specificfeedback = '<PRTfeedback>PotResTree_1</PRTfeedback>';
+
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', '5', array('boxWidth' => 3));
         $q->inputs['ans2'] = stack_input_factory::make(
                         'algebraic', 'ans2', '6', array('boxWidth' => 3));
 
-        $q->prts = array();
         $sans = new stack_cas_casstring('x^2-ans1*x+ans2', 't');
         $tans = new stack_cas_casstring('(x-2)*(x-3)', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, '', -1, '', 'PotResTree_1-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'PotResTree_1-0-1');
         $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node));
-
-        $q->options = new stack_options();
 
         return $q;
     }
@@ -158,13 +159,9 @@ class qtype_stack_test_helper extends question_test_helper {
      * @return qtype_stack_question the question from the test3.xml file.
      */
     public static function make_stack_question_test3() {
-        question_bank::load_question_definition_classes('stack');
-        $q = new qtype_stack_question();
-
-        test_question_maker::initialise_a_question($q);
+        $q = self::make_a_stack_question();
 
         $q->name = 'test-3';
-        $q->questionvariables = '';
         $q->questiontext = '<p>1. Give an example of an odd function by typing
                                   an expression which represents it.
                                   $f_1(x)=$ #ans1#.
@@ -182,9 +179,7 @@ class qtype_stack_test_helper extends question_test_helper {
                                   (Or are there many different possibilities.)
                                   <IEfeedback>ans4</IEfeedback>
                                   <PRTfeedback>unique</PRTfeedback></p>';
-        $q->qtype = question_bank::get_qtype('stack');
 
-        $q->inputs = array();
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'x^3', array('boxWidth' => 15));
         $q->inputs['ans2'] = stack_input_factory::make(
@@ -194,13 +189,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
-        $q->prts = array();
-
         $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans1)+ans1', null, null, 't');
         $sans = new stack_cas_casstring('sa', 't');
         $tans = new stack_cas_casstring('0', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, '', 'odd-0-0');
+        $node->add_branch(0, '=', 0, '', -1, 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
@@ -209,7 +202,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans = new stack_cas_casstring('sa', 't');
         $tans = new stack_cas_casstring('0', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, '', 'odd-0-0');
+        $node->add_branch(0, '=', 0, '', -1, 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'odd-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
@@ -239,8 +232,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node));
 
-        $q->options = new stack_options();
-
         return $q;
     }
 
@@ -248,26 +239,21 @@ class qtype_stack_test_helper extends question_test_helper {
      * @return qtype_stack_question the question from the test4.xml file.
      */
     public static function make_stack_question_test4() {
-        question_bank::load_question_definition_classes('stack');
-        $q = new qtype_stack_question();
-
-        test_question_maker::initialise_a_question($q);
+        $q = self::make_a_stack_question();
 
         $q->name = 'test-4';
         $q->questionvariables = 'p = x^2';
         $q->questiontext = 'Below is a sketch of a graph. Find an algebraic expression which represents it.
                             @plot(p,[x,-2,2])@
                             $f(x)=$#ans1#.
-                            <IEfeedback>ans1</IEfeedback>
-                            <PRTfeedback>plots</PRTfeedback>';
+                            <IEfeedback>ans1</IEfeedback>';
+        $q->specificfeedback = '<PRTfeedback>plots</PRTfeedback>';
         $q->generalfeedback = 'The graph @plot(p,[x,-2,2])@ has algebraic expression \[ f(x)=@p@. \]';
         $q->qtype = question_bank::get_qtype('stack');
 
-        $q->inputs = array();
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'x^2', array('boxWidth' => 15));
 
-        $q->prts = array();
         $sans = new stack_cas_casstring('ans1', 't');
         $tans = new stack_cas_casstring('x^2', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
@@ -276,8 +262,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
                 '', true, 1, null, array($node));
 
-        $q->options = new stack_options();
-
         return $q;
     }
 
@@ -285,10 +269,7 @@ class qtype_stack_test_helper extends question_test_helper {
     * @return qtype_stack_question the question from the test5.xml file.
     */
     public static function make_stack_question_test5() {
-        question_bank::load_question_definition_classes('stack');
-        $q = new qtype_stack_question();
-
-        test_question_maker::initialise_a_question($q);
+        $q = self::make_a_stack_question();
 
         $q->name = 'test-5';
         $q->questionvariables = 'rn = -1*(rand(4)+1); rp = 8+rand(6); ar = rn*rp; sg = rn+rp; ' .
@@ -316,19 +297,15 @@ class qtype_stack_test_helper extends question_test_helper {
                                So that $x=@-rp@$ or $x=@-rn@$. Since lengths are positive quantities $x>0$
                                and we discard the negative root. Hence the length of the shorter side is
                                $x=@-rn@$cm.';
-        $q->qtype = question_bank::get_qtype('stack');
 
         $q->questionnote = '@ta1@, @rp@.';
 
-        $q->inputs = array();
         $q->inputs['ans1'] = stack_input_factory::make(
                             'algebraic', 'ans1', 'ta1', array('boxWidth' => 15));
         $q->inputs['ans2'] = stack_input_factory::make(
                             'algebraic', 'ans2', 'tas', array('boxWidth' => 15));
         $q->inputs['ans3'] = stack_input_factory::make(
                             'algebraic', 'ans3', 'rp', array('boxWidth' => 5));
-
-        $q->prts = array();
 
         $sans = new stack_cas_casstring('ans1', 't');
         $tans = new stack_cas_casstring('ta1', 't');
@@ -375,8 +352,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, '', -1, '', 'short-0-1');
         $q->prts['short'] = new stack_potentialresponse_tree('short',
                             '', true, 0.3333333, null, array($node));
-
-        $q->options = new stack_options();
 
         return $q;
     }

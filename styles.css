@@ -58,14 +58,9 @@ body.path-question-type-stack h2.pass {
 /*feedback to student */
 
 div.InputFeedback {
-    background-color: #FFFF99;
-    border: 1px solid #EEEE66;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: #ddd;
+    margin: 0.2em -0.2em 0.5em;
     padding: 0.2em;
-    width: 80%;
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
 }
 /* Make the paragraph have only a single line break between paragraphs */
 p.studentFeedback {
@@ -73,18 +68,10 @@ p.studentFeedback {
 }
 
 /* PRT feedback */
-div.PRTFeedback {
-    border: 1px solid #ccf;
-    background-color: #ddf;
-    width: 80%;
-
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0.2em;
-
-
-    padding-left: 0.2em;
-    padding-right: 0.2em;
-    padding-bottom: 0.2em;
-    /*Top has enough padding with the <h3>tag */
+.que.stack .formulation div.PRTFeedback {
+    background: #fff3bf;
+    margin: 0.2em -0.2em 0.5em;
+    padding: 0.2em;
+}
+.que.stack .outcome div.PRTFeedback {
 }

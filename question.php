@@ -40,6 +40,18 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
 class qtype_stack_question extends question_graded_automatically {
 
     /**
+     * @var string Any specific feedback for this question. This is displayed
+     * in the 'yellow' feedback area of the question. It can contain PRTfeedback
+     * tags, but not IEfeedback.
+     */
+    public $specificfeedback;
+
+    /**
+     * @var int one of the FORMAT_... constants
+     */
+    public $specificfeedbackformat;
+
+    /**
      * @var array STACK specific: string name as it appears in the question text => stack_input
      */
     public $inputs;
@@ -124,6 +136,9 @@ class qtype_stack_question extends question_graded_automatically {
             //TODO better error trapping that this.
             throw new Exception('Error rendering question text: ' . $qtext->get_errors());
         }
+
+        $feedbacktext = new stack_cas_text($this->specificfeedback, $this->session, $this->seed, 't', false, true);
+        $step->set_qt_var('_feedback', $feedbacktext->get_display_castext());
 
         $this->session = $qtext->get_session();
     }
@@ -295,5 +310,15 @@ class qtype_stack_question extends question_graded_automatically {
     public function get_num_variants() {
         // TODO We will probably need this when it comes to instantiating questions.
         return 1;
+    }
+
+    public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
+        if ($component == 'question' && $filearea == 'specificfeedback') {
+            // Specific feedback files only visibile when the feedback is.
+            return $options->feedback;
+
+        } else {
+            return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);
+        }
     }
 }

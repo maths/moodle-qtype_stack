@@ -93,7 +93,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @return string Nicely formatted feedback, for display.
      */
     protected function input_feedback($feedback) {
-        return html_writer::nonempty_tag('div', $feedback, array('class' => 'IEFeedback'));
+        return html_writer::nonempty_tag('div', $feedback, array('class' => 'stackinputfeedback'));
     }
 
     /**
@@ -101,7 +101,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @return string Nicely formatted feedback, for display.
      */
     protected function prt_feedback($feedback) {
-        return html_writer::nonempty_tag('div', $feedback, array('class' => 'PRTFeedback'));
+        return html_writer::nonempty_tag('div', $feedback, array('class' => 'stackprtfeedback'));
     }
 
     /**

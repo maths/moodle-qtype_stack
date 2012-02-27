@@ -38,40 +38,23 @@ body.path-question-type-stack h2.pass {
     color: #080;
 }
 
-.SyntaxExample1 {
-    border: 1px dotted #333;
-    padding: 0.2em;
-    color: blue;
-    background-color: #eee;
-    font-family: monospace;
-    font-size: 120%;
-    font-weight: bold;
-}
-
-.SyntaxExample2 {
+.que.stack .stacksyntaxexample {
     color: blue;
     font-family: monospace;
     font-size: 100%;
     font-weight: bold;
 }
 
-/*feedback to student */
-
-div.InputFeedback {
+.que.stack .stackinputfeedback {
     background-color: #ddd;
     margin: 0.2em -0.2em 0.5em;
     padding: 0.2em;
 }
-/* Make the paragraph have only a single line break between paragraphs */
-p.studentFeedback {
-    margin: 0em;
-}
 
-/* PRT feedback */
-.que.stack .formulation div.PRTFeedback {
+.que.stack .formulation .stackprtfeedback {
     background: #fff3bf;
     margin: 0.2em -0.2em 0.5em;
     padding: 0.2em;
 }
-.que.stack .outcome div.PRTFeedback {
+.que.stack .outcome .stackprtfeedback {
 }

@@ -87,9 +87,11 @@ class stack_input {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $this->parameters = $this->get_parameters_defaults();
+
         if (!(null===$parameters || is_array($parameters))) {
             throw new Exception('stack_input: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');
         }
+
         if (is_array($parameters)) {
             foreach ($parameters as $name => $value) {
                 if (!array_key_exists($name, $this->parameters)) {
@@ -118,11 +120,24 @@ class stack_input {
      * @return array of parameters names.
      */
     public function set_parameter($parameter, $value) {
-        if (in_array($parameter, $this->get_parameters_used())) {
-            $this->parameters[$parameter] = $value;
+        if (!in_array($parameter, $this->get_parameters_used())) {
+            throw new Exception('stack_input: setting parameter ' . $parameter .
+                    ' which does not exist for inputs of type ' . get_class($this));
+        }
+
+        $this->parameters[$parameter] = $value;
+    }
+
+    /**
+     * Get the value of one of the parameters.
+     * @param string $parameter the parameter name
+     * @param mixed $default the default to return if this parameter is not set.
+     */
+    protected function get_parameter($parameter, $default = null) {
+        if (array_key_exists($parameter, $this->parameters)) {
+            return $this->parameters[$parameter];
         } else {
-            //TODO how do we know the name of the class for the error message?
-            throw new Exception('stack_input: setting parameter '.$parameter.' which does not exist for inputs of type ?');
+            return $default;
         }
     }
 
@@ -132,8 +147,8 @@ class stack_input {
      */
     public function validate_parameter($parameter, $value) {
         if (!in_array($parameter, $this->get_parameters_used())) {
-            //TODO how do we know the name of the class for the error message?
-            throw new Exception('stack_input: trying to validate parameter '.$parameter.' which does not exist for inputs of type ?', $code, $previous);
+            throw new Exception('stack_input: trying to validate parameter ' . $parameter .
+                    ' which does not exist for inputs of type ' . get_class($this));
         }
 
         switch($parameter) {
@@ -184,7 +199,7 @@ class stack_input {
      * @return array of parameters names.
      */
     public function get_parameters_available() {
-        return $this->$perametersavailable;
+        return $this->perametersavailable;
     }
 
     /**
@@ -228,51 +243,26 @@ class stack_input {
         }
         $transformedanswer = $this->transform($sans);
 
-        if (array_key_exists('insertStars', $this->parameters)) {
-            $insertstars = $this->parameters['insertStars'];
-        } else {
-            $insertstars = true;
-        }
-        if (array_key_exists('strictSyntax', $this->parameters)) {
-            $syntax = $this->parameters['strictSyntax'];
-        } else {
-            $syntax = true;
-        }
-
-        $answer = new stack_cas_casstring($transformedanswer, $security='s', $syntax, $insertstars);
+        $answer = new stack_cas_casstring($transformedanswer, $security='s',
+                $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
 
         // TODO: we need to run this check over the names of the question variables....
-        if (array_key_exists('forbidWords', $this->parameters)) {
-            if ('' !=  $this->parameters['forbidWords']) {
-                $keywords = explode(',', $this->parameters['forbidWords']);
-                $answer->check_external_forbidden_words('forbidWords');
-            }
-        }
-
-        if (array_key_exists('forbidFloats', $this->parameters)) {
-            $forbidfloats = $this->parameters['forbidFloats'];
-        } else {
-            $forbidfloats = false;
-        }
-        if (array_key_exists('lowestTerms', $this->parameters)) {
-            $lowestterms = $this->parameters['lowestTerms'];
-        } else {
-            $lowestterms = false;
-        }
-        $tans = null;
-        if (array_key_exists('sameType', $this->parameters)) {
-            if ($this->parameters['sameType']) {
-                $tans = $this->teacheranswer;
-            }
+        $forbiddenwords = $this->get_parameter('forbidWords', '');
+        if ($forbiddenwords) {
+            $keywords = explode(',', $this->parameters['forbidWords']);
+            $answer->check_external_forbidden_words($keywords);
         }
 
         $valid = $answer->get_valid();
         $errors = $answer->get_errors();
         // If we can't get a "displayed value" back from the CAS, show the student their original expression.
-        $display = stack_maxima_format_casstring($sans);'. ';
+        $display = stack_maxima_format_casstring($sans);
+
         // Send the string to the CAS.
         if ($valid) {
-            $answer->set_cas_validation_casstring($this->name, $forbidfloats, $lowestterms, $tans);
+            $answer->set_cas_validation_casstring($this->name,
+                    $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
+                    $this->get_parameter('sameType'));
             $options->set_option('simplify', false);
 
             // TODO: refactor all this as an answer test?
@@ -284,11 +274,12 @@ class stack_input {
             if ('' == $answer->get_value()) {
                 $valid = false;
             } else {
-                $display = '\[ '.$answer->get_display().'. \]';
+                $display = '\[ ' . $answer->get_display() . '. \]';
             }
         }
 
         $feedback = $this->generate_validation_feedback($valid, $display, $errors);
+
         // TODO - deal with status.....
         if ($valid) {
             $status = stack_input::VALID;
@@ -300,24 +291,18 @@ class stack_input {
     }
 
     private function generate_validation_feedback($valid, $display, $errors) {
-        if (array_key_exists('hideFeedback', $this->parameters)) {
-            $hidefeedback = $this->parameters['hideFeedback'];
-        } else {
-            $hidefeedback = false;  // This should be an exception...
-        }
-        if ($hidefeedback && $valid) {
+        if ($this->get_parameter('hideFeedback', false) && $valid) {
             return '';
         }
 
-        $feedback  = html_writer::start_tag('div', array('class' => 'InputFeedback'));
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer').$display, array('class' => 'studentFeedback'));
+        $feedback  = '';
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer') . $display);
         if (!$valid) {
-            $feedback .= html_writer::tag('span', stack_string('studentValidation_invalidAnswer'), array('class' => 'studentFeedback'));
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
         }
         if ('' != $errors) {
-            $feedback .= html_writer::tag('span', $errors, array('class' => 'errors'));
+            $feedback .= html_writer::tag('p', $errors, array('class' => 'stack_errors'));
         }
-        $feedback .= html_writer::end_tag('div');
         return $feedback;
     }
 

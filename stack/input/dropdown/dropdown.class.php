@@ -26,7 +26,7 @@
  */
 class stack_dropdown_input extends stack_input {
 
-    public function get_xhtml($studentanswer, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly) {
         if (empty($this->parameters['ddl_values'])) {
             return stack_string('ddl_empty');
         }
@@ -37,32 +37,17 @@ class stack_dropdown_input extends stack_input {
             return stack_string('ddl_empty');
         }
 
-        if (!in_array($studentanswer, $values)) {
-            $studentanswer = '';
-        }
-
         $values = array_merge(
                 array('' => stack_string('notanswered')),
                 array_combine($values, $values));
 
-        $disabled = '';
+        $attributes = array();
         if ($readonly) {
-            $disabled = ' disabled="disabled"';
+            $attributes['disabled'] = 'disabled';
         }
 
-        $output = '<select name="' . $fieldname . '"' . $disabled . '>';
-        foreach ($values as $value => $choice) {
-            $selected = '';
-            if ($value === $studentanswer) {
-                $selected = ' selected="selected"';
-            }
-
-            $output .= '<option value="' . htmlspecialchars($value) . '"' . $selected . '>' .
-                    htmlspecialchars($choice) . '</option>';
-        }
-        $output .= '</select>';
-
-        return $output;
+        return html_writer::select($values, $fieldname, $state->contents,
+                array('' => stack_string('notanswered')), $attributes);
     }
 
     /**

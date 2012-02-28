@@ -33,21 +33,24 @@ require_once(dirname(__FILE__) . '/../../factory.class.php');
  */
 class stack_singlechar_input_test extends UnitTestCase {
 
-    public function test_get_xhtml_blank() {
+    public function test_render_blank() {
         $el = stack_input_factory::make('singleChar', 'ans1', null);
         $this->assertEqual('<input type="text" name="question__ans1" size="1" maxlength="1" value="" />',
-                $el->get_xhtml('', 'question__ans1', false));
+                $el->render(new stack_input_state(stack_input::BLANK, '', '', ''),
+                        'question__ans1', false));
     }
 
-    public function test_get_xhtml_pre_filled() {
+    public function test_render_pre_filled() {
         $el = stack_input_factory::make('singleChar', 'test', null);
         $this->assertEqual('<input type="text" name="question__ans1" size="1" maxlength="1" value="Y" />',
-                $el->get_xhtml('Y', 'question__ans1', false));
+                $el->render(new stack_input_state(stack_input::VALID, 'Y', '', ''),
+                        'question__ans1', false));
     }
 
-    public function test_get_xhtml_disabled() {
+    public function test_render_disabled() {
         $el = stack_input_factory::make('singleChar', 'input', null);
         $this->assertEqual('<input type="text" name="question__stack1" size="1" maxlength="1" value="a" readonly="readonly" />',
-                $el->get_xhtml('a', 'question__stack1', true));
+                $el->render(new stack_input_state(stack_input::VALID, 'a', '', ''),
+                        'question__stack1', true));
     }
 }

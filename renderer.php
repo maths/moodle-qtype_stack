@@ -47,10 +47,10 @@ class qtype_stack_renderer extends qtype_renderer {
             $state = $question->get_input_state($name, $response);
 
             $questiontext = str_replace("[[input:{$name}]]",
-                    $input->get_xhtml($state->contents, $qa->get_qt_field_name($name), $options->readonly),
+                    $input->render($state, $qa->get_qt_field_name($name), $options->readonly),
                     $questiontext);
 
-            $feedback = $this->input_feedback($state->feedback);
+            $feedback = $this->input_validation($input->render_validation($state, $qa->get_qt_field_name($name)));
             $questiontext = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
         }
 
@@ -92,7 +92,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $feedback the raw feedback message from the intput element.
      * @return string Nicely formatted feedback, for display.
      */
-    protected function input_feedback($feedback) {
+    protected function input_validation($feedback) {
         return html_writer::nonempty_tag('div', $feedback, array('class' => 'stackinputfeedback'));
     }
 

@@ -26,16 +26,22 @@ require_once(dirname(__FILE__) . '/../../utils.class.php');
  */
 class stack_textarea_input extends stack_input {
 
-    public function get_xhtml($studentanswer, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
 
-        if ('' == $studentanswer) {
-            $studentanswer = $this->parameters['syntaxHint'];
-        }
-        $rows = $this->tokenize_list($studentanswer);
+        $attributes = array(
+            'name' => $fieldname,
+        );
 
-        $boxheight = max($this->parameters['boxHeight'], count($rows) + 1);
+        if ('' === trim($state->contents)) {
+            $current = $this->parameters['syntaxHint'];
+        } else {
+            $current = $state->contents;
+        }
+
+        $rows = $this->tokenize_list($current);
+        $attributes['rows'] = max($this->parameters['boxHeight'], count($rows) + 1);
 
         $value = '';
         $boxwidth = $this->parameters['boxWidth'];
@@ -43,14 +49,13 @@ class stack_textarea_input extends stack_input {
             $value .= $row . "\n";
             $boxwidth = max($boxwidth, strlen($row) + 5);
         }
+        $attributes['cols'] = $boxwidth;
 
-        $disabled = '';
         if ($readonly) {
-            $disabled = ' readonly="readonly"';
+            $attributes['readonly'] = 'readonly';
         }
 
-        return '<textarea name="' . $fieldname . '" rows="' . $boxheight .
-                '" cols="' . $boxwidth . '"' . $disabled . '>' . htmlspecialchars($value) . '</textarea>';
+        return html_writer::tag('textarea', htmlspecialchars($value), $attributes);
     }
 
     /**

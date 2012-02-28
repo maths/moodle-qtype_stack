@@ -46,7 +46,14 @@ class qtype_stack_question_test extends UnitTestCase {
 
     public function test_get_expected_data() {
         $q = $this->get_test_stack_question();
-        $this->assertEqual(array('ans1' => PARAM_RAW), $q->get_expected_data());
+        $this->assertEqual(array('ans1' => PARAM_RAW, 'ans1_val' => PARAM_RAW), $q->get_expected_data());
+    }
+
+    public function test_get_expected_data_test3() {
+        $q = $this->get_test_stack_question('test3');
+        $this->assertEqual(array('ans1' => PARAM_RAW, 'ans1_val' => PARAM_RAW,
+                'ans2' => PARAM_RAW, 'ans2_val' => PARAM_RAW, 'ans3' => PARAM_RAW, 'ans3_val' => PARAM_RAW,
+                'ans4' => PARAM_RAW), $q->get_expected_data());
     }
 
     public function test_get_correct_response_test0() {
@@ -75,7 +82,8 @@ class qtype_stack_question_test extends UnitTestCase {
         $q = $this->get_test_stack_question('test0');
 
         $this->assertFalse($q->is_complete_response(array()));
-        $this->assertTrue($q->is_complete_response(array('ans1' => '2')));
+        $this->assertFalse($q->is_complete_response(array('ans1' => '2')));
+        $this->assertTrue($q->is_complete_response(array('ans1' => '2', 'ans1_val' => '2')));
     }
 
     public function test_is_gradable_response_test0() {
@@ -83,6 +91,6 @@ class qtype_stack_question_test extends UnitTestCase {
 
         $this->assertFalse($q->is_gradable_response(array()));
         $this->assertTrue($q->is_gradable_response(array('ans1' => '2')));
+        $this->assertTrue($q->is_gradable_response(array('ans1' => '2', 'ans1_val' => '2')));
     }
-
 }

@@ -52,23 +52,26 @@ class stack_textarea_input_test extends UnitTestCase {
         $this->assertEqual(array(1, '1/sum([1,3])', 'matrix([1],[2])'), $el->tokenize_list('[1,1/sum([1,3]),matrix([1],[2])]'));
     }
 
-    public function test_get_xhtml_blank() {
+    public function test_render_blank() {
         $el = stack_input_factory::make('textArea', 'ans1', null);
         $this->assertEqual('<textarea name="st_ans1" rows="5" cols="20"></textarea>',
-                $el->get_xhtml('', 'st_ans1', false));
+                $el->render(new stack_input_state(stack_input::BLANK, '', '', ''),
+                        'st_ans1', false));
     }
 
-    public function test_get_xhtml_pre_filled() {
+    public function test_render_pre_filled() {
         $el = stack_input_factory::make('textArea', 'test', null);
         $this->assertEqual('<textarea name="st_ans1" rows="5" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])\n</textarea>",
-                $el->get_xhtml('[1,1/sum([1,3]),matrix([1],[2])]', 'st_ans1', false));
+                $el->render(new stack_input_state(stack_input::VALID, '[1,1/sum([1,3]),matrix([1],[2])]', '', ''),
+                        'st_ans1', false));
     }
 
-    public function test_get_xhtml_disabled() {
+    public function test_render_disabled() {
         $el = stack_input_factory::make('textArea', 'input', null);
         $this->assertEqual('<textarea name="st_ans1" rows="5" cols="20" readonly="readonly"></textarea>',
-                $el->get_xhtml('', 'st_ans1', true));
+                $el->render(new stack_input_state(stack_input::BLANK, '', '', ''),
+                        'st_ans1', true));
     }
 }
 

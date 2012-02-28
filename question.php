@@ -170,8 +170,11 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function get_expected_data() {
         $expected = array();
-        foreach ($this->inputs as $name => $ie) {
+        foreach ($this->inputs as $name => $input) {
             $expected[$name] = PARAM_RAW;
+            if ($input->requires_validation()) {
+                $expected[$name . '_val'] = PARAM_RAW;
+            }
         }
         return $expected;
     }

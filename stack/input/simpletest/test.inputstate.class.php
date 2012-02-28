@@ -34,14 +34,15 @@ require_once(dirname(__FILE__) . '/../inputbase.class.php');
 class stack_input_state_test extends UnitTestCase {
 
     public function test_create_and_get() {
-        $state = new stack_input_state('frog', stack_input::INVALID, 'Your answer is not an expression.');
-        $this->assertEqual('frog', $state->contents);
+        $state = new stack_input_state(stack_input::INVALID, 'frog', 'frog', 'Your answer is not an expression.');
         $this->assertEqual(stack_input::INVALID, $state->status);
-        $this->assertEqual('Your answer is not an expression.', $state->feedback);
+        $this->assertEqual('frog', $state->contents);
+        $this->assertEqual('frog', $state->contentsinterpreted);
+        $this->assertEqual('Your answer is not an expression.', $state->errors);
     }
 
     public function test_unrecognised_property() {
-        $state = new stack_input_state('frog', stack_input::INVALID, 'Your answer is not an expression.');
+        $state = new stack_input_state(stack_input::INVALID, 'frog', 'frog', 'Your answer is not an expression.');
         $this->expectException();
         $x = $state->unknownproperty;
     }

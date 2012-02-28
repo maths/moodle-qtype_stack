@@ -30,7 +30,7 @@ require_once(dirname(__FILE__) . '/inputstate.class.php');
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_input {
+abstract class stack_input {
     const BLANK = '';
     const VALID = 'valid';
     const INVALID = 'invalid';
@@ -102,17 +102,6 @@ class stack_input {
                 $this->parameters[$name] = $value;
             }
         }
-    }
-
-    /**
-     * Returns the XHTML for embedding this input in a page.
-     *
-     * @param string student's current answer to insert into the xhtml.
-     * @param bool $readonly whether the contro should be displayed read-only.
-     * @return string HTML fragment.
-     */
-    public function get_xhtml($studentanswer, $fieldname, $readonly) {
-        return '';
     }
 
     /**
@@ -230,6 +219,7 @@ class stack_input {
      * Validate any attempts at this question.
      *
      * @param array $response the student reponse to the question.
+     * @param stack_options $options CAS options to use when validating.
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options) {
@@ -243,8 +233,14 @@ class stack_input {
             $sans = '';
         }
 
+        if (array_key_exists($this->name . '_val', $response)) {
+            $validator = $response[$this->name . '_val'];
+        } else {
+            $validator = '';
+        }
+
         if ('' == $sans) {
-            return new stack_input_state('', stack_input::BLANK, '');
+            return new stack_input_state(stack_input::BLANK, '', '', '');
         }
         $transformedanswer = $this->transform($sans);
 
@@ -269,7 +265,8 @@ class stack_input {
                     $this->get_parameter('sameType'));
             $options->set_option('simplify', false);
 
-            // TODO: refactor all this as an answer test?
+            // TODO: refactor all this as an answer test? I don't think so, but maybe
+            // we need one helper function that both answer tests and this code use.
             $session = new stack_cas_session(array($answer), $options);
             $session->instantiate();
             $session = $session->get_session();
@@ -282,30 +279,59 @@ class stack_input {
             }
         }
 
-        $feedback = $this->generate_validation_feedback($valid, $display, $errors);
-
-        // TODO - deal with status.....
-        if ($valid) {
-            $status = stack_input::VALID;
-            $status = stack_input::SCORE; //TODO status transitions.
-        } else {
+        if (!$valid) {
             $status = stack_input::INVALID;
+        } else if ($this->get_parameter('mustVerify', true) && $validator != $sans) {
+            $status = stack_input::VALID;
+        } else {
+            $status = stack_input::SCORE;
         }
-        return new stack_input_state($sans, $status, $feedback);
+        return new stack_input_state($status, $sans, $display, $errors);
     }
 
-    private function generate_validation_feedback($valid, $display, $errors) {
-        if ($this->get_parameter('hideFeedback', false) && $valid) {
+    public function requires_validation() {
+        return $this->get_parameter('mustVerify', true);
+    }
+
+    /**
+     * Returns the XHTML for embedding this input in a page.
+     *
+     * @param string student's current answer to insert into the xhtml.
+     * @param string $fieldname the field name to use in the HTML for this input.
+     * @param bool $readonly whether the contro should be displayed read-only.
+     * @return string HTML for this input.
+     */
+    public abstract function render(stack_input_state $state, $fieldname, $readonly);
+
+    /**
+     * Generate the HTML the gives the results of validating the student's input.
+     * @param stack_input_state $state represents the results of the validation.
+     * @param string $fieldname the field name to use in the HTML for this input.
+     * @return string HTML for the validation results for this input.
+     */
+    public function render_validation(stack_input_state $state, $fieldname) {
+        if (stack_input::BLANK == $state->status) {
+            return '';
+        }
+
+        if ($this->get_parameter('hideFeedback', false) && stack_input::INVALID != $state->status) {
             return '';
         }
 
         $feedback  = '';
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer') . $display);
-        if (!$valid) {
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer') . $state->contentsinterpreted);
+
+        if ($this->requires_validation() && '' !== $state->contents) {
+            $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
+                    'name' => $fieldname . '_val', 'value' => $state->contents));
+        }
+
+        if (stack_input::INVALID == $state->status) {
             $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
         }
-        if ('' != $errors) {
-            $feedback .= html_writer::tag('p', $errors, array('class' => 'stack_errors'));
+
+        if ($state->errors) {
+            $feedback .= html_writer::tag('p', $state->errors, array('class' => 'stack_errors'));
         }
         return $feedback;
     }

@@ -26,20 +26,21 @@
  */
 class stack_singlechar_input extends stack_input {
 
-    public function get_xhtml($studentanswer, $fieldname, $readonly) {
-        if ($studentanswer) {
-            $value = ' value="' . htmlspecialchars($studentanswer) . '"';
-        } else {
-            $value = ' value=""';
-        }
+    public function render(stack_input_state $state, $fieldname, $readonly) {
 
-        $disabled = '';
+        $attributes = array(
+            'type'      => 'text',
+            'name'      => $fieldname,
+            'size'      => 1,
+            'maxlength' => 1,
+            'value'     => $state->contents
+        );
+
         if ($readonly) {
-            $disabled = ' readonly="readonly"';
+            $attributes['readonly'] = 'readonly';
         }
 
-        return '<input type="text" name="' . $fieldname . '" size="1" maxlength="1"' .
-                $value . $disabled . ' />';
+        return html_writer::empty_tag('input', $attributes);
     }
 
     /**

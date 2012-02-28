@@ -32,31 +32,19 @@ class stack_boolean_input extends stack_input {
         parent::__construct($name, $teacheranswer, $parameters);
     }
 
-    public function get_xhtml($studentanswer, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly) {
         $choices = array(
             self::F => stack_string('false'),
             self::T => stack_string('true'),
             self::NA => stack_string('notanswered'),
         );
 
-        $disabled = '';
+        $attributes = array();
         if ($readonly) {
-            $disabled = ' disabled="disabled"';
+            $attributes['disabled'] = 'disabled';
         }
 
-        $output = '<select name="' . $fieldname . '"' . $disabled . '>';
-        foreach ($choices as $value => $choice) {
-            $selected = '';
-            if ($value === $studentanswer) {
-                $selected = ' selected="selected"';
-            }
-
-            $output .= '<option value="' . $value . '"' . $selected . '>' .
-                    htmlspecialchars($choice) . '</option>';
-        }
-        $output .= '</select>';
-
-        return $output;
+        return html_writer::select($choices, $fieldname, $state->contents, '', $attributes);
     }
 
     /**
@@ -68,5 +56,4 @@ class stack_boolean_input extends stack_input {
                 'mustVerify'     => false,
                 'hideFeedback'   => true);
     }
-
 }

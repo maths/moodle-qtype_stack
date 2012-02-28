@@ -27,7 +27,7 @@ The methods you need to implement are well described by the PHPdoc comments on
 the base class, so go and read those now. The key methods are:
 
 * get_parameters_defaults - used by the question editing form.
-* get_xhtml - displays the input element as HTML.
+* render - displays the input element as HTML.
 
 ## Finally ##
 

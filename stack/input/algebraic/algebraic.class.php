@@ -23,22 +23,24 @@
  */
 class stack_algebraic_input extends stack_input {
 
-    public function get_xhtml($studentanswer, $fieldname, $readonly) {
-        $value = '';
-        if (''===trim($studentanswer)) {
-            $value = ' value="' . htmlspecialchars($this->parameters['syntaxHint']) . '"';
+    public function render(stack_input_state $state, $fieldname, $readonly) {
+        $attributes = array(
+            'type' => 'text',
+            'name' => $fieldname,
+            'size' => $this->parameters['boxWidth'],
+        );
+
+        if ('' === trim($state->contents)) {
+            $attributes['value'] = $this->parameters['syntaxHint'];
         } else {
-            $value = ' value="' . htmlspecialchars($studentanswer) . '"';
+            $attributes['value'] = $state->contents;
         }
 
-        $disabled = '';
         if ($readonly) {
-            $disabled = ' readonly="readonly"';
+            $attributes['readonly'] = 'readonly';
         }
 
-        $boxwidth = $this->parameters['boxWidth'];
-        return '<input type="text" name="' . $fieldname . '" size="' . $boxwidth . '"' .
-                 $value . $disabled . ' />';
+        return html_writer::empty_tag('input', $attributes);
     }
 
     /**

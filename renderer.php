@@ -46,12 +46,12 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->inputs as $name => $input) {
             $state = $question->get_input_state($name, $response);
 
-            $questiontext = str_replace("#{$name}#",
+            $questiontext = str_replace("[[input:{$name}]]",
                     $input->get_xhtml($state->contents, $qa->get_qt_field_name($name), $options->readonly),
                     $questiontext);
 
             $feedback = $this->input_feedback($state->feedback);
-            $questiontext = str_replace("<IEfeedback>{$name}</IEfeedback>", $feedback, $questiontext);
+            $questiontext = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
         }
 
         foreach ($question->prts as $index => $prt) {
@@ -61,7 +61,7 @@ class qtype_stack_renderer extends qtype_renderer {
             } else {
                 $feedback = '';
             }
-            $questiontext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $feedback, $questiontext);
+            $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
         return $question->format_text($questiontext, $question->questiontextformat,
@@ -81,7 +81,7 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $index => $prt) {
             $result = $question->get_prt_result($index, $response);
             $feedback = $this->prt_feedback($result['feedback']);
-            $feedbacktext = str_replace("<PRTfeedback>{$index}</PRTfeedback>", $feedback, $feedbacktext);
+            $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
         }
 
         return $question->format_text($feedbacktext, $question->specificfeedbackformat,

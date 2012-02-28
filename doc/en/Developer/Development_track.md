@@ -9,6 +9,7 @@ Have basic CAS functionality working and incorporated into Moodle.  Supply basic
    2. answer tests.
    3. unit tests for answer tests which need a CAS connection.
 2. MP: Importer for STACK 2 questions.
+   1. Needs to update old <PRTfeedback>x</PRTfeedback> to new [[feedback:x]] format.
 3. Move STACK_StringUtil to be a static class.  Search project for uses of this.
    (Probably a good idea to do this before the project gets to big!)
 4. CJS: Add "healthcheck pages", installation instructions and confirm configuration settings.

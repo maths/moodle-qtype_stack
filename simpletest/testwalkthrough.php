@@ -38,11 +38,31 @@ require_once($CFG->dirroot . '/question/engine/simpletest/helpers.php');
  */
 class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
 
+    protected function contains_input_validation() {
+        return new ContainsTagWithAttributes('div', array('class' => 'stackinputfeedback'));
+    }
+
+    protected function does_not_contain_input_validation() {
+        return new DoesNotContainTagWithAttributes('div', array('class' => 'stackinputfeedback'));
+    }
+
+    protected function contains_prt_feedback() {
+        return new ContainsTagWithAttributes('div', array('class' => 'stackprtfeedback'));
+    }
+
+    protected function does_not_contain_prt_feedback() {
+        return new DoesNotContainTagWithAttributes('div', array('class' => 'stackprtfeedback'));
+    }
+
+    protected function check_no_stray_placeholders() {
+        return new NoPatternExpectation('~\[\[|\]\]~');
+    }
+
     public function test_deferredfeedback_behaviour() {
 
         // Create a stack question.
         $q = test_question_maker::make_question('stack');
-        $this->start_attempt_at_question($q, 'deferredfeedback', 1);
+        $this->start_attempt_at_question($q, 'adaptive', 1);
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
@@ -50,11 +70,12 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $this->check_current_output(
                 new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
                 new PatternExpectation('/Find/'),
-                new DoesNotContainTagWithAttributes('div', array('class' => 'interationfeedback')),
-                new DoesNotContainTagWithAttributes('div', array('class' => 'prtfeedback')),
+                $this->does_not_contain_input_validation(),
+                $this->does_not_contain_prt_feedback(),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+                $this->get_no_hint_visible_expectation(),
+                $this->check_no_stray_placeholders()
         );
 
         // Submit the correct response:

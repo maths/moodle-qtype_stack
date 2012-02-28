@@ -75,10 +75,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-0';
-        $q->questiontext = 'What is $1+1$? #ans1#
-                           <IEfeedback>ans1</IEfeedback>';
+        $q->questiontext = 'What is $1+1$? [[input:ans1]]
+                           [[validation:ans1]]';
 
-        $q->specificfeedback = '<PRTfeedback>firsttree</PRTfeedback>';
+        $q->specificfeedback = '[[feedback:firsttree]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', array('boxWidth' => 5));
@@ -103,15 +103,15 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionvariables = 'n = rand(5)+3; a = rand(5)+3; v = x; p = (v-a)^n; ta = (v-a)^(n+1)/(n+1)';
         $q->questiontext = 'Find
                             \[ \int @p@ d@v@\]
-                            #ans1#
-                            <IEfeedback>ans1</IEfeedback>';
+                            [[input:ans1]]
+                            [[validation:ans1]]';
         $q->generalfeedback = 'We can either do this question by inspection (i.e. spot the answer)
                                or in a more formal manner by using the substitution
                                \[ u = (@v@-@a@).\]
                                Then, since $\frac{d}{d@v@}u=1$ we have
                                \[ \int @p@ d@v@ = \int u^@n@ du = \frac{u^@n+1@}{@n+1@}+c = @ta@+c.\]';
 
-        $q->specificfeedback = '<PRTfeedback>PotResTree_1</PRTfeedback>';
+        $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20));
@@ -134,11 +134,11 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'test-2';
         $q->questiontext = 'Expand
-                            \[ (x-2)(x-3) = x^2-#ans1# x+#ans2#. \]
-                            <IEfeedback>ans1</IEfeedback>
-                            <IEfeedback>ans2</IEfeedback>';
+                            \[ (x-2)(x-3) = x^2-[[input:ans1]] x+[[input:ans2]]. \]
+                            [[validation:ans1</IEfeedback>
+                            [[validation:ans2</IEfeedback>';
 
-        $q->specificfeedback = '<PRTfeedback>PotResTree_1</PRTfeedback>';
+        $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', '5', array('boxWidth' => 3));
@@ -164,21 +164,21 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->name = 'test-3';
         $q->questiontext = '<p>1. Give an example of an odd function by typing
                                   an expression which represents it.
-                                  $f_1(x)=$ #ans1#.
-                                  <IEfeedback>ans1</IEfeedback>
-                                  <PRTfeedback>odd</PRTfeedback></p>
+                                  $f_1(x)=$ [[input:ans1]].
+                                  [[validation:ans1]]
+                                  [[feedback:odd]]</p>
                             <p>2. Give an example of an even function.
-                                  $f_2(x)=$ #ans2#.
-                                  <IEfeedback>ans2</IEfeedback>
-                                  <PRTfeedback>even</PRTfeedback></p>
+                                  $f_2(x)=$ [[input:ans2]].
+                                  [[validation:ans2]]
+                                  [[feedback:even]]</p>
                             <p>3. Give an example of a function which is odd and even.
-                                  $f_3(x)=$ #ans3#.
-                                  <IEfeedback>ans3</IEfeedback>
-                                  <PRTfeedback>oddeven</PRTfeedback></p>
-                            <p>4. Is the answer to 3. unique? #ans4#
+                                  $f_3(x)=$ [[input:ans3]].
+                                  [[validation:ans3]]
+                                  [[feedback:oddeven]]</p>
+                            <p>4. Is the answer to 3. unique? [[input:ans4]]
                                   (Or are there many different possibilities.)
-                                  <IEfeedback>ans4</IEfeedback>
-                                  <PRTfeedback>unique</PRTfeedback></p>';
+                                  [[validation:ans4]]
+                                  [[feedback:unique]]</p>';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'x^3', array('boxWidth' => 15));
@@ -245,9 +245,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionvariables = 'p = x^2';
         $q->questiontext = 'Below is a sketch of a graph. Find an algebraic expression which represents it.
                             @plot(p,[x,-2,2])@
-                            $f(x)=$#ans1#.
-                            <IEfeedback>ans1</IEfeedback>';
-        $q->specificfeedback = '<PRTfeedback>plots</PRTfeedback>';
+                            $f(x)=$ [[input:ans1]].
+                            [[validation:ans1]]';
+        $q->specificfeedback = '[[feedback:plots]]';
         $q->generalfeedback = 'The graph @plot(p,[x,-2,2])@ has algebraic expression \[ f(x)=@p@. \]';
         $q->qtype = question_bank::get_qtype('stack');
 
@@ -278,17 +278,17 @@ class qtype_stack_test_helper extends question_test_helper {
                             If it has an area of $@abs(ar)@cm^2$, find the dimensions of the rectangle.</p>
                             <p>1. Write down an equation which relates the side lengths to the
                                   area of the rectangle.<br />
-                                  #ans1#
-                                  <IEfeedback>ans1</IEfeedback>
-                                  <PRTfeedback>eq</PRTfeedback></p>
+                                  [[input:ans1]]
+                                  [[validation:ans1]]
+                                  [[feedback:eq]]</p>
                             <p>2. Solve your equation. Enter your answer as a set of numbers.<br />
-                                  #ans2#
-                                  <IEfeedback>ans2</IEfeedback>
-                                  <PRTfeedback>sol</PRTfeedback></p>
+                                  [[input:ans2]]
+                                  [[validation:ans2]]
+                                  [[feedback:sol]]</p>
                             <p>3. Hence, find the length of the shorter side.<br />
-                                  #ans3# cm
-                                  <IEfeedback>ans3</IEfeedback>
-                                  <PRTfeedback>short</PRTfeedback></p>';
+                                  [[input:ans3]] cm
+                                  [[validation:ans3]]
+                                  [[feedback:short]]</p>';
         $q->generalfeedback = 'If $x$cm is the width then $(x+@sg@)$ is the length.
                                Now the area is $@abs(ar)@cm^2$ and so
                                \[ @x*(x+sg)=-ar@. \]

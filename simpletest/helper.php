@@ -39,8 +39,10 @@ class qtype_stack_test_helper extends question_test_helper {
             'test3', // Four inputs, four PRTs, not randomised. (Even and odd functions.)
             'test4', // One input, one PRT, not randomised, has a plot. (What is the equation of this graph? x^2.)
             'test5', // Three inputs, three PRTs, one with 4 nodes, randomised. (Three steps, rectangle side length from area.)
+            // 'test6', // Test of the matrix input type. Not currently supported.
+            'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with intersting feedback.
+            'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
         );
-        //'test4', 'test5', 'test6', 'test7', 'test8', 'test9');
     }
 
     /**
@@ -352,6 +354,127 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, '', -1, '', 'short-0-1');
         $q->prts['short'] = new stack_potentialresponse_tree('short',
                             '', true, 0.3333333, null, array($node));
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question the question from the test7.xml file.
+     */
+    public static function make_stack_question_test7() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-7';
+        $q->questionvariables = "l1 = 1+(-1)^rand(1)*rand(6); " .
+                                "l2 = l1+(-1)^rand(1)*(1+rand(4)); " .
+                                "c1 = -1*(l1+l2); c2 = l1*l2; " .
+                                "ode = 'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t); " .
+                                "ta = A*e^(l1*t)+B*e^(l2*t)";
+        $q->questiontext = '<p>Find the general solution to \[ @ode@ =0. \]</p>
+                            <p>$y(t)=$ [[input:ans1]]</p>
+                            [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:Result]]';
+        $q->questionnote = '@ta@';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                        'algebraic', 'ans1', 'ta', array('boxWidth' => 15));
+
+        $feedbackvars = new stack_cas_keyval('sa1 = subst(y(t)=ans1,ode); ' .
+                                             'sa2 = ev(sa1,nouns); ' .
+                                             'sa3 = fullratsimp(expand(sa2)); ' .
+                                             'l = delete(t,listofvars(ans1)); ' .
+                                             'lv = length(l); ' .
+                                             'b1 = ev(ans1,t=0,fullratsimp); ' .
+                                             'b2 = ev(ans1,t=1,fullratsimp); ' .
+                                             'm = float(if b2#0 then fullratsimp(b1/b2) else 0)');
+
+        $sans = new stack_cas_casstring('sa3', 't');
+        $tans = new stack_cas_casstring('0', 't');
+        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
+        $node0->add_branch(0, '=', 0, '', -1, '<p>Your answer should satisfy the differential equation.
+                In fact, when we substitute your expression into the differential equation we get</p>
+                \[ @sa1@ =0, \]
+                <p>evaluating the derivatives we have</p>
+                \[ @sa2@ =0 \]
+                <p>This simplifies to</p>
+                \[ @sa3@ = 0,\]
+                <p>so you must have done something wrong.</p>', 'Fails to satisfy DE');
+        $node0->add_branch(1, '=', 1, '', 1, '', 'Result-0-T');
+
+        $sans = new stack_cas_casstring('lv', 't');
+        $tans = new stack_cas_casstring('2', 't');
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
+        $node1->add_branch(0, '=', 0.75, '', -1, '<p>You should have a general solution, which
+                includes unknown constants.  Your answer satisfies the differential equation,
+                but does not have the correct number of unknown constants.</p>', 'Insufficient constants');
+        $node1->add_branch(1, '=', 1, '', 2, '', 'Result-1-T');
+
+        $sans = new stack_cas_casstring('numberp(m)', 't');
+        $tans = new stack_cas_casstring('true', 't');
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
+        $node2->add_branch(0, '=', 1, '', -1, '', 'Result-2-F');
+        $node2->add_branch(1, '=', 0, '', -1,
+                'Your general solution should be a sum of two linearly independent components, but is not.',
+                'Not two lin ind parts');
+
+        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
+                true, 1, null, array($node0, $node1, $node2));
+
+        return $q;
+    }
+
+
+    /**
+     * @return qtype_stack_question the question from the test8.xml file.
+     */
+    public static function make_stack_question_test8() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-8';
+        $q->questionvariables = "n = rand(2)+3; " .
+                                "p = rand(3)+2; " .
+                                "ta = setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))";
+        $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^@n@=@p^n@.\]
+                            Enter your answer as a set of numbers.
+                            [[input:ans1]]</p>
+                            [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:ans]]';
+        $q->questionnote = '@ta@';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                        'algebraic', 'ans1', 'ta',
+                        array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}'));
+
+        $feedbackvars = new stack_cas_keyval('a1 = listify(ans1);' .
+                                             'a1 = maplist(lambda([x],x^n-p^n),a1);' .
+                                             'a1 = setify(a1)');
+
+        $sans = new stack_cas_casstring('ans1', 't');
+        $tans = new stack_cas_casstring('ta', 't');
+        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
+        $node0->add_branch(0, '=', 0, '', 1, '', 'ans-0-F');
+        $node0->add_branch(1, '=', 1, '', -1, '', 'ans-0-T');
+
+        $sans = new stack_cas_casstring('ans1', 't');
+        $tans = new stack_cas_casstring('{p}', 't');
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
+        $node1->add_branch(0, '=', 0, '', 2, '', 'ans-1-F');
+        $node1->add_branch(1, '=', 0, '', -1,
+                '<p>There are more answers that just the single real number.
+                 Please consider complex solutions to this problem!</p>', 'ans-1-T');
+
+        $sans = new stack_cas_casstring('a1', 't');
+        $tans = new stack_cas_casstring('{0}', 't');
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
+        $node2->add_branch(0, '=', 1, '', -1, '', 'ans-2-F');
+        $node2->add_branch(1, '=', 0, '', -1,
+                'All your answers satisfy the equation.  But, you have missed some of the solutions.',
+                'ans-2-T');
+
+        $q->prts['ans'] = new stack_potentialresponse_tree('ans', '',
+                true, 1, null, array($node0, $node1, $node2));
 
         return $q;
     }

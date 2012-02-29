@@ -70,7 +70,8 @@ extends UnitTestCase {
             array('a:1', 'a', '1'),
             array('a1:1', 'a1', '1'),
             array('f(x):=x^2', '', 'f(x):=x^2'),
-            array('a:b:1', 'a', 'b:1')
+            array('a:b:1', 'a', 'b:1'),
+            array('ta:x^3=-3', 'ta', 'x^3=-3')
         );
 
         foreach ($cases as $case) {

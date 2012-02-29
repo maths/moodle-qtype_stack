@@ -209,7 +209,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
-        $feedbackvars = new stack_cas_keyval('sa1 = subst(x=-x,ans3)+ans3; sa2 = ans3-subst(x=-x,ans3)');
+        $feedbackvars = new stack_cas_keyval('sa1 = ans3+subst(x=-x,ans3); sa2 = ans3-subst(x=-x,ans3)');
 
         $sans = new stack_cas_casstring('sa1', 't');
         $tans = new stack_cas_casstring('0', 't');
@@ -312,7 +312,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans = new stack_cas_casstring('ans1', 't');
         $tans = new stack_cas_casstring('ta1', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'SubstEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, '', 'eq-0-0');
+        $node->add_branch(0, '=', 0, '', -1, 'Not correct.', 'eq-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'eq-0-1');
         $q->prts['eq'] = new stack_potentialresponse_tree('eq',
                     '', true, 0.3333333, null, array($node));
@@ -348,9 +348,9 @@ class qtype_stack_test_helper extends question_test_helper {
                     array($node0, $node1, $node2, $node3));
 
         $sans = new stack_cas_casstring('ans3', 't');
-        $tans = new stack_cas_casstring('-rn', 't');
+        $tans = new stack_cas_casstring('rn', 't');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, '', 'short-0-0');
+        $node->add_branch(0, '=', 0, '', -1, 'Not correct.', 'short-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'short-0-1');
         $q->prts['short'] = new stack_potentialresponse_tree('short',
                             '', true, 0.3333333, null, array($node));

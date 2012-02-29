@@ -99,12 +99,16 @@ class stack_potentialresponse_tree {
         // Start with the quetsion variables (note that order matters here).
         $cascontext = new stack_cas_session(null, $options, $seed, 't', true, false);
         $cascontext->merge_session($questionvars);
-
-        // Add the student's responses.
+        // Add the student's responses, but only those needed by this prt.
+        // Some irrelevant but invalid answers might break the CAS connection.
         $answervars = array();
-        foreach ($answers as $key => $val) {
-            $cs = new stack_cas_casstring($val);
-            $cs->set_key($key);
+        foreach ($this->get_required_variables(array_keys($answers)) as $name) {
+            if (array_key_exists($name.'_val',$answers)) {
+                $cs = new stack_cas_casstring($answers[$name.'_val']);
+            } else {
+                $cs = new stack_cas_casstring($answers[$name]);
+            }
+            $cs->set_key($name);
             $answervars[] = $cs;
         }
         $cascontext->add_vars($answervars);

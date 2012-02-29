@@ -203,6 +203,7 @@ class stack_cas_session {
         $results = $mconn->maxima_session($this->construct_maxima_command());
 
         // TODO: how to sort out debug info back to a user?
+        // echo $mconn->get_debuginfo();
 
         // Now put the information back into the correct slots.
         $session = $this->session;
@@ -423,6 +424,7 @@ class stack_cas_session {
         // Ensure that every command has a valid key.
 
         $cas_options = $this->options->get_cas_commands();
+
         $csnames = $cas_options['names'];
         $csvars  = $cas_options['commands'];
         $cascommands= '';

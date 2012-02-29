@@ -77,6 +77,15 @@ class stack_cas_keyval_test extends UnitTestCase {
         $this->assertTrue($at1->get_valid());
     }
 
+    public function test_equations_1() {
+        $at1 = new stack_cas_keyval('ta1 = x=1; ta2 = x^2-2*x=1', null, 123, 's', true, false);
+        $at1->instantiate();
+        $s = $at1->get_session();
+
+        $this->assertEqual($s->get_value_key('ta1'),'x = 1');
+        $this->assertEqual($s->get_value_key('ta2'),'x^2-2*x = 1');
+    }
+
     public function test_remove_comment() {
         $at1 = new stack_cas_keyval("a=1\n /* This is a comment \n b:2\n */\n c=3", null, 123, 's', true, false);
         $this->assertTrue($at1->get_valid());

@@ -192,9 +192,21 @@ class qtype_stack_question extends question_graded_automatically {
     public function get_correct_response() {
         $response = array();
         foreach ($this->inputs as $name => $input) {
-            $response[$name] = $input->get_teacher_answer();
+            $cs = new stack_cas_casstring($input->get_teacher_answer());
+            $cs->set_key($name);
+            $response[$name] = $cs;
         }
-        return $response;
+        // Now we have to instantiate these values in the context of any random values....
+        if (is_a($this->session, 'stack_cas_session')) {
+            $responsesession = clone $this->session;
+        } else {
+            $responsesession = new stack_cas_session(array(), null, $this->seed, 't');
+        }
+        $responsesession->add_vars($response);
+        foreach ($this->inputs as $name => $input) {
+            $teacheranswer[$name] = $responsesession->get_value_key($name);
+        }
+        return $teacheranswer;
     }
 
     public function is_same_response(array $prevresponse, array $newresponse) {
@@ -295,7 +307,6 @@ class qtype_stack_question extends question_graded_automatically {
         if ($this->can_execute_prt($prt, $response)) {
             $this->prtresults[$index] = $prt->evaluate_response(
                     $this->session, $this->options, $response, $this->seed);
-
         } else {
             $this->prtresults[$index] = array(
                 'fraction' => null,

@@ -21,27 +21,97 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_cas_maxima_connector {
+abstract class stack_cas_connection {
     protected static $config = null;
 
-    protected $platform;
+    /** @var string path to write Maxiam error output to. */
     protected $logs;
+
+    /** @var string the name of the maxima executable, to use of command-lines. */
     protected $command;
-    protected $init_command;
+
+    /** @var string the opening command to send to maxima. */
+    protected $initcommand;
+
+    /** @var int the timeout to use on connections to Maxima. */
     protected $timeout;
+
+	/** @var bool whether debugging is enabled. */
     protected $debug;
-    protected $version;
 
     /** @var string This collects all debug information.  */
     protected $debuginfo = '';
 
-    public function __construct() {
-        global $CFG;
-
+    /**
+     * Create a Maxima connection.
+     * @return stack_cas_connection the connection.
+     */
+    public static function make() {
         if (is_null(self::$config)) {
             self::$config = get_config('qtype_stack');
         }
-        $settings = self::$config;
+        switch (self::$config->platform) {
+            case 'win':
+                require_once(dirname(__FILE__) . '/connector.windows.class.php');
+                return new stack_cas_connection_windows(self::$config);
+
+            case 'unix':
+            case 'server':
+                require_once(dirname(__FILE__) . '/connector.unix.class.php');
+                return new stack_cas_connection_unix(self::$config);
+
+            default:
+                throw new Exception('stack_cas_connection: Unknown platform '.$platform);
+        }
+    }
+
+    /**
+     * Send some Maxima code to Maxima, and return the unpacked results.
+     * @param string $command Maxima code.
+     * @return array the unpacked results returned by Maxima.
+     */
+    public function compute($command) {
+        $this->debug('Maxima command', $command);
+
+        $rawresult = $this->call_maxima($command);
+        $this->debug('CAS result', $rawresult);
+
+        $unpackedresult = $this->unpack_raw_result($rawresult);
+        $this->debug('Unpacked result as', print_r($unpackedresult, true));
+
+        return $unpackedresult;
+    }
+
+    /**
+     * @return string any debug info from this session. Will be blank unless
+     *      debugging is enabled by the configuration.
+     */
+    public function get_debuginfo() {
+        return $this->debuginfo;
+    }
+
+    /**
+     * Try to determine the name of the Maxima executable to use in command-lines,
+     * if it is not specified in the configuration.
+     * @param string $path the path to the stack workspace folder.
+     * @return string Maxima executable name.
+     */
+    protected abstract function guess_maxima_command($path);
+
+    /**
+     * Connect directly to the CAS, and return the raw string result.
+     *
+     * @param string $command The string of CAS commands to be processed.
+     * @return string|boolean The converted HTML string or FALSE if there was an error.
+     */
+    protected abstract function call_maxima($command);
+
+    /**
+     * Constructor.
+     * @param stdClass $settings the Maxima configuration settings.
+     */
+    protected function __construct($settings) {
+        global $CFG;
 
         $path = $CFG->dataroot . '/stack';
 
@@ -49,35 +119,17 @@ class stack_cas_maxima_connector {
         $initcommand = str_replace("\\", "/", $initcommand);
         $initcommand .= "\n";
 
-        $cmd = $settings->maximacommand;
-        if ('' == trim($cmd) ) {
-            if ('win'==$settings->platform) {
-                $cmd = $path . '/maxima.bat';
-                if (!is_readable($cmd)) {
-                    throw new Exception("stack_cas_maxima_connector: maxima launch script {$cmd} does not exist.");
-                }
-            } else {
-                if (is_readable('/Applications/Maxima.app/Contents/Resources/maxima.sh')) {
-                    // This is the path on Macs, if Maxima has been installed following
-                    // the instructions on Sourceforge.
-                    $cmd = '/Applications/Maxima.app/Contents/Resources/maxima.sh';
-                } else {
-                    $cmd = 'maxima';
-                }
-            }
+        if ('' != trim($settings->maximacommand)) {
+            $cmd = $settings->maximacommand;
+        } else {
+            $cmd = $this->guess_maxima_command($path);
         }
 
-        $this->platform     = $settings->platform;
-        $this->logs         = $path;
-        $this->command      = $cmd;
-        $this->init_command = $initcommand;
-        $this->timeout      = $settings->castimeout;
-        $this->debug        = $settings->casdebugging;
-        $this->version      = $settings->maximaversion;
-    }
-
-    public function get_debuginfo() {
-        return $this->debuginfo;
+        $this->logs        = $path;
+        $this->command     = $cmd;
+        $this->initcommand = $initcommand;
+        $this->timeout     = $settings->castimeout;
+        $this->debug       = $settings->casdebugging;
     }
 
     protected function debug($heading, $message) {
@@ -93,188 +145,27 @@ class stack_cas_maxima_connector {
     }
 
     /**
-     * Deal with platforms, and send a string to Maxima.
-     *
-     * @param string $strin The raw Maxima command to be processed.
-     * @return array
-     */
-    protected function send_to_maxima($command) {
-
-        $this->debug('Maxima command', $command);
-
-        $platform = $this->platform;
-
-        if ($platform == 'win') {
-            $result = $this->send_win($command);
-        } else if (($platform == 'unix') || ($platform == 'server')) {
-            // TODO:server mode currently falls back to launching a Maxima process.
-            $result = $this->send_unix($command);
-        } else {
-            throw new Exception('stack_cas_maxima_connector: Unknown platform '.$platform);
-        }
-
-        $this->debug('CAS result', $result);
-
-        return $result;
-    }
-
-    /**
-     * Starts a instance of maxima and sends the maxima command under a Windows OS
-     *
-     * @param string $strin
-     * @return string
-     * @access public
-     */
-    protected function send_win($command) {
-        $ret = false;
-
-        $descriptors = array(
-            0 => array('pipe', 'r'),
-            1 => array('pipe', 'w'),
-            2 => array('file', $this->logs."cas_errors.txt", 'a'));
-
-        $cmd = '"'.$this->command.'"';
-        $this->debug('Command line', $cmd);
-
-        $casprocess = proc_open($cmd, $descriptors, $pipes);
-        if (!is_resource($casprocess)) {
-            throw new Exception('stack_cas_maxima_connector: Could not open a CAS process.');
-        }
-
-        if (!fwrite($pipes[0], $this->init_command)) {
-            return(false);
-        }
-        fwrite($pipes[0], $command);
-        fwrite($pipes[0], 'quit();\n\n');
-        fflush($pipes[0]);
-
-        // read output from stdout
-        $ret = '';
-        while (!feof($pipes[1])) {
-            $out = fgets($pipes[1], 1024);
-            if ('' == $out) {
-                // PAUSE
-                usleep(1000);
-            }
-            $ret .= $out;
-        }
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-
-        return trim($ret);
-    }
-
-    /**
-     * Connect directly to the CAS, and return the raw string result.
-     * This does not use sockets, but calls a new CAS session each time.
-     * Hence, this is not likely to be efficient.
-     * Furthermore, since the system gives the webserver execute priviliges
-     * to this is insecure.
-     *
-     * @param string $strin The string of CAS commands to be processed.
-     * @return string|boolean The converted HTML string or FALSE if there was an error.
-     */
-    protected function send_unix($strin) {
-        // Sends the $st to maxima.
-
-        $ret = false;
-        $err = '';
-        $cwd = null;
-        $env = array('why'=>'itworks');
-
-        $descriptors = array(
-            0 => array('pipe', 'r'),
-            1 => array('pipe', 'w'),
-            2 => array('pipe', 'w'));
-        $casprocess = proc_open($this->command, $descriptors, $pipes, $cwd, $env);
-
-        if (!is_resource($casprocess)) {
-            throw new Exception('stack_cas_maxima_connector: could not open a CAS process');
-        }
-
-        if (!fwrite($pipes[0], $this->init_command)) {
-            echo "<br />Could not write to the CAS process!<br />\n";
-            return(false);
-        }
-        fwrite($pipes[0], $strin);
-        fwrite($pipes[0], 'quit();'."\n\n");
-
-        $ret = '';
-        // read output from stdout
-        $start_time = microtime(true);
-        $continue   = true;
-
-        if (!stream_set_blocking($pipes[1], false)) {
-            $this->debug('', 'Warning: could not stream_set_blocking to be FALSE on the CAS process.');
-        }
-
-        while ($continue and !feof($pipes[1])) {
-
-            $now = microtime(true);
-
-            if (($now-$start_time) > $this->timeout) {
-                $proc_array = proc_get_status($casprocess);
-                if ($proc_array['running']) {
-                    proc_terminate($casprocess);
-                }
-                $continue = false;
-            } else {
-                $out = fread($pipes[1], 1024);
-                if ('' == $out) {
-                    // PAUSE
-                    usleep(1000);
-                }
-                $ret .= $out;
-            }
-
-        }
-
-        if ($continue) {
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            $this->debug('Timings', "Start: {$start_time}, End: {$now}, Taken = " .
-                    ($now - $start_time));
-
-        } else {
-            // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
-            $ret .=' The CAS timed out. ] ] ] ]';
-        }
-
-        return $ret;
-    }
-
-    public function maxima_session($command) {
-
-        $result = $this->send_to_maxima($command);
-        $unp = $this->maxima_raw_session($result);
-
-        $this->debug('Unpacked result as', print_r($unp, true));
-
-        return $unp;
-    }
-
-    /*
      * Top level Maxima-specific function used to parse CAS output into an array.
      *
-     * @param array $strin Raw CAS output
+     * @param array $rawresult Raw CAS output
      * @return array
      */
-    protected function maxima_raw_session($strin) {
+    protected function unpack_raw_result($rawresult) {
         $result = '';
         $errors = false;
         //check we have a timestamp & remove everything before it.
-        $ts = substr_count($strin, '[TimeStamp');
+        $ts = substr_count($rawresult, '[TimeStamp');
         if ($ts != 1) {
             $this->debug('', 'receive_raw_maxima: no timestamp returned.');
             return array();
         } else {
-            $result = strstr($strin, '[TimeStamp'); //remove everything before the timestamp
+            $result = strstr($rawresult, '[TimeStamp'); //remove everything before the timestamp
         }
 
         $result = trim(str_replace('#', '', $result));
         $result = trim(str_replace("\n", '', $result));
 
-        $unp = $this->maxima_unpack_helper($result);
+        $unp = $this->unpack_helper($result);
 
         if (array_key_exists('Locals', $unp)) {
             $uplocs = $unp['Locals']; // Grab the local variables
@@ -285,13 +176,13 @@ class stack_cas_maxima_connector {
 
         // Now we need to turn the (error,key,value,display) tuple into an array
         $locals = array();
-        foreach ($this->maxima_unpack_helper($uplocs) as $var => $valdval) {
+        foreach ($this->unpack_helper($uplocs) as $var => $valdval) {
             if (is_array($valdval)) {
                 $errors["CAS"] = "CAS failed to generate any useful output.";
             } else {
                 if (preg_match('/.*\[.*\].*/', $valdval)) {
                     // There are some []'s in the string.
-                    $loc = $this->maxima_unpack_helper($valdval);
+                    $loc = $this->unpack_helper($valdval);
                     if ('' == trim($loc['error'])) {
                         unset($loc['error']);
                     }
@@ -330,22 +221,22 @@ class stack_cas_maxima_connector {
     }
 
 
-    protected function maxima_unpack_helper($strin) {
+    protected function unpack_helper($rawresultfragment) {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;
-        $strin_len = strlen($strin);
+        $rawresultfragment_len = strlen($rawresultfragment);
         $unparsed = '';
         $errors = '';
 
-        if ($eqpos = strpos($strin, '=', $offset)) {
+        if ($eqpos = strpos($rawresultfragment, '=', $offset)) {
             // Check there are ='s
             do {
-                $gb = stack_utils::substring_between($strin, '[', ']', $eqpos);
+                $gb = stack_utils::substring_between($rawresultfragment, '[', ']', $eqpos);
                 $val = substr($gb[0], 1, strlen($gb[0])-2);
                 $val = str_replace('"', '', $val);
                 $val = trim($val);
 
-                if (preg_match('/[A-Za-z0-9].*/', substr($strin, $offset, $eqpos-$offset), $regs)) {
+                if (preg_match('/[A-Za-z0-9].*/', substr($rawresultfragment, $offset, $eqpos-$offset), $regs)) {
                     $var = trim($regs[0]);
                 } else {
                     $var = 'errors';
@@ -354,7 +245,7 @@ class stack_cas_maxima_connector {
 
                 $unparsed[$var] = $val;
                 $offset = $gb[2];
-            } while (($eqpos = strpos($strin, '=', $offset)) && ($offset < $strin_len));
+            } while (($eqpos = strpos($rawresultfragment, '=', $offset)) && ($offset < $rawresultfragment_len));
 
         } else {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";

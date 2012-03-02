@@ -199,7 +199,7 @@ class stack_cas_session {
             return true;
         }
 
-        $connection = stack_cas_connection::make();
+        $connection = stack_cas_connection_base::make();
         $results = $connection->compute($this->construct_maxima_command());
         $this->debuginfo = $connection->get_debuginfo();
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="question/type/stack/db" VERSION="20120302" COMMENT="XMLDB file for Moodle question/type/stack"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="qtype_stack_cas_cache" COMMENT="Caches the resuts of calls to Maxima.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="hash"/>
+        <FIELD NAME="hash" TYPE="char" LENGTH="40" NOTNULL="true" SEQUENCE="false" COMMENT="The SHA1 hash of command. Used for quick look-ups" PREVIOUS="id" NEXT="command"/>
+        <FIELD NAME="command" TYPE="text" LENGTH="medium" NOTNULL="true" SEQUENCE="false" COMMENT="The Maxima code that was sent to Maxima." PREVIOUS="hash" NEXT="result"/>
+        <FIELD NAME="result" TYPE="text" LENGTH="medium" NOTNULL="true" SEQUENCE="false" COMMENT="The unpacked results from Maxima." PREVIOUS="command"/>
+      </FIELDS>
+
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="hash" UNIQUE="true" FIELDS="hash"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

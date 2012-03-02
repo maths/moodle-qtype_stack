@@ -16,13 +16,14 @@
 
 
 /**
- * Class which undertakes process control to connect to Maxima.
+ * Connection to Maxima for Windows systems.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_cas_connection_windows extends stack_cas_connection {
+class stack_cas_connection_windows extends stack_cas_connection_base {
 
+    /* @see stack_cas_connection_base::guess_maxima_command() */
     protected function guess_maxima_command($path) {
         $cmd = $path . '/maxima.bat';
         if (!is_readable($cmd)) {
@@ -31,13 +32,7 @@ class stack_cas_connection_windows extends stack_cas_connection {
         return $cmd;
     }
 
-    /**
-     * Starts a instance of maxima and sends the maxima command under a Windows OS
-     *
-     * @param string $strin
-     * @return string
-     * @access public
-     */
+    /* @see stack_cas_connection_base::call_maxima() */
     protected function call_maxima($command) {
         $ret = false;
 
@@ -47,7 +42,7 @@ class stack_cas_connection_windows extends stack_cas_connection {
             2 => array('file', $this->logs . "cas_errors.txt", 'a'));
 
         $cmd = '"'.$this->command.'"';
-        $this->debug('Command line', $cmd);
+        $this->debug->log('Command line', $cmd);
 
         $casprocess = proc_open($cmd, $descriptors, $pipes);
         if (!is_resource($casprocess)) {

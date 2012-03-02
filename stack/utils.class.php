@@ -14,6 +14,96 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+
+/**
+ * Various utility classes for Stack.
+ *
+ * @copyright  2012 University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+
+/**
+* Interface for a class that stores debug information (or not).
+*
+* @copyright  2012 The Open University
+* @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+*/
+interface stack_debug_log {
+
+    /**
+     * @return string the contents of the log.
+     */
+    public function get_log();
+
+    /**
+     * Add to the log
+     * @param string $heading a heading to precede the acutal message.
+     * @param string $message the debug message.
+     */
+    public function log($heading = '', $message = '');
+}
+
+
+/**
+ * Interface for a class that stores debug information (or not).
+ *
+ * @copyright  2012 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class stack_debug_log_base implements stack_debug_log {
+
+    protected $debuginfo = '';
+
+    /**
+     * @return string the contents of the log.
+     */
+    public function get_log() {
+        return $debuginfo;
+    }
+
+    /**
+     * Add to the log
+     * @param string $heading a heading to precede the acutal message.
+     * @param string $message the debug message.
+     */
+    public function log($heading = '', $message = '') {
+        if ($heading) {
+            $this->debuginfo .= html_writer::tag('h3', $heading);
+        }
+        if ($message) {
+            $this->debuginfo .= html_writer::tag('pre', s($message));
+        }
+    }
+}
+
+
+/**
+ * A null stack_debug_log. Does not acutally log anything. Used when debugging is off.
+ *
+ * @copyright  2012 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class stack_debug_log_null implements stack_debug_log {
+
+    /**
+     * @return string the contents of the log.
+     */
+    public function get_log() {
+        return '';
+    }
+
+    /**
+     * Add to the log
+     * @param string $heading a heading to precede the acutal message.
+     * @param string $message the debug message.
+     */
+    public function log($heading = '', $message = '') {
+        // Do nothing.
+    }
+}
+
+
 /**
  * Utility methods for processing strings.
  *
@@ -27,6 +117,19 @@ class stack_utils {
      */
     private function __construct() {
         throw new Exception('stack_utils: you cannot create instances of this class.');
+    }
+
+    /**
+    * Create a debug log that either does, or does not, log anything.
+    * @param bool $debugenabled Whether we actually want to keep a debug log.
+    * @return stack_debug_log the log
+    */
+    public static function make_debug_log($debugenabled = true) {
+        if ($debugenabled) {
+            return new stack_debug_log_base();
+        } else {
+            return new stack_debug_log_null();
+        }
     }
 
     /**

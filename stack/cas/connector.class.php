@@ -15,13 +15,17 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
+require_once(dirname(__FILE__) . '/connector.interface.php');
+require_once(dirname(__FILE__) . '/connector.dbcache.class.php');
+
+
 /**
- * Class which undertakes process control to connect to Maxima.
+ * The base class for connections to Maxima.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class stack_cas_connection {
+abstract class stack_cas_connection_base implements stack_cas_connection {
     protected static $config = null;
 
     /** @var string path to write Maxiam error output to. */
@@ -36,11 +40,8 @@ abstract class stack_cas_connection {
     /** @var int the timeout to use on connections to Maxima. */
     protected $timeout;
 
-	/** @var bool whether debugging is enabled. */
+	/** @var stack_debug_log does the debugging. */
     protected $debug;
-
-    /** @var string This collects all debug information.  */
-    protected $debuginfo = '';
 
     /**
      * Create a Maxima connection.
@@ -50,44 +51,53 @@ abstract class stack_cas_connection {
         if (is_null(self::$config)) {
             self::$config = get_config('qtype_stack');
         }
+
+        $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
+
         switch (self::$config->platform) {
             case 'win':
                 require_once(dirname(__FILE__) . '/connector.windows.class.php');
-                return new stack_cas_connection_windows(self::$config);
+                $connection = new stack_cas_connection_windows(self::$config, $debuglog);
+                break;
 
             case 'unix':
             case 'server':
                 require_once(dirname(__FILE__) . '/connector.unix.class.php');
-                return new stack_cas_connection_unix(self::$config);
+                $connection = new stack_cas_connection_unix(self::$config, $debuglog);
+                break;
 
             default:
-                throw new Exception('stack_cas_connection: Unknown platform '.$platform);
+                throw new Exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
         }
+
+        switch (self::$config->casresultscache) {
+            case 'db':
+                $connection = new stack_cas_connection_db_cache($connection, $debuglog);
+                break;
+
+            default:
+                // Just use the raw $connection.
+        }
+
+        return $connection;
     }
 
-    /**
-     * Send some Maxima code to Maxima, and return the unpacked results.
-     * @param string $command Maxima code.
-     * @return array the unpacked results returned by Maxima.
-     */
+    /* @see stack_cas_connection::compute() */
     public function compute($command) {
-        $this->debug('Maxima command', $command);
+        $this->debug->log('Maxima command', $command);
 
         $rawresult = $this->call_maxima($command);
-        $this->debug('CAS result', $rawresult);
+        $this->debug->log('CAS result', $rawresult);
 
         $unpackedresult = $this->unpack_raw_result($rawresult);
-        $this->debug('Unpacked result as', print_r($unpackedresult, true));
+        $this->debug->log('Unpacked result as', print_r($unpackedresult, true));
 
         return $unpackedresult;
     }
 
-    /**
-     * @return string any debug info from this session. Will be blank unless
-     *      debugging is enabled by the configuration.
-     */
+    /* @see stack_cas_connection::get_debuginfo() */
     public function get_debuginfo() {
-        return $this->debuginfo;
+        return $this->debug->get_log();
     }
 
     /**
@@ -109,8 +119,9 @@ abstract class stack_cas_connection {
     /**
      * Constructor.
      * @param stdClass $settings the Maxima configuration settings.
+     * @param stack_debug_log $debuglog the debug log to use.
      */
-    protected function __construct($settings) {
+    protected function __construct($settings, stack_debug_log $debuglog) {
         global $CFG;
 
         $path = $CFG->dataroot . '/stack';
@@ -129,19 +140,7 @@ abstract class stack_cas_connection {
         $this->command     = $cmd;
         $this->initcommand = $initcommand;
         $this->timeout     = $settings->castimeout;
-        $this->debug       = $settings->casdebugging;
-    }
-
-    protected function debug($heading, $message) {
-        if (!$this->debug) {
-            return;
-        }
-        if ($heading) {
-            $this->debuginfo .= html_writer::tag('h3', $heading);
-        }
-        if ($message) {
-            $this->debuginfo .= html_writer::tag('pre', s($message));
-        }
+        $this->debug       = $debuglog;
     }
 
     /**
@@ -156,7 +155,7 @@ abstract class stack_cas_connection {
         //check we have a timestamp & remove everything before it.
         $ts = substr_count($rawresult, '[TimeStamp');
         if ($ts != 1) {
-            $this->debug('', 'receive_raw_maxima: no timestamp returned.');
+            $this->debug->log('', 'receive_raw_maxima: no timestamp returned.');
             return array();
         } else {
             $result = strstr($rawresult, '[TimeStamp'); //remove everything before the timestamp

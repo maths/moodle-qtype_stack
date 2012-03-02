@@ -41,6 +41,13 @@ $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
         get_string('settingcastimeout_desc', 'qtype_stack'), 5, PARAM_INT, 3));
 
+$settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
+        get_string('settingcasresultscache', 'qtype_stack'),
+        get_string('settingcasresultscache_desc', 'qtype_stack'), 'db', array(
+            'none' => get_string('settingcasresultscache_none', 'qtype_stack'),
+            'db' => get_string('settingcasresultscache_db', 'qtype_stack'),
+        )));
+
 $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',
         get_string('settingplatformmaximacommand', 'qtype_stack'),
         get_string('settingplatformmaximacommand_desc', 'qtype_stack'), ''));

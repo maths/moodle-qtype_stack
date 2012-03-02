@@ -14,19 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+
 /**
- * Version information for the Stack question type.
+ * Defines the stack_cas_connection interface.
  *
- * @package    qtype_stack
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+interface stack_cas_connection {
 
-defined('MOODLE_INTERNAL') || die();
+    /**
+     * Send some Maxima code to Maxima, and return the unpacked results.
+     * @param string $command Maxima code to execute.
+     * @return array the unpacked results returned by Maxima.
+     */
+    public function compute($command);
 
-$plugin->version  = 2012030300;
-$plugin->requires = 2012020200;
-$plugin->cron = 0;
-
-$plugin->component = 'qtype_stack';
-$plugin->maturity = MATURITY_ALPHA;
+    /**
+     * @return string any debug info from this session. Will be blank unless
+     *      debugging is enabled by the configuration.
+     */
+    public function get_debuginfo();
+}

@@ -21,8 +21,9 @@
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_cas_connection_unix extends stack_cas_connection {
+class stack_cas_connection_unix extends stack_cas_connection_base {
 
+    /* @see stack_cas_connection_base::guess_maxima_command() */
     protected function guess_maxima_command($path) {
         if (is_readable('/Applications/Maxima.app/Contents/Resources/maxima.sh')) {
             // This is the path on Macs, if Maxima has been installed following
@@ -33,8 +34,8 @@ class stack_cas_connection_unix extends stack_cas_connection {
         }
     }
 
+    /* @see stack_cas_connection_base::call_maxima() */
     protected function call_maxima($command) {
-        // Sends the $st to maxima.
 
         $ret = false;
         $err = '';
@@ -64,7 +65,7 @@ class stack_cas_connection_unix extends stack_cas_connection {
         $continue   = true;
 
         if (!stream_set_blocking($pipes[1], false)) {
-            $this->debug('', 'Warning: could not stream_set_blocking to be FALSE on the CAS process.');
+            $this->debug->log('', 'Warning: could not stream_set_blocking to be FALSE on the CAS process.');
         }
 
         while ($continue and !feof($pipes[1])) {
@@ -91,7 +92,7 @@ class stack_cas_connection_unix extends stack_cas_connection {
         if ($continue) {
             fclose($pipes[0]);
             fclose($pipes[1]);
-            $this->debug('Timings', "Start: {$start_time}, End: {$now}, Taken = " .
+            $this->debug->log('Timings', "Start: {$start_time}, End: {$now}, Taken = " .
                     ($now - $start_time));
 
         } else {

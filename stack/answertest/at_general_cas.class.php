@@ -104,10 +104,6 @@ class stack_answertest_general_cas extends stack_anstest {
             $this->options->set_option('simplify', $this->simp);
         }
 
-        //$mconn = new stack_cas_maxima_connector($this->options);
-        //$result = $mconn->maxima_answer_test($this->sanskey, $ta, $this->casfunction);
-        //echo $mconn->get_debuginfo();
-
         $cascommands = array();
         $cascommands[] = "STACKSA:$this->sanskey";
         $cascommands[] = "STACKTA:$ta";

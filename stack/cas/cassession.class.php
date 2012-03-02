@@ -199,11 +199,9 @@ class stack_cas_session {
             return true;
         }
 
-        $mconn = new stack_cas_maxima_connector();
-        $results = $mconn->maxima_session($this->construct_maxima_command());
-
-        // TODO: how to sort out debug info back to a user?
-        // echo $mconn->get_debuginfo();
+        $connection = stack_cas_connection::make();
+        $results = $connection->compute($this->construct_maxima_command());
+        $this->debuginfo = $connection->get_debuginfo();
 
         // Now put the information back into the correct slots.
         $session = $this->session;
@@ -272,8 +270,6 @@ class stack_cas_session {
         if ($all_fail) {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
         }
-
-        $this->debuginfo = $mconn->get_debuginfo();
 
         $this->instantiated = true;
     }

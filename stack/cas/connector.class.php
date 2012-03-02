@@ -14,47 +14,34 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+
 /**
  * Class which undertakes process control to connect to Maxima.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class stack_cas_maxima_connector {
+    protected static $config = null;
 
-    /** @var array Contains all system configuration, e.g. location of Maxima  */
-    private $config;
-
-    /** @var stack_options  */
-    private $options;
+    protected $platform;
+    protected $logs;
+    protected $command;
+    protected $init_command;
+    protected $timeout;
+    protected $debug;
+    protected $version;
 
     /** @var string This collects all debug information.  */
-    private $debuginfo = '';
+    protected $debuginfo = '';
 
-    public function __construct($options=null) {
-
-        $this->config = $this->load_config();
-
-        $this->options = $options;
-
-        if (null===$options) {
-            $this->options = new stack_options();
-        }
-
-        if (!is_a($this->options, 'stack_options')) {
-            var_dump($options);
-            throw new Exception('stack_cas_maxima_connector: options must be stack_options or null.');
-        }
-    }
-
-    protected function load_config() {
+    public function __construct() {
         global $CFG;
-        static $settings = null;
 
-        if (is_null($settings)) {
-            $settings = get_config('qtype_stack');
+        if (is_null(self::$config)) {
+            self::$config = get_config('qtype_stack');
         }
+        $settings = self::$config;
 
         $path = $CFG->dataroot . '/stack';
 
@@ -80,23 +67,21 @@ class stack_cas_maxima_connector {
             }
         }
 
-        return array(
-                'platform'        => $settings->platform,
-                'logs'            => $path,
-                'command'         => $cmd,
-                'init_command'    => $initcommand,
-                'timeout'         => $settings->castimeout,
-                'debug'           => $settings->casdebugging,
-                'version'         => $settings->maximaversion,
-        );
+        $this->platform     = $settings->platform;
+        $this->logs         = $path;
+        $this->command      = $cmd;
+        $this->init_command = $initcommand;
+        $this->timeout      = $settings->castimeout;
+        $this->debug        = $settings->casdebugging;
+        $this->version      = $settings->maximaversion;
     }
 
     public function get_debuginfo() {
         return $this->debuginfo;
     }
 
-    private function debug($heading, $message) {
-        if (!$this->config['debug']) {
+    protected function debug($heading, $message) {
+        if (!$this->debug) {
             return;
         }
         if ($heading) {
@@ -113,11 +98,11 @@ class stack_cas_maxima_connector {
      * @param string $strin The raw Maxima command to be processed.
      * @return array
      */
-    private function send_to_maxima($command) {
+    protected function send_to_maxima($command) {
 
         $this->debug('Maxima command', $command);
 
-        $platform = $this->config['platform'];
+        $platform = $this->platform;
 
         if ($platform == 'win') {
             $result = $this->send_win($command);
@@ -140,15 +125,15 @@ class stack_cas_maxima_connector {
      * @return string
      * @access public
      */
-    private function send_win($command) {
+    protected function send_win($command) {
         $ret = false;
 
         $descriptors = array(
             0 => array('pipe', 'r'),
             1 => array('pipe', 'w'),
-            2 => array('file', $this->config['logs']."cas_errors.txt", 'a'));
+            2 => array('file', $this->logs."cas_errors.txt", 'a'));
 
-        $cmd = '"'.$this->config['command'].'"';
+        $cmd = '"'.$this->command.'"';
         $this->debug('Command line', $cmd);
 
         $casprocess = proc_open($cmd, $descriptors, $pipes);
@@ -156,7 +141,7 @@ class stack_cas_maxima_connector {
             throw new Exception('stack_cas_maxima_connector: Could not open a CAS process.');
         }
 
-        if (!fwrite($pipes[0], $this->config['init_command'])) {
+        if (!fwrite($pipes[0], $this->init_command)) {
             return(false);
         }
         fwrite($pipes[0], $command);
@@ -189,7 +174,7 @@ class stack_cas_maxima_connector {
      * @param string $strin The string of CAS commands to be processed.
      * @return string|boolean The converted HTML string or FALSE if there was an error.
      */
-    private function send_unix($strin) {
+    protected function send_unix($strin) {
         // Sends the $st to maxima.
 
         $ret = false;
@@ -201,13 +186,13 @@ class stack_cas_maxima_connector {
             0 => array('pipe', 'r'),
             1 => array('pipe', 'w'),
             2 => array('pipe', 'w'));
-        $casprocess = proc_open($this->config['command'], $descriptors, $pipes, $cwd, $env);
+        $casprocess = proc_open($this->command, $descriptors, $pipes, $cwd, $env);
 
         if (!is_resource($casprocess)) {
             throw new Exception('stack_cas_maxima_connector: could not open a CAS process');
         }
 
-        if (!fwrite($pipes[0], $this->config['init_command'])) {
+        if (!fwrite($pipes[0], $this->init_command)) {
             echo "<br />Could not write to the CAS process!<br />\n";
             return(false);
         }
@@ -227,7 +212,7 @@ class stack_cas_maxima_connector {
 
             $now = microtime(true);
 
-            if (($now-$start_time) > $this->config['timeout']) {
+            if (($now-$start_time) > $this->timeout) {
                 $proc_array = proc_get_status($casprocess);
                 if ($proc_array['running']) {
                     proc_terminate($casprocess);
@@ -274,7 +259,7 @@ class stack_cas_maxima_connector {
      * @param array $strin Raw CAS output
      * @return array
      */
-    private function maxima_raw_session($strin) {
+    protected function maxima_raw_session($strin) {
         $result = '';
         $errors = false;
         //check we have a timestamp & remove everything before it.
@@ -345,7 +330,7 @@ class stack_cas_maxima_connector {
     }
 
 
-    private function maxima_unpack_helper($strin) {
+    protected function maxima_unpack_helper($strin) {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;
         $strin_len = strlen($strin);
@@ -383,16 +368,15 @@ class stack_cas_maxima_connector {
     }
 
     /**
-     * Deals with Maxima errors.   Enables some translation.
+     * Deals with Maxima errors. Enables some translation.
      *
      * @param string $errstr a Maxima error string
      * @return string
      */
-    private function tidy_error($errstr) {
+    protected function tidy_error($errstr) {
         if (strpos($errstr, '0 to a negative exponent') !== false) {
             $errstr = stack_string('Maxima_DivisionZero');
         }
         return $errstr;
     }
-
 }

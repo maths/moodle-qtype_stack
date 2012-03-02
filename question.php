@@ -123,7 +123,7 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function start_attempt(question_attempt_step $step, $variant) {
 
-        $this->seed = time();
+        $this->seed = $variant;
         $step->set_qt_var('_seed', $this->seed);
 
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
@@ -318,8 +318,7 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function get_num_variants() {
-        // TODO We will probably need this when it comes to instantiating questions.
-        return 1;
+        return 1000000;
     }
 
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {

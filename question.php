@@ -38,6 +38,9 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_question extends question_graded_automatically {
+    const MARK_MODE_PENALTY = 'penalty';
+    const MARK_MODE_FIRST = 'firstanswer';
+    const MARK_MODE_LAST = 'lastanswer';
 
     /**
      * @var string Any specific feedback for this question. This is displayed
@@ -46,10 +49,29 @@ class qtype_stack_question extends question_graded_automatically {
      */
     public $specificfeedback;
 
-    /**
-     * @var int one of the FORMAT_... constants
-     */
+    /** @var int one of the FORMAT_... constants */
     public $specificfeedbackformat;
+
+    /** @var Feedback that is displayed for any PRT that returns a score of 1. */
+    public $prtcorrect;
+
+    /** @var int one of the FORMAT_... constants */
+    public $prtcorrectformat;
+
+    /** @var Feedback that is displayed for any PRT that returns a score between 0 and 1. */
+    public $prtpartiallycorrect;
+
+    /** @var int one of the FORMAT_... constants */
+    public $prtpartiallycorrectformat;
+
+    /** @var Feedback that is displayed for any PRT that returns a score of 0. */
+    public $prtincorrect;
+
+    /** @var int one of the FORMAT_... constants */
+    public $prtincorrectformat;
+
+    /** @var string how marks are computed by PRTs in adaptive mode. */
+    public $markmode;
 
     /**
      * @var array STACK specific: string name as it appears in the question text => stack_input

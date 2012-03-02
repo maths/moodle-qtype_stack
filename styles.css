@@ -56,5 +56,8 @@ body.path-question-type-stack h2.pass {
     margin: 0.2em -0.2em 0.5em;
     padding: 0.2em;
 }
-.que.stack .outcome .stackprtfeedback {
+.que.stack .formulation .stackprtfeedback .correct,
+.que.stack .formulation .stackprtfeedback .partiallycorrect,
+.que.stack .formulation .stackprtfeedback .incorrect {
+    background: transparent;
 }

@@ -85,46 +85,6 @@ class stack_options {
                 'caskey'     =>  'assume_pos',
                 'castype'    =>  'ex',
             ),
-            'markmodmethod'   =>  array(
-                'type'       =>  'list',
-                'value'      =>  'penalty',
-                'strict'     =>  true,
-                'values'     =>  array('penalty', 'firstanswer', 'lastanswer'),
-                'caskey'     =>  null,
-                'castype'    =>  null,
-             ),
-            'feedback'   =>  array( // This goes, and now respects Moodle settings.
-                'type'       =>  'list',
-                'value'      =>  'TGS',
-                'strict'     =>  true,
-                'values'     =>  array('TGS', 'TG', 'GS', 'T', 'G', 'S', 'none'),
-                'caskey'     =>  null,
-                'castype'    =>  null,
-            ),
-            'feedbackgenericcorrect'   =>  array(
-                'type'       =>  'html',
-                'value'      =>  "<span class='correct'>Correct answer, well done.</span>",
-                'strict'     =>  false,
-                'values'     =>  array(),
-                'caskey'     =>  null,
-                'castype'    =>  null,
-            ),
-            'feedbackgenericincorrect'   =>  array(
-                'type'       =>  'html',
-                'value'      =>  "<span class='partially'>Your answer is partially correct.</span>",
-                'strict'     =>  false,
-                'values'     =>  array(),
-                'caskey'     =>  null,
-                'castype'    =>  null,
-            ),
-            'feedbackgenericpcorrect'   =>  array(
-                'type'       =>  'html',
-                'value'      =>  "<span class='incorrect'>Incorrect answer.</span>",
-                'strict'     =>  false,
-                'values'     =>  array(),
-                'caskey'     =>  null,
-                'castype'    =>  null,
-            ),
         );
 
         if (!is_array($settings)) {

@@ -60,11 +60,18 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionvariables = '';
         $q->specificfeedback = '';
         $q->specificfeedbackformat = FORMAT_HTML;
+        $q->prtcorrect = 'Correct answer, well done.';
+        $q->prtcorrectformat = FORMAT_HTML;
+        $q->prtpartiallycorrect = 'Your answer is partially correct.';
+        $q->prtpartiallycorrectformat = FORMAT_HTML;
+        $q->prtincorrect = 'Incorrect answer.';
+        $q->prtincorrectformat = FORMAT_HTML;
         $q->generalfeedback = '';
 
         $q->inputs = array();
         $q->prts = array();
 
+        $q->markmode = qtype_stack_question::MARK_MODE_PENALTY;
         $q->options = new stack_options();
 
         return $q;

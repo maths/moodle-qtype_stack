@@ -57,7 +57,7 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $index => $prt) {
             if ($options->feedback) {
                 $result = $question->get_prt_result($index, $response);
-                $feedback = $this->prt_feedback($result['feedback']);
+                $feedback = $this->prt_feedback($qa, $question, $result);
             } else {
                 $feedback = '';
             }
@@ -80,7 +80,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Replace any PRT feedback.
         foreach ($question->prts as $index => $prt) {
             $result = $question->get_prt_result($index, $response);
-            $feedback = $this->prt_feedback($result['feedback']);
+            $feedback = $this->prt_feedback($qa, $question, $result);
             $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
         }
 
@@ -100,8 +100,23 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $feedback the raw feedback message from the PRT.
      * @return string Nicely formatted feedback, for display.
      */
-    protected function prt_feedback($feedback) {
-        return html_writer::nonempty_tag('div', $feedback, array('class' => 'stackprtfeedback'));
+    protected function prt_feedback($qa, $question, $result) {
+        return html_writer::nonempty_tag('div',
+                $this->standard_prt_feedback($qa, $question, $result) . $result['feedback'],
+                array('class' => 'stackprtfeedback'));
+    }
+
+    protected function standard_prt_feedback($qa, $question, $result) {
+        $state = question_state::graded_state_for_fraction($result['score']);
+
+        $class = $state->get_feedback_class();
+        $field = 'prt' . $class;
+        $format = 'prt' . $class . 'format';
+        if ($question->$field) {
+            return html_writer::tag('div', $question->format_text($question->$field,
+                    $question->$format, $qa, 'question', $field, $question->id), array('class' => $class));
+        }
+        return '';
     }
 
     /**

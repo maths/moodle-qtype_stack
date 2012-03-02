@@ -160,7 +160,7 @@ class stack_ans_test_controller {
                 if ('' == trim($casoption)) {
                     $casoption = '3';
                 }
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumSigFigs', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumSigFigs', true, $casoption, $options, true);
                 break;
 
             case 'LowestTerms':

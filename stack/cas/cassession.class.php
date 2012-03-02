@@ -236,6 +236,18 @@ class stack_cas_session {
                     $cs->set_display($result['display']);
                 }
 
+                if (array_key_exists('valid', $result)) {
+                    $cs->set_valid($result['valid']);
+                }
+
+                if (array_key_exists('answernote', $result)) {
+                    $cs->set_answernote($result['answernote']);
+                }
+
+                if (array_key_exists('feedback', $result)) {
+                    $cs->set_feedback($result['feedback']);
+                }
+
                 if ('' != $result['error']) {
                     $cs->add_errors($result['error']);
                     $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring());

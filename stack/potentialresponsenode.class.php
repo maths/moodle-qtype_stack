@@ -157,7 +157,7 @@ class stack_potentialresponse_node {
             'valid' => $at->get_at_valid(),
             'errors' => $at->get_at_errors(),
             'newscore' => $this->update_score($currentscore, $resultbranch),
-            'penalty' => $resultbranch['penalty'],
+            'penalty' => $resultbranch['penalty'], //TODO: if non-empty!
             'nextnode' => $resultbranch['nextnode'],
             'answernote' => implode(' | ', $answernotes),
             'feedback' => implode(' ', $feedback),

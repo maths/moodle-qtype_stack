@@ -104,16 +104,64 @@ class stack_answertest_general_cas extends stack_anstest {
             $this->options->set_option('simplify', $this->simp);
         }
 
-        $mconn = new stack_cas_maxima_connector($this->options);
-        $result = $mconn->maxima_answer_test($this->sanskey, $ta, $this->casfunction);
+        //$mconn = new stack_cas_maxima_connector($this->options);
+        //$result = $mconn->maxima_answer_test($this->sanskey, $ta, $this->casfunction);
+        //echo $mconn->get_debuginfo();
 
-        $this->aterror    = $result['error'];
-        $this->atansnote  = $result['answernote'];
-        $this->atmark     = $result['result'];
-        $this->atfeedback = $result['feedback'];
-        $this->atvalid    = $result['valid'];
+        $cascommands = array();
+        $cascommands[] = "STACKSA:$this->sanskey";
+        $cascommands[] = "STACKTA:$ta";
+        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
 
-        if (1==$this->atmark) {
+        $cts = array();
+        foreach ($cascommands as $com) {
+            $cts[] = new stack_cas_casstring($com, 't', true, false);
+        }
+        $session = new stack_cas_session($cts, $this->options, null, 't', true, false);
+        $session->instantiate();
+
+        if (''!=$session->get_errors_key('STACKSA')) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = ' stack_trans("TEST_FAILED"); ';
+            $this->atansnote    = $this->casfunction.'_STACKERROR_SAns';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
+        if (''!=$session->get_errors_key('STACKTA')) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string("TEST_FAILED");
+            $this->atansnote    = $this->casfunction.'_STACKERROR_TAns';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
+        if (''!=$session->get_errors_key('result')) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string("TEST_FAILED");
+            $this->atansnote    = $this->casfunction.'_STACKERROR_result';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
+        $session = $session->get_session();
+        $result = $session[2];
+
+        $this->atansnote  = $result->get_answernote();
+
+        // convert maxima string 'true' to PHP true
+        if ('true'==$result->get_value()) {
+            $this->atmark = 1;
+        } else {
+            $this->atmark = 0;
+        }
+        $this->atfeedback = $result->get_feedback();
+        $this->atvalid    = $result->get_valid();
+
+        if ($this->atmark) {
             return true;
         } else {
             return false;

@@ -252,8 +252,13 @@ StackAddFeedback(fb,key,[ex]):=block([str,exprs,j],
 StackReturn(ex):=block([str],
   if not(listp(ex)) then (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),
   if length(ex)#4 then (print("StackReturn failed: argument wrong length: "), print(string(ex)), return("")),
-  str:concat(" valid = [ ", (if ex[1] then "1" else "0")," ], result = [ ",(if ex[2] then "1" else "0")," ], answernote = [ ",ex[3]," ], feedback= [ ",ex[4]," ]  ] "),
-  return(str)
+  print(" ], valid = [ "),
+  if ex[1] then print(1) else print(0),
+  print(" ], answernote = [ "),
+  print(ex[3]),
+  print(" ], feedback = [ "),
+  print(ex[4]),
+  return(ex[2])
 )$
 
 /* note the extra closing ] here.  The corresponding opening [ is generated in PHP */

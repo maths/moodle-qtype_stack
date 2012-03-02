@@ -77,14 +77,6 @@ class stack_options {
                 'caskey'     =>  'simp',
                 'castype'    =>  'ex',
             ),
-            'markmodmethod'   =>  array(
-                'type'       =>  'list',
-                'value'      =>  'penalty',
-                'strict'     =>  true,
-                'values'     =>  array('penalty', 'firstanswer', 'lastanswer'),
-                'caskey'     =>  null,
-                'castype'    =>  null,
-             ),
             'assumepos'   =>  array(
                 'type'       =>  'boolean',
                 'value'      =>  false,
@@ -93,7 +85,15 @@ class stack_options {
                 'caskey'     =>  'assume_pos',
                 'castype'    =>  'ex',
             ),
-            'feedback'   =>  array(
+            'markmodmethod'   =>  array(
+                'type'       =>  'list',
+                'value'      =>  'penalty',
+                'strict'     =>  true,
+                'values'     =>  array('penalty', 'firstanswer', 'lastanswer'),
+                'caskey'     =>  null,
+                'castype'    =>  null,
+             ),
+            'feedback'   =>  array( // This goes, and now respects Moodle settings.
                 'type'       =>  'list',
                 'value'      =>  'TGS',
                 'strict'     =>  true,
@@ -103,7 +103,7 @@ class stack_options {
             ),
             'feedbackgenericcorrect'   =>  array(
                 'type'       =>  'html',
-                'value'      =>  '',
+                'value'      =>  "<span class='correct'>Correct answer, well done.</span>",
                 'strict'     =>  false,
                 'values'     =>  array(),
                 'caskey'     =>  null,
@@ -111,7 +111,7 @@ class stack_options {
             ),
             'feedbackgenericincorrect'   =>  array(
                 'type'       =>  'html',
-                'value'      =>  '',
+                'value'      =>  "<span class='partially'>Your answer is partially correct.</span>",
                 'strict'     =>  false,
                 'values'     =>  array(),
                 'caskey'     =>  null,
@@ -119,7 +119,7 @@ class stack_options {
             ),
             'feedbackgenericpcorrect'   =>  array(
                 'type'       =>  'html',
-                'value'      =>  '',
+                'value'      =>  "<span class='incorrect'>Incorrect answer.</span>",
                 'strict'     =>  false,
                 'values'     =>  array(),
                 'caskey'     =>  null,

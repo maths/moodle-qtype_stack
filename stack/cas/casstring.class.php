@@ -34,6 +34,9 @@ class stack_cas_casstring {
     private $value;           // Note these two values only become activated when the casstring goes to the CAS.
     private $display;
 
+    private $answernote;      // These values only become activated when answertests are used and the casstring goes to the CAS.
+    private $feedback;
+
     // Option values
     private $security;
     private $insertstars;
@@ -378,6 +381,10 @@ class stack_cas_casstring {
         return $this->valid;
     }
 
+    public function set_valid($val) {
+        $this->valid=$val;
+    }
+    
     public function get_errors() {
         if (null===$this->valid) {
             $this->validate();
@@ -429,6 +436,22 @@ class stack_cas_casstring {
 
     public function set_display($val) {
         $this->display=$val;
+    }
+
+    public function get_answernote() {
+        return $this->answernote;
+    }
+
+    public function set_answernote($val) {
+        $this->answernote=$val;
+    }
+
+    public function get_feedback() {
+        return $this->feedback;
+    }
+
+    public function set_feedback($val) {
+        $this->feedback=$val;
     }
 
     public function add_errors($err) {

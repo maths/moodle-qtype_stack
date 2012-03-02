@@ -15,11 +15,7 @@ Each of these links contains detailed instructions.  However, the purpose of thi
 STACK is designed as a vehicle to manage mathematical questions. Implicit in this is a data structure which represents them.
 This page explains the process of authoring a question, by working through an example.
 
-1. Login to STACK using the stand-alone front end.
-2. Choose "New Question".
-
-You will be presented with a form to create a question.
-Do not be put off by the fact the editing form looks complicated.
+Questions are edited through the Moodle quiz.  Do not be put off by the fact the editing form looks complicated.
 
 There are lots of fields, but the only compulsory field is the [question stem](CASText#Question_stem).
 This is the string actually displayed to the student, i.e. this is "the question".
@@ -32,7 +28,7 @@ You will need to SAVE the question in STACK's database before you can test it.
 Enter the following information into the question stem. It should be possible to cut and paste.
 
 	Differentiate $(x-1)^3$ with respect to $x$.
-	#ans1#
+	[[input:ans1]]
 
 Then press the update button. 
 
@@ -197,7 +193,7 @@ Modify the [question variables](KeyVals#Question_variables) from the previous ex
 Then change the [question stem](CASText#Question_stem) to
 	
 	Differentiate @p@ with respect to $x$.
-	#ans1#
+	[[input:ans1]]
 
 and in the inputs change the Teacher's answer to
 

@@ -100,7 +100,7 @@ input will be associated with a number of fields. For example
    This could be automatically assigned, e.g. in order `ans1`, `ans2`, etc. Each variable is known as an answer variable.
 2. The type of the input. Examples include
   1. direct linear algebraic input, e.g. `2*e^x`.
-  2. graphical input tool, e.g. DragMath.
+  2. graphical input tool, e.g. a slider.
   3. True/False selection.
   4. string data type.
 3. The teacher's correct answer.

@@ -4,27 +4,23 @@ inputs are the points at which the student interacts with the question.
 For example, it might be a form box into which the student enters their answer.
 
 * Only the [question stem](CASText#Question_stem) may have inputs. 
-* inputs are not required. Hence it is possible for the teacher to make a
+* Inputs are not required. Hence it is possible for the teacher to make a
   statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
-* inputs can be positioned anywhere within the
+* Inputs can be positioned anywhere within the
   [question stem](CASText#Question_stem).  If JSMath is used for display this includes within equations.  MathJax does not currently support this feature.
 
 The position of an input in the [question stem](CASText#Question_stem) is denoted by
 
-	#stuff#
+	[[input:ans1]]
  
-Here `stuff` denotes the name of a [Maxima](../CAS/Maxima) variable to which the student's answer is to be assigned.
-This must only be letters (optionally) followed by numbers, e.g.
-
-	#ans1#
-
-No special characters are permitted.
+Here `ans1` denotes the name of a [Maxima](../CAS/Maxima) variable to which the student's answer is to be assigned.
+This must only be letters (optionally) followed by numbers, as in this example. No special characters are permitted.
 
 Feedback as to the syntactic validity of a response is by default inserted just after
 the input. Feedback is positioned using tags such as
 
-	<IEfeedback>stuff</IEfeedback>
+	[[validation:ans1]]
  
 where stuff is the name of the variable. This string is automatically generated if it
 does not exist and is placed after the input. This feedback must be given.
@@ -37,11 +33,11 @@ Each input may have a number of options.
 ## Student's Answer Key ##  {#Answer_Key}
 
 The maxima variable to which the student's answer is assigned.
-This is set in the Question Stem by enclosing the variable name between hash symbols, e.g.
+This is set in the Question Stem using the following syntax, where `ans1` is the variable name to which the student's answer is assigned.
 	
-	#ans1#
+    [[input:ans1]]
 
-Internally you can refer to the student's answer using the variable name `ans1`.
+Internally you can refer to the student's answer using the variable name `ans1` in the potential response tree, feedback variables and feedback text. The worked solution may not depend on inputs.
 
 ### Input Type ### {#Input_Type}
 

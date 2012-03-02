@@ -115,6 +115,12 @@ Key features
 * Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
 * Feature "allowed words" dropped from interaction elements. 
 * Input "Dropdown" list -> should be automatically imported to "list"
+* Interaction elements, now called inputs, are indicated in questions as 
+    [[input:ans1]] 
+  to match the existing style in Moodle.  Existing questions will be converted when imported.
+* JSMath is no longer under development, and hence we are no longer providing an option for this in STACK.  However, in STACK 2 we modified JSMath to enable inputs within equations.  Display now assumes the use of a Moodle filter and we recommend (and test with) MathJax, which does not currently support this feature.  If it is important for you to use this feature you will need to copy and modify the load.js file from STACK 2 and use JSMath.
+
+
 
 ## Future plans 
 

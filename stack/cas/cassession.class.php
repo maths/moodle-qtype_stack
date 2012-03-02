@@ -467,4 +467,21 @@ class stack_cas_session {
         return $cass;
     }
 
+    /**
+     * Creates a string which we can feedback into a keyval.class object.
+     * This is sufficient to define the session for caching purposes.
+     *
+     * @return string
+     */
+    public function get_keyval_representation() {
+        $keyvals = '';
+        foreach ($this->session as $cs) {
+            if ('' == $cs->get_key()) {
+                $keyvals .= $cs->get_casstring().'; ';
+            } else {
+                $keyvals .= $cs->get_key().'='.$cs->get_casstring().'; ';
+            }
+        }
+        return trim($keyvals);
+    }
 }

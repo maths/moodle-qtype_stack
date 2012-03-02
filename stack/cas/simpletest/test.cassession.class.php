@@ -68,6 +68,17 @@ extends UnitTestCase {
         $this->assertEqual('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
 
     }
+
+    public function test_keyval_representation_1() {
+
+        $cs=array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $at1 = new stack_cas_session($s1);
+        $this->assertEqual('a=x^2; b=1/(1+x^2); c=e^(i*pi);', $at1->get_keyval_representation());
+    }
 }
 
 

@@ -100,6 +100,42 @@ class stack_cas_keyval_test extends UnitTestCase {
         $at1->instantiate();
         $this->assertEqual($cs3, $at1->get_session());
     }
+
+    public function test_keyval_session_keyval_0() {
+        $kvin = "";
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
+        $session = $at1->get_session();
+        $kvout = $session->get_keyval_representation();
+        $this->assertEqual($kvin, $kvout);
+    }
+
+    public function test_keyval_session_keyval_1() {
+        $kvin = "a=1; c=3;";
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
+        $session = $at1->get_session();
+        $kvout = $session->get_keyval_representation();
+        $this->assertEqual($kvin, $kvout);
+    }
+
+    public function test_keyval_session_keyval_2() {
+        // Equation and function
+        $kvin = "ans1=x^2-2*x=1; f(x):=x^2; sin(x^3);";
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
+        $session = $at1->get_session();
+        $kvout = $session->get_keyval_representation();
+        $this->assertEqual($kvin, $kvout);
+    }
+
+    public function test_keyval_session_keyval_3() {
+        // Inserting stars
+        $kvin  = "a=2x; b=(x+1)(x-1); b=f(x);";
+        $kvins = "a=2*x; b=(x+1)*(x-1); b=f(x);";
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', false, true);
+        $session = $at1->get_session();
+        $kvout = $session->get_keyval_representation();
+
+        $this->assertEqual($kvins, $kvout);
+    }
 }
 
 class stack_cas_keyval_exception_test extends UnitTestCase

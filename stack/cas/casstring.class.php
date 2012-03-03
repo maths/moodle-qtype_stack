@@ -378,7 +378,7 @@ class stack_cas_casstring {
     public function set_valid($val) {
         $this->valid=$val;
     }
-    
+
     public function get_errors() {
         if (null===$this->valid) {
             $this->validate();

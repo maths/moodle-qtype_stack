@@ -99,7 +99,7 @@ class qtype_stack_question extends question_graded_automatically {
     protected $seed;
 
     /**
-    * @var array stack_cas_session STACK specific: session of variables.
+     * @var array stack_cas_session STACK specific: session of variables.
      */
     protected $session;
 
@@ -230,7 +230,6 @@ class qtype_stack_question extends question_graded_automatically {
             $teacheranswer[$name] = $this->session->get_casstring_key($name);
         }
         return $teacheranswer;
-        
     }
 
     public function is_same_response(array $prevresponse, array $newresponse) {

@@ -94,8 +94,7 @@ class stack_cas_session {
         } else {
             $this->seed = time();
         }
-
-}
+    }
 
     /*********************************************************/
     /* Validation functions                                  */

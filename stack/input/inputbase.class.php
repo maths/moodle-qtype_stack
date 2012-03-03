@@ -272,11 +272,7 @@ abstract class stack_input {
             $session->instantiate();
             $session = $session->get_session();
             $answer = $session[0];
-/*
-            echo "<pre>";
-            print_r($answer);
-            echo "</pre>";
-*/
+
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {
                 $valid = false;

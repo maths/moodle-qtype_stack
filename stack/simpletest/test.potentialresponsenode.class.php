@@ -36,8 +36,9 @@ require_once(dirname(__FILE__) . '/../../locallib.php');
 class stack_potentialresponse_node_test extends UnitTestCase {
 
     public function test_constructor() {
-        $sans = new stack_cas_casstring('x^2+2*x+1', 's');
-        $tans = new stack_cas_casstring('(x+1)^2', 't');
+        $sans = new stack_cas_casstring('x^2+2*x+1');
+        $tans = new stack_cas_casstring('(x+1)^2');
+        $tans->validate('t');
         $options = new stack_options();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, '', '1-0-0');
@@ -48,8 +49,9 @@ class stack_potentialresponse_node_test extends UnitTestCase {
     }
 
     public function test_do_test_pass() {
-        $sans = new stack_cas_casstring('x^2+2*x+1', 's');
-        $tans = new stack_cas_casstring('(x+1)^2', 't');
+        $sans = new stack_cas_casstring('x^2+2*x+1');
+        $tans = new stack_cas_casstring('(x+1)^2');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
@@ -65,8 +67,9 @@ class stack_potentialresponse_node_test extends UnitTestCase {
     }
 
     public function test_do_test_fail() {
-        $sans = new stack_cas_casstring('x^2+2*x-1', 's');
-        $tans = new stack_cas_casstring('(x+1)^2', 't');
+        $sans = new stack_cas_casstring('x^2+2*x-1');
+        $tans = new stack_cas_casstring('(x+1)^2');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
@@ -82,8 +85,9 @@ class stack_potentialresponse_node_test extends UnitTestCase {
     }
 
     public function test_do_test_cas_error() {
-        $sans = new stack_cas_casstring('x^2+2*x-1', 's');
-        $tans = new stack_cas_casstring('(x+1)^2', 't');
+        $sans = new stack_cas_casstring('x^2+2*x-1');
+        $tans = new stack_cas_casstring('(x+1)^2');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
@@ -99,8 +103,9 @@ class stack_potentialresponse_node_test extends UnitTestCase {
     }
 
     public function test_do_test_pass_atoption() {
-        $sans = new stack_cas_casstring('(x+1)^2', 's');
-        $tans = new stack_cas_casstring('(x+1)^2', 't');
+        $sans = new stack_cas_casstring('(x+1)^2');
+        $tans = new stack_cas_casstring('(x+1)^2');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
@@ -116,8 +121,9 @@ class stack_potentialresponse_node_test extends UnitTestCase {
     }
 
     public function test_do_test_fail_atoption() {
-        $sans = new stack_cas_casstring('ans1', 's');
-        $tans = new stack_cas_casstring('3*(x+2)', 't');
+        $sans = new stack_cas_casstring('ans1');
+        $tans = new stack_cas_casstring('3*(x+2)');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
@@ -133,8 +139,9 @@ class stack_potentialresponse_node_test extends UnitTestCase {
     }
 
     public function test_do_test_fail_quiet() {
-        $sans = new stack_cas_casstring('ans1', 's');
-        $tans = new stack_cas_casstring('3*(x+2)', 't');
+        $sans = new stack_cas_casstring('ans1');
+        $tans = new stack_cas_casstring('3*(x+2)');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');

@@ -337,7 +337,8 @@ class stack_inputvalidation_test_data {
         //$el->set_parameter('sameType', false);
         //$cs = $el->validate_student_response($test->rawstring);
 
-        $cs= new stack_cas_casstring($test->rawstring, $security='s', false, true);
+        $cs= new stack_cas_casstring($test->rawstring);
+        $cs->validate('s', false, true);
         $cs->set_cas_validation_casstring('sans1', true, true, null);
 
         $phpvalid = $cs->get_valid();

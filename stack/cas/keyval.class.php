@@ -52,7 +52,7 @@ class stack_cas_keyval {
         $this->insertstars  = $stars;      // by default don't add stars
         $this->syntax       = $syntax;     // by default strict
 
-        $this->session      = new stack_cas_session(null, $options, $seed, $this->security, $this->syntax, $this->insertstars);;
+        $this->session      = new stack_cas_session(null, $options, $seed);
 
         if (!is_string($raw)) {
             throw new Exception('stack_cas_keyval: raw must be a string.');
@@ -100,7 +100,8 @@ class stack_cas_keyval {
                     }
                 }
 
-                $cs = new stack_cas_casstring($val, $this->security, $this->syntax, $this->insertstars);
+                $cs = new stack_cas_casstring($val);
+                $cs->validate($this->security, $this->syntax, $this->insertstars);
                 $vars[] = $cs;
             }
         }

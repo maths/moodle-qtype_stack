@@ -38,8 +38,10 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
     public function test_do_test_pass() {
 
-        $sans = new stack_cas_casstring('sans', 't');
-        $tans = new stack_cas_casstring('(x+1)^3/3+c', 't');
+        $sans = new stack_cas_casstring('sans');
+        $sans->validate('t');
+        $tans = new stack_cas_casstring('(x+1)^3/3+c');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
         $node->add_branch(1, '=', 2, '', -1, 'Yeah!', '1-0-1');
@@ -64,15 +66,19 @@ class stack_potentialresponsetree_test extends UnitTestCase {
 
     public function test_do_test_2() {
 
-        $sans = new stack_cas_casstring('sans', 't');
-        $tans = new stack_cas_casstring('ta', 't');
+        $sans = new stack_cas_casstring('sans');
+        $sans->validate('t');
+        $tans = new stack_cas_casstring('ta');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Diff', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Can not diff!', '1-0-0');
         $node->add_branch(1, '=', 2, '', 1, 'Ok, you can diff. ', '1-0-1');
         $potentialresponses[] = $node;
 
-        $sans = new stack_cas_casstring('sans', 't');
-        $tans = new stack_cas_casstring('ta', 't');
+        $sans = new stack_cas_casstring('sans');
+        $sans->validate('t');
+        $tans = new stack_cas_casstring('ta');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $node->add_branch(0, '+', 0, '', -1, 'Do not expand!', '1-1-0');
         $node->add_branch(1, '+', 0, '', -1, 'Yeah!', '1-1-1');
@@ -119,23 +125,29 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $questionvars = new stack_cas_keyval('n=3; p=(x+1)^n; ta=p;', $options, $seed, 't');
 
         // Feeback variables.
-        $cs=array('sa1:sans', 'sa2:expand(sans)');
-        foreach ($cs as $s) {
-            $s1[] = new stack_cas_casstring($s, 't');
+        $cstrings=array('sa1:sans', 'sa2:expand(sans)');
+        foreach ($cstrings as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[]=$cs;
         }
-        $feedbackvars = new stack_cas_session($s1, $options, $seed, 't');
+        $feedbackvars = new stack_cas_session($s1, $options, $seed);
         $feedbackvars->get_valid();
 
         // Define the tree itself.
-        $sans = new stack_cas_casstring('sa1', 't');
-        $tans = new stack_cas_casstring('ta', 't');
+        $sans = new stack_cas_casstring('sa1');
+        $sans->validate('t');
+        $tans = new stack_cas_casstring('ta');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
         $node->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[@(sa1)^2@ \neq @(sa2)^2@\]', '1-0-0');
         $node->add_branch(1, '=', 2, '', 1, 'Test 1 true. ', '1-0-1');
         $potentialresponses[] = $node;
 
-        $sans = new stack_cas_casstring('sa2', 't');
-        $tans = new stack_cas_casstring('ta', 't');
+        $sans = new stack_cas_casstring('sa2');
+        $sans->validate('t');
+        $tans = new stack_cas_casstring('ta');
+        $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
         $node->add_branch(0, '+', -1, '', 0, 'Test 2 false.', '1-1-0');
         $node->add_branch(1, '+', 3, '', 3, 'Test 2 true', '1-1-1');

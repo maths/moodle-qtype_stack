@@ -77,9 +77,9 @@ class stack_answertest_general_cas extends stack_anstest {
                 return null;
             } else {
                 //validate with teacher privileges, strict syntax & no automatically adding stars.
-                $ct  = new stack_cas_casstring($this->atoption, 't', true, true);
+                $ct  = new stack_cas_casstring($this->atoption);
 
-                if (!$ct->get_valid()) {
+                if (!$ct->get_valid('t', true, true)) {
                     $this->aterror      = 'TEST_FAILED';
                     $this->atfeedback   = stack_string("TEST_FAILED");
                     $errors = $ct->get_errors();
@@ -111,9 +111,11 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $cts = array();
         foreach ($cascommands as $com) {
-            $cts[] = new stack_cas_casstring($com, 't', true, false);
+            $cs    = new stack_cas_casstring($com);
+            $cs->validate('t', true, false);
+            $cts[] = $cs;
         }
-        $session = new stack_cas_session($cts, $this->options, null, 't', true, false);
+        $session = new stack_cas_session($cts, $this->options, null);
         $session->instantiate();
 
         if (''!=$session->get_errors_key('STACKSA')) {

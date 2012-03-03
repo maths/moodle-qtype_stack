@@ -244,8 +244,8 @@ abstract class stack_input {
         }
         $transformedanswer = $this->transform($sans);
 
-        $answer = new stack_cas_casstring($transformedanswer, $security='s',
-                $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
+        $answer = new stack_cas_casstring($transformedanswer);
+        $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
 
         // TODO: we need to run this check over the names of the question variables....
         $forbiddenwords = $this->get_parameter('forbidWords', '');

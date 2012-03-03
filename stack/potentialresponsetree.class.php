@@ -97,7 +97,7 @@ class stack_potentialresponse_tree {
     protected function create_cas_context_for_evaluation($questionvars, $options, $answers, $seed) {
 
         // Start with the quetsion variables (note that order matters here).
-        $cascontext = new stack_cas_session(null, $options, $seed, 't', true, false);
+        $cascontext = new stack_cas_session(null, $options, $seed);
         $cascontext->merge_session($questionvars);
         // Add the student's responses, but only those needed by this prt.
         // Some irrelevant but invalid answers might break the CAS connection.

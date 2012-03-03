@@ -31,7 +31,7 @@ class stack_cas_keyval_test extends UnitTestCase {
 
     public function test_get_valid() {
 
-        $cs0 = new stack_cas_session(null, null, 123, 's', true, false);
+        $cs0 = new stack_cas_session(null, null, 123);
         $cs0->instantiate();
 
         $a1=array('a:x^2', 'b:(x+1)^2');
@@ -39,7 +39,7 @@ class stack_cas_keyval_test extends UnitTestCase {
         foreach ($a1 as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
-        $cs1 = new stack_cas_session($s1, null, 123, 's', true, false);
+        $cs1 = new stack_cas_session($s1, null, 123);
         $cs1->instantiate();
 
         $a2=array('a:x^2)', 'b:(x+1)^2');
@@ -47,7 +47,7 @@ class stack_cas_keyval_test extends UnitTestCase {
         foreach ($a2 as $s) {
             $s2[] = new stack_cas_casstring($s);
         }
-        $cs2 = new stack_cas_session($s2, null, 123, 's', true, false);
+        $cs2 = new stack_cas_session($s2, null, 123);
         $cs2->instantiate();
 
         $a3=array('a:1/0');
@@ -55,7 +55,7 @@ class stack_cas_keyval_test extends UnitTestCase {
         foreach ($a3 as $s) {
             $s3[] = new stack_cas_casstring($s);
         }
-        $cs3 = new stack_cas_session($s3, null, 123, 's', true, false);
+        $cs3 = new stack_cas_session($s3, null, 123);
         $cs3->instantiate();
 
         $cases = array(
@@ -82,8 +82,8 @@ class stack_cas_keyval_test extends UnitTestCase {
         $at1->instantiate();
         $s = $at1->get_session();
 
-        $this->assertEqual($s->get_value_key('ta1'),'x = 1');
-        $this->assertEqual($s->get_value_key('ta2'),'x^2-2*x = 1');
+        $this->assertEqual($s->get_value_key('ta1'), 'x = 1');
+        $this->assertEqual($s->get_value_key('ta2'), 'x^2-2*x = 1');
     }
 
     public function test_remove_comment() {
@@ -95,7 +95,7 @@ class stack_cas_keyval_test extends UnitTestCase {
         foreach ($a3 as $s) {
             $s3[] = new stack_cas_casstring($s);
         }
-        $cs3 = new stack_cas_session($s3, null, 123, 's', true, false);
+        $cs3 = new stack_cas_session($s3, null, 123);
         $cs3->instantiate();
         $at1->instantiate();
         $this->assertEqual($cs3, $at1->get_session());

@@ -38,8 +38,8 @@ class stack_anstest_numrelative extends stack_anstest {
 
         $commands = array($this->sanskey, $this->tanskey, $atest_ops);
         foreach ($commands as $com) {
-            $cs = new stack_cas_casstring($com, 't', true, false);
-            if (!$cs->get_valid()) {
+            $cs = new stack_cas_casstring($com);
+            if (!$cs->get_valid('t', true, false)) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string("TEST_FAILED");
                 $errors = $cs->get_errors();
@@ -60,9 +60,11 @@ class stack_anstest_numrelative extends stack_anstest {
 
         $cts = array();
         foreach ($cascommands as $com) {
-            $cts[] = new stack_cas_casstring($com, 't', true, false);
+            $cs    = new stack_cas_casstring($com);
+            $cs->validate('t', true, false);
+            $cts[] = $cs;
         }
-        $session = new stack_cas_session($cts, null, null, 't', true, false);
+        $session = new stack_cas_session($cts, null, null);
         $session->instantiate();
 
         if (''!=$session->get_errors_key('caschat0')) {

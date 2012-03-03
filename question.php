@@ -222,7 +222,7 @@ class qtype_stack_question extends question_graded_automatically {
         if (is_a($this->session, 'stack_cas_session')) {
             $responsesession = clone $this->session;
         } else {
-            $responsesession = new stack_cas_session(array(), null, $this->seed, 't');
+            $responsesession = new stack_cas_session(array(), null, $this->seed);
         }
         $responsesession->add_vars($response);
         foreach ($this->inputs as $name => $input) {

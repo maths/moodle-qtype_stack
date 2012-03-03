@@ -66,33 +66,16 @@ class stack_cas_session {
     /*
      * @var boolean
      */
-    private $security;
-
-    /*
-     * @var boolean
-     */
-    private $insertstars;
-
-    /*
-     * @var boolean
-     */
-    private $syntax;
-
-    /*
-     * @var boolean
-     */
     private $debuginfo;
 
-    public function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct($session, $options = null, $seed=null) {
 
         if (is_null($session)) {
             $session = array();
         }
 
-        $this->session     = $session;     // An array of stack_cas_casstring
-        $this->security    = $security;    // by default, student
-        $this->insertstars = $insertstars; // by default don't add insertstars
-        $this->syntax      = $syntax;      // by default strict
+        // An array of stack_cas_casstring
+        $this->session = $session;
 
         if ($options === null) {
             $this->options = new stack_options();
@@ -102,7 +85,7 @@ class stack_cas_session {
             throw new Exception('stack_cas_session: $options must be stack_options.');
         }
 
-        if ($seed != null) {
+        if (!($seed === null)) {
             if (is_int($seed)) {
                 $this->seed = $seed;
             } else {
@@ -112,21 +95,7 @@ class stack_cas_session {
             $this->seed = time();
         }
 
-        // TODO: does session security actually do anything?
-        // If not null, this should override any security set in the casstrings?
-        if (!('s'===$security || 't'===$security)) {
-            throw new Exception('stack_cas_session: 4th argument, security level, must be "s" or "t" only.');
-        }
-
-        if (!is_bool($syntax)) {
-            throw new Exception('stack_cas_session: 5th argument, stringSyntax, must be Boolean.');
-        }
-
-        if (!is_bool($insertstars)) {
-            throw new Exception('stack_cas_session: 6th argument, insertStars, must be Boolean.');
-        }
-
-    }
+}
 
     /*********************************************************/
     /* Validation functions                                  */

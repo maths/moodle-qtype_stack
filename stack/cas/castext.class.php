@@ -216,6 +216,7 @@ class stack_cas_text {
                 $cmd = stack_utils::trim_commands($cmd);
 
                 $cs = new stack_cas_casstring($cmd);
+                $cs->validate($this->security, $this->insertstars, $this->syntax);
 
                 $key = 'caschat'.$i;
                 $i++;
@@ -223,7 +224,7 @@ class stack_cas_text {
                 $cs->set_key($key, true);
                 $cmdarray[] = $cs;
 
-                $valid = $valid && $cs->get_valid($this->security, $this->insertstars, $this->syntax);
+                $valid = $valid && $cs->get_valid();
                 $errors .= $cs->get_errors();
             }
 

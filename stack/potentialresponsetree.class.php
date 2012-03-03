@@ -122,7 +122,6 @@ class stack_potentialresponse_tree {
         }
 
         $cascontext->instantiate();
-        //TODO error trapping at this stage....?
 
         return $cascontext;
     }
@@ -149,7 +148,7 @@ class stack_potentialresponse_tree {
         $results = array(
             'feedback'    => array(),
             'answernote'  => array(),
-            'errors'      => '',
+            'errors'      => $cascontext->get_errors(),
             'valid'       => true,
             'score'       => 0,
             'penalty'     => 0,

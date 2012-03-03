@@ -424,7 +424,8 @@ class qtype_stack_test_helper extends question_test_helper {
                                              'lv = length(l); ' .
                                              'b1 = ev(ans1,t=0,fullratsimp); ' .
                                              'b2 = ev(ans1,t=1,fullratsimp); ' .
-                                             'm = float(if b2#0 then fullratsimp(b1/b2) else 0)');
+                                             'm = float(if not(equal(b2,0)) then fullratsimp(b1/b2) else 0)',
+                                             null, 0, 't');
 
         $sans = new stack_cas_casstring('sa3');
         $sans->get_valid('t');
@@ -462,7 +463,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Not two lin ind parts');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, null, array($node0, $node1, $node2));
+                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2));
 
         return $q;
     }

@@ -507,7 +507,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('{p}');
         $tans->get_valid('t');
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
         $node1->add_branch(0, '=', 0, '', 2, '', 'ans-1-F');
         $node1->add_branch(1, '=', 0, '', -1,
                 '<p>There are more answers that just the single real number.
@@ -517,8 +517,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('{0}');
         $tans->get_valid('t');
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
-        $node2->add_branch(0, '=', 1, '', -1, '', 'ans-2-F');
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
+        $node2->add_branch(0, '=', 0, '', -1, '', 'ans-2-F');
         $node2->add_branch(1, '=', 0, '', -1,
                 'All your answers satisfy the equation.  But, you have missed some of the solutions.',
                 'ans-2-T');

@@ -222,7 +222,7 @@ abstract class stack_input {
      * @param stack_options $options CAS options to use when validating.
      * @return stack_input_state represents the current state of the input.
      */
-    public function validate_student_response($response, $options) {
+    public function validate_student_response($response, $options, $teacheranswer) {
         if (!is_a($options, 'stack_options')) {
             throw new Exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -260,18 +260,27 @@ abstract class stack_input {
 
         // Send the string to the CAS.
         if ($valid) {
+            if (!$this->get_parameter('sameType')) {
+                $teacheranswer = null;
+            }
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $this->get_parameter('sameType'));
+                    $teacheranswer);
             $options->set_option('simplify', false);
 
-            // TODO: refactor all this as an answer test? I don't think so, but maybe
-            // we need one helper function that both answer tests and this code use.
             $session = new stack_cas_session(array($answer), $options);
             $session->instantiate();
             $session = $session->get_session();
             $answer = $session[0];
+/*
+            echo "<pre>";
+            print_r($answer);
+            echo "</pre>";
+*/
             $errors = stack_maxima_translate($answer->get_errors());
+            if ('' != $errors) {
+                $valid = false;
+            }
             if ('' == $answer->get_value()) {
                 $valid = false;
             } else {

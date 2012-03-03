@@ -194,6 +194,7 @@ class stack_cas_session {
                 $all_fail = false; // We at least got one result back from the CAS!
 
                 $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
+
                 if (array_key_exists('value', $result)) {
                     $cs->set_value($result['value']);
                     $gotvalue = true;
@@ -312,6 +313,18 @@ class stack_cas_session {
             }
         }
         return $return;
+    }
+
+    public function get_casstring_key($key) {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        foreach ($this->session as $casstr) {
+            if ($casstr->get_key()===$key) {
+                return $casstr->get_casstring();
+            }
+        }
+        return false;
     }
 
     public function get_value_key($key) {
@@ -441,10 +454,16 @@ class stack_cas_session {
     public function get_keyval_representation() {
         $keyvals = '';
         foreach ($this->session as $cs) {
-            if ('' == $cs->get_key()) {
-                $keyvals .= $cs->get_casstring().'; ';
+            if (null === $this->instantiated) {
+                $val = $cs->get_casstring();
             } else {
-                $keyvals .= $cs->get_key().'='.$cs->get_casstring().'; ';
+                $val = $cs->get_value();
+            }
+
+            if ('' == $cs->get_key()) {
+                $keyvals .= $val.'; ';
+            } else {
+                $keyvals .= $cs->get_key().'='.$val.'; ';
             }
         }
         return trim($keyvals);

@@ -149,9 +149,23 @@ class qtype_stack_question extends question_graded_automatically {
         $step->set_qt_var('_seed', $this->seed);
 
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
-        $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $this->seed, 't', false, true);
+        $session = $questionvars->get_session();
 
-        $this->session = $qtext->get_session();
+        // Notice that we store all the correct answers for inputs within $this->session
+        $response =array();
+        foreach ($this->inputs as $name => $input) {
+            $cs = new stack_cas_casstring($input->get_teacher_answer());
+            $cs->validate('t');
+            $cs->set_key($name);
+            $response[$name] = $cs;
+        }
+        $session->add_vars($response);
+        $session->instantiate();
+
+        $this->session = $session;
+        $step->set_qt_var('_questionvars', $session->get_keyval_representation());
+
+        $qtext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
         $step->set_qt_var('_questiontext', $qtext->get_display_castext());
 
         if ($qtext->get_errors()) {
@@ -170,9 +184,8 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function apply_attempt_state(question_attempt_step $step) {
         $this->seed = (int) $step->get_qt_var('_seed');
-        $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
-        $qtext = new stack_cas_text($this->questiontext, $questionvars->get_session(), $this->seed, 't', false, true);
-        $this->session = $qtext->get_session();
+        $questionvars = new stack_cas_keyval($step->get_qt_var('_questionvars'), $this->options, $this->seed, 't');
+        $this->session = $questionvars->get_session();
     }
 
     public function format_generalfeedback($qa) {
@@ -212,23 +225,12 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function get_correct_response() {
-        $response = array();
+        $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
-            $cs = new stack_cas_casstring($input->get_teacher_answer());
-            $cs->set_key($name);
-            $response[$name] = $cs;
-        }
-        // Now we have to instantiate these values in the context of any random values....
-        if (is_a($this->session, 'stack_cas_session')) {
-            $responsesession = clone $this->session;
-        } else {
-            $responsesession = new stack_cas_session(array(), null, $this->seed);
-        }
-        $responsesession->add_vars($response);
-        foreach ($this->inputs as $name => $input) {
-            $teacheranswer[$name] = $responsesession->get_value_key($name);
+            $teacheranswer[$name] = $this->session->get_casstring_key($name);
         }
         return $teacheranswer;
+        
     }
 
     public function is_same_response(array $prevresponse, array $newresponse) {
@@ -254,8 +256,9 @@ class qtype_stack_question extends question_graded_automatically {
             return $this->inputstates[$name];
         }
 
+        $teacheranswer = $this->session->get_casstring_key($name);
         $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
-                $response, $this->options);
+                $response, $this->options, $teacheranswer);
 
         return $this->inputstates[$name];
     }

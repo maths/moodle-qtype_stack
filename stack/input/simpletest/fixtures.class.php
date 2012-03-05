@@ -46,7 +46,7 @@ class stack_inputvalidation_test_data {
         array('.1', 'php_true', '.1', 'cas_true', "This is an option."),
         array('1/2', 'php_true', '1/2', 'cas_true', ""),
         array('2/4', 'php_true', '2/4', 'cas_true', "Rejecting this as 'invalid' not 'wrong' is a question option."),
-        array('1/0', 'php_true', '1/0', 'cas_false', ""),
+        array('1/0', 'php_true', '1/0', 'cas_true', ""),
         array('pi', 'php_true', 'pi', 'cas_true', ""),
         array('e', 'php_true', 'e', 'cas_true', "Cannot easily make \(e\) a variable name."),
         array('i', 'php_true', 'i', 'cas_true', "Options to make i a variable, or a vector unit.  Note this is not italic."),
@@ -85,7 +85,6 @@ class stack_inputvalidation_test_data {
         array('["a"]', 'php_true', '["a"]', 'cas_true', ""),
         array('[1,true,"a"]', 'php_true', '[1,true,"a"]', 'cas_true', ""),
         array('[[1,2],[3,4]]', 'php_true', '[[1,2],[3,4]]', 'cas_true', ""),
-        array('a,b,c', 'php_true', 'a,b,c', 'cas_true', ""),
         array('(a,b,c)', 'php_true', '(a,b,c)', 'cas_true',
         "In Maxima this syntax is a programme block which returns its last element."),
         array('0..1', 'php_true', '0..1', 'cas_false',
@@ -112,11 +111,10 @@ class stack_inputvalidation_test_data {
         array('x!', 'php_true', 'x!', 'cas_true', ""),
         array('!x', 'php_true', '!x', 'cas_false', ""),
         array('x_1', 'php_true', 'x_1', 'cas_true', ""),
-        array('x_y', 'php_true', 'x_y', 'cas_true', ""),
         array('x <= y', 'php_true', 'x <= y', 'cas_true',
         "Only single inequalities are currently acceptable."),
         array('x >= y', 'php_true', 'x >= y', 'cas_true', ""),
-        array('x <> y', 'php_true', 'x <> y', 'cas_true', ""),
+        array('x <> y', 'php_true', 'x <> y', 'cas_false', "This isn't permitted in Maxima"),
         array('x+', 'php_false', 'x+', '', "Not enough arguments for op error"),
         array('y*', 'php_false', 'y*', '', ""),
         array('x^', 'php_flase', 'x^', '', ""),
@@ -154,7 +152,6 @@ class stack_inputvalidation_test_data {
         array('f(x))', 'php_false', '', '', ""),
         array('[x', 'php_false', '', '', ""),
         array('x]', 'php_false', '', '', ""),
-        array('([x)]', 'php_false', '([x)]', '', ""),
         array('{x', 'php_false', '', '', ""),
         array('alpha', 'php_true', 'alpha', 'cas_true',
         "Greek letters - quite a few have meanings in Maxima already."),
@@ -272,7 +269,6 @@ class stack_inputvalidation_test_data {
         array('perm(x,y)', 'php_true', 'perm(x,y)', 'cas_true', ""),
         array('comb(x,y)', 'php_true', 'comb(x,y)', 'cas_true', ""),
         array('root(3,2)', 'php_true', 'root(3,2)', 'cas_true', ""),
-        array('if(x,y,z)', 'php_true', 'if(x,y,z)', 'cas_true', ""),
         array('switch(x,a,y,b,c)', 'php_false', '', '', ""),
         array('sin(x)', 'php_true', 'sin(x)', 'cas_true', "Trig functions"),
         array('cos(x)', 'php_true', 'cos(x)', 'cas_true', ""),
@@ -304,7 +300,11 @@ class stack_inputvalidation_test_data {
         array('a++b', 'php_true', 'a++b', 'cas_true', "The extra plusses or minuses are interpreted as unary operators on b"),
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', ""),
-        );
+        array('a,b,c', 'php_true', 'a,b,c', 'cas_true', "The following are known to fail.  Some are bugs...."),
+        array('x_y', 'php_true', 'x_y', 'cas_true', ""),
+        array('([x)]', 'php_false', '([x)]', '', ""),
+        array('if(x,y,z)', 'php_true', 'if(x,y,z)', 'cas_true', ""),
+    );
 
     public static function get_raw_test_data() {
         return self::$rawdata;
@@ -337,7 +337,8 @@ class stack_inputvalidation_test_data {
         //$el->set_parameter('sameType', false);
         //$cs = $el->validate_student_response($test->rawstring);
 
-        $cs= new stack_cas_casstring($test->rawstring, $security='s', false, true);
+        $cs= new stack_cas_casstring($test->rawstring);
+        $cs->validate('s', false, true);
         $cs->set_cas_validation_casstring('sans1', true, true, null);
 
         $phpvalid = $cs->get_valid();

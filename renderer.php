@@ -101,8 +101,12 @@ class qtype_stack_renderer extends qtype_renderer {
      * @return string Nicely formatted feedback, for display.
      */
     protected function prt_feedback($qa, $question, $result) {
+        $err = '';
+        if (array_key_exists('errors', $result)) {
+            $err = $result['errors'];
+        }
         return html_writer::nonempty_tag('div',
-                $this->standard_prt_feedback($qa, $question, $result) . $result['feedback'],
+                $this->standard_prt_feedback($qa, $question, $result) . $err . $result['feedback'],
                 array('class' => 'stackprtfeedback'));
     }
 

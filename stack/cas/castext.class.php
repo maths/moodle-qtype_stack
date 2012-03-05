@@ -215,7 +215,8 @@ class stack_cas_text {
                 // Trim of surrounding white space and CAS commands.
                 $cmd = stack_utils::trim_commands($cmd);
 
-                $cs = new stack_cas_casstring($cmd, $this->security, $this->insertstars, $this->syntax);
+                $cs = new stack_cas_casstring($cmd);
+                $cs->validate($this->security, $this->insertstars, $this->syntax);
 
                 $key = 'caschat'.$i;
                 $i++;
@@ -235,8 +236,7 @@ class stack_cas_text {
             if (!empty($cmdarray)) {
                 $new_session   = $this->session;
                 if (null===$new_session) {
-                    $new_session = new stack_cas_session($cmdarray, null, $this->seed,
-                        $this->security, $this->insertstars, $this->syntax);
+                    $new_session = new stack_cas_session($cmdarray, null, $this->seed);
                 } else {
                     $new_session->add_vars($cmdarray);
                 }

@@ -28,11 +28,11 @@ extends UnitTestCase {
 
     public function get_valid($s, $st, $te) {
 
-        $at1 = new stack_cas_casstring($s, 's');
-        $this->assertEqual($st, $at1->get_valid());
+        $at1 = new stack_cas_casstring($s);
+        $this->assertEqual($st, $at1->get_valid('s'));
 
-        $at2 = new stack_cas_casstring($s, 't');
-        $this->assertEqual($te, $at2->get_valid());
+        $at2 = new stack_cas_casstring($s);
+        $this->assertEqual($te, $at2->get_valid('t'));
     }
 
     public function test_get_valid() {
@@ -85,27 +85,31 @@ extends UnitTestCase {
 
     public function test_exception_1() {
         $this->expectException();
-        $at1 = new stack_cas_casstring(array(), false, false, false);
+        $at1 = new stack_cas_casstring(array());
     }
 
     public function test_exception_2() {
+        $at1 = new stack_cas_casstring("x=1");
         $this->expectException();
-        $at1 = new stack_cas_casstring("x=1", false, false, false);
+        $at1->get_valid(false, false, false);
     }
 
     public function test_exception_3() {
+        $at1 = new stack_cas_casstring("x=1");
         $this->expectException();
-        $at1 = new stack_cas_casstring("x=1", 'z', false, false);
+        $at1->get_valid('z', false, false);
     }
 
     public function test_exception_4() {
+        $at1 = new stack_cas_casstring("x=1");
         $this->expectException();
-        $at1 = new stack_cas_casstring("x=1", 't', 'a', false);
+        $at1->get_valid('t', 'a', false);
     }
 
     public function test_exception_5() {
+        $at1 = new stack_cas_casstring("x=1");
         $this->expectException();
-        $at1 = new stack_cas_casstring("x=1", 't', true, 'a');
+        $at1->get_valid('t', true, 'a');
     }
 
 }

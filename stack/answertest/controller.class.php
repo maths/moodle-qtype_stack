@@ -83,7 +83,7 @@ class stack_ans_test_controller {
                 break;
 
             case 'CasEqual':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCASEqual', false, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCASEqual', false, $casoption, $options, true);
                 break;
 
             case 'SameType':
@@ -107,11 +107,11 @@ class stack_ans_test_controller {
                 break;
 
             case 'PartFrac':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATPartFrac', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATPartFrac', true, $casoption, $options, true);
                 break;
 
             case 'CompSquare':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCompSquare', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCompSquare', true, $casoption, $options, true);
                 break;
 
             case 'String':

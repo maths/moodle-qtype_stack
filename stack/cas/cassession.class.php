@@ -66,33 +66,16 @@ class stack_cas_session {
     /*
      * @var boolean
      */
-    private $security;
-
-    /*
-     * @var boolean
-     */
-    private $insertstars;
-
-    /*
-     * @var boolean
-     */
-    private $syntax;
-
-    /*
-     * @var boolean
-     */
     private $debuginfo;
 
-    public function __construct($session, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct($session, $options = null, $seed=null) {
 
         if (is_null($session)) {
             $session = array();
         }
 
-        $this->session     = $session;     // An array of stack_cas_casstring
-        $this->security    = $security;    // by default, student
-        $this->insertstars = $insertstars; // by default don't add insertstars
-        $this->syntax      = $syntax;      // by default strict
+        // An array of stack_cas_casstring
+        $this->session = $session;
 
         if ($options === null) {
             $this->options = new stack_options();
@@ -102,7 +85,7 @@ class stack_cas_session {
             throw new Exception('stack_cas_session: $options must be stack_options.');
         }
 
-        if ($seed != null) {
+        if (!($seed === null)) {
             if (is_int($seed)) {
                 $this->seed = $seed;
             } else {
@@ -111,21 +94,6 @@ class stack_cas_session {
         } else {
             $this->seed = time();
         }
-
-        // TODO: does session security actually do anything?
-        // If not null, this should override any security set in the casstrings?
-        if (!('s'===$security || 't'===$security)) {
-            throw new Exception('stack_cas_session: 4th argument, security level, must be "s" or "t" only.');
-        }
-
-        if (!is_bool($syntax)) {
-            throw new Exception('stack_cas_session: 5th argument, stringSyntax, must be Boolean.');
-        }
-
-        if (!is_bool($insertstars)) {
-            throw new Exception('stack_cas_session: 6th argument, insertStars, must be Boolean.');
-        }
-
     }
 
     /*********************************************************/
@@ -225,6 +193,7 @@ class stack_cas_session {
                 $all_fail = false; // We at least got one result back from the CAS!
 
                 $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
+
                 if (array_key_exists('value', $result)) {
                     $cs->set_value($result['value']);
                     $gotvalue = true;
@@ -343,6 +312,18 @@ class stack_cas_session {
             }
         }
         return $return;
+    }
+
+    public function get_casstring_key($key) {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        foreach ($this->session as $casstr) {
+            if ($casstr->get_key()===$key) {
+                return $casstr->get_casstring();
+            }
+        }
+        return false;
     }
 
     public function get_value_key($key) {
@@ -472,10 +453,16 @@ class stack_cas_session {
     public function get_keyval_representation() {
         $keyvals = '';
         foreach ($this->session as $cs) {
-            if ('' == $cs->get_key()) {
-                $keyvals .= $cs->get_casstring().'; ';
+            if (null === $this->instantiated) {
+                $val = $cs->get_casstring();
             } else {
-                $keyvals .= $cs->get_key().'='.$cs->get_casstring().'; ';
+                $val = $cs->get_value();
+            }
+
+            if ('' == $cs->get_key()) {
+                $keyvals .= $val.'; ';
+            } else {
+                $keyvals .= $cs->get_key().'='.$val.'; ';
             }
         }
         return trim($keyvals);

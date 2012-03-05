@@ -27,12 +27,12 @@ extends UnitTestCase{
             foreach ($sa as $s) {
                 $s1[] = new stack_cas_casstring($s);
             }
-            $cs1 = new stack_cas_session($s1);
+            $cs1 = new stack_cas_session($s1, null, 0);
         } else {
             $cs1 = null;
         }
 
-        $at1 = new stack_cas_text($strin, $cs1);
+        $at1 = new stack_cas_text($strin, $cs1, 0);
         $this->assertEqual($val, $at1->get_valid());
         $this->assertEqual($disp, $at1->get_display_castext());
     }
@@ -67,14 +67,14 @@ extends UnitTestCase{
 
     public function test_get_all_raw_casstrings() {
         $raw = 'Take @x^2+2*x@ and then @sin(z^2)@.';
-        $at1 = new stack_cas_text($raw);
+        $at1 = new stack_cas_text($raw, null, 0);
         $val = array('x^2+2*x', 'sin(z^2)');
         $this->assertEqual($val, $at1->get_all_raw_casstrings());
     }
 
     public function test_get_all_raw_casstrings_empty() {
         $raw = 'Take some text without cas commands.';
-        $at1 = new stack_cas_text($raw);
+        $at1 = new stack_cas_text($raw, null, 0);
         $val = array();
         $this->assertEqual($val, $at1->get_all_raw_casstrings());
     }
@@ -87,10 +87,10 @@ extends UnitTestCase{
             $cs->validate('t');
             $s1[] = $cs;
         }
-        $cs1 = new stack_cas_session($s1);
+        $cs1 = new stack_cas_session($s1, null, 0);
 
         $raw = 'Take @ 1/(1+x^2) @ and then @sin(z^2)@.';
-        $at1 = new stack_cas_text($raw, $cs1);
+        $at1 = new stack_cas_text($raw, $cs1, 0);
         $val = array('p:diff(sans)', 'q=int(tans)', '1/(1+x^2)', 'sin(z^2)');
         $this->assertEqual($val, $at1->get_all_raw_casstrings());
 
@@ -103,9 +103,9 @@ extends UnitTestCase{
         foreach ($a2 as $s) {
             $s2[] = new stack_cas_casstring($s);
         }
-        $cs2 = new stack_cas_session($s2);
+        $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text($ct, $cs2);
+        $at1 = new stack_cas_text($ct, $cs2, 0);
         $this->assertEqual($val, $at1->check_external_forbidden_words($words));
 
     }

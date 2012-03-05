@@ -368,7 +368,7 @@ class stack_inputvalidation_test_data {
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
-            $errors .= ' '.stack_maxima_format_casstring($phpcasstring).' \(\neq \) '.stack_maxima_format_casstring($test->phpcasstring);
+            $errors .= ' ' . stack_maxima_format_casstring($phpcasstring).' \(\neq \) '.stack_maxima_format_casstring($test->phpcasstring);
         }
 
         $casvalid = '';
@@ -379,7 +379,7 @@ class stack_inputvalidation_test_data {
             $options = new stack_options();
             $options->set_option('simplify', false);
 
-            $session = new stack_cas_session(array($cs), $options);
+            $session = new stack_cas_session(array($cs), $options, 0);
             $session->instantiate();
             $session = $session->get_session();
             $cs = $session[0];

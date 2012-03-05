@@ -58,12 +58,14 @@ class qtype_stack_question_test extends UnitTestCase {
 
     public function test_get_correct_response_test0() {
         $q = $this->get_test_stack_question('test0');
+        $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertEqual(array('ans1' => '2'), $q->get_correct_response());
     }
 
     public function test_get_correct_response_test3() {
         $q = $this->get_test_stack_question('test3');
+        $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertEqual(array('ans1' => 'x^3', 'ans2' => 'x^4', 'ans3' => '0', 'ans4' => true),
                 $q->get_correct_response());
@@ -80,6 +82,7 @@ class qtype_stack_question_test extends UnitTestCase {
 
     public function test_is_complete_response_test0() {
         $q = $this->get_test_stack_question('test0');
+        $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertFalse($q->is_complete_response(array()));
         $this->assertFalse($q->is_complete_response(array('ans1' => '2')));
@@ -88,6 +91,7 @@ class qtype_stack_question_test extends UnitTestCase {
 
     public function test_is_gradable_response_test0() {
         $q = $this->get_test_stack_question('test0');
+        $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertFalse($q->is_gradable_response(array()));
         $this->assertTrue($q->is_gradable_response(array('ans1' => '2')));

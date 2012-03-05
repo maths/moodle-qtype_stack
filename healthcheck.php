@@ -33,22 +33,37 @@ require_once(dirname(__FILE__) . '/stack/options.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/casstring.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
+require_once(dirname(__FILE__) . '/stack/cas/connector.dbcache.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/installhelper.class.php');
 
-require_login();
 
+// Check permissions.
+require_login();
 $context = context_system::instance();
 require_capability('moodle/site:config', $context);
+
+// Set up page.
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/healthcheck.php');
 $title = stack_string('healthcheck');
 $PAGE->set_title($title);
 
+// Clear the cache if requested.
+if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
+    require_sesskey();
+    stack_cas_connection_db_cache::clear_cache();
+    redirect($PAGE->url);
+}
+
+// Some test data.
 $sampletex = '\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.';
 $samplecastext = 'The derivative of @ x^4/(1+x^4) @ is $$ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. $$';
 $sampleplots = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@  ' .
         '@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
 
+$config = get_config('qtype_stack');
+
+// Start output.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
@@ -107,6 +122,17 @@ output_cas_text(stack_string('healthcheckconnect'),
 // Test plots
 output_cas_text(stack_string('healthcheckplots'),
         stack_string('healthcheckplotsintro'), $sampleplots);
+
+// State of the cache.
+echo $OUTPUT->heading(stack_string('settingcasresultscache'), 3);
+echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
+if ('db' == $config->casresultscache) {
+    echo html_writer::tag('p', stack_string('healthcheckcachestatus',
+            stack_cas_connection_db_cache::entries_count()));
+    echo $OUTPUT->single_button(
+            new moodle_url($PAGE->url, array('clearcache' => 1, 'sesskey' => sesskey())),
+            stack_string('clearthecache'));
+}
 
 echo $OUTPUT->footer();
 

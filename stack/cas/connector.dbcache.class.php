@@ -62,14 +62,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     }
 
     /**
-     * Completely clear the cache.
-     */
-    public static function clear_cache() {
-        global $DB;
-        $DB->delete_records('qtype_stack_cas_cache');
-    }
-
-    /**
      * Get the cached result, if known.
      * @param string $command Maxima code to execute.
      * @return object with two fields:
@@ -132,5 +124,21 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
      */
     protected function get_cache_key($command) {
         return sha1($command);
+    }
+
+    /**
+     * Completely clear the cache.
+     */
+    public static function clear_cache() {
+        global $DB;
+        $DB->delete_records('qtype_stack_cas_cache');
+    }
+
+    /**
+     * @return int the number of entries in the cache.
+     */
+    public static function entries_count() {
+        global $DB;
+        return $DB->count_records('qtype_stack_cas_cache');
     }
 }

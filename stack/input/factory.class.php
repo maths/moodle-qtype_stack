@@ -98,7 +98,6 @@ class stack_input_factory {
             }
 
             // Skip folders that don't contain the right file.
-            $result[$pluginname] = $fulldir.'/'.$pluginname;
             $file = dirname(__FILE__) . "/{$inputname}/{$inputname}.class.php";
             if (!is_readable($file)) {
                 continue;
@@ -114,6 +113,8 @@ class stack_input_factory {
             // Yay! finally we have confirmed we have a valid input plugin!
             $types[$inputname] = $class;
         }
+
+        return $types;
     }
 
     /**

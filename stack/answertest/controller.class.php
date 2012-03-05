@@ -240,12 +240,10 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
-     *
-     * @return array(string)
-     * @access public
+     * @return array the list of available answertest types. An array
+     *      answertest internal name => language string key.
      */
-    public function get_available_ans_tests() {
+    public static function get_available_ans_tests() {
         return self::$types;
     }
 

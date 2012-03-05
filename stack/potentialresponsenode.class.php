@@ -109,10 +109,10 @@ class stack_potentialresponse_node {
         $this->branches[$trueorfalse] = array(
             'scoremodification' => $mod,
             'score'             => $score,
-            'penalty'          => $penalty,
-            'nextnode'         => $nextnode,
-            'feedback'         => trim($feedback),
-            'answernote'       => trim($answernote),
+            'penalty'           => $penalty,
+            'nextnode'          => $nextnode,
+            'feedback'          => trim($feedback),
+            'answernote'        => trim($answernote),
         );
     }
 

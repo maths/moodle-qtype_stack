@@ -25,13 +25,72 @@
 
 $string['pluginname'] = 'Stack';
 $string['pluginname_help'] = 'Stack is a maths assessment system ...';
-$string['pluginnameadding'] = 'Adding a stack question';
-$string['pluginnameediting'] = 'Editing a stack question';
+$string['pluginnameadding'] = 'Adding a Stack question';
+$string['pluginnameediting'] = 'Editing a Stack question';
 $string['pluginnamesummary'] = 'Stack questions use a computer algebra system to mark the students work. ...';
 
 // general strings
 $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';
+
+// Strings used on the editing form
+$string['addanothernode'] = 'Add another node';
+$string['answernote'] = '';
+$string['assumepos'] = 'Assume postitive';
+$string['autosimplify'] = 'Auto-simplify';
+$string['boxsize'] = 'Input box size';
+$string['checkanswertype'] = 'Check the type of the response';
+$string['complexno'] = 'Meaning and display of sqrt(-1)';
+$string['defaultprtcorrectfeedback'] = 'Correct answer, well done.';
+$string['defaultprtincorrectfeedback'] = 'Your answer is partially correct.';
+$string['defaultprtpartiallycorrectfeedback'] = 'Incorrect answer.';
+$string['feedbackvariables'] = 'Feedback variables';
+$string['forbidfloat'] = 'Forbid float';
+$string['showvalidation'] = 'Show the validation';
+$string['inputheading'] = 'Input: {$a}';
+$string['inputtype'] = 'Input type';
+$string['inputtypealgebraic'] = 'Algebraic input';
+$string['inputtypeboolean'] = 'True/False';
+$string['inputtypedropdown'] = 'Drop down list';
+$string['inputtypesinglechar'] = 'Single character';
+$string['inputtypetextarea'] = 'Text area';
+$string['insertstars'] = 'Insert stars';
+$string['markmode'] = 'Mark modification';
+$string['markmodefirst'] = 'First answer';
+$string['markmodelast'] = 'Last answer';
+$string['markmodepenalty'] = 'Penalty';
+$string['multiplicationsign'] = 'Mulitplication sign';
+$string['multcross'] = 'Cross';
+$string['multdot'] = 'Dot';
+$string['next'] = 'Next';
+$string['nodexfalsefeedback'] = 'Node {no} false feedback';
+$string['nodextruefeedback'] = 'Node {no} true feedback';
+$string['nodexwhenfalse'] = 'Node {no} when false';
+$string['nodexwhentrue'] = 'Node {no} when true';
+$string['nodex'] = 'Node {$a}';
+$string['penalty'] = 'Penalty';
+$string['prtcorrectfeedback'] = 'Standard feedback for correct.';
+$string['prtheading'] = 'Potential response tree: {$a}';
+$string['prtincorrectfeedback'] = 'Standard feedback for partially correct.';
+$string['prtpartiallycorrectfeedback'] = 'Standard feedback for incorrect.';
+$string['prtwillbecomeactivewhen'] = 'This potential response tree will become active when the student has answered: {$a}';
+$string['questionnote'] = 'Question note';
+$string['questionsimplify'] = 'Question-level simplify';
+$string['questiontextmustcontain'] = 'The question text must contain the token \'{$a}\'.';
+$string['questionvalue'] = 'Question value';
+$string['questionvariables'] = 'Question variables';
+$string['quiet'] = 'Quiet';
+$string['requirelowestterms'] = 'Require lowest terms';
+$string['sans'] = 'Sans';
+$string['stop'] = '[stop]';
+$string['score'] = 'Score';
+$string['scoremode'] = 'Mod';
+$string['sqrtsign'] = 'Surd for square root';
+$string['strictsyntax'] = 'Strict syntax';
+$string['syntaxhint'] = 'Syntax hint';
+$string['tans'] = 'Tans';
+$string['teachersanswer'] = 'Model answer';
+$string['testoptions'] = 'Test options';
 
 // admin settings
 $string['settingcasdebugging'] = 'CAS debugging';
@@ -163,7 +222,7 @@ $string['Illegal_floats'] = 'Your answer contains floating point numbers, that a
 // Answer tests
 $string['stackOptions_AnsTest_values_AlgEquiv']           =  "AlgEquiv";
 $string['stackOptions_AnsTest_values_EqualComAss']        =  "EqualComAss";
-$string['stackOptions_AnsTest_values_CASEqual']           =  "CasEqual";
+$string['stackOptions_AnsTest_values_CasEqual']           =  "CasEqual";
 $string['stackOptions_AnsTest_values_SameType']           =  "SameType";
 $string['stackOptions_AnsTest_values_SubstEquiv']         =  "SubstEquiv";
 $string['stackOptions_AnsTest_values_SysEquiv']           =  "SysEquiv";
@@ -172,9 +231,9 @@ $string['stackOptions_AnsTest_values_FacForm']            =  "FacForm";
 $string['stackOptions_AnsTest_values_SingleFrac']         =  "SingleFrac";
 $string['stackOptions_AnsTest_values_PartFrac']           =  "PartFrac";
 $string['stackOptions_AnsTest_values_CompSquare']         =  "CompletedSquare";
-$string['stackOptions_AnsTest_values_Num_tol_relative']   =  "NumRelative";
-$string['stackOptions_AnsTest_values_Num_tol_absolute']   =  "NumAbsolute";
-$string['stackOptions_AnsTest_values_Num_sig_figs']       =  "NumSigFigs";
+$string['stackOptions_AnsTest_values_NumRelative']        =  "NumRelative";
+$string['stackOptions_AnsTest_values_NumAbsolute']        =  "NumAbsolute";
+$string['stackOptions_AnsTest_values_NumSigFigs']         =  "NumSigFigs";
 $string['stackOptions_AnsTest_values_GT']                 =  "Num-GT";
 $string['stackOptions_AnsTest_values_GTE']                =  "Num-GTE";
 $string['stackOptions_AnsTest_values_LowestTerms']        =  "LowestTerms";

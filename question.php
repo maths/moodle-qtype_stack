@@ -333,6 +333,7 @@ class qtype_stack_question extends question_graded_automatically {
                     $this->session, $this->options, $response, $this->seed);
         } else {
             $this->prtresults[$index] = array(
+                'score'    => null,
                 'fraction' => null,
                 'feedback' => '',
             );

@@ -57,14 +57,12 @@ class stack_cas_text {
             throw new Exception('stack_cas_text constructor expects $session to be a stack_cas_session.');
         }
 
-        if ($seed != null) {
-            if (is_int($seed)) {
-                $this->seed = $seed;
-            } else {
-                throw new Exception('stack_cas_text: $seed must be a number.');
-            }
-        } else {
+        if (is_int($seed)) {
+            $this->seed = $seed;
+        } else if ($seed === null) {
             $this->seed = time();
+        } else {
+            throw new Exception('stack_cas_text: $seed must be a number (or null).');
         }
 
         if (!('s'===$security || 't'===$security)) {

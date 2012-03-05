@@ -220,6 +220,7 @@ abstract class stack_input {
      *
      * @param array $response the student reponse to the question.
      * @param stack_options $options CAS options to use when validating.
+     * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer) {
@@ -268,7 +269,7 @@ abstract class stack_input {
                     $teacheranswer);
             $options->set_option('simplify', false);
 
-            $session = new stack_cas_session(array($answer), $options);
+            $session = new stack_cas_session(array($answer), $options, 0);
             $session->instantiate();
             $session = $session->get_session();
             $answer = $session[0];

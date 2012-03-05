@@ -64,7 +64,7 @@ class stack_anstest_numabsolute extends stack_anstest {
             $cs->validate('t', true, false);
             $cts[] = $cs;
         }
-        $session = new stack_cas_session($cts, null, null);
+        $session = new stack_cas_session($cts, null, 0);
         $session->instantiate();
 
         if (''!=$session->get_errors_key('caschat0')) {

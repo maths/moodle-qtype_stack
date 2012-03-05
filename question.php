@@ -145,7 +145,8 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function start_attempt(question_attempt_step $step, $variant) {
 
-        $this->seed = $variant;
+        // Completely unscientific approach to spreading the seed nubmers around a bit.
+        $this->seed = $variant * 4321 + 12345;
         $step->set_qt_var('_seed', $this->seed);
 
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
@@ -343,7 +344,11 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function get_num_variants() {
-        return 1000000;
+        if (preg_match('~\brand~', $this->questionvariables)) {
+            return 20; // Only a limited number of variants for now, to improve caching.
+        } else {
+            return 1;
+        }
     }
 
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {

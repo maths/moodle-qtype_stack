@@ -9,7 +9,7 @@ This may be happening before, during or after a deployment to a quiz.
 STACK 2.2 introduced support for a simple versioning system to give authors greater
 confidence in developing, adapting and authoring questions at any point of the life cycle.
 
-Versioning is intrinsically linked to question [deployment](Deploying).
+Versioning is intrinsically linked to question [deployment](Deploying.md).
 
 ### Motivation ###
 

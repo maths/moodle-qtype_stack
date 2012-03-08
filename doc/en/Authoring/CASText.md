@@ -11,8 +11,8 @@ CASText is simply HTML into which LaTeX mathematics and CAS commands can be embe
 These CAS commands are executed before the question is displayed to the user.
 _Use only simple LaTeX structures, and equations_. Only a small part of core LaTeX is supported.
 
-Currently we are converting LaTeX to HTML via [JSMath](../Components/JSMath).  
-If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ).
+Currently we are converting LaTeX to HTML via [MathJAX](http://http://www.mathjax.org/).  
+If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 The following things to remember about `castext`:
 
 * Anything enclosed between `$` or  symbols is treated as an _inline equation_, as is the case with normal LaTeX.
@@ -30,28 +30,28 @@ Here is an example
 
 ## Variables ##   {#Variables}
 
-`castext` may depend on variables previously defined in the [question variables](KeyVals#Question_variables) field.
+`castext` may depend on variables previously defined in the [question variables](KeyVals.md#Question_variables) field.
 
-Where the `castext` appears in the fields of a [potential response trees](Potential_response_trees),
-the variables in the [feedback variables](KeyVals#Feedback_variables) may also be included.
+Where the `castext` appears in the fields of a [potential response trees](Potential_response_trees.md),
+the variables in the [feedback variables](KeyVals.md#Feedback_variables) may also be included.
 
 ## Question stem			{#Question_stem}
 
 The question stem, i.e. the text the student actually sees, is a slightly modified form of CAS text.
 
-To allow a student to answer a question you must include an [inputs](Inputs) in the question stem. For example, students need a box into which their answer will be put.
+To allow a student to answer a question you must include an [inputs](Inputs.md) in the question stem. For example, students need a box into which their answer will be put.
 
-To place an [inputs](Inputs) into the question enclose the
-name of the [Maxima](../CAS/Maxima) variable to which the student's answer is assigned between hash symbols, e.g. `#ans1#`
+To place an [inputs](Inputs.md) into the question enclose the
+name of the [Maxima](../CAS/Maxima.md) variable to which the student's answer is assigned between hash symbols, e.g. `#ans1#`
 
-When the question is created this is replaced with the appropriate [inputs](Inputs).
-When the student answers, this variable name is available to each [potential response trees](Potential_response_trees).
+When the question is created this is replaced with the appropriate [inputs](Inputs.md).
+When the student answers, this variable name is available to each [potential response trees](Potential_response_trees.md).
 
 Feedback can be included anywhere within the question stem.
 
-* When you create an [inputs](Inputs) STACK automatically adds
+* When you create an [inputs](Inputs.md) STACK automatically adds
   a string such as the following.  `<IEfeedback>ans1</IEfeedback>`
-* When you create a [potential response trees](Potential_response_trees) STACK automatically adds
+* When you create a [potential response trees](Potential_response_trees.md) STACK automatically adds
   a string such as the following `<PRTfeedback>1</PRTfeedback>`
 
 These strings are replaced by appropriate feedback as necessary.
@@ -117,5 +117,5 @@ The [Google charts](http://code.google.com/apis/chart/) API can be used to creat
 
 ![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
 
-Details are given in the section on [plots](../CAS/Plots#google).
+Details are given in the section on [plots](../CAS/Plots.md#google).
 

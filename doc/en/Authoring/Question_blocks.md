@@ -1,6 +1,6 @@
 # Question blocks
 
-_This is an outline for a feature currently under development for STACK 2.1._
+_This is an outline for a feature currently under development for STACK 3.0._
 
 ## Introduction ##
 

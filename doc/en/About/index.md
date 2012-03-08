@@ -13,7 +13,7 @@ Really, the student should provide their answer in the form of a mathematical ex
 The solution lies in using a [Computer Algebra System](../CAS/) to power the assessment system.
 The built-in knowledge of mathematics that the computer algebra system provides opens up entirely new possibilities to computer-aided assessment, of which we will now present a few examples:
 
-More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK).
+More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK.md).
 
 ## Equivalent answers ##
 
@@ -47,11 +47,11 @@ Give an example of a cubic polynomial with the following properties:
 
 STACK can check each condition separately on the student's answer and assign partial credit accordingly.
 If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._ 
-There are a variety of ways in which [feedback](../Authoring/Feedback) can be given.
+There are a variety of ways in which [feedback](../Authoring/Feedback.md) can be given.
 
-STACK is a direct development of the [AIM](../Related_projects/AIM) system, using the open source computer algebra system [Maxima](../CAS/Maxima).
+STACK is a direct development of the [AIM](../Related_projects/AIM.md) system, using the open source computer algebra system [Maxima](../CAS/Maxima.md).
 
 ## Further information  ##
 
-* [Associated publications](Publications)
-* [The STACK logo](Logo).
+* [Associated publications](Publications.md)
+* [The STACK logo](Logo.md).

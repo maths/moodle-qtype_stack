@@ -337,5 +337,15 @@ $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are 
 
 $string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as ';
 $string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';
-
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
+
+// Documentation strings
+$string['stackDoc_404']                 = 'Error 404';
+$string['stackDoc_docs']                = 'STACK Documentation';
+$string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation for STACK</a>: a local static wiki.';
+$string['stackDoc_home']                = 'Documentation home';
+$string['stackDoc_index']               = 'Category index';
+$string['stackDoc_parent']              = 'Parent';
+$string['stackDoc_siteMap']             = 'Site map';
+$string['stackDoc_404message']          = 'File not found.';
+$string['stackDoc_directoryStructure']  = 'Directory structure';

@@ -10,13 +10,13 @@ into other projects.
 ## CAS text.
 
 CAS text is literally "computer algebra active text".  This is 
-documented [elsewhere](../Authoring/CASText).  It should be, in 
+documented [elsewhere](../Authoring/CASText.md).  It should be, in 
 principle, possible to develop a "CASText filter" for Moodle.  
 
 Note, that when constructing CAS text it must be able to take a 
 CAS session as an argument to the constructor.  In this way we 
 can use lists of variables, such as [question 
-variables](../Authoring/KeyVals) to  provide values.  
+variables](../Authoring/KeyVals.md) to  provide values.  
 
 E.g. we might have :
 
@@ -66,7 +66,7 @@ and automatically made, when we ask for the values, display form or error terms 
 The answer tests essentially compare two expressions.  These may 
 accept an option, e.g. the number of significant figures.  
 Details of the current answertests are available 
-[elsewhere](Answer_tests).  The result of an answer test should be
+[elsewhere](../Authoring/Answer_tests.md).  The result of an answer test should be
 
 1. Boolean outcome, true or false,
 2. errors,
@@ -134,7 +134,7 @@ numbers.    See the section below on options.
 
 ## STACK Options 
 
-We need to ensure the current options are respected in the new CAS setup.  See [options](../Authoring/Options).
+We need to ensure the current options are respected in the new CAS setup.  See [options](../Authoring/Options.md).
 
 Note that some of the inputs enable options to be set there.  We might have a multi-part question in which part one forbids floating point numbers, whereas the next part allows them.  Validity is a concept tied to the input.
 
@@ -157,11 +157,9 @@ The connection to Maxima is slow, and is certainly the most
 important issue when trying to scale up the STACK.  The issue 
 is that Maxima is quite slow to start.  Various attempts have 
 been made to operate Maxima in "server mode" to speed this up.  
-This explains the various ways to connect to the CAS. See 
-[server mode](Maxima_server). 
 
 The University of Manchester have also compiled the Maxima code 
 and this leads to increased server response.  See [optimising 
-maxima](../CAS/Optimising_Maxima).
+maxima](../CAS/Optimising_Maxima.md).
 
 

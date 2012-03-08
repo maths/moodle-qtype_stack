@@ -3,10 +3,10 @@
 Computer aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/)
-2. [Testing](Testing)
-3. [Deploying](Deploying)
-4. [Including questions in a Moodle Quiz](../Components/Moodle#Including_questions)
-5. [Reviewing](Reviewing)
+2. [Testing](Testing.md)
+3. [Deploying](Deploying.md)
+4. [Including questions in a Moodle Quiz](../Components/Moodle.md#Including_questions)
+5. [Reviewing](Reviewing.md)
 
 Each of these links contains detailed instructions.  However, the purpose of this page is to work through a simple example.
 
@@ -17,7 +17,7 @@ This page explains the process of authoring a question, by working through an ex
 
 Questions are edited through the Moodle quiz.  Do not be put off by the fact the editing form looks complicated.
 
-There are lots of fields, but the only compulsory field is the [question stem](CASText#Question_stem).
+There are lots of fields, but the only compulsory field is the [question stem](CASText.md#Question_stem).
 This is the string actually displayed to the student, i.e. this is "the question".
 
 ## An example question ##
@@ -32,8 +32,8 @@ Enter the following information into the question stem. It should be possible to
 
 Then press the update button. 
 
-Notice this text contains LaTeX.  Full details are given under [CASText](CASText).
-When the form is refreshed scroll down:  there will be an [inputs](Inputs) section of the editing form.
+Notice this text contains LaTeX.  Full details are given under [CASText](CASText.md).
+When the form is refreshed scroll down:  there will be an [inputs](Inputs.md) section of the editing form.
 Into the Teacher's Answer type in the answer as a syntactically valid CAS expression, e.g.
 
 	3*(x-1)^2
@@ -43,17 +43,17 @@ Now we have a question, and the teacher's answer.  We next have to decide if the
 
 ## Establishing properties of the student's answer via the potential response tree			{#Answer_props_via_prt}
 
-To establish properties of student's answers we need an algorithm known as a [potential response trees](Potential_response_trees).  
+To establish properties of student's answers we need an algorithm known as a [potential response trees](Potential_response_trees.md).  
 
 This tree will allow us to establish the mathematical properties of the student's answer and on the basis of these properties provide outcomes, such as feedback and a mark.
 
-We shall provide [feedback](Feedback) which checks
+We shall provide [feedback](Feedback.md) which checks
 
 1. For the correct answer.
 2. To see if the student integrated by mistake.
 3. To see if it is likely that the student expanded out and differentiated.
 
-Locate the section of the form [potential response trees](Potential_response_trees) and where is says ``Add a potential response tree named:'' type in
+Locate the section of the form [potential response trees](Potential_response_trees.md) and where is says ``Add a potential response tree named:'' type in
 	
 	1
 
@@ -68,8 +68,8 @@ The question edit form will become quite significantly more complex, but actuall
 Each branch can 
 
 * Assign/update the mark.
-* Assign formative [feedback](Feedback) to the student.
-* Leave an [answer note](Potential_response_trees#Answer_note) for [reviewing](Reviewing) purposes.
+* Assign formative [feedback](Feedback.md) to the student.
+* Leave an [answer note](Potential_response_trees.md#Answer_note) for [reviewing](Reviewing.md) purposes.
 * Nominate the next potential response node, or end the process (-1).
 We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question stem.  The Teacher's answer was `3*(x-1)^2`.  Update the form fields so that
 
@@ -133,9 +133,9 @@ This gives us the test, but what about the outcomes?
 1. On the true branch set the `mark=0`
 2. On the true branch set the feedback to `You appear to have integrated by mistake!`
 
-Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees#Answer_note) field.
+Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees.md#Answer_note) field.
 This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,
-and different responses. You have something definite to group over.  This is discussed in [reviewing](Reviewing).
+and different responses. You have something definite to group over.  This is discussed in [reviewing](Reviewing.md).
 
 Press the SAVE button and try the question.
 
@@ -149,7 +149,7 @@ Go back and Add 1 potential response in a similar way as before.  After all, we 
 
 To use this potential response, edit Node 0, and now change the true branch to make the Next node point to the new Node 2.
 If we enter Node 2, we know the student has the correct answer. We only need to establish if it is factored or not.
-To establish this we need to use a different [answer tests](Answer_tests). 
+To establish this we need to use a different [answer tests](Answer_tests.md). 
 
 Update the form so that node No.2 has
 
@@ -177,20 +177,20 @@ We need to assign outcomes.
 ~~~~~~~~~~
 	
 You can continue to add more potential responses as the need arises. These can test for more subtle errors
-based upon the common mistakes student's make. In each case an [answer tests](Answer_tests) can be used to
+based upon the common mistakes student's make. In each case an [answer tests](Answer_tests.md) can be used to
 make a different kind of distinction between answers.
 
 
 ## Random questions ##
 
 It is common to want to use random numbers in questions. This is straightforward to do, and we
-make use of the optional [question variables](KeyVals#Question_variables) field
+make use of the optional [question variables](KeyVals.md#Question_variables) field
 
-Modify the [question variables](KeyVals#Question_variables) from the previous example so that
+Modify the [question variables](KeyVals.md#Question_variables) from the previous example so that
 	
 	p = (x-1)^3
 
-Then change the [question stem](CASText#Question_stem) to
+Then change the [question stem](CASText.md#Question_stem) to
 	
 	Differentiate @p@ with respect to $x$.
 	[[input:ans1]]
@@ -206,7 +206,7 @@ Notice also that in the Teacher's answer there is a CAS command to differentiate
 It is necessary for the CAS to work out the answer in a random question.
 You now need to go through the potential response tree to use the variable p whenever you need to refer to the teacher's answer.
 
-We are now in a position to generate a random question. To do this modify the [question variables](KeyVals#Question_variables) to be
+We are now in a position to generate a random question. To do this modify the [question variables](KeyVals.md#Question_variables) to be
 
 	n = 2+rand(3)
 	p = (x-1)^n
@@ -219,15 +219,15 @@ Edit your trial question, and in the Teacher's trial window use the "new version
 
 When generating random questions in CAA we talk about _random numbers_ when we really mean _pseudo-random numbers_.
 To keep track of which random numbers are generated for each user, there is a special command in STACK,
-which you should use instead of [Maxima](../CAS/Maxima)'s random command.
+which you should use instead of [Maxima](../CAS/Maxima.md)'s random command.
 
-This is the `rand` command which is a general "random thing" generator, see the page on [random generation](../CAS/Random) for full details.
+This is the `rand` command which is a general "random thing" generator, see the page on [random generation](../CAS/Random.md) for full details.
 It can be used to generate random numbers and also to make selections from a list.
 
 ### The question note ###
 
 The question note enables the teacher to track which version of the question is given to each student.
-Two versions are the same if and only if the [question note](Question_note) is the same.
+Two versions are the same if and only if the [question note](Question_note.md) is the same.
 Hence a random question may not have an empty question note.
 
 Fill this in as 
@@ -260,15 +260,13 @@ You will also need to update the question note to be
 
 STACK's question type is very flexible.
 
-* You can add a [worked solution](CASText#Worked_solution).
-* You can change the behaviour of the question with the [options](options)
-* You can add plots to all the [CASText](CASText) fields with the [`plot`](../CAS/Maxima#plot) command.
+* You can add a [worked solution](CASText.md#Worked_solution).
+* You can change the behaviour of the question with the [options](Options.md)
+* You can add plots to all the [CASText](CASText.md) fields with the [`plot`](../CAS/Maxima.md#plot) command.
 
-You might like to look at the entry for [feedback](Feedback).
-Quality control and  testing your question can be made easier by looking at [testing](Testing).
+You might like to look at the entry for [feedback](Feedback.md).
+Quality control and  testing your question can be made easier by looking at [testing](Testing.md).
 
-There are also [sample questions](Sample_questions) for you to import are distributed in the directory
-	
-	sample_questions
+There are also sample questions for you to import are distributed with STACK.
 
-More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions).
+More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions.md).

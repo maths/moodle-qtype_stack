@@ -43,9 +43,9 @@ In STACK a lot of attention has been paid to allowing teachers to author and man
 
 These broadly correspond to formative, summative and evaluative functions of assessment.
 
-* [Multi-part mathematical questions](../Authoring/Multi-part_mathematical_questions) are possible:
+* [Multi-part mathematical questions](../Authoring/Multi-part_mathematical_questions.md) are possible:
   each question may have any number of inputs and any number of potential response trees.
   There need not be a one-to-one correspondence between these.
 * Partial credit is possible when an expression only satisfies some of the required properties.
 * Plots can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
-You can try a [typical calculus question](http://stack.bham.ac.uk/worksheets/worksheets.php?qkey=test-1), and there are links to [Sample questions](../Authoring/Sample_questions).
+

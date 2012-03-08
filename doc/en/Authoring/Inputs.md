@@ -3,18 +3,18 @@
 inputs are the points at which the student interacts with the question.
 For example, it might be a form box into which the student enters their answer.
 
-* Only the [question stem](CASText#Question_stem) may have inputs. 
+* Only the [question stem](CASText.md#Question_stem) may have inputs. 
 * Inputs are not required. Hence it is possible for the teacher to make a
   statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
 * Inputs can be positioned anywhere within the
-  [question stem](CASText#Question_stem).  If JSMath is used for display this includes within equations.  MathJax does not currently support this feature.
+  [question stem](CASText.md#Question_stem).  If JSMath is used for display this includes within equations.  MathJax does not currently support this feature.
 
-The position of an input in the [question stem](CASText#Question_stem) is denoted by
+The position of an input in the [question stem](CASText.md#Question_stem) is denoted by
 
 	[[input:ans1]]
  
-Here `ans1` denotes the name of a [Maxima](../CAS/Maxima) variable to which the student's answer is to be assigned.
+Here `ans1` denotes the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
 This must only be letters (optionally) followed by numbers, as in this example. No special characters are permitted.
 
 Feedback as to the syntactic validity of a response is by default inserted just after
@@ -67,15 +67,15 @@ Use the Input Type Options field to indicate a comma separated list of possible 
 
 The size of the matrix is inferred from the teacher's answer.
 STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in.
-This is easier than typing in [Maxima](../CAS/Maxima)'s matrix command, but does give the game away about the size of the required matrix.
+This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but does give the game away about the size of the required matrix.
 
 #### Text area ####
 
-Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima) as a list.
+Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
 
 #### Slider ####
 
-(New in STACK 2.2) Draggable slider bar resulting in a numerical value.  Useful for [confidence testing](../Diagnostics/Confidence_testing).
+(New in STACK 2.2) Draggable slider bar resulting in a numerical value.  
 
 ### Teacher's Answer ###  {#Teacher_Ans}
 
@@ -144,7 +144,7 @@ This enables the teacher to reject answers, and not consider them further.
 ### Check Students answer's type ### {#Check_Type}
 
 If this option is set to true then unless the student's expression is the same
-[Maxima](../CAS/Maxima#Types_of_object) as the teacher's correct answer,
+[Maxima](../CAS/Maxima.md#Types_of_object) as the teacher's correct answer,
 then the attempt will be rejected as invalid.
 
 This is very useful for ensuring the student has typed in an "equation", such as \(y=mx+c\)
@@ -187,8 +187,8 @@ The teacher can choose to construct an input which displays a random selection,
 in a random order, from a list of potential "distractors".  The top element, named "Correct answer",
 is always included, although this isn't really needed for the checkbox type.
 
-You have to enter a content form ([maxima](../CAS/Maxima) format) and displayed form
-(i.e. [CASText](CASText)) for each of these.  Both may depend on the question variables.
+You have to enter a content form ([maxima](../CAS/Maxima.md) format) and displayed form
+(i.e. [CASText](CASText.md)) for each of these.  Both may depend on the question variables.
 
 STACK will automatically add space to ensure you have at least two blank distractors when
 you update the question. In the case of the radio button or dropdown list a single expression will be returned.

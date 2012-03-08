@@ -22,6 +22,8 @@ Gradually change variable and function names to conform to Moodle coding standar
 
 Basic skeleton import of STACK 2 questions and storage in the database. Teacher can create a question version and attempt this from the database, with no caching.  
 
+1. Get this plumbed together without any validation.
+
 ## Milestone 3. 
 
 Reinstate the dynamic cache and make it work with one Moodle behaviour. At this point we should be able to include a STACK question into a moodle quiz, for demonstration and testing purposes.  
@@ -150,12 +152,12 @@ Key features
 
 * [Precision](../Authoring/Answer_tests#Precision) answer test added to allow significant to be checked.
 * [Form](../Authoring/Answer_tests#Form) answer test added to test if an expression is in completed square form.
-* List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs#List).
+* List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
 * Move to Maxima's `random()` function, rather then generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)
 * Support for Maxima 5.20.1
 * New option added: OptWorkedSol.  This allows the teacher to decide whether the tick box to request the worked solution is available.
-* Sample resources included as part of the [FETLAR](http://www.fetlar.bham.ac.uk) project.
+* Sample resources included as part of the FETLAR project.
 
 
 ### Version 2.0 
@@ -164,7 +166,7 @@ Released, September 2007.  Developed by Jonathan Hart and Chris Sangwin at the U
 
 Key features 
 
-* Display of mathematics now taken care of by [JSMath](../Components/JSMath). 
+* Display of mathematics taken care of by JSMath. 
 * Integrated into Moodle. 
 * Variety of interaction elements. 
 * Multi-part questions.

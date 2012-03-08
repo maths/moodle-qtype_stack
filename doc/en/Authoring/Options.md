@@ -4,11 +4,11 @@ Options affect the behaviour of each question.
 
 ### Question Level Simplify  ###
 
-See the entry on [simplification](../CAS/Maxima#Simplification).  Default is TRUE.
+See the entry on [simplification](../CAS/Maxima.md#Simplification).  Default is TRUE.
 
 ### Assume Positive  ###
 
-This option sets the value of [Maxima](../CAS/Maxima)'s
+This option sets the value of [Maxima](../CAS/Maxima.md)'s
 	
 	assume_pos
  
@@ -36,7 +36,7 @@ The default is \(10\%\) of the marks available for this question, entered at \(0
 
 ### Feedback used 			{#Feedback_used}
 
-The [feedback](Feedback) available can be varied as follows:
+The [feedback](Feedback.md) available can be varied as follows:
 
 1. Full (default)
 2. Text + generic (no score)
@@ -46,7 +46,7 @@ The [feedback](Feedback) available can be varied as follows:
 6. Score only (no text)
 7. No feedback
 
-The generic [feedback](Feedback) is set using the three strings
+The generic [feedback](Feedback.md) is set using the three strings
 
 * Feedback Correct
 * Feedback Partially Correct
@@ -62,7 +62,7 @@ The classes enable some colour to enhance the feedback.
 
 ### Worked solution on demand  ###
 
-[Worked solution](CASText#Worked_solution) should be available after a due date set in the quiz.
+[Worked solution](CASText.md#Worked_solution) should be available after a due date set in the quiz.
 Currently the lack of information exchange between Moodle and STACK makes this difficult.
 Hence we have an option Worked solution on demand, which allows the teacher to decide if the student
 can choose to see the worked solution.  
@@ -81,7 +81,7 @@ The following options affect how mathematics is displayed.
 
 ### Surd for Square Root ### {#surd}
 
-This option sets the value of [Maxima](../CAS/Maxima)'s
+This option sets the value of [Maxima](../CAS/Maxima.md)'s
 	
 	sqrtdispflag
 

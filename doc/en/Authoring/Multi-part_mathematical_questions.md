@@ -86,13 +86,13 @@ part, 4., is independent of the others.
 Response processing is the means by which a student's answer is evaluated and feedback, of various forms,
 assigned. The crucial observation in STACK is a complete separation between two important components.
 
-1. a list of [inputs](Inputs);
-2. a list of [potential response trees](potential_response_trees).
+1. a list of [inputs](Inputs.md);
+2. a list of [potential response trees](Potential_response_trees.md).
 
-## [inputs](Inputs) ##
+## [inputs](Inputs.md) ##
 
-The [question stem](CASText#Question_stem), i.e. the text actually displayed to the student,
-may have an arbitrary number of [inputs](Inputs). An element may be positioned
+The [question stem](CASText.md#Question_stem), i.e. the text actually displayed to the student,
+may have an arbitrary number of [inputs](Inputs.md). An element may be positioned
 anywhere within the question stem, including within mathematical expressions, e.g. equations. Each
 input will be associated with a number of fields. For example
 
@@ -105,7 +105,7 @@ input will be associated with a number of fields. For example
   4. string data type.
 3. The teacher's correct answer.
 
-## [Potential response trees](Potential_response_trees) ##
+## [Potential response trees](Potential_response_trees.md) ##
 
 A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes
 we call potential responses. In each node two expressions are compared using a specified Answer Test,

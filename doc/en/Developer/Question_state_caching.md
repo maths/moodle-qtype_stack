@@ -18,7 +18,7 @@ This will usually produce a new state also, although in some cases, e.g. where t
 in the state, the transition loops back to the originating state.
 
 The tree also provides a knowledge base of students' attempts and the associated outcomes which
-is used in [reviewing](../Authoring/Reviewing).
+is used in [reviewing](../Authoring/Reviewing.md).
 
 ## Motivation ##
 
@@ -26,8 +26,8 @@ The advantages of this extra step, as opposed to creating random versions on the
 
 * Time is saved in pre-generation.  This makes a significant difference at the beginning of a large class.
 * Since the cache remembers students' previous attempts at questions, time is saved when two individuals have the same version.  
-* Individual versions can be [tested](../Authoring/Testing) throughly before students use them.
-* The cache, combined with a table of how students traversed it and when, is needed in [reviewing](../Authoring/Reviewing) students' attempts.
+* Individual versions can be [tested](../Authoring/Testing.md) throughly before students use them.
+* The cache, combined with a table of how students traversed it and when, is needed in [reviewing](../Authoring/Reviewing.md) students' attempts.
 
 ## Deployment ##
 
@@ -37,8 +37,8 @@ _Versions of a question must be cached via deployment before they can be used in
 
 When a student attempts a question, one of these versions is randomly _selected_ from this list.
 
-Questions without the [`rand()`](../CAS/Maxima#rand) function in the
-[question variables](../Authoring/KeyVals#Question_variables) do not have random versions,
+Questions without the [`rand()`](../CAS/Maxima.md#rand) function in the
+[question variables](../Authoring/KeyVals.md#Question_variables) do not have random versions,
 and hence can only have a single deployment at any time (we call them singletons). Other items can
 be deployed multiple times.  In the future we plan to allow systematic deployment of multiple versions.
 
@@ -50,7 +50,7 @@ In this model attempts at a STACK question becomes a traverse around the cache.
 Since the cache is dynamic, there is no loss of flexibility when a student's response is novel.
 In a mature cache this should be a rapid process of retrieving XHTML fragments for the student to interact with.
 
-More details of how the tables are given is destiled in the [response processing](Response_processing) page.
+More details of how the tables are given is destiled in the [response processing](Response_processing.md) page.
 
 
 

@@ -9,8 +9,6 @@ Perhaps a better introduction for those totally new to LaTeX is found [here](htt
 with more specific information about [mathematics](http://www.andy-roberts.net/misc/latex//latextutorial9.html) with examples for you to follow.
 Note that some of the more complex examples will not work on STACK. Just keep things simple.
 
-Another option is to build an expression in [DragMath](../Components/DragMath) and output the results to the clipboard.
-
 ## Can I add HTML to CAS-enabled text? ##
 
 Yes.  You can use HTML tags as usual.  For example, you can use these tags to insert references to images etc.
@@ -32,7 +30,7 @@ The command you need may well not be enabled since you should use one STACK prov
 
 ## How can I test out STACK specific functions in a Maxima session? ##
 
-Details of how to load STACK functions into a command line Maxima session are given in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox).
+Details of how to load STACK functions into a command line Maxima session are given in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
 
 ## How can I change which Maxima functions STACK allows? ##
 

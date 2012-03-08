@@ -39,7 +39,7 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 5. Finally STACK compares this number to the respective teacher's answer. In this comparison it
    uses `Num_tol_absolute` or something like that.
 
-So, the following code is needed in the [feedback variables](KeyVals#Feedback_variables) (`ans1` is the student's answer). 
+So, the following code is needed in the [feedback variables](KeyVals.md#Feedback_variables) (`ans1` is the student's answer). 
 
 	temp1 = subst(m/1000,mm,ans1)
 	temp2 = convert(temp1,[m,s])
@@ -51,7 +51,7 @@ Here, the respective teacher's answer is 12.1 without any unit.
 
 ## Answer tests  ##
 
-Once we are confident with how this all works, we will create a _units_ [answer tests](Answer_tests).
+Once we are confident with how this all works, we will create a _units_ [answer tests](Answer_tests.md).
 This will provide feedback such as
 
 * correct units, wrong number

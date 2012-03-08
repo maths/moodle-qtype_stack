@@ -6,10 +6,8 @@ prototype test is to establish if they are the _same_.  That is
 to say, _algebraically equivalent_. 
 
 The exact behaviour of each answer test can be seen from 
-STACK's _test suite for STACK Answer tests_. The result of 
-running all these tests is available 
-[here](%CONTENT/test.html), although there are likely to be 
-more cases available in the latest code.   
+STACK's _test suite for STACK Answer tests_ which is available through the
+Moodle admin menu.   
 
 This compares pairs of expressions and displays the outcomes 
 from each test. Mainly used to ensure STACK is working, it is 
@@ -42,8 +40,8 @@ e.g. Algebraic Equivalence, really need to assume which expression belongs to th
 | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
 | Errors    | Hopefully this will be empty!                                                                                                                                      
 | Result    | is either `true`, `false`, or `fail` (which indicates a failure of the test).  This determines which branch of the tree is traversed.         
-| FeedBack  | This is a text string which is displayed to the student. It is [CASText](CASText) which may depend on properties of the student's answer.                         
-| Note      | This is a text string which is used for [Reviewing](Reviewing). Each answer note is concatenated with the previous notes and any contributions from the branch.   
+| FeedBack  | This is a text string which is displayed to the student. It is [CASText](CASText.md) which may depend on properties of the student's answer.                         
+| Note      | This is a text string which is used for [Reviewing](Reviewing.md). Each answer note is concatenated with the previous notes and any contributions from the branch.   
 
 
 # Equality #
@@ -61,9 +59,9 @@ Hence, we need quite a number of different answer tests to establish equality in
 | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 | CASEqual                                          | Are the parse trees of the two expressions equal?                                                                                                                                                                                                                                                                                                                                                   
 | EqualComAss                                       | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?  For example<br>\[a+b=b+a\mbox{,}\]<br>but<br>\[x+x\neq 2x\mbox{.}\]<br>This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense. 
-| [AlgEquiv](Answer_tests#AlgEquiv)                 | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?                                                                                                                                                                                                                                                                                                                     
-| SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.                
-| SameType                                          | Are the two expressions of the [types_of_object](../CAS/Maxima#Types_of_object)?  Note that this test works recursively over the entire expression.                                                                                                                                                                                                                                                
+| [AlgEquiv](Answer_tests.md#AlgEquiv)                 | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?                                                                                                                                                                                                                                                                                                                     
+| SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.                
+| SameType                                          | Are the two expressions of the [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.                                                                                                                                                                                                                                                
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? This test determines whether two systems of multivariate polynomials, i.e. polynomials with a number of variables, generate the same ideal, equivalent to checking they have the same solutions.                                                                                                                                    
 
 
@@ -78,12 +76,12 @@ This is the most commonly used test.  The pseudo code
 	else
 	  false.
 
-This test will work with a variety of [types of object](../CAS/Maxima#Types_of_object)
+This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object)
 of mathematical objects, including lists, sets, equations, inequalities and matrices.
 Exactly what it does depends on what objects are given to it. 
 
-* This test disregards whether [simplification](../CAS/Maxima#Simplification) is switched on, it always fully simplifies all its arguments.
-* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../CAS/Predicate_functions).
+* This test disregards whether [simplification](../CAS/Maxima.md#Simplification) is switched on, it always fully simplifies all its arguments.
+* Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../CAS/Predicate_functions.md).
 
 ### CASEqual ###
 
@@ -92,7 +90,7 @@ The CAS returns the result of the simple Maxima command
 	if StudentAnswer=TeacherAnswer then true else false.
 
 There is no explicit simplification here (unlike AlgEquiv).
-This test works in different ways depending on whether [simplification](../CAS/Maxima#Simplification) is on.
+This test works in different ways depending on whether [simplification](../CAS/Maxima.md#Simplification) is on.
 When simplification is off this test effectively tests whether the parse trees are identical.
 
 ### SysEquiv ###
@@ -101,7 +99,7 @@ The SysEquiv (system equivalence) test takes in two lists of polynomial equation
 This is done using the theory of Gröbner bases to determine whether the ideals generated by the two systems are equal.
 As the test allows for polynomials in several variables, it can cope with the intersections of the conic sections, as well as a large number of geometrically interesting curves.
 
-* This test disregards whether [simplification](../CAS/Maxima#Simplification) is switched on, it only simplifies its arguments where required.
+* This test disregards whether [simplification](../CAS/Maxima.md#Simplification) is switched on, it only simplifies its arguments where required.
 This allows the test to list equations in feedback that the student has erroneously included in their system.
 
 # Form 		{#Form}
@@ -120,12 +118,12 @@ Related tests establish that an expression is _expanded_ or in _partial_
 | Expression        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 | LowestTerms       | This test checks that all numbers written in the first expression are in lowest terms.  Notes 
-|                   |     * if you want to check whether a rational polynomial is written in lowest terms, this is not the test to use.  Instead, apply the [predicate functions](../CAS/Predicate_functions)  `lowesttermsp` to the expression.
+|                   |     * if you want to check whether a rational polynomial is written in lowest terms, this is not the test to use.  Instead, apply the [predicate functions](../CAS/Predicate_functions.md)  `lowesttermsp` to the expression.
 |                   |     * the second argument to this function is ignored, i.e. this test does not confirm algebraic equivalence.  You might as well use 0 here.                                                                                                                                                                                            
 | Expanded          | Confirms SAns is equal to `expand(SAns)`.  Note, the second argument to this answer test is not used (but must be non-empty).  Note with this test that an expression such as \(x^2-(a+b)x+ab\) is not considered to be expanded, and this test will return false.                                                                                                                                                                                                                                                                                                                                                                                              
 | FacForm           | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is "factored" over the rational numbers. See below for more details.  The answer test expects the option to be the variable. If the answer is incorrect, quite detailed feedback is provided.                                                                                                                                                                                                                                                                                                                                                                                                                                       
 | SingleFrac        | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is written as a single fraction. Notes 
-|                   |     * if you also want this expression written in lowest terms, then this is quite a separate test.  You need to first confirm you have a single fraction then add a new potential response. One way is to use the [../CAS/Predicate functions](../CAS/Predicate_functions) `lowesttermsp(ex)` and compare the result with `true` with the AlgEquiv test.
+|                   |     * if you also want this expression written in lowest terms, then this is quite a separate test.  You need to first confirm you have a single fraction then add a new potential response. One way is to use the [../CAS/Predicate functions](../CAS/Predicate_functions.md) `lowesttermsp(ex)` and compare the result with `true` with the AlgEquiv test.
 |                   |     * The algebraic equivalence check is for convenience.  If you only want to check an expression is a single fraction make \(SAns=TAns\), i.e. ATSingleFrac(ex,ex) will do. 
 | PartFrac          | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "partial fraction form". The option must be the variable.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 | CompletedSquare   | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "completed square form". The option must be the variable.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -213,4 +211,4 @@ Adding answer tests is possible, but is a developer task.  Tests currently lacki
 
 # See also
 
-* [Maxima](../CAS/Maxima)
+* [Maxima](../CAS/Maxima.md)

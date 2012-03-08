@@ -1,8 +1,9 @@
 # Sample Questions
 
+NOT UPDATED FOR VERSION 3.
+
 STACK is distributed with sample questions.  These are kept 
-under the language files.   There are currently sample 
-questions in English and Dutch. 
+under the language files.   There are currently sample questions in English and Dutch. 
 
 We would encourage colleagues to consider releasing their 
 materials under a suitable creative commons licence. 
@@ -31,16 +32,16 @@ for example differentiation rather than integration.  These are included at the 
 ### test_2.xml ###
 
 This is the simplest multi-part question.
-There are multiple [inputs](Inputs) in an equation with one potential response tree.
+There are multiple [inputs](Inputs.md) in an equation with one potential response tree.
 
 ### test_3.xml ###
 
-This is another simple multi-part question.  Here there are four [inputs](Inputs) each with its own potential response tree.
+This is another simple multi-part question.  Here there are four [inputs](Inputs.md) each with its own potential response tree.
 Note also in this item that 'properties' of the student's answer are being established, not just "a correct answer".
 
 ### test_4.xml ###
 
-This item demonstrates dynamically generated [Maxima](../CAS/Maxima) in the question, feedback and worked solution.
+This item demonstrates dynamically generated [Maxima](../CAS/Maxima.md) in the question, feedback and worked solution.
 Note that if a wrong answer is provided the feedback plot is generated to include a plot of the student's answer.
 
 ### test_5.xml ###
@@ -53,8 +54,8 @@ Is this sensible?  Maybe not, but this question demonstrates this feature.
 
 ### test_6.xml ###
 
-Demonstrates a simple matrix question, with the grid [inputs](Inputs) within a displayed equation.
-Notes on how Maxima deals with matrices are given in [Maxima](../CAS/Maxima).
+Demonstrates a simple matrix question, with the grid [inputs](Inputs.md) within a displayed equation.
+Notes on how Maxima deals with matrices are given in [Maxima](../CAS/Maxima.md).
 
 ### test_7.xml ###
 
@@ -88,7 +89,7 @@ This is a powerful feature which out-sources the production of graphics to anoth
 
 ### input_test.xml ###
 
-This file contains questions which demonstrate the range of [inputs](Inputs) available to question authors.   These are not serious questions, but just examples.
+This file contains questions which demonstrate the range of [inputs](Inputs.md) available to question authors.   These are not serious questions, but just examples.
 
 # Other sources of questions #
 

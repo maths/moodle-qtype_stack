@@ -223,7 +223,7 @@ abstract class stack_input {
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @return stack_input_state represents the current state of the input.
      */
-    public function validate_student_response($response, $options, $teacheranswer) {
+    public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys) {
         if (!is_a($options, 'stack_options')) {
             throw new Exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -248,7 +248,11 @@ abstract class stack_input {
         $answer = new stack_cas_casstring($transformedanswer);
         $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
 
-        // TODO: we need to run this check over the names of the question variables....
+        // Ensure student hasn't used a variable name used by the teacher.
+        if ($forbiddenkeys) {
+            $answer->check_external_forbidden_words($forbiddenkeys);
+        }
+
         $forbiddenwords = $this->get_parameter('forbidWords', '');
         if ($forbiddenwords) {
             $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
@@ -310,7 +314,7 @@ abstract class stack_input {
     public abstract function render(stack_input_state $state, $fieldname, $readonly);
 
     /**
-     * Generate the HTML the gives the results of validating the student's input.
+     * Generate the HTML that gives the results of validating the student's input.
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
      * @return string HTML for the validation results for this input.

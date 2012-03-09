@@ -128,6 +128,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('header', 'answerhdr' . $prtname, get_string('prtheading', 'qtype_stack', $prtname));
 
         $mform->addElement('text', $prtname . 'value', get_string('questionvalue', 'qtype_stack'), array('size' => 3));
+        $mform->setDefault($prtname . 'value', 1);
 
         $mform->addElement('selectyesno', $prtname . 'autosimplify',
                 get_string('autosimplify', 'qtype_stack'));
@@ -194,12 +195,13 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('selectyesno', 'simplify',
                 get_string('questionsimplify', 'qtype_stack'));
+        $mform->setDefault('simplify', true);
 
-        $mform->addElement('selectyesno', 'assumepos',
-                get_string('assumepos', 'qtype_stack'));
+        $mform->addElement('selectyesno', 'assumepositive',
+                get_string('assumepositive', 'qtype_stack'));
 
-        $mform->addElement('select', 'multiplicationsign',
-                get_string('multiplicationsign', 'qtype_stack'), array(
+        $mform->addElement('select', 'markmode',
+                get_string('markmode', 'qtype_stack'), array(
                     qtype_stack_question::MARK_MODE_PENALTY => get_string('markmodepenalty', 'qtype_stack'),
                     qtype_stack_question::MARK_MODE_FIRST   => get_string('markmodefirst', 'qtype_stack'),
                     qtype_stack_question::MARK_MODE_LAST    => get_string('markmodelast', 'qtype_stack')));
@@ -230,6 +232,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('selectyesno', 'sqrtsign',
                 get_string('sqrtsign', 'qtype_stack'));
+        $mform->setDefault('sqrtsign', true);
 
         $mform->addElement('select', 'complexno',
                 get_string('complexno', 'qtype_stack'), array(

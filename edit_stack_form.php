@@ -65,7 +65,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $typechoices[$type] = get_string('inputtype' . $type, 'qtype_stack');
         }
 
-        $inputname = 'ans1';
+        $inputname = 'ans1'; // TODO generalise this.
         $mform->addElement('header', 'answerhdr' . $inputname, get_string('inputheading', 'qtype_stack', $inputname));
 
         $mform->addElement('select', $inputname . 'type', get_string('inputtype', 'qtype_stack'), $typechoices);
@@ -103,7 +103,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'showvalidation', true);
 
         // PRTs
-        $prtname = 'prt1';
+        $prtname = 'prt1'; // TODO generalise this.
 
         $answertests = stack_ans_test_controller::get_available_ans_tests();
         $answertestchoices = array();
@@ -170,7 +170,7 @@ class qtype_stack_edit_form extends question_edit_form {
                     get_string('score', 'qtype_stack'), array('size' => 2));
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'penalty',
                     get_string('penalty', 'qtype_stack'), array('size' => 2));
-            $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'next',
+            $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'nextnode',
                     get_string('next', 'qtype_stack'), $nextnodechoices);
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'answernote',
                     get_string('answernote', 'qtype_stack'), array('size' => 10));
@@ -193,9 +193,9 @@ class qtype_stack_edit_form extends question_edit_form {
         // Options
         $mform->addElement('header', 'optionsheader', get_string('options', 'qtype_stack'));
 
-        $mform->addElement('selectyesno', 'simplify',
+        $mform->addElement('selectyesno', 'questionsimplify',
                 get_string('questionsimplify', 'qtype_stack'));
-        $mform->setDefault('simplify', true);
+        $mform->setDefault('questionsimplify', true);
 
         $mform->addElement('selectyesno', 'assumepositive',
                 get_string('assumepositive', 'qtype_stack'));

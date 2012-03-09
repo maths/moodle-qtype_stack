@@ -31,6 +31,13 @@ Reinstate the dynamic cache and make it work with one Moodle behaviour. At this 
 ## Milestone 4.  
 
 * Editing forms in Moodle to allow creation and editing of questions.
+  1. Get the form to display OK.
+  2. Create the database tables we need to save the question into.
+  3. Make it so that when you click save, it saves the question into the database.
+  4. Write the code that loads the question definition, and lets you preview it.
+  5. Make it so that when you edit an existing question, the form gets populated correctly.
+  6. Validate the form fields properly before saving.
+
 * Import and export of STACK 3 questions in Moodle's format.
 
 ## Milestone 5.  

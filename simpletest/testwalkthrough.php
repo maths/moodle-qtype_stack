@@ -58,10 +58,10 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         return new NoPatternExpectation('~\[\[|\]\]~');
     }
 
-    public function test_deferredfeedback_behaviour() {
+    public function test_adaptivefeedback_behaviour_test1_1() {
 
-        // Create a stack question.
-        $q = test_question_maker::make_question('stack');
+        // Create the stack question 'test1'.
+        $q = test_question_maker::make_question('stack', 'test1');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         // Check the initial state.
@@ -78,7 +78,141 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->check_no_stray_placeholders()
         );
 
-        // Submit the correct response:
-        // TODO.
+        // Process a validate request.
+        // Notice here we get away with including single letter question variables in the answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            $this->contains_input_validation(),
+            $this->does_not_contain_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_mark(1);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            $this->contains_input_validation(),
+            $this->contains_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
+    }
+
+    public function test_adaptivefeedback_behaviour_test1_2() {
+
+        $q = test_question_maker::make_question('stack', 'test1');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_current_output(
+                new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+                new PatternExpectation('/Find/'),
+                $this->does_not_contain_input_validation(),
+                $this->does_not_contain_prt_feedback(),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation(),
+                $this->check_no_stray_placeholders()
+        );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            $this->contains_input_validation(),
+            $this->does_not_contain_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
+        // Process a submit, but with a changed answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            $this->contains_input_validation(),
+            $this->does_not_contain_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
+        // Process a submit with the correct answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_mark(1);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            $this->contains_input_validation(),
+            $this->contains_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
+    }
+
+    public function test_adaptivefeedback_behaviour_test1_3() {
+
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test1');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_current_output(
+                new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+                new PatternExpectation('/Find/'),
+                $this->does_not_contain_input_validation(),
+                $this->does_not_contain_prt_feedback(),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation(),
+                $this->check_no_stray_placeholders()
+        );
+
+        // Process a validate request.
+        // Invalid answer.
+        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            new PatternExpectation('/missing right/'),
+            $this->contains_input_validation(),
+            $this->does_not_contain_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
+        // Valid answer.
+        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            $this->contains_input_validation(),
+            $this->does_not_contain_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
+        // Submit known mistake - look for specific feedback.
+        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', 'ans1_val' => 'n*(v-a)^(n-1)', '-submit' => 1));
+
+        $this->check_current_mark(0);
+        $this->check_current_output(
+            new ContainsTagWithAttributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
+            new PatternExpectation('/differentiated instead!/'),
+            $this->contains_input_validation(),
+            $this->contains_prt_feedback(),
+            $this->check_no_stray_placeholders()
+        );
+
     }
 }

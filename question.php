@@ -146,7 +146,7 @@ class qtype_stack_question extends question_graded_automatically {
     public function start_attempt(question_attempt_step $step, $variant) {
 
         // Completely unscientific approach to spreading the seed numbers around a bit.
-        // TODO sciencyfy this!
+        // TODO needs to be sciencyfied!
         $this->seed = $variant * 4321 + 12345;
         $step->set_qt_var('_seed', $this->seed);
 
@@ -280,6 +280,7 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function is_gradable_response(array $response) {
+        // The following code requires all *inputs* to be non-empty and valid.
         $allblank = true;
         foreach ($this->inputs as $name => $input) {
             $status = $this->get_input_state($name, $response)->status;
@@ -289,6 +290,14 @@ class qtype_stack_question extends question_graded_automatically {
             $allblank = $allblank && ($status == stack_input::BLANK);
         }
         return !$allblank;
+        /*
+        // I think this is closer to the mark....
+        $anyprtgradable = false;
+        foreach ($this->prts as $index => $prt) {
+            $anyprtgradable = $anyprtgradable || $this->can_execute_prt($prt, $response);
+        }
+        return $anyprtgradable;
+        */
     }
 
     public function get_validation_error(array $response) {
@@ -307,7 +316,7 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     /**
-     * Do we have all the necssary inputs to execute one of the potential response trees?
+     * Do we have all the necessary inputs to execute one of the potential response trees?
      * @param stack_potentialresponse_tree $prt the tree in question.
      * @param array $response the response.
      * @return bool can this PRT be executed for that response.

@@ -1,7 +1,6 @@
 # Philosophy of STACK
 
-The STACK system is a computer aided assessment package for mathematics.
-In computer aided assessment (CAA), there are two classes of question types.
+The STACK system is a computer aided assessment package for mathematics, which provides a question type for the Moodle quiz.  In computer aided assessment (CAA), there are two classes of question types.
 
 *  *Teacher-provided answer questions*
 
@@ -37,11 +36,11 @@ In STACK a lot of attention has been paid to allowing teachers to author and man
 * There are many different kinds of inputs. These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
 * Mathematical properties of students' answers are established using answer tests within the CAS Maxima.
 * Feedback is assigned on the basis of these properties using a potential response tree. This feedback includes:
-	1. Textual comments.
+	1. Textual comments for the student.
 	2. A numerical mark.
 	3. Answer notes from which statistics for the teacher are compiled.
 
-These broadly correspond to formative, summative and evaluative functions of assessment.
+These broadly correspond to formative, summative and evaluative functions of assessment.  Which of these outcomes is available to the student, and when, is under the control of the teacher.
 
 * [Multi-part mathematical questions](../Authoring/Multi-part_mathematical_questions.md) are possible:
   each question may have any number of inputs and any number of potential response trees.

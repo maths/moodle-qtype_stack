@@ -18,15 +18,22 @@ Have basic CAS functionality working and incorporated into Moodle.  Supply basic
 
 Gradually change variable and function names to conform to Moodle coding standards.
 
+We have reached this milestone.
+
 ## Milestone 2.  
 
-Basic skeleton import of STACK 2 questions and storage in the database. Teacher can create a question version and attempt this from the database, with no caching.  
+Basic skeleton import of STACK 2 questions and storage in the 
+database. Teacher can create a question version and attempt 
+this from the database, with no caching.  
 
-1. Get this plumbed together without any validation.
+Then we move on to a full version of the form, which respects all fields in a STACK question.
 
 ## Milestone 3. 
 
-Reinstate the dynamic cache and make it work with one Moodle behaviour. At this point we should be able to include a STACK question into a moodle quiz, for demonstration and testing purposes.  
+Reinstate the dynamic cache and make it work with one Moodle 
+behaviour. At this point we should be able to include a STACK 
+question into a moodle quiz, for demonstration and testing 
+purposes.  
 
 ## Milestone 4.  
 
@@ -37,6 +44,7 @@ Reinstate the dynamic cache and make it work with one Moodle behaviour. At this 
   4. Write the code that loads the question definition, and lets you preview it.
   5. Make it so that when you edit an existing question, the form gets populated correctly.
   6. Validate the form fields properly before saving.
+  7. Ensure STACK's "Question tests" (unit testing for questions themselves) are reinstated.
 
 * Import and export of STACK 3 questions in Moodle's format.
 
@@ -45,8 +53,13 @@ Reinstate the dynamic cache and make it work with one Moodle behaviour. At this 
 * Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
 * Add reporting functionality.
 * Add user documentation.
-* Installation, documentation, and reporting.
+* Installation documentation.
 * Make STACK respect all Moodle behaviours.
+* Import/export in Moodle format.
+
+## Milestone 6.  
+
+* Add back in all input types, including dragmath/NUMBAS.
 
 ---
 # Other tasks
@@ -85,7 +98,7 @@ Similar to the translator function...
 ## Documentation system
 
 1. 404 error does not add an entry to the log.   
-2. What happened to `docMaintenance.php`?  This hasn't been incorporated yet.  We need the ReportWidgets to be included for this to function.  Ben?
+2. fix `maintenance.php`.
 3. Update the file, and link this to the documentation system (or just abandon it and use .md!) :
 
      \stack\www\lib\maxima\stackfun.php

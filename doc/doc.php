@@ -61,13 +61,11 @@ $doclog  = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/logs');
 // access this string in the docs with %CONTENT
 $docscontent = $webroot.'/question/type/stack/doc/content';
 
-
 $context = context_system::instance();
 require_capability('moodle/site:config', $context);
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/doc/doc.php');
 $PAGE->set_title(stack_string('stackDoc_docs'));
-
 
 if (substr($_SERVER['REQUEST_URI'], -7) == 'doc.php') {
     // Don't access doc.php directly, treat it like a directory instead.
@@ -136,7 +134,8 @@ if ('Site_map' == $lastseg) {
         $body .= $linkstr;
         $body .= "\n<hr/>\n";
         if (pathinfo($file, PATHINFO_EXTENSION) == 'md') {
-            $body .= Markdown($page); 		// render it, in this case in Markdown
+            $options->noclean = true;
+            $body .= format_text(Markdown($page), FORMAT_HTML, $options); // render it, in this case in Markdown
         } else {
             $body .= $page;
         }

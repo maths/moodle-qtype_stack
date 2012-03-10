@@ -1,10 +1,11 @@
 # Response processing
 
-This document describes how STACK processes the student's 
-attempt at a question, and describes the purpose and 
+This document is a work in progress as we move from STACK 2 to STACK 3.  We may not implement the design proposed here.
+
+This document describes how STACK processes the student's attempt at a question, and describes the purpose and 
 interactions between different parts of the database tables.
 
-This document is intended for developers only.
+This document is intended for developers only.  
 
 The reasons why this design was adopted are given in the page on [question state caching](Question_state_caching.md).
 

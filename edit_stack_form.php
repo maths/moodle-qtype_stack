@@ -246,8 +246,146 @@ class qtype_stack_edit_form extends question_edit_form {
 
     public function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
+        $question = $this->data_preprocessing_options($question);
+        $question = $this->data_preprocessing_inputs($question);
+        $question = $this->data_preprocessing_prts($question);
+        return $question;
+    }
+
+    /**
+     * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack table.
+     * @param object $question the raw data.
+     * @return object the updated $question updated object closer to being ready to send to the form.
+     */
+    protected function data_preprocessing_options($question) {
+        if (!isset($question->options)) {
+            return;
+        }
+        $opt = $question->options;
+
+        $question->questionvariables         = $opt->questionvariables;
+        $question->questionnote              = $opt->questionnote;
+        $question->specificfeedback          = $this->prepare_text_field('specificfeedback',
+                                $opt->specificfeedback, $opt->specificfeedbackformat, $opt->id);
+        $question->specificfeedbackformat    = $opt->specificfeedbackformat;
+        $question->specificfeedback          = $this->prepare_text_field('prtcorrect',
+                                $opt->prtcorrect, $opt->prtcorrectformat, $opt->id);
+        $question->prtpartiallycorrect       = $this->prepare_text_field('prtpartiallycorrect',
+                                $opt->prtpartiallycorrect, $opt->prtpartiallycorrectformat, $opt->id);
+        $question->prtincorrect              = $this->prepare_text_field('prtincorrect',
+                                $opt->prtincorrect, $opt->prtincorrectformat, $opt->id);
+        $question->markmode                  = $opt->markmode;
+        $question->multiplicationsign        = $opt->multiplicationsign;
+        $question->complexno                 = $opt->complexno;
+        $question->sqrtsign                  = $opt->sqrtsign;
+        $question->questionsimplify          = $opt->questionsimplify;
+        $question->assumepositive            = $opt->assumepositive;
 
         return $question;
+    }
+
+    /**
+     * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack_inputs table.
+     * @param object $question the raw data.
+     * @return object the updated $question updated object closer to being ready to send to the form.
+     */
+    protected function data_preprocessing_inputs($question) {
+        if (!isset($question->inputs)) {
+            return;
+        }
+
+        foreach ($question->inputs as $inputname => $input) {
+            $question->{$inputname . 'type'}               = $input->type;
+            $question->{$inputname . 'tans'}               = $input->tans;
+            $question->{$inputname . 'boxsize'}            = $input->boxsize;
+            $question->{$inputname . 'strictsyntax'}       = $input->strictsyntax;
+            $question->{$inputname . 'insertstars'}        = $input->insertstars;
+            $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
+            $question->{$inputname . 'forbidfloat'}        = $input->forbidfloat;
+            $question->{$inputname . 'requirelowestterms'} = $input->requirelowestterms;
+            $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;
+            $question->{$inputname . 'showvalidation'}     = $input->showvalidation;
+        }
+
+        return $question;
+    }
+
+    /**
+     * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack_prts table.
+     * @param object $question the raw data.
+     * @return object the updated $question updated object closer to being ready to send to the form.
+     */
+    protected function data_preprocessing_prts($question){
+        if (!isset($question->prts)) {
+            return;
+        }
+
+        foreach ($question->prts as $prtname => $prt) {
+            $question->{$prtname . 'value'}             = 0 + $prt->value; // Remove excess decimals.
+            $question->{$prtname . 'autosimplify'}      = $prt->autosimplify;
+            $question->{$prtname . 'feedbackvariables'} = $prt->feedbackvariables;
+
+            foreach ($prt->nodes as $node) {
+                $question = $this->data_preprocessing_node($question, $prtname, $node);
+            }
+        }
+
+        return $question;
+    }
+
+    /**
+     * Do the bit of {@link data_preprocessing()} for one PRT node.
+     * @param object $question the raw question data.
+     * @param string $prtname the name of this PRT.
+     * @param object $node the raw data about this node.
+     * @return object the updated $question updated object closer to being ready to send to the form.
+     */
+    protected function data_preprocessing_node($question, $prtname, $node) {
+        $nodename = $node->nodename;
+
+        $question->{$prtname . 'answertest' }[$nodename] = $node->answertest;
+        $question->{$prtname . 'sans'       }[$nodename] = $node->sans;
+        $question->{$prtname . 'tans'       }[$nodename] = $node->tans;
+        $question->{$prtname . 'testoptions'}[$nodename] = $node->testoptions;
+        $question->{$prtname . 'quiet'      }[$nodename] = $node->quiet;
+
+        // 0 + bit is to change strings like 1.0000000 from the DB to the nicer 1.
+        $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
+        $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
+        $question->{$prtname . 'truepenalty'   }[$nodename] = 0 + $node->truepenalty;
+        $question->{$prtname . 'truenextnode'  }[$nodename] = $node->truenextnode;
+        $question->{$prtname . 'trueanswernote'}[$nodename] = $node->trueanswernote;
+        $question->{$prtname . 'truefeedback'  }[$nodename] = $this->prepare_text_field(
+                $prtname . 'truefeedback[' . $nodename . ']', $node->truefeedback,
+                $node->truefeedbackformat, $node->id);
+
+        $question->{$prtname . 'falsescoremode' }[$nodename] = $node->falsescoremode;
+        $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
+        $question->{$prtname . 'falsepenalty'   }[$nodename] = 0 + $node->falsepenalty;
+        $question->{$prtname . 'falsenextnode'  }[$nodename] = $node->falsenextnode;
+        $question->{$prtname . 'falseanswernote'}[$nodename] = $node->falseanswernote;
+        $question->{$prtname . 'falsefeedback'  }[$nodename] = $this->prepare_text_field(
+                $prtname . 'falsefeedback[' . $nodename . ']', $node->falsefeedback,
+                $node->falsefeedbackformat, $node->id);
+
+        return $question;
+    }
+
+    /**
+     * Do the necessary data_preprocessing work for one text field.
+     * @param string $field the field / file-area name. (These are assumed to be the same.)
+     * @param string $text the raw text contents of this field.
+     * @param int $format the text format (one of the FORMAT_... constants.)
+     * @param int $itemid file area itemid.
+     * @return array in the format needed by the form.
+     */
+    protected function prepare_text_field($field, $text, $format, $itemid) {
+        $data = array();
+        $data['itemid'] = file_get_submitted_draft_itemid($field);
+        $data['text'] = file_prepare_draft_area($data['itemid'], $this->context->id,
+                'qtype_stack', $field, $itemid, $this->fileoptions, $text);
+        $data['format'] = $format;
+        return $data;
     }
 
     public function validation($fromform, $files) {

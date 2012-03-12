@@ -65,6 +65,13 @@ extends UnitTestCase{
 
     }
 
+    public function test_not_confused_by_pluginfile() {
+        $ct = new stack_cas_text('Here @x@ is some @@PLUGINFILE@@ @x + 1@ some input', null, 0);
+        $this->assertTrue($ct->get_valid());
+        $this->assertEqual(array('x', 'x + 1'), $ct->get_all_raw_casstrings());
+        $this->assertEqual('Here $x$ is some @@PLUGINFILE@@ $x+1$ some input', $ct->get_display_castext());
+    }
+
     public function test_get_all_raw_casstrings() {
         $raw = 'Take @x^2+2*x@ and then @sin(z^2)@.';
         $at1 = new stack_cas_text($raw, null, 0);

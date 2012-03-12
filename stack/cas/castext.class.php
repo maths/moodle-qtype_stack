@@ -193,14 +193,14 @@ class stack_cas_text {
      */
     private function extract_cas_commands() {
         //first check contains @s
-        $count = substr_count($this->trimmedcastext, '@');
+        $count = preg_match_all('~(?<!@)@(?!@)~', $this->trimmedcastext, $notused);
 
         if ($count == 0) {
             //nothing to do
             return null;
         } else {
             //extract the CAS commands
-            $temp = stack_utils::all_substring_between($this->trimmedcastext, '@'); //returns an array
+            $temp = stack_utils::all_substring_between($this->trimmedcastext, '@', '@', true);
 
             //create array of commands matching with their labels
             $i = 0;
@@ -241,7 +241,7 @@ class stack_cas_text {
                 $this->session = $new_session;
 
                 // Now replace the commannds with their labels in the text.
-                $this->trimmedcastext = stack_utils::replace_between($this->trimmedcastext, '@', '@', $labels);
+                $this->trimmedcastext = stack_utils::replace_between($this->trimmedcastext, '@', '@', $labels, true);
             }
         }
     }

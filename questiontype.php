@@ -115,7 +115,7 @@ class qtype_stack extends question_type {
         $prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
         foreach ($prtnames as $prtname) {
-            if (array_key_exists($inputname, $inputs)) {
+            if (array_key_exists($prtname, $prts)) {
                 $prt = $prts[$prtname];
                 unset($prts[$prtname]);
             } else {

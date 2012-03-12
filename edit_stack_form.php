@@ -263,23 +263,22 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $opt = $question->options;
 
-        $question->questionvariables         = $opt->questionvariables;
-        $question->questionnote              = $opt->questionnote;
-        $question->specificfeedback          = $this->prepare_text_field('specificfeedback',
-                                $opt->specificfeedback, $opt->specificfeedbackformat, $opt->id);
-        $question->specificfeedbackformat    = $opt->specificfeedbackformat;
-        $question->specificfeedback          = $this->prepare_text_field('prtcorrect',
-                                $opt->prtcorrect, $opt->prtcorrectformat, $opt->id);
-        $question->prtpartiallycorrect       = $this->prepare_text_field('prtpartiallycorrect',
-                                $opt->prtpartiallycorrect, $opt->prtpartiallycorrectformat, $opt->id);
-        $question->prtincorrect              = $this->prepare_text_field('prtincorrect',
-                                $opt->prtincorrect, $opt->prtincorrectformat, $opt->id);
-        $question->markmode                  = $opt->markmode;
-        $question->multiplicationsign        = $opt->multiplicationsign;
-        $question->complexno                 = $opt->complexno;
-        $question->sqrtsign                  = $opt->sqrtsign;
-        $question->questionsimplify          = $opt->questionsimplify;
-        $question->assumepositive            = $opt->assumepositive;
+        $question->questionvariables   = $opt->questionvariables;
+        $question->questionnote        = $opt->questionnote;
+        $question->specificfeedback    = $this->prepare_text_field('specificfeedback',
+                                            $opt->specificfeedback, $opt->specificfeedbackformat, $question->id);
+        $question->prtcorrect          = $this->prepare_text_field('prtcorrect',
+                                            $opt->prtcorrect, $opt->prtcorrectformat, $question->id);
+        $question->prtpartiallycorrect = $this->prepare_text_field('prtpartiallycorrect',
+                                            $opt->prtpartiallycorrect, $opt->prtpartiallycorrectformat, $question->id);
+        $question->prtincorrect        = $this->prepare_text_field('prtincorrect',
+                                            $opt->prtincorrect, $opt->prtincorrectformat, $question->id);
+        $question->markmode            = $opt->markmode;
+        $question->multiplicationsign  = $opt->multiplicationsign;
+        $question->complexno           = $opt->complexno;
+        $question->sqrtsign            = $opt->sqrtsign;
+        $question->questionsimplify    = $opt->questionsimplify;
+        $question->assumepositive      = $opt->assumepositive;
 
         return $question;
     }

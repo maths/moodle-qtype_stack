@@ -44,7 +44,8 @@ purposes.
   4. Write the code that loads the question definition, and lets you preview it.
   5. Make it so that when you edit an existing question, the form gets populated correctly.
   6. Validate the form fields properly before saving.
-  7. Ensure STACK's "Question tests" (unit testing for questions themselves) are reinstated.
+  7. Handle deleting questions, moving them to another context, and file access checks.
+  8. Ensure STACK's "Question tests" (unit testing for questions themselves) are reinstated.
 
 * Import and export of STACK 3 questions in Moodle's format.
 

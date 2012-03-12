@@ -85,7 +85,7 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         return $question->format_text($feedbacktext, $question->specificfeedbackformat,
-                $qa, 'question', 'specificfeedback', $question->id);
+                $qa, 'qtype_stack', 'specificfeedback', $question->id);
     }
 
     /**
@@ -118,7 +118,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
             return html_writer::tag('div', $question->format_text($question->$field,
-                    $question->$format, $qa, 'question', $field, $question->id), array('class' => $class));
+                    $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';
     }

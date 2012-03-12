@@ -401,8 +401,18 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
-        if ($component == 'question' && $filearea == 'specificfeedback') {
+        if ($component == 'qtype_stack' && $filearea == 'specificfeedback') {
             // Specific feedback files only visibile when the feedback is.
+            return $options->feedback;
+
+        } else if ($component == 'qtype_stack' && in_array($filearea,
+                array('prtcorrect', 'prtpartiallycorrect', 'prtincorrect'))) {
+            // This is a bit lax, but anything else is computationally very expensive.
+            return $options->feedback;
+
+        } else if ($component == 'qtype_stack' && in_array($filearea,
+                array('prtnodefalsefeedback', 'prtnodetruefeedback'))) {
+            // This is a bit lax, but anything else is computationally very expensive.
             return $options->feedback;
 
         } else {

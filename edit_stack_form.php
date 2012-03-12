@@ -349,7 +349,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'testoptions'}[$nodename] = $node->testoptions;
         $question->{$prtname . 'quiet'      }[$nodename] = $node->quiet;
 
-        // 0 + bit is to change strings like 1.0000000 from the DB to the nicer 1.
+        // 0 + bit is to eliminate excessive decimal places from the DB.
         $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
         $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
         $question->{$prtname . 'truepenalty'   }[$nodename] = 0 + $node->truepenalty;
@@ -357,7 +357,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'trueanswernote'}[$nodename] = $node->trueanswernote;
         $question->{$prtname . 'truefeedback'  }[$nodename] = $this->prepare_text_field(
                 $prtname . 'truefeedback[' . $nodename . ']', $node->truefeedback,
-                $node->truefeedbackformat, $node->id);
+                $node->truefeedbackformat, $node->id, 'prtnodetruefeedback');
 
         $question->{$prtname . 'falsescoremode' }[$nodename] = $node->falsescoremode;
         $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
@@ -366,7 +366,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'falseanswernote'}[$nodename] = $node->falseanswernote;
         $question->{$prtname . 'falsefeedback'  }[$nodename] = $this->prepare_text_field(
                 $prtname . 'falsefeedback[' . $nodename . ']', $node->falsefeedback,
-                $node->falsefeedbackformat, $node->id);
+                $node->falsefeedbackformat, $node->id, 'prtnodefalsefeedback');
 
         return $question;
     }
@@ -377,13 +377,18 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param string $text the raw text contents of this field.
      * @param int $format the text format (one of the FORMAT_... constants.)
      * @param int $itemid file area itemid.
+     * @param string $filearea the file area name. Defaults to $field.
      * @return array in the format needed by the form.
      */
-    protected function prepare_text_field($field, $text, $format, $itemid) {
+    protected function prepare_text_field($field, $text, $format, $itemid, $filearea = '') {
+        if ($filearea === '') {
+            $filearea = $field;
+        }
+
         $data = array();
         $data['itemid'] = file_get_submitted_draft_itemid($field);
         $data['text'] = file_prepare_draft_area($data['itemid'], $this->context->id,
-                'qtype_stack', $field, $itemid, $this->fileoptions, $text);
+                'qtype_stack', $filearea, $itemid, $this->fileoptions, $text);
         $data['format'] = $format;
         return $data;
     }

@@ -286,4 +286,57 @@ class qtype_stack extends question_type {
                     $feedbackvariables->get_session(), $nodes);
         }
     }
+
+    public function delete_question($questionid, $contextid) {
+        global $DB;
+        $DB->delete_records('qtype_stack_prt_nodes', array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_prts',      array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_inputs',    array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack',           array('questionid' => $questionid));
+        parent::delete_question($questionid, $contextid);
+    }
+
+    public function move_files($questionid, $oldcontextid, $newcontextid) {
+        global $DB;
+        $fs = get_file_storage();
+
+        parent::move_files($questionid, $oldcontextid, $newcontextid);
+
+        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                            'qtype_stack', 'specificfeedback',    $questionid);
+        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                            'qtype_stack', 'prtcorrect',          $questionid);
+        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                            'qtype_stack', 'prtpartiallycorrect', $questionid);
+        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                            'qtype_stack', 'prtincorrect',        $questionid);
+
+        $nodeids = $DB->get_records_menu('qtype_stack_prt_nodes', array('questionid' => $questionid), 'id', 'id,1');
+        foreach ($nodeids as $nodeid => $notused) {
+            $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                                'qtype_stack', 'prtnodetruefeedback', $nodeid);
+            $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                                'qtype_stack', 'prtnodefalsefeedback', $nodeid);
+        }
+    }
+
+    protected function delete_files($questionid, $contextid) {
+        global $DB;
+        $fs = get_file_storage();
+
+        parent::delete_files($questionid, $contextid);
+
+        $fs->delete_area_files($contextid, 'qtype_stack', 'specificfeedback',    $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'prtcorrect',          $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'prtpartiallycorrect', $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'prtincorrect',        $questionid);
+
+        $nodeids = $DB->get_records_menu('qtype_stack_prt_nodes', array('questionid' => $questionid), 'id', 'id,1');
+        foreach ($nodeids as $nodeid => $notused) {
+            $fs->delete_area_files($oldcontextid, $newcontextid,
+                                                'qtype_stack', 'prtnodetruefeedback', $nodeid);
+            $fs->delete_area_files($oldcontextid, $newcontextid,
+                                                'qtype_stack', 'prtnodefalsefeedback', $nodeid);
+        }
+    }
 }

@@ -43,6 +43,16 @@ class qtype_stack_question extends question_graded_automatically {
     const MARK_MODE_LAST = 'lastanswer';
 
     /**
+     * @var string STACK specific: variables, as authored by the teacher.
+     */
+    public $questionvariables;
+
+    /**
+    * @var string STACK specific: variables, as authored by the teacher.
+    */
+    public $questionnote;
+
+    /**
      * @var string Any specific feedback for this question. This is displayed
      * in the 'yellow' feedback area of the question. It can contain PRTfeedback
      * tags, but not IEfeedback.
@@ -79,11 +89,6 @@ class qtype_stack_question extends question_graded_automatically {
     public $inputs;
 
     /**
-     * @var string STACK specific: variables, as authored by the teacher.
-     */
-    public $questionvariables;
-
-    /**
      * @var array stack_potentialresponse_tree STACK specific: respones tree number => ...
      */
     public $prts;
@@ -102,6 +107,11 @@ class qtype_stack_question extends question_graded_automatically {
      * @var array stack_cas_session STACK specific: session of variables.
      */
     protected $session;
+
+    /**
+     * @var array stack_cas_session STACK specific: session of variables.
+     */
+    protected $questionnoteinstantiated;
 
     /**
      * The next three fields cache the results of some expensive computations.
@@ -150,10 +160,12 @@ class qtype_stack_question extends question_graded_automatically {
         $this->seed = $variant * 4321 + 12345;
         $step->set_qt_var('_seed', $this->seed);
 
+        // Build up the question session out of all the bits that need to go into it.
+        // 1. question variables
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
         $session = $questionvars->get_session();
 
-        // Notice that we store all the correct answers for inputs within $this->session
+        // 2. correct answer for all inputs.
         $response =array();
         foreach ($this->inputs as $name => $input) {
             $cs = new stack_cas_casstring($input->get_teacher_answer());
@@ -162,32 +174,49 @@ class qtype_stack_question extends question_graded_automatically {
             $response[$name] = $cs;
         }
         $session->add_vars($response);
+
+        // 3. CAS bits inside the question text.
+        $questiontext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
+        if ($questiontext->get_errors()) {
+            throw new Exception('qtype_stack_question : Error in the the question text: ' .
+                    $questiontext->get_errors());
+        }
+
+        // 4. CAS bits inside the specific feedback.
+        $feedbacktext = new stack_cas_text($this->specificfeedback, $session, $this->seed, 't', false, true);
+        if ($questiontext->get_errors()) {
+            throw new Exception('qtype_stack_question : Error in the feedback text: ' .
+                    $feedbacktext->get_errors());
+        }
+
+        // 5. CAS bits inside the question note.
+        $notetext = new stack_cas_text($this->questionnote, $session, $this->seed, 't', false, true);
+        if ($questiontext->get_errors()) {
+            throw new Exception('qtype_stack_question : Error in the question note: ' .
+                    $notetext->get_errors());
+        }
+
+        // Now instantiate the session:
         $session->instantiate();
-
         $this->session = $session;
+        if ($session->get_errors()) {
+            throw new Exception('qtype_stack_question : CAS error when instantiating the session: ' .
+                    $session->get_errors());
+        }
+
+        // Now store the values that depend on the instantiated session.
         $step->set_qt_var('_questionvars', $session->get_keyval_representation());
-
-        $qtext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
-        $step->set_qt_var('_questiontext', $qtext->get_display_castext());
-
-        if ($qtext->get_errors()) {
-            throw new Exception('Error rendering the question text: ' . $qtext->get_errors());
-        }
-
-        $feedbacktext = new stack_cas_text($this->specificfeedback, $this->session, $this->seed, 't', false, true);
+        $step->set_qt_var('_questiontext', $questiontext->get_display_castext());
         $step->set_qt_var('_feedback', $feedbacktext->get_display_castext());
-
-        if ($qtext->get_errors()) {
-            throw new Exception('Error rendering the feedback text: ' . $feedbacktext->get_errors());
-        }
-
-        $this->session = $qtext->get_session();
+        $this->questionnoteinstantiated = $notetext->get_display_castext();
+        $step->set_qt_var('_questionnote', $this->questionnoteinstantiated);
     }
 
     public function apply_attempt_state(question_attempt_step $step) {
         $this->seed = (int) $step->get_qt_var('_seed');
         $questionvars = new stack_cas_keyval($step->get_qt_var('_questionvars'), $this->options, $this->seed, 't');
         $this->session = $questionvars->get_session();
+        $this->questionnoteinstantiated = $step->get_qt_var('_questionnote');
     }
 
     public function format_generalfeedback($qa) {
@@ -214,6 +243,10 @@ class qtype_stack_question extends question_graded_automatically {
             }
         }
         return $expected;
+    }
+
+    public function get_question_summary() {
+        return $this->questionnoteinstantiated;
     }
 
     public function summarise_response(array $response) {

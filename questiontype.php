@@ -40,6 +40,8 @@ class qtype_stack extends question_type {
         global $DB;
         $context = $fromform->context;
 
+        parent::save_question_options($fromform);
+
         $options = $DB->get_record('qtype_stack', array('questionid' => $fromform->id));
         if (!$options) {
             $options = new stdClass();
@@ -97,7 +99,7 @@ class qtype_stack extends question_type {
             $input->forbidfloat        = $fromform->{$inputname . 'forbidfloat'};
             $input->requirelowestterms = $fromform->{$inputname . 'requirelowestterms'};
             $input->checkanswertype    = $fromform->{$inputname . 'checkanswertype'};
-            $input->showvalidation     = $fromform->{$inputname . 'checkanswertype'};
+            $input->showvalidation     = $fromform->{$inputname . 'showvalidation'};
 
             $DB->update_record('qtype_stack_inputs', $input);
         }
@@ -192,14 +194,96 @@ class qtype_stack extends question_type {
 
     }
 
-    public function make_question($questiondata) {
-        global $CFG;
-        require_once($CFG->libdir . '/questionlib.php');
-        require_once($CFG->dirroot . '/' . $CFG->admin . '/tool/unittest/simpletestlib.php');
-        require_once($CFG->dirroot . '/question/engine/simpletest/helpers.php');
-        $q = test_question_maker::make_question('stack', $questiondata->questiontext);
-        $q->id = $questiondata->id;
-        $q->category = $questiondata->category;
-        return $q;
+    public function get_question_options($question) {
+        global $DB;
+
+        parent::get_question_options($question);
+
+        $question->options = $DB->get_record('qtype_stack',
+                array('questionid' => $question->id), '*', MUST_EXIST);
+
+        $question->inputs = $DB->get_records('qtype_stack_inputs',
+                array('questionid' => $question->id), 'name',
+                'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
+                'syntaxhint, forbidfloat, requirelowestterms, checkanswertype, showvalidation');
+
+        $question->prts = $DB->get_records('qtype_stack_prts',
+                array('questionid' => $question->id), 'name',
+                'name, id, questionid, value, autosimplify, feedbackvariables');
+
+        $noders = $DB->get_recordset('qtype_stack_prt_nodes',
+                array('questionid' => $question->id), 'prtname, nodename');
+        foreach ($noders as $node) {
+            $question->prts[$node->prtname]->nodes[$node->nodename] = $node;
+        }
+        $noders->close();
+
+        return true;
+    }
+
+    protected function initialise_question_instance(question_definition $question, $questiondata) {
+        parent::initialise_question_instance($question, $questiondata);
+
+        $question->questionvariables         = $questiondata->options->questionvariables;
+        $question->questionnote              = $questiondata->options->questionnote;
+        $question->specificfeedback          = $questiondata->options->specificfeedback;
+        $question->specificfeedbackformat    = $questiondata->options->specificfeedbackformat;
+        $question->prtcorrect                = $questiondata->options->prtcorrect;
+        $question->prtcorrectformat          = $questiondata->options->prtcorrectformat;
+        $question->prtpartiallycorrect       = $questiondata->options->prtpartiallycorrect;
+        $question->prtpartiallycorrectformat = $questiondata->options->prtpartiallycorrectformat;
+        $question->prtincorrect              = $questiondata->options->prtincorrect;
+        $question->prtincorrectformat        = $questiondata->options->prtincorrectformat;
+        $question->markmode                  = $questiondata->options->markmode;
+
+        $question->options = new stack_options();
+        $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
+        $question->options->set_option('complexno',          $questiondata->options->complexno);
+        $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
+        $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
+        $question->options->set_option('assumepos',   (bool) $questiondata->options->assumepositive);
+
+        foreach ($questiondata->inputs as $name => $inputdata) {
+            $parameters = array(
+                'boxWidth'     =>        $inputdata->boxsize,
+                'strictSyntax' => (bool) $inputdata->strictsyntax,
+                'insertStars'  => (bool) $inputdata->insertstars,
+                'syntaxHint'   =>        $inputdata->syntaxhint,
+                'forbidFloats' => (bool) $inputdata->forbidfloat,
+                'lowestTerms'  => (bool) $inputdata->requirelowestterms,
+                'sameType'     => (bool) $inputdata->checkanswertype,
+                'hideFeedback' =>       !$inputdata->showvalidation,
+            );
+            $question->inputs[$name] = stack_input_factory::make(
+                    $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
+        }
+
+        foreach ($questiondata->prts as $name => $prtdata) {
+            $nodes = array();
+            foreach ($prtdata->nodes as $nodedata) {
+                $sans = new stack_cas_casstring($nodedata->sans);
+                $sans->get_valid('t');
+                $tans = new stack_cas_casstring($nodedata->tans);
+                $tans->get_valid('t');
+
+                $node = new stack_potentialresponse_node($sans, $tans,
+                        $nodedata->answertest, $nodedata->testoptions, (bool) $nodedata->quiet);
+                $node->add_branch(0, $nodedata->falsescoremode, $nodedata->falsescore,
+                        $nodedata->falsepenalty, $nodedata->falsenextnode,
+                        $nodedata->falsefeedback, $nodedata->falseanswernote);
+                $node->add_branch(1, $nodedata->truescoremode, $nodedata->truescore,
+                        $nodedata->truepenalty, $nodedata->truenextnode,
+                        $nodedata->truefeedback, $nodedata->trueanswernote);
+                // TODO true/false feedbackformat.
+                $nodes[$nodedata->nodename] = $node;
+            }
+
+            // TODO $feedbackvariables, and $sans, $tans, should probably still be strings
+            // here, and should be converted to CAS stuff later, only if needed.
+            $feedbackvariables = new stack_cas_keyval($prtdata->feedbackvariables, null, null, 't');
+            $question->prts[$name] = new stack_potentialresponse_tree($name, '',
+                    (bool) $prtdata->autosimplify, $prtdata->value,
+                    $feedbackvariables->get_session(), $nodes);
+        }
     }
 }

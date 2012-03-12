@@ -73,6 +73,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->markmode = qtype_stack_question::MARK_MODE_PENALTY;
         $q->options = new stack_options();
+        $q->questionnote = '';
 
         return $q;
     }

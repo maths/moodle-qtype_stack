@@ -94,12 +94,7 @@ abstract class stack_input {
 
         if (is_array($parameters)) {
             foreach ($parameters as $name => $value) {
-                if (!array_key_exists($name, $this->parameters)) {
-                    // Parameter not recognised.
-                    throw new Exception('stack_input: __construct: parameter '.$name.' is not a valid parameter name.');
-                }
-                // TODO validate $value here.
-                $this->parameters[$name] = $value;
+                $this->set_parameter($name, $value);
             }
         }
     }
@@ -112,6 +107,10 @@ abstract class stack_input {
         if (!in_array($parameter, $this->get_parameters_used())) {
             throw new Exception('stack_input: setting parameter ' . $parameter .
                     ' which does not exist for inputs of type ' . get_class($this));
+        }
+
+        if ($parameter == 'hideFeedback' && $value && in_array('mustVerify', $this->get_parameters_used())) {
+            $this->set_parameter('mustVerify', false);
         }
 
         $this->parameters[$parameter] = $value;

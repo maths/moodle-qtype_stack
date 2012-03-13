@@ -165,6 +165,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
                 get_string('feedbackvariables', 'qtype_stack'), array('rows' => 3, 'cols' => 80));
+        $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 
         $mform->addElement('static', $prtname . 'inputsnote', '',
                 get_string('prtwillbecomeactivewhen', 'qtype_stack', html_writer::tag('b', $inputname)));
@@ -210,6 +211,19 @@ class qtype_stack_edit_form extends question_edit_form {
             $elements[] = $mform->createElement('editor', $prtname . $branch . 'feedback',
                     get_string('nodex' . $branch . 'feedback', 'qtype_stack'), array('rows' => 1), $this->editoroptions);
         }
+
+        //TODO: Make these work!
+        //$repeatoptions[$prtname . 'answertest']['helpbutton'] = array('answertest', 'qtype_stack');
+        //$repeatoptions[$prtname . 'sans']['helpbutton'] = array('sans', 'qtype_stack');
+        //$repeatoptions[$prtname . 'tans']['helpbutton'] = array('tans', 'qtype_stack');
+        //$repeatoptions[$prtname . 'testoptions']['helpbutton'] = array('testoptions', 'qtype_stack');
+        //$repeatoptions[$prtname . 'quiet']['helpbutton'] = array('quiet', 'qtype_stack');
+        //$repeatoptions[$prtname . 'feedback']['helpbutton'] = array('feedback', 'qtype_stack');
+        //$repeatoptions[$prtname . 'answernote']['helpbutton'] = array('answernote', 'qtype_stack');
+
+        //$repeatoptions[$prtname . 'sans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required', '', 'client', false, false);
+        //$repeatoptions[$prtname . 'tans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required', '', 'client', false, false);
+        //$repeatoptions[$prtname . 'answernote']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required', '', 'client', false, false);
 
         $repeatoptions[$prtname . 'truescore']['default'] = 1;
         $repeatoptions[$prtname . 'falsescore']['default'] = 0;
@@ -437,10 +451,6 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
-        echo "<pre>";
-        print_r($fromform);
-        echo "</pre>";
-
         // (1) Validate all the fixes question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables']);
         if (!$questionvars->get_valid()) {
@@ -474,7 +484,56 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$inputname . 'tans'] = $teacheranswer->get_errors();
             }
         }
+
         // (3) Validate all prts.
+        foreach ($potentialresponsetrees as $prtname) {
+            $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables']);
+            if (!$feedbackvars->get_valid()) {
+                $errors[$prtname.'feedbackvariables'] = $feedbackvars->get_errors();
+            }
+            foreach ($fromform[$prtname.'sans'] as $key => $sans) {
+                $cs= new stack_cas_casstring($sans);
+                if (!$cs->get_valid('t')) {
+                    //TODO this does not display in the right place!
+                    $errors[$prtname.'sans'][$key] = $cs->get_errors();
+                }
+            }
+            foreach ($fromform[$prtname.'tans'] as $key => $sans) {
+                $cs= new stack_cas_casstring($sans);
+                if (!$cs->get_valid('t')) {
+                    //TODO this does not display in the right place!
+                    $errors[$prtname.'tans'][$key] = $cs->get_errors();
+                }
+            }
+            foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {
+                if ('' != trim($opt)) {
+                    $cs= new stack_cas_casstring($opt);
+                    if (!$cs->get_valid('t')) {
+                        //TODO this does not display in the right place!
+                        $errors[$prtname.'testoptions'][$key] = $cs->get_errors();
+                    }
+                } else {
+                    $answertest = new stack_ans_test_controller($fromform[$prtname.'answertest'][$key]);
+                    if ($answertest->required_atoptions()) {
+                        $errors[$prtname.'testoptions'][$key] = get_string('testoptionsrequired','qtype_stack');
+                    }
+                }
+            }
+            foreach ($fromform[$prtname.'truefeedback'] as $key => $strin) {
+                $feedback = new stack_cas_text($strin['text']);
+                if (!$feedback->get_valid()) {
+                    //TODO this does not display in the right place!
+                    $errors[$prtname.'truefeedback'][$key] = $feedback->get_errors();
+                }
+            }
+            foreach ($fromform[$prtname.'falsefeedback'] as $key => $strin) {
+                $feedback = new stack_cas_text($strin['text']);
+                if (!$feedback->get_valid()) {
+                    //TODO this does not display in the right place!
+                    $errors[$prtname.'falsefeedback'][$key] = $feedback->get_errors();
+                }
+            }
+        }
 
         // (4) Validate queston text and specific feedback - depends on inputs and prts.
         $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text']);
@@ -486,14 +545,107 @@ class qtype_stack_edit_form extends question_edit_form {
         if (!$questiontext->get_valid()) {
             $errors['questiontext'] = $questiontext->get_errors();
         }
-        // TODO: loop over the inputs...
-        //[[input:ans1]]
-        //[[validation:ans1]]
 
-        $inputplaceholder = '[[input:ans1]]';
-        if (false === strpos($fromform['questiontext']['text'], $inputplaceholder)) {
-            $errors['questiontext'] .= get_string('questiontextmustcontain', 'qtype_stack', $inputplaceholder);
+        //TODO: remove/flag up unwanted tokens....
+        //TODO  Insert missing flags automatically?
+        $missingtokens = array();
+        $excesstokens = array();
+        $specificfeedback = array();
+        $generalfeedback = array();
+        $questionnote = array();
+        foreach ($inputs as $inputname) {
+            foreach (array("[[input:$inputname]]", "[[validation:$inputname]]") as  $inputplaceholder) {
+                if (false === strpos($fromform['questiontext']['text'], $inputplaceholder)) {
+                    $missingtokens[] = $inputplaceholder;
+                } else if (1<substr_count($fromform['questiontext']['text'], $inputplaceholder)) {
+                    $excesstokens[] = $inputplaceholder;
+                }
+                if (!(false === strpos($fromform['specificfeedback']['text'], $inputplaceholder))) {
+                    $specificfeedback[] = $inputplaceholder;
+                }
+                if (!(false === strpos($fromform['generalfeedback']['text'], $inputplaceholder))) {
+                    $generalfeedback[] = $inputplaceholder;
+                }
+                if (!(false === strpos($fromform['questionnote'], $inputplaceholder))) {
+                    $questionnote[] = $inputplaceholder;
+                }
+            }
         }
+        if (!empty($missingtokens)) {
+            $texterrors = get_string('questiontextmustcontain', 'qtype_stack', implode(' ', $missingtokens));
+            if (array_key_exists('questiontext', $errors)) {
+                $errors['questiontext'] .= ' '.$texterrors;
+            } else {
+                $errors['questiontext'] = $texterrors;
+            }
+        }
+        if (!empty($excesstokens)) {
+            $texterrors = get_string('questiontextonlycontain', 'qtype_stack', implode(' ', $excesstokens));
+            if (array_key_exists('questiontext', $errors)) {
+                $errors['questiontext'] .= ' '.$texterrors;
+            } else {
+                $errors['questiontext'] = $texterrors;
+            }
+        }
+
+        $missingtokens = array();
+        $excesstokens = array();
+        foreach ($potentialresponsetrees as $prtname) {
+            $inputplaceholder = "[[feedback:$prtname]]";
+            if (false === strpos($fromform['questiontext']['text'].$fromform['specificfeedback']['text'], $inputplaceholder)) {
+                $missingtokens[] = $inputplaceholder;
+            } else if (1<substr_count($fromform['questiontext']['text'].$fromform['specificfeedback']['text'], $inputplaceholder)) {
+                $excesstokens[] = $inputplaceholder;
+            }
+            if (!(false === strpos($fromform['generalfeedback']['text'], $inputplaceholder))) {
+                $generalfeedback[] = $inputplaceholder;
+            }
+            if (!(false === strpos($fromform['questionnote'], $inputplaceholder))) {
+                $questionnote[] = $inputplaceholder;
+            }
+        }
+        if (!empty($missingtokens)) {
+            $texterrors = get_string('questiontextfeedbackmustcontain', 'qtype_stack', implode(' ', $missingtokens));
+            if (array_key_exists('questiontext', $errors)) {
+                $errors['questiontext'] .= ' '.$texterrors;
+            } else {
+                $errors['questiontext'] = $texterrors;
+            }
+        }
+        if (!empty($excesstokens)) {
+            $texterrors = get_string('questiontextfeedbackonlycontain', 'qtype_stack', implode(' ', $excesstokens));
+            if (array_key_exists('questiontext', $errors)) {
+                $errors['questiontext'] .= ' '.$texterrors;
+            } else {
+                $errors['questiontext'] = $texterrors;
+            }
+        }
+
+        if (!empty($specificfeedback)) {
+            $texterrors = get_string('specificfeedbacktags', 'qtype_stack', implode(' ', $specificfeedback));
+            if (array_key_exists('specificfeedback', $errors)) {
+                $errors['specificfeedback'] .= ' '.$texterrors;
+            } else {
+                $errors['specificfeedback'] = $texterrors;
+            }
+        }
+        if (!empty($generalfeedback)) {
+            $texterrors = get_string('generalfeedbacktags', 'qtype_stack', implode(' ', $generalfeedback));
+            if (array_key_exists('generalfeedback', $errors)) {
+                $errors['generalfeedback'] .= ' '.$texterrors;
+            } else {
+                $errors['generalfeedback'] = $texterrors;
+            }
+        }
+        if (!empty($questionnote)) {
+            $texterrors = get_string('questionnotetags', 'qtype_stack', implode(' ', $questionnote));
+            if (array_key_exists('questionnote', $errors)) {
+                $errors['questionnote'] .= ' '.$texterrors;
+            } else {
+                $errors['questionnote'] = $texterrors;
+            }
+        }
+
         return $errors;
     }
 

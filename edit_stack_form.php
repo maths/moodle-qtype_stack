@@ -49,6 +49,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 get_string('questionvariables', 'qtype_stack'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');
+        $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
@@ -57,7 +58,8 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('textarea', 'questionnote',
                 get_string('questionnote', 'qtype_stack'), array('rows' => 2, 'cols' => 80));
-
+        $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
+        
         // Inputs - for now, hard-code it to one input.
         $types = stack_input_factory::get_available_types();
         $typechoices = array();
@@ -395,6 +397,10 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
+        echo "<pre>";
+        print_r($fromform);
+        echo "</pre>";
+        
         $inputplaceholder = '[[input:ans1]]';
         if (false === strpos($fromform['questiontext']['text'], $inputplaceholder)) {
             $errors['questiontext'] = get_string('questiontextmustcontain', 'qtype_stack', $inputplaceholder);

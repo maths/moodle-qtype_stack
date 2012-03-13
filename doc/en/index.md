@@ -25,7 +25,7 @@ More about what we are trying to achieve can be found under [the philosophy of S
   * [How answers are assessed](Students/Answer_assessment.md).
 * **Administrators**
   * For [Installation instructions](Installation/) there is a [detailed installation guide](Installation/Installation_instructions.md): TODO. 
-* **[Developers]()**
+* **[Developers](Developer/)**
   * [Developer docs](Developer/)
 
 

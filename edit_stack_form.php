@@ -44,7 +44,6 @@ class qtype_stack_edit_form extends question_edit_form {
         // Note that for the editor elements, we are using
         // $mform->getElement('prtincorrect')->setValue(...);
         // instead of setDefault, because setDefault does not work for editors.
-        $mform->getElement('questiontext')->setValue(array('text' => '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>'));
 
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 get_string('questionvariables', 'qtype_stack'), array('rows' => 5, 'cols' => 80));
@@ -251,6 +250,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $question = $this->data_preprocessing_options($question);
         $question = $this->data_preprocessing_inputs($question);
         $question = $this->data_preprocessing_prts($question);
+
+        if ($question->questiontext['text'] === '') {
+            // Nasty hack to override what the base class does. The way it
+            // prepares the questiontext field overwrites the default.
+            $question->questiontext['text'] = '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
+        }
+
         return $question;
     }
 
@@ -261,7 +267,7 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function data_preprocessing_options($question) {
         if (!isset($question->options)) {
-            return;
+            return $question;
         }
         $opt = $question->options;
 
@@ -292,7 +298,7 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function data_preprocessing_inputs($question) {
         if (!isset($question->inputs)) {
-            return;
+            return $question;
         }
 
         foreach ($question->inputs as $inputname => $input) {
@@ -318,7 +324,7 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function data_preprocessing_prts($question){
         if (!isset($question->prts)) {
-            return;
+            return $question;
         }
 
         foreach ($question->prts as $prtname => $prt) {

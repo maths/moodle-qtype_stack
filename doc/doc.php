@@ -175,7 +175,7 @@ function index($d, $relPath = ''){
                         $i .= "<li><a href=\"$relPath/$f/\">" . str_replace('_', ' ', $f)
                         .  "</a>" . index($fPath, "$relPath/$f") . '</li>';
                     } else {
-                        if ($f != 'index.md' && '.md' == substr($f, -3)) {
+                        if ($f != 'index.md' && '.md' == substr($f, -3) && 'Site_map.md' != $f) {
                             $fName = pathinfo($fPath, PATHINFO_FILENAME);
                             $i .= "<li><a href=\"$relPath/$fName.md\">" . str_replace('_', ' ', $fName) . "</a></li>";
                         }

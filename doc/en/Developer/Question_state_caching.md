@@ -18,8 +18,12 @@ this works in practice.
 
 This can be done through Moodle.
 
-Navigate 
+Navigate to
 
+     Home > Site administration > Plugins > Question types > Stack
+
+Choose to view the Healthcheck page.  At the bottom of this is 
+a button to clear the cache. 
 
 
 

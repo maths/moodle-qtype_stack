@@ -208,5 +208,30 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012030903, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2012031301) {
+        // Define key questionid-name (foreign) to be dropped form qtype_stack_prt_nodes
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN_UNIQUE, array('questionid', 'prtname'), 'qtype_stack_prts', array('questionid', 'name'));
+
+        // Launch drop key questionid-name
+        $dbman->drop_key($table, $key);
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012031301, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2012031302) {
+
+        // Define key questionid-name (foreign) to be added to qtype_stack_prt_nodes
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN, array('questionid', 'prtname'), 'qtype_stack_prts', array('questionid', 'name'));
+
+        // Launch add key questionid-name
+        $dbman->add_key($table, $key);
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012031302, 'qtype', 'stack');
+    }
+
     return true;
 }

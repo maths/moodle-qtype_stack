@@ -88,9 +88,8 @@ extends UnitTestCase {
 
         foreach ($cases as $case) {
             $cs = new stack_cas_casstring($case[0]);
-            $this->assertEqual($case[2],$cs->check_external_forbidden_words($case[1]));
+            $this->assertEqual($case[2], $cs->check_external_forbidden_words($case[1]));
         }
-        
     }
 }
 

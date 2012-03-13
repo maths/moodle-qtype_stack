@@ -48,8 +48,8 @@ class qtype_stack_question extends question_graded_automatically {
     public $questionvariables;
 
     /**
-    * @var string STACK specific: variables, as authored by the teacher.
-    */
+     * @var string STACK specific: variables, as authored by the teacher.
+     */
     public $questionnote;
 
     /**

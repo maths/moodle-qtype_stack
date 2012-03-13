@@ -107,7 +107,7 @@ class stack_cas_keyval_test extends UnitTestCase {
     public function test_remove_comment_fail() {
         $at1 = new stack_cas_keyval("a=1\n /* This is a comment \n b:2\n */\n c=3", null, 123, 's', true, false);
         $this->assertTrue($at1->get_valid());
-    
+
         $a3=array('a:1', 'c:4');
         $s3=array();
         foreach ($a3 as $s) {
@@ -116,7 +116,7 @@ class stack_cas_keyval_test extends UnitTestCase {
         $cs3 = new stack_cas_session($s3, null, 123);
         $cs3->instantiate();
         $at1->instantiate();
-    
+
         // This looks strange, but the cache layer gives inconsistent results if the first
         // of these populates the cache, and the second one uses it.
         $this->assertNotEqual($cs3->get_session(), $at1->get_session()->get_session());

@@ -130,7 +130,7 @@ if ('Site_map' == $lastseg) {
         $page =  preg_replace('/\\\%CONTENT/', '$$$PARSE_ERROR', $page); // escaped \%CONTENT won't get processed
         $page =  preg_replace('/\%CONTENT/', $docscontent, $page);
         $page =  preg_replace('/\$\$\$PARSE_ERROR/', '%CONTENT', $page);
-    
+
         $body .= $linkstr;
         $body .= "\n<hr/>\n";
         if (pathinfo($file, PATHINFO_EXTENSION) == 'md') {
@@ -141,13 +141,13 @@ if ('Site_map' == $lastseg) {
         }
         $body .= "\n<hr/>\n";
         $body .= $linkstr;
-        
+
     } else {
 
-        $body .= html_writer::tag('h1',stack_string('stackDoc_404'));
-        $body .= html_writer::tag('p',stack_string('stackDoc_404message'));
+        $body .= html_writer::tag('h1', stack_string('stackDoc_404'));
+        $body .= html_writer::tag('p', stack_string('stackDoc_404message'));
         $body .= $linkstr;
-        
+
     }
 
 }
@@ -169,7 +169,7 @@ function index($d, $relPath = ''){
     if (is_dir($d)) {
         if ($dh = opendir($d)) {
             while (($f = readdir($dh)) !== false) {
-                if (substr($f, 0, 1) != '.'){
+                if (substr($f, 0, 1) != '.') {
                     $fPath = "$d/$f";
                     if (filetype($fPath) == 'dir') {
                         $i .= "<li><a href=\"$relPath/$f/\">" . str_replace('_', ' ', $f)

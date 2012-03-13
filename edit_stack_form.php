@@ -48,7 +48,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // instead of setDefault, because setDefault does not work for editors.
 
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
-        $mform->addRule('questiontext', get_string('questiontextnonempty','qtype_stack'), 'required', '', 'client', false, false);
+        $mform->addRule('questiontext', get_string('questiontextnonempty', 'qtype_stack'), 'required', '', 'client', false, false);
 
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 get_string('questionvariables', 'qtype_stack'), array('rows' => 5, 'cols' => 80));
@@ -62,11 +62,11 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->getElement('specificfeedback')->setValue(array('text' => '[[feedback:prt1]]'));
         $mform->addHelpButton('specificfeedback', 'specificfeedback', 'qtype_stack');
-        
+
         $mform->addElement('textarea', 'questionnote',
                 get_string('questionnote', 'qtype_stack'), array('rows' => 2, 'cols' => 80));
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
-        
+
         // Inputs - for now, hard-code it to one input.
         $types = stack_input_factory::get_available_types();
         $typechoices = array();
@@ -79,7 +79,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('select', $inputname . 'type', get_string('inputtype', 'qtype_stack'), $typechoices);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
-        
+
         $mform->addElement('text', $inputname . 'tans', get_string('teachersanswer', 'qtype_stack'), array('size' => 20));
         $mform->addRule($inputname . 'tans', get_string('teachersanswer','qtype_stack'), 'required', '', 'client', false, false);
         $mform->addHelpButton($inputname . 'tans', 'teachersanswer', 'qtype_stack');
@@ -124,7 +124,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 get_string('mustverify', 'qtype_stack'));
         $mform->setDefault($inputname . 'mustverify', true);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
-        
+
         $mform->addElement('selectyesno', $inputname . 'showvalidation',
                 get_string('showvalidation', 'qtype_stack'));
         $mform->setDefault($inputname . 'showvalidation', true);
@@ -375,7 +375,7 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param object $question the raw data.
      * @return object the updated $question updated object closer to being ready to send to the form.
      */
-    protected function data_preprocessing_prts($question){
+    protected function data_preprocessing_prts($question) {
         if (!isset($question->prts)) {
             return $question;
         }
@@ -489,7 +489,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $potentialresponsetrees = array('prt1');
 
         // (2) Validate all inputs.
-        foreach ($inputs as $inputname ) {
+        foreach ($inputs as $inputname) {
             $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'tans']);
             if (!$teacheranswer->get_valid('t')) {
                 $errors[$inputname . 'tans'] = $teacheranswer->get_errors();
@@ -526,7 +526,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 } else {
                     $answertest = new stack_ans_test_controller($fromform[$prtname.'answertest'][$key]);
                     if ($answertest->required_atoptions()) {
-                        $errors[$prtname.'testoptions'][$key] = get_string('testoptionsrequired','qtype_stack');
+                        $errors[$prtname.'testoptions'][$key] = get_string('testoptionsrequired', 'qtype_stack');
                     }
                 }
             }
@@ -565,7 +565,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $generalfeedback = array();
         $questionnote = array();
         foreach ($inputs as $inputname) {
-            foreach (array("[[input:$inputname]]", "[[validation:$inputname]]") as  $inputplaceholder) {
+            foreach (array("[[input:$inputname]]", "[[validation:$inputname]]") as $inputplaceholder) {
                 if (false === strpos($fromform['questiontext']['text'], $inputplaceholder)) {
                     $missingtokens[] = $inputplaceholder;
                 } else if (1<substr_count($fromform['questiontext']['text'], $inputplaceholder)) {

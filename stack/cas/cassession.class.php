@@ -387,7 +387,7 @@ class stack_cas_session {
         $keys = array_keys($keys);
         return $keys;
     }
-    
+
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
         if (null===$this->valid) {

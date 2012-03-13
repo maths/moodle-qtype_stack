@@ -230,7 +230,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $repeatoptions[$prtname . 'trueanswernote']['default'] = $prtname . '-{no}-T';
         $repeatoptions[$prtname . 'falseanswernote']['default'] = $prtname . '-{no}-F';
 
-        $this->repeat_elements($elements, 1, $repeatoptions, $prtname . 'numnodes',
+        if (!empty($this->question->prts[$prtname]->nodes)) {
+            $numnodes = count($this->question->prts[$prtname]->nodes);
+        } else {
+            $numnodes = 1;
+        }
+        $this->repeat_elements($elements, $numnodes, $repeatoptions, $prtname . 'numnodes',
                 $prtname . 'addnode', 1, get_string('addanothernode', 'qtype_stack'), true);
 
         // Options
@@ -422,6 +427,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'falsefeedback'  }[$nodename] = $this->prepare_text_field(
                 $prtname . 'falsefeedback[' . $nodename . ']', $node->falsefeedback,
                 $node->falsefeedbackformat, $node->id, 'prtnodefalsefeedback');
+
+        // See comment in the parent method about this hack.
+        unset($this->_form->_defaultValues["{$prtname}truescore[$nodename]"]);
+        unset($this->_form->_defaultValues["{$prtname}falsescore[$nodename]"]);
+        unset($this->_form->_defaultValues["{$prtname}trueanswernote[$nodename]"]);
+        unset($this->_form->_defaultValues["{$prtname}falseanswernote[$nodename]"]);
 
         return $question;
     }

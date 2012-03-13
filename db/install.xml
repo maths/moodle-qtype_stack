@@ -97,7 +97,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid-name"/>
-        <KEY NAME="questionid-name" TYPE="foreign-unique" FIELDS="questionid, prtname" REFTABLE="qtype_stack_prts" REFFIELDS="questionid, name" PREVIOUS="primary"/>
+        <KEY NAME="questionid-name" TYPE="foreign" FIELDS="questionid, prtname" REFTABLE="qtype_stack_prts" REFFIELDS="questionid, name" PREVIOUS="primary"/>
       </KEYS>
       <INDEXES>
         <INDEX NAME="questionid-prtname-nodename" UNIQUE="true" FIELDS="questionid, prtname, nodename"/>

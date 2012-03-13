@@ -33,7 +33,7 @@ Hence, in STACK we add an abstraction layer to enforce a syntax where every expr
 * If a student uses a variable which has been assigned a value, the attempt will be rejected as invalid.
 	Hence, it is a sensible idea to use variable names which are not used as parameters.
 	For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
-* You can include C-style block comments for increased clarity, 
+* You can include C-style block comments for increased clarity, and these may appear on separate lines
 	e.g. `dice = rand(6) + 1 /* roll it! */`
   
 ## Question variables			{#Question_variables}

@@ -30,6 +30,8 @@ require_once($CFG->dirroot . '/question/type/stack/question.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/input/factory.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/answertest/controller.class.php');
 
+require_once($CFG->dirroot . '/question/type/stack/stack/cas/keyval.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/cas/castext.class.php');
 
 /**
  * Stack question editing form definition.
@@ -45,6 +47,9 @@ class qtype_stack_edit_form extends question_edit_form {
         // $mform->getElement('prtincorrect')->setValue(...);
         // instead of setDefault, because setDefault does not work for editors.
 
+        $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
+        $mform->addRule('questiontext', get_string('questiontextnonempty','qtype_stack'), 'required', '', 'client', false, false);
+
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 get_string('questionvariables', 'qtype_stack'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');
@@ -53,8 +58,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
         $mform->insertElementBefore($sf, 'generalfeedback');
-        $mform->getElement('specificfeedback')->setValue(array('text' => '[[feedback:prt1]]'));
+        $mform->addHelpButton('generalfeedback', 'generalfeedback', 'qtype_stack');
 
+        $mform->getElement('specificfeedback')->setValue(array('text' => '[[feedback:prt1]]'));
+        $mform->addHelpButton('specificfeedback', 'specificfeedback', 'qtype_stack');
+        
         $mform->addElement('textarea', 'questionnote',
                 get_string('questionnote', 'qtype_stack'), array('rows' => 2, 'cols' => 80));
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
@@ -134,6 +142,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('selectyesno', $prtname . 'autosimplify',
                 get_string('autosimplify', 'qtype_stack'));
         $mform->setDefault($prtname . 'autosimplify', true);
+        $mform->addHelpButton($prtname . 'autosimplify', 'autosimplify', 'qtype_stack');
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
                 get_string('feedbackvariables', 'qtype_stack'), array('rows' => 3, 'cols' => 80));
@@ -197,15 +206,18 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('selectyesno', 'questionsimplify',
                 get_string('questionsimplify', 'qtype_stack'));
         $mform->setDefault('questionsimplify', true);
+        $mform->addHelpButton('questionsimplify', 'autosimplify', 'qtype_stack');
 
         $mform->addElement('selectyesno', 'assumepositive',
                 get_string('assumepositive', 'qtype_stack'));
+        $mform->addHelpButton('assumepositive', 'assumepositive', 'qtype_stack');
 
         $mform->addElement('select', 'markmode',
                 get_string('markmode', 'qtype_stack'), array(
                     qtype_stack_question::MARK_MODE_PENALTY => get_string('markmodepenalty', 'qtype_stack'),
                     qtype_stack_question::MARK_MODE_FIRST   => get_string('markmodefirst', 'qtype_stack'),
                     qtype_stack_question::MARK_MODE_LAST    => get_string('markmodelast', 'qtype_stack')));
+        $mform->addHelpButton('markmode', 'markmode', 'qtype_stack');
 
         $mform->addElement('editor', 'prtcorrect',
                 get_string('prtcorrectfeedback', 'qtype_stack'),
@@ -230,14 +242,17 @@ class qtype_stack_edit_form extends question_edit_form {
                     'dot'   => get_string('multdot', 'qtype_stack'),
                     'cross' => get_string('multcross', 'qtype_stack'),
                     'none'  => get_string('none')));
+        $mform->addHelpButton('multiplicationsign', 'multiplicationsign', 'qtype_stack');
 
         $mform->addElement('selectyesno', 'sqrtsign',
                 get_string('sqrtsign', 'qtype_stack'));
         $mform->setDefault('sqrtsign', true);
+        $mform->addHelpButton('sqrtsign', 'sqrtsign', 'qtype_stack');
 
         $mform->addElement('select', 'complexno',
                 get_string('complexno', 'qtype_stack'), array(
                     'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
+        $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
 
         // Question tests.
 
@@ -403,13 +418,40 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
-        echo "<pre>";
-        print_r($fromform);
-        echo "</pre>";
-        
+        $questionvars = new stack_cas_keyval($fromform['questionvariables']);
+        if (!$questionvars->get_valid()) {
+            $errors['questionvariables'] = $questionvars->get_errors();
+        }
+
+        $generalfeedback = new stack_cas_text($fromform['generalfeedback']['text']);
+        if (!$generalfeedback->get_valid()) {
+            $errors['generalfeedback'] = $generalfeedback->get_errors();
+        }
+
+        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text']);
+        if (!$specificfeedback->get_valid()) {
+            $errors['specificfeedback'] = $specificfeedback->get_errors();
+        }
+
+        if ('' == $fromform['questionnote']) {
+            if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
+                $errors['questionnote'] = get_string('questionnotempty', 'qtype_stack');
+            }
+        } else {
+            $questionnote = new stack_cas_text($fromform['questionnote']);
+            if (!$questionnote->get_valid()) {
+                $errors['questionnote'] = $questionnote->get_errors();
+            }
+        }
+
+        $questiontext = new stack_cas_text($fromform['questiontext']['text']);
+        if (!$questiontext->get_valid()) {
+            $errors['questiontext'] = $questiontext->get_errors();
+        }
+        // TODO: loop over the inputs...
         $inputplaceholder = '[[input:ans1]]';
         if (false === strpos($fromform['questiontext']['text'], $inputplaceholder)) {
-            $errors['questiontext'] = get_string('questiontextmustcontain', 'qtype_stack', $inputplaceholder);
+            $errors['questiontext'] .= get_string('questiontextmustcontain', 'qtype_stack', $inputplaceholder);
         }
         return $errors;
     }

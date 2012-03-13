@@ -8,7 +8,9 @@ The purpose of a question note is to distinguish between random versions of a qu
 Two versions are not necessarily different if their [question variables](KeyVals.md#Question_variables)
 are different, and hence a note is useful.  The teacher needs to choose what identifies each unique version - this cannot be automated.
 
-The teacher can also leave useful information about the answer in the question note.
-For example they might use
+The teacher can also leave useful information about the answer in the question note. 
+For example they might use a note such as
 	
 	\[ \frac{d}{d@v@}@p@ = @diff(p,v)@ \]
+
+This is very helpful, particularly when students ask about the version they were given.  The teacher only need look at the question note to get both the question, and answer.

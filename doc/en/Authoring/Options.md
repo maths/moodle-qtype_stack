@@ -6,7 +6,7 @@ Options affect the behaviour of each question.
 
 See the entry on [simplification](../CAS/Maxima.md#Simplification).  Default is TRUE.
 
-### Assume Positive  ###
+### Assume Positive  ### {#Assume_Positive}
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 	
@@ -20,7 +20,7 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Mark Modification  ###
+### Mark Modification  ### {#Mark_Modification}
 
 This option sets how a score is assigned for multiple attempts at the question.
 
@@ -54,26 +54,17 @@ The generic [feedback](Feedback.md) is set using the three strings
 
 The default values for these are
 
-	<span class='correct'>Correct answer, well done.</span>
-	<span class='partially'>Your answer is partially correct.</span>
-	<span class='incorrect'>Incorrect answer.</span>
+	Correct answer, well done.
+	Your answer is partially correct.
+	Incorrect answer.
 
 The classes enable some colour to enhance the feedback.
-
-### Worked solution on demand  ###
-
-[Worked solution](CASText.md#Worked_solution) should be available after a due date set in the quiz.
-Currently the lack of information exchange between Moodle and STACK makes this difficult.
-Hence we have an option Worked solution on demand, which allows the teacher to decide if the student
-can choose to see the worked solution.  
-
-The default value is true.
 
 ## Output  ##
 
 The following options affect how mathematics is displayed.
 
-### Multiplication Sign ###
+### Multiplication Sign ### {#multiplication}
 
 * (none), e.g. \(x(x+1)\)
 * Dot, e.g. \(x\cdot(x+1)\)

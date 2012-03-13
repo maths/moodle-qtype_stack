@@ -78,38 +78,57 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('header', 'answerhdr' . $inputname, get_string('inputheading', 'qtype_stack', $inputname));
 
         $mform->addElement('select', $inputname . 'type', get_string('inputtype', 'qtype_stack'), $typechoices);
-
+        $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
+        
         $mform->addElement('text', $inputname . 'tans', get_string('teachersanswer', 'qtype_stack'), array('size' => 20));
+        $mform->addRule($inputname . 'tans', get_string('teachersanswer','qtype_stack'), 'required', '', 'client', false, false);
+        $mform->addHelpButton($inputname . 'tans', 'teachersanswer', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'boxsize', get_string('boxsize', 'qtype_stack'), array('size' => 3));
         $mform->setDefault($inputname . 'boxsize', 15);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
+        $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'strictsyntax',
                 get_string('strictsyntax', 'qtype_stack'));
         $mform->setDefault($inputname . 'strictsyntax', true);
+        $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'insertstars',
                 get_string('insertstars', 'qtype_stack'));
         $mform->setDefault($inputname . 'insertstars', false);
+        $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'syntaxhint', get_string('syntaxhint', 'qtype_stack'), array('size' => 20));
+        $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
+
+        $mform->addElement('text', $inputname . 'forbidwords', get_string('forbidwords', 'qtype_stack'), array('size' => 20));
+        $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 get_string('forbidfloat', 'qtype_stack'));
         $mform->setDefault($inputname . 'forbidfloat', true);
+        $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 get_string('requirelowestterms', 'qtype_stack'));
         $mform->setDefault($inputname . 'requirelowestterms', false);
+        $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 get_string('checkanswertype', 'qtype_stack'));
         $mform->setDefault($inputname . 'checkanswertype', false);
+        $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
 
+        $mform->addElement('selectyesno', $inputname . 'mustverify',
+                get_string('mustverify', 'qtype_stack'));
+        $mform->setDefault($inputname . 'mustverify', true);
+        $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
+        
         $mform->addElement('selectyesno', $inputname . 'showvalidation',
                 get_string('showvalidation', 'qtype_stack'));
         $mform->setDefault($inputname . 'showvalidation', true);
+        $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
 
         // PRTs
         $prtname = 'prt1'; // TODO generalise this.
@@ -418,6 +437,11 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
+        echo "<pre>";
+        print_r($fromform);
+        echo "</pre>";
+
+        // (1) Validate all the fixes question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables']);
         if (!$questionvars->get_valid()) {
             $errors['questionvariables'] = $questionvars->get_errors();
@@ -426,11 +450,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $generalfeedback = new stack_cas_text($fromform['generalfeedback']['text']);
         if (!$generalfeedback->get_valid()) {
             $errors['generalfeedback'] = $generalfeedback->get_errors();
-        }
-
-        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text']);
-        if (!$specificfeedback->get_valid()) {
-            $errors['specificfeedback'] = $specificfeedback->get_errors();
         }
 
         if ('' == $fromform['questionnote']) {
@@ -444,11 +463,33 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
+        //TODO: populate these arrays correctly!
+        $inputs = array('ans1');
+        $potentialresponsetrees = array('prt1');
+
+        // (2) Validate all inputs.
+        foreach ($inputs as $inputname ) {
+            $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'tans']);
+            if (!$teacheranswer->get_valid('t')) {
+                $errors[$inputname . 'tans'] = $teacheranswer->get_errors();
+            }
+        }
+        // (3) Validate all prts.
+
+        // (4) Validate queston text and specific feedback - depends on inputs and prts.
+        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text']);
+        if (!$specificfeedback->get_valid()) {
+            $errors['specificfeedback'] = $specificfeedback->get_errors();
+        }
+
         $questiontext = new stack_cas_text($fromform['questiontext']['text']);
         if (!$questiontext->get_valid()) {
             $errors['questiontext'] = $questiontext->get_errors();
         }
         // TODO: loop over the inputs...
+        //[[input:ans1]]
+        //[[validation:ans1]]
+
         $inputplaceholder = '[[input:ans1]]';
         if (false === strpos($fromform['questiontext']['text'], $inputplaceholder)) {
             $errors['questiontext'] .= get_string('questiontextmustcontain', 'qtype_stack', $inputplaceholder);

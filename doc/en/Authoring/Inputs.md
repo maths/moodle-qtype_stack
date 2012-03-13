@@ -1,6 +1,6 @@
-# inputs
+# Inputs
 
-inputs are the points at which the student interacts with the question.
+Inputs are the points at which the student interacts with the question.
 For example, it might be a form box into which the student enters their answer.
 
 * Only the [question stem](CASText.md#Question_stem) may have inputs. 
@@ -24,7 +24,7 @@ the input. Feedback is positioned using tags such as
  
 where stuff is the name of the variable. This string is automatically generated if it
 does not exist and is placed after the input. This feedback must be given.
-inputs have a number of options. Specific inputs may have extra options.
+Inputs have a number of options. Specific inputs may have extra options.
 
 ## input options ##
 
@@ -47,35 +47,31 @@ Currently STACK supports the following kinds of inputs.
 
 The default: a form box.
 
-#### Algebraic (NUMBAS) ####
-
-A form box with a Javascript overlay to "see as you type".  (Experimental)
-
 #### True/False ####
 
 Simple drop down. A Boolean value is assigned to the variable name.
 
 #### Single Character ####
 
-A single letter can be entered.  This is useful for creating multiple choice question
-
-#### Drop down list ####
-
-Use the Input Type Options field to indicate a comma separated list of possible values.
-
-#### Matrix ####
-
-The size of the matrix is inferred from the teacher's answer.
-STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in.
-This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but does give the game away about the size of the required matrix.
+A single letter can be entered.  This is useful for creating multiple choice questions.
 
 #### Text area ####
 
 Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
 
+#### Drop down list ####
+
+(_Not currently re-implemented in STACK 3.0_)  Use the Input Type Options field to indicate a comma separated list of possible values.
+
+#### Matrix ####
+
+(_Not currently re-implemented in STACK 3.0_)  The size of the matrix is inferred from the teacher's answer.
+STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in.
+This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but does give the game away about the size of the required matrix.
+
 #### Slider ####
 
-(New in STACK 2.2) Draggable slider bar resulting in a numerical value.  
+(_Not currently re-implemented in STACK 3.0_)  Dragable slider bar resulting in a numerical value.  
 
 ### Teacher's Answer ###  {#Teacher_Ans}
 
@@ -88,7 +84,7 @@ The width of the input box.
 
 ### Strict Syntax ### {#Strict_Syntax}
 
-If set to false, the system will automatically insert *'s into a student's answer,
+If set to `false`, the system will automatically insert *s into a student's answer,
 (actually any cas string) and it will not throw an error. Note however, that this is
 actually very hard to define robustly, since \(x(x+1)\) means apply the function \(x\) to
 the argument \((x+1)\), whereas \(\sin(x)\) would be fine. How does one distinguish between the two?
@@ -97,14 +93,14 @@ So \(tx(x-1)\) will not mean `t*x*(x-1)`
 
 ### Insert Stars ### {#Insert_Stars}
 
-If set to true then the system will automatically insert *'s into a student's answer when it is validated.
+If set to `true`  then the system will automatically insert *s into a student's answer when it is validated.
 So, for example \(2(1-4x)\) will be changed to `2*(1-4*x)`.
 
 ### Syntax Hint ### {#Syntax_Hint}
 
 A syntax hint allows the teacher to give the student a pro-forma in the input box.
-This can include '?' characters (which the CAS treats as the special variable qmchar).
-The syntax hint will appear in the answer box, whenever this is left blank by the student.
+This can include '?' characters.
+The syntax hint will appear in the answer box whenever this is left blank by the student.
 For example, rather than having to type
 
 	matrix([1,2],[3,4])
@@ -125,25 +121,21 @@ This is a comma separated list of text strings which are forbidden in a student'
 If one of these strings is present then the student's attempt will be considered invalid,
 and no penalties will be given.
 
-### Allowed words ### {#Allowed_words}
-
-See Forbidden words above.
-
 ### Forbid Floats ### {#Forbid_Floats}
 
-If set to TRUE, then any answer of the student which has a floating point number
+If set to `true`, then any answer of the student which has a floating point number
 will be rejected as invalid. Student's sometimes use floating point numbers when
 they should use fractions. This option prevents problems with approximations being used.
 
 ### Require lowest terms ### {#Require_lowest_terms}
 
-When this option is set to true, any coefficients or other rational numbers in an
+When this option is set to `true`, any coefficients or other rational numbers in an
 expression, must be written in lowest terms.  Otherwise the answer is rejected as "invalid".
 This enables the teacher to reject answers, and not consider them further.
 
 ### Check Students answer's type ### {#Check_Type}
 
-If this option is set to true then unless the student's expression is the same
+If this option is set to `true` then unless the student's expression is the same
 [Maxima](../CAS/Maxima.md#Types_of_object) as the teacher's correct answer,
 then the attempt will be rejected as invalid.
 
@@ -156,20 +148,18 @@ Another useful way of avoiding this problem is to put a LaTeX string such as \(y
 
 ### Student must verify ### {#Student_must_verify}
 
-(New in 2.2) Specifies whether the student's input is presented back to them before scoring.
-Useful for complex algebraic expressions but not needed for constrained input like true/false.
+Specifies whether the student's input is presented back to them before scoring.  Useful for complex algebraic expressions but not needed for constrained input like `true`/`false`.
 
-Experience strongly supports the use of verification by "validating" input whenever a student types in an expression.
+Experience strongly supports the use of verification by "validating" input whenever a student types in an expression.  Errors will always be displayed and rejected as invalid. Potential response trees will not execute with invalid input.
 
-### Hide feedback ### {#Hide_feedback}
+### Show validation ### {#Show_validation}
 
-(New in 2.2) Feedback to students is in two forms.  
+Feedback to students is in two forms.  
 
 * feedback tied to inputs, in particular if the answer is invalid.
 * feedback tied to each potential response tree.
 
-Setting this option does not display any feedback from this input.
-Generally, feedback and verification are used in conjunction.
+Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.
 
 ### Options ### {#Options}
 

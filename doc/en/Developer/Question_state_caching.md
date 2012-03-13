@@ -14,7 +14,11 @@ gives a dramatic increase in performance when the result
 already exists.  We need to monitor the database to see how 
 this works in practice. 
 
+## Clearing the cache ##
 
+This can be done through Moodle.
+
+Navigate 
 
 
 

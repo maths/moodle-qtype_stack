@@ -1,3 +1,3 @@
 # Site map
 
-A directory listing of all the entire documents.
+A directory listing of all the documents.

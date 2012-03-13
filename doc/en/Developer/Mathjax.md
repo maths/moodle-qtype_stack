@@ -36,3 +36,8 @@ Please note that this enables both types of LaTeX maths environments.
 ### What about mathml? ###
 
 STACK contains experimental code to generate presentation mathml on the fly from maxima expressions.  This is currently unused, and may be pursued again in a future version.
+
+## Accessibility ##
+
+The accessibility features supported by MathJAX are given detailed [here](http://www.mathjax.org/resources/articles-and-presentations/accessible-pages-with-mathjax/).
+

@@ -183,13 +183,21 @@ It is sometimes useful for the teacher to define *functions* as part of a STACK 
 
 	 f(x):=x^2; 
 
-Because STACK uses the equals sign instead of Maxima's colon (`:`) it is much better to define functions using Maxima's lambda command.
+Because STACK uses the equals sign instead of Maxima's colon (`:`) it is much better to define functions using Maxima's 
+`define()` command instead of :=. Indeed, think of := as a way to define a small Maxima program, rather than defining a mathematical function.
+
+     define(f(x),x^2);
+
+Notice this expression is un-named.  This is fine.  An alternative is to define `f` as an "unnamed function" using the lambda command.
 
 	 f=lambda([x],x^2); 
 
-For example, a piecewise function can be defined by 
+Here we are giving a name to an "unnamed function" which seems perverse.  Unnamed functions are extremely useful in many situations.
 
-	f= lambda([x],if (x<0) then 6*x-2 else -2*exp(-3*x))
+For example, a piecewise function can be defined by either of these two commands
+
+     define(f(x), if (x<0) then 6*x-2 else -2*exp(-3*x))
+	 f= lambda([x],if (x<0) then 6*x-2 else -2*exp(-3*x))
 
 You can then plot this using
 	
@@ -198,7 +206,7 @@ You can then plot this using
 # Maxima "gocha"s! #
 
   * See the section above on [assignment](Maxima.md#assignment).
-  * Maxima does not have a `degree` command for polynomials.  To get this you need to `load(powers)` which STACK does automatically.
+  * Maxima does not have a `degree` command for polynomials.  To get this you need to `load(powers)` which STACK does automatically.  This function also need a variable, e.g. is used as `degree(x^2,x)`.
   * Matrix multiplication is the dot, e.g. `A.B`. The star `A*B` gives element-wise multiplication.
 
 ## Further information and links  ##

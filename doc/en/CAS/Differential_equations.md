@@ -103,7 +103,7 @@ On the basis of the properties satisfied, we then need to generate outcomes.
 ### Satisfying the differential equation ###
 
 When marking this kind of question, it is probably best to take the student's answer and substitute this into the ODE.
-The student's answer should satisfy the equation. Just "looking like the teacher's answer" isn't as robust.
+The student's answer should satisfy the equation. Just "looking like the model answer" isn't as robust.
 How else does the teacher avoid the problem of knowing which letter the student used to represent an arbitrary constant?
 
 E.g. in Maxima code

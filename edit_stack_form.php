@@ -463,12 +463,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
 
         // (1) Validate all the fixes question fields.
-        $questionvars = new stack_cas_keyval($fromform['questionvariables']);
+        $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
         if (!$questionvars->get_valid()) {
             $errors['questionvariables'] = $questionvars->get_errors();
         }
 
-        $generalfeedback = new stack_cas_text($fromform['generalfeedback']['text']);
+        $generalfeedback = new stack_cas_text($fromform['generalfeedback']['text'], null, null, 't');
         if (!$generalfeedback->get_valid()) {
             $errors['generalfeedback'] = $generalfeedback->get_errors();
         }
@@ -478,7 +478,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors['questionnote'] = get_string('questionnotempty', 'qtype_stack');
             }
         } else {
-            $questionnote = new stack_cas_text($fromform['questionnote']);
+            $questionnote = new stack_cas_text($fromform['questionnote'], null, null, 't');
             if (!$questionnote->get_valid()) {
                 $errors['questionnote'] = $questionnote->get_errors();
             }
@@ -498,7 +498,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // (3) Validate all prts.
         foreach ($potentialresponsetrees as $prtname) {
-            $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables']);
+            $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables'], null, null, 't');
             if (!$feedbackvars->get_valid()) {
                 $errors[$prtname.'feedbackvariables'] = $feedbackvars->get_errors();
             }
@@ -531,14 +531,14 @@ class qtype_stack_edit_form extends question_edit_form {
                 }
             }
             foreach ($fromform[$prtname.'truefeedback'] as $key => $strin) {
-                $feedback = new stack_cas_text($strin['text']);
+                $feedback = new stack_cas_text($strin['text'], null, null, 't');
                 if (!$feedback->get_valid()) {
                     //TODO this does not display in the right place!
                     $errors[$prtname.'truefeedback'][$key] = $feedback->get_errors();
                 }
             }
             foreach ($fromform[$prtname.'falsefeedback'] as $key => $strin) {
-                $feedback = new stack_cas_text($strin['text']);
+                $feedback = new stack_cas_text($strin['text'], null, null, 't');
                 if (!$feedback->get_valid()) {
                     //TODO this does not display in the right place!
                     $errors[$prtname.'falsefeedback'][$key] = $feedback->get_errors();
@@ -547,12 +547,12 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // (4) Validate queston text and specific feedback - depends on inputs and prts.
-        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text']);
+        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text'], null, null, 't');
         if (!$specificfeedback->get_valid()) {
             $errors['specificfeedback'] = $specificfeedback->get_errors();
         }
 
-        $questiontext = new stack_cas_text($fromform['questiontext']['text']);
+        $questiontext = new stack_cas_text($fromform['questiontext']['text'], null, null, 't');
         if (!$questiontext->get_valid()) {
             $errors['questiontext'] = $questiontext->get_errors();
         }

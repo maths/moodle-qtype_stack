@@ -63,4 +63,4 @@ The last two functions rely on Maxima's `limit` command and hence are not robust
 
 ## See also
 
-[Maxima reference topics](index.#reference.md).
+[Maxima reference topics](index.md#reference.md).

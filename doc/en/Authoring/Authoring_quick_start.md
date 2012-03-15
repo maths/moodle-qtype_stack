@@ -12,34 +12,32 @@ Each of these links contains detailed instructions.  However, the purpose of thi
 
 ## Introduction ##
 
-STACK is designed as a vehicle to manage mathematical questions. Implicit in this is a data structure which represents them.
+The STACK question type for Moodle is designed as a vehicle to manage mathematical questions. Implicit in this is a data structure which represents them.
 This page explains the process of authoring a question, by working through an example.
 
 Questions are edited through the Moodle quiz.  Do not be put off by the fact the editing form looks complicated.
 
-There are lots of fields, but the only compulsory field is the [question stem](CASText.md#Question_stem).
-This is the string actually displayed to the student, i.e. this is "the question".
+There are lots of fields, but the only compulsory fields are the [question text](CASText.md#question_text) and the question name.
+The question text is the string actually displayed to the student, i.e. this is "the question".
 
 ## An example question ##
 
-We are now ready to edit an example question. **Note**: this question will only remain as long as you are in a session.
-You will need to SAVE the question in STACK's database before you can test it.
+We are now ready to edit an example question. 
 
-Enter the following information into the question stem. It should be possible to cut and paste.
+Enter the following information into the question text. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
 
 	Differentiate $(x-1)^3$ with respect to $x$.
 	[[input:ans1]]
 
-Then press the update button. 
+Notice this text contains LaTeX mathematics environments.  Then press the update button. 
 
-Notice this text contains LaTeX.  Full details are given under [CASText](CASText.md).
 When the form is refreshed scroll down:  there will be an [inputs](Inputs.md) section of the editing form.
-Into the Teacher's Answer type in the answer as a syntactically valid CAS expression, e.g.
+Into the model answer type in the answer as a syntactically valid CAS expression, e.g.
 
 	3*(x-1)^2
 
 Then press the update button.
-Now we have a question, and the teacher's answer.  We next have to decide if the student's answer is correct.
+Now we have a question, and the model answer.  We next have to decide if the student's answer is correct.
 
 ## Establishing properties of the student's answer via the potential response tree			{#Answer_props_via_prt}
 
@@ -55,40 +53,44 @@ We shall provide [feedback](Feedback.md) which checks
 
 Locate the section of the form [potential response trees](Potential_response_trees.md) and where is says ``Add a potential response tree named:'' type in
 	
-	1
+	prt1
 
-This is the _name_ of the potential response, and it can be anything sensible. 
-Then press the update button. 
-The question edit form will become quite significantly more complex, but actually each potential response is quite simple.
+This is the _name_ of the potential response, and it can be anything sensible.  Then press the update button. 
+The question edit form will become quite significantly more complex.  This complexity is necessary to make all the fine-grained distinctions we need.
 
-1. `SAns` is compared to `TAns` with the Answer test.
+A potential response tree is a non-empty acyclic directed graph of _potenital responses_.  By default we have one potential response node, and this node is quite simple.
+
+1. `SAns` is compared to `TAns` with the answer test.
 2. If `true` then we execute the `true` branch.
 3. If `false` then we execute the `false` branch.
 
-Each branch can 
+The answer test itself sometimes produces [feedback](Feedback.md) for the student (which the teacher might choose to suppress with the quiet option).  The answer test also produces an internal [answer note](Potential_response_trees.md#Answer_note) for the teacher which is essential for reviewing students' attempts later.
+
+Each branch can then
 
 * Assign/update the mark.
 * Assign formative [feedback](Feedback.md) to the student.
 * Leave an [answer note](Potential_response_trees.md#Answer_note) for [reviewing](Reviewing.md) purposes.
-* Nominate the next potential response node, or end the process (-1).
-We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question stem.  The Teacher's answer was `3*(x-1)^2`.  Update the form fields so that
+* Nominate the next potential response node, or end the process `[stop]`.
 
-	SAns = ans1
-	TAns = 3*(x-1)^2
-	Answer test = AlgEquiv
+We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question text.  The model answer was `3*(x-1)^2`.  Update the form fields so that
+
+     SAns = ans1
+     TAns = 3*(x-1)^2
+     Answer test = AlgEquiv
 
 Then press the SAVE button. 
 This has created and saved a minimal question.  To recap we have
 
 1. Typed in the question
-2. Typed in the teacher's answer
-3. Indicated we wish to establish the student's answer is algebraically equivalent to the teacher's answer `3*(x-1)^2`.
+2. Typed in the model answer
+3. Indicated we wish to establish the student's answer is algebraically equivalent to the model answer `3*(x-1)^2`.
 
 Next we should try out our question.
 
 ## Testing the question ##
 
-Assuming there are no errors, you may now choose the link "Try question".
+Assuming there are no errors, you may now choose the link "preview the question" from the Moodle question bank.
 This takes us to a new form where the teacher can experiment with the question.
 Try typing in
 
@@ -103,7 +105,7 @@ The system first establishes the syntactical validity of this answer.
 Press the SUBMIT button again.
 
 The system executes the potential response tree and establishes whether your answer is algebraically equivalent
-to the teacher's answer `3*(x-1)^2`.  Next, try getting the question wrong.  You will need to submit each answer twice.
+to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  You will need to submit each answer twice.
 Notice all your responses are stored in an attempts table.  
 
 We would really like to add better feedback, so it is time to edit the question again.  Choose EDIT from the link at the top of the page.
@@ -113,10 +115,10 @@ We would really like to add better feedback, so it is time to edit the question 
 What if the outcome of applying the first answer test was false?
 We would like to check that the student has not integrated by mistake, and we achieve this by adding another potential response node.
 
-Scroll down to the Potential Response Tree and ADD 1 potential response. Click the ADD button.
+Scroll down to the Potential Response Tree and click `[Add another node]` button.
 
-From the false branch of Node No 0., change the "Next PR" field so it is set to  1.
-If the first test is false, we will then perform the test in node No.1.
+From the false branch of Node No 1., change the "Next PR" field so it is set to  2.
+If the first test is false, we will then perform the test in node No.2.
 
 If the student has integrated, they may or may not have added a constant of integration.
 If they have added such a constant we don't know what letter they have used! So, the best way to solve
@@ -145,13 +147,13 @@ It is common for students to give the correct answer but use a quite inappropria
 For example, they may have expanded out the polynomial and hence give the answer in unfactored form.
 In this situation, we might like to provide some encouraging feedback to explain to the student what they have done wrong.
 
-Go back and Add 1 potential response in a similar way as before.  After all, we need to apply another answer test to spot this.
+Go back and `[Add another node]` in a similar way as before.  After all, we need to apply another answer test to spot this.
 
-To use this potential response, edit Node 0, and now change the true branch to make the Next node point to the new Node 2.
-If we enter Node 2, we know the student has the correct answer. We only need to establish if it is factored or not.
+To use this potential response, edit Node 1, and now change the true branch to make the Next node point to the new Node 3.
+If we enter Node 3, we know the student has the correct answer. We only need to establish if it is factored or not.
 To establish this we need to use a different [answer tests](Answer_tests.md). 
 
-Update the form so that node No.2 has
+Update the form so that Node 3 has
 
 	SAns = ans1
 	TAns = 3*(x-1)^2
@@ -175,7 +177,9 @@ We need to assign outcomes.
 		You can differentiate using the chain rule directly and keep 
 		the answer in factored form.
 ~~~~~~~~~~
-	
+
+This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.	
+
 You can continue to add more potential responses as the need arises. These can test for more subtle errors
 based upon the common mistakes student's make. In each case an [answer tests](Answer_tests.md) can be used to
 make a different kind of distinction between answers.
@@ -190,21 +194,21 @@ Modify the [question variables](KeyVals.md#Question_variables) from the previous
 	
 	p = (x-1)^3
 
-Then change the [question stem](CASText.md#Question_stem) to
+Then change the [question text](CASText.md#question_text) to
 	
 	Differentiate @p@ with respect to $x$.
 	[[input:ans1]]
 
-and in the inputs change the Teacher's answer to
+and in the inputs change the model answer to
 
 	diff(p,x)
 
-Notice that now we have defined a local variable $p$, and used the value of this in the Question Stem.
+Notice that now we have defined a local variable $p$, and used the value of this in the Question text.
 Hence, the user will not see a "p" on the screen when the question is instantiated, but the _value_ of `p`.
 
-Notice also that in the Teacher's answer there is a CAS command to differentiate the value of _p_ with respect to _x_.
+Notice also that in the model answer there is a CAS command to differentiate the value of _p_ with respect to _x_.
 It is necessary for the CAS to work out the answer in a random question.
-You now need to go through the potential response tree to use the variable p whenever you need to refer to the teacher's answer.
+You now need to go through the potential response tree to use the variable p whenever you need to refer to the model answer.
 
 We are now in a position to generate a random question. To do this modify the [question variables](KeyVals.md#Question_variables) to be
 
@@ -214,8 +218,6 @@ We are now in a position to generate a random question. To do this modify the [q
 In this new example, we have an extra variable n which is defined to be a random number.
 
 This is then used to define the variable \(p\) which is in turn used in the question itself.
-
-Edit your trial question, and in the Teacher's trial window use the "new version" button to get new random versions of the question.
 
 When generating random questions in CAA we talk about _random numbers_ when we really mean _pseudo-random numbers_.
 To keep track of which random numbers are generated for each user, there is a special command in STACK,
@@ -234,7 +236,10 @@ Fill this in as
 
 	\[ \frac{d}{d@x@}@p@ = @diff(p,x)@ \]
 
-It is crucial to do this now so you can [deploying](deploying) the question for use with students and for subsequent [reviewing](reviewing).
+It is crucial to do this now since questions with `rand()` in the question variables may not have an empty question note.  By enforcing this now we prevent frustration later when it would be otherwise impossible to distinguish between random version of a question.
+
+Edit your trial question, save and preview it to get new random versions of the question.
+
 
 ### Further randomisation ###
 
@@ -245,7 +250,7 @@ This contains random numbers, and also examples of variables and expressions sel
 	v = rand([x,s,t])
 	p = rand([sin(n*v),cos(n*v)])
 
-Then change the Question stem to
+Then change the Question text to
 
 Again, we need to use expressions such as `diff(p,v)` throughout the potential response tree.
 

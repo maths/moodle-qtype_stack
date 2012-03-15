@@ -30,6 +30,4 @@ A deployment phase allows STACK to optimises its use of the CAS for efficiency a
 
 To increase system performance, there is the option to ''prime'' question instances.  This processes [question tests](Testing.md) as if they were student submissions to add the responses to the cache.  Where question tests include likely real submissions, this can bring forward the performance benefit of a well-populated cache.
 
-## Future development ##
-More systematic control to the curation of a question instance set.
-Priming can be requested on the deployment page.  It can be done upon creation of a new instance (auto-priming) or on a set of existing instances.  Priming instances that already have responses cached for the question tests will produce no change in the cache.
+

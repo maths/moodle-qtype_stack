@@ -3,7 +3,7 @@
 ## Introduction ##
 
 `castext` is CAS-enabled text.  This is HTML into which mathematics is embedded.
-Many of the fields in a STACK question, such as the Question Stem are of this type.
+Many of the fields in a STACK question, such as the Question text are of this type.
 
 Information about [Basic HTML](http://www.w3schools.com/html/html_primary.asp) is available elsewhere.
 
@@ -37,9 +37,9 @@ the variables in the [feedback variables](KeyVals.md#Feedback_variables) may als
 
 ## Question text			{#question_text}
 
-The question text what the student actually sees.  This was called "question stem" in previous versions.
+The question text what the student actually sees.  This was called "question text" in previous versions.
 
-It is a slightly modified form of CAS text.  To allow a student to answer a question you must include an [inputs](Inputs.md) in the question stem. For example, students need a box into which their answer will be put.
+It is a slightly modified form of CAS text.  To allow a student to answer a question you must include an [inputs](Inputs.md) in the question text. For example, students need a box into which their answer will be put.
 
 To place an [inputs](Inputs.md) into the question enclose the
 name of the [Maxima](../CAS/Maxima.md) variable to which the student's answer is assigned between hash symbols, e.g. `#ans1#`
@@ -47,7 +47,7 @@ name of the [Maxima](../CAS/Maxima.md) variable to which the student's answer is
 When the question is created this is replaced with the appropriate [inputs](Inputs.md).
 When the student answers, this variable name is available to each [potential response trees](Potential_response_trees.md).
 
-Feedback can be included anywhere within the question stem.
+Feedback can be included anywhere within the question text.
 
 * When you create an [inputs](Inputs.md) STACK automatically adds
   a string such as the following.  `<IEfeedback>ans1</IEfeedback>`
@@ -55,7 +55,7 @@ Feedback can be included anywhere within the question stem.
   a string such as the following `<PRTfeedback>1</PRTfeedback>`
 
 These strings are replaced by appropriate feedback as necessary.
-They can be moved anywhere within the question stem.
+They can be moved anywhere within the question text.
 Do **not** place feedback within LaTeX equations!
 
 ## General feedback/Worked solution	{#general_feedback}

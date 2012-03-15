@@ -10,7 +10,7 @@ questions by adding functional structures, i.e. conditional inclusion
 
 More maximum flexibility, blocks can be nested and conditionally evaluated.
 A body of CAStext is then repeatedly processed until all blocks have been interpreted into CAStext.
-This is currently applied to the question stem and the worked solution.
+This is currently applied to the question text and the worked solution.
 
 ## General Syntax ##
 

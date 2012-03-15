@@ -36,7 +36,7 @@ Let us assume that the correct answer is `12.1*m/s^2`.
    Unit package includes the suitable "convert" function. This function also handles the number
    coefficients automatically (e.g. 1*km = 1000*m etc.). 
 4. STACK picks the number from this converted code (the command "coeff"). 
-5. Finally STACK compares this number to the respective teacher's answer. In this comparison it
+5. Finally STACK compares this number to the respective model answer. In this comparison it
    uses `Num_tol_absolute` or something like that.
 
 So, the following code is needed in the [feedback variables](KeyVals.md#Feedback_variables) (`ans1` is the student's answer). 
@@ -47,7 +47,7 @@ So, the following code is needed in the [feedback variables](KeyVals.md#Feedback
 
 The last command strips out the numbers so we can use a floating point comparison test to gauge the correct level of accuracy.
 
-Here, the respective teacher's answer is 12.1 without any unit.
+Here, the respective model answer is 12.1 without any unit.
 
 ## Answer tests  ##
 

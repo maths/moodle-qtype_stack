@@ -17,7 +17,7 @@ In STACK there is a complete separation between two important components.
 1. a list of [inputs](Inputs.md)
 2. a list of [potential response trees](Potential_response_trees.md)
 
-Feedback is associated with each of these and it can be positioned anywhere within the [question stem](CASText.md#Question_stem).
+Feedback is associated with each of these and it can be positioned anywhere within the [question text](CASText.md#question_text).
 
 # Validation #
 

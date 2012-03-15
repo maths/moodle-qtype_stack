@@ -91,9 +91,9 @@ assigned. The crucial observation in STACK is a complete separation between two 
 
 ## [inputs](Inputs.md) ##
 
-The [question stem](CASText.md#Question_stem), i.e. the text actually displayed to the student,
+The [question text](CASText.md#question_text), i.e. the text actually displayed to the student,
 may have an arbitrary number of [inputs](Inputs.md). An element may be positioned
-anywhere within the question stem, including within mathematical expressions, e.g. equations. Each
+anywhere within the question text, including within mathematical expressions, e.g. equations. Each
 input will be associated with a number of fields. For example
 
 1. The name of a CAS variable to which the student's answer (if any) is assigned during response processing.

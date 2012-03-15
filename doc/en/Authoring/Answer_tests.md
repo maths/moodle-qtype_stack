@@ -23,14 +23,14 @@ tree node.
 
 Informally, the answer tests have the following syntax
 
-	[Errors,Result,FeedBack,Note] = AnswerTest(StudentAnswer,TeacherAnswer,Opt)
+	[Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, Opt)
 
 Where,
 
 | Variable        | Description                                                                                                                                                         
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- 
 | StudentAnswer   | A CAS expression, assumed to be the student's answer.                                                                                                    
-| TeacherAnswer   | A CAS expression, assumed to be the teacher's answer.                                                                                                    
+| TeacherAnswer   | A CAS expression, assumed to be the model answer.                                                                                                    
 | Opt             | Any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.   
 
 Note that since the tests can provide feedback, tests which appear to be symmetrical,
@@ -183,7 +183,7 @@ This test is a general differentiation test. The first argument is the student's
 ### Int ###
 
 This test is designed for a general indefinite integration question. The first argument is the student's answer.
-The second argument is the teacher's answer. The answer test option needs to be the variable with respect to which integration is assumed to take place.
+The second argument is the model answer. The answer test option needs to be the variable with respect to which integration is assumed to take place.
 
 Getting this test to work in a general setting is a very difficult challenge.
 In particular, the test assumes that the constant of integration is expressed in a form similar to +c, although which variable used is not important.

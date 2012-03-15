@@ -30,7 +30,7 @@ This might not appear to be the neatest mathematical solution, but it is probabl
 Usually we need to combine `rand()` with some code to generate objects.
 For example, if you want a matrix with integer elements in the range -5..5 you need something like
 
-	A=rand(matrix([11,11],[11,11]))-matrix([5,5],[5,5])
+	A=matrix([5,5],[5,5])-rand(matrix([11,11],[11,11]))
 
 ### rand_with_step (lower,upper,step) ###
 
@@ -60,7 +60,6 @@ which generates a random polynomial.
 	p = rand(7)+1
 	q = 0
 	dum1 = block(for i:1 while i<=p do (q:q+rand(9)*m^p,p:p-1),return(q))
-	r = int(q,m)
 
 ## See also
 

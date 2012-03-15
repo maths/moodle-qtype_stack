@@ -34,9 +34,7 @@ Details of how to load STACK functions into a command line Maxima session are gi
 
 ## How can I change which Maxima functions STACK allows? ##
 
-This is a job for your system administrator, who can alter your installation by changing
-
-    /maxima/maximafun.php
+This is a job for a developer.
 
 **It is not enough to just change this file!** You will also need to copy and re-run the install script.
 This should not re-install the databases or wipe data, but at the end of the file will generate a number of temporary files to reflect your new settings.

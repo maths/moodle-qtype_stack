@@ -2,26 +2,23 @@
 
 ## Introduction ##
 
-`castext` is CAS-enabled text.  This is HTML into which mathematics is embedded.
-Many of the fields in a STACK question, such as the Question text are of this type.
+CASText is CAS-enabled text.  CASText is simply HTML into which LaTeX mathematics and CAS commands can be embedded. These CAS commands are executed before the question is displayed to the user. _Use only simple LaTeX mathematics structures_. Only a small part of core LaTeX is supported.
+
+Many of the fields in a STACK question, such as the question text, are of this type.
 
 Information about [Basic HTML](http://www.w3schools.com/html/html_primary.asp) is available elsewhere.
 
-CASText is simply HTML into which LaTeX mathematics and CAS commands can be embedded.
-These CAS commands are executed before the question is displayed to the user.
-_Use only simple LaTeX structures, and equations_. Only a small part of core LaTeX is supported.
-
-Currently we are converting LaTeX to HTML via [MathJAX](http://http://www.mathjax.org/).  
+Currently STACK makes no attempt to alter the LaTeX itself.  This is displayed using [MathJAX](http://http://www.mathjax.org/).  
 If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
-The following things to remember about `castext`:
+The following things to remember about CASText:
 
-* Anything enclosed between `$` or  symbols is treated as an _inline equation_, as is the case with normal LaTeX.
-* Anything enclosed between matching  is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
-* Anything enclosed between @ symbols is evaluated by the CAS and displayed using the display option as an _inline equation_.
-  This is analogous to using LaTeX symbols. Note however, that you don't need to use `$@ stuff @$`, and that @ stuff @ is sufficient.
-* To get a displayed equation centred on a line of its own, you must use `\[@ stuff @\]`, as in LaTeX. Note using two dollars, as in `$$ @ stuff @ $$`, does not work.
-* Don't use LaTeX text formatting features such as \\, instead use the HTML version use
-* Comments, on a single line, can be written with C-style /* ... */
+* Anything enclosed between  `\( .... \)` or `$` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
+* Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
+* Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
+* Anything enclosed between `@` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
+ * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `$@ stuff @$`, and that `@ stuff @` is sufficient.
+ * To get a displayed equation centred on a line of its own, you must use `\[@ stuff @\]`, as in LaTeX. 
+* Multiple CAS expressions may appear in a single LaTeX equation, as needed.  For example `\[  \frac{@p@}{@q@} \]`.  Note that many problems are _best solved_ at the level of the CAS, e.g. by defining a variable `p/q` in the CAS, not at the level of display.  This is a design decision which needs experience to resolve efficiently in each case.  For an example of this, see the example [showing working](../CAS/Matrix.md#Showing_working).
 
 Here is an example
 
@@ -30,9 +27,9 @@ Here is an example
 
 ## Variables ##   {#Variables}
 
-`castext` may depend on variables previously defined in the [question variables](KeyVals.md#Question_variables) field.
+CASText may depend on variables previously defined in the [question variables](KeyVals.md#Question_variables) field.
 
-Where the `castext` appears in the fields of a [potential response trees](Potential_response_trees.md),
+Where the CASText appears in the fields of a [potential response trees](Potential_response_trees.md),
 the variables in the [feedback variables](KeyVals.md#Feedback_variables) may also be included.
 
 ## Question text			{#question_text}

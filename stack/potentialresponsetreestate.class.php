@@ -97,7 +97,7 @@ class stack_potentialresponse_tree_state {
 
     public function display_feedback($cascontext, $seed) {
         $feedbackct = new stack_cas_text(implode(' ', $this->_feedback), $cascontext, $seed, 't', false, false);
-        $ret = $feedbackct->get_display_castext();        
+        $ret = $feedbackct->get_display_castext();
         $this->_errors = trim($this->_errors.' '.$feedbackct->get_errors());
         return $ret;
     }

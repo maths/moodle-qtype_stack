@@ -313,7 +313,7 @@ class stack_answertest_test_data {
         array('CompSquare', '(x^2-1)^2+1', '(x^2-1)^2+1', 1, 'x^2', ''),
         array('CompSquare', '(y-1)^2+1', '(y-1)^2+1', 1, 'y', ''),
         array('CompSquare', '(y+1)^2+1', '(y-1)^2+1', 0, 'y', ''),
-    
+
         //Single Fraction Test
         array('SingleFrac', '1/0', '1/n', 0, '', ''),
         array('SingleFrac', '0', '1/0', 0, '', ''),

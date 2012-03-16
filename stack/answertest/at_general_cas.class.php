@@ -59,7 +59,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if (!is_bool($requiredoptions)) {
             throw new Exception('stack_answertest_general_cas: requiredoptions, must be Boolean.');
         }
-        
+
         if (!(null===$options || is_a($options, 'stack_options'))) {
             throw new Exception('stack_answertest_general_cas: options must be stack_options or null.');
         }

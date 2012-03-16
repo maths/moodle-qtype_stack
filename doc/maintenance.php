@@ -53,7 +53,7 @@ function report($d) {
                     $fPath = "$d/$f";
                     if(filetype($fPath) == 'dir') {
                         $a = array_merge($a, report($fPath));
-                    } else { 
+                    } else {
                         $fName  = pathinfo($fPath, PATHINFO_FILENAME);
                         $fExt   = pathinfo($fPath, PATHINFO_EXTENSION);
                         $fSize  = filesize($fPath);
@@ -75,8 +75,8 @@ function report($d) {
                         //found[0] will have the full a tags, found[1] contains their href properties
                         // Step two, visit these links and check for 404s
                         foreach($found[1] as $i => $link) {
-                            if (strpos($link, 'mailto:') !== 0 
-                                and strpos($link, 'docMaintenance.php') === false 
+                            if (strpos($link, 'mailto:') !== 0
+                                and strpos($link, 'docMaintenance.php') === false
                                 and ($_GET['ext'] or strpos($link, 'http') !== 0)) {
                                 // Don't check mailto:, this file (ARGH!)
                                 // Also if ?ext not true then better not be an external link
@@ -133,7 +133,7 @@ function report($d) {
 <p>This script crawls the entire documentation and checks for dead links and other issues.
 Currently the script is crawling locally for speed, to check external links as well
 <a href="maintenance.php?ext=1">click here</a></p>
-<pre><?php 
+<pre><?php
 
 //TODO make this a nice table!
 $docs = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');

@@ -73,6 +73,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($types as $type => $notused) {
             $typechoices[$type] = get_string('inputtype' . $type, 'qtype_stack');
         }
+        collatorlib::asort($typechoices);
 
         $inputname = 'ans1'; // TODO generalise this.
         $mform->addElement('header', 'answerhdr' . $inputname, get_string('inputheading', 'qtype_stack', $inputname));
@@ -138,6 +139,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($answertests as $test => $string) {
             $answertestchoices[$test] = get_string($string, 'qtype_stack');
         }
+        collatorlib::asort($answertestchoices);
 
         $scoremodechoices = array(
             '=' => '=',
@@ -146,8 +148,13 @@ class qtype_stack_edit_form extends question_edit_form {
             '=AT' => '=AT',
         );
 
-        $numnodes = optional_param($prtname . 'numnodes', 1, PARAM_INT) +
+        $numnodes = 1;
+        if (!empty($this->question->prts[$prtname])) {
+            $numnodes = count($this->question->prts[$prtname]->nodes);
+        }
+        $numnodes = optional_param($prtname . 'numnodes', $numnodes, PARAM_INT) +
                 optional_param($prtname . 'addnode', 0, PARAM_BOOL);
+
         $nextnodechoices = array('-1' => get_string('stop', 'qtype_stack'));
         for ($i = 0; $i < $numnodes; $i += 1) {
             $nextnodechoices[$i] = get_string('nodex', 'qtype_stack', $i + 1);

@@ -111,6 +111,11 @@ class stack_debug_log_null implements stack_debug_log {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_utils {
+    /**
+     * @var string fragment of regular expression that matches valid PRT and
+     * input names.
+     */
+    const VALID_NAME_REGEX = '[a-zA-Z][a-zA-Z0-9_]*';
 
     /**
      * Static class. You cannot create instances.
@@ -619,5 +624,20 @@ class stack_utils {
      */
     public static function list_to_array($string, $rec = true) {
         return self::list_to_array_workhorse($string, $rec);
+    }
+
+    /**
+     * Extract the names of all the placeholders like [[{$type}:{$name}]] from
+     * a bit of text. Names must start with an ASCII letter, and be comprised of
+     * ASCII letters, numbers and underscores.
+     *
+     * @param string $text some text. E.g. '[[input:ans1]]'.
+     * @param string $type the type of placeholder to extract. e.g. 'input'.
+     * @return array of placeholdernames.
+     */
+    public static function extract_placeholders($text, $type) {
+        preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
+                $text, $matches);
+        return $matches[1];
     }
 }

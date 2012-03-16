@@ -76,7 +76,7 @@ class qtype_stack extends question_type {
         $options->complexno                 = $fromform->complexno;
         $DB->update_record('qtype_stack', $options);
 
-        $inputnames = array('ans1'); // TODO generalise this.
+        $inputnames = stack_utils::extract_placeholders($fromform->questiontext, 'input');
         $inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
         foreach ($inputnames as $inputname) {
@@ -113,7 +113,9 @@ class qtype_stack extends question_type {
                     'name ' . $test . ' AND questionid = ?', $params);
         }
 
-        $prtnames = array('prt1'); // TODO generalise this.
+        $prtnames = stack_utils::extract_placeholders(
+                $fromform->questiontext . $options->specificfeedback, 'feedback');
+
         $prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
         foreach ($prtnames as $prtname) {

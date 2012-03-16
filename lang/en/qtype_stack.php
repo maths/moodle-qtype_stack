@@ -167,6 +167,7 @@ $string['testoptions'] = 'Test options';
 $string['testoptions_help'] = 'This field enables answer tests to accept an option, e.g. a variable or a numerical precision.';
 $string['testoptions_link'] = 'question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
 $string['testoptionsrequired'] = 'Test options are required for this test.';
+$string['verifyquestionandupdate'] = 'Verify the question text and update the form';
 
 // admin settings
 $string['settingcasdebugging'] = 'CAS debugging';

@@ -368,9 +368,11 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'strictsyntax'}       = $input->strictsyntax;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
+            $question->{$inputname . 'forbidwords'}        = $input->forbidwords;
             $question->{$inputname . 'forbidfloat'}        = $input->forbidfloat;
             $question->{$inputname . 'requirelowestterms'} = $input->requirelowestterms;
             $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;
+            $question->{$inputname . 'mustverify'}         = $input->mustverify;
             $question->{$inputname . 'showvalidation'}     = $input->showvalidation;
         }
 

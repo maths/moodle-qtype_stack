@@ -233,5 +233,35 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012031302, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2012031600) {
+
+        // Define field forbidwords to be added to qtype_stack_inputs
+        $table = new xmldb_table('qtype_stack_inputs');
+        $field = new xmldb_field('forbidwords', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'syntaxhint');
+
+        // Conditionally launch add field forbidwords
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // qtype_stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012031600, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2012031601) {
+
+        // Define field mustverify to be added to qtype_stack_inputs
+        $table = new xmldb_table('qtype_stack_inputs');
+        $field = new xmldb_field('mustverify', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '1', 'checkanswertype');
+
+        // Conditionally launch add field mustverify
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // qtype_stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012031601, 'qtype', 'stack');
+    }
+
     return true;
 }

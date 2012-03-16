@@ -96,9 +96,11 @@ class qtype_stack extends question_type {
             $input->strictsyntax       = $fromform->{$inputname . 'strictsyntax'};
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
+            $input->forbidwords        = $fromform->{$inputname . 'forbidwords'};
             $input->forbidfloat        = $fromform->{$inputname . 'forbidfloat'};
             $input->requirelowestterms = $fromform->{$inputname . 'requirelowestterms'};
             $input->checkanswertype    = $fromform->{$inputname . 'checkanswertype'};
+            $input->mustverify         = $fromform->{$inputname . 'mustverify'};
             $input->showvalidation     = $fromform->{$inputname . 'showvalidation'};
 
             $DB->update_record('qtype_stack_inputs', $input);
@@ -205,7 +207,8 @@ class qtype_stack extends question_type {
         $question->inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
-                'syntaxhint, forbidfloat, requirelowestterms, checkanswertype, showvalidation');
+                'syntaxhint, forbidwords, forbidfloat, requirelowestterms, ' .
+                'checkanswertype, mustverify, showvalidation');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
@@ -249,9 +252,11 @@ class qtype_stack extends question_type {
                 'strictSyntax' => (bool) $inputdata->strictsyntax,
                 'insertStars'  => (bool) $inputdata->insertstars,
                 'syntaxHint'   =>        $inputdata->syntaxhint,
+                'forbidWords'  =>        $inputdata->forbidwords,
                 'forbidFloats' => (bool) $inputdata->forbidfloat,
                 'lowestTerms'  => (bool) $inputdata->requirelowestterms,
                 'sameType'     => (bool) $inputdata->checkanswertype,
+                'mustVerify'   => (bool) $inputdata->mustverify,
                 'hideFeedback' =>       !$inputdata->showvalidation,
             );
             $question->inputs[$name] = stack_input_factory::make(

@@ -19,13 +19,13 @@ More about what we are trying to achieve can be found under [the philosophy of S
   4. Including questions in a Moodle Quiz: TODO.
   5. [Reviewing](Authoring/Reviewing)
   *  [Frequently asked questions](Authoring/Author_FAQ.md)
-* [**Students**](Students/)
+* [**Students**](Students//index.md)
   * [Frequently asked questions](Students/FAQ.md).
   * [Input instructions](Students/Answer_input.md).
   * [How answers are assessed](Students/Answer_assessment.md).
 * **Administrators**
-  * For [Installation instructions](Installation/) there is a [detailed installation guide](Installation/Installation_instructions.md): TODO. 
-* **[Developers](Developer/)**
+  * For [Installation instructions](Installation/index.md).
+* **[Developers](Developer//index.md)**
   * [Developer docs](Developer/)
 
 

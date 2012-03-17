@@ -100,16 +100,25 @@ abstract class stack_input {
     }
 
     /**
+     * @param string $param a settings parameter name.
+     * @return bool whether this input type uses this parameter.
+     */
+    public function is_parameter_used($param) {
+        $class = get_class($this);
+        return array_key_exists($param, $class::get_parameters_defaults());
+    }
+
+    /**
      * Sets the value of an input parameter.
      * @return array of parameters names.
      */
     public function set_parameter($parameter, $value) {
-        if (!in_array($parameter, $this->get_parameters_used())) {
+        if (!$this->is_parameter_used($parameter)) {
             throw new Exception('stack_input: setting parameter ' . $parameter .
                     ' which does not exist for inputs of type ' . get_class($this));
         }
 
-        if ($parameter == 'hideFeedback' && $value && in_array('mustVerify', $this->get_parameters_used())) {
+        if ($parameter == 'hideFeedback' && $value && $this->is_parameter_used('mustVerify')) {
             $this->set_parameter('mustVerify', false);
         }
 
@@ -134,7 +143,7 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function validate_parameter($parameter, $value) {
-        if (!in_array($parameter, $this->get_parameters_used())) {
+        if (!$this->is_parameter_used($parameter)) {
             throw new Exception('stack_input: trying to validate parameter ' . $parameter .
                     ' which does not exist for inputs of type ' . get_class($this));
         }
@@ -191,16 +200,8 @@ abstract class stack_input {
     }
 
     /**
-     * Returns a list of the names of all the parameters that this type of input uses.
-     * @return array of parameters names.
-     */
-    public function get_parameters_used() {
-        return array_keys(self::get_parameters_defaults());
-    }
-
-    /**
      * Return the default values for the parameters.
-     * @return array parameters` => default value.
+     * @return array parameters => default value.
      */
     public static function get_parameters_defaults() {
         return array();

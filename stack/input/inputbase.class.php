@@ -187,7 +187,7 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function get_parameters_available() {
-        return $this->perametersavailable;
+        return $this->perameterstack_inputsavailable;
     }
 
     /**

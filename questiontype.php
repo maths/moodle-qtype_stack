@@ -248,8 +248,9 @@ class qtype_stack extends question_type {
         $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
         $question->options->set_option('assumepos',   (bool) $questiondata->options->assumepositive);
 
+        $requiredparams = stack_input_factory::get_parameters_used();
         foreach ($questiondata->inputs as $name => $inputdata) {
-            $parameters = array(
+            $allparameters = array(
                 'boxWidth'     =>        $inputdata->boxsize,
                 'strictSyntax' => (bool) $inputdata->strictsyntax,
                 'insertStars'  => (bool) $inputdata->insertstars,
@@ -261,6 +262,13 @@ class qtype_stack extends question_type {
                 'mustVerify'   => (bool) $inputdata->mustverify,
                 'hideFeedback' =>       !$inputdata->showvalidation,
             );
+            $parameters = array();
+            foreach ($requiredparams[$inputdata->type] as $paramname) {
+                if ($paramname == 'inputType') {
+                    continue;
+                }
+                $parameters[$paramname] = $allparameters[$paramname];
+            }
             $question->inputs[$name] = stack_input_factory::make(
                     $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
         }

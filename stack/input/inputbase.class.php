@@ -195,7 +195,7 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function get_parameters_used() {
-        return array_keys($this->get_parameters_defaults());
+        return array_keys(self::get_parameters_defaults());
     }
 
     /**

@@ -169,6 +169,9 @@ $string['testoptions_link'] = 'question/type/stack/doc/doc.php/Authoring/Answer_
 $string['testoptionsrequired'] = 'Test options are required for this test.';
 $string['verifyquestionandupdate'] = 'Verify the question text and update the form';
 
+// Error reporting in the feedback form.
+$string['edit_form_error'] = 'Node {$a->no} {$a->field} has the following error: ';
+
 // admin settings
 $string['settingcasdebugging'] = 'CAS debugging';
 $string['settingcasdebugging_desc'] = 'Whether to store debugging information about the CAS connection.';

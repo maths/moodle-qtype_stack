@@ -616,51 +616,57 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // (3) Validate all prts.
         foreach ($potentialresponsetrees as $prtname) {
+            $interror = array();
             $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables'], null, null, 't');
             if (!$feedbackvars->get_valid()) {
-                $errors[$prtname.'feedbackvariables'] = $feedbackvars->get_errors();
+                $interror[] = $feedbackvars->get_errors();
             }
             foreach ($fromform[$prtname.'sans'] as $key => $sans) {
                 $cs= new stack_cas_casstring($sans);
                 if (!$cs->get_valid('t')) {
                     //TODO this does not display in the right place!
-                    $errors[$prtname.'sans'][$key] = $cs->get_errors();
+                    //$errors[$prtname.'sans'][$key] = $cs->get_errors();
+                    $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('sans', 'qtype_stack'))).$cs->get_errors();
                 }
             }
             foreach ($fromform[$prtname.'tans'] as $key => $sans) {
                 $cs= new stack_cas_casstring($sans);
                 if (!$cs->get_valid('t')) {
-                    //TODO this does not display in the right place!
-                    $errors[$prtname.'tans'][$key] = $cs->get_errors();
+                    //$errors[$prtname.'tans'][$key] = $cs->get_errors();
+                    $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('tans', 'qtype_stack'))).$cs->get_errors();
                 }
             }
             foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {
                 if ('' != trim($opt)) {
                     $cs= new stack_cas_casstring($opt);
                     if (!$cs->get_valid('t')) {
-                        //TODO this does not display in the right place!
-                        $errors[$prtname.'testoptions'][$key] = $cs->get_errors();
+                        //$errors[$prtname.'testoptions'][$key] = $cs->get_errors();
+                        $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('testoptions', 'qtype_stack'))).$cs->get_errors();
                     }
                 } else {
                     $answertest = new stack_ans_test_controller($fromform[$prtname.'answertest'][$key]);
                     if ($answertest->required_atoptions()) {
-                        $errors[$prtname.'testoptions'][$key] = get_string('testoptionsrequired', 'qtype_stack');
+                        //$errors[$prtname.'testoptions'][$key] = get_string('testoptionsrequired', 'qtype_stack');
+                        $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('testoptions', 'qtype_stack'))).get_string('testoptionsrequired', 'qtype_stack');
                     }
                 }
             }
             foreach ($fromform[$prtname.'truefeedback'] as $key => $strin) {
                 $feedback = new stack_cas_text($strin['text'], null, null, 't');
                 if (!$feedback->get_valid()) {
-                    //TODO this does not display in the right place!
-                    $errors[$prtname.'truefeedback'][$key] = $feedback->get_errors();
+                    //$errors[$prtname.'truefeedback'][$key] = $feedback->get_errors();
+                    $nodename = $key+1;
+                    $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => "$nodename (".get_string('true', 'qtype_stack').")", 'field' => get_string('feedback', 'qtype_stack'))).$feedback->get_errors();
                 }
             }
             foreach ($fromform[$prtname.'falsefeedback'] as $key => $strin) {
                 $feedback = new stack_cas_text($strin['text'], null, null, 't');
                 if (!$feedback->get_valid()) {
                     //TODO this does not display in the right place!
-                    $errors[$prtname.'falsefeedback'][$key] = $feedback->get_errors();
+                    $nodename = $key+1;
+                    $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => "$nodename (".get_string('false', 'qtype_stack').")", 'field' => get_string('feedback', 'qtype_stack'))).$feedback->get_errors();
                 }
+            $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
             }
         }
 

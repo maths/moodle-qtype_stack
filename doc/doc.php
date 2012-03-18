@@ -25,10 +25,7 @@
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
 
-require_once(dirname(__FILE__) . '/phpMarkdown/markdown.php');
-// TODO: remove all this and use the library provided as a core part of Moodle?
-// Some changes to display maths, e.g function doDisplayMath(...);
-//require_once($CFG->libdir . '/markdown.php');
+require_once($CFG->libdir . '/markdown.php');
 
 require_once(dirname(__FILE__) . '/../locallib.php');
 require_once(dirname(__FILE__) . '/../stack/utils.class.php');
@@ -134,6 +131,7 @@ if ('Site_map' == $lastseg) {
         $body .= $linkstr;
         $body .= "\n<hr/>\n";
         if (pathinfo($file, PATHINFO_EXTENSION) == 'md') {
+            $page = do_display_math($page);
             $options->noclean = true;
             $body .= format_text(Markdown($page), FORMAT_HTML, $options); // render it, in this case in Markdown
         } else {
@@ -187,4 +185,32 @@ function index($d, $relPath = ''){
     }
     $i .= '</ul>';
     return $i;
+}
+
+function do_display_math($text) {
+    #
+    # Wrap text between \[ and \] in display math tags.
+    #
+    $text = preg_replace_callback('{
+      ^\\\\         # line starts with a single backslash (double escaping)
+      \[            # followed by a square bracket
+      (.+)          # then the actual LaTeX code
+      \\\\          # followed by another backslash
+      \]            # and closing bracket
+      \s*$          # and maybe some whitespace before the end of the line
+}mx',
+    '_do_display_math_callback', $text);
+
+    $text = str_replace('\(', '$', $text);
+    $text = str_replace('\)', '$', $text);
+
+return $text;
+}
+
+function _do_display_math_callback($matches) {
+    $texblock = $matches[1];
+    # $texblock = htmlspecialchars(trim($texblock), ENT_NOQUOTES);
+    $texblock = trim($texblock);
+    $texblock = "$$ $texblock  $$";
+    return "\n\n".$texblock."\n\n";
 }

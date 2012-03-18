@@ -24,8 +24,7 @@
  */
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/phpMarkdown/markdown.php');
-// TODO: remove all this and use the library provided as a core part of Moodle?
+require_once($CFG->libdir . '/markdown.php');
 require_once(dirname(__FILE__) . '/../locallib.php');
 require_once(dirname(__FILE__) . '/../stack/utils.class.php');
 
@@ -40,10 +39,10 @@ require_login();
 
 function report($d) {
     global $CFG;
-    $root = $CFG->wwwroot;
-    $host = $root.'/question/type/stack/doc/doc.php';
-    $docs = $CFG->dirroot;
-    $webDocs = '/question/type/stack/doc/en';
+    $dirroot = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
+    $wwwroot = $CFG->wwwroot;
+    $webdocs = $wwwroot.'/question/type/stack/doc/en';
+    $weburl = $wwwroot.'/question/type/stack/doc/doc.php';
     $a = array();
 
     if (is_dir($d)) {
@@ -57,7 +56,7 @@ function report($d) {
                         $fName  = pathinfo($fPath, PATHINFO_FILENAME);
                         $fExt   = pathinfo($fPath, PATHINFO_EXTENSION);
                         $fSize  = filesize($fPath);
-                        $relDir = str_replace($docs, '', $d);
+                        $reldir = str_replace($dirroot, '', $d);
 
                         $a[] = array($fPath, 'F', 'Found file ' . "$fPath");
 
@@ -68,49 +67,43 @@ function report($d) {
                             $a[] = array($fPath, 'W', "Not a markdown file ($fExt)");
                         }
 
-                        // Let's do some link checking, step one: scrape the links off the document's web page
-                        $links = strip_tags(file_get_contents($fPath), "<a>");
-                        preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);
-
-                        //found[0] will have the full a tags, found[1] contains their href properties
-                        // Step two, visit these links and check for 404s
-                        foreach($found[1] as $i => $link) {
-                            if (strpos($link, 'mailto:') !== 0
-                                and strpos($link, 'docMaintenance.php') === false
-                                and ($_GET['ext'] or strpos($link, 'http') !== 0)) {
-                                // Don't check mailto:, this file (ARGH!)
-                                // Also if ?ext not true then better not be an external link
-
-                                if (strpos($link, 'http') !== 0) {
-                                // If a local link, do some preparation
-
-                                    if (strpos($link, '/') === 0) {
-                                        $link = $host . $link; // Not a relative link
-                                    } else {
-                                        $link = $webDocs . rtrim($relDir, '/') . '/' . $link;
+                        if ($fExt != 'bak') {
+                            // Let's do some link checking, step one: scrape the links off the document's web page
+                            $links = strip_tags(Markdown(file_get_contents($fPath)), "<a>");
+                            preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);
+                            //found[0] will have the full a tags, found[1] contains their href properties
+                            // Step two, visit these links and check for 404s
+                            foreach($found[1] as $i => $link) {
+                                if (strpos($link, 'mailto:') !== 0
+                                    and strpos($link, 'maintenance.php') === false
+                                    and (strpos($link, 'http') !== 0)) {
+                                    // Don't check mailto:, this file (ARGH!)
+                                    // Also if ?ext not true then better not be an external link
+                                    if (strpos($link, 'http') !== 0) {
+                                    // If a local link, do some preparation
+                                        if (strpos($link, '/') === 0) {
+                                            $link = $webdocs . $link; // Not a relative link
+                                        } else {
+                                            $link = $webdocs . rtrim($reldir, '/') . '/' . $link;
+                                        }
+                                        $segs = explode('/', $link); // it looks like get_headers isn't evaluating these so lets do it manually
+                                        while(($pos = array_search('.', $segs)) !== false) {
+                                            unset($segs[$pos]);
+                                        }
+                                        while(($pos = array_search('..', $segs)) !== false) {
+                                            unset($segs[$pos], $segs[$pos - 1]);
+                                        }
+                                        $link = implode('/', $segs);
+    
+                                        // finally it looks like #--- are getting parsed in the request, let's ommit them
+                                        if (strpos($link, '#') !== false) {
+                                            $link = substr($link, 0, strpos($link, '#'));
+                                        }
                                     }
-
-                                    $segs = explode('/', $link); // it looks like get_headers isn't evaluating these so lets do it manually
-
-                                    while(($pos = array_search('.', $segs)) !== false) {
-                                        unset($segs[$pos]);
+                                    $hs = get_headers($link);
+                                    if (strpos($hs[0], '404') !== false) {
+                                        $a[] = array($fPath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');
                                     }
-
-                                    while(($pos = array_search('..', $segs)) !== false) {
-                                        unset($segs[$pos], $segs[$pos - 1]);
-                                    }
-
-                                    $link = implode('/', $segs);
-
-                                    // finally it looks like #--- are getting parsed in the request, let's ommit them
-                                    if (strpos($link, '#') !== false) {
-                                        $link = substr($link, 0, strpos($link, '#'));
-                                    }
-                                }
-                                $hs = get_headers($link);
-
-                                if (strpos($hs[0], '404') !== false) {
-                                    $a[] = array($fPath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');
                                 }
                             }
                         }
@@ -131,14 +124,22 @@ function report($d) {
 <p><a href="doc.php">STACK menu</a></p>
 <p>Key: <i>F - Found file, W - Warning, E - Error</i></p>
 <p>This script crawls the entire documentation and checks for dead links and other issues.
-Currently the script is crawling locally for speed, to check external links as well
-<a href="maintenance.php?ext=1">click here</a></p>
 <pre><?php
 
 //TODO make this a nice table!
 $docs = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
 $a = report($docs);
-print_r($a);
+
+echo "<table>";
+foreach ($a as $data) {
+    if ('F'!=$data[1]) {
+        echo "<tr>";
+        echo "<td>".$data[0]."</td>";
+        echo "<td>".$data[2]."</td>";
+        echo "</tr>";
+    }
+}
+echo "</table>";
 
 ?></pre>
 

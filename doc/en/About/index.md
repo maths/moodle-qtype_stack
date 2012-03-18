@@ -40,9 +40,11 @@ STACK can check each condition separately on the student's answer and assign par
 If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._ 
 There are a variety of ways in which [feedback](../Authoring/Feedback.md) can be given.
 
-STACK is a direct development of the [AIM](../Related_projects/AIM.md) system, using the open source computer algebra system [Maxima](../CAS/Maxima.md).
+STACK is a direct development of the AIM system, using the open source computer algebra system [Maxima](../CAS/Maxima.md).
 
 ## Further information  ##
 
 * [Associated publications](Publications.md)
 * [The STACK logo](Logo.md).
+
+

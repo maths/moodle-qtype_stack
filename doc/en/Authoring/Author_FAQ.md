@@ -14,7 +14,7 @@ Note that some of the more complex examples will not work on STACK. Just keep th
 Yes.  You can use HTML tags as usual.  For example, you can use these tags to insert references to images etc.
 It's even possible to embed question values within image tags to allow calls to third-party dynamic graph generators.
  
-The [Simple Venn](Sample_questions#test-venn) sample question demonstrates using the [Google charts](http://code.google.com/apis/chart/) API:
+The Simple Venn sample question demonstrates using the [Google charts](http://code.google.com/apis/chart/) API:
 
 ![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
 

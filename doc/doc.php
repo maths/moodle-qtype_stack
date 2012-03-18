@@ -24,7 +24,6 @@
  */
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
-
 require_once($CFG->libdir . '/markdown.php');
 
 require_once(dirname(__FILE__) . '/../locallib.php');

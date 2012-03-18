@@ -19,11 +19,10 @@ GNUPlot will install themselves in suitable directories.
 
 STACK is a question type for the moodle quiz.
 
-1. Create a data directory, inside moodle's data directory (i.e. `$CFG->dataroot`), called `stack`.  This is used to store local Maxima configuration files and plots. Set the appropriate permissions.
-2. [Obtain the code](https://github.com/sangwinc/moodle-qtype_stack/pull/new/master) and place this in the directory `moodle\question\type\stack`.  (You may need to rename the directory `qtype_stack -> stack`)
-3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.  
-4. As the admin user, navigate to `Home > Site administration > Plugins > Question types > Stack`.  Please choose and save the appropriate options.
-5. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
+1. [Obtain the code](https://github.com/sangwinc/moodle-qtype_stack/pull/new/master) and place this in the directory `moodle\question\type\stack`.  (You may need to rename the directory `qtype_stack -> stack`)
+2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.  
+3. As the admin user, navigate to `Home > Site administration > Plugins > Question types > Stack`.  Please choose and save the appropriate options.
+4. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
 
 You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK.
 

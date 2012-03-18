@@ -63,9 +63,10 @@ Some miscellaneous things
   
 ## Documentation system
 
-1. 404 error does not add an entry to the log.   
-2. fix `maintenance.php`.
-3. Update the file, and link this to the documentation system (or just abandon it and use .md!) :
+1. Ensure links from the editing form end up at the STACK docs.
+2. 404 error does not add an entry to the log.   
+3. fix `maintenance.php`.
+4. Update the file, and link this to the documentation system (or just abandon it and use .md!) :
 
      \stack\www\lib\maxima\stackfun.php
 

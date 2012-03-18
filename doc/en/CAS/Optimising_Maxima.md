@@ -2,16 +2,21 @@
 
 ---
 ***NOT TESTED IN VERSION 3.0: legacy documentation***
-
 ---
-
 
 There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling.
 
 ## Compiled Lisp ##
 
-[Maxima](Maxima.md) can be run with a number of Lisp implementations.
-Although CLISP is the most portable -- due to being interpreted -- [Lisps](../Developer/Lisps) can give faster execution.
+[Maxima](Maxima.md) can be run with 4 Lisp implementations on unix servers.
+[CLISP](http://en.wikipedia.org/wiki/CLISP) , [CMUCL](http://en.wikipedia.org/wiki/CMU_Common_Lisp),
+GCL and SBCL. Of the four, CLISP is the most portable, but is also by far the slowest due to its being
+the only LISP interpreter . Using [Maxima](../CAS/Maxima.md) compiled with CMUCL, GCL or SBCL will generally
+give much better performance.
+
+Due to variations in LISP implementations, STACK server mode will only function with [Maxima](../CAS/Maxima.md) compiled with either CLISP or GCL.
+See also [http://maxima.sourceforge.net/lisp.html](http://maxima.sourceforge.net/lisp.html).
+
 
 ## Preloading ##
 

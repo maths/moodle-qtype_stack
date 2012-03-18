@@ -63,11 +63,12 @@ function report($d) {
                         if ($fSize >= 7000) {
                             $a[] = array($fPath, 'W', "Large file ($fSize bytes)");
                         }
-                        if ($fExt != 'md') {
-                            $a[] = array($fPath, 'W', "Not a markdown file ($fExt)");
-                        }
 
                         if ($fExt != 'bak') {
+                            if ($fExt != 'md') {
+                                $a[] = array($fPath, 'W', "Not a markdown file ($fExt)");
+                            }
+
                             // Let's do some link checking, step one: scrape the links off the document's web page
                             $links = strip_tags(Markdown(file_get_contents($fPath)), "<a>");
                             preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);

@@ -5,8 +5,7 @@ Computer aided assessment of mathematics works in the following phases.
 1. [Authoring](../Authoring/)
 2. [Testing](Testing.md)
 3. [Deploying](Deploying.md)
-4. [Including questions in a Moodle Quiz](../Components/Moodle.md#Including_questions)
-5. [Reviewing](Reviewing.md)
+4. [Reviewing](Reviewing.md)
 
 **NOTE** most of the review features are not yet implemented.
 

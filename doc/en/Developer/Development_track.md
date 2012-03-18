@@ -119,8 +119,8 @@ Released: Easter 2010 session.
 
 Key features
 
-* [Precision](../Authoring/Answer_tests#Precision) answer test added to allow significant to be checked.
-* [Form](../Authoring/Answer_tests#Form) answer test added to test if an expression is in completed square form.
+* [Precision](../Authoring/Answer_tests.md#Precision) answer test added to allow significant to be checked.
+* [Form](../Authoring/Answer_tests.md#Form) answer test added to test if an expression is in completed square form.
 * List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
 * Move to Maxima's `random()` function, rather then generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)

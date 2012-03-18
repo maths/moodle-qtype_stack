@@ -32,7 +32,6 @@ Information on specific mathematical topics are found below
 * [Plots](Plots.md) and graphics.
 * [Numbers](Numbers.md), including floating point and complex numbers.
 * [Inequalities](Inequalities.md).
-* [Polynomials](Polynomials.md).
 * [Matrices and vectors](Matrix.md).
 * [Differential equations](Differential_equations.md).
 

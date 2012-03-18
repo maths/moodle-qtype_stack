@@ -25,7 +25,7 @@ A single, trivial "What is \(1+1\)?" question, mostly used for testing of the si
 
 A randomly generated integration question.  Note the automatically generated feedback from the CAS, i.e. get it wrong. A worked solution is provided, which also reflects the random numbers in the question.
 
-Also note that the question comes with [Testing](testing) for quality control,
+Also note that the question comes with [Testing](Testing.md) for quality control,
 so when you "try" the question as a teacher you do not need to try "obvious" things the student might do,
 for example differentiation rather than integration.  These are included at the bottom of the teacher's page.
 
@@ -79,7 +79,7 @@ Feedback is given as a dynamically generated plot.
 
 ### test_10.xml ###
 
-(version 2.2 onwards) This is a trivial question, but it includes a slider bar to illustrate the implementation of [confidence testing](../Diagnostics/Confidence_testing).
+This includes a slider bar.
 
 ### test-11.xml ###
 

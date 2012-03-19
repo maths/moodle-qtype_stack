@@ -97,7 +97,7 @@ echo $quba->render_question($slot, $options);
 
 // Display the question note
 echo $OUTPUT->heading(get_string('questionnote', 'qtype_stack'), 3);
-// TODO
+echo html_writer::tag('p', $question->get_question_summary());
 
 // Display the question variables.
 echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);

@@ -134,6 +134,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', 1, '', 'These currently fail'),
+        array('AlgEquiv', '(x-a)*(x+a)/sqrt(x^2-a^2)', 'sqrt(x^2-a^2)', 1, '', ''),
         array('AlgEquiv', '-%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''),
 
         // SubstEquiv Answer tests.

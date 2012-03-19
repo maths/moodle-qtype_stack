@@ -22,6 +22,10 @@
 .que.stack .formulation .stackprtfeedback .incorrect {
     background: transparent;
 }
+.que.stack .formulation .questiontestslink {
+    float: right;
+    font-size: 0.7em;
+}
 
 
 /* Styles for the editing form. */

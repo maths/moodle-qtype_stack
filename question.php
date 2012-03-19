@@ -101,7 +101,7 @@ class qtype_stack_question extends question_graded_automatically {
     /**
      * @var int STACK specific: seeds Maxima's random number generator.
      */
-    protected $seed;
+    public $seed;
 
     /**
      * @var array stack_cas_session STACK specific: session of variables.
@@ -418,5 +418,24 @@ class qtype_stack_question extends question_graded_automatically {
         } else {
             return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);
         }
+    }
+
+    public function get_context() {
+        return context::instance_by_id($this->contextid);
+    }
+
+    protected function has_question_capability($type) {
+        global $USER;
+        $context = $this->get_context();
+        return has_capability("moodle/question:{$type}all", $context) ||
+                ($USER->id == $this->createdby && has_capability("moodle/question:{$type}mine", $context));
+    }
+
+    public function user_can_view() {
+        return $this->has_question_capability('view');
+    }
+
+    public function user_can_edit() {
+        return $this->has_question_capability('edit');
     }
 }

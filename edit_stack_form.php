@@ -666,7 +666,9 @@ class qtype_stack_edit_form extends question_edit_form {
                     $nodename = $key+1;
                     $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => "$nodename (".get_string('false', 'qtype_stack').")", 'field' => get_string('feedback', 'qtype_stack'))).$feedback->get_errors();
                 }
-            $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
+                if (!empty($interror)) {
+                    $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
+                }
             }
         }
 

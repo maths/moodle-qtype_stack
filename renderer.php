@@ -76,7 +76,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @return string HTML fragment.
      */
     protected function question_tests_link(qtype_stack_question $question, question_display_options $options) {
-        if ($options->suppressruntestslink) {
+        if (!empty($options->suppressruntestslink)) {
             return '';
         }
         if (!$question->user_can_view()) {

@@ -56,6 +56,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = new qtype_stack_question();
         test_question_maker::initialise_a_question($q);
         $q->qtype = question_bank::get_qtype('stack');
+        $q->contextid = context_system::instance()->id;
 
         $q->questionvariables = '';
         $q->specificfeedback = '';

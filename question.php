@@ -438,4 +438,12 @@ class qtype_stack_question extends question_graded_automatically {
     public function user_can_edit() {
         return $this->has_question_capability('edit');
     }
+
+    public function get_all_question_vars() {
+        $vars = array();
+        foreach ($this->session->get_all_keys() as $key) {
+            $vars[$key] = $this->session->get_value_key($key);
+        }
+        return $vars;
+    }
 }

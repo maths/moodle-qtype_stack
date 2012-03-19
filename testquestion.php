@@ -35,11 +35,7 @@ require_once(dirname(__FILE__).'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/stack/utils.class.php');
-require_once(dirname(__FILE__) . '/stack/options.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/casstring.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
+require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 
 // Get the parameters from the URL.
@@ -79,11 +75,14 @@ $options->flags = question_display_options::HIDDEN;
 $options->suppressruntestslink = true;
 
 // Load the list of test cases.
-$testscases = array(null);
+$testscases = array();
 // TODO
 
 // Exectue the tests.
-// TODO
+$testresults = array();
+foreach ($testscases as $key => $testcase) {
+    $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+}
 
 // Start output.
 echo $OUTPUT->header();
@@ -101,15 +100,42 @@ echo html_writer::tag('p', $question->get_question_summary());
 
 // Display the question variables.
 echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
+foreach ($question->get_all_question_vars() as $key => $value) {
+    echo  html_writer::tag('p', s($key) . ' = ' . s($value));
+}
 
 // Display the controls to add another question test.
 echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 3);
 // TODO
 
 // Display the test results.
-foreach ($testscases as $key => $results) {
+if (empty($testresults)) {
+    echo html_writer::tag('p', get_string('notestcasesyet', 'qtype_stack'));
+}
+foreach ($testresults as $key => $result) {
     echo $OUTPUT->heading(get_string('testcasex', 'qtype_stack', $key + 1), 3);
-    // TODO
+
+    $inputstable = new html_table();
+    $inputstable->head = array(
+        get_string('inputname', 'qtype_stack'),
+        get_string('inputentered', 'qtype_stack'),
+        get_string('inputdisplayed', 'qtype_stack'),
+        get_string('inputstatus', 'qtype_stack'),
+    );
+    $inputstable->attributes['class'] = 'generaltable qtype_stack-question-test';
+
+    foreach ($result->get_input_states() as $inputname => $inputstate) {
+        $inputstable->data[] = array(
+            s($inputname),
+            s($inputstate->input),
+            $inputstate->display,
+            get_string('inputstatusname' . $inputstate->status, 'qtype_stack'),
+        );
+    }
+
+    echo html_writer::table($inputstable);
+
+    // TODO display the PRT results.
 }
 
 // Finish output.

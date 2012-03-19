@@ -200,6 +200,15 @@ $string['true'] = 'True';
 $string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values link a,b,c,d';
 
 // Strings used by the question test script
+$string['inputdisplayed'] = 'Displayed as';
+$string['inputentered'] = 'Value entered';
+$string['inputname'] = 'Input name';
+$string['inputstatus'] = 'Status';
+$string['inputstatusname'] = 'Blank';
+$string['inputstatusnameinvalid'] = 'Invalid';
+$string['inputstatusnamevalid'] = 'Valid';
+$string['inputstatusnamescore'] = 'Score';
+$string['notestcasesyet'] = 'No test cases have been defined yet.';
 $string['questiontests'] = 'Question tests';
 $string['runquestiontests'] = 'Run the question tests...';
 $string['testcasex'] = 'Test case {$a}';

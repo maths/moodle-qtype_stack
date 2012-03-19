@@ -19,7 +19,7 @@ GNUPlot will install themselves in suitable directories.
 
 STACK is a question type for the moodle quiz.
 
-1. [Obtain the code](https://github.com/sangwinc/moodle-qtype_stack/pull/new/master) and place this in the directory `moodle\question\type\stack`.  (You may need to rename the directory `qtype_stack -> stack`)
+1. [Obtain the code](https://github.com/sangwinc/moodle-qtype_stack/zipball/master) and place this in the directory `moodle\question\type\stack`.  (You may need to rename the directory `qtype_stack -> stack`)
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.  
 3. As the admin user, navigate to `Home > Site administration > Plugins > Question types > Stack`.  Please choose and save the appropriate options.
 4. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.

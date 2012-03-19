@@ -64,8 +64,29 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
-        return $question->format_text($questiontext, $question->questiontextformat,
+        return $this->question_tests_link($question, $options) .
+                $question->format_text($questiontext, $question->questiontextformat,
                 $qa, 'question', 'questiontext', $question->id);
+    }
+
+    /**
+     * Displays a link to run the question tests, if applicable.
+     * @param qtype_stack_question $question
+     * @param question_display_options $options
+     * @return string HTML fragment.
+     */
+    protected function question_tests_link(qtype_stack_question $question, question_display_options $options) {
+        if ($options->suppressruntestslink) {
+            return '';
+        }
+        if (!$question->user_can_view()) {
+            return '';
+        }
+        return html_writer::tag('div',
+                html_writer::link(new moodle_url('/question/type/stack/testquestion.php',
+                        array('id' => $question->id, 'seed' => $question->seed)),
+                        get_string('runquestiontests', 'qtype_stack')),
+                array('class' => 'questiontestslink'));
     }
 
     protected function specific_feedback(question_attempt $qa) {

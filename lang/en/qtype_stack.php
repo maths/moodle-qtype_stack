@@ -199,6 +199,12 @@ $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
 $string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values link a,b,c,d';
 
+// Strings used by the question test script
+$string['questiontests'] = 'Question tests';
+$string['runquestiontests'] = 'Run the question tests...';
+$string['testcasex'] = 'Test case {$a}';
+$string['testingquestion'] = 'Testing question {$a}';
+
 // Support scripts (CAS chat, healthcheck, etc.)
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';

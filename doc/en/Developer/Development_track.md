@@ -48,6 +48,7 @@ Some miscellaneous things
 * $at->get_at_mark() really ought to be $at->matches(), since that is how it is used.
 * Finish cleaning up stack_utils.
 * Make sure error messages on the authoring form sit next to the appropriate field.  Currently this is a limitation of moodle forms.
+* Expand the capabilities of CASText to enable the value of a variable (not just its displayed LaTeX form) to be included in the HTML.  E.g. using a tag such as `#x^2#` now this syntax is available again.  This is needed for the Google charts.
 
 ## Languages
 

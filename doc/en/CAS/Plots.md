@@ -42,6 +42,8 @@ Note also that images can be included as HTML.  It is easiest to place your imag
 
 ## Google charts  {#google}
 
+__NOT YET REINSTATED IN STACK 3.__
+
 In particular, you can dynamically generate a URL for
 [Google charts](http://code.google.com/apis/chart/) and in this way include randomly generated diagrams.
 

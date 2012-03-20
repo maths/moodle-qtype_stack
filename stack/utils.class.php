@@ -59,7 +59,7 @@ class stack_debug_log_base implements stack_debug_log {
      * @return string the contents of the log.
      */
     public function get_log() {
-        return $debuginfo;
+        return $this->debuginfo;
     }
 
     /**

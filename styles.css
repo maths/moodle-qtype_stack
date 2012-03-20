@@ -1,3 +1,42 @@
+/* Styles used when questions are being attempted. */
+.que.stack .stacksyntaxexample {
+    color: blue;
+    font-family: monospace;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.que.stack .stackinputfeedback {
+    background-color: #ddd;
+    margin: 0.2em -0.2em 0.5em;
+    padding: 0.2em;
+}
+
+.que.stack .formulation .stackprtfeedback {
+    background: #fff3bf;
+    margin: 0.2em -0.2em 0.5em;
+    padding: 0.2em;
+}
+.que.stack .formulation .stackprtfeedback .correct,
+.que.stack .formulation .stackprtfeedback .partiallycorrect,
+.que.stack .formulation .stackprtfeedback .incorrect {
+    background: transparent;
+}
+.que.stack .formulation .questiontestslink {
+    float: right;
+    font-size: 0.7em;
+}
+
+
+/* Styles for the editing form. */
+body#page-question-type-stack .fitem_fgroup .accesshide {
+    font: inherit;
+    left: 0;
+    position: static;
+}
+
+
+/* Styles for the supporting scripts, healthcheck, etc. */
 body.path-question-type-stack dt {
     font-weight: bold;
 }
@@ -36,28 +75,4 @@ body.path-question-type-stack h2.fail {
 }
 body.path-question-type-stack h2.pass {
     color: #080;
-}
-
-.que.stack .stacksyntaxexample {
-    color: blue;
-    font-family: monospace;
-    font-size: 100%;
-    font-weight: bold;
-}
-
-.que.stack .stackinputfeedback {
-    background-color: #ddd;
-    margin: 0.2em -0.2em 0.5em;
-    padding: 0.2em;
-}
-
-.que.stack .formulation .stackprtfeedback {
-    background: #fff3bf;
-    margin: 0.2em -0.2em 0.5em;
-    padding: 0.2em;
-}
-.que.stack .formulation .stackprtfeedback .correct,
-.que.stack .formulation .stackprtfeedback .partiallycorrect,
-.que.stack .formulation .stackprtfeedback .incorrect {
-    background: transparent;
 }

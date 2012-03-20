@@ -78,6 +78,7 @@ extends UnitTestCase {
 
         $at1 = new stack_cas_session($s1, null, 0);
         $this->assertEqual('a=x^2; b=1/(1+x^2); c=e^(i*pi);', $at1->get_keyval_representation());
+        $this->assertEqual(array('a', 'b', 'c'), $at1->get_all_keys());
     }
 
     public function test_keyval_representation_2() {

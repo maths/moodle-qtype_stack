@@ -9,19 +9,19 @@ and on the basis of the properties we establish to assign _feedback_.
   In mathematics, summative feedback is most often _quantitative_,  either a mark or a percentage.
 * **Evaluative assessment** is to measure the effectiveness of the teaching or the
   assessment of students.  Such assessments could have quality enhancement or quality audit functions.
-  See [reviewing](Reviewing). The ability to automatically generate data about an individual student or
+  See [reviewing](Reviewing.md). The ability to automatically generate data about an individual student or
   across a cohort is one particular strength of CAA, allowing regular, detailed and accurate evaluative assessment.
 
 In STACK there is a complete separation between two important components.
 
-1. a list of [inputs](Inputs)
-2. a list of [potential response trees](Potential_response_trees)
+1. a list of [inputs](Inputs.md)
+2. a list of [potential response trees](Potential_response_trees.md)
 
-Feedback is associated with each of these and it can be positioned anywhere within the [question stem](CASText#Question_stem).
+Feedback is associated with each of these and it can be positioned anywhere within the [question text](CASText.md#question_text).
 
 # Validation #
 
-Before an input is available to a [potential response trees](Potential_response_trees)
+Before an input is available to a [potential response trees](Potential_response_trees.md)
 it must be validated.  In particular, at each attempt, each input is assigned a status.
 
 1. NULL, which indicates the field has not been previously given a value by the student,
@@ -32,27 +32,27 @@ it must be validated.  In particular, at each attempt, each input is assigned a 
 5. score.  In this case, the answer is available to any potential response tree requiring it.
 
 Whether a string entered by the student is valid or invalid does not depend on the question.
-However, some [input options](Inputs#Input_options)
+However, some [input options](Inputs.md#Input_options)
 do affect validity, such as _forbid floats_.
 
 # Properties #
 
-Each [potential response tree](Potential_response_trees) returns three outcomes
+Each [potential response tree](Potential_response_trees.md) returns three outcomes
 
 1. a numerical score
 2. text for the student
-3. an [answer note](Potential_response_trees#Answer_note)
-   for use by the teacher during [reviewing](Reviewing)
+3. an [answer note](Potential_response_trees.md#Answer_note)
+   for use by the teacher during [reviewing](Reviewing.md)
 
 These correspond approximately to formative, summative and evaluative functions of assessment.
-The [worked solution](CASText#Worked_solution) is fixed, and hence is not considered to be feedback to the student's work.
+The [worked solution](CASText.md#Worked_solution) is fixed, and hence is not considered to be feedback to the student's work.
 However, it remains a very useful worked solution.
 
-The amount of feedback available in each question is governed by an [options](Options), [feedback used](Options#Feedback_used). 
+The amount of feedback available in each question is governed by an [options](Options.md), [feedback used](Options.md#Feedback_used). 
 
 ## Numerical score  ##
 
-A numerical score may be shown, between \(0\) and the [question value](Potential_response_trees#Question_value).
+A numerical score may be shown, between \(0\) and the [question value](Potential_response_trees.md#Question_value).
 
 ## Text for the student  ##
 
@@ -60,16 +60,16 @@ The text-based feedback for students is a concatenation of the following element
 
 ### Answer test feedback  ###
 
-Many of the [answer tests](Answer_tests) generate feedback of their own. This can be suppressed using the quiet option.
+Many of the [answer tests](Answer_tests.md) generate feedback of their own. This can be suppressed using the quiet option.
 While this feedback is often not needed, it would be very difficult for the teacher to re-create this.  
 
 ### Bespoke feedback  ###
 
-Each branch of the [potential response trees](Potential_response_trees) generates some feedback.
+Each branch of the [potential response trees](Potential_response_trees.md) generates some feedback.
 
 ### Generic feedback  ###
 
-Once the [potential response trees](Potential_response_trees) has been traversed and all
+Once the [potential response trees](Potential_response_trees.md) has been traversed and all
 feedback assigned, the score is used to generate some generic feedback.
 If the raw score equals \(0\) then the default feedback is
 
@@ -83,4 +83,4 @@ Otherwise the generic feedback is
 
 	<span class='partially'>Your answer is partially correct.</span>
 
-These strings can be modified in the [options](Options).
+These strings can be modified in the [options](Options.md).

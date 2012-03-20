@@ -1,12 +1,13 @@
 # Response processing
 
-This document describes how STACK processes the student's 
-attempt at a question, and describes the purpose and 
+This document is a work in progress as we move from STACK 2 to STACK 3.  We may not implement the design proposed here.
+
+This document describes how STACK processes the student's attempt at a question, and describes the purpose and 
 interactions between different parts of the database tables.
 
-This document is intended for developers only.
+This document is intended for developers only.  
 
-The reasons why this design was adopted are given in the page on [question state caching](Question_state_caching).
+The reasons why this design was adopted are given in the page on [question state caching](Question_state_caching.md).
 
 ### Table `question`
 
@@ -16,18 +17,16 @@ This table contains the information authored by the teacher.   There are other t
 2. `response_tree`.  This holds details of each separate potential response tree.  Many potential response trees, unique for each question.
 3. `keywords` and `question_keywords` link in a many-many way between keywords and questions.
 
-[Question tests](../Authoring/Testing) are only needed during teacher testing.  They are not searched, so can be a JSON array.
+[Question tests](../Authoring/Testing.md) are only needed during teacher testing.
 
-The [options](../Authoring/Options) will be needed - more thought needed on which of these should be explicit table columns.   Would be nice to be able to add new options without altering the database if possible.
-
-Remember that we have a total disconnect between [inputs](../Authoring/Inputs)
-and [potential response trees](../Authoring/Potential_response_trees) within a [multi-part mathematical question](../Authoring/Multi-part_mathematical_questions).
+Remember that we have a total disconnect between [inputs](../Authoring/Inputs.md)
+and [potential response trees](../Authoring/Potential_response_trees.md) within a [multi-part mathematical question](../Authoring/Multi-part_mathematical_questions.md).
 
 
 ### Table `deployed_question`
 
 We pre-generate "deployed" versions of each question.  It enables us to "seed" the cache with un-attempted questions.  This also prevents many identical calls to the CAS
-at the start of a lab-session.   We can ensure all questions which are the "same" have a common database tree.  See [question note](../Authoring/Question_note).  This table stores only the information which changes when we create a deployed version.
+at the start of a lab-session.   We can ensure all questions which are the "same" have a common database tree.  See [question note](../Authoring/Question_note.md).  This table stores only the information which changes when we create a deployed version.
 
 To do:  what happens when a teacher edits a question which has been (i) deployed and (ii) for which there are attempts by students?  Best thing to start with is issue a warning and force a "save as new".
 
@@ -36,7 +35,7 @@ To do:  what happens when a teacher edits a question which has been (i) deployed
 1. Do we have any random variables?  If not, just create a singleton question.
 2. Generate a new `seed`.
 3. Instantiate the question variables.
-4. Instantiate the [question note](../Authoring/Question_note).  Does this note already appear in `deployed_question` for this `id.question`? Yes. Repeat 1-3 a reasonable number of times. 
+4. Instantiate the [question note](../Authoring/Question_note.md).  Does this note already appear in `deployed_question` for this `id.question`? Yes. Repeat 1-3 a reasonable number of times. 
 5. Instantiate all other fields.
 6. Create a new line in `deployed_question`.
 7. Take `stem.deployed_question` and (i) replace all feedback tags in `stem.deployed_question` with empty strings (ii) add all input html.

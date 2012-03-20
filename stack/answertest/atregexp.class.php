@@ -47,4 +47,8 @@ class stack_anstest_atregexp extends stack_anstest {
     public function process_atoptions() {
         return false;
     }
+
+    public function required_atoptions() {
+        return true;
+    }
 }

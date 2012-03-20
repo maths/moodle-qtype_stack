@@ -3,10 +3,9 @@
 Computer aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/)
-2. [Testing](Testing)
-3. [Deploying](Deploying)
-4. [Including questions in a Moodle Quiz](../Components/Moodle#Including_questions)
-5. [Reviewing](Reviewing)
+2. [Testing](Testing.md)
+3. [Deploying](Deploying.md)
+4. [Reviewing](Reviewing.md)
 
 **NOTE** most of the review features are not yet implemented.
 
@@ -15,10 +14,8 @@ Reviewing students answers closes the learning cycle for teachers by allowing th
 To review work we need to use two important parts of the question.
 Please read the following two entries before continuing with this article.
 
-* The [question note](Question_note).
-* The [answer note](Potential_response_trees#Answer_note).
-
-The database in STACK contains a [question state caching](../Developer/Question_state_caching) which is used as the source of data when reviewing.
+* The [question note](Question_note.md).
+* The [answer note](Potential_response_trees.md#Answer_note).
 
 # User's activity profile #
 

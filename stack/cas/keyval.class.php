@@ -72,7 +72,7 @@ class stack_cas_keyval {
     }
 
     private function validate() {
-        if (empty($this->raw)) {
+        if (empty($this->raw) or '' == trim($this->raw)) {
             $this->valid = true;
             return true;
         }

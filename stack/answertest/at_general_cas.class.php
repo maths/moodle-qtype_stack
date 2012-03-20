@@ -28,9 +28,14 @@ class stack_answertest_general_cas extends stack_anstest {
     private $casfunction;
 
     /**
-     * $var bool Are options required.
+     * $var bool Are options processed by the CAS.
      */
-    private $requirecasoptions;
+    private $processcasoptions;
+
+    /**
+     * $var bool Are options required for this test.
+     */
+    private $requiredoptions;
 
     /**
      * $var bool If this variable is set to true or false we override the
@@ -43,12 +48,16 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $tans
      * @param  string $casoption
      */
-    public function __construct($sans, $tans, $casfunction, $requirecasoptions = false,
-            $casoption = null, $options = null, $simp = false) {
+    public function __construct($sans, $tans, $casfunction, $processcasoptions = false,
+            $casoption = null, $options = null, $simp = false, $requiredoptions = false) {
         parent::__construct($sans, $tans, $options, $casoption);
 
-        if (!is_bool($requirecasoptions)) {
-            throw new Exception('stack_answertest_general_cas: requirecasoptions, must be Boolean.');
+        if (!is_bool($processcasoptions)) {
+            throw new Exception('stack_answertest_general_cas: processcasoptions, must be Boolean.');
+        }
+
+        if (!is_bool($requiredoptions)) {
+            throw new Exception('stack_answertest_general_cas: requiredoptions, must be Boolean.');
         }
 
         if (!(null===$options || is_a($options, 'stack_options'))) {
@@ -56,7 +65,8 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         $this->casfunction       = $casfunction;
-        $this->requirecasoptions = $requirecasoptions;
+        $this->processcasoptions = $processcasoptions;
+        $this->requiredoptions   = $requiredoptions;
         $this->simp              = (bool) $simp;
     }
 
@@ -67,7 +77,7 @@ class stack_answertest_general_cas extends stack_anstest {
      * @access public
      */
     public function do_test() {
-        if ($this->requirecasoptions) {
+        if ($this->processcasoptions) {
             if (null == $this->atoption or '' == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   =  stack_string("TEST_FAILED").stack_string("AT_MissingOptions");
@@ -167,6 +177,10 @@ class stack_answertest_general_cas extends stack_anstest {
     }
 
     public function process_atoptions() {
-        return $this->requirecasoptions;
+        return $this->processcasoptions;
+    }
+
+    public function required_atoptions() {
+        return $this->requiredoptions;
     }
 }

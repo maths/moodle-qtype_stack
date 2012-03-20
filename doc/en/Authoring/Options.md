@@ -4,11 +4,11 @@ Options affect the behaviour of each question.
 
 ### Question Level Simplify  ###
 
-See the entry on [simplification](../CAS/Maxima#Simplification).  Default is TRUE.
+See the entry on [simplification](../CAS/Maxima.md#Simplification).  Default is TRUE.
 
-### Assume Positive  ###
+### Assume Positive  ### {#Assume_Positive}
 
-This option sets the value of [Maxima](../CAS/Maxima)'s
+This option sets the value of [Maxima](../CAS/Maxima.md)'s
 	
 	assume_pos
  
@@ -20,7 +20,7 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Mark Modification  ###
+### Mark Modification  ### {#Mark_Modification}
 
 This option sets how a score is assigned for multiple attempts at the question.
 
@@ -36,7 +36,7 @@ The default is \(10\%\) of the marks available for this question, entered at \(0
 
 ### Feedback used 			{#Feedback_used}
 
-The [feedback](Feedback) available can be varied as follows:
+The [feedback](Feedback.md) available can be varied as follows:
 
 1. Full (default)
 2. Text + generic (no score)
@@ -46,7 +46,7 @@ The [feedback](Feedback) available can be varied as follows:
 6. Score only (no text)
 7. No feedback
 
-The generic [feedback](Feedback) is set using the three strings
+The generic [feedback](Feedback.md) is set using the three strings
 
 * Feedback Correct
 * Feedback Partially Correct
@@ -54,26 +54,17 @@ The generic [feedback](Feedback) is set using the three strings
 
 The default values for these are
 
-	<span class='correct'>Correct answer, well done.</span>
-	<span class='partially'>Your answer is partially correct.</span>
-	<span class='incorrect'>Incorrect answer.</span>
+	Correct answer, well done.
+	Your answer is partially correct.
+	Incorrect answer.
 
 The classes enable some colour to enhance the feedback.
-
-### Worked solution on demand  ###
-
-[Worked solution](CASText#Worked_solution) should be available after a due date set in the quiz.
-Currently the lack of information exchange between Moodle and STACK makes this difficult.
-Hence we have an option Worked solution on demand, which allows the teacher to decide if the student
-can choose to see the worked solution.  
-
-The default value is true.
 
 ## Output  ##
 
 The following options affect how mathematics is displayed.
 
-### Multiplication Sign ###
+### Multiplication Sign ### {#multiplication}
 
 * (none), e.g. \(x(x+1)\)
 * Dot, e.g. \(x\cdot(x+1)\)
@@ -81,7 +72,7 @@ The following options affect how mathematics is displayed.
 
 ### Surd for Square Root ### {#surd}
 
-This option sets the value of [Maxima](../CAS/Maxima)'s
+This option sets the value of [Maxima](../CAS/Maxima.md)'s
 	
 	sqrtdispflag
 

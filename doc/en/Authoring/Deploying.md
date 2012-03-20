@@ -3,10 +3,9 @@
 Computer aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/)
-2. [Testing](Testing)
-3. [Deploying](Deploying)
-4. [Including questions in a Moodle Quiz](../Components/Moodle#Including_questions)
-5. [Reviewing](Reviewing)
+2. [Testing](Testing.md)
+3. [Deploying](Deploying.md)
+4. [Reviewing](Reviewing.md)
 
 **Before a question can be presented to a student it must have at least one deployed instance**
 
@@ -26,10 +25,8 @@ Where these are several historical versions of a question, only one of them can 
 
 ## Optimising CAS Use ##
 
-A deployment phase allows STACK to optimises its use of the CAS for efficiency and reliability via a [dynamic cache](../Developer/Question_state_caching).
+A deployment phase allows STACK to optimises its use of the CAS for efficiency and reliability via a [dynamic cache](../Developer/Question_state_caching.md).
 
-To increase system performance, there is the option to ''prime'' question instances.  This processes [question tests](Testing) as if they were student submissions to add the responses to the cache.  Where question tests include likely real submissions, this can bring forward the performance benefit of a well-populated cache.
+To increase system performance, there is the option to ''prime'' question instances.  This processes [question tests](Testing.md) as if they were student submissions to add the responses to the cache.  Where question tests include likely real submissions, this can bring forward the performance benefit of a well-populated cache.
 
-## Future development ##
-More systematic control to the curation of a question instance set.
-Priming can be requested on the deployment page.  It can be done upon creation of a new instance (auto-priming) or on a set of existing instances.  Priming instances that already have responses cached for the question tests will produce no change in the cache.
+

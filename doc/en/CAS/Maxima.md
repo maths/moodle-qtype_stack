@@ -1,0 +1,221 @@
+# Introduction to Maxima for STACK users
+
+Maxima is a system for the manipulation of symbolic and numerical expressions,
+including differentiation, integration, Taylor series, Laplace transforms,
+ordinary differential equations, systems of linear equations, polynomials,
+and sets, lists, vectors, matrices, and tensors.
+
+To write more than very simple questions you will need to use 
+some Maxima commands. This documentation does not provide a 
+detailed tutorial on Maxima. A very good introduction is given 
+in [Minimal 
+Maxima](http://maxima.sourceforge.net/docs/tutorial/en/minimal-maxima.pdf), 
+which this document assumes you have read. 
+
+STACK then modifies Maxima in a number of ways.
+
+## Types of object 			{#Types_of_object}
+
+Maxima is a very weakly typed language.  However, in STACK we need the following "types" of expression:
+
+  1. equations, i.e. an expression in which the top operation is 
+an equality sign; 
+  2. inequalities, for example 
+	\( x<1\mbox{, or }x\leq 1\);
+  3. sets, for example, \(\{1,2,3\}\);
+  4. lists, for example, \([1,2,3]\).   In Maxima ordered lists are entered using square brackets, for example as 	`p:[1,1,2,x^2]`.
+    An element is accessed using the syntax `p[1]`.
+  5. matrices.  The basic syntax for a matrix is 	`p:matrix([1,2],[3,4])`.  Each row is a list. Elements are accessed as `p[1,2]`, etc.
+  6. expressions.
+
+Expressions come last, since they are just counted as being 
+_not_ the others! STACK defines [predicate functions](Predicate_functions.md) to test for each of these 
+types. 
+
+## Numbers 			{#Numbers}
+
+Numbers are important in assessment, and there is more specific and detailed documentation on how numbers are treated: [Numbers in STACK](Numbers.md).
+
+## Alias ##
+
+STACK defines the following function alias names
+
+	simplify := fullratsimp
+	int := integrate
+
+The absolute value function in Maxima is entered as `abs()`.  STACK also permits you to enter using `|` symbols, e.g.
+
+   |x|
+   
+This is an alias for `abs`.  Note that `abs(x)` will be displayed by STACK as \(|x|\).
+
+# Simplification 		{#Simplification}
+
+The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
+
+	simp:true
+
+Then this is false, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
+This is most useful for dealing with very elementary expressions.
+
+However, there are still some problems with the unary minus, e.g. \(4+(-3)\) which we would like to always display as \(4-3\).
+Matrix examples are shown below, see [showing working](Matrix.md#Showing_working).
+This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
+
+# Parts of Maxima expressions 			{#Parts_of_Maxima_expressions}
+
+It is often very useful to take apart a Maxima expression. To 
+help with this Maxima has a number of commands, including 
+`op(ex)`, `args(ex)` and `part(ex,n)`. Maxima has specific 
+documentation on this. 
+
+In particular,  `op(ex)` returns the main operator of the expression `ex`.  This command has some problems for STACK.
+
+ 1. calling op(ex) on an atom (see Maxima's documentation on the predicate `atom(ex)`) such as numbers or variable names, cause  `op(ex)` to throw an error.
+ 2. `op(ex)` sometimes returns a string, sometimes not.
+ 3. the unary minus causes problems.  E.g. in `-1/(1+x)`
+    the operation is not "/", as you might expect, but it is "-" instead!
+
+To overcome these problems STACK has a command
+	 
+	stack_op(ex)
+
+This always returns a string.  For an atom this is empty, i.e. 
+`""`.  It also sorts out some unary minus problems. 
+
+# Maxima commands defined by STACK 			{#Maxima_commands_defined_by_STACK}
+
+It is very useful when authoring questions to be able to test out Maxima code in the same environment which STACK uses Maxima.
+That is to say, with the settings and STACK specific functions loaded.
+To do this see [STACK-Maxima sandbox](STACK-Maxima_sandbox.md). 
+
+STACK creates a range of additional functions and restricts 
+those available, many of which are described within this 
+documentaion.  See also [Predicate 
+functions](Predicate_functions.md). 
+
+| Command                         | Description                                                                                                                                                                                                                                                                                                                                                         
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `factorlist(ex)`                | Returns a list of factors of ex without multiplicities                                                                                                                                                                                                                                                                                                   
+| `zip_with(f,a,b)`               | This function applies the binary function \(f\) to two lists \(a\) and \(b\) returning a list.  An example is given in adding matrices to [show working](Matrix.md#Showing_working).                                                                                                                                                                                                                                                                       
+| `coeff_list(ex,v)`              | This function takes an expression ex and returns a list of coefficients of v                                                                                                                                                                                                                                                                             
+| `coeff_list_nz(ex,v)`           | This function takes an expression ex and returns a list of nonzero coefficients of v                                                                                                                                                                                                                                                                     
+| `divthru(ex)`                   | Takes an algebraic fraction, e.g. \((x^4-1)/(x+2)\) and divides through by the denominator, to leave a polynomial and a proper fraction. Useful in feedback, or steps of a calculation.                                                                                                                                                                    
+| `stack_strip_percent(ex,var)`   | Removes any variable beginning with the `%` character from `ex` and replace them with variables from `var`.  Useful for use with solve, ode2 etc.  [Solve and ode2](Differential_equations.md#Solve_and_ode2).                                                         
+| `exdowncase(ex)`                | Takes the expression `ex` and substitutes all variables for their lower case version (cf `sdowncase(ex)` in Maxima).  This is very useful if you don't care if a student uses the wrong case, just apply this function to their answer before using an [answer test](../Authoring/Answer_tests.md).  Note, of course, that `exdowncase(X)-x=0.`   
+| `stack_reset_vars`              | Resets constants, e.g. \(i\), as abstract symbols, see [Numbers](Numbers.md).                                                                                                                                                                                                                                                                     
+| `stack_op(ex)`                  | Returns the operation of the expression in a safe way.  [Parts of Maxima expressions](Maxima.md#Parts_of_Maxima_expressions).                                                                                                                                                                                                                       
+| `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed sequare form.                                                                                                                                                                                                                                                                                                         
+
+## Assignment ## {#assignment}
+
+In Maxima the assignment of a value to a variable is _very unusual_.
+
+Input                  | Result
+---------------------- | --------------------------------------
+`a:1`                  | Assignment of the value \(1\) to \(a\).   
+`a=1`                  | An equation, yet to be solved.        
+`f(x):=x^2`            | Definition of a function.      
+
+In STACK simple assignments are of the more conventional form `key = value`, for example,
+
+	n = rand(3)+2
+	p = (x-1)^n
+
+Of course, these assignments can make use of Maxima's functions to manipulate expressions.
+
+	p = expand( (x-3)*(x-4) ) 	
+
+Another common task is that of _substitution_. This can be 
+performed with Maxima's `subst` command. This is quite useful, 
+for example if we define \(p\)  as follows, in the then we can 
+use this in response processing to determine if the student's 
+answer is odd. 
+
+	p = ans1 + subst(-x,x,ans1)
+
+All sorts of properties can be checked for in this way. For 
+example, interpolates. Another example is a stationary point of 
+\(f(x)\) at \(x=a\), which can be checked for using 
+
+	p = subst(a,x,diff(ans1,x)) 	Here we have assumed a is 
+some point given to the student, `ans1` is the and that \(p\) 
+will be used in the response processing tree. 
+
+You can use Maxima's looping structures within Question 
+variables, although the syntax requires this to be of the form 
+`key = value`. In this case, the key will be assigned the value 
+`DONE` at the end of the process, unless another value is 
+returned. For example 
+
+	n = 1
+	dum1 = for a:-3 thru 26 step 7 do n:n+a
+
+Note, you must use Maxima's syntax `a:-3` here for assignment 
+of \(-3\) to the variable `a`. The assignment to the dummy 
+variable `dum1` is to ensure every command is of the form `key 
+= value`. Please look at Maxima's documentation for the command 
+`do`. 
+
+It is also possible to define functions within the Question 
+Variables for use within a question. This is not recommended, 
+and has not been widely tested. For example 
+
+	dum1 = f(x) := x^2
+	n = f(4)
+
+Again, the syntax requires this to be of the form `key = value`, so that another dummy assignment has taken place.
+
+
+
+## Logarithms ##
+
+STACK loads the contributed Maxima package `log10`.  This defines logarithms to base \(10\) automatically.
+STACK also creates two aliases
+
+1. `ln` is an alias for \(\log\), which are natural logarithms
+2. `lg` is an alias for \(\log10\), which are logarithms to base \(10\).
+	It is not possible to redefine the command `log` to be to the base \(10\).
+
+## Functions ##
+
+It is sometimes useful for the teacher to define *functions* as part of a STACK question.  This would normally be done in Maxima using the notation.
+
+	 f(x):=x^2; 
+
+Because STACK uses the equals sign instead of Maxima's colon (`:`) it is much better to define functions using Maxima's 
+`define()` command instead of :=. Indeed, think of := as a way to define a small Maxima program, rather than defining a mathematical function.
+
+     define(f(x),x^2);
+
+Notice this expression is un-named.  This is fine.  An alternative is to define `f` as an "unnamed function" using the lambda command.
+
+	 f=lambda([x],x^2); 
+
+Here we are giving a name to an "unnamed function" which seems perverse.  Unnamed functions are extremely useful in many situations.
+
+For example, a piecewise function can be defined by either of these two commands
+
+     define(f(x), if (x<0) then 6*x-2 else -2*exp(-3*x))
+	 f= lambda([x],if (x<0) then 6*x-2 else -2*exp(-3*x))
+
+You can then plot this using
+	
+	@plot(f(x),[x,-1,1])@ 
+
+# Maxima "gocha"s! #
+
+  * See the section above on [assignment](Maxima.md#assignment).
+  * Maxima does not have a `degree` command for polynomials.  To get this you need to `load(powers)` which STACK does automatically.  This function also need a variable, e.g. is used as `degree(x^2,x)`.
+  * Matrix multiplication is the dot, e.g. `A.B`. The star `A*B` gives element-wise multiplication.
+
+## Further information and links  ##
+
+* [Minimal Maxima](http://maxima.sourceforge.net/docs/tutorial/en/minimal-maxima.pdf)
+* [Maxima on SourceForge](http://maxima.sourceforge.net)
+
+## See also
+
+[Maxima reference topics](index.md#reference).
+
+

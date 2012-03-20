@@ -109,10 +109,10 @@ class stack_potentialresponse_node {
         $this->branches[$trueorfalse] = array(
             'scoremodification' => $mod,
             'score'             => $score,
-            'penalty'          => $penalty,
-            'nextnode'         => $nextnode,
-            'feedback'         => trim($feedback),
-            'answernote'       => trim($answernote),
+            'penalty'           => $penalty,
+            'nextnode'          => $nextnode,
+            'feedback'          => trim($feedback),
+            'answernote'        => trim($answernote),
         );
     }
 
@@ -157,7 +157,7 @@ class stack_potentialresponse_node {
             'valid' => $at->get_at_valid(),
             'errors' => $at->get_at_errors(),
             'newscore' => $this->update_score($currentscore, $resultbranch),
-            'penalty' => $resultbranch['penalty'], //TODO: if non-empty!
+            'penalty' => $resultbranch['penalty'],
             'nextnode' => $resultbranch['nextnode'],
             'answernote' => implode(' | ', $answernotes),
             'feedback' => implode(' ', $feedback),
@@ -168,7 +168,7 @@ class stack_potentialresponse_node {
      * Traverse this node, updating the results array that is used by
      * {@link stack_potentialresponse_tree::evaluate_response()}.
      *
-     * @param array $results to ne updated.
+     * @param stack_potentialresponse_tree_state $results to be updated.
      * @param int $key the index of this node.
      * @param stack_cas_session $cascontext the CAS context that holds all the relevant variables.
      * @param stack_options $options
@@ -188,27 +188,26 @@ class stack_potentialresponse_node {
         }
 
         list($result, $valid, $errors, $newscore, $penalty, $nextnode, $answernote, $feedback) =
-                array_values($this->do_test($sans, $tans, $atopts, $options, $results['score']));
-        // TODO check for errors here?
+                array_values($this->do_test($sans, $tans, $atopts, $options, $results->_score));
 
-        $results['valid'] = $results['valid'] && $valid;
-        $results['score']  = $newscore;
+        $results->_valid = $results->_valid && $valid;
+        $results->_score = $newscore;
 
         if ($answernote) {
-            $results['answernote'][] = $answernote;
+            $results->add_answernote($answernote);
         }
 
         if ($feedback) {
-            $results['feedback'][] = $feedback;
+            $results->add_feedback($feedback);
         }
 
         if ($penalty !== '') {
-            $results['penalty'] = $penalty;
+            $results->_penalty = $penalty;
         }
 
-        $results['errors'] = $errors;
+        $results->_errors .= $errors;
 
-        return array($results, $nextnode);
+        return $nextnode;
     }
 
     /*

@@ -111,6 +111,11 @@ class stack_debug_log_null implements stack_debug_log {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_utils {
+    /**
+     * @var string fragment of regular expression that matches valid PRT and
+     * input names.
+     */
+    const VALID_NAME_REGEX = '[a-zA-Z][a-zA-Z0-9_]*';
 
     /**
      * Static class. You cannot create instances.
@@ -223,9 +228,10 @@ class stack_utils {
      * @param string $string the string to analyse.
      * @param string $left the opening delimiter.
      * @param string $right the closing delimiter. If omitted, uses $left.
+     * @param bool $skipempty whether to leave out any empty substrings.
      * @return array of matches without $left or $right pre/suffixes
      */
-    public static function all_substring_between($string, $left, $right = null) {
+    public static function all_substring_between($string, $left, $right = null, $skipempty = false) {
         if ($right == null) {
             $right = $left;
         }
@@ -252,7 +258,9 @@ class stack_utils {
                     $found = str_replace($left, '', $found);
                     $found = str_replace($right, '', $found);
                     $found = trim($found);
-                    $var[$j] = $found;
+                    if (!$skipempty || $found) {
+                        $var[$j] = $found;
+                    }
                     $j++;
                     $found = '';
                     $start = false;
@@ -274,22 +282,17 @@ class stack_utils {
      * @param string $left the opening delimiter.
      * @param string $right the closing delimiter. If omitted, uses $left.
      * @param array $replacements array of replacement strings, must equal the
+     * @param bool $skipempty whether to leave out any empty substrings.
      * number of replacements.
      * @return string
      */
-    public static function replace_between($string, $left, $right, $replacements) {
+    public static function replace_between($string, $left, $right, $replacements, $skipempty = false) {
         // Do error checking
         $leftcount = substr_count($string, $left);
         $rightcount = substr_count($string, $right);
         $replacecount = count($replacements);
-        if ($left == $right) {
-            if (2 * $replacecount != $leftcount) {
-                throw new Exception('replace_between: wrong number of replacements');
-            }
-        } else {
-            if (($leftcount != $rightcount) || ($replacecount != $leftcount)) {
-                throw new Exception('replace_between: wrong number of replacements or delimiters don\'t match.');
-            }
+        if ($left != $right && $leftcount != $rightcount) {
+            throw new Exception('replace_between: delimiters don\'t match.');
         }
 
         $result = '';
@@ -303,20 +306,29 @@ class stack_utils {
                 //trying to find startchar
                 if ($char[$i] == $left) {
                     $searching = false;
-                    $result .= $char[$i];
-                    $result .= $replacements[$matches];
-                    $matches++;
-                } else {
-                    $result .= $char[$i];
+                    $empty = true;
                 }
+                $result .= $char[$i];
             } else {
                 //found startchar, looking for end
                 if ($char[$i] == $right) {
+                    if ($skipempty && $empty) {
+                        // Do nothing.
+                    } else if (!isset($replacements[$matches])) {
+                        throw new Exception('replace_between: not enough replacements.');
+                    } else {
+                        $result .= $replacements[$matches];
+                        $matches++;
+                    }
                     $searching = true;
                     $result .= $char[$i];
                 }
+                $empty = false;
             }
             $i++;
+        }
+        if ($matches != count($replacements)) {
+            throw new Exception('replace_between: too many replacements.');
         }
         return $result;
     }
@@ -385,7 +397,15 @@ class stack_utils {
      * Specifically, CAS elements and inline input macros.
      */
     public static function delimit($text) {
-        return preg_replace('/@(.*)?@/U', '$@\1@$', $text);
+        return preg_replace_callback('/@([^@]*)@/', array('stack_utils', 'delimit_callback'), $text);
+    }
+
+    public static function delimit_callback($matches) {
+        if (!empty($matches[1])) {
+            return '$@' . $matches[1] . '@$';
+        } else {
+            return '@@';
+        }
     }
 
     /**
@@ -604,5 +624,20 @@ class stack_utils {
      */
     public static function list_to_array($string, $rec = true) {
         return self::list_to_array_workhorse($string, $rec);
+    }
+
+    /**
+     * Extract the names of all the placeholders like [[{$type}:{$name}]] from
+     * a bit of text. Names must start with an ASCII letter, and be comprised of
+     * ASCII letters, numbers and underscores.
+     *
+     * @param string $text some text. E.g. '[[input:ans1]]'.
+     * @param string $type the type of placeholder to extract. e.g. 'input'.
+     * @return array of placeholdernames.
+     */
+    public static function extract_placeholders($text, $type) {
+        preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
+                $text, $matches);
+        return $matches[1];
     }
 }

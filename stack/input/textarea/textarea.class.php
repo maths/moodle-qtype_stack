@@ -109,7 +109,7 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
-     * Each actual extension of this base class must decide what parameter values are valid 
+     * Each actual extension of this base class must decide what parameter values are valid.
      * @return array of parameters names.
      */
     public function internal_validate_parameter($parameter, $value) {

@@ -134,6 +134,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', 1, '', 'These currently fail'),
+        array('AlgEquiv', '(x-a)*(x+a)/sqrt(x^2-a^2)', 'sqrt(x^2-a^2)', 1, '', ''),
         array('AlgEquiv', '-%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''),
 
         // SubstEquiv Answer tests.
@@ -156,7 +157,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '(1-x)^2', '(x-1)^2', 0, '', ''),
         array('EqualComAss', '-1+2', '2-1', 1, '', 'Unary minus'),
         array('EqualComAss', '-1*2+3*4', '3*4-1*2', 1, '', ''),
-        array('EqualComAss', '(-1*2)+3*4', '3*4+(-1*2)', 1, '', ''),
+        array('EqualComAss', '(-1*2)+3*4', '10', 0, '', ''),
+        array('EqualComAss', '-1*2+3*4', '3*4-1*2', 1, '', ''),
         array('EqualComAss', 'x*(-y)', '-x*y', 1, '', ''),
         array('EqualComAss', 'x*(-y)', '-(x*y)', 1, '', ''),
         array('EqualComAss', '(-x)*(-x)', 'x*x', 0, '', ''),
@@ -312,7 +314,7 @@ class stack_answertest_test_data {
         array('CompSquare', '(x^2-1)^2+1', '(x^2-1)^2+1', 1, 'x^2', ''),
         array('CompSquare', '(y-1)^2+1', '(y-1)^2+1', 1, 'y', ''),
         array('CompSquare', '(y+1)^2+1', '(y-1)^2+1', 0, 'y', ''),
-    
+
         //Single Fraction Test
         array('SingleFrac', '1/0', '1/n', 0, '', ''),
         array('SingleFrac', '0', '1/0', 0, '', ''),

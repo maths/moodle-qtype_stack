@@ -137,11 +137,20 @@ class stack_anstest {
 
     /**
      * Returns whether the testops should be processed by the CAS for this AnswerTest
-     * Returns true if the Testops should be processed.
      *
      * @return bool
      */
     public function process_atoptions() {
+        return false;
+    }
+
+    /**
+     * Returns whether the testops are required for this test.
+     *
+     * @return bool
+     * @access public
+     */
+    public function required_atoptions() {
         return false;
     }
 }

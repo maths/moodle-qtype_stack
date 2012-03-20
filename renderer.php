@@ -64,8 +64,29 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
-        return $question->format_text($questiontext, $question->questiontextformat,
+        return $this->question_tests_link($question, $options) .
+                $question->format_text($questiontext, $question->questiontextformat,
                 $qa, 'question', 'questiontext', $question->id);
+    }
+
+    /**
+     * Displays a link to run the question tests, if applicable.
+     * @param qtype_stack_question $question
+     * @param question_display_options $options
+     * @return string HTML fragment.
+     */
+    protected function question_tests_link(qtype_stack_question $question, question_display_options $options) {
+        if (!empty($options->suppressruntestslink)) {
+            return '';
+        }
+        if (!$question->user_can_view()) {
+            return '';
+        }
+        return html_writer::tag('div',
+                html_writer::link(new moodle_url('/question/type/stack/testquestion.php',
+                        array('id' => $question->id, 'seed' => $question->seed)),
+                        get_string('runquestiontests', 'qtype_stack')),
+                array('class' => 'questiontestslink'));
     }
 
     protected function specific_feedback(question_attempt $qa) {
@@ -85,7 +106,7 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         return $question->format_text($feedbacktext, $question->specificfeedbackformat,
-                $qa, 'question', 'specificfeedback', $question->id);
+                $qa, 'qtype_stack', 'specificfeedback', $question->id);
     }
 
     /**
@@ -118,7 +139,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
             return html_writer::tag('div', $question->format_text($question->$field,
-                    $question->$format, $qa, 'question', $field, $question->id), array('class' => $class));
+                    $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';
     }

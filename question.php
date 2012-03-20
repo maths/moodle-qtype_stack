@@ -43,6 +43,16 @@ class qtype_stack_question extends question_graded_automatically {
     const MARK_MODE_LAST = 'lastanswer';
 
     /**
+     * @var string STACK specific: variables, as authored by the teacher.
+     */
+    public $questionvariables;
+
+    /**
+     * @var string STACK specific: variables, as authored by the teacher.
+     */
+    public $questionnote;
+
+    /**
      * @var string Any specific feedback for this question. This is displayed
      * in the 'yellow' feedback area of the question. It can contain PRTfeedback
      * tags, but not IEfeedback.
@@ -79,11 +89,6 @@ class qtype_stack_question extends question_graded_automatically {
     public $inputs;
 
     /**
-     * @var string STACK specific: variables, as authored by the teacher.
-     */
-    public $questionvariables;
-
-    /**
      * @var array stack_potentialresponse_tree STACK specific: respones tree number => ...
      */
     public $prts;
@@ -96,12 +101,17 @@ class qtype_stack_question extends question_graded_automatically {
     /**
      * @var int STACK specific: seeds Maxima's random number generator.
      */
-    protected $seed;
+    public $seed;
 
     /**
      * @var array stack_cas_session STACK specific: session of variables.
      */
     protected $session;
+
+    /**
+     * @var array stack_cas_session STACK specific: session of variables.
+     */
+    protected $questionnoteinstantiated;
 
     /**
      * The next three fields cache the results of some expensive computations.
@@ -145,14 +155,17 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function start_attempt(question_attempt_step $step, $variant) {
 
-        // Completely unscientific approach to spreading the seed nubmers around a bit.
+        // Completely unscientific approach to spreading the seed numbers around a bit.
+        // TODO needs to be sciencyfied!
         $this->seed = $variant * 4321 + 12345;
         $step->set_qt_var('_seed', $this->seed);
 
+        // Build up the question session out of all the bits that need to go into it.
+        // 1. question variables
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
         $session = $questionvars->get_session();
 
-        // Notice that we store all the correct answers for inputs within $this->session
+        // 2. correct answer for all inputs.
         $response =array();
         foreach ($this->inputs as $name => $input) {
             $cs = new stack_cas_casstring($input->get_teacher_answer());
@@ -161,32 +174,49 @@ class qtype_stack_question extends question_graded_automatically {
             $response[$name] = $cs;
         }
         $session->add_vars($response);
+
+        // 3. CAS bits inside the question text.
+        $questiontext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
+        if ($questiontext->get_errors()) {
+            throw new Exception('qtype_stack_question : Error in the the question text: ' .
+                    $questiontext->get_errors());
+        }
+
+        // 4. CAS bits inside the specific feedback.
+        $feedbacktext = new stack_cas_text($this->specificfeedback, $session, $this->seed, 't', false, true);
+        if ($questiontext->get_errors()) {
+            throw new Exception('qtype_stack_question : Error in the feedback text: ' .
+                    $feedbacktext->get_errors());
+        }
+
+        // 5. CAS bits inside the question note.
+        $notetext = new stack_cas_text($this->questionnote, $session, $this->seed, 't', false, true);
+        if ($questiontext->get_errors()) {
+            throw new Exception('qtype_stack_question : Error in the question note: ' .
+                    $notetext->get_errors());
+        }
+
+        // Now instantiate the session:
         $session->instantiate();
-
         $this->session = $session;
+        if ($session->get_errors()) {
+            throw new Exception('qtype_stack_question : CAS error when instantiating the session: ' .
+                    $session->get_errors());
+        }
+
+        // Now store the values that depend on the instantiated session.
         $step->set_qt_var('_questionvars', $session->get_keyval_representation());
-
-        $qtext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
-        $step->set_qt_var('_questiontext', $qtext->get_display_castext());
-
-        if ($qtext->get_errors()) {
-            throw new Exception('Error rendering the question text: ' . $qtext->get_errors());
-        }
-
-        $feedbacktext = new stack_cas_text($this->specificfeedback, $this->session, $this->seed, 't', false, true);
+        $step->set_qt_var('_questiontext', $questiontext->get_display_castext());
         $step->set_qt_var('_feedback', $feedbacktext->get_display_castext());
-
-        if ($qtext->get_errors()) {
-            throw new Exception('Error rendering the feedback text: ' . $feedbacktext->get_errors());
-        }
-
-        $this->session = $qtext->get_session();
+        $this->questionnoteinstantiated = $notetext->get_display_castext();
+        $step->set_qt_var('_questionnote', $this->questionnoteinstantiated);
     }
 
     public function apply_attempt_state(question_attempt_step $step) {
         $this->seed = (int) $step->get_qt_var('_seed');
         $questionvars = new stack_cas_keyval($step->get_qt_var('_questionvars'), $this->options, $this->seed, 't');
         $this->session = $questionvars->get_session();
+        $this->questionnoteinstantiated = $step->get_qt_var('_questionnote');
     }
 
     public function format_generalfeedback($qa) {
@@ -213,6 +243,10 @@ class qtype_stack_question extends question_graded_automatically {
             }
         }
         return $expected;
+    }
+
+    public function get_question_summary() {
+        return $this->questionnoteinstantiated;
     }
 
     public function summarise_response(array $response) {
@@ -256,9 +290,15 @@ class qtype_stack_question extends question_graded_automatically {
             return $this->inputstates[$name];
         }
 
+        // The student's answer may not contain any of the variable names with which
+        // the teacher has defined question variables.   Otherwise when it is evaluated
+        // in a PRT, the student's answer will take these values.   If the teacher defines
+        // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
+        $forbiddenkeys = $this->session->get_all_keys();
+
         $teacheranswer = $this->session->get_casstring_key($name);
         $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
-                $response, $this->options, $teacheranswer);
+                $response, $this->options, $teacheranswer, $forbiddenkeys);
 
         return $this->inputstates[$name];
     }
@@ -273,6 +313,7 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function is_gradable_response(array $response) {
+        // The following code requires all *inputs* to be non-empty and valid.
         $allblank = true;
         foreach ($this->inputs as $name => $input) {
             $status = $this->get_input_state($name, $response)->status;
@@ -282,6 +323,14 @@ class qtype_stack_question extends question_graded_automatically {
             $allblank = $allblank && ($status == stack_input::BLANK);
         }
         return !$allblank;
+        /*
+        // I think this is closer to the mark....
+        $anyprtgradable = false;
+        foreach ($this->prts as $index => $prt) {
+            $anyprtgradable = $anyprtgradable || $this->can_execute_prt($prt, $response);
+        }
+        return $anyprtgradable;
+        */
     }
 
     public function get_validation_error(array $response) {
@@ -300,7 +349,7 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     /**
-     * Do we have all the necssary inputs to execute one of the potential response trees?
+     * Do we have all the necessary inputs to execute one of the potential response trees?
      * @param stack_potentialresponse_tree $prt the tree in question.
      * @param array $response the response.
      * @return bool can this PRT be executed for that response.
@@ -352,12 +401,49 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
-        if ($component == 'question' && $filearea == 'specificfeedback') {
+        if ($component == 'qtype_stack' && $filearea == 'specificfeedback') {
             // Specific feedback files only visibile when the feedback is.
+            return $options->feedback;
+
+        } else if ($component == 'qtype_stack' && in_array($filearea,
+                array('prtcorrect', 'prtpartiallycorrect', 'prtincorrect'))) {
+            // This is a bit lax, but anything else is computationally very expensive.
+            return $options->feedback;
+
+        } else if ($component == 'qtype_stack' && in_array($filearea,
+                array('prtnodefalsefeedback', 'prtnodetruefeedback'))) {
+            // This is a bit lax, but anything else is computationally very expensive.
             return $options->feedback;
 
         } else {
             return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);
         }
+    }
+
+    public function get_context() {
+        return context::instance_by_id($this->contextid);
+    }
+
+    protected function has_question_capability($type) {
+        global $USER;
+        $context = $this->get_context();
+        return has_capability("moodle/question:{$type}all", $context) ||
+                ($USER->id == $this->createdby && has_capability("moodle/question:{$type}mine", $context));
+    }
+
+    public function user_can_view() {
+        return $this->has_question_capability('view');
+    }
+
+    public function user_can_edit() {
+        return $this->has_question_capability('edit');
+    }
+
+    public function get_all_question_vars() {
+        $vars = array();
+        foreach ($this->session->get_all_keys() as $key) {
+            $vars[$key] = $this->session->get_value_key($key);
+        }
+        return $vars;
     }
 }

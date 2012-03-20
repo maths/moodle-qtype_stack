@@ -94,14 +94,18 @@ abstract class stack_input {
 
         if (is_array($parameters)) {
             foreach ($parameters as $name => $value) {
-                if (!array_key_exists($name, $this->parameters)) {
-                    // Parameter not recognised.
-                    throw new Exception('stack_input: __construct: parameter '.$name.' is not a valid parameter name.');
-                }
-                // TODO validate $value here.
-                $this->parameters[$name] = $value;
+                $this->set_parameter($name, $value);
             }
         }
+    }
+
+    /**
+     * @param string $param a settings parameter name.
+     * @return bool whether this input type uses this parameter.
+     */
+    public function is_parameter_used($param) {
+        $class = get_class($this);
+        return array_key_exists($param, $class::get_parameters_defaults());
     }
 
     /**
@@ -109,9 +113,13 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function set_parameter($parameter, $value) {
-        if (!in_array($parameter, $this->get_parameters_used())) {
+        if (!$this->is_parameter_used($parameter)) {
             throw new Exception('stack_input: setting parameter ' . $parameter .
                     ' which does not exist for inputs of type ' . get_class($this));
+        }
+
+        if ($parameter == 'hideFeedback' && $value && $this->is_parameter_used('mustVerify')) {
+            $this->set_parameter('mustVerify', false);
         }
 
         $this->parameters[$parameter] = $value;
@@ -135,7 +143,7 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function validate_parameter($parameter, $value) {
-        if (!in_array($parameter, $this->get_parameters_used())) {
+        if (!$this->is_parameter_used($parameter)) {
             throw new Exception('stack_input: trying to validate parameter ' . $parameter .
                     ' which does not exist for inputs of type ' . get_class($this));
         }
@@ -188,20 +196,12 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function get_parameters_available() {
-        return $this->perametersavailable;
-    }
-
-    /**
-     * Returns a list of the names of all the parameters that this type of input uses.
-     * @return array of parameters names.
-     */
-    public function get_parameters_used() {
-        return array_keys($this->get_parameters_defaults());
+        return $this->perameterstack_inputsavailable;
     }
 
     /**
      * Return the default values for the parameters.
-     * @return array parameters` => default value.
+     * @return array parameters => default value.
      */
     public static function get_parameters_defaults() {
         return array();
@@ -223,7 +223,7 @@ abstract class stack_input {
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @return stack_input_state represents the current state of the input.
      */
-    public function validate_student_response($response, $options, $teacheranswer) {
+    public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys) {
         if (!is_a($options, 'stack_options')) {
             throw new Exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -248,7 +248,11 @@ abstract class stack_input {
         $answer = new stack_cas_casstring($transformedanswer);
         $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
 
-        // TODO: we need to run this check over the names of the question variables....
+        // Ensure student hasn't used a variable name used by the teacher.
+        if ($forbiddenkeys) {
+            $answer->check_external_forbidden_words($forbiddenkeys);
+        }
+
         $forbiddenwords = $this->get_parameter('forbidWords', '');
         if ($forbiddenwords) {
             $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
@@ -310,7 +314,7 @@ abstract class stack_input {
     public abstract function render(stack_input_state $state, $fieldname, $readonly);
 
     /**
-     * Generate the HTML the gives the results of validating the student's input.
+     * Generate the HTML that gives the results of validating the student's input.
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
      * @return string HTML for the validation results for this input.

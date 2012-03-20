@@ -22,6 +22,7 @@
  */
 
 require_once(dirname(__FILE__) . '/potentialresponsenode.class.php');
+require_once(dirname(__FILE__) . '/potentialresponsetreestate.class.php');
 
 /**
  * Deals with whole potential response trees.
@@ -144,16 +145,7 @@ class stack_potentialresponse_tree {
 
         $cascontext = $this->create_cas_context_for_evaluation($questionvars, $options, $answers, $seed);
 
-        // Set up the outcomes for this travsersal of the tree
-        $results = array(
-            'feedback'    => array(),
-            'answernote'  => array(),
-            'errors'      => $cascontext->get_errors(),
-            'valid'       => true,
-            'score'       => 0,
-            'penalty'     => 0,
-        );
-
+        $results = new stack_potentialresponse_tree_state($cascontext->get_errors());
         // Traverse the tree.
         $nodekey = 0;
         $visitednodes = array();
@@ -164,26 +156,28 @@ class stack_potentialresponse_tree {
             }
 
             if (array_key_exists($nodekey, $visitednodes)) {
-                $results['answernote'][] = '[PRT-CIRCULARITY]=' . $nodekey;
+                $results->add_answernote('[PRT-CIRCULARITY]=' . $nodekey);
                 break;
             }
 
             $visitednodes[$nodekey] = true;
-            list($results, $nodekey) = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $options);
+            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $options);
 
-            if ($results['errors']) {
+            if ($results->_errors) {
                 break;
             }
         }
 
         // Tidy up the results.
-        $feedbackct = new stack_cas_text(implode(' ', $results['feedback']), $cascontext, $seed, 't', false, false);
-        $results['feedback'] =  $feedbackct->get_display_castext();
-        $results['errors'] .= $feedbackct->get_errors();
-        $results['answernote'] = implode(' | ', $results['answernote']);
-        $results['fraction'] = $results['score'] * $this->value;
+        $res['feedback']   = $results->display_feedback($cascontext, $seed);
+        $res['answernote'] = implode(' | ', $results->_answernote);
+        $res['errors']     = $results->_errors; // $results->display_feedback above might yet contribute further errors....
+        $res['valid']      = $results->_valid;
+        $res['score']      = $results->_score;
+        $res['penalty']    = $results->_penalty;
+        $res['fraction']   = $results->_score * $this->value;
 
-        return $results;
+        return $res;
     }
 
     /**

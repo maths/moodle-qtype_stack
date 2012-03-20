@@ -3,10 +3,9 @@
 Computer aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/)
-2. [Testing](Testing)
-3. [Deploying](Deploying)
-4. [Including questions in a Moodle Quiz](../Components/Moodle#Including_questions)
-5. [Reviewing](Reviewing)
+2. [Testing](Testing.md)
+3. [Deploying](Deploying.md)
+4. [Reviewing](Reviewing.md)
 
 ## Testing for quality control  ##
 
@@ -20,9 +19,9 @@ extend the question without fear of regression. Question variables can be includ
 Each test assigns values to 
 
 1. any/all of the inputs.  These values may, naturally, depend on the
-   [question variables](KeyVals#Question_variables).
-2. [Answer notes](Potential_response_trees#Answer_note) from each of
-   the [potential response trees](Potential_response_trees).
+   [question variables](KeyVals.md#Question_variables).
+2. [Answer notes](Potential_response_trees.md#Answer_note) from each of
+   the [potential response trees](Potential_response_trees.md).
 
 When the teacher tries a question, STACK automatically takes each test, assigns the values
 to inputs and attempts to submit it.  The results of the last answer note from

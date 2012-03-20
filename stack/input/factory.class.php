@@ -30,6 +30,11 @@ require_once(dirname(__FILE__) . '/inputbase.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_input_factory {
+    /**
+     * @var array type name => array of parameter names used. Used to cache the
+     *      results of {@link get_parameters_defaults()}.
+     */
+    protected static $parametersdefaults = null;
 
     /**
      * Create an input of a given type and return it.
@@ -98,7 +103,6 @@ class stack_input_factory {
             }
 
             // Skip folders that don't contain the right file.
-            $result[$pluginname] = $fulldir.'/'.$pluginname;
             $file = dirname(__FILE__) . "/{$inputname}/{$inputname}.class.php";
             if (!is_readable($file)) {
                 continue;
@@ -114,6 +118,8 @@ class stack_input_factory {
             // Yay! finally we have confirmed we have a valid input plugin!
             $types[$inputname] = $class;
         }
+
+        return $types;
     }
 
     /**
@@ -122,9 +128,10 @@ class stack_input_factory {
      * @return array $typename => array of names of options used.
      */
     public static function get_parameters_used() {
+
         $used = array();
-        foreach (self::get_available_types() as $type => $class) {
-            $used[$type] = $class::get_parameters_used();
+        foreach (self::get_parameters_defaults() as $type => $defaults) {
+            $used[$type] = array_keys($defaults);
             $used[$type][] = 'inputType';
         }
         return $used;
@@ -136,10 +143,13 @@ class stack_input_factory {
      * @return array $typename => array of option names => default.
      */
     public static function get_parameters_defaults() {
-        $defaults = array();
-        foreach (self::get_available_types() as $type => $class) {
-            $defaults[$type] = $class::get_parameters_defaults();
+        if (!is_null(self::$parametersdefaults)) {
+            return self::$parametersdefaults;
         }
-        return $defaults;
+        self::$parametersdefaults = array();
+        foreach (self::get_available_types() as $type => $class) {
+            self::$parametersdefaults[$type] = $class::get_parameters_defaults();
+        }
+        return self::$parametersdefaults;
     }
 }

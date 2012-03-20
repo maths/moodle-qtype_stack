@@ -375,6 +375,19 @@ class stack_cas_session {
         return $this->session;
     }
 
+    public function get_all_keys() {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+
+        $keys = array();
+        foreach ($this->session as $cs) {
+            $keys[$cs->get_key()] = true;
+        }
+        $keys = array_keys($keys);
+        return $keys;
+    }
+
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
         if (null===$this->valid) {

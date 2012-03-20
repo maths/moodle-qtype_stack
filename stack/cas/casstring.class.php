@@ -300,22 +300,25 @@ class stack_cas_casstring {
     }
 
     /**
-     * Check for CAS commands which appear in the $keywords array
+     * Check for CAS commands which appear in the $keywords array, which are not just single variables
      * Notes, (i)  this is case insensitive.
      *        (ii) returns true if we find the element of the array.
      * @return bool|string true if an element of array is found in the casstring.
      */
     public function check_external_forbidden_words($keywords) {
+        if (null===$this->valid) {
+            $this->validate();
+        }
+        // Ensure all $keywords are upper case
+        foreach ($keywords as $key => $val) {
+            $keywords[$key] = trim(strtoupper($val));
+        }
+
         $found          = false;
         $cmd            = $this->casstring;
         $strin_keywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
-
-        // Ensure all $keywords are upper case
-        foreach ($keywords as $key => $val) {
-            $keywords[$key] = trim(strtoupper($val));
-        }
 
         // Filter out some of these matches.
         foreach ($out[0] as $key) {
@@ -323,7 +326,7 @@ class stack_cas_casstring {
             // These strings are fine.
             preg_match("|[0-9]+|", $key, $justnum);
 
-            if (empty($justnum) and strlen($key)>2) {
+            if (empty($justnum) and strlen($key)>1) {
                 $upkey = strtoupper($key);
                 array_push($strin_keywords, $upkey);
             }

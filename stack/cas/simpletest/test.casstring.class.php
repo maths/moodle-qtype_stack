@@ -78,6 +78,19 @@ extends UnitTestCase {
             $this->get_key($case[0], $case[1], $case[2]);
         }
     }
+
+    public function test_check_external_forbidden_words() {
+        $cases = array(
+            array('sin(ta)', array('ta'), true),
+            array('sin(ta)', array('ta', 'a', 'b'), true),
+            array('sin(ta)', array('sa'), false),
+        );
+
+        foreach ($cases as $case) {
+            $cs = new stack_cas_casstring($case[0]);
+            $this->assertEqual($case[2], $cs->check_external_forbidden_words($case[1]));
+        }
+    }
 }
 
 class stack_cas_casstring_exception_test

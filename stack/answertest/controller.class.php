@@ -99,19 +99,19 @@ class stack_ans_test_controller {
                 break;
 
             case 'FacForm':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATFacForm', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATFacForm', true, $casoption, $options, false, true);
                 break;
 
             case 'SingleFrac':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSingleFrac', false, $casoption, $options, 0);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATSingleFrac', false, $casoption, $options, false);
                 break;
 
             case 'PartFrac':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATPartFrac', true, $casoption, $options, true);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATPartFrac', true, $casoption, $options, true, false, true);
                 break;
 
             case 'CompSquare':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCompSquare', true, $casoption, $options, true);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCompSquare', true, $casoption, $options, true, false, true);
                 break;
 
             case 'String':
@@ -130,11 +130,11 @@ class stack_ans_test_controller {
                 break;
 
             case 'Diff':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATDiff', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATDiff', true, $casoption, $options, false, true);
                 break;
 
             case 'Int':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATInt', true, $casoption, $options);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATInt', true, $casoption, $options, false, true);
                 break;
 
             case 'GT':
@@ -240,12 +240,10 @@ class stack_ans_test_controller {
     }
 
     /**
-     *
-     *
-     * @return array(string)
-     * @access public
+     * @return array the list of available answertest types. An array
+     *      answertest internal name => language string key.
      */
-    public function get_available_ans_tests() {
+    public static function get_available_ans_tests() {
         return self::$types;
     }
 
@@ -260,5 +258,14 @@ class stack_ans_test_controller {
         return $this->at->process_atoptions();
     }
 
+    /**
+     * Returns whether the testops are required for this test.
+     *
+     * @return bool
+     * @access public
+     */
+    public function required_atoptions() {
+        return $this->at->required_atoptions();
+    }
 }
 

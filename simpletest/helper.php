@@ -235,7 +235,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('0');
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node0->add_branch(0, '=', 0,   '', 1, 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', 'oddeven-0-0');
+        $node0->add_branch(0, '=', 0,   '', 1,
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', 'oddeven-0-0');
         $node0->add_branch(1, '=', 0.5, '', 1, '', 'oddeven-0-1');
 
         $sans = new stack_cas_casstring('sa2');
@@ -243,7 +244,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('0');
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node1->add_branch(0, '+', 0,   '', -1, 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
+        $node1->add_branch(0, '+', 0,   '', -1,
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
         $node1->add_branch(1, '+', 0.5, '', -1, '', 'EVEN');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
@@ -286,7 +288,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('x^2');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, 'Your answer and my answer are plotted below. Look they are different! @plot([p,ans1],[x,-2,2])@', 'plots-0-0');
+        $node->add_branch(0, '=', 0, '', -1,
+                'Your answer and my answer are plotted below. Look they are different! @plot([p,ans1],[x,-2,2])@', 'plots-0-0');
         $node->add_branch(1, '=', 1, '', -1, '', 'plots-0-1');
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
                 '', true, 1, null, array($node));
@@ -295,8 +298,8 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-    * @return qtype_stack_question the question from the test5.xml file.
-    */
+     * @return qtype_stack_question the question from the test5.xml file.
+     */
     public static function make_stack_question_test5() {
         $q = self::make_a_stack_question();
 
@@ -370,7 +373,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node2->add_branch(0, '=', 0, '', -1, '', 'sol-2-0');
-        $node2->add_branch(1, '=', 1, '', -1, 'You have correctly solved the equation you have entered in part 1. Please try both parts again!', 'sol-2-1');
+        $node2->add_branch(1, '=', 1, '', -1,
+                'You have correctly solved the equation you have entered in part 1. Please try both parts again!', 'sol-2-1');
 
         $sans = new stack_cas_casstring('ans2');
         $sans->get_valid('t');

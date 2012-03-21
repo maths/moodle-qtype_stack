@@ -173,8 +173,8 @@ class stack_potentialresponse_tree {
         $res['answernote'] = implode(' | ', $results->_answernote);
         $res['errors']     = $results->_errors; // $results->display_feedback above might yet contribute further errors....
         $res['valid']      = $results->_valid;
-        $res['score']      = $results->_score;
-        $res['penalty']    = $results->_penalty;
+        $res['score']      = $results->_score + 0; // Make sure these are PHP numbers.
+        $res['penalty']    = $results->_penalty + 0;
         $res['fraction']   = $results->_score * $this->value;
 
         return $res;

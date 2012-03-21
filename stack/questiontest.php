@@ -88,7 +88,7 @@ class stack_question_test {
         foreach ($this->expectedresults as $prtname => $expectedresult) {
             $result = $question->get_prt_result($prtname, $response);
             $results->set_prt_result($prtname, new stack_potentialresponse_tree_state(
-                    '', $result['feedback'], $result['answernote'],
+                    '', $result['feedback'], explode(' | ', $result['answernote']),
                     $result['valid'], $result['score'], $result['penalty']));
         }
 

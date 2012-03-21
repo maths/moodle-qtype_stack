@@ -201,6 +201,13 @@ $string['true'] = 'True';
 $string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values link a,b,c,d';
 
 // Strings used by the question test script
+$string['addanothertestcase'] = 'Add another test case...';
+$string['addatestcase'] = 'Add a test case...';
+$string['deletethistestcase'] = 'Delete this test case...';
+$string['editthistestcase'] = 'Edit this test case...';
+$string['expectedanswernote'] = 'Expected answer note';
+$string['expectedscore'] = 'Expected score';
+$string['expectedpenalty'] = 'Expected penalty';
 $string['inputdisplayed'] = 'Displayed as';
 $string['inputentered'] = 'Value entered';
 $string['inputname'] = 'Input name';
@@ -209,10 +216,12 @@ $string['inputstatusname'] = 'Blank';
 $string['inputstatusnameinvalid'] = 'Invalid';
 $string['inputstatusnamevalid'] = 'Valid';
 $string['inputstatusnamescore'] = 'Score';
-$string['notestcasesyet'] = 'No test cases have been defined yet.';
+$string['notestcasesyet'] = 'No test cases have been added yet.';
+$string['penalty'] = 'Penalty';
+$string['prtname'] = 'PRT name';
 $string['questiontests'] = 'Question tests';
 $string['runquestiontests'] = 'Run the question tests...';
-$string['testcasex'] = 'Test case {$a}';
+$string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';
 
 // Support scripts (CAS chat, healthcheck, etc.)

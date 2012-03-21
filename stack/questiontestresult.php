@@ -93,10 +93,64 @@ class stack_question_test_result {
     }
 
     /**
+     * @return array input name => object with fields ->mark, ->expectedmark,
+     *      ->penalty, ->expectedpenalty, ->answernote, ->expectedanswernote,
+     *      ->feedback and ->testoutcome.
+     */
+    public function get_prt_states() {
+        $states = array();
+
+        foreach ($this->testcase->expectedresults as $prtname => $expectedresult) {
+            $expectedanswernote = $expectedresult->answernote;
+
+            $state = new stdClass();
+            $state->expectedscore = $expectedresult->score;
+            $state->expectedpenalty = $expectedresult->penalty;
+            $state->expectedanswernote = reset($expectedanswernote);
+
+            if (array_key_exists($prtname, $this->actualresults)) {
+                $actualresult = $this->actualresults[$prtname];
+                $state->score = $actualresult->score;
+                $state->penalty = $actualresult->penalty;
+                $state->answernote = implode(' | ', $actualresult->answernote);
+                $state->feedback = $actualresult->feedback;
+            } else {
+                $state->score = '';
+                $state->penalty = '';
+                $state->answernote = '';
+                $state->feedback = '';
+            }
+
+            $state->testoutcome = ($state->expectedscore == $state->score) &&
+                    ($state->expectedpenalty == $state->penalty) &&
+                    $this->test_answer_note($state->expectedanswernote, $actualresult->answernote);
+
+            $states[$prtname] = $state;
+        }
+
+        return $states;
+    }
+
+    /**
+     * Test that the expected and actual answer notes match, to the level we can test.
+     * @param string $expected the expected final answer note.
+     * @param array $actual the actual answer notes returend.
+     * @return bool whether the answer notes match sufficiently.
+     */
+    protected function test_answer_note($expected, $actual) {
+        $lastactual = array_pop($actual);
+        return $lastactual == $expected;
+    }
+
+    /**
      * @return bool whether the test passed successfully.
      */
     public function passed() {
-        // TODO
+        foreach ($this->get_prt_states() as $state) {
+            if (!$state->testoutcome) {
+                return false;
+            }
+        }
         return true;
     }
 }

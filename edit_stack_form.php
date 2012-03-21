@@ -164,7 +164,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // instead of setDefault, because setDefault does not work for editors.
 
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
-        $mform->addRule('questiontext', get_string('questiontextnonempty', 'qtype_stack'), 'required', '', 'client', false, false);
+        $mform->addRule('questiontext', get_string('questiontextnonempty', 'qtype_stack'), 'required', '', 'client');
 
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 get_string('questionvariables', 'qtype_stack'), array('rows' => 5, 'cols' => 80));

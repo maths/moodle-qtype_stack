@@ -70,9 +70,26 @@ body.path-question-type-stack table.stacktestsuite .pass td {
 body.path-question-type-stack table.stacktestsuite .fail td {
     background-color: #fdd;
 }
-body.path-question-type-stack h2.fail {
+body.path-question-type-stack h2.fail,
+body.path-question-type-stack h3 span.fail {
     color: #f00;
 }
-body.path-question-type-stack h2.pass {
+body.path-question-type-stack h2.pass,
+body.path-question-type-stack h3 span.pass {
     color: #080;
+}
+body.path-question-type-stack .overallresult {
+    color: white;
+    font-weight: bold;
+    padding: 0.5em;
+}
+body.path-question-type-stack .overallresult.fail {
+    background: #f00;
+}
+body.path-question-type-stack .overallresult.pass {
+    background: #080;
+}
+body.path-question-type-stack .testcasebuttons div,
+body.path-question-type-stack .testcasebuttons form {
+    display: inline;
 }

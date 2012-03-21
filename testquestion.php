@@ -76,12 +76,15 @@ $options->suppressruntestslink = true;
 
 // Load the list of test cases.
 $testscases = array();
-// TODO
 
 // Exectue the tests.
 $testresults = array();
+$allpassed = true;
 foreach ($testscases as $key => $testcase) {
     $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+    if (!$testresults[$key]->passed()) {
+        $allpassed = false;
+    }
 }
 
 // Start output.
@@ -105,16 +108,32 @@ foreach ($question->get_all_question_vars() as $key => $value) {
 }
 
 // Display the controls to add another question test.
-echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 3);
-// TODO
+echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 2);
 
 // Display the test results.
+$addlabel = stack_string('addanothertestcase', 'qtype_stack');
 if (empty($testresults)) {
     echo html_writer::tag('p', get_string('notestcasesyet', 'qtype_stack'));
+    $addlabel = stack_string('addatestcase', 'qtype_stack');
+} else if ($allpassed) {
+    echo html_writer::tag('p', stack_string('stackInstall_testsuite_pass'), array('class' => 'overallresult pass'));
+} else {
+    echo html_writer::tag('p', stack_string('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
 }
-foreach ($testresults as $key => $result) {
-    echo $OUTPUT->heading(get_string('testcasex', 'qtype_stack', $key + 1), 3);
 
+echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+        array('questionid' => $question->id)), $addlabel, 'get');
+
+foreach ($testresults as $key => $result) {
+    if ($result->passed()) {
+        $outcome = html_writer::tag('span', get_string('testsuitepass', 'qtype_stack'), array('class' => 'pass'));
+    } else {
+        $outcome = html_writer::tag('span', get_string('testsuitefail', 'qtype_stack'), array('class' => 'fail'));
+    }
+    echo $OUTPUT->heading(get_string('testcasexresult', 'qtype_stack',
+            array('no' => $key + 1, 'result' => $outcome)), 3);
+
+    // Display the information about the inputs.
     $inputstable = new html_table();
     $inputstable->head = array(
         get_string('inputname', 'qtype_stack'),
@@ -122,7 +141,7 @@ foreach ($testresults as $key => $result) {
         get_string('inputdisplayed', 'qtype_stack'),
         get_string('inputstatus', 'qtype_stack'),
     );
-    $inputstable->attributes['class'] = 'generaltable qtype_stack-question-test';
+    $inputstable->attributes['class'] = 'generaltable stacktestsuite';
 
     foreach ($result->get_input_states() as $inputname => $inputstate) {
         $inputstable->data[] = array(
@@ -135,7 +154,54 @@ foreach ($testresults as $key => $result) {
 
     echo html_writer::table($inputstable);
 
-    // TODO display the PRT results.
+    // Display the information about the PRTs.
+    $prtstable = new html_table();
+    $prtstable->head = array(
+        get_string('prtname', 'qtype_stack'),
+        get_string('score', 'qtype_stack'),
+        get_string('expectedscore', 'qtype_stack'),
+        get_string('penalty', 'qtype_stack'),
+        get_string('expectedpenalty', 'qtype_stack'),
+        get_string('answernote', 'qtype_stack'),
+        get_string('expectedanswernote', 'qtype_stack'),
+        get_string('feedback', 'question'),
+        get_string('testsuitecolpassed', 'qtype_stack'),
+    );
+    $prtstable->attributes['class'] = 'generaltable stacktestsuite';
+
+    foreach ($result->get_prt_states() as $prtname => $state) {
+        if ($state->testoutcome) {
+            $prtstable->rowclasses[] = 'pass';
+            $passedcol = get_string('testsuitepass', 'qtype_stack');
+        } else {
+            $prtstable->rowclasses[] = 'fail';
+            $passedcol = get_string('testsuitefail', 'qtype_stack');
+        }
+
+        $prtstable->data[] = array(
+            $prtname,
+            $state->score,
+            $state->expectedscore,
+            $state->penalty,
+            $state->expectedpenalty,
+            s($state->answernote),
+            s($state->expectedanswernote),
+            $state->feedback,
+            $passedcol,
+        );
+    }
+
+    echo html_writer::table($prtstable);
+
+    echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
+    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+            array('questionid' => $question->id, 'testcase' => $key)),
+            stack_string('editthistestcase', 'qtype_stack'), 'get');
+
+    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
+            array('questionid' => $question->id, 'testcase' => $key)),
+            stack_string('deletethistestcase', 'qtype_stack'), 'get');
+    echo html_writer::end_tag('div');
 }
 
 // Finish output.

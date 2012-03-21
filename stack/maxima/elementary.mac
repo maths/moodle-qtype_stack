@@ -7,15 +7,16 @@ load("C:/xampp/htdocs/stack/stack-dev/maxima/assessment.mac");
 /* http://www.ncl.ac.uk/math/numbas/manual.pdf and
 https://github.com/numbas/Numbas/blob/master/runtime/scripts/jme-display.js#L749
 
-unitDenominator transform x/1 to x zeroPower transform x^0 to 1
-simplifyFractions transform (a*b)/(a*c) to b/c zeroBase
-transform 0^x to 0 sqrtProduct simplify sqrt(a)*sqrt(b) to
-sqrt(a*b) sqrtDivision simplify sqrt(a)/sqrt(b) to sqrt(a/b)
-sqrtSquare simplify sqrt(x^2) to x trig simplify various
-trigonometric values e.g. sin(n*pi) to 0 otherNumbers simplify
-2^3 to 8 fractionNumbers display all numbers as fractions
-instead of decimals
-
+ unitDenominator transform x/1 to x 
+ zeroPower transform x^0 to 1
+ simplifyFractions transform (a*b)/(a*c) to b/c 
+ zeroBase transform 0^x to 0 
+ sqrtProduct simplify sqrt(a)*sqrt(b) to sqrt(a*b) 
+ sqrtDivision simplify sqrt(a)/sqrt(b) to sqrt(a/b)
+ sqrtSquare simplify sqrt(x^2) to x 
+ trig simplify various trigonometric values e.g. sin(n*pi) to 0 
+ otherNumbers simplify 2^3 to 8 
+ fractionNumbers display all numbers as fractions instead of decimals
 */
 
 /* NOTE: all these operations really need three separate

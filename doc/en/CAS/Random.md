@@ -51,15 +51,15 @@ Examples:
 * `rand_with_prohib(-5,5,[-1,0,1,sqrt(pi)])` returns a random number from the set \(\{-5,-4,-3,-2,2,3,4,5\}\).
 * `rand_with_prohib(-5,3,[-5/2,a])` returns a random number from the set \(\{-5,-4,-3,-2,-1,0,1,2,3\}\backslash\{a\}\).
 
+This can be used with matrices, to generate a matrix with non-zero entries for example.  The unnamed function in this example ignores its arguments.
+
+    matrixmap(lambda([ex],rand_with_prohib(-5,5,[0])),zeromatrix(5,5));
+
 ## Generating random polynomials
 
-Maxima's `block` command is also useful for more complex manipulations. Here is another example, 
-which generates a random polynomial. 
+Here is an example which generates a random polynomial, of degree 5, with coefficients between 0 and 6. 
 
-	m = rand([y,x,t])
-	p = rand(7)+1
-	q = 0
-	dum1 = block(for i:1 while i<=p do (q:q+rand(9)*m^p,p:p-1),return(q))
+    apply("+",makelist(rand(7)*x^(k-1),k,6));
 
 ## See also
 

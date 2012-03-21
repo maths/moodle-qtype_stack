@@ -268,7 +268,7 @@ class stack_cas_text {
             $this->strin = str_replace('$@', '@', $this->strin); //Mathml doesn't need to be displayed in math mode
             $this->strin = str_replace('@$', '@', $this->strin);
         } else {
-            // Assume STACK returns raw LaTeX for subsequent processing, e.g. with JSMath.
+            // Assume STACK returns raw LaTeX for subsequent processing, e.g. with MathJax.
 
             $this->castext = stack_utils::wrap_around($this->trimmedcastext);
             if (null !== $this->session) {

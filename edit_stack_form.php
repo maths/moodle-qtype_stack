@@ -622,18 +622,26 @@ class qtype_stack_edit_form extends question_edit_form {
                 $interror[] = $feedbackvars->get_errors();
             }
             foreach ($fromform[$prtname.'sans'] as $key => $sans) {
-                $cs= new stack_cas_casstring($sans);
-                if (!$cs->get_valid('t')) {
-                    //TODO this does not display in the right place!
-                    //$errors[$prtname.'sans'][$key] = $cs->get_errors();
-                    $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('sans', 'qtype_stack'))).$cs->get_errors();
+                if ('' == $sans) {
+                        $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('sans', 'qtype_stack'))).get_string('nonempty', 'qtype_stack');
+                } else {
+                    $cs= new stack_cas_casstring($sans);
+                    if (!$cs->get_valid('t')) {
+                        //TODO this does not display in the right place!
+                        //$errors[$prtname.'sans'][$key] = $cs->get_errors();
+                        $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('sans', 'qtype_stack'))).$cs->get_errors();
+                    }
                 }
             }
             foreach ($fromform[$prtname.'tans'] as $key => $sans) {
-                $cs= new stack_cas_casstring($sans);
-                if (!$cs->get_valid('t')) {
-                    //$errors[$prtname.'tans'][$key] = $cs->get_errors();
-                    $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('tans', 'qtype_stack'))).$cs->get_errors();
+                if ('' == $sans) {
+                        $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('tans', 'qtype_stack'))).get_string('nonempty', 'qtype_stack');
+                } else {
+                    $cs= new stack_cas_casstring($sans);
+                    if (!$cs->get_valid('t')) {
+                        //$errors[$prtname.'tans'][$key] = $cs->get_errors();
+                        $interror[] = get_string('edit_form_error', 'qtype_stack', array('no' => $key+1, 'field' => get_string('tans', 'qtype_stack'))).$cs->get_errors();
+                    }
                 }
             }
             foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {

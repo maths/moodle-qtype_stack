@@ -24,11 +24,11 @@
 
 
 /**
-* Interface for a class that stores debug information (or not).
-*
-* @copyright  2012 The Open University
-* @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ * Interface for a class that stores debug information (or not).
+ *
+ * @copyright  2012 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 interface stack_debug_log {
 
     /**
@@ -125,10 +125,10 @@ class stack_utils {
     }
 
     /**
-    * Create a debug log that either does, or does not, log anything.
-    * @param bool $debugenabled Whether we actually want to keep a debug log.
-    * @return stack_debug_log the log
-    */
+     * Create a debug log that either does, or does not, log anything.
+     * @param bool $debugenabled Whether we actually want to keep a debug log.
+     * @return stack_debug_log the log
+     */
     public static function make_debug_log($debugenabled = true) {
         if ($debugenabled) {
             return new stack_debug_log_base();

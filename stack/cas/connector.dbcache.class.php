@@ -25,7 +25,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     /** @var stack_cas_connection the un-cached connection to Maxima. */
     protected $rawconnection;
 
-	/** @var stack_debug_log does the debugging. */
+    /** @var stack_debug_log does the debugging. */
     protected $debug;
 
     /**

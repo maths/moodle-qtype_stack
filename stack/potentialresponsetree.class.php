@@ -66,18 +66,23 @@ class stack_potentialresponse_tree {
         if (is_a($feedbackvariables, 'stack_cas_session') || null===$feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
         } else {
-            throw new Exception('stack_potentialresponse_tree: __construct: expects $feedbackvariables to be null or a stack_cas_session.');
+            throw new Exception('stack_potentialresponse_tree: __construct: ' .
+                    'expects $feedbackvariables to be null or a stack_cas_session.');
         }
 
         if ($nodes === null) {
             $nodes = array();
         }
         if (!is_array($nodes)) {
-            throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not an array of stack_potentialresponse');
+            throw new Exception ('stack_potentialresponse_tree: __construct: ' .
+                    'attempting to construct a potential response tree with potential ' .
+                    'responses which are not an array of stack_potentialresponse');
         }
         foreach ($nodes as $node) {
             if (!is_a($node, 'stack_potentialresponse_node')) {
-                throw new Exception ('stack_potentialresponse_tree: __construct: attempting to construct a potential response tree with potential responses which are not stack_potentialresponse');
+                throw new Exception ('stack_potentialresponse_tree: __construct: ' .
+                        'attempting to construct a potential response tree with potential ' .
+                        'responses which are not stack_potentialresponse');
             }
         }
 
@@ -104,8 +109,8 @@ class stack_potentialresponse_tree {
         // Some irrelevant but invalid answers might break the CAS connection.
         $answervars = array();
         foreach ($this->get_required_variables(array_keys($answers)) as $name) {
-            if (array_key_exists($name.'_val',$answers)) {
-                $cs = new stack_cas_casstring($answers[$name.'_val']);
+            if (array_key_exists($name . '_val', $answers)) {
+                $cs = new stack_cas_casstring($answers[$name . '_val']);
             } else {
                 $cs = new stack_cas_casstring($answers[$name]);
             }
@@ -138,7 +143,8 @@ class stack_potentialresponse_tree {
     public function evaluate_response($questionvars, $options, $answers, $seed) {
 
         if (empty($this->nodes)) {
-            throw new Exception ('stack_potentialresponse_tree: evaluate_response attempting to traverse an empty tree.  Something is wrong here.');
+            throw new Exception ('stack_potentialresponse_tree: evaluate_response ' .
+                    'attempting to traverse an empty tree. Something is wrong here.');
         }
 
         $options->set_option('simplify', $this->simplify);
@@ -152,7 +158,10 @@ class stack_potentialresponse_tree {
         while ($nodekey != -1) {
 
             if (!array_key_exists($nodekey, $this->nodes)) {
-                throw new Exception('stack_potentialresponse_tree: evaluate_response: attempted to jump to a potential response which does not exist in this question.  This is a question authoring/validation problem.');
+                throw new Exception('stack_potentialresponse_tree: ' .
+                        'evaluate_response: attempted to jump to a potential response ' .
+                        'which does not exist in this question.  This is a question ' .
+                        'authoring/validation problem.');
             }
 
             if (array_key_exists($nodekey, $visitednodes)) {

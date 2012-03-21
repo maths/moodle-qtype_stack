@@ -241,7 +241,7 @@ abstract class stack_input {
         }
 
         if ('' == $sans) {
-            return new stack_input_state(stack_input::BLANK, '', '', '');
+            return new stack_input_state(self::BLANK, '', '', '');
         }
         $transformedanswer = $this->transform($sans);
 
@@ -290,11 +290,11 @@ abstract class stack_input {
         }
 
         if (!$valid) {
-            $status = stack_input::INVALID;
+            $status = self::INVALID;
         } else if ($this->get_parameter('mustVerify', true) && $validator != $sans) {
-            $status = stack_input::VALID;
+            $status = self::VALID;
         } else {
-            $status = stack_input::SCORE;
+            $status = self::SCORE;
         }
         return new stack_input_state($status, $sans, $display, $errors);
     }
@@ -320,11 +320,11 @@ abstract class stack_input {
      * @return string HTML for the validation results for this input.
      */
     public function render_validation(stack_input_state $state, $fieldname) {
-        if (stack_input::BLANK == $state->status) {
+        if (self::BLANK == $state->status) {
             return '';
         }
 
-        if ($this->get_parameter('hideFeedback', false) && stack_input::INVALID != $state->status) {
+        if ($this->get_parameter('hideFeedback', false) && self::INVALID != $state->status) {
             return '';
         }
 
@@ -336,7 +336,7 @@ abstract class stack_input {
                     'name' => $fieldname . '_val', 'value' => $state->contents));
         }
 
-        if (stack_input::INVALID == $state->status) {
+        if (self::INVALID == $state->status) {
             $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
         }
 

@@ -15,11 +15,11 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* This class represents the current state of a potential response tree.
-*
-* @copyright  2012 University of Birmingham
-* @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ * This class represents the current state of a potential response tree.
+ *
+ * @copyright  2012 University of Birmingham
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class stack_potentialresponse_tree_state {
 
     /**

@@ -194,7 +194,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Adding keys to table qtype_stack_prt_nodes
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('questionid-name', XMLDB_KEY_FOREIGN_UNIQUE, array('questionid', 'prtname'), 'qtype_stack_prts', array('questionid', 'name'));
+        $table->add_key('questionid-name', XMLDB_KEY_FOREIGN_UNIQUE, array('questionid', 'prtname'),
+                'qtype_stack_prts', array('questionid', 'name'));
 
         // Adding indexes to table qtype_stack_prt_nodes
         $table->add_index('questionid-prtname-nodename', XMLDB_INDEX_UNIQUE, array('questionid', 'prtname', 'nodename'));
@@ -211,7 +212,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     if ($oldversion < 2012031301) {
         // Define key questionid-name (foreign) to be dropped form qtype_stack_prt_nodes
         $table = new xmldb_table('qtype_stack_prt_nodes');
-        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN_UNIQUE, array('questionid', 'prtname'), 'qtype_stack_prts', array('questionid', 'name'));
+        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN_UNIQUE, array('questionid', 'prtname'),
+                'qtype_stack_prts', array('questionid', 'name'));
 
         // Launch drop key questionid-name
         $dbman->drop_key($table, $key);
@@ -224,7 +226,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Define key questionid-name (foreign) to be added to qtype_stack_prt_nodes
         $table = new xmldb_table('qtype_stack_prt_nodes');
-        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN, array('questionid', 'prtname'), 'qtype_stack_prts', array('questionid', 'name'));
+        $key = new xmldb_key('questionid-name', XMLDB_KEY_FOREIGN, array('questionid', 'prtname'),
+                'qtype_stack_prts', array('questionid', 'name'));
 
         // Launch add key questionid-name
         $dbman->add_key($table, $key);

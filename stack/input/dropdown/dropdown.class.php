@@ -56,8 +56,8 @@ class stack_dropdown_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => false,
-            'hideFeedback'   => true
-       );
+            'mustVerify'   => false,
+            'hideFeedback' => true,
+        );
     }
 }

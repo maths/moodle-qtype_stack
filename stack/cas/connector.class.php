@@ -40,7 +40,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var int the timeout to use on connections to Maxima. */
     protected $timeout;
 
-	/** @var stack_debug_log does the debugging. */
+    /** @var stack_debug_log does the debugging. */
     protected $debug;
 
     /**

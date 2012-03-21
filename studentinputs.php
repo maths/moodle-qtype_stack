@@ -104,8 +104,7 @@ foreach ($tests as $test) {
         'error'              => $error,
         'casvalid'           => s($casvalid),
         'casvalue'           => $casvalue,
- //       'casdisplayraw'      => '<span style="font-size:8px"><pre>'.$casdisplay.'</pre></span>',
-        'casdisplay'         => s($display).'<br /><span style="font-size:8px"><pre>'.$casdisplay.'</pre></span>',
+        'casdisplay'         => s($display) . html_writer::tag('pre', s($casdisplay)),
         'caserrors'          => $caserrors,
     );
     $table->add_data_keyed($row, $class);
@@ -115,9 +114,9 @@ $table->finish_output();
 
 // Overall summary.
 if ($allpassed) {
-   echo $OUTPUT->heading(stack_string('stackInstall_testsuite_pass'), 2, 'pass');
+    echo $OUTPUT->heading(stack_string('stackInstall_testsuite_pass'), 2, 'pass');
 } else {
-   echo $OUTPUT->heading(stack_string('stackInstall_testsuite_fail'), 2, 'fail');
+    echo $OUTPUT->heading(stack_string('stackInstall_testsuite_fail'), 2, 'fail');
 }
 
 // Finish output.

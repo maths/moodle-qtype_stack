@@ -15,17 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script lets the user test a question using any question tests defined
- * in the database. It also displays some of the internal workins of questions.
- *
- * Users with moodle/question:view capability can use this script to view the
- * results of the tests.
- *
- * Users with moodle/question:edit can edit the test cases and deployed version,
- * as well as just run them.
- *
- * The script takes one parameter id which is a questionid as a parameter.
- * In can optionally also take a random seed.
+ * This script lets the user create or edit question tests for a question.
  *
  * @copyright  2012 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -71,11 +61,10 @@ if (!is_null($testcase)) {
 }
 $PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
 $PAGE->set_context($context);
-$title = get_string('testingquestion', 'qtype_stack', format_string($question->name));
 // TODO fix page layout and navigation.
 
 if (!is_null($testcase)) {
-    $title = get_string('editingatestcase', 'qtype_stack',
+    $title = get_string('editingtestcase', 'qtype_stack',
             array('no' => $testcase, 'question' => format_string($question->name)));
     $submitlabel = get_string('savechanges');
 } else {
@@ -121,12 +110,16 @@ if ($mform->is_cancelled()) {
     if (!$testcase) {
         // Find the first unused testcase number.
         $testcase = $DB->get_field_sql('
-                SELECT COALESCE(MIN(qt.testcase), 0) + 1
-                  FROM {qtype_stack_qtests} qt
-             LEFT JOIN {qtype_stack_qtests} qt2 ON qt2.questionid = qt.questionid AND
-                                                   qt2.testcase = qt.testcase + 1
-                 WHERE qt.questionid = ? AND qt2.id IS NULL
-                ', array($questionid));
+                SELECT MIN(qt.testcase) + 1
+                FROM (
+                    SELECT testcase FROM {qtype_stack_qtests} WHERE questionid = ?
+                    UNION
+                    SELECT 0
+                ) qt
+                LEFT JOIN {qtype_stack_qtests} qt2 ON qt2.questionid = ? AND
+                                                      qt2.testcase = qt.testcase + 1
+                WHERE qt2.id IS NULL
+                ', array($questionid, $questionid));
         $testcasedata->testcase = $testcase;
         $DB->insert_record('qtype_stack_qtests', $testcasedata);
     }

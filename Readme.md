@@ -1,17 +1,18 @@
 # STACK 3.0
 
-[STACK](doc/en/About/index.md) is an open-source system for computer-aided
-assessment in Mathematics and related disciplines, with emphasis on formative
-assessment.
+[STACK](https://github.com/sangwinc/moodle-qtype_stack/blob/master/doc/en/About/index.md)
+is an open-source system for computer-aided assessment in Mathematics and related
+disciplines, with emphasis on formative assessment.
 
 STACK was created by [Chris Sangwin](http://web.mat.bham.ac.uk/C.J.Sangwin/) of
 the University of Birmingham, and includes the work of
-[other contributors](doc/en/About/Credits.md).
+[other contributors](https://github.com/sangwinc/moodle-qtype_stack/blob/master/doc/en/About/Credits.md).
 
 
 ## Warning
 
-Stack 3.0 is currently under [active development](doc/en/Developer/Development_track.md).
+Stack 3.0 is currently under
+[active development](https://github.com/sangwinc/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md).
 It is not ready for real use, but please feel free to download it to try out.
 
 It is now possible to install the question type, create and edit questions, and
@@ -21,10 +22,11 @@ get right.
 
 ## Documentation
 
-The [documentation is here](doc/en/index.md), including the
-[installation instructions](doc/en/Installation/index.md).
+The [documentation is here](https://github.com/sangwinc/moodle-qtype_stack/blob/master/doc/en/index.md),
+including the
+[installation instructions](https://github.com/sangwinc/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
 
 
 ## License
 
-Stack is Licensed under the [GNU General Public, License Version 3](COPYING.txt).
+Stack is Licensed under the [GNU General Public, License Version 3](https://github.com/sangwinc/moodle-qtype_stack/blob/master/COPYING.txt).

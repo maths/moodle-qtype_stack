@@ -354,4 +354,34 @@ class qtype_stack extends question_type {
                                                 'qtype_stack', 'prtnodefalsefeedback', $nodeid);
         }
     }
+
+    public function load_question_tests($questiondata) {
+        global $DB;
+
+        $testinputdata = $DB->get_records('qtype_stack_qtest_inputs',
+                array('questionid' => $questiondata->id), 'testcase, inputname');
+        $testinputs = array();
+        foreach ($testinputdata as $data) {
+            $testinputs[$data->testcase][$data->inputname] = $data->value;
+        }
+
+        $testcasenumbers = $DB->get_records_menu('qtype_stack_qtests',
+                array('questionid' => $questiondata->id), 'testcase', 'testcase, 1');
+        $testcases = array();
+        foreach ($testcasenumbers as $number => $notused) {
+            $testcase = new stack_question_test($testinputs[$number]);
+            $testcases[$number] = $testcase;
+        }
+
+        $expecteddata = $DB->get_records('qtype_stack_qtest_expected',
+                array('questionid' => $questiondata->id), 'testcase, prtname');
+        foreach ($expecteddata as $data) {
+            $testcases[$data->testcase]->add_expected_result($data->prtname,
+                    new stack_potentialresponse_tree_state('', array(),
+                            array($data->expectedanswernote), true,
+                            $data->expectedscore, $data->expectedpenalty));
+        }
+
+        return $testcases;
+    }
 }

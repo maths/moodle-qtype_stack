@@ -76,16 +76,7 @@ $options->flags = question_display_options::HIDDEN;
 $options->suppressruntestslink = true;
 
 // Load the list of test cases.
-$testscases = array();
-// TODO
-$faketest = new stack_question_test(array('ans1' => '1', 'ans2' => '42'));
-$faketest->add_expected_result('prt_the_first', new stack_potentialresponse_tree_state(
-        '', array(), array('prt_the_first-1-T'), true, 1, 0));
-$faketest->add_expected_result('prt1', new stack_potentialresponse_tree_state(
-        '', array(), array('prt1-1-T'), true, 0, 0));
-$faketest->add_expected_result('prt2', new stack_potentialresponse_tree_state(
-        '', array(), array('prt2-1-F'), true, 0, 0));
-$testscases = array($faketest);
+$testscases = question_bank::get_qtype('stack')->load_question_tests($questiondata);
 
 // Exectue the tests.
 $testresults = array();
@@ -143,7 +134,7 @@ foreach ($testresults as $key => $result) {
         $outcome = html_writer::tag('span', get_string('testsuitefail', 'qtype_stack'), array('class' => 'fail'));
     }
     echo $OUTPUT->heading(get_string('testcasexresult', 'qtype_stack',
-            array('no' => $key + 1, 'result' => $outcome)), 3);
+            array('no' => $key, 'result' => $outcome)), 3);
 
     // Display the information about the inputs.
     $inputstable = new html_table();

@@ -28,7 +28,7 @@ This option sets how a score is assigned for multiple attempts at the question.
 2. First Answer is taken
 3. Last Answer is taken
 
-### Question Penalty ###
+### Question Penalty ### {#Question_penalty)
 
 This is the percentage of the marks deducted from each different and valid attempt which is not
 completely correct, when the penalty mark modification scheme is in use. 

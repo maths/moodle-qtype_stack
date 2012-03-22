@@ -1,18 +1,18 @@
 # Feedback
 
-The purpose of STACK is to assess student's answers to mathematical questions,
+The purpose of STACK is to assess students' answers to mathematical questions,
 and on the basis of the properties we establish to assign _feedback_. 
 
-* **Formative assessment** is to support and inform students' learning.
-  Feedback here could be _qualitative_, e.g. written comments tailored to the student's answer.
-* **Summative assessment** is to establish the achievement of the student.
+* _Formative assessment_ is to support and inform students' learning.
+  Feedback here could be _qualitative_, e.g. written comments tailored to the student's answer and designed to help them improve their performance on the task.
+* _Summative assessment_ is to establish the achievement of the student.
   In mathematics, summative feedback is most often _quantitative_,  either a mark or a percentage.
-* **Evaluative assessment** is to measure the effectiveness of the teaching or the
+* _Evaluative assessment_ is to measure the effectiveness of the teaching or the
   assessment of students.  Such assessments could have quality enhancement or quality audit functions.
   See [reviewing](Reviewing.md). The ability to automatically generate data about an individual student or
-  across a cohort is one particular strength of CAA, allowing regular, detailed and accurate evaluative assessment.
+  across a cohort is one particular strength of CAA, potentially enabling regular, detailed evaluative assessment.
 
-In STACK there is a complete separation between two important components.
+In STACK multi-part questions there is a complete separation between two important components.
 
 1. a list of [inputs](Inputs.md)
 2. a list of [potential response trees](Potential_response_trees.md)
@@ -31,56 +31,65 @@ it must be validated.  In particular, at each attempt, each input is assigned a 
 4. valid, a response which is valid but not scored.
 5. score.  In this case, the answer is available to any potential response tree requiring it.
 
-Whether a string entered by the student is valid or invalid does not depend on the question.
-However, some [input options](Inputs.md#Input_options)
-do affect validity, such as _forbid floats_.
+Normally a student will view a displayed form of their expression and submit it again.  This default behaviour is inappropriate for multiple choice/selection interactions, and can be changed for each input.
+
+Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitues a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. $i$ and $j$ change meaning in differnent contexts, e.g. $\sqrt{-1}$ or vector components.  See details about [options](Options.md).
 
 # Properties #
 
 Each [potential response tree](Potential_response_trees.md) returns three outcomes
 
-1. a numerical score
-2. text for the student
+1. a numerical score,
+2. text for the student,
 3. an [answer note](Potential_response_trees.md#Answer_note)
-   for use by the teacher during [reviewing](Reviewing.md)
+   for use by the teacher during [reviewing](Reviewing.md).
 
 These correspond approximately to formative, summative and evaluative functions of assessment.
-The [worked solution](CASText.md#Worked_solution) is fixed, and hence is not considered to be feedback to the student's work.
-However, it remains a very useful worked solution.
+The [general feedback](CASText.md#General_feedback) (known as worked solution in previous versions) is fixed and may not depend on the student's answers. 
+Hence it is not considered to be feedback to the student's work in the strict sense.  However, it remains a very useful outcome to students.
 
-The amount of feedback available in each question is governed by an [options](Options.md), [feedback used](Options.md#Feedback_used). 
+The amount of feedback available in each question is governed by an [option](Options.md), [feedback used](Options.md#Feedback_used). 
 
 ## Numerical score  ##
 
-A numerical score may be shown, between \(0\) and the [question value](Potential_response_trees.md#Question_value).
+Each potential response tree calculates a numerical score between \(0\) and the [question value](Potential_response_trees.md#Question_value).
+
+The numerical scores are assembled by traversing each potential response tree.
+
+* Each branch of each node can add, subtract or set an absolute, score.
+* The outcome of a potential response tree should be between \(0\) and \(1\) and then is scaled by multiplying by the [question value](Potential_response_trees.md#Question_value) for that potential response tree.
+* A negative score, or scores greater than one are not prevented!
+* A "penalty" may also attached to this attempt, but normally the penalty is empty.  This is useful to _remove_ any penalty for this outcome.  
+
+The Mark Modification method is used to adjust the score for each potential response tree, based on the number of valid, different attempts.
+
+The default penalty mark modification scheme deducts from the score a small amount (default is \(10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
+
+It works in the following way. For each attempt $k$, we let 
+
+* $s_k$ be the score from the potential response tree.
+* $p_k$ be the "penalty" as follows:
+ * If $s_k=1$ then $p_k=0$, else
+ * If the penalty $p$ set in the potential response tree is not `NULL` then $p_k=p$, else
+ * $p_k$ is the penalty set in the question options, (default \(0.1=10\%\).
+
+The default penalty scheme takes the _maximum_ score for each attempt, so that by accruing further penalties a student may never be worse off.
+
+To be specific
+
+1. Let \( (s_i,p_i) \) for \(i=1,\cdots n\) be the list of scores and penalties for a particular potential response tree, for each different valid attempt.
+2. The score for attempt \(k\) is defined to be
+\[ \mbox{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
+Notice that this is purely a function of a list of mark, penalty pairs.
+
+
+
+The score for that attempt is the sum of the marks for each potential response tree once penalties have been deducted from each tree.
 
 ## Text for the student  ##
 
 The text-based feedback for students is a concatenation of the following elements.
 
-### Answer test feedback  ###
-
-Many of the [answer tests](Answer_tests.md) generate feedback of their own. This can be suppressed using the quiet option.
-While this feedback is often not needed, it would be very difficult for the teacher to re-create this.  
-
-### Bespoke feedback  ###
-
-Each branch of the [potential response trees](Potential_response_trees.md) generates some feedback.
-
-### Generic feedback  ###
-
-Once the [potential response trees](Potential_response_trees.md) has been traversed and all
-feedback assigned, the score is used to generate some generic feedback.
-If the raw score equals \(0\) then the default feedback is
-
-	<span class='incorrect'>Incorrect answer.</span>
-
-If the raw score equals \(1\) then the default feedback is
-
-	<span class='correct'>Correct answer, well done.</span>
-
-Otherwise the generic feedback is
-
-	<span class='partially'>Your answer is partially correct.</span>
-
-These strings can be modified in the [options](Options.md).
+* *Answer test feedback.* Many of the [answer tests](Answer_tests.md) generate feedback of their own. This can be suppressed using the quiet option. While this feedback is often not needed, it would be very difficult for the teacher to re-create this.  
+* *Bespoke feedback.* Each branch of the [potential response trees](Potential_response_trees.md) generates some feedback.
+* *Generic feedback.* Once the [potential response trees](Potential_response_trees.md) has been traversed and all feedback assigned, the score is used to generate some generic feedback. If the raw score equals \(0\) then the default feedback is _Incorrect answer_.   If the raw score equals \(1\) then the default feedback is _Correct answer, well done_. Otherwise the generic feedback is _Your answer is partially correct_.  These strings can be modified in the [options](Options.md).

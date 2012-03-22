@@ -31,13 +31,14 @@ We need to consolidate all of these things.
 
 ## Features to add - possible self contained projects ##
 
+* [Question blocks](../Authoring/Question_blocks.md)
 * Read other file formats into STACK.  In particular
   * AIM
   * WebWork
   * MapleTA 
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
- * Package for scientific units, and a science answer test
+ * Package for scientific [units](../Authoring/Units.md), and a science answer test
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  
 * Localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.

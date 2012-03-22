@@ -75,7 +75,8 @@ $title = get_string('testingquestion', 'qtype_stack', format_string($question->n
 // TODO fix page layout and navigation.
 
 if (!is_null($testcase)) {
-    $title = get_string('editingatestcase', 'qtype_stack', format_string($question->name));
+    $title = get_string('editingatestcase', 'qtype_stack',
+            array('no' => $testcase, 'question' => format_string($question->name)));
     $submitlabel = get_string('savechanges');
 } else {
     $title = get_string('addingatestcase', 'qtype_stack', format_string($question->name));
@@ -85,6 +86,28 @@ if (!is_null($testcase)) {
 // Create the editing form.
 $mform = new qtype_stack_question_test_form($PAGE->url,
         array('submitlabel' => $submitlabel, 'question' => $question));
+
+// Load current data.
+if ($testcase) {
+    $currentdata = new stdClass();
+
+    $inputs = $DB->get_records_menu('qtype_stack_qtest_inputs',
+            array('questionid' => $question->id, 'testcase' => $testcase), 'inputname', 'inputname, value');
+    foreach ($inputs as $name => $value) {
+        $currentdata->{$name} = $value;
+    }
+
+    $expectations = $DB->get_records('qtype_stack_qtest_expected',
+            array('questionid' => $question->id, 'testcase' => $testcase), 'prtname',
+            'prtname, expectedscore, expectedpenalty, expectedanswernote');
+    foreach ($expectations as $prtname => $expected) {
+        $currentdata->{$prtname . 'score'}      = $expected->expectedscore + 0;
+        $currentdata->{$prtname . 'penalty'}    = $expected->expectedpenalty + 0;
+        $currentdata->{$prtname . 'answernote'} = $expected->expectedanswernote;
+    }
+
+    $mform->set_data($currentdata);
+}
 
 // Process the form.
 if ($mform->is_cancelled()) {

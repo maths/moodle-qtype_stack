@@ -42,8 +42,9 @@ class qtype_stack_question_test_form extends moodleform {
         // Inputs
         $mform->addElement('header', 'inputsheader', get_string('testinputs', 'qtype_stack'));
 
-        foreach ($question->inputs as $input) {
+        foreach ($question->inputs as $inputname => $input) {
             $input->add_to_moodleform($mform);
+            $mform->addRule($inputname, get_string('required'), 'required', '', 'client');
         }
 
         // TODO I would really like to add a button here:
@@ -53,7 +54,16 @@ class qtype_stack_question_test_form extends moodleform {
         // Expected outcome.
         $mform->addElement('header', 'prtsheader', get_string('expectedoutcomes', 'qtype_stack'));
 
-        // TODO
+        foreach ($question->prts as $prtname => $prt) {
+            $elements = array(
+                $mform->createElement('text', $prtname . 'score', get_string('score', 'qtype_stack'), array('size' => 2)),
+                $mform->createElement('text', $prtname . 'penalty', get_string('penalty', 'qtype_stack'), array('size' => 2)),
+                $mform->createElement('text', $prtname . 'answernote', get_string('answernote', 'qtype_stack'), array('size' => 15)),
+            );
+            // TODO change the answernote field to be a dropdown list of the answer notes
+            // that this PRT can generate.
+            $mform->addGroup($elements, null, $prtname, ' ', false);
+        }
 
         // Submit buttons.
         $this->add_action_buttons(true, $this->_customdata['submitlabel']);
@@ -62,7 +72,7 @@ class qtype_stack_question_test_form extends moodleform {
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
-        // 
+        // TODO
 
         return $errors;
     }

@@ -304,10 +304,13 @@ class qtype_stack extends question_type {
 
     public function delete_question($questionid, $contextid) {
         global $DB;
-        $DB->delete_records('qtype_stack_prt_nodes', array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack_prts',      array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack_inputs',    array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack',           array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_qtest_inputs',   array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_qtests',         array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_prt_nodes',      array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_prts',           array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_inputs',         array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack',                array('questionid' => $questionid));
         parent::delete_question($questionid, $contextid);
     }
 

@@ -56,9 +56,12 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $elements = array(
-                $mform->createElement('text', $prtname . 'score', get_string('score', 'qtype_stack'), array('size' => 2)),
-                $mform->createElement('text', $prtname . 'penalty', get_string('penalty', 'qtype_stack'), array('size' => 2)),
-                $mform->createElement('text', $prtname . 'answernote', get_string('answernote', 'qtype_stack'), array('size' => 15)),
+                $mform->createElement('text', $prtname . 'score',
+                        get_string('score', 'qtype_stack'), array('size' => 2)),
+                $mform->createElement('text', $prtname . 'penalty',
+                        get_string('penalty', 'qtype_stack'), array('size' => 2)),
+                $mform->createElement('text', $prtname . 'answernote',
+                        get_string('answernote', 'qtype_stack'), array('size' => 15)),
             );
             // TODO change the answernote field to be a dropdown list of the answer notes
             // that this PRT can generate.

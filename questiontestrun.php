@@ -27,7 +27,7 @@
  * The script takes one parameter id which is a questionid as a parameter.
  * In can optionally also take a random seed.
  *
- * @copyright  2012 University of Birmingham
+ * @copyright  2012 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -39,7 +39,7 @@ require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 
 // Get the parameters from the URL.
-$questionid = required_param('id', PARAM_INT);
+$questionid = required_param('questionid', PARAM_INT);
 $seed = optional_param('seed', null, PARAM_INT);
 
 // Load the necessary data.
@@ -53,14 +53,15 @@ question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
-$urlparams = array('id' => $question->id);
+$urlparams = array('questionid' => $question->id);
 if (!is_null($seed)) {
     $urlparams['seed'] = $seed;
 }
-$PAGE->set_url('/question/type/stack/testquestion.php', $urlparams);
+$PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
 $PAGE->set_context($context);
 $title = get_string('testingquestion', 'qtype_stack', format_string($question->name));
 $PAGE->set_title($title);
+// TODO fix page layout and navigation.
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -76,6 +77,15 @@ $options->suppressruntestslink = true;
 
 // Load the list of test cases.
 $testscases = array();
+// TODO
+$faketest = new stack_question_test(array('ans1' => '1', 'ans2' => '42'));
+$faketest->add_expected_result('prt_the_first', new stack_potentialresponse_tree_state(
+        '', array(), array('prt_the_first-1-T'), true, 1, 0));
+$faketest->add_expected_result('prt1', new stack_potentialresponse_tree_state(
+        '', array(), array('prt1-1-T'), true, 0, 0));
+$faketest->add_expected_result('prt2', new stack_potentialresponse_tree_state(
+        '', array(), array('prt2-1-F'), true, 0, 0));
+$testscases = array($faketest);
 
 // Exectue the tests.
 $testresults = array();
@@ -121,8 +131,10 @@ if (empty($testresults)) {
     echo html_writer::tag('p', stack_string('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
 }
 
-echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-        array('questionid' => $question->id)), $addlabel, 'get');
+if ($canedit) {
+    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+            array('questionid' => $question->id)), $addlabel, 'get');
+}
 
 foreach ($testresults as $key => $result) {
     if ($result->passed()) {
@@ -193,15 +205,17 @@ foreach ($testresults as $key => $result) {
 
     echo html_writer::table($prtstable);
 
-    echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
-    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-            array('questionid' => $question->id, 'testcase' => $key)),
-            stack_string('editthistestcase', 'qtype_stack'), 'get');
+    if ($canedit) {
+        echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
+        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+                array('questionid' => $question->id, 'testcase' => $key)),
+                stack_string('editthistestcase', 'qtype_stack'), 'get');
 
-    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
-            array('questionid' => $question->id, 'testcase' => $key)),
-            stack_string('deletethistestcase', 'qtype_stack'), 'get');
-    echo html_writer::end_tag('div');
+        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
+                array('questionid' => $question->id, 'testcase' => $key)),
+                stack_string('deletethistestcase', 'qtype_stack'), 'get');
+        echo html_writer::end_tag('div');
+    }
 }
 
 // Finish output.

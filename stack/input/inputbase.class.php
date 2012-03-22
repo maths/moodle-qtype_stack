@@ -314,6 +314,12 @@ abstract class stack_input {
     public abstract function render(stack_input_state $state, $fieldname, $readonly);
 
     /**
+     * Add this input to a MoodleForm. This is currently used in questiontestform.php.
+     * @param MoodleQuickForm $mform the form to add elements to.
+     */
+    public abstract function add_to_moodleform(MoodleQuickForm $mform);
+
+    /**
      * Generate the HTML that gives the results of validating the student's input.
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.

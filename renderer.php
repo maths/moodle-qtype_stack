@@ -83,8 +83,8 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
         return html_writer::tag('div',
-                html_writer::link(new moodle_url('/question/type/stack/testquestion.php',
-                        array('id' => $question->id, 'seed' => $question->seed)),
+                html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php',
+                        array('questionid' => $question->id, 'seed' => $question->seed)),
                         get_string('runquestiontests', 'qtype_stack')),
                 array('class' => 'questiontestslink'));
     }

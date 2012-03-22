@@ -32,19 +32,27 @@ class stack_boolean_input extends stack_input {
         parent::__construct($name, $teacheranswer, $parameters);
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
-        $choices = array(
+    protected function get_choices() {
+        return array(
             self::F => stack_string('false'),
             self::T => stack_string('true'),
             self::NA => stack_string('notanswered'),
         );
+    }
+
+    public function render(stack_input_state $state, $fieldname, $readonly) {
 
         $attributes = array();
         if ($readonly) {
             $attributes['disabled'] = 'disabled';
         }
 
-        return html_writer::select($choices, $fieldname, $state->contents, '', $attributes);
+        return html_writer::select($this->get_choices(), $fieldname,
+                $state->contents, '', $attributes);
+    }
+
+    public function add_to_moodleform(MoodleQuickForm $mform) {
+        $mform->addElement('select', $this->name, $this->name, $this->get_choices());
     }
 
     /**

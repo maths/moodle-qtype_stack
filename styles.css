@@ -29,7 +29,8 @@
 
 
 /* Styles for the editing form. */
-body#page-question-type-stack .fitem_fgroup .accesshide {
+body#page-question-type-stack .fitem_fgroup .accesshide,
+body#page-question-type-stack-questiontestedit .fitem_fgroup .accesshide {
     font: inherit;
     left: 0;
     position: static;

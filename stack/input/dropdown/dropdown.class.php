@@ -26,20 +26,27 @@
  */
 class stack_dropdown_input extends stack_input {
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    protected function get_choices() {
         if (empty($this->parameters['ddl_values'])) {
-            return stack_string('ddl_empty');
+            return array();
         }
 
         $values = stack_utils::list_to_array('[' . trim($this->parameters['ddl_values']) . ']', false);
-
         if (empty($values)) {
-            return stack_string('ddl_empty');
+            return array();
         }
 
         $values = array_merge(
                 array('' => stack_string('notanswered')),
                 array_combine($values, $values));
+        return $values;
+    }
+
+    public function render(stack_input_state $state, $fieldname, $readonly) {
+        $values = $this->get_choices();
+        if (empty($values)) {
+            return stack_string('ddl_empty');
+        }
 
         $attributes = array();
         if ($readonly) {
@@ -48,6 +55,15 @@ class stack_dropdown_input extends stack_input {
 
         return html_writer::select($values, $fieldname, $state->contents,
                 array('' => stack_string('notanswered')), $attributes);
+    }
+
+    public function add_to_moodleform(MoodleQuickForm $mform) {
+        $values = $this->get_choices();
+        if (empty($values)) {
+            $mform->addElement('static', $this->name, stack_string('ddl_empty'));
+        } else {
+            $mform->addElement('select', $this->name, $this->name, $values);
+        }
     }
 
     /**

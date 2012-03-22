@@ -43,6 +43,10 @@ class stack_singlechar_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function add_to_moodleform(MoodleQuickForm $mform) {
+        $mform->addElement('text', $this->name, $this->name, array('size' => 1, 'maxlength' => 1));
+    }
+
     /**
      * Return the default values for the parameters.
      * @return array parameters` => default value.

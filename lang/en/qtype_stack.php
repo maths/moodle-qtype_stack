@@ -203,11 +203,15 @@ $string['ddl_empty'] = 'No choices were provided for this drop-down. Please inpu
 // Strings used by the question test script
 $string['addanothertestcase'] = 'Add another test case...';
 $string['addatestcase'] = 'Add a test case...';
+$string['addingatestcase'] = 'Adding a test case to question {$a}';
+$string['createtestcase'] = 'Create test case';
 $string['deletethistestcase'] = 'Delete this test case...';
+$string['editingatestcase'] = 'Editing a test case for question {$a}';
 $string['editthistestcase'] = 'Edit this test case...';
 $string['expectedanswernote'] = 'Expected answer note';
-$string['expectedscore'] = 'Expected score';
+$string['expectedoutcomes'] = 'Expected outcomes';
 $string['expectedpenalty'] = 'Expected penalty';
+$string['expectedscore'] = 'Expected score';
 $string['inputdisplayed'] = 'Displayed as';
 $string['inputentered'] = 'Value entered';
 $string['inputname'] = 'Input name';
@@ -223,6 +227,7 @@ $string['questiontests'] = 'Question tests';
 $string['runquestiontests'] = 'Run the question tests...';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';
+$string['testinputs'] = 'Test inputs';
 
 // Support scripts (CAS chat, healthcheck, etc.)
 $string['all'] = 'All';

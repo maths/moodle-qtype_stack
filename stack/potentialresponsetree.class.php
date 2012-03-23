@@ -235,9 +235,13 @@ class stack_potentialresponse_tree {
      * @return array string Of all the answer notes this tree might produce.
      */
     public function get_all_answer_notes() {
-        $notes = array();
+        $nodenotes = array();
         foreach ($this->nodes as $node) {
-            $notes = array_merge($notes, $node->get_answer_notes());
+            $nodenotes = array_merge($nodenotes, $node->get_answer_notes());
+        }
+        $notes = array('NULL' => 'NULL');
+        foreach ($nodenotes as $note) {
+            $notes[$note] = $note;
         }
         return $notes;
     }

@@ -1,22 +1,18 @@
 # Multipart mathematical questions
 
-STACK enables "multi-part questions".  To illustrate multi-part mathematical questions we introduce two examples.
-
 ### Example 1 ###
 
-The position \(t_0\) of a particle moving along a coordinate line is \(s=10\cos(t+90^o)\).
+Find the equation of the line tangent to \(x^3-2x^2+x\) at the point $x=2$.
 
-1. What is the particle's starting position \((t=0)\)?
-2. What are the points farthest to the left and right of the origin reached by this particle?
-3. Find the particle's velocity and acceleration at the points in (2.)
-4. When does the particle first reach the origin? What are its velocity, speed and acceleration then?
+1. Differentiate \(x^3-2x^2+x\) with respect to $x$.
+2. Evaluate your derivative at $x=2$. 
+3. Hence, find the equation of the tangent line. $y=...$
 
-Since all four parts refer to one equation, if randomly generated questions are being used then each
-of these parts needs to reference a single randomly generated equation. Hence parts 1.-4. really form
-one item.  Notice here that part 1. is independent of the others. Part 2. requires two inputs which
-are independent of each other. Part 3. depends on a response to part 2. Notice also that the teacher may
-choose to award "follow on" marking if an incorrect response to 2. is subsequently used in 3. The last
-part, 4., is independent of the others.
+Since all three parts refer to one polynomial, if randomly generated questions are being used then each
+of these parts needs to reference a single randomly generated equation. Hence parts 1.-3. really form
+one item.  Notice here that part 1. is independent of the others. Part 2. requires both the first and second inputs.
+Part 3. could easily be marked independently, or take into account parts 1 & 2. Notice also that the teacher may
+choose to award "follow on" marking.
 
 ### Example 2 ###
 
@@ -43,8 +39,7 @@ These two examples illustrate two extreme positions.
 2. All inputs within a single multi-part item must be completed before the item can be scored.
 
 Devising multi-part questions which satisfy these two extreme positions would be relatively straightforward.
-However, it is more common to have multi-part questions which are between these extremes.
-The STACK datastructure implements various options.
+However, it is more common to have multi-part questions which are between these extremes, as in the case of our first example.
 
 ### Response processing ###
 
@@ -54,7 +49,7 @@ assigned. The crucial observation in STACK is a complete separation between two 
 1. a list of [inputs](Inputs.md);
 2. a list of [potential response trees](Potential_response_trees.md).
 
-## [inputs](Inputs.md) ##
+## [Inputs](Inputs.md) ##
 
 The [question text](CASText.md#question_text), i.e. the text actually displayed to the student, may have an arbitrary number of [inputs](Inputs.md). An element may be positioned
 anywhere within the question text, including within mathematical expressions, e.g. equations (_note_: MathJax currently does not support form elements within equations). 
@@ -93,4 +88,107 @@ Permitting zero potential response trees is necessary to include a survey questi
 automatically scored. An input which is not used in any potential response tree is
 therefore treated as a survey and is simply recorded.
 
+To illustrate multi-part mathematical questions we start by authoring an example.  We assume you have just worked through the [author quick start guide](Authoring_quick_start.md) so that this is somewhat abbreviated.
 
+## Authoring a multi-part question ##
+
+Start with a new STACK question, and give the question a name, e.g. "Tangent lines".  This question will have three parts.  Start by copying the question variables and question text as follows.  Notice that we have not included any randomization, but we have used variable names at the outset to facilitate this.
+
+__Question variables:__
+
+     p=x^3-2*x^2+x
+     pt=2
+     ta1=diff(p,x)
+     ta2=subst(x=pt,diff(p,x))
+     ta3=remainder(p,(x-pt)^2)
+
+__Question text__
+
+     <p>Find the equation of the line tangent to @p@ at the point $x=@pt@$.</p>
+     <p>1. Differentiate @p@ with respect to $x$. [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+     <p>2. Evaluate your derivative at $x=@pt@$. [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+     <p>3. Hence, find the equation of the tangent line. $y=$[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
+
+Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question.
+Notice there is one potential response tree for each "part".  
+
+Update the form and then ensure the Teacher's Answers are filled in as `ta1`, `ta2` and `ta3`. 
+
+STACK has created the three potential response trees by detecting the feedback tags automatically.  Next we need to edit potential response trees.  These will establish the properties of the student's answers.
+
+###Stage 1: getting a working question###
+
+The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure that $\mbox{ans}_i$ is algebraically equivalent to $\mbox{ta}_i$, for $i=1,2,3$.  At this stage we have a working question.  Save it and preview the question.  For reference the correct answers are
+
+     ans1 = 3*x^2-4*x+1
+     ans2 = 5
+     ans3 = 5*x-8
+
+###Stage2: follow-through marking###
+
+Next we will implement simple follow through marking.  
+
+Look carefully at part 2.  This does not ask for the "correct answer" only that the student has evaluated the expression in part 1 correctly at the right point.  So the first task is to establish this property by evaluating the answer given in the first part, and comparing with the second part.  Update node 1 of `prt2` to establish the following.
+
+    AlgEquiv(ans2,subst(x=pt,ans1))
+  
+Next, add a single node, and ensure this node establishes that
+
+    AlgEquiv(ans1,ta1)
+
+We now link the true branch of node 1 to node 2.  We now have three outcomes.
+
+Node 1: did they evaluate the expression in part 1 correctly? If "yes" then go to node 2, else if "no" then exit with no marks.
+
+Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks, as suit your taste in this situation, and add some feedback such as the following in Node 2, false feedback.  
+
+    Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
+
+###Stage3: adding question tests###
+
+Testing questions it time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
+
+From the question preview window, click on `Run the question tests...` link in the top right of the page. 
+
+Please read the page on [testing](Testing.md).
+
+Add a test to your question which contains the correct answers, as follows.
+
+     ans1 = 3*x^2-4*x+1
+     ans2 = 5
+     ans3 = 5*x-8
+
+The marks should all be "1" and the answer notes as follows.
+
+     prt1 = prt1-1-T
+     prt2 = prt2-2-T
+     prt3 = prt3-1-T
+
+
+Now add a new answer test to check the follow-through marking.  For example, make the following mistake in part 1, but use it in part 2 correctly.
+
+     ans1 = 3*x^2-4
+     ans2 = 8
+     ans3 = y=8*x-8
+
+The marks should all be "0" and the answer notes as follows.
+
+     prt1 = prt1-1-F
+     prt2 = prt2-2-F
+     prt3 = prt3-1-F
+     
+When you run the tests you can also look at the feedback to confirm the system is giving the kind of feedback you want for these types of mistake.  
+
+###Stage4: Random question###
+
+Next we can add a randomly generated polynomial to the question.  Because we used variable names throughout the question from the start, this should be a simple matter of redefining the value of `p` in the question variables as follows.
+
+    p = (2+rand(3))*x^3+(2+rand(3))*x^2+(2+rand(3))*x
+
+You will need to add a non-empty question note to enable grouping of random versions.  E.g. the following string will suffice.
+
+    @p@ 
+    
+We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc to specify the correct answers.
+
+In the second test you might as well leave the test as is.

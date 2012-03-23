@@ -105,7 +105,7 @@ echo html_writer::tag('p', $question->get_question_summary());
 // Display the question variables.
 echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
 foreach ($question->get_all_question_vars() as $key => $value) {
-    echo  html_writer::tag('p', s($key) . ' = ' . s($value));
+    echo  html_writer::tag('pre', s($key) . ' = ' . s($value));
 }
 
 // Display the controls to add another question test.

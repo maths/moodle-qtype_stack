@@ -172,14 +172,18 @@ echo $OUTPUT->heading($title);
 // Show the question read-only.
 echo $quba->render_question($slot, $options);
 
-//TODO: formatting?
-//echo "<hr/>";
-//echo html_writer::tag('h3', get_string('questionvariables', 'qtype_stack'));
-//echo html_writer::tag('pre', $question->questionvariables);
-//echo "<hr/>";
-//echo html_writer::tag('h3', get_string('questiontext', 'qtype_stack'));
-//echo html_writer::tag('pre', $question->questiontext);
-//echo "<hr/>";
+// Display the question variables.
+echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+foreach ($question->get_all_question_vars() as $key => $value) {
+    echo  html_writer::tag('p', s($key) . ' = ' . s($value));
+}
+echo html_writer::end_tag('div');
+
+// Display the question text.
+// TODO why do we need this as well as the rendered view above?
+echo $OUTPUT->heading(get_string('questiontext', 'qtype_stack'), 3);
+echo html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
 
 // Show the form.
 $mform->display();

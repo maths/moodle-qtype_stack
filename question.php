@@ -99,9 +99,14 @@ class qtype_stack_question extends question_graded_automatically {
     public $options;
 
     /**
+     * @var array of seed values that have been deployed.
+     */
+    public $deployedseeds;
+
+    /**
      * @var int STACK specific: seeds Maxima's random number generator.
      */
-    public $seed;
+    public $seed = null;
 
     /**
      * @var array stack_cas_session STACK specific: session of variables.
@@ -155,9 +160,22 @@ class qtype_stack_question extends question_graded_automatically {
 
     public function start_attempt(question_attempt_step $step, $variant) {
 
-        // Completely unscientific approach to spreading the seed numbers around a bit.
-        // TODO needs to be sciencyfied!
-        $this->seed = $variant * 4321 + 12345;
+        // Work out the right seed to use.
+        if (!is_null($this->seed)) {
+            // Nasty hack, but if seed has already been set, then use that. This is
+            // used by the questiontestrun.php script to allow non-deployed
+            // variants to be browsed.
+        } else if (!$this->has_random_variants()) {
+            // Randomisation not used.
+            $this->seed = 1;
+        } else if (!empty($this->deployedseeds)) {
+            // Question has a fixed number of variants.
+            $this->seed = $this->deployedseeds[$variant - 1] + 0;
+            // Don't know why this is coming out as a string. + 0 converts to int.
+        } else {
+            // This question uses completely free randomisation.
+            $this->seed = $variant;
+        }
         $step->set_qt_var('_seed', $this->seed);
 
         // Build up the question session out of all the bits that need to go into it.
@@ -392,12 +410,26 @@ class qtype_stack_question extends question_graded_automatically {
         return $this->prtresults[$index];
     }
 
+    /**
+     * @return bool whether this question uses randomisation.
+     */
+    public function has_random_variants() {
+        return preg_match('~\brand~', $this->questionvariables);
+    }
+
     public function get_num_variants() {
-        if (preg_match('~\brand~', $this->questionvariables)) {
-            return 20; // Only a limited number of variants for now, to improve caching.
-        } else {
+        if (!$this->has_random_variants()) {
+            // This question does not use randomisation. Only declare one variant.
             return 1;
         }
+
+        if (!empty($this->deployedseeds)) {
+            // Fixed number of deployed versions, declare that.
+            return count($this->deployedseeds);
+        }
+
+        // Random question without fixed variants. We will use the seed from Moodle raw.
+        return 1000000;
     }
 
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {

@@ -54,7 +54,7 @@ $canedit = question_has_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
 $urlparams = array('questionid' => $question->id);
-if (!is_null($seed)) {
+if (!is_null($seed) && $question->has_random_variants()) {
     $urlparams['seed'] = $seed;
 }
 $PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
@@ -66,8 +66,13 @@ $PAGE->set_title($title);
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('adaptive');
+if (!is_null($seed)) {
+    // This is a bit of a hack to force the question to use a particular seed,
+    // even if it is not one of the deployed seeds.
+    $question->seed = $seed;
+}
 $slot = $quba->add_question($question, $question->defaultmark);
-$quba->start_question($slot, $seed);
+$quba->start_question($slot);
 
 // Prepare the display options.
 $options = new question_display_options();
@@ -93,20 +98,81 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 // Display the list of deployed variants, with UI to edit the list.
-// TODO
+echo $OUTPUT->heading(get_string('deployedvariants', 'qtype_stack'), 3);
+
+$variantmatched = false;
+if (!$question->has_random_variants()) {
+    echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack'));
+    $variantmatched = true;
+
+} else if (empty($question->deployedseeds)) {
+    echo html_writer::tag('p', get_string('questionnotdeployedyet', 'qtype_stack'));
+
+} else {
+    $seedchoices = array();
+    foreach ($question->deployedseeds as $deployedseed) {
+        if (!is_null($question->seed) && $question->seed == $deployedseed) {
+            $choice= html_writer::tag('b', $deployedseed,
+                    array('title' => get_string('currentlyselectedvariant', 'qtype_stack')));;
+            $variantmatched = true;
+
+        } else {
+            $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed)),
+                    $deployedseed, array('title' => get_string('testthisvariant', 'qtype_stack')));
+        }
+
+        if ($canedit) {
+            $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/type/stack/deploy.php',
+                array('questionid' => $question->id, 'undeploy' => $deployedseed, 'sesskey' => sesskey())),
+                new pix_icon('t/delete', get_string('undeploy', 'qtype_stack')));
+        }
+
+        $seedchoices[] = $choice;
+    }
+    echo html_writer::tag('p', get_string('deployedvariantoptions', 'qtype_stack',
+            implode(' | ', $seedchoices)));
+}
+if (!$variantmatched) {
+    if ($canedit) {
+        $deploybutton = ' ' . $OUTPUT->single_button(new moodle_url('/question/type/stack/deploy.php',
+                array('questionid' => $question->id, 'deploy' => $question->seed)),
+                get_string('deploy', 'qtype_stack'));
+    } else {
+        $deploybutton = '';
+    }
+    echo html_writer::tag('div', get_string('showingundeployedvariant', 'qtype_stack',
+            html_writer::tag('b', $question->seed)) . $deploybutton,
+            array('class' => 'undeployedvariant'));
+}
+
+echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'switchtovariant',
+        'action' => new moodle_url('/question/type/stack/questiontestrun.php')));
+echo html_writer::start_tag('p');
+echo html_writer::input_hidden_params($PAGE->url, array('seed'));
+
+echo html_writer::tag('label', get_string('switchtovariant', 'qtype_stack'), array('for' => 'seedfield'));
+echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 7,
+        'id' => 'seedfield', 'name' => 'seed', 'value' => mt_rand()));
+echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+
+echo html_writer::end_tag('p');
+echo html_writer::end_tag('form');
 
 // Display the question.
+echo $OUTPUT->heading(get_string('questionpreview', 'qtype_stack'), 3);
 echo $quba->render_question($slot, $options);
 
 // Display the question note
 echo $OUTPUT->heading(get_string('questionnote', 'qtype_stack'), 3);
-echo html_writer::tag('p', $question->get_question_summary());
+echo html_writer::tag('p', $question->get_question_summary(), array('class' => 'questionnote'));
 
 // Display the question variables.
 echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 foreach ($question->get_all_question_vars() as $key => $value) {
     echo  html_writer::tag('pre', s($key) . ' = ' . s($value));
 }
+echo html_writer::end_tag('div');
 
 // Display the controls to add another question test.
 echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 2);

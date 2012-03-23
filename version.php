@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2012032202;
+$plugin->version  = 2012032300;
 $plugin->requires = 2012020200;
 $plugin->cron = 0;
 

@@ -56,11 +56,11 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $elements = array(
-                $mform->createElement('text', $prtname . 'score', 
+                $mform->createElement('text', $prtname . 'score',
                     get_string('score', 'qtype_stack'), array('size' => 2)),
-                $mform->createElement('text', $prtname . 'penalty', 
+                $mform->createElement('text', $prtname . 'penalty',
                     get_string('penalty', 'qtype_stack'), array('size' => 2)),
-                $mform->createElement('select', $prtname . 'answernote', 
+                $mform->createElement('select', $prtname . 'answernote',
                     get_string('answernote', 'qtype_stack'), $prt->get_all_answer_notes())
             );
             $mform->addGroup($elements, null, $prtname, ' ', false);

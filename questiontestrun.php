@@ -61,6 +61,7 @@ $PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
 $PAGE->set_context($context);
 $title = get_string('testingquestion', 'qtype_stack', format_string($question->name));
 $PAGE->set_title($title);
+
 // TODO fix page layout and navigation.
 
 // Create the question usage we will use.

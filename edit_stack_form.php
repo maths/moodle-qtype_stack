@@ -667,26 +667,27 @@ class qtype_stack_edit_form extends question_edit_form {
                     }
                 }
             }
-            foreach ($fromform[$prtname.'truefeedback'] as $key => $strin) {
-                $feedback = new stack_cas_text($strin['text'], null, null, 't');
-                if (!$feedback->get_valid()) {
-                    $nodename = $key+1;
-                    $interror[] = get_string('edit_form_error', 'qtype_stack',
-                            array('no' => "$nodename (".get_string('true', 'qtype_stack').")",
-                            'field' => get_string('feedback', 'qtype_stack'))) . $feedback->get_errors();
+            foreach (array('true','false') as $branch) {
+                foreach ($fromform[$prtname.$branch.'feedback'] as $key => $strin) {
+                    $feedback = new stack_cas_text($strin['text'], null, null, 't');
+                    if (!$feedback->get_valid()) {
+                        $nodename = $key+1;
+                        $interror[] = get_string('edit_form_error', 'qtype_stack',
+                                array('no' => "$nodename (".get_string($branch, 'qtype_stack').")",
+                                'field' => get_string('feedback', 'qtype_stack'))) . $feedback->get_errors();
+                    }
+                }
+                foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
+                    if (strstr($strin, '|') !== false) {
+                        $nodename = $key+1;
+                        $interror[] = get_string('edit_form_error', 'qtype_stack',
+                                array('no' => "$nodename (".get_string($branch, 'qtype_stack').")",
+                                'field' => get_string('answernote', 'qtype_stack'))).get_string('answernote_err', 'qtype_stack');
+                    }
                 }
             }
-            foreach ($fromform[$prtname.'falsefeedback'] as $key => $strin) {
-                $feedback = new stack_cas_text($strin['text'], null, null, 't');
-                if (!$feedback->get_valid()) {
-                    $nodename = $key+1;
-                    $interror[] = get_string('edit_form_error', 'qtype_stack',
-                            array('no' => "$nodename (".get_string('false', 'qtype_stack').")",
-                            'field' => get_string('feedback', 'qtype_stack'))) . $feedback->get_errors();
-                }
-                if (!empty($interror)) {
-                    $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
-                }
+            if (!empty($interror)) {
+                $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
             }
         }
 

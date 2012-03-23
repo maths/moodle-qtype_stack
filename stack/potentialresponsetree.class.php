@@ -229,4 +229,16 @@ class stack_potentialresponse_tree {
         $regex = '~\b' . preg_quote(strtolower($variable)) . '\b~';
         return preg_match($regex, strtolower($string));
     }
+
+    /**
+     * This lists all possible answer notes, used for question testing.
+     * @return array string Of all the answer notes this tree might produce.
+     */
+    public function get_all_answer_notes() {
+        $notes = array();
+        foreach ($this->nodes as $node) {
+            $notes = array_merge($notes, $node->get_answer_notes());
+        }
+        return $notes;
+    }
 }

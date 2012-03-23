@@ -62,6 +62,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('Yeah!', $result['feedback']);
         $this->assertEqual('ATInt_true | 1-0-1', $result['answernote']);
+        $this->assertEqual(array('1-0-1', '1-0-0'), $tree->get_all_answer_notes());
     }
 
     public function test_do_test_2() {
@@ -112,6 +113,7 @@ class stack_potentialresponsetree_test extends UnitTestCase {
         $this->assertEqual(0, $result['penalty']);
         $this->assertEqual('Ok, you can diff. Yeah!', $result['feedback']);
         $this->assertEqual('ATDiff_true | 1-0-1 | ATFacForm_true | 1-1-1', $result['answernote']);
+        $this->assertEqual(array('1-0-1', '1-0-0','1-1-1', '1-1-0'), $tree->get_all_answer_notes());
 
     }
 

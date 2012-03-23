@@ -110,6 +110,15 @@ echo $OUTPUT->heading($title);
 // Show the question read-only.
 echo $quba->render_question($slot, $options);
 
+//TODO: formatting?
+echo "<hr/>";
+echo html_writer::tag('h3', get_string('questionvariables', 'qtype_stack'));
+echo html_writer::tag('pre', $question->questionvariables);
+echo "<hr/>";
+echo html_writer::tag('h3', get_string('questiontext', 'qtype_stack'));
+echo html_writer::tag('pre', $question->questiontext);
+echo "<hr/>";
+
 // Show the form.
 $mform->display();
 echo $OUTPUT->footer();

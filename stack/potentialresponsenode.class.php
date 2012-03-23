@@ -281,4 +281,12 @@ class stack_potentialresponse_node {
 
         return $variables;
     }
+
+    /**
+     * Returns answer notes, used for question testing.
+     * @return array string Of all the answer notes this tree might produce.
+     */
+    public function get_answer_notes() {
+       return array($this->branches[true]['answernote'], $this->branches[false]['answernote']);
+    }
 }

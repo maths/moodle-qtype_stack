@@ -402,8 +402,7 @@ class stack_cas_casstring {
         //check for global forbidden words
         foreach ($strin_keywords as $key) {
             if (in_array($key, self::$globalforbid)) {
-                //very bad!.
-                // TODO altert the teacher of this....
+                // Very bad!.
                 $this->valid = false;
                 $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
             } else {

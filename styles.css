@@ -107,3 +107,11 @@ body.path-question-type-stack .questionvariables {
 body.path-question-type-stack div.questionvariables {
     padding-bottom: 0.1em;
 }
+body.path-question-type-stack .undeployedvariant .singlebutton,
+body.path-question-type-stack .undeployedvariant .singlebutton div,
+body.path-question-type-stack .undeployedvariant .singlebutton form {
+    display: inline;
+}
+body.path-question-type-stack .switchtovariant {
+    margin-top: 1em;
+}

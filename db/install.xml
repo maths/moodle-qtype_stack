@@ -147,7 +147,7 @@
         <INDEX NAME="questionid-testcase-inputname" UNIQUE="true" FIELDS="questionid, testcase, inputname"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="qtype_stack_qtest_expected" COMMENT="Holds the expected outcomes for each PRT for this question test." PREVIOUS="qtype_stack_qtest_inputs">
+    <TABLE NAME="qtype_stack_qtest_expected" COMMENT="Holds the expected outcomes for each PRT for this question test." PREVIOUS="qtype_stack_qtest_inputs" NEXT="qtype_stack_deployed_seeds">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to question.id." PREVIOUS="id" NEXT="testcase"/>
@@ -163,6 +163,20 @@
       </KEYS>
       <INDEXES>
         <INDEX NAME="questionid-testcase-prtname" UNIQUE="true" FIELDS="questionid, testcase, prtname"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="qtype_stack_deployed_seeds" COMMENT="Holds the seeds for the variants of each question that have been deployed." PREVIOUS="qtype_stack_qtest_expected">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id" PREVIOUS="id" NEXT="seed"/>
+        <FIELD NAME="seed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The seed that has been deployed." PREVIOUS="questionid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>
+        <KEY NAME="questionid" TYPE="foreign" FIELDS="questionid" REFTABLE="question" REFFIELDS="id" PREVIOUS="primary"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="questionid-seed" UNIQUE="true" FIELDS="questionid, seed"/>
       </INDEXES>
     </TABLE>
   </TABLES>

@@ -223,6 +223,12 @@ class qtype_stack extends question_type {
         }
         $noders->close();
 
+        $question->deployedseeds = $DB->get_fieldset_sql('
+                SELECT seed
+                  FROM {qtype_stack_deployed_seeds}
+                 WHERE questionid = ?
+              ORDER BY id', array($question->id));
+
         return true;
     }
 
@@ -300,10 +306,13 @@ class qtype_stack extends question_type {
                     (bool) $prtdata->autosimplify, $prtdata->value,
                     $feedbackvariables->get_session(), $nodes);
         }
+
+        $question->deployedseeds = array_values($questiondata->deployedseeds);
     }
 
     public function delete_question($questionid, $contextid) {
         global $DB;
+        $DB->delete_records('qtype_stack_deployed_seeds', array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_qtest_inputs',   array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_qtests',         array('questionid' => $questionid));

@@ -42,6 +42,8 @@ class qtype_stack_test_helper extends question_test_helper {
             // 'test6', // Test of the matrix input type. Not currently supported.
             'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with intersting feedback.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
+            'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
+            // 'test10', // CBM using a slider input for certainty. Not currently supported.
         );
     }
 
@@ -454,7 +456,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
         $node1->add_branch(0, '=', 0.75, '', -1, '<p>You should have a general solution, which
-                includes unknown constants.  Your answer satisfies the differential equation,
+                includes unknown constants. Your answer satisfies the differential equation,
                 but does not have the correct number of unknown constants.</p>', 'Insufficient constants');
         $node1->add_branch(1, '=', 1, '', 2, '', 'Result-1-T');
 
@@ -526,11 +528,76 @@ class qtype_stack_test_helper extends question_test_helper {
         $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
         $node2->add_branch(0, '=', 0, '', -1, '', 'ans-2-F');
         $node2->add_branch(1, '=', 0, '', -1,
-                'All your answers satisfy the equation.  But, you have missed some of the solutions.',
+                'All your answers satisfy the equation. But, you have missed some of the solutions.',
                 'ans-2-T');
 
         $q->prts['ans'] = new stack_potentialresponse_tree('ans', '',
                 true, 1, null, array($node0, $node1, $node2));
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question the question from the test9.xml file.
+     */
+    public static function make_stack_question_test9() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-9';
+        $q->questionvariables = 'b = rand([-2,-3,-4,2,3,4]); ta1 = b; ta2 = rand([-2,-3,-4,2,3,4]); ' .
+                'a = b*ta2; p = a*x+b; f = lambda([x],if (x<0) then p else ta1*exp(ta2*x))';
+        $q->questiontext = '<p>Let $f(x)$ be a real function defined on the interval $[-1,1]$ by the following formula.</p>
+                            \[
+                            f(x) = \left\{ \begin{array}{ll}
+                            @p@ & \mbox{if }x<0, \\
+                            a_1 e^{a_2\ x} & \mbox{if }x\geq 0.
+                            \end{array}
+                            \right.
+                            \]
+                            <p>Find the values of the parameters so that $f$ is continuous and differentiable of order $1$.
+                            $a_1=[[input:ans1]]
+                            $a_2=[[input:ans2]]</p>
+                            [[validation:ans1]][[validation:ans2]]';
+
+        $q->specificfeedback = '[[feedback:prt1]]';
+
+        $q->generalfeedback  = '<p>We would like the function to be continuous at $x=0$, so we would like
+                                \[ @p@=a_1e^{a_2\ x}\]
+                                when evaluated at $x=0$. That is to say we want
+                                \[ @b@ = a_1 \]
+                                If we differentiate both sides of the above equation with respect to $x$ we
+                                may match up the gradients. This gives us
+                                \[ @a@=a_1a_2.\]
+                                Solving this gives $a_2 = @a/b@$.</p>
+                                <p>Hence the full answer is
+                                \[
+                                f(x) = \left\{ \begin{array}{ll}
+                                @p@ & \mbox{if }x<0, \\
+                                @ta1@ e^{@ta2@ x} & \mbox{if }x\geq 0.
+                                \end{array}
+                                \right.
+                                \]</p>
+                                <p>We can sketch the graph of this function as follows.
+                                @plot(f(x),[x,-1,1])@</p>';
+
+        $q->questionnote = '\[ a_1=@ta1@,\ a_2=@ta2@.\]';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                                    'algebraic', 'ans1', 'ta1', array('boxWidth' => 4));
+        $q->inputs['ans2'] = stack_input_factory::make(
+                                    'algebraic', 'ans2', 'ta2', array('boxWidth' => 4));
+
+        $feedbackvars = new stack_cas_keyval('g = lambda([x],if (x<0) then p else ans1*exp(ans2*x))');
+
+        $sans = new stack_cas_casstring('[ans1,ans2]');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('[ta1,ta2]');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
+        $node->add_branch(0, '=', 0, '', -1,
+                'Compare your answer with the correct one @plot([f(x),g(x)],[x,-1,1])@', 'prt1-1-F');
+        $node->add_branch(1, '=', 1, '', -1, '', 'prt1-1-T');
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node));
 
         return $q;
     }

@@ -2,18 +2,39 @@
 
 These are the major tasks we still need to complete in approximate order and importance.
 
+## Milestone 0
+
+1. **DONE** Get STACK in Moodle to connect to Maxima, and clean-up CAS code.
+2. **DONE** Moodle-style settings page for STACK's options.
+3. **DONE** Re-implement caschat script in Moodle.
+4. **DONE** Re-implement healthcheck script in Moodle.
+5. **DONE** Make all the answer-tests work in Moodle.
+6. **DONE** Make the answer-tests self-test script work in Moodle.
+7. **DONE** Make all the input elements work in Moodle.
+8. **DONE** Make the input elements self-test script work in Moodle.
+9. **DONE** Add all the docs files within the Moodle question type.
+10. **DONE** Clean up the PRT code, and make it work within Moodle.
+11. **DONE** Code to generate the standard test-_n_ question definitions within Moodle, to help with unit testing.
+12. **DONE** Basic Moodle question type that ties all the components together in a basically working form.
+
 ## Milestone 1
 
-1. Finish off the editing form.
- 1. Multiple inputs and multiple PRTs.
- 2. Deleting PRTs, nodes and inputs.
-2. Add question tests back.
-3. Get deploying, and a fixed number of variants working. Perhaps put the UI for this within the run-question-tests script.  
-4. Make STACK respect one Moodle behaviour.
+1. **DONE** Caching of Maxima results, for performance reasons.
+2. **DONE** Database tables to store all aspects of the question definitions.
+3. **DONE** Question editing form that can handle multi-input and multi-PRT questions, with validation.
+4. **DONE** Re-implement question tests in Moodle.
+ 1. Except that the test input need to be evaluated expressions, not just strings.
+5. **DONE** Get deploying, and a fixed number of variants working in Moodle.
+6. Make multi-part STACK questions work exactly right in Adaptive behaviour.
+ 1. Evaluate some PRTs if possible, even if not all inputs have been filled in.
+ 2. Correct computation of penalty for each PRT, and hence overall final grade.
+ 3. Problem with expressions in feedback CAS-text not being simplified.
 
 ## Milestone 2
 
-1. Database design with reporting in mind. Make sure we can use the answer note and question note to group database searches.
+1. Reporting
+ 1. Make sure that STACK questions work as well as possible in the standard Moodle reports.
+ 2. Consider what additional custom STACK reporting we need.
 2. Implement the Moodle backup/restore code for stack questions. 
 3. Implement Moodle XML format import and export. 
 4. Investigate ways of running Maxima on a separate server. 
@@ -23,12 +44,20 @@ At this point STACK will be "ready" for use with students, although not all feat
 ## Milestone 3
 
 1. Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
-2. Add reporting functionality.
+2. Implement additional reporting as determined above.
 3. Make STACK respect all Moodle behaviours.
 4. Add back in all input types, including dragmath/NUMBAS.
 5. Add sample_questions, and update question banks for STACK 3.0.
+6. Link the STACK documentation to Moodle's help icons on the editing form, etc.
 
 ## Future plans 
+
+1. Improve editing form, for example
+ 1. a way to rename PRTs and inputs.
+ 2. UI to add a new PRT, so you don't have to know to edit the question text to add it.
+2. A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
+3. Facility to import test-cases in-bulk as CSV (or something). Likewise export.
+4. Change unit tests to use PHPunit, which is the new standard in Moodle 2.3.
 
 We have a dedicated page for [future plans](Future_plans.md).
 

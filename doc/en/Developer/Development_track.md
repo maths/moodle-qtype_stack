@@ -78,7 +78,7 @@ STACK is a direct development of the CABLE project which ran at the University o
 
 ## Version 3.0 
 
-_Not yet released_.  Target, September 2013.
+_Not yet released_.  Target, September 2012.
 
 Major re-engineering of the code by the Open University, The  University of Birmingham and the University of Helsinki.  Reporting and documentation added by Ben Holmes. 
 

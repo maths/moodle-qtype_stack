@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="question/type/stack/db" VERSION="20120309" COMMENT="XMLDB file for Moodle question/type/stack"
+<XMLDB PATH="question/type/stack/db" VERSION="20120322" COMMENT="XMLDB file for Moodle question/type/stack"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
@@ -8,18 +8,18 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id" PREVIOUS="id" NEXT="questionvariables"/>
-        <FIELD NAME="questionvariables" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="Maxima code that is run when the question is started to initialise variables." PREVIOUS="questionid" NEXT="specificfeedback"/>
-        <FIELD NAME="specificfeedback" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question." PREVIOUS="questionvariables" NEXT="specificfeedbackformat"/>
+        <FIELD NAME="questionvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Maxima code that is run when the question is started to initialise variables." PREVIOUS="questionid" NEXT="specificfeedback"/>
+        <FIELD NAME="specificfeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question." PREVIOUS="questionvariables" NEXT="specificfeedbackformat"/>
         <FIELD NAME="specificfeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the specific feedback" PREVIOUS="specificfeedback" NEXT="questionnote"/>
         <FIELD NAME="questionnote" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This should be a short summary of which random variant of the question the student saw." PREVIOUS="specificfeedbackformat" NEXT="questionsimplify"/>
         <FIELD NAME="questionsimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to simplify expressions in the question text, question variables, etc." PREVIOUS="questionnote" NEXT="assumepositive"/>
         <FIELD NAME="assumepositive" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to assume that variables are positive." PREVIOUS="questionsimplify" NEXT="markmode"/>
         <FIELD NAME="markmode" TYPE="char" LENGTH="16" NOTNULL="true" DEFAULT="penalty" SEQUENCE="false" COMMENT="How scores are calculated." PREVIOUS="assumepositive" NEXT="prtcorrect"/>
-        <FIELD NAME="prtcorrect" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 1." PREVIOUS="markmode" NEXT="prtcorrectformat"/>
+        <FIELD NAME="prtcorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 1." PREVIOUS="markmode" NEXT="prtcorrectformat"/>
         <FIELD NAME="prtcorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for prtcorrect." PREVIOUS="prtcorrect" NEXT="prtpartiallycorrect"/>
-        <FIELD NAME="prtpartiallycorrect" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score between 0 and 1." PREVIOUS="prtcorrectformat" NEXT="prtpartiallycorrectformat"/>
+        <FIELD NAME="prtpartiallycorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score between 0 and 1." PREVIOUS="prtcorrectformat" NEXT="prtpartiallycorrectformat"/>
         <FIELD NAME="prtpartiallycorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for the prtpartiallycorrect field." PREVIOUS="prtpartiallycorrect" NEXT="prtincorrect"/>
-        <FIELD NAME="prtincorrect" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 0." PREVIOUS="prtpartiallycorrectformat" NEXT="prtincorrectformat"/>
+        <FIELD NAME="prtincorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 0." PREVIOUS="prtpartiallycorrectformat" NEXT="prtincorrectformat"/>
         <FIELD NAME="prtincorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for the prtincorrect field." PREVIOUS="prtincorrect" NEXT="multiplicationsign"/>
         <FIELD NAME="multiplicationsign" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="dot" SEQUENCE="false" COMMENT="The symbol to use for multiplication." PREVIOUS="prtincorrectformat" NEXT="sqrtsign"/>
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds." PREVIOUS="multiplicationsign" NEXT="complexno"/>
@@ -63,7 +63,7 @@
         <FIELD NAME="name" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name used to identify this PRT." PREVIOUS="questionid" NEXT="value"/>
         <FIELD NAME="value" TYPE="number" LENGTH="12" NOTNULL="true" DEFAULT="1" SEQUENCE="false" DECIMALS="7" COMMENT="The maximum score this PRT can contribute to the question." PREVIOUS="name" NEXT="autosimplify"/>
         <FIELD NAME="autosimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to automatically simplify the variables used in this tree." PREVIOUS="value" NEXT="feedbackvariables"/>
-        <FIELD NAME="feedbackvariables" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="Additional expressions that should be computed before evaluating this tree." PREVIOUS="autosimplify"/>
+        <FIELD NAME="feedbackvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Additional expressions that should be computed before evaluating this tree." PREVIOUS="autosimplify"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>
@@ -87,14 +87,14 @@
         <FIELD NAME="truepenalty" TYPE="number" LENGTH="12" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="7" COMMENT="The penalty to use when the test returns true." PREVIOUS="truescore" NEXT="truenextnode"/>
         <FIELD NAME="truenextnode" TYPE="char" LENGTH="8" NOTNULL="false" SEQUENCE="false" COMMENT="The node name to go to next when the test returns true." PREVIOUS="truepenalty" NEXT="trueanswernote"/>
         <FIELD NAME="trueanswernote" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The answer note to append when the test returns true." PREVIOUS="truenextnode" NEXT="truefeedback"/>
-        <FIELD NAME="truefeedback" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="Any extra feedback to add when the test returns true." PREVIOUS="trueanswernote" NEXT="truefeedbackformat"/>
+        <FIELD NAME="truefeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Any extra feedback to add when the test returns true." PREVIOUS="trueanswernote" NEXT="truefeedbackformat"/>
         <FIELD NAME="truefeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The text format of truefeedback." PREVIOUS="truefeedback" NEXT="falsescoremode"/>
         <FIELD NAME="falsescoremode" TYPE="char" LENGTH="4" NOTNULL="true" DEFAULT="=" SEQUENCE="false" COMMENT="How to adjust the score when the test is false." PREVIOUS="truefeedbackformat" NEXT="falsescore"/>
         <FIELD NAME="falsescore" TYPE="number" LENGTH="12" NOTNULL="false" DEFAULT="0" SEQUENCE="false" DECIMALS="7" COMMENT="The number used in the score adjustment when the answer test returns false." PREVIOUS="falsescoremode" NEXT="falsepenalty"/>
         <FIELD NAME="falsepenalty" TYPE="number" LENGTH="12" NOTNULL="true" DEFAULT="0" SEQUENCE="false" DECIMALS="7" COMMENT="The penalty to use when the test returns false." PREVIOUS="falsescore" NEXT="falsenextnode"/>
         <FIELD NAME="falsenextnode" TYPE="char" LENGTH="8" NOTNULL="false" SEQUENCE="false" COMMENT="The node name to go to next when the test returns false." PREVIOUS="falsepenalty" NEXT="falseanswernote"/>
         <FIELD NAME="falseanswernote" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The answer note to append when the test returns false." PREVIOUS="falsenextnode" NEXT="falsefeedback"/>
-        <FIELD NAME="falsefeedback" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" COMMENT="Any extra feedback to add when the test returns false." PREVIOUS="falseanswernote" NEXT="falsefeedbackformat"/>
+        <FIELD NAME="falsefeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Any extra feedback to add when the test returns false." PREVIOUS="falseanswernote" NEXT="falsefeedbackformat"/>
         <FIELD NAME="falsefeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The text format of falsefeedback." PREVIOUS="falsefeedback"/>
       </FIELDS>
       <KEYS>
@@ -105,18 +105,64 @@
         <INDEX NAME="questionid-prtname-nodename" UNIQUE="true" FIELDS="questionid, prtname, nodename"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="qtype_stack_cas_cache" COMMENT="Caches the resuts of calls to Maxima." PREVIOUS="qtype_stack_prt_nodes">
+    <TABLE NAME="qtype_stack_cas_cache" COMMENT="Caches the resuts of calls to Maxima." PREVIOUS="qtype_stack_prt_nodes" NEXT="qtype_stack_qtests">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="hash"/>
         <FIELD NAME="hash" TYPE="char" LENGTH="40" NOTNULL="true" SEQUENCE="false" COMMENT="The SHA1 hash of command. Used for quick look-ups" PREVIOUS="id" NEXT="command"/>
-        <FIELD NAME="command" TYPE="text" LENGTH="medium" NOTNULL="true" SEQUENCE="false" COMMENT="The Maxima code that was sent to Maxima." PREVIOUS="hash" NEXT="result"/>
-        <FIELD NAME="result" TYPE="text" LENGTH="medium" NOTNULL="true" SEQUENCE="false" COMMENT="The unpacked results from Maxima." PREVIOUS="command"/>
+        <FIELD NAME="command" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The Maxima code that was sent to Maxima." PREVIOUS="hash" NEXT="result"/>
+        <FIELD NAME="result" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The unpacked results from Maxima." PREVIOUS="command"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
         <INDEX NAME="hash" UNIQUE="true" FIELDS="hash"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="qtype_stack_qtests" COMMENT="One row for each questiontest for each question." PREVIOUS="qtype_stack_cas_cache" NEXT="qtype_stack_qtest_inputs">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id" PREVIOUS="id" NEXT="testcase"/>
+        <FIELD NAME="testcase" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Sequential number for this testcase within this question." PREVIOUS="questionid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>
+        <KEY NAME="questionid" TYPE="foreign" FIELDS="questionid" REFTABLE="question" REFFIELDS="id" PREVIOUS="primary" NEXT="questionid-testcase"/>
+        <KEY NAME="questionid-testcase" TYPE="unique" FIELDS="questionid, testcase" PREVIOUS="questionid"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="qtype_stack_qtest_inputs" COMMENT="The value for each input for the question tests." PREVIOUS="qtype_stack_qtests" NEXT="qtype_stack_qtest_expected">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to question.id." PREVIOUS="id" NEXT="testcase"/>
+        <FIELD NAME="testcase" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="foreign key reference to qtype_stack_qtests.testcase." PREVIOUS="questionid" NEXT="inputname"/>
+        <FIELD NAME="inputname" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the input." PREVIOUS="testcase" NEXT="value"/>
+        <FIELD NAME="value" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The value to enter into this input for this test." PREVIOUS="inputname"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid-testcase"/>
+        <KEY NAME="questionid-testcase" TYPE="foreign" FIELDS="questionid, testcase" REFTABLE="qtype_stack_qtests" REFFIELDS="questionid, testcase" PREVIOUS="primary"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="questionid-testcase-inputname" UNIQUE="true" FIELDS="questionid, testcase, inputname"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="qtype_stack_qtest_expected" COMMENT="Holds the expected outcomes for each PRT for this question test." PREVIOUS="qtype_stack_qtest_inputs">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to question.id." PREVIOUS="id" NEXT="testcase"/>
+        <FIELD NAME="testcase" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to qtype_stack_qtests.testcase." PREVIOUS="questionid" NEXT="prtname"/>
+        <FIELD NAME="prtname" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the PRT for which these are the expected outcomes." PREVIOUS="testcase" NEXT="expectedscore"/>
+        <FIELD NAME="expectedscore" TYPE="number" LENGTH="12" NOTNULL="true" SEQUENCE="false" DECIMALS="7" COMMENT="The expected score." PREVIOUS="prtname" NEXT="expectedpenalty"/>
+        <FIELD NAME="expectedpenalty" TYPE="number" LENGTH="12" NOTNULL="true" SEQUENCE="false" DECIMALS="7" COMMENT="The expected penalty" PREVIOUS="expectedscore" NEXT="expectedanswernote"/>
+        <FIELD NAME="expectedanswernote" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The expected answer note." PREVIOUS="expectedpenalty"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid-testcase"/>
+        <KEY NAME="questionid-testcase" TYPE="foreign" FIELDS="questionid, testcase" REFTABLE="qtype_stack_qtests" REFFIELDS="questionid, testcase" PREVIOUS="primary"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="questionid-testcase-prtname" UNIQUE="true" FIELDS="questionid, testcase, prtname"/>
       </INDEXES>
     </TABLE>
   </TABLES>

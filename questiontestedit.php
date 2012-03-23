@@ -15,17 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script lets the user test a question using any question tests defined
- * in the database. It also displays some of the internal workins of questions.
- *
- * Users with moodle/question:view capability can use this script to view the
- * results of the tests.
- *
- * Users with moodle/question:edit can edit the test cases and deployed version,
- * as well as just run them.
- *
- * The script takes one parameter id which is a questionid as a parameter.
- * In can optionally also take a random seed.
+ * This script lets the user create or edit question tests for a question.
  *
  * @copyright  2012 the Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -48,6 +38,13 @@ $testcase = optional_param('testcase', null, PARAM_INT);
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 $context = $question->get_context();
+if ($testcase) {
+    $testcasedata = $DB->get_record('qtype_stack_qtests',
+            array('questionid' => $question->id, 'testcase' => $testcase), '*', MUST_EXIST);
+} else {
+    $testcasedata = new stdClass();
+    $testcasedata->questionid = $question->id;
+}
 
 // Check permissions.
 require_login();
@@ -64,11 +61,11 @@ if (!is_null($testcase)) {
 }
 $PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
 $PAGE->set_context($context);
-$title = get_string('testingquestion', 'qtype_stack', format_string($question->name));
 // TODO fix page layout and navigation.
 
 if (!is_null($testcase)) {
-    $title = get_string('editingatestcase', 'qtype_stack', format_string($question->name));
+    $title = get_string('editingtestcase', 'qtype_stack',
+            array('no' => $testcase, 'question' => format_string($question->name)));
     $submitlabel = get_string('savechanges');
 } else {
     $title = get_string('addingatestcase', 'qtype_stack', format_string($question->name));
@@ -79,6 +76,28 @@ if (!is_null($testcase)) {
 $mform = new qtype_stack_question_test_form($PAGE->url,
         array('submitlabel' => $submitlabel, 'question' => $question));
 
+// Load current data.
+if ($testcase) {
+    $currentdata = new stdClass();
+
+    $inputs = $DB->get_records_menu('qtype_stack_qtest_inputs',
+            array('questionid' => $question->id, 'testcase' => $testcase), 'inputname', 'inputname, value');
+    foreach ($inputs as $name => $value) {
+        $currentdata->{$name} = $value;
+    }
+
+    $expectations = $DB->get_records('qtype_stack_qtest_expected',
+            array('questionid' => $question->id, 'testcase' => $testcase), 'prtname',
+            'prtname, expectedscore, expectedpenalty, expectedanswernote');
+    foreach ($expectations as $prtname => $expected) {
+        $currentdata->{$prtname . 'score'}      = $expected->expectedscore + 0;
+        $currentdata->{$prtname . 'penalty'}    = $expected->expectedpenalty + 0;
+        $currentdata->{$prtname . 'answernote'} = $expected->expectedanswernote;
+    }
+
+    $mform->set_data($currentdata);
+}
+
 // Process the form.
 if ($mform->is_cancelled()) {
     unset($urlparams['testcase']);
@@ -86,7 +105,50 @@ if ($mform->is_cancelled()) {
 
 } else if ($data = $mform->get_data()) {
     // Process form submission.
-    // TODO.
+    $transaction = $DB->start_delegated_transaction();
+
+    if (!$testcase) {
+        // Find the first unused testcase number.
+        $testcase = $DB->get_field_sql('
+                SELECT MIN(qt.testcase) + 1
+                FROM (
+                    SELECT testcase FROM {qtype_stack_qtests} WHERE questionid = ?
+                    UNION
+                    SELECT 0
+                ) qt
+                LEFT JOIN {qtype_stack_qtests} qt2 ON qt2.questionid = ? AND
+                                                      qt2.testcase = qt.testcase + 1
+                WHERE qt2.id IS NULL
+                ', array($questionid, $questionid));
+        $testcasedata->testcase = $testcase;
+        $DB->insert_record('qtype_stack_qtests', $testcasedata);
+    }
+
+    // Save the input data.
+    $DB->delete_records('qtype_stack_qtest_inputs', array('questionid' => $question->id, 'testcase' => $testcase));
+    foreach ($question->inputs as $inputname => $notused) {
+        $testinput = new stdClass();
+        $testinput->questionid = $question->id;
+        $testinput->testcase   = $testcase;
+        $testinput->inputname  = $inputname;
+        $testinput->value      = $data->$inputname;
+        $DB->insert_record('qtype_stack_qtest_inputs', $testinput);
+    }
+
+    // Save the expected outcome data.
+    $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $question->id, 'testcase' => $testcase));
+    foreach ($question->prts as $prtname => $notused) {
+        $expected = new stdClass();
+        $expected->questionid         = $question->id;
+        $expected->testcase           = $testcase;
+        $expected->prtname            = $prtname;
+        $expected->expectedscore      = $data->{$prtname . 'score'};
+        $expected->expectedpenalty    = $data->{$prtname . 'penalty'};
+        $expected->expectedanswernote = $data->{$prtname . 'answernote'};
+        $DB->insert_record('qtype_stack_qtest_expected', $expected);
+    }
+
+    $transaction->allow_commit();
     redirect($backurl);
 }
 

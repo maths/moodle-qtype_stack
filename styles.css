@@ -97,3 +97,13 @@ body.path-question-type-stack .testcasebuttons div,
 body.path-question-type-stack .testcasebuttons form {
     display: inline;
 }
+
+body.path-question-type-stack pre.questiontext,
+body.path-question-type-stack .questionnote,
+body.path-question-type-stack .questionvariables {
+    background: #eee;
+    padding: 1em;
+}
+body.path-question-type-stack div.questionvariables {
+    padding-bottom: 0.1em;
+}

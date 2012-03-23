@@ -100,13 +100,15 @@ echo $quba->render_question($slot, $options);
 
 // Display the question note
 echo $OUTPUT->heading(get_string('questionnote', 'qtype_stack'), 3);
-echo html_writer::tag('p', $question->get_question_summary());
+echo html_writer::tag('p', $question->get_question_summary(), array('class' => 'questionnote'));
 
 // Display the question variables.
 echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 foreach ($question->get_all_question_vars() as $key => $value) {
     echo  html_writer::tag('p', s($key) . ' = ' . s($value));
 }
+echo html_writer::end_tag('div');
 
 // Display the controls to add another question test.
 echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 2);

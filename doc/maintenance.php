@@ -48,54 +48,54 @@ function report($d) {
     if (is_dir($d)) {
         if ($dh = opendir($d)) {
             while (($f = readdir($dh)) !== false) {
-                if (substr($f, 0, 1) != '.'){
-                    $fPath = "$d/$f";
-                    if(filetype($fPath) == 'dir') {
-                        $a = array_merge($a, report($fPath));
+                if (substr($f, 0, 1) != '.') {
+                    $fpath = "$d/$f";
+                    if (filetype($fpath) == 'dir') {
+                        $a = array_merge($a, report($fpath));
                     } else {
-                        $fName  = pathinfo($fPath, PATHINFO_FILENAME);
-                        $fExt   = pathinfo($fPath, PATHINFO_EXTENSION);
-                        $fSize  = filesize($fPath);
+                        $fname  = pathinfo($fpath, PATHINFO_FILENAME);
+                        $fext   = pathinfo($fpath, PATHINFO_EXTENSION);
+                        $fsize  = filesize($fpath);
                         $reldir = str_replace($dirroot, '', $d);
 
-                        $a[] = array($fPath, 'F', 'Found file ' . "$fPath");
+                        $a[] = array($fpath, 'F', 'Found file ' . "$fpath");
 
-                        if ($fSize >= 7000) {
-                            $a[] = array($fPath, 'W', "Large file ($fSize bytes)");
+                        if ($fsize >= 7000) {
+                            $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
                         }
 
-                        if ($fExt != 'bak') {
-                            if ($fExt != 'md') {
-                                $a[] = array($fPath, 'W', "Not a markdown file ($fExt)");
+                        if ($fext != 'bak') {
+                            if ($fext != 'md') {
+                                $a[] = array($fpath, 'W', "Not a markdown file ($fext)");
                             }
 
                             // Let's do some link checking, step one: scrape the links off the document's web page
-                            $links = strip_tags(Markdown(file_get_contents($fPath)), "<a>");
+                            $links = strip_tags(Markdown(file_get_contents($fpath)), "<a>");
                             preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);
                             //found[0] will have the full a tags, found[1] contains their href properties
                             // Step two, visit these links and check for 404s
-                            foreach($found[1] as $i => $link) {
+                            foreach ($found[1] as $i => $link) {
                                 if (strpos($link, 'mailto:') !== 0
                                     and strpos($link, 'maintenance.php') === false
                                     and (strpos($link, 'http') !== 0)) {
                                     // Don't check mailto:, this file (ARGH!)
                                     // Also if ?ext not true then better not be an external link
                                     if (strpos($link, 'http') !== 0) {
-                                    // If a local link, do some preparation
+                                        // If a local link, do some preparation
                                         if (strpos($link, '/') === 0) {
                                             $link = $webdocs . $link; // Not a relative link
                                         } else {
                                             $link = $webdocs . rtrim($reldir, '/') . '/' . $link;
                                         }
                                         $segs = explode('/', $link); // it looks like get_headers isn't evaluating these so lets do it manually
-                                        while(($pos = array_search('.', $segs)) !== false) {
+                                        while (($pos = array_search('.', $segs)) !== false) {
                                             unset($segs[$pos]);
                                         }
-                                        while(($pos = array_search('..', $segs)) !== false) {
+                                        while (($pos = array_search('..', $segs)) !== false) {
                                             unset($segs[$pos], $segs[$pos - 1]);
                                         }
                                         $link = implode('/', $segs);
-    
+
                                         // finally it looks like #--- are getting parsed in the request, let's ommit them
                                         if (strpos($link, '#') !== false) {
                                             $link = substr($link, 0, strpos($link, '#'));
@@ -103,7 +103,7 @@ function report($d) {
                                     }
                                     $hs = get_headers($link);
                                     if (strpos($hs[0], '404') !== false) {
-                                        $a[] = array($fPath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');
+                                        $a[] = array($fpath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');
                                     }
                                 }
                             }
@@ -111,7 +111,7 @@ function report($d) {
                     }
                 }
             }
-        closedir($dh);
+            closedir($dh);
         }
     }
 

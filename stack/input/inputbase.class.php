@@ -224,9 +224,11 @@ abstract class stack_input {
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys) {
+
         if (!is_a($options, 'stack_options')) {
             throw new Exception('stack_input: validate_student_response: options not of class stack_options');
         }
+        $localoptions = clone $options;
 
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
@@ -271,9 +273,9 @@ abstract class stack_input {
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $teacheranswer);
-            $options->set_option('simplify', false);
+            $localoptions->set_option('simplify', false);
 
-            $session = new stack_cas_session(array($answer), $options, 0);
+            $session = new stack_cas_session(array($answer), $localoptions, 0);
             $session->instantiate();
             $session = $session->get_session();
             $answer = $session[0];

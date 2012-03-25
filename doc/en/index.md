@@ -1,6 +1,6 @@
 # STACK
 
-[![STACK Logo](%CONTENT/logo-trans.png)](About/Logo)
+[![STACK Logo](%CONTENT/logo-trans.png)](About/Logo.md)
 
 **S**ystem for **T**eaching and **A**ssessment using a **C**omputer algebra **K**ernel
 

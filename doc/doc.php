@@ -83,8 +83,7 @@ if ($uri == '/') {
     // I.e. at doc.php/ the docs front page
     $links = array($webdocs.'/Site_map' => stack_string('stackDoc_siteMap'));
 } else if ('/Site_map' == $uri) {
-    $links = array($webdocs   =>  stack_string('stackDoc_home'),
-);
+    $links = array($webdocs   =>  stack_string('stackDoc_home'));
 } else {
     $links = array($webdocs   =>  stack_string('stackDoc_home'),
                        './'       =>   stack_string('stackDoc_index'),
@@ -92,7 +91,7 @@ if ($uri == '/') {
              $webdocs.'/Site_map' =>  stack_string('stackDoc_siteMap'));
 }
 
-$linkStrs = array();
+$linkstrs = array();
 foreach ($links as $url => $link) {
     $linkstrs[] = "<a href=\"$url\">$link</a>";
 }
@@ -160,7 +159,7 @@ echo $body;
 echo $OUTPUT->footer();
 
 
-function index($d, $relPath = ''){
+function index($d, $relpath = '') {
     // Write a list describing the directory structure, recursive, discriminates for .md files
 
     $i = '<ul class="dir">';
@@ -168,14 +167,14 @@ function index($d, $relPath = ''){
         if ($dh = opendir($d)) {
             while (($f = readdir($dh)) !== false) {
                 if (substr($f, 0, 1) != '.') {
-                    $fPath = "$d/$f";
-                    if (filetype($fPath) == 'dir') {
-                        $i .= "<li><a href=\"$relPath/$f/\">" . str_replace('_', ' ', $f)
-                        .  "</a>" . index($fPath, "$relPath/$f") . '</li>';
+                    $fpath = "$d/$f";
+                    if (filetype($fpath) == 'dir') {
+                        $i .= "<li><a href=\"$relpath/$f/\">" . str_replace('_', ' ', $f)
+                        .  "</a>" . index($fpath, "$relpath/$f") . '</li>';
                     } else {
                         if ($f != 'index.md' && '.md' == substr($f, -3) && 'Site_map.md' != $f) {
-                            $fName = pathinfo($fPath, PATHINFO_FILENAME);
-                            $i .= "<li><a href=\"$relPath/$fName.md\">" . str_replace('_', ' ', $fName) . "</a></li>";
+                            $fname = pathinfo($fpath, PATHINFO_FILENAME);
+                            $i .= "<li><a href=\"$relpath/$fname.md\">" . str_replace('_', ' ', $fname) . "</a></li>";
                         }
                     }
                 }
@@ -204,7 +203,7 @@ function do_display_math($text) {
     $text = str_replace('\(', '$', $text);
     $text = str_replace('\)', '$', $text);
 
-return $text;
+    return $text;
 }
 
 function _do_display_math_callback($matches) {

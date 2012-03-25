@@ -76,6 +76,7 @@ class stack_question_test {
 
         $slot = $quba->add_question($question, $question->defaultmark);
         $quba->start_question($slot, $seed);
+
         $quba->process_action($slot, $response);
 
         $results = new stack_question_test_result($this);

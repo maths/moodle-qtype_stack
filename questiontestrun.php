@@ -72,6 +72,7 @@ if (!is_null($seed)) {
     // even if it is not one of the deployed seeds.
     $question->seed = $seed;
 }
+
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
 
@@ -133,6 +134,7 @@ if (!$question->has_random_variants()) {
     echo html_writer::tag('p', get_string('deployedvariantoptions', 'qtype_stack',
             implode(' | ', $seedchoices)));
 }
+
 if (!$variantmatched) {
     if ($canedit) {
         $deploybutton = ' ' . $OUTPUT->single_button(new moodle_url('/question/type/stack/deploy.php',
@@ -159,6 +161,7 @@ echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => 
 echo html_writer::end_tag('p');
 echo html_writer::end_tag('form');
 
+
 // Display the question.
 echo $OUTPUT->heading(get_string('questionpreview', 'qtype_stack'), 3);
 echo $quba->render_question($slot, $options);
@@ -170,9 +173,11 @@ echo html_writer::tag('p', $question->get_question_summary(), array('class' => '
 // Display the question variables.
 echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+$displayqvs = '';
 foreach ($question->get_all_question_vars() as $key => $value) {
-    echo  html_writer::tag('pre', s($key) . ' = ' . s($value));
+    $displayqvs.= s($key) . ' = ' . s($value). "\n";
 }
+echo  html_writer::tag('pre', $displayqvs);
 echo html_writer::end_tag('div');
 
 // Display the controls to add another question test.

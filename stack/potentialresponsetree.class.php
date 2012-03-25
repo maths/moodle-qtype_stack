@@ -147,9 +147,10 @@ class stack_potentialresponse_tree {
                     'attempting to traverse an empty tree. Something is wrong here.');
         }
 
-        $options->set_option('simplify', $this->simplify);
+        $localoptions = clone $options;
+        $localoptions->set_option('simplify', $this->simplify);
 
-        $cascontext = $this->create_cas_context_for_evaluation($questionvars, $options, $answers, $seed);
+        $cascontext = $this->create_cas_context_for_evaluation($questionvars, $localoptions, $answers, $seed);
 
         $results = new stack_potentialresponse_tree_state($cascontext->get_errors());
         // Traverse the tree.
@@ -170,7 +171,7 @@ class stack_potentialresponse_tree {
             }
 
             $visitednodes[$nodekey] = true;
-            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $options);
+            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $localoptions);
 
             if ($results->_errors) {
                 break;

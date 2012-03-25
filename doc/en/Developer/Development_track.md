@@ -111,9 +111,10 @@ _Not yet released_.  Target, September 2012.
 
 Major re-engineering of the code by the Open University, The  University of Birmingham and the University of Helsinki.  Reporting and documentation added by Ben Holmes. 
 
-This round of development does not plan to introduce major new features, or to make major changes to the core functionality. An explicit aim is that "old questions will still work".  
+The most important change is the decision to re-work STACK as a question type for the Moodle quiz.  There is no longer a separate front end for STACK, or (currently) a mechanism to include STACK questions into other websites via a SOAP webservice. This round of development does not plan to introduce major new features, or to make major changes to the core functionality. An explicit aim is that "old questions will still work".  
 
 Key features
+
 * __Major difference:__ Integration into the quiz of Moodle 2.3 as a question type.
 * Support for Maxima up to 5.26.0.
 * Documentation moved from the wiki to within the code base.
@@ -121,14 +122,11 @@ Key features
 
 ### Changes in features between STACK 2 and STACK 3.
 
-* What used to be called Interaction elements are now known as Inputs.
+* Interaction elements, now called inputs, are indicated in questions as `[[input:ans1]]` to match the existing style in Moodle.  Existing questions will be converted when imported.
 * A number of other terminology changes have brought STACK's use into line with Moodle's, e.g. Worked solution has changed to "general feedback".
 * Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
-* Feature "allowed words" dropped from interaction elements. 
+* Feature "allowed words" dropped from inputs (i.e. interaction elements). 
 * Input "Dropdown" list -> should be automatically imported to "list"
-* Interaction elements, now called inputs, are indicated in questions as 
-    [[input:ans1]] 
-  to match the existing style in Moodle.  Existing questions will be converted when imported.
 * JSMath is no longer under development, and hence we are no longer providing an option for this in STACK.  However, in STACK 2 we modified JSMath to enable inputs within equations.  Display now assumes the use of a Moodle filter and we recommend (and test with) MathJax, which does not currently support this feature.  If it is important for you to use this feature you will need to copy and modify the load.js file from STACK 2 and use JSMath.
 * Worked solution on demand feature has been removed.  This was a hack in STACK 2, and the use of Moodle quiz has made this unnecessary.
 * We have lost some of the nice styling on the editing form, compared to Stack 2.

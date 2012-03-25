@@ -71,9 +71,8 @@ class qtype_stack_question_test_form extends moodleform {
     }
 
     public function validation($data, $files) {
+        //print_r($data);
         $errors = parent::validation($data, $files);
-//print_r($data);
-
 
         return $errors;
     }

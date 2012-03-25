@@ -23,11 +23,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Stack';
-$string['pluginname_help'] = 'Stack is a maths assessment system ...';
-$string['pluginnameadding'] = 'Adding a Stack question';
-$string['pluginnameediting'] = 'Editing a Stack question';
-$string['pluginnamesummary'] = 'Stack questions use a computer algebra system to mark the students work. ...';
+$string['pluginname'] = 'STACK';
+$string['pluginname_help'] = 'STACK is an assessment system for mathematics.';
+$string['pluginnameadding'] = 'Adding a STACK question';
+$string['pluginnameediting'] = 'Editing a STACK question';
+$string['pluginnamesummary'] = 'STACK provides mathematical questions for the moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
 // general strings
 $string['errors'] = 'Errors';

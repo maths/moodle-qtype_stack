@@ -77,7 +77,11 @@ class stack_anstest {
     public function __construct($sans, $tans, $options = null, $casoption = null) {
         $this->sanskey  = $sans;
         $this->tanskey  = $tans;
-        $this->options  = $options;
+        if ($options != null) {
+            $this->options  = clone $options;
+        } else {
+            $this->options = null;
+        }
         $this->atoption = $casoption;
     }
 

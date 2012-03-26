@@ -62,6 +62,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         $submitted = optional_param_array('questiontext', array(), PARAM_RAW);
+
         if (array_key_exists('text', $submitted)) {
             $this->questiontext = $submitted['text'];
         } else if (!empty($this->question->questiontext)) {
@@ -421,7 +422,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question = $this->data_preprocessing_inputs($question);
         $question = $this->data_preprocessing_prts($question);
 
-        if ($question->questiontext['text'] === '') {
+        if (empty($question->questiontext['text'])) {
             // Nasty hack to override what the base class does. The way it
             // prepares the questiontext field overwrites the default.
             $question->questiontext['text'] = self::DEFAULT_QUESTION_TEXT;

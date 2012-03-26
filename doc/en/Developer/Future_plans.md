@@ -26,7 +26,7 @@ We need to consolidate all of these things.
 
 * Geogebra input.
 * Enable individual questions to load Maxima libraries.
-* It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers. 
+* It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)
 
 ## Features to add - possible self contained projects ##
@@ -35,15 +35,15 @@ We need to consolidate all of these things.
 * Read other file formats into STACK.  In particular
   * AIM
   * WebWork
-  * MapleTA 
+  * MapleTA
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
  * Package for scientific [units](../Authoring/Units.md), and a science answer test
  * Support for inequalities.  This includes real intervals and sets of real numbers.
- 
+
 * Localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
 
 ## More speculative long terms plans ##
 
-* Steps in the working. In particular, variable numbers of input boxes.  
+* Steps in the working. In particular, variable numbers of input boxes.
 * Hints.

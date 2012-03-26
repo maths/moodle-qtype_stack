@@ -1,6 +1,6 @@
 # Potential response trees
 
-The potential response tree is the algorithm which establishes the mathematical properties of the student's answer and assigns outcomes. 
+The potential response tree is the algorithm which establishes the mathematical properties of the student's answer and assigns outcomes.
 For examples of how to use this see the entry on
 [establishing properties of the student's answer via the potential response tree](Authoring_quick_start.md#Answer_props_via_prt)
 in the quick start guide.
@@ -23,7 +23,7 @@ The values of these variables are available to the [answer tests](Answer_tests.m
 
 ## Traversing the tree ##
 
-A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes we call potential responses. 
+A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes we call potential responses.
 
 In each node two expressions are compared using a specified [answer tests](Answer_tests.md), and the result is either `true` or `false`. A corresponding branch of the tree has the opportunity to each of the following.
 

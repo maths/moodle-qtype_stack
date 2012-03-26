@@ -2,7 +2,7 @@
 
 ## How do I make the fonts bigger? ##
 
-**Warning:** _do not change the size of the font while taking a quiz._ 
+**Warning:** _do not change the size of the font while taking a quiz._
 
 Navigate away from the page first.  Sometimes the browser will "reload" the page when you change
 the font size, and this may cause your work to be submitted or lost!

@@ -11,12 +11,12 @@ In a Maxima session (rather than STACK question variables) we can represent an O
 
 Notice the use of the `'` character in front of the `diff` function to [prevent evaluation](http://maxima.sourceforge.net/docs/manual/en/maxima_4.html#SEC10).
 Applied to a function call, such as `diff`, the single quote prevents evaluation of the function call, although the arguments of the function are still evaluated (if evaluation is not otherwise prevented).
-The result is the noun form of the function call. 
+The result is the noun form of the function call.
 
 The single quote does not prevent simplification, so you may also need to turn simplification off in STACK, see [simplification](Maxima.md#Simplification).
 
 This can be solved with Maxima's `ode2` command and initial conditions specified.  Below is an example of Maxima's output.
-	
+
 	(%i1) ODE: x^2*'diff(y,x) + 3*y*x = sin(x)/x;
 	                      2 dy           sin(x)
 	(%o1)                x  -- + 3 x y = ------
@@ -56,7 +56,7 @@ Notice the `%c` in this example.
 STACK forbids the use of the `%` character for security reasons: you can refer to previous sessions for example.
 Therefore, we need a function to strip out the variables starting with `%`.
 
-The function `stack_strip_percent(ex,var)` replaces all variable names  starting with `%` with those in `var`. 
+The function `stack_strip_percent(ex,var)` replaces all variable names  starting with `%` with those in `var`.
 There are two ways to use this.
 
 1. if `var` is a list then take the variables in the list in order.
@@ -65,7 +65,7 @@ There are two ways to use this.
 For example
 
 	stack_strip_percent(y = (%c-cos(x))/x^3,k)
-		
+
 returns
 
 	y = (k[1]-cos(x))/x^3
@@ -97,7 +97,7 @@ ODEs provide a good example of the principle that we should articulate the prope
 3. The answer is general.
 4. The answer is in the required form.
 
-Hence, for ODE questions we need a potential response tree which establishes a number of separate properties. 
+Hence, for ODE questions we need a potential response tree which establishes a number of separate properties.
 On the basis of the properties satisfied, we then need to generate outcomes.
 
 ### Satisfying the differential equation ###
@@ -189,15 +189,15 @@ The advantage is that the same code correctly assesses all these forms of the an
 An important class of differential equations are the so-called first order exact differential equations of the form
 
 \[ p(x,y)\cdot \dot{y}(x) + q(x,y) =0.\]
-	
+
 Assume that \(h(x,y)=c\) gives an implicit function, which satisfies this equation.  Then
 
 \[ \frac{\mathrm{d}h}{\mathrm{d}x}=\frac{\partial h}{\partial y}\frac{\mathrm{d}y}{\mathrm{d}x}+\frac{\partial h}{\partial x}=0\]
-	
+
 and so
 
 \[ \frac{\partial h}{\partial y} = p(x,y), \quad \frac{\partial h}{\partial x}=q(x,y).\]
-	
+
 Differentiating once further (and assuming sufficient regularity of \(h\)) we have
 \[ \frac{\partial p}{\partial x} = \frac{\partial^2 h}{\partial x\partial y}=\frac{\partial q}{\partial y}.\]
 Note that this condition on \(p\) and \(q\) is necessary and sufficient for the ODE to be exact.
@@ -252,7 +252,7 @@ The following Maxima code implements this method, and provides further examples 
 	/* Check our condition for an exact ODE */
 	if fullratsimp(diff(p,x)-diff(q,y))=0 then print("EXACT") else print("NOT EXACT")$
 
-	/* Next we need to solve 
+	/* Next we need to solve
 	   [diff(h,x)=q,diff(h,y)=p]
 	   to find the integral of our ODE */
 	h1:integrate(q,x);
@@ -274,7 +274,7 @@ Further examples are
 	ODE:sin(x)*cosh(y)-'diff(y,x)*cos(x)*sinh(y)=0$
 	ODE:(3*x^2*cos(3*y)+2*y)*'diff(y,x)=-2*x*sin(3*y)$
 	ODE:x*'diff(y,x)+y+4$
-	
+
 ## See also
 
 [Maxima reference topics](index.md#reference).

@@ -25,9 +25,9 @@ For example, \(1/4\) should be entered as `1/4`, not as `0.25`. Also,
 
 * \(\pi\) is entered as either `pi` or `%pi`,
 * \(e\), the base of the natural logarithms, is entered as either `e` or `%e`,
-* \(i\) is entered as either `i` or `%i`.  
-  * \(i\) is also sometimes entered as `j` if you are an engineer. If in doubt ask your teacher. 
-  * You could also use `sqrt(-1)`, or `(-1)^(1/2)`, being careful with the brackets. 
+* \(i\) is entered as either `i` or `%i`.
+  * \(i\) is also sometimes entered as `j` if you are an engineer. If in doubt ask your teacher.
+  * You could also use `sqrt(-1)`, or `(-1)^(1/2)`, being careful with the brackets.
   * STACK modifies Maxima's normal input rules so that you don't get caught out with a variable `i` when you meant `%i`.
 * You can also use scientific notation for large numbers, e.g. \(1000\) can be entered as `1E+3`.
   Note, however, that in many situations floating point numbers are forbidden.
@@ -38,7 +38,7 @@ Use a star for multiplication. Forgetting this is by far the most common source 
 For example,
 
 * \(3x\) should be entered as `3*x`.
-* \(x(ax+1)(x-1)\) should be entered as `x*(a*x+1)*(x-1)`.  
+* \(x(ax+1)(x-1)\) should be entered as `x*(a*x+1)*(x-1)`.
 
 STACK does sometimes try to insert stars for you where there is no ambiguity, `2x` or `(x+1)(x-1)`.
 This guessing cannot be perfect since traditional mathematical notation is sometimes ambiguous!
@@ -65,16 +65,16 @@ For example,
 \[\frac{a+b}{c+d}\]
 
 should be entered as `(a+b)/(c+d)`.
- 
+
 If you type `a+b/(c+d)`, then STACK will think that you mean
 
 \[a+\frac{b}{c+d}.\]
-	
+
 If you type `(a+b)/c+d`, then STACK will think that you mean
 
 \[\frac{a+b}{c}+d.\]
 
-If you type `a+b/c+d`, then STACK will think that you mean 
+If you type `a+b/c+d`, then STACK will think that you mean
 
 \[a+\frac{b}{c}+d.\]
 
@@ -93,7 +93,7 @@ Note that in this context you should always use ordinary round bracket (like (a+
 ## Functions  ##
 
 * **Standard functions**: Functions, such as \(\sin\), \(\cos\), \(\tan\), \(\exp\), \(\log\) and so on
-  can be entered using their usual names. However, the argument must always be enclosed in brackets: 
+  can be entered using their usual names. However, the argument must always be enclosed in brackets:
   \(\sin x\) should be entered as `sin(x)`, \(\ln 3\) should be entered as `ln(3)` and so on.
 * **Logarithm**: You can use either `log(x)` or `ln(x)` for the natural logarithm of _x_
   (note that both of these start with a lower case l, not a capital I).
@@ -128,7 +128,7 @@ Otherwise you will need to use Maxima's notation for entering the matrix.
 
 The matrix:
 
-\[ \left( \begin{array}{ccc} 1 & 2 & 3 \\ 4 & 5 & 6 \end{array} \right)\] 
+\[ \left( \begin{array}{ccc} 1 & 2 & 3 \\ 4 & 5 & 6 \end{array} \right)\]
 
 must be entered as `matrix([1,2,3],[4,5,6])`.
 

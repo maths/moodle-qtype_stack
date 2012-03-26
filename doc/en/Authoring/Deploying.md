@@ -17,7 +17,7 @@ For example, ''Differentiate \(3x^2+4x\) with respect to \(x\)'' where \(3\) and
 
 Deployed instances can be included in quizzes.  The instance that a student is presented with is selected at random from this pool of instances.  So, in a cohort of 50 students, each instance of a deployment of 5 versions would expect to be used 10 times.
 
-Any number of instances can be requested but the deployment automatically discards any generated duplicates (according to the question  note). The deployment management also allows specific instances to be dropped. 
+Any number of instances can be requested but the deployment automatically discards any generated duplicates (according to the question  note). The deployment management also allows specific instances to be dropped.
 
 Deployment is not required for authors to test questions: an instance is generated on-the-fly.
 

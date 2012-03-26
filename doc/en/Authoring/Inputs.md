@@ -3,7 +3,7 @@
 Inputs are the points at which the student interacts with the question.
 For example, it might be a form box into which the student enters their answer.
 
-* Only the [question text](CASText.md#question_text) may have inputs. 
+* Only the [question text](CASText.md#question_text) may have inputs.
 * Inputs are not required. Hence it is possible for the teacher to make a
   statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
@@ -13,7 +13,7 @@ For example, it might be a form box into which the student enters their answer.
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 
 	[[input:ans1]]
- 
+
 Here `ans1` denotes the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
 This must only be letters (optionally) followed by numbers, as in this example. No special characters are permitted.
 
@@ -21,7 +21,7 @@ Feedback as to the syntactic validity of a response is by default inserted just 
 the input. Feedback is positioned using tags such as
 
 	[[validation:ans1]]
- 
+
 where stuff is the name of the variable. This string is automatically generated if it
 does not exist and is placed after the input. This feedback must be given.
 Inputs have a number of options. Specific inputs may have extra options.
@@ -34,14 +34,14 @@ Each input may have a number of options.
 
 The maxima variable to which the student's answer is assigned.
 This is set in the Question text using the following syntax, where `ans1` is the variable name to which the student's answer is assigned.
-	
+
     [[input:ans1]]
 
 Internally you can refer to the student's answer using the variable name `ans1` in the potential response tree, feedback variables and feedback text. The worked solution may not depend on inputs.
 
 ### Input Type ### {#Input_Type}
 
-Currently STACK supports the following kinds of inputs.   
+Currently STACK supports the following kinds of inputs.
 
 #### Algebraic input ####
 
@@ -71,11 +71,11 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 #### Slider ####
 
-(_Not currently re-implemented in STACK 3.0_)  Dragable slider bar resulting in a numerical value.  
+(_Not currently re-implemented in STACK 3.0_)  Dragable slider bar resulting in a numerical value.
 
 ### Model answer ###  {#model_answer}
 
-**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer. 
+**This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.
 This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...)
 
 ### Box Size ### {#Box_Size}
@@ -154,7 +154,7 @@ Experience strongly supports the use of verification by "validating" input whene
 
 ### Show validation ### {#Show_validation}
 
-Feedback to students is in two forms.  
+Feedback to students is in two forms.
 
 * feedback tied to inputs, in particular if the answer is invalid.
 * feedback tied to each potential response tree.
@@ -182,7 +182,7 @@ You have to enter a content form ([maxima](../CAS/Maxima.md) format) and display
 
 STACK will automatically add space to ensure you have at least two blank distractors when
 you update the question. In the case of the radio button or dropdown list a single expression will be returned.
-In the case of the check boxes, we return a list of expressions.  Note, 
+In the case of the check boxes, we return a list of expressions.  Note,
 
 * The model answer in the input needs to be a list of objects, even if only one is correct.
 * The order of elements in this list is not certain, because we display them in a random order to students.
@@ -192,9 +192,9 @@ In the case of the check boxes, we return a list of expressions.  Note,
 
 Adding new inputs should be a straightforward job for the developers.  We have plans to add inputs as follows.
 
-| Package   | Functionality                                                                                                                                                                                                                     
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-| Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.  
-| GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.                                                                                                                                                        
+| Package   | Functionality
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.
+| GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.
 
 The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

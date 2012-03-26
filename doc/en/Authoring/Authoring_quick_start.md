@@ -31,7 +31,7 @@ Ensure the question text contains the following information. It should be possib
 
 There are a number of things to notice about this text.
 
-* The text contains LaTeX mathematics environments.  
+* The text contains LaTeX mathematics environments.
 * The tag `[[input:ans1]]` will be replaced by an [input](Inputs.md) labelled `ans1`, i.e this marks the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.
 
@@ -46,7 +46,7 @@ Now we have a question, and the model answer.  We next have to decide if the stu
 
 ## Establishing properties of the student's answer via the potential response tree			{#Answer_props_via_prt}
 
-To establish properties of student's answers we need an algorithm known as a [potential response tree](Potential_response_trees.md).  
+To establish properties of student's answers we need an algorithm known as a [potential response tree](Potential_response_trees.md).
 
 This tree will allow us to establish the mathematical properties of the student's answer and on the basis of these properties provide outcomes, such as feedback and a mark.
 
@@ -109,7 +109,7 @@ Press the `[Check]` button again.
 
 The system executes the potential response tree and establishes whether your answer is algebraically equivalent
 to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  You will need to submit each answer twice.
-Notice all your responses are stored in an attempts table.  
+Notice all your responses are stored in an attempts table.
 
 We would really like to add better feedback, so it is time to edit the question again.  Choose EDIT from the link at the top of the page.
 
@@ -125,7 +125,7 @@ If the first test is false, we will then perform the test in Node 2.
 
 If the student has integrated, they may or may not have added a constant of integration.
 If they have added such a constant we don't know what letter they have used! So, the best way to solve
-this problem is to differentiate their answer and compare it to the question. 
+this problem is to differentiate their answer and compare it to the question.
 
 Update the form so that node No.1 has
 
@@ -154,7 +154,7 @@ Go back and `[Add another node]` in a similar way as before.  After all, we need
 
 To use this potential response, edit Node 1, and now change the true branch to make the Next node point to the new Node 3.
 If we enter Node 3, we know the student has the correct answer. We only need to establish if it is factored or not.
-To establish this we need to use a different [answer tests](Answer_tests.md). 
+To establish this we need to use a different [answer tests](Answer_tests.md).
 
 Update the form so that Node 3 has
 
@@ -175,13 +175,13 @@ We need to assign outcomes.
 3. On the false branch set the feedback to something like
 
 ~~~~~~~~~~
-		Your answer is unfactored.  
-		There is no need to expand out the expression in this question.  
-		You can differentiate using the chain rule directly and keep 
+		Your answer is unfactored.
+		There is no need to expand out the expression in this question.
+		You can differentiate using the chain rule directly and keep
 		the answer in factored form.
 ~~~~~~~~~~
 
-This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.	
+This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.
 
 You can continue to add more potential response nodes as the need arises. These can test for more subtle errors
 based upon the common mistakes student's make. In each case an [answer tests](Answer_tests.md) can be used to
@@ -195,11 +195,11 @@ It is common to want to use random numbers in questions. This is straightforward
 make use of the optional [question variables](KeyVals.md#Question_variables) field
 
 Modify the [question variables](KeyVals.md#Question_variables) from the previous example so that
-	
+
 	p = (x-1)^3
 
 Then change the [question text](CASText.md#question_text) to
-	
+
 	Differentiate @p@ with respect to $x$.
 	[[input:ans1]]
     [[validation:ans1]]
@@ -237,7 +237,7 @@ The question note enables the teacher to track which version of the question is 
 Two versions are the same if and only if the [question note](Question_note.md) is the same.
 Hence a random question may not have an empty question note.
 
-Fill this in as 
+Fill this in as
 
 	\[ \frac{d}{d@x@}@p@ = @diff(p,x)@ \]
 

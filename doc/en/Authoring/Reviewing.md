@@ -1,5 +1,5 @@
 # Reviewing
- 
+
 Computer aided assessment of mathematics works in the following phases.
 
 1. [Authoring](../Authoring/)
@@ -45,10 +45,10 @@ When a user changes their Item id, or question note
 
 * Analysis of different versions.  Differences in frequencies of answer notes?
 * Analysis of item as a whole, e.g. combine all the answer notes from each deployed version
-  * Tree view of student's attempts at this item.  Each "branch" to indicate 
+  * Tree view of student's attempts at this item.  Each "branch" to indicate
 * List of invalid answers.
 * Stats on
-  * Answers ordered by, marks, popularity (by version),  
+  * Answers ordered by, marks, popularity (by version),
 
 # Comparison of items #
 

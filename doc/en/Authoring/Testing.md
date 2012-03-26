@@ -16,7 +16,7 @@ Question Tests provide an automated mechanism through which the author may estab
 the Potential Response Trees are processing the student answer as expected. They are based on the concept of "unit testing" from software development.
 Question variables can be included in the tests, indeed these are needed to define test inputs in the context of random values.
 
-Each test assigns values to 
+Each test assigns values to
 
 1. any/all of the inputs.  These values may, naturally, depend on the
    [question variables](KeyVals.md#Question_variables).

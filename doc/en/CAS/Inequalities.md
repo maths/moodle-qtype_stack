@@ -3,8 +3,8 @@
 Support for inequalities in Maxima (and hence STACK) is currently very poor. [This is on our list of possible projects, and help would be welcome]
 
 The non-strict inequalities \(\geq\) and \(\leq\) are created as infix operators with the respective syntax
-	
-	>=,  <= 
+
+	>=,  <=
 
 
 Maxima only allows single inequalities, such as \(x-1>y\mbox{.}\)

@@ -11,7 +11,7 @@ Not only is this not necessary but it means that the links break when browsing
 the documentation on github. This has been changed.
 
 So now to view
-    /docs/CAS/Maxima.md	
+    /docs/CAS/Maxima.md
 request
     /doc.php/CAS/Maxima.md
 
@@ -27,13 +27,13 @@ HTML as such. Other files will have their contents embedded in the (HTML) page.
     + Fixing relative urls
         + adding `.md` extension
         + media content directory will have changed.
-          NB this will also have to be fixed in `phpMarkdown.php` since some 
+          NB this will also have to be fixed in `phpMarkdown.php` since some
           links are hardcoded (such as images for emails and external links)
-+ These files are taken from before Dan moved it to the new system. 
++ These files are taken from before Dan moved it to the new system.
   It is possible that Dan made some nice changes to the functionality of the code.
   Check for these in the history and move them over.
 
 ## Maintenance script
-A maintenance script was written to perform various tasks. It requires much the 
-same attention as `doc.php`. It used for rendering some of the functions that 
+A maintenance script was written to perform various tasks. It requires much the
+same attention as `doc.php`. It used for rendering some of the functions that
 came with reporting which are currently not present in this repository.

@@ -1,23 +1,23 @@
 # Maxima and computer algebra use in STACK
 
-STACK uses the computer algebra system (CAS) 
-[Maxima](Maxima.md). We have also provided some background to 
-[CAS](CAS.md) in general. 
-  
-Computer algebra systems are most often designed for either the 
-research mathematician, or the student _to do calculations_. 
-For the purposes of assessment our calculation _establish some 
-relevant properties_ of the students' answers.  Establishing 
-properties in this way, and on the basis of this creating 
-outcomes such as feedback, is something particular to 
-assessment systems. Such properties include things like 
+STACK uses the computer algebra system (CAS)
+[Maxima](Maxima.md). We have also provided some background to
+[CAS](CAS.md) in general.
 
-* is the expression algebraically equivalent to the correct answer? 
-* is the expression fully simplified? 
-* is the expression written a particular conventional form, (e.g. factored, partial fraction)? 
-* are all the numbers in the expression written as fractions in the lowest terms? 
+Computer algebra systems are most often designed for either the
+research mathematician, or the student _to do calculations_.
+For the purposes of assessment our calculation _establish some
+relevant properties_ of the students' answers.  Establishing
+properties in this way, and on the basis of this creating
+outcomes such as feedback, is something particular to
+assessment systems. Such properties include things like
 
-We assume a certain amount of knowledge about Maxima when writing STACK questions. 
+* is the expression algebraically equivalent to the correct answer?
+* is the expression fully simplified?
+* is the expression written a particular conventional form, (e.g. factored, partial fraction)?
+* are all the numbers in the expression written as fractions in the lowest terms?
+
+We assume a certain amount of knowledge about Maxima when writing STACK questions.
 
 ## Tutorials for STACK users  {#tutorial}
 

@@ -35,9 +35,9 @@ These are the major tasks we still need to complete in approximate order and imp
 1. Reporting
  1. Make sure that STACK questions work as well as possible in the standard Moodle reports.
  2. Consider what additional custom STACK reporting we need.
-2. Implement the Moodle backup/restore code for stack questions. 
-3. Implement Moodle XML format import and export. 
-4. Investigate ways of running Maxima on a separate server. 
+2. Implement the Moodle backup/restore code for stack questions.
+3. Implement Moodle XML format import and export.
+4. Investigate ways of running Maxima on a separate server.
 
 At this point STACK will be "ready" for use with students, although not all features will be available.
 
@@ -55,7 +55,7 @@ At this point STACK will be "ready" for use with students, although not all feat
 1. There is no check that SUM(question values of all PRTs) = 1. Either we need to enforce that, or we need to compute question fraction as a weighed average of PRT scores.
 2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 
-## Future plans 
+## Future plans
 
 1. Improve editing form, for example
  1. a way to rename PRTs and inputs.
@@ -71,11 +71,11 @@ We have a dedicated page for [future plans](Future_plans.md).
 
 These tasks also need to be done, but do not block progress towards getting STACK basically working in moodle.
 
-1. Refactor the way STACK surrounds mathematics with LaTeX  environments.  Really we need a function 
+1. Refactor the way STACK surrounds mathematics with LaTeX  environments.  Really we need a function
 
 stack_maths($ex,$format = INLINE/DISPLAY)
 
-which takes the castring $ex, and surrounds it by strings  depending on whether we want an inline or displayed equation.   Similar to the translator function... 
+which takes the castring $ex, and surrounds it by strings  depending on whether we want an inline or displayed equation.   Similar to the translator function...
 
 Some miscellaneous things
 * Answer tests should be like inputs. We should return an answer test object, not a controller object.
@@ -95,11 +95,11 @@ Some miscellaneous things
   *  <http://code.google.com/p/remote-maxima/>
   *  <http://www.lon-capa.org/maximaasserver.html>
 3. Refactor Maxima code to change from $'s and $$'s to \[ \] and \( and \).
-  
+
 ## Documentation system
 
 1. Ensure links from the editing form end up at the STACK docs.
-2. 404 error does not add an entry to the log.   
+2. 404 error does not add an entry to the log.
 3. fix `maintenance.php`.
 4. Update the file
 
@@ -110,13 +110,13 @@ Some miscellaneous things
 
 STACK is a direct development of the CABLE project which ran at the University of Birmingham. CABLE was a development of the AiM computer aided assessment system.
 
-## Version 3.0 
+## Version 3.0
 
 _Not yet released_.  Target, September 2012.
 
-Major re-engineering of the code by the Open University, The  University of Birmingham and the University of Helsinki.  Reporting and documentation added by Ben Holmes. 
+Major re-engineering of the code by the Open University, The  University of Birmingham and the University of Helsinki.  Reporting and documentation added by Ben Holmes.
 
-The most important change is the decision to re-work STACK as a question type for the Moodle quiz.  There is no longer a separate front end for STACK, or (currently) a mechanism to include STACK questions into other websites via a SOAP webservice. This round of development does not plan to introduce major new features, or to make major changes to the core functionality. An explicit aim is that "old questions will still work".  
+The most important change is the decision to re-work STACK as a question type for the Moodle quiz.  There is no longer a separate front end for STACK, or (currently) a mechanism to include STACK questions into other websites via a SOAP webservice. This round of development does not plan to introduce major new features, or to make major changes to the core functionality. An explicit aim is that "old questions will still work".
 
 Key features
 
@@ -130,13 +130,13 @@ Key features
 * Interaction elements, now called inputs, are indicated in questions as `[[input:ans1]]` to match the existing style in Moodle.  Existing questions will be converted when imported.
 * A number of other terminology changes have brought STACK's use into line with Moodle's, e.g. Worked solution has changed to "general feedback".
 * Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
-* Feature "allowed words" dropped from inputs (i.e. interaction elements). 
+* Feature "allowed words" dropped from inputs (i.e. interaction elements).
 * Input "Dropdown" list -> should be automatically imported to "list"
 * JSMath is no longer under development, and hence we are no longer providing an option for this in STACK.  However, in STACK 2 we modified JSMath to enable inputs within equations.  Display now assumes the use of a Moodle filter and we recommend (and test with) MathJax, which does not currently support this feature.  If it is important for you to use this feature you will need to copy and modify the load.js file from STACK 2 and use JSMath.
 * Worked solution on demand feature has been removed.  This was a hack in STACK 2, and the use of Moodle quiz has made this unnecessary.
 * We have lost some of the nice styling on the editing form, compared to Stack 2.
 
-## Version 2.2 
+## Version 2.2
 
 Released: October 2010 session.
 
@@ -145,7 +145,7 @@ Released: October 2010 session.
   from AiM/Maple TA at once, assign multiple questions to Moodle question banks.
 * Slider interaction elements.
 
-## Version 2.1 
+## Version 2.1
 
 Developed by Chris Sangwin and Simon Hammond at the University of Birmingham.
 Released: Easter 2010 session.
@@ -162,20 +162,20 @@ Key features
 * Sample resources included as part of the FETLAR project.
 
 
-## Version 2.0 
+## Version 2.0
 
-Released, September 2007.  Developed by Jonathan Hart and Chris Sangwin at the University of Birmingham. 
+Released, September 2007.  Developed by Jonathan Hart and Chris Sangwin at the University of Birmingham.
 
-Key features 
+Key features
 
-* Display of mathematics taken care of by JSMath. 
-* Integrated into Moodle. 
-* Variety of interaction elements. 
+* Display of mathematics taken care of by JSMath.
+* Integrated into Moodle.
+* Variety of interaction elements.
 * Multi-part questions.
-* Cache. 
-* Item tests. 
+* Cache.
+* Item tests.
 
-### Version 1.0 
+### Version 1.0
 
 Released, 2005.  Developed by Chris Sangwin at the University of Birmingham.
 

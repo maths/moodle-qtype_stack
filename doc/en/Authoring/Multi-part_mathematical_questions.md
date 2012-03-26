@@ -5,7 +5,7 @@
 Find the equation of the line tangent to \(x^3-2x^2+x\) at the point $x=2$.
 
 1. Differentiate \(x^3-2x^2+x\) with respect to $x$.
-2. Evaluate your derivative at $x=2$. 
+2. Evaluate your derivative at $x=2$.
 3. Hence, find the equation of the tangent line. $y=...$
 
 Since all three parts refer to one polynomial, if randomly generated questions are being used then each
@@ -24,7 +24,7 @@ In the context it is to be used it is appropriate to provide students with the
 opportunity to "fill in the blanks", in the following equation.
 
 	(x+1)(x+2) = [¯] x2 + [¯] x + [¯].
-	
+
 We argue this is really "one question" with "three inputs".
 Furthermore, it is likely that the teacher will want the student to complete all boxes
 before any feedback is assigned, even if separate feedback is generated for each input
@@ -52,7 +52,7 @@ assigned. The crucial observation in STACK is a complete separation between two 
 ## [Inputs](Inputs.md) ##
 
 The [question text](CASText.md#question_text), i.e. the text actually displayed to the student, may have an arbitrary number of [inputs](Inputs.md). An element may be positioned
-anywhere within the question text, including within mathematical expressions, e.g. equations (_note_: MathJax currently does not support form elements within equations). 
+anywhere within the question text, including within mathematical expressions, e.g. equations (_note_: MathJax currently does not support form elements within equations).
 Each input will be associated with a number of fields. For example
 
 1. The name of a CAS variable to which the student's answer (if any) is assigned during response processing.
@@ -110,9 +110,9 @@ __Question text__
      <p>3. Hence, find the equation of the tangent line. $y=$[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
 
 Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question.
-Notice there is one potential response tree for each "part".  
+Notice there is one potential response tree for each "part".
 
-Update the form and then ensure the Teacher's Answers are filled in as `ta1`, `ta2` and `ta3`. 
+Update the form and then ensure the Teacher's Answers are filled in as `ta1`, `ta2` and `ta3`.
 
 STACK has created the three potential response trees by detecting the feedback tags automatically.  Next we need to edit potential response trees.  These will establish the properties of the student's answers.
 
@@ -126,12 +126,12 @@ The first stage is to include the simplest potential response trees.  These will
 
 ###Stage2: follow-through marking###
 
-Next we will implement simple follow through marking.  
+Next we will implement simple follow through marking.
 
 Look carefully at part 2.  This does not ask for the "correct answer" only that the student has evaluated the expression in part 1 correctly at the right point.  So the first task is to establish this property by evaluating the answer given in the first part, and comparing with the second part.  Update node 1 of `prt2` to establish the following.
 
     AlgEquiv(ans2,subst(x=pt,ans1))
-  
+
 Next, add a single node, and ensure this node establishes that
 
     AlgEquiv(ans1,ta1)
@@ -140,7 +140,7 @@ We now link the true branch of node 1 to node 2.  We now have three outcomes.
 
 Node 1: did they evaluate the expression in part 1 correctly? If "yes" then go to node 2, else if "no" then exit with no marks.
 
-Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks, as suit your taste in this situation, and add some feedback such as the following in Node 2, false feedback.  
+Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks, as suit your taste in this situation, and add some feedback such as the following in Node 2, false feedback.
 
     Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
 
@@ -148,7 +148,7 @@ Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation,
 
 Testing questions it time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
 
-From the question preview window, click on `Run the question tests...` link in the top right of the page. 
+From the question preview window, click on `Run the question tests...` link in the top right of the page.
 
 Please read the page on [testing](Testing.md).
 
@@ -176,8 +176,8 @@ The marks should all be "0" and the answer notes as follows.
      prt1 = prt1-1-F
      prt2 = prt2-2-F
      prt3 = prt3-1-F
-     
-When you run the tests you can also look at the feedback to confirm the system is giving the kind of feedback you want for these types of mistake.  
+
+When you run the tests you can also look at the feedback to confirm the system is giving the kind of feedback you want for these types of mistake.
 
 ###Stage4: Random question###
 
@@ -187,8 +187,8 @@ Next we can add a randomly generated polynomial to the question.  Because we use
 
 You will need to add a non-empty question note to enable grouping of random versions.  E.g. the following string will suffice.
 
-    @p@ 
-    
+    @p@
+
 We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc to specify the correct answers.
 
 In the second test you might as well leave the test as is.

@@ -2,18 +2,18 @@
 
 NOT UPDATED FOR VERSION 3.
 
-STACK is distributed with sample questions.  These are kept 
-under the language files.   There are currently sample questions in English and Dutch. 
+STACK is distributed with sample questions.  These are kept
+under the language files.   There are currently sample questions in English and Dutch.
 
-We would encourage colleagues to consider releasing their 
-materials under a suitable creative commons licence. 
+We would encourage colleagues to consider releasing their
+materials under a suitable creative commons licence.
 
 # Materials released with STACK #
 
 ## Test questions ##
 
-The following questions are distributed with the STACK source 
-code in 
+The following questions are distributed with the STACK source
+code in
 
     lang/en/sample_questions/
 
@@ -46,11 +46,11 @@ Note that if a wrong answer is provided the feedback plot is generated to includ
 
 ### test_5.xml ###
 
-This is a complex multi-part item, which is randomly generated with a full worked solution.  The question has follow through marking.  Note carefully the phrasing of part 2.  i.e. "solve your equation". 
+This is a complex multi-part item, which is randomly generated with a full worked solution.  The question has follow through marking.  Note carefully the phrasing of part 2.  i.e. "solve your equation".
 
 The mark scheme actually takes the equation used in the first part (whether correct or not) and solves it, so the student can get marks for this part regardless of whether they get the first part right.
 
-Is this sensible?  Maybe not, but this question demonstrates this feature.  
+Is this sensible?  Maybe not, but this question demonstrates this feature.
 
 ### test_6.xml ###
 
@@ -102,7 +102,7 @@ in April 2010.  These can be found in
 
     lang/en/sample_questions/oer/
 
-* Questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).  You can try these questions via the [worksheet interface](http://stack.bham.ac.uk/worksheets/index.php). 
+* Questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).  You can try these questions via the [worksheet interface](http://stack.bham.ac.uk/worksheets/index.php).
 * Questions to cover all of the [Calculus Refresher](http://www.mathcentre.ac.uk/resources/exercisebooks/mathcentre/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 
 

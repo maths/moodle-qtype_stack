@@ -25,7 +25,7 @@ You will never loose marks for making a syntax error, e.g. missing a closing bra
 
 If you have asked for a worked solution then you may not change any of your answers.
 
-Mathematical expressions are often either [input](Answer_input.md) as a typed linear syntax or built up with 
+Mathematical expressions are often either [input](Answer_input.md) as a typed linear syntax or built up with
 an equation editor such as dragmath.
 
 ## Repeated attempts ##
@@ -55,7 +55,7 @@ There are a number of reasons why your answer could be considered to be invalid.
   * inequalities: `x<=1`.
   * sets: `{1,2,3}`. Sets must be in curly brackets.
   * lists: `[1,1,2,3]`. List must be in square brackets.
-  * matrices.  `matrix([1,2],[3,3])`.  
+  * matrices.  `matrix([1,2],[3,3])`.
 
 Think about the form your answer should have before you type it in.
 

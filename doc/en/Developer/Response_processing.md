@@ -2,10 +2,10 @@
 
 This document is a work in progress as we move from STACK 2 to STACK 3.  We may not implement the design proposed here.
 
-This document describes how STACK processes the student's attempt at a question, and describes the purpose and 
+This document describes how STACK processes the student's attempt at a question, and describes the purpose and
 interactions between different parts of the database tables.
 
-This document is intended for developers only.  
+This document is intended for developers only.
 
 The reasons why this design was adopted are given in the page on [question state caching](Question_state_caching.md).
 
@@ -35,7 +35,7 @@ To do:  what happens when a teacher edits a question which has been (i) deployed
 1. Do we have any random variables?  If not, just create a singleton question.
 2. Generate a new `seed`.
 3. Instantiate the question variables.
-4. Instantiate the [question note](../Authoring/Question_note.md).  Does this note already appear in `deployed_question` for this `id.question`? Yes. Repeat 1-3 a reasonable number of times. 
+4. Instantiate the [question note](../Authoring/Question_note.md).  Does this note already appear in `deployed_question` for this `id.question`? Yes. Repeat 1-3 a reasonable number of times.
 5. Instantiate all other fields.
 6. Create a new line in `deployed_question`.
 7. Take `stem.deployed_question` and (i) replace all feedback tags in `stem.deployed_question` with empty strings (ii) add all input html.
@@ -45,7 +45,7 @@ To do:  what happens when a teacher edits a question which has been (i) deployed
 ## When a student submits an answer.
 
 Note that in STACK students must submit the whole form in one go.  There is no submission of each answer box individually.  The logic would become impossible!
-So we use `$_POST` and "student's answer" to be synonymous. 
+So we use `$_POST` and "student's answer" to be synonymous.
 
 1. STACK receives a submit request.  This includes the following information.
     1. `user_id` - i.e. who.
@@ -62,9 +62,9 @@ So we use `$_POST` and "student's answer" to be synonymous.
    2. Have the answers actually changed? Check in `history.cache`. If not, we loop back to the current position in the `cache`.  This counts as an attempt, so we add a line in `cache_sequence` and `attempt`, but does not add a new line to the `cache` itself and hence won't add another penalty.  It also reduces the number of lines in the `cache` substantially.
    3. We now have a new and different answer, so we must actually process this new attempt.
 
-Not currently sure we maintain 2. & 3. in STACK 3.  We may devise a new way to get `id.cache`. 
+Not currently sure we maintain 2. & 3. in STACK 3.  We may devise a new way to get `id.cache`.
 
-Not sure how we deal with navigation away from the page. 
+Not sure how we deal with navigation away from the page.
 
 ## Processing a genuinely new attempt.
 

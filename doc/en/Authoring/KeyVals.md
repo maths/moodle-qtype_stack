@@ -12,7 +12,7 @@ for example
 	p = (x-1)^3
 
 Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima.md) language.
-When evaluated this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines. 
+When evaluated this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
 The keys need not be unique, although only the last value will be available for use later.
 
 These fields are known as _KeyVal_ fields.
@@ -35,14 +35,14 @@ Hence, in STACK we add an abstraction layer to enforce a syntax where every expr
 	For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
 * You can include C-style block comments for increased clarity, and these may appear on separate lines
 	e.g. `dice = rand(6) + 1 /* roll it! */`
-  
+
 ## Question variables			{#Question_variables}
 
 The question variables are executed when a version of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
 
 * Teacher's answers in [inputs](Inputs.md) are defined in terms of question variables.
 * [Question note](Question_note.md).
-* All fields in each of the [potential response tree](Potential_response_trees.md). 
+* All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
 
 ## Feedback variables			{#Feedback_variables}

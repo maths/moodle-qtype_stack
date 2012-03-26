@@ -44,10 +44,10 @@ timestamp appended to it to indicate the point the fork was made.
 
 ## Undeploy vs. Delete ##
 
-_Undeploying_ a question instance is not quite the same as deleting it. 
-If an instance is undeployed then new students will no longer be issued with it. 
-However, students who have _already_ started working with it will be allowed to continue to with it. 
-Deleting a question from the question list actually includes removal of all versions of that question. 
+_Undeploying_ a question instance is not quite the same as deleting it.
+If an instance is undeployed then new students will no longer be issued with it.
+However, students who have _already_ started working with it will be allowed to continue to with it.
+Deleting a question from the question list actually includes removal of all versions of that question.
 DIAGRAM?
 
 ## Moodle Interaction ##

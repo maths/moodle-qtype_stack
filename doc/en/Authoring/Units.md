@@ -25,7 +25,7 @@ There are no mm units.
 
 ### Example 1  ###
 
-Let us assume that the correct answer is `12.1*m/s^2`. 
+Let us assume that the correct answer is `12.1*m/s^2`.
 
 1. This value is inserted to STACK exactly as it is above. Note the multiplication sign between
    the number and units. Thus only one answer field is needed. We think this is the best solution (see below).
@@ -34,12 +34,12 @@ Let us assume that the correct answer is `12.1*m/s^2`.
    substitute all mms by m/1000. If we use two answer fields, then we need to move this "/1000" to the number part. Now this happens automatically.
 3. Then STACK converts the student answer such that it include only meters and seconds.
    Unit package includes the suitable "convert" function. This function also handles the number
-   coefficients automatically (e.g. 1*km = 1000*m etc.). 
-4. STACK picks the number from this converted code (the command "coeff"). 
+   coefficients automatically (e.g. 1*km = 1000*m etc.).
+4. STACK picks the number from this converted code (the command "coeff").
 5. Finally STACK compares this number to the respective model answer. In this comparison it
    uses `Num_tol_absolute` or something like that.
 
-So, the following code is needed in the [feedback variables](KeyVals.md#Feedback_variables) (`ans1` is the student's answer). 
+So, the following code is needed in the [feedback variables](KeyVals.md#Feedback_variables) (`ans1` is the student's answer).
 
 	temp1 = subst(m/1000,mm,ans1)
 	temp2 = convert(temp1,[m,s])
@@ -67,5 +67,5 @@ This answer test will then be similar to Algebraic Equivalence, but will automat
 Adding "load(unit)" to Maxima automatically under these circumstances would not work...
 2. If we automatically `load` a library every time, then variable names such as $m$ will
    acquire a meaning.  Perhaps it might be better to have a global question option "load unit(s)
-   package" which will only load units for questions which make use of them. 
+   package" which will only load units for questions which make use of them.
    More complex for question authors, of course, and may not actually speed things up when compiled...

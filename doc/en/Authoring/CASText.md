@@ -8,7 +8,7 @@ Many of the fields in a STACK question, such as the question text, are of this t
 
 Information about [Basic HTML](http://www.w3schools.com/html/html_primary.asp) is available elsewhere.
 
-Currently STACK makes no attempt to alter the LaTeX itself.  This is displayed using [MathJAX](http://http://www.mathjax.org/).  
+Currently STACK makes no attempt to alter the LaTeX itself.  This is displayed using [MathJAX](http://http://www.mathjax.org/).
 If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 The following things to remember about CASText:
 
@@ -17,12 +17,12 @@ The following things to remember about CASText:
 * Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
 * Anything enclosed between `@` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `$@ stuff @$`, and that `@ stuff @` is sufficient.
- * To get a displayed equation centred on a line of its own, you must use `\[@ stuff @\]`, as in LaTeX. 
+ * To get a displayed equation centred on a line of its own, you must use `\[@ stuff @\]`, as in LaTeX.
 * Multiple CAS expressions may appear in a single LaTeX equation, as needed.  For example `\[  \frac{@p@}{@q@} \]`.  Note that many problems are _best solved_ at the level of the CAS, e.g. by defining a variable `p/q` in the CAS, not at the level of display.  This is a design decision which needs experience to resolve efficiently in each case.  For an example of this, see the example [showing working](../CAS/Matrix.md#Showing_working).
 
 Here is an example
 
-	The derivative of @ x^4/(1+x^4) @ is 
+	The derivative of @ x^4/(1+x^4) @ is
 	\[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @ \]
 
 ## Variables ##   {#Variables}
@@ -59,7 +59,7 @@ Do **not** place feedback within LaTeX equations!
 
 General feedback (called "worked solution" in previous versions) is shown to the student after they have attempted the question. Unlike feedback, which depends on the response the student gave, the same general feedback text is shown to all students.
 
-The general feedback may depend on any question variables, but may _not_ depend on any of the inputs. 
+The general feedback may depend on any question variables, but may _not_ depend on any of the inputs.
 While this design decision is restrictive, it is a deliberate separation of feedback
 which should be done via potential response trees, from a model solution to this
 problem which can be written before a question is deployed.
@@ -69,7 +69,7 @@ problem which can be written before a question is deployed.
 HTML Paragraphs (don't forget the end tag!)
 
 	<p>This is a paragraph</p>
-	<p>This is another paragraph</p> 
+	<p>This is another paragraph</p>
 
 HTML Line Breaks
 

@@ -10,4 +10,4 @@ Then you _submit_ your answer and it is [assessed](Answer_assessment.md).
 * Multiple attempts at a question are usually encouraged.
 * You will often be given randomly generated questions, so you may be able to practice similar questions.
 
-There is a page for frequently asked questions, [FAQ](FAQ.md).  
+There is a page for frequently asked questions, [FAQ](FAQ.md).

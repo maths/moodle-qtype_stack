@@ -1,7 +1,7 @@
 # Feedback
 
 The purpose of STACK is to assess students' answers to mathematical questions,
-and on the basis of the properties we establish to assign _feedback_. 
+and on the basis of the properties we establish to assign _feedback_.
 
 * _Formative assessment_ is to support and inform students' learning.
   Feedback here could be _qualitative_, e.g. written comments tailored to the student's answer and designed to help them improve their performance on the task.
@@ -45,10 +45,10 @@ Each [potential response tree](Potential_response_trees.md) returns three outcom
    for use by the teacher during [reviewing](Reviewing.md).
 
 These correspond approximately to formative, summative and evaluative functions of assessment.
-The [general feedback](CASText.md#General_feedback) (known as worked solution in previous versions) is fixed and may not depend on the student's answers. 
+The [general feedback](CASText.md#General_feedback) (known as worked solution in previous versions) is fixed and may not depend on the student's answers.
 Hence it is not considered to be feedback to the student's work in the strict sense.  However, it remains a very useful outcome to students.
 
-The amount of feedback available in each question is governed by an [option](Options.md), [feedback used](Options.md#Feedback_used). 
+The amount of feedback available in each question is governed by an [option](Options.md), [feedback used](Options.md#Feedback_used).
 
 ## Numerical score  ##
 
@@ -59,13 +59,13 @@ The numerical scores are assembled by traversing each potential response tree.
 * Each branch of each node can add, subtract or set an absolute, score.
 * The outcome of a potential response tree should be between \(0\) and \(1\) and then is scaled by multiplying by the [question value](Potential_response_trees.md#Question_value) for that potential response tree.
 * A negative score, or scores greater than one are not prevented!
-* A "penalty" may also attached to this attempt, but normally the penalty is empty.  This is useful to _remove_ any penalty for this outcome.  
+* A "penalty" may also attached to this attempt, but normally the penalty is empty.  This is useful to _remove_ any penalty for this outcome.
 
 The Mark Modification method is used to adjust the score for each potential response tree, based on the number of valid, different attempts.
 
 The default penalty mark modification scheme deducts from the score a small amount (default is \(10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
 
-It works in the following way. For each attempt $k$, we let 
+It works in the following way. For each attempt $k$, we let
 
 * $s_k$ be the score from the potential response tree.
 * $p_k$ be the "penalty" as follows:
@@ -90,6 +90,6 @@ The score for that attempt is the sum of the marks for each potential response t
 
 The text-based feedback for students is a concatenation of the following elements.
 
-* *Answer test feedback.* Many of the [answer tests](Answer_tests.md) generate feedback of their own. This can be suppressed using the quiet option. While this feedback is often not needed, it would be very difficult for the teacher to re-create this.  
+* *Answer test feedback.* Many of the [answer tests](Answer_tests.md) generate feedback of their own. This can be suppressed using the quiet option. While this feedback is often not needed, it would be very difficult for the teacher to re-create this.
 * *Bespoke feedback.* Each branch of the [potential response trees](Potential_response_trees.md) generates some feedback.
 * *Generic feedback.* Once the [potential response trees](Potential_response_trees.md) has been traversed and all feedback assigned, the score is used to generate some generic feedback. If the raw score equals \(0\) then the default feedback is _Incorrect answer_.   If the raw score equals \(1\) then the default feedback is _Correct answer, well done_. Otherwise the generic feedback is _Your answer is partially correct_.  These strings can be modified in the [options](Options.md).

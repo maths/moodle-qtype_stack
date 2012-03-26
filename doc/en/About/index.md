@@ -37,7 +37,7 @@ Give an example of a cubic polynomial with the following properties:
 * $p(x)=0$ at $x=2$ and at $x=3$.
 
 STACK can check each condition separately on the student's answer and assign partial credit accordingly.
-If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._ 
+If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._
 There are a variety of ways in which [feedback](../Authoring/Feedback.md) can be given.
 
 STACK is a direct development of the AIM system, using the open source computer algebra system [Maxima](../CAS/Maxima.md).

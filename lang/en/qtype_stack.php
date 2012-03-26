@@ -221,6 +221,7 @@ $string['expectedpenalty'] = 'Expected penalty';
 $string['expectedscore'] = 'Expected score';
 $string['inputdisplayed'] = 'Displayed as';
 $string['inputentered'] = 'Value entered';
+$string['inputexpression'] = 'Test input';
 $string['inputname'] = 'Input name';
 $string['inputstatus'] = 'Status';
 $string['inputstatusname'] = 'Blank';

@@ -23,7 +23,7 @@ These are the major tasks we still need to complete in approximate order and imp
 2. **DONE** Database tables to store all aspects of the question definitions.
 3. **DONE** Question editing form that can handle multi-input and multi-PRT questions, with validation.
 4. **DONE** Re-implement question tests in Moodle.
- 1. Except that the test input need to be evaluated expressions, not just strings.
+ 1. **DONE** Except that the test input need to be evaluated expressions, not just strings.
 5. **DONE** Get deploying, and a fixed number of variants working in Moodle.
 6. Make multi-part STACK questions work exactly right in Adaptive behaviour.
  1. Evaluate some PRTs if possible, even if not all inputs have been filled in.

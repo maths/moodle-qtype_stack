@@ -212,6 +212,7 @@ foreach ($testresults as $key => $result) {
     $inputstable = new html_table();
     $inputstable->head = array(
         get_string('inputname', 'qtype_stack'),
+        get_string('inputexpression', 'qtype_stack'),
         get_string('inputentered', 'qtype_stack'),
         get_string('inputdisplayed', 'qtype_stack'),
         get_string('inputstatus', 'qtype_stack'),
@@ -221,6 +222,7 @@ foreach ($testresults as $key => $result) {
     foreach ($result->get_input_states() as $inputname => $inputstate) {
         $inputstable->data[] = array(
             s($inputname),
+            s($inputstate->rawinput),
             s($inputstate->input),
             $inputstate->display,
             get_string('inputstatusname' . $inputstate->status, 'qtype_stack'),

@@ -68,21 +68,18 @@ class stack_question_test {
      * @return stack_question_test_result the test results.
      */
     public function test_question(question_usage_by_activity $quba, qtype_stack_question $question, $seed) {
-        $response = array();
-        foreach ($this->inputs as $name => $value) {
-            $response[$name] = $value;
-            $response[$name . '_val'] = $value;
-        }
 
         $slot = $quba->add_question($question, $question->defaultmark);
         $quba->start_question($slot, $seed);
+
+        $response = $this->compute_response($question);
 
         $quba->process_action($slot, $response);
 
         $results = new stack_question_test_result($this);
         foreach ($this->inputs as $inputname => $notused) {
             $inputstate = $question->get_input_state($inputname, $response);
-            $results->set_input_state($inputname,
+            $results->set_input_state($inputname, $response[$inputname],
                     $inputstate->contentsinterpreted, $inputstate->status);
         }
 
@@ -94,6 +91,44 @@ class stack_question_test {
         }
 
         return $results;
+    }
+
+    /**
+     * Create the actual response data. The response data in the test case may
+     * include expressions in terms of the question variables.
+     * @param qtype_stack_question $question the question - with $question->session initialised.
+     * @return array the respones to send to $quba->process_action.
+     */
+    protected function compute_response(qtype_stack_question $question) {
+        $localoptions = clone $question->options;
+        $localoptions->set_option('simplify', true);
+
+        // Start with the quetsion variables (note that order matters here).
+        $cascontext = new stack_cas_session(null, $localoptions, $question->seed);
+        $question->add_question_vars_to_session($cascontext);
+
+        // Now add the expressions we want evaluated.
+        $vars = array();
+        foreach ($this->inputs as $name => $value) {
+            if ($value) {
+                $cs = new stack_cas_casstring($value);
+                $cs->validate('t');
+                $cs->set_key('testresponse_' . $name);
+                $vars[] = $cs;
+            }
+        }
+
+        $cascontext->add_vars($vars);
+        $cascontext->instantiate();
+
+        $response = array();
+        foreach ($this->inputs as $name => $notused) {
+            $value = $cascontext->get_value_key('testresponse_' . $name);
+            $response[$name] = $value;
+            $response[$name . '_val'] = $value;
+        }
+
+        return $response;
     }
 
     /**

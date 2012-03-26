@@ -38,11 +38,16 @@ class stack_question_test_result {
     public $testcase;
 
     /**
-     * @var array input name => the displayed value of that input.
+     * @var array input name => actual value put into this input.
      */
      public $inputvalues;
 
     /**
+     * @var array input name => the displayed value of that input.
+     */
+     public $inputdisplayed;
+
+     /**
      * @var array input name => the input statues. One of the stack_input::STATUS_... constants.
      */
      public $inputstatuses;
@@ -66,9 +71,10 @@ class stack_question_test_result {
      * @param string $displayvalue the displayed version of the value that was input.
      * @param string $status one of the stack_input::STATUS_... constants.
      */
-    public function set_input_state($inputname, $displayvalue, $status) {
-        $this->inputvalues[$inputname]   = $displayvalue;
-        $this->inputstatuses[$inputname] = $status;
+    public function set_input_state($inputname, $invputvalue, $displayvalue, $status) {
+        $this->inputvalues[$inputname]    = $invputvalue;
+        $this->inputdisplayed[$inputname] = $displayvalue;
+        $this->inputstatuses[$inputname]  = $status;
     }
 
     public function set_prt_result($prtname, stack_potentialresponse_tree_state $actualresult) {
@@ -83,8 +89,9 @@ class stack_question_test_result {
 
         foreach ($this->inputvalues as $inputname => $inputvalue) {
             $state = new stdClass();
-            $state->input = $this->testcase->get_input($inputname);
-            $state->display = $inputvalue;
+            $state->rawinput = $this->testcase->get_input($inputname);
+            $state->input = $inputvalue;
+            $state->display = $this->inputdisplayed[$inputname];
             $state->status = $this->inputstatuses[$inputname];
             $states[$inputname] = $state;
         }

@@ -401,9 +401,13 @@ class qtype_stack_question extends question_graded_automatically {
                     $this->session, $this->options, $response, $this->seed);
         } else {
             $this->prtresults[$index] = array(
-                'score'    => null,
-                'fraction' => null,
-                'feedback' => '',
+                'feedback'   => '',
+                'answernote' => null,
+                'errors'     => null,
+                'valid'      => null,
+                'score'      => null,
+                'penalty'    => null,
+                'fraction'   => null,
             );
         }
 
@@ -477,5 +481,15 @@ class qtype_stack_question extends question_graded_automatically {
             $vars[$key] = $this->session->get_value_key($key);
         }
         return $vars;
+    }
+
+    /**
+     * Add all the question variables to a give CAS session. This can be used to
+     * initialise that session, so expressions can be evaluated in the context of
+     * the question variables.
+     * @param stack_cas_session $session the CAS session to add the question variables to.
+     */
+    public function add_question_vars_to_session(stack_cas_session $session) {
+        $session->merge_session($this->session);
     }
 }

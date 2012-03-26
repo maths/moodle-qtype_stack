@@ -42,7 +42,7 @@ path(s) for the next step.
 	$this->casArray["command"] = "lisp.run -q -M <path>/maxima-clisp.mem"; // was "maxima"
 ~~~~
 
-* Comment out the last line of **maximalocal.mac**, i.e. to:
+* Comment out the last line of `moodledata/stack/maximalocal.mac`, i.e. to:
 
 ~~~~~
 	/* load("stackmaxima.mac")$ */
@@ -58,15 +58,19 @@ If you are using stack with sbcl (if you are using centos5/sl5/rhel5 with maxima
 	load("<path>/maximalocal.mac");
 	:lisp (sb-ext:save-lisp-and-die "maxima-sbcl" :toplevel #'run :executable t)
 
-* Modify configured CAS command in **config.php** as below (checking you are editing casArray["**command**"] and not casArray["**cas**"]):
+* Modify configured CAS command in the moodle settings page to 
 ~~~~~~
-	$this->casArray["command"] = "maxima-sbcl"; // was "maxima"
+	"maxima-sbcl"; // was "maxima"
 ~~~~~~
-* Comment out the last line of **maximalocal.mac**, i.e. to:
+* Comment out the last line of `moodledata/stack/maximalocal.mac`, i.e. to:
 ~~~~~
 	/* load("stackmaxima.mac")$ */
 ~~~~~
-Note that the above commands should be typed one line at a time, without spaces.
+
+Note that 
+
+* the above commands should be typed one line at a time, without spaces.
+* running the healthcheck script over writes `maximalocal.mac`
 
 ### Other Lisps ###
 

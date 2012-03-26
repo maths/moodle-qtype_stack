@@ -50,6 +50,11 @@ At this point STACK will be "ready" for use with students, although not all feat
 5. Add sample_questions, and update question banks for STACK 3.0.
 6. Link the STACK documentation to Moodle's help icons on the editing form, etc.
 
+## Known bugs
+
+1. There is no check that SUM(question values of all PRTs) = 1. Either we need to enforce that, or we need to compute question fraction as a weighed average of PRT scores.
+2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
+
 ## Future plans 
 
 1. Improve editing form, for example

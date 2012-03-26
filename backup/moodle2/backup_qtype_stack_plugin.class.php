@@ -135,10 +135,12 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
      */
     public static function get_qtype_fileareas() {
         return array(
-            'specificfeedback'    => 'qtype_stack',
-            'prtcorrect'          => 'qtype_stack',
-            'prtpartiallycorrect' => 'qtype_stack',
-            'prtincorrect'        => 'qtype_stack',
+            'specificfeedback'     => 'question_created',
+            'prtcorrect'           => 'question_created',
+            'prtpartiallycorrect'  => 'question_created',
+            'prtincorrect'         => 'question_created',
+            'prtnodetruefeedback'  => 'qtype_stack_prt_nodes',
+            'prtnodefalsefeedback' => 'qtype_stack_prt_nodes',
         );
     }
 }

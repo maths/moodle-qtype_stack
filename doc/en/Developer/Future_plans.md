@@ -28,6 +28,8 @@ We need to consolidate all of these things.
 * Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)
+* Make the mark and penalty fields accept arbitrary maxima statements.
+* Decimal separator, both input and output.
 
 ## Features to add - possible self contained projects ##
 

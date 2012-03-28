@@ -193,33 +193,33 @@ class qtype_stack_question extends question_graded_automatically {
         }
         $session->add_vars($response);
 
+        // Now instantiate the session:
+        $session->instantiate();
+        $this->session = clone $session;
+        if ($session->get_errors()) {
+            throw new Exception('qtype_stack_question : CAS error when instantiating the session: ' .
+            $session->get_errors());
+        }
+
         // 3. CAS bits inside the question text.
-        $questiontext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
+        $questiontext = new stack_cas_text($this->questiontext, clone $session, $this->seed, 't', false, true);
         if ($questiontext->get_errors()) {
             throw new Exception('qtype_stack_question : Error in the the question text: ' .
                     $questiontext->get_errors());
         }
 
         // 4. CAS bits inside the specific feedback.
-        $feedbacktext = new stack_cas_text($this->specificfeedback, $session, $this->seed, 't', false, true);
+        $feedbacktext = new stack_cas_text($this->specificfeedback, clone $session, $this->seed, 't', false, true);
         if ($questiontext->get_errors()) {
             throw new Exception('qtype_stack_question : Error in the feedback text: ' .
                     $feedbacktext->get_errors());
         }
 
         // 5. CAS bits inside the question note.
-        $notetext = new stack_cas_text($this->questionnote, $session, $this->seed, 't', false, true);
+        $notetext = new stack_cas_text($this->questionnote, clone $session, $this->seed, 't', false, true);
         if ($questiontext->get_errors()) {
             throw new Exception('qtype_stack_question : Error in the question note: ' .
                     $notetext->get_errors());
-        }
-
-        // Now instantiate the session:
-        $session->instantiate();
-        $this->session = $session;
-        if ($session->get_errors()) {
-            throw new Exception('qtype_stack_question : CAS error when instantiating the session: ' .
-                    $session->get_errors());
         }
 
         // Now store the values that depend on the instantiated session.

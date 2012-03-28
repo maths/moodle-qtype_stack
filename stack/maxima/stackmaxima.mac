@@ -207,7 +207,8 @@ detexdecorate(ex):=block([argsex],
 /* Evaluate variables are return errors, display, and content forms   */
 /* ****************************************************************** */
 
-/* This function executes ex, which is assumed to be a stack function */
+/* This function executes ex, which is assumed to be a stack expression  */
+/* which is surrounded by errcatch.  Hence we end up with a list.        */
 cte(var,ex):=block([str],
  print("], key= ["),
  print(var),

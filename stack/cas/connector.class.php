@@ -232,7 +232,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             do {
                 $gb = stack_utils::substring_between($rawresultfragment, '[', ']', $eqpos);
                 $val = substr($gb[0], 1, strlen($gb[0])-2);
-                $val = str_replace('"', '', $val);
                 $val = trim($val);
 
                 if (preg_match('/[A-Za-z0-9].*/', substr($rawresultfragment, $offset, $eqpos-$offset), $regs)) {

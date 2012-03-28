@@ -93,6 +93,19 @@ extends UnitTestCase {
         $at1->instantiate();
         $this->assertEqual('a=1;', $at1->get_keyval_representation());
     }
+
+    public function test_string1(){
+
+        $cs=array('s:"This is a string"');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEqual('"This is a string"', $at1->get_value_key('s'));
+    }
 }
 
 

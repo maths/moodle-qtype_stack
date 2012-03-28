@@ -71,8 +71,10 @@ class stack_cas_configuration {
             $this->blocksettings['DEL_CMD']     = 'rm';
             if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
                 $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
-            } else {
+            } else if ('' != $this->blocksettings['GNUPLOT_CMD']) {
                 $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
+            } else {
+                $this->blocksettings['GNUPLOT_CMD'] = 'gnuplot';
             }
         }
 

@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 
 /**
@@ -195,7 +196,6 @@ class qtype_stack extends question_type {
             $DB->delete_records_select('qtype_stack_prts',
                     'name ' . $test . ' AND questionid = ?', $params);
         }
-
     }
 
     public function get_question_options($question) {
@@ -395,5 +395,124 @@ class qtype_stack extends question_type {
         }
 
         return $testcases;
+    }
+
+    protected function export_xml_text($format, $tag, $text, $textformat, $itemid, $contextid, $indent = '    ') {
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($contextid, 'qtype_stack', $tag, $itemid);
+
+        $output = '';
+        $output .= $indent . "<{$tag} {$format->format($textformat)}>\n";
+        $output .= $indent . '  ' . $format->writetext($text);
+        $output .= $format->write_files($files);
+        $output .= $indent . "</{$tag}>\n";
+
+        return $output;
+    }
+
+    public function export_to_xml($questiondata, $format, $notused = null) {
+        $contextid = $questiondata->contextid;
+
+        $output = '';
+
+        $options = $questiondata->options;
+        $output .= "    <questionvariables>\n";
+        $output .= "      " . $format->writetext($options->questionvariables, 0);
+        $output .= "    </questionvariables>\n";
+        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback, $options->specificfeedbackformat, $questiondata->id, $contextid);
+        $output .= "    <questionnote>\n";
+        $output .= "      " . $format->writetext($options->questionnote, 0);
+        $output .= "    </questionnote>\n";
+        $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
+        $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
+        $output .= "    <markmode>{$options->markmode}</markmode>\n";
+        $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect, $options->prtcorrectformat, $questiondata->id, $contextid);
+        $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect, $options->prtpartiallycorrectformat, $questiondata->id, $contextid);
+        $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect, $options->prtincorrectformat, $questiondata->id, $contextid);
+        $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
+        $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
+        $output .= "    <complexno>{$options->complexno}</complexno>\n";
+
+        foreach ($questiondata->inputs as $input) {
+            $output .= "    <input>\n";
+            $output .= "      <name>{$input->name}</name>\n";
+            $output .= "      <type>{$input->type}</type>\n";
+            $output .= "      <tans>{$format->xml_escape($input->tans)}</tans>\n";
+            $output .= "      <boxsize>{$input->boxsize}</boxsize>\n";
+            $output .= "      <strictsyntax>{$input->strictsyntax}</strictsyntax>\n";
+            $output .= "      <insertstars>{$input->insertstars}</insertstars>\n";
+            $output .= "      <syntaxhint>{$format->xml_escape($input->syntaxhint)}</syntaxhint>\n";
+            $output .= "      <forbidwords>{$format->xml_escape($input->forbidwords)}</forbidwords>\n";
+            $output .= "      <forbidfloat>{$input->forbidfloat}</forbidfloat>\n";
+            $output .= "      <requirelowestterms>{$input->requirelowestterms}</requirelowestterms>\n";
+            $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
+            $output .= "      <mustverify>{$input->mustverify}</mustverify>\n";
+            $output .= "      <showvalidation>{$input->showvalidation}</showvalidation>\n";
+            $output .= "    </input>\n";
+        }
+
+        foreach ($questiondata->prts as $prt) {
+            $output .= "    <prt>\n";
+            $output .= "      <name>{$prt->name}</name>\n";
+            $output .= "      <value>{$prt->value}</value>\n";
+            $output .= "      <autosimplify>{$prt->autosimplify}</autosimplify>\n";
+            $output .= "      <feedbackvariables>\n";
+            $output .= "        " . $format->writetext($prt->feedbackvariables, 0);
+            $output .= "      </feedbackvariables>\n";
+
+            foreach ($prt->nodes as $node) {
+                $output .= "      <node>\n";
+                $output .= "        <name>{$node->name}</name>\n";
+                $output .= "        <answertest>{$node->answertest}</answertest>\n";
+                $output .= "        <sans>{$format->xml_escape($node->sans)}</sans>\n";
+                $output .= "        <tans>{$format->xml_escape($node->tans)}</tans>\n";
+                $output .= "        <testoptions>{$format->xml_escape($node->testoptions)}</testoptions>\n";
+                $output .= "        <quiet>{$node->quiet}</quiet>\n";
+                $output .= "        <truescoremode>{$node->truescoremode}</truescoremode>\n";
+                $output .= "        <truescore>{$node->truescore}</truescore>\n";
+                $output .= "        <truepenalty>{$node->truepenalty}</truepenalty>\n";
+                $output .= "        <truenextnode>{$node->truenextnode}</truenextnode>\n";
+                $output .= "        <trueanswernote>{$format->xml_escape($node->trueanswernote)}</trueanswernote>\n";
+                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat, $questiondata->id, $contextid, '        ');
+                $output .= "        <falsescoremode>{$node->falsescoremode}</falsescoremode>\n";
+                $output .= "        <falsescore>{$node->falsescore}</falsescore>\n";
+                $output .= "        <falsepenalty>{$node->falsepenalty}</falsepenalty>\n";
+                $output .= "        <falsenextnode>{$node->falsenextnode}</falsenextnode>\n";
+                $output .= "        <falseanswernote>{$format->xml_escape($node->falseanswernote)}</falseanswernote>\n";
+                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat, $questiondata->id, $contextid, '        ');
+                $output .= "      </node>\n";
+            }
+
+            $output .= "    </prt>\n";
+        }
+
+        foreach ($questiondata->deployedseeds as $deployedseed) {
+            $output .= "    <deployedseed>{deployedseed}</deployedseed>\n";
+        }
+
+        foreach ($questiondata->testcases as $testcase => $qtest) {
+            $output .= "    <qtest>\n";
+            $output .= "      <testcase>{$testcase}</testcase>\n";
+
+            foreach ($qtest->inputs as $name => $value) {
+                $output .= "      <testinput>\n";
+                $output .= "        <name>{$name}</name>\n";
+                $output .= "        <value>{$format->xml_escape($value)}</value>\n";
+                $output .= "      </testinput>\n";
+            }
+
+            foreach ($qtest->expectedresults as $name => $expected) {
+                $output .= "      <expected>\n";
+                $output .= "        <name>{$name}</name>\n";
+                $output .= "        <expectedscore>{$format->xml_escape($expected->score)}</expectedscore>\n";
+                $output .= "        <expectedpenalty>{$format->xml_escape($expected->penalty)}</expectedpenalty>\n";
+                $output .= "        <expectedanswernote>{$format->xml_escape($expected->answernote[0])}</expectedanswernote>\n";
+                $output .= "      </expected>\n";
+            }
+
+            $output .= "    </qtest>\n";
+        }
+
+        return $output;
     }
 }

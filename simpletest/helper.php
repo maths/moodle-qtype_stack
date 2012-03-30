@@ -639,6 +639,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
+        $qdata->options->variantsselectionseed     = '';
 
         $input = new stdClass();
         $input->name               = 'ans1';
@@ -670,7 +671,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->id                  = 0;
         $node->questionid          = 0;
         $node->prtname             = 'prt1';
-        $node->name                = '0';
+        $node->nodename            = '0';
         $node->answertest          = 'EqualComAss';
         $node->sans                = 'ans1';
         $node->tans                = '2';

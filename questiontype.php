@@ -649,13 +649,13 @@ class qtype_stack extends question_type {
                 $output .= "        <truepenalty>{$node->truepenalty}</truepenalty>\n";
                 $output .= "        <truenextnode>{$node->truenextnode}</truenextnode>\n";
                 $output .= "        <trueanswernote>{$format->xml_escape($node->trueanswernote)}</trueanswernote>\n";
-                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat, $contextid, 'prtnodetruefeedback', $node->id, $contextid, '        ');
+                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat, $contextid, 'prtnodetruefeedback', $node->id, '        ');
                 $output .= "        <falsescoremode>{$node->falsescoremode}</falsescoremode>\n";
                 $output .= "        <falsescore>{$node->falsescore}</falsescore>\n";
                 $output .= "        <falsepenalty>{$node->falsepenalty}</falsepenalty>\n";
                 $output .= "        <falsenextnode>{$node->falsenextnode}</falsenextnode>\n";
                 $output .= "        <falseanswernote>{$format->xml_escape($node->falseanswernote)}</falseanswernote>\n";
-                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat, $contextid, 'prtnodefalsefeedback', $node->id, $contextid, '        ');
+                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat, $contextid, 'prtnodefalsefeedback', $node->id, '        ');
                 $output .= "      </node>\n";
             }
 

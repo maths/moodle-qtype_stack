@@ -104,6 +104,7 @@ class qtype_stack_test extends UnitTestCase {
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -211,6 +212,7 @@ class qtype_stack_test extends UnitTestCase {
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
       <type>algebraic</type>
@@ -292,18 +294,19 @@ class qtype_stack_test extends UnitTestCase {
         $expectedq->length                = 1;
         $expectedq->penalty               = 0;
 
-        $expectedq->questionvariables   = '';
-        $expectedq->specificfeedback    = array('text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => array());
-        $expectedq->questionnote        = '';
-        $expectedq->questionsimplify    = 1;
-        $expectedq->assumepositive      = 0;
-        $expectedq->markmode            = 'penalty';
-        $expectedq->prtcorrect          = array('text' => '<p>Correct answer, well done.</p>', 'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtpartiallycorrect = array('text' => '<p>Your answer is partially correct.</p>', 'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtincorrect        = array('text' => '<p>Incorrect answer.</p>', 'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->multiplicationsign  = 'dot';
-        $expectedq->sqrtsign            = 1;
-        $expectedq->complexno           = 'i';
+        $expectedq->questionvariables     = '';
+        $expectedq->specificfeedback      = array('text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => array());
+        $expectedq->questionnote          = '';
+        $expectedq->questionsimplify      = 1;
+        $expectedq->assumepositive        = 0;
+        $expectedq->markmode              = 'penalty';
+        $expectedq->prtcorrect            = array('text' => '<p>Correct answer, well done.</p>', 'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtpartiallycorrect   = array('text' => '<p>Your answer is partially correct.</p>', 'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>', 'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->multiplicationsign    = 'dot';
+        $expectedq->sqrtsign              = 1;
+        $expectedq->complexno             = 'i';
+        $expectedq->variantsselectionseed = '';
 
         $expectedq->ans1type               = 'algebraic';
         $expectedq->ans1tans               = 2;

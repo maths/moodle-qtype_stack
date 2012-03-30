@@ -38,8 +38,8 @@ $testcase = required_param('testcase', PARAM_INT);
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 $context = $question->get_context();
-$testcasedata = $DB->get_record('qtype_stack_qtests',
-            array('questionid' => $question->id, 'testcase' => $testcase), '*', MUST_EXIST);
+$DB->get_record('qtype_stack_qtests', array('questionid' => $question->id, 'testcase' => $testcase),
+        '*', MUST_EXIST); // Just to verify that the record exists.
 
 // Check permissions.
 require_login();
@@ -60,12 +60,7 @@ $title = get_string('deletetestcase', 'qtype_stack',
 
 if (data_submitted() && confirm_sesskey()) {
     // User has confirmed. Actually delete the test case.
-    $DB->delete_records('qtype_stack_qtest_expected',
-            array('questionid' => $questionid, 'testcase' => $testcase));
-    $DB->delete_records('qtype_stack_qtest_inputs',
-            array('questionid' => $questionid, 'testcase' => $testcase));
-    $DB->delete_records('qtype_stack_qtests',
-            array('questionid' => $questionid, 'testcase' => $testcase));
+    question_bank::get_qtype('stack')->delete_question_test($questionid, $testcase);
     redirect($backurl);
 }
 

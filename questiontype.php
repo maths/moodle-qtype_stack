@@ -196,6 +196,20 @@ class qtype_stack extends question_type {
             $DB->delete_records_select('qtype_stack_prts',
                     'name ' . $test . ' AND questionid = ?', $params);
         }
+
+        if (isset($fromform->deployedseeds)) {
+            $DB->delete_records('qtype_stack_deployed_seeds', array('questionid' => $fromform->id));
+            foreach ($fromform->deployedseeds as $deployedseed) {
+                $record = new stdClass();
+                $record->questionid = $fromform->id;
+                $record->seed = $deployedseed;
+                $DB->insert_record('qtype_stack_deployed_seeds', $record, false);
+            }
+        }
+
+        if (isset($fromform->testcases)) {
+            $this->save_question_tests($fromform->id, $fromform->testcases);
+        }
     }
 
     public function get_question_options($question) {
@@ -312,10 +326,8 @@ class qtype_stack extends question_type {
 
     public function delete_question($questionid, $contextid) {
         global $DB;
+        $this->delete_question_tests($questionid);
         $DB->delete_records('qtype_stack_deployed_seeds', array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack_qtest_inputs',   array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack_qtests',         array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_prt_nodes',      array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_prts',           array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_inputs',         array('questionid' => $questionid));
@@ -367,18 +379,97 @@ class qtype_stack extends question_type {
         }
     }
 
-    public function load_question_tests($questiondata) {
+    /**
+     * Save a set of question tests for a question, replacing any existing tests.
+     * @param int $questionid the question id of the question we are manipulating the tests for.
+     * @param array $testcases testcase number => stack_question_test
+     */
+    public function save_question_tests($questionid, $testcases) {
+        global $DB;
+        $transaction = $DB->start_delegated_transaction();
+        $this->delete_question_tests($questionid);
+        foreach ($testcases as $number => $testcase) {
+            $this->save_question_test($questionid, $testcase, $number);
+        }
+        $transaction->allow_commit();
+    }
+
+    /**
+     * Save a question tests for a question, either replacing the test at a given
+     * number, or adding a new test, either with a given number, or taking the
+     * first unused number.
+     * @param int $questionid the question id of the question we are manipulating the tests for.
+     * @param stack_question_test $qtest
+     * @param int $testcases testcase number to replace/add. If not given, the first unused number is found.
+     */
+    public function save_question_test($questionid, stack_question_test $qtest, $testcase = null) {
+        global $DB;
+        $transaction = $DB->start_delegated_transaction();
+
+        if (!$testcase || !$DB->record_exists('qtype_stack_qtests',
+                array('questionid' => $questionid, 'testcase' => $testcase))) {
+            // Find the first unused testcase number.
+            $testcase = $DB->get_field_sql('
+                        SELECT MIN(qt.testcase) + 1
+                        FROM (
+                            SELECT testcase FROM {qtype_stack_qtests} WHERE questionid = ?
+                            UNION
+                            SELECT 0
+                        ) qt
+                        LEFT JOIN {qtype_stack_qtests} qt2 ON qt2.questionid = ? AND
+                                                              qt2.testcase = qt.testcase + 1
+                        WHERE qt2.id IS NULL
+                        ', array($questionid, $questionid));
+            $testcasedata = new stdClass();
+            $testcasedata->questionid = $questionid;
+            $testcasedata->testcase = $testcase;
+            $DB->insert_record('qtype_stack_qtests', $testcasedata);
+        }
+
+        // Save the input data.
+        $DB->delete_records('qtype_stack_qtest_inputs', array('questionid' => $questionid, 'testcase' => $testcase));
+        foreach ($qtest->inputs as $name => $value) {
+            $testinput = new stdClass();
+            $testinput->questionid = $questionid;
+            $testinput->testcase   = $testcase;
+            $testinput->inputname  = $name;
+            $testinput->value      = $value;
+            $DB->insert_record('qtype_stack_qtest_inputs', $testinput);
+        }
+
+        // Save the expected outcome data.
+        $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $questionid, 'testcase' => $testcase));
+        foreach ($qtest->expectedresults as $prtname => $expectedresults) {
+            $expected = new stdClass();
+            $expected->questionid         = $questionid;
+            $expected->testcase           = $testcase;
+            $expected->prtname            = $prtname;
+            $expected->expectedscore      = $expectedresults->score;
+            $expected->expectedpenalty    = $expectedresults->penalty;
+            $expected->expectedanswernote = $expectedresults->answernote[0];
+            $DB->insert_record('qtype_stack_qtest_expected', $expected);
+        }
+
+        $transaction->allow_commit();
+    }
+
+    /**
+     * Load all the question tests for a question.
+     * @param int $questionid the id of the question to load the tests for.
+     * @return array testcase number => stack_question_test
+     */
+    public function load_question_tests($questionid) {
         global $DB;
 
         $testinputdata = $DB->get_records('qtype_stack_qtest_inputs',
-                array('questionid' => $questiondata->id), 'testcase, inputname');
+                array('questionid' => $questionid), 'testcase, inputname');
         $testinputs = array();
         foreach ($testinputdata as $data) {
             $testinputs[$data->testcase][$data->inputname] = $data->value;
         }
 
         $testcasenumbers = $DB->get_records_menu('qtype_stack_qtests',
-                array('questionid' => $questiondata->id), 'testcase', 'testcase, 1');
+                array('questionid' => $questionid), 'testcase', 'testcase, 1');
         $testcases = array();
         foreach ($testcasenumbers as $number => $notused) {
             $testcase = new stack_question_test($testinputs[$number]);
@@ -386,7 +477,7 @@ class qtype_stack extends question_type {
         }
 
         $expecteddata = $DB->get_records('qtype_stack_qtest_expected',
-                array('questionid' => $questiondata->id), 'testcase, prtname');
+                array('questionid' => $questionid), 'testcase, prtname');
         foreach ($expecteddata as $data) {
             $testcases[$data->testcase]->add_expected_result($data->prtname,
                     new stack_potentialresponse_tree_state('', array(),
@@ -397,9 +488,83 @@ class qtype_stack extends question_type {
         return $testcases;
     }
 
-    protected function export_xml_text($format, $tag, $text, $textformat, $itemid, $contextid, $indent = '    ') {
+    /**
+     * Load one particular question tests for a question.
+     * @param int $questionid the id of the question to load the tests for.
+     * @param int $testcase the testcase nubmer to load.
+     * @return stack_question_test the test-case
+     */
+    public function load_question_test($questionid, $testcase) {
+        global $DB;
+
+        // Verify that this testcase exists.
+        $DB->get_record('qtype_stack_qtests',
+                array('questionid' => $questionid, 'testcase' => $testcase), '*', MUST_EXIST);
+
+        // Load the inputs.
+        $inputs = $DB->get_records_menu('qtype_stack_qtest_inputs',
+                array('questionid' => $questionid, 'testcase' => $testcase),
+                'inputname', 'inputname, value');
+        $qtest = new stack_question_test($inputs);
+
+        // Load the expectations.
+        $expectations = $DB->get_records('qtype_stack_qtest_expected',
+                array('questionid' => $questionid, 'testcase' => $testcase), 'prtname',
+                'prtname, expectedscore, expectedpenalty, expectedanswernote');
+        foreach ($expectations as $prtname => $expected) {
+            $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
+                    '', array(), array($expected->expectedanswernote), true,
+                    $expected->expectedscore + 0, $expected->expectedpenalty + 0));
+        }
+
+        return $qtest;
+    }
+
+    /**
+     * Delete all the question tests for a question.
+     * @param int $questionid the id of the question to load the tests for.
+     */
+    protected function delete_question_tests($questionid) {
+        global $DB;
+        $transaction = $DB->start_delegated_transaction();
+        $DB->delete_records('qtype_stack_qtest_expected', array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_qtest_inputs',   array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_qtests',         array('questionid' => $questionid));
+        $transaction->allow_commit();
+    }
+
+    /**
+     * Delete one particular question test for a question.
+     * @param int $questionid the id of the question to load the tests for.
+     * @param int $testcase the testcase nubmer to load.
+     */
+    public function delete_question_test($questionid, $testcase) {
+        global $DB;
+        $transaction = $DB->start_delegated_transaction();
+        $DB->delete_records('qtype_stack_qtest_expected',
+                array('questionid' => $questionid, 'testcase' => $testcase));
+        $DB->delete_records('qtype_stack_qtest_inputs',
+                array('questionid' => $questionid, 'testcase' => $testcase));
+        $DB->delete_records('qtype_stack_qtests',
+                array('questionid' => $questionid, 'testcase' => $testcase));
+        $transaction->allow_commit();
+    }
+
+    /**
+     * Helper method used by {@link export_to_xml()}.
+     * @param qformat_xml $format the importer/exporter object.
+     * @param string $tag the XML tag to use.
+     * @param string $text the text to output.
+     * @param int $textformat the text's format.
+     * @param int $itemid the itemid for any files.
+     * @param int $contextid the context id that the text belongs to.
+     * @param string $indent the amount of indent to add at the start of the line.
+     * @return string XML fragment.
+     */
+    protected function export_xml_text(qformat_xml $format, $tag, $text, $textformat,
+            $contextid, $filearea, $itemid, $indent = '    ') {
         $fs = get_file_storage();
-        $files = $fs->get_area_files($contextid, 'qtype_stack', $tag, $itemid);
+        $files = $fs->get_area_files($contextid, 'qtype_stack', $filearea, $itemid);
 
         $output = '';
         $output .= $indent . "<{$tag} {$format->format($textformat)}>\n";
@@ -410,8 +575,16 @@ class qtype_stack extends question_type {
         return $output;
     }
 
-    public function export_to_xml($questiondata, $format, $notused = null) {
+    public function export_to_xml($questiondata, qformat_xml $format, $notused = null) {
         $contextid = $questiondata->contextid;
+
+        if (!isset($questiondata->testcases)) {
+            // get_question_options does not load the testcases, because they are
+            // not normally needed, so we have to load them manually here.
+            // However, we only do it conditionally, so that the unit tests can
+            // just pass the data in.
+            $questiondata->testcases = $this->load_question_tests($questiondata->id);
+        }
 
         $output = '';
 
@@ -419,16 +592,16 @@ class qtype_stack extends question_type {
         $output .= "    <questionvariables>\n";
         $output .= "      " . $format->writetext($options->questionvariables, 0);
         $output .= "    </questionvariables>\n";
-        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback, $options->specificfeedbackformat, $questiondata->id, $contextid);
+        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback, $options->specificfeedbackformat, $contextid, 'specificfeedback', $questiondata->id);
         $output .= "    <questionnote>\n";
         $output .= "      " . $format->writetext($options->questionnote, 0);
         $output .= "    </questionnote>\n";
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
         $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
         $output .= "    <markmode>{$options->markmode}</markmode>\n";
-        $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect, $options->prtcorrectformat, $questiondata->id, $contextid);
-        $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect, $options->prtpartiallycorrectformat, $questiondata->id, $contextid);
-        $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect, $options->prtincorrectformat, $questiondata->id, $contextid);
+        $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect, $options->prtcorrectformat, $contextid, 'prtcorrect', $questiondata->id);
+        $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect, $options->prtpartiallycorrectformat, $contextid, 'prtpartiallycorrect', $questiondata->id);
+        $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect, $options->prtincorrectformat, $contextid, 'prtincorrect', $questiondata->id);
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
@@ -462,7 +635,7 @@ class qtype_stack extends question_type {
 
             foreach ($prt->nodes as $node) {
                 $output .= "      <node>\n";
-                $output .= "        <name>{$node->name}</name>\n";
+                $output .= "        <name>{$node->nodename}</name>\n";
                 $output .= "        <answertest>{$node->answertest}</answertest>\n";
                 $output .= "        <sans>{$format->xml_escape($node->sans)}</sans>\n";
                 $output .= "        <tans>{$format->xml_escape($node->tans)}</tans>\n";
@@ -473,13 +646,13 @@ class qtype_stack extends question_type {
                 $output .= "        <truepenalty>{$node->truepenalty}</truepenalty>\n";
                 $output .= "        <truenextnode>{$node->truenextnode}</truenextnode>\n";
                 $output .= "        <trueanswernote>{$format->xml_escape($node->trueanswernote)}</trueanswernote>\n";
-                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat, $questiondata->id, $contextid, '        ');
+                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat, $contextid, 'prtnodetruefeedback', $node->id, $contextid, '        ');
                 $output .= "        <falsescoremode>{$node->falsescoremode}</falsescoremode>\n";
                 $output .= "        <falsescore>{$node->falsescore}</falsescore>\n";
                 $output .= "        <falsepenalty>{$node->falsepenalty}</falsepenalty>\n";
                 $output .= "        <falsenextnode>{$node->falsenextnode}</falsenextnode>\n";
                 $output .= "        <falseanswernote>{$format->xml_escape($node->falseanswernote)}</falseanswernote>\n";
-                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat, $questiondata->id, $contextid, '        ');
+                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat, $contextid, 'prtnodefalsefeedback', $node->id, $contextid, '        ');
                 $output .= "      </node>\n";
             }
 
@@ -487,7 +660,7 @@ class qtype_stack extends question_type {
         }
 
         foreach ($questiondata->deployedseeds as $deployedseed) {
-            $output .= "    <deployedseed>{deployedseed}</deployedseed>\n";
+            $output .= "    <deployedseed>{$deployedseed}</deployedseed>\n";
         }
 
         foreach ($questiondata->testcases as $testcase => $qtest) {
@@ -514,5 +687,187 @@ class qtype_stack extends question_type {
         }
 
         return $output;
+    }
+
+    public function import_from_xml($xml, $fromform, qformat_xml $format, $notused = null) {
+        if (!isset($xml['@']['type']) || $xml['@']['type'] != $this->name()) {
+            return false;
+        }
+
+        $fromform = $format->import_headers($xml);
+        $fromform->qtype = $this->name();
+        $fromform->penalty = 0;
+
+        $fromform->questionvariables   = $format->getpath($xml, array('#', 'questionvariables', 0, '#', 'text', 0, '#'), '', true);
+        $fromform->specificfeedback    = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
+        $fromform->questionnote        = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
+        $fromform->questionsimplify    = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
+        $fromform->assumepositive      = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);
+        $fromform->markmode            = $format->getpath($xml, array('#', 'markmode', 0, '#'), 'penalty');
+        $fromform->prtcorrect          = $this->import_xml_text($xml, 'prtcorrect', $format, $fromform->questiontextformat);
+        $fromform->prtpartiallycorrect = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fromform->questiontextformat);
+        $fromform->prtincorrect        = $this->import_xml_text($xml, 'prtincorrect', $format, $fromform->questiontextformat);
+        $fromform->multiplicationsign  = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
+        $fromform->sqrtsign            = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
+        $fromform->complexno           = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
+
+        if (isset($xml['#']['input'])) {
+            foreach ($xml['#']['input'] as $inputxml) {
+                $this->import_xml_input($inputxml, $fromform, $format);
+            }
+        }
+
+        if (isset($xml['#']['input'])) {
+            foreach ($xml['#']['input'] as $inputxml) {
+                $this->import_xml_input($inputxml, $fromform, $format);
+            }
+        }
+
+        if (isset($xml['#']['prt'])) {
+            foreach ($xml['#']['prt'] as $prtxml) {
+                $this->import_xml_prt($prtxml, $fromform, $format);
+            }
+        }
+
+        if (isset($xml['#']['deployedseed'])) {
+            $fromform->deployedseeds = array();
+            foreach ($xml['#']['deployedseed'] as $seedxml) {
+                $fromform->deployedseeds[] = $format->getpath($seedxml, array('#'), null);
+            }
+        }
+
+        if (isset($xml['#']['qtest'])) {
+            $fromform->testcases = array();
+            foreach ($xml['#']['qtest'] as $qtestxml) {
+                list($no, $testcase) = $this->import_xml_qtest($qtestxml, $format);
+                $fromform->testcases[$no] = $testcase;
+            }
+        }
+
+        return $fromform;
+    }
+
+    /**
+     * Helper method used by {@link export_to_xml()}.
+     * @param array $xml the XML to extract the data from.
+     * @param string $field the name of the sub-tag in the XML to load the data from.
+     * @param qformat_xml $format the importer/exporter object.
+     * @param int $defaultformat Dfeault text format, if it is not given in the file.
+     * @return array with fields text, format and files.
+     */
+    protected function import_xml_text($xml, $field, qformat_xml $format, $defaultformat) {
+        $text = array();
+        $text['text']   = $format->getpath($xml, array('#', $field, 0, '#', 'text', 0, '#'), '', true);
+        $text['format'] = $format->trans_format($format->getpath($xml, array('#', $field, 0, '@', 'format'), $format->get_format($defaultformat)));
+        $text['files']  = $format->import_files($format->getpath($xml, array('#', $field, 0, '#', 'file'), array(), false));
+
+        return $text;
+    }
+
+    /**
+     * Helper method used by {@link export_to_xml()}. Handle the data for one input.
+     * @param array $xml the bit of the XML representing one input.
+     * @param object $fromform the data structure we are building from the XML.
+     * @param qformat_xml $format the importer/exporter object.
+     */
+    protected function import_xml_input($xml, $fromform, qformat_xml $format) {
+        $name = $format->getpath($xml, array('#', 'name', 0, '#'), null, false, 'Missing input name in the XML.');
+
+        $fromform->{$name . 'type'}               = $format->getpath($xml, array('#', 'type', 0, '#'), '');
+        $fromform->{$name . 'tans'}               = $format->getpath($xml, array('#', 'tans', 0, '#'), '');
+        $fromform->{$name . 'boxsize'}            = $format->getpath($xml, array('#', 'boxsize', 0, '#'), 15);
+        $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, array('#', 'strictsyntax', 0, '#'), 1);
+        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', 'insertstars', 0, '#'), 0);
+        $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
+        $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
+        $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
+        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
+        $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);
+        $fromform->{$name . 'mustverify'}         = $format->getpath($xml, array('#', 'mustverify', 0, '#'), 1);
+        $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, array('#', 'showvalidation', 0, '#'), 1);
+    }
+
+    /**
+     * Helper method used by {@link export_to_xml()}. Handle the data for one PRT.
+     * @param array $xml the bit of the XML representing one PRT.
+     * @param object $fromform the data structure we are building from the XML.
+     * @param qformat_xml $format the importer/exporter object.
+     */
+    protected function import_xml_prt($xml, $fromform, qformat_xml $format) {
+        $name = $format->getpath($xml, array('#', 'name', 0, '#'), null, false, 'Missing PRT name in the XML.');
+
+        $fromform->{$name . 'value'}             = $format->getpath($xml, array('#', 'value', 0, '#'), 1);
+        $fromform->{$name . 'autosimplify'}      = $format->getpath($xml, array('#', 'autosimplify', 0, '#'), 1);
+        $fromform->{$name . 'feedbackvariables'} = $format->getpath($xml, array('#', 'feedbackvariables', 0, '#', 'text', 0, '#'), '', true);
+
+        if (isset($xml['#']['node'])) {
+            foreach ($xml['#']['node'] as $nodexml) {
+                $this->import_xml_prt_node($nodexml, $name, $fromform, $format);
+            }
+        }
+    }
+
+    /**
+     * Helper method used by {@link import_xml_prt()}. Handle the data for one PRT node.
+     * @param array $xml the bit of the XML representing one PRT.
+     * @param string $prtname the name of the PRT this node belongs to.
+     * @param object $fromform the data structure we are building from the XML.
+     * @param qformat_xml $format the importer/exporter object.
+     */
+    protected function import_xml_prt_node($xml, $prtname, $fromform, qformat_xml $format) {
+        $name = $format->getpath($xml, array('#', 'name', 0, '#'), null, false, 'Missing PRT name in the XML.');
+
+        $fromform->{$prtname . 'answertest'}[$name]      = $format->getpath($xml, array('#', 'answertest', 0, '#'), '');
+        $fromform->{$prtname . 'sans'}[$name]            = $format->getpath($xml, array('#', 'sans', 0, '#'), '');
+        $fromform->{$prtname . 'tans'}[$name]            = $format->getpath($xml, array('#', 'tans', 0, '#'), '');
+        $fromform->{$prtname . 'testoptions'}[$name]     = $format->getpath($xml, array('#', 'testoptions', 0, '#'), '');
+        $fromform->{$prtname . 'quiet'}[$name]           = $format->getpath($xml, array('#', 'quiet', 0, '#'), 0);
+        $fromform->{$prtname . 'truescoremode'}[$name]   = $format->getpath($xml, array('#', 'truescoremode', 0, '#'), '=');
+        $fromform->{$prtname . 'truescore'}[$name]       = $format->getpath($xml, array('#', 'truescore', 0, '#'), 1);
+        $fromform->{$prtname . 'truepenalty'}[$name]     = $format->getpath($xml, array('#', 'truepenalty', 0, '#'), '');
+        $fromform->{$prtname . 'truenextnode'}[$name]    = $format->getpath($xml, array('#', 'truenextnode', 0, '#'), -1);
+        $fromform->{$prtname . 'trueanswernote'}[$name]  = $format->getpath($xml, array('#', 'trueanswernote', 0, '#'), 1, '');
+        $fromform->{$prtname . 'truefeedback'}[$name]    = $this->import_xml_text($xml, 'truefeedback', $format, $fromform->questiontextformat);
+        $fromform->{$prtname . 'falsescoremode'}[$name]  = $format->getpath($xml, array('#', 'falsescoremode', 0, '#'), '=');
+        $fromform->{$prtname . 'falsescore'}[$name]      = $format->getpath($xml, array('#', 'falsescore', 0, '#'), 1);
+        $fromform->{$prtname . 'falsepenalty'}[$name]    = $format->getpath($xml, array('#', 'falsepenalty', 0, '#'), '');
+        $fromform->{$prtname . 'falsenextnode'}[$name]   = $format->getpath($xml, array('#', 'falsenextnode', 0, '#'), -1);
+        $fromform->{$prtname . 'falseanswernote'}[$name] = $format->getpath($xml, array('#', 'falseanswernote', 0, '#'), '');
+        $fromform->{$prtname . 'falsefeedback'}[$name]   = $this->import_xml_text($xml, 'falsefeedback', $format, $fromform->questiontextformat);
+    }
+
+    /**
+     * Helper method used by {@link export_to_xml()}. Handle the data for one question text.
+     * @param array $xml the bit of the XML representing one question text.
+     * @param qformat_xml $format the importer/exporter object.
+     * @return stack_question_test the question test.
+     */
+    protected function import_xml_qtest($xml, qformat_xml $format) {
+        $number = $format->getpath($xml, array('#', 'testcase', 0, '#'), null, false, 'Missing testcase number in the XML.');
+
+        $inputs = array();
+        if (isset($xml['#']['testinput'])) {
+            foreach ($xml['#']['testinput'] as $inputxml) {
+                $name  = $format->getpath($inputxml, array('#', 'name', 0, '#'), '');
+                $value = $format->getpath($inputxml, array('#', 'value', 0, '#'), '');
+                $inputs[$name] = $value;
+            }
+        }
+
+        $testcase = new stack_question_test($inputs);
+
+        if (isset($xml['#']['expected'])) {
+            foreach ($xml['#']['expected'] as $expectedxml) {
+                $name  = $format->getpath($expectedxml, array('#', 'name', 0, '#'), '');
+                $expectedscore = $format->getpath($expectedxml, array('#', 'expectedscore', 0, '#'), '');
+                $expectedpenalty = $format->getpath($expectedxml, array('#', 'expectedpenalty', 0, '#'), '');
+                $expectedanswernote = $format->getpath($expectedxml, array('#', 'expectedanswernote', 0, '#'), '');
+
+                $testcase->add_expected_result($name, new stack_potentialresponse_tree_state(
+                        '', array(), array($expectedanswernote), true, $expectedscore, $expectedpenalty));
+            }
+        }
+
+        return array($number, $testcase);
     }
 }

@@ -83,7 +83,7 @@ $options->flags = question_display_options::HIDDEN;
 $options->suppressruntestslink = true;
 
 // Load the list of test cases.
-$testscases = question_bank::get_qtype('stack')->load_question_tests($questiondata);
+$testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 
 // Exectue the tests.
 $testresults = array();
@@ -148,19 +148,20 @@ if (!$variantmatched) {
             array('class' => 'undeployedvariant'));
 }
 
-echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'switchtovariant',
-        'action' => new moodle_url('/question/type/stack/questiontestrun.php')));
-echo html_writer::start_tag('p');
-echo html_writer::input_hidden_params($PAGE->url, array('seed'));
+if ($question->has_random_variants()) {
+    echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'switchtovariant',
+            'action' => new moodle_url('/question/type/stack/questiontestrun.php')));
+    echo html_writer::start_tag('p');
+    echo html_writer::input_hidden_params($PAGE->url, array('seed'));
 
-echo html_writer::tag('label', get_string('switchtovariant', 'qtype_stack'), array('for' => 'seedfield'));
-echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 7,
-        'id' => 'seedfield', 'name' => 'seed', 'value' => mt_rand()));
-echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+    echo html_writer::tag('label', get_string('switchtovariant', 'qtype_stack'), array('for' => 'seedfield'));
+    echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 7,
+            'id' => 'seedfield', 'name' => 'seed', 'value' => mt_rand()));
+    echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
 
-echo html_writer::end_tag('p');
-echo html_writer::end_tag('form');
-
+    echo html_writer::end_tag('p');
+    echo html_writer::end_tag('form');
+}
 
 // Display the question.
 echo $OUTPUT->heading(get_string('questionpreview', 'qtype_stack'), 3);

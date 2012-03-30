@@ -618,7 +618,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->name = 'test-0';
         $qdata->questiontext = 'What is $1+1$? [[input:ans1]]
                                 [[validation:ans1]]';
-        $qdata->generalfeedback = 'Generalfeedback: {={a} + {b}} is the right answer.';
+        $qdata->generalfeedback = '';
 
         $qdata->options = new stdClass();
         $qdata->options->id                        = 0;
@@ -696,7 +696,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qtest = new stack_question_test(array('ans1' => '2'));
         $qtest->add_expected_result('prt1', new stack_potentialresponse_tree_state(
-                '', array(), array(''), true, 1, 0));
+                '', array(), array('prt1-1-T'), true, 1, 0));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;

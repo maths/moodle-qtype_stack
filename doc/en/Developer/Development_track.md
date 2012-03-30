@@ -36,7 +36,7 @@ These are the major tasks we still need to complete in approximate order and imp
  1. Make sure that STACK questions work as well as possible in the standard Moodle reports.
  2. Consider what additional custom STACK reporting we need.
 2. **DONE** Implement the Moodle backup/restore code for stack questions.
-3. Implement Moodle XML format import and export.
+3. **DONE** Implement Moodle XML format import and export.
 4. Investigate ways of running Maxima on a separate server.
 5. Implement random seed control like for varnumeric.
 

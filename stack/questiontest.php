@@ -23,6 +23,7 @@
 
 
 require_once(dirname(__FILE__) . '/questiontestresult.php');
+require_once(dirname(__FILE__) . '/potentialresponsetree.class.php');
 
 
 /**

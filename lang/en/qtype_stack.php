@@ -169,6 +169,8 @@ $string['testoptions'] = 'Test options';
 $string['testoptions_help'] = 'This field enables answer tests to accept an option, e.g. a variable or a numerical precision.';
 $string['testoptions_link'] = 'question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
 $string['testoptionsrequired'] = 'Test options are required for this test.';
+$string['variantsselectionseed'] = 'Random group';
+$string['variantsselectionseed_help'] = 'Normally you can leave this box blank. If, however, you want two different questions in a quiz to use the same random seed, then type the same string in this box for the two questions (and deploy the same set of random seeds, if you are using deployed versions) and the random seeds for the two questions will be synchronised.';
 $string['verifyquestionandupdate'] = 'Verify the question text and update the form';
 
 // Error reporting in the feedback form.

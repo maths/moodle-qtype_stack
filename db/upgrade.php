@@ -378,5 +378,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012032300, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2012033000) {
+
+        // Define field variantsselectionseed to be added to qtype_stack
+        $table = new xmldb_table('qtype_stack');
+        $field = new xmldb_field('variantsselectionseed', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'complexno');
+
+        // Conditionally launch add field variantsselectionseed
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012033000, 'qtype', 'stack');
+    }
+
     return true;
 }

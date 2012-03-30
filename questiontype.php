@@ -75,6 +75,7 @@ class qtype_stack extends question_type {
         $options->multiplicationsign        = $fromform->multiplicationsign;
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
+        $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $DB->update_record('qtype_stack', $options);
 
         $inputnames = stack_utils::extract_placeholders($fromform->questiontext, 'input');
@@ -260,6 +261,7 @@ class qtype_stack extends question_type {
         $question->prtincorrect              = $questiondata->options->prtincorrect;
         $question->prtincorrectformat        = $questiondata->options->prtincorrectformat;
         $question->markmode                  = $questiondata->options->markmode;
+        $question->variantsselectionseed     = $questiondata->options->variantsselectionseed;
 
         $question->options = new stack_options();
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
@@ -605,6 +607,7 @@ class qtype_stack extends question_type {
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
+        $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
         foreach ($questiondata->inputs as $input) {
             $output .= "    <input>\n";
@@ -698,18 +701,19 @@ class qtype_stack extends question_type {
         $fromform->qtype = $this->name();
         $fromform->penalty = 0;
 
-        $fromform->questionvariables   = $format->getpath($xml, array('#', 'questionvariables', 0, '#', 'text', 0, '#'), '', true);
-        $fromform->specificfeedback    = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
-        $fromform->questionnote        = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
-        $fromform->questionsimplify    = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
-        $fromform->assumepositive      = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);
-        $fromform->markmode            = $format->getpath($xml, array('#', 'markmode', 0, '#'), 'penalty');
-        $fromform->prtcorrect          = $this->import_xml_text($xml, 'prtcorrect', $format, $fromform->questiontextformat);
-        $fromform->prtpartiallycorrect = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fromform->questiontextformat);
-        $fromform->prtincorrect        = $this->import_xml_text($xml, 'prtincorrect', $format, $fromform->questiontextformat);
-        $fromform->multiplicationsign  = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
-        $fromform->sqrtsign            = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
-        $fromform->complexno           = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
+        $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables', 0, '#', 'text', 0, '#'), '', true);
+        $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
+        $fromform->questionnote          = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
+        $fromform->questionsimplify      = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
+        $fromform->assumepositive        = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);
+        $fromform->markmode              = $format->getpath($xml, array('#', 'markmode', 0, '#'), 'penalty');
+        $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fromform->questiontextformat);
+        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fromform->questiontextformat);
+        $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fromform->questiontextformat);
+        $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
+        $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
+        $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
+        $fromform->variantsselectionseed = $format->getpath($xml, array('#', 'variantsselectionseed', 0, '#'), 'i');
 
         if (isset($xml['#']['input'])) {
             foreach ($xml['#']['input'] as $inputxml) {

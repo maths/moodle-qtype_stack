@@ -83,6 +83,9 @@ class qtype_stack_question extends question_graded_automatically {
     /** @var string how marks are computed by PRTs in adaptive mode. */
     public $markmode;
 
+    /** @var string if set, this is used to control the pseudo-random generation of the seed. */
+    public $variantsselectionseed;
+
     /**
      * @var array STACK specific: string name as it appears in the question text => stack_input
      */
@@ -434,6 +437,14 @@ class qtype_stack_question extends question_graded_automatically {
 
         // Random question without fixed variants. We will use the seed from Moodle raw.
         return 1000000;
+    }
+
+    public function get_variants_selection_seed() {
+        if (!empty($this->variantsselectionseed)) {
+            return $this->variantsselectionseed;
+        } else {
+            return parent::get_variants_selection_seed();
+        }
     }
 
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {

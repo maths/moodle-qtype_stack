@@ -74,6 +74,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prtincorrect = 'Incorrect answer.';
         $q->prtincorrectformat = FORMAT_HTML;
         $q->generalfeedback = '';
+        $q->variantsselectionseed = '';
 
         $q->inputs = array();
         $q->prts = array();

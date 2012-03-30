@@ -28,7 +28,7 @@ These are the major tasks we still need to complete in approximate order and imp
 6. Make multi-part STACK questions work exactly right in Adaptive behaviour.
  1. Evaluate some PRTs if possible, even if not all inputs have been filled in.
  2. Correct computation of penalty for each PRT, and hence overall final grade.
- 3. Problem with expressions in feedback CAS-text not being simplified.
+ 3. **DONE** Problem with expressions in feedback CAS-text not being simplified.
 
 ## Milestone 2
 

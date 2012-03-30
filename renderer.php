@@ -126,6 +126,9 @@ class qtype_stack_renderer extends qtype_renderer {
         if (array_key_exists('errors', $result)) {
             $err = $result['errors'];
         }
+
+        // TODO if $result['feedback'] contains images from node feedback, then they don't work.
+
         return html_writer::nonempty_tag('div',
                 $this->standard_prt_feedback($qa, $question, $result) . $err . $result['feedback'],
                 array('class' => 'stackprtfeedback'));

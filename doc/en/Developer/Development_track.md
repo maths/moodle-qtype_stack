@@ -38,7 +38,7 @@ These are the major tasks we still need to complete in approximate order and imp
 2. **DONE** Implement the Moodle backup/restore code for stack questions.
 3. **DONE** Implement Moodle XML format import and export.
 4. Investigate ways of running Maxima on a separate server.
-5. Implement random seed control like for varnumeric.
+5. **DONE** Implement random seed control like for varnumeric.
 
 At this point STACK will be "ready" for use with students, although not all features will be available.
 

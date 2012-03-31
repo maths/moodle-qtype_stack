@@ -209,6 +209,10 @@ class stack_cas_text {
             $cmdarray = array();
             $labels   = array();
 
+            $session_keys = array();
+            if (is_a($this->session, 'stack_cas_session')) {
+                $session_keys = $this->session->get_all_keys();
+            }
             foreach ($temp as $cmd) {
                 // Trim of surrounding white space and CAS commands.
                 $cmd = stack_utils::trim_commands($cmd);
@@ -216,8 +220,11 @@ class stack_cas_text {
                 $cs = new stack_cas_casstring($cmd);
                 $cs->validate($this->security, $this->insertstars, $this->syntax);
 
-                $key = 'caschat'.$i;
-                $i++;
+                do { // ... make sure names are not already in use.
+                    $key = 'caschat'.$i;
+                    $i++;
+                } while (in_array($key, $session_keys));
+                $sesion_keys[] = $key;
                 $labels[] = $key;
                 $cs->set_key($key, true);
                 $cmdarray[] = $cs;

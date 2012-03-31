@@ -117,6 +117,23 @@ extends UnitTestCase{
 
     }
 
+    public function test_auto_generated_key_names() {
+
+        $a2=array('a:x^2', 'caschat0:x^3');
+        $s2=array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text("This is some text @x^2@, @x^3@", $cs2, 0);
+        $at1->get_display_castext();
+        $session = $at1->get_session();
+        $this->assertEqual(array('a', 'caschat0', 'caschat1', 'caschat2'), $session->get_all_keys());
+    }
+
     public function testcheck_external_forbidden_words() {
         $cases =  array(
             array('', false, array()),

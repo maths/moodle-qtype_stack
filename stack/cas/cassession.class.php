@@ -375,6 +375,14 @@ class stack_cas_session {
         return $this->session;
     }
 
+    public function prune_session($len) {
+        if (!is_int($len)) {
+            throw new Exception('stack_cas_session: prune_session $len must be an integer.');
+        }
+        $new_session = array_slice($this->session, 0, $len);
+        $this->session = $new_session;
+    }
+
     public function get_all_keys() {
         if (null===$this->valid) {
             $this->validate();

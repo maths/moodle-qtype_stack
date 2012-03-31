@@ -56,6 +56,7 @@ At this point STACK will be "ready" for use with students, although not all feat
 1. There is no check that SUM(question values of all PRTs) = 1. Either we need to enforce that, or we need to compute question fraction as a weighed average of PRT scores.
 2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 3. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
+4. If stack is installed on a site with a _ in the URL (e.g. http://localhost/moodle_head/) then plots do not work. Maxima seems to escape the _ to \_ for some reason.
 
 ## Future plans
 

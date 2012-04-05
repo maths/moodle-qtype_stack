@@ -222,7 +222,7 @@ class qtype_stack_question extends question_graded_automatically {
         $session->instantiate();
         if ($session->get_errors()) {
             throw new Exception('qtype_stack_question : CAS error when instantiating the session: ' .
-            $session->get_errors());
+            $session->get_errors($this->user_can_edit()));
         }
 
         // Now store the values that depend on the instantiated session.

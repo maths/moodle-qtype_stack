@@ -297,9 +297,12 @@ class stack_cas_session {
         return $this->valid;
     }
 
-    public function get_errors() {
+    public function get_errors($casdebug=false) {
         if (null===$this->valid) {
             $this->validate();
+        }
+        if ($casdebug) {
+            return $this->errors.$this->get_debuginfo();
         }
         return $this->errors;
     }

@@ -110,8 +110,6 @@ This function takes an expression @var{ex} and returns a list of coefficients of
 @end deffn
 
 
-
-
 @section Utility functions
 
 A predicate function returns either @code{true} or @code{false}.  In Maxima, most predicate functions end with the letter @code{p}.
@@ -369,9 +367,10 @@ The assessment package has predicates which establish that an expression is cont
 Establishes is @var{ex} is continuous in the variable @var{v} at the point @var{p}.
 @end deffn
 
+
 @deffn {Function} diffp (@var{ex},@var{v},@var{p},@var{n})
 Establishes is @var{ex} is @var{n}-times differentiable in the variable @var{v} at the point @var{p}.
-The argument @var{n}@ is optional.
+The argument @var{n} is optional.
 @end deffn
 
 There are also specific tests for assessment questions in calculus, e.g. differentiation and integration, as constants of integration can be difficult to spot reliably.
@@ -384,7 +383,6 @@ The assessment package has a number of tests for particular algebraic forms.
 
 Checking whether an expression is factored is significantly different from comparing an expression @var{ex} with the result of @code{factor(ex)}.
 Consider the following forms of @math{x^2-4x+4}
-
 
 @math{(x-2)(x-2)}, @math{(x-2)^2}, @math{(2-x)^2}, @math{4\left(1-{{x}\over{2}}\right)^2}.
 
@@ -425,6 +423,7 @@ Partial fractions form is more difficult to recognize.  Just as with the factor 
 and
 @math{{{1}\over{4n-2}}-{{1}\over{4n+2}}={{n}\over{2n-1}}-{{n+1}\over{2n+1}}.}
 
+
 @section Buggy rules
 
 In order to establish that the student has done something particular but wrong, it is useful for us to be able to apply @emph{wrong} or @emph{buggy} rules to expressions.  A typical example would be to expand out powers in the wrong way, e.g. @math{(x+y)^2=x^2+y^2}.  The following function does this!
@@ -440,6 +439,7 @@ The mediant of two fractions @math{{p_1}\over {q_1}} and @math{{p_2}\over{q_2}} 
 
 There is scope for further examples of such rules.
 See, for example, @cite{Sleeman1982} for more details.
+
 
 @section Future plans
 
@@ -462,6 +462,7 @@ Better support is needed for the following features:
 @item A larger range of buggy rules.
 @end enumerate
 
+@bye
 
 @chapter References
 
@@ -470,6 +471,10 @@ Better support is needed for the following features:
 @mybibitem{Sangwin2010IGI}
 M. Badger and C.J. Sangwin. My equations are the same as yours!: computer aided assessment using a Grobner basis approach.
 In A. A. Juan, M. A. Huertas, and C. Steegmann, editors, Teaching Mathematics Online: Emergent Technologies and Methodologies. IGI  Global, 2011.
+
+@end itemize
+
+@bye
 
 @mybibitem{Sangwin2009CalculumusII}
 R. Bradford, J. H. Davenport, and C. J. Sangwin. A comparison of equality in computer algebra and correctness in mathematical pedagogy. The International Journal for Technology in Mathematics Education, 2010.

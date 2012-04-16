@@ -562,7 +562,7 @@ stack_assignmentrev(ex):=block(
 stack_eval_assignments(ex):= block([asl,sl],
   if not(listp(ex)) then return(ex),
   sl:maplist(stack_assignmentrev,ex),
-  asl:filter(stack_assignmentp,sl),
+  asl:sublist(sl,stack_assignmentp),
   if not(emptyp(asl)) then 
      (sl:listify(setdifference(setify(sl),setify(asl))),
       sl:ev(sl,asl)),
@@ -702,7 +702,7 @@ ATLowestTerms(SA,SB) := block([simp:false,ret,validity,mark,FeedBack,AnswerNote,
    if all_lowest_termsex(SA)=false then block([badNos,a],
       mark:false,
       badNos:list_expression_numbers(SA),
-      badNos:filter(lambda([ex],if lowesttermsp(ex) then false else true),badNos),
+      badNos:sublist(badNos,lambda([ex],if lowesttermsp(ex) then false else true)),
       AnswerNote:concat(AnswerNote," ATLowestTerms_entries"),
       if badNos=[] then
                    FeedBack:StackAddFeedback("","ATLowestTerms_wrong","")
@@ -1424,7 +1424,7 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
 
     /* case: k*(x-1)^2 */
     if opa="*" then block([argsb], 
-       argsb: filter(lambda([ex],elementp(wrt,setify(listofvars(ex)))),args(SA)),
+       argsb: sublist(args(SA),lambda([ex],elementp(wrt,setify(listofvars(ex))))),
        if length(argsb)=1 then
            if op(argsb[1])="^" and part(argsb[1],2)=2 then cform:true
     ),
@@ -1434,7 +1434,7 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
 
     /* The sum of somthing */
     if opa="+" then block(
-        argsa: filter(lambda([ex],elementp(wrt,setify(listofvars(ex)))),args(SA)),
+        argsa: sublist(args(SA),lambda([ex],elementp(wrt,setify(listofvars(ex))))),
         if length(argsa)>1 then
             (AnswerNote:"_no_summands",return(true)),
 
@@ -1447,7 +1447,7 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
         
         /* case: k*(x-1)^2 + c*/
         if op(argsa[1])="*" then block([argsb], 
-           argsb: filter(lambda([ex],elementp(wrt,setify(listofvars(ex)))),args(argsa[1])),
+           argsb: sublist(args(argsa[1]),lambda([ex],elementp(wrt,setify(listofvars(ex))))),
            if length(argsb)=1 then
                if op(argsb[1])="^" and part(argsb[1],2)=2 then cform:true
         )
@@ -1487,7 +1487,7 @@ strip_int_const(ex,v):=block([ex2,fargs],
     ex2:ex,
     if atom(ex) then return(ex), 
     if op(ex)="+" then
-       (fargs:filter(lambda([ex2],not(freeof(v,ex2)) or simp_numberp(ex2)),args(ex)),
+       (fargs:sublist(args(ex),lambda([ex2],not(freeof(v,ex2)) or simp_numberp(ex2))),
         if length(fargs)=1 then ex2:fargs[1] else ex2:apply("+",fargs)),
     return(ex2))$
 

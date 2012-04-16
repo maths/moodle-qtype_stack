@@ -34,6 +34,7 @@ Information on specific mathematical topics are found below
 * [Inequalities](Inequalities.md).
 * [Matrices and vectors](Matrix.md).
 * [Differential equations](Differential_equations.md).
+* [Buggy rules](Buggy_rules.md) implenments rules which are not always valid!
 
 
 ## Developer information, and other topics {#developer}

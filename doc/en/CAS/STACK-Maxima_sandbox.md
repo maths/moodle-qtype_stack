@@ -22,13 +22,14 @@ Setting the path in Maxima is a problem on a Microsoft platform.  Maxima does no
 c:/maxima
 
 and add this to Maxima's path.  Place all Maxima files in this directory, so they will then be seen by Maxima.
-For Maxima 5.22.1, edit, or create, the file
+For Maxima 5.26.0, edit, or create, the file
 
-	C:/Program Files/Maxima-5.22.1/share/maxima/5.22.1/share/maxima-init.mac
+    C:/Program Files/Maxima-5.26.0/share/maxima/5.26.0/share/maxima-init.mac
 
-ensure it contains the line
+ensure it contains the lines
 
-	file_search_maxima:append( file_search_maxima, [sconcat("C:/maxima/###.{mac,mc}")] )$
+    file_search_maxima:append([sconcat("C:/maxima/###.{mac,mc}")],file_search_maxima)$
+    file_search_lisp:append([sconcat("C:/maxima/###.{lisp}")],file_search_lisp)$
 
 Other versions of Maxima are similar.
 
@@ -66,4 +67,4 @@ You can test this out by using, for example, the `rand()` function.
 
 	rand(matrix([5,5],[5,5]));
 
-to create a pseudo-random matrix.
+to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.

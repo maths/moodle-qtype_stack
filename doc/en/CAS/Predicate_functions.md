@@ -46,9 +46,9 @@ The following are defined by STACK.
 | `element_listp(ex,l)` | `true` if `ex` is an element of the _list_ \(l\).  (Sets have `elementp`, but lists don't)
 | `all_listp(p,l)`      | `true` if all elements of \(l\) satisfy the predicate \(p\).
 | `any_listp(p,l)`      | `true` if any elements of \(l\) satisfy the predicate \(p\).
-| `filter(p,l)`         | Return a list containing only those elements of the list \(l\) for which the predicate p is true
+| `sublist(l,l)`        | Return a list containing only those elements of the list \(l\) for which the predicate p is true
 
-(The last of these is not a predicate function)
+(The last of these is core Maxima and is not, strictly speaking, a predicate function)
 
 # STACK other predicate functions #
 

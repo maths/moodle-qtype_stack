@@ -13,6 +13,12 @@ You can test if two inequalities are the same using the algebraic equivalence te
 
 Chained inequalities, for example \(1\leq x \leq2\mbox{,}\) or inequalities joined by logical connectives, e.g. "\(x>1\) and \(x<7\)", are not currently supported.
 
+# Functions to support inequalities
+
+### `ineqprepare(ex)`
+
+This function ensures an inequality is written in the form `ex>0` or `ex>=0` where `ex` is always simplified.  This is designed for use with the algebraic equivalence answer test in mind.
+
 ## See also
 
 [Maxima reference topics](index.md#reference).

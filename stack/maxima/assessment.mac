@@ -73,15 +73,6 @@ all_listp(p,l):= if listp(l) then ret:apply("and",maplist(p,l)) else ret:"fail"$
 /* any_listp(p,l) true if all elements of l satisfy p */
 any_listp(p,l):= if listp(l) then ret:apply("or",maplist(p,l)) else ret:"fail"$
 
-/* Return a list containing only those elements for which the predicate p is true */
-/* See Maxima's sublist, which this appears to duplicate,  5/11/11.               */
-filter(p,l):= block(
-   if listp(l)=false then return(false),
-   if l = [] then return([]),
-   if p(first(l)) then cons(first(l),filter(p,rest(l)))
-                  else filter(p,rest(l))
-)$
-
 /* This function applies the binary function f to two lists a and b returning a list
 [ f(a[1],b[1]), f(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  */
 zip_with(f,a,b) := block(

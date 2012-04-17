@@ -43,7 +43,9 @@ class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
         $fakequestion->qtype = 'stack';
         $fakequestion->category = $category->id;
         $fakequestion->questiontext = $questiontext;
+        $fakequestion->options = new stdClass();
         $fakequestion->options->specificfeedback = $specificfeedback;
+        $fakequestion->formoptions = new stdClass();
         $fakequestion->formoptions->movecontext = null;
         parent::__construct(new moodle_url('/'), $fakequestion, $category,
                 new question_edit_contexts($syscontext));

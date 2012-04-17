@@ -131,7 +131,7 @@ class qtype_stack_edit_form extends question_edit_form {
         return array('ans1');
     }
 
-    protected function definition_inner(MoodleQuickForm $mform) {
+    protected function definition_inner(/* MoodleQuickForm */ $mform) {
 
         // Prepare input types
         $types = stack_input_factory::get_available_types();

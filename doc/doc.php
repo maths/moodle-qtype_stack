@@ -131,6 +131,7 @@ if ('Site_map' == $lastseg) {
         if (pathinfo($file, PATHINFO_EXTENSION) == 'md') {
             $page = do_display_math($page);
             $page = str_replace("\\", "\\\\", $page);
+            $options = new stdClass();
             $options->noclean = true;
             $body .= format_text(Markdown($page), FORMAT_HTML, $options); // render it, in this case in Markdown
         } else {

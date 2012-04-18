@@ -100,12 +100,22 @@ class stack_cas_configuration {
 
         // This does its best to find your version of Gnuplot...
         if ('5.25.1' == $this->settings->maximaversion) {
-            return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '-gcl/gnuplot/wgnuplot.exe"';
+            $plotcommand = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '-gcl/gnuplot/wgnuplot.exe';
         } else if ($this->vnum > 23) {
-            return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '/gnuplot/wgnuplot.exe"';
+            $plotcommand = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/gnuplot/wgnuplot.exe';
         } else {
-            return '"C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/wgnuplot.exe"';
+            $plotcommand = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/wgnuplot.exe';
         }
+
+        if (!file_exists($plotcommand)) {
+            // This can help get things working on Windows 64 bit.
+            $win64command = str_replace('/Program Files/', '/Program Files (x86)/', $plotcommand);
+            if (file_exists($win64command)) {
+                $plotcommand = $win64command;
+            }
+        }
+
+        return '"' . $plotcommand . '"';
     }
 
     public function copy_maxima_bat() {
@@ -119,6 +129,15 @@ class stack_cas_configuration {
         if ('5.25.1' == $this->settings->maximaversion) {
             $batchfilename = 'C:/Program Files/Maxima-5.25.1-gcl/bin/maxima.bat';
         }
+
+        if (!file_exists($batchfilename)) {
+            // This can help get things working on Windows 64-bit.
+            $win64script = str_replace('/Program Files/', '/Program Files (x86)/', $batchfilename);
+            if (file_exists($win64script)) {
+                $batchfilename = $win64script;
+            }
+        }
+
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
             throw new Exception('Could not copy the Maxima batch file ' . $batchfilename .
                     ' to location ' . $CFG->dataroot . '/stack/maxima.bat');

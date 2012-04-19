@@ -58,7 +58,6 @@ $doclog  = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/logs');
 $docscontent = $webroot.'/question/type/stack/doc/content';
 
 $context = context_system::instance();
-require_capability('moodle/site:config', $context);
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/doc/doc.php');
 $PAGE->set_title(stack_string('stackDoc_docs'));

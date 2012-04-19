@@ -19,14 +19,14 @@ These instructions work on a Microsoft platform.
 
 Setting the path in Maxima is a problem on a Microsoft platform.  Maxima does not deal well with spaces in filenames, for example.  The simplest solution is to create a directory
 
-c:/maxima
+    C:/maxima
 
 and add this to Maxima's path.  Place all Maxima files in this directory, so they will then be seen by Maxima.
 For Maxima 5.26.0, edit, or create, the file
 
     C:/Program Files/Maxima-5.26.0/share/maxima/5.26.0/share/maxima-init.mac
 
-ensure it contains the lines
+ensure it contains the following lines, possibly modified to reflect the directory you have chosen
 
     file_search_maxima:append([sconcat("C:/maxima/###.{mac,mc}")],file_search_maxima)$
     file_search_lisp:append([sconcat("C:/maxima/###.{lisp}")],file_search_lisp)$
@@ -68,3 +68,9 @@ You can test this out by using, for example, the `rand()` function.
 	rand(matrix([5,5],[5,5]));
 
 to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.
+
+### Useful tips
+
+STACK turns off the traditional two dimensional display, which we can turn back on with the following command. 
+
+    display2d:true;

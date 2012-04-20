@@ -160,7 +160,7 @@ Update the form so that Node 3 has
 	SAns = ans1
 	TAns = 3*(x-1)^2
 	Answer test = FacForm
-	Test opts = x
+	Test option\s = x
 	Quiet = Yes.
 
 The FacForm answer test provides feedback automatically which would be inappropriate here.
@@ -186,9 +186,9 @@ You can continue to add more potential response nodes as the need arises. These 
 based upon the common mistakes student's make. In each case an [answer tests](Answer_tests.md) can be used to
 make a different kind of distinction between answers.
 
-
-
 ## Random questions ##
+
+At this point you might consider saving as a new question.
 
 It is common to want to use random numbers in questions. This is straightforward to do, and we
 make use of the optional [question variables](KeyVals.md#Question_variables) field
@@ -207,8 +207,9 @@ and in the inputs change the model answer to
 
 	diff(p,x)
 
-Notice that now we have defined a local variable `p`, and used the value of this in the Question text.
-Hence, the user will not see a $p$ on the screen when the question is instantiated, but the _displayed value_ of `p`.
+Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `$` symbols and `@` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `$`s, and CAS expressions (including your variables) between `@` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
+
+Since we have used `@p@` here, the user will not see a $p$ on the screen when the question is instantiated, but the _displayed value_ of `p`.
 
 Notice also that in the model answer there is a CAS command to differentiate the value of `p` with respect to `x`.
 It is necessary for the CAS to work out the answer in a random question.
@@ -244,8 +245,9 @@ It is crucial to do this now since questions with `rand()` in the question varia
 
 Edit your trial question, save and preview it to get new random versions of the question.
 
-
 ### Further randomisation ###
+
+At this point you might consider saving as a new question.
 
 As a specific example of some of these features, try the question illustrated below.
 This contains random numbers, and also examples of variables and expressions selected from a list.
@@ -256,13 +258,38 @@ This contains random numbers, and also examples of variables and expressions sel
 
 Then change the Question text to
 
+	Differentiate @p@ with respect to @v@.
+	[[input:ans1]]
+    [[validation:ans1]]
+
 Again, we need to use expressions such as `diff(p,v)` throughout the potential response tree, and even in one place `diff(ans1,v)`.
+
+Delete Node 3.  Factored form tests no longer make sense in the context of this question.
 
 It is often a good idea to use variables in the question at the outset, even if there is no intention to randomly generate a question initially.
 
 You will also need to update the question note to be
 
 	\[ \frac{d}{d@v@}@p@ = @diff(p,v)@ \]
+
+## Question tests ##
+
+Testing questions it time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
+
+From the question preview window, click on `Run the question tests...` link in the top right of the page.
+
+Please read the page on [testing](Testing.md).
+
+Please ensure you have deleted the third node from the potential response tree!  Click `Add a test case` to add a test to your question.  Fill in the following information
+
+     ans1 = diff(p,v)
+     score = 1
+     penalty = 0
+     answernote = prt1-1-T
+
+The system will automatically evaluate `diff(p,v)` to create `ans1` and then mark the question using this information.  It will match up the actual outcomes with those you specified.  This automates the testing process.
+
+You can add as many tests as you think is needed, and it is usually a sensible idea to add one for each case you anticipate.  Here it would be sensible to test if the student has integrated by mistake.
 
 # Next steps #
 

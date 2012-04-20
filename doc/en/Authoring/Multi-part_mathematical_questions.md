@@ -132,11 +132,11 @@ Look carefully at part 2.  This does not ask for the "correct answer" only that 
 
     AlgEquiv(ans2,subst(x=pt,ans1))
 
-Next, add a single node, and ensure this node establishes that
+Next, add a single node (to `prt2`), and ensure this node establishes that
 
     AlgEquiv(ans1,ta1)
 
-We now link the true branch of node 1 to node 2.  We now have three outcomes.
+We now link the true branch of node 1 to node 2 (of `prt2`).  We now have three outcomes.
 
 Node 1: did they evaluate the expression in part 1 correctly? If "yes" then go to node 2, else if "no" then exit with no marks.
 
@@ -146,11 +146,7 @@ Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation,
 
 ###Stage3: adding question tests###
 
-Testing questions it time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
-
-From the question preview window, click on `Run the question tests...` link in the top right of the page.
-
-Please read the page on [testing](Testing.md).
+It is probably sensible to add question tests.  From the question preview window, click on `Run the question tests...` link in the top right of the page.
 
 Add a test to your question which contains the correct answers, as follows.
 

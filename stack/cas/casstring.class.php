@@ -308,6 +308,12 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_finalChar', $a));
         }
 
+        // Check for empty parentheses `()`
+        if (strpos($cmd, '()') !== false) {
+                $this->valid = false;
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
+        }
+
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security);
@@ -323,17 +329,27 @@ class stack_cas_casstring {
      * if stack is set to not add stars automatically, a string indicating the missing stars is returned.
      */
     private function check_stars($security, $syntax, $insertstars) {
-        // We assume f and g are single letter functions.
+
+        // Some patterns are always invalid syntax, and must have stars.
         $patterns[] = "|(\))(\()|";                // Simply the pattern ")(".  Must be wrong!
-        $patterns[] = "|([0-9]+)([A-DF-Za-eh-z])|";   // eg 3x
-        $patterns[] = "|([0-9])([A-DF-Za-z]\()|";     // eg 3 x (
-        $patterns[] = "|(\))([0-9A-DF-Za-z])|";         // eg )a
+        $patterns[] = "|(\))([0-9A-Za-z])|";    // eg )a, or )3
+        // We assume f and g are single letter functions.
+        // 'E' is used to denote scientific notation.  E.g 3E2 = 300.0
+        if ($syntax) {
+            $patterns[] = "|([0-9]+)([A-DF-Za-z])|";   // eg 3x
+            $patterns[] = "|([0-9])([A-DF-Za-z]\()|";     // eg 3 x (
+        } else {
+            $patterns[] = "|([0-9]+)([A-Za-z])|";   // eg 3x
+            $patterns[] = "|([0-9])([A-Za-z]\()|";     // eg 3 x (
+        }
 
         if ($security == 's') {
-            // Teachers have more options for functions
-            $patterns[]  = "|([0-9]+)(\()|";            // eg 3212 (
-            $patterns[]  = "|(^[A-DF-Za-eh-z])(\()|";      // eg a( , that is a single letter.
-            $patterns[]  = "|(\*[A-DF-Za-eh-z])(\()|";
+            $patterns[] = "|([0-9]+)(\()|";            // eg 3212 (
+            if (!$syntax) {
+                $patterns[] = "|(^[A-Za-z])(\()|";      // eg a( , that is a single letter.
+                $patterns[] = "|(\*[A-Za-z])(\()|";
+                $patterns[] = "|([A-Za-z])([0-9]+)|";   // eg x3
+            }
         }
 
         //loop over every CAS command checking for missing stars
@@ -346,11 +362,10 @@ class stack_cas_casstring {
             if (preg_match($pat, $cmd)) {
                 //found a missing star.
                 $missingstar = true;
-                if (($syntax == false) || ($insertstars)) {
+                if ($insertstars) {
                     //then we automatically add stars
                     $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
-                }
-                if (true == $syntax) {
+                } else {
                     //flag up the error
                     $missingstring = stack_maxima_format_casstring(preg_replace($pat,
                         "\${1}<font color=\"red\">*</font>\${2}", $cmd));
@@ -361,10 +376,12 @@ class stack_cas_casstring {
         if (false == $missingstar) {
             //if no missing stars return true
             return true;
-        } else if (false == $syntax) {
-            //if missing stars, but syntax is off, return false (stars will have been added)
-            $this->casstring=$cmd;
-            return false;
+        }
+        // Guard clause above - we have missing stars detected.
+        if ($insertstars) {
+            //if we are going to quietly insert them
+            $this->casstring = $cmd;
+            return true;
         } else {
             //if missing stars & strict syntax is on return errors
             $a['cmd']  = $missingstring;

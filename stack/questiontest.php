@@ -81,7 +81,7 @@ class stack_question_test {
         foreach ($this->inputs as $inputname => $notused) {
             $inputstate = $question->get_input_state($inputname, $response);
             $results->set_input_state($inputname, $response[$inputname],
-                    $inputstate->contentsinterpreted, $inputstate->status);
+                    $inputstate->contentsdisplayed, $inputstate->status);
         }
 
         foreach ($this->expectedresults as $prtname => $expectedresult) {

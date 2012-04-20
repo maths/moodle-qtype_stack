@@ -24,7 +24,7 @@ require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
  *
  * @property-read string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
  * @property-read string $contents the current contents of the input.
- * @property-read string $contentsinterpreted how Stack interpreted the current contents of the input.
+ * @property-read string $contentsdisplayed how Stack interpreted the current contents of the input.
  * @property-read string $errors any validation errors.
  *
  * @copyright  2012 University of Birmingham
@@ -45,7 +45,7 @@ class stack_input_state {
     /**
      * @var string how Stack interpreted the current contents of the input.
      */
-    protected $_contentsinterpreted;
+    protected $_contentsdisplayed;
 
     /**
      * @var string any validation errors.
@@ -59,10 +59,11 @@ class stack_input_state {
      * @param string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
      * @param string $feedback the feedback for the current contents.
      */
-    public function __construct($status, $contents, $contentsinterpreted, $errors) {
+    public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors) {
         $this->_status              = $status;
         $this->_contents            = $contents;
-        $this->_contentsinterpreted = $contentsinterpreted;
+        $this->_contentsmodified    = $contentsmodified;
+        $this->_contentsdisplayed = $contentsdisplayed;
         $this->_errors              = $errors;
     }
 
@@ -72,8 +73,10 @@ class stack_input_state {
                 return $this->_status;
             case 'contents':
                 return $this->_contents;
-            case 'contentsinterpreted':
-                return $this->_contentsinterpreted;
+            case 'contentsmodified':
+                return $this->_contentsmodified;
+            case 'contentsdisplayed':
+                return $this->_contentsdisplayed;
             case 'errors':
                 return $this->_errors;
             default:

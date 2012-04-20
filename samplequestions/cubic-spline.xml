@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 0  -->
-  <question type="category">
-    <category>
-        <text>$system$/Default for System</text>
-
-    </category>
-  </question>
-
 <!-- question: 17  -->
   <question type="stack">
     <name>
@@ -15,20 +7,20 @@
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Consider the real function</p>
-<p>\[ f(x) := \left\{ \begin{array}{c} @f0@ \\ p(x) \\ @f1@ \end{array} \right. \]</p>
+<p>\[ f(x) :=\left\{ \begin{array}{ll} @f0@ &amp; \mbox{for } x\leq @x0@, \\ p(x) &amp; \mbox{for } @x0@ &lt; x &lt; @x1@, \\ @f1@ &amp; \mbox{for } @x1@\leq x.\end{array} \right. \]</p>
 <p>@plot(pg,[x,(x0-3),(x1+3)],[y,-3,3])@</p>
-<p>Find the cubic polynomial $p(x)$ which makes $f(x)$ continuously differentiable.Â </p>
+<p>Find the cubic polynomial $p(x)$ which makes $f(x)$ continuously differentiable. </p>
 <p>$p(x)=$[[input:ans1]]</p>
 <div>[[validation:ans1]]</div>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>First we need to find the information which $p(x)$ needs to satisfy. Â This is</p>
+      <text><![CDATA[<p>First we need to find the information which $p(x)$ needs to satisfy.  This is</p>
 <p>\[ p(@x0@)=@subst(x=x0,f0)@.\]</p>
 <p>\[ p(@x1@)=@subst(x=x1,f1)@.\]</p>
 <p>\[ p'(@x0@)=@subst(x=x0,diff(f0,x))@.\]</p>
 <p>\[ p'(@x1@)=@subst(x=x1,diff(f0,x))@.\]</p>
-<p>If we define $p(x)$ to be the cubicÂ </p>
-<p>\[ p(x) = a_3 x^3 +Â a_2 x^2 +Â a_1 x +Â a_0,\]</p>
+<p>If we define $p(x)$ to be the cubic </p>
+<p>\[ p(x) = a_3 x^3 + a_2 x^2 + a_1 x + a_0,\]</p>
 <p>We then set up the matrix equation</p>
 <p>\[ @CS@ @CV@ = @CU@ \]</p>
 <p>Solving this gives the coefficients, from which we get the polynomial.</p>

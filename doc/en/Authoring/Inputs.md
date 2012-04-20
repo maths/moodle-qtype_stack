@@ -84,17 +84,26 @@ The width of the input box.
 
 ### Strict Syntax ### {#Strict_Syntax}
 
-If set to `false`, the system will automatically insert *s into a student's answer,
-(actually any cas string) and it will not throw an error. Note however, that this is
-actually very hard to define robustly, since \(x(x+1)\) means apply the function \(x\) to
-the argument \((x+1)\), whereas \(\sin(x)\) would be fine. How does one distinguish between the two?
-The system currently assumes a single letter is a variable, and otherwise this is a function to be applied.
-So \(tx(x-1)\) will not mean `t*x*(x-1)`
+Both Strict Syntax and Insert Stars affect the way STACK treats the validation of CAS strings.  
+
+* Strict Syntax defines the patterns to look for.
+* Insert Stars decides whether to insert stars automatically.
+
+We need these options since \(x(t+1)\) means apply the function \(x\) to the argument \((t+1)\), whereas \(\sin(x)\) would be fine. How does one distinguish between the two?
+
+This option decides if we expect strict Maxima syntax.  The default is `false`.  This option affects which patterns we search for when looking for missing stars.
+
+Some patterns must always be wrong.  For example  `)(` must be missing a star, and so this pattern is always included.
+
+If set to `false`, this increases the range of things into which stars might be inserted.  In particular when false we assume
+
+* The student's expression does not contain any functions, so that `f(x+1)` is looked for, and we expect `f*(x+1)`.
+* The student's expression does not contain any scientific notation, so that `3E2` (which Maxima interprets as `300.0`) is looked for, and expects `3*E*2`.
 
 ### Insert Stars ### {#Insert_Stars}
 
-If set to `true`  then the system will automatically insert *s into a student's answer when it is validated.
-So, for example \(2(1-4x)\) will be changed to `2*(1-4*x)`.
+If set to `true`  then the system will automatically insert *s into any patterns identified by Strict Syntax as needing them and will not throw a validation error.
+So, for example \(2(1-4x)\) will be changed to `2*(1-4*x)` on validation.
 
 ### Syntax Hint ### {#Syntax_Hint}
 

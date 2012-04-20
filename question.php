@@ -402,10 +402,18 @@ class qtype_stack_question extends question_graded_automatically {
             return $this->prtresults[$index];
         }
 
+        // Make sure we use modified inputs
+        $modifiedresponse = array();
+        foreach ($response as $name => $val) {
+            if (array_key_exists( $name, $this->inputstates)) {
+                $modifiedresponse[$name] = $this->inputstates[$name]->contentsmodified;
+            }
+        }
+
         $prt = $this->prts[$index];
         if ($this->can_execute_prt($prt, $response)) {
             $this->prtresults[$index] = $prt->evaluate_response(
-                    $this->session, $this->options, $response, $this->seed);
+                    $this->session, $this->options, $modifiedresponse, $this->seed);
         } else {
             $this->prtresults[$index] = array(
                 'feedback'   => '',

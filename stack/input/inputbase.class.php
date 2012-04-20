@@ -243,7 +243,7 @@ abstract class stack_input {
         }
 
         if ('' == $sans) {
-            return new stack_input_state(self::BLANK, '', '', '');
+            return new stack_input_state(self::BLANK, '', '', '', '');
         }
         $transformedanswer = $this->transform($sans);
 
@@ -264,6 +264,7 @@ abstract class stack_input {
         $errors = $answer->get_errors();
         // If we can't get a "displayed value" back from the CAS, show the student their original expression.
         $display = stack_maxima_format_casstring($sans);
+        $interpretedanswer = $answer->get_casstring();
 
         // Send the string to the CAS.
         if ($valid) {
@@ -298,7 +299,7 @@ abstract class stack_input {
         } else {
             $status = self::SCORE;
         }
-        return new stack_input_state($status, $sans, $display, $errors);
+        return new stack_input_state($status, $sans, $interpretedanswer, $display, $errors);
     }
 
     public function requires_validation() {
@@ -337,7 +338,7 @@ abstract class stack_input {
         }
 
         $feedback  = '';
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer') . $state->contentsinterpreted);
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer') . $state->contentsdisplayed);
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',

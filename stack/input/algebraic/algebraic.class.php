@@ -57,7 +57,7 @@ class stack_algebraic_input extends stack_input {
             'mustVerify'     => true,
             'hideFeedback'   => false,
             'boxWidth'       => 15,
-            'strictSyntax'   => true,
+            'strictSyntax'   => false,
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',

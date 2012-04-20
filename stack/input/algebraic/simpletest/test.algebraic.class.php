@@ -180,4 +180,15 @@ class stack_algebra_input_test extends UnitTestCase {
         $state = $el->validate_student_response(array('sans1' => '2*x'), $options, 'y=2*x', array('ta'));
         $this->assertEqual(stack_input::INVALID, $state->status);
     }
+
+    public function test_validate_student_response_display_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '-3*x^2-4');
+        $el->set_parameter('insertStars', true);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '-3x^2-4'), $options, '-3*x^2-4', null);
+        $this->assertEqual(stack_input::VALID, $state->status);
+        $this->assertEqual('-3*x^2-4', $state->contentsmodified);
+        //$this->assertEqual('\[ -3 \cdot x^2-4. \]', $state->contentsdisplayed);
+    }
 }

@@ -4,7 +4,7 @@ Options affect the behaviour of each question.
 
 ### Question Level Simplify  ###
 
-See the entry on [simplification](../CAS/Maxima.md#Simplification).  Default is TRUE.
+See the entry on [simplification](../CAS/Maxima.md#Simplification).  Default is `true`.
 
 ### Assume Positive  ### {#Assume_Positive}
 
@@ -14,8 +14,8 @@ This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
 variable.
 
-If true and the sign of a parameter \(x\) cannot be determined from the current context or
-other considerations, `sign` and `asksign(x)` return true. This may forestall some automatically-generated
+If `true` and the sign of a parameter \(x\) cannot be determined from the current context or
+other considerations, `sign` and `asksign(x)` return `true`. This may forestall some automatically-generated
 asksign queries, such as may arise from integrate or other computations
 
 Default is False

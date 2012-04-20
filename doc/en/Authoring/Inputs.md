@@ -91,18 +91,18 @@ Both Strict Syntax and Insert Stars affect the way STACK treats the validation o
 
 We need these options since \(x(t+1)\) means apply the function \(x\) to the argument \((t+1)\), whereas \(\sin(x)\) would be fine. How does one distinguish between the two?
 
-This option decides if we expect strict Maxima syntax.  The default is `false`.  This option affects which patterns we search for when looking for missing stars.
+This option decides if we expect strict Maxima syntax.  The default is `no`.  This option affects which patterns we search for when looking for missing stars.
 
 Some patterns must always be wrong.  For example  `)(` must be missing a star, and so this pattern is always included.
 
-If set to `false`, this increases the range of things into which stars might be inserted.  In particular when false we assume
+If set to `no`, this increases the range of things into which stars might be inserted.  In particular when `no` we assume
 
 * The student's expression does not contain any functions, so that `f(x+1)` is looked for, and we expect `f*(x+1)`.
 * The student's expression does not contain any scientific notation, so that `3E2` (which Maxima interprets as `300.0`) is looked for, and expects `3*E*2`.
 
 ### Insert Stars ### {#Insert_Stars}
 
-If set to `true`  then the system will automatically insert *s into any patterns identified by Strict Syntax as needing them and will not throw a validation error.
+If set to `yes`  then the system will automatically insert *s into any patterns identified by Strict Syntax as needing them and will not throw a validation error.
 So, for example \(2(1-4x)\) will be changed to `2*(1-4*x)` on validation.
 
 ### Syntax Hint ### {#Syntax_Hint}
@@ -132,19 +132,19 @@ and no penalties will be given.
 
 ### Forbid Floats ### {#Forbid_Floats}
 
-If set to `true`, then any answer of the student which has a floating point number
+If set to `yes`, then any answer of the student which has a floating point number
 will be rejected as invalid. Student's sometimes use floating point numbers when
 they should use fractions. This option prevents problems with approximations being used.
 
 ### Require lowest terms ### {#Require_lowest_terms}
 
-When this option is set to `true`, any coefficients or other rational numbers in an
+When this option is set to `yes`, any coefficients or other rational numbers in an
 expression, must be written in lowest terms.  Otherwise the answer is rejected as "invalid".
 This enables the teacher to reject answers, and not consider them further.
 
 ### Check Students answer's type ### {#Check_Type}
 
-If this option is set to `true` then unless the student's expression is the same
+If this option is set to `yes` then unless the student's expression is the same
 [Maxima](../CAS/Maxima.md#Types_of_object) as the teacher's correct answer,
 then the attempt will be rejected as invalid.
 
@@ -157,7 +157,7 @@ Another useful way of avoiding this problem is to put a LaTeX string such as \(y
 
 ### Student must verify ### {#Student_must_verify}
 
-Specifies whether the student's input is presented back to them before scoring.  Useful for complex algebraic expressions but not needed for constrained input like `true`/`false`.
+Specifies whether the student's input is presented back to them before scoring.  Useful for complex algebraic expressions but not needed for constrained input like `yes`/`no`.
 
 Experience strongly supports the use of verification by "validating" input whenever a student types in an expression.  Errors will always be displayed and rejected as invalid. Potential response trees will not execute with invalid input.
 

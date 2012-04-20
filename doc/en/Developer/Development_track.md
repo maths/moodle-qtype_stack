@@ -57,15 +57,14 @@ At this point STACK will be "ready" for use with students, although not all feat
 2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 3. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 4. If stack is installed on a site with a _ in the URL (e.g. http://localhost/moodle_head/) then plots do not work. Maxima seems to escape the _ to \_ for some reason.
-5. Selp strings refer to true/false options, but in Moodle they are yes/no/
-6. In a question with Insert stars: Yes, Strict syntax: No, a response of 3x gives a CAS error.
-7. Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
-8. Find a way to make the answer test test-suite and input test test-suite available to question authors.
-9. Display the answer note in the list of deployed variants.
-10. Provide a way back from the question tests to the question preview window (or wherever).
-11. When validating the editing form, actually evaluate the Maxima code.
-12. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
-13. Button to remove a node from a PRT.
+5. Validation of student inputs has too many brackets.  This is a Maxima issue.  To reproduce it type `simp:false;` then `-3*x^2`.  We get unneeded brackets.
+6. Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
+7. Find a way to make the answer test test-suite and input test test-suite available to question authors.
+8. Display the answer note in the list of deployed variants.
+9. Provide a way back from the question tests to the question preview window (or wherever).
+10. When validating the editing form, actually evaluate the Maxima code.
+11. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
+12. Button to remove a node from a PRT.
 
 ## Future plans
 

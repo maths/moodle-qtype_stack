@@ -24,6 +24,7 @@ require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
  *
  * @property-read string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
  * @property-read string $contents the current contents of the input.
+ * @property-read string $contentsmodified CAS string as modified by the input routines.  E.g. *s inserted.
  * @property-read string $contentsdisplayed how Stack interpreted the current contents of the input.
  * @property-read string $errors any validation errors.
  *
@@ -44,6 +45,11 @@ class stack_input_state {
 
     /**
      * @var string how Stack interpreted the current contents of the input.
+     */
+    protected $_contentsmodified;
+
+    /**
+     * @var string how Stack displays the interpreted input.
      */
     protected $_contentsdisplayed;
 

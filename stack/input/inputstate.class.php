@@ -63,7 +63,7 @@ class stack_input_state {
         $this->_status              = $status;
         $this->_contents            = $contents;
         $this->_contentsmodified    = $contentsmodified;
-        $this->_contentsdisplayed = $contentsdisplayed;
+        $this->_contentsdisplayed   = $contentsdisplayed;
         $this->_errors              = $errors;
     }
 

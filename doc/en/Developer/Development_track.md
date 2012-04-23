@@ -60,11 +60,10 @@ At this point STACK will be "ready" for use with students, although not all feat
 5. Validation of student inputs has too many brackets.  This is a Maxima issue.  To reproduce it type `simp:false;` then `-3*x^2`.  We get unneeded brackets.
 6. Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
 7. Find a way to make the answer test test-suite and input test test-suite available to question authors.
-8. Display the answer note in the list of deployed variants.
-9. Provide a way back from the question tests to the question preview window (or wherever).
-10. When validating the editing form, actually evaluate the Maxima code.
-11. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
-12. Button to remove a node from a PRT.
+8. Provide a way back from the question tests to the question preview window (or wherever).
+9. When validating the editing form, actually evaluate the Maxima code.
+10. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
+11. Button to remove a node from a PRT.
 
 ## Future plans
 

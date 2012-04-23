@@ -89,7 +89,7 @@ class stack_cas_session {
             if (is_int($seed)) {
                 $this->seed = $seed;
             } else {
-                throw new Exception('stack_cas_session: $seed must be a number.');
+                throw new Exception('stack_cas_session: $seed must be a number.  Got "'.$seed.'"');
             }
         } else {
             $this->seed = time();

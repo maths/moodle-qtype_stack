@@ -111,7 +111,14 @@ if (!$question->has_random_variants()) {
     echo html_writer::tag('p', get_string('questionnotdeployedyet', 'qtype_stack'));
 
 } else {
-    $seedchoices = array();
+
+    $notestable = new html_table();
+    $notestable->head = array(
+        get_string('deployedvariants', 'qtype_stack'),
+        get_string('questionnote', 'qtype_stack'),
+    );
+    $prtstable->attributes['class'] = 'generaltable stacktestsuite';
+
     foreach ($question->deployedseeds as $deployedseed) {
         if (!is_null($question->seed) && $question->seed == $deployedseed) {
             $choice= html_writer::tag('b', $deployedseed,
@@ -129,10 +136,25 @@ if (!$question->has_random_variants()) {
                 new pix_icon('t/delete', get_string('undeploy', 'qtype_stack')));
         }
 
-        $seedchoices[] = $choice;
+        // Print out question notes of all deployed versions
+        $qn = question_bank::load_question($questionid);
+        $qn->seed = (int) $deployedseed;
+        $cn = $qn->get_context();
+        $qunote = question_engine::make_questions_usage_by_activity('qtype_stack', $cn);
+        $qunote->set_preferred_behaviour('adaptive');
+        $slotnote = $qunote->add_question($qn, $qn->defaultmark);
+        $qunote->start_question($slotnote);
+
+        $notestable->data[] = array(
+            $choice,
+            $qn->get_question_summary(),
+        );
+    
+    
     }
-    echo html_writer::tag('p', get_string('deployedvariantoptions', 'qtype_stack',
-            implode(' | ', $seedchoices)));
+
+    echo html_writer::tag('p', get_string('deployedvariantoptions', 'qtype_stack'));
+    echo html_writer::table($notestable);
 }
 
 if (!$variantmatched) {

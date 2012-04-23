@@ -53,26 +53,36 @@ At this point STACK will be "ready" for use with students, although not all feat
 
 ## Known bugs/issues
 
+1. Validation of student inputs has too many brackets.  This is a Maxima issue.  To reproduce it type `simp:false;` then `-3*x^2`.  We get unneeded brackets.
+
+
+### Question validation
+
+1. Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
+
+### Editing form
+
+### Testing questions
+
 1. There is no check that SUM(question values of all PRTs) = 1. Either we need to enforce that, or we need to compute question fraction as a weighed average of PRT scores.
 2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 3. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
-4. If stack is installed on a site with a _ in the URL (e.g. http://localhost/moodle_head/) then plots do not work. Maxima seems to escape the _ to \_ for some reason.
-5. Validation of student inputs has too many brackets.  This is a Maxima issue.  To reproduce it type `simp:false;` then `-3*x^2`.  We get unneeded brackets.
-6. Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
-7. Find a way to make the answer test test-suite and input test test-suite available to question authors.
-8. Provide a way back from the question tests to the question preview window (or wherever).
+
 9. When validating the editing form, actually evaluate the Maxima code.
 10. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
 11. Button to remove a node from a PRT.
 
 ## Future plans
 
-1. Improve editing form, for example
+1. Find a way to make the answer test test-suite and input test test-suite available to question authors.
+2. Improve editing form, for example
  1. a way to rename PRTs and inputs.
  2. UI to add a new PRT, so you don't have to know to edit the question text to add it.
-2. A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
-3. Facility to import test-cases in-bulk as CSV (or something). Likewise export.
-4. Change unit tests to use PHPunit, which is the new standard in Moodle 2.3.
+3. A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
+4. Facility to import test-cases in-bulk as CSV (or something). Likewise export.
+5. Change unit tests to use PHPunit, which is the new standard in Moodle 2.3.
+6. If stack is installed on a site with a _ in the URL (e.g. http://localhost/moodle_head/) then plots do not work. Maxima seems to escape the _ to \_ for some reason.
+
 
 We have a dedicated page for [future plans](Future_plans.md).
 

@@ -29,6 +29,7 @@ require_once(dirname(__FILE__) . '/locallib.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+$courseid = required_param('courseid', PARAM_INT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
@@ -41,7 +42,7 @@ question_require_capability_on($questiondata, 'edit');
 require_sesskey();
 
 // Initialise $PAGE.
-$PAGE->set_url('/question/type/stack/questiontestrun.php', array('questionid' => $question->id));
+$PAGE->set_url('/question/type/stack/questiontestrun.php', array('questionid' => $question->id, 'courseid' => $courseid));
 $PAGE->set_context($context);
 
 // Process deploy if applicable.
@@ -53,7 +54,7 @@ if (!is_null($deploy)) {
     $DB->insert_record('qtype_stack_deployed_seeds', $record);
 
     redirect(new moodle_url('/question/type/stack/questiontestrun.php',
-            array('questionid' => $question->id, 'seed' => $deploy)));
+            array('questionid' => $question->id, 'courseid' => $courseid, 'seed' => $deploy)));
 }
 
 // Process undeploy if applicable.
@@ -63,7 +64,7 @@ if (!is_null($undeploy)) {
             array('questionid' => $question->id, 'seed' => $undeploy));
 
     redirect(new moodle_url('/question/type/stack/questiontestrun.php',
-            array('questionid' => $question->id, 'seed' => $undeploy)));
+            array('questionid' => $question->id, 'courseid' => $courseid, 'seed' => $undeploy)));
 }
 
-redirect(new moodle_url('/question/type/stack/questiontestrun.php', array('questionid' => $question->id)));
+redirect(new moodle_url('/question/type/stack/questiontestrun.php', array('questionid' => $question->id, 'courseid' => $courseid)));

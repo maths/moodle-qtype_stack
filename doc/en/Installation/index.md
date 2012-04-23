@@ -7,6 +7,12 @@ __WARNING: STACK 3.0 is under development.  This code is intended only for use b
 * Please ensure you have [installed moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use moodle 2.3 or later.  [E.g.](https://github.com/timhunt/moodle)
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](../Developer/Mathjax.md).
 
+__NOTE:  STACK cannot currently be installed on a Moodle server with an underscore in the URL__
+
+For example, the following URL is not permitted.
+
+    http://localhost/moodle_head/
+
 ## 2. Install GNUPlot and Maxima
 
 Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.21.1 to 5.26.0 are supported.  Please contact the developers to request support for other versions.

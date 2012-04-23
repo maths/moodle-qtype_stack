@@ -82,9 +82,10 @@ class qtype_stack_renderer extends qtype_renderer {
         if (!$question->user_can_view()) {
             return '';
         }
+        //TODO how do we find the courseid at this point!?
         return html_writer::tag('div',
                 html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php',
-                        array('questionid' => $question->id, 'seed' => $question->seed)),
+                        array('questionid' => $question->id, 'courseid' => 0, 'seed' => $question->seed)),
                         get_string('runquestiontests', 'qtype_stack')),
                 array('class' => 'questiontestslink'));
     }

@@ -40,6 +40,7 @@ require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+$courseid = required_param('courseid', PARAM_INT);
 $seed = optional_param('seed', null, PARAM_INT);
 
 // Load the necessary data.
@@ -124,15 +125,18 @@ if (!$question->has_random_variants()) {
             $choice= html_writer::tag('b', $deployedseed,
                     array('title' => get_string('currentlyselectedvariant', 'qtype_stack')));;
             $variantmatched = true;
-
         } else {
-            $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed)),
+            $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed, 'courseid' => $courseid)),
                     $deployedseed, array('title' => get_string('testthisvariant', 'qtype_stack')));
         }
 
+        $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/preview.php',
+            array('courseid' => $courseid, 'id' => $questionid, 'seed' => $deployedseed)),
+            new pix_icon('t/preview', get_string('preview')));
+
         if ($canedit) {
             $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/type/stack/deploy.php',
-                array('questionid' => $question->id, 'undeploy' => $deployedseed, 'sesskey' => sesskey())),
+                array('questionid' => $question->id, 'courseid' => $courseid, 'undeploy' => $deployedseed, 'sesskey' => sesskey())),
                 new pix_icon('t/delete', get_string('undeploy', 'qtype_stack')));
         }
 
@@ -160,7 +164,7 @@ if (!$question->has_random_variants()) {
 if (!$variantmatched) {
     if ($canedit) {
         $deploybutton = ' ' . $OUTPUT->single_button(new moodle_url('/question/type/stack/deploy.php',
-                array('questionid' => $question->id, 'deploy' => $question->seed)),
+                array('questionid' => $question->id, 'courseid' => $courseid, 'deploy' => $question->seed)),
                 get_string('deploy', 'qtype_stack'));
     } else {
         $deploybutton = '';
@@ -175,6 +179,7 @@ if ($question->has_random_variants()) {
             'action' => new moodle_url('/question/type/stack/questiontestrun.php')));
     echo html_writer::start_tag('p');
     echo html_writer::input_hidden_params($PAGE->url, array('seed'));
+    echo html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'courseid', 'value' => $courseid));
 
     echo html_writer::tag('label', get_string('switchtovariant', 'qtype_stack'), array('for' => 'seedfield'));
     echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 7,

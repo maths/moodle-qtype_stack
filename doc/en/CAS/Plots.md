@@ -53,10 +53,10 @@ An example question is included as
 
 This includes the code in the question variables to create [random objects](Random.md#rand).
 
-    a = 30 + rand(20)
-    b = 40 + rand(50)
-    anb = 5 + rand(20)
-    aub = a+b-anb
+    a : 30 + rand(20);
+    b : 40 + rand(50);
+    anb : 5 + rand(20);
+    aub : a+b-anb;
 
 Then, in the question stem we have the HTML which uses this.  Note the way valus of variables are inserted here.
 

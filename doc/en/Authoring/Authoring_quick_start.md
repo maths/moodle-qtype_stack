@@ -193,9 +193,11 @@ At this point you might consider saving as a new question.
 It is common to want to use random numbers in questions. This is straightforward to do, and we
 make use of the optional [question variables](KeyVals.md#Question_variables) field
 
+STACK 3 uses Maxima's syntax for assignment, which is unusual.  In particular the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `n` we use the syntax `n:5`.
+
 Modify the [question variables](KeyVals.md#Question_variables) from the previous example so that
 
-	p = (x-1)^3
+	p : (x-1)^3;
 
 Then change the [question text](CASText.md#question_text) to
 
@@ -217,8 +219,8 @@ You now need to go through the potential response tree to use the variable `p` o
 
 We are now in a position to generate a random question. To do this modify the [question variables](KeyVals.md#Question_variables) to be
 
-	n = 2+rand(3)
-	p = (x-1)^n
+	n : 2+rand(3);
+	p : (x-1)^n;
 
 In this new example, we have an extra variable `n` which is defined to be a random number.
 
@@ -252,9 +254,9 @@ At this point you might consider saving as a new question.
 As a specific example of some of these features, try the question illustrated below.
 This contains random numbers, and also examples of variables and expressions selected from a list.
 
-	n = rand(5)+3
-	v = rand([x,s,t])
-	p = rand([sin(n*v),cos(n*v)])
+	n : rand(5)+3;
+	v : rand([x,s,t]);
+	p : rand([sin(n*v),cos(n*v)]);
 
 Then change the Question text to
 

@@ -60,11 +60,10 @@ class stack_cas_keyval_test extends UnitTestCase {
 
         $cases = array(
                 array('', true, $cs0),
-                array("a=x^2 \n b=(x+1)^2", true, $cs1),
                 array("a:x^2 \n b:(x+1)^2", true, $cs1),
-                array("a=x^2; b=(x+1)^2", true, $cs1),
-                array('a=x^2); b=(x+1)^2', false, $cs2),
-                array('a=1/0', true, $cs3)
+                array("a:x^2; b:(x+1)^2", true, $cs1),
+                array('a:x^2); b:(x+1)^2', false, $cs2),
+                array('a:1/0', true, $cs3)
             );
 
         foreach ($cases as $case) {
@@ -78,16 +77,15 @@ class stack_cas_keyval_test extends UnitTestCase {
     }
 
     public function test_equations_1() {
-        $at1 = new stack_cas_keyval('ta1 = x=1; ta2 = x^2-2*x=1', null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1', null, 123, 's', true, false);
         $at1->instantiate();
         $s = $at1->get_session();
-
         $this->assertEqual($s->get_value_key('ta1'), 'x = 1');
         $this->assertEqual($s->get_value_key('ta2'), 'x^2-2*x = 1');
     }
 
     public function test_remove_comment() {
-        $at1 = new stack_cas_keyval("a=1\n /* This is a comment \n b:2\n */\n c=3", null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, false);
         $this->assertTrue($at1->get_valid());
 
         $a3=array('a:1', 'c:3');
@@ -105,7 +103,7 @@ class stack_cas_keyval_test extends UnitTestCase {
     }
 
     public function test_remove_comment_fail() {
-        $at1 = new stack_cas_keyval("a=1\n /* This is a comment \n b:2\n */\n c=3", null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, false);
         $this->assertTrue($at1->get_valid());
 
         $a3=array('a:1', 'c:4');
@@ -131,7 +129,7 @@ class stack_cas_keyval_test extends UnitTestCase {
     }
 
     public function test_keyval_session_keyval_1() {
-        $kvin = "a=1; c=3;";
+        $kvin = "a:1; c:3;";
         $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
@@ -140,7 +138,7 @@ class stack_cas_keyval_test extends UnitTestCase {
 
     public function test_keyval_session_keyval_2() {
         // Equation and function
-        $kvin = "ans1=x^2-2*x=1; f(x):=x^2; sin(x^3);";
+        $kvin = "ans1:x^2-2*x=1; f(x):=x^2; sin(x^3);";
         $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
@@ -149,8 +147,8 @@ class stack_cas_keyval_test extends UnitTestCase {
 
     public function test_keyval_session_keyval_3() {
         // Inserting stars
-        $kvin  = "a=2x; b=(x+1)(x-1); b=f(x);";
-        $kvins = "a=2*x; b=(x+1)*(x-1); b=f(x);";
+        $kvin  = "a:2x; b:(x+1)(x-1); b:f(x);";
+        $kvins = "a:2*x; b:(x+1)*(x-1); b:f(x);";
         $at1 = new stack_cas_keyval($kvin, null, 123, 's', false, true);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();

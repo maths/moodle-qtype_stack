@@ -81,26 +81,14 @@ class stack_cas_keyval {
         $str = str_replace(';', "\n", $str);
         $kv_array = explode("\n", $str);
 
+        // 23/4/12 - significant changes to the way keyvals are interpreted.  Use Maxima assignmentsm i.e. x:2.
         $errors  = '';
         $valid   = true;
         $vars = array();
         foreach ($kv_array as $kvs) {
             $kvs = trim($kvs);
             if ('' != $kvs) {
-                // Split over the first occurance of the equals sign, turning this into normal Maxima assignment.
-                $i = strpos($kvs, '=');
-                if (false === $i) {
-                    $val = $kvs;
-                } else {
-                    // Need to check we don't have a function definition...
-                    if (':'===substr($kvs, $i-1, 1)) {
-                        $val = $kvs;
-                    } else {
-                        $val = trim(trim(substr($kvs, 0, $i)).':'.trim(substr($kvs, $i+1)));
-                    }
-                }
-
-                $cs = new stack_cas_casstring($val);
+                $cs = new stack_cas_casstring($kvs);
                 $cs->validate($this->security, $this->syntax, $this->insertstars);
                 $vars[] = $cs;
             }
@@ -146,19 +134,4 @@ class stack_cas_keyval {
         return $this->session;
     }
 
-    /**
-     * Generates a form element for editing this question type. If values have
-     * been specified then a drop down list is generate, otherwise a text input box
-     * @param name string the name of the element in the form
-     * @param size int the size of the text box, defaults to 15
-     * @access public
-     * @return string XHTML for insertion into a form field.
-     */
-    public function edit_widget($name, $size=100) {
-
-        $edit_text = str_replace(';', "\n", $this->raw);
-        $widget = '<input type="text" name="'.$name.'" size="'.$size.'" value="'.$edit_text .'"/>';
-
-        return $widget;
-    }
 }

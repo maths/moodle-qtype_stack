@@ -149,14 +149,14 @@ We might have an unusual, but correct, answer such as  \( Ae^{\lambda_1 t}\left(
 
 A [sample question](../Authoring/Sample_questions.md) of this type is provided by STACK, in which we have the following question variables.
 
-	sa1 = subst(y(t)=ans1,ode)
-	sa2 = ev(sa1,nouns)
-	sa3 = fullratsimp(expand(sa2))
-	l   = delete(t,listofvars(ans1))
-	lv  = length(l)
-	b1  = ev(ans1,t=0,fullratsimp)
-	b2  = ev(ans1,t=1,fullratsimp)
-	m   = float(if b2#0 then fullratsimp(b1/b2) else 0)
+	sa1 : subst(y(t)=ans1,ode);
+	sa2 : ev(sa1,nouns);
+	sa3 : fullratsimp(expand(sa2));
+	l   : delete(t,listofvars(ans1));
+	lv  : length(l);
+	b1  : ev(ans1,t=0,fullratsimp);
+	b2  : ev(ans1,t=1,fullratsimp);
+	m   : float(if b2#0 then fullratsimp(b1/b2) else 0);
 
 1. Here `sa1`, `sa2` and `sa3` are used to ensure the answer satisfies the ODE and if not to provide feedback.
 2. To ensure we have two constants we count the number of variables using `listofvars`, not including `t`. We are looking for two constants.
@@ -166,7 +166,7 @@ A [sample question](../Authoring/Sample_questions.md) of this type is provided b
 These are the properties a correct answer should have.  If the teacher has a preference for the form, then a separate test is required to enforce it.
 For example, you might like the top operation to be a \(+\), i.e. sum.   This can be confirmed by
 
-	aop = is(equal(op(ans1),"+"))
+	aop : is(equal(op(ans1),"+"));
 
 Then test `aop` is `true` with another answer test.  Note that the arguments to answer tests cannot contain double quotes, so a question variable is needed here.
 

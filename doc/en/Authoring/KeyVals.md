@@ -5,11 +5,11 @@ These are called the Question Variables and Answer Variables.
 
 The field is a string which contains a list of assignments of the form
 
-	key = value
+	key : value
 
 for example
 
-	p = (x-1)^3
+	p : (x-1)^3
 
 Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima.md) language.
 When evaluated this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
@@ -21,20 +21,22 @@ These fields are known as _KeyVal_ fields.
 
 Computer algebra systems each use a different syntax to denote the assignment of a value to a variable.
 For example, Maple and Derive use `:=`. Mathematica uses `=` or `:=`, depending on when the assignment is to take place.
-Maxima uses the form key:value, which is unusual and not intuitive.
+Maxima uses the form `key:value`, which is unusual and not intuitive.
 Maxima reserves `:=` to denote function definition, e.g. `f(x):=x^2`.
-Hence, in STACK we add an abstraction layer to enforce a syntax where every expression must be of the form key = value.
+
+__STACK 3 now uses Maxima's assignment rules.  This is a change from STACK 2.__  Questions will be imported and quietly changed.
 
 ## Notes ##
 
 * Items are separated by either a newline or ;
-* If you type a string not in the form `key = value`, a variable name such as `dumvar3` will be
+* Adding `;` at the end of each statement is optional, but makes it easier to cut and paste into a Maxima session.
+* If you type a string not in the form `key : value`, a variable name such as `dumvar3` will be
 	assigned automatically to keep track of the command in the list of question variables.
 * If a student uses a variable which has been assigned a value, the attempt will be rejected as invalid.
 	Hence, it is a sensible idea to use variable names which are not used as parameters.
 	For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
 * You can include C-style block comments for increased clarity, and these may appear on separate lines
-	e.g. `dice = rand(6) + 1 /* roll it! */`
+	e.g. `dice : rand(6) + 1 /* roll it! */`
 
 ## Question variables			{#Question_variables}
 

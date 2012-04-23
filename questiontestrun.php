@@ -176,7 +176,7 @@ echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 $displayqvs = '';
 foreach ($question->get_all_question_vars() as $key => $value) {
-    $displayqvs.= s($key) . ' = ' . s($value). "\n";
+    $displayqvs.= s($key) . ' : ' . s($value). ";\n";
 }
 echo  html_writer::tag('pre', $displayqvs);
 echo html_writer::end_tag('div');

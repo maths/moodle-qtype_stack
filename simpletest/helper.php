@@ -120,7 +120,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-1';
-        $q->questionvariables = 'n = rand(5)+3; a = rand(5)+3; v = x; p = (v-a)^n; ta = (v-a)^(n+1)/(n+1)';
+        $q->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (v-a)^(n+1)/(n+1)';
         $q->questiontext = 'Find
                             \[ \int @p@ d@v@\]
                             [[input:ans1]]
@@ -278,7 +278,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-4';
-        $q->questionvariables = 'p = x^2';
+        $q->questionvariables = 'p : x^2';
         $q->questiontext = 'Below is a sketch of a graph. Find an algebraic expression which represents it.
                             @plot(p,[x,-2,2])@
                             $f(x)=$ [[input:ans1]].
@@ -311,8 +311,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-5';
-        $q->questionvariables = 'rn = -1*(rand(4)+1); rp = 8+rand(6); ar = rn*rp; sg = rn+rp; ' .
-                'ta1 = x*(x+sg)=-ar; ta2 = x*(x-sg)=-ar; tas = setify(map(rhs,solve(ta1,x)))';
+        $q->questionvariables = 'rn : -1*(rand(4)+1); rp : 8+rand(6); ar : rn*rp; sg : rn+rp; ' .
+                'ta1 : x*(x+sg)=-ar; ta2 : x*(x-sg)=-ar; tas : setify(map(rhs,solve(ta1,x)))';
         $q->questiontext = '<p>A rectangle has length @sg@cm greater than its width.
                             If it has an area of $@abs(ar)@cm^2$, find the dimensions of the rectangle.</p>
                             <p>1. Write down an equation which relates the side lengths to the
@@ -356,7 +356,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['eq'] = new stack_potentialresponse_tree('eq',
                     '', true, 0.3333333, null, array($node));
 
-        $feedbackvars = new stack_cas_keyval('v1 = first(listofvars(ans1)); ftm = setify(map(rhs,solve(ans1,v1)))');
+        $feedbackvars = new stack_cas_keyval('v1 : first(listofvars(ans1)); ftm : setify(map(rhs,solve(ans1,v1)))');
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
@@ -415,11 +415,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-7';
-        $q->questionvariables = "l1 = 1+(-1)^rand(1)*rand(6); " .
-                                "l2 = l1+(-1)^rand(1)*(1+rand(4)); " .
-                                "c1 = -1*(l1+l2); c2 = l1*l2; " .
-                                "ode = 'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t); " .
-                                "ta = A*e^(l1*t)+B*e^(l2*t)";
+        $q->questionvariables = "l1 : 1+(-1)^rand(1)*rand(6); " .
+                                "l2 : l1+(-1)^rand(1)*(1+rand(4)); " .
+                                "c1 : -1*(l1+l2); c2 = l1*l2; " .
+                                "ode : 'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t); " .
+                                "ta : A*e^(l1*t)+B*e^(l2*t)";
         $q->questiontext = '<p>Find the general solution to \[ @ode@ =0. \]</p>
                             <p>$y(t)=$ [[input:ans1]]</p>
                             [[validation:ans1]]';
@@ -430,14 +430,14 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta', array('boxWidth' => 15));
 
-        $feedbackvars = new stack_cas_keyval('sa1 = subst(y(t)=ans1,ode); ' .
-                                             'sa2 = ev(sa1,nouns); ' .
-                                             'sa3 = fullratsimp(expand(sa2)); ' .
-                                             'l = delete(t,listofvars(ans1)); ' .
-                                             'lv = length(l); ' .
-                                             'b1 = ev(ans1,t=0,fullratsimp); ' .
-                                             'b2 = ev(ans1,t=1,fullratsimp); ' .
-                                             'm = float(if not(equal(b2,0)) then fullratsimp(b1/b2) else 0)',
+        $feedbackvars = new stack_cas_keyval('sa1 : subst(y(t)=ans1,ode); ' .
+                                             'sa2 : ev(sa1,nouns); ' .
+                                             'sa3 : fullratsimp(expand(sa2)); ' .
+                                             'l : delete(t,listofvars(ans1)); ' .
+                                             'lv : length(l); ' .
+                                             'b1 : ev(ans1,t=0,fullratsimp); ' .
+                                             'b2 : ev(ans1,t=1,fullratsimp); ' .
+                                             'm : float(if not(equal(b2,0)) then fullratsimp(b1/b2) else 0)',
                                              null, 0, 't');
 
         $sans = new stack_cas_casstring('sa3');
@@ -489,9 +489,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-8';
-        $q->questionvariables = "n = rand(2)+3; " .
-                                "p = rand(3)+2; " .
-                                "ta = setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))";
+        $q->questionvariables = "n : rand(2)+3; " .
+                                "p : rand(3)+2; " .
+                                "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))";
         $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^@n@=@p^n@.\]
                             Enter your answer as a set of numbers.
                             [[input:ans1]]</p>
@@ -504,9 +504,9 @@ class qtype_stack_test_helper extends question_test_helper {
                         'algebraic', 'ans1', 'ta',
                         array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}'));
 
-        $feedbackvars = new stack_cas_keyval('a1 = listify(ans1);' .
-                                             'a1 = maplist(lambda([x],x^n-p^n),a1);' .
-                                             'a1 = setify(a1)');
+        $feedbackvars = new stack_cas_keyval('a1 : listify(ans1);' .
+                                             'a1 : maplist(lambda([x],x^n-p^n),a1);' .
+                                             'a1 : setify(a1)');
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
@@ -549,8 +549,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-9';
-        $q->questionvariables = 'b = rand([-2,-3,-4,2,3,4]); ta1 = b; ta2 = rand([-2,-3,-4,2,3,4]); ' .
-                'a = b*ta2; p = a*x+b; f = lambda([x],if (x<0) then p else ta1*exp(ta2*x))';
+        $q->questionvariables = 'b : rand([-2,-3,-4,2,3,4]); ta1 : b; ta2 : rand([-2,-3,-4,2,3,4]); ' .
+                'a : b*ta2; p : a*x+b; f : lambda([x],if (x<0) then p else ta1*exp(ta2*x))';
         $q->questiontext = '<p>Let $f(x)$ be a real function defined on the interval $[-1,1]$ by the following formula.</p>
                             \[
                             f(x) = \left\{ \begin{array}{ll}
@@ -592,7 +592,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans2'] = stack_input_factory::make(
                                     'algebraic', 'ans2', 'ta2', array('boxWidth' => 4));
 
-        $feedbackvars = new stack_cas_keyval('g = lambda([x],if (x<0) then p else ans1*exp(ans2*x))');
+        $feedbackvars = new stack_cas_keyval('g : lambda([x],if (x<0) then p else ans1*exp(ans2*x))');
 
         $sans = new stack_cas_casstring('[ans1,ans2]');
         $sans->get_valid('t');

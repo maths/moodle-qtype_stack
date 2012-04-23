@@ -96,11 +96,11 @@ Start with a new STACK question, and give the question a name, e.g. "Tangent lin
 
 __Question variables:__
 
-     p=x^3-2*x^2+x
-     pt=2
-     ta1=diff(p,x)
-     ta2=subst(x=pt,diff(p,x))
-     ta3=remainder(p,(x-pt)^2)
+     p:x^3-2*x^2+x;
+     pt:2;
+     ta1:diff(p,x);
+     ta2:subst(x=pt,diff(p,x));
+     ta3:remainder(p,(x-pt)^2);
 
 __Question text__
 
@@ -179,7 +179,7 @@ When you run the tests you can also look at the feedback to confirm the system i
 
 Next we can add a randomly generated polynomial to the question.  Because we used variable names throughout the question from the start, this should be a simple matter of redefining the value of `p` in the question variables as follows.
 
-    p = (2+rand(3))*x^3+(2+rand(3))*x^2+(2+rand(3))*x
+    p : (2+rand(3))*x^3+(2+rand(3))*x^2+(2+rand(3))*x;
 
 You will need to add a non-empty question note to enable grouping of random versions.  E.g. the following string will suffice.
 

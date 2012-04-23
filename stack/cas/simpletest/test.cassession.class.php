@@ -77,7 +77,7 @@ extends UnitTestCase {
         }
 
         $at1 = new stack_cas_session($s1, null, 0);
-        $this->assertEqual('a=x^2; b=1/(1+x^2); c=e^(i*pi);', $at1->get_keyval_representation());
+        $this->assertEqual('a:x^2; b:1/(1+x^2); c:e^(i*pi);', $at1->get_keyval_representation());
         $this->assertEqual(array('a', 'b', 'c'), $at1->get_all_keys());
 
         $at1->prune_session(1);
@@ -92,9 +92,9 @@ extends UnitTestCase {
         }
 
         $at1 = new stack_cas_session($s1, null, 0);
-        $this->assertEqual('a=(-1)^2;', $at1->get_keyval_representation());
+        $this->assertEqual('a:(-1)^2;', $at1->get_keyval_representation());
         $at1->instantiate();
-        $this->assertEqual('a=1;', $at1->get_keyval_representation());
+        $this->assertEqual('a:1;', $at1->get_keyval_representation());
     }
 
     public function test_string1(){

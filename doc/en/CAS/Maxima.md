@@ -124,14 +124,14 @@ Input                  | Result
 `a=1`                  | An equation, yet to be solved.
 `f(x):=x^2`            | Definition of a function.
 
-In STACK simple assignments are of the more conventional form `key = value`, for example,
+In STACK simple assignments are of the more conventional form `key : value`, for example,
 
-	n = rand(3)+2
-	p = (x-1)^n
+	n : rand(3)+2;
+	p : (x-1)^n;
 
 Of course, these assignments can make use of Maxima's functions to manipulate expressions.
 
-	p = expand( (x-3)*(x-4) )
+	p : expand( (x-3)*(x-4) );
 
 Another common task is that of _substitution_. This can be
 performed with Maxima's `subst` command. This is quite useful,
@@ -139,15 +139,15 @@ for example if we define \(p\)  as follows, in the then we can
 use this in response processing to determine if the student's
 answer is odd.
 
-	p = ans1 + subst(-x,x,ans1)
+	p : ans1 + subst(-x,x,ans1);
 
 All sorts of properties can be checked for in this way. For
 example, interpolates. Another example is a stationary point of
 \(f(x)\) at \(x=a\), which can be checked for using
 
-	p = subst(a,x,diff(ans1,x)) 	Here we have assumed a is
-some point given to the student, `ans1` is the and that \(p\)
-will be used in the response processing tree.
+	p : subst(a,x,diff(ans1,x)); 	
+
+Here we have assumed a is some point given to the student, `ans1` is the and that \(p\) will be used in the response processing tree.
 
 You can use Maxima's looping structures within Question
 variables, although the syntax requires this to be of the form
@@ -155,25 +155,17 @@ variables, although the syntax requires this to be of the form
 `DONE` at the end of the process, unless another value is
 returned. For example
 
-	n = 1
-	dum1 = for a:-3 thru 26 step 7 do n:n+a
+	n : 1;
+	dum1 : for a:-3 thru 26 step 7 do n:n+a;
 
-Note, you must use Maxima's syntax `a:-3` here for assignment
-of \(-3\) to the variable `a`. The assignment to the dummy
-variable `dum1` is to ensure every command is of the form `key
-= value`. Please look at Maxima's documentation for the command
-`do`.
+Note, you must use Maxima's syntax `a:-3` here for assignment of \(-3\) to the variable `a`. The assignment to the dummy variable `dum1` is to ensure every command is of the form `key : value`. Please look at Maxima's documentation for the command `do`.
 
 It is also possible to define functions within the Question
 Variables for use within a question. This is not recommended,
 and has not been widely tested. For example
 
-	dum1 = f(x) := x^2
-	n = f(4)
-
-Again, the syntax requires this to be of the form `key = value`, so that another dummy assignment has taken place.
-
-
+	dum1 : f(x) := x^2;
+	n : f(4);
 
 ## Logarithms ##
 
@@ -197,14 +189,14 @@ Because STACK uses the equals sign instead of Maxima's colon (`:`) it is much be
 
 Notice this expression is un-named.  This is fine.  An alternative is to define `f` as an "unnamed function" using the lambda command.
 
-	 f=lambda([x],x^2);
+	 f:lambda([x],x^2);
 
 Here we are giving a name to an "unnamed function" which seems perverse.  Unnamed functions are extremely useful in many situations.
 
 For example, a piecewise function can be defined by either of these two commands
 
-     define(f(x), if (x<0) then 6*x-2 else -2*exp(-3*x))
-	 f= lambda([x],if (x<0) then 6*x-2 else -2*exp(-3*x))
+     define(f(x), if (x<0) then 6*x-2 else -2*exp(-3*x));
+	 f: lambda([x],if (x<0) then 6*x-2 else -2*exp(-3*x));
 
 You can then plot this using
 

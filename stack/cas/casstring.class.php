@@ -506,8 +506,8 @@ class stack_cas_casstring {
             if ('='===substr($this->casstring, $i+1, 1)) {
                 $this->key   = '';
             } else {
-                $this->key       = substr($this->casstring, 0, $i);
-                $this->casstring = substr($this->casstring, $i+1);
+                $this->key       = trim(substr($this->casstring, 0, $i));
+                $this->casstring = trim(substr($this->casstring, $i+1));
             }
         }
     }

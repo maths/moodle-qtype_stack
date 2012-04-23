@@ -486,7 +486,7 @@ class stack_cas_session {
             if ('' == $cs->get_key()) {
                 $keyvals .= $val.'; ';
             } else {
-                $keyvals .= $cs->get_key().'='.$val.'; ';
+                $keyvals .= $cs->get_key().':'.$val.'; ';
             }
         }
         return trim($keyvals);

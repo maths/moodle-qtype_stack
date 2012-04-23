@@ -105,12 +105,15 @@ echo $OUTPUT->heading(get_string('deployedvariants', 'qtype_stack'), 3);
 
 $variantmatched = false;
 if (!$question->has_random_variants()) {
-    echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack'));
+    echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack').' '.$OUTPUT->action_icon(new moodle_url('/question/preview.php',
+            array('courseid' => $courseid, 'id' => $questionid)),
+            new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
-
 } else if (empty($question->deployedseeds)) {
-    echo html_writer::tag('p', get_string('questionnotdeployedyet', 'qtype_stack'));
-
+    echo html_writer::tag('p', get_string('questionnotdeployedyet', 'qtype_stack').' '.
+            $OUTPUT->action_icon(new moodle_url('/question/preview.php',
+                array('courseid' => $courseid, 'id' => $questionid)),
+                new pix_icon('t/preview', get_string('preview'))));
 } else {
 
     $notestable = new html_table();
@@ -131,7 +134,7 @@ if (!$question->has_random_variants()) {
         }
 
         $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/preview.php',
-            array('courseid' => $courseid, 'id' => $questionid, 'seed' => $deployedseed)),
+            array('courseid' => $courseid, 'id' => $questionid, 'variant' => $deployedseed)),
             new pix_icon('t/preview', get_string('preview')));
 
         if ($canedit) {

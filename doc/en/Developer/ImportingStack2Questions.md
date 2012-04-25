@@ -10,7 +10,7 @@ Please note the following.
 
 __Currently question tests do not import.__  Please hold off importing large quantities of questions until this is completed.
 
-* If you have used an input type which has not yet been implemented in STACK 3 the the importer will throw an exception.  E.g. Matrix input types are not yet available in STACK 3.
+* If you have used an input type which has not yet been implemented in STACK 3 the the importer will throw an exception.  E.g. Matrix input types are not yet available in STACK 3, and so questions containing these cannot be imported.
 * The following question level options are now ignored by the importer
  * Display (Reason: this should not be set at the question level anyay).
  * Worked Solution on Demand (Reason: the quiz behaviours are the right place to deal with this.  Providing this option was always a hack in the first place...).

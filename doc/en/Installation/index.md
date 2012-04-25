@@ -36,6 +36,10 @@ You should now have a question type available to the moodle quiz.
 
 ## 4. Add the STACK question format
 
-If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.
+If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
 
-__This has not been completed yet, and the code is unavailable.__
+1. Obtain the code. Either [download the zip file](https://github.com/sangwinc/moodle-qformat_stack/zipball/master), unzip it, and place it in the directory `moodle\question\format\stack`. (You will need to rename the directory `moodle-qformat_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/sangwinc/moodle-qformat_stack.git question/type/stack`.
+2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
+
+There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Developer/ImportingStack2Questions.md) before using it.
+

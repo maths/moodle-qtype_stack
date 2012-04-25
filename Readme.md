@@ -13,12 +13,9 @@ the University of Birmingham, and includes the work of
 
 Stack 3.0 is currently under
 [active development](https://github.com/sangwinc/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md).
-It is not ready for real use, but please feel free to download it to try out.
+This code is intended only for use by developers, and early adopters wishing to help test the code.
 
-It is now possible to install the question type, create and edit questions, and
-preview them and use them in a quiz. There are, however, still many details to
-get right.
-
+It is now possible to install the question type, create and edit questions, and preview them and use them in a quiz. There are, however, still many details to get right.
 
 ## Documentation
 

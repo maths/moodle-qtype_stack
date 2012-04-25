@@ -97,4 +97,49 @@ class stack_utils_test extends UnitTestCase {
         $this->assertEqual('hello_world!', stack_utils::underscore('hello world!'));
         $this->assertEqual('he_he_hello_world_', stack_utils::underscore('he-he-hello world!', array('!')));
     }
+
+    public function test_list_to_array() {
+        // Do not recurse over lists
+        $a=array();
+        $strin = '';
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $a=array();
+        $strin = '[]';
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $a=array('1');
+        $strin = '[1]';
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $a=array('1', '2');
+        $strin = '[1,2]';
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '[x^2, sin(x)]';
+        $a = array('x^2', ' sin(x)');
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $a=array('1', 'x+y');
+        $strin = '[1,x+y]';
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $a=array('[1,2]');
+        $strin = '[[1,2]]';
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $strin = '[[1,2,3], {x^2,x^3}]';
+        $a = array('[1,2,3]', ' {x^2,x^3}');
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        $a=array('1', '1/sum([1,3])', 'matrix([1],[2])');
+        $strin = '[1,1/sum([1,3]),matrix([1],[2])]';
+        $this->assertEqual($a, stack_utils::list_to_array($strin, false));
+
+        // Recurse over lists
+        $strin = '[[1,2,3], {x^2,x^3}]';
+        $a = array(array('1', '2', '3'), ' {x^2,x^3}');
+        $this->assertEqual($a, stack_utils::list_to_array($strin, true));
+    }
+    
 }

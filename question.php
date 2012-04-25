@@ -287,8 +287,9 @@ class qtype_stack_question extends question_graded_automatically {
     public function get_correct_response() {
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
-            $teacheranswer[$name] = $this->session->get_casstring_key($name);
+            $teacheranswer[$name] = $input->maxima_to_raw_input($this->session->get_casstring_key($name));
         }
+
         return $teacheranswer;
     }
 
@@ -320,7 +321,6 @@ class qtype_stack_question extends question_graded_automatically {
         // in a PRT, the student's answer will take these values.   If the teacher defines
         // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
         $forbiddenkeys = $this->session->get_all_keys();
-
         $teacheranswer = $this->session->get_casstring_key($name);
         $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $forbiddenkeys);
@@ -405,7 +405,7 @@ class qtype_stack_question extends question_graded_automatically {
         // Make sure we use modified inputs
         $modifiedresponse = array();
         foreach ($response as $name => $val) {
-            if (array_key_exists( $name, $this->inputstates)) {
+            if (array_key_exists($name, $this->inputstates)) {
                 $modifiedresponse[$name] = $this->inputstates[$name]->contentsmodified;
             }
         }

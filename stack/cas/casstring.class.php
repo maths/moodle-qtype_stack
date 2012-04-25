@@ -271,11 +271,16 @@ class stack_cas_casstring {
             }
         }
 
-        // Check for apostrophes if a student
         if ($security == 's') {
+            // Check for apostrophes if a student
             if (strpos($cmd, "'") !== false) {
                 $this->valid = false;
                 $this->add_error(stack_string('stackCas_apostrophe'));
+            }
+            // Check new lines
+            if (strpos($cmd, "\n") !== false) {
+                $this->valid = false;
+                $this->add_error(stack_string('stackCas_newline'));
             }
         }
 

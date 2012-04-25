@@ -35,18 +35,17 @@ class stack_textarea_input extends stack_input {
         );
 
         if ('' === trim($state->contents)) {
-            $current = $this->parameters['syntaxHint'];
+            $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
         } else {
             $current = $state->contents;
         }
 
-        $rows = $this->tokenize_list($current);
+        // Sort out size of text area.
+        $rows = stack_utils::list_to_array($current, false);
         $attributes['rows'] = max($this->parameters['boxHeight'], count($rows) + 1);
 
-        $value = '';
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
-            $value .= $row . "\n";
             $boxwidth = max($boxwidth, strlen($row) + 5);
         }
         $attributes['cols'] = $boxwidth;
@@ -55,7 +54,7 @@ class stack_textarea_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        return html_writer::tag('textarea', htmlspecialchars($value), $attributes);
+        return html_writer::tag('textarea', htmlspecialchars($current), $attributes);
     }
 
     public function add_to_moodleform(MoodleQuickForm $mform) {
@@ -65,15 +64,13 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
-     * Converts the inputs passed in into a textareas into a Maxima list
-     *
-     * TODO worry about lines of input that contain ','.
+     * Converts the inputs passed in into a textarea into a Maxima list
      *
      * @param string $in
      * @return string
      * @access public
      */
-    public function transform($in) {
+    public function raw_input_to_maxima($in) {
         if (!trim($in)) {
              return '';
         }
@@ -90,8 +87,17 @@ class stack_textarea_input extends stack_input {
         return '[' . implode(',', $rowsout) . ']';
     }
 
-    protected function tokenize_list($in) {
-        return stack_utils::list_to_array($in, false);
+    /**
+    * Converts a Maxima expression (a list) into something which can be placed into the text area.
+    *
+    * @param string $in
+    * @return string
+    * @access public
+    */
+    public function maxima_to_raw_input($in) {
+        $values = stack_utils::list_to_array($in, false);
+        $out = implode("\n", $values);
+        return $out;
     }
 
     /**

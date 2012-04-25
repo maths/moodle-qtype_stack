@@ -62,6 +62,7 @@ abstract class stack_input {
 
     /**
      * @var string Every input must have a non-empty "teacher's answer".
+     * This is assumed to be a valid Maxima string.
      */
     protected $teacheranswer;
 
@@ -208,7 +209,7 @@ abstract class stack_input {
     }
 
     /**
-     * @return string the teacher answer, and example of what could be typed into
+     * @return string the teacher's answer, an example of what could be typed into
      * this input as part of a correct response to the question.
      */
     public function get_teacher_answer() {
@@ -245,7 +246,7 @@ abstract class stack_input {
         if ('' == $sans) {
             return new stack_input_state(self::BLANK, '', '', '', '');
         }
-        $transformedanswer = $this->transform($sans);
+        $transformedanswer = $this->raw_input_to_maxima($sans);
 
         $answer = new stack_cas_casstring($transformedanswer);
         $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
@@ -356,12 +357,25 @@ abstract class stack_input {
     }
 
     /**
-     * Transforms the student's input into a casstring if needed. From most returns same as went in.
+     * Transforms the student's input into a casstring if needed. 
+     * Most return the same as went in.
      *
      * @param array|string $in
      * @return string
      */
-    private function transform($in) {
+    protected function raw_input_to_maxima($in) {
+        return $in;
+    }
+
+    /**
+     * Transforms a Maxim expression into a raw input.
+     * Used to turn the teacher's answer into something, and the syntax hints 
+     * Most return the same as went in.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function maxima_to_raw_input($in) {
         return $in;
     }
 }

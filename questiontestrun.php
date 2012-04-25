@@ -304,11 +304,11 @@ foreach ($testresults as $key => $result) {
     if ($canedit) {
         echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
         echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-                array('questionid' => $question->id, 'testcase' => $key)),
+                array('courseid' => $courseid, 'questionid' => $question->id, 'testcase' => $key)),
                 stack_string('editthistestcase', 'qtype_stack'), 'get');
 
         echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
-                array('questionid' => $question->id, 'testcase' => $key)),
+                array('courseid' => $courseid, 'questionid' => $question->id, 'testcase' => $key)),
                 stack_string('deletethistestcase', 'qtype_stack'), 'get');
         echo html_writer::end_tag('div');
     }

@@ -24,6 +24,7 @@ We need to consolidate all of these things.
 
 ## Features to add - round two! ##
 
+* Expand the CASText format to enable us to embed the _value_ of a variable, not just the displayed form.  This will be needed for various other things.
 * Geogebra input.
 * Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.

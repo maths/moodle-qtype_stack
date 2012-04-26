@@ -42,8 +42,9 @@ class stack_textarea_input extends stack_input {
 
         // Sort out size of text area.
         $rows = stack_utils::list_to_array($current, false);
-        $attributes['rows'] = max($this->parameters['boxHeight'], count($rows) + 1);
-
+        //$attributes['rows'] = max($this->parameters['boxHeight'], count($rows) + 1);
+        $attributes['rows'] = count($rows) + 1;
+        
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
             $boxwidth = max($boxwidth, strlen($row) + 5);
@@ -110,7 +111,7 @@ class stack_textarea_input extends stack_input {
             'mustVerify'     => true,
             'hideFeedback'   => false,
             'boxWidth'       => 20,
-            'boxHeight'      => 5,
+            //'boxHeight'      => 5,
             'strictSyntax'  => true,
             'insertStars'    => false,
             'syntaxHint'     => '',

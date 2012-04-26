@@ -150,6 +150,7 @@ Key features
 * JSMath is no longer under development, and hence we are no longer providing an option for this in STACK.  However, in STACK 2 we modified JSMath to enable inputs within equations.  Display now assumes the use of a Moodle filter and we recommend (and test with) MathJax, which does not currently support this feature.  If it is important for you to use this feature you will need to copy and modify the load.js file from STACK 2 and use JSMath.
 * Worked solution on demand feature has been removed.  This was a hack in STACK 2, and the use of Moodle quiz has made this unnecessary.
 * We have lost some of the nice styling on the editing form, compared to Stack 2.
+* Answer tests no longer return a numerical mark, hence the "+AT" option for mark modification method has been dropped.
 
 ## Version 2.2
 

@@ -176,7 +176,6 @@ class qtype_stack_edit_form extends question_edit_form {
                     '=' => '=',
                     '+' => '+',
                     '-' => '-',
-                    '=AT' => '=AT',
         );
 
         $inputnames = $this->get_input_names_from_question_text();

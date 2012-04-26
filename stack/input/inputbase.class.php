@@ -318,10 +318,13 @@ abstract class stack_input {
     public abstract function render(stack_input_state $state, $fieldname, $readonly);
 
     /**
-     * Add this input to a MoodleForm. This is currently used in questiontestform.php.
+     * Add this input the MoodleForm, but only used in questiontestform.php.  
+     * It enables the teacher to enter the data as a CAS variable where necessary when the student might get some 
+     * html page formatting help.  E.g. teachers will want to enter information into textareas input as a single list, or variable name representing a list, 
+     * and matrix elements as a single CAS variable, or using Maxima's syntax matrix([...]).
      * @param MoodleQuickForm $mform the form to add elements to.
      */
-    public abstract function add_to_moodleform(MoodleQuickForm $mform);
+    public abstract function add_to_moodleform_testinput(MoodleQuickForm $mform);
 
     /**
      * Generate the HTML that gives the results of validating the student's input.

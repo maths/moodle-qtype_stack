@@ -44,7 +44,7 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->inputs as $inputname => $input) {
             // We do not require these to be filled in, (or contain valid input), as the teacher may want to test such cases.
-            $input->add_to_moodleform($mform);
+            $input->add_to_moodleform_testinput($mform);
         }
 
         // TODO I would really like to add a button here:

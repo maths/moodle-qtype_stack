@@ -58,9 +58,8 @@ class stack_textarea_input extends stack_input {
         return html_writer::tag('textarea', htmlspecialchars($current), $attributes);
     }
 
-    public function add_to_moodleform(MoodleQuickForm $mform) {
-        $mform->addElement('textarea', $this->name, $this->name,
-                array('rows' => $this->parameters['boxHeight'], 'cols' => $this->parameters['boxWidth']));
+    public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
+        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
     }
 

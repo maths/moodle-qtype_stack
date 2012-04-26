@@ -51,7 +51,7 @@ class stack_boolean_input extends stack_input {
                 $state->contents, '', $attributes);
     }
 
-    public function add_to_moodleform(MoodleQuickForm $mform) {
+    public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('select', $this->name, $this->name, $this->get_choices());
     }
 

@@ -57,7 +57,7 @@ class stack_dropdown_input extends stack_input {
                 array('' => stack_string('notanswered')), $attributes);
     }
 
-    public function add_to_moodleform(MoodleQuickForm $mform) {
+    public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $values = $this->get_choices();
         if (empty($values)) {
             $mform->addElement('static', $this->name, stack_string('ddl_empty'));

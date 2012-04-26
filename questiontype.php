@@ -274,7 +274,7 @@ class qtype_stack extends question_type {
         foreach ($questiondata->inputs as $name => $inputdata) {
             $allparameters = array(
                 'boxWidth'     =>        $inputdata->boxsize,
-                'strictSyntax' => (bool) $inputdata->strictsyntax,
+            	'strictSyntax' => (bool) $inputdata->strictsyntax,
                 'insertStars'  => (bool) $inputdata->insertstars,
                 'syntaxHint'   =>        $inputdata->syntaxhint,
                 'forbidWords'  =>        $inputdata->forbidwords,

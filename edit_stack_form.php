@@ -127,14 +127,22 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array list of inputs used by this PRT.
      */
     protected function get_inputs_used_by_prt($prtname) {
+        if (is_null($this->question->inputs)) {
+            return array();
+        }
         $inputs = $this->question->inputs;
         $input_keys = array();
         if (is_array($inputs)) {
             foreach ($inputs as $input) {
                 $input_keys[] = $input->name;
             }
+        } else {
+            return array();
         }
 
+        if (is_null($this->question->prts)) {
+            return array();
+        }
         $prts = $this->question->prts;
         $prt = $prts[$prtname];
 

@@ -31,6 +31,7 @@ require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+$courseid = required_param('courseid', PARAM_INT);
 $seed = optional_param('seed', null, PARAM_INT);
 $testcase = required_param('testcase', PARAM_INT);
 
@@ -46,7 +47,7 @@ require_login();
 question_require_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
-$urlparams = array('questionid' => $question->id);
+$urlparams = array('courseid' => $courseid, 'questionid' => $question->id);
 if (!is_null($seed)) {
     $urlparams['seed'] = $seed;
 }

@@ -371,8 +371,7 @@ abstract class stack_input {
     }
 
     /**
-     * Transforms a Maxim expression into a raw input.
-     * Used to turn the teacher's answer into something, and the syntax hints 
+     * Transforms a Maxima expression into a raw input which is placed in the html form.
      * Most return the same as went in.
      *
      * @param array|string $in
@@ -381,4 +380,5 @@ abstract class stack_input {
     public function maxima_to_raw_input($in) {
         return $in;
     }
+
 }

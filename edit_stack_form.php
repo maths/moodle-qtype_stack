@@ -127,8 +127,30 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array list of inputs used by this PRT.
      */
     protected function get_inputs_used_by_prt($prtname) {
-        // TODO implement this.
-        return array('ans1');
+        $inputs = $this->question->inputs;
+        $input_keys = array();
+        if (is_array($inputs)) {
+            foreach ($inputs as $input) {
+                $input_keys[] = $input->name;
+            }
+        }
+
+        $prts = $this->question->prts;
+        $prt = $prts[$prtname];
+
+        $prt_nodes = array();
+        foreach ($prt->nodes as $node) {
+            $sans = new stack_cas_casstring($node->sans);
+            $tans = new stack_cas_casstring($node->tans);
+            $testoptions = new stack_cas_casstring($node->testoptions);
+            $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $testoptions);
+            $prt_node->add_branch(1, '+', 0, 0, -1, $node->truefeedback, '');
+            $prt_node->add_branch(0, '+', 0, 0, -1, $node->falsefeedback, '');
+            $prt_nodes[] = $prt_node;
+        }
+        $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
+        $potential_response_tree = new stack_potentialresponse_tree('', '', false, 0, $feedbackvariables->get_session(), $prt_nodes);
+        return $potential_response_tree->get_required_variables($input_keys);
     }
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
@@ -149,7 +171,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         collatorlib::asort($this->answertestchoices);
 
-        // Prepare schore mode choices.
+        // Prepare score mode choices.
         $this->scoremodechoices = array(
                     '=' => '=',
                     '+' => '+',

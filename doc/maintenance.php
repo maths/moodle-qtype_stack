@@ -44,6 +44,7 @@ function report($d) {
     $webdocs = $wwwroot.'/question/type/stack/doc/en';
     $weburl = $wwwroot.'/question/type/stack/doc/doc.php';
     $a = array();
+    $files_linked_to = array();
 
     if (is_dir($d)) {
         if ($dh = opendir($d)) {
@@ -60,7 +61,7 @@ function report($d) {
 
                         $a[] = array($fpath, 'F', 'Found file ' . "$fpath");
 
-                        if ($fsize >= 7000) {
+                        if ($fsize >= 10000) {
                             $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
                         }
 
@@ -105,6 +106,8 @@ function report($d) {
                                     $hs = get_headers($link);
                                     if (strpos($hs[0], '404') !== false) {
                                         $a[] = array($fpath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');
+                                    } else {
+                                        $files_linked_to[$found[0][$i]] = true;
                                     }
                                 }
                             }
@@ -123,12 +126,10 @@ function report($d) {
 
 <h2>STACK Documentation Maintenance</h2>
 
-<p><a href="doc.php">STACK menu</a></p>
-<p>Key: <i>F - Found file, W - Warning, E - Error</i></p>
+<p><a href="doc.php">STACK documentation</a></p>
 <p>This script crawls the entire documentation and checks for dead links and other issues.
 <pre><?php
 
-//TODO make this a nice table!
 $docs = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
 $a = report($docs);
 

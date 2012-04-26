@@ -43,8 +43,8 @@ class stack_textarea_input extends stack_input {
         // Sort out size of text area.
         $rows = stack_utils::list_to_array($current, false);
         //$attributes['rows'] = max($this->parameters['boxHeight'], count($rows) + 1);
-        $attributes['rows'] = count($rows) + 1;
-        
+        $attributes['rows'] = max(5, count($rows) + 1);
+
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
             $boxwidth = max($boxwidth, strlen($row) + 5);
@@ -89,12 +89,12 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
-    * Converts a Maxima expression (a list) into something which can be placed into the text area.
-    *
-    * @param string $in
-    * @return string
-    * @access public
-    */
+     * Converts a Maxima expression (a list) into something which can be placed into the text area.
+     *
+     * @param string $in
+     * @return string
+     * @access public
+     */
     public function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
         $out = implode("\n", $values);

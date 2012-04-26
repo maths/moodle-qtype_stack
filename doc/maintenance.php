@@ -87,7 +87,8 @@ function report($d) {
                                         } else {
                                             $link = $webdocs . rtrim($reldir, '/') . '/' . $link;
                                         }
-                                        $segs = explode('/', $link); // it looks like get_headers isn't evaluating these so lets do it manually
+                                        // it looks like get_headers isn't evaluating these so lets do it manually
+                                        $segs = explode('/', $link);
                                         while (($pos = array_search('.', $segs)) !== false) {
                                             unset($segs[$pos]);
                                         }

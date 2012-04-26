@@ -179,8 +179,7 @@ class qtype_stack_test extends UnitTestCase {
       <text>test-0</text>
     </name>
     <questiontext format="html">
-      <text>What is $1+1$? [[input:ans1]]
-                                [[validation:ans1]]</text>
+      <text>What is $1+1$? [[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -285,8 +284,7 @@ class qtype_stack_test extends UnitTestCase {
         $expectedq = new stdClass();
         $expectedq->qtype                 = 'stack';
         $expectedq->name                  = 'test-0';
-        $expectedq->questiontext          = 'What is $1+1$? [[input:ans1]]
-                                [[validation:ans1]]';
+        $expectedq->questiontext          = 'What is $1+1$? [[input:ans1]] [[validation:ans1]]';
         $expectedq->questiontextformat    = FORMAT_HTML;
         $expectedq->generalfeedback       = '';
         $expectedq->generalfeedbackformat = FORMAT_HTML;

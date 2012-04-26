@@ -141,5 +141,4 @@ class stack_utils_test extends UnitTestCase {
         $a = array(array('1', '2', '3'), ' {x^2,x^3}');
         $this->assertEqual($a, stack_utils::list_to_array($strin, true));
     }
-    
 }

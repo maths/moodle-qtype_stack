@@ -139,7 +139,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $this->assertEqual(stack_input::INVALID, $state->status);
     }
 
-    public function test_validate_student_response_insertStars_true_1() {
+    public function test_validate_student_response_insertstars_true_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
         $el->set_parameter('insertStars', true);
@@ -148,7 +148,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $this->assertEqual(stack_input::VALID, $state->status);
     }
 
-    public function test_validate_student_response_insertStars_false_1() {
+    public function test_validate_student_response_insertstars_false_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
         $el->set_parameter('insertStars', false);
@@ -157,7 +157,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $this->assertEqual(stack_input::INVALID, $state->status);
     }
 
-    public function test_validate_student_response_sameType_true_1() {
+    public function test_validate_student_response_sametype_true_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
         $el->set_parameter('sameType', false);
@@ -165,7 +165,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $this->assertEqual(stack_input::VALID, $state->status);
     }
 
-    public function test_validate_student_response_sameType_true_2() {
+    public function test_validate_student_response_sametype_true_2() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'y=2*x');
         $el->set_parameter('sameType', false);
@@ -173,7 +173,7 @@ class stack_algebra_input_test extends UnitTestCase {
         $this->assertEqual(stack_input::VALID, $state->status);
     }
 
-    public function test_validate_student_response_sameType_false_1() {
+    public function test_validate_student_response_sametype_false_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'y=2*x');
         $el->set_parameter('sameType', true);

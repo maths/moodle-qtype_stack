@@ -274,7 +274,7 @@ class qtype_stack extends question_type {
         foreach ($questiondata->inputs as $name => $inputdata) {
             $allparameters = array(
                 'boxWidth'     =>        $inputdata->boxsize,
-            	'strictSyntax' => (bool) $inputdata->strictsyntax,
+                'strictSyntax' => (bool) $inputdata->strictsyntax,
                 'insertStars'  => (bool) $inputdata->insertstars,
                 'syntaxHint'   =>        $inputdata->syntaxhint,
                 'forbidWords'  =>        $inputdata->forbidwords,
@@ -594,16 +594,20 @@ class qtype_stack extends question_type {
         $output .= "    <questionvariables>\n";
         $output .= "      " . $format->writetext($options->questionvariables, 0);
         $output .= "    </questionvariables>\n";
-        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback, $options->specificfeedbackformat, $contextid, 'specificfeedback', $questiondata->id);
+        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback, 
+                        $options->specificfeedbackformat, $contextid, 'specificfeedback', $questiondata->id);
         $output .= "    <questionnote>\n";
         $output .= "      " . $format->writetext($options->questionnote, 0);
         $output .= "    </questionnote>\n";
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
         $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
         $output .= "    <markmode>{$options->markmode}</markmode>\n";
-        $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect, $options->prtcorrectformat, $contextid, 'prtcorrect', $questiondata->id);
-        $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect, $options->prtpartiallycorrectformat, $contextid, 'prtpartiallycorrect', $questiondata->id);
-        $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect, $options->prtincorrectformat, $contextid, 'prtincorrect', $questiondata->id);
+        $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect,
+                        $options->prtcorrectformat, $contextid, 'prtcorrect', $questiondata->id);
+        $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect,
+                        $options->prtpartiallycorrectformat, $contextid, 'prtpartiallycorrect', $questiondata->id);
+        $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect,
+                        $options->prtincorrectformat, $contextid, 'prtincorrect', $questiondata->id);
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
@@ -649,13 +653,15 @@ class qtype_stack extends question_type {
                 $output .= "        <truepenalty>{$node->truepenalty}</truepenalty>\n";
                 $output .= "        <truenextnode>{$node->truenextnode}</truenextnode>\n";
                 $output .= "        <trueanswernote>{$format->xml_escape($node->trueanswernote)}</trueanswernote>\n";
-                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat, $contextid, 'prtnodetruefeedback', $node->id, '        ');
+                $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat,
+                                $contextid, 'prtnodetruefeedback', $node->id, '        ');
                 $output .= "        <falsescoremode>{$node->falsescoremode}</falsescoremode>\n";
                 $output .= "        <falsescore>{$node->falsescore}</falsescore>\n";
                 $output .= "        <falsepenalty>{$node->falsepenalty}</falsepenalty>\n";
                 $output .= "        <falsenextnode>{$node->falsenextnode}</falsenextnode>\n";
                 $output .= "        <falseanswernote>{$format->xml_escape($node->falseanswernote)}</falseanswernote>\n";
-                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat, $contextid, 'prtnodefalsefeedback', $node->id, '        ');
+                $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat,
+                                $contextid, 'prtnodefalsefeedback', $node->id, '        ');
                 $output .= "      </node>\n";
             }
 

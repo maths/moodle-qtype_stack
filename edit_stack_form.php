@@ -674,7 +674,7 @@ class qtype_stack_edit_form extends question_edit_form {
                     }
                 }
             }
-            foreach (array('true','false') as $branch) {
+            foreach (array('true', 'false') as $branch) {
                 foreach ($fromform[$prtname.$branch.'feedback'] as $key => $strin) {
                     $feedback = new stack_cas_text($strin['text'], null, null, 't');
                     if (!$feedback->get_valid()) {

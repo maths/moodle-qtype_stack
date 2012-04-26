@@ -48,8 +48,8 @@ class stack_question_test_result {
      public $inputdisplayed;
 
      /**
-     * @var array input name => the input statues. One of the stack_input::STATUS_... constants.
-     */
+      * @var array input name => the input statues. One of the stack_input::STATUS_... constants.
+      */
      public $inputstatuses;
 
      /**

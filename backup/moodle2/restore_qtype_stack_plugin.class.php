@@ -202,7 +202,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         // If the question is being created, save this input.
         if ($questioncreated) {
-        $data->questionid = $this->get_new_parentid('question');
+            $data->questionid = $this->get_new_parentid('question');
             $data->testcase = $this->currenttestcase;
             $DB->insert_record('qtype_stack_qtest_expected', $data, false);
         }

@@ -156,8 +156,7 @@ if (!$question->has_random_variants()) {
             $choice,
             $qn->get_question_summary(),
         );
-    
-    
+
     }
 
     echo html_writer::tag('p', get_string('deployedvariantoptions', 'qtype_stack'));

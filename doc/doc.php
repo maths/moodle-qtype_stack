@@ -99,7 +99,8 @@ $linkstr  = implode(' | ', $linkstrs);
 
 if ('Site_map' == $lastseg) {
     $body .= $linkstr;
-    $body .= '<h3>' .  stack_string('stackDoc_directoryStructure', 'stack') . '</h3>' . index($moodleroot . $docs, $webdocs); // assumes at a file in /
+    $body .= '<h3>' .  stack_string('stackDoc_directoryStructure', 'stack') . '</h3>';
+    $body .= index($moodleroot . $docs, $webdocs); // assumes at a file in /
 } else {
     if ('' == $lastseg) {
         $doc = 'index.md';
@@ -111,8 +112,6 @@ if ('Site_map' == $lastseg) {
 
     if (!file_exists($file)) {
         $header= 'HTTP/1.0 404 Not Found';
-        //error_log(date(DATE_ISO8601) . "\tE\t404 - Could not find $file, called from {$_SERVER['REQUEST_URI']} \n", 3, $docLog);
-        //$head =  stack_string('stackDoc_404', 'stack');
     }
 
     if (file_exists($file)) {
@@ -208,7 +207,6 @@ function do_display_math($text) {
 
 function _do_display_math_callback($matches) {
     $texblock = $matches[1];
-    # $texblock = htmlspecialchars(trim($texblock), ENT_NOQUOTES);
     $texblock = trim($texblock);
     $texblock = "$$ $texblock  $$";
     return "\n\n".$texblock."\n\n";

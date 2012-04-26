@@ -97,7 +97,7 @@ extends UnitTestCase {
         $this->assertEqual('a:1;', $at1->get_keyval_representation());
     }
 
-    public function test_string1(){
+    public function test_string1 (){
 
         $cs=array('s:"This is a string"');
         foreach ($cs as $s) {

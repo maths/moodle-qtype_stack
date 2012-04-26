@@ -67,4 +67,5 @@ if (!is_null($undeploy)) {
             array('questionid' => $question->id, 'courseid' => $courseid, 'seed' => $undeploy)));
 }
 
-redirect(new moodle_url('/question/type/stack/questiontestrun.php', array('questionid' => $question->id, 'courseid' => $courseid)));
+redirect(new moodle_url('/question/type/stack/questiontestrun.php',
+    array('questionid' => $question->id, 'courseid' => $courseid)));

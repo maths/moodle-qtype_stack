@@ -289,7 +289,7 @@ abstract class stack_input {
             if ('' == $answer->get_value()) {
                 $valid = false;
             } else {
-                $display = '\[ ' . $answer->get_display() . '. \]';
+                $display = '\[ ' . $answer->get_display() . ' \]';
             }
         }
 
@@ -318,9 +318,9 @@ abstract class stack_input {
     public abstract function render(stack_input_state $state, $fieldname, $readonly);
 
     /**
-     * Add this input the MoodleForm, but only used in questiontestform.php.  
-     * It enables the teacher to enter the data as a CAS variable where necessary when the student might get some 
-     * html page formatting help.  E.g. teachers will want to enter information into textareas input as a single list, or variable name representing a list, 
+     * Add this input the MoodleForm, but only used in questiontestform.php.
+     * It enables the teacher to enter the data as a CAS variable where necessary when the student might get some
+     * html page formatting help.  E.g. teachers will want to enter information into textareas input as a single list, or variable name representing a list,
      * and matrix elements as a single CAS variable, or using Maxima's syntax matrix([...]).
      * @param MoodleQuickForm $mform the form to add elements to.
      */
@@ -360,7 +360,7 @@ abstract class stack_input {
     }
 
     /**
-     * Transforms the student's input into a casstring if needed. 
+     * Transforms the student's input into a casstring if needed.
      * Most return the same as went in.
      *
      * @param array|string $in

@@ -462,7 +462,7 @@ $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many
 $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are those that are incorrect. {$a->m0} ';
 
-$string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as ';
+$string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as follows:';
 $string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 

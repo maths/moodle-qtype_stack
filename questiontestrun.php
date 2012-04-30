@@ -231,7 +231,7 @@ if (empty($testresults)) {
 
 if ($canedit) {
     echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-            array('questionid' => $question->id)), $addlabel, 'get');
+            array('courseid' => $courseid, 'questionid' => $question->id)), $addlabel, 'get');
 }
 
 foreach ($testresults as $key => $result) {

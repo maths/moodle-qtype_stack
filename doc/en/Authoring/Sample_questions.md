@@ -21,6 +21,16 @@ In this question a student is asked to find a cubic spline.  This question illus
 * Separate properties are established, i.e. the answer is a cubic, has the right end point values and correct derivatives at the end points.
 * Plots are incorporated, including a plot of a student's incorrect answer.
 
+### `odd-even.xml` ###
+
+In this question a student is asked to give examples of odd and even functions.
+
+* There are four separate parts.  Separate properties are established by each.
+* For two of the parts there are non-unique correct answers.
+* Feedback based on calculations of students' answers is included.
+
+
+
 # Other sources of questions #
 
 If you have materials you would like to release, please add the details here.

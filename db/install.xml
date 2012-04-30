@@ -154,8 +154,8 @@
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to question.id." PREVIOUS="id" NEXT="testcase"/>
         <FIELD NAME="testcase" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to qtype_stack_qtests.testcase." PREVIOUS="questionid" NEXT="prtname"/>
         <FIELD NAME="prtname" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name of the PRT for which these are the expected outcomes." PREVIOUS="testcase" NEXT="expectedscore"/>
-        <FIELD NAME="expectedscore" TYPE="number" LENGTH="12" NOTNULL="true" SEQUENCE="false" DECIMALS="7" COMMENT="The expected score." PREVIOUS="prtname" NEXT="expectedpenalty"/>
-        <FIELD NAME="expectedpenalty" TYPE="number" LENGTH="12" NOTNULL="true" SEQUENCE="false" DECIMALS="7" COMMENT="The expected penalty" PREVIOUS="expectedscore" NEXT="expectedanswernote"/>
+        <FIELD NAME="expectedscore" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected score." PREVIOUS="prtname" NEXT="expectedpenalty"/>
+        <FIELD NAME="expectedpenalty" TYPE="number" LENGTH="12" NOTNULL="false" SEQUENCE="false" DECIMALS="7" COMMENT="The expected penalty" PREVIOUS="expectedscore" NEXT="expectedanswernote"/>
         <FIELD NAME="expectedanswernote" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The expected answer note." PREVIOUS="expectedpenalty"/>
       </FIELDS>
       <KEYS>

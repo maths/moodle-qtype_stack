@@ -393,5 +393,31 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012033000, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2012043000) {
+
+        // Changing nullability of field expectedscore on table qtype_stack_qtest_expected to null
+        $table = new xmldb_table('qtype_stack_qtest_expected');
+        $field = new xmldb_field('expectedscore', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'prtname');
+
+        // Launch change of nullability for field expectedscore
+        $dbman->change_field_notnull($table, $field);
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012043000, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2012043001) {
+
+        // Changing nullability of field expectedpenalty on table qtype_stack_qtest_expected to null
+        $table = new xmldb_table('qtype_stack_qtest_expected');
+        $field = new xmldb_field('expectedpenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'expectedscore');
+
+        // Launch change of nullability for field expectedpenalty
+        $dbman->change_field_notnull($table, $field);
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012043001, 'qtype', 'stack');
+    }
+
     return true;
 }

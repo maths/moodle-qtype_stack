@@ -446,8 +446,16 @@ class qtype_stack extends question_type {
             $expected->questionid         = $questionid;
             $expected->testcase           = $testcase;
             $expected->prtname            = $prtname;
-            $expected->expectedscore      = $expectedresults->score;
-            $expected->expectedpenalty    = $expectedresults->penalty;
+            if ($expectedresults->score === '' || $expectedresults->score === null) {
+                $expected->expectedscore  = null;
+            } else {
+                $expected->expectedscore  = $expectedresults->score;
+            }
+            if ($expectedresults->penalty === '' || $expectedresults->penalty === null) {
+                $expected->expectedpenalty  = null;
+            } else {
+                $expected->expectedpenalty  = $expectedresults->penalty;
+            }
             $expected->expectedanswernote = $expectedresults->answernote[0];
             $DB->insert_record('qtype_stack_qtest_expected', $expected);
         }

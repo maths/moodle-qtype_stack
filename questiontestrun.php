@@ -213,7 +213,8 @@ echo html_writer::end_tag('div');
 // Display the general feedback, aka "Worked solution"
 $qa = new question_attempt($question, 0);
 echo $OUTPUT->heading(get_string('generalfeedback', 'qtype_stack'), 3);
-echo html_writer::tag('p', $question->format_generalfeedback($qa), array('class' => 'generalfeedback'));
+echo html_writer::tag('div', html_writer::tag('div', $question->format_generalfeedback($qa),
+        array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
 // Display the controls to add another question test.
 echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 2);

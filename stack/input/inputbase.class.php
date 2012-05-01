@@ -243,7 +243,7 @@ abstract class stack_input {
             $validator = '';
         }
 
-        if ('' === $sans) {
+        if ('' === $sans or false === $sans) {
             return new stack_input_state(self::BLANK, '', '', '', '');
         }
         $transformedanswer = $this->raw_input_to_maxima($sans);

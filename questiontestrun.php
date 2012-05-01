@@ -256,10 +256,14 @@ foreach ($testresults as $key => $result) {
     $inputstable->attributes['class'] = 'generaltable stacktestsuite';
 
     foreach ($result->get_input_states() as $inputname => $inputstate) {
+        $inputval = s($inputstate->input);
+        if (false === $inputstate->input) {
+            $inputval = '';
+        }
         $inputstable->data[] = array(
             s($inputname),
             s($inputstate->rawinput),
-            s($inputstate->input),
+            $inputval,
             $inputstate->display,
             get_string('inputstatusname' . $inputstate->status, 'qtype_stack'),
         );

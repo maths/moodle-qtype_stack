@@ -98,11 +98,9 @@ list_expression_numbers(4/2+x);
 list_expression_numbers(1/sin(2*x)); 
 [1,2]$ 
 
-filter(floatnump,0.5); 
-false$ 
-filter(floatnump,[0.5]); 
+sublist([0.5],floatnump); 
 [0.5]$ 
-filter(floatnump,[1,0.5]); 
+sublist([1,0.5],floatnump); 
 [0.5]$ 
 
 anyfloatex(0.5); 

@@ -135,7 +135,7 @@ The most important change is the decision to re-work STACK as a question type fo
 Key features
 
 * __Major difference:__ Integration into the quiz of Moodle 2.3 as a question type.
-* Support for Maxima up to 5.26.0.
+* Support for Maxima up to 5.27.0.
 * Documentation moved from the wiki to within the code base.
 * Move from CVS to GIT.
 

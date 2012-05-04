@@ -72,12 +72,6 @@ At this point STACK will be "ready" for use with students, although not all feat
 
 ## Future plans
 
-1. Find a way to make the answer test test-suite and input test test-suite available to question authors.
-3. A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
-4. Facility to import test-cases in-bulk as CSV (or something). Likewise export.
-5. Change unit tests to use PHPunit, which is the new standard in Moodle 2.3.
-6. If stack is installed on a site with a _ in the URL (e.g. http://localhost/moodle_head/) then plots do not work. Maxima seems to escape the _ to \_ for some reason.
-
 We have a dedicated page for [future plans](Future_plans.md).
 
 ---

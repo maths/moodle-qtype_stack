@@ -6,8 +6,11 @@ The following features are in approximate priority order.  Please contact the de
 
 * Introduce a variable so the maxima code "knows the attempt number".
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto)
-* Add a feature to display the Maxima form of an internal variable - useful for helping students.  (Aalto: contact Matti).
-* Move sample_questions into the language directory.
+* Find a way to make the answer test test-suite and input test test-suite available to question authors.
+* A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
+* Facility to import test-cases in-bulk as CSV (or something). Likewise export.
+* Change unit tests to use PHPunit, which is the new standard in Moodle 2.3.
+* If stack is installed on a site with a _ in the URL (e.g. http://localhost/moodle_head/) then plots do not work. Maxima seems to escape the _ to \_ for some reason.
 
 ### Existing bugs to confirm ###
 
@@ -17,7 +20,6 @@ The following features are in approximate priority order.  Please contact the de
 
 We need to consolidate all of these things.
 
-* Remove old wiki.
 * Upate forum.
 * Announcements on Moodle mailing lists.
 * Re-install demonstration servers.
@@ -31,6 +33,7 @@ We need to consolidate all of these things.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
+* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
 
 ## Features to add - possible self contained projects ##
 
@@ -44,7 +47,6 @@ We need to consolidate all of these things.
  * Package for scientific [units](../Authoring/Units.md), and a science answer test
  * Support for inequalities.  This includes real intervals and sets of real numbers.
 
-* Localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
 
 ## More speculative long terms plans ##
 

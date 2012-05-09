@@ -13,24 +13,15 @@ If you want to use MathJax with all themes of your moodle 2.x.x the easiest way 
 1. Admin -> Appearance -> Additional HTML -> Within HEAD
 2. Put the following script in it and save 
 
-<<<<<<< HEAD
 <pre>\<script type="text/x-mathjax-config"> MathJax.Hub.Config({
-=======
-<pre><script type="text/x-mathjax-config"> MathJax.Hub.Config({
->>>>>>> e4f6a1272be37690c01a2245c786d990aa66ebc8
         MMLorHTML: { prefer: "HTML" },
         tex2jax: {
             displayMath: [['$$', '$$'], ['\\[', '\\]']],
             inlineMath:  [['$',  '$' ], ['\\(', '\\)']]
         }
       });
-<<<<<<< HEAD
 \</script>
 \<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">\</script></pre>
-=======
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script></pre>
->>>>>>> e4f6a1272be37690c01a2245c786d990aa66ebc8
 
 Please note that this enables both types of LaTeX maths environments.
 

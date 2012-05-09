@@ -34,6 +34,8 @@ We need to consolidate all of these things.
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
 * Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
+* Feature in the edit forms to expand/fold away each PRT.
+* Add a button to the edit form to save and continue editing.
 
 ## Features to add - possible self contained projects ##
 

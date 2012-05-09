@@ -307,3 +307,5 @@ Quality control and  testing your question can be made easier by looking at [tes
 There are also sample questions for you to import are distributed with STACK.
 
 More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions.md).
+
+You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation.

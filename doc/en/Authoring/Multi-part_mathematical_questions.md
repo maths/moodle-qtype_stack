@@ -104,6 +104,8 @@ __Question variables:__
 
 __Question text__
 
+This text should be input directly in HTML mode.
+
      <p>Find the equation of the line tangent to @p@ at the point $x=@pt@$.</p>
      <p>1. Differentiate @p@ with respect to $x$. [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
      <p>2. Evaluate your derivative at $x=@pt@$. [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>

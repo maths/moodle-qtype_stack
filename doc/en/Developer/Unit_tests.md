@@ -36,4 +36,19 @@ To make sure this keeps working, please annotate all test classes with
      * @group qtype_stack
      */
 
+## Making the tests faster ##
+
+The tests will be very slow, because the Moodle PHPUnit integration keeps resetting
+the database state between each test, so you get no benefit from the cache. To
+get round that problem, you an use the option to connect to a different DB table
+for the cache. Put this in your phpunit.xml
+
+        <const name="QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE"   value="otherdb"/>
+        <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE"    value="pgsql"/> <!-- or mysqli -->
+        <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBLIBRARY" value="native"/>
+        <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBHOST"    value="WWW"/>
+        <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBNAME"    value="XXX"/>
+        <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER"    value="YYY"/>
+        <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS"    value="ZZZ"/>
+        <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX"  value="mdl_"/>
 

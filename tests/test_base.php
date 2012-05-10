@@ -50,6 +50,16 @@ class qtype_stack_testcase extends advanced_testcase {
         set_config('plotcommand',     QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,     'qtype_stack');
         set_config('casdebugging',    QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,    'qtype_stack');
 
+        if (QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE == 'otherdb') {
+            set_config('cascachedbtype',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE,    'qtype_stack');
+            set_config('cascachedblibrary', QTYPE_STACK_TEST_CONFIG_CASCACHEDBLIBRARY, 'qtype_stack');
+            set_config('cascachedbhost',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBHOST,    'qtype_stack');
+            set_config('cascachedbname',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBNAME,    'qtype_stack');
+            set_config('cascachedbuser',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER,    'qtype_stack');
+            set_config('cascachedbpass',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS,    'qtype_stack');
+            set_config('cascachedbprefix',  QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX,  'qtype_stack');
+        }
+
         if (stack_cas_configuration::maxima_bat_is_missing()) {
             stack_cas_configuration::create_maximalocal();
         }

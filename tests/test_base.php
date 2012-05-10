@@ -28,7 +28,9 @@ global $CFG;
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/installhelper.class.php');
 
 /**
- * Base class for Stack unit tests.
+ * Base class for Stack unit tests. If you subclass this class, then code that
+ * needs to call maxima will work (providing you have set up the neccessary
+ * defines in phpunit.xml.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -37,6 +39,15 @@ class qtype_stack_testcase extends advanced_testcase {
     public function setUp() {
         parent::setUp();
 
+        self::setup_test_maxima_connection();
+        $this->resetAfterTest();
+    }
+
+    /**
+     * Helper that sets up the maxima configuration. This allows maxima to be used
+     * from test classes that cannot subclass this one, for whatever reason.
+     */
+    public static function setup_test_maxima_connection() {
         if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')) {
             $this->markTestSkipped(
                     'To run the STACK unit tests, you must set up the Maxima configuration in phpunit.xml.');
@@ -63,7 +74,5 @@ class qtype_stack_testcase extends advanced_testcase {
         if (stack_cas_configuration::maxima_bat_is_missing()) {
             stack_cas_configuration::create_maximalocal();
         }
-
-        $this->resetAfterTest();
     }
 }

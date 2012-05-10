@@ -35,3 +35,4 @@ In this way, the teacher can record, within the question itself, how they expect
 _Note_: currently only the last Answer Note, not the whole path through the potential response tree, is examined.
 
 
+When you are done testing a question which uses randomization, you need to [deploy instances](Deploying.md) of it.

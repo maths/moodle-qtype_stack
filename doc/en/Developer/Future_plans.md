@@ -10,7 +10,6 @@ The following features are in approximate priority order.  Please contact the de
 * A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.
 * Change unit tests to use PHPunit, which is the new standard in Moodle 2.3.
-* If stack is installed on a site with a _ in the URL (e.g. http://localhost/moodle_head/) then plots do not work. Maxima seems to escape the _ to \_ for some reason.
 
 ### Existing bugs to confirm ###
 

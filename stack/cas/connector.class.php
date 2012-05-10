@@ -44,6 +44,18 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     protected $debug;
 
     /**
+     * @var bool whether $CFG->wwwroot contains any '_' characters. If so,
+     *      unpack will need to work-around a Maxima issue that replaces _ with \_ output.
+     */
+    protected $wwwroothasunderscores;
+
+    /** @var string strings to replace in relation to $wwwroothasunderscores. */
+    protected $wwwrootfixupfind;
+
+    /** @var string replacement strings in relation to $wwwroothasunderscores. */
+    protected $wwwrootfixupreplace;
+
+    /**
      * Create a Maxima connection.
      * @return stack_cas_connection the connection.
      */
@@ -141,6 +153,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $this->initcommand = $initcommand;
         $this->timeout     = $settings->castimeout;
         $this->debug       = $debuglog;
+        if (strpos($CFG->wwwroot, '_') !== false) {
+            $this->wwwroothasunderscores = true;
+            $this->wwwrootfixupfind = str_replace('_', '\_', $CFG->wwwroot);
+            $this->wwwrootfixupreplace = $CFG->wwwroot;
+        } else {
+            $this->wwwroothasunderscores = false;
+        }
     }
 
     /**
@@ -201,7 +220,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             } else {
                 $locals[$i]['error'] = '';
             }
-            // if theres a plot being returned
+            // If there are plots in the output.
             $plot = isset($locals[$i]['display']) ? substr_count($locals[$i]['display'], '<img') : 0;
             if ($plot > 0) {
                 //plots always contain errors, so remove
@@ -214,6 +233,11 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 // for latex mode, remove the mbox
                 // handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}
                 $locals[$i]['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $locals[$i]['display']);
+
+                if ($this->wwwroothasunderscores) {
+                    $locals[$i]['display'] = str_replace($this->wwwrootfixupfind,
+                            $this->wwwrootfixupreplace, $locals[$i]['display']);
+                }
             }
         }
         return $locals;

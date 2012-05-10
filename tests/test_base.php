@@ -36,13 +36,19 @@ require_once($CFG->dirroot . '/question/type/stack/stack/cas/installhelper.class
 class qtype_stack_testcase extends advanced_testcase {
     public function setUp() {
         parent::setUp();
-        set_config('platform',        'win',    'qtype_stack');
-        set_config('maximaversion',   '5.22.1', 'qtype_stack');
-        set_config('castimeout',      '1',      'qtype_stack');
-        set_config('casresultscache', 'db',     'qtype_stack');
-        set_config('maximacommand',   '',       'qtype_stack');
-        set_config('plotcommand',     '',       'qtype_stack');
-        set_config('casdebugging',    '0',      'qtype_stack');
+
+        if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')) {
+            $this->markTestSkipped(
+                    'To run the STACK unit tests, you must set up the Maxima configuration in phpunit.xml.');
+        }
+
+        set_config('platform',        QTYPE_STACK_TEST_CONFIG_PLATFORM,        'qtype_stack');
+        set_config('maximaversion',   QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION,   'qtype_stack');
+        set_config('castimeout',      QTYPE_STACK_TEST_CONFIG_CASTIMEOUT,      'qtype_stack');
+        set_config('casresultscache', QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE, 'qtype_stack');
+        set_config('maximacommand',   QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,   'qtype_stack');
+        set_config('plotcommand',     QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,     'qtype_stack');
+        set_config('casdebugging',    QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,    'qtype_stack');
 
         if (stack_cas_configuration::maxima_bat_is_missing()) {
             stack_cas_configuration::create_maximalocal();

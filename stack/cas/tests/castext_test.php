@@ -19,6 +19,10 @@ require_once(dirname(__FILE__) . '/../../../tests/test_base.php');
 require_once(dirname(__FILE__) . '/../castext.class.php');
 
 
+/**
+ * Unit tests for {@link stack_cas_text}.
+ * @group qtype_stack
+ */
 class stack_cas_text_test extends qtype_stack_testcase {
 
     public function get_valid($strin, $sa, $val, $disp) {
@@ -152,6 +156,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
 }
 
 
+/**
+ * Unit tests for {@link stack_cas_text}.
+ * @group qtype_stack
+ */
 class stack_cas_text_exception_test extends basic_testcase {
 
     public function test_exception_1() {

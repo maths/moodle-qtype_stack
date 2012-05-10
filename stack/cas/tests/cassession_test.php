@@ -18,6 +18,11 @@ require_once(dirname(__FILE__) . '/../../../locallib.php');
 require_once(dirname(__FILE__) . '/../../../tests/test_base.php');
 require_once(dirname(__FILE__) . '/../cassession.class.php');
 
+
+/**
+ * Unit tests for {@link stack_cas_session}.
+ * @group qtype_stack
+ */
 class stack_cas_session_test extends qtype_stack_testcase {
 
     public function get_valid($cs, $val) {
@@ -112,6 +117,10 @@ class stack_cas_session_test extends qtype_stack_testcase {
 }
 
 
+/**
+ * Unit tests for {@link stack_cas_session}.
+ * @group qtype_stack
+ */
 class stack_cas_session_exception_test extends qtype_stack_testcase {
 
     public function test_exception_1() {

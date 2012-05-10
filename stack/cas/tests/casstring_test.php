@@ -24,6 +24,10 @@ require_once(dirname(__FILE__) . '/../../../locallib.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 
 
+/**
+ * Unit tests for {@link stack_cas_casstring}.
+ * @group qtype_stack
+ */
 class stack_cas_casstring_test extends basic_testcase {
 
     public function get_valid($s, $st, $te) {
@@ -93,6 +97,11 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 }
 
+
+/**
+ * Unit tests for {@link stack_cas_casstring}.
+ * @group qtype_stack
+ */
 class stack_cas_casstring_exception_test extends basic_testcase {
 
     public function test_exception_1() {

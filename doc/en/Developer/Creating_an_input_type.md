@@ -15,7 +15,7 @@ called myinput. So, the folder will be question/type/stack/stack/input/myinput.
 Inside there, you should have two files:
 
 * myinput.class.php
-* simpletest/test.myinput.class.php - not strictly requried, but of course you
+* tests/myinput_test.php - not strictly requried, but of course you
 want to write unit tests for your new code.
 
 ## myinput.class.php ##

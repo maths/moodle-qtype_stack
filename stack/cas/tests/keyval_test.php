@@ -20,6 +20,10 @@ require_once(dirname(__FILE__) . '/../cassession.class.php');
 require_once(dirname(__FILE__) . '/../keyval.class.php');
 
 
+/**
+ * Unit tests for {@link stack_cas_keyval}.
+ * @group qtype_stack
+ */
 class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function get_valid($s, $val, $session) {
@@ -159,6 +163,11 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 }
 
+
+/**
+ * Unit tests for {@link stack_cas_keyval}.
+ * @group qtype_stack
+ */
 class stack_cas_keyval_exception_test extends basic_testcase {
     public function test_exception_1() {
         $this->setExpectedException('stack_exception');

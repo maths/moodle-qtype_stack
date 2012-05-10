@@ -29,7 +29,7 @@ require_once($CFG->libdir .'/tablelib.php');
 require_once(dirname(__FILE__) . '/locallib.php');
 require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
 require_once(dirname(__FILE__) . '/stack/input/factory.class.php');
-require_once(dirname(__FILE__) . '/stack/input/simpletest/fixtures.class.php');
+require_once(dirname(__FILE__) . '/stack/input/tests/fixtures.class.php');
 
 // Authentication.
 require_login();

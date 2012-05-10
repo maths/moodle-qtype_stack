@@ -86,7 +86,7 @@ class stack_input_state {
             case 'errors':
                 return $this->_errors;
             default:
-                throw new Exception('stack_input_state: unrecognised property name ' . $field);
+                throw new stack_exception('stack_input_state: unrecognised property name ' . $field);
         }
     }
 }

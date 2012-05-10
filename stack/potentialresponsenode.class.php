@@ -70,16 +70,16 @@ class stack_potentialresponse_node {
         if (is_a($sans, 'stack_cas_casstring')) {
             $this->sans        = $sans;
         } else {
-            throw new Exception('stack_potentialresponse_node: sans must be a stack_cas_casstring');
+            throw new stack_exception('stack_potentialresponse_node: sans must be a stack_cas_casstring');
         }
         if (is_a($tans, 'stack_cas_casstring')) {
             $this->tans        = $tans;
         } else {
-            throw new Exception('stack_potentialresponse_node: tans must be a stack_cas_casstring');
+            throw new stack_exception('stack_potentialresponse_node: tans must be a stack_cas_casstring');
         }
         $this->answertest  = $answertest;
         if (!is_bool($quiet)) {
-            throw new Exception('stack_potentialresponse_node: quiet must be a boolean.');
+            throw new stack_exception('stack_potentialresponse_node: quiet must be a boolean.');
         } else {
             $this->quiet        = $quiet;
         }
@@ -103,7 +103,7 @@ class stack_potentialresponse_node {
      */
     public function add_branch($trueorfalse, $mod, $score, $penalty, $nextnode, $feedback, $answernote) {
         if ($trueorfalse !== 0 && $trueorfalse !== 1) {
-            throw new Exception('stack_potentialresponse_node: branches can only be 0 or 1.');
+            throw new stack_exception('stack_potentialresponse_node: branches can only be 0 or 1.');
         }
 
         $this->branches[$trueorfalse] = array(
@@ -233,7 +233,7 @@ class stack_potentialresponse_node {
                 return $resultbranch['score'];
 
             default:
-                throw new Exception('stack_potentialresponse_node: update_score called ' .
+                throw new stack_exception('stack_potentialresponse_node: update_score called ' .
                         'with invalid score modificiation method: ' . $resultbranch['scoremodification']);
         }
     }

@@ -174,7 +174,7 @@ class stack_ans_test_controller {
                 break;
 
             default:
-                throw new Exception('stack_ans_test_controller: called with invalid answer test name: '.$anstest);
+                throw new stack_exception('stack_ans_test_controller: called with invalid answer test name: '.$anstest);
         }
 
     }

@@ -90,7 +90,7 @@ abstract class stack_input {
         $this->parameters = $this->get_parameters_defaults();
 
         if (!(null===$parameters || is_array($parameters))) {
-            throw new Exception('stack_input: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');
+            throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');
         }
 
         if (is_array($parameters)) {
@@ -115,7 +115,7 @@ abstract class stack_input {
      */
     public function set_parameter($parameter, $value) {
         if (!$this->is_parameter_used($parameter)) {
-            throw new Exception('stack_input: setting parameter ' . $parameter .
+            throw new stack_exception('stack_input: setting parameter ' . $parameter .
                     ' which does not exist for inputs of type ' . get_class($this));
         }
 
@@ -145,7 +145,7 @@ abstract class stack_input {
      */
     public function validate_parameter($parameter, $value) {
         if (!$this->is_parameter_used($parameter)) {
-            throw new Exception('stack_input: trying to validate parameter ' . $parameter .
+            throw new stack_exception('stack_input: trying to validate parameter ' . $parameter .
                     ' which does not exist for inputs of type ' . get_class($this));
         }
 
@@ -227,7 +227,7 @@ abstract class stack_input {
     public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys) {
 
         if (!is_a($options, 'stack_options')) {
-            throw new Exception('stack_input: validate_student_response: options not of class stack_options');
+            throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
         $localoptions = clone $options;
 

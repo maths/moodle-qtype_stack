@@ -139,7 +139,7 @@ class stack_cas_configuration {
         }
 
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
-            throw new Exception('Could not copy the Maxima batch file ' . $batchfilename .
+            throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
                     ' to location ' . $CFG->dataroot . '/stack/maxima.bat');
         }
     }
@@ -224,7 +224,7 @@ END;
 
         $fh = fopen(self::maximalocal_location(), 'w');
         if ($fh === false) {
-            throw new Exception('Failed to write Maxima configuration file.');
+            throw new stack_exception('Failed to write Maxima configuration file.');
         } else {
             fwrite($fh, self::generate_maximalocal_contents());
             fclose($fh);

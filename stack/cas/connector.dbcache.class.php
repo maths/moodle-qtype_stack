@@ -81,7 +81,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         }
 
         if ($data->command != $command) {
-            throw new Exception('stack_cas_connection_db_cache: the command found at hash key ' .
+            throw new stack_exception('stack_cas_connection_db_cache: the command found at hash key ' .
                     $cached->key . ' did not match what was expected.');
         }
 

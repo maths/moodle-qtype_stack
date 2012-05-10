@@ -53,15 +53,15 @@ class stack_answertest_general_cas extends stack_anstest {
         parent::__construct($sans, $tans, $options, $casoption);
 
         if (!is_bool($processcasoptions)) {
-            throw new Exception('stack_answertest_general_cas: processcasoptions, must be Boolean.');
+            throw new stack_exception('stack_answertest_general_cas: processcasoptions, must be Boolean.');
         }
 
         if (!is_bool($requiredoptions)) {
-            throw new Exception('stack_answertest_general_cas: requiredoptions, must be Boolean.');
+            throw new stack_exception('stack_answertest_general_cas: requiredoptions, must be Boolean.');
         }
 
         if (!(null===$options || is_a($options, 'stack_options'))) {
-            throw new Exception('stack_answertest_general_cas: options must be stack_options or null.');
+            throw new stack_exception('stack_answertest_general_cas: options must be stack_options or null.');
         }
 
         $this->casfunction       = $casfunction;

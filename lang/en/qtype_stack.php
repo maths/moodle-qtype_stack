@@ -32,6 +32,7 @@ $string['pluginnamesummary'] = 'STACK provides mathematical questions for the mo
 // general strings
 $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';
+$string['exceptionmessage'] = '{$a}';
 
 // Strings used on the editing form
 $string['addanothernode'] = 'Add another node';

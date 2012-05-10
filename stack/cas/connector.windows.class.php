@@ -27,7 +27,7 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
     protected function guess_maxima_command($path) {
         $cmd = $path . '/maxima.bat';
         if (!is_readable($cmd)) {
-            throw new Exception("stack_cas_connection: maxima launch script {$cmd} does not exist.");
+            throw new stack_exception("stack_cas_connection: maxima launch script {$cmd} does not exist.");
         }
         return $cmd;
     }
@@ -46,7 +46,7 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
 
         $casprocess = proc_open($cmd, $descriptors, $pipes);
         if (!is_resource($casprocess)) {
-            throw new Exception('stack_cas_connection: Could not open a CAS process.');
+            throw new stack_exception('stack_cas_connection: Could not open a CAS process.');
         }
 
         if (!fwrite($pipes[0], $this->initcommand)) {

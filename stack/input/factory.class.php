@@ -65,12 +65,12 @@ class stack_input_factory {
         $class = "stack_{$typelc}_input";
 
         if (!is_readable($file)) {
-            throw new Exception('stack_input_factory: unknown input type ' . $type);
+            throw new stack_exception('stack_input_factory: unknown input type ' . $type);
         }
         include_once($file);
 
         if (!class_exists($class)) {
-            throw new Exception('stack_input_factory: input type ' . $type .
+            throw new stack_exception('stack_input_factory: input type ' . $type .
                     ' does not define the expected class ' . $class);
         }
         return $class;

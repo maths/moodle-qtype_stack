@@ -79,7 +79,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 break;
 
             default:
-                throw new Exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
+                throw new stack_exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
         }
 
         switch (self::$config->casresultscache) {

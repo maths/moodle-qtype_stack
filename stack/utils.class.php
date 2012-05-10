@@ -121,7 +121,7 @@ class stack_utils {
      * Static class. You cannot create instances.
      */
     private function __construct() {
-        throw new Exception('stack_utils: you cannot create instances of this class.');
+        throw new stack_exception('stack_utils: you cannot create instances of this class.');
     }
 
     /**
@@ -292,7 +292,7 @@ class stack_utils {
         $rightcount = substr_count($string, $right);
         $replacecount = count($replacements);
         if ($left != $right && $leftcount != $rightcount) {
-            throw new Exception('replace_between: delimiters don\'t match.');
+            throw new stack_exception('replace_between: delimiters don\'t match.');
         }
 
         $result = '';
@@ -315,7 +315,7 @@ class stack_utils {
                     if ($skipempty && $empty) {
                         // Do nothing.
                     } else if (!isset($replacements[$matches])) {
-                        throw new Exception('replace_between: not enough replacements.');
+                        throw new stack_exception('replace_between: not enough replacements.');
                     } else {
                         $result .= $replacements[$matches];
                         $matches++;
@@ -328,7 +328,7 @@ class stack_utils {
             $i++;
         }
         if ($matches != count($replacements)) {
-            throw new Exception('replace_between: too many replacements.');
+            throw new stack_exception('replace_between: too many replacements.');
         }
         return $result;
     }

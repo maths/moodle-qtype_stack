@@ -56,7 +56,7 @@ class stack_potentialresponse_tree {
         $this->description = $description;
 
         if (!is_bool($simplify)) {
-            throw new Exception('stack_potentialresponse_tree: __construct: simplify must be a boolean.');
+            throw new stack_exception('stack_potentialresponse_tree: __construct: simplify must be a boolean.');
         } else {
             $this->simplify = $simplify;
         }
@@ -66,7 +66,7 @@ class stack_potentialresponse_tree {
         if (is_a($feedbackvariables, 'stack_cas_session') || null===$feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
         } else {
-            throw new Exception('stack_potentialresponse_tree: __construct: ' .
+            throw new stack_exception('stack_potentialresponse_tree: __construct: ' .
                     'expects $feedbackvariables to be null or a stack_cas_session.');
         }
 
@@ -74,13 +74,13 @@ class stack_potentialresponse_tree {
             $nodes = array();
         }
         if (!is_array($nodes)) {
-            throw new Exception ('stack_potentialresponse_tree: __construct: ' .
+            throw new stack_exception('stack_potentialresponse_tree: __construct: ' .
                     'attempting to construct a potential response tree with potential ' .
                     'responses which are not an array of stack_potentialresponse');
         }
         foreach ($nodes as $node) {
             if (!is_a($node, 'stack_potentialresponse_node')) {
-                throw new Exception ('stack_potentialresponse_tree: __construct: ' .
+                throw new stack_exception ('stack_potentialresponse_tree: __construct: ' .
                         'attempting to construct a potential response tree with potential ' .
                         'responses which are not stack_potentialresponse');
             }
@@ -143,7 +143,7 @@ class stack_potentialresponse_tree {
     public function evaluate_response($questionvars, $options, $answers, $seed) {
 
         if (empty($this->nodes)) {
-            throw new Exception ('stack_potentialresponse_tree: evaluate_response ' .
+            throw new stack_exception('stack_potentialresponse_tree: evaluate_response ' .
                     'attempting to traverse an empty tree. Something is wrong here.');
         }
 
@@ -159,7 +159,7 @@ class stack_potentialresponse_tree {
         while ($nodekey != -1) {
 
             if (!array_key_exists($nodekey, $this->nodes)) {
-                throw new Exception('stack_potentialresponse_tree: ' .
+                throw new stack_exception('stack_potentialresponse_tree: ' .
                         'evaluate_response: attempted to jump to a potential response ' .
                         'which does not exist in this question.  This is a question ' .
                         'authoring/validation problem.');

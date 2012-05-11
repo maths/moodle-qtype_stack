@@ -276,7 +276,7 @@ You will also need to update the question note to be
 
 ## Question tests ##
 
-Testing questions it time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
+Testing questions is time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
 
 From the question preview window, click on `Run the question tests...` link in the top right of the page.
 
@@ -293,6 +293,8 @@ The system will automatically evaluate `diff(p,v)` to create `ans1` and then mar
 
 You can add as many tests as you think is needed, and it is usually a sensible idea to add one for each case you anticipate.  Here it would be sensible to test if the student has integrated by mistake.
 
+If your question uses randomisation, then you need to [deploy instances](Deploying.md) of it before you can present it to students. This is done via the deployment interface on the top of the testing page.
+
 # Next steps #
 
 STACK's question type is very flexible.
@@ -308,4 +310,4 @@ There are also sample questions for you to import are distributed with STACK.
 
 More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions.md).
 
-You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation.
+You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and functions. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate commands quickly.

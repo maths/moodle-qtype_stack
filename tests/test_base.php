@@ -35,7 +35,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/cas/installhelper.class
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_stack_testcase extends advanced_testcase {
+abstract class qtype_stack_testcase extends advanced_testcase {
     public function setUp() {
         parent::setUp();
 

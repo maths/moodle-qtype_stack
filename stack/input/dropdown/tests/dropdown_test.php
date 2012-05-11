@@ -33,5 +33,9 @@ require_once(dirname(__FILE__) . '/../../factory.class.php');
  * @group qtype_stack
  */
 class stack_dropdown_input_test extends basic_testcase {
-
+    public function test_methods_reqired() {
+        // TODO write some tests. In the mean time, We need at least one
+        // method or PHPUnit reports a failure.
+        $this->assertTrue(true);
+    }
 }

@@ -23,6 +23,8 @@ We assume a certain amount of knowledge about Maxima when writing STACK question
 
 * Basic information on using [Maxima](Maxima.md) with STACK.
 
+A graphical interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can be helpful for getting aquainted with Maxima's syntax and functions.
+
 ## Reference material on Maxima in STACK   {#reference}
 
 Information on specific mathematical topics are found below

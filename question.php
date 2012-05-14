@@ -271,7 +271,10 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function get_question_summary() {
-        return $this->questionnoteinstantiated;
+        if ('' !== $this->questionnoteinstantiated) {
+            return $this->questionnoteinstantiated;
+        }
+        return parent::get_question_summary();
     }
 
     public function summarise_response(array $response) {

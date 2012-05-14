@@ -32,7 +32,7 @@ class stack_boolean_input extends stack_input {
         parent::__construct($name, $teacheranswer, $parameters);
     }
 
-    protected function get_choices() {
+    public static function get_choices() {
         return array(
             self::F => stack_string('false'),
             self::T => stack_string('true'),
@@ -47,12 +47,12 @@ class stack_boolean_input extends stack_input {
             $attributes['disabled'] = 'disabled';
         }
 
-        return html_writer::select($this->get_choices(), $fieldname,
+        return html_writer::select(self::get_choices(), $fieldname,
                 $state->contents, '', $attributes);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('select', $this->name, $this->name, $this->get_choices());
+        $mform->addElement('select', $this->name, $this->name, self::get_choices());
     }
 
     /**

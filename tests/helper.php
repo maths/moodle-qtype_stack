@@ -213,7 +213,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
-        $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans1)+ans1', null, null, 't');
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null, 't');
         $sans = new stack_cas_casstring('sa');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('0');
@@ -224,7 +224,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
-        $feedbackvars = new stack_cas_keyval('sa = subst(x=-x,ans2)-ans2', null, null, 't');
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null, 't');
         $sans = new stack_cas_casstring('sa');
         $tans->get_valid('t');
         $tans = new stack_cas_casstring('0');
@@ -235,7 +235,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
-        $feedbackvars = new stack_cas_keyval('sa1 = ans3+subst(x=-x,ans3); sa2 = ans3-subst(x=-x,ans3)');
+        $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
 
         $sans = new stack_cas_casstring('sa1');
         $sans->get_valid('t');

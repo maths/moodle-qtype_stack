@@ -280,8 +280,9 @@ class qtype_stack_question extends question_graded_automatically {
     public function summarise_response(array $response) {
         $bits = array();
         foreach ($this->inputs as $name => $notused) {
-            if (array_key_exists($name, $response)) {
-                $bits[] = $name . ': ' . $response[$name];
+            $state = $this->get_input_state($name, $response);
+            if (stack_input::BLANK != $state->status) {
+                $bits[] = $name . ': ' . $response[$name] . ' [' . $state->status . ']';
             }
         }
         return implode('; ', $bits);

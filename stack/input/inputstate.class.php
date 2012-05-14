@@ -22,7 +22,7 @@ require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
 /**
  * This class represents the current state of an input.
  *
- * @property-read string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
+ * @property-read string $status one of the constants stack_input::BLANK, stack_input::INVALID, ...
  * @property-read string $contents the current contents of the input.
  * @property-read string $contentsmodified CAS string as modified by the input routines.  E.g. *s inserted.
  * @property-read string $contentsdisplayed how Stack interpreted the current contents of the input.

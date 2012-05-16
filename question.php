@@ -161,6 +161,27 @@ class qtype_stack_question extends question_graded_automatically {
         $this->prtresults = array();
     }
 
+    /**
+     * @return bool do any of the inputs in this question require the student
+     *      validat the input.
+     */
+    protected function any_inputs_require_validation() {
+        foreach ($this->inputs as $name => $input) {
+            if ($input->requires_validation()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
+        if ($preferredbehaviour == 'deferredfeedback' && $this->any_inputs_require_validation()) {
+            return question_engine::make_behaviour('dfexplicitvaildate', $qa, $preferredbehaviour);
+        }
+
+        return parent::make_behaviour($qa, $preferredbehaviour);
+    }
+
     public function start_attempt(question_attempt_step $step, $variant) {
 
         // Work out the right seed to use.
@@ -200,28 +221,28 @@ class qtype_stack_question extends question_graded_automatically {
         // 3. CAS bits inside the question text.
         $questiontext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
         if ($questiontext->get_errors()) {
-            throw new Exception('qtype_stack_question : Error in the the question text: ' .
+            throw new stack_exception('qtype_stack_question : Error in the the question text: ' .
                     $questiontext->get_errors());
         }
 
         // 4. CAS bits inside the specific feedback.
         $feedbacktext = new stack_cas_text($this->specificfeedback, $session, $this->seed, 't', false, true);
         if ($questiontext->get_errors()) {
-            throw new Exception('qtype_stack_question : Error in the feedback text: ' .
+            throw new stack_exception('qtype_stack_question : Error in the feedback text: ' .
                     $feedbacktext->get_errors());
         }
 
         // 5. CAS bits inside the question note.
         $notetext = new stack_cas_text($this->questionnote,  $session, $this->seed, 't', false, true);
         if ($questiontext->get_errors()) {
-            throw new Exception('qtype_stack_question : Error in the question note: ' .
+            throw new stack_exception('qtype_stack_question : Error in the question note: ' .
                     $notetext->get_errors());
         }
 
         // Now instantiate the session:
         $session->instantiate();
         if ($session->get_errors()) {
-            throw new Exception('qtype_stack_question : CAS error when instantiating the session: ' .
+            throw new stack_exception('qtype_stack_question : CAS error when instantiating the session: ' .
             $session->get_errors($this->user_can_edit()));
         }
 
@@ -252,7 +273,7 @@ class qtype_stack_question extends question_graded_automatically {
         $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, true);
 
         if ($gftext->get_errors()) {
-            throw new Exception('Error rendering the general feedback text: ' . $qtext->get_errors());
+            throw new stack_exception('Error rendering the general feedback text: ' . $qtext->get_errors());
         }
 
         return $this->format_text($gftext->get_display_castext(), $this->generalfeedbackformat,
@@ -271,14 +292,18 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function get_question_summary() {
-        return $this->questionnoteinstantiated;
+        if ('' !== $this->questionnoteinstantiated) {
+            return $this->questionnoteinstantiated;
+        }
+        return parent::get_question_summary();
     }
 
     public function summarise_response(array $response) {
         $bits = array();
         foreach ($this->inputs as $name => $notused) {
-            if (array_key_exists($name, $response)) {
-                $bits[] = $name . ': ' . $response[$name];
+            $state = $this->get_input_state($name, $response);
+            if (stack_input::BLANK != $state->status) {
+                $bits[] = $name . ': ' . $response[$name] . ' [' . $state->status . ']';
             }
         }
         return implode('; ', $bits);
@@ -288,13 +313,16 @@ class qtype_stack_question extends question_graded_automatically {
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
             $teacheranswer[$name] = $input->maxima_to_raw_input($this->session->get_casstring_key($name));
+            if ($input->requires_validation()) {
+                $teacheranswer[$name . '_val'] = $teacheranswer[$name];
+            }
         }
 
         return $teacheranswer;
     }
 
     public function is_same_response(array $prevresponse, array $newresponse) {
-        foreach ($this->inputs as $name => $input) {
+        foreach ($this->get_expected_data() as $name => $notused) {
             if (!question_utils::arrays_same_at_key_missing_is_blank(
                     $prevresponse, $newresponse, $name)) {
                 return false;
@@ -338,24 +366,13 @@ class qtype_stack_question extends question_graded_automatically {
     }
 
     public function is_gradable_response(array $response) {
-        // The following code requires all *inputs* to be non-empty and valid.
-        $allblank = true;
-        foreach ($this->inputs as $name => $input) {
-            $status = $this->get_input_state($name, $response)->status;
-            if (stack_input::INVALID == $status) {
-                return false;
-            }
-            $allblank = $allblank && ($status == stack_input::BLANK);
-        }
-        return !$allblank;
-        /*
-        // I think this is closer to the mark....
-        $anyprtgradable = false;
+        // If any PRT is gradable, then we can grade the question.
         foreach ($this->prts as $index => $prt) {
-            $anyprtgradable = $anyprtgradable || $this->can_execute_prt($prt, $response);
+            if ($this->can_execute_prt($prt, $response, true)) {
+                return true;
+            }
         }
-        return $anyprtgradable;
-        */
+        return false;
     }
 
     public function get_validation_error(array $response) {
@@ -367,7 +384,7 @@ class qtype_stack_question extends question_graded_automatically {
         $fraction = 0;
 
         foreach ($this->prts as $index => $prt) {
-            $results = $this->get_prt_result($index, $response);
+            $results = $this->get_prt_result($index, $response, true);
             $fraction += $results['fraction'];
         }
         return array($fraction, question_state::graded_state_for_fraction($fraction));
@@ -377,11 +394,16 @@ class qtype_stack_question extends question_graded_automatically {
      * Do we have all the necessary inputs to execute one of the potential response trees?
      * @param stack_potentialresponse_tree $prt the tree in question.
      * @param array $response the response.
+     * @param bool $acceptvalid if this is true, then we will grade things even
+     *      if the corresponding inputs are only VALID, and not SCORE.
      * @return bool can this PRT be executed for that response.
      */
-    protected function can_execute_prt(stack_potentialresponse_tree $prt, $response) {
+    protected function can_execute_prt(stack_potentialresponse_tree $prt, $response, $acceptvalid) {
         foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
-            if (stack_input::SCORE != $this->get_input_state($name, $response)->status) {
+            $status = $this->get_input_state($name, $response)->status;
+            if (stack_input::SCORE == $status || ($acceptvalid && stack_input::VALID == $status)) {
+                // This input is in an OK state.
+            } else {
                 return false;
             }
         }
@@ -392,29 +414,21 @@ class qtype_stack_question extends question_graded_automatically {
      * Evaluate a PRT for a particular response.
      * @param string $index the index of the PRT to evaluate.
      * @param array $response the response to process.
+     * @param bool $acceptvalid if this is true, then we will grade things even
+     *      if the corresponding inputs are only VALID, and not SCORE.
      * @return array the result from $prt->evaluate_response(), or a fake array
      *      if the tree cannot be executed.
      */
-    public function get_prt_result($index, $response) {
+    public function get_prt_result($index, $response, $acceptvalid) {
         $this->validate_cache($response);
 
         if (array_key_exists($index, $this->prtresults)) {
             return $this->prtresults[$index];
         }
 
-        // Make sure we use modified inputs
-        $modifiedresponse = array();
-        foreach ($response as $name => $val) {
-            if (array_key_exists($name, $this->inputstates)) {
-                $modifiedresponse[$name] = $this->inputstates[$name]->contentsmodified;
-            }
-        }
-
         $prt = $this->prts[$index];
-        if ($this->can_execute_prt($prt, $response)) {
-            $this->prtresults[$index] = $prt->evaluate_response(
-                    $this->session, $this->options, $modifiedresponse, $this->seed);
-        } else {
+
+        if (!$this->can_execute_prt($prt, $response, $acceptvalid)) {
             $this->prtresults[$index] = array(
                 'feedback'   => '',
                 'answernote' => null,
@@ -424,7 +438,20 @@ class qtype_stack_question extends question_graded_automatically {
                 'penalty'    => null,
                 'fraction'   => null,
             );
+            return $this->prtresults[$index];
         }
+
+        // Make sure we use modified inputs
+        $modifiedresponse = array();
+        foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
+            $state = $this->get_input_state($name, $response);
+            if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
+                $modifiedresponse[$name] = $state->contentsmodified;
+            }
+        }
+
+        $this->prtresults[$index] = $prt->evaluate_response(
+                $this->session, $this->options, $modifiedresponse, $this->seed);
 
         return $this->prtresults[$index];
     }

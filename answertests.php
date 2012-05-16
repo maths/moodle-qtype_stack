@@ -33,7 +33,7 @@ require_once($CFG->libdir .'/tablelib.php');
 require_once(dirname(__FILE__) . '/locallib.php');
 require_once(dirname(__FILE__) . '/stack/options.class.php');
 require_once(dirname(__FILE__) . '/stack/answertest/controller.class.php');
-require_once(dirname(__FILE__) . '/stack/answertest/simpletest/fixtures.class.php');
+require_once(dirname(__FILE__) . '/stack/answertest/tests/fixtures.class.php');
 
 
 $anstest = optional_param('anstest', '', PARAM_ALPHA);

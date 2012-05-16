@@ -82,14 +82,14 @@ class stack_cas_session {
         } else if (is_a($options, 'stack_options')) {
             $this->options = $options;
         } else {
-            throw new Exception('stack_cas_session: $options must be stack_options.');
+            throw new stack_exception('stack_cas_session: $options must be stack_options.');
         }
 
         if (!($seed === null)) {
             if (is_int($seed)) {
                 $this->seed = $seed;
             } else {
-                throw new Exception('stack_cas_session: $seed must be a number.  Got "'.$seed.'"');
+                throw new stack_exception('stack_cas_session: $seed must be a number.  Got "'.$seed.'"');
             }
         } else {
             $this->seed = time();
@@ -135,7 +135,7 @@ class stack_cas_session {
                     $this->errors .= $val->get_errors();
                 }
             } else {
-                throw new Exception('stack_cas_session: $session must be null or an array of stack_cas_casstring.');
+                throw new stack_exception('stack_cas_session: $session must be null or an array of stack_cas_casstring.');
             }
         }
         return $valid;
@@ -259,7 +259,7 @@ class stack_cas_session {
         }
         foreach ($vars as $var) {
             if (!is_a($var, 'stack_cas_casstring')) {
-                throw new Exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
+                throw new stack_exception('stack_cas_session: trying to add a non-stack_cas_casstring to an existing session.');
             }
 
             $this->instantiated = null;
@@ -282,7 +282,7 @@ class stack_cas_session {
             $this->add_vars($incoming->get_session()); // This method resets errors and instantiated fields.
             $this->valid        = null;
         } else {
-            throw new Exception('stack_cas_session: merge_session expects its argument to be a stack_cas_session');
+            throw new stack_exception('stack_cas_session: merge_session expects its argument to be a stack_cas_session');
         }
     }
 
@@ -380,7 +380,7 @@ class stack_cas_session {
 
     public function prune_session($len) {
         if (!is_int($len)) {
-            throw new Exception('stack_cas_session: prune_session $len must be an integer.');
+            throw new stack_exception('stack_cas_session: prune_session $len must be an integer.');
         }
         $new_session = array_slice($this->session, 0, $len);
         $this->session = $new_session;

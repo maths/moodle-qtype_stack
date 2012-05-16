@@ -177,7 +177,7 @@ class stack_cas_casstring {
         $this->valid          =  null;  // If NULL then the validate command has not yet been run....
 
         if (!is_string($this->rawcasstring)) {
-            throw new Exception('stack_cas_casstring: rawstring must be a string.');
+            throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
 
     }
@@ -190,15 +190,15 @@ class stack_cas_casstring {
     public function validate($security='s', $syntax=true, $insertstars=false) {
 
         if (!('s'===$security || 't'===$security)) {
-            throw new Exception('stack_cas_casstring: security level, must be "s" or "t" only.');
+            throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
         }
 
         if (!is_bool($syntax)) {
-            throw new Exception('stack_cas_casstring: syntax, must be Boolean.');
+            throw new stack_exception('stack_cas_casstring: syntax, must be Boolean.');
         }
 
         if (!is_bool($insertstars)) {
-            throw new Exception('stack_cas_casstring: insertstars, must be Boolean.');
+            throw new stack_exception('stack_cas_casstring: insertstars, must be Boolean.');
         }
 
         $this->valid     = true;

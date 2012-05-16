@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+
+/**
+ * Base class for all the types of exception we throw.
+ */
+class stack_exception extends moodle_exception {
+    public function __construct($error) {
+        parent::__construct('exceptionmessage', 'qtype_stack', '', $error);
+    }
+}
+
 function stack_string($key, $a = null) {
     return get_string($key, 'qtype_stack', $a);
 }

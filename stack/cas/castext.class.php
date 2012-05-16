@@ -46,7 +46,7 @@ class stack_cas_text {
     public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
         if (!is_string($rawcastext)) {
-            throw new Exception('stack_cas_text: raw_castext must be a STRING.');
+            throw new stack_exception('stack_cas_text: raw_castext must be a STRING.');
         } else {
             $this->rawcastext   = $rawcastext;
         }
@@ -54,7 +54,7 @@ class stack_cas_text {
         if (is_a($session, 'stack_cas_session') || null===$session) {
             $this->session      = $session;
         } else {
-            throw new Exception('stack_cas_text constructor expects $session to be a stack_cas_session.');
+            throw new stack_exception('stack_cas_text constructor expects $session to be a stack_cas_session.');
         }
 
         if (is_int($seed)) {
@@ -62,19 +62,19 @@ class stack_cas_text {
         } else if ($seed === null) {
             $this->seed = time();
         } else {
-            throw new Exception('stack_cas_text: $seed must be a number (or null).');
+            throw new stack_exception('stack_cas_text: $seed must be a number (or null).');
         }
 
         if (!('s'===$security || 't'===$security)) {
-            throw new Exception('stack_cas_text: 4th argument, security level, must be "s" or "t" only.');
+            throw new stack_exception('stack_cas_text: 4th argument, security level, must be "s" or "t" only.');
         }
 
         if (!is_bool($syntax)) {
-            throw new Exception('stack_cas_text: 5th argument, stringSyntax, must be Boolean.');
+            throw new stack_exception('stack_cas_text: 5th argument, stringSyntax, must be Boolean.');
         }
 
         if (!is_bool($insertstars)) {
-            throw new Exception('stack_cas_text: 6th argument, insertStars, must be Boolean.');
+            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be Boolean.');
         }
 
         $this->security  = $security; // by default, student

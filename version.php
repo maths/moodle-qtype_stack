@@ -24,9 +24,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2012043001;
-$plugin->requires = 2012020200;
-$plugin->cron = 0;
-
+$plugin->version   = 2012051600;
+$plugin->requires  = 2012020200;
+$plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->maturity  = MATURITY_ALPHA;
+
+$plugin->dependencies = array(
+    'qbehaviour_dfexplicitvaildate' => 2012051600
+);

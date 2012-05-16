@@ -49,7 +49,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         $casprocess = proc_open($this->command, $descriptors, $pipes, $cwd, $env);
 
         if (!is_resource($casprocess)) {
-            throw new Exception('stack_cas_connection: could not open a CAS process');
+            throw new stack_exception('stack_cas_connection: could not open a CAS process');
         }
 
         if (!fwrite($pipes[0], $this->initcommand)) {

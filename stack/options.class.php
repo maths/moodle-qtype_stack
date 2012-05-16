@@ -88,13 +88,13 @@ class stack_options {
         );
 
         if (!is_array($settings)) {
-            throw new Exception('stack_options: $settings must be an array.');
+            throw new stack_exception('stack_options: $settings must be an array.');
         }
 
         // Overright them from any input
         foreach ($settings as $key => $val) {
             if (!array_key_exists($key, $this->settings)) {
-                throw new Exception('stack_options construct: $key '.$key.' is not a valid option name.');
+                throw new stack_exception('stack_options construct: $key '.$key.' is not a valid option name.');
             } else {
                 $this->options[$key] = $val;
             }
@@ -107,13 +107,13 @@ class stack_options {
      */
     private function validate_key($key, $val) {
         if (!array_key_exists($key, $this->options)) {
-            throw new Exception('stack_options set_option: $key '.$key.' is not a valid option name.');
+            throw new stack_exception('stack_options set_option: $key '.$key.' is not a valid option name.');
         }
         $optiontype = $this->options[$key]['type'];
         switch($optiontype) {
             case 'boolean':
                 if (!is_bool($val)) {
-                    throw new Exception('stack_options: set: boolean option '.$key.' Recieved non-boolean value '.$val);
+                    throw new stack_exception('stack_options: set: boolean option '.$key.' Recieved non-boolean value '.$val);
                 }
                 break;
 
@@ -127,7 +127,7 @@ class stack_options {
 
             case 'list':
                 if (!in_array($val, $this->options[$key]['values'])) {
-                    throw new Exception('stack_options set option '.$val.' for '.$key.' is invalid');
+                    throw new stack_exception('stack_options set option '.$val.' for '.$key.' is invalid');
                 }
                 break;
         }
@@ -136,7 +136,7 @@ class stack_options {
 
     public function get_option($key) {
         if (!array_key_exists($key, $this->options)) {
-            throw new Exception('stack_options get_option: $key '.$key.' is not a valid option name.');
+            throw new stack_exception('stack_options get_option: $key '.$key.' is not a valid option name.');
         } else {
             return $this->options[$key]['value'];
         }

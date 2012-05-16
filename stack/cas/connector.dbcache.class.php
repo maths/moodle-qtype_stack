@@ -28,16 +28,18 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     /** @var stack_debug_log does the debugging. */
     protected $debug;
 
+    /** @var moodle_database The database connection to use for the cache. */
+    protected $db;
+
     /**
      * Constructor.
      * @param stack_cas_connection $rawconnection the un-cached connection.
      * @param stack_debug_log $debuglog the debug log to use.
      */
-    public function __construct(stack_cas_connection $rawconnection, stack_debug_log $debuglog) {
-        global $DB;
-
+    public function __construct(stack_cas_connection $rawconnection, stack_debug_log $debuglog, moodle_database $db) {
         $this->rawconnection = $rawconnection;
         $this->debug = $debuglog;
+        $this->db = $db;
     }
 
     /* @see stack_cas_connection::compute() */
@@ -69,19 +71,17 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
      *      ->key, the hashed key used to index this result.
      */
     protected function get_cached_result($command) {
-        global $DB;
-
         $cached = new stdClass();
         $cached->key = $this->get_cache_key($command);
 
-        $data = $DB->get_record('qtype_stack_cas_cache', array('hash' => $cached->key));
+        $data = $this->db->get_record('qtype_stack_cas_cache', array('hash' => $cached->key));
         if (!$data) {
             $cached->result = null;
             return $cached;
         }
 
         if ($data->command != $command) {
-            throw new Exception('stack_cas_connection_db_cache: the command found at hash key ' .
+            throw new stack_exception('stack_cas_connection_db_cache: the command found at hash key ' .
                     $cached->key . ' did not match what was expected.');
         }
 
@@ -96,8 +96,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
      * @param string $key the key used to store this command, if already known.
      */
     protected function add_to_cache($command, $result, $key = null) {
-        global $DB;
-
         if (is_null($key)) {
             $key = $this->get_cache_key($command);
         }
@@ -107,7 +105,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $data->command = $command;
         $data->result = json_encode($result);
 
-        if ($DB->record_exists('qtype_stack_cas_cache', array('hash' => $key))) {
+        if ($this->db->record_exists('qtype_stack_cas_cache', array('hash' => $key))) {
             // This will catch most . but not all, cases when two simulatneous
             // CAS connections try to cache the result of the same command.
             return;
@@ -115,7 +113,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
 
         // TODO but there is still a race-condition here. Find a good fix.
 
-        $DB->insert_record('qtype_stack_cas_cache', $data);
+        $this->db->insert_record('qtype_stack_cas_cache', $data);
     }
 
     /**
@@ -130,15 +128,13 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
      * Completely clear the cache.
      */
     public static function clear_cache() {
-        global $DB;
-        $DB->delete_records('qtype_stack_cas_cache');
+        $this->db->delete_records('qtype_stack_cas_cache');
     }
 
     /**
      * @return int the number of entries in the cache.
      */
     public static function entries_count() {
-        global $DB;
-        return $DB->count_records('qtype_stack_cas_cache');
+        return $this->db->count_records('qtype_stack_cas_cache');
     }
 }

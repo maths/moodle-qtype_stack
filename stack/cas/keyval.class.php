@@ -55,19 +55,19 @@ class stack_cas_keyval {
         $this->session      = new stack_cas_session(null, $options, $seed);
 
         if (!is_string($raw)) {
-            throw new Exception('stack_cas_keyval: raw must be a string.');
+            throw new stack_exception('stack_cas_keyval: raw must be a string.');
         }
 
         if (!('s'===$security || 't'===$security)) {
-            throw new Exception('stack_cas_keyval: 2nd argument, security level, must be "s" or "t" only.');
+            throw new stack_exception('stack_cas_keyval: 2nd argument, security level, must be "s" or "t" only.');
         }
 
         if (!is_bool($syntax)) {
-            throw new Exception('stack_cas_keyval: 3 argument, syntax, must be boolean.');
+            throw new stack_exception('stack_cas_keyval: 3 argument, syntax, must be boolean.');
         }
 
         if (!is_bool($stars)) {
-            throw new Exception('stack_cas_keyval: 6th argument, stars, must be boolean.');
+            throw new stack_exception('stack_cas_keyval: 6th argument, stars, must be boolean.');
         }
     }
 

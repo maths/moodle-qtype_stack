@@ -83,7 +83,7 @@ class stack_potentialresponse_tree_state {
             case 'penalty':
                 return $this->_penalty;
             default:
-                throw new Exception('stack_potentialresponse_tree_state: __get().  Unrecognised property name ' . $field);
+                throw new stack_exception('stack_potentialresponse_tree_state: __get().  Unrecognised property name ' . $field);
         }
     }
 

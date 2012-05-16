@@ -50,16 +50,17 @@ class qtype_stack_renderer extends qtype_renderer {
                     $input->render($state, $qa->get_qt_field_name($name), $options->readonly),
                     $questiontext);
 
-            $feedback = $this->input_validation($input->render_validation($state, $qa->get_qt_field_name($name)));
+            $feedback = $this->input_validation($name, $input->render_validation($state, $qa->get_qt_field_name($name)));
             $questiontext = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
         }
 
         foreach ($question->prts as $index => $prt) {
+            $feedback = '';
             if ($options->feedback) {
-                $result = $question->get_prt_result($index, $response);
-                $feedback = $this->prt_feedback($qa, $question, $result);
-            } else {
-                $feedback = '';
+                $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
+                if (!is_null($result['valid'])) {
+                    $feedback = $this->prt_feedback($index, $qa, $question, $result);
+                }
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
@@ -101,8 +102,11 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Replace any PRT feedback.
         foreach ($question->prts as $index => $prt) {
-            $result = $question->get_prt_result($index, $response);
-            $feedback = $this->prt_feedback($qa, $question, $result);
+            $feedback = '';
+            $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
+            if (!is_null($result['valid'])) {
+                $feedback = $this->prt_feedback($index, $qa, $question, $result);
+            }
             $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
         }
 
@@ -114,15 +118,16 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $feedback the raw feedback message from the intput element.
      * @return string Nicely formatted feedback, for display.
      */
-    protected function input_validation($feedback) {
-        return html_writer::nonempty_tag('div', $feedback, array('class' => 'stackinputfeedback'));
+    protected function input_validation($name, $feedback) {
+        return html_writer::nonempty_tag('div', $feedback,
+                array('class' => "stackinputfeedback stackinputfeedback-{$name}"));
     }
 
     /**
      * @param string $feedback the raw feedback message from the PRT.
      * @return string Nicely formatted feedback, for display.
      */
-    protected function prt_feedback($qa, $question, $result) {
+    protected function prt_feedback($name, $qa, $question, $result) {
         $err = '';
         if (array_key_exists('errors', $result)) {
             $err = $result['errors'];
@@ -132,7 +137,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         return html_writer::nonempty_tag('div',
                 $this->standard_prt_feedback($qa, $question, $result) . $err . $result['feedback'],
-                array('class' => 'stackprtfeedback'));
+                array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
     }
 
     protected function standard_prt_feedback($qa, $question, $result) {

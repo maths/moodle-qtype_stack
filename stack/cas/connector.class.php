@@ -55,13 +55,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string replacement strings in relation to $wwwroothasunderscores. */
     protected $wwwrootfixupreplace;
 
+    /** @var moodle_database keeps the connection to the 'otherdb' if we are using that option. */
+    protected static $otherdb = null;
+
     /**
      * Create a Maxima connection.
      * @return stack_cas_connection the connection.
      */
     public static function make() {
         if (is_null(self::$config)) {
-            self::$config = get_config('qtype_stack');
+            self::$config = self::load_config();
         }
 
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
@@ -79,12 +82,17 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 break;
 
             default:
-                throw new Exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
+                throw new stack_exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
         }
 
         switch (self::$config->casresultscache) {
             case 'db':
-                $connection = new stack_cas_connection_db_cache($connection, $debuglog);
+                global $DB;
+                $connection = new stack_cas_connection_db_cache($connection, $debuglog, $DB);
+                break;
+
+            case 'otherdb':
+                $connection = new stack_cas_connection_db_cache($connection, $debuglog, self::get_other_db());
                 break;
 
             default:
@@ -92,6 +100,30 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         return $connection;
+    }
+
+    /**
+     * @return stdClass the configuration that affects the type of connection to use.
+     */
+    protected static function load_config() {
+        return get_config('qtype_stack');
+    }
+
+    /**
+     * Initialises the database connection for the 'otherdb' cache type.
+     * @return moodle_database the DB connection to use.
+     */
+    protected static function get_other_db() {
+        if (!is_null(self::$otherdb)) {
+            return self::$otherdb;
+        }
+
+        self::$otherdb = moodle_database::get_driver_instance(
+                self::$config->cascachedbtype, self::$config->cascachedblibrary);
+        self::$otherdb->connect(self::$config->cascachedbhost,
+                self::$config->cascachedbuser, self::$config->cascachedbpass,
+                self::$config->cascachedbname, self::$config->cascachedbprefix);
+        return self::$otherdb;
     }
 
     /* @see stack_cas_connection::compute() */

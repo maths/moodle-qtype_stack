@@ -55,11 +55,12 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         foreach ($question->prts as $index => $prt) {
+            $feedback = '';
             if ($options->feedback) {
-                $result = $question->get_prt_result($index, $response);
-                $feedback = $this->prt_feedback($index, $qa, $question, $result);
-            } else {
-                $feedback = '';
+                $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
+                if (!is_null($result['valid'])) {
+                    $feedback = $this->prt_feedback($index, $qa, $question, $result);
+                }
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
@@ -101,8 +102,11 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Replace any PRT feedback.
         foreach ($question->prts as $index => $prt) {
-            $result = $question->get_prt_result($index, $response);
-            $feedback = $this->prt_feedback($index, $qa, $question, $result);
+            $feedback = '';
+            $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
+            if (!is_null($result['valid'])) {
+                $feedback = $this->prt_feedback($index, $qa, $question, $result);
+            }
             $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
         }
 

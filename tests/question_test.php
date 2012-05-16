@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
+require_once(dirname(__FILE__) . '/test_base.php');
 
 
 /**
@@ -62,14 +62,15 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $q = $this->get_test_stack_question('test0');
         $q->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertEquals(array('ans1' => '2'), $q->get_correct_response());
+        $this->assertEquals(array('ans1' => '2', 'ans1_val' => '2'), $q->get_correct_response());
     }
 
     public function test_get_correct_response_test3() {
         $q = $this->get_test_stack_question('test3');
         $q->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertEquals(array('ans1' => 'x^3', 'ans2' => 'x^4', 'ans3' => '0', 'ans4' => 'true'),
+        $this->assertEquals(array('ans1' => 'x^3', 'ans2' => 'x^4', 'ans3' => '0', 'ans4' => 'true',
+            'ans1_val' => 'x^3', 'ans2_val' => 'x^4', 'ans3_val' => '0'),
                 $q->get_correct_response());
     }
 

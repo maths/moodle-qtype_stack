@@ -25,7 +25,7 @@
 global $CFG;
 require_once(dirname(__FILE__) . '/../../factory.class.php');
 require_once(dirname(__FILE__) . '/../boolean.class.php');
-require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
+require_once($CFG->dirroot . '/question/type/stack/tests/test_base.php');
 
 
 /**

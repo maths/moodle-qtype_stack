@@ -26,6 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/installhelper.class.php');
+require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
+
 
 /**
  * Base class for Stack unit tests. If you subclass this class, then code that
@@ -39,7 +41,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     public function setUp() {
         parent::setUp();
 
-        self::setup_test_maxima_connection();
+        self::setup_test_maxima_connection($this);
         $this->resetAfterTest();
     }
 
@@ -47,9 +49,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * Helper that sets up the maxima configuration. This allows maxima to be used
      * from test classes that cannot subclass this one, for whatever reason.
      */
-    public static function setup_test_maxima_connection() {
+    public static function setup_test_maxima_connection($testcase) {
         if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')) {
-            $this->markTestSkipped(
+            $testcase->markTestSkipped(
                     'To run the STACK unit tests, you must set up the Maxima configuration in phpunit.xml.');
         }
 
@@ -74,5 +76,97 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         if (stack_cas_configuration::maxima_bat_is_missing()) {
             stack_cas_configuration::create_maximalocal();
         }
+    }
+}
+
+
+/**
+ * Base class for Stack walkthrough tests.
+ *
+ * Sets up the Maxima connection, and provides some additional asserts.
+ *
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_test_base {
+    protected $currentoutput = null;
+
+    public function setUp() {
+        parent::setUp();
+        qtype_stack_testcase::setup_test_maxima_connection($this);
+        $this->resetAfterTest();
+    }
+
+    protected function render() {
+        $this->currentoutput = $this->quba->render_question($this->slot, $this->displayoptions);
+    }
+
+    protected function get_tag_matcher($tag, $attributes) {
+        return array(
+            'tag' => $tag,
+            'attributes' => $attributes,
+        );
+    }
+
+    protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
+        $attributes = array(
+            'type' => 'text',
+            'name' => $this->quba->get_field_prefix($this->slot) . $name,
+        );
+        if (!is_null($value)) {
+            $attributes['value'] = $value;
+        }
+        if (!$enabled) {
+            $attributes['readonly'] = 'readonly';
+        }
+        $matcher = $this->get_tag_matcher('input', $attributes);
+        $this->assertTag($matcher, $this->currentoutput,
+                'Looking for an input with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput);
+
+        if ($enabled) {
+            $matcher['attributes']['readonly'] = 'readonly';
+            $this->assertNotTag($matcher, $this->currentoutput,
+                    'input with attributes ' . html_writer::attributes($attributes) . ' should not be read-only in ' . $this->currentoutput);
+        }
+    }
+
+    protected function check_output_contains_input_validation($name = null) {
+        $class = 'stackinputfeedback';
+        if ($name) {
+            $class .= ' stackinputfeedback-' . $name;
+        }
+        $this->assertTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+                'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
+    }
+
+    protected function check_output_does_not_contain_input_validation($name = null) {
+        $class = 'stackinputfeedback';
+        if ($name) {
+            $class .= ' stackinputfeedback-' . $name;
+        }
+        $this->assertNotTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+                'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
+    }
+
+    protected function check_output_contains_prt_feedback($name = null) {
+        $class = 'stackprtfeedback';
+        if ($name) {
+            $class .= ' stackprtfeedback-' . $name;
+        }
+        $this->assertTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+                'PRT feedback for ' . $name . ' not found in ' . $this->currentoutput);
+    }
+
+    protected function check_output_does_not_contain_prt_feedback($name = null) {
+        $class = 'stackprtfeedback';
+        if ($name) {
+            $class .= ' stackprtfeedback-' . $name;
+        }
+        $this->assertNotTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+                'PRT feedback for ' . $name . ' should not be present in ' . $this->currentoutput);
+    }
+
+    protected function check_output_does_not_contain_stray_placeholders() {
+        $this->assertNotRegExp('~\[\[|\]\]~', $this->currentoutput, 'Not all placehoders were replaced.');
     }
 }

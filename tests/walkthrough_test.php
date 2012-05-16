@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(dirname(__FILE__) . '/test_base.php');
-require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 
 /**
@@ -39,31 +38,11 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
+class qtype_stack_walkthrough_test extends qtype_stack_walkthrough_test_base {
     public function setUp() {
         parent::setUp();
-        qtype_stack_testcase::setup_test_maxima_connection();
+        qtype_stack_testcase::setup_test_maxima_connection($this);
         $this->resetAfterTest();
-    }
-
-    protected function contains_input_validation() {
-        return new question_contains_tag_with_attributes('div', array('class' => 'stackinputfeedback'));
-    }
-
-    protected function does_not_contain_input_validation() {
-        return new question_does_not_contain_tag_with_attributes('div', array('class' => 'stackinputfeedback'));
-    }
-
-    protected function contains_prt_feedback() {
-        return new question_contains_tag_with_attributes('div', array('class' => 'stackprtfeedback'));
-    }
-
-    protected function does_not_contain_prt_feedback() {
-        return new question_does_not_contain_tag_with_attributes('div', array('class' => 'stackprtfeedback'));
-    }
-
-    protected function check_no_stray_placeholders() {
-        return new question_no_pattern_expectation('~\[\[|\]\]~');
     }
 
     public function test_adaptivefeedback_behaviour_test1_1() {
@@ -75,15 +54,16 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
                 new question_pattern_expectation('/Find/'),
-                $this->does_not_contain_input_validation(),
-                $this->does_not_contain_prt_feedback(),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation(),
-                $this->check_no_stray_placeholders()
+                $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -91,25 +71,22 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
 
         $this->check_current_mark(null);
-        $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            $this->contains_input_validation(),
-            $this->does_not_contain_prt_feedback(),
-            $this->check_no_stray_placeholders()
-        );
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit of the correct answer.
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
 
         // Verify.
         $this->check_current_mark(1);
-        $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            $this->contains_input_validation(),
-            $this->contains_prt_feedback(),
-            $this->check_no_stray_placeholders()
-        );
-
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
     }
 
     public function test_adaptivefeedback_behaviour_test1_2() {
@@ -119,51 +96,48 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
                 new question_pattern_expectation('/Find/'),
-                $this->does_not_contain_input_validation(),
-                $this->does_not_contain_prt_feedback(),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation(),
-                $this->check_no_stray_placeholders()
+                $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
 
         $this->check_current_mark(null);
-        $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            $this->contains_input_validation(),
-            $this->does_not_contain_prt_feedback(),
-            $this->check_no_stray_placeholders()
-        );
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit, but with a changed answer.
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
 
         $this->check_current_mark(null);
-        $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            $this->contains_input_validation(),
-            $this->does_not_contain_prt_feedback(),
-            $this->check_no_stray_placeholders()
-        );
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit with the correct answer.
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
 
         // Verify.
         $this->check_current_mark(1);
-        $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            $this->contains_input_validation(),
-            $this->contains_prt_feedback(),
-            $this->check_no_stray_placeholders()
-        );
-
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
     }
 
     public function test_adaptivefeedback_behaviour_test1_3() {
@@ -175,15 +149,16 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
                 new question_pattern_expectation('/Find/'),
-                $this->does_not_contain_input_validation(),
-                $this->does_not_contain_prt_feedback(),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation(),
-                $this->check_no_stray_placeholders()
+                $this->get_no_hint_visible_expectation()
         );
 
         // Process a validate request.
@@ -191,35 +166,36 @@ class qtype_stack_walkthrough_test extends qbehaviour_walkthrough_test_base {
         $this->process_submission(array('ans1' => 'n*(v-a)^(n-1', '-submit' => 1));
 
         $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            new question_pattern_expectation('/missing right/'),
-            $this->contains_input_validation(),
-            $this->does_not_contain_prt_feedback(),
-            $this->check_no_stray_placeholders()
+            new question_pattern_expectation('/missing right/')
         );
 
         // Valid answer.
         $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', '-submit' => 1));
 
         $this->check_current_mark(null);
-        $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            $this->contains_input_validation(),
-            $this->does_not_contain_prt_feedback(),
-            $this->check_no_stray_placeholders()
-        );
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
 
         // Submit known mistake - look for specific feedback.
         $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', 'ans1_val' => 'n*(v-a)^(n-1)', '-submit' => 1));
 
         $this->check_current_mark(0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_contains_tag_with_attributes('input', array('type' => 'text', 'name' => $this->quba->get_field_prefix($this->slot) . 'ans1')),
-            new question_pattern_expectation('/differentiated instead!/'),
-            $this->contains_input_validation(),
-            $this->contains_prt_feedback(),
-            $this->check_no_stray_placeholders()
+            new question_pattern_expectation('/differentiated instead!/')
         );
     }
 }

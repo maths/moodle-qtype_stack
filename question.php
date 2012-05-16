@@ -37,7 +37,7 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_stack_question extends question_graded_automatically {
+class qtype_stack_question extends question_graded_automatically_with_countback {
     const MARK_MODE_PENALTY = 'penalty';
     const MARK_MODE_FIRST = 'firstanswer';
     const MARK_MODE_LAST = 'lastanswer';
@@ -388,6 +388,14 @@ class qtype_stack_question extends question_graded_automatically {
             $fraction += $results['fraction'];
         }
         return array($fraction, question_state::graded_state_for_fraction($fraction));
+    }
+
+    public function compute_final_grade($responses, $totaltries) {
+        // This method is used by the interactive behaviour to compute the final
+        // grade after all the tries are done.
+
+        // TODO
+        return 0;
     }
 
     /**

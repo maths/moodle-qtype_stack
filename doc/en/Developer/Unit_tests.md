@@ -30,7 +30,7 @@ You also need to edit the line that says
 
             <directory suffix="_test.php">question/type/stack/tests</directory>
 
-to instead stay
+to instead say
 
             <directory suffix="_test.php">question/type/stack</directory>
 

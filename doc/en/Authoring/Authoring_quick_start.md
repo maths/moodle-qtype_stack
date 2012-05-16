@@ -310,4 +310,4 @@ There are also sample questions for you to import are distributed with STACK.
 
 More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions.md).
 
-You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and functions. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate commands quickly.
+You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.

@@ -36,10 +36,11 @@ class stack_dropdown_input extends stack_input {
             return array();
         }
 
-        $values = array_merge(
-                array('' => stack_string('notanswered')),
-                array_combine($values, $values));
-        return $values;
+        $choices = array('' => stack_string('notanswered'));
+        foreach ($values as $value) {
+            $choices[$value] = $value;
+        }
+        return $choices;
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
@@ -74,6 +75,7 @@ class stack_dropdown_input extends stack_input {
         return array(
             'mustVerify'   => false,
             'hideFeedback' => true,
+            'ddl_values'   => '',
         );
     }
 }

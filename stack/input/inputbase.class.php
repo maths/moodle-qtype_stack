@@ -87,7 +87,8 @@ abstract class stack_input {
     public function __construct($name, $teacheranswer, $parameters = null) {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
-        $this->parameters = $this->get_parameters_defaults();
+        $class = get_class($this);
+        $this->parameters = $class::get_parameters_defaults();
 
         if (!(null===$parameters || is_array($parameters))) {
             throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');

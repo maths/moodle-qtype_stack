@@ -26,6 +26,16 @@ You should probably copy the settings from Admin -> Plugins -> Question types ->
 however, you can use the flexibilty to have different configurations of STACK
 for testing in order to test a new release of Maxima, for example.
 
+You also need to edit the line that says
+
+            <directory suffix="_test.php">question/type/stack/tests</directory>
+
+to instead stay
+
+            <directory suffix="_test.php">question/type/stack</directory>
+
+(That is, delete "/tests".)
+
 If you want to run just the unit tests for STACK, you can use the command
 
     phpunit --group qtype_stack

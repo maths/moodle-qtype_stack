@@ -161,6 +161,27 @@ class qtype_stack_question extends question_graded_automatically {
         $this->prtresults = array();
     }
 
+    /**
+     * @return bool do any of the inputs in this question require the student
+     *      validat the input.
+     */
+    protected function any_inputs_require_validation() {
+        foreach ($this->inputs as $name => $input) {
+            if ($input->requires_validation()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
+        if ($preferredbehaviour == 'deferredfeedback' && $this->any_inputs_require_validation()) {
+            return question_engine::make_behaviour('dfexplicitvaildate', $qa, $preferredbehaviour);
+        }
+
+        return parent::make_behaviour($qa, $preferredbehaviour);
+    }
+
     public function start_attempt(question_attempt_step $step, $variant) {
 
         // Work out the right seed to use.

@@ -15,9 +15,9 @@ Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a sel
 installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and
 GNUPlot will install themselves in suitable directories.
 
-## 3. Add the Deferred feedback with explicit validation question behaviour question behaviour
+## 3. Add the Deferred feedback with explicit validation question behaviour
 
-STACK uses this question behaviour.
+STACK uses and requires this question behaviour.
 
 1. Obtain the code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfexplicitvaildate -> dfexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.

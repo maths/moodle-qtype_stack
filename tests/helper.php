@@ -219,8 +219,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('0');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
-        $node->add_branch(1, '=', 1, '', -1, '', 'odd-0-1');
+        $node->add_branch(0, '=', 0, 0.3333333, -1, 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
+        $node->add_branch(1, '=', 1, 0.3333333, -1, '', 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
@@ -230,8 +230,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('0');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
-        $node->add_branch(1, '=', 1, '', -1, '', 'odd-0-1');
+        $node->add_branch(0, '=', 0, 0.3333333, -1, 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
+        $node->add_branch(1, '=', 1, 0.3333333, -1, '', 'odd-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
@@ -251,9 +251,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('0');
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node1->add_branch(0, '+', 0,   '', -1,
+        $node1->add_branch(0, '+', 0,   0.3333333, -1,
                 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
-        $node1->add_branch(1, '+', 0.5, '', -1, '', 'EVEN');
+        $node1->add_branch(1, '+', 0.5, 0.3333333, -1, '', 'EVEN');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
                 '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1));
@@ -263,8 +263,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('true');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, '', -1, '', 'unique-0-0');
-        $node->add_branch(1, '=', 1, '', -1, '', 'unique-0-1');
+        $node->add_branch(0, '=', 0, 1, -1, '', 'unique-0-0');
+        $node->add_branch(1, '=', 1, 1, -1, '', 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node));
 

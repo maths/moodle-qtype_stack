@@ -324,6 +324,12 @@ class qtype_stack extends question_type {
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
+
+        // TODO This is a temporary hack, until we decide how we want hints to
+        // work for STACK questions. (Do we just implement hints like for other
+        // qtypes, but allowing the hint text to be CAS text?) This just gives
+        // every question a fixed three tries when run in interactive behaviour.
+        $question->hints = array(null, null);
     }
 
     public function delete_question($questionid, $contextid) {

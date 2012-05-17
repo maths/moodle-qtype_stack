@@ -390,12 +390,47 @@ class qtype_stack_question extends question_graded_automatically_with_countback 
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
 
+    protected function is_same_prt_input($index, $prtinput1, $prtinput2) {
+        foreach ($this->prts[$index]->get_required_variables(array_keys($this->inputs)) as $name) {
+            if (!question_utils::arrays_same_at_key_missing_is_blank($prtinput1, $prtinput2, $name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function compute_final_grade($responses, $totaltries) {
         // This method is used by the interactive behaviour to compute the final
         // grade after all the tries are done.
 
-        // TODO
-        return 0;
+        // At the moment, this method is not written as efficiently as it might
+        // be in terms of caching. For now I am happy it computes the right score.
+        // Once we are confident enough, we could try switching the nesting
+        // of the loops to increase efficiency.
+
+        $fraction = 0;
+        foreach ($this->prts as $index => $prt) {
+            $accumulatedpenalty = 0;
+            $lastinput = array();
+            $penaltytoapply = null;
+
+            foreach ($responses as $response) {
+                $prtinput = $this->get_prt_input($index, $response, true);
+
+                if (!$this->is_same_prt_input($index, $lastinput, $prtinput)) {
+                    $penaltytoapply = $accumulatedpenalty;
+                    $lastinput = $prtinput;
+                }
+
+                $results = $this->prts[$index]->evaluate_response($this->session,
+                        $this->options, $prtinput, $this->seed);
+
+                $accumulatedpenalty += $results['fractionalpenalty'];
+            }
+            $fraction += max($results['fraction'] - $penaltytoapply, 0);
+        }
+
+        return $fraction;
     }
 
     /**
@@ -416,6 +451,28 @@ class qtype_stack_question extends question_graded_automatically_with_countback 
             }
         }
         return true;
+    }
+
+    /**
+     * Extract the input for a given PRT from a full response.
+     * @param string $index the name of the PRT.
+     * @param array $response the full response data.
+     * @param bool $acceptvalid if this is true, then we will grade things even
+     *      if the corresponding inputs are only VALID, and not SCORE.
+     * @return array the input required by that PRT.
+     */
+    protected function get_prt_input($index, $response, $acceptvalid) {
+        $prt = $this->prts[$index];
+
+        $prtinput = array();
+        foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
+            $state = $this->get_input_state($name, $response);
+            if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
+                $prtinput[$name] = $state->contentsmodified;
+            }
+        }
+
+        return $prtinput;
     }
 
     /**
@@ -449,17 +506,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback 
             return $this->prtresults[$index];
         }
 
-        // Make sure we use modified inputs
-        $modifiedresponse = array();
-        foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
-            $state = $this->get_input_state($name, $response);
-            if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
-                $modifiedresponse[$name] = $state->contentsmodified;
-            }
-        }
+        $prtinput = $this->get_prt_input($index, $response, $acceptvalid);
 
-        $this->prtresults[$index] = $prt->evaluate_response(
-                $this->session, $this->options, $modifiedresponse, $this->seed);
+        $this->prtresults[$index] = $prt->evaluate_response($this->session,
+                $this->options, $prtinput, $this->seed);
 
         return $this->prtresults[$index];
     }

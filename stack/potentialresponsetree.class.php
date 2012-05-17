@@ -186,6 +186,7 @@ class stack_potentialresponse_tree {
         $res['score']      = $results->_score + 0; // Make sure these are PHP numbers.
         $res['penalty']    = $results->_penalty + 0;
         $res['fraction']   = $results->_score * $this->value;
+        $res['fractionalpenalty'] = $results->_penalty * $this->value;
 
         return $res;
     }

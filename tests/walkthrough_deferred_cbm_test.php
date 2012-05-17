@@ -16,7 +16,7 @@
 
 /**
  * This file contains tests that walk Stack questions through various sequences
- * of student interaction with deferred feedback behaviour.
+ * of student interaction with deferred feedback with CBM behaviour.
  *
  * @package   qtype_stack
  * @copyright 2012 The Open University
@@ -42,15 +42,15 @@ require_once(dirname(__FILE__) . '/test_base.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
+class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_answers_to_all_parts_and_stubmit() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $this->start_attempt_at_question($q, 'deferredfeedback', 4);
+        $this->start_attempt_at_question($q, 'deferredcbm', 12);
 
         // Check the right behaviour is used.
-        $this->assertEquals('dfexplicitvaildate', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals('dfcbmexplicitvaildate', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
@@ -69,7 +69,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Save a partially correct response.
+        // Save a partially correct response. No certainty, so low will be assumed.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false'));
 
         $this->check_current_state(question_state::$invalid);
@@ -119,7 +119,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
     public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $this->start_attempt_at_question($q, 'deferredfeedback', 4);
+        $this->start_attempt_at_question($q, 'deferredfeedback', 12);
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
@@ -138,15 +138,15 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Save a partially correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false'));
+        // Save a correct response, high certainty.
+        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true', '-certainty' => 3));
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
-        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_text_input('ans3', '0');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
@@ -154,22 +154,22 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
 
         // Save a confirmation this is valid.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', ));
+        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-certainty' => 3));
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
-        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_text_input('ans3', '0');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
@@ -177,7 +177,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -186,12 +186,12 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         // Submit all and finish.
         $this->quba->finish_all_questions();
 
-        $this->check_current_state(question_state::$gradedpartial);
-        $this->check_current_mark(2.5);
+        $this->check_current_state(question_state::$gradedright);
+        $this->check_current_mark(12);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);
-        $this->check_output_contains_text_input('ans3', 'x', false);
+        $this->check_output_contains_text_input('ans3', '0', false);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
@@ -202,7 +202,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
@@ -323,82 +323,16 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
     }
 
-    public function test_test3_save_partial_purely_invalid_response_then_stubmit() {
-        // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
-        $this->start_attempt_at_question($q, 'deferredfeedback', 4);
-
-        // Check the initial state.
-        $this->check_current_state(question_state::$todo);
-        $this->check_current_mark(null);
-        $this->render();
-        $this->check_output_contains_text_input('ans1');
-        $this->check_output_contains_text_input('ans2');
-        $this->check_output_contains_text_input('ans3');
-        $this->check_output_does_not_contain_input_validation();
-        $this->check_output_does_not_contain_prt_feedback();
-        $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-        );
-
-        // Save a partially correct response.
-        $this->process_submission(array('ans1' => '(x+', 'ans2' => '', 'ans3' => '', 'ans4' => ''));
-
-        $this->check_current_state(question_state::$todo);
-        $this->check_current_mark(null);
-        $this->render();
-        $this->check_output_contains_text_input('ans1', '(x+');
-        $this->check_output_contains_text_input('ans2', '');
-        $this->check_output_contains_text_input('ans3', '');
-        $this->check_output_contains_input_validation('ans1');
-        $this->check_output_does_not_contain_input_validation('ans2');
-        $this->check_output_does_not_contain_input_validation('ans3');
-        $this->check_output_does_not_contain_input_validation('ans4');
-        $this->check_output_does_not_contain_prt_feedback();
-        $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-        );
-
-        // Submit all and finish.
-        $this->quba->finish_all_questions();
-
-        $this->check_current_state(question_state::$gaveup);
-        $this->check_current_mark(null);
-        $this->render();
-        $this->check_output_contains_text_input('ans1', '(x+', false);
-        $this->check_output_contains_text_input('ans2', '', false);
-        $this->check_output_contains_text_input('ans3', '', false);
-        $this->check_output_contains_input_validation('ans1');
-        $this->check_output_does_not_contain_input_validation('ans2');
-        $this->check_output_does_not_contain_input_validation('ans3');
-        $this->check_output_does_not_contain_input_validation('ans4');
-        $this->check_output_does_not_contain_prt_feedback();
-        $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
-        );
-    }
-
     public function test_test0_no_validation_required() {
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
         $q = test_question_maker::make_question('stack', 'test0');
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '2', array('ddl_values' => '1,2'));
-        $this->start_attempt_at_question($q, 'deferredfeedback', 1);
+        $this->start_attempt_at_question($q, 'deferredcbm', 3);
 
         // Check the right behaviour is used.
-        $this->assertEquals('deferredfeedback', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->assertEquals('deferredcbm', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
@@ -414,8 +348,8 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Save a partially correct response.
-        $this->process_submission(array('ans1' => '2'));
+        // Save a correct response, medium certainty.
+        $this->process_submission(array('ans1' => '2', '-certainty' => 2));
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -434,7 +368,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->quba->finish_all_questions();
 
         $this->check_current_state(question_state::$gradedright);
-        $this->check_current_mark(1);
+        $this->check_current_mark(2);
         $this->render();
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_contains_prt_feedback('firsttree');

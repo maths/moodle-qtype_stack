@@ -29,6 +29,7 @@ require_once(dirname(__FILE__) . '/stack/input/factory.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/keyval.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
 require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
+require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
 
 
 /**
@@ -37,7 +38,8 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_stack_question extends question_graded_automatically_with_countback {
+class qtype_stack_question extends question_graded_automatically_with_countback
+        implements question_automatically_gradable_with_multiple_parts {
     const MARK_MODE_PENALTY = 'penalty';
     const MARK_MODE_FIRST   = 'firstanswer';
     const MARK_MODE_LAST    = 'lastanswer';
@@ -175,6 +177,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback 
     }
 
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
+        if ($preferredbehaviour == 'adaptive' || $preferredbehaviour == 'adaptivenopenalty') {
+            return question_engine::make_behaviour('adaptivemultipart', $qa, $preferredbehaviour);
+        }
+
         if ($preferredbehaviour == 'deferredfeedback' && $this->any_inputs_require_validation()) {
             return question_engine::make_behaviour('dfexplicitvaildate', $qa, $preferredbehaviour);
         }
@@ -403,6 +409,38 @@ class qtype_stack_question extends question_graded_automatically_with_countback 
         return true;
     }
 
+    public function grade_parts_that_can_be_graded(array $response, array $lastgradedresponses, $finalsubmit) {
+        $partresults = array();
+
+        // At the moment, this method is not written as efficiently as it might
+        // be in terms of caching. For now I will be happy it computes the right score.
+        // Once we are confident enough, we can try to optimise.
+
+        foreach ($this->prts as $index => $prt) {
+            if (array_key_exists($index, $lastgradedresponses)) {
+                $lastresponse = $lastgradedresponses[$index];
+            } else {
+                $lastresponse = array();
+            }
+
+            $lastinput = $this->get_prt_input($index, $lastresponse, $finalsubmit);
+            $prtinput = $this->get_prt_input($index, $response, $finalsubmit);
+
+            if ($this->is_same_prt_input($index, $lastinput, $prtinput)) {
+                continue;
+            }
+
+            $results = $this->prts[$index]->evaluate_response($this->session,
+                    $this->options, $prtinput, $this->seed);
+
+            // TODO check for errors.
+            $partresults[$index] = new qbehaviour_adaptivemultipart_part_result(
+                    $index, $results['value'], $results['score'], $results['penalty']);
+        }
+
+        return $partresults;
+    }
+
     public function compute_final_grade($responses, $totaltries) {
         // This method is used by the interactive behaviour to compute the final
         // grade after all the tries are done.
@@ -428,6 +466,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback 
 
                 $results = $this->prts[$index]->evaluate_response($this->session,
                         $this->options, $prtinput, $this->seed);
+                // TODO check for errors.
 
                 $accumulatedpenalty += $results['fractionalpenalty'];
             }

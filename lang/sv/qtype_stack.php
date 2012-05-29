@@ -121,3 +121,13 @@ $string['stackCas_spaces'] = 'Förbjudna mellanslag i uttrycket {$a->expr}.';
 $string['stackCas_unknownFunction'] = 'Obekant funktion: {$a->forbid}.';
 $string['stackDoc_404message'] = 'Filen hittades inte.';
 $string['true'] = 'Sant';
+$string['generalfeedback'] = 'Allmän feedback';
+$string['generalfeedbacktags'] = 'Allmän feedback får inte innehålla \'{$a}\'.';
+$string['healthcheck'] = 'STACK systemkontroll';
+$string['healthchecklatex'] = 'Kontrollera att LaTeX visas på rätt sätt';
+$string['healthcheck_desc'] = '<a href="{$a->link}">Systemkontrollskriptet</a> hjälper dig att kontrollera att alla apekter av STACK fungerar korrekt.';
+$string['prtcorrectfeedback'] = 'Standardfeedback för rätt svar';
+$string['specificfeedback'] = 'Specifik feedback';
+$string['specificfeedbacktags'] = 'Den specifika feedbacken får inte innehålla \'{$a}\'.';
+$string['testsuitecolexpectedscore'] = 'Förväntad poäng';
+

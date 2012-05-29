@@ -51,7 +51,7 @@ $PAGE->set_title($title);
 // Clear the cache if requested.
 if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
     require_sesskey();
-    stack_cas_connection_db_cache::clear_cache();
+    stack_cas_connection_db_cache::clear_cache($DB);
     redirect($PAGE->url);
 }
 
@@ -128,7 +128,7 @@ echo $OUTPUT->heading(stack_string('settingcasresultscache'), 3);
 echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
 if ('db' == $config->casresultscache) {
     echo html_writer::tag('p', stack_string('healthcheckcachestatus',
-            stack_cas_connection_db_cache::entries_count()));
+            stack_cas_connection_db_cache::entries_count($DB)));
     echo $OUTPUT->single_button(
             new moodle_url($PAGE->url, array('clearcache' => 1, 'sesskey' => sesskey())),
             stack_string('clearthecache'));

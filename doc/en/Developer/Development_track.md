@@ -49,9 +49,9 @@ At this point STACK will be "ready" for use with students, although not all feat
 3. Make STACK respect all Moodle behaviours.
  1. **DONE** Deferred feedback
  2. **DONE** Interactive
- 3. Deferred feedback with CBM
- 4. Immediate feedback
- 5. Immediate feedback with CBM
+ 3. **DONE** Deferred feedback with CBM
+ 4. **DONE** Immediate feedback
+ 5. **DONE** Immediate feedback with CBM - no unit tests, but if the others work, this one must.
 4. Add back in all input types, including dragmath/NUMBAS.
 5. Add sample_questions, and update question banks for STACK 3.0.
 6. Link the STACK documentation to Moodle's help icons on the editing form, etc.

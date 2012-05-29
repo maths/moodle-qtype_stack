@@ -126,15 +126,17 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
 
     /**
      * Completely clear the cache.
+     * @param moodle_database $db the database connection to use to access the cache.
      */
-    public static function clear_cache() {
-        $this->db->delete_records('qtype_stack_cas_cache');
+    public static function clear_cache($db) {
+        $db->delete_records('qtype_stack_cas_cache');
     }
 
     /**
+     * @param moodle_database $db the database connection to use to access the cache.
      * @return int the number of entries in the cache.
      */
-    public static function entries_count() {
-        return $this->db->count_records('qtype_stack_cas_cache');
+    public static function entries_count($db) {
+        return $db->count_records('qtype_stack_cas_cache');
     }
 }

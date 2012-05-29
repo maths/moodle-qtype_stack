@@ -146,6 +146,14 @@ class qtype_stack_edit_form extends question_edit_form {
         $prts = $this->question->prts;
         $prt = $prts[$prtname];
 
+	// If we add a new prt in the question stem, then $prt will be null, because there exists no element
+	// in $prts with name $prtname. It was impossible to uprade a single-part question to a multi-part
+	// question, so I added the following simple check to correct for this.
+
+        if (is_null($prt)) {
+            return array();
+        }
+
         $prt_nodes = array();
         foreach ($prt->nodes as $node) {
             $sans = new stack_cas_casstring($node->sans);

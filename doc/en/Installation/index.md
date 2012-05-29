@@ -15,11 +15,12 @@ Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a sel
 installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and
 GNUPlot will install themselves in suitable directories.
 
-## 3. Add the Deferred feedback with explicit validation question behaviour
+## 3. Add some additional question behaviours
 
-STACK uses and requires this question behaviour.
+STACK requries these.
 
-1. Obtain the code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfexplicitvaildate -> dfexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate`.
+1. Obtain Deferred feedback with explicit validation behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfexplicitvaildate -> dfexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate`.
+1. Obtain Deferred feedback with CBM and explicit validation behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfcbmexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfcbmexplicitvaildate -> dfcbmexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 4. Add the STACK question type
@@ -43,4 +44,3 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Developer/ImportingStack2Questions.md) before using it.
-

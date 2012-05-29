@@ -39,8 +39,8 @@ require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
  */
 class qtype_stack_question extends question_graded_automatically_with_countback {
     const MARK_MODE_PENALTY = 'penalty';
-    const MARK_MODE_FIRST = 'firstanswer';
-    const MARK_MODE_LAST = 'lastanswer';
+    const MARK_MODE_FIRST   = 'firstanswer';
+    const MARK_MODE_LAST    = 'lastanswer';
 
     /**
      * @var string STACK specific: variables, as authored by the teacher.
@@ -177,6 +177,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback 
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
         if ($preferredbehaviour == 'deferredfeedback' && $this->any_inputs_require_validation()) {
             return question_engine::make_behaviour('dfexplicitvaildate', $qa, $preferredbehaviour);
+        }
+
+        if ($preferredbehaviour == 'deferredcbm' && $this->any_inputs_require_validation()) {
+            return question_engine::make_behaviour('dfcbmexplicitvaildate', $qa, $preferredbehaviour);
         }
 
         return parent::make_behaviour($qa, $preferredbehaviour);

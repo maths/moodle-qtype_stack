@@ -1,6 +1,8 @@
 # Optimising Maxima
 
-***NOT TESTED IN VERSION 3.0***
+***NOT FULLY TESTED IN VERSION 3.0***
+
+The instructions for both CLISP and SBCL have been tested and work in STACK 3, but it is not clear how much they actually shorten access times, if at all. SBCL was tested with Maxima version 5.23.2 and CLISP with some Maxima version. The instructions do *not* seem to work with Maxma 5.27 as of 28 May 2012.
 
 There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling.
 
@@ -36,11 +38,11 @@ path(s) for the next step.
 	quit();
 ~~~~
 
-* Modify configured CAS command in **config.php** as below (checking you are editing casArray["**command**"] and not casArray["**cas**"]):
+* Modify configured CAS command in the moodle settings page to
 
-~~~~
-	$this->casArray["command"] = "lisp.run -q -M <path>/maxima-clisp.mem"; // was "maxima"
-~~~~
+~~~~~~
+	"maxima-sbcl"; // was "maxima"
+~~~~~~
 
 * Comment out the last line of `moodledata/stack/maximalocal.mac`, i.e. to:
 
@@ -55,14 +57,19 @@ Applying this to compiled Lisp versions - such as CMUCL - is being investigated.
 
 If you are using stack with sbcl (if you are using centos5/sl5/rhel5 with maxima from epel), use the following to generate a stand alone executable:
 
+~~~~
 	load("<path>/maximalocal.mac");
 	:lisp (sb-ext:save-lisp-and-die "maxima-sbcl" :toplevel #'run :executable t)
+~~~~
 
 * Modify configured CAS command in the moodle settings page to
+
 ~~~~~~
 	"maxima-sbcl"; // was "maxima"
 ~~~~~~
+
 * Comment out the last line of `moodledata/stack/maximalocal.mac`, i.e. to:
+
 ~~~~~
 	/* load("stackmaxima.mac")$ */
 ~~~~~

@@ -28,7 +28,7 @@ The principle is to [save an image](http://clisp.cons.org/impnotes/image.html) o
 is fairly straightforward with the following steps.
 
 * Check your Maxima Lisp with **maxima --list-avail** to see what Lisps you have to run Maxima.  We assume you have CLISP. Type **locate lisp.run** to find the
-path(s) for the next step.
+path(s) for the next step. You might need to run the command as root, and if you get no results try doing a **sudo updatedb**.
 * Load Maxima, using switches for a particular version if you need, e.g. **maxima -l CLISP -u 5.19.2**.
 * Within Maxima, type the following lines to create an image and exit.
 
@@ -41,7 +41,7 @@ path(s) for the next step.
 * Modify configured CAS command in the moodle settings page to
 
 ~~~~~~
-	"maxima-sbcl"; // was "maxima"
+	<path>/lisp.run -q -M <path>/maxima-clisp.mem
 ~~~~~~
 
 * Comment out the last line of `moodledata/stack/maximalocal.mac`, i.e. to:
@@ -65,7 +65,7 @@ If you are using stack with sbcl (if you are using centos5/sl5/rhel5 with maxima
 * Modify configured CAS command in the moodle settings page to
 
 ~~~~~~
-	"maxima-sbcl"; // was "maxima"
+	<path>/maxima-sbcl
 ~~~~~~
 
 * Comment out the last line of `moodledata/stack/maximalocal.mac`, i.e. to:

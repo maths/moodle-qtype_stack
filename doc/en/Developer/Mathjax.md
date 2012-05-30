@@ -27,10 +27,13 @@ Please note that this enables both types of LaTeX maths environments.
 
 ### Option 2: install MathJax locally. ###
 
-1. Download MathJax
-2. Rename folder "mathjax".
-3. Place the (mathjax) folder in .../moodle/lib
-4. Edit the script above to reflect your path to MathJax and repeat the above procedure.
+A local installation may be preferable, e.g., if you want your STACK-equipped Moodle to work off-line, or if you want to try to speed up LaTeX rendering.
+
+1. [Download MathJax](http://www.mathjax.org/download/)
+2. Unpack the archive and rename folder to "mathjax".
+3. Place the mathjax folder in .../moodle/lib and set appropriate ownership, e.g., `chown -R root.root mathjax`.
+4. Carry out the procedure in Option 1, editing the script above to reflect your path to MathJax. The last line can resemble the following:<br>
+`<script type="text/javascript" src="http://localhost/moodle/lib/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>`
 
 ### What about mathml? ###
 

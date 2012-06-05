@@ -50,9 +50,13 @@ class qtype_stack_question_test_form extends moodleform {
         // TODO I would really like to add a button here:
         // "Fill in the rest of the form to make a passing test"
         // but I am not quite sure how to do that easily.
+	//
+	// It seems $mform->createElement() does not print any labels for its interaction elements
+	// whereas $mform->addElement() does. This is a temporary workaround added here.
 
         // Expected outcome.
-        $mform->addElement('header', 'prtsheader', get_string('expectedoutcomes', 'qtype_stack'));
+        $mform->addElement('header', 'prtsheader', get_string('expectedoutcomes', 'qtype_stack') 
+		. ' ' . get_string('qtesthelp', 'qtype_stack'));
 
         foreach ($question->prts as $prtname => $prt) {
             $elements = array(

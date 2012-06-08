@@ -10,7 +10,7 @@ Once you have executed
 
     php admin/tool/phpunit/cli/init.php
 
-you need to edit the phpunit.xml file to add the following configuration information:
+you need to edit the phpunit.xml file to add the following configuration information within the body of the phpunit tags:
 
     <php>
         <const name="QTYPE_STACK_TEST_CONFIG_PLATFORM"        value="win"/>

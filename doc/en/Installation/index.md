@@ -20,8 +20,8 @@ GNUPlot will install themselves in suitable directories.
 STACK requries these.
 
 1. Obtain Deferred feedback with explicit validation behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfexplicitvaildate -> dfexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate`.
-1. Obtain Deferred feedback with CBM and explicit validation behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfcbmexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfcbmexplicitvaildate -> dfcbmexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate`.
-2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
+2. Obtain Deferred feedback with CBM and explicit validation behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfcbmexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfcbmexplicitvaildate -> dfcbmexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate`.
+3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 4. Add the STACK question type
 
@@ -32,7 +32,7 @@ STACK is a question type for the moodle quiz.
 3. As the admin user, navigate to `Home > Site administration > Plugins > Question types > Stack`.  Please choose and save the appropriate options.
 4. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
 
-You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK.
+You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK. You might want to try [optimising Maxima](../CAS/Optimising_Maxima.md) access times.
 
 You should now have a question type available to the moodle quiz.
 
@@ -44,4 +44,3 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Developer/ImportingStack2Questions.md) before using it.
-

@@ -32,6 +32,18 @@ The command you need may well not be enabled since you should use one STACK prov
 
 Details of how to load STACK functions into a command line Maxima session are given in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
 
+## How can I confirm my student's answer is fully simplified? ##
+
+The philosophy of STACK is to establish properties of the student's answer.  "Simplify" is an ambiguous notion.
+For example, $1$ is simpler than $2^0$ but $2^{2^{10}}$ is probably simpler than writing the integer it represents in decimals.  Everyone would agree that $x+2$ is simpler than $\frac{x^2-4}{x-2}$, but we might argue that the first expression below is simpler.
+\[ \frac{x^{12}-1}{x-1} =  x^{11}+x^{10}+x^9+x^8+x^7+x^6+x^5+x^4+x^3+x^2+x+1.\]
+
+Simplify is often taken implicitly to mean "the shortest equivalent expression", but this issue is often not discussed.  
+
+To avoid these problems, STACK expects teachers to specify the properties they want.  For example, if you want the factored form you should test for this, not describe it as "simplified".
+
+In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_tests.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.  
+
 ## How can I change which Maxima functions STACK allows? ##
 
 This is a job for a developer.

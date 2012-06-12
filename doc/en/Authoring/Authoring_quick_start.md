@@ -306,7 +306,7 @@ STACK's question type is very flexible.
 You might like to look at the entry for [feedback](Feedback.md).
 Quality control and  testing your question can be made easier by looking at [testing](Testing.md).
 
-There are also sample questions for you to import are distributed with STACK.
+There are also sample questions for you to [import](ImportExport.md) are distributed with STACK.
 
 More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions.md).
 

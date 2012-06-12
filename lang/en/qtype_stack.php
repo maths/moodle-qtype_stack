@@ -37,14 +37,14 @@ $string['exceptionmessage'] = '{$a}';
 // Strings used on the editing form
 $string['addanothernode'] = 'Add another node';
 $string['answernote'] = 'Answer note';
-$string['answernote_err'] = 'Answer notes may not contain the character |.  This is inserted by STACK and is later used to split answer notes automatically.';
+$string['answernote_err'] = 'Answer notes may not contain the character |.  This character is inserted by STACK and is later used to split answer notes automatically.';
 $string['answernote_help'] = 'This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.';
 $string['answernote_link'] = 'question/type/stack/doc/doc.php/Authoring/Potential_response_trees.md#Answer_note';
 $string['assumepositive'] = 'Assume postitive';
 $string['assumepositive_help'] = 'This option sets the value of Maxima\'s assume_pos variable.';
 $string['assumepositive_link'] = 'question/type/stack/doc/doc.php/Authoring/Options.md#Assume_Positive';
 $string['autosimplify'] = 'Auto-simplify';
-$string['autosimplify_help'] = 'Sets the variable "simp" within Maxim for this potential response tree.';
+$string['autosimplify_help'] = 'Sets the variable "simp" within Maxima for this potential response tree.';
 $string['autosimplify_link'] = 'question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
@@ -120,9 +120,9 @@ $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random versions of a question. Two question versions are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
 $string['questionnote_link'] = 'question/type/stack/doc/doc.php/Authoring/Question_note.md';
 $string['questionnotetags'] = 'The question note must not contain the token(s) \'{$a}\'.';
-$string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  This is used to distinguish between different random versions of the question.';
+$string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  The question note is used to distinguish between different random versions of the question.';
 $string['questionsimplify'] = 'Question-level simplify';
-$string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxim for the whole question.';
+$string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
 $string['questionsimplify_link'] = 'question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['questiontext'] = 'Question text';
 $string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
@@ -198,7 +198,7 @@ $string['settingplatformmaximacommand_desc'] = 'Stack needs to know the shell co
 $string['settingplatformplotcommand'] = 'Plot command';
 $string['settingplatformplotcommand_desc'] = 'Stack needs to know the gnuplot command.  If this is blank, Stack will make an educated guess.';
 
-// Strings used by interation elements
+// Strings used by interaction elements
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';

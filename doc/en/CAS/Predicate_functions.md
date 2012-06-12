@@ -41,6 +41,7 @@ The following type predicates are defined by STACK.
 # STACK general predicates #
 
 The following are defined by STACK.
+
 | Function              | Predicate
 | --------------------- | ------------------------------------------------------------------------------------------------
 | `element_listp(ex,l)` | `true` if `ex` is an element of the _list_ \(l\).  (Sets have `elementp`, but lists don't)

@@ -409,6 +409,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return true;
     }
 
+    public function get_parts_and_weights() {
+        $weights = array();
+        foreach ($this->prts as $index => $prt) {
+            $weights[$index] = $prt->get_value();
+        }
+        return $weights;
+    }
+
     public function grade_parts_that_can_be_graded(array $response, array $lastgradedresponses, $finalsubmit) {
         $partresults = array();
 
@@ -435,7 +443,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             // TODO check for errors.
             $partresults[$index] = new qbehaviour_adaptivemultipart_part_result(
-                    $index, $results['value'], $results['score'], $results['penalty']);
+                    $index, $results['score'], $results['penalty']);
         }
 
         return $partresults;

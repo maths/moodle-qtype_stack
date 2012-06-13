@@ -16,7 +16,7 @@
 
 /**
  * This file contains tests that walk Stack questions through various sequences
- * of student interaction using the immediate feedback behaviour.
+ * of student interaction with different behaviours.
  *
  * @package   qtype_stack
  * @copyright 2012 The Open University
@@ -32,93 +32,174 @@ require_once(dirname(__FILE__) . '/test_base.php');
 
 
 /**
- * Unit tests for the Stack question type with the immediate feedback behaviour.
+ * Unit tests for the Stack question type.
  *
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_base {
+class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
-    public function test_test3_partially_right_then_right() {
+    public function test_test1_validate_then_submit_right_first_time() {
+
+        // Create the stack question 'test1'.
+        $q = test_question_maker::make_question('stack', 'test1');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Find/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Process a validate request.
+        // Notice here we get away with including single letter question variables in the answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_mark(1);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_test1_validate_wrong_validate_right_submit_right() {
+
+        $q = test_question_maker::make_question('stack', 'test1');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Find/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit, but with a changed answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit with the correct answer.
+        $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_mark(1);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_test1_invalid_valid_but_wrong_with_specific_feedback() {
+
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
-        $this->start_attempt_at_question($q, 'immediatefeedback', 4);
-
-        // Check the right behaviour is used.
-        $this->assertEquals('immediatefeedback', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $q = test_question_maker::make_question('stack', 'test1');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->render();
         $this->check_output_contains_text_input('ans1');
-        $this->check_output_contains_text_input('ans2');
-        $this->check_output_contains_text_input('ans3');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+                new question_pattern_expectation('/Find/'),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Save a partially correct response for validation.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                '-submit' => 1));
+        // Process a validate request.
+        // Invalid answer.
+        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1', '-submit' => 1));
 
-        $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
         $this->render();
-        $this->check_output_contains_text_input('ans1', 'x^3');
-        $this->check_output_contains_text_input('ans2', 'x^2');
-        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1');
         $this->check_output_contains_input_validation('ans1');
-        $this->check_output_contains_input_validation('ans2');
-        $this->check_output_contains_input_validation('ans3');
-        $this->check_output_does_not_contain_input_validation('ans4');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/missing right/')
         );
 
-        // Re-submit after validation validation.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', '-submit' => 1));
+        // Valid answer.
+        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', '-submit' => 1));
 
-        $this->check_current_state(question_state::$gradedpartial);
-        $this->check_current_mark(2.5);
+        $this->check_current_mark(null);
         $this->render();
-        $this->check_output_contains_text_input('ans1', 'x^3', false);
-        $this->check_output_contains_text_input('ans2', 'x^2', false);
-        $this->check_output_contains_text_input('ans3', 'x', false);
+        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
         $this->check_output_contains_input_validation('ans1');
-        $this->check_output_contains_input_validation('ans2');
-        $this->check_output_contains_input_validation('ans3');
-        $this->check_output_does_not_contain_input_validation('ans4');
-        $this->check_output_contains_prt_feedback('odd');
-        $this->check_output_contains_prt_feedback('even');
-        $this->check_output_contains_prt_feedback('oddeven');
-        $this->check_output_contains_prt_feedback('unique');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Submit known mistake - look for specific feedback.
+        $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', 'ans1_val' => 'n*(v-a)^(n-1)', '-submit' => 1));
+
+        $this->check_current_mark(0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+            new question_pattern_expectation('/differentiated instead!/')
         );
     }
 
     public function test_test3_sumbit_and_finish_before_validating() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $this->start_attempt_at_question($q, 'immediatefeedback', 4);
+        $this->start_attempt_at_question($q, 'adaptive', 4);
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
@@ -274,7 +355,7 @@ class qtype_stack_walkthrough_immediate_feedback_test extends qtype_stack_walkth
                 $this->get_no_hint_visible_expectation()
         );
 
-        //Submit again. Should now be graded.
+        // Submit again. Should now be graded.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
                                         'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1));
 

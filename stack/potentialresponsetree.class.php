@@ -185,7 +185,6 @@ class stack_potentialresponse_tree {
         $res['valid']      = $results->_valid;
         $res['score']      = $results->_score + 0; // Make sure these are PHP numbers.
         $res['penalty']    = $results->_penalty + 0;
-        $res['value']      = $this->value;
         $res['fraction']   = $results->_score * $this->value;
         $res['fractionalpenalty'] = $results->_penalty * $this->value;
 
@@ -247,5 +246,12 @@ class stack_potentialresponse_tree {
             $notes[$note] = $note;
         }
         return $notes;
+    }
+
+    /**
+     * @return float the value of this PRT within the question.
+     */
+    public function get_value() {
+        return $this->value;
     }
 }

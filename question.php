@@ -366,6 +366,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $this->inputstates[$name];
     }
 
+    public function is_any_part_invalid(array $response) {
+        foreach ($this->inputs as $name => $input) {
+            if (stack_input::INVALID == $this->get_input_state($name, $response)->status) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function is_complete_response(array $response) {
         foreach ($this->inputs as $name => $input) {
             if (stack_input::SCORE != $this->get_input_state($name, $response)->status) {

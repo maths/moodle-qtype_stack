@@ -268,7 +268,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     public function test_test3_save_invalid_response_correct_then_stubmit() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $this->start_attempt_at_question($q, 'immediatefeedback', 4);
+        $this->start_attempt_at_question($q, 'adaptive', 4);
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
@@ -287,11 +287,15 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Submit a partially correct response.
+        // Try to submit a response:
+        // 1. right, not yet validated
+        // 2. invalid
+        // 3. right, not yet validated
+        // 4. right, validation not required
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true', '-submit' => 1));
 
         $this->check_current_state(question_state::$invalid);
-        $this->check_current_mark(null);
+        $this->check_current_mark(1.0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', '(x +');
@@ -300,7 +304,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_input_validation('ans4');
-        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_prt_feedback('odd');
+        $this->check_output_does_not_contain_prt_feedback('even');
+        $this->check_output_does_not_contain_prt_feedback('oddeven');
+        $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
@@ -309,12 +316,12 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Try to submit again without editing. Shoud not be accepted.
+        // Submit again without editing. 1. and 3. bits should now be graded.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true',
                                         'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1));
 
         $this->check_current_state(question_state::$invalid);
-        $this->check_current_mark(null);
+        $this->check_current_mark(3.0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', '(x +');
@@ -323,7 +330,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_input_validation('ans4');
-        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_contains_prt_feedback('odd');
+        $this->check_output_does_not_contain_prt_feedback('even');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
@@ -332,12 +342,12 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Now fix the resonse and submit. Should only be validated.
+        // Now fix the response to 2. and submit. Previously invalid bit should only be validated, not graded yet.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
                                         'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1));
 
-        $this->check_current_state(question_state::$invalid);
-        $this->check_current_mark(null);
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(3.0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
@@ -346,7 +356,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_input_validation('ans4');
-        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_contains_prt_feedback('odd');
+        $this->check_output_does_not_contain_prt_feedback('even');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
@@ -355,12 +368,36 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Submit again. Should now be graded.
+        // Submit again. Should now all be graded (and right).
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
                                         'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1));
 
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(4.0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^3');
+        $this->check_output_contains_text_input('ans2', 'x^2');
+        $this->check_output_contains_text_input('ans3', '0');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_input_validation('ans4');
+        $this->check_output_contains_prt_feedback('odd');
+        $this->check_output_contains_prt_feedback('even');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_contains_prt_feedback('unique');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', true),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Submit all and finish - should update state from complete to gradedright.
+        $this->quba->finish_all_questions();
+
         $this->check_current_state(question_state::$gradedright);
-        $this->check_current_mark(4);
+        $this->check_current_mark(4.0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);
@@ -368,14 +405,14 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
-                $this->check_output_does_not_contain_input_validation('ans4');
+        $this->check_output_does_not_contain_input_validation('ans4');
         $this->check_output_contains_prt_feedback('odd');
         $this->check_output_contains_prt_feedback('even');
         $this->check_output_contains_prt_feedback('oddeven');
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'true', false),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );

@@ -29,7 +29,7 @@ Please note that this enables both types of LaTeX maths environments.
 
 A local installation may be preferable, e.g., if you want your STACK-equipped Moodle to work off-line, or if you want to try to speed up LaTeX rendering.
 
-1. [Download MathJax](http://www.mathjax.org/download/)
+1. Download [MathJax](http://www.mathjax.org/)
 2. Unpack the archive and rename folder to "mathjax".
 3. Place the mathjax folder in .../moodle/lib and set appropriate ownership, e.g., `chown -R root.root mathjax`.
 4. Carry out the procedure in Option 1, editing the script above to reflect your path to MathJax. The last line can resemble the following:<br>
@@ -37,7 +37,7 @@ A local installation may be preferable, e.g., if you want your STACK-equipped Mo
 
 ### What about mathml? ###
 
-STACK contains experimental code to generate presentation mathml on the fly from maxima expressions.  This is currently unused, and may be pursued again in a future version.
+STACK contains experimental code to generate presentation mathml on the fly from maxima expressions.  This is currently unused, and may be pursued again in a future version.  Note that since question authors will be writing LaTeX mathematics fragments in many fields, having Maxima generate mathml is not sufficient.  We still need to convert user-entered mathematics in to mathml.
 
 ## Accessibility ##
 

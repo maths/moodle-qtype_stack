@@ -2,7 +2,7 @@
 
 Computer aided assessment of mathematics works in the following phases.
 
-1. [Authoring](../Authoring/)
+1. [Authoring](../Authoring/index.md)
 2. [Testing](Testing.md)
 3. [Deploying](Deploying.md)
 4. [Reviewing](Reviewing.md)

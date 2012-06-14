@@ -55,6 +55,10 @@ At this point STACK will be "ready" for use with students, although not all feat
 4. Add back in all input types, including dragmath/NUMBAS.
 5. Add sample_questions, and update question banks for STACK 3.0.
 6. Link the STACK documentation to Moodle's help icons on the editing form, etc.
+7. Improve the way questions are deployed.
+ 1. Only deploy new versions.
+ 2. Reploy many versions at once.
+ 3. Remove many versions at once.
 
 ## Known bugs/issues
 

@@ -62,7 +62,7 @@ class stack_textarea_input_test extends basic_testcase {
         $el->render(new stack_input_state(stack_input::BLANK, '', '', '', ''),
                             'st_ans1', false));
     }
-    
+
     public function test_render_disabled() {
         $el = stack_input_factory::make('textArea', 'input', null);
         $this->assertEquals('<textarea name="st_ans1" rows="5" cols="20" readonly="readonly"></textarea>',

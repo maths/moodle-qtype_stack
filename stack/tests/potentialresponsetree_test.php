@@ -114,8 +114,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals(0, $result['penalty']);
         $this->assertEquals('Ok, you can diff. Yeah!', $result['feedback']);
         $this->assertEquals('ATDiff_true | 1-0-1 | ATFacForm_true | 1-1-1', $result['answernote']);
-        $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0', '1-1-1' => '1-1-1', '1-1-0' => '1-1-0'), $tree->get_all_answer_notes());
-
+        $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+                '1-1-1' => '1-1-1', '1-1-0' => '1-1-0'), $tree->get_all_answer_notes());
     }
 
     public function test_do_test_3() {
@@ -158,7 +158,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses);
 
-        // Some data from students
+        // Some data from students.
         $answers = array('sans'=>'(x+1)^3');
         $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 

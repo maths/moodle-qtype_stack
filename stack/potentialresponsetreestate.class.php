@@ -59,7 +59,8 @@ class stack_potentialresponse_tree_state {
      * @param string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
      * @param string $feedback the feedback for the current contents.
      */
-    public function __construct($errors = '', $feedback = array(), $answernote = array(), $valid = true, $score = null, $penalty = null) {
+    public function __construct($errors = '', $feedback = array(), $answernote = array(),
+            $valid = true, $score = null, $penalty = null) {
         $this->_errors      = $errors;
         $this->_feedback    = $feedback;
         $this->_answernote  = $answernote;

@@ -143,7 +143,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_keyval_session_keyval_2() {
-        // Equation and function
+        // Equation and function.
         $kvin = "ans1:x^2-2*x=1; f(x):=x^2; sin(x^3);";
         $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
         $session = $at1->get_session();
@@ -152,7 +152,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_keyval_session_keyval_3() {
-        // Inserting stars
+        // Inserting stars.
         $kvin  = "a:2x; b:(x+1)(x-1); b:f(x);";
         $kvins = "a:2*x; b:(x+1)*(x-1); b:f(x);";
         $at1 = new stack_cas_keyval($kvin, null, 123, 's', false, true);

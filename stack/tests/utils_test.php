@@ -65,7 +65,8 @@ class stack_utils_test extends basic_testcase {
         $this->assertEquals(array('$ $', 6, 8), stack_utils::substring_between('$hello$ $world$!', '$', '$', 1));
 
         $this->assertEquals(array('[he[ll]o]', 0, 8), stack_utils::substring_between('[he[ll]o] world!', '[', ']'));
-        $this->assertEquals(array('[[[]w[o]r[[l]d]]]', 6, 22), stack_utils::substring_between('hello [[[]w[o]r[[l]d]]]!', '[', ']'));
+        $this->assertEquals(array('[[[]w[o]r[[l]d]]]', 6, 22),
+                stack_utils::substring_between('hello [[[]w[o]r[[l]d]]]!', '[', ']'));
     }
 
     public function test_all_substring_between() {
@@ -84,11 +85,13 @@ class stack_utils_test extends basic_testcase {
     public function test_replace_between() {
         $this->assertEquals('hello world!', stack_utils::replace_between('hello world!', '[', ']', array()));
         $this->assertEquals('[goodbye] world!', stack_utils::replace_between('[hello] world!', '[', ']', array('goodbye')));
-        $this->assertEquals('[goodbye] [all]!', stack_utils::replace_between('[hello] [world]!', '[', ']', array('goodbye', 'all')));
+        $this->assertEquals('[goodbye] [all]!',
+                stack_utils::replace_between('[hello] [world]!', '[', ']', array('goodbye', 'all')));
 
         $this->assertEquals('hello world!', stack_utils::replace_between('hello world!', '$', '$', array()));
         $this->assertEquals('$goodbye$ world!', stack_utils::replace_between('$hello$ world!', '$', '$', array('goodbye')));
-        $this->assertEquals('$goodbye$ $all$!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('goodbye', 'all')));
+        $this->assertEquals('$goodbye$ $all$!',
+                stack_utils::replace_between('$hello$ $world$!', '$', '$', array('goodbye', 'all')));
 
         $this->setExpectedException('stack_exception');
         $this->assertEquals('goodbye all!', stack_utils::replace_between('$hello$ $world$!', '$', '$', array('1', '2', '3')));
@@ -100,7 +103,7 @@ class stack_utils_test extends basic_testcase {
     }
 
     public function test_list_to_array() {
-        // Do not recurse over lists
+        // Do not recurse over lists.
         $a=array();
         $strin = '';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
@@ -137,7 +140,7 @@ class stack_utils_test extends basic_testcase {
         $strin = '[1,1/sum([1,3]),matrix([1],[2])]';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
-        // Recurse over lists
+        // Recurse over lists.
         $strin = '[[1,2,3], {x^2,x^3}]';
         $a = array(array('1', '2', '3'), ' {x^2,x^3}');
         $this->assertEquals($a, stack_utils::list_to_array($strin, true));

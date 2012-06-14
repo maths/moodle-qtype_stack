@@ -181,7 +181,7 @@ class stack_potentialresponse_tree {
         // Tidy up the results.
         $res['feedback']   = $results->display_feedback($cascontext, $seed).$results->_errors;
         $res['answernote'] = implode(' | ', $results->_answernote);
-        $res['errors']     = $results->_errors; // $results->display_feedback above might yet contribute further errors....
+        $res['errors']     = $results->_errors; // Might yet be further errors from $results->display_feedback ...
         $res['valid']      = $results->_valid;
         $res['score']      = $results->_score + 0; // Make sure these are PHP numbers.
         $res['penalty']    = $results->_penalty + 0;

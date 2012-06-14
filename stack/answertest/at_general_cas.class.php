@@ -86,7 +86,7 @@ class stack_answertest_general_cas extends stack_anstest {
                 $this->atvalid      = false;
                 return null;
             } else {
-                //validate with teacher privileges, strict syntax & no automatically adding stars.
+                // Validate with teacher privileges, strict syntax & no automatically adding stars.
                 $ct  = new stack_cas_casstring($this->atoption);
 
                 if (!$ct->get_valid('t', true, true)) {
@@ -106,7 +106,7 @@ class stack_answertest_general_cas extends stack_anstest {
             $ta = $this->tanskey;
         }
 
-        // Sort out options
+        // Sort out options.
         if (null === $this->options) {
             $this->options = new stack_options();
         }
@@ -160,7 +160,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $this->atansnote  = $result->get_answernote();
 
-        // convert maxima string 'true' to PHP true
+        // Convert the Maxima string 'true' to PHP true.
         if ('true'==$result->get_value()) {
             $this->atmark = 1;
         } else {

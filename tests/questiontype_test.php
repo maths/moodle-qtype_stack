@@ -299,9 +299,12 @@ class qtype_stack_test extends question_testcase {
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
         $expectedq->markmode              = 'penalty';
-        $expectedq->prtcorrect            = array('text' => '<p>Correct answer, well done.</p>', 'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtpartiallycorrect   = array('text' => '<p>Your answer is partially correct.</p>', 'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>', 'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtcorrect            = array('text' => '<p>Correct answer, well done.</p>',
+                                                    'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtpartiallycorrect   = array('text' => '<p>Your answer is partially correct.</p>',
+                                                    'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>',
+                                                    'format' => FORMAT_HTML, 'files' => array());;
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';

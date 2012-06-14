@@ -145,7 +145,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
             array('$\sin(x)$', false, array()),
             array('$\cos(x)$', false, array('cos')),
             array('@cos(x)@', true, array('cos')),
-            array('$\cos(x)$', true, array('sin')), // sin(x) is in the session above!
+            array('$\cos(x)$', true, array('sin')), // The session already has sin(x) above!
         );
 
         foreach ($cases as $case) {

@@ -105,7 +105,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_multiplication_option_cross() {
-        
+
         $cs=array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
@@ -147,7 +147,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('a:1;', $at1->get_keyval_representation());
     }
 
-    public function test_string1 (){
+    public function test_string1() {
 
         $cs=array('s:"This is a string"');
         foreach ($cs as $s) {

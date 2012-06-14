@@ -33,37 +33,37 @@ require_once(dirname(__FILE__) . '/../options.class.php');
  */
 
 class stack_cas_session {
-    /*
+    /**
      * @var array stack_cas_casstring
      */
     private $session;
 
-    /*
+    /**
      * @var stack_options
      */
     private $options;
 
-    /*
+    /**
      * @var int Needed to seed any randomization when instantated.
      */
     private $seed;
 
-    /*
+    /**
      * @var boolean
      */
     private $valid;
 
-    /*
+    /**
      * @var boolean Has this been sent to the CAS yet?
      */
     private $instantiated;
 
-    /*
+    /**
      * @var string Error messages for the user.
      */
     private $errors;
 
-    /*
+    /**
      * @var boolean
      */
     private $debuginfo;
@@ -74,7 +74,7 @@ class stack_cas_session {
             $session = array();
         }
 
-        // An array of stack_cas_casstring
+        // An array of stack_cas_casstring.
         $this->session = $session;
 
         if ($options === null) {
@@ -264,7 +264,7 @@ class stack_cas_session {
 
             $this->instantiated = null;
             $this->errors       = null;
-            $this->session[]    = clone $var; //Yes, we reall need new versions of the variables.
+            $this->session[]    = clone $var; // Yes, we reall need new versions of the variables.
         }
     }
 
@@ -450,7 +450,7 @@ class stack_cas_session {
                 $label = $cs->get_key();
             }
 
-            $cmd = str_replace('?', 'qmchar', $cs->get_casstring()); // replace any ?'s that slipped through
+            $cmd = str_replace('?', 'qmchar', $cs->get_casstring()); // Replace any ?'s that slipped through.
 
             $csnames   .= ", $label";
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";

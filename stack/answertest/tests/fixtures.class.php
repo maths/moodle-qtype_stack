@@ -73,7 +73,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'exp(%i*%pi)', '-1', 1, '', ''),
         array('AlgEquiv', '2*cos(2*x)+x+1', '-sin(x)^2+3*cos(x)^2+x', 1, '', ''),
         array('AlgEquiv', '(2*sec(2*t)^2-2)/2',
-            '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2', 1, '', ''),
+            '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
+            1, '', ''),
         array('AlgEquiv', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'),
@@ -238,7 +239,8 @@ class stack_answertest_test_data {
         array('SysEquiv', '[90=v*t,90=(v+5)*(t-1/4)]', '[90=v*t,90=(v+5)*(t*x-1/4)]', 0, '', ''),
         array('SysEquiv', '[90=v*t]', '[90=v*t,90=(v+5)*(t-1/4)]', 0, '', ''),
         array('SysEquiv', '[90=v*t,90=(v+5)*(t-1/4),90=(v+6)*(t-1/5)]', '[90=v*t,90=(v+5)*(t-1/4)]', 0, '', ''),
-        array('SysEquiv', '[90=v*t,90=(v+5)*(t-1/4),90=(v+6)*(t-1/5),90=(v+7)*(t-1/4),90=(v+8)*(t-1/3)]', '[90=v*t,90=(v+5)*(t-1/4)]', 0, '', ''),
+        array('SysEquiv', '[90=v*t,90=(v+5)*(t-1/4),90=(v+6)*(t-1/5),90=(v+7)*(t-1/4),90=(v+8)*(t-1/3)]',
+            '[90=v*t,90=(v+5)*(t-1/4)]', 0, '', ''),
 
         array('Expanded', '1/0', '0', 0, '', ''),
         array('Expanded', 'x>2', 'x^2-2*x+1', 0, '', ''),
@@ -250,7 +252,7 @@ class stack_answertest_test_data {
         array('Expanded', 'x^2-a*x-b*x+a*b', '0', 1, '', ''),
         array('Expanded', 'cos(2*x)', '0', 1, '', ''),
 
-        // Factored form
+        // Factored form.
         array('FacForm', '1/0', '0', 0, 'x', ''),
         array('FacForm', '0', '1/0', 0, 'x', ''),
         array('FacForm', '0', '0', 0, '1/0', ''),
@@ -315,7 +317,7 @@ class stack_answertest_test_data {
         array('CompSquare', '(y-1)^2+1', '(y-1)^2+1', 1, 'y', ''),
         array('CompSquare', '(y+1)^2+1', '(y-1)^2+1', 0, 'y', ''),
 
-        //Single Fraction Test
+        // Single Fraction Test.
         array('SingleFrac', '1/0', '1/n', 0, '', ''),
         array('SingleFrac', '0', '1/0', 0, '', ''),
         array('SingleFrac', 'x=3', '2', 0, '', ''),
@@ -354,7 +356,8 @@ class stack_answertest_test_data {
             'Algebraically equivalent, but numerators of same order than denominator, ie not in partial fraction form.'),
         array('PartFrac', '(3*x+3)*(1/(x+1) + 2/(x+2))', '9-6/(x+2)', 0, 'x', ''),
         array('PartFrac', 'n/(2*n-1)-(n+1)/(2*n+1)', '1/(4*n-2)-1/(4*n+2)', 0, 'n', ''),
-        array('PartFrac', '10/(x+3) - 2/(x+2) + x -2', '(x^3 + 3*x^2 + 4*x +2)/((x+2)*(x+3))', 1, 'x', 'Correct Answer, Numerator > Denominator'),
+        array('PartFrac', '10/(x+3) - 2/(x+2) + x -2', '(x^3 + 3*x^2 + 4*x +2)/((x+2)*(x+3))',
+            1, 'x', 'Correct Answer, Numerator > Denominator'),
         array('PartFrac', '2*x+1/(x+1)+1/(x-1)', '2*x^3/(x^2-1)', 1, 'x', ''),
         array('PartFrac', '1/(n*(n-1))', '1/(n*(n-1))', 0, 'n', 'Simple mistakes'),
         array('PartFrac', '1/(n-1)-1/n^2', '1/((n+1)*n)', 0, 'n', ''),
@@ -370,7 +373,7 @@ class stack_answertest_test_data {
         array('PartFrac', '(2*x+1)/(x^2+1)-2/(x-1)', '(2*x+1)/(x^2+1)-2/(x-1)', 1, 'x', ''),
         array('PartFrac', '(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4', '(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4', 1, 'x', ''),
 
-        // Differentiation test
+        // Differentiation test.
         array('Diff', '1/0', '3*x^2', 0, '', ''),
         array('Diff', '0', '1/0', 0, '(x', ''),
         array('Diff', '1/0', '3*x^2', 0, 'x', ''),
@@ -390,7 +393,7 @@ class stack_answertest_test_data {
         array('Diff', 'y^2+2*y+1', 'x^2-2*x+1', 0, 'z', ''),
         array('Diff', 'x^4/4', '3*x^2', 0, 'y', ''),
 
-        // Integration test
+        // Integration test.
         array('Int', '1/0', '1', 0, '', ''),
         array('Int', '1/0', '1', 0, 'x', ''),
         array('Int', '1', '1/0', 0, 'x', ''),
@@ -435,9 +438,12 @@ class stack_answertest_test_data {
         array('Int', '-2*cos(3*x)/3-3*cos(2*x)/2', '-2*cos(3*x)/3-3*cos(2*x)/2+c', 0, 'x', ''),
         array('Int', '-2*cos(3*x)/3-3*cos(2*x)/2+1', '-2*cos(3*x)/3-3*cos(2*x)/2+c', 0, 'x', ''),
         array('Int', '-2*cos(3*x)/3-3*cos(2*x)/2+c', '-2*cos(3*x)/3-3*cos(2*x)/2+c', 1, 'x', ''),
-        array('Int', '(tan(2*t)-2*t)/2', '-(t*sin(4*t)^2-sin(4*t)+t*cos(4*t)^2+2*t*cos(4*t)+t)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)', 0, 't', ''),
-        array('Int', '(tan(2*t)-2*t)/2+1', '-(t*sin(4*t)^2-sin(4*t)+t*cos(4*t)^2+2*t*cos(4*t)+t)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)', 0, 't', ''),
-        array('Int', '(tan(2*t)-2*t)/2+c', '-(t*sin(4*t)^2-sin(4*t)+t*cos(4*t)^2+2*t*cos(4*t)+t)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)', 1, 't', ''),
+        array('Int', '(tan(2*t)-2*t)/2',
+            '-(t*sin(4*t)^2-sin(4*t)+t*cos(4*t)^2+2*t*cos(4*t)+t)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)', 0, 't', ''),
+        array('Int', '(tan(2*t)-2*t)/2+1',
+            '-(t*sin(4*t)^2-sin(4*t)+t*cos(4*t)^2+2*t*cos(4*t)+t)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)', 0, 't', ''),
+        array('Int', '(tan(2*t)-2*t)/2+c',
+            '-(t*sin(4*t)^2-sin(4*t)+t*cos(4*t)^2+2*t*cos(4*t)+t)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)', 1, 't', ''),
         array('Int', 'tan(x)-x+c', 'tan(x)-x', 1, 'x', ''),
 
         array('GT', '1/0', '1', 0, '', ''),

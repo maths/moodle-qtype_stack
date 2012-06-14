@@ -195,8 +195,8 @@ class stack_utils {
         }
 
         if ($left == $right) {
-            // Left and right are the same
-            $end = strpos($string, $right, $start + 1); // Just go for the next one
+            // Left and right are the same.
+            $end = strpos($string, $right, $start + 1); // Just go for the next one.
             if ($end === false) {
                 return array('', $start, -1);
             }
@@ -245,15 +245,15 @@ class stack_utils {
         $found = '';
         while ($i < $length) {
             if ($start == false) {
-                //find starting @
+                // Find starting @.
                 if ($char[$i] == $left) {
                     $start = true;
                     $found .= $char[$i];
                 }
             } else {
-                //we have the first @ find ending @
+                // We have the first @ find ending @.
                 if ($char[$i] == $right) {
-                    //end of cas command found
+                    // End of cas command found.
                     $found .= $char[$i];
                     $found = str_replace($left, '', $found);
                     $found = str_replace($right, '', $found);
@@ -287,7 +287,7 @@ class stack_utils {
      * @return string
      */
     public static function replace_between($string, $left, $right, $replacements, $skipempty = false) {
-        // Do error checking
+        // Do error checking.
         $leftcount = substr_count($string, $left);
         $rightcount = substr_count($string, $right);
         $replacecount = count($replacements);
@@ -303,14 +303,14 @@ class stack_utils {
         $searching = true;
         while ($i < $length) {
             if ($searching) {
-                //trying to find startchar
+                // Trying to find startchar.
                 if ($char[$i] == $left) {
                     $searching = false;
                     $empty = true;
                 }
                 $result .= $char[$i];
             } else {
-                //found startchar, looking for end
+                // Found startchar, looking for end.
                 if ($char[$i] == $right) {
                     if ($skipempty && $empty) {
                         // Do nothing.
@@ -414,12 +414,12 @@ class stack_utils {
      */
     public static function math_start($text, $offset = 0) {
         $delimiters = array('$', '$$', '\(', '\[');
-        $at = false; // not yet found
+        $at = false; // Not yet found.
         foreach ($delimiters as $d) {
             $pos = strpos($text, $d, $offset);
-            if ($pos !== false) { // found one
+            if ($pos !== false) { // Found one.
                 if (($at === false || $pos <= $at)) {// take earliest ($$ taken over $)
-                    $at = $pos; // take earliest
+                    $at = $pos; // Take earliest.
                 }
             }
         }
@@ -436,15 +436,15 @@ class stack_utils {
         $ender = '';
         $len = strlen($text);
 
-        // handle case where less than 3 chars to consider
+        // Handle case where less than 3 chars to consider.
         if ($len <= $start + 2) {
             return $len - $start;
         }
 
         foreach ($delimiters as $d) {
-            $pos = strpos($text, $d, $start + 2); // check long enough
-            if ($pos !== false) { // found one
-                if ($at === false || $pos <= $at) {// take earliest ($$ taken over $)
+            $pos = strpos($text, $d, $start + 2); // Check long enough.
+            if ($pos !== false) { // Found one.
+                if ($at === false || $pos <= $at) { // Take earliest ($$ taken over $).
                     $at = $pos;
                     $ender = $d;
                 }
@@ -452,7 +452,7 @@ class stack_utils {
         }
         if ($ender=='') {
             return strlen($text - $start);
-            // math mode to the end
+            // Math mode to the end.
         } else {
             return $at - $start + strlen($ender);
         }
@@ -460,13 +460,13 @@ class stack_utils {
 
     public static function wrap($text) {
         $mathstart = self::math_start($text);
-        if ($mathstart !== false) { // we have some maths ahead
-            $pre = substr($text, 0, $mathstart); // get previous text
+        if ($mathstart !== false) { // We have some maths ahead.
+            $pre = substr($text, 0, $mathstart); // Get previous text.
             $for = self::math_length($text, $mathstart);
             $maths = substr($text, $mathstart, $for);
             $rest = substr($text, $mathstart + $for);
             return self::delimit($pre).$maths.self::wrap($rest);
-        } else { // no math sections left
+        } else { // No math sections left.
             return self::delimit($text);
         }
     }
@@ -519,7 +519,7 @@ class stack_utils {
      */
     public static function cvs_to_array($string, $token = ',') {
         $exploded = explode($token, $string);
-        // Remove any null entries
+        // Remove any null entries.
         for ($i = 0; $i < count($exploded); $i++) {
             $trim = trim($exploded[$i]);
             if (!empty($trim)) {
@@ -530,10 +530,10 @@ class stack_utils {
     }
 
     /**
-     * Converts an array to a CSV
+     * Converts an array to a CSV.
      *
-     * @return String
-     * @param $array Object
+     * @param $array the data to output.
+     * @return string the output.
      */
     public static function array_to_cvs($array) {
         if (!empty($array)) {
@@ -556,7 +556,7 @@ class stack_utils {
             }
             return $string;
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -570,26 +570,26 @@ class stack_utils {
         if ($list == '') {
             return null;
         }
-        // delimited by next comma at same degree of nesting
+        // Delimited by next comma at same degree of nesting.
         $startdelimiter = "[({";
         $enddelimiter   = "])}";
-        $nesting = array(0=>0, 1=>0, 2=>0); // stores nesting for delimiters above
+        $nesting = array(0=>0, 1=>0, 2=>0); // Stores nesting for delimiters above.
         for ($i = 0; $i < strlen($list); $i++) {
-            $startchar = strpos($startdelimiter, $list[$i]);// which start delimiter
-            $endchar = strpos($enddelimiter, $list[$i]);// which end delimiter (if any)
+            $startchar = strpos($startdelimiter, $list[$i]); // Which start delimiter.
+            $endchar = strpos($enddelimiter, $list[$i]); // Which end delimiter (if any).
 
-            // change nesting for delimiter if specified
+            // Change nesting for delimiter if specified.
             if ($startchar !== false) {
                 $nesting[$startchar]++;
             } else if ($endchar !== false) {
                 $nesting[$endchar]--;
             } else if ($list[$i] == ',' && $nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
-                // otherwise, return element if all nestings are zero
+                // Otherwise, return element if all nestings are zero.
                 return substr($list, 0, $i);
             }
         }
 
-        // end of list reached
+        // End of list reached.
         if ($nesting[0] == 0 && $nesting[1] == 0 &&$nesting[2] == 0) {
             return $list;
         } else {
@@ -600,7 +600,7 @@ class stack_utils {
     private static function list_to_array_workhorse($list, $rec=true) {
         $array = array();
         $list = trim($list);
-        $list = substr($list, 1, strlen($list) - 2);// trims outermost [] only
+        $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.
         $e = self::next_element($list);
         while ($e !== null) {
             if ($e[0]=='[') {

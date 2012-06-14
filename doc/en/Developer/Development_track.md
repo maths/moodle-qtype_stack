@@ -55,6 +55,10 @@ At this point STACK will be "ready" for use with students, although not all feat
 4. Add back in all input types, including dragmath/NUMBAS.
 5. Add sample_questions, and update question banks for STACK 3.0.
 6. Link the STACK documentation to Moodle's help icons on the editing form, etc.
+7. Improve the way questions are deployed.
+ 1. Only deploy new versions.
+ 2. Reploy many versions at once.
+ 3. Remove many versions at once.
 
 ## Known bugs/issues
 
@@ -74,6 +78,10 @@ At this point STACK will be "ready" for use with students, although not all feat
 1. There is no check that SUM(question values of all PRTs) = 1. Either we need to enforce that, or we need to compute question fraction as a weighed average of PRT scores.
 2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 3. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
+
+### Optimising Maxima
+
+1.  Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
 
 ## Future plans
 
@@ -150,6 +158,7 @@ Key features
 * Worked solution on demand feature has been removed.  This was a hack in STACK 2, and the use of Moodle quiz has made this unnecessary.
 * We have lost some of the nice styling on the editing form, compared to Stack 2.
 * Answer tests no longer return a numerical mark, hence the "+AT" option for mark modification method has been dropped.
+* The STACK function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
 
 ## Version 2.2
 

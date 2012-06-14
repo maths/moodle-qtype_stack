@@ -59,7 +59,7 @@ class stack_ans_test_controller {
      */
     private $at;
 
-    // Operations
+    // Operations.
 
     /**
      *
@@ -158,7 +158,7 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumSigFigs':
-                // Set a default option
+                // Set a default option.
                 if ('' == trim($casoption)) {
                     $casoption = '3';
                 }

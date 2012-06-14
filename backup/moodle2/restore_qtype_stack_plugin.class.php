@@ -73,7 +73,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created by restore, save the stack options.
@@ -94,7 +94,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created, save this input.
@@ -115,7 +115,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $this->currentprtname = $data->name;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created, save this input.
@@ -134,7 +134,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created, save this input.
@@ -158,7 +158,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $this->currenttestcase = $data->testcase;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created, save this input.
@@ -177,7 +177,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created, save this input.
@@ -197,7 +197,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created, save this input.
@@ -217,7 +217,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
         // If the question is being created, save this input.

@@ -39,7 +39,7 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
-        // Inputs
+        // Inputs.
         $mform->addElement('header', 'inputsheader', get_string('testinputs', 'qtype_stack'));
 
         foreach ($question->inputs as $inputname => $input) {
@@ -71,7 +71,6 @@ class qtype_stack_question_test_form extends moodleform {
     }
 
     public function validation($data, $files) {
-        //print_r($data);
         $errors = parent::validation($data, $files);
 
         return $errors;

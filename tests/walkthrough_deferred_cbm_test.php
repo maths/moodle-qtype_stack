@@ -342,7 +342,8 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans1', array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), null, true),
+                $this->get_contains_select_expectation('ans1',
+                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), null, true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -358,7 +359,8 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans1', array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', true),
+                $this->get_contains_select_expectation('ans1',
+                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -374,7 +376,8 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                $this->get_contains_select_expectation('ans1', array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', false),
+                $this->get_contains_select_expectation('ans1',
+                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', false),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );

@@ -83,7 +83,7 @@ class qtype_stack_renderer extends qtype_renderer {
         if (!$question->user_can_view()) {
             return '';
         }
-        //TODO how do we find the courseid at this point!?
+        // TODO how do we find the courseid at this point!?
         return html_writer::tag('div',
                 html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php',
                         array('questionid' => $question->id, 'courseid' => 0, 'seed' => $question->seed)),
@@ -151,16 +151,5 @@ class qtype_stack_renderer extends qtype_renderer {
                     $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';
-    }
-
-    /**
-     * Tests whether the input element exists inside a math region.
-     */
-    protected function is_inside_maths($input, $string) {
-        // Remove all delimited regions and see if $input remains in $string
-        // TODO move this to stack_utils? NOT CURRENTLY USED
-        $patterns = array('/\\$\\$(.+?)\\$\\$/', '/\\$(.+?)\\$/', '/\\\\\[(.+?)\\\\\]/', '/\\\\\((.+?)\\\\\)/');
-        $string = preg_replace($patterns, '', $string);
-        return strpos($string, $input) === true;
     }
 }

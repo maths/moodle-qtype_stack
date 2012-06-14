@@ -247,4 +247,11 @@ class stack_potentialresponse_tree {
         }
         return $notes;
     }
+
+    /**
+     * @return float the value of this PRT within the question.
+     */
+    public function get_value() {
+        return $this->value;
+    }
 }

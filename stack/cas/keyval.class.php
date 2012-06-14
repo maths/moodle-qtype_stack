@@ -48,9 +48,9 @@ class stack_cas_keyval {
 
     public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $stars=false) {
         $this->raw          = $raw;
-        $this->security     = $security;   // by default, student
-        $this->insertstars  = $stars;      // by default don't add stars
-        $this->syntax       = $syntax;     // by default strict
+        $this->security     = $security;
+        $this->insertstars  = $stars;
+        $this->syntax       = $syntax;
 
         $this->session      = new stack_cas_session(null, $options, $seed);
 

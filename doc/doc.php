@@ -46,15 +46,15 @@ require_login();
 
 $moodleroot = $CFG->dirroot;
 $webroot = $CFG->wwwroot;
-$docs    = '/question/type/stack/doc/' . $CFG->lang;    // docs local location
-$webdocs = $webroot.'/question/type/stack/doc/doc.php';  // doc.php web address
+$docs    = '/question/type/stack/doc/' . $CFG->lang;    // Docs local location.
+$webdocs = $webroot.'/question/type/stack/doc/doc.php';  // Doc.php web address.
 
 $webpix  = $CFG->wwwroot.'/question/type/stack/pix/logo-sm.png';
 
 $doclog  = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/logs');
 
-// the URL to the directory for static content to be served by the docs
-// access this string in the docs with %CONTENT
+// The URL to the directory for static content to be served by the docs
+// access this string in the docs with %CONTENT.
 $docscontent = $webroot.'/question/type/stack/doc/content';
 
 $context = context_system::instance();
@@ -64,10 +64,10 @@ $PAGE->set_title(stack_string('stackDoc_docs'));
 
 if (substr($_SERVER['REQUEST_URI'], -7) == 'doc.php') {
     // Don't access doc.php directly, treat it like a directory instead.
-    $uri     = '/';  // the uri string
+    $uri     = '/';  // The uri string.
 } else {
 
-    $uri     = get_file_argument();  // the uri string
+    $uri     = get_file_argument();  // The uri string.
 }
 
 $segs    = explode('/', $uri);
@@ -79,7 +79,7 @@ $header = '';
 // Links for the end of the page.
 
 if ($uri == '/') {
-    // I.e. at doc.php/ the docs front page
+    // I.e. at doc.php/ the docs front page.
     $links = array($webdocs.'/Site_map' => stack_string('stackDoc_siteMap'));
 } else if ('/Site_map' == $uri) {
     $links = array($webdocs   =>  stack_string('stackDoc_home'));
@@ -100,7 +100,7 @@ $linkstr  = implode(' | ', $linkstrs);
 if ('Site_map' == $lastseg) {
     $body .= $linkstr;
     $body .= '<h3>' .  stack_string('stackDoc_directoryStructure', 'stack') . '</h3>';
-    $body .= index($moodleroot . $docs, $webdocs); // assumes at a file in /
+    $body .= index($moodleroot . $docs, $webdocs); // Assumes at a file in /.
 } else {
     if ('' == $lastseg) {
         $doc = 'index.md';
@@ -120,7 +120,7 @@ if ('Site_map' == $lastseg) {
         $page   = fread($handle, filesize($file));
         fclose($handle);
 
-        $page =  preg_replace('/\\\%CONTENT/', '$$$PARSE_ERROR', $page); // escaped \%CONTENT won't get processed
+        $page =  preg_replace('/\\\%CONTENT/', '$$$PARSE_ERROR', $page); // Escaped \%CONTENT won't get processed.
         $page =  preg_replace('/\%CONTENT/', $docscontent, $page);
         $page =  preg_replace('/\$\$\$PARSE_ERROR/', '%CONTENT', $page);
 
@@ -131,7 +131,7 @@ if ('Site_map' == $lastseg) {
             $page = str_replace("\\", "\\\\", $page);
             $options = new stdClass();
             $options->noclean = true;
-            $body .= format_text(Markdown($page), FORMAT_HTML, $options); // render it, in this case in Markdown
+            $body .= format_text(Markdown($page), FORMAT_HTML, $options); // Render it, in this case in Markdown.
         } else {
             $body .= $page;
         }
@@ -159,7 +159,7 @@ echo $OUTPUT->footer();
 
 
 function index($d, $relpath = '') {
-    // Write a list describing the directory structure, recursive, discriminates for .md files
+    // Write a list describing the directory structure, recursive, discriminates for .md files.
 
     $i = '<ul class="dir">';
     if (is_dir($d)) {
@@ -186,9 +186,7 @@ function index($d, $relpath = '') {
 }
 
 function do_display_math($text) {
-    #
-    # Wrap text between \[ and \] in display math tags.
-    #
+    // Wrap text between \[ and \] in display math tags.
     $text = preg_replace_callback('{
       ^\\\\         # line starts with a single backslash (double escaping)
       \[            # followed by a square bracket

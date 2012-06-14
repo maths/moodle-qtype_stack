@@ -203,13 +203,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     protected function unpack_raw_result($rawresult) {
         $result = '';
         $errors = false;
-        //check we have a timestamp & remove everything before it.
+        // Check we have a timestamp & remove everything before it.
         $ts = substr_count($rawresult, '[TimeStamp');
         if ($ts != 1) {
             $this->debug->log('', 'receive_raw_maxima: no timestamp returned.');
             return array();
         } else {
-            $result = strstr($rawresult, '[TimeStamp'); //remove everything before the timestamp
+            $result = strstr($rawresult, '[TimeStamp'); // Remove everything before the timestamp.
         }
 
         $result = trim(str_replace('#', '', $result));
@@ -218,13 +218,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $unp = $this->unpack_helper($result);
 
         if (array_key_exists('Locals', $unp)) {
-            $uplocs = $unp['Locals']; // Grab the local variables
+            $uplocs = $unp['Locals']; // Grab the local variables.
             unset($unp['Locals']);
         } else {
             $uplocs = '';
         }
 
-        // Now we need to turn the (error,key,value,display) tuple into an array
+        // Now we need to turn the (error,key,value,display) tuple into an array.
         $locals = array();
         foreach ($this->unpack_helper($uplocs) as $var => $valdval) {
             if (is_array($valdval)) {
@@ -255,15 +255,15 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             // If there are plots in the output.
             $plot = isset($locals[$i]['display']) ? substr_count($locals[$i]['display'], '<img') : 0;
             if ($plot > 0) {
-                //plots always contain errors, so remove
+                // Plots always contain errors, so remove.
                 $locals[$i]['error'] = '';
-                //for mathml display, remove the mathml that is inserted wrongly round the plot.
+                // For mathml display, remove the mathml that is inserted wrongly round the plot.
                 $locals[$i]['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>',
                     '', $locals[$i]['display']);
                 $locals[$i]['display'] = str_replace('</math>', '', $locals[$i]['display']);
 
-                // for latex mode, remove the mbox
-                // handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}
+                // For latex mode, remove the mbox.
+                // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.
                 $locals[$i]['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $locals[$i]['display']);
 
                 if ($this->wwwroothasunderscores) {
@@ -284,7 +284,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $errors = '';
 
         if ($eqpos = strpos($rawresultfragment, '=', $offset)) {
-            // Check there are ='s
+            // Check there are ='s.
             do {
                 $gb = stack_utils::substring_between($rawresultfragment, '[', ']', $eqpos);
                 $val = substr($gb[0], 1, strlen($gb[0])-2);

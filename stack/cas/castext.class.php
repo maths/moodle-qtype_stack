@@ -26,22 +26,38 @@ require_once('casstring.class.php');
 
 class stack_cas_text {
 
-    private $rawcastext;      // Exactly the cas_text entered.
-    private $trimmedcastext;  // This is processed gradually.
-    private $castext;         // The end result.
+    /** @var string Exactly the cas_text entered. */
+    private $rawcastext;
 
-    private $session;         // stack_cas_session
-                              // Context in which the castext is evaluated.
-                              // Note, this is the place to set any CAS options of STACK_CAS_Maxima_Preferences
+    /** @var string This is processed gradually. */
+    private $trimmedcastext;
 
-    private $valid;           // true or false
-    private $instantiated;    // Has this been sent to the CAS yet? Stops re-sending to the CAS.
-    private $errors;          // String for the user.
+    /** @var string The end result. */
+    private $castext;
 
+    /**
+     * @var stack_cas_session Context in which the castext is evaluated.
+     *  Note, this is the place to set any CAS options of STACK_CAS_Maxima_Preferences.
+     */
+    private $session;
+
+    /** @var bool whether the string is valid. */
+    private $valid;
+
+    /** @var bool whether this been sent to the CAS yet? Stops re-sending to the CAS. */
+    private $instantiated;
+
+    /** @var string any error messages to display to the user. */
+    private $errors;
+
+    /** @var string security level, 's' or 't'. */
     private $security;
-    private $insertstars;
-    private $syntax;
 
+    /** @var bool whether to insert stars. */
+    private $insertstars;
+
+    /** @var bool whether to do strict syntax checks. */
+    private $syntax;
 
     public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
@@ -77,9 +93,9 @@ class stack_cas_text {
             throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be Boolean.');
         }
 
-        $this->security  = $security; // by default, student
-        $this->syntax    = $syntax;   // by default strict
-        $this->insertstars  = $insertstars;    // by default don't add insertstars
+        $this->security    = $security;
+        $this->syntax      = $syntax;
+        $this->insertstars = $insertstars;
     }
 
     /**
@@ -90,13 +106,13 @@ class stack_cas_text {
      */
     private function validate() {
         if (strlen(trim($this->rawcastext)) > 64000) {
-            //Limit to just less than 64kb. Maximum practical size of a post. (about 14pages).
+            // Limit to just less than 64kb. Maximum practical size of a post. (about 14pages).
             $this->errors = stack_string("stackCas_tooLong");
             $this->valid = false;
             return false;
         }
 
-        // Remove any comments from the castext
+        // Remove any comments from the castext.
         $this->trimmedcastext = stack_utils::remove_comments(str_replace("\n", ' ', $this->rawcastext));
 
         if (trim($this->trimmedcastext) === '') {
@@ -104,10 +120,10 @@ class stack_cas_text {
             return true;
         }
 
-        // Find reasons to invalidate the text....
+        // Find reasons to invalidate the text...
         $this->valid = true;
 
-        //check @'s match
+        // Check @'s match.
         $amps = stack_utils::check_matching_pairs($this->trimmedcastext, '@');
         if ($amps == false) {
             $this->errors .= stack_string('stackCas_MissingAt');
@@ -122,7 +138,7 @@ class stack_cas_text {
 
         $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
         if ($hints !== true) {
-            //check_bookends does not return false
+            // The method check_bookends does not return false.
             $this->valid = false;
             if ($hints == 'left') {
                 $this->errors .= stack_string('stackCas_MissingOpenHint');
@@ -133,7 +149,7 @@ class stack_cas_text {
 
         $html = stack_utils::check_bookends($this->trimmedcastext, '<html>', '</html>');
         if ($html !== true) {
-            //check_bookends does not return false
+            // The method check_bookends does not return false.
 
             $this->valid = false;
             if ($html == 'left') {
@@ -145,7 +161,7 @@ class stack_cas_text {
 
         $inline = stack_utils::check_bookends($this->trimmedcastext, '\[', '\]');
         if ($inline !== true) {
-            //check_bookends does not return false
+            // The method check_bookends does not return false.
 
             $this->valid = false;
             if ($inline == 'left') {
@@ -157,7 +173,7 @@ class stack_cas_text {
 
         $inline = stack_utils::check_bookends($this->trimmedcastext, '\(', '\)');
         if ($inline !== true) {
-            //check_bookends does not return false
+            // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
                 $this->errors .= stack_string('stackCas_MissingOpenInline');
@@ -166,7 +182,7 @@ class stack_cas_text {
             }
         }
 
-        // Perform validation on the existing session
+        // Perform validation on the existing session.
         if (null!=$this->session) {
             if (!$this->session->get_valid()) {
                 $this->valid = false;
@@ -192,17 +208,17 @@ class stack_cas_text {
      * @return bool false if no commands to extract, true if succeeds.
      */
     private function extract_cas_commands() {
-        //first check contains @s
+        // First check contains @s.
         $count = preg_match_all('~(?<!@)@(?!@)~', $this->trimmedcastext, $notused);
 
         if ($count == 0) {
-            //nothing to do
+            // Nothing to do.
             return null;
         } else {
-            //extract the CAS commands
+            // Extract the CAS commands.
             $temp = stack_utils::all_substring_between($this->trimmedcastext, '@', '@', true);
 
-            //create array of commands matching with their labels
+            // Create array of commands matching with their labels.
             $i = 0;
             $valid = true;
             $errors = '';
@@ -253,7 +269,9 @@ class stack_cas_text {
         }
     }
 
-    /* This function actually evaluates the castext */
+    /**
+     * This function actually evaluates the castext.
+     */
     private function instantiate() {
         // TODO: config files....
         $displaymethod = 'LaTeX';
@@ -272,7 +290,7 @@ class stack_cas_text {
             if (null !== $this->session) {
                 $this->castext = $this->session->get_display_castext($this->castext);
             }
-            $this->strin = str_replace('$@', '@', $this->strin); //Mathml doesn't need to be displayed in math mode
+            $this->strin = str_replace('$@', '@', $this->strin); // Mathml doesn't need to be displayed in math mode.
             $this->strin = str_replace('@$', '@', $this->strin);
         } else {
             // Assume STACK returns raw LaTeX for subsequent processing, e.g. with MathJax.
@@ -281,17 +299,18 @@ class stack_cas_text {
             if (null !== $this->session) {
                 $this->castext = $this->session->get_display_castext($this->castext);
             }
-            //another modification. Stops <html> tags from being given $ tags and therefore breaking tth
+            // Another modification. Stops <html> tags from being given $ tags and therefore breaking tth.
             $this->castext = str_replace('$<html>', '', $this->castext);
-            //bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors
+            // Bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors.
             $this->castext = str_replace('</html>$', '', $this->castext);
             $this->latex_tidy();
         }
         $this->instantiated = true;
     }
 
-    /* Tidy up LaTeX commands used in castext which are not interpreted by JSMath
-    */
+    /**
+     * Tidy up LaTeX commands used in castext which are not interpreted by JSMath.
+     */
     private function latex_tidy() {
         // Need to create line breaks in sensible places.
         $this->castext = str_replace('\begin{itemize}', '<ol>', $this->castext);
@@ -369,4 +388,4 @@ class stack_cas_text {
         return $this->session->get_debuginfo();
     }
 
-} // end class
+}

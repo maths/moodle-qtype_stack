@@ -56,12 +56,12 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
         fwrite($pipes[0], 'quit();\n\n');
         fflush($pipes[0]);
 
-        // read output from stdout
+        // Read output from stdout.
         $ret = '';
         while (!feof($pipes[1])) {
             $out = fgets($pipes[1], 1024);
             if ('' == $out) {
-                // PAUSE
+                // Pause.
                 usleep(1000);
             }
             $ret .= $out;

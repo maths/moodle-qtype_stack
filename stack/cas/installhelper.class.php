@@ -105,7 +105,7 @@ class stack_cas_configuration {
         $plotcommands[] = $maxima_location. '/gnuplot/wgnuplot.exe';
         $plotcommands[] = $maxima_location. '/bin/wgnuplot.exe';
 
-        foreach($plotcommands as $plotcommand) {
+        foreach ($plotcommands as $plotcommand) {
             if (file_exists($plotcommand)) {
                         return '"' . $plotcommand . '"';
             }
@@ -131,13 +131,14 @@ class stack_cas_configuration {
         $locations[] = 'C:/Program Files/Maxima/';
         $locations[] = 'C:/Program Files (x86)/Maxima/';
 
-        foreach($locations as $location) {
+        foreach ($locations as $location) {
             if (file_exists($location.'bin/maxima.bat')) {
                 return $location;
             }
         }
 
-        throw new stack_exception('Could not locate the directory into which Maxima is installed.  Tried the following:' . implode(', ', $locations));
+        throw new stack_exception('Could not locate the directory into which Maxima is installed. Tried the following:' .
+                implode(', ', $locations));
     }
 
     public function copy_maxima_bat() {
@@ -147,7 +148,7 @@ class stack_cas_configuration {
             return true;
         }
 
-        $batchfilename = $this-> maxima_win_location().'bin/maxima.bat';
+        $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
 
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
             throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .

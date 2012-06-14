@@ -57,8 +57,8 @@ class stack_cas_configuration {
         $this->vnum = (float) substr($this->settings->maximaversion, 2);
 
         $this->blocksettings = array();
-        $this->blocksettings['TMP_IMAGE_DIR'] = $CFG->dataroot . '/stack/tmp/';
-        $this->blocksettings['IMAGE_DIR']     = $CFG->dataroot . '/stack/plots/';
+        $this->blocksettings['TMP_IMAGE_DIR'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
+        $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
 
         // These are used by the GNUplot "set terminal" command. Currently no user interface...
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
@@ -99,23 +99,45 @@ class stack_cas_configuration {
         }
 
         // This does its best to find your version of Gnuplot...
-        if ('5.25.1' == $this->settings->maximaversion) {
-            $plotcommand = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '-gcl/gnuplot/wgnuplot.exe';
-        } else if ($this->vnum > 23) {
-            $plotcommand = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/gnuplot/wgnuplot.exe';
-        } else {
-            $plotcommand = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/wgnuplot.exe';
-        }
+        $maxima_location = $this->maxima_win_location();
 
-        if (!file_exists($plotcommand)) {
-            // This can help get things working on Windows 64 bit.
-            $win64command = str_replace('/Program Files/', '/Program Files (x86)/', $plotcommand);
-            if (file_exists($win64command)) {
-                $plotcommand = $win64command;
+        $plotcommands = array();
+        $plotcommands[] = $maxima_location. '/gnuplot/wgnuplot.exe';
+        $plotcommands[] = $maxima_location. '/bin/wgnuplot.exe';
+
+        foreach($plotcommands as $plotcommand) {
+            if (file_exists($plotcommand)) {
+                        return '"' . $plotcommand . '"';
             }
         }
 
-        return '"' . $plotcommand . '"';
+        throw new stack_exception('Could not locate GNUPlot.');
+    }
+
+    public function maxima_win_location() {
+        global $CFG;
+
+        if ($this->settings->platform != 'win') {
+            return '';
+        }
+
+        $locations = array();
+        $locations[] = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/Program Files (x86)/Maxima-' . $this->settings->maximaversion . '/';
+        if ('5.25.1' == $this->settings->maximaversion) {
+            $locations[] = 'C:/Program Files/Maxima-5.25.1-gcl/';
+            $locations[] = 'C:/Program Files (x86)/Maxima-5.25.1-gcl/';
+        }
+        $locations[] = 'C:/Program Files/Maxima/';
+        $locations[] = 'C:/Program Files (x86)/Maxima/';
+
+        foreach($locations as $location) {
+            if (file_exists($location.'bin/maxima.bat')) {
+                return $location;
+            }
+        }
+
+        throw new stack_exception('Could not locate the directory into which Maxima is installed.  Tried the following:' . implode(', ', $locations));
     }
 
     public function copy_maxima_bat() {
@@ -125,18 +147,7 @@ class stack_cas_configuration {
             return true;
         }
 
-        $batchfilename = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/bin/maxima.bat';
-        if ('5.25.1' == $this->settings->maximaversion) {
-            $batchfilename = 'C:/Program Files/Maxima-5.25.1-gcl/bin/maxima.bat';
-        }
-
-        if (!file_exists($batchfilename)) {
-            // This can help get things working on Windows 64-bit.
-            $win64script = str_replace('/Program Files/', '/Program Files (x86)/', $batchfilename);
-            if (file_exists($win64script)) {
-                $batchfilename = $win64script;
-            }
-        }
+        $batchfilename = $this-> maxima_win_location().'bin/maxima.bat';
 
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
             throw new stack_exception('Could not copy the Maxima batch file ' . $batchfilename .
@@ -208,7 +219,7 @@ END;
      */
     public static function maximalocal_location() {
         global $CFG;
-        return $CFG->dataroot . '/stack/maximalocal.mac';
+        return stack_utils::convert_slash_paths($CFG->dataroot . '/stack/maximalocal.mac');
     }
 
     /**
@@ -233,7 +244,7 @@ END;
 
     /**
      * Generate the contents for the maximalocal configuration file.
-     * @return string the contets that the maximalocal.mac file should have.
+     * @return string the contents that the maximalocal.mac file should have.
      */
     public static function generate_maximalocal_contents() {
         return self::get_instance()->get_maximalocal_contents();
@@ -241,9 +252,17 @@ END;
 
     /**
      * Generate the contents for the maximalocal configuration file.
-     * @return string the contets that the maximalocal.mac file should have.
+     * @return string the contents that the maximalocal.mac file should have.
      */
     public static function maxima_bat_is_missing() {
         return !self::get_instance()->maxima_bat_is_ok();
+    }
+
+    /**
+     * Generate the directoryname
+     * @return string the contents that the maximalocal.mac file should have.
+     */
+    public static function confirm_maxima_win_location() {
+        return self::get_instance()->maxima_win_location();
     }
 }

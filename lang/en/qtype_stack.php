@@ -260,9 +260,10 @@ $string['healthcheckcache_db'] = 'CAS results are being cached in the database.'
 $string['healthcheckcache_none'] = 'CAS results are not being cached.';
 $string['healthcheckcachestatus'] = 'The cache currently contains {$a} entries.';
 $string['healthcheckconfig'] = 'Maxima configuration file';
-$string['healthcheckconfigintro'] = 'Trying to automatically write the Maxima configuration file.';
+$string['healthcheckconfigintro1'] = 'Found, and using, Maxima in the following directory:';
+$string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima configuration file.';
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
-$string['healthcheckconnectintro'] = 'We are trying to evaluate the following cas text:';
+$string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. Stack only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
 $string['healthchecklatexmathjax'] = 'One way to get equiation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';

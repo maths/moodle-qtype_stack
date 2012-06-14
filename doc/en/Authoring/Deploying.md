@@ -7,9 +7,9 @@ Computer aided assessment of mathematics works in the following phases.
 3. [Deploying](Deploying.md)
 4. [Reviewing](Reviewing.md)
 
-**Before a question can be presented to a student it must have at least one deployed instance**
+**If a question uses randomization then it must have at least one deployed instance before it can be presented to a student.** 
 
-Deploying a question instance is analogous to printing a question paper (which can then be photocopied many times).
+Deploying a question instance is analogous to printing a question paper (which can then be photocopied many times). Questions that don't use randomization cannot be deployed explicitly.
 
 The deployment interface can be found on the top of the [Testing](Testing.md) page.
 

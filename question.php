@@ -434,6 +434,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Once we are confident enough, we can try to optimise.
 
         foreach ($this->prts as $index => $prt) {
+            if (!$this->can_execute_prt($prt, $response, $finalsubmit)) {
+                continue;
+            }
+
             if (array_key_exists($index, $lastgradedresponses)) {
                 $lastresponse = $lastgradedresponses[$index];
             } else {

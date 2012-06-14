@@ -417,4 +417,124 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
     }
+
+    public function test_test3_complex_scenario() {
+        // Here are the sequence of responses we are going to test. When
+        // a particular PRT generates a grades, that is shown in brackets as
+        // raw fraction - penalty.
+        //
+        //     odd         even        oddeven       unique     Mark so far
+        //  1. x^3         -           x             -          -
+        //  2. x^3 (1)     -           x (0.5)       -          1.5
+        //  3. (x          (x          x+1           F (0)      1.5
+        //  4. x)          x^2         x+1 (0-0.1)   -          1.5
+        //  5. x^2         x           x^5           -          1.5
+        //  6. x^2 (0-0.1) x^2         x^5 (0.5-0.2) T (1-0.1)  2.4
+        //  7. x           x^2 (1)     x+3           T (1-0.1)  3.4
+        //  8. x (1-0.2)   -           x+3 (0-0.3)   T (1-0.1)  3.4
+        //  9. x^3 (1-0.3) x^2         0             T (1-0.1)  3.4
+        // 10. x^3 (1-0.3) x^2 (1-0.1) 0 (1-0.4)     T (1-0.1)  3.5
+        //
+        // Best mark
+        // 1.0             1.0         0.6           0.9        3.5
+        //
+        // Hopefully this summary makes the following easier to understand.
+
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test3');
+        $this->start_attempt_at_question($q, 'adaptive', 4);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_contains_text_input('ans3');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Step 1.
+        $this->process_submission(array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^3');
+        $this->check_output_contains_text_input('ans2', '');
+        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_input_validation('ans4');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Step 2.
+        $this->process_submission(array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '',
+            'ans1_val' => 'x^3', 'ans3_val' => 'x', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(1.5);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^3');
+        $this->check_output_contains_text_input('ans2', '');
+        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_input_validation('ans4');
+        $this->check_output_contains_prt_feedback('odd');
+        $this->check_output_does_not_contain_prt_feedback('even');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_does_not_contain_prt_feedback('unique');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Step 3.
+        $this->process_submission(array('ans1' => '(x', 'ans2' => '(x', 'ans3' => 'x+1', 'ans4' => 'false',
+            'ans1_val' => 'x^3', 'ans3_val' => 'x', '-submit' => 1));
+
+        $this->check_current_state(question_state::$invalid);
+        $this->check_current_mark(1.5);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '(x');
+        $this->check_output_contains_text_input('ans2', '(x');
+        $this->check_output_contains_text_input('ans3', 'x+1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_input_validation('ans4');
+        $this->check_output_does_not_contain_prt_feedback('odd');
+        $this->check_output_does_not_contain_prt_feedback('even');
+        $this->check_output_does_not_contain_prt_feedback('oddeven');
+        $this->check_output_contains_prt_feedback('unique');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // TODO more steps to come.
+    }
 }

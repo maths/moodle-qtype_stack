@@ -100,4 +100,22 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $this->assertTrue($q->is_gradable_response(array('ans1' => '2')));
         $this->assertTrue($q->is_gradable_response(array('ans1' => '2', 'ans1_val' => '2')));
     }
+
+    public function test_grade_parts_that_can_be_graded() {
+        $q = $this->get_test_stack_question('test3');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $response = array('ans1' => '(x', 'ans2' => '(x', 'ans3' => 'x+1', 'ans4' => 'false',
+                'ans1_val' => 'x^3', 'ans3_val' => 'x');
+        $lastgradedresponses = array(
+            'odd'     => array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '', 'ans1_val' => 'x^3', 'ans3_val' => 'x'),
+            'oddeven' => array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '', 'ans1_val' => 'x^3', 'ans3_val' => 'x'),
+        );
+        $partscores = $q->grade_parts_that_can_be_graded($response, $lastgradedresponses, false);
+
+        $expected = array(
+            'unique' => new qbehaviour_adaptivemultipart_part_result('unique', 0, 1),
+        );
+        $this->assertEquals($expected, $partscores);
+    }
 }

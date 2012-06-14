@@ -47,7 +47,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         // Check the initial state.
-        
         $this->check_current_state(question_state::$todo);
         $this->assertEquals('adaptivemultipart',
                 $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
@@ -291,7 +290,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // 1. right, not yet validated
         // 2. invalid
         // 3. right, not yet validated
-        // 4. right, validation not required
+        // 4. right, validation not required.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true', '-submit' => 1));
 
         $this->check_current_state(question_state::$invalid);
@@ -691,7 +690,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Step 10
+        // Step 10.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
             'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1));
 

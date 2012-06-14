@@ -114,7 +114,7 @@ class qtype_stack_walkthrough_interactive_test extends qtype_stack_walkthrough_t
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
-        
+
         // Try again.
         $this->process_submission(array('-tryagain' => 1));
 
@@ -314,12 +314,12 @@ class qtype_stack_walkthrough_interactive_test extends qtype_stack_walkthrough_t
                 'ans4' => 'true', '-submit' => 1));
 
         $this->check_current_state(question_state::$gradedpartial);
-        // The  correct score is:
+        // The  correct mark calculation is:
         // odd PRT:     0, 1,   1, penalty 1/3: 2/3
         // even PRT:    0, 0,   1, penalty 1/3: 1/3
         // oddeven PRT: 0, 0.5, 0, penalty 1/3: 0
         // unique PRT:  0, 0,   1, penalty 1:   0
-        // Total:                               1
+        // Total:                               1.
         $this->check_current_mark(1);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x', false);

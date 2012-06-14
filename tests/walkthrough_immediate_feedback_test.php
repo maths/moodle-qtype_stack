@@ -274,7 +274,7 @@ class qtype_stack_walkthrough_immediate_feedback_test extends qtype_stack_walkth
                 $this->get_no_hint_visible_expectation()
         );
 
-        //Submit again. Should now be graded.
+        // Submit again. Should now be graded.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
                                         'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1));
 

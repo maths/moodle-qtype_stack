@@ -34,7 +34,7 @@ if (!is_readable($plot)) {
     die();
 }
 
-// Handle If-Modified-Since
+// Handle If-Modified-Since.
 $filedate = filemtime($plot);
 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
         strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $filedate) {
@@ -43,10 +43,10 @@ if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
 }
 header('Last-Modified: '.gmdate('D, d M Y H:i:s', $filedate).' GMT');
 
-// Type
+// Type.
 header('Content-Type: ' . mimeinfo('type', 'x.png'));
 header('Content-Length: ' . filesize($plot));
 
-// Output file
+// Output file.
 session_get_instance()->write_close(); // unlock session during file serving.
 readfile($plot);

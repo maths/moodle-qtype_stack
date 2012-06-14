@@ -126,7 +126,8 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         if ($enabled) {
             $matcher['attributes']['readonly'] = 'readonly';
             $this->assertNotTag($matcher, $this->currentoutput,
-                    'input with attributes ' . html_writer::attributes($attributes) . ' should not be read-only in ' . $this->currentoutput);
+                    'input with attributes ' . html_writer::attributes($attributes) .
+                    ' should not be read-only in ' . $this->currentoutput);
         }
     }
 

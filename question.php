@@ -213,7 +213,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $step->set_qt_var('_seed', $this->seed);
 
         // Build up the question session out of all the bits that need to go into it.
-        // 1. question variables
+        // 1. question variables.
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
         $session = $questionvars->get_session();
 
@@ -249,7 +249,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $notetext->get_errors());
         }
 
-        // Now instantiate the session:
+        // Now instantiate the session.
         $session->instantiate();
         if ($session->get_errors()) {
             throw new stack_exception('qtype_stack_question : CAS error when instantiating the session: ' .

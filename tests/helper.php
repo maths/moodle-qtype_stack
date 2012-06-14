@@ -41,6 +41,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test0', // One input, one PRT, not randomised. (1 + 1 = 2.)
             'test2', // Two inputs, one PRT, not randomises. (Expand (x - 2)(x - 3).)
             'test3', // Four inputs, four PRTs, not randomised. (Even and odd functions.)
+            'test3_penalty0_1', // Four inputs, four PRTs, not randomised. (Even and odd functions.)
             'test4', // One input, one PRT, not randomised, has a plot. (What is the equation of this graph? x^2.)
             'test5', // Three inputs, three PRTs, one with 4 nodes, randomised. (Three steps, rectangle side length from area.)
             // 'test6', // Test of the matrix input type. Not currently supported.
@@ -265,6 +266,98 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, 1, -1, '', 'unique-0-0');
         $node->add_branch(1, '=', 1, 1, -1, '', 'unique-0-1');
+        $q->prts['unique']  = new stack_potentialresponse_tree('unique',
+                '', true, 0.25, null, array($node));
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question the question from the test3.xml file.
+     */
+    public static function make_stack_question_test3_penalty0_1() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-3,penalty-0.1';
+        $q->questiontext = '<p>1. Give an example of an odd function by typing
+                                  an expression which represents it.
+                                  $f_1(x)=$ [[input:ans1]].
+                                  [[validation:ans1]]
+                                  [[feedback:odd]]</p>
+                            <p>2. Give an example of an even function.
+                                  $f_2(x)=$ [[input:ans2]].
+                                  [[validation:ans2]]
+                                  [[feedback:even]]</p>
+                            <p>3. Give an example of a function which is odd and even.
+                                  $f_3(x)=$ [[input:ans3]].
+                                  [[validation:ans3]]
+                                  [[feedback:oddeven]]</p>
+                            <p>4. Is the answer to 3. unique? [[input:ans4]]
+                                  (Or are there many different possibilities.)
+                                  [[validation:ans4]]
+                                  [[feedback:unique]]</p>';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                        'algebraic', 'ans1', 'x^3', array('boxWidth' => 15));
+        $q->inputs['ans2'] = stack_input_factory::make(
+                        'algebraic', 'ans2', 'x^4', array('boxWidth' => 15));
+        $q->inputs['ans3'] = stack_input_factory::make(
+                        'algebraic', 'ans3', '0',   array('boxWidth' => 15));
+        $q->inputs['ans4'] = stack_input_factory::make(
+                        'boolean',   'ans4', 'true');
+
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null, 't');
+        $sans = new stack_cas_casstring('sa');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('0');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
+        $node->add_branch(0, '=', 0, 1, -1, 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
+        $node->add_branch(1, '=', 1, 0.1, -1, '', 'odd-0-1');
+        $q->prts['odd']     = new stack_potentialresponse_tree('odd',
+                '', true, 0.25, $feedbackvars->get_session(), array($node));
+
+        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null, 't');
+        $sans = new stack_cas_casstring('sa');
+        $tans->get_valid('t');
+        $tans = new stack_cas_casstring('0');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
+        $node->add_branch(0, '=', 0, 0.1, -1, 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
+        $node->add_branch(1, '=', 1, 0.1, -1, '', 'odd-0-1');
+        $q->prts['even']    = new stack_potentialresponse_tree('even',
+                '', true, 0.25, $feedbackvars->get_session(), array($node));
+
+        $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
+
+        $sans = new stack_cas_casstring('sa1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('0');
+        $tans->get_valid('t');
+        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
+        $node0->add_branch(0, '=', 0,   '', 1,
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', 'oddeven-0-0');
+        $node0->add_branch(1, '=', 0.5, '', 1, '', 'oddeven-0-1');
+
+        $sans = new stack_cas_casstring('sa2');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('0');
+        $tans->get_valid('t');
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
+        $node1->add_branch(0, '+', 0,   0.1, -1,
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
+        $node1->add_branch(1, '+', 0.5, 0.1, -1, '', 'EVEN');
+
+        $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
+                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1));
+
+        $sans = new stack_cas_casstring('ans4');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('true');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
+        $node->add_branch(0, '=', 0, 0.1, -1, '', 'unique-0-0');
+        $node->add_branch(1, '=', 1, 0.1, -1, '', 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node));
 

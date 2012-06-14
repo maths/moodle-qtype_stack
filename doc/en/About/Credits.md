@@ -22,6 +22,7 @@ STACK 2.0 is distributed in the following languages:
   * DE: German, by Frank Schütte
   * EN: English (British), by Chris Sangwin
   * NL: Dutch, by Tim Neijens
+  * SV: Swedish, by Mikael Kurula
 
 STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know! Likewise if you would really like to see STACK in another language.
 

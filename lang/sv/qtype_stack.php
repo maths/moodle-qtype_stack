@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['addanothernode'] = 'Lägg till en nod till';
+$string['addanothernode'] = 'Lägg till en ny nod';
 $string['addanothertestcase'] = 'Lägg till ett nytt testfall...';
 $string['addatestcase'] = 'Lägg till ett testfall...';
 $string['addingatestcase'] = 'Lägger till ett testfall till fråga {$a}';

@@ -85,7 +85,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('multiplicationsign', 'dot');
 
         $at1 = new stack_cas_session($s1, $options, 0);
-        $this->assertEqual('x\cdot y', $at1->get_display_key('a'));
+        $this->assertEquals('x\cdot y', $at1->get_display_key('a'));
 
     }
 
@@ -100,7 +100,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('multiplicationsign', 'none');
 
         $at1 = new stack_cas_session($s1, $options, 0);
-        $this->assertEqual('x\,y', $at1->get_display_key('a'));
+        $this->assertEquals('x\,y', $at1->get_display_key('a'));
 
     }
 
@@ -115,7 +115,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('multiplicationsign', 'cross');
 
         $at1 = new stack_cas_session($s1, $options, 0);
-        $this->assertEqual('x\times y', $at1->get_display_key('a'));
+        $this->assertEquals('x\times y', $at1->get_display_key('a'));
 
     }
 

@@ -433,6 +433,26 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     	// stack savepoint reached
     	upgrade_plugin_savepoint(true, 2012061500, 'qtype', 'stack');
     }
-      
+
+    if ($oldversion < 2012061501) {
+    
+    	// Changing type of field truepenalty on table qtype_stack_prt_nodes to number
+    	$table = new xmldb_table('qtype_stack_prt_nodes');
+    	$field = new xmldb_field('truepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'truescore');
+    
+    	// Launch change of type for field truepenalty
+    	$dbman->change_field_type($table, $field);
+
+    	// Changing type of field falsepenalty on table qtype_stack_prt_nodes to number
+    	$table = new xmldb_table('qtype_stack_prt_nodes');
+    	$field = new xmldb_field('falsepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'falsescore');
+    	
+    	// Launch change of type for field falsepenalty
+    	$dbman->change_field_type($table, $field);
+   	 
+    	// stack savepoint reached
+    	upgrade_plugin_savepoint(true, 2012061501, 'qtype', 'stack');
+    }
+    
     return true;
 }

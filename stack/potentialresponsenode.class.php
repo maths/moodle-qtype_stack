@@ -229,9 +229,6 @@ class stack_potentialresponse_node {
             case '-':
                 return $oldscore - $resultbranch['score'];
 
-            case '=AT':
-                return $resultbranch['score'];
-
             default:
                 throw new stack_exception('stack_potentialresponse_node: update_score called ' .
                         'with invalid score modificiation method: ' . $resultbranch['scoremodification']);

@@ -160,8 +160,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $tans = new stack_cas_casstring($node->tans);
             $testoptions = new stack_cas_casstring($node->testoptions);
             $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $testoptions);
-            $prt_node->add_branch(1, '+', 0, 0, -1, $node->truefeedback, '');
-            $prt_node->add_branch(0, '+', 0, 0, -1, $node->falsefeedback, '');
+            $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, '');
+            $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, '');
             $prt_nodes[] = $prt_node;
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
@@ -570,7 +570,11 @@ class qtype_stack_edit_form extends question_edit_form {
         // 0 + bit is to eliminate excessive decimal places from the DB.
         $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
         $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
-        $question->{$prtname . 'truepenalty'   }[$nodename] = 0 + $node->truepenalty;
+        $penalty = $node->truepenalty;
+        if ('' != trim($penalty)) {
+        	$penalty = 0 + $penalty;
+        }
+        $question->{$prtname . 'truepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'truenextnode'  }[$nodename] = $node->truenextnode;
         $question->{$prtname . 'trueanswernote'}[$nodename] = $node->trueanswernote;
         $question->{$prtname . 'truefeedback'  }[$nodename] = $this->prepare_text_field(
@@ -579,7 +583,11 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $question->{$prtname . 'falsescoremode' }[$nodename] = $node->falsescoremode;
         $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
-        $question->{$prtname . 'falsepenalty'   }[$nodename] = 0 + $node->falsepenalty;
+        $penalty = $node->falsepenalty;
+        if ('' != trim($penalty)) {
+        	$penalty = 0 + $penalty;
+        }
+        $question->{$prtname . 'falsepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'falsenextnode'  }[$nodename] = $node->falsenextnode;
         $question->{$prtname . 'falseanswernote'}[$nodename] = $node->falseanswernote;
         $question->{$prtname . 'falsefeedback'  }[$nodename] = $this->prepare_text_field(
@@ -619,7 +627,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
-
+      
         // 1) Validate all the fixed question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
         if (!$questionvars->get_valid()) {
@@ -729,7 +737,20 @@ class qtype_stack_edit_form extends question_edit_form {
                                 'field' => get_string('answernote', 'qtype_stack'))).get_string('answernote_err', 'qtype_stack');
                     }
                 }
+                foreach ($fromform[$prtname.$branch.'penalty'] as $key => $penalty) {
+                    if ('' != $penalty) {
+                	    if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
+                		    $interror[] = get_string('penaltyerror2', 'qtype_stack');
+                	    }
+                    } 
+                }
+                foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
+               	    if (!is_numeric($score) || $score<0 || $score>1) {
+               		    $interror[] = get_string('scoreerror', 'qtype_stack');
+                    } 
+                }
             }
+
             if (!empty($interror)) {
                 $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
             }

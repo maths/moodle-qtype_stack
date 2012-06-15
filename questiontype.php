@@ -736,7 +736,6 @@ class qtype_stack extends question_type {
 
         $fromform = $format->import_headers($xml);
         $fromform->qtype = $this->name();
-        $fromform->penalty = 0;
 
         $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables',
                                                             0, '#', 'text', 0, '#'), '', true);
@@ -748,6 +747,7 @@ class qtype_stack extends question_type {
         $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect',
                                                                   $format, $fromform->questiontextformat);
         $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fromform->questiontextformat);
+        $fromform->penalty               = $format->getpath($xml, array('#', 'penalty', 0, '#'), 0.1);
         $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');

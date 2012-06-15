@@ -429,10 +429,10 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     	if ($dbman->field_exists($table, $field)) {
     		$dbman->drop_field($table, $field);
     	}
-    
+
     	// stack savepoint reached
     	upgrade_plugin_savepoint(true, 2012061500, 'qtype', 'stack');
     }
-   
+      
     return true;
 }

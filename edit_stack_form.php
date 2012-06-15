@@ -204,7 +204,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
         $mform->addRule('questiontext', get_string('questiontextnonempty', 'qtype_stack'), 'required', '', 'client');
-
+        
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 get_string('questionvariables', 'qtype_stack'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');
@@ -215,6 +215,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
 
+        $pen = $mform->createElement('text', 'penalty', get_string('penalty', 'qtype_stack'), array('size' => 5));
+        $mform->insertElementBefore($pen, 'generalfeedback');
+        $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
+        
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
         $mform->insertElementBefore($sf, 'generalfeedback');
@@ -287,11 +291,6 @@ class qtype_stack_edit_form extends question_edit_form {
                 get_string('complexno', 'qtype_stack'), array(
                     'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
-
-        // Question tests.
-
-        // To stop Moodle compaining.
-        $mform->addElement('hidden', 'penalty', 0);
     }
 
     protected function definition_input($inputname, MoodleQuickForm $mform) {
@@ -621,7 +620,7 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
-        // 1) Validate all the fixes question fields.
+        // 1) Validate all the fixed question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
         if (!$questionvars->get_valid()) {
             $errors['questionvariables'] = $questionvars->get_errors();
@@ -646,6 +645,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputs = array_keys($this->get_input_names_from_question_text());
         $potentialresponsetrees = $this->get_prt_names_from_question();
 
+        $penalty = $fromform['penalty'];
+        if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
+        	$errors['penalty'] = get_string('penaltyerror', 'qtype_stack');
+        }
+        
         // 2) Validate all inputs.
         foreach ($inputs as $inputname) {
             $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'tans']);

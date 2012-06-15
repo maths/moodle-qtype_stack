@@ -419,20 +419,20 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     public function test_test3_complex_scenario() {
         // Here are the sequence of responses we are going to test. When
-        // a particular PRT generates a grades, that is shown in brackets as
+        // a particular PRT generates a grade, then it is shown in brackets as
         // raw fraction - penalty.
         //
         //     odd         even        oddeven       unique     Mark so far
         //  1. x^3         -           x             -          -
-        //  2. x^3 (1)     -           x (0.5)       -          1.5
-        //  3. (x          (x          x+1           F (0)      1.5
-        //  4. x)          x^2         x+1 (0-0.1)   -          1.5
-        //  5. x^2         x           x^5           -          1.5
-        //  6. x^2 (0-0.1) x^2         x^5 (0.5-0.2) T (1-0.1)  2.4
-        //  7. x           x^2 (1)     x+3           T (1-0.1)  3.4
-        //  8. x (1-0.2)   -           x+3 (0-0.3)   T (1-0.1)  3.4
-        //  9. x^3         x^2         0             T (1-0.1)  3.4
-        // 10. x^3 (1-0.3) x^2 (1-0.1) 0 (1-0.4)     T (1-0.1)  3.5
+        //  2. x^3 (1)     -           x (0.5-0.1)   -          1.4
+        //  3. (x          (x          x+1           F (0)      1.4
+        //  4. x)          x^2         x+1 (0-0.2)   -          1.4
+        //  5. x^2         x           x^5           -          1.4
+        //  6. x^2 (0-0.1) x^2         x^5 (0.5-0.3) T (1-0.1)  2.3
+        //  7. x           x^2 (1)     x+3           T (1-0.1)  3.3
+        //  8. x (1-0.1)   -           x+3 (0-0.4)   T (1-0.1)  3.3
+        //  9. x^3         x^2         0             T (1-0.1)  3.3
+        // 10. x^3 (1-0.1) x^2 (1-0.0) 0 (1-0.4)     T (1-0.1)  3.5
         //
         // Best mark
         //     1.0         1.0         0.6           0.9        3.5

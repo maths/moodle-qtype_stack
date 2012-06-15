@@ -419,5 +419,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012043001, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2012061500) {
+    
+    	// Define field questionnote to be dropped from qtype_stack
+    	$table = new xmldb_table('qtype_stack');
+    	$field = new xmldb_field('markmode');
+    
+    	// Conditionally launch drop field questionnote
+    	if ($dbman->field_exists($table, $field)) {
+    		$dbman->drop_field($table, $field);
+    	}
+    
+    	// stack savepoint reached
+    	upgrade_plugin_savepoint(true, 2012061500, 'qtype', 'stack');
+    }
+   
     return true;
 }

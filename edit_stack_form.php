@@ -253,13 +253,6 @@ class qtype_stack_edit_form extends question_edit_form {
                 get_string('assumepositive', 'qtype_stack'));
         $mform->addHelpButton('assumepositive', 'assumepositive', 'qtype_stack');
 
-        $mform->addElement('select', 'markmode',
-                get_string('markmode', 'qtype_stack'), array(
-                    qtype_stack_question::MARK_MODE_PENALTY => get_string('markmodepenalty', 'qtype_stack'),
-                    qtype_stack_question::MARK_MODE_FIRST   => get_string('markmodefirst', 'qtype_stack'),
-                    qtype_stack_question::MARK_MODE_LAST    => get_string('markmodelast', 'qtype_stack')));
-        $mform->addHelpButton('markmode', 'markmode', 'qtype_stack');
-
         $mform->addElement('editor', 'prtcorrect',
                 get_string('prtcorrectfeedback', 'qtype_stack'),
                 array('rows' => 1), $this->editoroptions);
@@ -499,7 +492,6 @@ class qtype_stack_edit_form extends question_edit_form {
                                             $opt->prtpartiallycorrect, $opt->prtpartiallycorrectformat, $question->id);
         $question->prtincorrect          = $this->prepare_text_field('prtincorrect',
                                             $opt->prtincorrect, $opt->prtincorrectformat, $question->id);
-        $question->markmode              = $opt->markmode;
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
         $question->sqrtsign              = $opt->sqrtsign;

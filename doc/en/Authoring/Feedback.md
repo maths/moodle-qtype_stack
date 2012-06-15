@@ -1,4 +1,4 @@
-# Feedback
+# Feedback #
 
 The purpose of STACK is to assess students' answers to mathematical questions,
 and on the basis of the properties we establish to assign _feedback_.
@@ -17,7 +17,7 @@ In STACK multi-part questions there is a complete separation between two importa
 1. a list of [inputs](Inputs.md)
 2. a list of [potential response trees](Potential_response_trees.md)
 
-Feedback is associated with each of these and it can be positioned anywhere within the [question text](CASText.md#question_text).
+Separate feedback is associated with each input and each potential response tree.  It can be positioned anywhere within the [question text](CASText.md#question_text) using tags.
 
 # Validation #
 
@@ -31,39 +31,36 @@ it must be validated.  In particular, at each attempt, each input is assigned a 
 4. valid, a response which is valid but not scored.
 5. score.  In this case, the answer is available to any potential response tree requiring it.
 
-Normally a student will view a displayed form of their expression and submit it again.  This default behaviour is inappropriate for multiple choice/selection interactions, and can be changed for each input.
+Normally a student will view a displayed form of their expression and submit it again.  This default behaviour is inappropriate for multiple choice/selection interactions, and can be changed for each input using the option "Student must verify".  Whether the student's answer is echoed back and shown is controlled by a separate option "Show the validation".  Validation errors are always shown.
 
-Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitues a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. $i$ and $j$ change meaning in differnent contexts, e.g. $\sqrt{-1}$ or vector components.  See details about [options](Options.md).
+Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. $i$ and $j$ change meaning in differnent contexts, e.g. $\sqrt{-1}$ or vector components.  See details about [options](Options.md).
 
 # Properties #
 
 Each [potential response tree](Potential_response_trees.md) returns three outcomes
 
-1. a numerical score,
-2. text for the student,
+1. text for the student,
+2. a numerical score,
 3. an [answer note](Potential_response_trees.md#Answer_note)
    for use by the teacher during [reviewing](Reviewing.md).
 
-These correspond approximately to formative, summative and evaluative functions of assessment.
+These correspond approximately to formative, summative and evaluative functions of assessment respectively.
 The [general feedback](CASText.md#General_feedback) (known as worked solution in previous versions) is fixed and may not depend on the student's answers.
-Hence it is not considered to be feedback to the student's work in the strict sense.  However, it remains a very useful outcome to students.
+Hence it is not considered to be feedback to the student's work in the strict sense.  However, it remains a very useful outcome for students.
 
-The amount of feedback available in each question is governed by an [option](Options.md), [feedback used](Options.md#Feedback_used).
+The amount of feedback available in each question is governed by the question behaviours.
 
 ## Numerical score  ##
 
-Each potential response tree calculates a numerical score between \(0\) and the [question value](Potential_response_trees.md#Question_value).
+Each potential response tree calculates a numerical score between 0 and 1.  This is then multiplied by the [question value](Potential_response_trees.md#Question_value) for each potential response tree.  The final score for the question is the sum over all potential response trees.
 
 The numerical scores are assembled by traversing each potential response tree.
 
 * Each branch of each node can add, subtract or set an absolute, score.
-* The outcome of a potential response tree should be between \(0\) and \(1\) and then is scaled by multiplying by the [question value](Potential_response_trees.md#Question_value) for that potential response tree.
-* A negative score, or scores greater than one are not prevented!
+* The outcome at the end should be between 0 and 1.  If the score, \(s\), lies outside this range it is taken to be \( \min(\max(s,0),1) \) to bring it within range, then it is scaled by multiplying by the [question value](Potential_response_trees.md#Question_value) for that potential response tree.
 * A "penalty" may also attached to this attempt, but normally the penalty is empty.  This is useful to _remove_ any penalty for this outcome.
 
-The Mark Modification method is used to adjust the score for each potential response tree, based on the number of valid, different attempts.
-
-The default penalty mark modification scheme deducts from the score a small amount (default is \(10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
+STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
 
 It works in the following way. For each attempt $k$, we let
 
@@ -71,7 +68,7 @@ It works in the following way. For each attempt $k$, we let
 * $p_k$ be the "penalty" as follows:
  * If $s_k=1$ then $p_k=0$, else
  * If the penalty $p$ set in the potential response tree is not `NULL` then $p_k=p$, else
- * $p_k$ is the penalty set in the question options, (default \(0.1=10\%\).
+ * $p_k$ is the penalty set in the question options, (default \(0.1=10\%\) ).
 
 The default penalty scheme takes the _maximum_ score for each attempt, so that by accruing further penalties a student may never be worse off.
 
@@ -80,9 +77,7 @@ To be specific
 1. Let \( (s_i,p_i) \) for \(i=1,\cdots n\) be the list of scores and penalties for a particular potential response tree, for each different valid attempt.
 2. The score for attempt \(k\) is defined to be
 \[ \mbox{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
-Notice that this is purely a function of a list of mark, penalty pairs.
-
-
+Notice that this is purely a function of a list of (score, penalty) pairs.
 
 The score for that attempt is the sum of the marks for each potential response tree once penalties have been deducted from each tree.
 

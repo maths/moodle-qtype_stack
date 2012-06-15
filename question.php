@@ -40,9 +40,6 @@ require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.ph
  */
 class qtype_stack_question extends question_graded_automatically_with_countback
         implements question_automatically_gradable_with_multiple_parts {
-    const MARK_MODE_PENALTY = 'penalty';
-    const MARK_MODE_FIRST   = 'firstanswer';
-    const MARK_MODE_LAST    = 'lastanswer';
 
     /**
      * @var string STACK specific: variables, as authored by the teacher.
@@ -81,9 +78,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /** @var int one of the FORMAT_... constants */
     public $prtincorrectformat;
-
-    /** @var string how marks are computed by PRTs in adaptive mode. */
-    public $markmode;
 
     /** @var string if set, this is used to control the pseudo-random generation of the seed. */
     public $variantsselectionseed;

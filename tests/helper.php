@@ -80,7 +80,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs = array();
         $q->prts = array();
 
-        $q->markmode = qtype_stack_question::MARK_MODE_PENALTY;
         $q->options = new stack_options();
         $q->questionnote = '';
 
@@ -724,7 +723,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->questionnote              = '';
         $qdata->options->questionsimplify          = 1;
         $qdata->options->assumepositive            = 0;
-        $qdata->options->markmode                  = 'penalty';
         $qdata->options->prtcorrect                = self::DEFAULT_CORRECT_FEEDBACK;
         $qdata->options->prtcorrectformat          = FORMAT_HTML;
         $qdata->options->prtpartiallycorrect       = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;

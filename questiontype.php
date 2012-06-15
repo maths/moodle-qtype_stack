@@ -62,7 +62,6 @@ class qtype_stack extends question_type {
         $options->questionnote              = $fromform->questionnote;
         $options->questionsimplify          = $fromform->questionsimplify;
         $options->assumepositive            = $fromform->assumepositive;
-        $options->markmode                  = $fromform->markmode;
         $options->prtcorrect                = $this->import_or_save_files($fromform->prtcorrect,
                     $context, 'qtype_stack', 'prtcorrect', $fromform->id);
         $options->prtcorrectformat          = $fromform->prtcorrect['format'];
@@ -260,7 +259,6 @@ class qtype_stack extends question_type {
         $question->prtpartiallycorrectformat = $questiondata->options->prtpartiallycorrectformat;
         $question->prtincorrect              = $questiondata->options->prtincorrect;
         $question->prtincorrectformat        = $questiondata->options->prtincorrectformat;
-        $question->markmode                  = $questiondata->options->markmode;
         $question->variantsselectionseed     = $questiondata->options->variantsselectionseed;
 
         $question->options = new stack_options();
@@ -615,7 +613,6 @@ class qtype_stack extends question_type {
         $output .= "    </questionnote>\n";
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
         $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
-        $output .= "    <markmode>{$options->markmode}</markmode>\n";
         $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect,
                         $options->prtcorrectformat, $contextid, 'prtcorrect', $questiondata->id);
         $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect,
@@ -727,7 +724,6 @@ class qtype_stack extends question_type {
         $fromform->questionnote          = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionsimplify      = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
         $fromform->assumepositive        = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);
-        $fromform->markmode              = $format->getpath($xml, array('#', 'markmode', 0, '#'), 'penalty');
         $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fromform->questiontextformat);
         $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect',
                                                                   $format, $fromform->questiontextformat);

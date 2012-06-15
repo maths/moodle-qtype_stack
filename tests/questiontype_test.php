@@ -92,7 +92,6 @@ class qtype_stack_test extends question_testcase {
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
-    <markmode>penalty</markmode>
     <prtcorrect format="html">
       <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
     </prtcorrect>
@@ -199,7 +198,6 @@ class qtype_stack_test extends question_testcase {
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
-    <markmode>penalty</markmode>
     <prtcorrect format="html">
       <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
     </prtcorrect>
@@ -298,7 +296,6 @@ class qtype_stack_test extends question_testcase {
         $expectedq->questionnote          = '';
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
-        $expectedq->markmode              = 'penalty';
         $expectedq->prtcorrect            = array('text' => '<p>Correct answer, well done.</p>',
                                                     'format' => FORMAT_HTML, 'files' => array());;
         $expectedq->prtpartiallycorrect   = array('text' => '<p>Your answer is partially correct.</p>',

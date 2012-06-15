@@ -249,6 +249,18 @@ class stack_potentialresponse_tree {
     }
 
     /**
+     * @return array with keys the same as $this->nodes, and values objects with
+     *      fields falsenote, falsescore, truenote, truescore.
+     */
+    public function get_nodes_summary() {
+        $nodesummary = array();
+        foreach ($this->nodes as $key => $node) {
+            $nodesummary[$key] = $node->summarise_branches();
+        }
+        return $nodesummary;
+    }
+
+    /**
      * @return float the value of this PRT within the question.
      */
     public function get_value() {

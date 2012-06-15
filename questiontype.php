@@ -564,6 +564,26 @@ class qtype_stack extends question_type {
         $transaction->allow_commit();
     }
 
+    public function get_possible_responses($questiondata) {
+        $parts = array();
+
+        $q = $this->make_question($questiondata);
+
+        foreach ($q->prts as $index => $prt) {
+            foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
+                $parts[$index . '-' . $nodeid] = array(
+                    $choices->falsenote => new question_possible_response(
+                            $choices->falsenote, $choices->falsescore * $prt->get_value()),
+                    $choices->truenote => new question_possible_response(
+                            $choices->truenote, $choices->truescore * $prt->get_value()),
+                    null              => question_possible_response::no_response(),
+                );
+            }
+        }
+
+        return $parts;
+    }
+
     /**
      * Helper method used by {@link export_to_xml()}.
      * @param qformat_xml $format the importer/exporter object.

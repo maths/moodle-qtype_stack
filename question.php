@@ -658,4 +658,40 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function add_question_vars_to_session(stack_cas_session $session) {
         $session->merge_session($this->session);
     }
+
+    public function classify_response(array $response) {
+        $classification = array();
+
+        foreach ($this->prts as $index => $prt) {
+            if (!$this->can_execute_prt($prt, $response, true)) {
+                foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
+                    $classification[$index . '-' . $nodeid] = question_classified_response::no_response();
+                }
+                continue;
+            }
+
+            $prtinput = $this->get_prt_input($index, $response, true);
+
+            $results = $this->prts[$index]->evaluate_response($this->session,
+                    $this->options, $prtinput, $this->seed);
+            $answernotes = explode(' | ', $results['answernote']);
+
+            foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
+                if (in_array($choices->truenote, $answernotes)) {
+                    $classification[$index . '-' . $nodeid] = new question_classified_response(
+                            $choices->truenote, $results['answernote'], $results['fraction']);
+
+                } else if (in_array($choices->falsenote, $answernotes)) {
+                    $classification[$index . '-' . $nodeid] = new question_classified_response(
+                            $choices->falsenote, $results['answernote'], $results['fraction']);
+
+                } else {
+                    $classification[$index . '-' . $nodeid] = question_classified_response::no_response();
+                }
+            }
+
+        }
+
+        return $classification;
+    }
 }

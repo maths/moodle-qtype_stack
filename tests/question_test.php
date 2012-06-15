@@ -118,4 +118,34 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         );
         $this->assertEquals($expected, $partscores);
     }
+
+    public function test_classify_response_test0() {
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $expected = array(
+            'firsttree-0' => new question_classified_response('firsttree-1-F',
+                    'ATEqual_com_ass: (AlgEquiv:false) | firsttree-1-F', 0),
+        );
+        $this->assertEquals($expected, $q->classify_response(array('ans1' => '7')));
+
+        $expected = array(
+            'firsttree-0' => new question_classified_response('firsttree-1-T',
+                    'firsttree-1-T', 1),
+        );
+        $this->assertEquals($expected, $q->classify_response(array('ans1' => '2')));
+
+        $expected = array(
+            'firsttree-0' => question_classified_response::no_response(),
+        );
+        $this->assertEquals($expected, $q->classify_response(array('ans1' => '')));
+
+    }
+
+    public function test_classify_response_test3() {
+        $q = test_question_maker::make_question('stack', 'test3');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $this->assertTrue(true);
+    }
 }

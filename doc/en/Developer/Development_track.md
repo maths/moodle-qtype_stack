@@ -25,9 +25,9 @@ These are the major tasks we still need to complete in approximate order and imp
 4. **DONE** Re-implement question tests in Moodle.
  1. **DONE** Except that the test input need to be evaluated expressions, not just strings.
 5. **DONE** Get deploying, and a fixed number of variants working in Moodle.
-6. Make multi-part STACK questions work exactly right in Adaptive behaviour.
- 1. Evaluate some PRTs if possible, even if not all inputs have been filled in.
- 2. Correct computation of penalty for each PRT, and hence overall final grade.
+6. **DONE** Make multi-part STACK questions work exactly right in Adaptive behaviour.
+ 1. **DONE** Evaluate some PRTs if possible, even if not all inputs have been filled in.
+ 2. **DONE** Correct computation of penalty for each PRT, and hence overall final grade.
  3. **DONE** Problem with expressions in feedback CAS-text not being simplified.
 
 ## Milestone 2
@@ -37,7 +37,7 @@ These are the major tasks we still need to complete in approximate order and imp
  2. Consider what additional custom STACK reporting we need.
 2. **DONE** Implement the Moodle backup/restore code for stack questions.
 3. **DONE** Implement Moodle XML format import and export.
-4. Investigate ways of running Maxima on a separate server.
+4. **DONE** Investigate ways of running Maxima on a separate server.
 5. **DONE** Implement random seed control like for varnumeric.
 
 At this point STACK will be "ready" for use with students, although not all features will be available.
@@ -46,7 +46,7 @@ At this point STACK will be "ready" for use with students, although not all feat
 
 1. Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
 2. Implement additional reporting as determined above.
-3. Make STACK respect all Moodle behaviours.
+3. **DONE** Make STACK respect all Moodle behaviours.
  1. **DONE** Deferred feedback
  2. **DONE** Interactive
  3. **DONE** Deferred feedback with CBM
@@ -59,6 +59,7 @@ At this point STACK will be "ready" for use with students, although not all feat
  1. Only deploy new versions.
  2. Reploy many versions at once.
  3. Remove many versions at once.
+8. Complete the system for running Maxima on a separate server.
 
 ## Known bugs/issues
 

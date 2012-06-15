@@ -107,8 +107,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('2');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, '', -1, '', 'firsttree-0-0');
-        $node->add_branch(1, '=', 1, '', -1, '', 'firsttree-0-1');
+        $node->add_branch(0, '=', 0, '', -1, '', 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, '', -1, '', 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node));
 
         return $q;
@@ -233,8 +233,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, 0.3333333, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
-        $node->add_branch(1, '=', 1, 0.3333333, -1, '', 'odd-0-1');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'even-0-0');
+        $node->add_branch(1, '=', 1, 0.3333333, -1, '', 'even-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
@@ -256,7 +256,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node1->add_branch(0, '+', 0,   0.3333333, -1,
                 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
-        $node1->add_branch(1, '+', 0.5, 0.3333333, -1, '', 'EVEN');
+        $node1->add_branch(1, '+', 0.5, 0.3333333, -1, '', 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
                 '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1));
@@ -755,7 +755,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->inputs['ans1'] = $input;
 
         $prt = new stdClass();
-        $prt->name              = 'prt1';
+        $prt->name              = 'firsttree';
         $prt->id                = '0';
         $prt->questionid        = '0';
         $prt->value             = 1;
@@ -765,7 +765,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node = new stdClass();
         $node->id                  = 0;
         $node->questionid          = 0;
-        $node->prtname             = 'prt1';
+        $node->prtname             = 'firsttree';
         $node->nodename            = '0';
         $node->answertest          = 'EqualComAss';
         $node->sans                = 'ans1';
@@ -776,25 +776,318 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->truescore           = 1;
         $node->truepenalty         = 0;
         $node->truenextnode        = -1;
-        $node->trueanswernote      = 'prt1-1-T';
+        $node->trueanswernote      = 'firsttree-1-T';
         $node->truefeedback        = '';
         $node->truefeedbackformat  = FORMAT_HTML;
         $node->falsescoremode      = '=';
         $node->falsescore          = 0;
         $node->falsepenalty        = 0;
         $node->falsenextnode       = -1;
-        $node->falseanswernote     = '';
+        $node->falseanswernote     = 'firsttree-1-F';
         $node->falsefeedback       = '';
         $node->falsefeedbackformat = FORMAT_HTML;
         $prt->nodes['0'] = $node;
-        $qdata->prts['prt1'] = $prt;
+        $qdata->prts['firsttree'] = $prt;
 
         $qdata->deployedseeds = array('12345');
 
         $qtest = new stack_question_test(array('ans1' => '2'));
-        $qtest->add_expected_result('prt1', new stack_potentialresponse_tree_state(
-                '', array(), array('prt1-1-T'), true, 1, 0));
+        $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
+                '', array(), array('firsttree-1-T'), true, 1, 0));
         $qdata->testcases[1] = $qtest;
+
+        return $qdata;
+    }
+
+    /**
+     * @return qtype_stack_question the question from the test3.xml file.
+     */
+    public static function get_stack_question_data_test3() {
+        question_bank::load_question_definition_classes('stack');
+        $qdata = new stdClass();
+        test_question_maker::initialise_question_data($qdata);
+
+        $qdata->qtype = 'stack';
+        $qdata->name = 'test-3';
+        $qdata->questiontext = '<p>1. Give an example of an odd function by typing
+                                      an expression which represents it.
+                                      $f_1(x)=$ [[input:ans1]].
+                                      [[validation:ans1]]
+                                      [[feedback:odd]]</p>
+                                <p>2. Give an example of an even function.
+                                      $f_2(x)=$ [[input:ans2]].
+                                      [[validation:ans2]]
+                                      [[feedback:even]]</p>
+                                <p>3. Give an example of a function which is odd and even.
+                                      $f_3(x)=$ [[input:ans3]].
+                                      [[validation:ans3]]
+                                      [[feedback:oddeven]]</p>
+                                <p>4. Is the answer to 3. unique? [[input:ans4]]
+                                      (Or are there many different possibilities.)
+                                      [[validation:ans4]]
+                                      [[feedback:unique]]</p>';
+        $qdata->generalfeedback = '';
+
+        $qdata->options = new stdClass();
+        $qdata->options->id                        = 0;
+        $qdata->options->questionvariables         = '';
+        $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
+        $qdata->options->specificfeedbackformat    = FORMAT_HTML;
+        $qdata->options->questionnote              = '';
+        $qdata->options->questionsimplify          = 1;
+        $qdata->options->assumepositive            = 0;
+        $qdata->options->markmode                  = 'penalty';
+        $qdata->options->prtcorrect                = self::DEFAULT_CORRECT_FEEDBACK;
+        $qdata->options->prtcorrectformat          = FORMAT_HTML;
+        $qdata->options->prtpartiallycorrect       = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;
+        $qdata->options->prtpartiallycorrectformat = FORMAT_HTML;
+        $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
+        $qdata->options->prtincorrectformat        = FORMAT_HTML;
+        $qdata->options->multiplicationsign        = 'dot';
+        $qdata->options->sqrtsign                  = 1;
+        $qdata->options->complexno                 = 'i';
+        $qdata->options->variantsselectionseed     = '';
+
+        $input = new stdClass();
+        $input->name               = 'ans1';
+        $input->id                 = 0;
+        $input->questionid         = 0;
+        $input->type               = 'algebraic';
+        $input->tans               = 'x^3';
+        $input->boxsize            = 15;
+        $input->strictsyntax       = 1;
+        $input->insertstars        = 0;
+        $input->syntaxhint         = '';
+        $input->forbidwords        = '';
+        $input->forbidfloat        = 1;
+        $input->requirelowestterms = 0;
+        $input->checkanswertype    = 0;
+        $input->mustverify         = 1;
+        $input->showvalidation     = 1;
+        $qdata->inputs['ans1'] = $input;
+
+        $input = new stdClass();
+        $input->name               = 'ans2';
+        $input->id                 = 0;
+        $input->questionid         = 0;
+        $input->type               = 'algebraic';
+        $input->tans               = 'x^4';
+        $input->boxsize            = 15;
+        $input->strictsyntax       = 1;
+        $input->insertstars        = 0;
+        $input->syntaxhint         = '';
+        $input->forbidwords        = '';
+        $input->forbidfloat        = 1;
+        $input->requirelowestterms = 0;
+        $input->checkanswertype    = 0;
+        $input->mustverify         = 1;
+        $input->showvalidation     = 1;
+        $qdata->inputs['ans2'] = $input;
+
+        $input = new stdClass();
+        $input->name               = 'ans3';
+        $input->id                 = 0;
+        $input->questionid         = 0;
+        $input->type               = 'algebraic';
+        $input->tans               = '0';
+        $input->boxsize            = 15;
+        $input->strictsyntax       = 1;
+        $input->insertstars        = 0;
+        $input->syntaxhint         = '';
+        $input->forbidwords        = '';
+        $input->forbidfloat        = 1;
+        $input->requirelowestterms = 0;
+        $input->checkanswertype    = 0;
+        $input->mustverify         = 1;
+        $input->showvalidation     = 1;
+        $qdata->inputs['ans3'] = $input;
+
+        $input = new stdClass();
+        $input->name               = 'ans4';
+        $input->id                 = 0;
+        $input->questionid         = 0;
+        $input->type               = 'boolean';
+        $input->tans               = 'true';
+        $input->boxsize            = 15;
+        $input->strictsyntax       = 1;
+        $input->insertstars        = 0;
+        $input->syntaxhint         = '';
+        $input->forbidwords        = '';
+        $input->forbidfloat        = 1;
+        $input->requirelowestterms = 0;
+        $input->checkanswertype    = 0;
+        $input->mustverify         = 0;
+        $input->showvalidation     = 0;
+        $qdata->inputs['ans4'] = $input;
+
+        $prt = new stdClass();
+        $prt->name              = 'odd';
+        $prt->id                = '0';
+        $prt->questionid        = '0';
+        $prt->value             = 0.25;
+        $prt->autosimplify      = 1;
+        $prt->feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
+
+        $node = new stdClass();
+        $node->id                  = 0;
+        $node->questionid          = 0;
+        $node->prtname             = 'odd';
+        $node->nodename            = '0';
+        $node->answertest          = 'AlgEquiv';
+        $node->sans                = 'sa';
+        $node->tans                = '0';
+        $node->testoptions         = '';
+        $node->quiet               = 0;
+        $node->truescoremode       = '=';
+        $node->truescore           = 1;
+        $node->truepenalty         = 0.3333333;
+        $node->truenextnode        = -1;
+        $node->trueanswernote      = 'odd-0-1';
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
+        $node->falsescoremode      = '=';
+        $node->falsescore          = 0;
+        $node->falsepenalty        = 0.3333333;
+        $node->falsenextnode       = -1;
+        $node->falseanswernote     = 'odd-0-0';
+        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedbackformat = FORMAT_HTML;
+        $prt->nodes['0'] = $node;
+        $qdata->prts['odd'] = $prt;
+
+        $prt = new stdClass();
+        $prt->name              = 'even';
+        $prt->id                = '0';
+        $prt->questionid        = '0';
+        $prt->value             = 0.25;
+        $prt->autosimplify      = 1;
+        $prt->feedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
+
+        $node = new stdClass();
+        $node->id                  = 0;
+        $node->questionid          = 0;
+        $node->prtname             = 'even';
+        $node->nodename            = '0';
+        $node->answertest          = 'AlgEquiv';
+        $node->sans                = 'sa';
+        $node->tans                = '0';
+        $node->testoptions         = '';
+        $node->quiet               = 0;
+        $node->truescoremode       = '=';
+        $node->truescore           = 1;
+        $node->truepenalty         = 0.3333333;
+        $node->truenextnode        = -1;
+        $node->trueanswernote      = 'even-0-1';
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
+        $node->falsescoremode      = '=';
+        $node->falsescore          = 0;
+        $node->falsepenalty        = 0.3333333;
+        $node->falsenextnode       = -1;
+        $node->falseanswernote     = 'even-0-0';
+        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedbackformat = FORMAT_HTML;
+        $prt->nodes['0'] = $node;
+        $qdata->prts['even'] = $prt;
+
+        $prt = new stdClass();
+        $prt->name              = 'oddeven';
+        $prt->id                = '0';
+        $prt->questionid        = '0';
+        $prt->value             = 0.25;
+        $prt->autosimplify      = 1;
+        $prt->feedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
+
+        $node = new stdClass();
+        $node->id                  = 0;
+        $node->questionid          = 0;
+        $node->prtname             = 'oddeven';
+        $node->nodename            = '0';
+        $node->answertest          = 'AlgEquiv';
+        $node->sans                = 'sa1';
+        $node->tans                = '0';
+        $node->testoptions         = '';
+        $node->quiet               = 0;
+        $node->truescoremode       = '=';
+        $node->truescore           = 0.5;
+        $node->truepenalty         = 0.3333333;
+        $node->truenextnode        = 1;
+        $node->trueanswernote      = 'oddeven-0-1';
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
+        $node->falsescoremode      = '=';
+        $node->falsescore          = 0;
+        $node->falsepenalty        = 0.3333333;
+        $node->falsenextnode       = 1;
+        $node->falseanswernote     = 'oddeven-0-0';
+        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedbackformat = FORMAT_HTML;
+        $prt->nodes['0'] = $node;
+
+        $node = new stdClass();
+        $node->id                  = 0;
+        $node->questionid          = 0;
+        $node->prtname             = 'oddeven';
+        $node->nodename            = '1';
+        $node->answertest          = 'AlgEquiv';
+        $node->sans                = 'sa';
+        $node->tans                = '0';
+        $node->testoptions         = '';
+        $node->quiet               = 0;
+        $node->truescoremode       = '+';
+        $node->truescore           = 0.5;
+        $node->truepenalty         = 0.3333333;
+        $node->truenextnode        = -1;
+        $node->trueanswernote      = 'oddeven-1-1';
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
+        $node->falsescoremode      = '+';
+        $node->falsescore          = 0;
+        $node->falsepenalty        = 0.3333333;
+        $node->falsenextnode       = -1;
+        $node->falseanswernote     = 'oddeven-1-0';
+        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedbackformat = FORMAT_HTML;
+        $prt->nodes['1'] = $node;
+        $qdata->prts['oddeven'] = $prt;
+
+        $prt = new stdClass();
+        $prt->name              = 'unique';
+        $prt->id                = '0';
+        $prt->questionid        = '0';
+        $prt->value             = 0.25;
+        $prt->autosimplify      = 1;
+        $prt->feedbackvariables = '';
+
+        $node = new stdClass();
+        $node->id                  = 0;
+        $node->questionid          = 0;
+        $node->prtname             = 'unique';
+        $node->nodename            = '0';
+        $node->answertest          = 'AlgEquiv';
+        $node->sans                = 'ans4';
+        $node->tans                = 'true';
+        $node->testoptions         = '';
+        $node->quiet               = 0;
+        $node->truescoremode       = '=';
+        $node->truescore           = 1;
+        $node->truepenalty         = 1;
+        $node->truenextnode        = -1;
+        $node->trueanswernote      = 'unique-0-1';
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
+        $node->falsescoremode      = '=';
+        $node->falsescore          = 0;
+        $node->falsepenalty        = 1;
+        $node->falsenextnode       = -1;
+        $node->falseanswernote     = 'unique-0-0';
+        $node->falsefeedback       = '';
+        $node->falsefeedbackformat = FORMAT_HTML;
+        $prt->nodes['0'] = $node;
+        $qdata->prts['unique'] = $prt;
+
+        $qdata->deployedseeds = array();
+        $qdata->testcases = array();
 
         return $qdata;
     }

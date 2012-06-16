@@ -36,21 +36,60 @@ class stack_matrix_input extends stack_input {
         $at1->instantiate();
         $ret = '';
         if ('' != $at1->get_errors()) {
-            $ret .= html_writer::tag('div', $at1->get_errors(), array('id' => 'error', 'class' => 'error'));
+            $ret .= html_writer::tag('p', $at1->get_errors(), array('id' => 'error', 'class' => 'p'));
         }
         $size = $at1->get_value_key('ta');
         $dimensions = explode(',', $size);
 
-        if ('' === trim($state->contents)) {
-            $attributes['value'] = $this->parameters['syntaxHint'];
-        } else {
-            $attributes['value'] = $state->contents;
+        $height = trim($dimensions[0], '[]');
+        $width = trim($dimensions[1], '[]');
+
+        //Build an empty array.
+        $firstrow = array_fill(0, $width, '');
+        $tc       = array_fill(0, $height, $firstrow);
+
+        // Turn the student's answer into a PHP array.
+        if ('' != $state->contents) {
+            $t = trim($state->contents);
+            $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
+            for($i=0; $i < count($rows); $i++) {
+                $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
+                $tc[$i] = $row;
+            }
         }
 
-        if ($readonly) {
-            $attributes['readonly'] = 'readonly';
-        }
+        // Build the html table to contain these values. 
+        $xhtml = '<table class="matrixTable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody>';
+        for ($i=0; $i < $height; $i++)  {
+            $xhtml .= '<tr>';
+            if($i == 0) {
+                $xhtml .= '<td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>';
+            } elseif ($i == ($height - 1)) {
+                $xhtml .= '<td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>';
+            } else {
+                $xhtml .= '<td style="border-width: 0px 0px 0px 2px;">&nbsp;</td>';
+            }
 
+            for ($j=0; $j < $width; $j++) {
+                $name = $this->name.'|'.$i.'|'.$j;
+                $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$tc[$i][$j].'" size="'.$this->parameters['boxWidth'].'" ></td>';
+            }
+
+            if ($i == 0) {
+                $xhtml .= '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td>';
+            } elseif ($i == ($height - 1)) {
+                $xhtml .= '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td>';
+            } else {
+                $xhtml .= '<td style="border-width: 0px 2px 0px 0px;">&nbsp;</td>';
+            }
+            $xhtml .= '</tr>';
+        }
+        $xhtml .= '</tbody></table>';
+
+        $ret .= $xhtml;
+
+        // These are inhereted from the algebraic class, but will be weeded out....
+        $attributes['value'] = $state->contents;
         $ret .= html_writer::empty_tag('input', $attributes);
         return $ret;
     }
@@ -68,6 +107,7 @@ class stack_matrix_input extends stack_input {
         return array(
             'mustVerify'     => true,
             'hideFeedback'   => false,
+            'boxWidth'       => 5,
             'strictSyntax'   => false,
             'insertStars'    => false,
             'syntaxHint'     => '',
@@ -90,4 +130,82 @@ class stack_matrix_input extends stack_input {
         }
         return $valid;
     }
+
+    /**
+    * Takes comma separated list of elements and returns them as an array
+    * while at the same time making sure that the braces stay balanced
+    *
+    * _tokenizer("[1,2]") => array("[1,2]")
+    * _tokenizer("1,2") = > array("1","2")
+    * _tokenizer("1,1/sum([1,3]),matrix([1],[2])") => array("1","1/sum([1,3])","matrix([1],[2])")
+    *
+    * $t = trim("matrix([a,b],[c,d])");
+    * $rows = _tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
+    * $firstRow = _tokenizer(substr($rows[0],1,-1)); // array("a","b");
+    *
+    * @author Matti Harjula
+    *
+    * @param string $in
+    * @access private
+    * @return array with the parsed elements, if no elements then array
+    *         contains only the input string
+    */
+    private function modinput_tokenizer($in) {
+        $bracecount = 0;
+        $parenthesiscount = 0;
+        $bracketcount = 0;
+
+        $out = array ();
+
+        $current = '';
+        $unplaced = 0;
+        for ($i = 0; $i < strlen($in); $i++) {
+            $unplaced++;
+            $char = $in[$i];
+            switch ($char) {
+                case '{':
+                    $bracecount++;
+                    $current .= $char;
+                    break;
+                case '}':
+                    $bracecount--;
+                    $current .= $char;
+                    break;
+                case '(':
+                    $parenthesiscount++;
+                    $current .= $char;
+                    break;
+                case ')':
+                    $parenthesiscount--;
+                    $current .= $char;
+                    break;
+                case '[':
+                    $bracketcount++;
+                    $current .= $char;
+                    break;
+                case ']':
+                    $bracketcount--;
+                    $current .= $char;
+                    break;
+                case ',':
+                    if ($bracketcount == 0 && $parenthesiscount == 0 && $bracecount == 0) {
+                        $out[] = $current;
+                        $current = '';
+                        $unplaced = 0;
+                    } else {
+                        $current .= $char;
+                    }
+                    break;
+                default;
+                    $current .= $char;
+            }
+        }
+
+        if ($unplaced > 0 && $bracketcount == 0 && $parenthesiscount == 0 && $bracecount == 0) {
+            $out[] = $current;
+        }
+
+        return $out;
+    }
+
 }

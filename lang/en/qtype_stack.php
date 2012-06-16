@@ -86,6 +86,7 @@ $string['inputtypeboolean'] = 'True/False';
 $string['inputtypedropdown'] = 'Drop down list';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
+$string['inputtypematrix'] = 'Matrix';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to yes then the system will automatically insert *s into any patterns identified by Strict Syntax.  Otherwise, it thows an error.';
 $string['insertstars_link'] = '/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';

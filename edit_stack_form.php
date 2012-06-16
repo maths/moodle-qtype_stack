@@ -127,6 +127,10 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array list of inputs used by this PRT.
      */
     protected function get_inputs_used_by_prt($prtname) {
+        // Needed for questions with no inputs, (in particular blank starting questions).
+        if (!property_exists($this->question, 'inputs')) {
+            return array();
+        }
         if (is_null($this->question->inputs)) {
             return array();
         }
@@ -218,7 +222,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $pen = $mform->createElement('text', 'penalty', get_string('penalty', 'qtype_stack'), array('size' => 5));
         $mform->insertElementBefore($pen, 'generalfeedback');
         $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
-        
+        $mform->setDefault('penalty', 0.1000000);
+
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
         $mform->insertElementBefore($sf, 'generalfeedback');

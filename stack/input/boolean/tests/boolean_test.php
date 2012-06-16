@@ -39,9 +39,9 @@ class stack_boolean_input_rendering_test extends question_testcase {
 
     protected function expected_choices() {
         return array(
-            stack_boolean_input::F => stack_string('false'),
-            stack_boolean_input::T => stack_string('true'),
-            stack_boolean_input::NA => stack_string('notanswered'),
+            stack_boolean_input::F => 'false',
+            stack_boolean_input::T => 'true',
+            stack_boolean_input::NA => '',
         );
     }
 

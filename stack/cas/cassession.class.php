@@ -217,9 +217,11 @@ class stack_cas_session {
                 }
 
                 if ('' != $result['error']) {
-                    $cs->add_errors($result['error']);
+                    // This protects dolar signs so they are not interpreted as LaTeX maths environment starts.
+                    $err = str_replace('$', '\$', $result['error']);
+                    $cs->add_errors($err);
                     $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring());
-                    $new_errors .= ' '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
+                    $new_errors .= ' '.stack_string("stackCas_CASErrorCaused").' '.$err.' ';
                 }
             }
 

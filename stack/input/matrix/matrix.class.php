@@ -29,6 +29,18 @@ class stack_matrix_input extends stack_input {
             'name' => $fieldname,
         );
 
+        // Work out how big the matrix should be from the teacher's answer.
+        $cs =  new stack_cas_casstring('ta:matrix_size('.$this->teacheranswer.')');
+        $cs->validate('t');
+        $at1 = new stack_cas_session(array($cs), null, 0);
+        $at1->instantiate();
+        $ret = '';
+        if ('' != $at1->get_errors()) {
+            $ret .= html_writer::tag('div', $at1->get_errors(), array('id' => 'error', 'class' => 'error'));
+        }
+        $size = $at1->get_value_key('ta');
+        $dimensions = explode(',', $size);
+
         if ('' === trim($state->contents)) {
             $attributes['value'] = $this->parameters['syntaxHint'];
         } else {
@@ -39,7 +51,8 @@ class stack_matrix_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        return html_writer::empty_tag('input', $attributes);
+        $ret .= html_writer::empty_tag('input', $attributes);
+        return $ret;
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

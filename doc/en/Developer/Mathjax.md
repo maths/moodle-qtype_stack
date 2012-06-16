@@ -17,7 +17,8 @@ If you want to use MathJax with all themes of your moodle 2.x.x the easiest way 
 `        MMLorHTML: { prefer: "HTML" },`<br>
 `        tex2jax: {`<br>
 `            displayMath: [['$$', '$$'], ['\\[', '\\]']],`<br>
-`            inlineMath:  [['$',  '$' ], ['\\(', '\\)']]`<br>
+`            inlineMath:  [['$',  '$' ], ['\\(', '\\)']],`<br>
+`            processEscapes: true`<br>
 `        }`<br>
 `      });`<br>
 `</script>`<br>

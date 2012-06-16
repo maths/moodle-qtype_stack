@@ -195,7 +195,8 @@ class stack_cas_session {
                 $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
 
                 if (array_key_exists('value', $result)) {
-                    $cs->set_value($result['value']);
+                    $val = str_replace('QMCHAR', '?', $result['value']);
+                    $cs->set_value($val);
                     $gotvalue = true;
                 }
 
@@ -450,7 +451,8 @@ class stack_cas_session {
                 $label = $cs->get_key();
             }
 
-            $cmd = str_replace('?', 'qmchar', $cs->get_casstring()); // Replace any ?'s that slipped through.
+            // Replace any ?'s with a safe value.
+            $cmd = str_replace('?', 'QMCHAR', $cs->get_casstring()); 
 
             $csnames   .= ", $label";
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";

@@ -345,6 +345,7 @@ $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
+$string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specfic value.';
 // TODO add this to STACK...
 // $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
 

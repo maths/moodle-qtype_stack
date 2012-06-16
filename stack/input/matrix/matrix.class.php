@@ -27,7 +27,6 @@ class stack_matrix_input extends stack_input {
         $attributes = array(
             'type' => 'text',
             'name' => $fieldname,
-            'size' => $this->parameters['boxWidth'],
         );
 
         if ('' === trim($state->contents)) {

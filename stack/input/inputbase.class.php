@@ -295,6 +295,13 @@ abstract class stack_input {
             }
         }
 
+        // Answers may not contain the ? character.  CAS-strings may, but answers may not.
+        // It is very useful for teachers to be able to add in syntax hints.
+        if (!(strpos($transformedanswer, '?') === false)) {
+            $valid = false;
+            $errors .= stack_string('qm_error');
+        }
+
         if (!$valid) {
             $status = self::INVALID;
         } else if ($this->get_parameter('mustVerify', true) && $validator != $sans) {

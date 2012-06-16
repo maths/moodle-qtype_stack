@@ -159,6 +159,20 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('"This is a string"', $at1->get_value_key('s'));
     }
+
+    public function test_qmchar() {
+
+        $cs=array('s:5?+6?');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('11*?', $at1->get_value_key('s'));
+        $this->assertEquals('11\cdot \color{red}{?}', $at1->get_display_key('s'));
+    }
 }
 
 

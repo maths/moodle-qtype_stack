@@ -337,7 +337,7 @@ class stack_cas_casstring {
         }
 
         // Check for disallowed final characters,  / * + - ^ £ # = & ~ |, ? : ;.
-        $disallowedchars = array('/', '+', '*', '/', '-', '^', '£', '#', '~', '=', '?', ',', '_', '&', '`', '¬', ';', ':', '$');
+        $disallowedchars = array('/', '+', '*', '/', '-', '^', '£', '#', '~', '=', ',', '_', '&', '`', '¬', ';', ':', '$');
         if (in_array($lastchar, $disallowedchars)) {
             $this->valid = false;
             $a = array();
@@ -394,7 +394,8 @@ class stack_cas_casstring {
         $missingstar     = false;
         $missingstring   = '';
 
-        $cmd =  $this->rawcasstring;
+        // Prevent ? characters calling LISP or the Maxima help file.  Instead, these pass through and are displayed as normal.
+        $cmd = str_replace('?', 'QMCHAR', $this->rawcasstring);
 
         foreach ($patterns as $pat) {
             if (preg_match($pat, $cmd)) {
@@ -418,11 +419,11 @@ class stack_cas_casstring {
         // Guard clause above - we have missing stars detected.
         if ($insertstars) {
             // If we are going to quietly insert them.
-            $this->casstring = $cmd;
+            $this->casstring = str_replace('QMCHAR', '?', $cmd);
             return true;
         } else {
             // If missing stars & strict syntax is on return errors.
-            $a['cmd']  = $missingstring;
+            $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
             return false;

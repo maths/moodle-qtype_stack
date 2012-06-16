@@ -22,9 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Upgrade code for the Stack question type.
@@ -420,39 +418,37 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012061500) {
-    
-    	// Define field questionnote to be dropped from qtype_stack
-    	$table = new xmldb_table('qtype_stack');
-    	$field = new xmldb_field('markmode');
-    
-    	// Conditionally launch drop field questionnote
-    	if ($dbman->field_exists($table, $field)) {
-    		$dbman->drop_field($table, $field);
-    	}
+        // Define field questionnote to be dropped from qtype_stack
+        $table = new xmldb_table('qtype_stack');
+        $field = new xmldb_field('markmode');
 
-    	// stack savepoint reached
-    	upgrade_plugin_savepoint(true, 2012061500, 'qtype', 'stack');
+        // Conditionally launch drop field questionnote
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012061500, 'qtype', 'stack');
     }
 
     if ($oldversion < 2012061501) {
-    
-    	// Changing type of field truepenalty on table qtype_stack_prt_nodes to number
-    	$table = new xmldb_table('qtype_stack_prt_nodes');
-    	$field = new xmldb_field('truepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'truescore');
-    
-    	// Launch change of type for field truepenalty
-    	$dbman->change_field_type($table, $field);
+        // Changing type of field truepenalty on table qtype_stack_prt_nodes to number
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('truepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'truescore');
 
-    	// Changing type of field falsepenalty on table qtype_stack_prt_nodes to number
-    	$table = new xmldb_table('qtype_stack_prt_nodes');
-    	$field = new xmldb_field('falsepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'falsescore');
-    	
-    	// Launch change of type for field falsepenalty
-    	$dbman->change_field_type($table, $field);
-   	 
-    	// stack savepoint reached
-    	upgrade_plugin_savepoint(true, 2012061501, 'qtype', 'stack');
+        // Launch change of type for field truepenalty
+        $dbman->change_field_type($table, $field);
+
+        // Changing type of field falsepenalty on table qtype_stack_prt_nodes to number
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('falsepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'falsescore');
+
+        // Launch change of type for field falsepenalty
+        $dbman->change_field_type($table, $field);
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012061501, 'qtype', 'stack');
     }
-    
+
     return true;
 }

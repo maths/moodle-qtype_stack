@@ -208,7 +208,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
         $mform->addRule('questiontext', get_string('questiontextnonempty', 'qtype_stack'), 'required', '', 'client');
-        
+
         $qvars = $mform->createElement('textarea', 'questionvariables',
                 get_string('questionvariables', 'qtype_stack'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');
@@ -577,7 +577,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
         $penalty = $node->truepenalty;
         if ('' != trim($penalty)) {
-        	$penalty = 0 + $penalty;
+            $penalty = 0 + $penalty;
         }
         $question->{$prtname . 'truepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'truenextnode'  }[$nodename] = $node->truenextnode;
@@ -590,7 +590,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
         $penalty = $node->falsepenalty;
         if ('' != trim($penalty)) {
-        	$penalty = 0 + $penalty;
+            $penalty = 0 + $penalty;
         }
         $question->{$prtname . 'falsepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'falsenextnode'  }[$nodename] = $node->falsenextnode;
@@ -632,7 +632,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
-      
+
         // 1) Validate all the fixed question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
         if (!$questionvars->get_valid()) {
@@ -660,9 +660,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $penalty = $fromform['penalty'];
         if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
-        	$errors['penalty'] = get_string('penaltyerror', 'qtype_stack');
+            $errors['penalty'] = get_string('penaltyerror', 'qtype_stack');
         }
-        
+
         // 2) Validate all inputs.
         foreach ($inputs as $inputname) {
             $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'tans']);
@@ -744,15 +744,15 @@ class qtype_stack_edit_form extends question_edit_form {
                 }
                 foreach ($fromform[$prtname.$branch.'penalty'] as $key => $penalty) {
                     if ('' != $penalty) {
-                	    if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
-                		    $interror[] = get_string('penaltyerror2', 'qtype_stack');
-                	    }
-                    } 
+                        if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
+                            $interror[] = get_string('penaltyerror2', 'qtype_stack');
+                        }
+                    }
                 }
                 foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
-               	    if (!is_numeric($score) || $score<0 || $score>1) {
-               		    $interror[] = get_string('scoreerror', 'qtype_stack');
-                    } 
+                    if (!is_numeric($score) || $score<0 || $score>1) {
+                         $interror[] = get_string('scoreerror', 'qtype_stack');
+                    }
                 }
             }
 

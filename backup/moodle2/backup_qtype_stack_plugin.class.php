@@ -52,7 +52,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                 array('questionvariables', 'specificfeedback', 'specificfeedbackformat',
                       'questionnote', 'questionsimplify', 'assumepositive',
                       'prtcorrect', 'prtcorrectformat', 'prtpartiallycorrect', 'prtpartiallycorrectformat',
-                      'prtincorrect', 'prtincorrectformat', 'multiplicationsign', 'sqrtsign', 
+                      'prtincorrect', 'prtincorrectformat', 'multiplicationsign', 'sqrtsign',
                       'complexno', 'variantsselectionseed'));
 
         $stackinputs = new backup_nested_element('stackinputs');

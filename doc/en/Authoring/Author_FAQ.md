@@ -1,5 +1,9 @@
 # Author FAQ
 
+## How can I report a bug or make a suggestion? ##
+
+Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+
 ## What is LaTeX? Where can I get help learning LaTeX? ##
 
 LaTeX is a document preparation system. For STACK questions we only need some simple LaTeX, so please do not be put off.

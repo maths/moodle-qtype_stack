@@ -1,6 +1,6 @@
 # Future plans
 
-The following features are in approximate priority order.  Please contact the developers if you have suggestions for other features.
+The following features are in approximate priority order.   How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
 ## Minor features to add immediately on completion of 3.0 ##
 

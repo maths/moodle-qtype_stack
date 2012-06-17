@@ -1,6 +1,6 @@
 # Development track
 
-These are the major tasks we still need to complete in approximate order and importance.
+These are the major tasks we still need to complete in approximate order and importance.  How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
 ## Milestone 0
 

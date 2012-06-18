@@ -11,3 +11,8 @@ But reports are always very welcome.  Please try to make sure it is really not a
 ## How do I request a new feature?
 
 Please look at the ideas we have for our [development track](../Developer/Development_track.md) and [future plans](../Developer/Future_plans.md).  If your request does not appear here, then please email the developers to discuss it.  Alternatively, you are very welcome to start a new issue on [github](http://github.com/maths/moodle-qtype_stack/issues) to discuss it.
+
+## How do I submit my code changes?
+
+Submit a pull request https://github.com/maths/moodle-qtype_stack, or one of the other plugins. If you are not yet familiar with git, please talk to us about your changes, and we will help. Actually, it is probably a good idea to talk to us about proposed changes before you make them in any case.
+

@@ -233,7 +233,7 @@ class qtype_stack_test extends question_testcase {
       <text></text>
     </generalfeedback>
     <defaultgrade>1</defaultgrade>
-    <penalty>0.33</penalty>
+    <penalty>0.3333333</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text></text>
@@ -337,7 +337,7 @@ class qtype_stack_test extends question_testcase {
         $expectedq->generalfeedbackformat = FORMAT_HTML;
         $expectedq->defaultmark           = 1;
         $expectedq->length                = 1;
-        $expectedq->penalty               = 0.33;
+        $expectedq->penalty               = 0.3333333;
 
         $expectedq->questionvariables     = '';
         $expectedq->specificfeedback      = array('text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => array());
@@ -378,13 +378,13 @@ class qtype_stack_test extends question_testcase {
         $expectedq->firsttreequiet[0]           = 0;
         $expectedq->firsttreetruescoremode[0]   = '=';
         $expectedq->firsttreetruescore[0]       = 1;
-        $expectedq->firsttreetruepenalty[0]     = null;
+        $expectedq->firsttreetruepenalty[0]     = 0;
         $expectedq->firsttreetruenextnode[0]    = -1;
         $expectedq->firsttreetrueanswernote[0]  = 'firsttree-1-T';
         $expectedq->firsttreetruefeedback[0]    = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());
         $expectedq->firsttreefalsescoremode[0]  = '=';
         $expectedq->firsttreefalsescore[0]      = 0;
-        $expectedq->firsttreefalsepenalty[0]    = null;
+        $expectedq->firsttreefalsepenalty[0]    = 0;
         $expectedq->firsttreefalsenextnode[0]   = -1;
         $expectedq->firsttreefalseanswernote[0] = 'firsttree-1-F';
         $expectedq->firsttreefalsefeedback[0]   = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());

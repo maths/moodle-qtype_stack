@@ -27,6 +27,10 @@
     font-size: 0.7em;
 }
 
+.que.stack .matrixtable {
+    border: 0px solid black:
+}
+
 
 /* Styles for the editing form. */
 body#page-question-type-stack .fitem_fgroup .accesshide,

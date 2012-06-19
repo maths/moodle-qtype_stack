@@ -71,6 +71,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
             set_config('cascachedbuser',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER,    'qtype_stack');
             set_config('cascachedbpass',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS,    'qtype_stack');
             set_config('cascachedbprefix',  QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX,  'qtype_stack');
+            if (defined('QTYPE_STACK_TEST_CONFIG_CASCACHEDBSOCKET')) {
+                set_config('cascachedbsocket',  QTYPE_STACK_TEST_CONFIG_CASCACHEDBSOCKET,  'qtype_stack');
+            }
         }
 
         if (stack_cas_configuration::maxima_bat_is_missing()) {

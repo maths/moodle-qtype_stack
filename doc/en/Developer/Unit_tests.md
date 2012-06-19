@@ -53,6 +53,7 @@ the database state between each test, so you get no benefit from the cache. To
 get round that problem, you an use the option to connect to a different DB table
 for the cache. Put this in your phpunit.xml
 
+    <php>
         <const name="QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE"   value="otherdb"/>
         <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE"    value="pgsql"/> <!-- or mysqli -->
         <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBLIBRARY" value="native"/>
@@ -61,6 +62,7 @@ for the cache. Put this in your phpunit.xml
         <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER"    value="YYY"/>
         <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS"    value="ZZZ"/>
         <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX"  value="mdl_"/>
+    </php>
 
 # Other configuration issues
 

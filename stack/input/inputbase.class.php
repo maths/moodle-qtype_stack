@@ -322,9 +322,10 @@ abstract class stack_input {
      * @param string student's current answer to insert into the xhtml.
      * @param string $fieldname the field name to use in the HTML for this input.
      * @param bool $readonly whether the contro should be displayed read-only.
+     * @param string the value of the teacher's answer, post randomization.  This is needed, e.g. to automatically size the matrix elements.
      * @return string HTML for this input.
      */
-    public abstract function render(stack_input_state $state, $fieldname, $readonly);
+    public abstract function render(stack_input_state $state, $fieldname, $readonly, $teachersanswer);
 
     /**
      * Add this input the MoodleForm, but only used in questiontestform.php.

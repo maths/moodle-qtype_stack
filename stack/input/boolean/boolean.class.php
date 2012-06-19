@@ -40,7 +40,7 @@ class stack_boolean_input extends stack_input {
         );
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $teachersanswer) {
 
         $attributes = array();
         if ($readonly) {

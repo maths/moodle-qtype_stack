@@ -659,6 +659,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $session->merge_session($this->session);
     }
 
+    /**
+     * Enable the renderer to access the teacher's answer in the session.
+     * @param vname varaiable name.
+     */
+    public function get_session_variable($vname) {
+    	return $this->session->get_value_key($vname);
+    }
+    
     public function classify_response(array $response) {
         $classification = array();
 

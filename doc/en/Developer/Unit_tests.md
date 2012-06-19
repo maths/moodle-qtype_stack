@@ -62,3 +62,10 @@ for the cache. Put this in your phpunit.xml
         <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS"    value="ZZZ"/>
         <const name="QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX"  value="mdl_"/>
 
+# Other configuration issues
+
+Moodle overides the PHP debug message settings.  To see errors and warnings, go to 
+
+    Site administration -> Development -> Debugging
+    
+and set the Debug messages option.

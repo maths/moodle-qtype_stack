@@ -23,14 +23,15 @@
  */
 class stack_matrix_input extends stack_input {
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $teacheranswer) {
         $attributes = array(
             'type' => 'text',
             'name' => $fieldname,
         );
 
-        // Work out how big the matrix should be from the teacher's answer.
-        $cs =  new stack_cas_casstring('ta:matrix_size('.$this->teacheranswer.')');
+        // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
+        //$cs =  new stack_cas_casstring('ta:matrix_size('.$this->teacheranswer.')');
+        $cs =  new stack_cas_casstring('ta:matrix_size('.$teacheranswer.')');
         $cs->validate('t');
         $at1 = new stack_cas_session(array($cs), null, 0);
         $at1->instantiate();
@@ -40,7 +41,7 @@ class stack_matrix_input extends stack_input {
         }
         $size = $at1->get_value_key('ta');
         $dimensions = explode(',', $size);
-
+       
         $height = trim($dimensions[0], '[]');
         $width = trim($dimensions[1], '[]');
 

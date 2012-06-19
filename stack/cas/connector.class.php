@@ -119,11 +119,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             return self::$otherdb;
         }
 
+        $dboptions = array();
+        if (!empty(self::$config->cascachedbsocket)) {
+            $dboptions['dbsocket'] = true;
+        }
+
         self::$otherdb = moodle_database::get_driver_instance(
                 self::$config->cascachedbtype, self::$config->cascachedblibrary);
         self::$otherdb->connect(self::$config->cascachedbhost,
                 self::$config->cascachedbuser, self::$config->cascachedbpass,
-                self::$config->cascachedbname, self::$config->cascachedbprefix, array('dbsocket' => true));
+                self::$config->cascachedbname, self::$config->cascachedbprefix, $dboptions);
         return self::$otherdb;
     }
 

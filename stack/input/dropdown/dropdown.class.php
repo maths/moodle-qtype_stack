@@ -43,7 +43,7 @@ class stack_dropdown_input extends stack_input {
         return $choices;
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $teachersanswer) {
         $values = $this->get_choices();
         if (empty($values)) {
             return stack_string('ddl_empty');

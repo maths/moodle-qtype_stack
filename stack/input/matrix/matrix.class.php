@@ -72,7 +72,7 @@ class stack_matrix_input extends stack_input {
             }
 
             for ($j=0; $j < $width; $j++) {
-                $name = $fieldname.'_sub_'.$i.'_'.$j;
+                $name = $fieldname.'|'.$i.'|'.$j;
                 $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$tc[$i][$j].'" size="'.$this->parameters['boxWidth'].'" ></td>';
             }
 

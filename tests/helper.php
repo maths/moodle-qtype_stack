@@ -68,11 +68,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionvariables = '';
         $q->specificfeedback = '';
         $q->specificfeedbackformat = FORMAT_HTML;
-        $q->prtcorrect = 'Correct answer, well done.';
+        $q->prtcorrect = self::DEFAULT_CORRECT_FEEDBACK;;
         $q->prtcorrectformat = FORMAT_HTML;
-        $q->prtpartiallycorrect = 'Your answer is partially correct.';
+        $q->prtpartiallycorrect = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;
         $q->prtpartiallycorrectformat = FORMAT_HTML;
-        $q->prtincorrect = 'Incorrect answer.';
+        $q->prtincorrect = self::DEFAULT_INCORRECT_FEEDBACK;
         $q->prtincorrectformat = FORMAT_HTML;
         $q->generalfeedback = '';
         $q->variantsselectionseed = '';
@@ -187,29 +187,30 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'test-3';
         $q->questiontext = '<p>1. Give an example of an odd function by typing
-                                  an expression which represents it.
-                                  $f_1(x)=$ [[input:ans1]].
-                                  [[validation:ans1]]
-                                  [[feedback:odd]]</p>
-                            <p>2. Give an example of an even function.
-                                  $f_2(x)=$ [[input:ans2]].
-                                  [[validation:ans2]]
-                                  [[feedback:even]]</p>
-                            <p>3. Give an example of a function which is odd and even.
-                                  $f_3(x)=$ [[input:ans3]].
-                                  [[validation:ans3]]
-                                  [[feedback:oddeven]]</p>
-                            <p>4. Is the answer to 3. unique? [[input:ans4]]
-                                  (Or are there many different possibilities.)
-                                  [[validation:ans4]]
-                                  [[feedback:unique]]</p>';
+                                      an expression which represents it.
+                                      $f_1(x)=$ [[input:ans1]].
+                                      [[validation:ans1]]
+                                      [[feedback:odd]]</p>
+                                <p>2. Give an example of an even function.
+                                      $f_2(x)=$ [[input:ans2]].
+                                      [[validation:ans2]]
+                                      [[feedback:even]]</p>
+                                <p>3. Give an example of a function which is odd and even.
+                                      $f_3(x)=$ [[input:ans3]].
+                                      [[validation:ans3]]
+                                      [[feedback:oddeven]]</p>
+                                <p>4. Is the answer to 3. unique? [[input:ans4]]
+                                      (Or are there many different possibilities.)
+                                      [[validation:ans4]]
+                                      [[feedback:unique]]</p>';
+        $q->specificfeedback = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^3', array('boxWidth' => 15));
+                        'algebraic', 'ans1', 'x^3', array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', 'x^4', array('boxWidth' => 15));
+                        'algebraic', 'ans2', 'x^4', array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans3'] = stack_input_factory::make(
-                        'algebraic', 'ans3', '0',   array('boxWidth' => 15));
+                        'algebraic', 'ans3', '0',   array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
@@ -227,7 +228,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null, 't');
         $sans = new stack_cas_casstring('sa');
-        $tans->get_valid('t');
+        $sans->get_valid('t');
         $tans = new stack_cas_casstring('0');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
@@ -244,9 +245,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('0');
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node0->add_branch(0, '=', 0,   '', 1,
+        $node0->add_branch(0, '=', 0,   0.3333333, 1,
                 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', 'oddeven-0-0');
-        $node0->add_branch(1, '=', 0.5, '', 1, '', 'oddeven-0-1');
+        $node0->add_branch(1, '=', 0.5, 0.3333333, 1, '', 'oddeven-0-1');
 
         $sans = new stack_cas_casstring('sa2');
         $sans->get_valid('t');
@@ -269,6 +270,13 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, 1, -1, '', 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node));
+
+        $q->hints = array(
+            new question_hint(1, 'Hint 1', FORMAT_HTML),
+            new question_hint(2, 'Hint 2', FORMAT_HTML),
+        );
+
+        $q->deployedseeds = array();
 
         return $q;
     }
@@ -805,6 +813,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata = new stdClass();
         test_question_maker::initialise_question_data($qdata);
 
+        $qdata->contextid = context_system::instance()->id;
         $qdata->qtype = 'stack';
         $qdata->name = 'test-3';
         $qdata->questiontext = '<p>1. Give an example of an odd function by typing
@@ -825,11 +834,12 @@ class qtype_stack_test_helper extends question_test_helper {
                                       [[validation:ans4]]
                                       [[feedback:unique]]</p>';
         $qdata->generalfeedback = '';
+        $qdata->penalty = 0.3333333;
 
         $qdata->options = new stdClass();
         $qdata->options->id                        = 0;
         $qdata->options->questionvariables         = '';
-        $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
+        $qdata->options->specificfeedback          = '';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
         $qdata->options->questionnote              = '';
         $qdata->options->questionsimplify          = 1;
@@ -922,7 +932,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->name              = 'odd';
         $prt->id                = '0';
         $prt->questionid        = '0';
-        $prt->value             = 0.25;
+        $prt->value             = 1;
         $prt->autosimplify      = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
 
@@ -934,18 +944,18 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'sa';
         $node->tans                = '0';
-        $node->testoptions         = '';
+        $node->testoptions         = null;
         $node->quiet               = 0;
         $node->truescoremode       = '=';
         $node->truescore           = 1;
-        $node->truepenalty         = 0.3333333;
+        $node->truepenalty         = '';
         $node->truenextnode        = -1;
         $node->trueanswernote      = 'odd-0-1';
         $node->truefeedback        = '';
         $node->truefeedbackformat  = FORMAT_HTML;
         $node->falsescoremode      = '=';
         $node->falsescore          = 0;
-        $node->falsepenalty        = 0.3333333;
+        $node->falsepenalty        = '';
         $node->falsenextnode       = -1;
         $node->falseanswernote     = 'odd-0-0';
         $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]';
@@ -957,7 +967,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->name              = 'even';
         $prt->id                = '0';
         $prt->questionid        = '0';
-        $prt->value             = 0.25;
+        $prt->value             = 1;
         $prt->autosimplify      = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
 
@@ -969,18 +979,18 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'sa';
         $node->tans                = '0';
-        $node->testoptions         = '';
+        $node->testoptions         = null;
         $node->quiet               = 0;
         $node->truescoremode       = '=';
         $node->truescore           = 1;
-        $node->truepenalty         = 0.3333333;
+        $node->truepenalty         = '';
         $node->truenextnode        = -1;
         $node->trueanswernote      = 'even-0-1';
         $node->truefeedback        = '';
         $node->truefeedbackformat  = FORMAT_HTML;
         $node->falsescoremode      = '=';
         $node->falsescore          = 0;
-        $node->falsepenalty        = 0.3333333;
+        $node->falsepenalty        = '';
         $node->falsenextnode       = -1;
         $node->falseanswernote     = 'even-0-0';
         $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]';
@@ -992,7 +1002,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->name              = 'oddeven';
         $prt->id                = '0';
         $prt->questionid        = '0';
-        $prt->value             = 0.25;
+        $prt->value             = 1;
         $prt->autosimplify      = 1;
         $prt->feedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
 
@@ -1004,21 +1014,21 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'sa1';
         $node->tans                = '0';
-        $node->testoptions         = '';
+        $node->testoptions         = null;
         $node->quiet               = 0;
         $node->truescoremode       = '=';
         $node->truescore           = 0.5;
-        $node->truepenalty         = 0.3333333;
+        $node->truepenalty         = '';
         $node->truenextnode        = 1;
         $node->trueanswernote      = 'oddeven-0-1';
         $node->truefeedback        = '';
         $node->truefeedbackformat  = FORMAT_HTML;
         $node->falsescoremode      = '=';
         $node->falsescore          = 0;
-        $node->falsepenalty        = 0.3333333;
+        $node->falsepenalty        = '';
         $node->falsenextnode       = 1;
         $node->falseanswernote     = 'oddeven-0-0';
-        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]';
         $node->falsefeedbackformat = FORMAT_HTML;
         $prt->nodes['0'] = $node;
 
@@ -1028,23 +1038,23 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->prtname             = 'oddeven';
         $node->nodename            = '1';
         $node->answertest          = 'AlgEquiv';
-        $node->sans                = 'sa';
+        $node->sans                = 'sa2';
         $node->tans                = '0';
-        $node->testoptions         = '';
+        $node->testoptions         = null;
         $node->quiet               = 0;
         $node->truescoremode       = '+';
         $node->truescore           = 0.5;
-        $node->truepenalty         = 0.3333333;
+        $node->truepenalty         = '';
         $node->truenextnode        = -1;
         $node->trueanswernote      = 'oddeven-1-1';
         $node->truefeedback        = '';
         $node->truefeedbackformat  = FORMAT_HTML;
         $node->falsescoremode      = '+';
         $node->falsescore          = 0;
-        $node->falsepenalty        = 0.3333333;
+        $node->falsepenalty        = '';
         $node->falsenextnode       = -1;
         $node->falseanswernote     = 'oddeven-1-0';
-        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]';
         $node->falsefeedbackformat = FORMAT_HTML;
         $prt->nodes['1'] = $node;
         $qdata->prts['oddeven'] = $prt;
@@ -1053,9 +1063,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->name              = 'unique';
         $prt->id                = '0';
         $prt->questionid        = '0';
-        $prt->value             = 0.25;
+        $prt->value             = 1;
         $prt->autosimplify      = 1;
-        $prt->feedbackvariables = '';
+        $prt->feedbackvariables = null;
 
         $node = new stdClass();
         $node->id                  = 0;
@@ -1065,7 +1075,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'ans4';
         $node->tans                = 'true';
-        $node->testoptions         = '';
+        $node->testoptions         = null;
         $node->quiet               = 0;
         $node->truescoremode       = '=';
         $node->truescore           = 1;
@@ -1086,6 +1096,11 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qdata->deployedseeds = array();
         $qdata->testcases = array();
+
+        $qdata->hints = array(
+            1 => new question_hint(1, 'Hint 1', FORMAT_HTML),
+            2 => new question_hint(2, 'Hint 2', FORMAT_HTML),
+        );
 
         return $qdata;
     }

@@ -678,6 +678,9 @@ class qtype_stack_edit_form extends question_edit_form {
             if (!$feedbackvars->get_valid()) {
                 $interror[] = $feedbackvars->get_errors();
             }
+            if ($fromform[$prtname.'value'] <= 0) {
+                $interror[] = get_string('questionvaluepostive', 'qtype_stack');
+            }
             foreach ($fromform[$prtname.'sans'] as $key => $sans) {
                 if ('' == $sans) {
                         $interror[] = get_string('edit_form_error', 'qtype_stack',

@@ -293,6 +293,14 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
         }
 
+        $totalvalue = 0;
+        foreach ($questiondata->prts as $name => $prtdata) {
+            $totalvalue += $prtdata->value;
+        }
+        if ($totalvalue < 0.0000001) {
+            throw new coding_exception('$totalvalue must be positive.');
+        }
+
         foreach ($questiondata->prts as $name => $prtdata) {
             $nodes = array();
             foreach ($prtdata->nodes as $nodedata) {
@@ -301,13 +309,24 @@ class qtype_stack extends question_type {
                 $tans = new stack_cas_casstring($nodedata->tans);
                 $tans->get_valid('t');
 
+                if (is_null($nodedata->falsepenalty) || $nodedata->falsepenalty === '') {
+                    $falsepenalty = $questiondata->penalty;
+                } else {
+                    $falsepenalty = $nodedata->falsepenalty;
+                }
+                if (is_null($nodedata->truepenalty) || $nodedata->truepenalty === '') {
+                    $truepenalty = $questiondata->penalty;
+                } else {
+                    $truepenalty = $nodedata->truepenalty;
+                }
+
                 $node = new stack_potentialresponse_node($sans, $tans,
                         $nodedata->answertest, $nodedata->testoptions, (bool) $nodedata->quiet);
                 $node->add_branch(0, $nodedata->falsescoremode, $nodedata->falsescore,
-                        $nodedata->falsepenalty, $nodedata->falsenextnode,
+                        $falsepenalty, $nodedata->falsenextnode,
                         $nodedata->falsefeedback, $nodedata->falseanswernote);
                 $node->add_branch(1, $nodedata->truescoremode, $nodedata->truescore,
-                        $nodedata->truepenalty, $nodedata->truenextnode,
+                        $truepenalty, $nodedata->truenextnode,
                         $nodedata->truefeedback, $nodedata->trueanswernote);
                 // TODO true/false feedbackformat.
                 $nodes[$nodedata->nodename] = $node;
@@ -315,10 +334,15 @@ class qtype_stack extends question_type {
 
             // TODO $feedbackvariables, and $sans, $tans, should probably still be strings
             // here, and should be converted to CAS stuff later, only if needed.
-            $feedbackvariables = new stack_cas_keyval($prtdata->feedbackvariables, null, null, 't');
+            if ($prtdata->feedbackvariables) {
+                $feedbackvariables = new stack_cas_keyval($prtdata->feedbackvariables, null, null, 't');
+                $feedbackvariables = $feedbackvariables->get_session();
+            } else {
+                $feedbackvariables = null;
+            }
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
-                    (bool) $prtdata->autosimplify, $prtdata->value,
-                    $feedbackvariables->get_session(), $nodes);
+                    (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
+                    $feedbackvariables, $nodes);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -327,7 +351,10 @@ class qtype_stack extends question_type {
         // work for STACK questions. (Do we just implement hints like for other
         // qtypes, but allowing the hint text to be CAS text?) This just gives
         // every question a fixed three tries when run in interactive behaviour.
-        $question->hints = array(null, null);
+        $question->hints = array(
+            new question_hint(1, 'Hint 1', FORMAT_HTML),
+            new question_hint(2, 'Hint 2', FORMAT_HTML),
+        );
     }
 
     public function delete_question($questionid, $contextid) {

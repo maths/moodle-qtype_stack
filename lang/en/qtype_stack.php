@@ -132,6 +132,7 @@ $string['questiontextonlycontain'] = 'The question text contains too many copies
 $string['questiontextfeedbackmustcontain'] = 'The question text combined with the specific feedback, must contain the token(s) \'{$a}\'.';
 $string['questiontextfeedbackonlycontain'] = 'The question text combined with the specific feedback, contains too many copies of the token(s) \'{$a}\'.  This/these must appear once and only once.';
 $string['questionvalue'] = 'Question value';
+$string['questionvaluepostive'] = 'Question value must be positive';
 $string['questionvariables'] = 'Question variables';
 $string['questionvariables_help'] = 'This field allows you to define and manipulate CAS variables, e.g. to create random versions.  These are available to all other parts of the question.';
 $string['questionvariables_link'] = 'question/type/stack/doc/doc.php/Authoring/KeyVals.md';

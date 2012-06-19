@@ -81,31 +81,40 @@ class qtype_stack_test extends question_testcase {
             'odd-0' => array(
                 'odd-0-0' => new question_possible_response('odd-0-0', 0),
                 'odd-0-1' => new question_possible_response('odd-0-1', 0.25),
-                null          => question_possible_response::no_response(),
+                null     => question_possible_response::no_response(),
             ),
             'even-0' => array(
                 'even-0-0' => new question_possible_response('even-0-0', 0),
                 'even-0-1' => new question_possible_response('even-0-1', 0.25),
-                null          => question_possible_response::no_response(),
+                null      => question_possible_response::no_response(),
             ),
             'oddeven-0' => array(
                 'oddeven-0-0' => new question_possible_response('oddeven-0-0', 0),
                 'oddeven-0-1' => new question_possible_response('oddeven-0-1', 0.125),
-                null          => question_possible_response::no_response(),
+                null         => question_possible_response::no_response(),
             ),
             'oddeven-1' => array(
                 'oddeven-1-0' => new question_possible_response('oddeven-1-0', 0),
                 'oddeven-1-1' => new question_possible_response('oddeven-1-1', 0.125),
-                null          => question_possible_response::no_response(),
+                null         => question_possible_response::no_response(),
             ),
             'unique-0' => array(
                 'unique-0-0' => new question_possible_response('unique-0-0', 0),
                 'unique-0-1' => new question_possible_response('unique-0-1', 0.25),
-                null          => question_possible_response::no_response(),
+                null        => question_possible_response::no_response(),
             ),
         );
 
         $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
+    }
+
+    public function test_initialise_question_instance() {
+        $qdata = test_question_maker::get_question_data('stack', 'test3');
+        $q = $this->qtype->make_question($qdata);
+        $expectedq = test_question_maker::make_question('stack', 'test3');
+        $expectedq->stamp = $q->stamp;
+        $expectedq->version = $q->version;
+        $this->assertEquals($expectedq, $q);
     }
 
     public function test_xml_export() {

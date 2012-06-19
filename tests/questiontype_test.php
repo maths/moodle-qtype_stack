@@ -337,7 +337,7 @@ class qtype_stack_test extends question_testcase {
         $expectedq->generalfeedbackformat = FORMAT_HTML;
         $expectedq->defaultmark           = 1;
         $expectedq->length                = 1;
-        $expectedq->penalty               = 0;
+        $expectedq->penalty               = 0.3333333;
 
         $expectedq->questionvariables     = '';
         $expectedq->specificfeedback      = array('text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => array());

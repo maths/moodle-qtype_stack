@@ -60,7 +60,7 @@ class stack_matrix_input extends stack_input {
         }
 
         // Build the html table to contain these values. 
-        $xhtml = '<table class="matrixTable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody>';
+        $xhtml = '<table class="matrixtable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody>';
         for ($i=0; $i < $height; $i++)  {
             $xhtml .= '<tr>';
             if($i == 0) {
@@ -91,7 +91,7 @@ class stack_matrix_input extends stack_input {
 
         // These are inhereted from the algebraic class, but will be weeded out....
         $attributes['value'] = $state->contents;
-        $ret .= html_writer::empty_tag('input', $attributes);
+        //$ret .= html_writer::empty_tag('input', $attributes);
         return $ret;
     }
 

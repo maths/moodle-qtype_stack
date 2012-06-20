@@ -3,7 +3,7 @@
 <!-- question: 15  -->
   <question type="stack">
     <name>
-      <text>Tangent line</text>
+      <text>Find the line tangent to a random polynomial at a point.</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Find the equation of the line tangent to $p(x):=$@p@ at the point $x=@pt@$.</p>
@@ -20,7 +20,7 @@
 <p>\[ y=@ta2*(x-pt)+c@ = @ta3@.\]</p>]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
-    <penalty>0.0000000</penalty>
+    <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>p : (2+rand(3))*x^3+(3+rand(3))*x^2+(2+rand(3))*x
@@ -39,7 +39,6 @@ ta3:remainder(p,(x-pt)^2)</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
-    <markmode>penalty</markmode>
     <prtcorrect format="html">
       <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
     </prtcorrect>
@@ -59,7 +58,7 @@ ta3:remainder(p,(x-pt)^2)</text>
       <tans>ta1</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
-      <insertstars>0</insertstars>
+      <insertstars>1</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
       <forbidfloat>1</forbidfloat>
@@ -74,7 +73,7 @@ ta3:remainder(p,(x-pt)^2)</text>
       <tans>ta2</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
-      <insertstars>0</insertstars>
+      <insertstars>1</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
       <forbidfloat>1</forbidfloat>
@@ -89,7 +88,7 @@ ta3:remainder(p,(x-pt)^2)</text>
       <tans>ta3</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
-      <insertstars>0</insertstars>
+      <insertstars>1</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
       <forbidfloat>1</forbidfloat>
@@ -114,7 +113,7 @@ ta3:remainder(p,(x-pt)^2)</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
         <truefeedback format="html">
@@ -122,7 +121,7 @@ ta3:remainder(p,(x-pt)^2)</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -146,7 +145,7 @@ ta3:remainder(p,(x-pt)^2)</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
         <truefeedback format="html">
@@ -154,7 +153,7 @@ ta3:remainder(p,(x-pt)^2)</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -170,7 +169,7 @@ ta3:remainder(p,(x-pt)^2)</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-2-T</trueanswernote>
         <truefeedback format="html">
@@ -178,11 +177,11 @@ ta3:remainder(p,(x-pt)^2)</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>You answer to this part is correct, however you have got part 1 wrong! Please try both parts again!</p>]]></text>
+          <text><![CDATA[<p>Your answer to this part is correct, however you have got part 1 wrong! Please try both parts again!</p>]]></text>
         </falsefeedback>
       </node>
     </prt>
@@ -202,7 +201,7 @@ ta3:remainder(p,(x-pt)^2)</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
         <truefeedback format="html">
@@ -210,7 +209,7 @@ ta3:remainder(p,(x-pt)^2)</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -271,20 +270,53 @@ ta3:remainder(p,(x-pt)^2)</text>
       <expected>
         <name>prt1</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedpenalty>0.1000000</expectedpenalty>
         <expectedanswernote>prt1-1-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt2</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedpenalty>0.1000000</expectedpenalty>
         <expectedanswernote>prt2-2-F</expectedanswernote>
       </expected>
       <expected>
         <name>prt3</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedpenalty>0.1000000</expectedpenalty>
         <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
   </question>

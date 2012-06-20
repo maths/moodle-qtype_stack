@@ -188,6 +188,14 @@ class stack_potentialresponse_tree {
         $res['fraction']   = $results->_score * $this->value;
         $res['fractionalpenalty'] = $results->_penalty * $this->value;
 
+        // From a strictly logical point of view the 'score' and the 'penalty' are independent.
+        // Hence, this clause belongs in the question behaviour.
+        // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".  
+        // Why does this correct attempt attract a penalty?  So, this is a unilateral decision:
+        // If the score is 1 there is never a penalty.
+        if (1 == $res['score']) {
+            $res['penalty'] = 0;
+        }
         return $res;
     }
 

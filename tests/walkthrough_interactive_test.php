@@ -89,7 +89,7 @@ class qtype_stack_walkthrough_interactive_test extends qtype_stack_walkthrough_t
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Re-submit after validation validation.
+        // Re-submit after validation.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
                                         'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', '-submit' => 1));
 
@@ -164,7 +164,11 @@ class qtype_stack_walkthrough_interactive_test extends qtype_stack_walkthrough_t
                                         'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1));
 
         $this->check_current_state(question_state::$gradedright);
-        $this->check_current_mark(2.6666667);
+        $this->check_current_mark(2.6);
+        $this->check_prt_score('odd', 1, 0);
+        $this->check_prt_score('even', 1, 0);
+        $this->check_prt_score('oddeven', 1, 0);
+        $this->check_prt_score('unique', 1, 0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);
@@ -315,12 +319,16 @@ class qtype_stack_walkthrough_interactive_test extends qtype_stack_walkthrough_t
 
         $this->check_current_state(question_state::$gradedpartial);
         // The  correct mark calculation is:
-        // odd PRT:     0, 1,   1, penalty 1/3: 2/3
-        // even PRT:    0, 0,   1, penalty 1/3: 1/3
-        // oddeven PRT: 0, 0.5, 0, penalty 1/3: 0
+        // odd PRT:     0, 1,   1, penalty 0.4: 0.6
+        // even PRT:    0, 0,   1, penalty 0.8: 0.2
+        // oddeven PRT: 0, 0.5, 0, penalty 1.2: 0
         // unique PRT:  0, 0,   1, penalty 1:   0
-        // Total:                               1.
-        $this->check_current_mark(1);
+        // Total:                               0.8.
+        $this->check_prt_score('odd', 1, 0);
+        $this->check_prt_score('even', 1, 0);
+        $this->check_prt_score('oddeven', 0, 0.4);
+        $this->check_prt_score('unique', 1, 0);
+        $this->check_current_mark(0.8);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);

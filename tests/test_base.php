@@ -111,6 +111,41 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         );
     }
 
+    protected function check_prt_score($index, $score, $penalty, $dump=false) {
+        $question = $this->quba->get_question($this->slot);
+        $attempt  = $this->quba->get_question_attempt($this->slot);
+        $qa       = $attempt->get_last_qt_data();
+        $result   = $question->get_prt_result($index, $qa, false);
+
+        if ($dump) {
+            echo "\nResults for $index:\n";
+            print_r($result);
+        }
+
+        if (is_null($score)) {
+            $this->assertNull($result['score']);
+        } else {
+            if ($score == 0) {
+                // PHP will think a null mark and a mark of 0 are equal,
+                // so explicity check not null in this case.
+                $this->assertNotNull($result['score']);
+            }
+            $this->assertEquals($score, $result['score'], 'Wrong score.  The PRT returned '.$result['score'].' but we expected '.$score.'.');
+        }
+
+        if (is_null($penalty)) {
+            $this->assertNull($result['penalty']);
+        } else {
+            if ($score == 0) {
+                // PHP will think a null mark and a mark of 0 are equal,
+                // so explicity check not null in this case.
+                $this->assertNotNull($result['penalty']);
+            }
+            $this->assertEquals($penalty, $result['penalty'], 'Wrong penalty.  The PRT returned '.$result['penalty'].' but we expected '.$penalty.'.');
+            $this->assertEquals($score, $result['score'], 'Wrong score.  The PRT returned '.$result['score'].' but we expected '.$score.'.');
+        }
+    }
+
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
         $attributes = array(
             'type' => 'text',

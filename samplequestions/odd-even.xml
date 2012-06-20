@@ -28,7 +28,6 @@
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
-    <markmode>penalty</markmode>
     <prtcorrect format="html">
       <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
@@ -118,7 +117,7 @@
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>even-0-T </trueanswernote>
         <truefeedback format="html">
@@ -126,7 +125,7 @@
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>even-0-F </falseanswernote>
         <falsefeedback format="html">
@@ -150,7 +149,7 @@
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>odd-0-T </trueanswernote>
         <truefeedback format="html">
@@ -158,7 +157,7 @@
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>odd-0-F </falseanswernote>
         <falsefeedback format="html">
@@ -183,7 +182,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>0.5000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>1</truenextnode>
         <trueanswernote>ODD</trueanswernote>
         <truefeedback format="html">
@@ -191,7 +190,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>1</falsenextnode>
         <falseanswernote>oddeven-0-F </falseanswernote>
         <falsefeedback format="html">
@@ -207,7 +206,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
         <truescore>0.5000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>EVEN</trueanswernote>
         <truefeedback format="html">
@@ -215,7 +214,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
         </truefeedback>
         <falsescoremode>+</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>oddeven-1-F </falseanswernote>
         <falsefeedback format="html">
@@ -239,7 +238,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
-        <truepenalty>0.0000000</truepenalty>
+        <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>unique-0-T </trueanswernote>
         <truefeedback format="html">
@@ -247,7 +246,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>unique-0-F </falseanswernote>
         <falsefeedback format="html">
@@ -319,25 +318,25 @@ sa2:ans3-subst(x=-x,ans3);</text>
       <expected>
         <name>even</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedpenalty>0.3333333</expectedpenalty>
         <expectedanswernote>even-0-F</expectedanswernote>
       </expected>
       <expected>
         <name>odd</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedpenalty>0.3333333</expectedpenalty>
         <expectedanswernote>odd-0-F</expectedanswernote>
       </expected>
       <expected>
         <name>oddeven</name>
         <expectedscore>0.5000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedpenalty>0.3333333</expectedpenalty>
         <expectedanswernote>oddeven-1-F</expectedanswernote>
       </expected>
       <expected>
         <name>unique</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedpenalty>0.3333333</expectedpenalty>
         <expectedanswernote>unique-0-F</expectedanswernote>
       </expected>
     </qtest>

@@ -67,6 +67,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
 
         $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
         $this->check_output_contains_input_validation('ans1');
@@ -78,6 +79,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         // Verify.
         $this->check_current_mark(1);
+        $this->check_prt_score('PotResTree_1', 1, 0);
         $this->render();
         $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
         $this->check_output_contains_input_validation('ans1');
@@ -108,6 +110,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
 
         $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)');
         $this->check_output_contains_input_validation('ans1');
@@ -118,6 +121,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)', '-submit' => 1));
 
         $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
         $this->check_output_contains_input_validation('ans1');
@@ -129,6 +133,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         // Verify.
         $this->check_current_mark(1);
+        $this->check_prt_score('PotResTree_1', 1, 0);
         $this->render();
         $this->check_output_contains_text_input('ans1', '(v-a)^(n+1)/(n+1)+c');
         $this->check_output_contains_input_validation('ans1');
@@ -145,6 +150,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_does_not_contain_input_validation();
@@ -162,6 +168,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->process_submission(array('ans1' => 'n*(v-a)^(n-1', '-submit' => 1));
 
         $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1');
         $this->check_output_contains_input_validation('ans1');
@@ -175,6 +182,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', '-submit' => 1));
 
         $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
         $this->check_output_contains_input_validation('ans1');
@@ -185,6 +193,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->process_submission(array('ans1' => 'n*(v-a)^(n-1)', 'ans1_val' => 'n*(v-a)^(n-1)', '-submit' => 1));
 
         $this->check_current_mark(0);
+        $this->check_prt_score('PotResTree_1', 0, 0.25);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'n*(v-a)^(n-1)');
         $this->check_output_contains_input_validation('ans1');
@@ -203,6 +212,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
+        $this->check_prt_score('odd', null, null);
+        $this->check_prt_score('even', null, null);
+        $this->check_prt_score('oddeven', null, null);
+        $this->check_prt_score('unique', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1');
         $this->check_output_contains_text_input('ans2');
@@ -222,6 +235,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
+        $this->check_prt_score('odd', null, null);
+        $this->check_prt_score('even', null, null);
+        $this->check_prt_score('oddeven', null, null);
+        $this->check_prt_score('unique', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
@@ -244,6 +261,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_state(question_state::$gradedpartial);
         $this->check_current_mark(2.5);
+        //$this->check_prt_score('odd', 1, 0, true);
+        //$this->check_prt_score('even', 1, 0, true);
+        //$this->check_prt_score('oddeven', 1, 0, true);
+        //$this->check_prt_score('unique', 1, 0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);

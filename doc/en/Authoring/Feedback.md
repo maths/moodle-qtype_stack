@@ -58,16 +58,17 @@ The numerical scores are assembled by traversing each potential response tree.
 
 * Each branch of each node can add, subtract or set an absolute, score.
 * The outcome at the end should be between 0 and 1.  If the score, \(s\), lies outside this range it is taken to be \( \min(\max(s,0),1) \) to bring it within range, then it is scaled by multiplying by the [question value](Potential_response_trees.md#Question_value) for that potential response tree.
-* A "penalty" may also attached to this attempt, but normally the penalty is empty.  This is useful to _remove_ any penalty for this outcome.
+* A "penalty" may also set in the potential response tree for this attempt. Normally the penalty field in each branch of the the potential response tree is empty, in which case the question level penalty value is used.  However, these fields are useful to _remove_ any penalty for this outcome, by setting it to zero explicitly.
+* After the whole tree has been traversed, if the score is 1 then the penalty is always assigned to 0.
 
-STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
+STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(0.1=10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
 
 It works in the following way. For each attempt $k$, we let
 
 * $s_k$ be the score from the potential response tree.
 * $p_k$ be the "penalty" as follows:
  * If $s_k=1$ then $p_k=0$, else
- * If the penalty $p$ set in the potential response tree is not `NULL` then $p_k=p$, else
+ * If the penalty $p$ set in the _last branch_ traversed before exiting the potential response tree is not `NULL` then $p_k=p$, else
  * $p_k$ is the penalty set in the question options, (default \(0.1=10\%\) ).
 
 The default penalty scheme takes the _maximum_ score for each attempt, so that by accruing further penalties a student may never be worse off.

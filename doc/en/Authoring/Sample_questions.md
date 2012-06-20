@@ -4,7 +4,7 @@ STACK is distributed with sample questions in
 
      /qtype_stack/samplequestions/
 
-The currently sample questions are in English.
+The sample questions are in English.
 
 We would encourage colleagues to release their materials under a creative commons licence.
 
@@ -12,7 +12,7 @@ We would encourage colleagues to release their materials under a creative common
 
 ### `tangent-line.xml` ###
 
-This randomly generated three part question has follow through marking.  Details of how to write this question are given in the the section on [multi-part mathematical questions](Multi-part_mathematical_questions.md).
+This question asks students to find the line tangent to a randomly generated cubic polynomial at a point.  It is broken down into three parts to provide structure.  This randomly generated three part question has follow through marking.  Details of how to write this question are given in the the section on [multi-part mathematical questions](Multi-part_mathematical_questions.md).
 
 ### `cubic-spline.xml` ###
 

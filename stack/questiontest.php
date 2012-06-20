@@ -111,7 +111,8 @@ class stack_question_test {
         // Now add the expressions we want evaluated.
         $vars = array();
         foreach ($this->inputs as $name => $value) {
-            if ($value) {
+            // GOCHA!  A $value of zero never gets used....!
+            if (''!=$value) {
                 $cs = new stack_cas_casstring($value);
                 $cs->validate('t');
                 $cs->set_key('testresponse_' . $name);

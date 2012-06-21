@@ -304,6 +304,12 @@ class stack_cas_casstring {
             }
         }
 
+        if (!stack_utils::check_nested_bookends($cmd)) {
+            $this->valid = false;
+            $this->add_error(stack_string('stackCas_bracketsdontmatch',
+                     array('cmd' => stack_maxima_format_casstring($cmd))));
+        }
+
         if ($security == 's') {
             // Check for apostrophes if a student.
             if (strpos($cmd, "'") !== false) {

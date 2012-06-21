@@ -175,6 +175,34 @@ class stack_utils {
     }
 
     /**
+     * Check that the opening and closing brackets match, including nesting.
+     * This method only works with pairs of characters that are different, like ().
+     * It cannot cope with matching "", for example.
+     * @param string $string the string to test.
+     * @param string $lefts opening bracket characters. By default '([{'.
+     * @param string $rights the corresponding closing bracket characters. By default ')]}'.
+     * @return boolean true if all brackets match and are nested properly.
+     */
+    public static function check_nested_bookends($string, $lefts = '([{', $rights = ')]}') {
+        $openstack = array();
+        $length = strlen($string);
+        for ($i = 0; $i < $length; $i++) {
+            $char = $string[$i];
+            if (strpos($lefts, $char) !== false) {
+                array_push($openstack, $char);
+
+            } else if (($closerpos = strpos($rights, $char)) !== false) {
+                $opener = array_pop($openstack); // NULL if array is empty, which works.
+                if ($opener !== $lefts[$closerpos]) {
+                    return false;
+                }
+            }
+        }
+
+        return empty($openstack);
+    }
+
+    /**
      * Gets the the first sub-string between two specified delimiters from within
      * a larger string.
      *

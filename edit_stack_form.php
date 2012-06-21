@@ -676,37 +676,30 @@ class qtype_stack_edit_form extends question_edit_form {
             $interror = array();
             $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables'], null, null, 't');
             if (!$feedbackvars->get_valid()) {
-                $interror[] = $feedbackvars->get_errors();
+                $interror[$prtname.'feedbackvariables'][] = $feedbackvars->get_errors();
             }
             if ($fromform[$prtname.'value'] <= 0) {
-                $interror[] = get_string('questionvaluepostive', 'qtype_stack');
+                $interror[$prtname.'value'][] = get_string('questionvaluepostive', 'qtype_stack');
             }
             foreach ($fromform[$prtname.'sans'] as $key => $sans) {
                 if ('' == $sans) {
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => $key+1, 'field' => get_string('sans', 'qtype_stack'))) .
-                                get_string('nonempty', 'qtype_stack');
+                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('sansrequired', 'qtype_stack');
                 } else {
                     $cs= new stack_cas_casstring($sans);
                     if (!$cs->get_valid('t')) {
-                        // TODO this does not display in the right place!
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => $key+1, 'field' => get_string('sans', 'qtype_stack'))) .
-                                $cs->get_errors();
+                        $interror[$prtname . 'node[' . $key . ']'][] =
+                                get_string('sansinvalid', 'qtype_stack', $cs->get_errors());
                     }
                 }
             }
             foreach ($fromform[$prtname.'tans'] as $key => $sans) {
                 if ('' == $sans) {
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => $key+1, 'field' => get_string('tans', 'qtype_stack'))) .
-                                get_string('nonempty', 'qtype_stack');
+                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansrequired', 'qtype_stack');;
                 } else {
                     $cs= new stack_cas_casstring($sans);
                     if (!$cs->get_valid('t')) {
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => $key+1, 'field' => get_string('tans', 'qtype_stack'))) .
-                                $cs->get_errors();
+                        $interror[$prtname . 'node[' . $key . ']'][] =
+                                get_string('tansinvalid', 'qtype_stack', $cs->get_errors());
                     }
                 }
             }
@@ -714,53 +707,46 @@ class qtype_stack_edit_form extends question_edit_form {
                 if ('' != trim($opt)) {
                     $cs= new stack_cas_casstring($opt);
                     if (!$cs->get_valid('t')) {
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => $key+1, 'field' => get_string('testoptions', 'qtype_stack'))) .
-                                $cs->get_errors();
+                        $interror[$prtname . 'node[' . $key . ']'][] =
+                                get_string('testoptionsinvalid', 'qtype_stack', $cs->get_errors());
                     }
                 } else {
                     $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$key]);
                     if ($answertest->required_atoptions()) {
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => $key+1, 'field' => get_string('testoptions', 'qtype_stack'))) .
-                                get_string('testoptionsrequired', 'qtype_stack');
+                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsrequired', 'qtype_stack');
                     }
                 }
             }
             foreach (array('true', 'false') as $branch) {
-                foreach ($fromform[$prtname.$branch.'feedback'] as $key => $strin) {
-                    $feedback = new stack_cas_text($strin['text'], null, null, 't');
-                    if (!$feedback->get_valid()) {
-                        $nodename = $key+1;
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => "$nodename (".get_string($branch, 'qtype_stack').")",
-                                'field' => get_string('feedback', 'qtype_stack'))) . $feedback->get_errors();
-                    }
-                }
-                foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
-                    if (strstr($strin, '|') !== false) {
-                        $nodename = $key+1;
-                        $interror[] = get_string('edit_form_error', 'qtype_stack',
-                                array('no' => "$nodename (".get_string($branch, 'qtype_stack').")",
-                                'field' => get_string('answernote', 'qtype_stack'))).get_string('answernote_err', 'qtype_stack');
+                foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
+                    if (!is_numeric($score) || $score<0 || $score>1) {
+                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('scoreerror', 'qtype_stack');
                     }
                 }
                 foreach ($fromform[$prtname.$branch.'penalty'] as $key => $penalty) {
                     if ('' != $penalty) {
                         if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
-                            $interror[] = get_string('penaltyerror2', 'qtype_stack');
+                            $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('penaltyerror2', 'qtype_stack');
                         }
                     }
                 }
-                foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
-                    if (!is_numeric($score) || $score<0 || $score>1) {
-                         $interror[] = get_string('scoreerror', 'qtype_stack');
+                foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
+                    if (strstr($strin, '|') !== false) {
+                        $nodename = $key+1;
+                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernote_err', 'qtype_stack');
+                    }
+                }
+                foreach ($fromform[$prtname.$branch.'feedback'] as $key => $strin) {
+                    $feedback = new stack_cas_text($strin['text'], null, null, 't');
+                    if (!$feedback->get_valid()) {
+                        $nodename = $key+1;
+                        $interror[$prtname . $branch . 'feedback['.$key.']'][] = $feedback->get_errors();
                     }
                 }
             }
 
-            if (!empty($interror)) {
-                $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
+            foreach ($interror as $field => $messages) {
+                $errors[$field] = implode(' ', $messages);
             }
         }
 

@@ -145,6 +145,8 @@ $string['requirelowestterms_link'] = '/question/type/stack/doc/doc.php/Authoring
 $string['sans'] = 'SAns';
 $string['sans_help'] = 'This is the first argument to the answer test function.  In asymetrical tests this is considered to be the "student\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.';
 $string['sans_link'] = 'question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
+$string['sansinvalid'] = 'SAns is invalid: {$a}';
+$string['sansrequired'] = 'SAns must not be empty.';
 $string['stop'] = '[stop]';
 $string['score'] = 'Score';
 $string['scoreerror'] = 'The score must be a numeric value between 0 and 1.';
@@ -164,19 +166,19 @@ $string['syntaxhint_link'] = '/question/type/stack/doc/doc.php/Authoring/Inputs.
 $string['tans'] = 'TAns';
 $string['tans_help'] = 'This is the second argument to the answer test function.  In asymetrical tests this is considered to be the "teacher\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.';
 $string['tans_link'] = 'question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
+$string['tansinvalid'] = 'TAns is invalid: {$a}';
+$string['tansrequired'] = 'TAns must not be empty.';
 $string['teachersanswer'] = 'Model answer';
 $string['teachersanswer_help'] = 'The teacher must specify a model answer for each input.  This must be a valid Maxima string, and may be formed from the question variables.';
 $string['teachersanswer_link'] = 'question/type/stack/doc/doc.php/Authoring/Inputs.md#model_answer';
 $string['testoptions'] = 'Test options';
 $string['testoptions_help'] = 'This field enables answer tests to accept an option, e.g. a variable or a numerical precision.';
 $string['testoptions_link'] = 'question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
+$string['testoptionsinvalid'] = 'The test options are invalid: {$a}';
 $string['testoptionsrequired'] = 'Test options are required for this test.';
 $string['variantsselectionseed'] = 'Random group';
 $string['variantsselectionseed_help'] = 'Normally you can leave this box blank. If, however, you want two different questions in a quiz to use the same random seed, then type the same string in this box for the two questions (and deploy the same set of random seeds, if you are using deployed versions) and the random seeds for the two questions will be synchronised.';
 $string['verifyquestionandupdate'] = 'Verify the question text and update the form';
-
-// Error reporting in the feedback form.
-$string['edit_form_error'] = 'Node {$a->no} {$a->field} has the following error: ';
 
 // Admin settings.
 $string['settingcasdebugging'] = 'CAS debugging';

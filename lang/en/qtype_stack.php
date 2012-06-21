@@ -241,6 +241,7 @@ $string['questionpreview'] = 'Question preview';
 $string['questiontests'] = 'Question tests';
 $string['runquestiontests'] = 'Run the question tests...';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
+$string['alreadydeployed'] = ' A variant matching this Question note is already deployed.';
 $string['switchtovariant'] = 'Switch to arbitrary variant';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';

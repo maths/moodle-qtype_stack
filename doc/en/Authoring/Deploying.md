@@ -2,33 +2,29 @@
 
 Computer aided assessment of mathematics works in the following phases.
 
-1. [Authoring](../Authoring/index.md)
-2. [Testing](Testing.md)
-3. [Deploying](Deploying.md)
-4. [Reviewing](Reviewing.md)
+1. [Authoring](../Authoring/index.md),
+2. [Testing](Testing.md) and 
+3. [Deploying](Deploying.md) questions.
+4. [Adding questions to a quiz](Quiz.md) and use by students.
+5. [Reviewing](Reviewing.md) and statistical analysis.
 
-**If a question uses randomization then it must have at least one deployed instance before it can be presented to a student.** 
 
-Deploying a question instance is analogous to printing a question paper (which can then be photocopied many times). Questions that don't use randomization cannot be deployed explicitly.
+Deploying a question variant chooses and fixes specific values for any random elements within the question variables.  When a student attempts the question they will be given a random selection from the deployed variants.  STACK questions are not randomly generated on the fly.  We have chosen to add this step, instead of generating on the fly, for a number of reasons.
 
-The deployment interface can be found on the top of the [Testing](Testing.md) page.
+1. The teacher can run the question tests on each deployed version before the student sees the question to establish the question is working.  This aids quality control.
+2. The teacher can decide if each deployed version appears to be of equal difficulty.  Experience suggests there are unanticipated consequences of randomly generating questions.  (Really only statistics of use can establish fairness.)
+3. The pre-generation combined with a cache helps minimise server load during the start of a large class which aids robustness of the whole experience.  This helps STACK to optimise its use of the CAS for efficiency and reliability via a [dynamic cache](../Developer/Question_state_caching.md).
 
-All the question variables are assigned values (usually random) to produce a number of complete, answerable question instances.
+Any number of instances can be requested and deployed but only one instance of each [question note](Question_note.md) can be deployed.  The teacher is responsible to ensure question variants are different if and only if the question notes are different.  The deployment management also allows specific variants to be dropped.  You can also return to the question preview window and try a specific deployed variant.
 
-For example, ''Differentiate \(3x^2+4x\) with respect to \(x\)'' where \(3\) and \(4\) are the randomly sampled values.  If a question has only a single possible instance then we call it a ''singleton'' and deployment is trivial.  An example is ''Give an example of an even function.''
+_In STACK 2, it was possible to deploy $n$ variants in one go.  We have yet to re-implement this feature in STACK 3.  Only one variant may be deployed at a time.  Also, it would be nice to loop to look for variants which have not been deployed yet...._
 
-Deployed instances can be included in quizzes.  The instance that a student is presented with is selected at random from this pool of instances.  So, in a cohort of 50 students, each instance of a deployment of 5 versions would expect to be used 10 times.
-
-Any number of instances can be requested but the deployment automatically discards any generated duplicates (according to the question  note). The deployment management also allows specific instances to be dropped. _Note:_ Not implemented in STACK 3.
+**If a question uses randomization then it must have at least one deployed instance before it can be presented to a student.**  Questions that don't use randomization cannot be deployed explicitly.  STACK automatically detects randomization.
 
 Deployment is not required for authors to test questions: an instance is generated on-the-fly.
 
-Where these are several historical versions of a question, only one of them can be deployed at any time.  This will generally be the most recent stable one.
+## How to deploy question variants ##
 
-## Optimising CAS Use ##
+The deployment interface can be found on the top of the [Testing](Testing.md) page.
 
-A deployment phase allows STACK to optimise its use of the CAS for efficiency and reliability via a [dynamic cache](../Developer/Question_state_caching.md).
-
-To increase system performance, there is the option to ''prime'' question instances.  This processes [question tests](Testing.md) as if they were student submissions to add the responses to the cache.  Where question tests include likely real submissions, this can bring forward the performance benefit of a well-populated cache.
-
-
+This page also contains the list of currently deployed versions.

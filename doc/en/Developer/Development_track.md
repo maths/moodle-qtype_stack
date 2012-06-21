@@ -32,9 +32,7 @@ These are the major tasks we still need to complete in approximate order and imp
 
 ## Milestone 2
 
-1. Reporting
- 1. Make sure that STACK questions work as well as possible in the standard Moodle reports.
- 2. Consider what additional custom STACK reporting we need.
+1. **DONE** Make sure that STACK questions work as well as possible in the standard Moodle reports.
 2. **DONE** Implement the Moodle backup/restore code for stack questions.
 3. **DONE** Implement Moodle XML format import and export.
 4. **DONE** Investigate ways of running Maxima on a separate server.
@@ -45,7 +43,7 @@ At this point STACK will be "ready" for use with students, although not all feat
 ## Milestone 3
 
 1. Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
-2. Implement additional reporting as determined above.
+2. Consider what additional custom STACK reporting we need.
 3. **DONE** Make STACK respect all Moodle behaviours.
  1. **DONE** Deferred feedback
  2. **DONE** Interactive
@@ -56,8 +54,8 @@ At this point STACK will be "ready" for use with students, although not all feat
 5. Add sample_questions, and update question banks for STACK 3.0.
 6. Link the STACK documentation to Moodle's help icons on the editing form, etc.
 7. Improve the way questions are deployed.
- 1. Only deploy new versions.
- 2. Reploy many versions at once.
+ 1. **DONE** Only deploy new versions.
+ 2. Deploy many versions at once.
  3. Remove many versions at once.
 8. Complete the system for running Maxima on a separate server.
 
@@ -73,6 +71,8 @@ At this point STACK will be "ready" for use with students, although not all feat
 4. UI to add a new PRT, so you don't have to know to edit the question text to add it.
 5. When validating the editing form, actually evaluate the Maxima code.
 6. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
+7. Make sure error messages on the authoring form sit next to the appropriate field.  Currently this is a limitation of moodle forms.
+8. Ensure links from the editing form end up at the STACK docs.
 
 ### Testing questions
 
@@ -95,15 +95,13 @@ These tasks also need to be done, but do not block progress towards getting STAC
 
 1. Refactor the way STACK surrounds mathematics with LaTeX  environments.  Really we need a function
     stack_maths(ex,format = INLINE/DISPLAY)
-which takes the castring $ex, and surrounds it by strings  depending on whether we want an inline or displayed equation.   Similar to the translator function...
+which takes the castring $ex, and surrounds it by strings depending on whether we want an inline or displayed equation.   Similar to the translator function...
 
 Some miscellaneous things
 
 * Answer tests should be like inputs. We should return an answer test object, not a controller object.
 * at->get_at_mark() really ought to be sat->matches(), since that is how it is used.
 * Finish cleaning up stack_utils.
-* Make sure error messages on the authoring form sit next to the appropriate field.  Currently this is a limitation of moodle forms.
-* Expand the capabilities of CASText to enable the value of a variable (not just its displayed LaTeX form) to be included in the HTML.  E.g. using a tag such as `#x^2#` now this syntax is available again.  This is needed for the Google charts.
 
 ## Languages
 
@@ -119,12 +117,8 @@ Some miscellaneous things
 
 ## Documentation system
 
-1. Ensure links from the editing form end up at the STACK docs.
 2. 404 error does not add an entry to the log.
-3. fix `maintenance.php`.
-4. Update the file
-
-     \stack\www\lib\maxima\maximafun.php
+3. **DONE** fix `maintenance.php`.
 
 ---
 # History of previous versions of STACK

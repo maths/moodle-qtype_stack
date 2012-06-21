@@ -104,6 +104,7 @@ echo $OUTPUT->heading($title);
 echo $OUTPUT->heading(get_string('deployedvariants', 'qtype_stack'), 3);
 
 $variantmatched = false;
+$variantdeployed = false;
 if (!$question->has_random_variants()) {
     echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack') .
             ' ' . $OUTPUT->action_icon(new moodle_url('/question/preview.php',
@@ -133,7 +134,7 @@ if (!$question->has_random_variants()) {
             $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed, 'courseid' => $courseid)),
                     $deployedseed, array('title' => get_string('testthisvariant', 'qtype_stack')));
         }
-
+        
         $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/preview.php',
             array('courseid' => $courseid, 'id' => $questionid, 'variant' => $deployedseed)),
             new pix_icon('t/preview', get_string('preview')));
@@ -153,11 +154,14 @@ if (!$question->has_random_variants()) {
         $slotnote = $qunote->add_question($qn, $qn->defaultmark);
         $qunote->start_question($slotnote);
 
+        // Check if the question note has already been deployed
+        if ($qn->get_question_summary() == $question->get_question_summary()) {
+        	$variantdeployed = true;
+        }
         $notestable->data[] = array(
             $choice,
             $qn->get_question_summary(),
         );
-
     }
 
     echo html_writer::tag('p', get_string('deployedvariantoptions', 'qtype_stack'));
@@ -169,6 +173,9 @@ if (!$variantmatched) {
         $deploybutton = ' ' . $OUTPUT->single_button(new moodle_url('/question/type/stack/deploy.php',
                 array('questionid' => $question->id, 'courseid' => $courseid, 'deploy' => $question->seed)),
                 get_string('deploy', 'qtype_stack'));
+        if ($variantdeployed) {
+    	    $deploybutton = get_string('alreadydeployed', 'qtype_stack');
+        }
     } else {
         $deploybutton = '';
     }
@@ -296,12 +303,24 @@ foreach ($testresults as $key => $result) {
             $passedcol = get_string('testsuitefail', 'qtype_stack');
         }
 
+        // Sort out excessive decimal places from the DB.
+        if (is_null($state->expectedscore) || '' === $state->expectedscore) {
+        	$expectedscore = '';
+        } else {
+        	$expectedscore = $state->expectedscore + 0;
+        }
+        if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
+        	$expectedpenalty = '';
+        } else {
+        	$expectedpenalty = $state->expectedpenalty + 0;
+        }
+        
         $prtstable->data[] = array(
             $prtname,
             $state->score,
-            $state->expectedscore,
+            $expectedscore,
             $state->penalty,
-            $state->expectedpenalty,
+            $expectedpenalty,
             s($state->answernote),
             s($state->expectedanswernote),
             $state->feedback,

@@ -2,10 +2,11 @@
 
 Computer aided assessment of mathematics works in the following phases.
 
-1. [Authoring](../Authoring/index.md)
-2. [Testing](Testing.md)
-3. [Deploying](Deploying.md)
-4. [Reviewing](Reviewing.md)
+1. [Authoring](../Authoring/index.md),
+2. [Testing](Testing.md) and 
+3. [Deploying](Deploying.md) questions.
+4. [Adding questions to a quiz](Quiz.md) and use by students.
+5. [Reviewing](Reviewing.md) and statistical analysis.
 
 Those new to STACK would probably prefer the [Authoring quick start](Authoring_quick_start.md).
 There are also [Sample questions](Sample_questions.md).

@@ -555,7 +555,7 @@ class qtype_stack extends question_type {
         foreach ($expectations as $prtname => $expected) {
             $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
                     '', array(), array($expected->expectedanswernote), true,
-                    $expected->expectedscore + 0, $expected->expectedpenalty + 0));
+                    $expected->expectedscore, $expected->expectedpenalty));
         }
 
         return $qtest;

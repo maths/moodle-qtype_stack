@@ -4,10 +4,9 @@
 
 **Warning:** _do not change the size of the font while taking a quiz._
 
-Navigate away from the page first.  Sometimes the browser will "reload" the page when you change
-the font size, and this may cause your work to be submitted or lost!
+Navigate away from the quiz page first.  Sometimes the browser will "reload" the page when you change the font size, and this may cause your work to be submitted or lost!
 
-The fonts which STACK uses should be able to scale.  Use the normal options on the browser to change the sizes of the fonts. This changes all the fonts on the page.
+The fonts which STACK uses should be able to scale.  Use the normal options on the browser to change the sizes of the fonts. This changes all the fonts on the page, including the mathematics.
 
 ## Other accessibility features ##
 

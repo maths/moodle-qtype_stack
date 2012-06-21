@@ -16,9 +16,9 @@ Your answers are assessed in a two-stage process.
 2. Once all answers relevant to a part are valid the _mathematical properties_ will be established.
    What properties are required depends on the question being asked!
 
-Sometimes these processes are done in one step, sometimes you will need to submit a page twice. Therefore you should answer parts of a question and press submit to validate your answer. If all parts are valid, then you should press _submit_ again to ask for your answer to be assessed.
+Sometimes these processes are done in one step, sometimes you will need to submit a page twice. Therefore you should answer parts of a question and press `check` to validate your answer. If all parts are valid, then you should press `check` again to ask for your answer to be assessed.
 
-You may change your answer. Just press _submit_ to validate and then _submit_ again to assess.
+You may change your answer. Just press `check` to validate and then `check` again to assess.
 The system keeps track of any changes you make.
 
 You will never loose marks for making a syntax error, e.g. missing a closing bracket.   However, you may type in a valid expression which is not what you meant and which is wrong.  You need to learn how to express yourself using an unambiguous syntax.  This is simple and comes to most students easily with practice.   If you make a mathematical mistake you should try to do the question again!

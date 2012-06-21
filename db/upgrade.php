@@ -432,22 +432,54 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012061501) {
-        // Changing type of field truepenalty on table qtype_stack_prt_nodes to number
+        // Changing type of field truepenalty on table qtype_stack_prt_nodes to number.
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('truepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'truescore');
 
-        // Launch change of type for field truepenalty
+        // Launch change of type for field truepenalty.
         $dbman->change_field_type($table, $field);
 
         // Changing type of field falsepenalty on table qtype_stack_prt_nodes to number
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('falsepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'falsescore');
 
-        // Launch change of type for field falsepenalty
+        // Launch change of type for field falsepenalty.
         $dbman->change_field_type($table, $field);
 
-        // stack savepoint reached
+        // Qtype stack savepoint reached.
         upgrade_plugin_savepoint(true, 2012061501, 'qtype', 'stack');
+    }
+
+    // We want to change the index on hash from unique to non-unique, which seems
+    // to involve dropping it and re-creating.
+    if ($oldversion < 2012062100) {
+
+        // Define index hash (not unique) to be dropped form qtype_stack_cas_cache.
+        $table = new xmldb_table('qtype_stack_cas_cache');
+        $index = new xmldb_index('hash', XMLDB_INDEX_UNIQUE, array('hash'));
+
+        // Conditionally launch drop index hash.
+        if ($dbman->index_exists($table, $index)) {
+            $dbman->drop_index($table, $index);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2012062100, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2012062101) {
+
+        // Define index hash (not unique) to be added to qtype_stack_cas_cache.
+        $table = new xmldb_table('qtype_stack_cas_cache');
+        $index = new xmldb_index('hash', XMLDB_INDEX_NOTUNIQUE, array('hash'));
+
+        // Conditionally launch add index hash.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2012062101, 'qtype', 'stack');
     }
 
     return true;

@@ -116,7 +116,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="hash" UNIQUE="true" FIELDS="hash"/>
+        <INDEX NAME="hash" UNIQUE="false" FIELDS="hash"/>
       </INDEXES>
     </TABLE>
     <TABLE NAME="qtype_stack_qtests" COMMENT="One row for each questiontest for each question." PREVIOUS="qtype_stack_cas_cache" NEXT="qtype_stack_qtest_inputs">

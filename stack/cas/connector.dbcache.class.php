@@ -73,18 +73,30 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $cached = new stdClass();
         $cached->key = $this->get_cache_key($command);
 
-        $data = $this->db->get_record('qtype_stack_cas_cache', array('hash' => $cached->key));
+        // Are there any cached records that might match?
+        $data = $this->db->get_records('qtype_stack_cas_cache',
+                array('hash' => $cached->key), 'id');
         if (!$data) {
+            // Nothing relevant in the cache.
             $cached->result = null;
             return $cached;
         }
 
-        if ($data->command != $command) {
+        // Get the data from the first record.
+        $record = reset($data);
+        if ($record->command != $command) {
             throw new stack_exception('stack_cas_connection_db_cache: the command found at hash key ' .
                     $cached->key . ' did not match what was expected.');
         }
+        $cached->result = json_decode($record->result, true);
 
-        $cached->result = json_decode($data->result, true);
+        // If there was more than one record in the cache (due to a race condition)
+        // drop the duplicates.
+        unset($data[$record->id]);
+        if ($data) {
+            $this->db->delete_records_list('qtype_stack_cas_cache', 'id', array_keys($data));
+        }
+
         return $cached;
     }
 
@@ -103,14 +115,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $data->hash = $key;
         $data->command = $command;
         $data->result = json_encode($result);
-
-        if ($this->db->record_exists('qtype_stack_cas_cache', array('hash' => $key))) {
-            // This will catch most . but not all, cases when two simulatneous
-            // CAS connections try to cache the result of the same command.
-            return;
-        }
-
-        // TODO but there is still a race-condition here. Find a good fix.
 
         $this->db->insert_record('qtype_stack_cas_cache', $data);
     }

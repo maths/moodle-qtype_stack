@@ -322,6 +322,7 @@ $string['stackCas_MissingStars']            = 'You seem to be missing *\'s. Perh
 $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid}.';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
+$string['stackCas_bracketsdontmatch']       = 'You the brackets are incorrectly nested in the expression: {$a->cmd}.';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';

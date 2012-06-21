@@ -53,7 +53,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
             array('[sin(x)+1)', false, false),
-            // TODO array('([y^2+1)]', false, false), !
+            array('([y^2+1)]', false, false),
         );
 
         foreach ($cases as $case) {

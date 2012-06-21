@@ -53,6 +53,24 @@ class stack_utils_test extends basic_testcase {
         $this->assertSame(true, stack_utils::check_bookends('[sin(x)+1)', '{', '}'));
     }
 
+    public function test_check_nested_bookends() {
+        $this->assertTrue(stack_utils::check_nested_bookends(''));
+        $this->assertTrue(stack_utils::check_nested_bookends('x+1'));
+        $this->assertTrue(stack_utils::check_nested_bookends('(sin(x)+1)'));
+        $this->assertTrue(stack_utils::check_nested_bookends('[sin(x)+1]'));
+        $this->assertTrue(stack_utils::check_nested_bookends('{}[]()'));
+        $this->assertTrue(stack_utils::check_nested_bookends('{[()]}'));
+        $this->assertTrue(stack_utils::check_nested_bookends('{[()(()[(){}((){})])]}'));
+
+        $this->assertFalse(stack_utils::check_nested_bookends('('));
+        $this->assertFalse(stack_utils::check_nested_bookends(')'));
+        $this->assertFalse(stack_utils::check_nested_bookends('x+1)'));
+        $this->assertFalse(stack_utils::check_nested_bookends('(sin(x+1)'));
+        $this->assertFalse(stack_utils::check_nested_bookends('[sin(x]+1)'));
+        $this->assertFalse(stack_utils::check_nested_bookends('{}[()'));
+        $this->assertFalse(stack_utils::check_nested_bookends('{[()(()[(){}((){})]))]}'));
+    }
+
     public function test_substring_between() {
         $this->assertEquals(array('[hello]', 0, 6), stack_utils::substring_between('[hello] world!', '[', ']'));
         $this->assertEquals(array('[world]', 6, 12), stack_utils::substring_between('hello [world]!', '[', ']'));

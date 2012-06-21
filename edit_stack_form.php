@@ -305,9 +305,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('select', $inputname . 'type', get_string('inputtype', 'qtype_stack'), $this->typechoices);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
-        $mform->addElement('text', $inputname . 'tans', get_string('teachersanswer', 'qtype_stack'), array('size' => 20));
-        $mform->addRule($inputname . 'tans', get_string('teachersanswer', 'qtype_stack'), 'required', '', 'client', false, false);
-        $mform->addHelpButton($inputname . 'tans', 'teachersanswer', 'qtype_stack');
+        $mform->addElement('text', $inputname . 'modelans', get_string('teachersanswer', 'qtype_stack'), array('size' => 20));
+        $mform->addRule($inputname . 'modelans', get_string('teachersanswer', 'qtype_stack'), 'required', '', 'client', false, false);
+        $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'boxsize', get_string('boxsize', 'qtype_stack'), array('size' => 3));
         $mform->setDefault($inputname . 'boxsize', 15);
@@ -517,7 +517,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         foreach ($question->inputs as $inputname => $input) {
             $question->{$inputname . 'type'}               = $input->type;
-            $question->{$inputname . 'tans'}               = $input->tans;
+            $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
             $question->{$inputname . 'strictsyntax'}       = $input->strictsyntax;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
@@ -665,9 +665,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // 2) Validate all inputs.
         foreach ($inputs as $inputname) {
-            $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'tans']);
+            $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'modelans']);
             if (!$teacheranswer->get_valid('t')) {
-                $errors[$inputname . 'tans'] = $teacheranswer->get_errors();
+                $errors[$inputname . 'modelans'] = $teacheranswer->get_errors();
             }
         }
 

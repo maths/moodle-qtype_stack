@@ -92,7 +92,7 @@ class qtype_stack extends question_type {
             }
 
             $input->type               = $fromform->{$inputname . 'type'};
-            $input->tans               = $fromform->{$inputname . 'tans'};
+            $input->tans               = $fromform->{$inputname . 'modelans'};
             $input->boxsize            = $fromform->{$inputname . 'boxsize'};
             $input->strictsyntax       = $fromform->{$inputname . 'strictsyntax'};
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
@@ -844,7 +844,7 @@ class qtype_stack extends question_type {
         $name = $format->getpath($xml, array('#', 'name', 0, '#'), null, false, 'Missing input name in the XML.');
 
         $fromform->{$name . 'type'}               = $format->getpath($xml, array('#', 'type', 0, '#'), '');
-        $fromform->{$name . 'tans'}               = $format->getpath($xml, array('#', 'tans', 0, '#'), '');
+        $fromform->{$name . 'modelans'}           = $format->getpath($xml, array('#', 'tans', 0, '#'), '');
         $fromform->{$name . 'boxsize'}            = $format->getpath($xml, array('#', 'boxsize', 0, '#'), 15);
         $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, array('#', 'strictsyntax', 0, '#'), 1);
         $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', 'insertstars', 0, '#'), 0);

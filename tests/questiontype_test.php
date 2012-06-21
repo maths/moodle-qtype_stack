@@ -365,7 +365,7 @@ class qtype_stack_test extends question_testcase {
         $expectedq->variantsselectionseed = '';
 
         $expectedq->ans1type               = 'algebraic';
-        $expectedq->ans1tans               = 2;
+        $expectedq->ans1modelans           = 2;
         $expectedq->ans1boxsize            = 5;
         $expectedq->ans1strictsyntax       = 1;
         $expectedq->ans1insertstars        = 0;

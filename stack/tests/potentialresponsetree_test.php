@@ -45,7 +45,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $node->add_branch(1, '=', 2, '', -1, 'Yeah!', '1-0-1');
+        $node->add_branch(1, '=', 1, '', -1, 'Yeah!', '1-0-1');
 
         $potentialresponses[] = $node;
 
@@ -59,7 +59,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $this->assertTrue($result['valid']);
         $this->assertEquals('', $result['errors']);
-        $this->assertEquals(2, $result['score']);
+        $this->assertEquals(1, $result['score']);
         $this->assertEquals(0, $result['penalty']);
         $this->assertEquals('Yeah!', $result['feedback']);
         $this->assertEquals('ATInt_true | 1-0-1', $result['answernote']);
@@ -74,7 +74,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Diff', 'x', false);
         $node->add_branch(0, '=', 0, '', -1, 'Can not diff!', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 1, 'Ok, you can diff. ', '1-0-1');
+        $node->add_branch(1, '=', 1, '', 1, 'Ok, you can diff. ', '1-0-1');
         $potentialresponses[] = $node;
 
         $sans = new stack_cas_casstring('sans');
@@ -98,7 +98,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $this->assertTrue($result['valid']);
         $this->assertEquals('', $result['errors']);
-        $this->assertEquals(2, $result['score']);
+        $this->assertEquals(1, $result['score']);
         $this->assertEquals(0, $result['penalty']);
         $this->assertEquals('Ok, you can diff. Do not expand!', $result['feedback']);
         $this->assertEquals('ATDiff_true | 1-0-1 | ATFacForm_notfactored. | 1-1-0', $result['answernote']);
@@ -110,7 +110,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $this->assertTrue($result['valid']);
         $this->assertEquals('', $result['errors']);
-        $this->assertEquals(2, $result['score']);
+        $this->assertEquals(1, $result['score']);
         $this->assertEquals(0, $result['penalty']);
         $this->assertEquals('Ok, you can diff. Yeah!', $result['feedback']);
         $this->assertEquals('ATDiff_true | 1-0-1 | ATFacForm_true | 1-1-1', $result['answernote']);
@@ -144,7 +144,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
         $node->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[@(sa1)^2@ \neq @(sa2)^2@\]', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 1, 'Test 1 true. ', '1-0-1');
+        $node->add_branch(1, '=', 1, '', 1, 'Test 1 true. ', '1-0-1');
         $potentialresponses[] = $node;
 
         $sans = new stack_cas_casstring('sa2');
@@ -152,8 +152,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('ta');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
-        $node->add_branch(0, '+', -1, '', 0, 'Test 2 false.', '1-1-0');
-        $node->add_branch(1, '+', 3, '', 3, 'Test 2 true', '1-1-1');
+        $node->add_branch(0, '-', 0.7, '', 0, 'Test 2 false.', '1-1-0');
+        $node->add_branch(1, '+', 1, '', 3, 'Test 2 true', '1-1-1');
         $potentialresponses[] = $node;
 
         $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses);
@@ -164,7 +164,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $this->assertTrue($result['valid']);
         $this->assertEquals('', $result['errors']);
-        $this->assertEquals(1, $result['score']);
+        $this->assertEquals(0.3, $result['score']);
         $this->assertEquals(0, $result['penalty']);
         $this->assertEquals('Test 1 true. Test 2 false.', $result['feedback']);
         $this->assertEquals('1-0-1 | ATFacForm_notfactored. | 1-1-0 | [PRT-CIRCULARITY]=0', $result['answernote']);

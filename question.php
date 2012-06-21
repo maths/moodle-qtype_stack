@@ -481,7 +481,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
                 $results = $this->prts[$index]->evaluate_response($this->session,
                         $this->options, $prtinput, $this->seed);
-                // TODO check for errors.
+                // We can assume no errors here, because the PRT was previously
+                // evaluated with these inputs while the student was working
+                // through the question.
 
                 $accumulatedpenalty += $results['fractionalpenalty'];
             }

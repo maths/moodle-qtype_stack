@@ -178,13 +178,20 @@ class stack_potentialresponse_tree {
             }
         }
 
+        // Make sure these are PHP numbers.
+        $results->_score = $results->_score + 0;
+        $results->_penalty = $results->_penalty + 0;
+
+        // Restrict score to be between 0 and 1.
+        $results->_score = min(max($results->_score, 0), 1);
+
         // Tidy up the results.
         $res['feedback']   = $results->display_feedback($cascontext, $seed).$results->_errors;
         $res['answernote'] = implode(' | ', $results->_answernote);
         $res['errors']     = $results->_errors; // Might yet be further errors from $results->display_feedback ...
         $res['valid']      = $results->_valid;
-        $res['score']      = $results->_score + 0; // Make sure these are PHP numbers.
-        $res['penalty']    = $results->_penalty + 0;
+        $res['score']      = $results->_score;
+        $res['penalty']    = $results->_penalty;
         $res['fraction']   = $results->_score * $this->value;
         $res['fractionalpenalty'] = $results->_penalty * $this->value;
 
@@ -193,7 +200,7 @@ class stack_potentialresponse_tree {
         // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".  
         // Why does this correct attempt attract a penalty?  So, this is a unilateral decision:
         // If the score is 1 there is never a penalty.
-        if (1 == $res['score']) {
+        if ($res['score'] > 0.99999995) {
             $res['penalty'] = 0;
         }
         return $res;

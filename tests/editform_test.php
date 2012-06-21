@@ -75,7 +75,7 @@ class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
 class qtype_stack_edit_form_test extends advanced_testcase {
 
     protected function get_form($questiontext, $specificfeedback) {
-        $this->setUser(2); // TODO Change this once MDL-32926 is fixed.
+        $this->setAdminUser();
         $this->resetAfterTest();
 
         return new qtype_stack_edit_form_testable($questiontext, $specificfeedback);

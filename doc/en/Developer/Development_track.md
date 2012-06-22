@@ -82,7 +82,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 
 ### Editing form
 
-1. Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
+1. **DONE** Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
 2. Button to remove way to rename PRTs and inputs.
 3. UI to add a new PRT, so you don't have to know to edit the question text to add it.
 4. When validating the editing form, actually evaluate the Maxima code.
@@ -91,7 +91,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 
 ### Testing questions
 
-1. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
+1. **DOES NOT HAPPEN ANY MORE** With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 2. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 3. **DONE** A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
 

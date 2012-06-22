@@ -32,6 +32,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/answertest/controller.c
 
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/keyval.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/castext.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/acyclicchecker.class.php');
 
 /**
  * Stack question editing form definition.
@@ -718,6 +719,8 @@ class qtype_stack_edit_form extends question_edit_form {
                     }
                 }
             }
+
+            $nextnodes = array();
             foreach (array('true', 'false') as $branch) {
                 foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
                     if (!is_numeric($score) || $score<0 || $score>1) {
@@ -744,6 +747,38 @@ class qtype_stack_edit_form extends question_edit_form {
                         $interror[$prtname . $branch . 'feedback['.$key.']'][] = $feedback->get_errors();
                     }
                 }
+
+                foreach ($fromform[$prtname.$branch.'nextnode'] as $key => $next) {
+                    if (!array_key_exists($key, $nextnodes)) {
+                        $nextnodes[$key] = array();
+                    }
+                    if ($next == -1) {
+                        continue;
+                    }
+                    if ($next == $key) {
+                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('nextcannotbeself', 'qtype_stack');
+                        continue;
+                    }
+                    $nextnodes[$key][] = $next;
+                }
+            }
+
+            list($problem, $details) = stack_acyclic_graph_checker::check_graph($nextnodes, '0');
+            switch ($problem) {
+                case 'disconnected':
+                    foreach ($details as $unusednode) {
+                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('nodenotused', 'qtype_stack');
+                    }
+                    break;
+
+                case 'backlink':
+                    list($from, $to) = $details;
+                    if ($fromform[$prtname.'truenextnode'][$from] == $to) {
+                        $interror[$prtname.'nodewhentrue['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
+                    } else {
+                        $interror[$prtname.'nodewhenfalse['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
+                    }
+                    break;
             }
 
             foreach ($interror as $field => $messages) {

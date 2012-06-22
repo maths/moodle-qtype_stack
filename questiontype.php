@@ -178,6 +178,13 @@ class qtype_stack extends question_type {
                                 $context, 'qtype_stack', 'prtnodefalsefeedback', $node->id);
                 $node->falsefeedbackformat  = $fromform->{$prtname . 'falsefeedback'}[$nodename]['format'];
 
+                if ('' === $node->truepenalty) {
+                    $node->truepenalty = null;
+                }
+                if ('' === $node->falsepenalty) {
+                    $node->falsepenalty = null;
+                }
+
                 $DB->update_record('qtype_stack_prt_nodes', $node);
             }
 

@@ -223,6 +223,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($pen, 'generalfeedback');
         $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
         $mform->setDefault('penalty', 0.1000000);
+        $mform->addRule('penalty', null, 'required', null, 'client');
 
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);

@@ -4,7 +4,7 @@ __WARNING: STACK 3.0 is under development.  This code is intended only for use b
 
 ## 1. Set up moodle.
 
-* Please ensure you have [installed moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use moodle 2.3 or later.  [E.g.](https://github.com/timhunt/moodle)
+* Please ensure you have [installed moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use moodle 2.3 or later.  [E.g.](https://github.com/moodle/moodle)
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](../Developer/Mathjax.md).
 
 ## 2. Install GNUPlot and Maxima

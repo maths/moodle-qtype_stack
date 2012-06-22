@@ -42,37 +42,46 @@ At this point STACK will be "ready" for use with students, although not all feat
 
 ## Milestone 3
 
-1. Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
-2. Consider what additional custom STACK reporting we need.
-3. **DONE** Make STACK respect all Moodle behaviours.
+1. **DONE** Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
+2. **DONE** Make STACK respect all Moodle behaviours.
  1. **DONE** Deferred feedback
  2. **DONE** Interactive
  3. **DONE** Deferred feedback with CBM
  4. **DONE** Immediate feedback
  5. **DONE** Immediate feedback with CBM - no unit tests, but if the others work, this one must.
-4. Add back in all input types, including dragmath/NUMBAS.
-5. Add sample_questions, and update question banks for STACK 3.0.
-6. Link the STACK documentation to Moodle's help icons on the editing form, etc.
-7. Improve the way questions are deployed.
+3. Add sample_questions, and update question banks for STACK 3.0.
+4. Improve the way questions are deployed.
  1. **DONE** Only deploy new versions.
- 2. Deploy many versions at once.
- 3. Remove many versions at once.
-8. Complete the system for running Maxima on a separate server.
+5. Editing form
+ 1. Button to remove a node from a PRT.
+6.	Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
+7. Add back Matrix input type. (currently only need to deal with naming of fields, and add tests)
+
+Once completed we are ready for the **Beta release!**
+
+## Milestone 4
+
+1. Additional custom STACK reports.
+2. Add back in all input types, including dragmath/NUMBAS.
+3. Link the STACK documentation to Moodle's help icons on the editing form, etc.
+4. Improve the way questions are deployed.
+ 1. Deploy many versions at once.
+ 2. Remove many versions at once.
+5. Complete the system for running Maxima on a separate server.
 
 ## Known bugs/issues
 
-1. Validation of student inputs has too many brackets.  This is a Maxima issue.  To reproduce it type `simp:false;` then `-3*x^2`.  We get unneeded brackets.
+Please add bug reports to the "issues" tracker on [github](http://github.com/maths/moodle-qtype_stack/issues).
 
 ### Editing form
 
 1. Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
 2. Button to remove way to rename PRTs and inputs.
-3. Button to remove a node from a PRT.
-4. UI to add a new PRT, so you don't have to know to edit the question text to add it.
-5. When validating the editing form, actually evaluate the Maxima code.
-6. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
-7. Make sure error messages on the authoring form sit next to the appropriate field.  Currently this is a limitation of moodle forms.
-8. Ensure links from the editing form end up at the STACK docs.
+3. UI to add a new PRT, so you don't have to know to edit the question text to add it.
+4. When validating the editing form, actually evaluate the Maxima code.
+5. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
+6. Make sure error messages on the authoring form sit next to the appropriate field.  Currently this is a limitation of moodle forms.
+7. Ensure links from the editing form end up at the STACK docs.
 
 ### Testing questions
 

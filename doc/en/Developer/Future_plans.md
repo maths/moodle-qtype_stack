@@ -6,10 +6,8 @@ The following features are in approximate priority order.   How to report bugs a
 
 * Introduce a variable so the maxima code "knows the attempt number".
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto)
-* Find a way to make the answer test test-suite and input test test-suite available to question authors.
 * A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.
-* Change unit tests to use PHPunit, which is the new standard in Moodle 2.3.
 
 ### Existing bugs to confirm ###
 
@@ -26,6 +24,7 @@ We need to consolidate all of these things.
 ## Features to add - round two! ##
 
 * Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.  This will be needed for various other things.
+* Implement "CommaError" checking for CAS strings.
 * Geogebra input.
 * Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.

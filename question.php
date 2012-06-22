@@ -342,7 +342,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_input_state the result of calling validate_student_response() on the input.
      */
     public function get_input_state($name, $response) {
-        $this->validate_cache($response);
+    	$this->validate_cache($response);
 
         if (array_key_exists($name, $this->inputstates)) {
             return $this->inputstates[$name];

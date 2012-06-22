@@ -1,6 +1,7 @@
 # Future plans
 
-The following features are in approximate priority order.   How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
+The following features are in approximate priority order.  How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
+
 
 ## Minor features to add immediately on completion of 3.0 ##
 
@@ -8,20 +9,48 @@ The following features are in approximate priority order.   How to report bugs a
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto)
 * A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.
+* Improve editing UI for test-cases https://github.com/maths/moodle-qtype_stack/issues/15
+* Improve the way questions are deployed.
+ 1. Deploy many versions at once.
+ 2. Remove many versions at once.
+* Add back remaining input types
+ 1. dragmath
+ 2. NUMBAS
+* Refactor answer tests.
+ 1. They should be like inputs. We should return an answer test object, not a controller object.
+ 2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
 
-### Existing bugs to confirm ###
-
-* What is the status of inputs in equations, particularly with MathJax.  Confirm what happens when these are locked once a worked solution has been called for.
-
-### Consolidation of mailing lists, forum, wiki etc. ###
-
-We need to consolidate all of these things.
-
-* Upate forum.
-* Announcements on Moodle mailing lists.
-* Re-install demonstration servers.
 
 ## Features to add - round two! ##
+
+### Add back the custom STACK reports ###
+
+That were available in STACK 2.0.
+
+### Rethink how STACK embed maths ###
+
+The goal will be to work more closely with how Moodle handles maths, so that
+the option to use the standard Moodle tex filter, or a custom filter like the
+OU's is feasible.
+
+We probably need a function like
+    stack_maths(ex,format = INLINE/DISPLAY)
+which takes the castring $ex, and surrounds it by strings depending on whether
+we want an inline or displayed equation. However, there is also the issue that
+question authors embed maths in the question text using their own conventions
+(e.g. $ for inline maths, that Moodle does not recognise by default.) Do we try
+to fix question text too?
+
+This may also require changes to the Maxima code, to change from dollars to
+\[ \] and \( and \).
+
+### Input elements in equations ###
+
+It is very useful to be able to embed input elements in equations, and this was
+working in STACK 2.0. However is it possible with MathJax or other Moodle maths
+filters?
+
+### Other ideas ###
 
 * Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.  This will be needed for various other things.
 * Implement "CommaError" checking for CAS strings.
@@ -35,7 +64,8 @@ We need to consolidate all of these things.
 * Feature in the edit forms to expand/fold away each PRT.
 * Add a button to the edit form to save and continue editing.
 
-## Features to add - possible self contained projects ##
+
+## Features that might be attempted in the future - possible self contained projects ##
 
 * [Question blocks](../Authoring/Question_blocks.md)
 * Read other file formats into STACK.  In particular

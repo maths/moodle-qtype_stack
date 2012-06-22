@@ -1,6 +1,11 @@
 # Development track
 
-These are the major tasks we still need to complete in approximate order and importance.  How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
+This page describes the major tasks we still need to complete in order to be
+able to release the next version of STACK. That is STACK 3.0. Plans looking
+futher into the future are described on [Future plans](Future_plans.md). The
+past development history is documented on [Development history](Development_history.md).
+
+How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
 ## Milestone 0
 
@@ -50,28 +55,30 @@ At this point STACK will be "ready" for use with students, although not all feat
  4. **DONE** Immediate feedback
  5. **DONE** Immediate feedback with CBM - no unit tests, but if the others work, this one must.
 3. Add sample_questions, and update question banks for STACK 3.0.
-4. Improve the way questions are deployed.
+4. **DONE** Improve the way questions are deployed.
  1. **DONE** Only deploy new versions.
 5. Editing form
  1. Button to remove a node from a PRT.
-6.	Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
+6. Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
 7. Add back Matrix input type. (currently only need to deal with naming of fields, and add tests)
+8. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
 
 Once completed we are ready for the **Beta release!**
 
-## Milestone 4
+## Beta testing period
 
-1. Additional custom STACK reports.
-2. Add back in all input types, including dragmath/NUMBAS.
-3. Link the STACK documentation to Moodle's help icons on the editing form, etc.
-4. Improve the way questions are deployed.
- 1. Deploy many versions at once.
- 2. Remove many versions at once.
-5. Complete the system for running Maxima on a separate server.
+1. Do lots of testing, report and fix bugs.
+ 1. But list at https://github.com/maths/moodle-qtype_stack/issues
+ 2. See also the list below
+2. Consolidation of mailing lists, forum, wiki etc.
+ 1. Update forum.
+ 2. Announcements on Moodle mailing lists.
+ 3. Re-install demonstration servers.
+3. Eliminate as many TODOs from the code as possible.
+4. Review the list of forbidden keywords....
+5. Add back other translations from STACK 2.0, preserving as many of the existing strings as possible. NOTE: the new format of the language strings containing parameters.  In particular, strings {$a[0]} need to be changed to {$a->m0}, etc.
 
-## Known bugs/issues
-
-Please add bug reports to the "issues" tracker on [github](http://github.com/maths/moodle-qtype_stack/issues).
+List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack/issues):
 
 ### Editing form
 
@@ -80,132 +87,18 @@ Please add bug reports to the "issues" tracker on [github](http://github.com/mat
 3. UI to add a new PRT, so you don't have to know to edit the question text to add it.
 4. When validating the editing form, actually evaluate the Maxima code.
 5. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
-6. Make sure error messages on the authoring form sit next to the appropriate field.  Currently this is a limitation of moodle forms.
 7. Ensure links from the editing form end up at the STACK docs.
 
 ### Testing questions
 
-1. There is no check that SUM(question values of all PRTs) = 1. Either we need to enforce that, or we need to compute question fraction as a weighed average of PRT scores.
-2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
-3. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
+1. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
+2. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 
 ### Optimising Maxima
 
 1.  Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
 
-## Future plans
+### Documentation system
 
-We have a dedicated page for [future plans](Future_plans.md).
-
----
-# Other tasks
-
-These tasks also need to be done, but do not block progress towards getting STACK basically working in moodle.
-
-1. Refactor the way STACK surrounds mathematics with LaTeX  environments.  Really we need a function
-    stack_maths(ex,format = INLINE/DISPLAY)
-which takes the castring $ex, and surrounds it by strings depending on whether we want an inline or displayed equation.   Similar to the translator function...
-
-Some miscellaneous things
-
-* Answer tests should be like inputs. We should return an answer test object, not a controller object.
-* at->get_at_mark() really ought to be sat->matches(), since that is how it is used.
-* Finish cleaning up stack_utils.
-
-## Languages
-
-* Add in other languages.   Copy over only those strings which are really needed.  NOTE: the new format of the language strings containing parameters.  In particular, strings {$a[0]} need to be changed to {$a->m0}, etc.
-
-## Maxima
-
-1. Update the list of forbidden keywords....
-2. Investigate better ways of connecting to Maxima.
-  *  <http://code.google.com/p/remote-maxima/>
-  *  <http://www.lon-capa.org/maximaasserver.html>
-3. Refactor Maxima code to change from dollars to \[ \] and \( and \).
-
-## Documentation system
-
-2. 404 error does not add an entry to the log.
-3. **DONE** fix `maintenance.php`.
-
----
-# History of previous versions of STACK
-
-STACK is a direct development of the CABLE project which ran at the University of Birmingham. CABLE was a development of the AiM computer aided assessment system.
-
-## Version 3.0
-
-_Not yet released_.  Target, September 2012.
-
-Major re-engineering of the code by the Open University, The  University of Birmingham and the University of Helsinki.  Reporting and documentation added by Ben Holmes.
-
-The most important change is the decision to re-work STACK as a question type for the Moodle quiz.  There is no longer a separate front end for STACK, or (currently) a mechanism to include STACK questions into other websites via a SOAP webservice. This round of development does not plan to introduce major new features, or to make major changes to the core functionality. An explicit aim is that "old questions will still work".
-
-Key features
-
-* __Major difference:__ Integration into the quiz of Moodle 2.3 as a question type.
-* Support for Maxima up to 5.27.0.
-* Documentation moved from the wiki to within the code base.
-* Move from CVS to GIT.
-
-### Changes in features between STACK 2 and STACK 3.
-
-* Key-val pairs, i.e. Question variables and feedback variables, now use Maxima's assignment syntax, e.g. `n:5` not the oldstyle `n=5`.
-* Interaction elements, now called inputs, are indicated in questions as `[[input:ans1]]` to match the existing style in Moodle.  Existing questions will be converted when imported.
-* A number of other terminology changes have brought STACK's use into line with Moodle's, e.g. Worked solution has changed to "general feedback".
-* Change in the internal name of one answer test `Equal_Com_ASS` changed to `EqualComASS`.
-* Feature "allowed words" dropped from inputs (i.e. interaction elements).
-* Input "Dropdown" list -> should be automatically imported to "list"
-* JSMath is no longer under development, and hence we are no longer providing an option for this in STACK.  However, in STACK 2 we modified JSMath to enable inputs within equations.  Display now assumes the use of a Moodle filter and we recommend (and test with) MathJax, which does not currently support this feature.  If it is important for you to use this feature you will need to copy and modify the load.js file from STACK 2 and use JSMath.
-* Worked solution on demand feature has been removed.  This was a hack in STACK 2, and the use of Moodle quiz has made this unnecessary.
-* Some options are no longer needed.  This functionality is now handelled by the "behaviours", so are uncecessary in STACK 3.
- * The "Feedback used". 
- * The "Mark modification".  
-* We have lost some of the nice styling on the editing form, compared to Stack 2.
-* Answer tests no longer return a numerical mark, hence the "+AT" option for mark modification method has been dropped.
-* The STACK function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
-
-## Version 2.2
-
-Released: October 2010 session.
-
-* Enhanced reporting features.
-* Enhanced question management features in Moodle.  E.g. [import multiple questions](https://sourceforge.net/tracker/?func=detail&aid=2930512&group_id=119224&atid=683351)
-  from AiM/Maple TA at once, assign multiple questions to Moodle question banks.
-* Slider interaction elements.
-
-## Version 2.1
-
-Developed by Chris Sangwin and Simon Hammond at the University of Birmingham.
-Released: Easter 2010 session.
-
-Key features
-
-* [Precision](../Authoring/Answer_tests.md#Precision) answer test added to allow significant to be checked.
-* [Form](../Authoring/Answer_tests.md#Form) answer test added to test if an expression is in completed square form.
-* List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
-* Move to Maxima's `random()` function, rather then generate our own pseudo random numbers
-* [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)
-* Support for Maxima 5.20.1
-* New option added: OptWorkedSol.  This allows the teacher to decide whether the tick box to request the worked solution is available.
-* Sample resources included as part of the FETLAR project.
-
-
-## Version 2.0
-
-Released, September 2007.  Developed by Jonathan Hart and Chris Sangwin at the University of Birmingham.
-
-Key features
-
-* Display of mathematics taken care of by JSMath.
-* Integrated into Moodle.
-* Variety of interaction elements.
-* Multi-part questions.
-* Cache.
-* Item tests.
-
-### Version 1.0
-
-Released, 2005.  Developed by Chris Sangwin at the University of Birmingham.
-
+1. 404 error does not add an entry to the log.
+2. **DONE** fix `maintenance.php`.

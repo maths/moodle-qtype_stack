@@ -200,6 +200,8 @@ class qtype_stack extends question_type {
         if ($prts) {
             list($test, $params) = $DB->get_in_or_equal(array_keys($prts));
             $params[] = $fromform->id;
+            $DB->delete_records_select('qtype_stack_prt_nodes',
+                    'prtname ' . $test . ' AND questionid = ?', $params);
             $DB->delete_records_select('qtype_stack_prts',
                     'name ' . $test . ' AND questionid = ?', $params);
         }
@@ -215,7 +217,24 @@ class qtype_stack extends question_type {
         }
 
         if (isset($fromform->testcases)) {
+            // If the data includes the defintion of the question tests that there
+            // should be (i.e. when doing import) then replace the existing set
+            // of tests with the new one.
             $this->save_question_tests($fromform->id, $fromform->testcases);
+
+        } else {
+            // Otherwise, make sure there is no garbage left in the database,
+            // for example if we delete a PRT, remove the expected values for
+            // that PRT while leaving the rest of the testcases alone.
+            list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false);
+            $params['questionid'] = $fromform->id;
+            $DB->delete_records_select('qtype_stack_qtest_inputs',
+                    'questionid = :questionid AND inputname ' . $nametest, $params);
+
+            list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false);
+            $params['questionid'] = $fromform->id;
+            $DB->delete_records_select('qtype_stack_qtest_expected',
+                    'questionid = :questionid AND prtname ' . $nametest, $params);
         }
     }
 

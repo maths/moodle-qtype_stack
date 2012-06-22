@@ -31,33 +31,26 @@ require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
-$courseid = required_param('courseid', PARAM_INT);
-$seed = optional_param('seed', null, PARAM_INT);
 $testcase = required_param('testcase', PARAM_INT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
-$context = $question->get_context();
 $DB->get_record('qtype_stack_qtests', array('questionid' => $question->id, 'testcase' => $testcase),
         '*', MUST_EXIST); // Just to verify that the record exists.
 
+// Process any other URL parameters, and do require_login.
+list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+
 // Check permissions.
-require_login();
 question_require_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
-$urlparams = array('courseid' => $courseid, 'questionid' => $question->id);
-if (!is_null($seed)) {
-    $urlparams['seed'] = $seed;
-}
 $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 $urlparams['testcase'] = $testcase;
 $PAGE->set_url('/question/type/stack/questiontestdelete.php', $urlparams);
-$PAGE->set_context($context);
 $title = get_string('deletetestcase', 'qtype_stack',
         array('no' => $testcase, 'question' => format_string($question->name)));
-// TODO fix page layout and navigation.
 
 if (data_submitted() && confirm_sesskey()) {
     // User has confirmed. Actually delete the test case.
@@ -67,6 +60,7 @@ if (data_submitted() && confirm_sesskey()) {
 
 // Display the confirmation.
 $PAGE->set_title($title);
+$PAGE->set_pagelayout('admin');
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 

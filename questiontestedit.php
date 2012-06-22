@@ -31,34 +31,27 @@ require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
-$courseid = required_param('courseid', PARAM_INT);
-$seed = optional_param('seed', null, PARAM_INT);
 $testcase = optional_param('testcase', null, PARAM_INT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
-$context = $question->get_context();
 if ($testcase) {
     $qtest = question_bank::get_qtype('stack')->load_question_test($questionid, $testcase);
 }
 
+// Process any other URL parameters, and do require_login.
+list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+
 // Check permissions.
-require_login();
 question_require_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
-$urlparams = array('courseid' => $courseid, 'questionid' => $question->id);
-if (!is_null($seed)) {
-    $urlparams['seed'] = $seed;
-}
 $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 if (!is_null($testcase)) {
     $urlparams['testcase'] = $testcase;
 }
 $PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
-$PAGE->set_context($context);
-// TODO fix page layout and navigation.
 
 if (!is_null($testcase)) {
     $title = get_string('editingtestcase', 'qtype_stack',
@@ -127,6 +120,8 @@ $options->suppressruntestslink = true;
 
 // Display the page.
 $PAGE->set_title($title);
+$PAGE->set_heading($COURSE->fullname);
+$PAGE->set_pagelayout('admin');
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 

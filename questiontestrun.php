@@ -40,30 +40,24 @@ require_once(dirname(__FILE__) . '/stack/questiontest.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
-$courseid = required_param('courseid', PARAM_INT);
-$seed = optional_param('seed', null, PARAM_INT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
-$context = $question->get_context();
+
+// Process any other URL parameters, and do require_login.
+list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
-require_login();
 question_require_capability_on($questiondata, 'view');
 $canedit = question_has_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
-$urlparams = array('questionid' => $question->id);
-if (!is_null($seed) && $question->has_random_variants()) {
-    $urlparams['seed'] = $seed;
-}
 $PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
-$PAGE->set_context($context);
 $title = get_string('testingquestion', 'qtype_stack', format_string($question->name));
 $PAGE->set_title($title);
-
-// TODO fix page layout and navigation.
+$PAGE->set_heading($COURSE->fullname);
+$PAGE->set_pagelayout('admin');
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -107,14 +101,12 @@ $variantmatched = false;
 $variantdeployed = false;
 if (!$question->has_random_variants()) {
     echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack') .
-            ' ' . $OUTPUT->action_icon(new moodle_url('/question/preview.php',
-                    array('courseid' => $courseid, 'id' => $questionid)),
+            ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
             new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
 } else if (empty($question->deployedseeds)) {
     echo html_writer::tag('p', get_string('questionnotdeployedyet', 'qtype_stack').' '.
-            $OUTPUT->action_icon(new moodle_url('/question/preview.php',
-                array('courseid' => $courseid, 'id' => $questionid)),
+            $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
                 new pix_icon('t/preview', get_string('preview'))));
 } else {
 
@@ -125,24 +117,23 @@ if (!$question->has_random_variants()) {
     );
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
 
-    foreach ($question->deployedseeds as $deployedseed) {
+    foreach ($question->deployedseeds as $key => $deployedseed) {
         if (!is_null($question->seed) && $question->seed == $deployedseed) {
             $choice= html_writer::tag('b', $deployedseed,
                     array('title' => get_string('currentlyselectedvariant', 'qtype_stack')));;
             $variantmatched = true;
         } else {
-            $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed, 'courseid' => $courseid)),
+            $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed)),
                     $deployedseed, array('title' => get_string('testthisvariant', 'qtype_stack')));
         }
         
-        $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/preview.php',
-            array('courseid' => $courseid, 'id' => $questionid, 'variant' => $deployedseed)),
-            new pix_icon('t/preview', get_string('preview')));
+        $choice .= ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, $key + 1, $context),
+                new pix_icon('t/preview', get_string('preview')));
 
         if ($canedit) {
             $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/type/stack/deploy.php',
-                array('questionid' => $question->id, 'courseid' => $courseid, 'undeploy' => $deployedseed, 'sesskey' => sesskey())),
-                new pix_icon('t/delete', get_string('undeploy', 'qtype_stack')));
+                        $urlparams + array('undeploy' => $deployedseed, 'sesskey' => sesskey())),
+                    new pix_icon('t/delete', get_string('undeploy', 'qtype_stack')));
         }
 
         // Print out question notes of all deployed versions.
@@ -171,10 +162,10 @@ if (!$question->has_random_variants()) {
 if (!$variantmatched) {
     if ($canedit) {
         $deploybutton = ' ' . $OUTPUT->single_button(new moodle_url('/question/type/stack/deploy.php',
-                array('questionid' => $question->id, 'courseid' => $courseid, 'deploy' => $question->seed)),
+                $urlparams + array('deploy' => $question->seed)),
                 get_string('deploy', 'qtype_stack'));
         if ($variantdeployed) {
-    	    $deploybutton = get_string('alreadydeployed', 'qtype_stack');
+            $deploybutton = get_string('alreadydeployed', 'qtype_stack');
         }
     } else {
         $deploybutton = '';
@@ -189,7 +180,6 @@ if ($question->has_random_variants()) {
             'action' => new moodle_url('/question/type/stack/questiontestrun.php')));
     echo html_writer::start_tag('p');
     echo html_writer::input_hidden_params($PAGE->url, array('seed'));
-    echo html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'courseid', 'value' => $courseid));
 
     echo html_writer::tag('label', get_string('switchtovariant', 'qtype_stack'), array('for' => 'seedfield'));
     echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 7,
@@ -240,7 +230,7 @@ if (empty($testresults)) {
 
 if ($canedit) {
     echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-            array('courseid' => $courseid, 'questionid' => $question->id)), $addlabel, 'get');
+            $urlparams), $addlabel, 'get');
 }
 
 foreach ($testresults as $key => $result) {
@@ -333,11 +323,11 @@ foreach ($testresults as $key => $result) {
     if ($canedit) {
         echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
         echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-                array('courseid' => $courseid, 'questionid' => $question->id, 'testcase' => $key)),
+                $urlparams + array('testcase' => $key)),
                 stack_string('editthistestcase', 'qtype_stack'), 'get');
 
         echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
-                array('courseid' => $courseid, 'questionid' => $question->id, 'testcase' => $key)),
+                $urlparams + array('testcase' => $key)),
                 stack_string('deletethistestcase', 'qtype_stack'), 'get');
         echo html_writer::end_tag('div');
     }

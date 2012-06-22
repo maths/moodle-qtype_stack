@@ -29,21 +29,23 @@ require_once(dirname(__FILE__) . '/locallib.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
-$courseid = required_param('courseid', PARAM_INT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
-$context = $question->get_context();
+
+// Process any other URL parameters, and do require_login.
+list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
 
 // Check permissions.
-require_login();
 question_require_capability_on($questiondata, 'edit');
 require_sesskey();
 
 // Initialise $PAGE.
-$PAGE->set_url('/question/type/stack/questiontestrun.php', array('questionid' => $question->id, 'courseid' => $courseid));
-$PAGE->set_context($context);
+$nexturl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+$PAGE->set_url($nexturl); // Since this script always ends in a redirect.
+$PAGE->set_heading($COURSE->fullname);
+$PAGE->set_pagelayout('admin');
 
 // Process deploy if applicable.
 $deploy = optional_param('deploy', null, PARAM_INT);
@@ -53,8 +55,7 @@ if (!is_null($deploy)) {
     $record->seed = $deploy;
     $DB->insert_record('qtype_stack_deployed_seeds', $record);
 
-    redirect(new moodle_url('/question/type/stack/questiontestrun.php',
-            array('questionid' => $question->id, 'courseid' => $courseid, 'seed' => $deploy)));
+    redirect($nexturl);
 }
 
 // Process undeploy if applicable.
@@ -63,9 +64,10 @@ if (!is_null($undeploy)) {
     $DB->delete_records('qtype_stack_deployed_seeds',
             array('questionid' => $question->id, 'seed' => $undeploy));
 
-    redirect(new moodle_url('/question/type/stack/questiontestrun.php',
-            array('questionid' => $question->id, 'courseid' => $courseid, 'seed' => $undeploy)));
+    // As we redirect, switch to the undeployed variant, so it easy to re-deploy
+    // if you just made a mistake.
+    $nexturl->param('seed', $undeploy);
+    redirect($nexturl);
 }
 
-redirect(new moodle_url('/question/type/stack/questiontestrun.php',
-    array('questionid' => $question->id, 'courseid' => $courseid)));
+redirect($nexturl);

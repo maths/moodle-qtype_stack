@@ -83,10 +83,35 @@ class qtype_stack_renderer extends qtype_renderer {
         if (!$question->user_can_view()) {
             return '';
         }
-        // TODO how do we find the courseid at this point!?
+
+        $urlparams = array('questionid' => $question->id, 'seed' => $question->seed);
+
+        // This is a bit of a hack to find the right thing to put in the URL.
+        $context = $question->get_context();
+        if (!empty($options->editquestionparams['cmid'])) {
+            $urlparams['cmid'] = $options->editquestionparams['cmid'];
+
+        } else if (!empty($options->editquestionparams['courseid'])) {
+            $urlparams['courseid'] = $options->editquestionparams['courseid'];
+
+        } else if ($cmid = optional_param('cmid', null, PARAM_INT)) {
+            $urlparams['cmid'] = $cmid;
+
+        } else if ($courseid = optional_param('courseid', null, PARAM_INT)) {
+            $urlparams['courseid'] = $courseid;
+
+        } else if ($context->contextlevel == CONTEXT_MODULE) {
+            $urlparams['cmid'] = $context->instanceid;
+
+        } else if ($context->contextlevel == CONTEXT_COURSE) {
+            $urlparams['courseid'] = $context->instanceid;
+
+        } else {
+            $urlparams['courseid'] = get_site()->id;
+        }
+
         return html_writer::tag('div',
-                html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php',
-                        array('questionid' => $question->id, 'courseid' => 0, 'seed' => $question->seed)),
+                html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php', $urlparams),
                         get_string('runquestiontests', 'qtype_stack')),
                 array('class' => 'questiontestslink'));
     }

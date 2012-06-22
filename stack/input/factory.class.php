@@ -80,8 +80,7 @@ class stack_input_factory {
      * @return array of available type names.
      */
     public static function get_available_types() {
-        // TODO remove simpletest once that folder is gone.
-        $ignored = array('CVS', '_vti_cnf', 'simpletest', 'tests', 'yui', 'phpunit');
+        $ignored = array('CVS', '_vti_cnf', 'tests', 'yui', 'phpunit');
         $types = array();
 
         $types = array();

@@ -273,7 +273,7 @@ class stack_cas_text {
      * This function actually evaluates the castext.
      */
     private function instantiate() {
-        // TODO: config files....
+        // Until we think more about math embedding (see Future plans) force LaTeX.
         $displaymethod = 'LaTeX';
 
         if (!$this->valid) {

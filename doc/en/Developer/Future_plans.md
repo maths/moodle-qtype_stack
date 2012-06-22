@@ -33,7 +33,7 @@ The goal will be to work more closely with how Moodle handles maths, so that
 the option to use the standard Moodle tex filter, or a custom filter like the
 OU's is feasible.
 
-We probably need a function like
+We probably need a function for use by CAS text, like
     stack_maths(ex,format = INLINE/DISPLAY)
 which takes the castring $ex, and surrounds it by strings depending on whether
 we want an inline or displayed equation. However, there is also the issue that

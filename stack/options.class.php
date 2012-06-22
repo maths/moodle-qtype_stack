@@ -103,7 +103,6 @@ class stack_options {
 
     /*
      * This function validates the information.
-     * TODO: this will need to be refactored to return messages to users who enter data in forms, not just throw exceptions.
      */
     private function validate_key($key, $val) {
         if (!array_key_exists($key, $this->options)) {
@@ -115,14 +114,6 @@ class stack_options {
                 if (!is_bool($val)) {
                     throw new stack_exception('stack_options: set: boolean option '.$key.' Recieved non-boolean value '.$val);
                 }
-                break;
-
-            case 'string':
-                // TODO.
-                break;
-
-            case 'html':
-                // TODO.
                 break;
 
             case 'list':
@@ -143,10 +134,8 @@ class stack_options {
     }
 
     public function set_option($key, $val) {
-        if ($this->validate_key($key, $val)) {
-            $this->options[$key]['value']=$val;
-        } // Else an exception will have been thrown.
-          // TODO: return useful errors to users who enter data....
+        $this->validate_key($key, $val); // Throws an exception on error.
+        $this->options[$key]['value'] = $val;
     }
 
     public function get_cas_commands() {

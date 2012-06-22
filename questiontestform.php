@@ -47,9 +47,8 @@ class qtype_stack_question_test_form extends moodleform {
             $input->add_to_moodleform_testinput($mform);
         }
 
-        // TODO I would really like to add a button here:
-        // "Fill in the rest of the form to make a passing test"
-        // but I am not quite sure how to do that easily.
+        $mform->addElement('submit', 'complete', get_string('completetestcase', 'qtype_stack'));
+        $mform->registerNoSubmitButton('complete');
 
         // Expected outcome.
         $mform->addElement('header', 'prtsheader', get_string('expectedoutcomes', 'qtype_stack'));
@@ -63,11 +62,39 @@ class qtype_stack_question_test_form extends moodleform {
                 $mform->createElement('select', $prtname . 'answernote',
                     get_string('answernote', 'qtype_stack'), $prt->get_all_answer_notes())
             );
-            $mform->addGroup($elements, null, $prtname, ' ', false);
+            $mform->addGroup($elements, $prtname . 'group', $prtname, ' ', false);
         }
 
         // Submit buttons.
         $this->add_action_buttons(true, $this->_customdata['submitlabel']);
+    }
+
+    public function definition_after_data() {
+        if ($this->_form->exportValue('complete')) {
+            $this->complete_passing_testcase();
+        }
+    }
+
+    protected function complete_passing_testcase() {
+
+        $mform = $this->_form;
+        $question = $this->_customdata['question'];
+
+        $inputs = array();
+        foreach ($question->inputs as $inputname => $input) {
+            $inputs[$inputname] = $mform->exportValue($inputname);
+        }
+
+        $response = stack_question_test::compute_response($question, $inputs);
+
+        foreach ($question->prts as $prtname => $prt) {
+            $result = $question->get_prt_result($prtname, $response, false);
+            $notes = explode(' | ', $result['answernote']);
+            $mform->getElement($prtname . 'group')->setValue(array(
+                    $prtname . 'score'      => $result['score'],
+                    $prtname . 'penalty'    => $result['penalty'],
+                    $prtname . 'answernote' => end($notes)));
+        }
     }
 
     public function validation($data, $files) {

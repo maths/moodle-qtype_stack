@@ -211,6 +211,7 @@ $string['ddl_empty'] = 'No choices were provided for this drop-down. Please inpu
 $string['addanothertestcase'] = 'Add another test case...';
 $string['addatestcase'] = 'Add a test case...';
 $string['addingatestcase'] = 'Adding a test case to question {$a}';
+$string['completetestcase'] = 'Fill in the rest of the form to make a passing test-case';
 $string['createtestcase'] = 'Create test case';
 $string['currentlyselectedvariant'] = 'This is the variant shown below';
 $string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->question}';

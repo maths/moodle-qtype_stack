@@ -73,7 +73,7 @@ class stack_question_test {
         $slot = $quba->add_question($question, $question->defaultmark);
         $quba->start_question($slot, $seed);
 
-        $response = $this->compute_response($question);
+        $response = self::compute_response($question, $this->inputs);
 
         $quba->process_action($slot, $response);
 
@@ -100,19 +100,18 @@ class stack_question_test {
      * @param qtype_stack_question $question the question - with $question->session initialised.
      * @return array the respones to send to $quba->process_action.
      */
-    protected function compute_response(qtype_stack_question $question) {
+    public static function compute_response(qtype_stack_question $question, $inputs) {
         $localoptions = clone $question->options;
         $localoptions->set_option('simplify', true);
 
-        // Start with the quetsion variables (note that order matters here).
+        // Start with the question variables (note that order matters here).
         $cascontext = new stack_cas_session(null, $localoptions, $question->seed);
         $question->add_question_vars_to_session($cascontext);
 
         // Now add the expressions we want evaluated.
         $vars = array();
-        foreach ($this->inputs as $name => $value) {
-            // GOCHA!  A $value of zero never gets used....!
-            if (''!=$value) {
+        foreach ($inputs as $name => $value) {
+            if ('' !== $value) {
                 $cs = new stack_cas_casstring($value);
                 $cs->validate('t');
                 $cs->set_key('testresponse_' . $name);
@@ -124,7 +123,7 @@ class stack_question_test {
         $cascontext->instantiate();
 
         $response = array();
-        foreach ($this->inputs as $name => $notused) {
+        foreach ($inputs as $name => $notused) {
             $value = $question->inputs[$name]->maxima_to_raw_input($cascontext->get_value_key('testresponse_' . $name));
             $response[$name] = $value;
             $response[$name . '_val'] = $value;

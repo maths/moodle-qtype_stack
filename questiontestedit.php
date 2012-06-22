@@ -62,6 +62,12 @@ if (!is_null($testcase)) {
     $submitlabel = get_string('createtestcase', 'qtype_stack');
 }
 
+// Create the question usage we will use.
+$quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
+$quba->set_preferred_behaviour('adaptive');
+$slot = $quba->add_question($question, $question->defaultmark);
+$quba->start_question($slot, $seed);
+
 // Create the editing form.
 $mform = new qtype_stack_question_test_form($PAGE->url,
         array('submitlabel' => $submitlabel, 'question' => $question));
@@ -105,12 +111,6 @@ if ($mform->is_cancelled()) {
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
     redirect($backurl);
 }
-
-// Create the question usage we will use.
-$quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
-$quba->set_preferred_behaviour('adaptive');
-$slot = $quba->add_question($question, $question->defaultmark);
-$quba->start_question($slot, $seed);
 
 // Prepare the display options.
 $options = new question_display_options();

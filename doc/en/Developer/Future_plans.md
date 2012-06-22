@@ -7,7 +7,6 @@ The following features are in approximate priority order.  How to report bugs an
 
 * Introduce a variable so the maxima code "knows the attempt number".
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto)
-* A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.
 * Improve editing UI for test-cases https://github.com/maths/moodle-qtype_stack/issues/15
 * Improve the way questions are deployed.

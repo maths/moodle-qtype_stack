@@ -285,8 +285,18 @@ class stack_cas_text {
             $this->errors .= $this->session->get_errors();
         }
 
+        // Replaces the old "hints" filter from STACK 2.0.
+        // These strings are now part of the regular language files.
+        $strin = $this->trimmedcastext;
+        preg_match_all('|<hint>(.*)</hint>|U', $strin, $html_match);
+        foreach ($html_match[1] as $val) {
+            $sr = '<hint>'.$val.'</hint>';
+            $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">'.stack_string($val.'_name').'</h3>'.stack_string($val.'_fact').'</div>';
+            $strin = str_replace($sr, $rep, $strin);
+        }
+        $this->trimmedcastext = $strin;
+
         if ('MathML' === $displaymethod) {
-            $this->applyFilters();
             if (null !== $this->session) {
                 $this->castext = $this->session->get_display_castext($this->castext);
             }

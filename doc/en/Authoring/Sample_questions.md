@@ -29,6 +29,10 @@ In this question a student is asked to give examples of odd and even functions.
 * For two of the parts there are non-unique correct answers.
 * Feedback based on calculations of students' answers is included.
 
+### `test_1_basic_integral.xml` ###
+
+This is a simple, single part integral question with randomization.
+
 
 
 # Other sources of questions #

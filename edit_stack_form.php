@@ -432,12 +432,6 @@ class qtype_stack_edit_form extends question_edit_form {
         // $repeatoptions[$prtname . 'quiet']['helpbutton'] = array('quiet', 'qtype_stack');
         // $repeatoptions[$prtname . 'feedback']['helpbutton'] = array('feedback', 'qtype_stack');
         // $repeatoptions[$prtname . 'answernote']['helpbutton'] = array('answernote', 'qtype_stack');
-        // $repeatoptions[$prtname . 'sans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required',
-        //                                                     '', 'client', false, false);
-        // $repeatoptions[$prtname . 'tans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required',
-        //                                                     '', 'client', false, false);
-        // $repeatoptions[$prtname . 'answernote']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required',
-        //                                                     '', 'client', false, false);
 
         $repeatoptions[$prtname . 'truescore']['default'] = 1;
         $repeatoptions[$prtname . 'falsescore']['default'] = 0;
@@ -688,7 +682,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
             foreach ($fromform[$prtname.'tans'] as $key => $sans) {
                 if ('' == $sans) {
-                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansrequired', 'qtype_stack');;
+                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansrequired', 'qtype_stack');
                 } else {
                     $cs= new stack_cas_casstring($sans);
                     if (!$cs->get_valid('t')) {
@@ -727,7 +721,9 @@ class qtype_stack_edit_form extends question_edit_form {
                     }
                 }
                 foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
-                    if (strstr($strin, '|') !== false) {
+                    if ('' == $strin) {
+                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernoterequired', 'qtype_stack');
+                    } else if (strstr($strin, '|') !== false) {
                         $nodename = $key+1;
                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernote_err', 'qtype_stack');
                     }

@@ -44,9 +44,8 @@ class qtype_stack_edit_form extends question_edit_form {
     const DEFAULT_QUESTION_TEXT = '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
 
-    const INPUT_ONLY = false;
-    const INPUT_AND_VALIDATION = true;
-    const INPUT_MISSING_FOR_VALIDATION = -1;
+    const INPUTS = 0;
+    const VALIDATAIONS = 1;
 
     /** @var string caches the result of {@link get_current_question_text()}. */
     protected $questiontext = null;
@@ -103,13 +102,17 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $inputnames = array();
         foreach ($inputs as $inputname) {
-            $inputnames[$inputname] = in_array($inputname, $validations);
+            if (!array_key_exists($inputname, $inputnames)) {
+                $inputnames[$inputname] = array(0, 0);
+            }
+            $inputnames[$inputname][self::INPUTS] += 1;
         }
 
         foreach ($validations as $inputname) {
-            if (!in_array($inputname, $inputs)) {
-                $inputnames[$inputname] = self::INPUT_MISSING_FOR_VALIDATION;
+            if (!array_key_exists($inputname, $inputnames)) {
+                $inputnames[$inputname] = array(0, 0);
             }
+            $inputnames[$inputname][self::VALIDATAIONS] += 1;
         }
 
         return $inputnames;
@@ -118,7 +121,15 @@ class qtype_stack_edit_form extends question_edit_form {
     protected function get_prt_names_from_question() {
         $questiontext = $this->get_current_question_text();
         $specificfeedback = $this->get_current_specific_feedback();
-        return stack_utils::extract_placeholders($questiontext . $specificfeedback, 'feedback');
+        $prts = stack_utils::extract_placeholders($questiontext . $specificfeedback, 'feedback');
+        $prtnames = array();
+        foreach ($prts as $name) {
+            if (!array_key_exists($name, $prtnames)) {
+                $prtnames[$name] = 0;
+            }
+            $prtnames[$name] += 1;
+        }
+        return $prtnames;
     }
 
     /**
@@ -240,7 +251,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // PRTs.
-        foreach ($prtnames as $prtname) {
+        foreach ($prtnames as $prtname => $notused) {
             $this->definition_prt($prtname, $mform);
         }
 
@@ -618,16 +629,94 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
+        $inputs = $this->get_input_names_from_question_text();
+        $prts = $this->get_prt_names_from_question();
+
         // 1) Validate all the fixed question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
         if (!$questionvars->get_valid()) {
             $errors['questionvariables'] = $questionvars->get_errors();
         }
 
+        // Question text.
+        $errors['questiontext'] = array();
+
+        $questiontext = new stack_cas_text($fromform['questiontext']['text'], null, null, 't');
+        if (!$questiontext->get_valid()) {
+            $errors['questiontext'][] = $questiontext->get_errors();
+        }
+
+        foreach ($inputs as $inputname => $counts) {
+            list($numinputs, $numvalidations) = $counts;
+
+            if ($numinputs == 0) {
+                $errors['questiontext'][] = get_string('questiontextmustcontain', 'qtype_stack', '[[input:' . $inputname . ']]');
+            } else if ($numinputs > 1) {
+                $errors['questiontext'][] = get_string('questiontextonlycontain', 'qtype_stack', '[[input:' . $inputname . ']]');
+            }
+
+            if ($numvalidations == 0) {
+                $errors['questiontext'][] = get_string('questiontextmustcontain', 'qtype_stack', '[[validation:' . $inputname . ']]');
+            } else if ($numvalidations > 1) {
+                $errors['questiontext'][] = get_string('questiontextonlycontain', 'qtype_stack', '[[validation:' . $inputname . ']]');
+            }
+        }
+
+        if ($errors['questiontext']) {
+            $errors['questiontext'] = implode(' ', $errors['questiontext']);
+        } else {
+            unset($errors['questiontext']);
+        }
+
+        // Penalty.
+        $penalty = $fromform['penalty'];
+        if (!is_numeric($penalty) || $penalty < 0 || $penalty > 1) {
+            $errors['penalty'] = get_string('penaltyerror', 'qtype_stack');
+        }
+
+        // Specific feedback.
+        $errors['specificfeedback'] = array();
+
+        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text'], null, null, 't');
+        if (!$specificfeedback->get_valid()) {
+            $errors['specificfeedback'][] = $specificfeedback->get_errors();
+        }
+
+        $errors['specificfeedback'] += $this->check_no_placeholders(
+                    get_string('specificfeedback', 'qtype_stack'), $fromform['specificfeedback']['text'],
+                    array('input', 'validation'));
+
+        foreach ($prts as $prtname => $count) {
+            if ($count > 1) {
+                $errors['specificfeedback'][] = get_string('questiontextfeedbackonlycontain', 'qtype_stack', '[[feedback:' . $prtname . ']]');
+            }
+        }
+
+        if ($errors['specificfeedback']) {
+            $errors['specificfeedback'] = implode(' ', $errors['specificfeedback']);
+        } else {
+            unset($errors['specificfeedback']);
+        }
+
+        // General feedback.
+        $errors['generalfeedback'] = array();
+
         $generalfeedback = new stack_cas_text($fromform['generalfeedback']['text'], null, null, 't');
         if (!$generalfeedback->get_valid()) {
-            $errors['generalfeedback'] = $generalfeedback->get_errors();
+            $errors['generalfeedback'][] = $generalfeedback->get_errors();
         }
+
+        $errors['generalfeedback'] += $this->check_no_placeholders(
+                    get_string('generalfeedback', 'question'), $fromform['generalfeedback']['text']);
+
+        if ($errors['generalfeedback']) {
+            $errors['generalfeedback'] = implode(' ', $errors['generalfeedback']);
+        } else {
+            unset($errors['generalfeedback']);
+        }
+
+        // Question note.
+        $errors['questionnote'] = array();
 
         if ('' == $fromform['questionnote']) {
             if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
@@ -640,264 +729,30 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-        $inputs = array_keys($this->get_input_names_from_question_text());
-        $potentialresponsetrees = $this->get_prt_names_from_question();
+        $errors['questionnote'] += $this->check_no_placeholders(
+                    get_string('questionnote', 'qtype_stack'), $fromform['questionnote']);
 
-        $penalty = $fromform['penalty'];
-        if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
-            $errors['penalty'] = get_string('penaltyerror', 'qtype_stack');
+        if ($errors['questionnote']) {
+            $errors['questionnote'] = implode(' ', $errors['questionnote']);
+        } else {
+            unset($errors['questionnote']);
         }
 
         // 2) Validate all inputs.
-        foreach ($inputs as $inputname) {
-        	if (strlen($fromform[$inputname . 'modelans'])>255) {
-        		$errors[$inputname . 'modelans'] = get_string('strlengtherror', 'qtype_stack');
-        	} else {
+        foreach ($inputs as $inputname => $notused) {
+            if (strlen($fromform[$inputname . 'modelans']) > 255) {
+                $errors[$inputname . 'modelans'] = get_string('strlengtherror', 'qtype_stack');
+            } else {
                 $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'modelans']);
-            	if (!$teacheranswer->get_valid('t')) {
-                	$errors[$inputname . 'modelans'] = $teacheranswer->get_errors();
-             	}
-        	}
+                if (!$teacheranswer->get_valid('t')) {
+                    $errors[$inputname . 'modelans'] = $teacheranswer->get_errors();
+                }
+            }
         }
 
         // 3) Validate all prts.
-        foreach ($potentialresponsetrees as $prtname) {
+        foreach ($prts as $prtname => $notused) {
             $errors = $this->validation_prt($errors, $fromform, $files, $prtname);
-
-            $interror = array();
-            $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables'], null, null, 't');
-            if (!$feedbackvars->get_valid()) {
-                $interror[$prtname.'feedbackvariables'][] = $feedbackvars->get_errors();
-            }
-            if ($fromform[$prtname.'value'] <= 0) {
-                $interror[$prtname.'value'][] = get_string('questionvaluepostive', 'qtype_stack');
-            }
-            foreach ($fromform[$prtname.'sans'] as $key => $sans) {
-                if ('' == $sans) {
-                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('sansrequired', 'qtype_stack');
-                } else {
-                	if (strlen($sans>255)) {
-                		$interror[$prtname . 'node[' . $key . ']'][] = get_string('sansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
-                    } else {
-                    	$cs= new stack_cas_casstring($sans);
-                    	if (!$cs->get_valid('t')) {
-                        	$interror[$prtname . 'node[' . $key . ']'][] =
-                                get_string('sansinvalid', 'qtype_stack', $cs->get_errors());
-                    	}
-                	}
-                }
-            }
-            foreach ($fromform[$prtname.'tans'] as $key => $sans) {
-                if ('' == $sans) {
-                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansrequired', 'qtype_stack');
-                } else {
-                   	if (strlen($sans>255)) {
-                		$interror[$prtname . 'node[' . $key . ']'][] = get_string('tansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
-                	} else {
-                    	$cs= new stack_cas_casstring($sans);
-                    	if (!$cs->get_valid('t')) {
-                        	$interror[$prtname . 'node[' . $key . ']'][] =
-                                get_string('tansinvalid', 'qtype_stack', $cs->get_errors());
-                    	}
-                	}
-                	                }
-            }
-            foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {
-                $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$key]);
-                if ($answertest->required_atoptions()) {
-                    if ('' === trim($opt)) {
-                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsrequired', 'qtype_stack');
-                    } else {
-                        if (strlen($opt>255)) {
-                            $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
-                        } else {
-                            list($validity, $errs) = $answertest->validate_atoptions($opt);
-                            if (!$validity) {
-                                $interror[$prtname . 'node[' . $key . ']'][] =
-                                    get_string('testoptionsinvalid', 'qtype_stack', $errs);
-                            }
-                        }
-                    }
-                }
-            }
-
-            $nextnodes = array();
-            foreach (array('true', 'false') as $branch) {
-                foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
-                    if (!is_numeric($score) || $score<0 || $score>1) {
-                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('scoreerror', 'qtype_stack');
-                    }
-                }
-                foreach ($fromform[$prtname.$branch.'penalty'] as $key => $penalty) {
-                    if ('' != $penalty) {
-                        if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
-                            $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('penaltyerror2', 'qtype_stack');
-                        }
-                    }
-                }
-                foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
-                    if ('' == $strin) {
-                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernoterequired', 'qtype_stack');
-                    } else if (strstr($strin, '|') !== false) {
-                        $nodename = $key+1;
-                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernote_err', 'qtype_stack');
-                    }
-                }
-                foreach ($fromform[$prtname.$branch.'feedback'] as $key => $strin) {
-                    $feedback = new stack_cas_text($strin['text'], null, null, 't');
-                    if (!$feedback->get_valid()) {
-                        $nodename = $key+1;
-                        $interror[$prtname . $branch . 'feedback['.$key.']'][] = $feedback->get_errors();
-                    }
-                }
-
-                foreach ($fromform[$prtname.$branch.'nextnode'] as $key => $next) {
-                    if (!array_key_exists($key, $nextnodes)) {
-                        $nextnodes[$key] = array();
-                    }
-                    if ($next == -1) {
-                        continue;
-                    }
-                    if ($next == $key) {
-                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('nextcannotbeself', 'qtype_stack');
-                        continue;
-                    }
-                    $nextnodes[$key][] = $next;
-                }
-            }
-
-            list($problem, $details) = stack_acyclic_graph_checker::check_graph($nextnodes, '0');
-            switch ($problem) {
-                case 'disconnected':
-                    foreach ($details as $unusednode) {
-                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('nodenotused', 'qtype_stack');
-                    }
-                    break;
-
-                case 'backlink':
-                    list($from, $to) = $details;
-                    if ($fromform[$prtname.'truenextnode'][$from] == $to) {
-                        $interror[$prtname.'nodewhentrue['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
-                    } else {
-                        $interror[$prtname.'nodewhenfalse['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
-                    }
-                    break;
-            }
-
-            foreach ($interror as $field => $messages) {
-                $errors[$field] = implode(' ', $messages);
-            }
-        }
-
-        // 4) Validate queston text and specific feedback - depends on inputs and prts.
-        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text'], null, null, 't');
-        if (!$specificfeedback->get_valid()) {
-            $errors['specificfeedback'] = $specificfeedback->get_errors();
-        }
-
-        $questiontext = new stack_cas_text($fromform['questiontext']['text'], null, null, 't');
-        if (!$questiontext->get_valid()) {
-            $errors['questiontext'] = $questiontext->get_errors();
-        }
-
-        // TODO: remove/flag up unwanted tokens....
-        // TODO  Insert missing flags automatically?
-        $missingtokens = array();
-        $excesstokens = array();
-        $specificfeedback = array();
-        $generalfeedback = array();
-        $questionnote = array();
-        foreach ($inputs as $inputname) {
-            foreach (array("[[input:$inputname]]", "[[validation:$inputname]]") as $inputplaceholder) {
-                if (false === strpos($fromform['questiontext']['text'], $inputplaceholder)) {
-                    $missingtokens[] = $inputplaceholder;
-                } else if (1<substr_count($fromform['questiontext']['text'], $inputplaceholder)) {
-                    $excesstokens[] = $inputplaceholder;
-                }
-                if (!(false === strpos($fromform['specificfeedback']['text'], $inputplaceholder))) {
-                    $specificfeedback[] = $inputplaceholder;
-                }
-                if (!(false === strpos($fromform['generalfeedback']['text'], $inputplaceholder))) {
-                    $generalfeedback[] = $inputplaceholder;
-                }
-                if (!(false === strpos($fromform['questionnote'], $inputplaceholder))) {
-                    $questionnote[] = $inputplaceholder;
-                }
-            }
-        }
-        if (!empty($missingtokens)) {
-            $texterrors = get_string('questiontextmustcontain', 'qtype_stack', implode(' ', $missingtokens));
-            if (array_key_exists('questiontext', $errors)) {
-                $errors['questiontext'] .= ' '.$texterrors;
-            } else {
-                $errors['questiontext'] = $texterrors;
-            }
-        }
-        if (!empty($excesstokens)) {
-            $texterrors = get_string('questiontextonlycontain', 'qtype_stack', implode(' ', $excesstokens));
-            if (array_key_exists('questiontext', $errors)) {
-                $errors['questiontext'] .= ' '.$texterrors;
-            } else {
-                $errors['questiontext'] = $texterrors;
-            }
-        }
-
-        $missingtokens = array();
-        $excesstokens = array();
-        foreach ($potentialresponsetrees as $prtname) {
-            $inputplaceholder = "[[feedback:$prtname]]";
-            if (false === strpos($fromform['questiontext']['text'].$fromform['specificfeedback']['text'], $inputplaceholder)) {
-                $missingtokens[] = $inputplaceholder;
-            } else if (1<substr_count($fromform['questiontext']['text'].$fromform['specificfeedback']['text'], $inputplaceholder)) {
-                $excesstokens[] = $inputplaceholder;
-            }
-            if (!(false === strpos($fromform['generalfeedback']['text'], $inputplaceholder))) {
-                $generalfeedback[] = $inputplaceholder;
-            }
-            if (!(false === strpos($fromform['questionnote'], $inputplaceholder))) {
-                $questionnote[] = $inputplaceholder;
-            }
-        }
-        if (!empty($missingtokens)) {
-            $texterrors = get_string('questiontextfeedbackmustcontain', 'qtype_stack', implode(' ', $missingtokens));
-            if (array_key_exists('questiontext', $errors)) {
-                $errors['questiontext'] .= ' '.$texterrors;
-            } else {
-                $errors['questiontext'] = $texterrors;
-            }
-        }
-        if (!empty($excesstokens)) {
-            $texterrors = get_string('questiontextfeedbackonlycontain', 'qtype_stack', implode(' ', $excesstokens));
-            if (array_key_exists('questiontext', $errors)) {
-                $errors['questiontext'] .= ' '.$texterrors;
-            } else {
-                $errors['questiontext'] = $texterrors;
-            }
-        }
-
-        if (!empty($specificfeedback)) {
-            $texterrors = get_string('specificfeedbacktags', 'qtype_stack', implode(' ', $specificfeedback));
-            if (array_key_exists('specificfeedback', $errors)) {
-                $errors['specificfeedback'] .= ' '.$texterrors;
-            } else {
-                $errors['specificfeedback'] = $texterrors;
-            }
-        }
-        if (!empty($generalfeedback)) {
-            $texterrors = get_string('generalfeedbacktags', 'qtype_stack', implode(' ', $generalfeedback));
-            if (array_key_exists('generalfeedback', $errors)) {
-                $errors['generalfeedback'] .= ' '.$texterrors;
-            } else {
-                $errors['generalfeedback'] = $texterrors;
-            }
-        }
-        if (!empty($questionnote)) {
-            $texterrors = get_string('questionnotetags', 'qtype_stack', implode(' ', $questionnote));
-            if (array_key_exists('questionnote', $errors)) {
-                $errors['questionnote'] .= ' '.$texterrors;
-            } else {
-                $errors['questionnote'] = $texterrors;
-            }
         }
 
         return $errors;
@@ -912,19 +767,30 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array the update $errors array.
      */
     protected function validation_prt($errors, $fromform, $files, $prtname) {
+
+        if (!array_key_exists($prtname.'feedbackvariables', $fromform)) {
+            // This happens when you edit the question text to add more PRTs.
+            // There is nothing to validate for the new PRTs, so stop now.
+            return $errors;
+        }
+
         $interror = array();
+
         $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables'], null, null, 't');
+
         if (!$feedbackvars->get_valid()) {
             $interror[$prtname.'feedbackvariables'][] = $feedbackvars->get_errors();
         }
+
         if ($fromform[$prtname.'value'] <= 0) {
             $interror[$prtname.'value'][] = get_string('questionvaluepostive', 'qtype_stack');
         }
+
         foreach ($fromform[$prtname.'sans'] as $key => $sans) {
             if ('' == $sans) {
                     $interror[$prtname . 'node[' . $key . ']'][] = get_string('sansrequired', 'qtype_stack');
             } else {
-                if (strlen($sans>255)) {
+                if (strlen($sans > 255)) {
                     $interror[$prtname . 'node[' . $key . ']'][] = get_string('sansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
                 } else {
                     $cs= new stack_cas_casstring($sans);
@@ -935,14 +801,15 @@ class qtype_stack_edit_form extends question_edit_form {
                 }
             }
         }
-        foreach ($fromform[$prtname.'tans'] as $key => $sans) {
-            if ('' == $sans) {
+
+        foreach ($fromform[$prtname.'tans'] as $key => $tans) {
+            if ('' == $tans) {
                     $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansrequired', 'qtype_stack');
             } else {
-                if (strlen($sans>255)) {
+                if (strlen($tans > 255)) {
                     $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
                 } else {
-                    $cs= new stack_cas_casstring($sans);
+                    $cs= new stack_cas_casstring($tans);
                     if (!$cs->get_valid('t')) {
                         $interror[$prtname . 'node[' . $key . ']'][] =
                                 get_string('tansinvalid', 'qtype_stack', $cs->get_errors());
@@ -950,13 +817,14 @@ class qtype_stack_edit_form extends question_edit_form {
                 }
             }
         }
+
         foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {
             $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$key]);
             if ($answertest->required_atoptions()) {
                 if ('' === trim($opt)) {
                     $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsrequired', 'qtype_stack');
                 } else {
-                    if (strlen($opt>255)) {
+                    if (strlen($opt > 255)) {
                         $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
                     } else {
                         list($validity, $errs) = $answertest->validate_atoptions($opt);
@@ -1037,6 +905,23 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         return $errors;
+    }
+
+    /**
+     * Check a form field to ensure it does not contain any placeholders of given types.
+     * @param string $fieldname the name of this field. Used in the error messages.
+     * @param value $value the value to check.
+     * @param array $placeholders types to check for. By default 'input', 'validation' and 'feedback'.
+     * @return array of problems (so an empty array means all is well).
+     */
+    protected function check_no_placeholders($fieldname, $value, $placeholders = array('input', 'validation', 'feedback')) {
+        $problems = array();
+        foreach ($placeholders as $placeholder) {
+            if (stack_utils::extract_placeholders($value, 'input')) {
+                $problems[] = get_string('fieldshouldnotcontainplaceholder', 'qtype_stack', array('field' => $fieldname, 'type' => $placeholder));
+            }
+        }
+        return $problems;
     }
 
     public function qtype() {

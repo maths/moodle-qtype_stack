@@ -85,21 +85,21 @@ class qtype_stack_edit_form_test extends advanced_testcase {
         $form = $this->get_form(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
 
-        $this->assertEquals(array('ans1' => qtype_stack_edit_form::INPUT_AND_VALIDATION),
+        $this->assertEquals(array('ans1' => array(1, 1)),
                 $form->get_input_names_from_question_text());
     }
 
     public function test_get_input_names_from_question_text_input_only() {
         $form = $this->get_form('[[input:ans123]]', '');
 
-        $this->assertEquals(array('ans123' => qtype_stack_edit_form::INPUT_ONLY),
+        $this->assertEquals(array('ans123' => array(1, 0)),
                 $form->get_input_names_from_question_text());
     }
 
     public function test_get_input_names_from_question_text_validation_only() {
         $form = $this->get_form('[Blah] [[validation:ans123]] [Blah]', '');
 
-        $this->assertEquals(array('ans123' => qtype_stack_edit_form::INPUT_MISSING_FOR_VALIDATION),
+        $this->assertEquals(array('ans123' => array(0, 1)),
                 $form->get_input_names_from_question_text());
     }
 
@@ -119,24 +119,30 @@ class qtype_stack_edit_form_test extends advanced_testcase {
     public function test_get_prt_names_from_question_text() {
         $form = $this->get_form('[[feedback:prt123]]', '');
 
-        $this->assertEquals(array('prt123'), $form->get_prt_names_from_question());
+        $this->assertEquals(array('prt123' => 1), $form->get_prt_names_from_question());
     }
 
     public function test_get_prt_names_from_question_feedback() {
         $form = $this->get_form('What is $1 + 1$? [[input:ans1]]', '[[feedback:prt123]]');
 
-        $this->assertEquals(array('prt123'), $form->get_prt_names_from_question());
+        $this->assertEquals(array('prt123' => 1), $form->get_prt_names_from_question());
     }
 
     public function test_get_prt_names_from_question_both() {
         $form = $this->get_form('[Blah] [[feedback:prt1]] [Blah]', '[Blah] [[feedback:prt2]] [Blah]');
 
-        $this->assertEquals(array('prt1', 'prt2'), $form->get_prt_names_from_question());
+        $this->assertEquals(array('prt1' => 1, 'prt2' => 1), $form->get_prt_names_from_question());
     }
 
     public function test_get_prt_names_from_question_invalid() {
         $form = $this->get_form('[[feedback:123]]', '');
 
         $this->assertEquals(array(), $form->get_prt_names_from_question());
+    }
+
+    public function test_get_prt_names_from_question_duplicate() {
+        $form = $this->get_form('[[feedback:prt1]] [[feedback:prt1]]', '');
+
+        $this->assertEquals(array('prt1' => 2), $form->get_prt_names_from_question());
     }
 }

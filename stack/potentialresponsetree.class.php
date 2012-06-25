@@ -197,7 +197,7 @@ class stack_potentialresponse_tree {
 
         // From a strictly logical point of view the 'score' and the 'penalty' are independent.
         // Hence, this clause belongs in the question behaviour.
-        // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".  
+        // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".
         // Why does this correct attempt attract a penalty?  So, this is a unilateral decision:
         // If the score is 1 there is never a penalty.
         if ($res['score'] > 0.99999995) {

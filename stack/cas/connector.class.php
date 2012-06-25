@@ -85,7 +85,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 throw new stack_exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
         }
 
-     
         switch (self::$config->casresultscache) {
             case 'db':
                 global $DB;
@@ -99,7 +98,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             default:
                 // Just use the raw $connection.
         }
-       
+
         return $connection;
     }
 

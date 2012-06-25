@@ -126,7 +126,7 @@ if (!$question->has_random_variants()) {
             $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed)),
                     $deployedseed, array('title' => get_string('testthisvariant', 'qtype_stack')));
         }
-        
+
         $choice .= ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, $key + 1, $context),
                 new pix_icon('t/preview', get_string('preview')));
 
@@ -147,7 +147,7 @@ if (!$question->has_random_variants()) {
 
         // Check if the question note has already been deployed
         if ($qn->get_question_summary() == $question->get_question_summary()) {
-        	$variantdeployed = true;
+            $variantdeployed = true;
         }
         $notestable->data[] = array(
             $choice,
@@ -295,16 +295,16 @@ foreach ($testresults as $key => $result) {
 
         // Sort out excessive decimal places from the DB.
         if (is_null($state->expectedscore) || '' === $state->expectedscore) {
-        	$expectedscore = '';
+            $expectedscore = '';
         } else {
-        	$expectedscore = $state->expectedscore + 0;
+            $expectedscore = $state->expectedscore + 0;
         }
         if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
-        	$expectedpenalty = '';
+            $expectedpenalty = '';
         } else {
-        	$expectedpenalty = $state->expectedpenalty + 0;
+            $expectedpenalty = $state->expectedpenalty + 0;
         }
-        
+
         $prtstable->data[] = array(
             $prtname,
             $state->score,

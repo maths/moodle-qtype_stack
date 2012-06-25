@@ -534,9 +534,8 @@ class stack_cas_casstring {
     }
 
     /*********************************************************/
-    /* Internal utility functions				 */
+    /* Internal utility functions                            */
     /*********************************************************/
-
 
     private function add_error($err) {
         $this->errors = trim(trim($this->errors).' '.trim($err));

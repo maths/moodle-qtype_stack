@@ -589,10 +589,10 @@ class stack_utils {
     }
 
     /**
-     *  Handles complex (comma-containing) list elements,
-     * 	i.e. sets {}, functions() and nested lists[[]]
-     *	Strict checking on nesting.
-     *  Helper for list_to_array_workhorse()
+     * Handles complex (comma-containing) list elements,
+     * i.e. sets {}, functions() and nested lists[[]]
+     * Strict checking on nesting.
+     * Helper for list_to_array_workhorse()
      */
     private static function next_element($list) {
         if ($list == '') {

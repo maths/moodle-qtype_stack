@@ -209,7 +209,7 @@ class qtype_stack_test_helper extends question_test_helper {
                                       [[feedback:unique]]</p>';
         $q->specificfeedback = '';
         $q->penalty = 0.4;
-        
+
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'x^3', array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans2'] = stack_input_factory::make(

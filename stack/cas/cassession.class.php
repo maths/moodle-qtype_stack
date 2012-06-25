@@ -454,7 +454,7 @@ class stack_cas_session {
             }
 
             // Replace any ?'s with a safe value.
-            $cmd = str_replace('?', 'QMCHAR', $cs->get_casstring()); 
+            $cmd = str_replace('?', 'QMCHAR', $cs->get_casstring());
 
             $csnames   .= ", $label";
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";

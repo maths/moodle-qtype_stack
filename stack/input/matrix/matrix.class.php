@@ -41,7 +41,7 @@ class stack_matrix_input extends stack_input {
         }
         $size = $at1->get_value_key('ta');
         $dimensions = explode(',', $size);
-       
+
         $height = trim($dimensions[0], '[]');
         $width = trim($dimensions[1], '[]');
 
@@ -59,7 +59,7 @@ class stack_matrix_input extends stack_input {
             }
         }
 
-        // Build the html table to contain these values. 
+        // Build the html table to contain these values.
         $xhtml = '<table class="matrixtable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody>';
         for ($i=0; $i < $height; $i++)  {
             $xhtml .= '<tr>';

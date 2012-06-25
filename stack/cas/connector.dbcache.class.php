@@ -44,7 +44,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
 
     /* @see stack_cas_connection::compute() */
     public function compute($command) {
-		$cached = $this->get_cached_result($command);
+        $cached = $this->get_cached_result($command);
         if ($cached->result) {
             $this->debug->log('Maxima command', $command);
             $this->debug->log('Unpacked result found in the DB cache', print_r($cached->result, true));

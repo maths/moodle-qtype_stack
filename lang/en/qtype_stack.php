@@ -164,6 +164,7 @@ $string['sqrtsign_link'] = 'question/type/stack/doc/doc.php/Authoring/Options.md
 $string['strictsyntax'] = 'Strict syntax';
 $string['strictsyntax_help'] = 'Does the input have to be done using strict Maxima syntax?  If not, this increases the range of patterns which indicate missing *s on input, including any function application and scientific notation.';
 $string['strictsyntax_link'] = '/question/type/stack/doc/doc.php/Authoring/Inputs.md#Strict_Syntax';
+$string['strlengtherror'] = 'This string may not exceed 255 characters in length.';
 $string['syntaxhint'] = 'Syntax hint';
 $string['syntaxhint_help'] = 'The syntax hint will appear in the answer box whenever this is left blank by the student.';
 $string['syntaxhint_link'] = '/question/type/stack/doc/doc.php/Authoring/Inputs.md#Syntax_Hint';

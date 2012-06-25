@@ -653,10 +653,14 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // 2) Validate all inputs.
         foreach ($inputs as $inputname) {
-            $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'modelans']);
-            if (!$teacheranswer->get_valid('t')) {
-                $errors[$inputname . 'modelans'] = $teacheranswer->get_errors();
-            }
+        	if (strlen($fromform[$inputname . 'modelans'])>255) {
+        		$errors[$inputname . 'modelans'] = get_string('strlengtherror', 'qtype_stack');
+        	} else {
+                $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'modelans']);
+            	if (!$teacheranswer->get_valid('t')) {
+                	$errors[$inputname . 'modelans'] = $teacheranswer->get_errors();
+             	}
+        	}
         }
 
         // 3) Validate all prts.
@@ -673,23 +677,31 @@ class qtype_stack_edit_form extends question_edit_form {
                 if ('' == $sans) {
                         $interror[$prtname . 'node[' . $key . ']'][] = get_string('sansrequired', 'qtype_stack');
                 } else {
-                    $cs= new stack_cas_casstring($sans);
-                    if (!$cs->get_valid('t')) {
-                        $interror[$prtname . 'node[' . $key . ']'][] =
+                	if (strlen($sans>255)) {
+                		$interror[$prtname . 'node[' . $key . ']'][] = get_string('sansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
+                    } else {
+                    	$cs= new stack_cas_casstring($sans);
+                    	if (!$cs->get_valid('t')) {
+                        	$interror[$prtname . 'node[' . $key . ']'][] =
                                 get_string('sansinvalid', 'qtype_stack', $cs->get_errors());
-                    }
+                    	}
+                	}
                 }
             }
             foreach ($fromform[$prtname.'tans'] as $key => $sans) {
                 if ('' == $sans) {
                         $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansrequired', 'qtype_stack');
                 } else {
-                    $cs= new stack_cas_casstring($sans);
-                    if (!$cs->get_valid('t')) {
-                        $interror[$prtname . 'node[' . $key . ']'][] =
+                   	if (strlen($sans>255)) {
+                		$interror[$prtname . 'node[' . $key . ']'][] = get_string('tansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
+                	} else {
+                    	$cs= new stack_cas_casstring($sans);
+                    	if (!$cs->get_valid('t')) {
+                        	$interror[$prtname . 'node[' . $key . ']'][] =
                                 get_string('tansinvalid', 'qtype_stack', $cs->get_errors());
-                    }
-                }
+                    	}
+                	}
+                	                }
             }
             foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {
                 $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$key]);
@@ -697,10 +709,14 @@ class qtype_stack_edit_form extends question_edit_form {
                     if ('' === trim($opt)) {
                         $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsrequired', 'qtype_stack');
                     } else {
-                        list($validity, $errs) = $answertest->validate_atoptions($opt);
-                        if (!$validity) {
-                            $interror[$prtname . 'node[' . $key . ']'][] =
+                        if (strlen($opt>255)) {
+                            $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
+                        } else {
+                            list($validity, $errs) = $answertest->validate_atoptions($opt);
+                            if (!$validity) {
+                                $interror[$prtname . 'node[' . $key . ']'][] =
                                     get_string('testoptionsinvalid', 'qtype_stack', $errs);
+                            }
                         }
                     }
                 }

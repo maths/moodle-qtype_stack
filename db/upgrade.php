@@ -483,4 +483,32 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     return true;
+
+    if ($oldversion < 2012062504) {
+    
+        // Changing precision of field sans on table qtype_stack_prt_nodes to (255)
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('sans', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'answertest');
+
+        // Launch change of precision for field sans
+        $dbman->change_field_precision($table, $field);
+
+        // Changing precision of field tans on table qtype_stack_prt_nodes to (255)
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('tans', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'sans');
+
+        // Launch change of precision for field tans
+        $dbman->change_field_precision($table, $field);
+       
+        // Changing precision of field testoptions on table qtype_stack_prt_nodes to (255)
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('testoptions', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'tans');
+        
+        // Launch change of precision for field testoptions
+        $dbman->change_field_precision($table, $field);
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2012062504, 'qtype', 'stack');
+    }
+    
 }

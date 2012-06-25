@@ -183,4 +183,18 @@ class stack_answertest_general_cas extends stack_anstest {
     public function required_atoptions() {
         return $this->requiredoptions;
     }
+
+    /**
+     * Validates the options, when needed.
+     *
+     * @return (bool, string)
+     * @access public
+     */
+    public function validate_atoptions($opt) {
+        if ($this->processcasoptions) {
+            $cs= new stack_cas_casstring($opt);
+            return array($cs->get_valid('t'), $cs->get_errors());
+        }
+        return array(true, '');
+        }
 }

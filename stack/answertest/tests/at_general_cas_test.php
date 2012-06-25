@@ -188,6 +188,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = new stack_answertest_general_cas('(x+1)^2', '(x+1)^2', 'ATPartFrac', true, '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals(array(true, ''), $at->validate_atoptions('x'));
     }
 
     public function test_is_true_for_completed_quadratics_compsquare() {
@@ -236,5 +237,20 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = new stack_answertest_general_cas('(x+1)^2', '(x+1)^2', 'ATInt', true, '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
+    }
+
+    public function test_invalid_option_int() {
+        $at = new stack_answertest_general_cas('(x+1)^2', '(x+1)^2', 'ATInt', true, '(x', NULL, true, true);
+        $this->assertNull($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertTrue($at->required_atoptions());
+
+        list ($valid, $err) = $at->validate_atoptions('x');
+        $this->assertTrue($valid);
+        $this->assertEquals('', $err);
+
+        list ($valid, $err) = $at->validate_atoptions('2x');
+        $this->assertFalse($valid);
+        $this->assertEquals("You seem to be missing *'s. Perhaps you meant to type <span class=\"stacksyntaxexample\">2<font color=\"red\">*</font>x</span>.", $err);
     }
 }

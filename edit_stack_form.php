@@ -156,8 +156,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($prt->nodes as $node) {
             $sans = new stack_cas_casstring($node->sans);
             $tans = new stack_cas_casstring($node->tans);
-            $testoptions = new stack_cas_casstring($node->testoptions);
-            $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $testoptions);
+            $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
             $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, '');
             $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, '');
             $prt_nodes[] = $prt_node;
@@ -699,16 +698,16 @@ class qtype_stack_edit_form extends question_edit_form {
                 }
             }
             foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {
-                if ('' != trim($opt)) {
-                    $cs= new stack_cas_casstring($opt);
-                    if (!$cs->get_valid('t')) {
-                        $interror[$prtname . 'node[' . $key . ']'][] =
-                                get_string('testoptionsinvalid', 'qtype_stack', $cs->get_errors());
-                    }
-                } else {
-                    $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$key]);
-                    if ($answertest->required_atoptions()) {
+                $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$key]);
+                if ($answertest->required_atoptions()) {
+                    if ('' === trim($opt)) {
                         $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsrequired', 'qtype_stack');
+                    } else {
+                        list($validity, $errs) = $answertest->validate_atoptions($opt);
+                        if (!$validity) {
+                            $interror[$prtname . 'node[' . $key . ']'][] =
+                                    get_string('testoptionsinvalid', 'qtype_stack', $errs);
+                        }
                     }
                 }
             }

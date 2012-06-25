@@ -114,5 +114,16 @@ class stack_anstest_numabsolute extends stack_anstest {
     public function process_atoptions() {
         return true;
     }
+
+    /**
+     * Validates the options, when needed.
+     *
+     * @return (bool, errors)
+     * @access public
+     */
+    public function validate_atoptions($opt) {
+        $cs= new stack_cas_casstring($opt);
+        return array($cs->get_valid('t'), $cs->get_errors());
+    }
 }
 

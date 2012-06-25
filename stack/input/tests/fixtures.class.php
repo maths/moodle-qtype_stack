@@ -17,7 +17,7 @@
 /**
  * This script runs the student input tests and verifies the results.
  *
- * This helps us verify how STACK "validates" strings supplied by the studen
+ * This helps us verify how STACK "validates" strings supplied by the student.
  *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

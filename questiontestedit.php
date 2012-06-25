@@ -81,8 +81,8 @@ if ($testcase) {
     }
 
     foreach ($qtest->expectedresults as $prtname => $expected) {
-        $currentdata->{$prtname . 'score'}      = $expected->score;
-        $currentdata->{$prtname . 'penalty'}    = $expected->penalty;
+        $currentdata->{$prtname . 'score'}      = $expected->score + 0;  // Fix excessive DPs.
+        $currentdata->{$prtname . 'penalty'}    = $expected->penalty + 0;
         $currentdata->{$prtname . 'answernote'} = $expected->answernote[0];
     }
 

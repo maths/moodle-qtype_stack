@@ -269,5 +269,15 @@ class stack_ans_test_controller {
     public function required_atoptions() {
         return $this->at->required_atoptions();
     }
+
+    /**
+     * Validates the options, when needed.
+     *
+     * @return bool
+     * @access public
+     */
+    public function validate_atoptions($opt) {
+        return $this->at->validate_atoptions($opt);
+    }
 }
 

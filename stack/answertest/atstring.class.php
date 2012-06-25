@@ -38,4 +38,8 @@ class stack_anstest_atstring extends stack_anstest {
     public function process_atoptions() {
         return false;
     }
+
+    public function validate_atoptions($opt) {
+        return array(true, '');
+    }
 }

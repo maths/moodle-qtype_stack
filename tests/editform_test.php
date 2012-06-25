@@ -113,7 +113,7 @@ class qtype_stack_edit_form_test extends advanced_testcase {
         $form = $this->get_form(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
 
-        $this->assertEquals(array('prt1'), $form->get_prt_names_from_question());
+        $this->assertEquals(array('prt1' => 1), $form->get_prt_names_from_question());
     }
 
     public function test_get_prt_names_from_question_text() {

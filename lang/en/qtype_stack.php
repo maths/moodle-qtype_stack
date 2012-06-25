@@ -40,6 +40,7 @@ $string['answernote'] = 'Answer note';
 $string['answernote_err'] = 'Answer notes may not contain the character |.  This character is inserted by STACK and is later used to split answer notes automatically.';
 $string['answernote_help'] = 'This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.';
 $string['answernote_link'] = 'question/type/stack/doc/doc.php/Authoring/Potential_response_trees.md#Answer_note';
+$string['answernoterequired'] = 'Answer note must not be empty.';
 $string['assumepositive'] = 'Assume postitive';
 $string['assumepositive_help'] = 'This option sets the value of Maxima\'s assume_pos variable.';
 $string['assumepositive_link'] = 'question/type/stack/doc/doc.php/Authoring/Options.md#Assume_Positive';

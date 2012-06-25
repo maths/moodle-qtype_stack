@@ -49,6 +49,14 @@ It is very useful to be able to embed input elements in equations, and this was
 working in STACK 2.0. However is it possible with MathJax or other Moodle maths
 filters?
 
+### Improve the editing form ###
+
+* Feature in the edit forms to expand/fold away each PRT and input.
+* A button to remove a given PRT or input, without having to guess that the way to do it is to delete the placeholders from the question text.
+* A button to remove a new PRT or input, without having to guess that the way to do it is to add the placeholders to the question text.
+* A way to rename a given PRT or input. (The only way to do this might be a separate bit of UI, perhaps linked to from the questiontestrun.php script).
+* A button to save the current definition and continue editing.
+
 ### Other ideas ###
 
 * Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.  This will be needed for various other things.
@@ -60,8 +68,6 @@ filters?
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
 * Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
-* Feature in the edit forms to expand/fold away each PRT.
-* Add a button to the edit form to save and continue editing.
 
 
 ## Features that might be attempted in the future - possible self contained projects ##

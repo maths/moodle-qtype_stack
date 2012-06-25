@@ -424,14 +424,11 @@ class qtype_stack_edit_form extends question_edit_form {
                     get_string('nodex' . $branch . 'feedback', 'qtype_stack'), array('rows' => 1), $this->editoroptions);
         }
 
-        // TODO: Make these work!
-        // $repeatoptions[$prtname . 'answertest']['helpbutton'] = array('answertest', 'qtype_stack');
-        // $repeatoptions[$prtname . 'sans']['helpbutton'] = array('sans', 'qtype_stack');
-        // $repeatoptions[$prtname . 'tans']['helpbutton'] = array('tans', 'qtype_stack');
-        // $repeatoptions[$prtname . 'testoptions']['helpbutton'] = array('testoptions', 'qtype_stack');
-        // $repeatoptions[$prtname . 'quiet']['helpbutton'] = array('quiet', 'qtype_stack');
-        // $repeatoptions[$prtname . 'feedback']['helpbutton'] = array('feedback', 'qtype_stack');
-        // $repeatoptions[$prtname . 'answernote']['helpbutton'] = array('answernote', 'qtype_stack');
+        $repeatoptions[$prtname . 'node']['helpbutton'] = array('nodehelp', 'qtype_stack');
+        $repeatoptions[$prtname . 'nodewhentrue']['helpbutton'] = array('truebranch', 'qtype_stack');
+        $repeatoptions[$prtname . 'truefeedback']['helpbutton'] = array('feedback', 'qtype_stack');
+        $repeatoptions[$prtname . 'nodewhenfalse']['helpbutton'] = array('falsebranch', 'qtype_stack');
+        $repeatoptions[$prtname . 'falsefeedback']['helpbutton'] = array('feedback', 'qtype_stack');
 
         $repeatoptions[$prtname . 'truescore']['default'] = 1;
         $repeatoptions[$prtname . 'falsescore']['default'] = 0;

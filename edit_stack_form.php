@@ -715,10 +715,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // rather complex validation easier to implement.
 
         // 1) Validate all the fixed question fields.
-        $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
-        if (!$questionvars->get_valid()) {
-            $errors['questionvariables'][] = $questionvars->get_errors();
-        }
+        $errors = $this->validate_cas_keyval($errors, $fromform['questionvariables'], 'questionvariables');
 
         // Question text.
         $errors['questiontext'] = array();
@@ -836,10 +833,8 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // Check the fields the belong to the PRT as a whole.
-        $feedbackvars = new stack_cas_keyval($fromform[$prtname . 'feedbackvariables'], null, null, 't');
-        if (!$feedbackvars->get_valid()) {
-            $errors[$prtname . 'feedbackvariables'][] = $feedbackvars->get_errors();
-        }
+        $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
+                $prtname . 'feedbackvariables');
 
         if ($fromform[$prtname . 'value'] <= 0) {
             $errors[$prtname . 'value'][] = get_string('questionvaluepostive', 'qtype_stack');
@@ -974,6 +969,9 @@ class qtype_stack_edit_form extends question_edit_form {
         } else if (strlen($value) > $maxlength) {
             $errors[$fieldname][] = get_string('strlengtherror', 'qtype_stack');
 
+        } else if (strpos($value, '@') !== false || strpos($value, '$') !== false) {
+            $errors[$fieldname][] = get_string('illegalcaschars', 'qtype_stack');
+
         } else {
             $casstring = new stack_cas_casstring($value);
             if (!$casstring->get_valid('t')) {
@@ -981,6 +979,34 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
+        return $errors;
+    }
+
+    /**
+     * Validate a CAS string field to make sure that: 1. it fits in the DB, and
+     * 2. that it is syntactically valid.
+     * @param array $errors the errors array that validation is assembling.
+     * @param string $value the submitted value validate.
+     * @param string $fieldname the name of the field add any errors to.
+     * @param bool|string $notblank false means do nothing (default). A string
+     *      will validate that the field is not blank, and if it is, display that error.
+     * @param int $maxlength the maximum allowable length. Defaults to 255.
+     * @return array updated $errors array.
+     */
+    protected function validate_cas_keyval($errors, $value, $fieldname) {
+        if ('' == trim($value)) {
+            return $errors;
+        }
+
+        if (strpos($value, '@') !== false || strpos($value, '$') !== false) {
+            $errors[$fieldname][] = get_string('illegalcaschars', 'qtype_stack');
+            return $errors;
+        }
+
+        $keyval = new stack_cas_keyval($value, null, null, 't');
+        if (!$keyval->get_valid()) {
+            $errors[$fieldname][] = $keyval->get_errors();
+        }
         return $errors;
     }
 

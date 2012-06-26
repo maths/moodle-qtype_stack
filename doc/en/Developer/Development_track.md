@@ -85,7 +85,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 1. **DONE** Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
 2. **DONE** Add back the help for editing PRT nodes.
 3. When validating the editing form, actually evaluate the Maxima code.
-4. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
+4. **DONE** When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
 5. Ensure links from the editing form end up at the STACK docs.
 
 ### Testing questions

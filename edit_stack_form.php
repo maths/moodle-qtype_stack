@@ -34,6 +34,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/cas/keyval.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/castext.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/acyclicchecker.class.php');
 
+
 /**
  * Stack question editing form definition.
  *
@@ -41,10 +42,14 @@ require_once($CFG->dirroot . '/question/type/stack/stack/acyclicchecker.class.ph
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_stack_edit_form extends question_edit_form {
+    /** @var string the default question text for a new question. */
     const DEFAULT_QUESTION_TEXT = '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
+    /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
 
+    /** @var int array key into the results of get_input_names_from_question_text for the count of input placeholders. */
     const INPUTS = 0;
+    /** @var int array key into the results of get_input_names_from_question_text for the count of validation placeholders. */
     const VALIDATAIONS = 1;
 
     /** @var string caches the result of {@link get_current_question_text()}. */
@@ -94,6 +99,48 @@ class qtype_stack_edit_form extends question_edit_form {
         return $this->specificfeedback;
     }
 
+    /**
+     * Get a list of the PRT notes that should be present for a given PRT.
+     * @param string $prtname the name of a PRT.
+     * @return array list of nodes that should be present in the form definitino for this PRT.
+     */
+    protected function get_required_nodes_for_prt($prtname) {
+        // If the form has been submitted and is being redisplayed, and this is
+        // an existing PRT, base things on the submitted data.
+        $submitted = optional_param_array($prtname . 'answertest', null, PARAM_RAW);
+        if ($submitted) {
+            foreach ($submitted as $key => $notused) {
+                if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
+                    unset($submitted[$key]);
+
+                    // Slightly odd to register the button here, especially since
+                    // now this node has been deleted, this button will not exist,
+                    // but anyway this works, and in necessary to stop the form
+                    // from being submitted.
+                    $this->_form->registerNoSubmitButton($prtname . 'nodedelete' . $key);
+                }
+            }
+
+            if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
+                $submitted[] = true;
+            }
+
+            return array_keys($submitted);
+        }
+
+        // Otherwise, if an existing question is being edited, and this is an
+        // existing PRT, base things on the existing question definition.
+        if (!empty($this->question->prts[$prtname]->nodes)) {
+            return array_keys($this->question->prts[$prtname]->nodes);
+        }
+
+        // Otherwise, it is a new PRT. Just one node.
+        return array(0);
+    }
+
+    /**
+     * @return array of the input names that currently appear in the question text.
+     */
     protected function get_input_names_from_question_text() {
         $questiontext = $this->get_current_question_text();
 
@@ -118,6 +165,10 @@ class qtype_stack_edit_form extends question_edit_form {
         return $inputnames;
     }
 
+    /**
+     * @return array of the PRT names that currently appear in the question
+     *      text and specific feedback.
+     */
     protected function get_prt_names_from_question() {
         $questiontext = $this->get_current_question_text();
         $specificfeedback = $this->get_current_specific_feedback();
@@ -303,6 +354,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
     }
 
+    /**
+     * Add the form fields for a given input element to the form.
+     * @param string $inputname the input name.
+     * @param MoodleQuickForm $mform the form being assembled.
+     */
     protected function definition_input($inputname, MoodleQuickForm $mform) {
 
         $mform->addElement('header', $inputname . 'header', get_string('inputheading', 'qtype_stack', $inputname));
@@ -361,19 +417,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
     }
 
+    /**
+     * Add the form elements defining one PRT.
+     * @param string $prtname the name of the PRT.
+     * @param MoodleQuickForm $mform the form being assembled.
+     */
     protected function definition_prt($prtname, MoodleQuickForm $mform) {
-
-        $numnodes = 1;
-        if (!empty($this->question->prts[$prtname])) {
-            $numnodes = count($this->question->prts[$prtname]->nodes);
-        }
-        $numnodes = optional_param($prtname . 'numnodes', $numnodes, PARAM_INT) +
-                optional_param($prtname . 'addnode', 0, PARAM_BOOL);
-
-        $nextnodechoices = array('-1' => get_string('stop', 'qtype_stack'));
-        for ($i = 0; $i < $numnodes; $i += 1) {
-            $nextnodechoices[$i] = get_string('nodex', 'qtype_stack', $i + 1);
-        }
 
         $mform->addElement('header', $prtname . 'header', get_string('prtheading', 'qtype_stack', $prtname));
 
@@ -394,65 +443,92 @@ class qtype_stack_edit_form extends question_edit_form {
                 get_string('prtwillbecomeactivewhen', 'qtype_stack', html_writer::tag('b', $inputnames)));
 
         // Create the section of the form for each node - general bits.
-        $repeatoptions = array();
+        $nodes = $this->get_required_nodes_for_prt($prtname);
 
-        $elements = array();
+        $nextnodechoices = array('-1' => get_string('stop', 'qtype_stack'));
+        foreach ($nodes as $nodekey) {
+            $nextnodechoices[$nodekey] = get_string('nodex', 'qtype_stack', $nodekey + 1);
+        }
+
+        $deletable = count($nodes) > 1;
+
+        foreach ($nodes as $nodekey) {
+            $this->definition_prt_node($prtname, $nodekey, $nextnodechoices, $deletable, $mform);
+        }
+
+        $mform->addElement('submit', $prtname . 'nodeadd', get_string('addanothernode', 'qtype_stack'));
+        $mform->registerNoSubmitButton($prtname . 'nodeadd');
+    }
+
+    /**
+     * Add the form elements defining one PRT node.
+     * @param string $prtname the name of the PRT.
+     * @param string $nodekey the name of the node.
+     * @param array $nextnodechoices the available choices for the next node.
+     * @param bool $deletable whether the user is allowed to delete this node.
+     * @param MoodleQuickForm $mform the form being assembled.
+     */
+    protected function definition_prt_node($prtname, $nodekey, $nextnodechoices, $deletable, MoodleQuickForm $mform) {
+        $name = $nodekey + 1;
+
+        unset($nextnodechoices[$nodekey]);
 
         $nodegroup = array();
-        $nodegroup[] = $mform->createElement('select', $prtname . 'answertest',
+        $nodegroup[] = $mform->createElement('select', $prtname . 'answertest[' . $nodekey . ']',
                 get_string('answertest', 'qtype_stack'), $this->answertestchoices);
-        $nodegroup[] = $mform->createElement('text', $prtname . 'sans',
+
+        $nodegroup[] = $mform->createElement('text', $prtname . 'sans[' . $nodekey . ']',
                 get_string('sans', 'qtype_stack'), array('size' => 5));
-        $nodegroup[] = $mform->createElement('text', $prtname . 'tans',
+
+        $nodegroup[] = $mform->createElement('text', $prtname . 'tans[' . $nodekey . ']',
                 get_string('tans', 'qtype_stack'), array('size' => 5));
-        $nodegroup[] = $mform->createElement('text', $prtname . 'testoptions',
+
+        $nodegroup[] = $mform->createElement('text', $prtname . 'testoptions[' . $nodekey . ']',
                 get_string('testoptions', 'qtype_stack'), array('size' => 5));
-        $nodegroup[] = $mform->createElement('selectyesno', $prtname . 'quiet',
+
+        $nodegroup[] = $mform->createElement('selectyesno', $prtname . 'quiet[' . $nodekey . ']',
                 get_string('quiet', 'qtype_stack'));
 
-        $elements[] = $mform->createElement('group', $prtname . 'node',
-                html_writer::tag('b', get_string('nodex', 'qtype_stack', '{no}')),
-                $nodegroup, null, false);
+        $mform->addGroup($nodegroup, $prtname . 'node[' . $nodekey . ']',
+                html_writer::tag('b', get_string('nodex', 'qtype_stack', $name)),
+                null, false);
+        $mform->addHelpButton($prtname . 'node[' . $nodekey . ']', 'nodehelp', 'qtype_stack');
 
         // Create the section of the form for each node - the branches.
         foreach (array('true', 'false') as $branch) {
             $branchgroup = array();
-            $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'scoremode',
+
+            $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'scoremode[' . $nodekey . ']',
                     get_string('scoremode', 'qtype_stack'), $this->scoremodechoices);
-            $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'score',
+
+            $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'score[' . $nodekey . ']',
                     get_string('score', 'qtype_stack'), array('size' => 2));
-            $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'penalty',
+            $mform->setDefault($prtname . $branch . 'score[' . $nodekey . ']', (float) $branch);
+
+            $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'penalty[' . $nodekey . ']',
                     get_string('penalty', 'qtype_stack'), array('size' => 2));
-            $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'nextnode',
+
+            $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'nextnode[' . $nodekey . ']',
                     get_string('next', 'qtype_stack'), $nextnodechoices);
-            $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'answernote',
+
+            $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'answernote[' . $nodekey . ']',
                     get_string('answernote', 'qtype_stack'), array('size' => 10));
+            $mform->setDefault($prtname . $branch . 'answernote[' . $nodekey . ']',
+                    get_string('answernotedefault' . $branch, 'qtype_stack', array('prtname' => $prtname, 'nodename' => $name)));
 
-            $elements[] = $mform->createElement('group', $prtname . 'nodewhen' . $branch,
-                    get_string('nodexwhen' . $branch, 'qtype_stack'), $branchgroup, null, false);
+            $mform->addGroup($branchgroup, $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']',
+                    get_string('nodexwhen' . $branch, 'qtype_stack', $name), null, false);
+            $mform->addHelpButton($prtname . 'nodewhen' . $branch . '[' . $nodekey . ']', $branch . 'branch', 'qtype_stack');
 
-            $elements[] = $mform->createElement('editor', $prtname . $branch . 'feedback',
-                    get_string('nodex' . $branch . 'feedback', 'qtype_stack'), array('rows' => 1), $this->editoroptions);
+            $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
+                    get_string('nodex' . $branch . 'feedback', 'qtype_stack', $name), array('rows' => 1), $this->editoroptions);
+            $mform->addHelpButton($prtname . $branch . 'feedback[' . $nodekey . ']', 'branchfeedback', 'qtype_stack');
         }
 
-        $repeatoptions[$prtname . 'node']['helpbutton'] = array('nodehelp', 'qtype_stack');
-        $repeatoptions[$prtname . 'nodewhentrue']['helpbutton'] = array('truebranch', 'qtype_stack');
-        $repeatoptions[$prtname . 'truefeedback']['helpbutton'] = array('feedback', 'qtype_stack');
-        $repeatoptions[$prtname . 'nodewhenfalse']['helpbutton'] = array('falsebranch', 'qtype_stack');
-        $repeatoptions[$prtname . 'falsefeedback']['helpbutton'] = array('feedback', 'qtype_stack');
-
-        $repeatoptions[$prtname . 'truescore']['default'] = 1;
-        $repeatoptions[$prtname . 'falsescore']['default'] = 0;
-        $repeatoptions[$prtname . 'trueanswernote']['default'] = $prtname . '-{no}-T';
-        $repeatoptions[$prtname . 'falseanswernote']['default'] = $prtname . '-{no}-F';
-
-        if (!empty($this->question->prts[$prtname]->nodes)) {
-            $numnodes = count($this->question->prts[$prtname]->nodes);
-        } else {
-            $numnodes = 1;
+        if ($deletable) {
+            $mform->addElement('submit', $prtname . 'nodedelete' . $nodekey, get_string('nodexdelete', 'qtype_stack', $name));
+            $mform->registerNoSubmitButton($prtname . 'nodedelete' . $nodekey);
         }
-        $this->repeat_elements($elements, $numnodes, $repeatoptions, $prtname . 'numnodes',
-                $prtname . 'addnode', 1, get_string('addanothernode', 'qtype_stack'), true);
     }
 
     public function data_preprocessing($question) {
@@ -882,7 +958,10 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-        list($problem, $details) = stack_acyclic_graph_checker::check_graph($nextnodes, '0');
+        $nodes = $this->get_required_nodes_for_prt($prtname);
+        $firstnode = reset($nodes);
+
+        list($problem, $details) = stack_acyclic_graph_checker::check_graph($nextnodes, $firstnode);
         switch ($problem) {
             case 'disconnected':
                 foreach ($details as $unusednode) {

@@ -57,10 +57,11 @@ At this point STACK will be "ready" for use with students, although not all feat
 3. Add sample_questions, and update question banks for STACK 3.0.
 4. **DONE** Improve the way questions are deployed.
  1. **DONE** Only deploy new versions.
-5. Editing form: a way to remove a given PRT node.
+5. **DONE** Editing form: a way to remove a given PRT node.
 6. **DONE** Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
 7. Add back Matrix input type. (currently only need to deal with naming of fields, and add tests)
 8. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
+9. In adaptive mode, display the scoring information for each PRT when it has been evaluated.
 
 Once completed we are ready for the **Beta release!**
 

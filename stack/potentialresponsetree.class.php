@@ -154,7 +154,8 @@ class stack_potentialresponse_tree {
 
         $results = new stack_potentialresponse_tree_state($cascontext->get_errors());
         // Traverse the tree.
-        $nodekey = 0;
+        reset($this->nodes);
+        $nodekey = key($this->nodes);
         $visitednodes = array();
         while ($nodekey != -1) {
 

@@ -57,10 +57,11 @@ At this point STACK will be "ready" for use with students, although not all feat
 3. Add sample_questions, and update question banks for STACK 3.0.
 4. **DONE** Improve the way questions are deployed.
  1. **DONE** Only deploy new versions.
-5. Editing form: a way to remove a given PRT node.
+5. **DONE** Editing form: a way to remove a given PRT node.
 6. **DONE** Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
 7. Add back Matrix input type. (currently only need to deal with naming of fields, and add tests)
 8. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
+9. In adaptive mode, display the scoring information for each PRT when it has been evaluated.
 
 Once completed we are ready for the **Beta release!**
 
@@ -84,18 +85,22 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 1. **DONE** Form validation should reject a PRT where Node x next -> Node x. Actually, it should validate that we have a connected DAG.
 2. **DONE** Add back the help for editing PRT nodes.
 3. When validating the editing form, actually evaluate the Maxima code.
-4. When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
-5. Ensure links from the editing form end up at the STACK docs.
+4. **DONE** When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
+5. Ensure links from the editing form end up at the STACK docs. This is now work in progress, but relies on http://tracker.moodle.org/browse/MDL-34035 getting accepted into Moodel core. In which case we can use this commit: https://github.com/timhunt/moodle-qtype_stack/compare/helplinks.
 
 ### Testing questions
 
 1. **DOES NOT HAPPEN ANY MORE** With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 2. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 3. **DONE** A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
+4. Singlechar input should validate that the input is a single char. (There is a TODO in the code for this.)
+5. Dropdown input should make sure that only allowed values are submitted. (There is a TODO in the code for this.)
+6. Dropdown input element needs some unit tests. (There is a TODO in the code for this.)
+7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TODO in the code for this.)
 
 ### Optimising Maxima
 
-1.  Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
+1. Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
 
 ### Documentation system
 

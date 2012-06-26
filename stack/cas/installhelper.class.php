@@ -224,6 +224,15 @@ END;
     }
 
     /**
+     * Get the full path to the folder where plot files are stored.
+     * @return string the full path to where the maximalocal.mac file should be stored.
+     */
+    public static function images_location() {
+        global $CFG;
+        return stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots');
+    }
+
+    /**
      * Create the maximalocal.mac file, overwriting it if it already exists.
      */
     public static function create_maximalocal() {

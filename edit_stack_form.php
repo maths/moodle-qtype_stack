@@ -708,10 +708,16 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputs = $this->get_input_names_from_question_text();
         $prts = $this->get_prt_names_from_question();
 
+        // We slightly break the usual conventions of validation, in that rather
+        // then building up $errors as an array of strings, we initially build it
+        // up as an array of arrays, then at the end remove any empty arrays,
+        // and implod (' ', ...) any arrays that are non-empty. This makes our
+        // rather complex validation easier to implement.
+
         // 1) Validate all the fixed question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
         if (!$questionvars->get_valid()) {
-            $errors['questionvariables'] = $questionvars->get_errors();
+            $errors['questionvariables'][] = $questionvars->get_errors();
         }
 
         // Question text.
@@ -738,16 +744,10 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-        if ($errors['questiontext']) {
-            $errors['questiontext'] = implode(' ', $errors['questiontext']);
-        } else {
-            unset($errors['questiontext']);
-        }
-
         // Penalty.
         $penalty = $fromform['penalty'];
         if (!is_numeric($penalty) || $penalty < 0 || $penalty > 1) {
-            $errors['penalty'] = get_string('penaltyerror', 'qtype_stack');
+            $errors['penalty'][] = get_string('penaltyerror', 'qtype_stack');
         }
 
         // Specific feedback.
@@ -768,12 +768,6 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-        if ($errors['specificfeedback']) {
-            $errors['specificfeedback'] = implode(' ', $errors['specificfeedback']);
-        } else {
-            unset($errors['specificfeedback']);
-        }
-
         // General feedback.
         $errors['generalfeedback'] = array();
 
@@ -784,12 +778,6 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $errors['generalfeedback'] += $this->check_no_placeholders(
                     get_string('generalfeedback', 'question'), $fromform['generalfeedback']['text']);
-
-        if ($errors['generalfeedback']) {
-            $errors['generalfeedback'] = implode(' ', $errors['generalfeedback']);
-        } else {
-            unset($errors['generalfeedback']);
-        }
 
         // Question note.
         $errors['questionnote'] = array();
@@ -808,27 +796,25 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors['questionnote'] += $this->check_no_placeholders(
                     get_string('questionnote', 'qtype_stack'), $fromform['questionnote']);
 
-        if ($errors['questionnote']) {
-            $errors['questionnote'] = implode(' ', $errors['questionnote']);
-        } else {
-            unset($errors['questionnote']);
-        }
-
         // 2) Validate all inputs.
         foreach ($inputs as $inputname => $notused) {
-            if (strlen($fromform[$inputname . 'modelans']) > 255) {
-                $errors[$inputname . 'modelans'] = get_string('strlengtherror', 'qtype_stack');
-            } else {
-                $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'modelans']);
-                if (!$teacheranswer->get_valid('t')) {
-                    $errors[$inputname . 'modelans'] = $teacheranswer->get_errors();
-                }
-            }
+            $errors = $this->validate_cas_string($errors,
+                    $fromform[$inputname . 'modelans'], $inputname . 'modelans');
         }
 
         // 3) Validate all prts.
         foreach ($prts as $prtname => $notused) {
-            $errors = $this->validation_prt($errors, $fromform, $files, $prtname);
+            $errors = $this->validate_prt($errors, $fromform, $prtname);
+        }
+
+        // Convert the $errors array from our array of arrays format to the
+        // standard array of strings format.
+        foreach ($errors as $field => $messages) {
+            if ($messages) {
+                $errors[$field] = implode(' ', $messages);
+            } else {
+                unset($errors[$field]);
+            }
         }
 
         return $errors;
@@ -838,149 +824,161 @@ class qtype_stack_edit_form extends question_edit_form {
      * Validate the fields for a given PRT
      * @param array $errors the error so far. This array is added to and returned.
      * @param array $fromform the submitted data to validate.
-     * @param array $files the submitted files to validate.
      * @param string $prtname the name of the PRT to validate.
      * @return array the update $errors array.
      */
-    protected function validation_prt($errors, $fromform, $files, $prtname) {
+    protected function validate_prt($errors, $fromform, $prtname) {
 
-        if (!array_key_exists($prtname.'feedbackvariables', $fromform)) {
+        if (!array_key_exists($prtname . 'feedbackvariables', $fromform)) {
             // This happens when you edit the question text to add more PRTs.
             // There is nothing to validate for the new PRTs, so stop now.
             return $errors;
         }
 
-        $interror = array();
-
-        $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables'], null, null, 't');
-
+        // Check the fields the belong to the PRT as a whole.
+        $feedbackvars = new stack_cas_keyval($fromform[$prtname . 'feedbackvariables'], null, null, 't');
         if (!$feedbackvars->get_valid()) {
-            $interror[$prtname.'feedbackvariables'][] = $feedbackvars->get_errors();
+            $errors[$prtname . 'feedbackvariables'][] = $feedbackvars->get_errors();
         }
 
-        if ($fromform[$prtname.'value'] <= 0) {
-            $interror[$prtname.'value'][] = get_string('questionvaluepostive', 'qtype_stack');
+        if ($fromform[$prtname . 'value'] <= 0) {
+            $errors[$prtname . 'value'][] = get_string('questionvaluepostive', 'qtype_stack');
         }
 
-        foreach ($fromform[$prtname.'sans'] as $key => $sans) {
-            if ('' == $sans) {
-                    $interror[$prtname . 'node[' . $key . ']'][] = get_string('sansrequired', 'qtype_stack');
-            } else {
-                if (strlen($sans > 255)) {
-                    $interror[$prtname . 'node[' . $key . ']'][] = get_string('sansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
-                } else {
-                    $cs= new stack_cas_casstring($sans);
-                    if (!$cs->get_valid('t')) {
-                        $interror[$prtname . 'node[' . $key . ']'][] =
-                                get_string('sansinvalid', 'qtype_stack', $cs->get_errors());
-                    }
-                }
-            }
-        }
-
-        foreach ($fromform[$prtname.'tans'] as $key => $tans) {
-            if ('' == $tans) {
-                    $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansrequired', 'qtype_stack');
-            } else {
-                if (strlen($tans > 255)) {
-                    $interror[$prtname . 'node[' . $key . ']'][] = get_string('tansinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
-                } else {
-                    $cs= new stack_cas_casstring($tans);
-                    if (!$cs->get_valid('t')) {
-                        $interror[$prtname . 'node[' . $key . ']'][] =
-                                get_string('tansinvalid', 'qtype_stack', $cs->get_errors());
-                    }
-                }
-            }
-        }
-
-        foreach ($fromform[$prtname.'testoptions'] as $key => $opt) {
-            $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$key]);
-            if ($answertest->required_atoptions()) {
-                if ('' === trim($opt)) {
-                    $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsrequired', 'qtype_stack');
-                } else {
-                    if (strlen($opt > 255)) {
-                        $interror[$prtname . 'node[' . $key . ']'][] = get_string('testoptionsinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
-                    } else {
-                        list($validity, $errs) = $answertest->validate_atoptions($opt);
-                        if (!$validity) {
-                            $interror[$prtname . 'node[' . $key . ']'][] =
-                                get_string('testoptionsinvalid', 'qtype_stack', $errs);
-                        }
-                    }
-                }
-            }
-        }
-
-        $nextnodes = array();
-        foreach (array('true', 'false') as $branch) {
-            foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
-                if (!is_numeric($score) || $score<0 || $score>1) {
-                     $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('scoreerror', 'qtype_stack');
-                }
-            }
-            foreach ($fromform[$prtname.$branch.'penalty'] as $key => $penalty) {
-                if ('' != $penalty) {
-                    if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
-                        $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('penaltyerror2', 'qtype_stack');
-                    }
-                }
-            }
-            foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
-                if ('' == $strin) {
-                    $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernoterequired', 'qtype_stack');
-                } else if (strstr($strin, '|') !== false) {
-                    $nodename = $key+1;
-                    $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernote_err', 'qtype_stack');
-                }
-            }
-            foreach ($fromform[$prtname.$branch.'feedback'] as $key => $strin) {
-                $feedback = new stack_cas_text($strin['text'], null, null, 't');
-                if (!$feedback->get_valid()) {
-                    $nodename = $key+1;
-                    $interror[$prtname . $branch . 'feedback['.$key.']'][] = $feedback->get_errors();
-                }
-            }
-
-            foreach ($fromform[$prtname.$branch.'nextnode'] as $key => $next) {
-                if (!array_key_exists($key, $nextnodes)) {
-                    $nextnodes[$key] = array();
-                }
-                if ($next == -1) {
-                    continue;
-                }
-                if ($next == $key) {
-                    $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('nextcannotbeself', 'qtype_stack');
-                    continue;
-                }
-                $nextnodes[$key][] = $next;
-            }
-        }
-
+        // Check the nodes.
         $nodes = $this->get_required_nodes_for_prt($prtname);
-        $firstnode = reset($nodes);
+        foreach ($nodes as $nodekey) {
 
+            // Check the fields the belong to this node individually.
+            $errors = $this->validate_prt_node($errors, $fromform, $prtname, $nodekey);
+
+            // Also build the $nextnodes graph structure array that we will need in a second.
+            $nextnodes[$nodekey] = array();
+
+            $next = $fromform[$prtname . 'truenextnode'][$nodekey];
+            if ($next != -1) {
+                $nextnodes[$nodekey][] = $next;
+            }
+
+            $next = $fromform[$prtname . 'falsenextnode'][$nodekey];
+            if ($next != -1) {
+                $nextnodes[$nodekey][] = $next;
+            }
+        }
+
+        // Check that the nodes form a directed acyclic graph.
+        $firstnode = reset($nodes);
         list($problem, $details) = stack_acyclic_graph_checker::check_graph($nextnodes, $firstnode);
         switch ($problem) {
             case 'disconnected':
                 foreach ($details as $unusednode) {
-                    $interror[$prtname . 'node[' . $key . ']'][] = get_string('nodenotused', 'qtype_stack');
+                    $errors[$prtname . 'node[' . $key . ']'][] = get_string('nodenotused', 'qtype_stack');
                 }
                 break;
 
             case 'backlink':
                 list($from, $to) = $details;
                 if ($fromform[$prtname.'truenextnode'][$from] == $to) {
-                    $interror[$prtname.'nodewhentrue['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
+                    $errors[$prtname.'nodewhentrue['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
                 } else {
-                    $interror[$prtname.'nodewhenfalse['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
+                    $errors[$prtname.'nodewhenfalse['.$from.']'][] = get_string('nodeloopdetected', 'qtype_stack', $to + 1);
                 }
                 break;
         }
 
-        foreach ($interror as $field => $messages) {
-            $errors[$field] = implode(' ', $messages);
+        return $errors;
+    }
+
+    /**
+     * Validate the fields for a given PRT node.
+     * @param array $errors the error so far. This array is added to and returned.
+     * @param array $value the submitted data to validate.
+     * @param string $prtname the name of the PRT to validate.
+     * @param string $nodekey the name of the node to validate.
+     * @return array the update $errors array.
+     */
+    protected function validate_prt_node($errors, $fromform, $prtname, $nodekey) {
+        $nodegroup = $prtname . 'node[' . $nodekey . ']';
+
+        $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'sans'][$nodekey],
+                $nodegroup, 'sansrequired');
+
+        $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'tans'][$nodekey],
+                $nodegroup, 'tansrequired');
+
+        $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$nodekey]);
+        if ($answertest->required_atoptions()) {
+            $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
+
+            if ('' === trim($opt)) {
+                $errors[$nodegroup][] = get_string('testoptionsrequired', 'qtype_stack');
+
+            } else if (strlen($opt > 255)) {
+                $errors[$nodegroup][] = get_string('testoptionsinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
+
+            } else {
+                list($valid, $message) = $answertest->validate_atoptions($opt);
+                if (!$valid) {
+                    $errors[$nodegroup][] = get_string('testoptionsinvalid', 'qtype_stack', $message);
+                }
+            }
+        }
+
+        foreach (array('true', 'false') as $branch) {
+            $branchgroup = $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']';
+
+            $score = $fromform[$prtname . $branch . 'score'][$nodekey];
+            if (!is_numeric($score) || $score < 0 || $score > 1) {
+                 $errors[$branchgroup][] = get_string('scoreerror', 'qtype_stack');
+            }
+
+            $penalty = $fromform[$prtname . $branch . 'penalty'][$nodekey];
+            if ('' != $penalty && (!is_numeric($penalty) || $penalty < 0 || $penalty > 1)) {
+                $errors[$branchgroup][] = get_string('penaltyerror2', 'qtype_stack');
+            }
+
+            $answernote = $fromform[$prtname . $branch . 'answernote'][$nodekey];
+            if ('' == $answernote) {
+                $errors[$branchgroup][] = get_string('answernoterequired', 'qtype_stack');
+            } else if (strstr($answernote, '|') !== false) {
+                $errors[$branchgroup][] = get_string('answernote_err', 'qtype_stack');
+            }
+
+            $feedback = new stack_cas_text(
+                    $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],
+                    null, null, 't');
+            if (!$feedback->get_valid()) {
+                $errors[$prtname . $branch . 'feedback[' . $nodekey . ']'][] = $feedback->get_errors();
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validate a CAS string field to make sure that: 1. it fits in the DB, and
+     * 2. that it is syntactically valid.
+     * @param array $errors the errors array that validation is assembling.
+     * @param string $value the submitted value validate.
+     * @param string $fieldname the name of the field add any errors to.
+     * @param bool|string $notblank false means do nothing (default). A string
+     *      will validate that the field is not blank, and if it is, display that error.
+     * @param int $maxlength the maximum allowable length. Defaults to 255.
+     * @return array updated $errors array.
+     */
+    protected function validate_cas_string($errors, $value, $fieldname, $notblank = false, $maxlength = 255) {
+
+        if ($notblank && '' == trim($value)) {
+            $errors[$fieldname][] = get_string($notblank, 'qtype_stack');
+
+        } else if (strlen($value) > $maxlength) {
+            $errors[$fieldname][] = get_string('strlengtherror', 'qtype_stack');
+
+        } else {
+            $casstring = new stack_cas_casstring($value);
+            if (!$casstring->get_valid('t')) {
+                $errors[$fieldname][] = $teacheranswer->get_errors();
+            }
         }
 
         return $errors;

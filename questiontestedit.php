@@ -81,8 +81,16 @@ if ($testcase) {
     }
 
     foreach ($qtest->expectedresults as $prtname => $expected) {
-        $currentdata->{$prtname . 'score'}      = $expected->score + 0;  // Fix excessive DPs.
-        $currentdata->{$prtname . 'penalty'}    = $expected->penalty + 0;
+        if (is_null($expected->score)) {
+            $currentdata->{$prtname . 'score'}      = '';
+        } else {
+            $currentdata->{$prtname . 'score'}      = $expected->score + 0;  // Fix excessive DPs.
+        }
+        if (is_null($expected->penalty)) {
+            $currentdata->{$prtname . 'penalty'}      = '';
+        } else {
+            $currentdata->{$prtname . 'penalty'}      = $expected->penalty + 0;  // Fix excessive DPs.
+        }
         $currentdata->{$prtname . 'answernote'} = $expected->answernote[0];
     }
 

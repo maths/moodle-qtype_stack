@@ -290,7 +290,7 @@ foreach ($testresults as $key => $result) {
             $passedcol = get_string('testsuitepass', 'qtype_stack');
         } else {
             $prtstable->rowclasses[] = 'fail';
-            $passedcol = get_string('testsuitefail', 'qtype_stack');
+            $passedcol = get_string('testsuitefail', 'qtype_stack').$state->reason;
         }
 
         // Sort out excessive decimal places from the DB.

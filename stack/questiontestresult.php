@@ -129,9 +129,25 @@ class stack_question_test_result {
                 $state->feedback = '';
             }
 
-            $state->testoutcome = ($state->expectedscore == $state->score) &&
-                    ($state->expectedpenalty == $state->penalty) &&
-                    $this->test_answer_note($state->expectedanswernote, $actualresult->answernote);
+            $state->testoutcome = true;
+            $reason = array();
+            if (abs($state->expectedscore - $state->score) > 10E-6) {
+                $state->testoutcome = false;
+                $reason[] = get_string('score', 'qtype_stack');
+            }
+            if (abs($state->expectedpenalty - $state->penalty) > 10E-6) {
+                $state->testoutcome = false;
+                $reason[] = get_string('penalty', 'qtype_stack');
+            }
+            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->answernote)) {
+                $state->testoutcome = false;
+                $reason[] = get_string('answernote', 'qtype_stack');
+            }
+            if (empty($reason)) {
+                $state->reason = '';
+            } else {
+                $state->reason = ' ('.implode(', ', $reason).')';
+            }
 
             $states[$prtname] = $state;
         }
@@ -150,7 +166,7 @@ class stack_question_test_result {
         if ('NULL' == $expected) {
             return '' == trim($lastactual);
         }
-        return $lastactual == $expected;
+        return trim($lastactual) == trim($expected);
     }
 
     /**

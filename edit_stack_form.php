@@ -852,7 +852,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 }
             }
             foreach ($fromform[$prtname.$branch.'answernote'] as $key => $strin) {
-                if ('' == $strin) {
+                if ('' == trim($strin)) {
                     $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = get_string('answernoterequired', 'qtype_stack');
                 } else if (strstr($strin, '|') !== false) {
                     $nodename = $key+1;

@@ -123,7 +123,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-1';
-        $q->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (v-a)^(n+1)/(n+1)';
+        $q->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (v-a)^(n+1)/(n+1); ta1 : ta';
         $q->questiontext = 'Find
                             \[ \int @p@ d@v@\]
                             [[input:ans1]]

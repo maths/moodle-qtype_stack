@@ -352,8 +352,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // the teacher has defined question variables.   Otherwise when it is evaluated
         // in a PRT, the student's answer will take these values.   If the teacher defines
         // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
+
         $forbiddenkeys = $this->session->get_all_keys();
-        $teacheranswer = $this->session->get_casstring_key($name);
+        $teacheranswer = $this->session->get_value_key($name);
         $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $forbiddenkeys);
 

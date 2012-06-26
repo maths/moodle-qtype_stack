@@ -68,11 +68,12 @@ class stack_question_test_result {
     /**
      * Set the part of the results data that describes the state of one of the inputs.
      * @param string $inputname the input name.
+     * @param string $inputbalue the value of this input.
      * @param string $displayvalue the displayed version of the value that was input.
      * @param string $status one of the stack_input::STATUS_... constants.
      */
-    public function set_input_state($inputname, $invputvalue, $displayvalue, $status) {
-        $this->inputvalues[$inputname]    = $invputvalue;
+    public function set_input_state($inputname, $inputvalue, $displayvalue, $status) {
+        $this->inputvalues[$inputname]    = $inputvalue;
         $this->inputdisplayed[$inputname] = $displayvalue;
         $this->inputstatuses[$inputname]  = $status;
     }

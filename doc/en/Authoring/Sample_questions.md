@@ -33,6 +33,9 @@ In this question a student is asked to give examples of odd and even functions.
 
 This is a simple, single part integral question with randomization.
 
+## CR-... files ##
+
+These files contain sample questions from  the [Calculus Refresher](http://www.mathcentre.ac.uk/resources/exercisebooks/mathcentre/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 
 
 # Other sources of questions #

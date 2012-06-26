@@ -505,18 +505,13 @@ class stack_cas_casstring {
         }
 
         $found          = false;
-        $cmd            = $this->casstring;
         $strin_keywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
-        preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
+        preg_match_all($pat, $this->casstring, $out, PREG_PATTERN_ORDER);
 
         // Filter out some of these matches.
         foreach ($out[0] as $key) {
-            // Do we have only numbers, or only 2 characters?
-            // These strings are fine.
-            preg_match("|[0-9]+|", $key, $justnum);
-
-            if (empty($justnum) and strlen($key)>1) {
+            if (strlen($key)>1) {
                 $upkey = strtoupper($key);
                 array_push($strin_keywords, $upkey);
             }

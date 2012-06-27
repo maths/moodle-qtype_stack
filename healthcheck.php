@@ -91,7 +91,8 @@ MathJax.Hub.Config({
     MMLorHTML: { prefer: "HTML" },
     tex2jax: {
         displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
-        inlineMath:  [['$',  '$' ], ['\\\\(', '\\\\)']]
+        inlineMath:  [['$',  '$' ], ['\\\\(', '\\\\)']],
+        processEscapes: true
     }
 });
 </script>

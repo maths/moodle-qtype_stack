@@ -94,7 +94,7 @@ $string['generalfeedback_link'] = 'question/type/stack/doc/doc.php/Authoring/CAS
 $string['showvalidation'] = 'Show the validation';
 $string['showvalidation_help'] = 'Setting this option displays any validation feedback from this input, including echoing back their expression in traditional two dimensional notation.';
 $string['showvalidation_link'] = 'Show the validation';
-$string['illegalcaschars'] = 'The characters @ and <span class="tex2jax_ignore">$</span> are not allowed in CAS input.';
+$string['illegalcaschars'] = 'The characters @ and \$ are not allowed in CAS input.';
 $string['inputheading'] = 'Input: {$a}';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';

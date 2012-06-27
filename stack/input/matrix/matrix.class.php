@@ -30,22 +30,22 @@ class stack_matrix_input extends stack_input {
         );
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
-        //$cs =  new stack_cas_casstring('ta:matrix_size('.$this->teacheranswer.')');
-        $cs =  new stack_cas_casstring('ta:matrix_size('.$teacheranswer.')');
+        $cs =  new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
         $cs->validate('t');
         $at1 = new stack_cas_session(array($cs), null, 0);
         $at1->instantiate();
-        $ret = '';
         if ('' != $at1->get_errors()) {
-            $ret .= html_writer::tag('p', $at1->get_errors(), array('id' => 'error', 'class' => 'p'));
+            // If there are errors, don't try to display anything else.
+            return html_writer::tag('p', $at1->get_errors(), array('id' => 'error', 'class' => 'p'));
         }
+
         $size = $at1->get_value_key('ta');
         $dimensions = explode(',', $size);
 
         $height = trim($dimensions[0], '[]');
         $width = trim($dimensions[1], '[]');
 
-        //Build an empty array.
+        // Build an empty array.
         $firstrow = array_fill(0, $width, '');
         $tc       = array_fill(0, $height, $firstrow);
 
@@ -87,12 +87,7 @@ class stack_matrix_input extends stack_input {
         }
         $xhtml .= '</tbody></table>';
 
-        $ret .= $xhtml;
-
-        // These are inhereted from the algebraic class, but will be weeded out....
-        $attributes['value'] = $state->contents;
-        //$ret .= html_writer::empty_tag('input', $attributes);
-        return $ret;
+        return $xhtml;
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

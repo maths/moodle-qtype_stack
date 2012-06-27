@@ -41,4 +41,13 @@ class stack_matrix_input_test extends qtype_stack_testcase {
                 $el->render(new stack_input_state(stack_input::VALID, '', '', '', ''),
                         'ans1', false, 'matrix([1,2,3],[3,4,5])'));
     }
+
+    public function test_render_no_errors_if_garbled() {
+        // If the teacher does not know the right syntax for a matrix, we should
+        // not give PHP errors.
+        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $this->assertEquals('<p id="error" class="p"><span class="error">The CAS returned the following error(s):</span><span class="stacksyntaxexample">ta:matrix_size([[1,0],[0,1]])</span>caused the following error: The "\$first" argument of the function "\$matrix_size" must be a matrix </p>',
+                $el->render(new stack_input_state(stack_input::VALID, '', '', '', ''),
+                        'ans1', false, '[[1,0],[0,1]]'));
+    }
 }

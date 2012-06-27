@@ -328,10 +328,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function get_correct_response() {
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
-            $teacheranswer[$name] = $input->maxima_to_raw_input($this->session->get_casstring_key($name));
-            if ($input->requires_validation()) {
-                $teacheranswer[$name . '_val'] = $teacheranswer[$name];
-            }
+            $teacheranswer = array_merge($teacheranswer, $input->maxima_to_response_array($this->session->get_casstring_key($name)));
         }
 
         return $teacheranswer;

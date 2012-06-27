@@ -37,7 +37,7 @@ class stack_textarea_input extends stack_input {
         if ('' === trim($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
         } else {
-            $current = $state->contents;
+            $current = $this->maxima_to_raw_input($state->contents);
         }
 
         // Sort out size of text area.
@@ -69,21 +69,35 @@ class stack_textarea_input extends stack_input {
      * @return string
      * @access public
      */
-    public function raw_input_to_maxima($in) {
-        if (!trim($in)) {
-             return '';
+    public function raw_input_to_maxima($response) {
+
+        if (array_key_exists($this->name, $response)) {
+            $sans = $response[$this->name];
+        } else {
+            $sans = '';
         }
 
-        $rowsin = explode("\n", $in);
-        $rowsout = array();
-        foreach ($rowsin as $key => $row) {
-            $cleanrow = trim($row);
-            if ($cleanrow) {
-                $rowsout[] = $cleanrow;
+        if (array_key_exists($this->name . '_val', $response)) {
+            $validator = $response[$this->name . '_val'];
+        } else {
+            $validator = '';
+        }
+
+        if (!trim($sans)) {
+             $transformedans = '';
+        } else {
+            $rowsin = explode("\n", $sans);
+            $rowsout = array();
+            foreach ($rowsin as $key => $row) {
+                $cleanrow = trim($row);
+                if ($cleanrow) {
+                    $rowsout[] = $cleanrow;
+                }
             }
+            $transformedans = '[' . implode(',', $rowsout) . ']';
         }
 
-        return '[' . implode(',', $rowsout) . ']';
+        return array($transformedans, $validator);
     }
 
     /**
@@ -93,10 +107,26 @@ class stack_textarea_input extends stack_input {
      * @return string
      * @access public
      */
-    public function maxima_to_raw_input($in) {
+    private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
         $out = implode("\n", $values);
         return $out;
+    }
+
+    /**
+     * Transforms a Maxima expression into an array of raw inputs which are part of a response.
+     * Most inputs are very simple, but textarea and matrix need more here.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function maxima_to_response_array($in) {
+        $response[$this->name] = $this->maxima_to_raw_input($in);
+        if ($this->requires_validation()) {
+            $response[$this->name . '_val'] = $in;
+        }
+        return $response;
+        
     }
 
     /**

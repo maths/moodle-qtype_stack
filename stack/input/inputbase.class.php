@@ -103,8 +103,8 @@ abstract class stack_input {
     }
 
     /**
-     * This method gives the input element a change to adapt itself given the
-     * value of the teachers model answer for this variant of the question.
+     * This method gives the input element a chance to adapt itself given the
+     * value of the teacher's model answer for this variant of the question.
      * For example, the matrix question type uses this to work out how many
      * rows and columns it should have.
      * @param string $teacheranswer the teacher's model answer for this input.
@@ -258,24 +258,14 @@ abstract class stack_input {
         }
         $localoptions = clone $options;
 
-        if (array_key_exists($this->name, $response)) {
-            $sans = $response[$this->name];
-        } else {
-            $sans = '';
-        }
+        //print_r($response);
 
-        if (array_key_exists($this->name . '_val', $response)) {
-            $validator = $response[$this->name . '_val'];
-        } else {
-            $validator = '';
-        }
-
-        if ('' === $sans or false === $sans) {
+        list($contents, $validator) = $this->raw_input_to_maxima($response);
+        if ('' === $contents or false === $contents) {
             return new stack_input_state(self::BLANK, '', '', '', '');
         }
-        $transformedanswer = $this->raw_input_to_maxima($sans);
-
-        $answer = new stack_cas_casstring($transformedanswer);
+        
+        $answer = new stack_cas_casstring($contents);
         $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
 
         // Ensure student hasn't used a variable name used by the teacher.
@@ -291,7 +281,7 @@ abstract class stack_input {
         $valid = $answer->get_valid();
         $errors = $answer->get_errors();
         // If we can't get a "displayed value" back from the CAS, show the student their original expression.
-        $display = stack_maxima_format_casstring($sans);
+        $display = stack_maxima_format_casstring($contents);
         $interpretedanswer = $answer->get_casstring();
 
         // Send the string to the CAS.
@@ -322,19 +312,19 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-        if (!(strpos($transformedanswer, '?') === false)) {
+        if (!(strpos($contents, '?') === false)) {
             $valid = false;
             $errors .= stack_string('qm_error');
         }
 
         if (!$valid) {
             $status = self::INVALID;
-        } else if ($this->get_parameter('mustVerify', true) && $validator != $sans) {
+        } else if ($this->get_parameter('mustVerify', true) && $validator != $contents) {
             $status = self::VALID;
         } else {
             $status = self::SCORE;
         }
-        return new stack_input_state($status, $sans, $interpretedanswer, $display, $errors);
+        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors);
     }
 
     public function requires_validation() {
@@ -402,19 +392,36 @@ abstract class stack_input {
      * @param array|string $in
      * @return string
      */
-    protected function raw_input_to_maxima($in) {
-        return $in;
+    protected function raw_input_to_maxima($response) {
+
+        if (array_key_exists($this->name, $response)) {
+            $sans = $response[$this->name];
+        } else {
+            $sans = '';
+        }
+
+        if (array_key_exists($this->name . '_val', $response)) {
+            $validator = $response[$this->name . '_val'];
+        } else {
+            $validator = '';
+        }
+        
+        return array($sans, $validator);
     }
 
     /**
-     * Transforms a Maxima expression into a raw input which is placed in the html form.
-     * Most return the same as went in.
+     * Transforms a Maxima expression into an array of raw inputs which are part of a response.
+     * Most inputs are very simple, but textarea and matrix need more here.
      *
      * @param array|string $in
      * @return string
      */
-    public function maxima_to_raw_input($in) {
-        return $in;
+    public function maxima_to_response_array($in) {
+        $response[$this->name] = $in;
+        if ($this->requires_validation()) {
+            $response[$this->name . '_val'] = $in;
+        }
+        return $response;
     }
 
 }

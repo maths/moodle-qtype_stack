@@ -124,11 +124,8 @@ class stack_question_test {
 
         $response = array();
         foreach ($inputs as $name => $notused) {
-            $value = $question->inputs[$name]->maxima_to_raw_input($cascontext->get_value_key('testresponse_' . $name));
-            $response[$name] = $value;
-            $response[$name . '_val'] = $value;
+            $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($cascontext->get_value_key('testresponse_' . $name)));
         }
-
         return $response;
     }
 

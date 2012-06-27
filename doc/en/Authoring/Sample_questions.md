@@ -20,6 +20,10 @@ A rectangle has length 6cm greater than its width. If it has an area of 27cm$^2$
 
 This is a multi-part question which illustrates _follow-through marking_.  Get the first part wrong, but the second part correct based on the first part to see the feedback.
 
+### `test_3_matrix.xml` ###
+
+This question creates two random matrices and asks students to multiply them together.  See the notes on [matrices](../CAS/Matrix.md).
+
 ### `railways.xml` ###
 
 In a railway journey of 90km an increase of 5 kilometers per hour in the speed decreases the time taken by 15 minutes.

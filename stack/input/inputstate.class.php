@@ -39,12 +39,12 @@ class stack_input_state {
     protected $_status;
 
     /**
-     * @var string the current contents of this input as a correct Maxima string.  This may have been built up from many form box input elements.
+     * @var string the current contents of this input as a RAW Maxima string.  This may have been built up from many form box input elements.
      */
     protected $_contents;
 
     /**
-     * @var string how STACK/Maxima interpreted the current contents of the input.  E.g., we might add *s to the $_contents
+     * @var string how STACK/Maxima interpreted the current contents of the input.  E.g., we might add *s to the $_contents.
      */
     protected $_contentsmodified;
 

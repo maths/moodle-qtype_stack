@@ -37,7 +37,7 @@ class stack_textarea_input_test extends basic_testcase {
 
     public function test_raw_input_to_maxima_1() {
         $el = stack_input_factory::make('textArea', 'test', null);
-        $this->assertEquals(array("[x^2,x^3]", ''), $el->raw_input_to_maxima(array('test' => "x^2\nx^3")));
+        $this->assertEquals("[x^2,x^3]", $el->raw_input_to_maxima(array('test' => "x^2\nx^3")));
     }
 
     public function test_render_blank() {

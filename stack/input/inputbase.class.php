@@ -260,11 +260,18 @@ abstract class stack_input {
 
         //print_r($response);
 
-        list($contents, $validator) = $this->raw_input_to_maxima($response);
+        $contents = $this->raw_input_to_maxima($response);
         if ('' === $contents or false === $contents) {
             return new stack_input_state(self::BLANK, '', '', '', '');
         }
-        
+
+        // The validation field should always come back through as a single RAW Maxima expression for each input.
+        if (array_key_exists($this->name . '_val', $response)) {
+            $validator = $response[$this->name . '_val'];
+        } else {
+            $validator = '';
+        }
+
         $answer = new stack_cas_casstring($contents);
         $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
 
@@ -400,13 +407,7 @@ abstract class stack_input {
             $sans = '';
         }
 
-        if (array_key_exists($this->name . '_val', $response)) {
-            $validator = $response[$this->name . '_val'];
-        } else {
-            $validator = '';
-        }
-        
-        return array($sans, $validator);
+        return $sans;
     }
 
     /**

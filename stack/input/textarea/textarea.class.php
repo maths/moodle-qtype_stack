@@ -63,7 +63,7 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
-     * Converts the inputs passed in into a textarea into a Maxima list
+     * Converts the input passed in into a textarea into a Maxima list
      *
      * @param string $in
      * @return string
@@ -71,21 +71,9 @@ class stack_textarea_input extends stack_input {
      */
     public function raw_input_to_maxima($response) {
 
+        $transformedans = '';
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
-        } else {
-            $sans = '';
-        }
-
-        if (array_key_exists($this->name . '_val', $response)) {
-            $validator = $response[$this->name . '_val'];
-        } else {
-            $validator = '';
-        }
-
-        if (!trim($sans)) {
-             $transformedans = '';
-        } else {
             $rowsin = explode("\n", $sans);
             $rowsout = array();
             foreach ($rowsin as $key => $row) {
@@ -97,7 +85,7 @@ class stack_textarea_input extends stack_input {
             $transformedans = '[' . implode(',', $rowsout) . ']';
         }
 
-        return array($transformedans, $validator);
+        return $transformedans;
     }
 
     /**

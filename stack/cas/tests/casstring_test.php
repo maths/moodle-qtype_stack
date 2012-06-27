@@ -54,6 +54,9 @@ class stack_cas_casstring_test extends basic_testcase {
             array('(y^2+1))', false, false),
             array('[sin(x)+1)', false, false),
             array('([y^2+1)]', false, false),
+            array('setelmx(2,1,1,C)', false, true), // Function which does not appears on the teacher's list
+            array('2*reallytotalnonsensefunction(x)', false, true),
+            array('system(rm *)', false, false), // This should never occur.
         );
 
         foreach ($cases as $case) {
@@ -81,6 +84,33 @@ class stack_cas_casstring_test extends basic_testcase {
         foreach ($cases as $case) {
             $this->get_key($case[0], $case[1], $case[2]);
         }
+    }
+
+    public function test_global_forbidden_words() {
+
+        $s = 'system(rm *)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">SYSTEM</span> is forbidden.',
+                $at1->get_errors());
+
+        $at2 = new stack_cas_casstring($s);
+        $this->assertFalse($at2->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">SYSTEM</span> is forbidden.',
+                $at2->get_errors());
+    }
+
+    public function test_teacher_only_words() {
+    
+        $s = 'setelmx(2,1,1,C)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('Unknown function: <span class="stacksyntaxexample">SETELMX</span>.',
+                $at1->get_errors());
+    
+        $at2 = new stack_cas_casstring($s);
+        $this->assertTrue($at2->get_valid('t'));
+        $this->assertEquals('', $at2->get_errors());
     }
 
     public function test_check_external_forbidden_words() {

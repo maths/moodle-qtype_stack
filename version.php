@@ -31,7 +31,7 @@ $plugin->component = 'qtype_stack';
 $plugin->maturity  = MATURITY_ALPHA;
 
 $plugin->dependencies = array(
-    'qbehaviour_adaptivemultipart'     => 2012051800,
+    'qbehaviour_adaptivemultipart'     => 2012062700,
     'qbehaviour_dfexplicitvaildate'    => 2012051600,
     'qbehaviour_dfcbmexplicitvaildate' => 2012051600,
 );

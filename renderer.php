@@ -59,7 +59,7 @@ class qtype_stack_renderer extends qtype_renderer {
             if ($options->feedback) {
                 $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
                 if (!is_null($result['valid'])) {
-                    $feedback = $this->prt_feedback($index, $qa, $question, $result);
+                    $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
                 }
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
@@ -116,7 +116,22 @@ class qtype_stack_renderer extends qtype_renderer {
                 array('class' => 'questiontestslink'));
     }
 
-    protected function specific_feedback(question_attempt $qa) {
+    public function feedback(question_attempt $qa, question_display_options $options) {
+        return $this->stack_specific_feedback($qa, $options) . parent::feedback($qa, $options);
+    }
+
+    /**
+     * Generate the specific feedback. This has to be a stack-specific method
+     * since the standard specific_feedback method does not get given $options.
+     * @param question_attempt $qa the question attempt to display.
+     * @param question_display_options $options controls what should and should not be displayed.
+     * @return string HTML fragment.
+     */
+    protected function stack_specific_feedback(question_attempt $qa, question_display_options $options) {
+        if (!$options->feedback) {
+            return '';
+        }
+
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
         $feedbacktext = $qa->get_last_qt_var('_feedback');
@@ -130,7 +145,7 @@ class qtype_stack_renderer extends qtype_renderer {
             $feedback = '';
             $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
             if (!is_null($result['valid'])) {
-                $feedback = $this->prt_feedback($index, $qa, $question, $result);
+                $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
             }
             $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
         }
@@ -150,18 +165,28 @@ class qtype_stack_renderer extends qtype_renderer {
 
     /**
      * @param string $feedback the raw feedback message from the PRT.
-     * @return string Nicely formatted feedback, for display.
+     * @return string nicely formatted feedback, for display.
      */
-    protected function prt_feedback($name, $qa, $question, $result) {
+    protected function prt_feedback($name, question_attempt $qa,
+            question_definition $question, $result, question_display_options $options) {
         $err = '';
         if (array_key_exists('errors', $result)) {
             $err = $result['errors'];
         }
 
+        $gradingdetails = '';
+        if ($qa->get_behaviour_name() == 'adaptivemultipart') {
+            // This is rather a hack, but it will probably work.
+            $renderer = $this->page->get_renderer('qbehaviour_adaptivemultipart');
+            $gradingdetails = $renderer->render_adaptive_marks(
+                    $qa->get_behaviour()->get_part_mark_details($name), $options);
+        }
+
         // TODO if $result['feedback'] contains images from node feedback, then they don't work.
 
         return html_writer::nonempty_tag('div',
-                $this->standard_prt_feedback($qa, $question, $result) . $err . $result['feedback'],
+                $this->standard_prt_feedback($qa, $question, $result) .
+                $err . $result['feedback'] . $gradingdetails,
                 array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
     }
 

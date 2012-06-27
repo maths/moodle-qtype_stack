@@ -54,13 +54,12 @@ At this point STACK will be "ready" for use with students, although not all feat
  3. **DONE** Deferred feedback with CBM
  4. **DONE** Immediate feedback
  5. **DONE** Immediate feedback with CBM - no unit tests, but if the others work, this one must.
-3. Add sample_questions, and update question banks for STACK 3.0.
-4. **DONE** Improve the way questions are deployed.
+3. **DONE**  Add sample_questions, and update question banks for STACK 3.0. 
+4. **DONE** Improve the way questions are deployed. 
  1. **DONE** Only deploy new versions.
 5. **DONE** Editing form: a way to remove a given PRT node.
 6. **DONE** Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
 7. Add back Matrix input type. (currently only need to deal with naming of fields, and add tests)
-8. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
 9. In adaptive mode, display the scoring information for each PRT when it has been evaluated.
 
 Once completed we are ready for the **Beta release!**

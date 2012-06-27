@@ -5,6 +5,8 @@ The following features are in approximate priority order.  How to report bugs an
 
 ## Minor features to add immediately on completion of 3.0 ##
 
+* Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
+* Add back all questions from the diagnostic quiz project as further examples.
 * Introduce a variable so the maxima code "knows the attempt number".
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto)
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.

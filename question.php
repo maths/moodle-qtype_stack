@@ -260,6 +260,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Finally, store only those values really needed for later.
         $session->prune_session($session_length);
         $this->session = $session;
+
+        // Allow inputs to update themselves based on the model answers.
+        $this->adapt_inputs();
     }
 
     public function apply_attempt_state(question_attempt_step $step) {
@@ -267,6 +270,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $questionvars = new stack_cas_keyval($step->get_qt_var('_questionvars'), $this->options, $this->seed, 't');
         $this->session = $questionvars->get_session();
         $this->questionnoteinstantiated = $step->get_qt_var('_questionnote');
+        $this->adapt_inputs();
+    }
+
+    /**
+     * Give all the input elements a chance to configure themselves given the
+     * teacher's model answers.
+     */
+    protected function adapt_inputs() {
+        foreach ($this->inputs as $name => $input) {
+            $teacheranswer = $this->session->get_value_key($name);
+            $input->adapt_to_model_answer($teacheranswer);
+        }
     }
 
     public function format_generalfeedback($qa) {
@@ -286,11 +301,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function get_expected_data() {
         $expected = array();
-        foreach ($this->inputs as $name => $input) {
-            $expected[$name] = PARAM_RAW;
-            if ($input->requires_validation()) {
-                $expected[$name . '_val'] = PARAM_RAW;
-            }
+        foreach ($this->inputs as $input) {
+            $expected += $input->get_expected_data();
         }
         return $expected;
     }

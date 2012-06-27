@@ -103,6 +103,17 @@ abstract class stack_input {
     }
 
     /**
+     * This method gives the input element a change to adapt itself given the
+     * value of the teachers model answer for this variant of the question.
+     * For example, the matrix question type uses this to work out how many
+     * rows and columns it should have.
+     * @param string $teacheranswer the teacher's model answer for this input.
+     */
+    public function adapt_to_model_answer($teacheranswer) {
+        // By default, do nothing.
+    }
+
+    /**
      * @param string $param a settings parameter name.
      * @return bool whether this input type uses this parameter.
      */
@@ -208,6 +219,20 @@ abstract class stack_input {
      */
     public static function get_parameters_defaults() {
         return array();
+    }
+
+    /**
+     * Get the input variable that this input expects to process.
+     * All the variable names should start with $this->name.
+     * @return array string input name => PARAM_... type constant.
+     */
+    public function get_expected_data() {
+        $expected = array();
+        $expected[$this->name] = PARAM_RAW;
+        if ($this->requires_validation()) {
+            $expected[$this->name . '_val'] = PARAM_RAW;
+        }
+        return $expected;
     }
 
     /**
@@ -322,10 +347,9 @@ abstract class stack_input {
      * @param string student's current answer to insert into the xhtml.
      * @param string $fieldname the field name to use in the HTML for this input.
      * @param bool $readonly whether the contro should be displayed read-only.
-     * @param string the value of the teacher's answer, post randomization.  This is needed, e.g. to automatically size the matrix elements.
      * @return string HTML for this input.
      */
-    public abstract function render(stack_input_state $state, $fieldname, $readonly, $teachersanswer);
+    public abstract function render(stack_input_state $state, $fieldname, $readonly);
 
     /**
      * Add this input the MoodleForm, but only used in questiontestform.php.

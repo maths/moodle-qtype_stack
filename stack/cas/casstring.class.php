@@ -244,6 +244,13 @@ class stack_cas_casstring {
             return false;
         }
 
+        // CAS strings may not contain @ or $.
+        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
+            $this->add_error(get_string('illegalcaschars', 'qtype_stack'));
+            $this->valid = false;
+            return false;
+        }
+
         // If student, check for spaces between letters or numbers in expressions.
         if ($security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";

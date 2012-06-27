@@ -57,6 +57,8 @@ class stack_cas_casstring_test extends basic_testcase {
             array('setelmx(2,1,1,C)', false, true), // Function which does not appears on the teacher's list
             array('2*reallytotalnonsensefunction(x)', false, true),
             array('system(rm *)', false, false), // This should never occur.
+            array('$', false, false),
+            array('@', false, false),
         );
 
         foreach ($cases as $case) {

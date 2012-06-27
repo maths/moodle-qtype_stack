@@ -977,13 +977,10 @@ class qtype_stack_edit_form extends question_edit_form {
         } else if (strlen($value) > $maxlength) {
             $errors[$fieldname][] = get_string('strlengtherror', 'qtype_stack');
 
-        } else if (strpos($value, '@') !== false || strpos($value, '$') !== false) {
-            $errors[$fieldname][] = get_string('illegalcaschars', 'qtype_stack');
-
         } else {
             $casstring = new stack_cas_casstring($value);
             if (!$casstring->get_valid('t')) {
-                $errors[$fieldname][] = $teacheranswer->get_errors();
+                $errors[$fieldname][] = $casstring->get_errors();
             }
         }
 
@@ -1003,11 +1000,6 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function validate_cas_keyval($errors, $value, $fieldname) {
         if ('' == trim($value)) {
-            return $errors;
-        }
-
-        if (strpos($value, '@') !== false || strpos($value, '$') !== false) {
-            $errors[$fieldname][] = get_string('illegalcaschars', 'qtype_stack');
             return $errors;
         }
 

@@ -27,12 +27,12 @@ require_once(dirname(__FILE__) . '/../keyval.class.php');
 class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function get_valid($s, $val, $session) {
-        $at1 = new stack_cas_keyval($s, null, 123, 's', true, false);
-        $at1->instantiate();
-        $this->assertEquals($val, $at1->get_valid());
+        $kv = new stack_cas_keyval($s, null, 123, 's', true, false);
+        $kv->instantiate();
+        $this->assertEquals($val, $kv->get_valid());
 
-        $atsession = $at1->get_session();
-        $this->assertEquals($session->get_session(), $atsession->get_session());
+        $kvsession = $kv->get_session();
+        $this->assertEquals($session->get_session(), $kvsession->get_session());
     }
 
     public function test_get_valid() {
@@ -64,13 +64,16 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $cs3 = new stack_cas_session($s3, null, 123);
         $cs3->instantiate();
 
+        $cs4 = new stack_cas_session(null, null, 123);
+
         $cases = array(
                 array('', true, $cs0),
                 array("a:x^2 \n b:(x+1)^2", true, $cs1),
                 array("a:x^2; b:(x+1)^2", true, $cs1),
                 array('a:x^2); b:(x+1)^2', false, $cs2),
-                array('a:1/0', true, $cs3)
-            );
+                array('@', false, $cs4),
+                array('$', false, $cs4),
+        );
 
         foreach ($cases as $case) {
             $this->get_valid($case[0], $case[1], $case[2]);

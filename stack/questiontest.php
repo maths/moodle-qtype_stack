@@ -74,13 +74,19 @@ class stack_question_test {
         $quba->start_question($slot, $seed);
 
         $response = self::compute_response($question, $this->inputs);
-
         $quba->process_action($slot, $response);
 
         $results = new stack_question_test_result($this);
         foreach ($this->inputs as $inputname => $notused) {
             $inputstate = $question->get_input_state($inputname, $response);
-            $results->set_input_state($inputname, $response[$inputname],
+            // The _val below is a hack.  Not all inputnames exist explicitly in the response, but the _val does.
+            // Some inputs, e.g. matrices have many entries in the response so none match $response[$inputname]
+            if (array_key_exists($inputname, $response)) {
+                $inputresponse = $response[$inputname];
+            } else {
+                $inputresponse = $response[$inputname.'_val'];
+            }
+            $results->set_input_state($inputname, $inputresponse,
                     $inputstate->contentsdisplayed, $inputstate->status);
         }
 

@@ -203,7 +203,7 @@ class stack_utils {
     }
 
     /**
-     * Gets the the first sub-string between two specified delimiters from within
+     * Gets the first sub-string between two specified delimiters from within
      * a larger string.
      *
      * @param string $string the string to analyse.

@@ -258,8 +258,6 @@ abstract class stack_input {
         }
         $localoptions = clone $options;
 
-        //print_r($response);
-
         $contents = $this->raw_input_to_maxima($response);
         if ('' === $contents or false === $contents) {
             return new stack_input_state(self::BLANK, '', '', '', '');

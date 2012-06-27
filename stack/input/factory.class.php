@@ -55,7 +55,7 @@ class stack_input_factory {
     }
 
     /**
-     * The the class name corresponding to an input type.
+     * The class name corresponding to an input type.
      * @param string $type input type name.
      * @return string corresponding class name.
      */

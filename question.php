@@ -225,7 +225,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // 3. CAS bits inside the question text.
         $questiontext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
         if ($questiontext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error in the the question text: ' .
+            throw new stack_exception('qtype_stack_question : Error in the question text: ' .
                     $questiontext->get_errors());
         }
 
@@ -319,7 +319,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->inputs as $name => $notused) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::BLANK != $state->status) {
-                $bits[] = $name . ': ' . $response[$name] . ' [' . $state->status . ']';
+                $bits[] = $name . ': ' . $state->contents . ' [' . $state->status . ']';
             }
         }
         return implode('; ', $bits);

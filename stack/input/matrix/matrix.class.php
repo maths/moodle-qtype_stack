@@ -64,6 +64,68 @@ class stack_matrix_input extends stack_input {
         return $expected;
     }
 
+    /**
+     * Converts the input passed in via many input elements into a raw Maxima matrix
+     *
+     * @param string $in
+     * @return string
+     * @access public
+     */
+    public function raw_input_to_maxima($response) {
+
+        // At the start of an attempt we will have a completely blank matrix.
+        // This must be spotted and a blank attempt returned.
+        $allblank = true;
+
+        $column = array();
+        for ($i = 0; $i < $this->height; $i++)  {
+            $row = array();
+            for ($j = 0; $j < $this->width; $j++) {
+                $element = '';
+                if (array_key_exists($this->name . '_sub_' . $i . '_' . $j, $response)) {
+                    $element = trim($response[$this->name . '_sub_' . $i . '_' . $j]);
+                }
+                if ('' == $element) {
+                    $element = '?';  // Ensures all matrix elements have something non-empty.
+                } else {
+                    $allblank = false; 
+                }
+                $row[] = $element;
+            }
+            $column[] = '['.implode(',', $row).']';
+        }
+        $matrix = 'matrix('.implode(',', $column).')';
+
+        if ($allblank) {
+            $matrix = '';
+        }
+        return $matrix;
+    }
+
+    /**
+     * Takes a Maxima matrix object and returns an array of values.
+     * @return array 
+     */
+    private function maxima_to_array($in) {
+
+        // Build an empty array.
+        $firstrow = array_fill(0, $this->width, '');
+        $tc       = array_fill(0, $this->height, $firstrow);
+        // Turn the student's answer into a PHP array.
+        $t = trim($in);
+        if ('matrix(' == substr($t, 0, 7)) {
+            $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
+            for($i=0; $i < count($rows); $i++) {
+                $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
+                $tc[$i] = $row;
+            }
+        } else if ('' != $t) {
+            //throw new stack_exception('stack_matrix_input: Error in rendering.  We require a "matrix" but got '.$t);
+        }
+
+        return $tc;
+    }
+
     public function render(stack_input_state $state, $fieldname, $readonly) {
         $attributes = array(
             'type' => 'text',
@@ -75,19 +137,7 @@ class stack_matrix_input extends stack_input {
             return html_writer::tag('p', $this->errors, array('id' => 'error', 'class' => 'p'));
         }
 
-        // Build an empty array.
-        $firstrow = array_fill(0, $this->width, '');
-        $tc       = array_fill(0, $this->height, $firstrow);
-
-        // Turn the student's answer into a PHP array.
-        if ('' != $state->contents) {
-            $t = trim($state->contents);
-            $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
-            for($i=0; $i < count($rows); $i++) {
-                $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
-                $tc[$i] = $row;
-            }
-        }
+        $tc = $this->maxima_to_array($state->contents);
 
         // Build the html table to contain these values.
         $xhtml = '<table class="matrixtable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody>';
@@ -102,8 +152,12 @@ class stack_matrix_input extends stack_input {
             }
 
             for ($j=0; $j < $this->width; $j++) {
+                $val = trim($tc[$i][$j]);
+                if ('?' == $val) {
+                    $val = '';
+                }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$tc[$i][$j].'" size="'.$this->parameters['boxWidth'].'" ></td>';
+                $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.$this->parameters['boxWidth'].'" ></td>';
             }
 
             if ($i == 0) {
@@ -118,6 +172,34 @@ class stack_matrix_input extends stack_input {
         $xhtml .= '</tbody></table>';
 
         return $xhtml;
+    }
+
+    /**
+     * Transforms a Maxima expression into an array of raw inputs which are part of a response.
+     * Most inputs are very simple, but textarea and matrix need more here.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function maxima_to_response_array($in) {
+
+        $tc = $this->maxima_to_array($in);
+
+        for ($i=0; $i < $this->height; $i++)  {
+            for ($j=0; $j < $this->width; $j++) {
+                $val = trim($tc[$i][$j]);
+                if ('?' == $val) {
+                    $val = '';
+                }
+                $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
+            }
+        }
+
+        if ($this->requires_validation()) {
+            $response[$this->name . '_val'] = $in;
+        }
+        return $response;
+    
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -176,7 +258,7 @@ class stack_matrix_input extends stack_input {
     * @return array with the parsed elements, if no elements then array
     *         contains only the input string
     */
-    private function modinput_tokenizer($in) {
+    public function modinput_tokenizer($in) {
         $bracecount = 0;
         $parenthesiscount = 0;
         $bracketcount = 0;

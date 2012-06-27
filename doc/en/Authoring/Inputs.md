@@ -65,9 +65,11 @@ Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxi
 
 #### Matrix ####
 
-(_Not currently re-implemented in STACK 3.0_)  The size of the matrix is inferred from the model answer.
+The size of the matrix is inferred from the model answer.
 STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in.
 This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but does give the game away about the size of the required matrix.
+
+_The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
 #### Slider ####
 

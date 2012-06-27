@@ -60,7 +60,7 @@ At this point STACK will be "ready" for use with students, although not all feat
 5. **DONE** Editing form: a way to remove a given PRT node.
 6. **DONE** Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
 7. Add back Matrix input type. (currently only need to deal with naming of fields, and add tests)
-9. In adaptive mode, display the scoring information for each PRT when it has been evaluated.
+9. **DONE** In adaptive mode, display the scoring information for each PRT when it has been evaluated.
 
 Once completed we are ready for the **Beta release!**
 
@@ -96,10 +96,13 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 5. Dropdown input should make sure that only allowed values are submitted. (There is a TODO in the code for this.)
 6. Dropdown input element needs some unit tests. (There is a TODO in the code for this.)
 7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TODO in the code for this.)
+8. Un-comment the throw in the matrix input.
+9. Unit tests for adative mode score display - and to verify nothing like that appears for other behaviours.
 
 ### Optimising Maxima
 
 1. Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
+2. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
 
 ### Documentation system
 

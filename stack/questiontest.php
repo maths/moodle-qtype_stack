@@ -87,7 +87,7 @@ class stack_question_test {
                 $inputresponse = $response[$inputname.'_val'];
             }
             $results->set_input_state($inputname, $inputresponse,
-                    $inputstate->contentsdisplayed, $inputstate->status);
+                    $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
         }
 
         foreach ($this->expectedresults as $prtname => $expectedresult) {

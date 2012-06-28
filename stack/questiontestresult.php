@@ -47,6 +47,11 @@ class stack_question_test_result {
      */
      public $inputdisplayed;
 
+    /**
+     * @var array input name => any errors created by invalid input.
+     */
+     public $inputerrors;
+ 
      /**
       * @var array input name => the input statues. One of the stack_input::STATUS_... constants.
       */
@@ -72,10 +77,11 @@ class stack_question_test_result {
      * @param string $displayvalue the displayed version of the value that was input.
      * @param string $status one of the stack_input::STATUS_... constants.
      */
-    public function set_input_state($inputname, $inputvalue, $displayvalue, $status) {
+    public function set_input_state($inputname, $inputvalue, $displayvalue, $status, $error) {
         $this->inputvalues[$inputname]    = $inputvalue;
         $this->inputdisplayed[$inputname] = $displayvalue;
         $this->inputstatuses[$inputname]  = $status;
+        $this->inputerrors[$inputname]    = $error;
     }
 
     public function set_prt_result($prtname, stack_potentialresponse_tree_state $actualresult) {
@@ -94,6 +100,7 @@ class stack_question_test_result {
             $state->input = $inputvalue;
             $state->display = $this->inputdisplayed[$inputname];
             $state->status = $this->inputstatuses[$inputname];
+            $state->errors = $this->inputerrors[$inputname];
             $states[$inputname] = $state;
         }
 

@@ -250,6 +250,7 @@ foreach ($testresults as $key => $result) {
         get_string('inputentered', 'qtype_stack'),
         get_string('inputdisplayed', 'qtype_stack'),
         get_string('inputstatus', 'qtype_stack'),
+        get_string('errors', 'qtype_stack'),
     );
     $inputstable->attributes['class'] = 'generaltable stacktestsuite';
 
@@ -264,6 +265,7 @@ foreach ($testresults as $key => $result) {
             $inputval,
             $inputstate->display,
             get_string('inputstatusname' . $inputstate->status, 'qtype_stack'),
+            $inputstate->errors,
         );
     }
 

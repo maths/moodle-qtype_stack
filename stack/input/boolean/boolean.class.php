@@ -40,6 +40,13 @@ class stack_boolean_input extends stack_input {
         );
     }
 
+    protected function extra_validation($contents) {
+        if (!array_key_exists($contents, $this->get_choices())) {
+            return get_string('booleangotunrecognisedvalue', 'qtype_stack');
+        }
+        return '';
+    }
+
     public function render(stack_input_state $state, $fieldname, $readonly) {
 
         $attributes = array();

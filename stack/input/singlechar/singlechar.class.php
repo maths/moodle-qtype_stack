@@ -43,6 +43,13 @@ class stack_singlechar_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    protected function extra_validation($contents) {
+        if (strlen($contents) > 1) {
+            return get_string('singlechargotmorethanone', 'qtype_stack');
+        }
+        return '';
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => 1, 'maxlength' => 1));
     }

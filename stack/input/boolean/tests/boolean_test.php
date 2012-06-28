@@ -104,4 +104,11 @@ class stack_boolean_input_validation_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array(), $options, 'true', null);
         $this->assertEquals(stack_input::BLANK, $state->status);
     }
+
+    public function test_validate_student_response_error() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('boolean', 'sans1', 'true');
+        $state = $el->validate_student_response(array('sans1' => 'frog'), $options, 'true', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+    }
 }

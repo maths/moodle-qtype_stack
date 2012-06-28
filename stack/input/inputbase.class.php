@@ -270,6 +270,11 @@ abstract class stack_input {
             $validator = '';
         }
 
+        // A chance for element-specific validation
+        $errors = $this->extra_validation($contents);
+        $valid = !$errors;
+
+        // Now validate the input as CAS code.
         $answer = new stack_cas_casstring($contents);
         $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
 
@@ -283,8 +288,8 @@ abstract class stack_input {
             $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
         }
 
-        $valid = $answer->get_valid();
-        $errors = $answer->get_errors();
+        $valid = $valid && $answer->get_valid();
+        $errors .= $answer->get_errors();
         // If we can't get a "displayed value" back from the CAS, show the student their original expression.
         $display = stack_maxima_format_casstring($contents);
         $interpretedanswer = $answer->get_casstring();
@@ -330,6 +335,21 @@ abstract class stack_input {
             $status = self::SCORE;
         }
         return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors);
+    }
+
+    /**
+     * Do any additional validation on the student's input.
+     * For example singlechar checks that there is only one charater, and drop
+     * down tests that the value is in the list.
+     *
+     * This method is only called in the input is not blank, so you can assume that.
+     *
+     * @param unknown_type $contents the student's input as maxima code.
+     * @return string any error messages describing validation failures. An empty
+     *      string if the input is valid - at least according to this test.
+     */
+    protected function extra_validation($contents) {
+        return '';
     }
 
     public function requires_validation() {

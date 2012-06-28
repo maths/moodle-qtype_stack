@@ -74,7 +74,7 @@ $columns = array(
     'error'         => stack_string('testsuitecolerror'),
     'rawmark'       => stack_string('testsuitecolrawmark'),
     'expectedscore' => stack_string('testsuitecolexpectedscore'),
-    'feedback'      => stack_string('feedback'),
+    'feedback'      => stack_string('testsuitefeedback'),
     'answernote'    => stack_string('answernote'),
 );
 if ($anstest !== 'ALL') {

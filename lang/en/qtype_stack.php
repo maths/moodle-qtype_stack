@@ -342,6 +342,7 @@ $string['testsuitecolpassed'] = 'Passed?';
 $string['studentanswer'] = 'Student response';
 $string['teacheranswer'] = 'Teacher answer';
 $string['options'] = 'Options';
+$string['testsuitefeedback'] = 'Feedback';
 $string['testsuitecolerror'] = 'CAS errors';
 $string['testsuitecolrawmark'] = 'Raw mark';
 $string['testsuitecolexpectedscore'] = 'Expected mark';

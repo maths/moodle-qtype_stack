@@ -59,6 +59,26 @@ class qtype_stack_edit_form extends question_edit_form {
     protected $specificfeedback = null;
 
     /**
+     * @var array field name => stack_cas_session used during validation. As the
+     * various form fields are validated, if they contain Maxima code, then it is
+     * added to this array, so it can later be evalutated.
+     */
+    protected $validationcassessions;
+
+    /**
+     * @var array field name => stack_cas_string used during validation. As the
+     * various form fields are validated, if they contain Maxima code, then it is
+     * added to this array, so it can later be evalutated.
+     */
+    protected $validationcasstrings;
+
+    /** @var int the CAS seed using during validation. */
+    protected $seed = 1;
+
+    /** @var stack_options the CAS options using during validation. */
+    protected $options;
+
+    /**
      * @return string the current value of the question text, given the state the form is in.
      */
     protected function get_current_question_text() {
@@ -708,6 +728,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputs = $this->get_input_names_from_question_text();
         $prts = $this->get_prt_names_from_question();
 
+        $this->options = new stack_options();
+        $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
+        $this->options->set_option('complexno',          $fromform['complexno']);
+        $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
+        $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
+        $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);
+
         // We slightly break the usual conventions of validation, in that rather
         // then building up $errors as an array of strings, we initially build it
         // up as an array of arrays, then at the end remove any empty arrays,
@@ -720,10 +747,8 @@ class qtype_stack_edit_form extends question_edit_form {
         // Question text.
         $errors['questiontext'] = array();
 
-        $questiontext = new stack_cas_text($fromform['questiontext']['text'], null, null, 't');
-        if (!$questiontext->get_valid()) {
-            $errors['questiontext'][] = $questiontext->get_errors();
-        }
+        $errors = $this->validate_cas_text($errors, $fromform['questiontext']['text'],
+                'questiontext', 'questiontext');
 
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
@@ -750,10 +775,8 @@ class qtype_stack_edit_form extends question_edit_form {
         // Specific feedback.
         $errors['specificfeedback'] = array();
 
-        $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text'], null, null, 't');
-        if (!$specificfeedback->get_valid()) {
-            $errors['specificfeedback'][] = $specificfeedback->get_errors();
-        }
+        $errors = $this->validate_cas_text($errors, $fromform['specificfeedback']['text'],
+                'specificfeedback', 'specificfeedback');
 
         $errors['specificfeedback'] += $this->check_no_placeholders(
                     get_string('specificfeedback', 'qtype_stack'), $fromform['specificfeedback']['text'],
@@ -768,10 +791,8 @@ class qtype_stack_edit_form extends question_edit_form {
         // General feedback.
         $errors['generalfeedback'] = array();
 
-        $generalfeedback = new stack_cas_text($fromform['generalfeedback']['text'], null, null, 't');
-        if (!$generalfeedback->get_valid()) {
-            $errors['generalfeedback'][] = $generalfeedback->get_errors();
-        }
+        $errors = $this->validate_cas_text($errors, $fromform['generalfeedback']['text'],
+                'generalfeedback', 'generalfeedback');
 
         $errors['generalfeedback'] += $this->check_no_placeholders(
                     get_string('generalfeedback', 'question'), $fromform['generalfeedback']['text']);
@@ -784,10 +805,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors['questionnote'] = get_string('questionnotempty', 'qtype_stack');
             }
         } else {
-            $questionnote = new stack_cas_text($fromform['questionnote'], null, null, 't');
-            if (!$questionnote->get_valid()) {
-                $errors['questionnote'] = $questionnote->get_errors();
-            }
+            $errors = $this->validate_cas_text($errors, $fromform['questionnote']['text'],
+                    'questionnote', 'questionnote');
         }
 
         $errors['questionnote'] += $this->check_no_placeholders(
@@ -796,12 +815,24 @@ class qtype_stack_edit_form extends question_edit_form {
         // 2) Validate all inputs.
         foreach ($inputs as $inputname => $notused) {
             $errors = $this->validate_cas_string($errors,
-                    $fromform[$inputname . 'modelans'], $inputname . 'modelans');
+                    $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
         }
 
         // 3) Validate all prts.
         foreach ($prts as $prtname => $notused) {
             $errors = $this->validate_prt($errors, $fromform, $prtname);
+        }
+
+        // Clear out any empty $errors elements, ready for the next check.
+        foreach ($errors as $field => $messages) {
+            if (empty($messages)) {
+                unset($errors[$field]);
+            }
+        }
+
+        // If everything else is OK, try executing the CAS code to check for errors.
+        if (empty($errors)) {
+            $errors = $this->validate_question_cas_code($errors, $fromform);
         }
 
         // Convert the $errors array from our array of arrays format to the
@@ -887,7 +918,7 @@ class qtype_stack_edit_form extends question_edit_form {
     /**
      * Validate the fields for a given PRT node.
      * @param array $errors the error so far. This array is added to and returned.
-     * @param array $value the submitted data to validate.
+     * @param array $fromform the submitted data to validate.
      * @param string $prtname the name of the PRT to validate.
      * @param string $nodekey the name of the node to validate.
      * @return array the update $errors array.
@@ -896,10 +927,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $nodegroup = $prtname . 'node[' . $nodekey . ']';
 
         $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'sans'][$nodekey],
-                $nodegroup, 'sansrequired');
+                $nodegroup, $prtname . 'sans' . $nodekey, 'sansrequired');
 
         $errors = $this->validate_cas_string($errors, $fromform[$prtname . 'tans'][$nodekey],
-                $nodegroup, 'tansrequired');
+                $nodegroup, $prtname . 'tans' . $nodekey, 'tansrequired');
 
         $answertest = new stack_ans_test_controller($fromform[$prtname . 'answertest'][$nodekey]);
         if ($answertest->required_atoptions()) {
@@ -912,6 +943,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$nodegroup][] = get_string('testoptionsinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
 
             } else {
+                // TODO capture this for later execution.
                 list($valid, $message) = $answertest->validate_atoptions($opt);
                 if (!$valid) {
                     $errors[$nodegroup][] = get_string('testoptionsinvalid', 'qtype_stack', $message);
@@ -947,12 +979,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 }
             }
 
-            $feedback = new stack_cas_text(
-                    $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],
-                    null, null, 't');
-            if (!$feedback->get_valid()) {
-                $errors[$prtname . $branch . 'feedback[' . $nodekey . ']'][] = $feedback->get_errors();
-            }
+            $errors = $this->validate_cas_text($errors, $fromform[$prtname . $branch . 'feedback'][$nodekey]['text'],
+                    $prtname . $branch . 'feedback[' . $nodekey . ']', $prtname . $branch . 'feedback[' . $nodekey . ']');
         }
 
         return $errors;
@@ -964,12 +992,13 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param array $errors the errors array that validation is assembling.
      * @param string $value the submitted value validate.
      * @param string $fieldname the name of the field add any errors to.
+     * @param string $savestring the array key to save the string to in $this->validationcasstrings.
      * @param bool|string $notblank false means do nothing (default). A string
      *      will validate that the field is not blank, and if it is, display that error.
      * @param int $maxlength the maximum allowable length. Defaults to 255.
      * @return array updated $errors array.
      */
-    protected function validate_cas_string($errors, $value, $fieldname, $notblank = false, $maxlength = 255) {
+    protected function validate_cas_string($errors, $value, $fieldname, $savesession, $notblank = false, $maxlength = 255) {
 
         if ($notblank && '' == trim($value)) {
             $errors[$fieldname][] = get_string($notblank, 'qtype_stack');
@@ -981,10 +1010,29 @@ class qtype_stack_edit_form extends question_edit_form {
             $casstring = new stack_cas_casstring($value);
             if (!$casstring->get_valid('t')) {
                 $errors[$fieldname][] = $casstring->get_errors();
+            } else {
+                $this->validationcasstrings[$savestring] = $casstring;
             }
         }
 
         return $errors;
+    }
+
+    /**
+     * Validate a CAS text field.
+     * @param array $errors the errors array that validation is assembling.
+     * @param string $value the submitted value validate.
+     * @param string $fieldname the name of the field add any errors to.
+     * @param string $savesession the array key to save the session to in $this->validationcasstrings.
+     * @return array updated $errors array.
+     */
+    protected function validate_cas_text($errors, $value, $fieldname, $savesession) {
+        $castext = new stack_cas_text($value, null, $this->seed, 't');
+        if (!$castext->get_valid()) {
+            $errors[$fieldname][] = $castext->get_errors();
+        } else {
+            $this->validationcassessions[$fieldname] = $castext->get_session();
+        }
     }
 
     /**
@@ -993,9 +1041,6 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param array $errors the errors array that validation is assembling.
      * @param string $value the submitted value validate.
      * @param string $fieldname the name of the field add any errors to.
-     * @param bool|string $notblank false means do nothing (default). A string
-     *      will validate that the field is not blank, and if it is, display that error.
-     * @param int $maxlength the maximum allowable length. Defaults to 255.
      * @return array updated $errors array.
      */
     protected function validate_cas_keyval($errors, $value, $fieldname) {
@@ -1003,11 +1048,58 @@ class qtype_stack_edit_form extends question_edit_form {
             return $errors;
         }
 
-        $keyval = new stack_cas_keyval($value, null, null, 't');
+        $keyval = new stack_cas_keyval($value, $this->options, $this->seed, 't');
         if (!$keyval->get_valid()) {
             $errors[$fieldname][] = $keyval->get_errors();
+        } else {
+            $this->validationcassessions[$fieldname] = $keyval->get_session();
         }
+
         return $errors;
+    }
+
+    /**
+     * Validate all the maxima code in the questions.
+     *
+     * This is done last, and separate from the other validation for two reasons:
+     * 1. The rest of the validation is organised to validate the form in order,
+     *    to match the way the form is defined. Here we need to validate in the
+     *    order that the CAS is evaluated at run-time.
+     * 2. This is the slowest part of validation, so we only do it at the end if
+     *    everything else is OK.
+     *
+     * @param array $errors the errors array that validation is assembling.
+     * @param array $fromform the submitted data to validate.
+     * @return array updated $errors array.
+     */
+    protected function validate_question_cas_code($errors, $fromform) {
+
+        list($errors, $session) = $this->validate_cas_new_session($errors,
+                null, 'questionvariables', 'questionvariables');
+        if ($session->get_errors()) {
+             return $errors;
+        }
+
+        list($errors, $session) = $this->validate_cas_new_session($errors,
+                null, 'questiontext', 'questiontext');
+        if ($session->get_errors()) {
+             return $errors;
+        }
+
+        // TODO coninue this. I am stopping for now because the correct options
+        // to use for each bit of CAS session or CAS string are complicated. That
+        // makes writing this code quite difficult. Not impossible, but more
+        // than I want to try to tackle now.
+    }
+
+    protected function validate_cas_new_session($errors, $currentsession, $sessionkey, $errorskey) {
+        $session = new stack_cas_session($currentsession);
+        $session->merge_session($this->validationcassessions[$sessionkey]);
+        $session->instantiate();
+        if ($session->get_errors()) {
+            $errors[$errorskey] = $session->get_errors();
+        }
+        return array($errors, $session);
     }
 
     /**

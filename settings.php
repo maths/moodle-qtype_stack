@@ -29,6 +29,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype_desc', 'qtype_stack'), 'linux', array(
                 'unix'   => get_string('settingplatformtypeunix', 'qtype_stack'),
                 'win'    => get_string('settingplatformtypewin', 'qtype_stack'),
+                'tomcat' => get_string('settingplatformtypemaximapool', 'qtype_stack'),
                 'server' => get_string('settingplatformtypeserver', 'qtype_stack'))));
 
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',

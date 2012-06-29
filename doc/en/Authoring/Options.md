@@ -20,45 +20,11 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Mark Modification  ### {#Mark_Modification}
-
-This option sets how a score is assigned for multiple attempts at the question.
-
-1. Penalty scheme (default)
-2. First Answer is taken
-3. Last Answer is taken
-
 ### Question Penalty ### {#Question_penalty)
 
 This is the percentage of the marks deducted from each different and valid attempt which is not
 completely correct, when the penalty mark modification scheme is in use.
 The default is \(10\%\) of the marks available for this question, entered at \(0.1\).
-
-### Feedback used 			{#Feedback_used}
-
-The [feedback](Feedback.md) available can be varied as follows:
-
-1. Full (default)
-2. Text + generic (no score)
-3. Generic + score (no detailed text)
-4. Text only
-5. Generic only (no detailed text or score)
-6. Score only (no text)
-7. No feedback
-
-The generic [feedback](Feedback.md) is set using the three strings
-
-* Feedback Correct
-* Feedback Partially Correct
-* Feedback Incorrect
-
-The default values for these are
-
-	Correct answer, well done.
-	Your answer is partially correct.
-	Incorrect answer.
-
-The classes enable some colour to enhance the feedback.
 
 ## Output  ##
 

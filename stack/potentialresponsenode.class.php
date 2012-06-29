@@ -229,9 +229,6 @@ class stack_potentialresponse_node {
             case '-':
                 return $oldscore - $resultbranch['score'];
 
-            case '=AT':
-                return $resultbranch['score'];
-
             default:
                 throw new stack_exception('stack_potentialresponse_node: update_score called ' .
                         'with invalid score modificiation method: ' . $resultbranch['scoremodification']);
@@ -288,5 +285,17 @@ class stack_potentialresponse_node {
      */
     public function get_answer_notes() {
         return array($this->branches[true]['answernote'], $this->branches[false]['answernote']);
+    }
+
+    /**
+     * @return object with fields falsenote, falsescore, truenote, truescore.
+     */
+    public function summarise_branches() {
+        $summary = new stdClass();
+        $summary->falsenote  = $this->branches[false]['answernote'];
+        $summary->falsescore = $this->branches[false]['score'];
+        $summary->truenote   = $this->branches[true]['answernote'];
+        $summary->truescore  = $this->branches[true]['score'];
+        return $summary;
     }
 }

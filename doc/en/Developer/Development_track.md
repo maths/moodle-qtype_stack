@@ -25,9 +25,9 @@ These are the major tasks we still need to complete in approximate order and imp
 4. **DONE** Re-implement question tests in Moodle.
  1. **DONE** Except that the test input need to be evaluated expressions, not just strings.
 5. **DONE** Get deploying, and a fixed number of variants working in Moodle.
-6. Make multi-part STACK questions work exactly right in Adaptive behaviour.
- 1. Evaluate some PRTs if possible, even if not all inputs have been filled in.
- 2. Correct computation of penalty for each PRT, and hence overall final grade.
+6. **DONE** Make multi-part STACK questions work exactly right in Adaptive behaviour.
+ 1. **DONE** Evaluate some PRTs if possible, even if not all inputs have been filled in.
+ 2. **DONE** Correct computation of penalty for each PRT, and hence overall final grade.
  3. **DONE** Problem with expressions in feedback CAS-text not being simplified.
 
 ## Milestone 2
@@ -37,7 +37,7 @@ These are the major tasks we still need to complete in approximate order and imp
  2. Consider what additional custom STACK reporting we need.
 2. **DONE** Implement the Moodle backup/restore code for stack questions.
 3. **DONE** Implement Moodle XML format import and export.
-4. Investigate ways of running Maxima on a separate server.
+4. **DONE** Investigate ways of running Maxima on a separate server.
 5. **DONE** Implement random seed control like for varnumeric.
 
 At this point STACK will be "ready" for use with students, although not all features will be available.
@@ -46,7 +46,7 @@ At this point STACK will be "ready" for use with students, although not all feat
 
 1. Finish STACK 2 importer: ensure all fields are imported correctly by the question importer.
 2. Implement additional reporting as determined above.
-3. Make STACK respect all Moodle behaviours.
+3. **DONE** Make STACK respect all Moodle behaviours.
  1. **DONE** Deferred feedback
  2. **DONE** Interactive
  3. **DONE** Deferred feedback with CBM
@@ -55,6 +55,11 @@ At this point STACK will be "ready" for use with students, although not all feat
 4. Add back in all input types, including dragmath/NUMBAS.
 5. Add sample_questions, and update question banks for STACK 3.0.
 6. Link the STACK documentation to Moodle's help icons on the editing form, etc.
+7. Improve the way questions are deployed.
+ 1. Only deploy new versions.
+ 2. Reploy many versions at once.
+ 3. Remove many versions at once.
+8. Complete the system for running Maxima on a separate server.
 
 ## Known bugs/issues
 
@@ -75,6 +80,10 @@ At this point STACK will be "ready" for use with students, although not all feat
 2. With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 3. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 
+### Optimising Maxima
+
+1.  Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
+
 ## Future plans
 
 We have a dedicated page for [future plans](Future_plans.md).
@@ -85,14 +94,13 @@ We have a dedicated page for [future plans](Future_plans.md).
 These tasks also need to be done, but do not block progress towards getting STACK basically working in moodle.
 
 1. Refactor the way STACK surrounds mathematics with LaTeX  environments.  Really we need a function
-
-stack_maths($ex,$format = INLINE/DISPLAY)
-
+    stack_maths(ex,format = INLINE/DISPLAY)
 which takes the castring $ex, and surrounds it by strings  depending on whether we want an inline or displayed equation.   Similar to the translator function...
 
 Some miscellaneous things
+
 * Answer tests should be like inputs. We should return an answer test object, not a controller object.
-* $at->get_at_mark() really ought to be $at->matches(), since that is how it is used.
+* at->get_at_mark() really ought to be sat->matches(), since that is how it is used.
 * Finish cleaning up stack_utils.
 * Make sure error messages on the authoring form sit next to the appropriate field.  Currently this is a limitation of moodle forms.
 * Expand the capabilities of CASText to enable the value of a variable (not just its displayed LaTeX form) to be included in the HTML.  E.g. using a tag such as `#x^2#` now this syntax is available again.  This is needed for the Google charts.
@@ -107,7 +115,7 @@ Some miscellaneous things
 2. Investigate better ways of connecting to Maxima.
   *  <http://code.google.com/p/remote-maxima/>
   *  <http://www.lon-capa.org/maximaasserver.html>
-3. Refactor Maxima code to change from $'s and $$'s to \[ \] and \( and \).
+3. Refactor Maxima code to change from dollars to \[ \] and \( and \).
 
 ## Documentation system
 
@@ -148,8 +156,12 @@ Key features
 * Input "Dropdown" list -> should be automatically imported to "list"
 * JSMath is no longer under development, and hence we are no longer providing an option for this in STACK.  However, in STACK 2 we modified JSMath to enable inputs within equations.  Display now assumes the use of a Moodle filter and we recommend (and test with) MathJax, which does not currently support this feature.  If it is important for you to use this feature you will need to copy and modify the load.js file from STACK 2 and use JSMath.
 * Worked solution on demand feature has been removed.  This was a hack in STACK 2, and the use of Moodle quiz has made this unnecessary.
+* Some options are no longer needed.  This functionality is now handelled by the "behaviours", so are uncecessary in STACK 3.
+ * The "Feedback used". 
+ * The "Mark modification".  
 * We have lost some of the nice styling on the editing form, compared to Stack 2.
 * Answer tests no longer return a numerical mark, hence the "+AT" option for mark modification method has been dropped.
+* The STACK function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
 
 ## Version 2.2
 

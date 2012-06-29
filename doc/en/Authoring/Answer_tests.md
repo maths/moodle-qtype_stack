@@ -58,8 +58,8 @@ Hence, we need quite a number of different answer tests to establish equality in
 | Test                                              | Description
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | CASEqual                                          | Are the parse trees of the two expressions equal?
-| EqualComAss                                       | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?  For example<br>\[a+b=b+a\mbox{,}\]<br>but<br>\[x+x\neq 2x\mbox{.}\]<br>This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
-| [AlgEquiv](Answer_tests.md#AlgEquiv)                 | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?
+| [EqualComAss](Answer_tests.md#EqualComAss)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?  For example<br>\[a+b=b+a\mbox{,}\]<br>but<br>\[x+x\neq 2x\mbox{.}\]<br>This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
+| [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
 | SameType                                          | Are the two expressions of the [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? This test determines whether two systems of multivariate polynomials, i.e. polynomials with a number of variables, generate the same ideal, equivalent to checking they have the same solutions.
@@ -82,6 +82,14 @@ Exactly what it does depends on what objects are given to it.
 
 * This test disregards whether [simplification](../CAS/Maxima.md#Simplification) is switched on, it always fully simplifies all its arguments.
 * Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../CAS/Predicate_functions.md).
+
+### Associativity and Commutativity ### {#EqualComAss}
+
+This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, $2x+y=y+2x$ but $x+x+y\neq 2x+y$.  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
+
+Notice that this test does not include laws of indices, so $x\times x \neq x^2$. Since we are dealing only with nouns $-\times -$ does not simplify to $1$. E.g. $-x\times -x \neq x\times x \neq x^2$.  An extra re-write rule could be added to achieve this, which would change the equivalence classes.
+
+This is a particularly useful test for checking that an answer is the same and simplified.
 
 ### CASEqual ###
 

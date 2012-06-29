@@ -60,7 +60,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         fwrite($pipes[0], 'quit();'."\n\n");
 
         $ret = '';
-        // read output from stdout
+        // Read output from stdout.
         $start_time = microtime(true);
         $continue   = true;
 
@@ -81,7 +81,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             } else {
                 $out = fread($pipes[1], 1024);
                 if ('' == $out) {
-                    // PAUSE
+                    // Pause.
                     usleep(1000);
                 }
                 $ret .= $out;

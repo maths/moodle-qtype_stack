@@ -2,7 +2,7 @@
 
 Computer aided assessment of mathematics works in the following phases.
 
-1. [Authoring](../Authoring/)
+1. [Authoring](../Authoring/index.md)
 2. [Testing](Testing.md)
 3. [Deploying](Deploying.md)
 4. [Reviewing](Reviewing.md)
@@ -42,6 +42,7 @@ The only field which is compulsory is in **bold**.
 * [KeyVals](KeyVals.md)
 * [Question versioning](Question_versioning.md)
 * Specific adaptations of [Maxima](../CAS/Maxima.md).
+* [Import and Export](ImportExport.md) of STACK questions.
 
 # Future plans
 

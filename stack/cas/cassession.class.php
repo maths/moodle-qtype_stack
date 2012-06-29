@@ -33,37 +33,37 @@ require_once(dirname(__FILE__) . '/../options.class.php');
  */
 
 class stack_cas_session {
-    /*
+    /**
      * @var array stack_cas_casstring
      */
     private $session;
 
-    /*
+    /**
      * @var stack_options
      */
     private $options;
 
-    /*
+    /**
      * @var int Needed to seed any randomization when instantated.
      */
     private $seed;
 
-    /*
+    /**
      * @var boolean
      */
     private $valid;
 
-    /*
+    /**
      * @var boolean Has this been sent to the CAS yet?
      */
     private $instantiated;
 
-    /*
+    /**
      * @var string Error messages for the user.
      */
     private $errors;
 
-    /*
+    /**
      * @var boolean
      */
     private $debuginfo;
@@ -74,7 +74,7 @@ class stack_cas_session {
             $session = array();
         }
 
-        // An array of stack_cas_casstring
+        // An array of stack_cas_casstring.
         $this->session = $session;
 
         if ($options === null) {
@@ -195,7 +195,8 @@ class stack_cas_session {
                 $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
 
                 if (array_key_exists('value', $result)) {
-                    $cs->set_value($result['value']);
+                    $val = str_replace('QMCHAR', '?', $result['value']);
+                    $cs->set_value($val);
                     $gotvalue = true;
                 }
 
@@ -216,9 +217,11 @@ class stack_cas_session {
                 }
 
                 if ('' != $result['error']) {
-                    $cs->add_errors($result['error']);
+                    // This protects dolar signs so they are not interpreted as LaTeX maths environment starts.
+                    $err = str_replace('$', '\$', $result['error']);
+                    $cs->add_errors($err);
                     $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring());
-                    $new_errors .= ' '.stack_string("stackCas_CASErrorCaused").' '.$result['error'].' ';
+                    $new_errors .= ' '.stack_string("stackCas_CASErrorCaused").' '.$err.' ';
                 }
             }
 
@@ -264,7 +267,7 @@ class stack_cas_session {
 
             $this->instantiated = null;
             $this->errors       = null;
-            $this->session[]    = clone $var; //Yes, we reall need new versions of the variables.
+            $this->session[]    = clone $var; // Yes, we reall need new versions of the variables.
         }
     }
 
@@ -450,7 +453,8 @@ class stack_cas_session {
                 $label = $cs->get_key();
             }
 
-            $cmd = str_replace('?', 'qmchar', $cs->get_casstring()); // replace any ?'s that slipped through
+            // Replace any ?'s with a safe value.
+            $cmd = str_replace('?', 'QMCHAR', $cs->get_casstring()); 
 
             $csnames   .= ", $label";
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";

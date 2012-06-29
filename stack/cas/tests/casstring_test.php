@@ -44,7 +44,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('', false, false),
             array('1', true, true),
             array('a b', false, true),
-            array('%pi', true, true), // Only %pi %e, %i, %gamma, %phi
+            array('%pi', true, true), // Only %pi %e, %i, %gamma, %phi.
             array('1+%e', true, true),
             array('e^%i*%pi', true, true),
             array('%gamma', true, true),
@@ -53,7 +53,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
             array('[sin(x)+1)', false, false),
-            //array('([y^2+1)]', false, false), // TODO!
+            // TODO array('([y^2+1)]', false, false), !
         );
 
         foreach ($cases as $case) {
@@ -64,7 +64,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function get_key($s, $key, $val) {
         $at1 = new stack_cas_casstring($s);
         $this->assertEquals($key, $at1->get_key());
-        $this->assertEquals($s, $at1->get_raw_casstring());    //Note the difference between the two!
+        $this->assertEquals($s, $at1->get_raw_casstring()); // Note the difference between the two!
         $this->assertEquals($val, $at1->get_casstring());
     }
 

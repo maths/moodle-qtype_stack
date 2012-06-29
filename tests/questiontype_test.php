@@ -60,6 +60,54 @@ class qtype_stack_test extends question_testcase {
         $this->assertEquals($this->qtype->name(), 'stack');
     }
 
+    public function test_get_possible_responses_test0() {
+        $qdata = test_question_maker::get_question_data('stack', 'test0');
+
+        $expected = array(
+            'firsttree-0' => array(
+                'firsttree-1-F' => new question_possible_response('firsttree-1-F', 0),
+                'firsttree-1-T' => new question_possible_response('firsttree-1-T', 1),
+                null          => question_possible_response::no_response(),
+            ),
+        );
+
+        $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
+    }
+
+    public function test_get_possible_responses_test3() {
+        $qdata = test_question_maker::get_question_data('stack', 'test3');
+
+        $expected = array(
+            'odd-0' => array(
+                'odd-0-0' => new question_possible_response('odd-0-0', 0),
+                'odd-0-1' => new question_possible_response('odd-0-1', 0.25),
+                null          => question_possible_response::no_response(),
+            ),
+            'even-0' => array(
+                'even-0-0' => new question_possible_response('even-0-0', 0),
+                'even-0-1' => new question_possible_response('even-0-1', 0.25),
+                null          => question_possible_response::no_response(),
+            ),
+            'oddeven-0' => array(
+                'oddeven-0-0' => new question_possible_response('oddeven-0-0', 0),
+                'oddeven-0-1' => new question_possible_response('oddeven-0-1', 0.125),
+                null          => question_possible_response::no_response(),
+            ),
+            'oddeven-1' => array(
+                'oddeven-1-0' => new question_possible_response('oddeven-1-0', 0),
+                'oddeven-1-1' => new question_possible_response('oddeven-1-1', 0.125),
+                null          => question_possible_response::no_response(),
+            ),
+            'unique-0' => array(
+                'unique-0-0' => new question_possible_response('unique-0-0', 0),
+                'unique-0-1' => new question_possible_response('unique-0-1', 0.25),
+                null          => question_possible_response::no_response(),
+            ),
+        );
+
+        $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
+    }
+
     public function test_xml_export() {
         $qdata = test_question_maker::get_question_data('stack', 'test0');
 
@@ -92,7 +140,6 @@ class qtype_stack_test extends question_testcase {
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
-    <markmode>penalty</markmode>
     <prtcorrect format="html">
       <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
     </prtcorrect>
@@ -122,7 +169,7 @@ class qtype_stack_test extends question_testcase {
       <showvalidation>1</showvalidation>
     </input>
     <prt>
-      <name>prt1</name>
+      <name>firsttree</name>
       <value>1</value>
       <autosimplify>1</autosimplify>
       <feedbackvariables>
@@ -139,7 +186,7 @@ class qtype_stack_test extends question_testcase {
         <truescore>1</truescore>
         <truepenalty>0</truepenalty>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>prt1-1-T</trueanswernote>
+        <trueanswernote>firsttree-1-T</trueanswernote>
         <truefeedback format="html">
           <text></text>
         </truefeedback>
@@ -147,7 +194,7 @@ class qtype_stack_test extends question_testcase {
         <falsescore>0</falsescore>
         <falsepenalty>0</falsepenalty>
         <falsenextnode>-1</falsenextnode>
-        <falseanswernote></falseanswernote>
+        <falseanswernote>firsttree-1-F</falseanswernote>
         <falsefeedback format="html">
           <text></text>
         </falsefeedback>
@@ -161,10 +208,10 @@ class qtype_stack_test extends question_testcase {
         <value>2</value>
       </testinput>
       <expected>
-        <name>prt1</name>
+        <name>firsttree</name>
         <expectedscore>1</expectedscore>
         <expectedpenalty>0</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>firsttree-1-T</expectedanswernote>
       </expected>
     </qtest>
   </question>
@@ -199,7 +246,6 @@ class qtype_stack_test extends question_testcase {
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
-    <markmode>penalty</markmode>
     <prtcorrect format="html">
       <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
     </prtcorrect>
@@ -229,7 +275,7 @@ class qtype_stack_test extends question_testcase {
       <showvalidation>1</showvalidation>
     </input>
     <prt>
-      <name>prt1</name>
+      <name>firsttree</name>
       <value>1</value>
       <autosimplify>1</autosimplify>
       <feedbackvariables>
@@ -246,7 +292,7 @@ class qtype_stack_test extends question_testcase {
         <truescore>1</truescore>
         <truepenalty>0</truepenalty>
         <truenextnode>-1</truenextnode>
-        <trueanswernote>prt1-1-T</trueanswernote>
+        <trueanswernote>firsttree-1-T</trueanswernote>
         <truefeedback format="html">
           <text></text>
         </truefeedback>
@@ -254,7 +300,7 @@ class qtype_stack_test extends question_testcase {
         <falsescore>0</falsescore>
         <falsepenalty>0</falsepenalty>
         <falsenextnode>-1</falsenextnode>
-        <falseanswernote>prt1-1-F</falseanswernote>
+        <falseanswernote>firsttree-1-F</falseanswernote>
         <falsefeedback format="html">
           <text></text>
         </falsefeedback>
@@ -268,10 +314,10 @@ class qtype_stack_test extends question_testcase {
         <value>2</value>
       </testinput>
       <expected>
-        <name>prt1</name>
+        <name>firsttree</name>
         <expectedscore>1</expectedscore>
         <expectedpenalty>0</expectedpenalty>
-        <expectedanswernote>prt1-1-T</expectedanswernote>
+        <expectedanswernote>firsttree-1-T</expectedanswernote>
       </expected>
     </qtest>
   </question>
@@ -298,10 +344,12 @@ class qtype_stack_test extends question_testcase {
         $expectedq->questionnote          = '';
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
-        $expectedq->markmode              = 'penalty';
-        $expectedq->prtcorrect            = array('text' => '<p>Correct answer, well done.</p>', 'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtpartiallycorrect   = array('text' => '<p>Your answer is partially correct.</p>', 'format' => FORMAT_HTML, 'files' => array());;
-        $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>', 'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtcorrect            = array('text' => '<p>Correct answer, well done.</p>',
+                                                    'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtpartiallycorrect   = array('text' => '<p>Your answer is partially correct.</p>',
+                                                    'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>',
+                                                    'format' => FORMAT_HTML, 'files' => array());;
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
@@ -320,32 +368,32 @@ class qtype_stack_test extends question_testcase {
         $expectedq->ans1mustverify         = 1;
         $expectedq->ans1showvalidation     = 1;
 
-        $expectedq->prt1value              = 1;
-        $expectedq->prt1autosimplify       = 1;
-        $expectedq->prt1feedbackvariables  = '';
-        $expectedq->prt1answertest[0]      = 'EqualComAss';
-        $expectedq->prt1sans[0]            = 'ans1';
-        $expectedq->prt1tans[0]            = '2';
-        $expectedq->prt1testoptions[0]     = '';
-        $expectedq->prt1quiet[0]           = 0;
-        $expectedq->prt1truescoremode[0]   = '=';
-        $expectedq->prt1truescore[0]       = 1;
-        $expectedq->prt1truepenalty[0]     = 0;
-        $expectedq->prt1truenextnode[0]    = -1;
-        $expectedq->prt1trueanswernote[0]  = 'prt1-1-T';
-        $expectedq->prt1truefeedback[0]    = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());;;
-        $expectedq->prt1falsescoremode[0]  = '=';
-        $expectedq->prt1falsescore[0]      = 0;
-        $expectedq->prt1falsepenalty[0]    = 0;
-        $expectedq->prt1falsenextnode[0]   = -1;
-        $expectedq->prt1falseanswernote[0] = 'prt1-1-F';
-        $expectedq->prt1falsefeedback[0]   = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());;;
+        $expectedq->firsttreevalue              = 1;
+        $expectedq->firsttreeautosimplify       = 1;
+        $expectedq->firsttreefeedbackvariables  = '';
+        $expectedq->firsttreeanswertest[0]      = 'EqualComAss';
+        $expectedq->firsttreesans[0]            = 'ans1';
+        $expectedq->firsttreetans[0]            = '2';
+        $expectedq->firsttreetestoptions[0]     = '';
+        $expectedq->firsttreequiet[0]           = 0;
+        $expectedq->firsttreetruescoremode[0]   = '=';
+        $expectedq->firsttreetruescore[0]       = 1;
+        $expectedq->firsttreetruepenalty[0]     = 0;
+        $expectedq->firsttreetruenextnode[0]    = -1;
+        $expectedq->firsttreetrueanswernote[0]  = 'firsttree-1-T';
+        $expectedq->firsttreetruefeedback[0]    = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());
+        $expectedq->firsttreefalsescoremode[0]  = '=';
+        $expectedq->firsttreefalsescore[0]      = 0;
+        $expectedq->firsttreefalsepenalty[0]    = 0;
+        $expectedq->firsttreefalsenextnode[0]   = -1;
+        $expectedq->firsttreefalseanswernote[0] = 'firsttree-1-F';
+        $expectedq->firsttreefalsefeedback[0]   = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());
 
         $expectedq->deployedseeds = array('12345');
 
         $qtest = new stack_question_test(array('ans1' => '2'));
-        $qtest->add_expected_result('prt1', new stack_potentialresponse_tree_state(
-                        '', array(), array('prt1-1-T'), true, 1, 0));
+        $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
+                        '', array(), array('firsttree-1-T'), true, 1, 0));
         $expectedq->testcases[1] = $qtest;
 
         $this->assert(new question_check_specified_fields_expectation($expectedq), $q);

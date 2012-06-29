@@ -7,7 +7,7 @@ Conventional on-line assessment systems are often very limited in the type of qu
 However it is exactly this type of question that we use a lot in mathematics and science teaching. Really, the student should provide their answer in the form of a mathematical expression and the system should evaluate its properties.
 
 We cannot use a simple string match because such questions usually have a large variety of correct answers.  Sometimes the correct answer can be given in many different forms.
-The solution lies in using a [Computer Algebra System](../CAS/) to power the assessment system.
+The solution lies in using a [Computer Algebra System](../CAS/index.md) to power the assessment system.
 The built-in knowledge of mathematics that the computer algebra system provides opens up entirely new possibilities to computer-aided assessment, of which we will now present a few examples:
 
 More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK.md).

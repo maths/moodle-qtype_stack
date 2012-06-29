@@ -62,7 +62,6 @@ class qtype_stack extends question_type {
         $options->questionnote              = $fromform->questionnote;
         $options->questionsimplify          = $fromform->questionsimplify;
         $options->assumepositive            = $fromform->assumepositive;
-        $options->markmode                  = $fromform->markmode;
         $options->prtcorrect                = $this->import_or_save_files($fromform->prtcorrect,
                     $context, 'qtype_stack', 'prtcorrect', $fromform->id);
         $options->prtcorrectformat          = $fromform->prtcorrect['format'];
@@ -260,7 +259,6 @@ class qtype_stack extends question_type {
         $question->prtpartiallycorrectformat = $questiondata->options->prtpartiallycorrectformat;
         $question->prtincorrect              = $questiondata->options->prtincorrect;
         $question->prtincorrectformat        = $questiondata->options->prtincorrectformat;
-        $question->markmode                  = $questiondata->options->markmode;
         $question->variantsselectionseed     = $questiondata->options->variantsselectionseed;
 
         $question->options = new stack_options();
@@ -566,6 +564,26 @@ class qtype_stack extends question_type {
         $transaction->allow_commit();
     }
 
+    public function get_possible_responses($questiondata) {
+        $parts = array();
+
+        $q = $this->make_question($questiondata);
+
+        foreach ($q->prts as $index => $prt) {
+            foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
+                $parts[$index . '-' . $nodeid] = array(
+                    $choices->falsenote => new question_possible_response(
+                            $choices->falsenote, $choices->falsescore * $prt->get_value()),
+                    $choices->truenote => new question_possible_response(
+                            $choices->truenote, $choices->truescore * $prt->get_value()),
+                    null              => question_possible_response::no_response(),
+                );
+            }
+        }
+
+        return $parts;
+    }
+
     /**
      * Helper method used by {@link export_to_xml()}.
      * @param qformat_xml $format the importer/exporter object.
@@ -595,8 +613,8 @@ class qtype_stack extends question_type {
         $contextid = $questiondata->contextid;
 
         if (!isset($questiondata->testcases)) {
-            // get_question_options does not load the testcases, because they are
-            // not normally needed, so we have to load them manually here.
+            // The method get_question_options does not load the testcases, because
+            // they are not normally needed, so we have to load them manually here.
             // However, we only do it conditionally, so that the unit tests can
             // just pass the data in.
             $questiondata->testcases = $this->load_question_tests($questiondata->id);
@@ -608,14 +626,13 @@ class qtype_stack extends question_type {
         $output .= "    <questionvariables>\n";
         $output .= "      " . $format->writetext($options->questionvariables, 0);
         $output .= "    </questionvariables>\n";
-        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback, 
+        $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback,
                         $options->specificfeedbackformat, $contextid, 'specificfeedback', $questiondata->id);
         $output .= "    <questionnote>\n";
         $output .= "      " . $format->writetext($options->questionnote, 0);
         $output .= "    </questionnote>\n";
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
         $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
-        $output .= "    <markmode>{$options->markmode}</markmode>\n";
         $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect,
                         $options->prtcorrectformat, $contextid, 'prtcorrect', $questiondata->id);
         $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect,
@@ -719,17 +736,18 @@ class qtype_stack extends question_type {
 
         $fromform = $format->import_headers($xml);
         $fromform->qtype = $this->name();
-        $fromform->penalty = 0;
 
-        $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables', 0, '#', 'text', 0, '#'), '', true);
+        $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables',
+                                                            0, '#', 'text', 0, '#'), '', true);
         $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
         $fromform->questionnote          = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionsimplify      = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
         $fromform->assumepositive        = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);
-        $fromform->markmode              = $format->getpath($xml, array('#', 'markmode', 0, '#'), 'penalty');
         $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fromform->questiontextformat);
-        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fromform->questiontextformat);
+        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect',
+                                                                  $format, $fromform->questiontextformat);
         $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fromform->questiontextformat);
+        $fromform->penalty               = $format->getpath($xml, array('#', 'penalty', 0, '#'), 0.1);
         $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
@@ -782,7 +800,8 @@ class qtype_stack extends question_type {
     protected function import_xml_text($xml, $field, qformat_xml $format, $defaultformat) {
         $text = array();
         $text['text']   = $format->getpath($xml, array('#', $field, 0, '#', 'text', 0, '#'), '', true);
-        $text['format'] = $format->trans_format($format->getpath($xml, array('#', $field, 0, '@', 'format'), $format->get_format($defaultformat)));
+        $text['format'] = $format->trans_format($format->getpath($xml, array('#', $field, 0, '@', 'format'),
+                                                $format->get_format($defaultformat)));
         $text['files']  = $format->import_files($format->getpath($xml, array('#', $field, 0, '#', 'file'), array(), false));
 
         return $text;
@@ -822,7 +841,8 @@ class qtype_stack extends question_type {
 
         $fromform->{$name . 'value'}             = $format->getpath($xml, array('#', 'value', 0, '#'), 1);
         $fromform->{$name . 'autosimplify'}      = $format->getpath($xml, array('#', 'autosimplify', 0, '#'), 1);
-        $fromform->{$name . 'feedbackvariables'} = $format->getpath($xml, array('#', 'feedbackvariables', 0, '#', 'text', 0, '#'), '', true);
+        $fromform->{$name . 'feedbackvariables'} = $format->getpath($xml,
+                            array('#', 'feedbackvariables', 0, '#', 'text', 0, '#'), '', true);
 
         if (isset($xml['#']['node'])) {
             foreach ($xml['#']['node'] as $nodexml) {
@@ -850,14 +870,17 @@ class qtype_stack extends question_type {
         $fromform->{$prtname . 'truescore'}[$name]       = $format->getpath($xml, array('#', 'truescore', 0, '#'), 1);
         $fromform->{$prtname . 'truepenalty'}[$name]     = $format->getpath($xml, array('#', 'truepenalty', 0, '#'), '');
         $fromform->{$prtname . 'truenextnode'}[$name]    = $format->getpath($xml, array('#', 'truenextnode', 0, '#'), -1);
-        $fromform->{$prtname . 'trueanswernote'}[$name]  = $format->getpath($xml, array('#', 'trueanswernote', 0, '#'), 1, '');
-        $fromform->{$prtname . 'truefeedback'}[$name]    = $this->import_xml_text($xml, 'truefeedback', $format, $fromform->questiontextformat);
+        $fromform->{$prtname . 'trueanswernote'}[$name]  = $format->getpath($xml,
+                array('#', 'trueanswernote', 0, '#'), 1, '');
+        $fromform->{$prtname . 'truefeedback'}[$name]    = $this->import_xml_text($xml,
+                'truefeedback', $format, $fromform->questiontextformat);
         $fromform->{$prtname . 'falsescoremode'}[$name]  = $format->getpath($xml, array('#', 'falsescoremode', 0, '#'), '=');
         $fromform->{$prtname . 'falsescore'}[$name]      = $format->getpath($xml, array('#', 'falsescore', 0, '#'), 1);
         $fromform->{$prtname . 'falsepenalty'}[$name]    = $format->getpath($xml, array('#', 'falsepenalty', 0, '#'), '');
         $fromform->{$prtname . 'falsenextnode'}[$name]   = $format->getpath($xml, array('#', 'falsenextnode', 0, '#'), -1);
         $fromform->{$prtname . 'falseanswernote'}[$name] = $format->getpath($xml, array('#', 'falseanswernote', 0, '#'), '');
-        $fromform->{$prtname . 'falsefeedback'}[$name]   = $this->import_xml_text($xml, 'falsefeedback', $format, $fromform->questiontextformat);
+        $fromform->{$prtname . 'falsefeedback'}[$name]   = $this->import_xml_text($xml,
+                'falsefeedback', $format, $fromform->questiontextformat);
     }
 
     /**

@@ -51,7 +51,6 @@ $columns = array(
     'error'              => stack_string('phpsuitecolerror'),
     'casvalid'           => stack_string('casvalid'),
     'casvalue'           => stack_string('casvalue'),
- //   'casdisplayraw'      => '',
     'casdisplay'         => stack_string('casdisplay'),
     'caserrors'          => stack_string('cassuitecolerrors'),
 );

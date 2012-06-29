@@ -181,7 +181,7 @@ class stack_potentialresponse_tree {
         // Tidy up the results.
         $res['feedback']   = $results->display_feedback($cascontext, $seed).$results->_errors;
         $res['answernote'] = implode(' | ', $results->_answernote);
-        $res['errors']     = $results->_errors; // $results->display_feedback above might yet contribute further errors....
+        $res['errors']     = $results->_errors; // Might yet be further errors from $results->display_feedback ...
         $res['valid']      = $results->_valid;
         $res['score']      = $results->_score + 0; // Make sure these are PHP numbers.
         $res['penalty']    = $results->_penalty + 0;
@@ -246,5 +246,24 @@ class stack_potentialresponse_tree {
             $notes[$note] = $note;
         }
         return $notes;
+    }
+
+    /**
+     * @return array with keys the same as $this->nodes, and values objects with
+     *      fields falsenote, falsescore, truenote, truescore.
+     */
+    public function get_nodes_summary() {
+        $nodesummary = array();
+        foreach ($this->nodes as $key => $node) {
+            $nodesummary[$key] = $node->summarise_branches();
+        }
+        return $nodesummary;
+    }
+
+    /**
+     * @return float the value of this PRT within the question.
+     */
+    public function get_value() {
+        return $this->value;
     }
 }

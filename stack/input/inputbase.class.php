@@ -91,7 +91,8 @@ abstract class stack_input {
         $this->parameters = $class::get_parameters_defaults();
 
         if (!(null===$parameters || is_array($parameters))) {
-            throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, must be null or an array of parameters.');
+            throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, ' .
+                    'must be null or an array of parameters.');
         }
 
         if (is_array($parameters)) {
@@ -294,6 +295,13 @@ abstract class stack_input {
             }
         }
 
+        // Answers may not contain the ? character.  CAS-strings may, but answers may not.
+        // It is very useful for teachers to be able to add in syntax hints.
+        if (!(strpos($transformedanswer, '?') === false)) {
+            $valid = false;
+            $errors .= stack_string('qm_error');
+        }
+
         if (!$valid) {
             $status = self::INVALID;
         } else if ($this->get_parameter('mustVerify', true) && $validator != $sans) {
@@ -320,9 +328,11 @@ abstract class stack_input {
 
     /**
      * Add this input the MoodleForm, but only used in questiontestform.php.
-     * It enables the teacher to enter the data as a CAS variable where necessary when the student might get some
-     * html page formatting help.  E.g. teachers will want to enter information into textareas input as a single list, or variable name representing a list,
-     * and matrix elements as a single CAS variable, or using Maxima's syntax matrix([...]).
+     * It enables the teacher to enter the data as a CAS variable where necessary
+     * when the student might get some html page formatting help.  E.g. teachers
+     * will want to enter information into textareas input as a single list, or
+     * variable name representing a list, and matrix elements as a single CAS
+     * variable, or using Maxima's syntax matrix([...]).
      * @param MoodleQuickForm $mform the form to add elements to.
      */
     public abstract function add_to_moodleform_testinput(MoodleQuickForm $mform);

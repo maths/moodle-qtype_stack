@@ -127,6 +127,10 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array list of inputs used by this PRT.
      */
     protected function get_inputs_used_by_prt($prtname) {
+        // Needed for questions with no inputs, (in particular blank starting questions).
+        if (!property_exists($this->question, 'inputs')) {
+            return array();
+        }
         if (is_null($this->question->inputs)) {
             return array();
         }
@@ -146,9 +150,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $prts = $this->question->prts;
         $prt = $prts[$prtname];
 
-	// If we add a new prt in the question stem, then $prt will be null, because there exists no element
-	// in $prts with name $prtname. It was impossible to uprade a single-part question to a multi-part
-	// question, so I added the following simple check to correct for this.
+        // If we add a new prt in the question stem, then $prt will be null, because there exists no element
+        // in $prts with name $prtname. It was impossible to uprade a single-part question to a multi-part
+        // question, so I added the following simple check to correct for this.
 
         if (is_null($prt)) {
             return array();
@@ -160,18 +164,19 @@ class qtype_stack_edit_form extends question_edit_form {
             $tans = new stack_cas_casstring($node->tans);
             $testoptions = new stack_cas_casstring($node->testoptions);
             $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $testoptions);
-            $prt_node->add_branch(1, '+', 0, 0, -1, $node->truefeedback, '');
-            $prt_node->add_branch(0, '+', 0, 0, -1, $node->falsefeedback, '');
+            $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, '');
+            $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, '');
             $prt_nodes[] = $prt_node;
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
-        $potential_response_tree = new stack_potentialresponse_tree('', '', false, 0, $feedbackvariables->get_session(), $prt_nodes);
+        $potential_response_tree = new stack_potentialresponse_tree(
+                '', '', false, 0, $feedbackvariables->get_session(), $prt_nodes);
         return $potential_response_tree->get_required_variables($input_keys);
     }
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
 
-        // Prepare input types
+        // Prepare input types.
         $types = stack_input_factory::get_available_types();
         $this->typechoices = array();
         foreach ($types as $type => $notused) {
@@ -179,7 +184,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         collatorlib::asort($this->typechoices);
 
-        // Prepare answer test types
+        // Prepare answer test types.
         $answertests = stack_ans_test_controller::get_available_ans_tests();
         $this->answertestchoices = array();
         foreach ($answertests as $test => $string) {
@@ -214,6 +219,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
 
+        $pen = $mform->createElement('text', 'penalty', get_string('penalty', 'qtype_stack'), array('size' => 5));
+        $mform->insertElementBefore($pen, 'generalfeedback');
+        $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
+        $mform->setDefault('penalty', 0.1000000);
+
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
         $mform->insertElementBefore($sf, 'generalfeedback');
@@ -230,17 +240,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('submit', 'verify', get_string('verifyquestionandupdate', 'qtype_stack'));
         $mform->registerNoSubmitButton('verify');
 
-        // Inputs
+        // Inputs.
         foreach ($inputnames as $inputname => $notused) {
             $this->definition_input($inputname, $mform);
         }
 
-        // PRTs
+        // PRTs.
         foreach ($prtnames as $prtname) {
             $this->definition_prt($prtname, $mform);
         }
 
-        // Options
+        // Options.
         $mform->addElement('header', 'optionsheader', get_string('options', 'qtype_stack'));
 
         $mform->addElement('selectyesno', 'questionsimplify',
@@ -251,13 +261,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('selectyesno', 'assumepositive',
                 get_string('assumepositive', 'qtype_stack'));
         $mform->addHelpButton('assumepositive', 'assumepositive', 'qtype_stack');
-
-        $mform->addElement('select', 'markmode',
-                get_string('markmode', 'qtype_stack'), array(
-                    qtype_stack_question::MARK_MODE_PENALTY => get_string('markmodepenalty', 'qtype_stack'),
-                    qtype_stack_question::MARK_MODE_FIRST   => get_string('markmodefirst', 'qtype_stack'),
-                    qtype_stack_question::MARK_MODE_LAST    => get_string('markmodelast', 'qtype_stack')));
-        $mform->addHelpButton('markmode', 'markmode', 'qtype_stack');
 
         $mform->addElement('editor', 'prtcorrect',
                 get_string('prtcorrectfeedback', 'qtype_stack'),
@@ -293,11 +296,6 @@ class qtype_stack_edit_form extends question_edit_form {
                 get_string('complexno', 'qtype_stack'), array(
                     'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
-
-        // Question tests.
-
-        // To stop Moodle compaining.
-        $mform->addElement('hidden', 'penalty', 0);
     }
 
     protected function definition_input($inputname, MoodleQuickForm $mform) {
@@ -432,17 +430,20 @@ class qtype_stack_edit_form extends question_edit_form {
                     get_string('nodex' . $branch . 'feedback', 'qtype_stack'), array('rows' => 1), $this->editoroptions);
         }
 
-        //TODO: Make these work!
-        //$repeatoptions[$prtname . 'answertest']['helpbutton'] = array('answertest', 'qtype_stack');
-        //$repeatoptions[$prtname . 'sans']['helpbutton'] = array('sans', 'qtype_stack');
-        //$repeatoptions[$prtname . 'tans']['helpbutton'] = array('tans', 'qtype_stack');
-        //$repeatoptions[$prtname . 'testoptions']['helpbutton'] = array('testoptions', 'qtype_stack');
-        //$repeatoptions[$prtname . 'quiet']['helpbutton'] = array('quiet', 'qtype_stack');
-        //$repeatoptions[$prtname . 'feedback']['helpbutton'] = array('feedback', 'qtype_stack');
-        //$repeatoptions[$prtname . 'answernote']['helpbutton'] = array('answernote', 'qtype_stack');
-        //$repeatoptions[$prtname . 'sans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required', '', 'client', false, false);
-        //$repeatoptions[$prtname . 'tans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required', '', 'client', false, false);
-        //$repeatoptions[$prtname . 'answernote']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required', '', 'client', false, false);
+        // TODO: Make these work!
+        // $repeatoptions[$prtname . 'answertest']['helpbutton'] = array('answertest', 'qtype_stack');
+        // $repeatoptions[$prtname . 'sans']['helpbutton'] = array('sans', 'qtype_stack');
+        // $repeatoptions[$prtname . 'tans']['helpbutton'] = array('tans', 'qtype_stack');
+        // $repeatoptions[$prtname . 'testoptions']['helpbutton'] = array('testoptions', 'qtype_stack');
+        // $repeatoptions[$prtname . 'quiet']['helpbutton'] = array('quiet', 'qtype_stack');
+        // $repeatoptions[$prtname . 'feedback']['helpbutton'] = array('feedback', 'qtype_stack');
+        // $repeatoptions[$prtname . 'answernote']['helpbutton'] = array('answernote', 'qtype_stack');
+        // $repeatoptions[$prtname . 'sans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required',
+        //                                                     '', 'client', false, false);
+        // $repeatoptions[$prtname . 'tans']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required',
+        //                                                     '', 'client', false, false);
+        // $repeatoptions[$prtname . 'answernote']['rule'] = array(get_string('requiredfield','qtype_stack'), 'required',
+        //                                                     '', 'client', false, false);
 
         $repeatoptions[$prtname . 'truescore']['default'] = 1;
         $repeatoptions[$prtname . 'falsescore']['default'] = 0;
@@ -495,7 +496,6 @@ class qtype_stack_edit_form extends question_edit_form {
                                             $opt->prtpartiallycorrect, $opt->prtpartiallycorrectformat, $question->id);
         $question->prtincorrect          = $this->prepare_text_field('prtincorrect',
                                             $opt->prtincorrect, $opt->prtincorrectformat, $question->id);
-        $question->markmode              = $opt->markmode;
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
         $question->sqrtsign              = $opt->sqrtsign;
@@ -575,7 +575,11 @@ class qtype_stack_edit_form extends question_edit_form {
         // 0 + bit is to eliminate excessive decimal places from the DB.
         $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
         $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
-        $question->{$prtname . 'truepenalty'   }[$nodename] = 0 + $node->truepenalty;
+        $penalty = $node->truepenalty;
+        if ('' != trim($penalty)) {
+            $penalty = 0 + $penalty;
+        }
+        $question->{$prtname . 'truepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'truenextnode'  }[$nodename] = $node->truenextnode;
         $question->{$prtname . 'trueanswernote'}[$nodename] = $node->trueanswernote;
         $question->{$prtname . 'truefeedback'  }[$nodename] = $this->prepare_text_field(
@@ -584,7 +588,11 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $question->{$prtname . 'falsescoremode' }[$nodename] = $node->falsescoremode;
         $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
-        $question->{$prtname . 'falsepenalty'   }[$nodename] = 0 + $node->falsepenalty;
+        $penalty = $node->falsepenalty;
+        if ('' != trim($penalty)) {
+            $penalty = 0 + $penalty;
+        }
+        $question->{$prtname . 'falsepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'falsenextnode'  }[$nodename] = $node->falsenextnode;
         $question->{$prtname . 'falseanswernote'}[$nodename] = $node->falseanswernote;
         $question->{$prtname . 'falsefeedback'  }[$nodename] = $this->prepare_text_field(
@@ -625,7 +633,7 @@ class qtype_stack_edit_form extends question_edit_form {
     public function validation($fromform, $files) {
         $errors = parent::validation($fromform, $files);
 
-        // (1) Validate all the fixes question fields.
+        // 1) Validate all the fixed question fields.
         $questionvars = new stack_cas_keyval($fromform['questionvariables'], null, null, 't');
         if (!$questionvars->get_valid()) {
             $errors['questionvariables'] = $questionvars->get_errors();
@@ -650,7 +658,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputs = array_keys($this->get_input_names_from_question_text());
         $potentialresponsetrees = $this->get_prt_names_from_question();
 
-        // (2) Validate all inputs.
+        $penalty = $fromform['penalty'];
+        if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
+            $errors['penalty'] = get_string('penaltyerror', 'qtype_stack');
+        }
+
+        // 2) Validate all inputs.
         foreach ($inputs as $inputname) {
             $teacheranswer = new stack_cas_casstring($fromform[$inputname . 'tans']);
             if (!$teacheranswer->get_valid('t')) {
@@ -658,7 +671,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-        // (3) Validate all prts.
+        // 3) Validate all prts.
         foreach ($potentialresponsetrees as $prtname) {
             $interror = array();
             $feedbackvars = new stack_cas_keyval($fromform[$prtname.'feedbackvariables'], null, null, 't');
@@ -673,7 +686,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 } else {
                     $cs= new stack_cas_casstring($sans);
                     if (!$cs->get_valid('t')) {
-                        //TODO this does not display in the right place!
+                        // TODO this does not display in the right place!
                         $interror[] = get_string('edit_form_error', 'qtype_stack',
                                 array('no' => $key+1, 'field' => get_string('sans', 'qtype_stack'))) .
                                 $cs->get_errors();
@@ -729,13 +742,26 @@ class qtype_stack_edit_form extends question_edit_form {
                                 'field' => get_string('answernote', 'qtype_stack'))).get_string('answernote_err', 'qtype_stack');
                     }
                 }
+                foreach ($fromform[$prtname.$branch.'penalty'] as $key => $penalty) {
+                    if ('' != $penalty) {
+                        if (!is_numeric($penalty) || $penalty<0 || $penalty>1) {
+                            $interror[] = get_string('penaltyerror2', 'qtype_stack');
+                        }
+                    }
+                }
+                foreach ($fromform[$prtname.$branch.'score'] as $key => $score) {
+                    if (!is_numeric($score) || $score<0 || $score>1) {
+                         $interror[] = get_string('scoreerror', 'qtype_stack');
+                    }
+                }
             }
+
             if (!empty($interror)) {
                 $errors[$prtname.'feedbackvariables'] = implode(' ', $interror);
             }
         }
 
-        // (4) Validate queston text and specific feedback - depends on inputs and prts.
+        // 4) Validate queston text and specific feedback - depends on inputs and prts.
         $specificfeedback = new stack_cas_text($fromform['specificfeedback']['text'], null, null, 't');
         if (!$specificfeedback->get_valid()) {
             $errors['specificfeedback'] = $specificfeedback->get_errors();
@@ -746,8 +772,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $errors['questiontext'] = $questiontext->get_errors();
         }
 
-        //TODO: remove/flag up unwanted tokens....
-        //TODO  Insert missing flags automatically?
+        // TODO: remove/flag up unwanted tokens....
+        // TODO  Insert missing flags automatically?
         $missingtokens = array();
         $excesstokens = array();
         $specificfeedback = array();

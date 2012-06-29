@@ -29,22 +29,22 @@ $string['pluginnameadding'] = 'Adding a STACK question';
 $string['pluginnameediting'] = 'Editing a STACK question';
 $string['pluginnamesummary'] = 'STACK provides mathematical questions for the moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
 
-// general strings
+// General strings.
 $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';
 $string['exceptionmessage'] = '{$a}';
 
-// Strings used on the editing form
+// Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
 $string['answernote'] = 'Answer note';
-$string['answernote_err'] = 'Answer notes may not contain the character |.  This is inserted by STACK and is later used to split answer notes automatically.';
+$string['answernote_err'] = 'Answer notes may not contain the character |.  This character is inserted by STACK and is later used to split answer notes automatically.';
 $string['answernote_help'] = 'This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.';
 $string['answernote_link'] = 'question/type/stack/doc/doc.php/Authoring/Potential_response_trees.md#Answer_note';
 $string['assumepositive'] = 'Assume postitive';
 $string['assumepositive_help'] = 'This option sets the value of Maxima\'s assume_pos variable.';
 $string['assumepositive_link'] = 'question/type/stack/doc/doc.php/Authoring/Options.md#Assume_Positive';
 $string['autosimplify'] = 'Auto-simplify';
-$string['autosimplify_help'] = 'Sets the variable "simp" within Maxim for this potential response tree.';
+$string['autosimplify_help'] = 'Sets the variable "simp" within Maxima for this potential response tree.';
 $string['autosimplify_link'] = 'question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
@@ -86,15 +86,10 @@ $string['inputtypeboolean'] = 'True/False';
 $string['inputtypedropdown'] = 'Drop down list';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
+$string['inputtypematrix'] = 'Matrix';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to yes then the system will automatically insert *s into any patterns identified by Strict Syntax.  Otherwise, it thows an error.';
 $string['insertstars_link'] = '/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';
-$string['markmode'] = 'Mark modification';
-$string['markmode_help'] = 'This option sets how a score is assigned for multiple attempts at the question.';
-$string['markmode_link'] = 'question/type/stack/doc/doc.php/Authoring/Options.md#Mark_Modification';
-$string['markmodefirst'] = 'First answer';
-$string['markmodelast'] = 'Last answer';
-$string['markmodepenalty'] = 'Penalty';
 $string['multiplicationsign'] = 'Multiplication sign';
 $string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
 $string['multiplicationsign_link'] = 'question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
@@ -111,6 +106,10 @@ $string['nodexwhentrue'] = 'Node {no} when true';
 $string['nodex'] = 'Node {$a}';
 $string['nonempty'] = 'This must not be empty.';
 $string['penalty'] = 'Penalty';
+$string['penalty_help'] = 'The penalty scheme deducts this value from the result of each PRT for each different and valid attempt which is not completely correct.';
+$string['penalty_link'] = 'question/type/stack/doc/doc.php/Authoring/Feedback.md';
+$string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1.';
+$string['penaltyerror2'] = 'The penalty must empty, or be a numeric value between 0 and 1.';
 $string['prtcorrectfeedback'] = 'Standard feedback for correct';
 $string['prtheading'] = 'Potential response tree: {$a}';
 $string['prtincorrectfeedback'] = 'Standard feedback for incorrect';
@@ -120,9 +119,9 @@ $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random versions of a question. Two question versions are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
 $string['questionnote_link'] = 'question/type/stack/doc/doc.php/Authoring/Question_note.md';
 $string['questionnotetags'] = 'The question note must not contain the token(s) \'{$a}\'.';
-$string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  This is used to distinguish between different random versions of the question.';
+$string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  The question note is used to distinguish between different random versions of the question.';
 $string['questionsimplify'] = 'Question-level simplify';
-$string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxim for the whole question.';
+$string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
 $string['questionsimplify_link'] = 'question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['questiontext'] = 'Question text';
 $string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
@@ -147,6 +146,7 @@ $string['sans_help'] = 'This is the first argument to the answer test function. 
 $string['sans_link'] = 'question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
 $string['stop'] = '[stop]';
 $string['score'] = 'Score';
+$string['scoreerror'] = 'The score must be a numeric value between 0 and 1.';
 $string['scoremode'] = 'Mod';
 $string['specificfeedback'] = 'Specific feedback';
 $string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.  Note, this block is not CASText.';
@@ -177,7 +177,7 @@ $string['verifyquestionandupdate'] = 'Verify the question text and update the fo
 // Error reporting in the feedback form.
 $string['edit_form_error'] = 'Node {$a->no} {$a->field} has the following error: ';
 
-// admin settings
+// Admin settings.
 $string['settingcasdebugging'] = 'CAS debugging';
 $string['settingcasdebugging_desc'] = 'Whether to store debugging information about the CAS connection.';
 $string['settingcasmaximaversion'] = 'Maxima version';
@@ -199,13 +199,13 @@ $string['settingplatformmaximacommand_desc'] = 'Stack needs to know the shell co
 $string['settingplatformplotcommand'] = 'Plot command';
 $string['settingplatformplotcommand_desc'] = 'Stack needs to know the gnuplot command.  If this is blank, Stack will make an educated guess.';
 
-// Strings used by interation elements
+// Strings used by interaction elements.
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
 $string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values link a,b,c,d';
 
-// Strings used by the question test script
+// Strings used by the question test script.
 $string['addanothertestcase'] = 'Add another test case...';
 $string['addatestcase'] = 'Add a test case...';
 $string['addingatestcase'] = 'Adding a test case to question {$a}';
@@ -261,9 +261,10 @@ $string['healthcheckcache_db'] = 'CAS results are being cached in the database.'
 $string['healthcheckcache_none'] = 'CAS results are not being cached.';
 $string['healthcheckcachestatus'] = 'The cache currently contains {$a} entries.';
 $string['healthcheckconfig'] = 'Maxima configuration file';
-$string['healthcheckconfigintro'] = 'Trying to automatically write the Maxima configuration file.';
+$string['healthcheckconfigintro1'] = 'Found, and using, Maxima in the following directory:';
+$string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima configuration file.';
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
-$string['healthcheckconnectintro'] = 'We are trying to evaluate the following cas text:';
+$string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. Stack only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
 $string['healthchecklatexmathjax'] = 'One way to get equiation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';
@@ -307,7 +308,7 @@ $string['texinlinebracket'] = 'Inline bracket';
 $string['texdoubledollar'] = 'Double dollar';
 $string['texsingledollar'] = 'Single dollar';
 
-// casstring.class.php
+// Used in casstring.class.php.
 $string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
@@ -321,12 +322,12 @@ $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid}.';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
 
-// cassession.class.php
+// Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
 $string['stackCas_allFailed']               = 'CAS failed to return any evaluated expressions.  Please check your connection with the CAS.';
 $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 
-// castext.class.php
+// Used in castext.class.php.
 $string['stackCas_tooLong']                 = 'CASText statement is too long.';
 $string['stackCas_MissingAt']               = 'You are missing a @ sign.';
 $string['stackCas_MissingDollar']           = 'You are missing a $ sign';
@@ -345,10 +346,11 @@ $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
-//TODO add this to STACK....
-//$string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
+$string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specfic value.';
+// TODO add this to STACK...
+// $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
 
-// Answer tests
+// Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']           =  "AlgEquiv";
 $string['stackOptions_AnsTest_values_EqualComAss']        =  "EqualComAss";
 $string['stackOptions_AnsTest_values_CasEqual']           =  "CasEqual";
@@ -405,7 +407,7 @@ $string['ATSet_wrongsz']            = 'Your set should have {$a->m0} different e
 $string['ATSet_wrongentries']       = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';
 
 $string['irred_Q_factored']         = 'The term {$a->m0} should be unfactored, but is not. ';
-$string['irred_Q_commonint']        = 'You need to take out a common factor. ';  // needs a space at the end.
+$string['irred_Q_commonint']        = 'You need to take out a common factor. ';  // Needs a space at the end.
 $string['irred_Q_optional_fac']     = 'You could do more work, since {$a->m0} can be further factored.  However, you don\'t need to. ';
 
 $string['FacForm_UnPick_morework']  = 'You could still do some more work on the term {$a->m0}. ';
@@ -413,8 +415,8 @@ $string['FacForm_UnPick_intfac']    = $string['irred_Q_commonint'];
 
 $string['ATFacForm_error_list']     = 'The answer test failed.  Please contact your systems administrator';
 $string['ATFacForm_error_degreeSA'] = 'The CAS could not establish the algebraic degree of your answer.';
-$string['ATFacForm_isfactored']     = 'Your answer is factored, well done. ';  // needs a space at the end.
-$string['ATFacForm_notfactored']    = 'Your answer is not factored. '; // needs a space at the end.
+$string['ATFacForm_isfactored']     = 'Your answer is factored, well done. ';  // Needs a space at the end.
+$string['ATFacForm_notfactored']    = 'Your answer is not factored. '; // Needs a space at the end.
 $string['ATFacForm_notalgequiv']    = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // needs a space at the end.
 
 $string['ATPartFrac_error_list']        = $string['ATFacForm_error_list'];
@@ -468,7 +470,7 @@ $string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted
 $string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 
-// Documentation strings
+// Documentation strings.
 $string['stackDoc_404']                 = 'Error 404';
 $string['stackDoc_docs']                = 'STACK Documentation';
 $string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation for STACK</a>: a local static wiki.';

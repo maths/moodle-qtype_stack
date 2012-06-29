@@ -67,7 +67,7 @@ $config = get_config('qtype_stack');
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-// LaTeX
+// LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
@@ -100,26 +100,33 @@ END;
 echo html_writer::tag('textarea', s($mathjaxcode),
         array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
 
-// Maxima config
+// Maxima config.
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
-echo html_writer::tag('p', stack_string('healthcheckconfigintro'));
 
+// Check for location of Maxima.
+$maxima_location = stack_cas_configuration::confirm_maxima_win_location();
+if ('' != $maxima_location) {
+    echo html_writer::tag('p', stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maxima_location));
+}
+
+// Try to connect to create maxima local.
+echo html_writer::tag('p', stack_string('healthcheckconfigintro2'));
 stack_cas_configuration::create_maximalocal();
 
 echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
         array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'32', 'cols'=>'100'));
 
-// Maxima config
+// Maxima config.
 if (stack_cas_configuration::maxima_bat_is_missing()) {
     echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
     echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $CFG->dataroot));
 }
 
-// Test Maxima connection
+// Test Maxima connection.
 output_cas_text(stack_string('healthcheckconnect'),
         stack_string('healthcheckconnectintro'), $samplecastext);
 
-// Test plots
+// Test plots.
 output_cas_text(stack_string('healthcheckplots'),
         stack_string('healthcheckplotsintro'), $sampleplots);
 

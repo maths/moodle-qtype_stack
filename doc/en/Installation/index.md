@@ -9,7 +9,7 @@ __WARNING: STACK 3.0 is under development.  This code is intended only for use b
 
 ## 2. Install GNUPlot and Maxima
 
-Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.21.1 to 5.26.0 are supported.  Please contact the developers to request support for other versions.
+Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.21.1 to 5.27.0 are supported.  Please contact the developers to request support for other versions.
 
 Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained
 installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and
@@ -21,6 +21,7 @@ STACK requries these.
 
 1. Obtain Deferred feedback with explicit validation behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfexplicitvaildate -> dfexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate`.
 2. Obtain Deferred feedback with CBM and explicit validation behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\dfcbmexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfcbmexplicitvaildate -> dfcbmexplicitvaildate`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate`.
+2. Obtain adaptivemutlipart behaviour code. Either [download the zip file](https://github.com/timhunt/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle\question\behaviour\adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/timhunt/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart`.
 3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 4. Add the STACK question type
@@ -43,4 +44,4 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
 1. Obtain the code. Either [download the zip file](https://github.com/sangwinc/moodle-qformat_stack/zipball/master), unzip it, and place it in the directory `moodle\question\format\stack`. (You will need to rename the directory `moodle-qformat_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/sangwinc/moodle-qformat_stack.git question/format/stack`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Developer/ImportingStack2Questions.md) before using it.
+There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Authoring/ImportExport.md) before using it.

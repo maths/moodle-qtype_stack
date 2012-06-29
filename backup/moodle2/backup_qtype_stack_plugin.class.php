@@ -38,19 +38,19 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
      */
     protected function define_question_plugin_structure() {
 
-        // Define the virtual plugin element with the condition to fulfill
+        // Define the virtual plugin element with the condition to fulfill.
         $plugin = $this->get_plugin_element(null, '../../qtype', 'stack');
 
-        // Create one standard named plugin element (the visible container)
+        // Create one standard named plugin element (the visible container).
         $pluginwrapper = new backup_nested_element($this->get_recommended_name());
 
-        // Connect the visible container ASAP
+        // Connect the visible container ASAP.
         $plugin->add_child($pluginwrapper);
 
-        // Now create the necessary elements
+        // Now create the necessary elements.
         $stackoptions = new backup_nested_element('stackoptions', array('id'),
                 array('questionvariables', 'specificfeedback', 'specificfeedbackformat',
-                      'questionnote', 'questionsimplify', 'assumepositive', 'markmode',
+                      'questionnote', 'questionsimplify', 'assumepositive',
                       'prtcorrect', 'prtcorrectformat', 'prtpartiallycorrect', 'prtpartiallycorrectformat',
                       'prtincorrect', 'prtincorrectformat', 'multiplicationsign', 'sqrtsign',
                       'complexno', 'variantsselectionseed'));
@@ -87,7 +87,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $stackdeployedseeds = new backup_nested_element('stackdeployedseeds');
         $stackdeployedseed = new backup_nested_element('stackdeployedseed', array('id'), array('seed'));
 
-        // Build the tree
+        // Build the tree.
         $pluginwrapper->add_child($stackoptions);
 
         $pluginwrapper->add_child($stackinputs);
@@ -108,7 +108,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $pluginwrapper->add_child($stackdeployedseeds);
         $stackdeployedseeds->add_child($stackdeployedseed);
 
-        // set source to populate the data
+        // Set source to populate the data.
         $stackoptions->set_source_table('qtype_stack', array('questionid' => backup::VAR_PARENTID));
         $stackinput->set_source_table('qtype_stack_inputs', array('questionid' => backup::VAR_PARENTID));
         $stackprt->set_source_table('qtype_stack_prts', array('questionid' => backup::VAR_PARENTID));

@@ -50,7 +50,8 @@ class stack_inputvalidation_test_data {
         array('pi', 'php_true', 'pi', 'cas_true', ""),
         array('e', 'php_true', 'e', 'cas_true', "Cannot easily make \(e\) a variable name."),
         array('i', 'php_true', 'i', 'cas_true', "Options to make i a variable, or a vector unit.  Note this is not italic."),
-        array('j', 'php_true', 'j', 'cas_true', "Can define \(j^2=-1\) as an option, or a vector unit.  By default a variable, so italic."),
+        array('j', 'php_true', 'j', 'cas_true',
+            "Can define \(j^2=-1\) as an option, or a vector unit.  By default a variable, so italic."),
         array('%pi', 'php_true', '%pi', 'cas_true', ""),
         array('%e', 'php_true', '%e', 'cas_true', ""),
         array('%i', 'php_true', '%i', 'cas_true', ""),
@@ -62,9 +63,11 @@ class stack_inputvalidation_test_data {
         array('1+2i', 'php_true', '1+2*i', 'cas_true', ""),
         array('true', 'php_true', 'true', 'cas_true', "Booleans"),
         array('false', 'php_true', 'false', 'cas_true', ""),
-        array('"1+1"', 'php_true', '"1+1"', 'cas_true', "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
+        array('"1+1"', 'php_true', '"1+1"', 'cas_true',
+        "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
         array('"Hello world"', 'php_false', '', '',
-        "Currently strings must pass the security checks.   We could disable this, but since strings are not encouraged we keep it for now."),
+        "Currently strings must pass the security checks.   We could disable this,
+        but since strings are not encouraged we keep it for now."),
         array('x', 'php_true', 'x', 'cas_true', "Names for variables etc."),
         array('a1', 'php_true', 'a*1', 'cas_true', ""),
         array('a9b', 'php_true', 'a*9*b', 'cas_true', "Note the subscripting and the implied multiplication."),
@@ -72,7 +75,7 @@ class stack_inputvalidation_test_data {
         array('X', 'php_true', 'X', 'cas_true', ""),
         array('aXy1', 'php_true', 'aXy1', 'cas_true', ""),
         array('f(x)', 'php_true', 'f*(x)', 'cas_true', "Functions"),
-        array('a(x)', 'php_true', 'a*(x)', 'cas_true',""),
+        array('a(x)', 'php_true', 'a*(x)', 'cas_true', ""),
         array("f''(x)", 'php_false', '' , '', "Apostrophies again..."),
         array('dosomething(x,y,z)', 'php_false', '', '',
         "Students have a restricted list of function names.  Teachers are less restricted."),
@@ -119,7 +122,8 @@ class stack_inputvalidation_test_data {
         array('!', 'php_true', '!', '', ""),
         array('sin', 'php_true', 'sin', 'cas_true',
         "This names the operator sine, which is a valid expression on its own.
-        The classic difference between the function \(f\) and the value of the function at a point \(f(x)\).  Maybe a 'gocha' for the question author...."),
+        The classic difference between the function \(f\) and the value of the
+        function at a point \(f(x)\).  Maybe a 'gocha' for the question author...."),
         array('(x+y)^z', 'php_true', '(x+y)^z', 'cas_true',
         "Check display: brackets only go round operands when strictly necessary, but student validation respects the input."),
         array('x+(y^z)', 'php_true', 'x+(y^z)', 'cas_true', ""),
@@ -182,7 +186,8 @@ class stack_inputvalidation_test_data {
         array('x(2+1)', 'php_true', 'x*(2+1)', 'cas_true', ""),
         array('(x+2)(x+3)', 'php_true', '(x+2)*(x+3)', 'cas_true', ""),
         array('f(x)(2)', 'php_true', 'f*(x)*(2)', 'cas_true', ""),
-        array('xsin(1)', 'php_false', '', '', "single-letter variable name followed by known function is an implicit multiplication"),
+        array('xsin(1)', 'php_false', '', '',
+        "single-letter variable name followed by known function is an implicit multiplication"),
         array('ycos(2)', 'php_false', '', '', ""),
         array('Bgcd(3,2)', 'php_false', '', '', ""),
         array('+1', 'php_true', '+1', 'cas_true', "Unary plus"),
@@ -275,7 +280,8 @@ class stack_inputvalidation_test_data {
         array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', ""),
         array('asin(x)', 'php_true', 'asin(x)', 'cas_true', "Maxima uses the asin pattern"),
         array('arcsin(x)', 'php_true', 'arcsin(x)', 'cas_true', "Not the arcsin"),
-        array('sin^-1(x)', 'php_true', 'sin^-1(x)', 'cas_true', "WARNING: look carefully.  Probably not what the student expects....."),
+        array('sin^-1(x)', 'php_true', 'sin^-1(x)', 'cas_true',
+        "WARNING: look carefully.  Probably not what the student expects....."),
         array('cosh(x)', 'php_true', 'cosh(x)', 'cas_true', ""),
         array('sinh(x)', 'php_true', 'sinh(x)', 'cas_true', ""),
         array('tanh(x)', 'php_true', 'tanh(x)', 'cas_true', ""),
@@ -328,11 +334,11 @@ class stack_inputvalidation_test_data {
     public static function run_test($test) {
         // Note: we would really like to do this, but want to pull apart the bits to
         // expose where the various errors occur.
-        //$el = stack_input_factory::make('algebraic', 'sans1', 'x');
-        //$el->set_parameter('insertStars', true);
-        //$el->set_parameter('strictSyntax', false);
-        //$el->set_parameter('sameType', false);
-        //$cs = $el->validate_student_response($test->rawstring);
+        // $el = stack_input_factory::make('algebraic', 'sans1', 'x');
+        // $el->set_parameter('insertStars', true);
+        // $el->set_parameter('strictSyntax', false);
+        // $el->set_parameter('sameType', false);
+        // $cs = $el->validate_student_response($test->rawstring);
 
         $cs= new stack_cas_casstring($test->rawstring);
         $cs->validate('s', false, true);
@@ -340,7 +346,7 @@ class stack_inputvalidation_test_data {
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {
-            // Trim off stack_validate_typeless([..],true,true)
+            // Trim off stack_validate_typeless([..], true, true).
             $phpcasstring = $cs->get_casstring();
             $phpcasstring = substr($cs->get_casstring(), 25, strlen($cs->get_casstring())-37);
             $phpcasstring = substr($phpcasstring, -13);
@@ -365,7 +371,8 @@ class stack_inputvalidation_test_data {
         }
         if ($phpvalid && $phpcasstring != $test->phpcasstring) {
             $passed = false;
-            $errors .= ' ' . stack_maxima_format_casstring($phpcasstring).' \(\neq \) '.stack_maxima_format_casstring($test->phpcasstring);
+            $errors .= ' ' . stack_maxima_format_casstring($phpcasstring) .
+                    ' \(\neq \) '.stack_maxima_format_casstring($test->phpcasstring);
         }
 
         $casvalid = '';

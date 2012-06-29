@@ -74,6 +74,51 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     }
 
+    public function test_multiplication_option_dot() {
+
+        $cs=array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'dot');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('x\cdot y', $at1->get_display_key('a'));
+
+    }
+
+    public function test_multiplication_option_none() {
+
+        $cs=array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('x\,y', $at1->get_display_key('a'));
+
+    }
+
+    public function test_multiplication_option_cross() {
+
+        $cs=array('a:x*y', 'b:1/(1+x^2)', 'c:e^(i*pi)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'cross');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('x\times y', $at1->get_display_key('a'));
+
+    }
+
     public function test_keyval_representation_1() {
 
         $cs=array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');
@@ -102,7 +147,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('a:1;', $at1->get_keyval_representation());
     }
 
-    public function test_string1 (){
+    public function test_string1() {
 
         $cs=array('s:"This is a string"');
         foreach ($cs as $s) {
@@ -113,6 +158,20 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('"This is a string"', $at1->get_value_key('s'));
+    }
+
+    public function test_qmchar() {
+
+        $cs=array('s:5?+6?');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('11*?', $at1->get_value_key('s'));
+        $this->assertEquals('11\cdot \color{red}{?}', $at1->get_display_key('s'));
     }
 }
 

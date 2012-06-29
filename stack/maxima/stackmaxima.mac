@@ -97,6 +97,8 @@ sqrtdenest(a):=
 load("assessment.mac"); /* Currently part of the STACK distribution */
 
 load("stacktex.lisp"); /* Loads LaTeX adaptions and preferences */
+texput(QMCHAR,"\\color{red}{?}");
+
 load("mathml.lisp");   /* loads MathML */
 
 make_complexJ(OPT_COMPLEXJ) := block(
@@ -1674,5 +1676,5 @@ assess(ex1,ex2):=block([ret],
 
 
 /* Stack expects some output */
-print("[ Stack-Maxima started V3.0, 20/4/12]");
+print("[ Stack-Maxima started V3.0, 16/6/12]");
 

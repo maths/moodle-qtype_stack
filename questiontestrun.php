@@ -105,8 +105,9 @@ echo $OUTPUT->heading(get_string('deployedvariants', 'qtype_stack'), 3);
 
 $variantmatched = false;
 if (!$question->has_random_variants()) {
-    echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack').' '.$OUTPUT->action_icon(new moodle_url('/question/preview.php',
-            array('courseid' => $courseid, 'id' => $questionid)),
+    echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack') .
+            ' ' . $OUTPUT->action_icon(new moodle_url('/question/preview.php',
+                    array('courseid' => $courseid, 'id' => $questionid)),
             new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
 } else if (empty($question->deployedseeds)) {
@@ -143,7 +144,7 @@ if (!$question->has_random_variants()) {
                 new pix_icon('t/delete', get_string('undeploy', 'qtype_stack')));
         }
 
-        // Print out question notes of all deployed versions
+        // Print out question notes of all deployed versions.
         $qn = question_bank::load_question($questionid);
         $qn->seed = (int) $deployedseed;
         $cn = $qn->get_context();
@@ -196,7 +197,7 @@ if ($question->has_random_variants()) {
 echo $OUTPUT->heading(get_string('questionpreview', 'qtype_stack'), 3);
 echo $quba->render_question($slot, $options);
 
-// Display the question note
+// Display the question note.
 echo $OUTPUT->heading(get_string('questionnote', 'qtype_stack'), 3);
 echo html_writer::tag('p', $question->get_question_summary(), array('class' => 'questionnote'));
 
@@ -210,7 +211,7 @@ foreach ($question->get_all_question_vars() as $key => $value) {
 echo  html_writer::tag('pre', $displayqvs);
 echo html_writer::end_tag('div');
 
-// Display the general feedback, aka "Worked solution"
+// Display the general feedback, aka "Worked solution".
 $qa = new question_attempt($question, 0);
 echo $OUTPUT->heading(get_string('generalfeedback', 'qtype_stack'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $question->format_generalfeedback($qa),

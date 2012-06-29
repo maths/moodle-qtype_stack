@@ -15,33 +15,21 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for stack_anstest_numabsolute.
+ * Unit tests for the stack_algebra_input class.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../anstest.class.php');
-require_once(dirname(__FILE__) . '/../numabsolute.class.php');
 
+require_once(dirname(__FILE__) . '/../../factory.class.php');
 
 /**
- * Unit tests for stack_anstest_numabsolute.
+ * Unit tests for stack_algebra_input.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @group qtype_stack
  */
-class stack_anstest_numabsolute_test extends UnitTestCase {
-
-    public function test_is_true_for_equal_expressions() {
-        $at = new stack_anstest_numabsolute('1.01', '1');
-        $this->assertTrue($at->do_test());
-        $this->assertEqual(1, $at->get_at_mark());
-    }
-
-    public function test_is_false_for_unequal_expressions() {
-        $at = new stack_anstest_numabsolute('2', '1', null, '0.5');
-        $this->assertFalse($at->do_test());
-        $this->assertEqual(0, $at->get_at_mark());
-    }
+class stack_matrix_input_test extends qtype_stack_testcase {
 
 }

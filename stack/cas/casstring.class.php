@@ -25,19 +25,48 @@ require_once(dirname(__FILE__) . '/../utils.class.php');
 
 class stack_cas_casstring {
 
-    private $rawcasstring;    // As typed in by the user.
-    private $casstring;       // As modified by the validation.
-    private $valid;           // true or false
-    private $key;
-    private $errors;          // string for the user
+    /** @var string as typed in by the user. */
+    private $rawcasstring;
 
-    private $value;           // Note these two values only become activated when the casstring goes to the CAS.
+    /** @var string as modified by the validation. */
+    private $casstring;
+
+    /** @var bool if the string has passed validation. */
+    private $valid;
+
+    /** @var bool */
+    private $key;
+
+    /** @var string any error messages to display to the user. */
+    private $errors;
+
+    /**
+     * @var string the value of the CAS string, in Maxima syntax. Only gets set
+     *             after the casstring has been processed by the CAS.
+     */
+    private $value;
+
+    /**
+     * @var string how to display the CAS string, e.g. LaTeX. Only gets set
+     *             after the casstring has been processed by the CAS.
+     */
     private $display;
 
-    private $answernote;      // These values only become activated when answertests are used and the casstring goes to the CAS.
+    /**
+     * @var string how to display the CAS string, e.g. LaTeX. Only gets set
+     *              after the casstring has been processed by the CAS, and the
+     *              CAS function is an answertest.
+     */
+    private $answernote;
+
+    /**
+     * @var string how to display the CAS string, e.g. LaTeX. Only gets set
+     *              after the casstring has been processed by the CAS, and the
+     *              CAS function is an answertest.
+     */
     private $feedback;
 
-    // Lists of strings
+    /** @var array blacklist of globally forbidden CAS keywords. */
     private static $globalforbid    = array('%TH', 'ADAPTH_DEPTH', 'ALIAS', 'ALIASES',
             'ALPHABETIC', 'APPENDFILE', 'APROPOS', 'ASSUME_EXTERNAL_BYTE_ORDER', 'BACKTRACE',
             'BATCH', 'BATCHLOAD', 'BOX', 'BOXCHAR', 'BREAK', 'BUG_REPORT', 'BUILD_INFO',
@@ -69,7 +98,11 @@ class stack_cas_casstring {
             'TRANSCOMPILE', 'TRANSLATE', 'TRANSLATE_FILE', 'TRANSRUN', 'TTYOFF', 'UNTIMER',
             'UNTRACE', 'USER_PREAMBLE', 'VALUES', 'WITH_STDOUT', 'WRITE_BINARY_DATA',
             'WRITE_DATA', 'WRITEFILE');
+
+    /** @var array blacklist of CAS keywords forbidden to teachers. */
     private static $teachernotallow = array('%UNITEXPAND', 'ABASEP', 'ABSBOXCHAR', 'ACTIVATE', 'ACTIVECONTEXTS', 'ADDITIVE', 'ADIM', 'AF', 'AFORM', 'AGD', 'ALG_TYPE', 'ALL_DOTSIMP_DENOMS', 'ALLSYM', 'ANTID', 'ANTIDIFF', 'ANTIDIFFERENCE', 'ANTISYMMETRIC', 'ARITHMETIC', 'ARITHSUM', 'ARRAY', 'ARRAYAPPLY', 'ARRAYINFO', 'ARRAYMAKE', 'ARRAYS', 'ASSOC_LEGENDRE_P', 'ASSOC_LEGENDRE_Q', 'ASYMBOL', 'ATENSIMP', 'ATOMGRAD', 'ATRIG1', 'ATVALUE', 'AUGMENTED_LAGRANGIAN_METHOD', 'AV', 'AXES', 'AXIS_3D', 'AXIS_BOTTOM', 'AXIS_LEFT', 'AXIS_RIGHT', 'AXIS_TOP', 'AZIMUT', 'BACKSUBST', 'BARS', 'BARSPLOT', 'BASHINDICES', 'BDVAC', 'BERLEFACT', 'BFPSI', 'BFPSI0', 'BIMETRIC', 'BODE_GAIN', 'BODE_PHASE', 'BORDER', 'BOUNDARIES_ARRAY', 'BOXPLOT', 'CANFORM', 'CANTEN', 'CBFFAC', 'CBRANGE', 'CBTICS', 'CDF_BERNOULLI', 'CDF_BETA', 'CDF_BINOMIAL', 'CDF_CAUCHY', 'CDF_CHI2', 'CDF_CONTINUOUS_UNIFORM', 'CDF_DISCRETE_UNIFORM', 'CDF_EXP', 'CDF_F', 'CDF_GAMMA', 'CDF_GEOMETRIC', 'CDF_GUMBEL', 'CDF_HYPERGEOMETRIC', 'CDF_LAPLACE', 'CDF_LOGISTIC', 'CDF_LOGNORMAL', 'CDF_NEGATIVE_BINOMIAL', 'CDF_NONCENTRAL_CHI2', 'CDF_NONCENTRAL_STUDENT_T', 'CDF_NORMAL', 'CDF_PARETO', 'CDF_POISSON', 'CDF_RANK_SUM', 'CDF_RAYLEIGH', 'CDF_SIGNED_RANK', 'CDF_STUDENT_T', 'CDF_WEIBULL', 'CDISPLAY', 'CENTRAL_MOMENT', 'CFRAME_FLAG', 'CGEODESIC', 'CHANGENAME', 'CHAOSGAME', 'CHEBYSHEV_T', 'CHEBYSHEV_U', 'CHECK_OVERLAPS', 'CHECKDIV', 'CHRISTOF', 'CLEAR_RULES', 'CMETRIC', 'CNONMET_FLAG', 'COGRAD', 'COLLAPSE', 'COLOR', 'COLORBOX', 'COLUMNS', 'COMBINATION', 'COMP2PUI', 'COMPONENTS', 'CONCAN', 'CONMETDERIV', 'CONSTVALUE', 'CONT2PART', 'CONTEXT', 'CONTEXTS', 'CONTINUOUS_FREQ', 'CONTORTION', 'CONTOUR', 'CONTOUR_LEVELS', 'CONTOUR_PLOT', 'CONTRACT_EDGE', 'CONTRAGRAD', 'CONTRIB_ODE', 'CONVERT', 'COORD', 'COPY_GRAPH', 'COR', 'COV', 'COV1', 'COVDIFF', 'COVERS', 'CREATE_LIST', 'CSETUP', 'CT_COORDS', 'CT_COORDSYS', 'CTAYLOR', 'CTAYPOV', 'CTAYPT', 'CTAYSWITCH', 'CTAYVAR', 'CTORSION_FLAG', 'CTRANSFORM', 'CTRGSIMP', 'CUNLISP', 'CV', 'DECLARE_CONSTVALUE', 'DECLARE_DIMENSIONS', 'DECLARE_FUNDAMENTAL_DIMENSIONS', 'DECLARE_FUNDAMENTAL_UNITS', 'DECLARE_QTY', 'DECLARE_TRANSLATED', 'DECLARE_UNIT_CONVERSION', 'DECLARE_UNITS', 'DECLARE_WEIGHTS', 'DECSYM', 'DEFAULT_LET_RULE_PACKAGE', 'DEFCON', 'DEFMATCH', 'DEFRULE', 'DELAY', 'DELETEN', 'DIAG', 'DIAGMATRIXP', 'DIAGMETRIC', 'DIM', 'DIMENSION', 'DIMENSIONLESS', 'DIMENSIONS', 'DIMENSIONS_AS_LIST', 'DIRECT', 'DISCRETE_FREQ', 'DISP', 'DISPCON', 'DISPFLAG', 'DISPFORM', 'DISPFUN', 'DISPJORDAN', 'DISPLAY', 'DISPLAY2D', 'DISPLAY_FORMAT_INTERNAL', 'DISPRULE', 'DISPTERMS', 'DISTRIB', 'DOMXEXPT', 'DOMXMXOPS', 'DOMXNCTIMES', 'DOTSIMP', 'DRAW', 'DRAW2D', 'DRAW3D', 'DRAW_FILE', 'DRAW_GRAPH', 'DRAW_GRAPH_PROGRAM', 'DSCALAR', 'EINSTEIN', 'ELAPSED_REAL_TIME', 'ELAPSED_RUN_TIME', 'ELE2COMP', 'ELE2POLYNOME', 'ELE2PUI', 'ELEM', 'ELEVATION', 'ELLIPSE', 'ENHANCED3D', 'ENTERMATRIX', 'ENTERTENSOR', 'ENTIER', 'EPS_HEIGHT', 'EPS_WIDTH', 'EV_POINT', 'EVFLAG', 'EVFUN', 'EVOLUTION', 'EVOLUTION2D', 'EVUNDIFF', 'EXPLICIT', 'EXPLOSE', 'EXPON', 'EXPOP', 'EXPT', 'EXSEC', 'EXTDIFF', 'EXTRACT_LINEAR_EQUATIONS', 'F90', 'FACTS', 'FAST_CENTRAL_ELEMENTS', 'FAST_LINSOLVE', 'FB', 'FILE_BGCOLOR', 'FILL_COLOR', 'FILL_DENSITY', 'FILLARRAY', 'FILLED_FUNC', 'FINDDE', 'FIX', 'FLIPFLAG', 'FLUSH', 'FLUSH1DERIV', 'FLUSHD', 'FLUSHND', 'FONT', 'FONT_SIZE', 'FORGET', 'FRAME_BRACKET', 'FUNDAMENTAL_DIMENSIONS', 'FUNDAMENTAL_UNITS', 'GAUSSPROB', 'GCDIVIDE', 'GCFAC', 'GD', 'GDET', 'GEN_LAGUERRE', 'GENSUMNUM', 'GEOMAP', 'GEOMETRIC', 'GEOMETRIC_MEAN', 'GEOSUM', 'GET', 'GET_PIXEL', 'GET_PLOT_OPTION', 'GET_TEX_ENVIRONMENT', 'GET_TEX_ENVIRONMENT_DEFAULT', 'GGF', 'GGFCFMAX', 'GGFINFINITY', 'GLOBAL_VARIANCES', 'GLOBALSOLVE', 'GNUPLOT_CLOSE', 'GNUPLOT_CURVE_STYLES', 'GNUPLOT_CURVE_TITLES', 'GNUPLOT_DEFAULT_TERM_COMMAND', 'GNUPLOT_DUMB_TERM_COMMAND', 'GNUPLOT_PM3D', 'GNUPLOT_REPLOT', 'GNUPLOT_RESET', 'GNUPLOT_RESTART', 'GNUPLOT_START', 'GOSPER', 'GOSPER_IN_ZEILBERGER', 'GOSPERSUM', 'GR2D', 'GR3D', 'GRADEF', 'GRADEFS', 'GRAPH6_DECODE', 'GRAPH6_ENCODE', 'GRAPH6_EXPORT', 'GRAPH6_IMPORT', 'GRID', 'GROBNER_BASIS', 'HARMONIC', 'HARMONIC_MEAN', 'HAV', 'HEAD_ANGLE', 'HEAD_BOTH', 'HEAD_LENGTH', 'HEAD_TYPE', 'HERMITE', 'HISTOGRAM', 'HODGE', 'IC_CONVERT', 'ICC1', 'ICC2', 'ICHR1', 'ICHR2', 'ICOUNTER', 'ICURVATURE', 'IDIFF', 'IDIM', 'IDUMMY', 'IDUMMYX', 'IEQN', 'IEQNPRINT', 'IFB', 'IFC1', 'IFC2', 'IFG', 'IFGI', 'IFR', 'IFRAME_BRACKET_FORM', 'IFRAMES', 'IFRI', 'IFS', 'IGEODESIC_COORDS', 'IGEOWEDGE_FLAG', 'IKT1', 'IKT2', 'IMAGE', 'IMETRIC', 'IMPLICIT', 'IMPLICIT_DERIVATIVE', 'INDEXED_TENSOR', 'INDICES', 'INFERENCE_RESULT', 'INFERENCEP', 'INFIX', 'INIT_ATENSOR', 'INIT_CTENSOR', 'INM', 'INMC1', 'INMC2', 'INPROD', 'INTERVALP', 'INTOPOIS', 'INVARIANT1', 'INVARIANT2', 'INVERT_BY_LU', 'IP_GRID', 'IP_GRID_IN', 'ISHOW', 'ISOLATE', 'ISOLATE_WRT_TIMES', 'ITEMS_INFERENCE', 'ITR', 'JACOBI_P', 'JF', 'JORDAN', 'JULIA', 'KDELS', 'KDELTA', 'KEY', 'KINVARIANT', 'KOSTKA', 'KT', 'KURTOSIS', 'KURTOSIS_BERNOULLI', 'KURTOSIS_BETA', 'KURTOSIS_BINOMIAL', 'KURTOSIS_CHI2', 'KURTOSIS_CONTINUOUS_UNIFORM', 'KURTOSIS_DISCRETE_UNIFORM', 'KURTOSIS_EXP', 'KURTOSIS_F', 'KURTOSIS_GAMMA', 'KURTOSIS_GEOMETRIC', 'KURTOSIS_GUMBEL', 'KURTOSIS_HYPERGEOMETRIC', 'KURTOSIS_LAPLACE', 'KURTOSIS_LOGISTIC', 'KURTOSIS_LOGNORMAL', 'KURTOSIS_NEGATIVE_BINOMIAL', 'KURTOSIS_NONCENTRAL_CHI2', 'KURTOSIS_NONCENTRAL_STUDENT_T', 'KURTOSIS_NORMAL', 'KURTOSIS_PARETO', 'KURTOSIS_POISSON', 'KURTOSIS_RAYLEIGH', 'KURTOSIS_STUDENT_T', 'KURTOSIS_WEIBULL', 'LABEL', 'LABEL_ALIGNMENT', 'LABEL_ORIENTATION', 'LAGUERRE', 'LASSOCIATIVE', 'LBFGS', 'LBFGS_NCORRECTIONS', 'LBFGS_NFEVAL_MAX', 'LC2KDT', 'LC_L', 'LC_U', 'LCHARP', 'LEGEND', 'LEGENDRE_P', 'LEGENDRE_Q', 'LEINSTEIN', 'LET', 'LET_RULE_PACKAGES', 'LETRAT', 'LETRULES', 'LETSIMP', 'LEVI_CIVITA', 'LFG', 'LG', 'LGTREILLIS', 'LI', 'LIEDIFF', 'LINDSTEDT', 'LINE_TYPE', 'LINE_WIDTH', 'LINEAR', 'LINEAR_PROGRAM', 'LINEAR_SOLVER', 'LISPDISP', 'LIST_CORRELATIONS', 'LIST_NC_MONOMIALS', 'LISTARRAY', 'LISTOFTENS', 'LOGAND', 'LOGCB', 'LOGOR', 'LOGX', 'LOGXOR', 'LOGY', 'LOGZ', 'LORENTZ_GAUGE', 'LPART', 'LRIEM', 'LRIEMANN', 'LSQUARES_ESTIMATES', 'LSQUARES_ESTIMATES_APPROXIMATE', 'LSQUARES_ESTIMATES_EXACT', 'LSQUARES_MSE', 'LSQUARES_RESIDUAL_MSE', 'LSQUARES_RESIDUALS', 'LTREILLIS', 'M1PBRANCH', 'MAINVAR', 'MAKE_ARRAY', 'MAKE_LEVEL_PICTURE', 'MAKE_POLY_CONTINENT', 'MAKE_POLY_COUNTRY', 'MAKE_POLYGON', 'MAKE_RANDOM_STATE', 'MAKE_RGB_PICTURE', 'MAKEBOX', 'MAKEORDERS', 'MANDELBROT', 'MAPERROR', 'MAT_FUNCTION', 'MAX_ORD', 'MAXAPPLYDEPTH', 'MAXAPPLYHEIGHT', 'MAXI', 'MAXIMIZE_LP', 'MAXNEGEX', 'MAXPOSEX', 'MAXPSIFRACDENOM', 'MAXPSIFRACNUM', 'MAXPSINEGINT', 'MAXPSIPOSINT', 'MAXTAYORDER', 'MAYBE', 'MEAN', 'MEAN_BERNOULLI', 'MEAN_BETA', 'MEAN_BINOMIAL', 'MEAN_CHI2', 'MEAN_CONTINUOUS_UNIFORM', 'MEAN_DEVIATION', 'MEAN_DISCRETE_UNIFORM', 'MEAN_EXP', 'MEAN_F', 'MEAN_GAMMA', 'MEAN_GEOMETRIC', 'MEAN_GUMBEL', 'MEAN_HYPERGEOMETRIC', 'MEAN_LAPLACE', 'MEAN_LOGISTIC', 'MEAN_LOGNORMAL', 'MEAN_NEGATIVE_BINOMIAL', 'MEAN_NONCENTRAL_CHI2', 'MEAN_NONCENTRAL_STUDENT_T', 'MEAN_NORMAL', 'MEAN_PARETO', 'MEAN_POISSON', 'MEAN_RAYLEIGH', 'MEAN_STUDENT_T', 'MEAN_WEIBULL', 'MEDIAN', 'MEDIAN_DEVIATION', 'MESH', 'MESH_LINES_COLOR', 'METRICEXPANDALL', 'MINI', 'MINIMALPOLY', 'MINIMIZE_LP', 'MINOR', 'MNEWTON', 'MOD_BIG_PRIME', 'MOD_TEST', 'MOD_THRESHOLD', 'MODE_CHECK_ERRORP', 'MODE_CHECK_WARNP', 'MODE_CHECKP', 'MODE_DECLARE', 'MODE_IDENTITY', 'MODEMATRIX', 'MODULAR_LINEAR_SOLVER', 'MON2SCHUR', 'MONO', 'MONOMIAL_DIMENSIONS', 'MULTI_ELEM', 'MULTI_ORBIT', 'MULTI_PUI', 'MULTINOMIAL', 'MULTSYM', 'NATURAL_UNIT', 'NC_DEGREE', 'NEGATIVE_PICTURE', 'NEWCONTEXT', 'NEWTON', 'NEWTONEPSILON', 'NEWTONMAXITER', 'NEXTLAYERFACTOR', 'NICEINDICES', 'NICEINDICESPREF', 'NM', 'NMC', 'NONCENTRAL_MOMENT', 'NONEGATIVE_LP', 'NONMETRICITY', 'NONZEROANDFREEOF', 'NOUNDISP', 'NP', 'NPI', 'NPTETRAD', 'NTERMST', 'NTICKS', 'NTRIG', 'NUMBERED_BOUNDARIES', 'ODE2', 'ODE_CHECK', 'ODELIN', 'OPTIMIZE', 'OPTIMPREFIX', 'OPTIONSET', 'ORBIT', 'ORBITS', 'ORTHOPOLY_RECUR', 'ORTHOPOLY_RETURNS_INTERVALS', 'ORTHOPOLY_WEIGHT', 'OUTOFPOIS', 'PALETTE', 'PARAMETRIC', 'PARAMETRIC_SURFACE', 'PARGOSPER', 'PARTPOL', 'PDF_BERNOULLI', 'PDF_BETA', 'PDF_BINOMIAL', 'PDF_CAUCHY', 'PDF_CHI2', 'PDF_CONTINUOUS_UNIFORM', 'PDF_DISCRETE_UNIFORM', 'PDF_EXP', 'PDF_F', 'PDF_GAMMA', 'PDF_GEOMETRIC', 'PDF_GUMBEL', 'PDF_HEIGHT', 'PDF_HYPERGEOMETRIC', 'PDF_LAPLACE', 'PDF_LOGISTIC', 'PDF_LOGNORMAL', 'PDF_NEGATIVE_BINOMIAL', 'PDF_NONCENTRAL_CHI2', 'PDF_NONCENTRAL_STUDENT_T', 'PDF_NORMAL', 'PDF_PARETO', 'PDF_POISSON', 'PDF_RANK_SUM', 'PDF_RAYLEIGH', 'PDF_SIGNED_RANK', 'PDF_STUDENT_T', 'PDF_WEIBULL', 'PDF_WIDTH', 'PEARSON_SKEWNESS', 'PERMUT', 'PERMUTATION', 'PETROV', 'PIC_HEIGHT', 'PIC_WIDTH', 'PICTURE_EQUALP', 'PICTUREP', 'PIECHART', 'PLOT2D', 'PLOT3D', 'PLOT_FORMAT', 'PLOT_OPTIONS', 'PLOT_REAL_PART', 'PLSQUARES', 'POCHHAMMER', 'POCHHAMMER_MAX_INDEX', 'POINT_SIZE', 'POINT_TYPE', 'POINTS', 'POINTS_JOINED', 'POLAR', 'POLAR_TO_XY', 'POLYGON', 'PREDERROR', 'PRIMEP_NUMBER_OF_TESTS', 'PRINTPROPS', 'PRODRAC', 'PRODUCT', 'PRODUCT_USE_GAMMA', 'PROGRAMMODE', 'PROPORTIONAL_AXES', 'PROPS', 'PROPVARS', 'PSEXPAND', 'PSI', 'PUI', 'PUI2COMP', 'PUI2ELE', 'PUI2POLYNOME', 'PUI_DIRECT', 'PUIREDUC', 'QRANGE', 'QTY', 'QUANTILE', 'QUANTILE_BERNOULLI', 'QUANTILE_BETA', 'QUANTILE_BINOMIAL', 'QUANTILE_CAUCHY', 'QUANTILE_CHI2', 'QUANTILE_CONTINUOUS_UNIFORM', 'QUANTILE_DISCRETE_UNIFORM', 'QUANTILE_EXP', 'QUANTILE_F', 'QUANTILE_GAMMA', 'QUANTILE_GEOMETRIC', 'QUANTILE_GUMBEL', 'QUANTILE_HYPERGEOMETRIC', 'QUANTILE_LAPLACE', 'QUANTILE_LOGISTIC', 'QUANTILE_LOGNORMAL', 'QUANTILE_NEGATIVE_BINOMIAL', 'QUANTILE_NONCENTRAL_CHI2', 'QUANTILE_NONCENTRAL_STUDENT_T', 'QUANTILE_NORMAL', 'QUANTILE_PARETO', 'QUANTILE_POISSON', 'QUANTILE_RAYLEIGH', 'QUANTILE_STUDENT_T', 'QUANTILE_WEIBULL', 'QUARTILE_SKEWNESS', 'RANDOM', 'RANDOM_BERNOULLI', 'RANDOM_BETA', 'RANDOM_BINOMIAL', 'RANDOM_BIPARTITE_GRAPH', 'RANDOM_CAUCHY', 'RANDOM_CHI2', 'RANDOM_CONTINUOUS_UNIFORM', 'RANDOM_DIGRAPH', 'RANDOM_DISCRETE_UNIFORM', 'RANDOM_EXP', 'RANDOM_F', 'RANDOM_GAMMA', 'RANDOM_GEOMETRIC', 'RANDOM_GRAPH', 'RANDOM_GRAPH1', 'RANDOM_GUMBEL', 'RANDOM_HYPERGEOMETRIC', 'RANDOM_LAPLACE', 'RANDOM_LOGISTIC', 'RANDOM_LOGNORMAL', 'RANDOM_NEGATIVE_BINOMIAL', 'RANDOM_NETWORK', 'RANDOM_NONCENTRAL_CHI2', 'RANDOM_NONCENTRAL_STUDENT_T', 'RANDOM_NORMAL', 'RANDOM_PARETO', 'RANDOM_PERMUTATION', 'RANDOM_POISSON', 'RANDOM_RAYLEIGH', 'RANDOM_REGULAR_GRAPH', 'RANDOM_STUDENT_T', 'RANDOM_TOURNAMENT', 'RANDOM_TREE', 'RANDOM_WEIBULL', 'RANGE', 'RATCHRISTOF', 'RATEINSTEIN', 'RATIONAL', 'RATPRINT', 'RATRIEMANN', 'RATWEYL', 'RATWTLVL', 'REARRAY', 'RECTANGLE', 'REDIFF', 'REDRAW', 'REDUCE_CONSTS', 'REDUCE_ORDER', 'REGION_BOUNDARIES', 'REGION_BOUNDARIES_PLUS', 'REMARRAY', 'REMCOMPS', 'REMCON', 'REMCOORD', 'REMLET', 'REMOVE_DIMENSIONS', 'REMOVE_FUNDAMENTAL_DIMENSIONS', 'REMOVE_FUNDAMENTAL_UNITS', 'REMPART', 'REMSYM', 'RENAME', 'RESOLVANTE', 'RESOLVANTE_ALTERNEE1', 'RESOLVANTE_BIPARTITE', 'RESOLVANTE_DIEDRALE', 'RESOLVANTE_KLEIN', 'RESOLVANTE_KLEIN3', 'RESOLVANTE_PRODUIT_SYM', 'RESOLVANTE_UNITAIRE', 'RESOLVANTE_VIERER', 'REVERT', 'REVERT2', 'RGB2LEVEL', 'RIC', 'RICCI', 'RIEM', 'RIEMANN', 'RINVARIANT', 'RK', 'ROT_HORIZONTAL', 'ROT_VERTICAL', 'SAVEFACTORS', 'SCATTERPLOT', 'SCURVATURE', 'SET_DRAW_DEFAULTS', 'SET_RANDOM_STATE', 'SET_TEX_ENVIRONMENT', 'SET_TEX_ENVIRONMENT_DEFAULT', 'SET_UP_DOT_SIMPLIFICATIONS', 'SETELMX', 'SETUNITS', 'SETUP_AUTOLOAD', 'SF', 'SHOWCOMPS', 'SIMILARITYTRANSFORM', 'SIMPLE_LINEAR_REGRESSION', 'SIMPLIFIED_OUTPUT', 'SIMPLIFY_PRODUCTS', 'SIMPLIFY_SUM', 'SIMPLODE', 'SIMPMETDERIV', 'SIMTRAN', 'SKEWNESS', 'SKEWNESS_BERNOULLI', 'SKEWNESS_BETA', 'SKEWNESS_BINOMIAL', 'SKEWNESS_CHI2', 'SKEWNESS_CONTINUOUS_UNIFORM', 'SKEWNESS_DISCRETE_UNIFORM', 'SKEWNESS_EXP', 'SKEWNESS_F', 'SKEWNESS_GAMMA', 'SKEWNESS_GEOMETRIC', 'SKEWNESS_GUMBEL', 'SKEWNESS_HYPERGEOMETRIC', 'SKEWNESS_LAPLACE', 'SKEWNESS_LOGISTIC', 'SKEWNESS_LOGNORMAL', 'SKEWNESS_NEGATIVE_BINOMIAL', 'SKEWNESS_NONCENTRAL_CHI2', 'SKEWNESS_NONCENTRAL_STUDENT_T', 'SKEWNESS_NORMAL', 'SKEWNESS_PARETO', 'SKEWNESS_POISSON', 'SKEWNESS_RAYLEIGH', 'SKEWNESS_STUDENT_T', 'SKEWNESS_WEIBULL', 'SOLVE_REC', 'SOLVE_REC_RAT', 'SOMRAC', 'SPARSE6_DECODE', 'SPARSE6_ENCODE', 'SPHERICAL_BESSEL_J', 'SPHERICAL_BESSEL_Y', 'SPHERICAL_HANKEL1', 'SPHERICAL_HANKEL2', 'SPHERICAL_HARMONIC', 'SPLIT', 'SQRTDENEST', 'SSTATUS', 'STAIRCASE', 'STARDISP', 'STATS_NUMER', 'STD', 'STD1', 'STD_BERNOULLI', 'STD_BETA', 'STD_BINOMIAL', 'STD_CHI2', 'STD_CONTINUOUS_UNIFORM', 'STD_DISCRETE_UNIFORM', 'STD_EXP', 'STD_F', 'STD_GAMMA', 'STD_GEOMETRIC', 'STD_GUMBEL', 'STD_HYPERGEOMETRIC', 'STD_LAPLACE', 'STD_LOGISTIC', 'STD_LOGNORMAL', 'STD_NEGATIVE_BINOMIAL', 'STD_NONCENTRAL_CHI2', 'STD_NONCENTRAL_STUDENT_T', 'STD_NORMAL', 'STD_PARETO', 'STD_POISSON', 'STD_RAYLEIGH', 'STD_STUDENT_T', 'STD_WEIBULL', 'STIRLING', 'STIRLING1', 'STIRLING2', 'STRINGDISP', 'STYLE', 'SUBSAMPLE', 'SUMMAND_TO_REC', 'SURFACE_HIDE', 'SYMMETRICP', 'TAB', 'TAKE_CHANNEL', 'TAKE_INFERENCE', 'TCONTRACT', 'TENSORKILL', 'TENTEX', 'TEST_MEAN', 'TEST_MEANS_DIFFERENCE', 'TEST_NORMALITY', 'TEST_PROPORTION', 'TEST_PROPORTIONS_DIFFERENCE', 'TEST_RANK_SUM', 'TEST_SIGN', 'TEST_SIGNED_RANK', 'TEST_VARIANCE', 'TEST_VARIANCE_RATIO', 'TEXPUT', 'TITLE', 'TOTALDISREP', 'TOTIENT', 'TPARTPOL', 'TR', 'TR_ARRAY_AS_REF', 'TR_BOUND_FUNCTION_APPLYP', 'TR_FILE_TTY_MESSAGESP', 'TR_FLOAT_CAN_BRANCH_COMPLEX', 'TR_FUNCTION_CALL_DEFAULT', 'TR_NUMER', 'TR_OPTIMIZE_MAX_LOOP', 'TR_SEMICOMPILE', 'TR_STATE_VARS', 'TR_WARN_BAD_FUNCTION_CALLS', 'TR_WARN_FEXPR', 'TR_WARN_MEVAL', 'TR_WARN_MODE', 'TR_WARN_UNDECLARED', 'TR_WARN_UNDEFINED_VARIABLE', 'TR_WARNINGS_GET', 'TR_WINDY', 'TRACEMATRIX', 'TRANSFORM_XY', 'TRANSPARENT', 'TREILLIS', 'TREINAT', 'TRIVIAL_SOLUTIONS', 'TUBE', 'TUBE_EXTREMES', 'TUTTE_GRAPH', 'UEIVECTS', 'UFG', 'UFORGET', 'UG', 'ULTRASPHERICAL', 'UNDIFF', 'UNIT_STEP', 'UNIT_VECTORS', 'UNITEIGENVECTORS', 'UNITP', 'UNITS', 'UNITVECTOR', 'UNKNOWN', 'UNORDER', 'URIC', 'URICCI', 'URIEM', 'URIEMANN', 'USE_FAST_ARRAYS', 'USERSETUNITS', 'UVECT', 'VAR', 'VAR1', 'VAR_BERNOULLI', 'VAR_BETA', 'VAR_BINOMIAL', 'VAR_CHI2', 'VAR_CONTINUOUS_UNIFORM', 'VAR_DISCRETE_UNIFORM', 'VAR_EXP', 'VAR_F', 'VAR_GAMMA', 'VAR_GEOMETRIC', 'VAR_GUMBEL', 'VAR_HYPERGEOMETRIC', 'VAR_LAPLACE', 'VAR_LOGISTIC', 'VAR_LOGNORMAL', 'VAR_NEGATIVE_BINOMIAL', 'VAR_NONCENTRAL_CHI2', 'VAR_NONCENTRAL_STUDENT_T', 'VAR_NORMAL', 'VAR_PARETO', 'VAR_POISSON', 'VAR_RAYLEIGH', 'VAR_STUDENT_T', 'VAR_WEIBULL', 'VECTOR', 'VERBOSE', 'VERS', 'WARNINGS', 'WEYL', 'WRONSKIAN', 'X_VOXEL', 'XAXIS', 'XAXIS_COLOR', 'XAXIS_SECONDARY', 'XAXIS_TYPE', 'XAXIS_WIDTH', 'XLABEL', 'XRANGE', 'XRANGE_SECONDARY', 'XTICS', 'XTICS_AXIS', 'XTICS_ROTATE', 'XTICS_ROTATE_SECONDARY', 'XTICS_SECONDARY', 'XTICS_SECONDARY_AXIS', 'XU_GRID', 'XY_FILE', 'XYPLANE', 'Y_VOXEL', 'YAXIS', 'YAXIS_COLOR', 'YAXIS_SECONDARY', 'YAXIS_TYPE', 'YAXIS_WIDTH', 'YLABEL', 'YRANGE', 'YRANGE_SECONDARY', 'YTICS', 'YTICS_AXIS', 'YTICS_ROTATE', 'YTICS_ROTATE_SECONDARY', 'YTICS_SECONDARY', 'YTICS_SECONDARY_AXIS', 'YV_GRID', 'Z_VOXEL', 'ZAXIS', 'ZAXIS_COLOR', 'ZAXIS_TYPE', 'ZAXIS_WIDTH', 'ZEILBERGER', 'ZEROA', 'ZEROB', 'ZLABEL', 'ZLANGE', 'ZRANGE', 'ZTICS', 'ZTICS_AXIS', 'ZTICS_ROTATE' );
+
+    /** @var array blacklist of CAS keywords forbidden to students. */
     private static $studentallow    = array('%C', '%E', '%GAMMA', '%I', '%K1', '%K2',
             '%PHI', '%PI', 'ABS', 'ABSINT', 'ACOS', 'ACOSH', 'ACOT', 'ACOTH', 'ACSC', 'ACSCH',
             'ADDMATRICES', 'ADJOIN', 'AND', 'ASCII', 'ASEC', 'ASECH', 'ASIN', 'ASINH', 'ATAN',
@@ -205,13 +238,13 @@ class stack_cas_casstring {
         $cmd             = $this->rawcasstring;
         $this->casstring = $this->rawcasstring;
 
-        // casstrings must be non-empty.
+        // CAS strings must be non-empty.
         if (trim($this->casstring) == '') {
             $this->valid = false;
             return false;
         }
 
-        // If student, check for spaces between letters or numbers in expressions
+        // If student, check for spaces between letters or numbers in expressions.
         if ($security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
             if (preg_match($pat, $cmd)) {
@@ -221,7 +254,7 @@ class stack_cas_casstring {
             }
         }
 
-        // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else
+        // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else.
         if (strstr($cmd, '%') !== false) {
             $cmdl = strtolower($cmd);
             preg_match_all("(\%.*)", $cmdl, $found);
@@ -230,7 +263,7 @@ class stack_cas_casstring {
                 if (!((strpos($match, '%e') !== false) || (strpos($match, '%pi') !== false)
                     || (strpos($match, '%i') !== false) || (strpos($match, '%j') !== false)
                     || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false))) {
-                    //%e and %pi are allowed. Any other percentages dissallowed.
+                    // Constants %e and %pi are allowed. Any other percentages dissallowed.
                     $this->valid   = false;
                     $this->add_error(stack_string('stackCas_percent', array('expr' => stack_maxima_format_casstring($cmd))));
                 }
@@ -238,7 +271,7 @@ class stack_cas_casstring {
         }
 
         $inline = stack_utils::check_bookends($cmd, '(', ')');
-        if ($inline !== true) { //check_bookends does not return false
+        if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
@@ -249,7 +282,7 @@ class stack_cas_casstring {
             }
         }
         $inline = stack_utils::check_bookends($cmd, '{', '}');
-        if ($inline !== true) { //check_bookends does not return false
+        if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
@@ -260,7 +293,7 @@ class stack_cas_casstring {
             }
         }
         $inline = stack_utils::check_bookends($cmd, '[', ']');
-        if ($inline !== true) { //check_bookends does not return false
+        if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
@@ -272,12 +305,12 @@ class stack_cas_casstring {
         }
 
         if ($security == 's') {
-            // Check for apostrophes if a student
+            // Check for apostrophes if a student.
             if (strpos($cmd, "'") !== false) {
                 $this->valid = false;
                 $this->add_error(stack_string('stackCas_apostrophe'));
             }
-            // Check new lines
+            // Check new lines.
             if (strpos($cmd, "\n") !== false) {
                 $this->valid = false;
                 $this->add_error(stack_string('stackCas_newline'));
@@ -290,7 +323,7 @@ class stack_cas_casstring {
         $length = strlen($cmd);
         $lastchar = $cmd[($length -1)];
 
-        // Check for permitted characters
+        // Check for permitted characters.
         $invalidchars=array();
         foreach (str_split($cmd, 1) as $chr) {
             if (strpos($testset, $chr) === false) {
@@ -303,8 +336,8 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars)))));
         }
 
-        // Check for disallowed final characters,  / * + - ^ £ # = & ~ |, ? : ;
-        $disallowedchars = array('/', '+', '*', '/', '-', '^', '£', '#', '~', '=', '?', ',', '_', '&', '`', '¬', ';', ':', '$');
+        // Check for disallowed final characters,  / * + - ^ £ # = & ~ |, ? : ;.
+        $disallowedchars = array('/', '+', '*', '/', '-', '^', '£', '#', '~', '=', ',', '_', '&', '`', '¬', ';', ':', '$');
         if (in_array($lastchar, $disallowedchars)) {
             $this->valid = false;
             $a = array();
@@ -313,7 +346,7 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_finalChar', $a));
         }
 
-        // Check for empty parentheses `()`
+        // Check for empty parentheses `()`.
         if (strpos($cmd, '()') !== false) {
                 $this->valid = false;
                 $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
@@ -336,42 +369,43 @@ class stack_cas_casstring {
     private function check_stars($security, $syntax, $insertstars) {
 
         // Some patterns are always invalid syntax, and must have stars.
-        $patterns[] = "|(\))(\()|";                // Simply the pattern ")(".  Must be wrong!
-        $patterns[] = "|(\))([0-9A-Za-z])|";    // eg )a, or )3
+        $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
+        $patterns[] = "|(\))([0-9A-Za-z])|";          // E.g. )a, or )3.
         // We assume f and g are single letter functions.
-        // 'E' is used to denote scientific notation.  E.g 3E2 = 300.0
+        // 'E' is used to denote scientific notation.    E.g. 3E2 = 300.0.
         if ($syntax) {
-            $patterns[] = "|([0-9]+)([A-DF-Za-z])|";   // eg 3x
-            $patterns[] = "|([0-9])([A-DF-Za-z]\()|";     // eg 3 x (
+            $patterns[] = "|([0-9]+)([A-DF-Za-z])|";  // E.g. 3x.
+            $patterns[] = "|([0-9])([A-DF-Za-z]\()|"; // E.g. 3 x (.
         } else {
-            $patterns[] = "|([0-9]+)([A-Za-z])|";   // eg 3x
-            $patterns[] = "|([0-9])([A-Za-z]\()|";     // eg 3 x (
+            $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
+            $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3 x (.
         }
 
         if ($security == 's') {
-            $patterns[] = "|([0-9]+)(\()|";            // eg 3212 (
+            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212 (.
             if (!$syntax) {
-                $patterns[] = "|(^[A-Za-z])(\()|";      // eg a( , that is a single letter.
+                $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.
                 $patterns[] = "|(\*[A-Za-z])(\()|";
-                $patterns[] = "|([A-Za-z])([0-9]+)|";   // eg x3
+                $patterns[] = "|([A-Za-z])([0-9]+)|"; // E.g. x3.
             }
         }
 
-        //loop over every CAS command checking for missing stars
+        // Loop over every CAS command checking for missing stars.
         $missingstar     = false;
         $missingstring   = '';
 
-        $cmd =  $this->rawcasstring;
+        // Prevent ? characters calling LISP or the Maxima help file.  Instead, these pass through and are displayed as normal.
+        $cmd = str_replace('?', 'QMCHAR', $this->rawcasstring);
 
         foreach ($patterns as $pat) {
             if (preg_match($pat, $cmd)) {
-                //found a missing star.
+                // Found a missing star.
                 $missingstar = true;
                 if ($insertstars) {
-                    //then we automatically add stars
+                    // Then we automatically add stars.
                     $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
                 } else {
-                    //flag up the error
+                    // Flag up the error.
                     $missingstring = stack_maxima_format_casstring(preg_replace($pat,
                         "\${1}<font color=\"red\">*</font>\${2}", $cmd));
                 }
@@ -379,17 +413,17 @@ class stack_cas_casstring {
         }
 
         if (false == $missingstar) {
-            //if no missing stars return true
+            // If no missing stars return true.
             return true;
         }
         // Guard clause above - we have missing stars detected.
         if ($insertstars) {
-            //if we are going to quietly insert them
-            $this->casstring = $cmd;
+            // If we are going to quietly insert them.
+            $this->casstring = str_replace('QMCHAR', '?', $cmd);
             return true;
         } else {
-            //if missing stars & strict syntax is on return errors
-            $a['cmd']  = $missingstring;
+            // If missing stars & strict syntax is on return errors.
+            $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
             return false;
@@ -421,7 +455,7 @@ class stack_cas_casstring {
         }
         $strin_keywords = array_unique($strin_keywords);
 
-        //check for global forbidden words
+        // Check for global forbidden words.
         foreach ($strin_keywords as $key) {
             if (in_array($key, self::$globalforbid)) {
                 // Very bad!
@@ -430,19 +464,19 @@ class stack_cas_casstring {
             } else {
                 if ($security == 't') {
                     if (in_array($key, self::$teachernotallow)) {
-                        //if a teacher check against forbidden commands
+                        // If a teacher check against forbidden commands.
                         $this->valid = false;
                         $this->add_error(stack_string('stackCas_unsupportedKeyword',
                             array('forbid'=>stack_maxima_format_casstring($key))));
                     }
                 } else {
-                    //if not teacher allow only set commands.
+                    // If not teacher allow only set commands.
                     if (!in_array($key, self::$studentallow)) {
                         $this->valid = false;
                         $this->add_error(stack_string('stackCas_unknownFunction',
                             array('forbid'=>stack_maxima_format_casstring($key))));
                     }
-                    // else is valid student command.
+                    // Else is valid student command.
                 }
             }
         }
@@ -459,7 +493,7 @@ class stack_cas_casstring {
         if (null===$this->valid) {
             $this->validate();
         }
-        // Ensure all $keywords are upper case
+        // Ensure all $keywords are upper case.
         foreach ($keywords as $key => $val) {
             $keywords[$key] = trim(strtoupper($val));
         }
@@ -609,8 +643,8 @@ class stack_cas_casstring {
         }
     }
 
-    /* If we "CAS validate" this string, then we need to set various options. */
-    /* If the teacher's answer is NULL then we use typeless validation, otherwise we check type */
+    // If we "CAS validate" this string, then we need to set various options.
+    // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null) {
         if (null===$this->valid) {
             $this->validate();
@@ -622,7 +656,7 @@ class stack_cas_casstring {
         $this->key = $key;
         $starredanswer = $this->casstring;
 
-        //Turn PHP Booleans into Maxima true & false.
+        // Turn PHP Booleans into Maxima true & false.
         if ($forbidfloats) {
             $forbidfloats='true';
         } else {

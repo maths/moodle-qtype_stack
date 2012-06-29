@@ -2,7 +2,7 @@
 
 Computer aided assessment of mathematics works in the following phases.
 
-1. [Authoring](../Authoring/)
+1. [Authoring](../Authoring/index.md)
 2. [Testing](Testing.md)
 3. [Deploying](Deploying.md)
 4. [Reviewing](Reviewing.md)
@@ -268,7 +268,7 @@ Again, we need to use expressions such as `diff(p,v)` throughout the potential r
 
 Delete Node 3.  Factored form tests no longer make sense in the context of this question.
 
-It is often a good idea to use variables in the question at the outset, even if there is no intention to randomly generate a question initially.
+It is often a good idea to use variables in the question at the outset, even if there is no intention to randomly generate a question initially. Also, as questions become increasingly complex, it is a good habit to comment complicated lines in the Maxima code in the Question variables and Feedback variables, in order to make the code easier to read for anyone wishing to edit the question. Comments are entered as follows: `v : rand([x,s,t]) /* Set v randomly to x, s, or t */`.
 
 You will also need to update the question note to be
 
@@ -306,7 +306,7 @@ STACK's question type is very flexible.
 You might like to look at the entry for [feedback](Feedback.md).
 Quality control and  testing your question can be made easier by looking at [testing](Testing.md).
 
-There are also sample questions for you to import are distributed with STACK.
+There are also sample questions for you to [import](ImportExport.md) are distributed with STACK.
 
 More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions.md).
 

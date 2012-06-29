@@ -27,7 +27,7 @@ class stack_options {
 
     public function __construct($settings = array()) {
 
-        //i		OptionType can be: boolean, string, html, list
+        // OptionType can be: boolean, string, html, list.
         $this->options  = array( // Array of public class settings for this class.
             'display'   =>  array(
                 'type'       =>  'list',
@@ -91,7 +91,7 @@ class stack_options {
             throw new stack_exception('stack_options: $settings must be an array.');
         }
 
-        // Overright them from any input
+        // Overright them from any input.
         foreach ($settings as $key => $val) {
             if (!array_key_exists($key, $this->settings)) {
                 throw new stack_exception('stack_options construct: $key '.$key.' is not a valid option name.');
@@ -118,11 +118,11 @@ class stack_options {
                 break;
 
             case 'string':
-                //TODO
+                // TODO.
                 break;
 
             case 'html':
-                //TODO
+                // TODO.
                 break;
 
             case 'list':

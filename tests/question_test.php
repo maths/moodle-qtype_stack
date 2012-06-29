@@ -100,4 +100,52 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $this->assertTrue($q->is_gradable_response(array('ans1' => '2')));
         $this->assertTrue($q->is_gradable_response(array('ans1' => '2', 'ans1_val' => '2')));
     }
+
+    public function test_grade_parts_that_can_be_graded() {
+        $q = $this->get_test_stack_question('test3');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $response = array('ans1' => '(x', 'ans2' => '(x', 'ans3' => 'x+1', 'ans4' => 'false',
+                'ans1_val' => 'x^3', 'ans3_val' => 'x');
+        $lastgradedresponses = array(
+            'odd'     => array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '', 'ans1_val' => 'x^3', 'ans3_val' => 'x'),
+            'oddeven' => array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '', 'ans1_val' => 'x^3', 'ans3_val' => 'x'),
+        );
+        $partscores = $q->grade_parts_that_can_be_graded($response, $lastgradedresponses, false);
+
+        $expected = array(
+            'unique' => new qbehaviour_adaptivemultipart_part_result('unique', 0, 1),
+        );
+        $this->assertEquals($expected, $partscores);
+    }
+
+    public function test_classify_response_test0() {
+        $q = test_question_maker::make_question('stack', 'test0');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $expected = array(
+            'firsttree-0' => new question_classified_response('firsttree-1-F',
+                    'ATEqual_com_ass: (AlgEquiv:false) | firsttree-1-F', 0),
+        );
+        $this->assertEquals($expected, $q->classify_response(array('ans1' => '7')));
+
+        $expected = array(
+            'firsttree-0' => new question_classified_response('firsttree-1-T',
+                    'firsttree-1-T', 1),
+        );
+        $this->assertEquals($expected, $q->classify_response(array('ans1' => '2')));
+
+        $expected = array(
+            'firsttree-0' => question_classified_response::no_response(),
+        );
+        $this->assertEquals($expected, $q->classify_response(array('ans1' => '')));
+
+    }
+
+    public function test_classify_response_test3() {
+        $q = test_question_maker::make_question('stack', 'test3');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $this->assertTrue(true);
+    }
 }

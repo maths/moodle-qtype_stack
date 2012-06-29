@@ -79,6 +79,10 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 require_once(dirname(__FILE__) . '/connector.unix.class.php');
                 $connection = new stack_cas_connection_unix(self::$config, $debuglog);
                 break;
+            case 'server':
+                require_once(dirname(__FILE__) . '/connector.server.class.php');
+                $connection = new stack_cas_connection_server(self::$config, $debuglog);
+                break;
             case 'tomcat':
                 require_once(dirname(__FILE__) . '/connector.tomcat.class.php');
                 $connection = new stack_cas_connection_tomcat(self::$config, $debuglog);

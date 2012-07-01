@@ -99,6 +99,8 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TODO in the code for this.)
 8. Un-comment the throw in the matrix input.
 9. Unit tests for adative mode score display - and to verify nothing like that appears for other behaviours.
+10. Duplicate response detection for PRTs should consider all previous responses.
+11. It appears as if the phrase "This submission attracted a penalty of ..." isn't working.  It looks like this is the *old* penalty, not the *current*.
 
 ### Optimising Maxima
 

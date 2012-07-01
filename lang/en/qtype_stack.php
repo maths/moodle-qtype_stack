@@ -254,6 +254,7 @@ $string['settingplatformtype_desc'] = 'Stack needs to know what sort of operatin
 $string['settingplatformtypeunix'] = 'Linux';
 $string['settingplatformtypewin']  = 'Windows';
 $string['settingplatformtypeserver'] = 'Server';
+$string['settingplatformtypemaximapool'] = 'MaximaPool';
 $string['settingplatformmaximacommand'] = 'Maxima command';
 $string['settingplatformmaximacommand_desc'] = 'Stack needs to know the shell command to start Maxima.  If this is blank, Stack will make an educated guess.';
 $string['settingplatformplotcommand'] = 'Plot command';

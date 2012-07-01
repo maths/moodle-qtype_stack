@@ -258,41 +258,26 @@ abstract class stack_input {
         }
         $localoptions = clone $options;
 
-        $contents = $this->raw_input_to_maxima($response);
-        if ('' === $contents or false === $contents) {
-            return new stack_input_state(self::BLANK, '', '', '', '');
-        }
-
-        // The validation field should always come back through as a single RAW Maxima expression for each input.
+            // The validation field should always come back through as a single RAW Maxima expression for each input.
         if (array_key_exists($this->name . '_val', $response)) {
             $validator = $response[$this->name . '_val'];
         } else {
             $validator = '';
         }
 
-        // A chance for element-specific validation
-        $errors = $this->extra_validation($contents);
-        $valid = !$errors;
+        $contents = $this->response_to_contents($response);
 
-        // Now validate the input as CAS code.
-        $answer = new stack_cas_casstring($contents);
-        $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
-
-        // Ensure student hasn't used a variable name used by the teacher.
-        if ($forbiddenkeys) {
-            $answer->check_external_forbidden_words($forbiddenkeys);
+        if (array() == $contents or $this->is_blank_response($contents)) {
+            return new stack_input_state(self::BLANK, array(), '', '', '');
         }
 
-        $forbiddenwords = $this->get_parameter('forbidWords', '');
-        if ($forbiddenwords) {
-            $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
-        }
+        // This method actually validates any CAS strings etc.
+        list($valid, $errors, $modifiedcontents) = $this->validate_contents($contents, $forbiddenkeys);
 
-        $valid = $valid && $answer->get_valid();
-        $errors .= $answer->get_errors();
         // If we can't get a "displayed value" back from the CAS, show the student their original expression.
-        $display = stack_maxima_format_casstring($contents);
-        $interpretedanswer = $answer->get_casstring();
+        $display = stack_maxima_format_casstring($this->contents_to_maxima($contents));
+        $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
+        $answer = new stack_cas_casstring($interpretedanswer);
 
         // Send the string to the CAS.
         if ($valid) {
@@ -322,19 +307,75 @@ abstract class stack_input {
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
-        if (!(strpos($contents, '?') === false)) {
+        if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;
             $errors .= stack_string('qm_error');
         }
 
         if (!$valid) {
             $status = self::INVALID;
-        } else if ($this->get_parameter('mustVerify', true) && $validator != $contents) {
+        } else if ($this->get_parameter('mustVerify', true) && $validator != $this->contents_to_maxima($contents)) {
             $status = self::VALID;
         } else {
             $status = self::SCORE;
         }
         return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors);
+    }
+
+    /**
+     * Decide if the contents of this attempt is blank.
+     * 
+     * @param array $contents a non-empty array of the student's input as a split array of raw strings.
+     * @return string any error messages describing validation failures. An empty
+     *      string if the input is valid - at least according to this test.
+     */
+    protected function is_blank_response($contents) {
+       $all_blank = true;
+       foreach ($contents as $val) {
+           if (!('' == trim($val))) {
+               $all_blank = false;
+           }
+       }
+       return $all_blank;
+    }
+
+    /**
+     * This is the basic validation of the student's "answer".
+     * This method is only called if the input is not blank.
+     *
+     * Only a few input methods need to modify this method.
+     * For example, Matrix types have two dimensional contents arrays to loop over.
+     *
+     * @param array $contents the content array of the student's input.
+     * @return array of the validity, errors strings and modified contents.
+     */
+    protected function validate_contents($contents, $forbiddenkeys) {
+
+        $errors = $this->extra_validation($contents);
+        $valid = !$errors;
+
+        // Now validate the input as CAS code.
+        $modifiedcontents = array();
+        foreach ($contents as $val) {
+            $answer = new stack_cas_casstring($val);
+            $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
+
+            // Ensure student hasn't used a variable name used by the teacher.
+            if ($forbiddenkeys) {
+                $answer->check_external_forbidden_words($forbiddenkeys);
+            }
+
+            $forbiddenwords = $this->get_parameter('forbidWords', '');
+            if ($forbiddenwords) {
+                $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
+            }
+
+            $modifiedcontents[] = $answer->get_casstring();
+            $valid = $valid && $answer->get_valid();
+            $errors .= $answer->get_errors();
+        }
+
+        return array($valid, $errors, $modifiedcontents);
     }
 
     /**
@@ -397,7 +438,7 @@ abstract class stack_input {
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
-                    'name' => $fieldname . '_val', 'value' => $state->contents));
+                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)));
         }
 
         if (self::INVALID == $state->status) {
@@ -411,26 +452,41 @@ abstract class stack_input {
     }
 
     /**
-     * Transforms the student's input into a casstring if needed.
+     * Transforms the student's response input into an array.
      * Most return the same as went in.
      *
      * @param array|string $in
      * @return string
      */
-    protected function raw_input_to_maxima($response) {
+    protected function response_to_contents($response) {
 
+        $contents = array();
         if (array_key_exists($this->name, $response)) {
-            $sans = $response[$this->name];
-        } else {
-            $sans = '';
+            $contents = array($response[$this->name]);
         }
+        return $contents;
+    }
 
-        return $sans;
+    /**
+     * Transforms the contents array into a maxima expression.
+     * Most simply take the first element of the contents array raw.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function contents_to_maxima($contents) {
+        if (array_key_exists(0, $contents)) {
+            return $contents[0];
+        } else {
+            return '';
+        }
     }
 
     /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
+     * This is used to take a Maxima expression, e.g. a Teacher's answer or a test case, and directly transform 
+     * it into expected inputs.
      *
      * @param array|string $in
      * @return string

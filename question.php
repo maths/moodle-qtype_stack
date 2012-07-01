@@ -316,10 +316,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function summarise_response(array $response) {
         $bits = array();
-        foreach ($this->inputs as $name => $notused) {
+        foreach ($this->inputs as $name => $input) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::BLANK != $state->status) {
-                $bits[] = $name . ': ' . $state->contents . ' [' . $state->status . ']';
+                $bits[] = $name . ': ' . $input->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
             }
         }
         return implode('; ', $bits);

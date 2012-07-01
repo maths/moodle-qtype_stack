@@ -34,10 +34,10 @@ class stack_textarea_input extends stack_input {
             'name' => $fieldname,
         );
 
-        if ('' === trim($state->contents)) {
+        if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
         } else {
-            $current = $this->maxima_to_raw_input($state->contents);
+            $current = implode("\n", $state->contents);
         }
 
         // Sort out size of text area.
@@ -62,16 +62,16 @@ class stack_textarea_input extends stack_input {
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
     }
 
-    /**
-     * Converts the input passed in into a textarea into a Maxima list
+  /**
+     * Transforms the student's response input into an array.
+     * Most return the same as went in.
      *
-     * @param string $in
+     * @param array|string $in
      * @return string
-     * @access public
      */
-    public function raw_input_to_maxima($response) {
+    protected function response_to_contents($response) {
 
-        $transformedans = '';
+        $contents = array();
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
             $rowsin = explode("\n", $sans);
@@ -79,33 +79,40 @@ class stack_textarea_input extends stack_input {
             foreach ($rowsin as $key => $row) {
                 $cleanrow = trim($row);
                 if ($cleanrow) {
-                    $rowsout[] = $cleanrow;
+                    $contents[] = $cleanrow;
                 }
             }
-            $transformedans = '[' . implode(',', $rowsout) . ']';
         }
 
-        return $transformedans;
+        return $contents;
     }
 
     /**
-     * Converts a Maxima expression (a list) into something which can be placed into the text area.
-     *
-     * @param string $in
-     * @return string
-     * @access public
-     */
+    * Transforms the contents array into a maxima expression.
+    *
+    * @param array|string $in
+    * @return string
+    */
+    public function contents_to_maxima($contents) {
+        return '['.implode(',', $contents).']';
+    }
+
+    /**
+    * Transforms a Maxima list into raw input.
+    * 
+    * @param string $in
+    * @return string
+    */
     private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
-        $out = implode("\n", $values);
-        return $out;
+        return implode("\n", $values);
     }
 
     /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
      *
-     * @param array|string $in
+     * @param string $in
      * @return string
      */
     public function maxima_to_response_array($in) {
@@ -127,7 +134,7 @@ class stack_textarea_input extends stack_input {
             'mustVerify'     => true,
             'hideFeedback'   => false,
             'boxWidth'       => 20,
-            'strictSyntax'  => true,
+            'strictSyntax'   => true,
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',

@@ -33,7 +33,7 @@ class stack_singlechar_input extends stack_input {
             'name'      => $fieldname,
             'size'      => 1,
             'maxlength' => 1,
-            'value'     => $state->contents
+            'value'     => $this->contents_to_maxima($state->contents),
         );
 
         if ($readonly) {
@@ -44,7 +44,7 @@ class stack_singlechar_input extends stack_input {
     }
 
     protected function extra_validation($contents) {
-        if (strlen($contents) > 1) {
+        if (strlen($contents[0]) > 1) {
             return get_string('singlechargotmorethanone', 'qtype_stack');
         }
         return '';

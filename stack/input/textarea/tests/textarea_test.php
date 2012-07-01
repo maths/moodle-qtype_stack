@@ -35,15 +35,10 @@ require_once(dirname(__FILE__) . '/../textarea.class.php');
  */
 class stack_textarea_input_test extends basic_testcase {
 
-    public function test_raw_input_to_maxima_1() {
-        $el = stack_input_factory::make('textArea', 'test', null);
-        $this->assertEquals("[x^2,x^3]", $el->raw_input_to_maxima(array('test' => "x^2\nx^3")));
-    }
-
     public function test_render_blank() {
         $el = stack_input_factory::make('textArea', 'ans1', null);
         $this->assertEquals('<textarea name="st_ans1" rows="5" cols="20"></textarea>',
-                $el->render(new stack_input_state(stack_input::BLANK, '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', ''),
                         'st_ans1', false));
     }
 
@@ -51,7 +46,7 @@ class stack_textarea_input_test extends basic_testcase {
         $el = stack_input_factory::make('textArea', 'test', null);
         $this->assertEquals('<textarea name="st_ans1" rows="5" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])</textarea>",
-                $el->render(new stack_input_state(stack_input::VALID, "[1,1/sum([1,3])\nmatrix([1],[2])]", '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, array("1", "1/sum([1,3])", "matrix([1],[2])"), '', '', ''),
                         'st_ans1', false));
     }
 
@@ -59,16 +54,17 @@ class stack_textarea_input_test extends basic_testcase {
         $el = stack_input_factory::make('textArea', 'test', null, array('syntaxHint' => '[y=?, z=?]'));
         $this->assertEquals('<textarea name="st_ans1" rows="5" cols="20">' .
                     "y=?\n z=?</textarea>",
-        $el->render(new stack_input_state(stack_input::BLANK, '', '', '', ''),
+        $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', ''),
                             'st_ans1', false));
     }
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('textArea', 'input', null);
         $this->assertEquals('<textarea name="st_ans1" rows="5" cols="20" readonly="readonly"></textarea>',
-                $el->render(new stack_input_state(stack_input::BLANK, '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', ''),
                         'st_ans1', true));
     }
+
 }
 
 

@@ -39,7 +39,8 @@ class stack_input_state {
     protected $_status;
 
     /**
-     * @var string the current contents of this input as a RAW Maxima string.  This may have been built up from many form box input elements.
+     * @var array the current contents of this input as raw input from the student's response.  
+     * 
      */
     protected $_contents;
 
@@ -61,11 +62,16 @@ class stack_input_state {
     /**
      * Constructor
      *
-     * @param string $contents the current contents of this input.
+     * @param array $contents the current contents of this input.  An array with separate fields as needed by the input type.
+     * @param string $contentsmodified A Maxima representation of the current contents of this input.  This might have been modified, e.g. *s added etc.
+     * @param string $contentsdisplayed The displayed form of the current contents of this input.  
      * @param string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
      * @param string $feedback the feedback for the current contents.
      */
     public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors) {
+        if (!is_array($contents)) {
+            throw new stack_exception('stack_input_state: contents field of constructor must be an array.');
+        }
         $this->_status              = $status;
         $this->_contents            = $contents;
         $this->_contentsmodified    = $contentsmodified;

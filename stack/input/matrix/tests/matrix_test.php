@@ -39,7 +39,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
         $this->assertEquals('<table class="matrixtable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td><td><input type="text" name="ans1_sub_0_0" value="" size="5" ></td><td><input type="text" name="ans1_sub_0_1" value="" size="5" ></td><td><input type="text" name="ans1_sub_0_2" value="" size="5" ></td><td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td></tr><tr><td style="border-width: 0px 0px 2px 2px;">&nbsp;</td><td><input type="text" name="ans1_sub_1_0" value="" size="5" ></td><td><input type="text" name="ans1_sub_1_1" value="" size="5" ></td><td><input type="text" name="ans1_sub_1_2" value="" size="5" ></td><td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
-                $el->render(new stack_input_state(stack_input::VALID, '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', ''),
                         'ans1', false));
     }
 
@@ -49,7 +49,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $el->adapt_to_model_answer('[[1,0],[0,1]]');
         $this->assertEquals('<p id="error" class="p"><span class="error">The CAS returned the following error(s):</span><span class="stacksyntaxexample">ta:matrix_size([[1,0],[0,1]])</span> caused the following error: The "\$first" argument of the function "\$matrix_size" must be a matrix </p>',
-                $el->render(new stack_input_state(stack_input::VALID, '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', ''),
                         'ans1', false));
     }
 

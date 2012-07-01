@@ -65,19 +65,38 @@ class stack_matrix_input extends stack_input {
     }
 
     /**
+    * Decide if the contents of this attempt is blank.
+    *
+    * @param array $contents a non-empty array of the student's input as a split array of raw strings.
+    * @return string any error messages describing validation failures. An empty
+    *      string if the input is valid - at least according to this test.
+    */
+    protected function is_blank_response($contents) {
+        $all_blank = true;
+        foreach ($contents as $row) {
+            foreach ($row as $val) {
+                if (!('' == trim($val) or '?' == $val)) {
+                    $all_blank = false;
+                }
+            }
+        }
+        return $all_blank;
+    }
+
+    /**
      * Converts the input passed in via many input elements into a raw Maxima matrix
      *
      * @param string $in
      * @return string
      * @access public
      */
-    public function raw_input_to_maxima($response) {
+    public function response_to_contents($response) {
 
         // At the start of an attempt we will have a completely blank matrix.
         // This must be spotted and a blank attempt returned.
         $allblank = true;
 
-        $column = array();
+        $matrix = array();
         for ($i = 0; $i < $this->height; $i++)  {
             $row = array();
             for ($j = 0; $j < $this->width; $j++) {
@@ -92,14 +111,18 @@ class stack_matrix_input extends stack_input {
                 }
                 $row[] = $element;
             }
-            $column[] = '['.implode(',', $row).']';
+            $matrix[] = $row;
         }
-        $matrix = 'matrix('.implode(',', $column).')';
 
-        if ($allblank) {
-            $matrix = '';
-        }
         return $matrix;
+    }
+
+    public function contents_to_maxima($contents) {
+        $matrix = array();
+        foreach ($contents as $row)  {
+            $matrix[] = '['.implode(',', $row).']';
+        }
+        return 'matrix('.implode(',', $matrix).')';
     }
 
     /**
@@ -126,6 +149,49 @@ class stack_matrix_input extends stack_input {
         return $tc;
     }
 
+    /**
+    * This is the basic validation of the student's "answer".
+    * This method is only called in the input is not blank.
+    *
+    * Only a few input methods need to modify this method.
+    * For example, Matrix types have two dimensional arrays to loop over.
+    *
+    * @param array $contents the content array of the student's input.
+    * @return array of the validity, errors strings and modified contents.
+    */
+    protected function validate_contents($contents, $forbiddenkeys) {
+    
+        $errors = $this->extra_validation($contents);
+        $valid = !$errors;
+    
+        // Now validate the input as CAS code.
+        $modifiedcontents = array();
+        foreach ($contents as $row) {
+            $modifiedrow = array();
+            foreach ($row as $val) {
+                $answer = new stack_cas_casstring($val);
+                $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
+
+                // Ensure student hasn't used a variable name used by the teacher.
+                if ($forbiddenkeys) {
+                    $answer->check_external_forbidden_words($forbiddenkeys);
+                }
+
+                $forbiddenwords = $this->get_parameter('forbidWords', '');
+                if ($forbiddenwords) {
+                    $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
+                }
+
+                $modifiedrow[] = $answer->get_casstring();
+                $valid = $valid && $answer->get_valid();
+                $errors .= $answer->get_errors();
+            }
+            $modifiedcontents[] = $modifiedrow;
+        }
+    
+        return array($valid, $errors, $modifiedcontents);
+    }
+
     public function render(stack_input_state $state, $fieldname, $readonly) {
         $attributes = array(
             'type' => 'text',
@@ -137,7 +203,8 @@ class stack_matrix_input extends stack_input {
             return html_writer::tag('p', $this->errors, array('id' => 'error', 'class' => 'p'));
         }
 
-        $tc = $this->maxima_to_array($state->contents);
+        $tc = $state->contents;
+        $blank = $this->is_blank_response($state->contents);
 
         // Build the html table to contain these values.
         $xhtml = '<table class="matrixtable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody>';
@@ -152,7 +219,10 @@ class stack_matrix_input extends stack_input {
             }
 
             for ($j=0; $j < $this->width; $j++) {
-                $val = trim($tc[$i][$j]);
+                $val = '';
+                if (!$blank) {
+                    $val = trim($tc[$i][$j]);
+                }
                 if ('?' == $val) {
                     $val = '';
                 }

@@ -30,10 +30,10 @@ class stack_algebraic_input extends stack_input {
             'size' => $this->parameters['boxWidth'],
         );
 
-        if ('' === trim($state->contents)) {
+        if ($this->is_blank_response($state->contents)) {
             $attributes['value'] = $this->parameters['syntaxHint'];
         } else {
-            $attributes['value'] = $state->contents;
+            $attributes['value'] = $this->contents_to_maxima($state->contents);
         }
 
         if ($readonly) {

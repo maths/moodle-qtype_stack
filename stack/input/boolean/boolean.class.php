@@ -41,7 +41,7 @@ class stack_boolean_input extends stack_input {
     }
 
     protected function extra_validation($contents) {
-        if (!array_key_exists($contents, $this->get_choices())) {
+        if (!array_key_exists($contents[0], $this->get_choices())) {
             return get_string('booleangotunrecognisedvalue', 'qtype_stack');
         }
         return '';
@@ -55,7 +55,7 @@ class stack_boolean_input extends stack_input {
         }
 
         return html_writer::select(self::get_choices(), $fieldname,
-                $state->contents, '', $attributes);
+                $this->contents_to_maxima($state->contents), '', $attributes);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

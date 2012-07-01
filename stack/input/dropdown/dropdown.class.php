@@ -44,7 +44,7 @@ class stack_dropdown_input extends stack_input {
     }
 
     protected function extra_validation($contents) {
-        if (!array_key_exists($contents, $this->get_choices())) {
+        if (!array_key_exists($contents[0], $this->get_choices())) {
             return get_string('dropdowngotunrecognisedvalue', 'qtype_stack');
         }
         return '';
@@ -61,7 +61,7 @@ class stack_dropdown_input extends stack_input {
             $attributes['disabled'] = 'disabled';
         }
 
-        return html_writer::select($values, $fieldname, $state->contents,
+        return html_writer::select($values, $fieldname, $this->contents_to_maxima($state->contents),
                 array('' => stack_string('notanswered')), $attributes);
     }
 

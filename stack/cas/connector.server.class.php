@@ -49,47 +49,47 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         $timedout = false;
 
         // The servlet will return 416 if the evaluation hits the timelimit.
-        if (curl_getinfo($request, CURLINFO_HTTP_CODE)!="200") {
-            if (curl_getinfo($request, CURLINFO_HTTP_CODE)!="416") {
+        if (curl_getinfo($request, CURLINFO_HTTP_CODE) != '200') {
+            if (curl_getinfo($request, CURLINFO_HTTP_CODE) != '416') {
                 throw new Exception('stack_cas_connection: MaximaPool error');
             } else {
-                $timedout=true;
+                $timedout = true;
             }
         }
 
         // Did we get files?
-        if (curl_getinfo($request, CURLINFO_CONTENT_TYPE)!="text/plain") {
-            // We have to save the zip file on local disk before opening... 
+        if (curl_getinfo($request, CURLINFO_CONTENT_TYPE) != "text/plain") {
+            // We have to save the zip file on local disk before opening...
             // how come there is no core library solution to this!?
             // create temp file, save zip there
             $ziptemp = $CFG->dataroot . "/stack/tmp/";
-            $ziptemp = tempname($ziptemp,"zip");
-            $fp = fopen($ziptemp,"w");
-            fwrite($fp,$ret);
+            $ziptemp = tempname($ziptemp, "zip");
+            $fp = fopen($ziptemp, "w");
+            fwrite($fp, $ret);
             fclose($fp);
             $zip = zip_open($ziptemp);
             $entry = zip_read($zip);
             // read the entrys of the archive
-            while ($entry !== FALSE) {
-               // This one contains the output from maxima
-               if (zip_entry_name($entry) == 'OUTPUT') {
-                  zip_entry_open($zip,$entry);
-                  $ret = zip_entry_read($entry,zip_entry_filesize($entry));
-                  zip_entry_close($entry);
-               } else {
-                  $filename = $CFG->dataroot . "/stack/plots/" . zip_entry_name($entry);
-                  zip_entry_open($zip,$entry);
-                  $fp = fopen($filename,'w');
-                  $buffy = zip_entry_read($entry,2048);
-                  while ($buffy != '') {
-                     fwrite($fp,$buffy);
-                     $buffy = zip_entry_read($entry,2048);
-                  }
-                  fclose($fp);
-                  zip_entry_close($entry);
-               }
+            while ($entry !== false) {
+                // This one contains the output from maxima
+                if (zip_entry_name($entry) == 'OUTPUT') {
+                    zip_entry_open($zip, $entry);
+                    $ret = zip_entry_read($entry, zip_entry_filesize($entry));
+                    zip_entry_close($entry);
+                } else {
+                    $filename = $CFG->dataroot . "/stack/plots/" . zip_entry_name($entry);
+                    zip_entry_open($zip, $entry);
+                    $fp = fopen($filename, 'w');
+                    $buffy = zip_entry_read($entry, 2048);
+                    while ($buffy != '') {
+                        fwrite($fp, $buffy);
+                        $buffy = zip_entry_read($entry, 2048);
+                    }
+                    fclose($fp);
+                    zip_entry_close($entry);
+                }
 
-               $entry = zip_read($zip);
+                $entry = zip_read($zip);
             }
             zip_close($zip);
             // clean up

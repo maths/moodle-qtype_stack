@@ -240,7 +240,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
     }
 
     public function test_invalid_option_int() {
-        $at = new stack_answertest_general_cas('(x+1)^2', '(x+1)^2', 'ATInt', true, '(x', NULL, true, true);
+        $at = new stack_answertest_general_cas('(x+1)^2', '(x+1)^2', 'ATInt', true, '(x', null, true, true);
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertTrue($at->required_atoptions());

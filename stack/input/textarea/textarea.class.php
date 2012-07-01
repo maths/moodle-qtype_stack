@@ -62,7 +62,7 @@ class stack_textarea_input extends stack_input {
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
     }
 
-  /**
+    /**
      * Transforms the student's response input into an array.
      * Most return the same as went in.
      *
@@ -88,21 +88,21 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
-    * Transforms the contents array into a maxima expression.
-    *
-    * @param array|string $in
-    * @return string
-    */
+     * Transforms the contents array into a maxima expression.
+     *
+     * @param array|string $in
+     * @return string
+     */
     public function contents_to_maxima($contents) {
         return '['.implode(',', $contents).']';
     }
 
     /**
-    * Transforms a Maxima list into raw input.
-    * 
-    * @param string $in
-    * @return string
-    */
+     * Transforms a Maxima list into raw input.
+     * 
+     * @param string $in
+     * @return string
+     */
     private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
         return implode("\n", $values);
@@ -121,7 +121,6 @@ class stack_textarea_input extends stack_input {
             $response[$this->name . '_val'] = $in;
         }
         return $response;
-        
     }
 
     /**

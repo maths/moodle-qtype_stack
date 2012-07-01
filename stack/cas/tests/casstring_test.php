@@ -103,13 +103,13 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_teacher_only_words() {
-    
+
         $s = 'setelmx(2,1,1,C)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('Unknown function: <span class="stacksyntaxexample">SETELMX</span>.',
                 $at1->get_errors());
-    
+
         $at2 = new stack_cas_casstring($s);
         $this->assertTrue($at2->get_valid('t'));
         $this->assertEquals('', $at2->get_errors());

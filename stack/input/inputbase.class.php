@@ -330,13 +330,13 @@ abstract class stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function is_blank_response($contents) {
-       $all_blank = true;
-       foreach ($contents as $val) {
-           if (!('' == trim($val))) {
-               $all_blank = false;
-           }
-       }
-       return $all_blank;
+        $all_blank = true;
+        foreach ($contents as $val) {
+            if (!('' == trim($val))) {
+                $all_blank = false;
+            }
+        }
+        return $all_blank;
     }
 
     /**

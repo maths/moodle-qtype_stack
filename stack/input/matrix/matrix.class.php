@@ -50,7 +50,7 @@ class stack_matrix_input extends stack_input {
         $expected = array();
 
         // All the matrix elements.
-        for ($i = 0; $i < $this->height; $i++)  {
+        for ($i = 0; $i < $this->height; $i++) {
             for ($j = 0; $j < $this->width; $j++) {
                 $expected[$this->name . '_sub_' . $i . '_' . $j] = PARAM_RAW;
             }
@@ -65,12 +65,12 @@ class stack_matrix_input extends stack_input {
     }
 
     /**
-    * Decide if the contents of this attempt is blank.
-    *
-    * @param array $contents a non-empty array of the student's input as a split array of raw strings.
-    * @return string any error messages describing validation failures. An empty
-    *      string if the input is valid - at least according to this test.
-    */
+     * Decide if the contents of this attempt is blank.
+     *
+     * @param array $contents a non-empty array of the student's input as a split array of raw strings.
+     * @return string any error messages describing validation failures. An empty
+     *      string if the input is valid - at least according to this test.
+     */
     protected function is_blank_response($contents) {
         $all_blank = true;
         foreach ($contents as $row) {
@@ -97,7 +97,7 @@ class stack_matrix_input extends stack_input {
         $allblank = true;
 
         $matrix = array();
-        for ($i = 0; $i < $this->height; $i++)  {
+        for ($i = 0; $i < $this->height; $i++) {
             $row = array();
             for ($j = 0; $j < $this->width; $j++) {
                 $element = '';
@@ -107,7 +107,7 @@ class stack_matrix_input extends stack_input {
                 if ('' == $element) {
                     $element = '?';  // Ensures all matrix elements have something non-empty.
                 } else {
-                    $allblank = false; 
+                    $allblank = false;
                 }
                 $row[] = $element;
             }
@@ -119,7 +119,7 @@ class stack_matrix_input extends stack_input {
 
     public function contents_to_maxima($contents) {
         $matrix = array();
-        foreach ($contents as $row)  {
+        foreach ($contents as $row) {
             $matrix[] = '['.implode(',', $row).']';
         }
         return 'matrix('.implode(',', $matrix).')';
@@ -138,32 +138,32 @@ class stack_matrix_input extends stack_input {
         $t = trim($in);
         if ('matrix(' == substr($t, 0, 7)) {
             $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
-            for($i=0; $i < count($rows); $i++) {
+            for ($i=0; $i < count($rows); $i++) {
                 $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
                 $tc[$i] = $row;
             }
         } else if ('' != $t) {
-            //throw new stack_exception('stack_matrix_input: Error in rendering.  We require a "matrix" but got '.$t);
+            throw new stack_exception('stack_matrix_input: Error in converting a maxima string to an internal array.  We require a "matrix" but got '.$t);
         }
 
         return $tc;
     }
 
     /**
-    * This is the basic validation of the student's "answer".
-    * This method is only called in the input is not blank.
-    *
-    * Only a few input methods need to modify this method.
-    * For example, Matrix types have two dimensional arrays to loop over.
-    *
-    * @param array $contents the content array of the student's input.
-    * @return array of the validity, errors strings and modified contents.
-    */
+     * This is the basic validation of the student's "answer".
+     * This method is only called in the input is not blank.
+     *
+     * Only a few input methods need to modify this method.
+     * For example, Matrix types have two dimensional arrays to loop over.
+     *
+     * @param array $contents the content array of the student's input.
+     * @return array of the validity, errors strings and modified contents.
+     */
     protected function validate_contents($contents, $forbiddenkeys) {
-    
+
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
-    
+
         // Now validate the input as CAS code.
         $modifiedcontents = array();
         foreach ($contents as $row) {
@@ -188,7 +188,7 @@ class stack_matrix_input extends stack_input {
             }
             $modifiedcontents[] = $modifiedrow;
         }
-    
+
         return array($valid, $errors, $modifiedcontents);
     }
 
@@ -208,11 +208,11 @@ class stack_matrix_input extends stack_input {
 
         // Build the html table to contain these values.
         $xhtml = '<table class="matrixtable" style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0"><tbody>';
-        for ($i=0; $i < $this->height; $i++)  {
+        for ($i=0; $i < $this->height; $i++) {
             $xhtml .= '<tr>';
-            if($i == 0) {
+            if ($i == 0) {
                 $xhtml .= '<td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>';
-            } elseif ($i == ($this->height - 1)) {
+            } else if ($i == ($this->height - 1)) {
                 $xhtml .= '<td style="border-width: 0px 0px 2px 2px;">&nbsp;</td>';
             } else {
                 $xhtml .= '<td style="border-width: 0px 0px 0px 2px;">&nbsp;</td>';
@@ -232,7 +232,7 @@ class stack_matrix_input extends stack_input {
 
             if ($i == 0) {
                 $xhtml .= '<td style="border-width: 2px 2px 0px 0px; padding-top: 0.5em">&nbsp;</td>';
-            } elseif ($i == ($this->height - 1)) {
+            } else if ($i == ($this->height - 1)) {
                 $xhtml .= '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td>';
             } else {
                 $xhtml .= '<td style="border-width: 0px 2px 0px 0px;">&nbsp;</td>';
@@ -255,7 +255,7 @@ class stack_matrix_input extends stack_input {
 
         $tc = $this->maxima_to_array($in);
 
-        for ($i=0; $i < $this->height; $i++)  {
+        for ($i=0; $i < $this->height; $i++) {
             for ($j=0; $j < $this->width; $j++) {
                 $val = trim($tc[$i][$j]);
                 if ('?' == $val) {
@@ -269,7 +269,7 @@ class stack_matrix_input extends stack_input {
             $response[$this->name . '_val'] = $in;
         }
         return $response;
-    
+
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -310,24 +310,24 @@ class stack_matrix_input extends stack_input {
     }
 
     /**
-    * Takes comma separated list of elements and returns them as an array
-    * while at the same time making sure that the braces stay balanced
-    *
-    * _tokenizer("[1,2]") => array("[1,2]")
-    * _tokenizer("1,2") = > array("1","2")
-    * _tokenizer("1,1/sum([1,3]),matrix([1],[2])") => array("1","1/sum([1,3])","matrix([1],[2])")
-    *
-    * $t = trim("matrix([a,b],[c,d])");
-    * $rows = _tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
-    * $firstRow = _tokenizer(substr($rows[0],1,-1)); // array("a","b");
-    *
-    * @author Matti Harjula
-    *
-    * @param string $in
-    * @access private
-    * @return array with the parsed elements, if no elements then array
-    *         contains only the input string
-    */
+     * Takes comma separated list of elements and returns them as an array
+     * while at the same time making sure that the braces stay balanced
+     *
+     * _tokenizer("[1,2]") => array("[1,2]")
+     * _tokenizer("1,2") = > array("1","2")
+     * _tokenizer("1,1/sum([1,3]),matrix([1],[2])") => array("1","1/sum([1,3])","matrix([1],[2])")
+     *
+     * $t = trim("matrix([a,b],[c,d])");
+     * $rows = _tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
+     * $firstRow = _tokenizer(substr($rows[0],1,-1)); // array("a","b");
+     *
+     * @author Matti Harjula
+     *
+     * @param string $in
+     * @access private
+     * @return array with the parsed elements, if no elements then array
+     *         contains only the input string
+     */
     public function modinput_tokenizer($in) {
         $bracecount = 0;
         $parenthesiscount = 0;

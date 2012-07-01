@@ -51,7 +51,7 @@ class stack_question_test_result {
      * @var array input name => any errors created by invalid input.
      */
      public $inputerrors;
- 
+
      /**
       * @var array input name => the input statues. One of the stack_input::STATUS_... constants.
       */

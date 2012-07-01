@@ -102,7 +102,6 @@ function report($d) {
                                             $link = substr($link, 0, strpos($link, '#'));
                                         }
                                     }
-                                    // echo "<tt>".$link."</tt><br>";
                                     $hs = get_headers($link);
                                     if (strpos($hs[0], '404') !== false) {
                                         $a[] = array($fpath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');

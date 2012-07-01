@@ -196,5 +196,5 @@ class stack_answertest_general_cas extends stack_anstest {
             return array($cs->get_valid('t'), $cs->get_errors());
         }
         return array(true, '');
-        }
+    }
 }

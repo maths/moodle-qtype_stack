@@ -24,14 +24,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2012062504;
+$plugin->version   = 2012070200;
 $plugin->requires  = 2012061800.00;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
 $plugin->maturity  = MATURITY_ALPHA;
 
 $plugin->dependencies = array(
-    'qbehaviour_adaptivemultipart'     => 2012062700,
+    'qbehaviour_adaptivemultipart'     => 2012070200,
     'qbehaviour_dfexplicitvaildate'    => 2012051600,
     'qbehaviour_dfcbmexplicitvaildate' => 2012051600,
 );

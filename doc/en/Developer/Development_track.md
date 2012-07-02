@@ -86,7 +86,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 3. When validating the editing form, actually evaluate the Maxima code.
 4. **DONE** When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
 5. Ensure links from the editing form end up at the STACK docs. This is now work in progress, but relies on http://tracker.moodle.org/browse/MDL-34035 getting accepted into Moodle core. In which case we can use this commit: https://github.com/timhunt/moodle-qtype_stack/compare/helplinks.
-6. It must be possible to create questions using the dropdown input type. Currently there is no way to input the choices.
+6. Hide dropdown input type in the editing form untils there is a way to set the list of choices.
 
 ### Testing questions
 
@@ -97,10 +97,10 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 5. **DONE** Dropdown input should make sure that only allowed values are submitted. (There is a TODO in the code for this.)
 6. **DONE** Dropdown input element needs some unit tests. (There is a TODO in the code for this.)
 7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TODO in the code for this.)
-8. Un-comment the throw in the matrix input.
+8. **DONE** Un-comment the throw in the matrix input.
 9. Unit tests for adative mode score display - and to verify nothing like that appears for other behaviours.
-10. Duplicate response detection for PRTs should consider all previous responses.
-11. It appears as if the phrase "This submission attracted a penalty of ..." isn't working.  It looks like this is the *old* penalty, not the *current*.
+10. **DONE** Duplicate response detection for PRTs should consider all previous responses.
+11. **DONE** It appears as if the phrase "This submission attracted a penalty of ..." isn't working.  It looks like this is the *old* penalty, not the *current*.
 
 ### Optimising Maxima
 

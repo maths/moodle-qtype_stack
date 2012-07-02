@@ -246,8 +246,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Now instantiate the session.
         $session->instantiate();
         if ($session->get_errors()) {
+            // We throw an exception here because any problems with the CAS code
+            // up to this point should have been caught during validation when
+            // the question was edited or deployed.
             throw new stack_exception('qtype_stack_question : CAS error when instantiating the session: ' .
-            $session->get_errors($this->user_can_edit()));
+                    $session->get_errors($this->user_can_edit()));
         }
 
         // Now store the values that depend on the instantiated session.
@@ -342,6 +345,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
         return true;
+    }
+
+    public function is_same_response_for_part($index, array $prevresponse, array $newresponse) {
+        $previnput = $this->get_prt_input($index, $prevresponse, true);
+        $newinput = $this->get_prt_input($index, $newresponse, true);
+
+        return $this->is_same_prt_input($index, $previnput, $newinput);
     }
 
     /**

@@ -255,6 +255,154 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
     }
 
+    public function test_test3_repeat_wrong_response_only_penalised_once() {
+        // The scenario is this: (we use only the ans3 part of test3, leaving the others blank.)
+        //
+        //  Resp. State Try Raw mark Mark Penalty
+        // 1. x   valid -   -        -    -
+        // 2. x   score X   0.5      0.5  0.1
+        // 3. x   score -   -        -    -
+        // 4. x+1 valid -   -        -    -
+        // 5. x+1 score X   0        0.5  0.1
+        // 6. x   valid -   -        -    -
+        // 7. x   score X   0.5      0.5  0.0
+        // 8. 0   valid -   -        -    -
+        // 9. 0   score X   1        0.8  0.0
+        //
+        // When reading this test, note that check_prt_score checks the score
+        // returned by get_prt_result, which is the low-level routine that
+        // calculates the score for the PRT given the response. The
+        // ...->get_behaviour_var('_tries_oddeven') bit checks to see if the
+        // behaviour acutally counted this response as a try.
+
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test3_penalty0_1');
+
+        $this->start_attempt_at_question($q, 'adaptive', 4);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('oddeven', null, null);
+        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_does_not_contain_feedback_expectation()
+        );
+
+        // Validate ans3 => 'x'.
+        $this->process_submission(array('ans3' => 'x', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('oddeven', null, null);
+        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Score ans3 => 'x'.
+        $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', '-submit' => 1));
+
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('oddeven', 0.5, 0.1);
+        $this->assertEquals(1, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
+        $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1));
+
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('oddeven', 0.5, 0.1);
+        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Validate ans3 => 'x + 1'.
+        $this->process_submission(array('ans3' => 'x + 1', 'ans3_val' => 'x', '-submit' => 1));
+
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('oddeven', null, null);
+        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', 'x + 1');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Score ans3 => 'x + 1'.
+        $this->process_submission(array('ans3' => 'x + 1', 'ans3_val' => 'x + 1', '-submit' => 1));
+
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('oddeven', 0, 0.1);
+        $this->assertEquals(2, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', 'x + 1');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Validate ans3 => 'x'.
+        $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x + 1', '-submit' => 1));
+
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('oddeven', null, null);
+        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Score ans3 => 'x'.
+        $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', '-submit' => 1));
+
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('oddeven', 0.5, 0.1);
+        $this->assertEquals(3, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', 'x');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Validate ans3 => '0'.
+        $this->process_submission(array('ans3' => '0', 'ans3_val' => 'x', '-submit' => 1));
+
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('oddeven', null, null);
+        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', '0');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Score ans3 => '0'.
+        $this->process_submission(array('ans3' => '0', 'ans3_val' => '0', '-submit' => 1));
+
+        $this->check_current_mark(0.8);
+        $this->check_prt_score('oddeven', 1, 0);
+        $this->assertEquals(4, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->render();
+        $this->check_output_contains_text_input('ans3', '0');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
     public function test_test3_sumbit_and_finish_before_validating() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');

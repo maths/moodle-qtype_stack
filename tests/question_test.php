@@ -83,6 +83,15 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $this->assertFalse($q->is_same_response(array('ans1' => '2'), array('ans1' => '3')));
     }
 
+    public function test_get_is_same_response_for_part_test3() {
+        $q = $this->get_test_stack_question('test3');
+        $q->start_attempt(new question_attempt_step(), 1);
+
+        $this->assertTrue($q->is_same_response_for_part('oddeven', array('ans3' => 'x'), array('ans3' => 'x')));
+        $this->assertTrue($q->is_same_response_for_part('oddeven', array('ans1' => 'x', 'ans3' => 'x'), array('ans1' => 'y', 'ans3' => 'x')));
+        $this->assertFalse($q->is_same_response_for_part('oddeven', array('ans3' => 'x'), array('ans3' => 'y')));
+    }
+
     public function test_is_complete_response_test0() {
         $q = $this->get_test_stack_question('test0');
         $q->start_attempt(new question_attempt_step(), 1);

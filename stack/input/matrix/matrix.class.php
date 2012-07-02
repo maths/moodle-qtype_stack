@@ -142,8 +142,6 @@ class stack_matrix_input extends stack_input {
                 $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
                 $tc[$i] = $row;
             }
-        } else if ('' != $t) {
-            throw new stack_exception('stack_matrix_input: Error in converting a maxima string to an internal array.  We require a "matrix" but got '.$t);
         }
 
         return $tc;

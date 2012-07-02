@@ -59,7 +59,7 @@ At this point STACK will be "ready" for use with students, although not all feat
  1. **DONE** Only deploy new versions.
 5. **DONE** Editing form: a way to remove a given PRT node.
 6. **DONE** Fix bug: penalties and other fields being changed from NULL to 0 when being stored in the database.
-7. Add back Matrix input type. (currently only need to deal with naming of fields, and add tests)
+7. **DONE** Add back Matrix input type.
 9. **DONE** In adaptive mode, display the scoring information for each PRT when it has been evaluated.
 
 Once completed we are ready for the **Beta release!**

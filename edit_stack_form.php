@@ -784,7 +784,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors['questionnote'] = get_string('questionnotempty', 'qtype_stack');
             }
         } else {
-            $errors = $this->validate_cas_text($errors, $fromform['questionnote']['text'], 'questionnote');
+            // Note, the 'questionnote' does not have an editor field and hence no 'text' sub-clause.
+            $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote');
         }
 
         $errors['questionnote'] += $this->check_no_placeholders(
@@ -1075,7 +1076,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputs = $this->get_input_names_from_question_text();
         $inputsvalues = array();
         foreach ($inputs as $inputname => $notused) {
-            $inputvalues[] = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
+            $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
+            $cs->validate('t');
+            $inputvalues[] = $cs;
         }
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);

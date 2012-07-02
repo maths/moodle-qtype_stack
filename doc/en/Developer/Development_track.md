@@ -86,7 +86,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 3. When validating the editing form, actually evaluate the Maxima code.
 4. **DONE** When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
 5. Ensure links from the editing form end up at the STACK docs. This is now work in progress, but relies on http://tracker.moodle.org/browse/MDL-34035 getting accepted into Moodle core. In which case we can use this commit: https://github.com/timhunt/moodle-qtype_stack/compare/helplinks.
-6. Hide dropdown input type in the editing form untils there is a way to set the list of choices.
+6. **DONE** Hide dropdown input type in the editing form until there is a way to set the list of choices.
 
 ### Testing questions
 

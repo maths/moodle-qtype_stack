@@ -119,6 +119,11 @@ class stack_input_factory {
             $types[$inputname] = $class;
         }
 
+        // TODO remove this next line once it is acutally possible to create dropdown
+        // inputs. At the moment, there is nowhere to input the list of choices, and
+        // nowhere to store that information in the database.
+        unset($types['dropdown']);
+
         return $types;
     }
 

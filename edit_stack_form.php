@@ -1086,9 +1086,16 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
+        // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.
+        if (!empty($errors)) {
+            return $errors;
+        }
         // TODO: loop over all the PRTs in a similar manner....
-        // Remember, to use $inputsession as the base session to have all the teacher's answers instantiated.
+        // Remember, to use 
+        // clone $inputsession 
+        // as the base session to have all the teacher's answers instantiated.
         // Otherwise we are likley to do illigitimate things to the various inputs.
+
         return $errors;
 
     }

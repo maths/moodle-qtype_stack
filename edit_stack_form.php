@@ -1087,7 +1087,10 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // TODO: loop over all the PRTs in a similar manner....
+        // Remember, to use $inputsession as the base session to have all the teacher's answers instantiated.
+        // Otherwise we are likley to do illigitimate things to the various inputs.
         return $errors;
+
     }
 
 

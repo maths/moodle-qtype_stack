@@ -246,7 +246,7 @@ StackAddFeedback(fb,key,[ex]):=block([str,exprs,j],
 /*  Turns answertest output to a STACK return object string  */
 /*                                                           */
 /* ex[1] =  validity should be true/false                    */
-/* ex[2] =  result should be true/false, (often rawmark)     */
+/* ex[2] =  result should be true/false,                     */
 /* ex[3] =  feedback, a string                               */
 /* ex[4] =  answernote, is for teacher stats                 */
 /*                                                           */

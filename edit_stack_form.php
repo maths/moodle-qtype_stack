@@ -883,7 +883,7 @@ class qtype_stack_edit_form extends question_edit_form {
         switch ($problem) {
             case 'disconnected':
                 foreach ($details as $unusednode) {
-                    $errors[$prtname . 'node[' . $key . ']'][] = get_string('nodenotused', 'qtype_stack');
+                    $errors[$prtname . 'node[' . $nodekey . ']'][] = get_string('nodenotused', 'qtype_stack');
                 }
                 break;
 

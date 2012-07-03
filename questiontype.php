@@ -513,7 +513,7 @@ class qtype_stack extends question_type {
             } else {
                 $expected->expectedpenalty  = $expectedresults->penalty;
             }
-            $expected->expectedanswernote = $expectedresults->answernote[0];
+            $expected->expectedanswernote = $expectedresults->answernotes[0];
             $DB->insert_record('qtype_stack_qtest_expected', $expected);
         }
 

@@ -138,11 +138,13 @@ class stack_question_test_result {
 
             $state->testoutcome = true;
             $reason = array();
-            if (abs($state->expectedscore - $state->score) > 10E-6) {
+            if (is_null($state->expectedscore) != is_null($state->score) ||
+                    abs($state->expectedscore - $state->score) > 10E-6) {
                 $state->testoutcome = false;
                 $reason[] = get_string('score', 'qtype_stack');
             }
-            if (abs($state->expectedpenalty - $state->penalty) > 10E-6) {
+            if (is_null($state->expectedpenalty) != is_null($state->penalty) ||
+                    abs($state->expectedpenalty - $state->penalty) > 10E-6) {
                 $state->testoutcome = false;
                 $reason[] = get_string('penalty', 'qtype_stack');
             }

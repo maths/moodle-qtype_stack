@@ -91,7 +91,7 @@ if ($testcase) {
         } else {
             $currentdata->{$prtname . 'penalty'}      = $expected->penalty + 0;  // Fix excessive DPs.
         }
-        $currentdata->{$prtname . 'answernote'} = $expected->answernote[0];
+        $currentdata->{$prtname . 'answernote'} = $expected->answernotes[0];
     }
 
     $mform->set_data($currentdata);
@@ -115,7 +115,6 @@ if ($mform->is_cancelled()) {
                 1, true, $data->{$prtname . 'score'}, $data->{$prtname . 'penalty'},
                 '', array($data->{$prtname . 'answernote'})));
     }
-
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
     redirect($backurl);
 }

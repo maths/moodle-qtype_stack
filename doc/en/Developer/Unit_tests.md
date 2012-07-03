@@ -26,15 +26,19 @@ You should probably copy the settings from Admin -> Plugins -> Question types ->
 however, you can use the flexibilty to have different configurations of STACK
 for testing in order to test a new release of Maxima, for example.
 
-You also need to edit the line that says
+You also need to edit the lines that says
 
+         <testsuite name="qtype_stack">
             <directory suffix="_test.php">question/type/stack/tests</directory>
+        </testsuite>
 
 to instead say
 
+        <testsuite name="x_qtype_stack">
             <directory suffix="_test.php">question/type/stack</directory>
+        </testsuite>
 
-(That is, delete "/tests".)
+(That is, delete "/tests" and add "x_".)
 
 If you want to run just the unit tests for STACK, you can use the command
 

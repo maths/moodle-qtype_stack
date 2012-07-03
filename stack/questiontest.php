@@ -118,9 +118,10 @@ class stack_question_test {
         foreach ($inputs as $name => $value) {
             if ('' !== $value) {
                 $cs = new stack_cas_casstring($value);
-                $cs->validate('t');
-                $cs->set_key('testresponse_' . $name);
-                $vars[] = $cs;
+                if ($cs->get_valid('t')) {
+                    $cs->set_key('testresponse_' . $name);
+                    $vars[] = $cs;
+                }
             }
         }
 
@@ -129,8 +130,14 @@ class stack_question_test {
 
         $response = array();
         foreach ($inputs as $name => $notused) {
-            $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array(
-                    $cascontext->get_value_key('testresponse_' . $name)));
+            $computedinput = $cascontext->get_value_key('testresponse_' . $name);
+            // In the case we start with an invalid input, and hence don't send it to the CAS
+            // We want the response to constitute the raw invalid input.
+            // This permits invalid expressions in the inputs, and to compute with valid expressions.
+            if ('' == $computedinput) {
+                $computedinput = $inputs[$name];
+            }
+            $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($computedinput));
         }
         return $response;
     }

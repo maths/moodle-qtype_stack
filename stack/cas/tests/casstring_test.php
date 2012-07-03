@@ -54,7 +54,8 @@ class stack_cas_casstring_test extends basic_testcase {
             array('(y^2+1))', false, false),
             array('[sin(x)+1)', false, false),
             array('([y^2+1)]', false, false),
-            array('setelmx(2,1,1,C)', false, true), // Function which does not appears on the teacher's list
+            // Function which does not appears on the teacher's list.
+            array('setelmx(2,1,1,C)', false, true),
             array('2*reallytotalnonsensefunction(x)', false, true),
             array('system(rm *)', false, false), // This should never occur.
             array('$', false, false),

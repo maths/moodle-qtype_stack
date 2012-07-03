@@ -418,16 +418,16 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012061500) {
-        // Define field questionnote to be dropped from qtype_stack
+        // Define field questionnote to be dropped from qtype_stack.
         $table = new xmldb_table('qtype_stack');
         $field = new xmldb_field('markmode');
 
-        // Conditionally launch drop field questionnote
+        // Conditionally launch drop field questionnote.
         if ($dbman->field_exists($table, $field)) {
             $dbman->drop_field($table, $field);
         }
 
-        // stack savepoint reached
+        // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2012061500, 'qtype', 'stack');
     }
 
@@ -439,14 +439,14 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         // Launch change of type for field truepenalty.
         $dbman->change_field_type($table, $field);
 
-        // Changing type of field falsepenalty on table qtype_stack_prt_nodes to number
+        // Changing type of field falsepenalty on table qtype_stack_prt_nodes to number.
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('falsepenalty', XMLDB_TYPE_NUMBER, '12, 7', null, null, null, null, 'falsescore');
 
         // Launch change of type for field falsepenalty.
         $dbman->change_field_type($table, $field);
 
-        // Qtype stack savepoint reached.
+        // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2012061501, 'qtype', 'stack');
     }
 
@@ -463,7 +463,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
             $dbman->drop_index($table, $index);
         }
 
-        // Qtype stack savepoint reached.
+        // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2012062100, 'qtype', 'stack');
     }
 
@@ -478,34 +478,34 @@ function xmldb_qtype_stack_upgrade($oldversion) {
             $dbman->add_index($table, $index);
         }
 
-        // Qtype stack savepoint reached.
+        // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2012062101, 'qtype', 'stack');
     }
 
     if ($oldversion < 2012062504) {
 
-        // Changing precision of field sans on table qtype_stack_prt_nodes to (255)
+        // Changing precision of field sans on table qtype_stack_prt_nodes to (255).
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('sans', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'answertest');
 
-        // Launch change of precision for field sans
+        // Launch change of precision for field sans.
         $dbman->change_field_precision($table, $field);
 
-        // Changing precision of field tans on table qtype_stack_prt_nodes to (255)
+        // Changing precision of field tans on table qtype_stack_prt_nodes to (255).
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('tans', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'sans');
 
-        // Launch change of precision for field tans
+        // Launch change of precision for field tans.
         $dbman->change_field_precision($table, $field);
 
-        // Changing precision of field testoptions on table qtype_stack_prt_nodes to (255)
+        // Changing precision of field testoptions on table qtype_stack_prt_nodes to (255).
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('testoptions', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'tans');
 
-        // Launch change of precision for field testoptions
+        // Launch change of precision for field testoptions.
         $dbman->change_field_precision($table, $field);
 
-        // stack savepoint reached
+        // Qtype stack savepoint reached.
         upgrade_plugin_savepoint(true, 2012062504, 'qtype', 'stack');
     }
 

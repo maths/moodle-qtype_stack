@@ -373,7 +373,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'modelans', get_string('teachersanswer', 'qtype_stack'), array('size' => 20));
-        $mform->addRule($inputname . 'modelans', get_string('teachersanswer', 'qtype_stack'), 'required', '', 'client', false, false);
+        $mform->addRule($inputname . 'modelans', get_string('teachersanswer', 'qtype_stack'),
+                'required', '', 'client', false, false);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'boxsize', get_string('boxsize', 'qtype_stack'), array('size' => 3));
@@ -728,7 +729,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // rather complex validation easier to implement.
 
         // 1) Validate all the fixed question fields.
-        // question variables
+        // Question variables.
         $errors = $this->validate_cas_keyval($errors, $fromform['questionvariables'], 'questionvariables');
 
         // Question text.
@@ -739,15 +740,19 @@ class qtype_stack_edit_form extends question_edit_form {
             list($numinputs, $numvalidations) = $counts;
 
             if ($numinputs == 0) {
-                $errors['questiontext'][] = get_string('questiontextmustcontain', 'qtype_stack', '[[input:' . $inputname . ']]');
+                $errors['questiontext'][] = get_string(
+                        'questiontextmustcontain', 'qtype_stack', '[[input:' . $inputname . ']]');
             } else if ($numinputs > 1) {
-                $errors['questiontext'][] = get_string('questiontextonlycontain', 'qtype_stack', '[[input:' . $inputname . ']]');
+                $errors['questiontext'][] = get_string(
+                        'questiontextonlycontain', 'qtype_stack', '[[input:' . $inputname . ']]');
             }
 
             if ($numvalidations == 0) {
-                $errors['questiontext'][] = get_string('questiontextmustcontain', 'qtype_stack', '[[validation:' . $inputname . ']]');
+                $errors['questiontext'][] = get_string(
+                        'questiontextmustcontain', 'qtype_stack', '[[validation:' . $inputname . ']]');
             } else if ($numvalidations > 1) {
-                $errors['questiontext'][] = get_string('questiontextonlycontain', 'qtype_stack', '[[validation:' . $inputname . ']]');
+                $errors['questiontext'][] = get_string(
+                        'questiontextonlycontain', 'qtype_stack', '[[validation:' . $inputname . ']]');
             }
         }
 
@@ -767,7 +772,8 @@ class qtype_stack_edit_form extends question_edit_form {
 
         foreach ($prts as $prtname => $count) {
             if ($count > 1) {
-                $errors['specificfeedback'][] = get_string('questiontextfeedbackonlycontain', 'qtype_stack', '[[feedback:' . $prtname . ']]');
+                $errors['specificfeedback'][] = get_string(
+                        'questiontextfeedbackonlycontain', 'qtype_stack', '[[feedback:' . $prtname . ']]');
             }
         }
 
@@ -919,7 +925,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$nodegroup][] = get_string('testoptionsrequired', 'qtype_stack');
 
             } else if (strlen($opt > 255)) {
-                $errors[$nodegroup][] = get_string('testoptionsinvalid', 'qtype_stack', get_string('strlengtherror', 'qtype_stack'));
+                $errors[$nodegroup][] = get_string('testoptionsinvalid', 'qtype_stack',
+                        get_string('strlengtherror', 'qtype_stack'));
 
             } else {
                 // TODO capture this for later execution.
@@ -1115,7 +1122,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $problems = array();
         foreach ($placeholders as $placeholder) {
             if (stack_utils::extract_placeholders($value, 'input')) {
-                $problems[] = get_string('fieldshouldnotcontainplaceholder', 'qtype_stack', array('field' => $fieldname, 'type' => $placeholder));
+                $problems[] = get_string('fieldshouldnotcontainplaceholder', 'qtype_stack',
+                        array('field' => $fieldname, 'type' => $placeholder));
             }
         }
         return $problems;

@@ -61,7 +61,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         if (curl_getinfo($request, CURLINFO_CONTENT_TYPE) != "text/plain") {
             // We have to save the zip file on local disk before opening...
             // how come there is no core library solution to this!?
-            // create temp file, save zip there
+            // create temp file, save zip there.
             $ziptemp = $CFG->dataroot . "/stack/tmp/";
             $ziptemp = tempname($ziptemp, "zip");
             $fp = fopen($ziptemp, "w");
@@ -69,9 +69,9 @@ class stack_cas_connection_server extends stack_cas_connection_base {
             fclose($fp);
             $zip = zip_open($ziptemp);
             $entry = zip_read($zip);
-            // read the entrys of the archive
+            // Read the entrys of the archive.
             while ($entry !== false) {
-                // This one contains the output from maxima
+                // This one contains the output from maxima.
                 if (zip_entry_name($entry) == 'OUTPUT') {
                     zip_entry_open($zip, $entry);
                     $ret = zip_entry_read($entry, zip_entry_filesize($entry));
@@ -92,7 +92,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
                 $entry = zip_read($zip);
             }
             zip_close($zip);
-            // clean up
+            // Clean up.
             unlink($ziptemp);
         }
 

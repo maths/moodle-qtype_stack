@@ -291,7 +291,8 @@ class stack_cas_text {
         preg_match_all('|<hint>(.*)</hint>|U', $strin, $html_match);
         foreach ($html_match[1] as $val) {
             $sr = '<hint>'.$val.'</hint>';
-            $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">'.stack_string($val.'_name').'</h3>'.stack_string($val.'_fact').'</div>';
+            $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
+                    stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
             $strin = str_replace($sr, $rep, $strin);
         }
         $this->trimmedcastext = $strin;

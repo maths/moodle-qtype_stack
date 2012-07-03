@@ -395,7 +395,7 @@ class stack_cas_session {
         }
 
         $keys = array();
-        if (empty($this->session)){
+        if (empty($this->session)) {
             return array();
         }
         foreach ($this->session as $cs) {

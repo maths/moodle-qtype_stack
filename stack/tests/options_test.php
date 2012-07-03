@@ -31,7 +31,7 @@ require_once(dirname(__FILE__) . '/../options.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_options_set_exception_test extends UnitTestCase {
+class stack_options_set_exception_test extends basic_testcase {
 
     public function test_set_exception_1() {
         $opts = new stack_options();

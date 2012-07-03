@@ -311,7 +311,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0.5, 0.1);
-        $this->assertEquals(1, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertEquals(1, $this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
@@ -323,7 +324,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0.5, 0.1);
-        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertNull($this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
@@ -335,7 +337,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', null, null);
-        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertNull($this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x + 1');
         $this->check_output_contains_input_validation('ans3');
@@ -347,7 +350,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0, 0.1);
-        $this->assertEquals(2, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertEquals(2, $this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x + 1');
         $this->check_output_contains_input_validation('ans3');
@@ -359,7 +363,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', null, null);
-        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertNull($this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
@@ -371,7 +376,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', 0.5, 0.1);
-        $this->assertEquals(3, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertEquals(3, $this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', 'x');
         $this->check_output_contains_input_validation('ans3');
@@ -383,7 +389,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.5);
         $this->check_prt_score('oddeven', null, null);
-        $this->assertNull($this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertNull($this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', '0');
         $this->check_output_contains_input_validation('ans3');
@@ -395,7 +402,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_mark(0.8);
         $this->check_prt_score('oddeven', 1, 0);
-        $this->assertEquals(4, $this->quba->get_question_attempt($this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
+        $this->assertEquals(4, $this->quba->get_question_attempt(
+                $this->slot)->get_last_step()->get_behaviour_var('_tries_oddeven'));
         $this->render();
         $this->check_output_contains_text_input('ans3', '0');
         $this->check_output_contains_input_validation('ans3');
@@ -460,10 +468,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $this->check_current_state(question_state::$gradedpartial);
         $this->check_current_mark(2.5);
-        //$this->check_prt_score('odd', 1, 0, true);
-        //$this->check_prt_score('even', 1, 0, true);
-        //$this->check_prt_score('oddeven', 1, 0, true);
-        //$this->check_prt_score('unique', 1, 0);
+        $this->check_prt_score('odd', 1, 0, true);
+        $this->check_prt_score('even', 1, 0, true);
+        $this->check_prt_score('oddeven', 1, 0, true);
+        $this->check_prt_score('unique', 1, 0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);

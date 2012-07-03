@@ -87,7 +87,8 @@ class stack_potentialresponse_node {
         // This is not a stack_options class, but a string.
         // Some answertests need non-casstring options, eg. regular expressions.
         if (is_a($atoptions, 'stack_cas_casstring')) {
-            throw new stack_exception('stack_potentialresponse_node: atoptions must NOT be a stack_cas_casstring.  This should be a string.');
+            throw new stack_exception('stack_potentialresponse_node: ' .
+                    'atoptions must NOT be a stack_cas_casstring.  This should be a string.');
         }
         $this->atoptions = $atoptions;
         $this->notes = $notes;

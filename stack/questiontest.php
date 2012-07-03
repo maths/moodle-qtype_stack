@@ -79,8 +79,9 @@ class stack_question_test {
         $results = new stack_question_test_result($this);
         foreach ($this->inputs as $inputname => $notused) {
             $inputstate = $question->get_input_state($inputname, $response);
-            // The _val below is a hack.  Not all inputnames exist explicitly in the response, but the _val does.
-            // Some inputs, e.g. matrices have many entries in the response so none match $response[$inputname]
+            // The _val below is a hack.  Not all inputnames exist explicitly in
+            // the response, but the _val does. Some inputs, e.g. matrices have
+            // many entries in the response so none match $response[$inputname].
             if (array_key_exists($inputname, $response)) {
                 $inputresponse = $response[$inputname];
             } else {
@@ -128,7 +129,8 @@ class stack_question_test {
 
         $response = array();
         foreach ($inputs as $name => $notused) {
-            $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($cascontext->get_value_key('testresponse_' . $name)));
+            $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array(
+                    $cascontext->get_value_key('testresponse_' . $name)));
         }
         return $response;
     }

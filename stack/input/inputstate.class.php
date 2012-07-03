@@ -61,8 +61,10 @@ class stack_input_state {
     /**
      * Constructor
      *
-     * @param array $contents the current contents of this input.  An array with separate fields as needed by the input type.
-     * @param string $contentsmodified A Maxima representation of the current contents of this input.  This might have been modified, e.g. *s added etc.
+     * @param array $contents the current contents of this input.  An array with
+     *      separate fields as needed by the input type.
+     * @param string $contentsmodified A Maxima representation of the current contents
+     *      of this input.  This might have been modified, e.g. *s added etc.
      * @param string $contentsdisplayed The displayed form of the current contents of this input.
      * @param string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
      * @param string $feedback the feedback for the current contents.

@@ -332,13 +332,13 @@ class stack_inputvalidation_test_data {
     }
 
     public static function run_test($test) {
-        // Note: we would really like to do this, but want to pull apart the bits to
-        // expose where the various errors occur.
+        // Note: What we would really like to do is
         // $el = stack_input_factory::make('algebraic', 'sans1', 'x');
         // $el->set_parameter('insertStars', true);
         // $el->set_parameter('strictSyntax', false);
         // $el->set_parameter('sameType', false);
         // $cs = $el->validate_student_response($test->rawstring);
+        // but we want to pull apart the bits to expose where the various errors occur.
 
         $cs= new stack_cas_casstring($test->rawstring);
         $cs->validate('s', false, true);

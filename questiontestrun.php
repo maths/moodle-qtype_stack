@@ -145,7 +145,7 @@ if (!$question->has_random_variants()) {
         $slotnote = $qunote->add_question($qn, $qn->defaultmark);
         $qunote->start_question($slotnote);
 
-        // Check if the question note has already been deployed
+        // Check if the question note has already been deployed.
         if ($qn->get_question_summary() == $question->get_question_summary()) {
             $variantdeployed = true;
         }

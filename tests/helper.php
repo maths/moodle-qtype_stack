@@ -804,7 +804,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qtest = new stack_question_test(array('ans1' => '2'));
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                '', array(), array('firsttree-1-T'), true, 1, 0));
+                1, true, 1, 0, '', array('firsttree-1-T')));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;

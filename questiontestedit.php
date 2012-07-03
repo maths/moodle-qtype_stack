@@ -112,8 +112,8 @@ if ($mform->is_cancelled()) {
 
     foreach ($question->prts as $prtname => $notused) {
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-                '', array(), array($data->{$prtname . 'answernote'}), true,
-                $data->{$prtname . 'score'}, $data->{$prtname . 'penalty'}));
+                1, true, $data->{$prtname . 'score'}, $data->{$prtname . 'penalty'},
+                '', array($data->{$prtname . 'answernote'})));
     }
 
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);

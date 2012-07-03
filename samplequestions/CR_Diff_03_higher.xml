@@ -226,12 +226,12 @@ p:cos(rdm*v);</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is 
+      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is
 \[\frac{d^2f}{dx^2}=\frac{d}{dx}\left(\frac{df}{dx}\right)\]
 
 So, if $f(@v@)=@p@$ then its second derivative is
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d^2}{d@v@^2}(@p@) &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[\frac{d}{d@v@}(@p@)\right] \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}(@diff(pp1,v)-diff(pp2,v)@) \\
    &\displaystyle =&\displaystyle  @diff(p,v,2)@
@@ -377,7 +377,7 @@ p:pp1-pp2;</text>
         <truefeedback format="html">
           <text>Each time you differentiate $e^{mx}$ a multiplicative factor of $m$ appears.
 
-If $f(x) = e^{mx}$ then \[\frac{df}{dx}=me^{mx},\] \[\frac{d^2f}{dx^2} = m^2e^{mx}\] and so on. 
+If $f(x) = e^{mx}$ then \[\frac{df}{dx}=me^{mx},\] \[\frac{d^2f}{dx^2} = m^2e^{mx}\] and so on.
 
 It appears that at some stage you forgot a multiplicative factor.</text>
         </truefeedback>
@@ -495,12 +495,12 @@ It appears that at some stage you forgot a multiplicative factor.</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is 
+      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is
 \[\frac{d^2f}{dx^2}=\frac{d}{dx}\left(\frac{df}{dx}\right)\]
 
 So, if $f(@v@)=@p@$ then its second derivative is
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d^2}{d@v@^2}(@p@) &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[\frac{d}{d@v@}(@p@)\right] \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}(@diff(p,v)@) \\
    &\displaystyle =&\displaystyle  @diff(p,v,2)@
@@ -648,12 +648,12 @@ p:rdm2-rdm1*v;</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is 
+      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is
 \[\frac{d^2f}{dx^2}=\frac{d}{dx}\left(\frac{df}{dx}\right)\]
 
 So, if $f(@v@)=@p@$ then its second derivative is
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d^2}{d@v@^2}\left[(@p@\right] &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[\frac{d}{d@v@}\left(@p@\right)\right] \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[@diff(p,v)@\right] \\
    &\displaystyle =&\displaystyle  @diff(p,v,2)@
@@ -840,12 +840,12 @@ p:pp1+pp2+pp3;</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is 
+      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is
 \[\frac{d^2f}{dx^2}=\frac{d}{dx}\left(\frac{df}{dx}\right)\]
 
 So, if $f(@v@)=@p@$ then its second derivative is
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d^2}{d@v@^2}(@p@) &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[\frac{d}{d@v@}(@p@)\right] \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left(@diff(p,v)@\right) \\
    &\displaystyle =&\displaystyle  @diff(p,v,2)@
@@ -995,12 +995,12 @@ p:pp1-pp2;</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is 
+      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is
 \[\frac{d^2f}{dx^2}=\frac{d}{dx}\left(\frac{df}{dx}\right)\]
 
 So, if $f(@v@)=@p@$ then its second derivative is
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d^2}{d@v@^2}\left(@p@\right) &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[\frac{d}{d@v@}(@p@)\right] \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left(@diff(p,v)@\right) \\
    &\displaystyle =&\displaystyle  @diff(p,v,2)@
@@ -1152,12 +1152,12 @@ p:pp1-pp2;</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is 
+      <text><![CDATA[The second derivative of a function $f(x)$ with respect to $x$ is
 \[\frac{d^2f}{dx^2}=\frac{d}{dx}\left(\frac{df}{dx}\right)\]
 
 So, if $f(@v@)=@p@$ then its second derivative is
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d^2}{d@v@^2}\left(@p@\right) &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[\frac{d}{d@v@}(@p@)\right] \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left(@diff(p,v)@\right) \\
    &\displaystyle =&\displaystyle  @diff(p,v,2)@

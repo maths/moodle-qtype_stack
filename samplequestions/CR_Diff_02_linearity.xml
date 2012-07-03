@@ -14,7 +14,7 @@
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left[ @p@\right]  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[@pp1@\right] +\frac{d}{d@v@}\left(@pp2@\right)  \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot \frac{d}{d@v@}[@ppp1@]+\frac{d}{d@v@}\left(@ppp2@\right)  \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot [@diff(ppp1,v)@]+@diff(ppp2,v)@ \\
@@ -114,7 +114,7 @@ p:pp1+pp2;</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@. 
+          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@.
 
 Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
         </truefeedback>
@@ -610,7 +610,7 @@ q3:ppp1-ppp2;</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left[ @p@\right]  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[@pp1@\right] +\frac{d}{d@v@}\left(@pp2@\right)  \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot \frac{d}{d@v@}[@ppp1@]+\frac{d}{d@v@}\left(@ppp2@\right)  \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot [@diff(ppp1,v)@]+@diff(ppp2,v)@ \\
@@ -712,7 +712,7 @@ q3:ppp1+ppp2;</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@. 
+          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@.
 
 Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
         </truefeedback>
@@ -762,7 +762,7 @@ Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-3-T </trueanswernote>
         <truefeedback format="html">
-          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@, and used an incorrect sign. 
+          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@, and used an incorrect sign.
 
 Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
         </truefeedback>
@@ -844,7 +844,7 @@ Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left[ @p@\right]  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[@pp1@\right] +\frac{d}{d@v@}\left[@pp2@\right]+\frac{d}{d@v@}\left[@pp3@\right] \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}[@ppp1@]+\frac{d}{d@v@}\left[@ppp2@\right] +@rdm3@\cdot \frac{d}{d@v@}\left[@ppp3@\right] \\
    &\displaystyle =&\displaystyle  @diff(ppp1,v)@+[@diff(ppp2,v)@]+@rdm3@\cdot \left[@diff(ppp3,v)@\right] \\
@@ -963,7 +963,7 @@ p:pp1+pp2+pp3;</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left[ @p@\right]  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left[@pp1@\right] +\frac{d}{d@v@}\left[@pp2@\right]+\frac{d}{d@v@}\left[@pp3@\right] \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot \frac{d}{d@v@}[@ppp1@]+@rdm2@\cdot \frac{d}{d@v@}\left[@ppp2@\right] +@rdm3@\cdot \frac{d}{d@v@}\left[@ppp3@\right] \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot [@diff(ppp1,v)@]+@rdm2@\cdot [@diff(ppp2,v)@] +@rdm3@\cdot \left[@diff(ppp3,v)@\right] \\
@@ -1078,7 +1078,7 @@ p:pp1+pp2+pp3;</text>
       <text>CR-Diff-02-linearity-2.a</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}\left( @p@\right) .\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -1087,7 +1087,7 @@ p:pp1+pp2+pp3;</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left( @p@\right)  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @pp1@\right) +\frac{d}{d@v@}\left[ @pp2@\right]  \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot \frac{d}{d@v@}(@ppp1@)+@1/rdm2@\cdot \frac{d}{d@v@}[@ppp2@] \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot \left( @diff(ppp1,v)@\right) +@1/rdm2@\cdot \left[ @diff(ppp2,v)@\right]  \\
@@ -1187,7 +1187,7 @@ p:pp1+pp2;</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@. 
+          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@.
 
 Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
         </truefeedback>
@@ -1235,7 +1235,7 @@ Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
       <text>CR-Diff-02-linearity-2.b</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}\left( @p@\right) .\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -1244,7 +1244,7 @@ Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left( @p@\right)  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @pp1@\right) +\frac{d}{d@v@}\left[ @pp2@\right]  \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot \frac{d}{d@v@}(@ppp1@)+@rdm2@\cdot \frac{d}{d@v@}[@ppp2@] \\
    &\displaystyle =&\displaystyle  @rdm1@\cdot \left( @diff(ppp1,v)@\right) +@rdm2@\cdot \left[ @diff(ppp2,v)@\right]  \\
@@ -1344,7 +1344,7 @@ p:pp1+pp2;</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@. 
+          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@.
 
 Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
         </truefeedback>
@@ -1392,7 +1392,7 @@ Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
       <text>CR-Diff-02-linearity-2.c</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}\left( @p@\right) .\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -1401,7 +1401,7 @@ Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left( @p@\right)  &\displaystyle =&\displaystyle  @rdm1/rdm2@\cdot \frac{d}{d@v@}(@ppp1@) \\
    &\displaystyle =&\displaystyle  @rdm1/rdm2@\cdot \left( @diff(ppp1,v)@\right) \\
    &\displaystyle =&\displaystyle  @diff(p,v)@
@@ -1507,7 +1507,7 @@ p:pp1;</text>
       <text>CR-Diff-02-linearity-2.d</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}\left( @p@\right) .\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -1516,7 +1516,7 @@ p:pp1;</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left( @p@\right)  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @pp1@\right) +\frac{d}{d@v@}\left[ @-pp2@\right]  \\
    &\displaystyle =&\displaystyle  @rdm1/rdm2^2@\cdot \frac{d}{d@v@}(@ppp1@)+@-rdm2/rdm1^2@\cdot \frac{d}{d@v@}[@ppp2@] \\
    &\displaystyle =&\displaystyle  @rdm1/rdm2^2@\cdot \left( @diff(ppp1,v)@\right) +@-rdm2/rdm1^2@\cdot \left[ @diff(ppp2,v)@\right]  \\
@@ -1616,7 +1616,7 @@ p:pp1+pp2;</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@. 
+          <text>You appear to have forgotten the coefficients @rdm1@ and @rdm2@.
 
 Remember: \[\frac{d}{dx}(k\cdot f)=k\cdot \frac{df}{dx}.\]</text>
         </truefeedback>
@@ -1893,7 +1893,7 @@ q3:ppp1-ppp2;</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition <hint>calc_diff_linearity_rule</hint> and the properties of exponentials <hint>alg_indices</hint>.
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left[\sqrt{\left(@pp@\right)}\right] &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @p@\right) \\
    &\displaystyle =&\displaystyle  @rdm1^(1/2)@\cdot \frac{d}{d@v@}(@ppp^(1/2)@) \\
    &\displaystyle =&\displaystyle  @rdm1^(1/2)@\cdot @diff(ppp^(1/2),v)@ \\
@@ -2047,7 +2047,7 @@ You appear to have dropped the a factor, in this case @rdm1^(1/2)@</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left[\left(@pp@\right)^{@rdm2@}\right] &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @p@\right) \\
    &\displaystyle =&\displaystyle  @rdm1^rdm2@\cdot \frac{d}{d@v@}(@ppp^rdm2@) \\
    &\displaystyle =&\displaystyle  @rdm1^rdm2@\cdot @diff(ppp^rdm2,v)@ \\
@@ -2279,11 +2279,11 @@ You appear to have lost the m factor.</text>
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-Since 
+Since
 
 \[@p@=@q@,\]
 
-\[\begin{array}{rcl}\displaystyle   
+\[\begin{array}{rcl}\displaystyle
 \frac{d}{d@v@}\left[ @p@\right]  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @q@\right)  \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @qq1@\right) + \frac{d}{d@v@}\left( @qq2@\right) + \frac{d}{d@v@}\left( @qq3@\right) + \frac{d}{d@v@}\left( @qq4@\right)  \\
    &\displaystyle =&\displaystyle  @rdm1*rdm3@\frac{d}{d@v@}\left( @qqq1@\right) + @rdm1@\frac{d}{d@v@}\left( @qqq2@\right) + [@rdm2*rdm3@]\frac{d}{d@v@}\left( @qqq3@\right) + 0  \\
@@ -2493,13 +2493,13 @@ To differentiate a product you need to use the product rule <hint>calc_product_r
     <generalfeedback format="html">
       <text><![CDATA[In order to solve this problem we will have to use the linearity rules for differentition. <hint>calc_diff_linearity_rule</hint>
 
-Since 
-\[\begin{array}{rcl}\displaystyle 
+Since
+\[\begin{array}{rcl}\displaystyle
 \frac{@pp1@}{@pp2@} &\displaystyle =&\displaystyle  \frac{1}{@pp2@}-\frac{@ppp2@}{@pp2@} \\
    &\displaystyle =&\displaystyle  @q@
- \end{array}\] 
+ \end{array}\]
 
-\[\begin{array}{rcl}\displaystyle   
+\[\begin{array}{rcl}\displaystyle
 \frac{d}{d@v@}\left[\frac{@pp1@}{@pp2@}\right]  &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left( @q@\right)  \\
    &\displaystyle =&\displaystyle  \frac{d}{d@v@}\left(@1/pp2@\right) - \frac{d}{d@v@}\left( @ppp2/pp2@\right) \\
    &\displaystyle =&\displaystyle  @diff(q,v)@

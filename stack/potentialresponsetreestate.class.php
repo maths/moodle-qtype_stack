@@ -35,7 +35,7 @@ class stack_potentialresponse_tree_state {
     /**
      * @var array of answernote strings for the teacher.
      */
-    public $_answernote  = array();
+    public $_answernotes = array();
 
     /**
      * @var boolean Is this attempt valid?
@@ -53,45 +53,77 @@ class stack_potentialresponse_tree_state {
     public $_penalty     = 0;
 
     /**
+     * @var float Weight of this PRT within the question.
+     */
+    public $_weight;
+
+    /**
      * Constructor
      *
+     * @param float $weight the value of this PRT within the question.
+     * @param bool $valid whether evaluating the PRT completed successfully.
+     * @param float $score the score computed by this PRT.
+     * @param float $penalty penalty computed by this PRT.
+     * @param string $errors any error messages.
+     * @param array $answernotes the answer notes from the evaluation.
      * @param array $feedback the current contents of this input.
-     * @param string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
-     * @param string $feedback the feedback for the current contents.
      */
-    public function __construct($errors = '', $feedback = array(), $answernote = array(),
-            $valid = true, $score = null, $penalty = null) {
-        $this->_errors      = $errors;
-        $this->_feedback    = $feedback;
-        $this->_answernote  = $answernote;
+    public function __construct($weight, $valid = true, $score = null, $penalty = null,
+            $errors = '', $answernotes = array(), $feedback = array()) {
+        $this->_weight      = $weight;
         $this->_valid       = $valid;
         $this->_score       = $score;
         $this->_penalty     = $penalty;
+        $this->_errors      = $errors;
+        $this->_answernotes = $answernotes;
+        $this->_feedback    = $feedback;
     }
 
     public function __get($field) {
         switch ($field) {
-            case 'errors':
-                return $this->_errors;
-            case 'feedback':
-                return $this->_feedback;
-            case 'answernote':
-                return $this->_answernote;
+            case 'weight':
+                return $this->_weight;
             case 'valid':
                 return $this->_valid;
             case 'score':
                 return $this->_score;
             case 'penalty':
                 return $this->_penalty;
+            case 'fraction':
+                return $this->_score * $this->_weight;
+            case 'fractionalpenalty':
+                return $this->_penalty * $this->_weight;
+            case 'errors':
+                return $this->_errors;
+            case 'feedback':
+                return $this->_feedback;
+            case 'answernotes':
+                return $this->_answernotes;
             default:
                 throw new stack_exception('stack_potentialresponse_tree_state: __get().  Unrecognised property name ' . $field);
         }
     }
 
+    /**
+     * Add another answer note to the list.
+     * @param string $note the new answer note.
+     */
     public function add_answernote($note) {
-        $this->_answernote[] = $note;
+        $this->_answernotes[] = $note;
     }
 
+    /**
+     * Add more answer notes to the list.
+     * @param array $notes the new answer notes.
+     */
+    public function add_answernotes($notes) {
+        $this->_answernotes = array_merge($this->_answernotes, $notes);
+    }
+
+    /**
+     * Add another bit of feedback.
+     * @param string $feedback the next bit of feedback.
+     */
     public function add_feedback($feedback) {
         $this->_feedback[] = $feedback;
     }

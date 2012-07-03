@@ -164,7 +164,7 @@ class stack_potentialresponse_node {
             'newscore' => $this->update_score($currentscore, $resultbranch),
             'penalty' => $resultbranch['penalty'],
             'nextnode' => $resultbranch['nextnode'],
-            'answernote' => implode(' | ', $answernotes),
+            'answernotes' => $answernotes,
             'feedback' => implode(' ', $feedback),
         );
     }
@@ -192,15 +192,12 @@ class stack_potentialresponse_node {
             $atopts = null;
         }
 
-        list($result, $valid, $errors, $newscore, $penalty, $nextnode, $answernote, $feedback) =
+        list($result, $valid, $errors, $newscore, $penalty, $nextnode, $answernotes, $feedback) =
                 array_values($this->do_test($sans, $tans, $atopts, $options, $results->_score));
 
         $results->_valid = $results->_valid && $valid;
         $results->_score = $newscore;
-
-        if ($answernote) {
-            $results->add_answernote($answernote);
-        }
+        $results->add_answernotes($answernotes);
 
         if ($feedback) {
             $results->add_feedback($feedback);

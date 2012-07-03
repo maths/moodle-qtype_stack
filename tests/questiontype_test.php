@@ -402,7 +402,7 @@ class qtype_stack_test extends question_testcase {
 
         $qtest = new stack_question_test(array('ans1' => '2'));
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                        '', array(), array('firsttree-1-T'), true, 1, 0));
+                        1, true, 1, 0, '', array('firsttree-1-T')));
         $expectedq->testcases[1] = $qtest;
 
         $this->assert(new question_check_specified_fields_expectation($expectedq), $q);

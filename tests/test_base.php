@@ -123,26 +123,25 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         }
 
         if (is_null($score)) {
-            $this->assertNull($result['score']);
+            $this->assertNull($result->score);
         } else {
             if ($score == 0) {
-                // PHP will think a null mark and a mark of 0 are equal,
-                // so explicity check not null in this case.
-                $this->assertNotNull($result['score']);
+                // PHP will think a null and are equal, so explicity check not null.
+                $this->assertNotNull($result->score);
             }
-            $this->assertEquals($score, $result['score'], 'Wrong score.  The PRT returned '.$result['score'].' but we expected '.$score.'.');
+            $this->assertEquals($score, $result->score, 'Wrong score.  The PRT returned ' .
+                    $result->score . ' but we expected ' . $score . '.');
         }
 
         if (is_null($penalty)) {
-            $this->assertNull($result['penalty']);
+            $this->assertNull($result->penalty);
         } else {
-            if ($score == 0) {
-                // PHP will think a null mark and a mark of 0 are equal,
-                // so explicity check not null in this case.
-                $this->assertNotNull($result['penalty']);
+            if ($penalty == 0) {
+                // PHP will think a null and are equal, so explicity check not null.
+                $this->assertNotNull($result->penalty);
             }
-            $this->assertEquals($penalty, $result['penalty'], 'Wrong penalty.  The PRT returned '.$result['penalty'].' but we expected '.$penalty.'.');
-            $this->assertEquals($score, $result['score'], 'Wrong score.  The PRT returned '.$result['score'].' but we expected '.$score.'.');
+            $this->assertEquals($penalty, $result->penalty, 'Wrong penalty.  The PRT returned ' .
+                    $result->penalty . ' but we expected ' . $penalty . '.');
         }
     }
 

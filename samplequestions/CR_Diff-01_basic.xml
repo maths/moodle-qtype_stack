@@ -12,9 +12,9 @@
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\] 
+      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
 <br/>
-\[ \frac{d}{d@v@}(@p@) = @rdm@@v@^{@rdm@-1} 
+\[ \frac{d}{d@v@}(@p@) = @rdm@@v@^{@rdm@-1}
 = @rdm@@v@^{@rdm-1@}.\] ]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
@@ -170,9 +170,9 @@ p:v^(rdm);</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\] 
+      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}[@v@^{@rdm@}] &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
  \end{array}\] ]]></text>
@@ -317,9 +317,9 @@ p:v^(rdm);</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\] 
+      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
  \end{array}\] ]]></text>
@@ -464,9 +464,9 @@ p:v^(rdm);</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\] 
+      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
  \end{array}\] ]]></text>
@@ -625,9 +625,9 @@ p:v^(rdm);</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[\[@p@ = @v@^@rdm@\]
-So, using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\] 
+So, using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}\left(@p@\right) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
  \end{array}\] ]]></text>
@@ -772,9 +772,9 @@ p:v^(rdm);</text>
 </text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\] 
+      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
   \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
  \end{array}\] ]]></text>
@@ -2191,7 +2191,7 @@ p:cos(rdm*v);</text>
       <text>CR-Diff-01-basic-3.b</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}(@p@).\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -2200,7 +2200,7 @@ p:cos(rdm*v);</text>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
 \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
    &\displaystyle =&\displaystyle  @diff(p,v)@
  \end{array}\] ]]></text>
@@ -2413,7 +2413,7 @@ p:exp(rdm1*v);</text>
       <text>CR-Diff-01-basic-3.c</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}(@p@).\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -2422,7 +2422,7 @@ p:exp(rdm1*v);</text>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
 \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
    &\displaystyle =&\displaystyle  @diff(p,v)@
  \end{array}\] ]]></text>
@@ -2635,7 +2635,7 @@ p:exp(rdm1*v);</text>
       <text>CR-Diff-01-basic-3.d</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}(@p@).\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -2644,7 +2644,7 @@ p:exp(rdm1*v);</text>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
 \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
    &\displaystyle =&\displaystyle  @diff(p,v)@
  \end{array}\] ]]></text>
@@ -2858,7 +2858,7 @@ p:rdm2*exp(rdm1*v);</text>
       <text>CR-Diff-01-basic-3.e</text>
     </name>
     <questiontext format="html">
-      <text>Find the following derivative: 
+      <text>Find the following derivative:
 \[\frac{d}{d@v@}(@p@).\]
 
 [[input:ans1]] [[validation:ans1]]
@@ -2867,7 +2867,7 @@ p:rdm2*exp(rdm1*v);</text>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
 
-\[\begin{array}{rcl}\displaystyle 
+\[\begin{array}{rcl}\displaystyle
 \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
    &\displaystyle =&\displaystyle  @diff(p,v)@
  \end{array}\] ]]></text>

@@ -418,7 +418,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         foreach ($this->prts as $index => $prt) {
             $results = $this->get_prt_result($index, $response, true);
-            $fraction += $results['fraction'];
+            $fraction += $results->fraction;
         }
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
@@ -470,7 +470,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             // TODO check for errors.
             $partresults[$index] = new qbehaviour_adaptivemultipart_part_result(
-                    $index, $results['score'], $results['penalty']);
+                    $index, $results->score, $results->penalty);
         }
 
         return $partresults;
@@ -505,9 +505,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 // evaluated with these inputs while the student was working
                 // through the question.
 
-                $accumulatedpenalty += $results['fractionalpenalty'];
+                $accumulatedpenalty += $results->fractionalpenalty;
             }
-            $fraction += max($results['fraction'] - $penaltytoapply, 0);
+            $fraction += max($results->fraction - $penaltytoapply, 0);
         }
 
         return $fraction;
@@ -561,8 +561,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param array $response the response to process.
      * @param bool $acceptvalid if this is true, then we will grade things even
      *      if the corresponding inputs are only VALID, and not SCORE.
-     * @return array the result from $prt->evaluate_response(), or a fake array
-     *      if the tree cannot be executed.
+     * @return stack_potentialresponse_tree_state the result from $prt->evaluate_response(),
+     *      or a fake state object if the tree cannot be executed.
      */
     public function get_prt_result($index, $response, $acceptvalid) {
         $this->validate_cache($response);
@@ -574,15 +574,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $prt = $this->prts[$index];
 
         if (!$this->can_execute_prt($prt, $response, $acceptvalid)) {
-            $this->prtresults[$index] = array(
-                'feedback'   => '',
-                'answernote' => null,
-                'errors'     => null,
-                'valid'      => null,
-                'score'      => null,
-                'penalty'    => null,
-                'fraction'   => null,
-            );
+            $this->prtresults[$index] = new stack_potentialresponse_tree_state(
+                    $prt->get_value(), null, null, null);
             return $this->prtresults[$index];
         }
 
@@ -704,16 +697,17 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             $results = $this->prts[$index]->evaluate_response($this->session,
                     $this->options, $prtinput, $this->seed);
-            $answernotes = explode(' | ', $results['answernote']);
+
+            $answernotes = implode(' | ', $results->answernotes);
 
             foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
-                if (in_array($choices->truenote, $answernotes)) {
+                if (in_array($choices->truenote, $results->answernotes)) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->truenote, $results['answernote'], $results['fraction']);
+                            $choices->truenote, $answernotes, $results->fraction);
 
-                } else if (in_array($choices->falsenote, $answernotes)) {
+                } else if (in_array($choices->falsenote, $results->answernotes)) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->falsenote, $results['answernote'], $results['fraction']);
+                            $choices->falsenote, $answernotes, $results->fraction);
 
                 } else {
                     $classification[$index . '-' . $nodeid] = question_classified_response::no_response();

@@ -324,7 +324,7 @@ abstract class stack_input {
 
     /**
      * Decide if the contents of this attempt is blank.
-     * 
+     *
      * @param array $contents a non-empty array of the student's input as a split array of raw strings.
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
@@ -485,7 +485,7 @@ abstract class stack_input {
     /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
-     * This is used to take a Maxima expression, e.g. a Teacher's answer or a test case, and directly transform 
+     * This is used to take a Maxima expression, e.g. a Teacher's answer or a test case, and directly transform
      * it into expected inputs.
      *
      * @param array|string $in

@@ -57,12 +57,12 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $seed = 12345;
         $result = $tree->evaluate_response($questionvars, $options, $answers, $seed);
 
-        $this->assertTrue($result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(1, $result['score']);
-        $this->assertEquals(0, $result['penalty']);
-        $this->assertEquals('Yeah!', $result['feedback']);
-        $this->assertEquals('ATInt_true | 1-0-1', $result['answernote']);
+        $this->assertTrue($result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(1, $result->score);
+        $this->assertEquals(0, $result->penalty);
+        $this->assertEquals(array('Yeah!'), $result->feedback);
+        $this->assertEquals(array('ATInt_true', '1-0-1'), $result->answernotes);
         $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'), $tree->get_all_answer_notes());
     }
 
@@ -96,24 +96,24 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $answers = array('sans'=>'3*x^2+6*x+3');
         $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
-        $this->assertTrue($result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(1, $result['score']);
-        $this->assertEquals(0, $result['penalty']);
-        $this->assertEquals('Ok, you can diff. Do not expand!', $result['feedback']);
-        $this->assertEquals('ATDiff_true | 1-0-1 | ATFacForm_notfactored. | 1-1-0', $result['answernote']);
+        $this->assertTrue($result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(1, $result->score);
+        $this->assertEquals(0, $result->penalty);
+        $this->assertEquals(array('Ok, you can diff.', 'Do not expand!'), $result->feedback);
+        $this->assertEquals(array('ATDiff_true', '1-0-1', 'ATFacForm_notfactored.', '1-1-0'), $result->answernotes);
 
         // Now have another attempt at the same PRT!
         // Need this test to ensure PRT is "reset" and has no hangover data inside the potential resposnes.
         $answers = array('sans'=>'3*(x+1)^2');
         $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
-        $this->assertTrue($result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(1, $result['score']);
-        $this->assertEquals(0, $result['penalty']);
-        $this->assertEquals('Ok, you can diff. Yeah!', $result['feedback']);
-        $this->assertEquals('ATDiff_true | 1-0-1 | ATFacForm_true | 1-1-1', $result['answernote']);
+        $this->assertTrue($result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(1, $result->score);
+        $this->assertEquals(0, $result->penalty);
+        $this->assertEquals(array('Ok, you can diff.', 'Yeah!'), $result->feedback);
+        $this->assertEquals(array('ATDiff_true', '1-0-1', 'ATFacForm_true', '1-1-1'), $result->answernotes);
         $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
                 '1-1-1' => '1-1-1', '1-1-0' => '1-1-0'), $tree->get_all_answer_notes());
     }
@@ -159,15 +159,15 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses);
 
         // Some data from students.
-        $answers = array('sans'=>'(x+1)^3');
+        $answers = array('sans' => '(x+1)^3');
         $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
-        $this->assertTrue($result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(0.3, $result['score']);
-        $this->assertEquals(0, $result['penalty']);
-        $this->assertEquals('Test 1 true. Test 2 false.', $result['feedback']);
-        $this->assertEquals('1-0-1 | ATFacForm_notfactored. | 1-1-0 | [PRT-CIRCULARITY]=0', $result['answernote']);
+        $this->assertTrue($result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(0.3, $result->score);
+        $this->assertEquals(0, $result->penalty);
+        $this->assertEquals(array('Test 1 true.', 'Test 2 false.'), $result->feedback);
+        $this->assertEquals(array('1-0-1', 'ATFacForm_notfactored.', '1-1-0', '[PRT-CIRCULARITY]=0'), $result->answernotes);
 
         $this->assertEquals(array('sa1', 'ta'), $tree->get_required_variables(array('sa1', 'sa3', 'ta', 'ssa1', 'a1', 't')));
     }

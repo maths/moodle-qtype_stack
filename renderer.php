@@ -58,7 +58,7 @@ class qtype_stack_renderer extends qtype_renderer {
             $feedback = '';
             if ($options->feedback) {
                 $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
-                if (!is_null($result['valid'])) {
+                if (!is_null($result->valid)) {
                     $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
                 }
             }
@@ -144,7 +144,7 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
-            if (!is_null($result['valid'])) {
+            if (!is_null($result->valid)) {
                 $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
             }
             $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
@@ -164,14 +164,19 @@ class qtype_stack_renderer extends qtype_renderer {
     }
 
     /**
-     * @param string $feedback the raw feedback message from the PRT.
+     * @param string $name the PRT name.
+     * @param question_attempt $qa the question attempt to display.
+     * @param question_definition $question the question being displayed.
+     * @param stack_potentialresponse_tree_state $result the results to display.
+     * @param question_display_options $options controls what should and should not be displayed.
      * @return string nicely formatted feedback, for display.
      */
     protected function prt_feedback($name, question_attempt $qa,
-            question_definition $question, $result, question_display_options $options) {
+            question_definition $question, stack_potentialresponse_tree_state $result,
+            question_display_options $options) {
         $err = '';
-        if (array_key_exists('errors', $result)) {
-            $err = $result['errors'];
+        if ($result->errors) {
+            $err = $result->errors;
         }
 
         $gradingdetails = '';
@@ -186,12 +191,19 @@ class qtype_stack_renderer extends qtype_renderer {
 
         return html_writer::nonempty_tag('div',
                 $this->standard_prt_feedback($qa, $question, $result) .
-                $err . $result['feedback'] . $gradingdetails,
+                $err . implode(' ', $result->feedback) . $gradingdetails,
                 array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
     }
 
+    /**
+     * Generate the standard PRT feedback for a pearticular score.
+     * @param question_attempt $qa the question attempt to display.
+     * @param question_definition $question the question being displayed.
+     * @param stack_potentialresponse_tree_state $result the results to display.
+     * @return string nicely standard feedback, for display.
+     */
     protected function standard_prt_feedback($qa, $question, $result) {
-        $state = question_state::graded_state_for_fraction($result['score']);
+        $state = question_state::graded_state_for_fraction($result->score);
 
         $class = $state->get_feedback_class();
         $field = 'prt' . $class;

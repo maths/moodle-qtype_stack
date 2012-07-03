@@ -99,7 +99,7 @@ class stack_textarea_input extends stack_input {
 
     /**
      * Transforms a Maxima list into raw input.
-     * 
+     *
      * @param string $in
      * @return string
      */

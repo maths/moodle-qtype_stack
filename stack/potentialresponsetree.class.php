@@ -139,6 +139,7 @@ class stack_potentialresponse_tree {
      * @param stack_options $options
      * @param array $answers name => value the student response.
      * @param int $seed the random number seed.
+     * @return stack_potentialresponse_tree_state the result.
      */
     public function evaluate_response($questionvars, $options, $answers, $seed) {
 
@@ -152,7 +153,9 @@ class stack_potentialresponse_tree {
 
         $cascontext = $this->create_cas_context_for_evaluation($questionvars, $localoptions, $answers, $seed);
 
-        $results = new stack_potentialresponse_tree_state($cascontext->get_errors());
+        $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0,
+                                                            $cascontext->get_errors());
+
         // Traverse the tree.
         reset($this->nodes);
         $nodekey = key($this->nodes);
@@ -186,25 +189,18 @@ class stack_potentialresponse_tree {
         // Restrict score to be between 0 and 1.
         $results->_score = min(max($results->_score, 0), 1);
 
-        // Tidy up the results.
-        $res['feedback']   = $results->display_feedback($cascontext, $seed).$results->_errors;
-        $res['answernote'] = implode(' | ', $results->_answernote);
-        $res['errors']     = $results->_errors; // Might yet be further errors from $results->display_feedback ...
-        $res['valid']      = $results->_valid;
-        $res['score']      = $results->_score;
-        $res['penalty']    = $results->_penalty;
-        $res['fraction']   = $results->_score * $this->value;
-        $res['fractionalpenalty'] = $results->_penalty * $this->value;
-
         // From a strictly logical point of view the 'score' and the 'penalty' are independent.
         // Hence, this clause belongs in the question behaviour.
         // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".
         // Why does this correct attempt attract a penalty?  So, this is a unilateral decision:
         // If the score is 1 there is never a penalty.
-        if ($res['score'] > 0.99999995) {
-            $res['penalty'] = 0;
+        if ($results->score > 0.99999995) {
+            $results->penalty = 0;
         }
-        return $res;
+
+        // TODO still need to call $results->display_feedback($cascontext, $seed).$results->_errors; somewhere.
+
+        return $results;
     }
 
     /**

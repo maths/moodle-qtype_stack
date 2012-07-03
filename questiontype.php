@@ -547,9 +547,9 @@ class qtype_stack extends question_type {
                 array('questionid' => $questionid), 'testcase, prtname');
         foreach ($expecteddata as $data) {
             $testcases[$data->testcase]->add_expected_result($data->prtname,
-                    new stack_potentialresponse_tree_state('', array(),
-                            array($data->expectedanswernote), true,
-                            $data->expectedscore, $data->expectedpenalty));
+                    new stack_potentialresponse_tree_state(1, true,
+                            $data->expectedscore, $data->expectedpenalty,
+                            '', array($data->expectedanswernote)));
         }
 
         return $testcases;
@@ -580,8 +580,8 @@ class qtype_stack extends question_type {
                 'prtname, expectedscore, expectedpenalty, expectedanswernote');
         foreach ($expectations as $prtname => $expected) {
             $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
-                    '', array(), array($expected->expectedanswernote), true,
-                    $expected->expectedscore, $expected->expectedpenalty));
+                    1, true, $expected->expectedscore, $expected->expectedpenalty,
+                    '', array($expected->expectedanswernote)));
         }
 
         return $qtest;
@@ -772,7 +772,7 @@ class qtype_stack extends question_type {
                 $output .= "        <name>{$name}</name>\n";
                 $output .= "        <expectedscore>{$format->xml_escape($expected->score)}</expectedscore>\n";
                 $output .= "        <expectedpenalty>{$format->xml_escape($expected->penalty)}</expectedpenalty>\n";
-                $output .= "        <expectedanswernote>{$format->xml_escape($expected->answernote[0])}</expectedanswernote>\n";
+                $output .= "        <expectedanswernote>{$format->xml_escape($expected->answernotes[0])}</expectedanswernote>\n";
                 $output .= "      </expected>\n";
             }
 
@@ -964,7 +964,7 @@ class qtype_stack extends question_type {
                 $expectedanswernote = $format->getpath($expectedxml, array('#', 'expectedanswernote', 0, '#'), '');
 
                 $testcase->add_expected_result($name, new stack_potentialresponse_tree_state(
-                        '', array(), array($expectedanswernote), true, $expectedscore, $expectedpenalty));
+                        1, true, $expectedscore, $expectedpenalty, '', array($expectedanswernote)));
             }
         }
 

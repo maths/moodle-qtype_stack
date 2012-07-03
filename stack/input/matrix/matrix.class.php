@@ -127,7 +127,7 @@ class stack_matrix_input extends stack_input {
 
     /**
      * Takes a Maxima matrix object and returns an array of values.
-     * @return array 
+     * @return array
      */
     private function maxima_to_array($in) {
 

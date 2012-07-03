@@ -989,7 +989,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $casstring = new stack_cas_casstring($value);
             if (!$casstring->get_valid('t')) {
                 $errors[$fieldname][] = $casstring->get_errors();
-            } 
+            }
         }
 
         return $errors;
@@ -1094,8 +1094,8 @@ class qtype_stack_edit_form extends question_edit_form {
             return $errors;
         }
         // TODO: loop over all the PRTs in a similar manner....
-        // Remember, to use 
-        // clone $inputsession 
+        // Remember, to use
+        // clone $inputsession
         // as the base session to have all the teacher's answers instantiated.
         // Otherwise we are likley to do illigitimate things to the various inputs.
 

@@ -116,7 +116,7 @@ class stack_question_test_result {
         $states = array();
 
         foreach ($this->testcase->expectedresults as $prtname => $expectedresult) {
-            $expectedanswernote = $expectedresult->answernote;
+            $expectedanswernote = $expectedresult->answernotes;
 
             $state = new stdClass();
             $state->expectedscore = $expectedresult->score;
@@ -127,8 +127,8 @@ class stack_question_test_result {
                 $actualresult = $this->actualresults[$prtname];
                 $state->score = $actualresult->score;
                 $state->penalty = $actualresult->penalty;
-                $state->answernote = implode(' | ', $actualresult->answernote);
-                $state->feedback = $actualresult->feedback;
+                $state->answernote = implode(' | ', $actualresult->answernotes);
+                $state->feedback = implode(' ', $actualresult->feedback);
             } else {
                 $state->score = '';
                 $state->penalty = '';
@@ -146,7 +146,7 @@ class stack_question_test_result {
                 $state->testoutcome = false;
                 $reason[] = get_string('penalty', 'qtype_stack');
             }
-            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->answernote)) {
+            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->answernotes)) {
                 $state->testoutcome = false;
                 $reason[] = get_string('answernote', 'qtype_stack');
             }

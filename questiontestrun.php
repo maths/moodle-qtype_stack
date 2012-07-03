@@ -313,7 +313,7 @@ foreach ($testresults as $key => $result) {
             $expectedscore,
             $state->penalty,
             $expectedpenalty,
-            s(implode(' | ', $state->answernotes)),
+            s($state->answernote),
             s($state->expectedanswernote),
             $state->feedback,
             $passedcol,

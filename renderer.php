@@ -61,6 +61,14 @@ class qtype_stack_renderer extends qtype_renderer {
                 if (!is_null($result->valid)) {
                     $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
                 }
+
+            } else if ($qa->get_behaviour_name() == 'interactivecountback') {
+                // The behaviour name test here is a hack. The trouble is that interactive
+                // behaviour does not show feedback if the input is invalid, but we want
+                // to show the CAS errors from the PRT.
+                $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
+                $feedback = html_writer::nonempty_tag('div', $result->errors,
+                        array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
@@ -117,7 +125,48 @@ class qtype_stack_renderer extends qtype_renderer {
     }
 
     public function feedback(question_attempt $qa, question_display_options $options) {
-        return $this->stack_specific_feedback($qa, $options) . parent::feedback($qa, $options);
+        $output = '';
+        if ($options->feedback) {
+            $output .= $this->stack_specific_feedback($qa, $options);
+        } else if ($qa->get_behaviour_name() == 'interactivecountback') {
+            // The behaviour name test here is a hack. The trouble is that interactive
+            // behaviour does not show feedback if the input is invalid, but we want
+            // to show the CAS errors from the PRT.
+            $output .= $this->stack_specific_feedback_errors_only($qa);
+        }
+
+        $output .= parent::feedback($qa, $options);
+
+        return $output;
+    }
+
+    protected function stack_specific_feedback_errors_only(question_attempt $qa) {
+        $question = $qa->get_question();
+        $response = $qa->get_last_qt_data();
+        $feedbacktext = $qa->get_last_qt_var('_feedback');
+        if (!$feedbacktext) {
+            return '';
+        }
+
+        // Replace any PRT feedback.
+        $allempty = true;
+        foreach ($question->prts as $name => $prt) {
+            $feedback = '';
+            $result = $question->get_prt_result($name, $response, $qa->get_state()->is_finished());
+            if ($result->errors) {
+                $feedback = html_writer::nonempty_tag('div', $result->errors,
+                        array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
+            }
+            $allempty = $allempty && !$feedback;
+            $feedbacktext = str_replace("[[feedback:{$name}]]", $feedback, $feedbacktext);
+        }
+
+        if ($allempty) {
+            return '';
+        }
+
+        return $question->format_text($feedbacktext, $question->specificfeedbackformat,
+                $qa, 'qtype_stack', 'specificfeedback', $question->id);
     }
 
     /**
@@ -128,26 +177,28 @@ class qtype_stack_renderer extends qtype_renderer {
      * @return string HTML fragment.
      */
     protected function stack_specific_feedback(question_attempt $qa, question_display_options $options) {
-        if (!$options->feedback) {
-            return '';
-        }
 
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
         $feedbacktext = $qa->get_last_qt_var('_feedback');
-
         if (!$feedbacktext) {
             return '';
         }
 
         // Replace any PRT feedback.
+        $allempty = true;
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
             if (!is_null($result->valid)) {
                 $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
             }
+            $allempty = $allempty && !$feedback;
             $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
+        }
+
+        if ($allempty) {
+            return '';
         }
 
         return $question->format_text($feedbacktext, $question->specificfeedbackformat,
@@ -180,7 +231,7 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $gradingdetails = '';
-        if ($qa->get_behaviour_name() == 'adaptivemultipart') {
+        if (!$result->errors && $qa->get_behaviour_name() == 'adaptivemultipart') {
             // This is rather a hack, but it will probably work.
             $renderer = $this->page->get_renderer('qbehaviour_adaptivemultipart');
             $gradingdetails = $renderer->render_adaptive_marks(
@@ -203,6 +254,10 @@ class qtype_stack_renderer extends qtype_renderer {
      * @return string nicely standard feedback, for display.
      */
     protected function standard_prt_feedback($qa, $question, $result) {
+        if ($result->errors) {
+            return '';
+        }
+
         $state = question_state::graded_state_for_fraction($result->score);
 
         $class = $state->get_feedback_class();

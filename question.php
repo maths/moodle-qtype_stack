@@ -122,9 +122,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * The chache is only vaid for a particular response, so we store the current
      * response, so that we can clearn the cached information in the result changes.
      * See {@link validate_cache()}.
-     * @var array = null;
+     * @var array
      */
     protected $lastresponse = null;
+
+    /**
+     * @var bool like $lastresponse, but for the $acceptvalid argument to {@link validate_cache()}.
+     */
+    protected $lastacceptvalid = null;
 
     /**
      * @var array input name => stack_input_state.
@@ -140,19 +145,25 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     /**
      * Make sure the cache is valid for the current response. If not, clear it.
      */
-    protected function validate_cache($response) {
+    protected function validate_cache($response, $acceptvalid = null) {
         if (is_null($this->lastresponse)) {
             // Nothing cached yet. No worries.
             $this->lastresponse = $response;
+            $this->lastacceptvalid = $acceptvalid;
             return;
         }
 
-        if ($this->lastresponse == $response) {
+        if ($this->lastresponse == $response && (
+                $this->lastacceptvalid === null || $acceptvalid === null || $this->lastacceptvalid === $acceptvalid)) {
+            if ($this->lastacceptvalid === null) {
+                $this->lastacceptvalid = $acceptvalid;
+            }
             return; // Cache is good.
         }
 
         // Clear the cache.
         $this->lastresponse = $response;
+        $this->lastacceptvalid = $acceptvalid;
         $this->inputstates = array();
         $this->prtresults = array();
     }
@@ -362,7 +373,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_input_state the result of calling validate_student_response() on the input.
      */
     public function get_input_state($name, $response) {
-        $this->validate_cache($response);
+        $this->validate_cache($response, null);
 
         if (array_key_exists($name, $this->inputstates)) {
             return $this->inputstates[$name];
@@ -382,17 +393,28 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function is_any_part_invalid(array $response) {
+        // Invalid if any input is invalid, ...
         foreach ($this->inputs as $name => $input) {
             if (stack_input::INVALID == $this->get_input_state($name, $response)->status) {
                 return true;
             }
         }
+
+        // ... or any PRT gives an error.
+        foreach ($this->prts as $index => $prt) {
+            $result = $this->get_prt_result($index, $response, false);
+            if ($result->errors) {
+                return true;
+            }
+        }
+
         return false;
     }
 
     public function is_complete_response(array $response) {
-        foreach ($this->inputs as $name => $input) {
-            if (stack_input::SCORE != $this->get_input_state($name, $response)->status) {
+        // If all PRTs are gradable, then the question is complete. (Optional inputs may be blank.)
+        foreach ($this->prts as $index => $prt) {
+            if (!$this->can_execute_prt($prt, $response, false)) {
                 return false;
             }
         }
@@ -469,7 +491,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $results = $this->prts[$index]->evaluate_response($this->session,
                     $this->options, $prtinput, $this->seed);
 
-            // TODO check for errors.
             $partresults[$index] = new qbehaviour_adaptivemultipart_part_result(
                     $index, $results->score, $results->penalty);
         }
@@ -522,7 +543,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      *      if the corresponding inputs are only VALID, and not SCORE.
      * @return bool can this PRT be executed for that response.
      */
-    protected function can_execute_prt(stack_potentialresponse_tree $prt, $response, $acceptvalid) {
+    protected function has_necessary_prt_inputs(stack_potentialresponse_tree $prt, $response, $acceptvalid) {
+
         foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
             $status = $this->get_input_state($name, $response)->status;
             if (stack_input::SCORE == $status || ($acceptvalid && stack_input::VALID == $status)) {
@@ -531,7 +553,25 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 return false;
             }
         }
+
         return true;
+    }
+
+    /**
+     * Do we have all the necessary inputs to execute one of the potential response trees?
+     * @param stack_potentialresponse_tree $prt the tree in question.
+     * @param array $response the response.
+     * @param bool $acceptvalid if this is true, then we will grade things even
+     *      if the corresponding inputs are only VALID, and not SCORE.
+     * @return bool can this PRT be executed for that response.
+     */
+    protected function can_execute_prt(stack_potentialresponse_tree $prt, $response, $acceptvalid) {
+
+        // The only way to find out is to actually try evaluating it. This calls
+        // has_necessary_prt_inputs, and then does the computation, which ensures
+        // there are no CAS errors.
+        $result = $this->get_prt_result($prt->get_name(), $response, $acceptvalid);
+        return null !== $result->valid && !$result->errors;
     }
 
     /**
@@ -566,7 +606,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      *      or a fake state object if the tree cannot be executed.
      */
     public function get_prt_result($index, $response, $acceptvalid) {
-        $this->validate_cache($response);
+        $this->validate_cache($response, $acceptvalid);
 
         if (array_key_exists($index, $this->prtresults)) {
             return $this->prtresults[$index];
@@ -574,7 +614,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         $prt = $this->prts[$index];
 
-        if (!$this->can_execute_prt($prt, $response, $acceptvalid)) {
+        if (!$this->has_necessary_prt_inputs($prt, $response, $acceptvalid)) {
             $this->prtresults[$index] = new stack_potentialresponse_tree_state(
                     $prt->get_value(), null, null, null);
             return $this->prtresults[$index];

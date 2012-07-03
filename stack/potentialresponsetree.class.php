@@ -194,10 +194,14 @@ class stack_potentialresponse_tree {
         // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".
         // Why does this correct attempt attract a penalty?  So, this is a unilateral decision:
         // If the score is 1 there is never a penalty.
-        if ($results->score > 0.99999995) {
-            $results->penalty = 0;
+        if ($results->_score > 0.99999995) {
+            $results->_penalty = 0;
         }
 
+        if ($results->errors) {
+            $results->_score = null;
+            $results->_penalty = null;
+        }
         // TODO still need to call $results->display_feedback($cascontext, $seed).$results->_errors; somewhere.
 
         return $results;
@@ -270,6 +274,13 @@ class stack_potentialresponse_tree {
             $nodesummary[$key] = $node->summarise_branches();
         }
         return $nodesummary;
+    }
+
+    /**
+     * @return string the name of this PRT.
+     */
+    public function get_name() {
+        return $this->name;
     }
 
     /**

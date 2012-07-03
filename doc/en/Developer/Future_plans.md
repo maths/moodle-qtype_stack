@@ -20,6 +20,7 @@ The following features are in approximate priority order.  How to report bugs an
  1. They should be like inputs. We should return an answer test object, not a controller object.
  2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
 * It must be possible to create questions using the dropdown input type. Currently there is no way to input the choices.
+* When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 
 ## Features to add - round two! ##
 

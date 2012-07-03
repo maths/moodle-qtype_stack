@@ -49,6 +49,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             // 'test10', // CBM using a slider input for certainty. Not currently supported.
+            'divide', // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
         );
     }
 
@@ -711,6 +712,35 @@ class qtype_stack_test_helper extends question_test_helper {
                 'Compare your answer with the correct one @plot([f(x),g(x)],[x,-1,1])@', 'prt1-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'prt1-1-T');
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node));
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question the question from the test0.xml file.
+     */
+    public static function make_stack_question_divide() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'divide';
+        $q->questiontext = '<p>Give me $x$ such that $$1/x = 2$$</p>
+                            <p>$x = $ [[input:ans1]]</p>
+                            [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:prt1]]';
+        $q->penalty = 0.3333333;
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', '1/2', array('boxWidth' => 5));
+
+        $sans = new stack_cas_casstring('1/ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('2');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', 'prt1-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'prt1-1-T');
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node));
 
         return $q;
     }

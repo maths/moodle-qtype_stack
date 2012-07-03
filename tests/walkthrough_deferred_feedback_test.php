@@ -448,4 +448,51 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
                 $this->get_no_hint_visible_expectation()
         );
     }
+
+    public function test_divide_by_0() {
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'divide');
+        $this->start_attempt_at_question($q, 'deferredfeedback', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Validate the response 0.
+        $this->process_submission(array('ans1' => '0', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '0');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Now submit the response 0. Causes a divide by 0.
+        // Submit all and finish.
+        $this->quba->finish_all_questions();
+
+        $this->check_current_state(question_state::$gaveup);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '0', false);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
+    }
 }

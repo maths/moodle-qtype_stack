@@ -470,8 +470,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(2.5);
         $this->check_prt_score('odd', 1, 0, true);
         $this->check_prt_score('even', 1, 0, true);
-        $this->check_prt_score('oddeven', 1, 0, true);
-        $this->check_prt_score('unique', 1, 0);
+        $this->check_prt_score('oddeven', 0.5, 0.4, true);
+        $this->check_prt_score('unique', null, null, true);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);

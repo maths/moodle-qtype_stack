@@ -91,7 +91,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 ### Testing questions
 
 1. **DOES NOT HAPPEN ANY MORE** With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
-2. CAS text, and images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
+2. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 3. **DONE** A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
 4. **DONE** Singlechar input should validate that the input is a single char. (There is a TODO in the code for this.)
 5. **DONE** Dropdown input should make sure that only allowed values are submitted. (There is a TODO in the code for this.)
@@ -101,6 +101,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 9. Unit tests for adative mode score display - and to verify nothing like that appears for other behaviours.
 10. **DONE** Duplicate response detection for PRTs should consider all previous responses.
 11. **DONE** It appears as if the phrase "This submission attracted a penalty of ..." isn't working.  It looks like this is the *old* penalty, not the *current*.
+12. **DONE** PRT node feedback was briefly not being treated as CAS text.
 
 ### Optimising Maxima
 

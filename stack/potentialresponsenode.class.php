@@ -31,6 +31,11 @@ require_once(dirname(__FILE__) . '/answertest/controller.class.php');
  */
 class stack_potentialresponse_node {
 
+    /**
+     * @var int the node id.
+     */
+    public $nodeid = 0; // TODO
+
     /*
      * @var stack_cas_casstring Hold's nominal "student's answer".
      */
@@ -126,7 +131,8 @@ class stack_potentialresponse_node {
     /**
      * Actually execute the test for this node.
      */
-    public function do_test($nsans, $ntans, $ncasopts, $options, $currentscore) {
+    public function do_test($nsans, $ntans, $ncasopts, $options,
+            stack_potentialresponse_tree_state $results) {
 
         if (false === $ncasopts) {
             $ncasopts = $this->atoptions;
@@ -134,41 +140,42 @@ class stack_potentialresponse_node {
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
 
-        $result = $at->get_at_mark();
-        if ($result) {
+        $testpassed = $at->get_at_mark();
+        if ($testpassed) {
             $resultbranch = $this->branches[1];
+            $branchname = 'prtnodetruefeedback';
         } else {
             $resultbranch = $this->branches[0];
+            $branchname = 'prtnodefalsefeedback';
         }
 
-        $answernotes = array();
         if ($at->get_at_answernote()) {
-            $answernotes[] = $at->get_at_answernote();
+            $results->add_answernote($at->get_at_answernote());
         }
         if ($resultbranch['answernote']) {
-            $answernotes[] = $resultbranch['answernote'];
+            $results->add_answernote($resultbranch['answernote']);
         }
 
         // If the answer test is running in quiet mode we suppress any
         // automatically generated feedback from the answertest itself.
-        $feedback = array();
         if (!$this->quiet && $at->get_at_feedback()) {
-            $feedback[] = $at->get_at_feedback();
+            $results->add_feedback($at->get_at_feedback());
         }
         if ($resultbranch['feedback']) {
-            $feedback[] = $resultbranch['feedback'];
+            $results->add_feedback($resultbranch['feedback'], $resultbranch['feedbackformat'],
+                    $branchname, $this->nodeid);
         }
 
-        return array(
-            'result' => $result,
-            'valid' => $at->get_at_valid(),
-            'errors' => $at->get_at_errors(),
-            'newscore' => $this->update_score($currentscore, $resultbranch),
-            'penalty' => $resultbranch['penalty'],
-            'nextnode' => $resultbranch['nextnode'],
-            'answernotes' => $answernotes,
-            'feedback' => implode(' ', $feedback),
-        );
+        $results->_valid = $results->_valid && $at->get_at_valid();
+        $results->_score = $this->update_score($results->_score, $resultbranch);
+
+        if ($resultbranch['penalty'] !== '') {
+            $results->_penalty = $resultbranch['penalty'];
+        }
+
+        $results->_errors .= $at->get_at_errors();
+
+        return $resultbranch['nextnode'];
     }
 
     /**
@@ -194,22 +201,7 @@ class stack_potentialresponse_node {
             $atopts = null;
         }
 
-        list($result, $valid, $errors, $newscore, $penalty, $nextnode, $answernotes, $feedback) =
-                array_values($this->do_test($sans, $tans, $atopts, $options, $results->_score));
-
-        $results->_valid = $results->_valid && $valid;
-        $results->_score = $newscore;
-        $results->add_answernotes($answernotes);
-
-        if ($feedback) {
-            $results->add_feedback($feedback);
-        }
-
-        if ($penalty !== '') {
-            $results->_penalty = $penalty;
-        }
-
-        $results->_errors .= $errors;
+        $nextnode = $this->do_test($sans, $tans, $atopts, $options, $results);
 
         return $nextnode;
     }

@@ -238,11 +238,11 @@ class qtype_stack_renderer extends qtype_renderer {
                     $qa->get_behaviour()->get_part_mark_details($name), $options);
         }
 
-        // TODO if $result['feedback'] contains images from node feedback, then they don't work.
+        $feedback = $result->get_feedback($qa);
 
         return html_writer::nonempty_tag('div',
                 $this->standard_prt_feedback($qa, $question, $result) .
-                $err . implode(' ', $result->feedback) . $gradingdetails,
+                $err . $feedback . $gradingdetails,
                 array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
     }
 
@@ -260,7 +260,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $state = question_state::graded_state_for_fraction($result->score);
 
-        $class = $state->get_feedback_class();
+        $class = $state->get_feedback_class($qa);
         $field = 'prt' . $class;
         $format = 'prt' . $class . 'format';
         if ($question->$field) {

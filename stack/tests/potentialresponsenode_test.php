@@ -58,13 +58,13 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
-        $result = $node->do_test('x^2+2*x+1', '(x+1)^2', '', $options, 0);
+        $result = new stack_potentialresponse_tree_state(1);
+        $nextnode = $node->do_test('x^2+2*x+1', '(x+1)^2', '', $options, $result);
 
-        $this->assertEquals(true, $result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(1, $result['result']);
-        $this->assertEquals('Yeah!', $result['feedback']);
-        $this->assertEquals(3, $result['nextnode']);
+        $this->assertEquals(true, $result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(array('Yeah!'), $result->feedback);
+        $this->assertEquals(3, $nextnode);
     }
 
     public function test_do_test_fail() {
@@ -76,13 +76,13 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
-        $result = $node->do_test('x^2+2*x-1', '(x+1)^2', '', $options, 0);
+        $result = new stack_potentialresponse_tree_state(1);
+        $nextnode = $node->do_test('x^2+2*x-1', '(x+1)^2', '', $options, $result);
 
-        $this->assertEquals(true, $result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(0, $result['result']);
-        $this->assertEquals('Boo!', $result['feedback']);
-        $this->assertEquals(-1, $result['nextnode']);
+        $this->assertEquals(true, $result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(array('Boo!'), $result->feedback);
+        $this->assertEquals(-1, $nextnode);
     }
 
     public function test_do_test_cas_error() {
@@ -94,13 +94,14 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
-        $result = $node->do_test('1/0', '(x+1)^2', '', $options, 0);
+        $result = new stack_potentialresponse_tree_state(1);
+        $nextnode = $node->do_test('1/0', '(x+1)^2', '', $options, $result);
 
-        $this->assertEquals(false, $result['valid']);
-        $this->assertNotEquals('', $result['errors']);
-        $this->assertEquals(0, $result['result']);
-        $this->assertEquals('The answer test failed to execute correctly: please alert your teacher. Boo!', $result['feedback']);
-        $this->assertEquals(-1, $result['nextnode']);
+        $this->assertEquals(false, $result->valid);
+        $this->assertNotEquals('', $result->errors);
+        $this->assertEquals(array('The answer test failed to execute correctly: please alert your teacher.', 'Boo!'),
+                $result->feedback);
+        $this->assertEquals(-1, $nextnode);
     }
 
     public function test_do_test_pass_atoption() {
@@ -112,13 +113,13 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
-        $result = $node->do_test('(x+1)^2', '(x+1)^2', 'x', $options, 0);
+        $result = new stack_potentialresponse_tree_state(1);
+        $nextnode = $node->do_test('(x+1)^2', '(x+1)^2', 'x', $options, $result);
 
-        $this->assertEquals(true, $result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(1, $result['result']);
-        $this->assertEquals('Yeah!', $result['feedback']);
-        $this->assertEquals(3, $result['nextnode']);
+        $this->assertEquals(true, $result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(array('Yeah!'), $result->feedback);
+        $this->assertEquals(3, $nextnode);
     }
 
     public function test_do_test_fail_atoption() {
@@ -130,12 +131,13 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
-        $result = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, 0);
+        $result = new stack_potentialresponse_tree_state(1);
+        $nextnode = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, $result);
 
-        $this->assertEquals(true, $result['valid']);
-        $this->assertEquals('', $result['errors']);
-        $this->assertEquals(0, $result['result']);
-        $this->assertEquals('Your answer is not factored. You need to take out a common factor. Boo!', $result['feedback']);
+        $this->assertEquals(true, $result->valid);
+        $this->assertEquals('', $result->errors);
+        $this->assertEquals(array('Your answer is not factored. You need to take out a common factor.', 'Boo!'),
+                $result->feedback);
 
     }
 
@@ -148,11 +150,13 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
-        $result = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, 1);
+        $result = new stack_potentialresponse_tree_state(1, true, 1);
+        $nextnode = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, $result);
 
-        $this->assertEquals('Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', $result['feedback']);
+        $this->assertEquals(array('Boo! Your answer should be in factored form, i.e. @factor(ans1)@.'),
+                $result->feedback);
 
-        $this->assertEquals(1.5, $result['newscore']);
+        $this->assertEquals(1.5, $result->score);
 
         $data = array('factor(ans1)', 'ans1', '3*(x+2)', 'x');
         $this->assertEquals($data, $node->get_required_cas_strings());

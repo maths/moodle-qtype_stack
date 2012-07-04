@@ -30,7 +30,22 @@ class stack_potentialresponse_tree_state {
     /**
      * @var array of feedback strings for the student.
      */
-    public $_feedback    = array();
+    public $_feedback         = array();
+
+    /**
+     * @var array of FORMAT_... constants corresponding to the feedback strings.
+     */
+    public $_feedbackformat   = array();
+
+    /**
+     * @var array of file area names corresponding to the feedback strings.
+     */
+    public $_feedbackfilearea = array();
+
+    /**
+     * @var array of node ids corresponding to the feedback strings.
+     */
+    public $_feedbacknodeid   = array();
 
     /**
      * @var array of answernote strings for the teacher.
@@ -56,6 +71,16 @@ class stack_potentialresponse_tree_state {
      * @var float Weight of this PRT within the question.
      */
     public $_weight;
+
+    /**
+     * @var stack_cas_session
+     */
+    protected $casecontext;
+
+    /**
+     * @var int
+     */
+    protected $seed;
 
     /**
      * Constructor
@@ -105,6 +130,18 @@ class stack_potentialresponse_tree_state {
     }
 
     /**
+     * Store the CAS context, so we can use it later if we want to output the
+     * feedback.
+     * @param stack_cas_session $cascontext the case context containing the
+     *      feedback variables, sans and tans for each node, etc.
+     * @param int $seed the random seed used.
+     */
+    public function set_cas_context(stack_cas_session $cascontext, $seed) {
+        $this->cascontext = $cascontext;
+        $this->seed = $seed;
+    }
+
+    /**
      * Add another answer note to the list.
      * @param string $note the new answer note.
      */
@@ -124,14 +161,34 @@ class stack_potentialresponse_tree_state {
      * Add another bit of feedback.
      * @param string $feedback the next bit of feedback.
      */
-    public function add_feedback($feedback) {
+    public function add_feedback($feedback, $format = null, $filearea = null, $nodeid = null) {
         $this->_feedback[] = $feedback;
+        $this->_feedbackformat[] = $format;
+        $this->_feedbackfilearea[] = $filearea;
+        $this->_feedbacknodeid[] = $nodeid;
     }
 
-    public function display_feedback($cascontext, $seed) {
-        $feedbackct = new stack_cas_text(implode(' ', $this->_feedback), $cascontext, $seed, 't', false, false);
-        $ret = $feedbackct->get_display_castext();
-        $this->_errors = trim($this->_errors.' '.$feedbackct->get_errors());
-        return $ret;
+    /**
+     * Prepare the feedback for output.
+     * @return string HTML to output.
+     */
+    public function get_feedback(question_attempt $qa) {
+
+        $formattedfeedback = array();
+        foreach ($this->_feedback as $key => $feedback) {
+            if (is_null($this->_feedbackformat[$key])) {
+                $formattedfeedback[] = $feedback;
+            } else {
+                $formattedfeedback[] = $qa->get_question()->format_text($feedback,
+                        $this->_feedbackformat[$key], $qa, 'qtype_stack',
+                        $this->_feedbackfilearea[$key], $this->_feedbacknodeid[$key]);
+            }
+        }
+
+        $feedbackct = new stack_cas_text(implode(' ', $formattedfeedback), $this->cascontext, $this->seed, 't', false, false);
+        $result = $feedbackct->get_display_castext();
+        $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
+
+        return $result;
     }
 }

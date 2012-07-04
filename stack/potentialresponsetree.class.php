@@ -202,7 +202,8 @@ class stack_potentialresponse_tree {
             $results->_score = null;
             $results->_penalty = null;
         }
-        // TODO still need to call $results->display_feedback($cascontext, $seed).$results->_errors; somewhere.
+
+        $results->set_cas_context($cascontext, $seed);
 
         return $results;
     }

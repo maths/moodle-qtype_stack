@@ -1,6 +1,6 @@
 # Installation instructions.
 
-__WARNING: STACK 3.0 is under development.  This code is intended only for use by developers, and early adopters wishing to help test the code.__
+STACK 3.0 beta is still under active testing.
 
 ## 1. Set up moodle.
 

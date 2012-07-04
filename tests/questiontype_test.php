@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
+require_once(dirname(__FILE__) . '/test_base.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
@@ -38,17 +39,19 @@ require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class qtype_stack_test extends question_testcase {
+class qtype_stack_test extends qtype_stack_walkthrough_test_base {
 
     /** @var qtype_stack */
     private $qtype;
 
     public function setUp() {
+        parent::setUp();
         $this->qtype = new qtype_stack();
     }
 
     public function tearDown() {
         $this->qtype = null;
+        parent::tearDown();
     }
 
     public function assert_same_xml($expectedxml, $xml) {
@@ -115,6 +118,31 @@ class qtype_stack_test extends question_testcase {
         $expectedq->stamp = $q->stamp;
         $expectedq->version = $q->version;
         $this->assertEquals($expectedq, $q);
+    }
+
+    public function test_question_tests_test0() {
+        // This unit test runs a question test, really just to verify that
+        // there are no errors.
+        $qdata = test_question_maker::get_question_data('stack', 'test0');
+        $question = question_bank::get_qtype('stack')->make_question($qdata);
+
+        // Create the question usage we will use.
+        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', context_system::instance());
+        $quba->set_preferred_behaviour('adaptive');
+        $question->seed = 1;
+        $slot = $quba->add_question($question, $question->defaultmark);
+        $quba->start_question($slot, 1);
+
+        // Prepare the display options.
+        $options = new question_display_options();
+        $options->readonly = true;
+        $options->flags = question_display_options::HIDDEN;
+        $options->suppressruntestslink = true;
+
+        foreach ($qdata->testcases as $testcase) {
+            $result = $testcase->test_question($quba, $question, 1);
+            $this->assertTrue($result->passed());
+        }
     }
 
     public function test_xml_export() {

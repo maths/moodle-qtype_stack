@@ -102,6 +102,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 10. **DONE** Duplicate response detection for PRTs should consider all previous responses.
 11. **DONE** It appears as if the phrase "This submission attracted a penalty of ..." isn't working.  It looks like this is the *old* penalty, not the *current*.
 12. **DONE** PRT node feedback was briefly not being treated as CAS text.
+13. You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 
 ### Optimising Maxima
 

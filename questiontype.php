@@ -347,7 +347,7 @@ class qtype_stack extends question_type {
                 }
 
                 $node = new stack_potentialresponse_node($sans, $tans,
-                        $nodedata->answertest, $nodedata->testoptions, (bool) $nodedata->quiet);
+                        $nodedata->answertest, $nodedata->testoptions, (bool) $nodedata->quiet, '', $nodedata->id);
                 $node->add_branch(0, $nodedata->falsescoremode, $nodedata->falsescore,
                         $falsepenalty, $nodedata->falsenextnode,
                         $nodedata->falsefeedback, $nodedata->falsefeedbackformat, $nodedata->falseanswernote);

@@ -34,7 +34,7 @@ class stack_potentialresponse_node {
     /**
      * @var int the node id.
      */
-    public $nodeid = 0; // TODO
+    public $nodeid;
 
     /*
      * @var stack_cas_casstring Hold's nominal "student's answer".
@@ -71,7 +71,7 @@ class stack_potentialresponse_node {
      */
     private $branches;
 
-    public function __construct($sans, $tans, $answertest, $atoptions = null, $quiet=false, $notes='') {
+    public function __construct($sans, $tans, $answertest, $atoptions = null, $quiet=false, $notes='', $nodeid = 0) {
         if (is_a($sans, 'stack_cas_casstring')) {
             $this->sans        = $sans;
         } else {
@@ -97,6 +97,7 @@ class stack_potentialresponse_node {
         }
         $this->atoptions = $atoptions;
         $this->notes = $notes;
+        $this->nodeid = $nodeid;
 
         $this->branches     = array();
     }

@@ -44,8 +44,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('(x+1)^3/3+c');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x', false);
-        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $node->add_branch(1, '=', 1, '', -1, 'Yeah!', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 1, '', -1, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $potentialresponses[] = $node;
 
@@ -73,8 +73,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('ta');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Diff', 'x', false);
-        $node->add_branch(0, '=', 0, '', -1, 'Can not diff!', '1-0-0');
-        $node->add_branch(1, '=', 1, '', 1, 'Ok, you can diff. ', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Can not diff!', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 1, '', 1, 'Ok, you can diff. ', FORMAT_HTML, '1-0-1');
         $potentialresponses[] = $node;
 
         $sans = new stack_cas_casstring('sans');
@@ -82,8 +82,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('ta');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
-        $node->add_branch(0, '+', 0, '', -1, 'Do not expand!', '1-1-0');
-        $node->add_branch(1, '+', 0, '', -1, 'Yeah!', '1-1-1');
+        $node->add_branch(0, '+', 0, '', -1, 'Do not expand!', FORMAT_HTML, '1-1-0');
+        $node->add_branch(1, '+', 0, '', -1, 'Yeah!', FORMAT_HTML, '1-1-1');
         $potentialresponses[] = $node;
 
         $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses);
@@ -143,8 +143,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('ta');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[@(sa1)^2@ \neq @(sa2)^2@\]', '1-0-0');
-        $node->add_branch(1, '=', 1, '', 1, 'Test 1 true. ', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[@(sa1)^2@ \neq @(sa2)^2@\]', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 1, '', 1, 'Test 1 true. ', FORMAT_HTML, '1-0-1');
         $potentialresponses[] = $node;
 
         $sans = new stack_cas_casstring('sa2');
@@ -152,8 +152,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('ta');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
-        $node->add_branch(0, '-', 0.7, '', 0, 'Test 2 false.', '1-1-0');
-        $node->add_branch(1, '+', 1, '', 3, 'Test 2 true', '1-1-1');
+        $node->add_branch(0, '-', 0.7, '', 0, 'Test 2 false.', FORMAT_HTML, '1-1-0');
+        $node->add_branch(1, '+', 1, '', 3, 'Test 2 true', FORMAT_HTML, '1-1-1');
         $potentialresponses[] = $node;
 
         $tree = new stack_potentialresponse_tree('', '', true, 5, $feedbackvars, $potentialresponses);

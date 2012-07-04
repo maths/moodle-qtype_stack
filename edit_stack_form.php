@@ -225,8 +225,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $sans = new stack_cas_casstring($node->sans);
             $tans = new stack_cas_casstring($node->tans);
             $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
-            $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, '');
-            $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, '');
+            $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
+            $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
             $prt_nodes[] = $prt_node;
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');

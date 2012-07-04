@@ -110,8 +110,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('2');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'firsttree-1-T');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node));
 
         return $q;
@@ -146,8 +146,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('ta');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', 'PotResTree_1-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'PotResTree_1-0-1');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
         $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node));
 
         return $q;
@@ -177,8 +177,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('(x-2)*(x-3)');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', 'PotResTree_1-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'PotResTree_1-0-1');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
         $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node));
 
         return $q;
@@ -226,8 +226,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'odd-0-1');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
@@ -238,8 +238,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'even-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'even-0-1');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'even-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
         $q->prts['even'] = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
@@ -251,8 +251,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node0->add_branch(0, '=', 0, $q->penalty, 1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', 'oddeven-0-0');
-        $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', 'oddeven-0-1');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
+        $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', FORMAT_HTML, 'oddeven-0-1');
 
         $sans = new stack_cas_casstring('sa2');
         $sans->get_valid('t');
@@ -260,8 +260,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node1->add_branch(0, '+', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
-        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', 'oddeven-1-1');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
+        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
                 '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1));
@@ -271,8 +271,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('true');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, 1, -1, '', 'unique-0-0');
-        $node->add_branch(1, '=', 1, 1, -1, '', 'unique-0-1');
+        $node->add_branch(0, '=', 0, 1, -1, '', FORMAT_HTML, 'unique-0-0');
+        $node->add_branch(1, '=', 1, 1, -1, '', FORMAT_HTML, 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node));
 
@@ -327,8 +327,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'odd-0-1');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
@@ -339,8 +339,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', 'odd-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'odd-0-1');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node));
 
@@ -352,8 +352,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node0->add_branch(0, '=', 0, $q->penalty, 1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', 'oddeven-0-0');
-        $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', 'oddeven-0-1');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
+        $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', FORMAT_HTML, 'oddeven-0-1');
 
         $sans = new stack_cas_casstring('sa2');
         $sans->get_valid('t');
@@ -361,8 +361,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node1->add_branch(0, '+', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', 'oddeven-1-0');
-        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', 'EVEN');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
+        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'EVEN');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
                 '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1));
@@ -372,8 +372,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('true');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', 'unique-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'unique-0-1');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-1');
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node));
 
@@ -405,8 +405,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer and my answer are plotted below. Look they are different! @plot([p,ans1],[x,-2,2])@', 'plots-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'plots-0-1');
+                'Your answer and my answer are plotted below. Look they are different! @plot([p,ans1],[x,-2,2])@', FORMAT_HTML, 'plots-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'plots-0-1');
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
                 '', true, 1, null, array($node));
 
@@ -460,8 +460,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('ta1');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'SubstEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', 'eq-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'eq-0-1');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'eq-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'eq-0-1');
         $q->prts['eq'] = new stack_potentialresponse_tree('eq',
                     '', true, 0.3333333, null, array($node));
 
@@ -472,33 +472,33 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('ta1');
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'SubstEquiv', null);
-        $node0->add_branch(0, '=', 0, $q->penalty, 1, '', 'sol-0-0');
-        $node0->add_branch(1, '=', 1, $q->penalty, 3, '', 'sol-0-1');
+        $node0->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'sol-0-0');
+        $node0->add_branch(1, '=', 1, $q->penalty, 3, '', FORMAT_HTML, 'sol-0-1');
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('ta2');
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'SubstEquiv', null);
-        $node1->add_branch(0, '=', 0, $q->penalty, 2, '', 'sol-1-0');
-        $node1->add_branch(1, '=', 1, $q->penalty, 3, '', 'sol-1-1');
+        $node1->add_branch(0, '=', 0, $q->penalty, 2, '', FORMAT_HTML, 'sol-1-0');
+        $node1->add_branch(1, '=', 1, $q->penalty, 3, '', FORMAT_HTML, 'sol-1-1');
 
         $sans = new stack_cas_casstring('ans2');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('ftm');
         $tans->get_valid('t');
         $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', 'sol-2-0');
+        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'sol-2-0');
         $node2->add_branch(1, '=', 1, $q->penalty, -1,
-                'You have correctly solved the equation you have entered in part 1. Please try both parts again!', 'sol-2-1');
+                'You have correctly solved the equation you have entered in part 1. Please try both parts again!', FORMAT_HTML, 'sol-2-1');
 
         $sans = new stack_cas_casstring('ans2');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('tas');
         $tans->get_valid('t');
         $node3 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node3->add_branch(0, '=', 0, $q->penalty, -1, '', 'sol-3-0');
-        $node3->add_branch(1, '=', 1, $q->penalty, -1, '', 'sol-3-1');
+        $node3->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'sol-3-0');
+        $node3->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'sol-3-1');
 
         $q->prts['sol'] = new stack_potentialresponse_tree('sol',
                     '', true, 0.3333333, $feedbackvars->get_session(),
@@ -509,8 +509,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('rn');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', 'short-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'short-0-1');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'short-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'short-0-1');
         $q->prts['short'] = new stack_potentialresponse_tree('short',
                             '', true, 0.3333333, null, array($node));
 
@@ -561,8 +561,8 @@ class qtype_stack_test_helper extends question_test_helper {
                 \[ @sa2@ =0 \]
                 <p>This simplifies to</p>
                 \[ @sa3@ = 0,\]
-                <p>so you must have done something wrong.</p>', 'Fails to satisfy DE');
-        $node0->add_branch(1, '=', 1, '', 1, '', 'Result-0-T');
+                <p>so you must have done something wrong.</p>', FORMAT_HTML, 'Fails to satisfy DE');
+        $node0->add_branch(1, '=', 1, '', 1, '', FORMAT_HTML, 'Result-0-T');
 
         $sans = new stack_cas_casstring('lv');
         $sans->get_valid('t');
@@ -571,17 +571,17 @@ class qtype_stack_test_helper extends question_test_helper {
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
         $node1->add_branch(0, '=', 0.75, $q->penalty, -1, '<p>You should have a general solution, which
                 includes unknown constants. Your answer satisfies the differential equation,
-                but does not have the correct number of unknown constants.</p>', 'Insufficient constants');
-        $node1->add_branch(1, '=', 1, $q->penalty, 2, '', 'Result-1-T');
+                but does not have the correct number of unknown constants.</p>', FORMAT_HTML, 'Insufficient constants');
+        $node1->add_branch(1, '=', 1, $q->penalty, 2, '', FORMAT_HTML, 'Result-1-T');
 
         $sans = new stack_cas_casstring('numberp(m)');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('true');
         $tans->get_valid('t');
         $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
-        $node2->add_branch(0, '=', 1, $q->penalty, -1, '', 'Result-2-F');
+        $node2->add_branch(0, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'Result-2-F');
         $node2->add_branch(1, '=', 0, $q->penalty, -1,
-                'Your general solution should be a sum of two linearly independent components, but is not.',
+                'Your general solution should be a sum of two linearly independent components, but is not.', FORMAT_HTML,
                 'Not two lin ind parts');
 
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
@@ -622,27 +622,27 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('ta');
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
-        $node0->add_branch(0, '=', 0, $q->penalty, 1, '', 'ans-0-F');
-        $node0->add_branch(1, '=', 1, $q->penalty, -1, '', 'ans-0-T');
+        $node0->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'ans-0-F');
+        $node0->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'ans-0-T');
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('{p}');
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node1->add_branch(0, '=', 0, $q->penalty, 2, '', 'ans-1-F');
+        $node1->add_branch(0, '=', 0, $q->penalty, 2, '', FORMAT_HTML, 'ans-1-F');
         $node1->add_branch(1, '=', 0, $q->penalty, -1,
                 '<p>There are more answers that just the single real number.
-                 Please consider complex solutions to this problem!</p>', 'ans-1-T');
+                 Please consider complex solutions to this problem!</p>', FORMAT_HTML, 'ans-1-T');
 
         $sans = new stack_cas_casstring('a1');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('{0}');
         $tans->get_valid('t');
         $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', 'ans-2-F');
+        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'ans-2-F');
         $node2->add_branch(1, '=', 0, $q->penalty, -1,
-                'All your answers satisfy the equation. But, you have missed some of the solutions.',
+                'All your answers satisfy the equation. But, you have missed some of the solutions.', FORMAT_HTML,
                 'ans-2-T');
 
         $q->prts['ans'] = new stack_potentialresponse_tree('ans', '',
@@ -709,8 +709,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Compare your answer with the correct one @plot([f(x),g(x)],[x,-1,1])@', 'prt1-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'prt1-1-T');
+                'Compare your answer with the correct one @plot([f(x),g(x)],[x,-1,1])@', FORMAT_HTML, 'prt1-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node));
 
         return $q;
@@ -738,8 +738,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('2');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', 'prt1-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', 'prt1-1-T');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node));
 
         return $q;

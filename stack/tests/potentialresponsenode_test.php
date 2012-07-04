@@ -42,8 +42,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans->validate('t');
         $options = new stack_options();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $node->add_branch(0, '=', 0, '', -1, '', '1-0-0');
-        $node->add_branch(1, '=', 1, '', -1, '', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, '', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 1, '', -1, '', FORMAT_HTML, '1-0-1');
 
         $this->assertEquals($sans, $node->sans);
         $this->assertEquals($tans, $node->tans);
@@ -54,8 +54,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('(x+1)^2');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = $node->do_test('x^2+2*x+1', '(x+1)^2', '', $options, 0);
@@ -72,8 +72,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('(x+1)^2');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = $node->do_test('x^2+2*x-1', '(x+1)^2', '', $options, 0);
@@ -90,8 +90,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('(x+1)^2');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', false);
-        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = $node->do_test('1/0', '(x+1)^2', '', $options, 0);
@@ -108,8 +108,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('(x+1)^2');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
-        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = $node->do_test('(x+1)^2', '(x+1)^2', 'x', $options, 0);
@@ -126,8 +126,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('3*(x+2)');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', false);
-        $node->add_branch(0, '=', 0, '', -1, 'Boo!', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node->add_branch(0, '=', 0, '', -1, 'Boo!', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, 0);
@@ -144,8 +144,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('3*(x+2)');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
-        $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', '1-0-0');
-        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', '1-0-1');
+        $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', FORMAT_HTML, '1-0-0');
+        $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();
         $result = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, 1);

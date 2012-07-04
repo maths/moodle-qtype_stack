@@ -107,7 +107,7 @@ class stack_potentialresponse_node {
      * @param string $feedback feedback for this branch.
      * @param string $answernote answer note for this branch.
      */
-    public function add_branch($trueorfalse, $mod, $score, $penalty, $nextnode, $feedback, $answernote) {
+    public function add_branch($trueorfalse, $mod, $score, $penalty, $nextnode, $feedback, $feedbackformat, $answernote) {
         if ($trueorfalse !== 0 && $trueorfalse !== 1) {
             throw new stack_exception('stack_potentialresponse_node: branches can only be 0 or 1.');
         }
@@ -118,6 +118,7 @@ class stack_potentialresponse_node {
             'penalty'           => $penalty,
             'nextnode'          => $nextnode,
             'feedback'          => trim($feedback),
+            'feedbackformat'    => trim($feedbackformat),
             'answernote'        => trim($answernote),
         );
     }

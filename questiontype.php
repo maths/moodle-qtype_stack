@@ -350,10 +350,10 @@ class qtype_stack extends question_type {
                         $nodedata->answertest, $nodedata->testoptions, (bool) $nodedata->quiet);
                 $node->add_branch(0, $nodedata->falsescoremode, $nodedata->falsescore,
                         $falsepenalty, $nodedata->falsenextnode,
-                        $nodedata->falsefeedback, $nodedata->falseanswernote);
+                        $nodedata->falsefeedback, $nodedata->falsefeedbackformat, $nodedata->falseanswernote);
                 $node->add_branch(1, $nodedata->truescoremode, $nodedata->truescore,
                         $truepenalty, $nodedata->truenextnode,
-                        $nodedata->truefeedback, $nodedata->trueanswernote);
+                        $nodedata->truefeedback, $nodedata->truefeedbackformat, $nodedata->trueanswernote);
                 // TODO true/false feedbackformat.
                 $nodes[$nodedata->nodename] = $node;
             }

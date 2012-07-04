@@ -9,13 +9,14 @@ the University of Birmingham, and includes the work of
 [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md).
 
 
-## Warning
+## Current state of development
 
-Stack 3.0 is currently under
-[active development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md).
-This code is intended only for use by developers, and early adopters wishing to help test the code.
+Stack 3.0 is currently being beta tested. We would appreciate any help you can give
+in testing that it works and reporting bugs at https://github.com/maths/moodle-qtype_stack/issues.
 
-It is now possible to install the question type, create and edit questions, and preview them and use them in a quiz. There are, however, still many details to get right.
+The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md)
+is explain more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).
+
 
 ## Documentation
 

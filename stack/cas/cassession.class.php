@@ -227,7 +227,7 @@ class stack_cas_session {
 
             if (!$gotvalue) {
                 $errstr = stack_string("stackCas_failedReturn").' '.stack_maxima_format_casstring($cs->get_raw_casstring());
-                $cs->Add_errors($errstr);
+                $cs->add_errors($errstr);
                 $new_errors .= $errstr;
             }
 

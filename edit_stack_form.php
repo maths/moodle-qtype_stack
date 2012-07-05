@@ -485,10 +485,10 @@ class qtype_stack_edit_form extends question_edit_form {
                 get_string('answertest', 'qtype_stack'), $this->answertestchoices);
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'sans[' . $nodekey . ']',
-                get_string('sans', 'qtype_stack'), array('size' => 5));
+                get_string('sans', 'qtype_stack'), array('size' => 15));
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'tans[' . $nodekey . ']',
-                get_string('tans', 'qtype_stack'), array('size' => 5));
+                get_string('tans', 'qtype_stack'), array('size' => 15));
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'testoptions[' . $nodekey . ']',
                 get_string('testoptions', 'qtype_stack'), array('size' => 5));

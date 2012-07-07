@@ -14,7 +14,7 @@ It is tempting when writing questions such as this to operate at the _level of d
 
      $\right(@a@e^{@b@ i}\left)^{@n@}$
 
-What we are doing here is to treat every variable separately, not to create a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because is mixes CAS and LaTeX.
+What we are doing here is to treat every variable separately, not to create a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because it mixes CAS and LaTeX.
 
 The alternative is to switch simplification off and use the CAS to represent expressions more directly.  The following is a single Maxima expression.
 
@@ -28,7 +28,7 @@ Of course, we don't want Maxima to _actually calculate the power_ just to _repre
     simp:false;
     (3*%e^(%i*%pi/2))^4;
 
-Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll to towards the bottom of the form and set `Question-level simplify` to be `false`.  
+Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll towards the bottom of the form and set `Question-level simplify` to be `false`.  
 
 This does have some drawbacks.  Having switched off all simplification, we now need to turn it back on selectively! To do this, we use Maxima commands such as the following.
 
@@ -50,7 +50,7 @@ Notice in defining `b` we have a quotient which might well "simplify" when fract
 
 Hence the teacher must leave a meaningful question note.  Two versions of a question are _defined_ to be the same if and only if the question note is the same.
 
-The question note field is ("CAS text")[CASText.md], just like the question text.  We could write something like
+The question note field is ["CAS text"](CASText.md), just like the question text.  We could write something like
 
     @[a,b,n]@
     
@@ -124,5 +124,5 @@ The general feedback (previously known as the worked solution) can show some of 
 
 Further examples are give in the page on [matrices](Matrix.md).
 
-The XML of this question is included with the [sample questions](Sample_questions.md).  Please look a the other [sample questions](Sample_questions.md) which are distributed with STACK for more examples.
+The XML of this question is included with the [sample questions](Sample_questions.md).  Please look at the other [sample questions](Sample_questions.md) which are distributed with STACK for more examples.
 

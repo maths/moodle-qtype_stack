@@ -20,7 +20,7 @@ This table contains the information authored by the teacher.   There are other t
 [Question tests](../Authoring/Testing.md) are only needed during teacher testing.
 
 Remember that we have a total disconnect between [inputs](../Authoring/Inputs.md)
-and [potential response trees](../Authoring/Potential_response_trees.md) within a [multi-part mathematical question](../Authoring/Multi-part_mathematical_questions.md).
+and [potential response trees](../Authoring/Potential_response_trees.md) within a [multi-part mathematical question](../Authoring/Authoring_quick_start_2.md).
 
 
 ### Table `deployed_question`

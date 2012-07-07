@@ -24,6 +24,12 @@ This is a multi-part question which illustrates _follow-through marking_.  Get t
 
 This question creates two random matrices and asks students to multiply them together.  See the notes on [matrices](../CAS/Matrix.md).
 
+### `test_4_complex.xml` ###
+
+Given a complex number \(z=ae^{ib}\) determine \(|z^{n}|\) and \(\arg(z^{n})\).  Where \(a\), \(b\) and \(n\) are randomly generated numbers.
+
+See the [authoring quick start 3](Authoring_quick_start_3.md).
+
 ### `railways.xml` ###
 
 In a railway journey of 90km an increase of 5 kilometers per hour in the speed decreases the time taken by 15 minutes.
@@ -32,7 +38,7 @@ This question asks students to write a system of equations (one equation per lin
 
 ### `tangent-line.xml` ###
 
-This question asks students to find the line tangent to a randomly generated cubic polynomial at a point.  It is broken down into three parts to provide structure.  This randomly generated three part question has follow through marking.  Details of how to write this question are given in the the section on [multi-part mathematical questions](Multi-part_mathematical_questions.md).
+This question asks students to find the line tangent to a randomly generated cubic polynomial at a point.  It is broken down into three parts to provide structure.  This randomly generated three part question has follow through marking.  Details of how to write this question are given in the the section on [multi-part mathematical questions](Authoring_quick_start_3.md).
 
 ### `cubic-spline.xml` ###
 

@@ -42,7 +42,7 @@ In STACK a lot of attention has been paid to allowing teachers to author and man
 
 These broadly correspond to formative, summative and evaluative functions of assessment.  Which of these outcomes is available to the student, and when, is under the control of the teacher.
 
-* [Multi-part mathematical questions](../Authoring/Multi-part_mathematical_questions.md) are possible:
+* [Multi-part mathematical questions](../Authoring/Authoring_quick_start_2.md) are possible:
   each question may have any number of inputs and any number of potential response trees.
   There need not be a one-to-one correspondence between these.
 * Partial credit is possible when an expression only satisfies some of the required properties.

@@ -128,6 +128,22 @@ class stack_cas_casstring_test extends basic_testcase {
             $this->assertEquals($case[2], $cs->check_external_forbidden_words($case[1]));
         }
     }
+
+    public function test_html_1() {
+        $s = '</span>n';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('You appear to have some HTML elements in your expression.',
+                $at1->get_errors());
+    }
+
+    public function test_html_2() {
+        $s = '<span>n';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('You appear to have some HTML elements in your expression.',
+                $at1->get_errors());
+    }
 }
 
 

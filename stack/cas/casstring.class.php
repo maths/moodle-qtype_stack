@@ -251,6 +251,16 @@ class stack_cas_casstring {
             return false;
         }
 
+        // Search for HTML fragments.  This is hard to do because < is an infix operator!
+        $htmlfragments = array('</', '<span', '<p>');
+        foreach ($htmlfragments as $frag){
+            if (strpos($cmd, $frag) !== false) {
+                $this->add_error(get_string('htmlfragment', 'qtype_stack'));
+                $this->valid = false;
+                return false;
+            }
+        }
+
         // If student, check for spaces between letters or numbers in expressions.
         if ($security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";

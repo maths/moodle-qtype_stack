@@ -62,6 +62,8 @@ However, there are still some problems with the unary minus, e.g. \(4+(-3)\) whi
 Matrix examples are shown below, see [showing working](Matrix.md#Showing_working).
 This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
 
+An example of a question with `simp:false` is discussed in [authoring quick start 3](Authoring_quick_start_3.md).
+
 # Parts of Maxima expressions 			{#Parts_of_Maxima_expressions}
 
 ### `op(x)` - the top operator

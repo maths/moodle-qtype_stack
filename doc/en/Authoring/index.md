@@ -9,6 +9,10 @@ Computer aided assessment of mathematics works in the following phases.
 5. [Reviewing](Reviewing.md) and statistical analysis.
 
 Those new to STACK would probably prefer the [Authoring quick start](Authoring_quick_start.md).
+* [Authoring quick start 1](Authoring_quick_start.md) A basic question.
+* [Authoring quick start 2](Authoring_quick_start_2.md) Multi-part mathematical questions.
+* [Authoring quick start 3](Authoring_quick_start_3.md) Turning simplification off.
+
 There are also [Sample questions](Sample_questions.md).
 This page is a reference for all the fields in a question.
 
@@ -16,7 +20,6 @@ This page is a reference for all the fields in a question.
 
 * Guidelines to students on [answer assessment](../Students/Answer_assessment.md).
 * [Providing feedback](Feedback.md).
-* [Multi-part mathematical questions](Multi-part_mathematical_questions.md).
 
 ## STACK question data structure  ##
 

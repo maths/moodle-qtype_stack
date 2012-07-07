@@ -1,4 +1,4 @@
-# Authoring quick start
+# Authoring quick start 1
 
 Computer aided assessment of mathematics works in the following phases.
 
@@ -7,7 +7,7 @@ Computer aided assessment of mathematics works in the following phases.
 3. [Deploying](Deploying.md)
 4. [Reviewing](Reviewing.md)
 
-Each of these links contains detailed instructions.  However, the purpose of this page is to work through a simple example.
+Each of these links contains detailed instructions.  The purpose of this page is to work through a simple example.
 
 ## Introduction ##
 
@@ -303,11 +303,6 @@ STACK's question type is very flexible.
 * You can change the behaviour of the question with the [options](Options.md)
 * You can add plots to all the [CASText](CASText.md) fields with the [`plot`](../CAS/Maxima.md#plot) command.
 
-You might like to look at the entry for [feedback](Feedback.md).
-Quality control and  testing your question can be made easier by looking at [testing](Testing.md).
+The next part of the authoring quick start guide looks at [multi-part mathematical questions](Authoring_quick_start_2.md).
 
-There are also sample questions for you to [import](ImportExport.md) are distributed with STACK.
 
-More complex questions are possible including [multi-part mathematical questions](Multi-part_mathematical_questions.md).
-
-You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.

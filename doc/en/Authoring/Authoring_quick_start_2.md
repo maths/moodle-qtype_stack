@@ -1,4 +1,6 @@
-# Multipart mathematical questions
+# Authoring quick start 2: multipart mathematical questions
+
+This is the second part of the [authoring quick start](Authoring_quick_start.md).  The purpose is to write multi-part questions.
 
 ### Example 1 ###
 
@@ -126,7 +128,7 @@ The first stage is to include the simplest potential response trees.  These will
      ans2 = 5
      ans3 = 5*x-8
 
-###Stage2: follow-through marking###
+###Stage 2: follow-through marking###
 
 Next we will implement simple follow through marking.
 
@@ -146,7 +148,7 @@ Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation,
 
     Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
 
-###Stage3: adding question tests###
+###Stage 3: adding question tests###
 
 It is probably sensible to add question tests.  From the question preview window, click on `Run the question tests...` link in the top right of the page.
 
@@ -177,7 +179,7 @@ The marks should all be "0" and the answer notes as follows.
 
 When you run the tests you can also look at the feedback to confirm the system is giving the kind of feedback you want for these types of mistake.
 
-###Stage4: Random question###
+###Stage 4: Random question###
 
 Next we can add a randomly generated polynomial to the question.  Because we used variable names throughout the question from the start, this should be a simple matter of redefining the value of `p` in the question variables as follows.
 
@@ -190,3 +192,12 @@ You will need to add a non-empty question note to enable grouping of random vers
 We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc to specify the correct answers.
 
 In the second test you might as well leave the test as is.
+
+# Next steps #
+
+* You might like to look at the entry for [feedback](Feedback.md). 
+* Quality control and  testing your question can be made easier by looking at [testing](Testing.md).  
+* You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
+
+The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_3.md).
+

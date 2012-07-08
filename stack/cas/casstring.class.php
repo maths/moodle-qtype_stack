@@ -252,10 +252,10 @@ class stack_cas_casstring {
         }
 
         // Search for HTML fragments.  This is hard to do because < is an infix operator!
-        $htmlfragments = array('</', '<span', '<p>');
+        $htmlfragments = array('<span', '<p>');
         foreach ($htmlfragments as $frag){
             if (strpos($cmd, $frag) !== false) {
-                $this->add_error(get_string('htmlfragment', 'qtype_stack'));
+                $this->add_error(get_string('htmlfragment', 'qtype_stack').' <pre>'.$cmd.'</pre>');
                 $this->valid = false;
                 return false;
             }

@@ -787,7 +787,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors['questionnote'] = array();
         if ('' == $fromform['questionnote']) {
             if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
-                $errors['questionnote'] = get_string('questionnotempty', 'qtype_stack');
+                $errors['questionnote'][] = get_string('questionnotempty', 'qtype_stack');
             }
         } else {
             // Note, the 'questionnote' does not have an editor field and hence no 'text' sub-clause.

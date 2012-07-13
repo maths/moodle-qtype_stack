@@ -69,10 +69,10 @@ class stack_cas_configuration {
             $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
         } else {
             $this->blocksettings['DEL_CMD']     = 'rm';
-            if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
-                $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
-            } else if ('' != $this->blocksettings['GNUPLOT_CMD']) {
+            if (!empty($this->settings->plotcommand)) {
                 $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
+            } else if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
+                $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
             } else {
                 $this->blocksettings['GNUPLOT_CMD'] = 'gnuplot';
             }

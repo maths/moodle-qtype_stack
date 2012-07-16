@@ -21,6 +21,7 @@ The following features are in approximate priority order.  How to report bugs an
  2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
 * It must be possible to create questions using the dropdown input type. Currently there is no way to input the choices.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
+* A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
 
 ## Features to add - round two! ##
 

@@ -106,7 +106,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 
 ### Optimising Maxima
 
-1. Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
+1. **DONE** Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
 2. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
 
 ### Documentation system

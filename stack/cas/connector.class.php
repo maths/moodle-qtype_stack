@@ -75,7 +75,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 $connection = new stack_cas_connection_windows(self::$config, $debuglog);
                 break;
             case 'unix':
-            case 'server':
+            case 'unix-optimised':
                 require_once(dirname(__FILE__) . '/connector.unix.class.php');
                 $connection = new stack_cas_connection_unix(self::$config, $debuglog);
                 break;

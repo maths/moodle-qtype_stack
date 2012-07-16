@@ -196,10 +196,22 @@ END;
         $contents .= <<<END
     true)$
 
+END;
+
+        if ($this->settings->platform == 'unix-optimised') {
+            $contents .= <<<END
+/* We are using an optimised lisp image with maxima and the stack libraries
+   pre-loaded. That is why you don't see the familiar load("stackmaxima.mac")$ here. */
+
+END;
+
+        } else {
+            $contents .= <<<END
 /* Load the main libraries */
 load("stackmaxima.mac")$
 
 END;
+        }
 
         return $contents;
     }

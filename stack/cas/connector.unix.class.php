@@ -25,13 +25,24 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
 
     /* @see stack_cas_connection_base::guess_maxima_command() */
     protected function guess_maxima_command($path) {
+        global $CFG;
+        if (self::$config->platform == 'unix-optimised') {
+            // We are trying to use a Lisp snapshot of Maxima with all the
+            // STACK libraries loaded.
+            $lispimage = $CFG->dataroot . '/stack/maxima-optimised';
+            if (is_readable($lispimage)) {
+                return $lispimage;
+            }
+        }
+
         if (is_readable('/Applications/Maxima.app/Contents/Resources/maxima.sh')) {
             // This is the path on Macs, if Maxima has been installed following
             // the instructions on Sourceforge.
             return '/Applications/Maxima.app/Contents/Resources/maxima.sh';
-        } else {
-            return 'maxima';
         }
+
+        // Default guess on Linux.
+        return 'maxima';
     }
 
     /* @see stack_cas_connection_base::call_maxima() */

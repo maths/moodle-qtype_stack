@@ -252,7 +252,9 @@ class stack_cas_casstring {
         }
 
         // Search for HTML fragments.  This is hard to do because < is an infix operator!
-        $htmlfragments = array('<span', '<p>');
+        // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
+        // we pass back strings with HTML in when we have already evaluated plots!
+        $htmlfragments = array('<span', '</span>', '<p>', '</p>');
         foreach ($htmlfragments as $frag){
             if (strpos($cmd, $frag) !== false) {
                 $this->add_error(get_string('htmlfragment', 'qtype_stack').' <pre>'.$cmd.'</pre>');

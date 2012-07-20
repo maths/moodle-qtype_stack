@@ -106,8 +106,9 @@ class stack_question_test {
      * @return array the respones to send to $quba->process_action.
      */
     public static function compute_response(qtype_stack_question $question, $inputs) {
+        // If the question has simp:false, then the local options should reflect this.
+        // In this case, test constructors (question authors) will need to explicitly simplify their test case constructions.
         $localoptions = clone $question->options;
-        $localoptions->set_option('simplify', true);
 
         // Start with the question variables (note that order matters here).
         $cascontext = new stack_cas_session(null, $localoptions, $question->seed);

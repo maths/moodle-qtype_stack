@@ -13,7 +13,7 @@ Notice the use of the `'` character in front of the `diff` function to [prevent 
 Applied to a function call, such as `diff`, the single quote prevents evaluation of the function call, although the arguments of the function are still evaluated (if evaluation is not otherwise prevented).
 The result is the noun form of the function call.
 
-The single quote does not prevent simplification, so you may also need to turn simplification off in STACK, see [simplification](Maxima.md#Simplification).
+The single quote does not prevent simplification, so you may also need to turn simplification off in STACK, see [simplification](Simplification.md).
 
 This can be solved with Maxima's `ode2` command and initial conditions specified.  Below is an example of Maxima's output.
 

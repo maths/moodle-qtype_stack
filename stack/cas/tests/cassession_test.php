@@ -176,6 +176,50 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $this->assertEquals('matrix([?,1],[1,?])', $at1->get_value_key('A'));
     }
+
+    public function test_simplify_false() {
+    
+        $cs=array('a:2+3', 'b:ev(a,simp)');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+    
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('2+3', $at1->get_value_key('a'));
+        $this->assertEquals('5', $at1->get_value_key('b'));
+
+    }
+
+    public function test_indirect_redefinition_of_varibale() {
+
+        // This example uses a loop to change the values of elements of C.  
+        // However the loop returns "done", and the values of C are changed.
+        $cs = array('A:matrix([5,2],[4,3])', 'B:matrix([4,5],[6,5])', 'C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)))');
+        $cs[] = 'S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]))';
+        $cs[] = 'D:ev(C,simp)';
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals(false, $at1->get_value_key('a'));
+        $this->assertEquals('matrix([5,2],[4,3])', $at1->get_value_key('A'));
+        $this->assertEquals('matrix([5*4+2*6,5*5+2*5],[4*4+3*6,4*5+3*5])', $at1->get_value_key('C'));
+    }
 }
 
 

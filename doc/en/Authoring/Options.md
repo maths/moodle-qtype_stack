@@ -4,7 +4,7 @@ Options affect the behaviour of each question.
 
 ### Question Level Simplify  ###
 
-See the entry on [simplification](../CAS/Maxima.md#Simplification).  Default is `true`.
+See the entry on [simplification](../CAS/Simplification.md).  Default is `true`.
 
 ### Assume Positive  ### {#Assume_Positive}
 

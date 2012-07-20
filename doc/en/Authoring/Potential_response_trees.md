@@ -16,7 +16,7 @@ Only when all inputs upon which a tree relies are valid and submitted will the t
 
 ## Before the tree is traversed ##
 
-Each potential response tree can set Maxima's level of [simplification](../CAS/Maxima.md#Simplification).
+Each potential response tree can set Maxima's level of [simplification](../CAS/Simplification.md).
 Before the tree is traversed the [feedback variables](KeyVals.md#Feedback_variables) are evaluated.
 The feedback variables may depend on the values of the [question variables](KeyVals.md#Question_variables) and the [inputs](Inputs.md).
 The values of these variables are available to the [answer tests](Answer_tests.md) and all [CASText](CASText.md) fields within the tree, for example the feedback could be built using these variables.

@@ -49,6 +49,11 @@ In this way, the teacher can record, within the question itself, how they expect
  3. Some "invalid" responses, especially if these are syntactically valid expressions.  E.g. If the answer is an equation such as $y=2x+1$, then $2x+1$ might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this. 
  4. Add a totally incorrect answer.
 
+Note, if you have used the question level option `simplify:false`, then this option will be respected when you construct your question tests.  In particular you will need to remember to
+simplify parts of your expressions.
+
+E.g. if your question is "what is \(@a@+@b@\)?" where @a@ and @b@ are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.
+
 ## Next steps
 
 When you are done testing a question which uses randomization, you need to [deploy variants](Deploying.md) of the question.

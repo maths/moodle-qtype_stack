@@ -133,7 +133,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = '</span>n';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('You appear to have some HTML elements in your expression.',
+        $this->assertEquals('You appear to have some HTML elements in your expression. <pre></span>n</pre>',
                 $at1->get_errors());
     }
 
@@ -141,7 +141,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = '<span>n';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('You appear to have some HTML elements in your expression.',
+        $this->assertEquals('You appear to have some HTML elements in your expression. <pre><span>n</pre>',
                 $at1->get_errors());
     }
 }

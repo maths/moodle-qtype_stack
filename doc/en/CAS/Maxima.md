@@ -49,21 +49,6 @@ The absolute value function in Maxima is entered as `abs()`.  STACK also permits
 
 This is an alias for `abs`.  Note that `abs(x)` will be displayed by STACK as \(|x|\).
 
-# Simplification 		{#Simplification}
-
-The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
-
-	simp:true
-
-Then this is false, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
-This is most useful for dealing with very elementary expressions.
-
-However, there are still some problems with the unary minus, e.g. \(4+(-3)\) which we would like to always display as \(4-3\).
-Matrix examples are shown below, see [showing working](Matrix.md#Showing_working).
-This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
-
-An example of a question with `simp:false` is discussed in [authoring quick start 3](Authoring_quick_start_3.md).
-
 # Parts of Maxima expressions 			{#Parts_of_Maxima_expressions}
 
 ### `op(x)` - the top operator

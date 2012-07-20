@@ -90,13 +90,14 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * @return qtype_stack_question the question from the test0.xml file.
+     * @return qtype_stack_question a very elementary question.
      */
     public static function make_stack_question_test0() {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-0';
-        $q->questiontext = 'What is $1+1$? [[input:ans1]]
+        $q->questionvariables = 'a:1+1;';
+        $q->questiontext = 'What is @a@? [[input:ans1]]
                            [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
@@ -104,6 +105,8 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', array('boxWidth' => 5));
+
+        $q->options->questionsimplify = 0;
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');

@@ -122,7 +122,7 @@ The general feedback (previously known as the worked solution) can show some of 
 
 # Next steps #
 
-Further examples are give in the page on [matrices](Matrix.md).
+Further examples are give in the page on [matrices](../CAS/Matrix.md).
 
 The XML of this question is included with the [sample questions](Sample_questions.md).  Please look at the other [sample questions](Sample_questions.md) which are distributed with STACK for more examples.
 

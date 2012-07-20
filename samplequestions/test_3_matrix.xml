@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 94  -->
+<!-- question: 107  -->
   <question type="stack">
     <name>
       <text>test_3_matrix</text>
@@ -24,7 +24,8 @@ TB:ev(A*B,simp);
 BT:transpose(B);
 C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)));
 S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]));
-D:ev(C,simp);]]></text>
+D:ev(C,simp);
+C:C;]]></text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
@@ -142,6 +143,9 @@ D:ev(C,simp);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>86</deployedseed>
+    <deployedseed>219862533</deployedseed>
+    <deployedseed>1167893775</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>

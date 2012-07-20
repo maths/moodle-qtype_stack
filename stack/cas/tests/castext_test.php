@@ -139,6 +139,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals(array('a', 'caschat0', 'caschat1', 'caschat2'), $session->get_all_keys());
     }
 
+    public function test_redefine_variables() {
+        // Notice this means that within a session the value of n has to be returned at every stage....
+        $at1 = new stack_cas_text('Let $n$ be defined by @n:3@. Now add one to get @n:n+1@ and square the result @n:n^2@.', null, 0);
+        $this->assertEquals('Let $n$ be defined by $3$. Now add one to get $4$ and square the result $16$.', $at1->get_display_castext());
+    }
+
     public function testcheck_external_forbidden_words() {
         $cases =  array(
             array('', false, array()),

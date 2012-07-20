@@ -324,7 +324,7 @@ class stack_cas_session {
         if (null===$this->valid) {
             $this->validate();
         }
-        foreach ($this->session as $casstr) {
+        foreach (array_reverse($this->session) as $casstr) {
             if ($casstr->get_key()===$key) {
                 return $casstr->get_casstring();
             }
@@ -339,7 +339,8 @@ class stack_cas_session {
         if ($this->valid && null===$this->instantiated) {
             $this->instantiate();
         }
-        foreach ($this->session as $casstr) {
+        // We need to reverse the array to get the last value with this key.
+        foreach (array_reverse($this->session) as $casstr) {
             if ($casstr->get_key()===$key) {
                 return $casstr->get_value();
             }
@@ -354,7 +355,7 @@ class stack_cas_session {
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
-        foreach ($this->session as $casstr) {
+        foreach (array_reverse($this->session) as $casstr) {
             if ($casstr->get_key()===$key) {
                 return $casstr->get_display();
             }
@@ -369,7 +370,7 @@ class stack_cas_session {
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
-        foreach ($this->session as $casstr) {
+        foreach (array_reverse($this->session) as $casstr) {
             if ($casstr->get_key()===$key) {
                 return $casstr->get_errors();
             }

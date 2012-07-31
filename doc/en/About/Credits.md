@@ -17,16 +17,12 @@ Previous developers have included.
 
 # Translation of the STACK Project
 
-STACK 2.0 is distributed in the following languages:
+STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know! Likewise if you would really like to see STACK in another language please contact us.  Details of how to translate STACK, and forthcoming translations, are given on the [languages](../Developer/Languages.md) developer's page.
 
-  * DE: German, by Frank Schütte
-  * EN: English (British), by Chris Sangwin
-  * NL: Dutch, by Tim Neijens
+Currently STACK is released with the following languages.
+
+  * EN: English (British), by Chris Sangwin (and others)
   * SV: Swedish, by Mikael Kurula
-
-STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know! Likewise if you would really like to see STACK in another language.
-
-We will maintain this page to indicate which languages are being worked on or have been requested.
 
 # User list
 

@@ -35,6 +35,7 @@ Key features
 * We have lost some of the nice styling on the editing form, compared to Stack 2.
 * Answer tests no longer return a numerical mark, hence the "+AT" option for mark modification method has been dropped.
 * The STACK function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
+* The libraries `powers` and `format` have been removed.
 
 ## Version 2.2
 

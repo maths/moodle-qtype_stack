@@ -49,9 +49,9 @@ stack_reset_vars(ex) := block(kill(i,j,e,pi,Pi,PI));
 stack_reset(1000);
 
 alias(int,integrate);        /* Allows integrate to be called with int() */
-simplify(ex):=ev(fullratsimp(ex),simp); /* Allows simplify to be something */
 
-alias(Stack_Test,algebraic_equivalence); /*Legacy:  6/12/10 */
+simplify(ex):=ev(fullratsimp(ex),simp); /* Allows simplify to be something */
+degree(ex,v):=ev(hipow(expand(ex),v),simp); /*See notes on hipow*/
 
 
 /* ********************************** */
@@ -960,7 +960,7 @@ ATGTE(SA,SB) :=
 /* Is p an irreducible term in v, over the rationals Q? */
 /* Returns a list, of [true/false , FeedBack] */
 irred_Q(p,v) := block([ret,deg,cl,ci],
-  deg:ev(degree(p,v),simp),
+  deg:ev(hipow(expand(p),v),simp),
   /* Now perform the general test */
   cl:ev(map(second,coeff_list_nz(p,v)),simp),
   /* all coefficients of p are integers?  (note, negative number don't count as integers here!)  */
@@ -1054,7 +1054,7 @@ ATFacForm(SA,SBL) := block([negdistrib,RawMark,FeedBack,AnswerNote,ret,str,SB,v,
 FacFormfun(SA,SB,v) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, cont],
     val:true, rawmk:true, fb: "", ansnote: "",
     ret:[val,rawmk,ansnote,fb],
-    if errcatch(deg:degree(SA,v))=[] then block(
+    if errcatch(deg:hipow(expand(SA),v))=[] then block(
         val: false,
         rawmk: false,
         ansnote: "ATFacForm_error_degreeSA",
@@ -1189,7 +1189,7 @@ PartFracfun(sExpr,tExpr,wrt) := block([val, rawmk, ansnote, fb],
                                                            ansnote:"ATPartFrac_false_lowestterms"
                                                            ),
                                     /* ... with the degree(num)<degree(den) */
-                                    if not all_listp(lambda([ex],if denom(ex)=1 then true else is(ev(degree(num(ex),wrt)<degree(denom(ex),wrt),simp))),list) then
+                                    if not all_listp(lambda([ex],if denom(ex)=1 then true else is(ev(hipow(expand(num(ex)),wrt)<hipow(expand(denom(ex)),wrt),simp))),list) then
                                                      block(
                                                            rawmk: false,
                                                            ansnote:"ATPartFrac_false_degree"
@@ -1207,10 +1207,10 @@ PartFracfun(sExpr,tExpr,wrt) := block([val, rawmk, ansnote, fb],
                     )
         else if sameVars(sExpr, tExpr) then
              block([sDeg,tDeg,sNDeg,tNDeg],
-                sDeg: ev(degree(denom(factor(sExpr)),wrt),simp),
-                tDeg: ev(degree(denom(factor(tExpr)),wrt),simp),
-                sNDeg: ev(degree(num(factor(sExpr)),wrt),simp),
-                tNDeg: ev(degree(num(factor(tExpr)),wrt),simp),
+                sDeg: ev(hipow(expand(denom(factor(sExpr))),wrt),simp),
+                tDeg: ev(hipow(expand(denom(factor(tExpr))),wrt),simp),
+                sNDeg: ev(hipow(expand(num(factor(sExpr))),wrt),simp),
+                tNDeg: ev(hipow(expand(num(factor(tExpr))),wrt),simp),
                 if tDeg # sDeg then
                     block(
                         val:true,

@@ -17,11 +17,7 @@ if MAXIMA_VERSION_NUM>=15.0 then DIV_OP:"/"$
 /* Load contributed packages          */
 /* ********************************** */
 
-load("powers.lisp");
-load("format/coeflist.lisp");
-load("format/format.lisp");
 load("grobner.lisp");
-
 
 /* ********************************** */
 /* Parts of expressions               */
@@ -38,7 +34,7 @@ safe_op(ex) := block(
 coeff_list(ex,v):= block([deg,kloop,cl],
    cl:[],
    ex:ev(expand(ex),simp),
-   deg:degree(ex,v),
+   deg:hipow(ex,v),
    ev(for kloop:0 thru deg do
      cl:append(cl,[coeff(ex,v,kloop)]),simp),
    cl
@@ -48,7 +44,7 @@ coeff_list(ex,v):= block([deg,kloop,cl],
 coeff_list_nz(ex,v):= block([deg,kloop,cl],
    cl:[],
    ex:ev(expand(ex),simp),
-   deg:degree(ex,v),
+   deg:hipow(ex,v),
    ev(for kloop:0 thru deg do
      if coeff(ex,v,kloop)#0 then cl:append(cl,[[kloop,coeff(ex,v,kloop)]]),simp),
    cl

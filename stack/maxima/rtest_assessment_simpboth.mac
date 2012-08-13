@@ -140,6 +140,8 @@ irred_Q(n+n^2,n);
 [false,""]$ 
 irred_Q(n*(1+n),n); 
 [false,""]$ 
+irred_Q(n*(n-1),n); 
+[false,""]$ 
 irred_Q(n^3-1,n); 
 [false,""]$ 
 irred_Q(0.5+x,x); 
@@ -263,5 +265,12 @@ buggy_pow((x+1)^2);
 1^2+x^2$
 buggy_pow(sin((x+y)^3));
 sin(x^3+y^3)$
+
+degree(y^3 * x^2 + x * y^4, x);
+2$
+degree((x + y)^5, x);
+5$
+degree((x + y)^5, x + y);
+0$
 
 

@@ -100,6 +100,7 @@ functions](Predicate_functions.md).
 | `stack_reset_vars`              | Resets constants, e.g. \(i\), as abstract symbols, see [Numbers](Numbers.md).
 | `stack_op(ex)`                  | Returns the operation of the expression in a safe way.  [Parts of Maxima expressions](Maxima.md#Parts_of_Maxima_expressions).
 | `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed sequare form.
+| `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
 
 ## Assignment ## {#assignment}
 
@@ -192,7 +193,7 @@ You can then plot this using
 # Maxima "gocha"s! #
 
   * See the section above on [assignment](Maxima.md#assignment).
-  * Maxima does not have a `degree` command for polynomials.  To get this you need to `load(powers)` which STACK does automatically.  This function also need a variable, e.g. is used as `degree(x^2,x)`.
+  * Maxima does not have a `degree` command for polynomials.  We define one via the `hipow` command.
   * Matrix multiplication is the dot, e.g. `A.B`. The star `A*B` gives element-wise multiplication.
 
 ## Further information and links  ##

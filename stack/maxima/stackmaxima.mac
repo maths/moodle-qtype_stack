@@ -1674,8 +1674,8 @@ assess(ex1,ex2):=block([ret],
     return("")
 )$
 
-/* Slight hack to compile these functions */
-matrix_size(matrix([1,2,3],[4,5,6]));
+/* Slight hack to compile these functions and hence suppress warnings. */
+load(linearalgebra);
 
 /* Stack expects some output */
 print("[ Stack-Maxima started V3.0, 16/6/12]");

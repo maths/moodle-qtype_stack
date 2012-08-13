@@ -55,6 +55,15 @@ In this question a student is asked to give examples of odd and even functions.
 * For two of the parts there are non-unique correct answers.
 * Feedback based on calculations of students' answers is included.
 
+### `continuous-non-differentiable.xml` ###
+
+In this question a student is asked to give examples of a functionwith a stationary point at x=n and which is continuous but not differentiable at x=0.
+
+* There are three separate properties to be established.
+* There is a randomly generated point.
+
+It is interesting to discuss the extent to which the properties required by this question can be assessed automatically....
+
 ### `ODE_2nd_order_linear.xml` ###
 
 This file contains three example questions on 2nd order linear ODEs with constant coefficients.  They illustrate the need to establish multiple independent properties, even in cases where the teacher might be tempted to _look_ at the specific answer.

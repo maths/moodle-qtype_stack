@@ -23,14 +23,14 @@ We believe STACK is being (or has been) translated into the following languages.
 
 If you need these languages please contact the developers for more details of the status of this work.
 
-# Translation of older versions.
+# Translation of older versions
 
 STACK 2 was distributed in the following languages.  We intend these to be updated for STACK 3.
 
   * DE: German, by Frank Schutte
   * NL: Dutch, by Tim Neijens
 
-# How to translate STACK.
+# How to translate STACK
 
 STACK is part of Moodle.  Hence, we have used the Moodle translation management system.  _ALL_ strings which appear to the user should be found in the single file
 
@@ -40,7 +40,7 @@ To translate STACK into another language create the appropriate directory using 
 
 Please send your translations to Chris Sangwin for inclusion into the distribution.
 
-# Multilingual materials.
+# Multilingual materials
 
 Colleagues have asked for multilingual materials.  We plan to implement this using Moodle's Multi-language content filter, see 
 [http://docs.moodle.org/22/en/Multi-language_content_filter](http://docs.moodle.org/22/en/Multi-language_content_filter).

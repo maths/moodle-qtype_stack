@@ -22,6 +22,7 @@ STACK is designed to support the straightforward addition of other language pack
 Currently STACK is released with the following languages.
 
   * EN: English (British), by Chris Sangwin (and others)
+  * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
 
 # User list

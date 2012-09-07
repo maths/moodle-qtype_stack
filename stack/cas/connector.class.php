@@ -140,6 +140,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
     /* @see stack_cas_connection::compute() */
     public function compute($command) {
+
+        $context = "Platform: ". self::$config->platform . "\n";
+        $context .= "Maxima shell command: ". $this->command . "\n";;
+        $context .= "Maxima initial command: ". $this->initcommand . "\n";
+        $context .= "Maxima timeout: ". $this->timeout;
+        $this->debug->log('Context used', $context);
+
         $this->debug->log('Maxima command', $command);
 
         $rawresult = $this->call_maxima($command);
@@ -217,12 +224,14 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $errors = false;
 
         if ('' == trim($rawresult)) {
-            $this->debug->log('Warning, empty result!', 'No results were returned by the CAS.');
+            $this->debug->log('Warning, empty result!', 'unpack_raw_result: no results were returned by the CAS.');
+            return array();
         }
+
         // Check we have a timestamp & remove everything before it.
         $ts = substr_count($rawresult, '[TimeStamp');
         if ($ts != 1) {
-            $this->debug->log('', 'receive_raw_maxima: no timestamp returned. ');
+            $this->debug->log('', 'unpack_raw_result: no timestamp returned. ');
             return array();
         } else {
             $result = strstr($rawresult, '[TimeStamp'); // Remove everything before the timestamp.
@@ -244,7 +253,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $locals = array();
         foreach ($this->unpack_helper($uplocs) as $var => $valdval) {
             if (is_array($valdval)) {
-                $errors["CAS"] = "CAS failed to generate any useful output.";
+                $errors["CAS"] = "unpack_raw_result: CAS failed to generate any useful output.";
             } else {
                 if (preg_match('/.*\[.*\].*/', $valdval)) {
                     // There are some []'s in the string.

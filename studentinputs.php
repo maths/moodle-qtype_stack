@@ -70,6 +70,9 @@ echo html_writer::tag('p', stack_string('stackInstall_input_intro'));
 $tests = stack_inputvalidation_test_data::get_all();
 // Run the tests.
 $allpassed = true;
+$notests = 0;
+$start = microtime(true);
+
 foreach ($tests as $test) {
 
     if ($test->notes) {
@@ -109,6 +112,19 @@ foreach ($tests as $test) {
     $table->add_data_keyed($row, $class);
     flush();
 }
+
+// Overall summary.
+$took = (microtime(true) - $start);
+$rtook = round($took, 5);
+$pertest = round($took/$notests, 5);
+echo '<p>'.get_string('testsuitenotests', 'qtype_stack', array('no' => $notests));
+echo '<br/>'.get_string('testsuiteteststook', 'qtype_stack', array('time' => $rtook));
+echo '<br/>'.get_string('testsuiteteststookeach', 'qtype_stack', array('time' => $pertest));
+echo '</p>';
+
+$config = get_config('qtype_stack');
+echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
+
 $table->finish_output();
 
 // Overall summary.

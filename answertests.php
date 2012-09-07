@@ -96,7 +96,12 @@ echo $OUTPUT->single_select($PAGE->url, 'anstest', $availabletests, $anstest);
 
 // Run the tests.
 $allpassed = true;
+$notests = 0;
+$start = microtime(true);
+
 foreach ($tests as $test) {
+
+    $notests++;
 
     if ($test->notes) {
         reset($columns);
@@ -131,9 +136,23 @@ foreach ($tests as $test) {
     $table->add_data_keyed($row, $class);
     flush();
 }
-$table->finish_output();
 
 // Overall summary.
+
+$took = (microtime(true) - $start);
+$rtook = round($took, 5);
+$pertest = round($took/$notests, 5);
+echo '<p>'.get_string('testsuitenotests', 'qtype_stack', array('no' => $notests));
+echo '<br/>'.get_string('testsuiteteststook', 'qtype_stack', array('time' => $rtook));
+echo '<br/>'.get_string('testsuiteteststookeach', 'qtype_stack', array('time' => $pertest));
+echo '</p>';
+
+$config = get_config('qtype_stack');
+echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
+
+// Print out the table itself
+$table->finish_output();
+
 if ($anstest) {
     if ($allpassed) {
         echo $OUTPUT->heading(stack_string('stackInstall_testsuite_pass'), 2, 'pass');

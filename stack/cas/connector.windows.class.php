@@ -68,6 +68,9 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
         }
         fclose($pipes[0]);
         fclose($pipes[1]);
+
+        $this->debug->log('CAS Output', $ret);
+
         return trim($ret);
     }
 }

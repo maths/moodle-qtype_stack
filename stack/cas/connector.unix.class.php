@@ -64,8 +64,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         }
 
         if (!fwrite($pipes[0], $this->initcommand)) {
-            echo "<br />Could not write to the CAS process!<br />\n";
-            return(false);
+            throw new stack_exception('stack_cas_connection: could not write to the CAS process.');
         }
         fwrite($pipes[0], $command);
         fwrite($pipes[0], 'quit();'."\n\n");

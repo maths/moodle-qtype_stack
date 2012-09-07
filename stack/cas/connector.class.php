@@ -218,7 +218,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         // Check we have a timestamp & remove everything before it.
         $ts = substr_count($rawresult, '[TimeStamp');
         if ($ts != 1) {
-            $this->debug->log('', 'receive_raw_maxima: no timestamp returned.');
+            $this->debug->log('', 'receive_raw_maxima: no timestamp returned. '.$rawresult);
             return array();
         } else {
             $result = strstr($rawresult, '[TimeStamp'); // Remove everything before the timestamp.

@@ -110,8 +110,6 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             $ret .=' The CAS timed out. ] ] ] ]';
         }
 
-        $this->debug->log('CAS Output', $ret);
-
         return $ret;
     }
 }

@@ -215,10 +215,14 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     protected function unpack_raw_result($rawresult) {
         $result = '';
         $errors = false;
+
+        if ('' == trim($rawresult)) {
+            $this->debug->log('Warning, empty result!', 'No results were returned by the CAS.');
+        }
         // Check we have a timestamp & remove everything before it.
         $ts = substr_count($rawresult, '[TimeStamp');
         if ($ts != 1) {
-            $this->debug->log('', 'receive_raw_maxima: no timestamp returned. '.$rawresult);
+            $this->debug->log('', 'receive_raw_maxima: no timestamp returned. ');
             return array();
         } else {
             $result = strstr($rawresult, '[TimeStamp'); // Remove everything before the timestamp.

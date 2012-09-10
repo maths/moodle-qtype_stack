@@ -14,7 +14,7 @@ you need to edit the config.php file to add the following configuration
 information near the end, but before the require_once(dirname(__FILE__) . '/lib/setup.php');:
 
     define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'win');
-    define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.22.1');
+    define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.28.0');
     define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '1');
     define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   '');

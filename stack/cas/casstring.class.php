@@ -386,7 +386,7 @@ class stack_cas_casstring {
     }
 
     /**
-     * Checks that there are no *'s missing from expressions, eg 2x should be 2*x
+     * Checks that there are no *s missing from expressions, eg 2x should be 2*x
      *
      * @return bool|string true if no missing *s, false if missing stars but automatically added
      * if stack is set to not add stars automatically, a string indicating the missing stars is returned.

@@ -42,21 +42,31 @@ $PAGE->set_url('/question/type/stack/caschat.php');
 $title = stack_string('chattitle');
 $PAGE->set_title($title);
 
-// Enable testing of CAStext in with a background of a non-trivial session.
-$a1 = array('a:x^2', 'b:(x+1)^2');
+// Enable testing of CAStext in with a background of a non-trivial session, with some options set.
+
+/* 
+$options = new stack_options();
+$options->set_option('simplify', false);
+
+$a1 = array('a:-2', 'b:ev(-1-2,simp)');
+
 $s1 = array();
 foreach ($a1 as $s) {
-    $s1[] = new stack_cas_casstring($s);
+    $cs = new stack_cas_casstring($s);
+    $cs->validate('t');
+    $s1[] = $cs;
 }
-$cs1 = new stack_cas_session($s1);
-
+$cs1 = new stack_cas_session($s1, $options);
+*/
 
 $string = optional_param('cas', '', PARAM_RAW);
 
+$debuginfo = '';
 if ($string) {
-    $ct           = new stack_cas_text($string);
+    $ct           = new stack_cas_text($string); // Need to add in $cs1 here if we intend to use it...
     $displaytext  = $ct->get_display_castext();
     $errs         = $ct->get_errors();
+    $debuginfo    = $ct->get_debuginfo();
 }
 
 echo $OUTPUT->header();
@@ -74,5 +84,9 @@ echo html_writer::tag('form',
             html_writer::tag('p', html_writer::empty_tag('input',
                     array('type' => 'submit', 'value' => stack_string('chat')))),
         array('action' => $PAGE->url, 'method' => 'post'));
+
+if ('' != trim($debuginfo)) {
+    echo $OUTPUT->box($debuginfo);
+}
 
 echo $OUTPUT->footer();

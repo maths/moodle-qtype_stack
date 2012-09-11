@@ -29,9 +29,9 @@ STACK stores all documentation within language subdirectories.  For example, Eng
 
 **Note** Links in the documentation are relative. You can use the following standard notation, for:
 
-1. a document in the current directory simply use `Article` e.g. `[Link to Article](Article.md)`
+1. a document in the current directory simply use the filename e.g. `[Link to Article](Article.md)`
 2. the current directory use `./` e.g.
-   * `./Article` refers to `Article` in this directory
+   * `./Article.md` refers to `Article` in this directory
    * `./#reference` refers to the index of the current directory scrolled to the heading with id `reference`
 3. the parent directory use `../` e.g.
    * `../` refers to the docs homepage (if currently only one tier deep)
@@ -141,9 +141,9 @@ Will display
 	
 ### Links
 
-Links are written `[text](link)` to give [text](link).
+Links are written `[text](documentation.md)` to give [text](documentation.md).
 
-External links are easily generated using
+They must end with the `.md` extension.  External links are easily generated using
 
 	<http://sesamestreet.com>
 
@@ -200,7 +200,6 @@ an extremely | useful
 feature      | !
 
 # See also
-* [Information on the Documentation System](Docs.md)
 * [MarkDown](http://daringfireball.net/projects/markdown/)
 * [PHP Markdown Extra](http://michelf.com/projects/php-markdown/extra/)
 * [PHP Markdown Extra Math](https://github.com/drdrang/php-markdown-extra-math)

@@ -60,7 +60,7 @@ function report($d) {
 
                         $a[] = array($fpath, 'F', 'Found file ' . "$fpath");
 
-                        if ($fsize >= 10000) {
+                        if ($fsize >= 18000) {
                             $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
                         }
 

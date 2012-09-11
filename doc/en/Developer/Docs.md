@@ -2,8 +2,6 @@
 
 This file documents the current progress with setting up the documentation again:
 
-Work on this is taking place in the `docs` branch.
-
 ## Changes in functionality
 
 The local browser would assume a `.md` extension and append one automatically.

@@ -1,6 +1,5 @@
 # Setting up the docs again
 
-STACK documentation is a "static wiki".  
 
 ## Changes in functionality
 

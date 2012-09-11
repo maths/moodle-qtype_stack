@@ -1,8 +1,6 @@
 # Setting up the docs again
 
-This file documents the current progress with setting up the documentation again:
-
-Work on this is taking place in the `docs` branch.
+STACK documentation is a "static wiki".  
 
 ## Changes in functionality
 

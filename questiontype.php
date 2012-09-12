@@ -206,6 +206,8 @@ class qtype_stack extends question_type {
                     'name ' . $test . ' AND questionid = ?', $params);
         }
 
+        $this->save_hints($fromform);
+
         if (isset($fromform->deployedseeds)) {
             $DB->delete_records('qtype_stack_deployed_seeds', array('questionid' => $fromform->id));
             foreach ($fromform->deployedseeds as $deployedseed) {
@@ -372,15 +374,6 @@ class qtype_stack extends question_type {
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
-
-        // TODO This is a temporary hack, until we decide how we want hints to
-        // work for STACK questions. (Do we just implement hints like for other
-        // qtypes, but allowing the hint text to be CAS text?) This just gives
-        // every question a fixed three tries when run in interactive behaviour.
-        $question->hints = array(
-            new question_hint(1, 'Hint 1', FORMAT_HTML),
-            new question_hint(2, 'Hint 2', FORMAT_HTML),
-        );
     }
 
     public function delete_question($questionid, $contextid) {
@@ -399,6 +392,7 @@ class qtype_stack extends question_type {
         $fs = get_file_storage();
 
         parent::move_files($questionid, $oldcontextid, $newcontextid);
+        $this->move_files_in_hints($questionid, $oldcontextid, $newcontextid);
 
         $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
                                             'qtype_stack', 'specificfeedback',    $questionid);
@@ -423,6 +417,7 @@ class qtype_stack extends question_type {
         $fs = get_file_storage();
 
         parent::delete_files($questionid, $contextid);
+        $this->delete_files_in_hints($questionid, $contextid);
 
         $fs->delete_area_files($contextid, 'qtype_stack', 'specificfeedback',    $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'prtcorrect',          $questionid);
@@ -823,6 +818,9 @@ class qtype_stack extends question_type {
                 $this->import_xml_prt($prtxml, $fromform, $format);
             }
         }
+
+        $format->import_hints($fromform, $xml, false, false,
+                $format->get_format($fromform->questiontextformat));
 
         if (isset($xml['#']['deployedseed'])) {
             $fromform->deployedseeds = array();

@@ -280,12 +280,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
 
-        $pen = $mform->createElement('text', 'penalty', get_string('penalty', 'qtype_stack'), array('size' => 5));
-        $mform->insertElementBefore($pen, 'generalfeedback');
-        $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
-        $mform->setDefault('penalty', 0.1000000);
-        $mform->addRule('penalty', null, 'required', null, 'client');
-
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
         $mform->insertElementBefore($sf, 'generalfeedback');
@@ -358,6 +352,19 @@ class qtype_stack_edit_form extends question_edit_form {
                 get_string('complexno', 'qtype_stack'), array(
                     'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
+
+        // Hints.
+        $this->add_interactive_settings();
+
+        // Replace standard penalty input at the bottom with the one we want.
+        $mform->removeElement('multitriesheader');
+        $mform->removeElement('penalty');
+
+        $pen = $mform->createElement('text', 'penalty', get_string('penalty', 'qtype_stack'), array('size' => 5));
+        $mform->insertElementBefore($pen, 'generalfeedback');
+        $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
+        $mform->setDefault('penalty', 0.1000000);
+        $mform->addRule('penalty', null, 'required', null, 'client');
     }
 
     /**
@@ -543,6 +550,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question = $this->data_preprocessing_options($question);
         $question = $this->data_preprocessing_inputs($question);
         $question = $this->data_preprocessing_prts($question);
+        $question = $this->data_preprocessing_hints($question);
 
         if (empty($question->questiontext['text'])) {
             // Nasty hack to override what the base class does. The way it

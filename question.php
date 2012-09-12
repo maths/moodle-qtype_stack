@@ -298,6 +298,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
+    public function format_hint(question_hint $hint, question_attempt $qa) {
+        if (empty($hint->hint)) {
+            return '';
+        }
+
+        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, true);
+
+        if ($hinttext->get_errors()) {
+            throw new stack_exception('Error rendering the hint text: ' . $gftext->get_errors());
+        }
+
+        return parent::format_hint(new question_hint($hint->id,
+                $hinttext->get_display_castext(), $hint->hintformat), $qa);
+    }
+
     public function format_generalfeedback($qa) {
         if (empty($this->generalfeedback)) {
             return '';
@@ -672,6 +687,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 array('prtnodefalsefeedback', 'prtnodetruefeedback'))) {
             // This is a bit lax, but anything else is computationally very expensive.
             return $options->feedback;
+
+        } else if ($component == 'question' && $filearea == 'hint') {
+            return $this->check_hint_file_access($qa, $options, $args);
 
         } else {
             return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);

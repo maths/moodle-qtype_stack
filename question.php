@@ -407,6 +407,19 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $this->inputstates[$name];
     }
 
+    /**
+     * @param array $response the current response being processed.
+     * @return boolean whether any of the inputs are blank.
+     */
+    public function is_any_input_blank(array $response) {
+        foreach ($this->inputs as $name => $input) {
+            if (stack_input::BLANK == $this->get_input_state($name, $response)->status) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function is_any_part_invalid(array $response) {
         // Invalid if any input is invalid, ...
         foreach ($this->inputs as $name => $input) {
@@ -447,8 +460,16 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_validation_error(array $response) {
-        // We don't use this method, but the interface requires us to have implemented it.
-        return '';
+        if ($this->is_any_part_invalid($response)) {
+            // There will already be a more specific validation error displayed.
+            return '';
+
+        } else if ($this->is_any_input_blank($response)) {
+            return get_string('pleaseananswerallparts', 'qtype_stack');
+
+        } else {
+            return get_string('pleasecheckyourinputs', 'qtype_stack');
+        }
     }
 
     public function grade_response(array $response) {

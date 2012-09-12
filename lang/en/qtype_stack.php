@@ -237,6 +237,8 @@ $string['verifyquestionandupdate'] = 'Verify the question text and update the fo
 // Strings used by input elements.
 $string['booleangotunrecognisedvalue'] = 'Invalid input.';
 $string['dropdowngotunrecognisedvalue'] = 'Invalid input.';
+$string['pleaseananswerallparts'] = 'Please answer all parts of the question.';
+$string['pleasecheckyourinputs'] = 'Please verify that what you entered was interpreted as expected.';
 $string['singlechargotmorethanone'] = 'You can only enter a single character here.';
 
 // Admin settings.

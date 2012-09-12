@@ -85,7 +85,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 2. **DONE** Add back the help for editing PRT nodes.
 3. **DONE** When validating the editing form, actually evaluate the Maxima code.
 4. **DONE** When validating the editing form, ensure there are no @ and $ in the fields that expect Maxima code.
-5. Ensure links from the editing form end up at the STACK docs. This is now work in progress, but relies on http://tracker.moodle.org/browse/MDL-34035 getting accepted into Moodle core. In which case we can use this commit: https://github.com/timhunt/moodle-qtype_stack/compare/helplinks.
+5. **DONE** Ensure links from the editing form end up at the STACK docs. This is now work in progress, but relies on http://tracker.moodle.org/browse/MDL-34035 getting accepted into Moodle core. In which case we can use this commit: https://github.com/timhunt/moodle-qtype_stack/compare/helplinks.
 6. **DONE** Hide dropdown input type in the editing form until there is a way to set the list of choices.
 
 ### Testing questions
@@ -107,7 +107,7 @@ List of bugs follows/TODOs (see also https://github.com/maths/moodle-qtype_stack
 ### Optimising Maxima
 
 1. **DONE** Since I have optimized Maxima, I removed write permissions to /moodledata/stack/maximalocal.mac. This makes the healthcheck script unrunnable, and hence I cannot clear the STACK cache.
-2. Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
+2. **DONE** Finish off the system for running Maxima on another server (https://github.com/maths/moodle-qtype_stack/pull/8)
 
 ### Documentation system
 

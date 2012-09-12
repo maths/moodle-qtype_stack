@@ -146,7 +146,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('3*(x+2)');
         $tans->validate('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'FacForm', 'x', true);
-        $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.', FORMAT_HTML, '1-0-0');
+        $node->add_branch(0, '+', 0.5, '', -1, 'Boo! Your answer should be in factored form, i.e. @factor(ans1)@.',
+                FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 2, '', 3, 'Yeah!', FORMAT_HTML, '1-0-1');
 
         $options = new stack_options();

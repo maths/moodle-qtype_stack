@@ -408,7 +408,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer and my answer are plotted below. Look they are different! @plot([p,ans1],[x,-2,2])@', FORMAT_HTML, 'plots-0-0');
+                'Your answer and my answer are plotted below. Look they are different! @plot([p,ans1],[x,-2,2])@',
+                FORMAT_HTML, 'plots-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'plots-0-1');
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
                 '', true, 1, null, array($node));
@@ -493,7 +494,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'sol-2-0');
         $node2->add_branch(1, '=', 1, $q->penalty, -1,
-                'You have correctly solved the equation you have entered in part 1. Please try both parts again!', FORMAT_HTML, 'sol-2-1');
+                'You have correctly solved the equation you have entered in part 1. Please try both parts again!',
+                FORMAT_HTML, 'sol-2-1');
 
         $sans = new stack_cas_casstring('ans2');
         $sans->get_valid('t');

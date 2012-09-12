@@ -150,7 +150,7 @@ echo '</p>';
 $config = get_config('qtype_stack');
 echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
 
-// Print out the table itself
+// Print out the table itself.
 $table->finish_output();
 
 if ($anstest) {

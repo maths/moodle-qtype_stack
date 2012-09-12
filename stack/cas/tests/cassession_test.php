@@ -178,7 +178,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_simplify_false() {
-    
+
         $cs=array('a:2+3', 'b:ev(a,simp)');
 
         foreach ($cs as $s) {
@@ -186,7 +186,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->validate('t');
             $s1[] = $cs;
         }
-    
+
         $options = new stack_options();
         $options->set_option('simplify', false);
         $at1 = new stack_cas_session($s1, $options, 0);
@@ -199,8 +199,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     public function test_redefine_variable() {
 
-        // This example redefines the value of n. 
-        // It should return the last value.  
+        // This example redefines the value of n.
+        // It should return the last value.
         $cs = array('n:3', 'n:n+3', 'n:n^2');
 
         foreach ($cs as $s) {
@@ -220,11 +220,13 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     public function test_indirect_redefinition_of_varibale() {
 
-        // This example uses a loop to change the values of elements of C.  
+        // This example uses a loop to change the values of elements of C.
         // However the loop returns "done", and the values of C are changed.
-        $cs = array('A:matrix([5,2],[4,3])', 'B:matrix([4,5],[6,5])', 'C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)))');
+        $cs = array('A:matrix([5,2],[4,3])', 'B:matrix([4,5],[6,5])',
+                'C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)))');
         $cs[] = 'BT:transpose(B)';
-        $cs[] = 'S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]))';
+        $cs[] = 'S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do ' .
+                'C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]))';
         $cs[] = 'D:ev(C,simp)';
         // We need this last assignment to re-evaluate C, and then we can grab the results.....
         $cs[] = 'C:C';

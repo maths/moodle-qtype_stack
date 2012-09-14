@@ -255,7 +255,7 @@ class stack_cas_casstring {
         // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
         // we pass back strings with HTML in when we have already evaluated plots!
         $htmlfragments = array('<span', '</span>', '<p>', '</p>');
-        foreach ($htmlfragments as $frag){
+        foreach ($htmlfragments as $frag) {
             if (strpos($cmd, $frag) !== false) {
                 $this->add_error(get_string('htmlfragment', 'qtype_stack').' <pre>'.$cmd.'</pre>');
                 $this->valid = false;

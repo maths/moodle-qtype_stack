@@ -184,7 +184,7 @@ $string['settingcasmaximaversion'] = 'Maximan versio';
 $string['settingcasmaximaversion_desc'] = 'Käytössä olevan Maximan versio.';
 $string['settingcasresultscache'] = 'CAS tulosten välimuistiin tallennus';
 $string['settingcasresultscache_db'] = 'Välimuisti tietokannassa';
-$string['settingcasresultscache_desc'] = 'Tallennetaanko CAS kutsut välimuistiin? Tämän on syytä olla päällä, muutoin kuin ohjelmistokehitystilanteissa. Välimuistin tila näkyy kuntotarkistus-sivulla. Välimuisti pitää tyhjentää jos CAS tai gnuplot asetukset muuttuvat.'; 
+$string['settingcasresultscache_desc'] = 'Tallennetaanko CAS kutsut välimuistiin? Tämän on syytä olla päällä, muutoin kuin ohjelmistokehitystilanteissa. Välimuistin tila näkyy kuntotarkistus-sivulla. Välimuisti pitää tyhjentää jos CAS tai gnuplot asetukset muuttuvat.';
 $string['settingcasresultscache_none'] = 'Älä tallenna välimuistiin';
 $string['settingcastimeout'] = 'CAS yhteyden aikaraja';
 $string['settingcastimeout_desc'] = 'Kauanko aikaa sallitaan yhden CAS kutsun käsittelyyn.';
@@ -413,8 +413,8 @@ $string['FacForm_UnPick_morework']  = 'Termiä {$a->m0} pitää vielä muokata. 
 $string['FacForm_UnPick_intfac']    = $string['irred_Q_commonint'];
 $string['ATFacForm_error_list']     = 'Vastauksen tarkastuksessa tapahtui virhe. Ota yhteyttä järjestelmän ylläpitäjiin ';
 $string['ATFacForm_error_degreeSA'] = 'Vastauskesi astetta ei pystytty määrittämään.';
-$string['ATFacForm_isfactored']     = 'Vastauksesi on jaettu tekijöihin. ';  // needs a space at the end.
-$string['ATFacForm_notfactored']    = 'Vastaustasi ei ole jaettu tekijöihin. '; // needs a space at the end.
+$string['ATFacForm_isfactored']     = 'Vastauksesi on jaettu tekijöihin. ';  // Needs a space at the end.
+$string['ATFacForm_notfactored']    = 'Vastaustasi ei ole jaettu tekijöihin. '; // Needs a space at the end.
 $string['ATFacForm_notalgequiv']    = 'Vastauksesi ei ole algebrallisesti yhtä kuin oikean vastaus. Jokin virhe on tapahtunut laskussasi. ';
 
 

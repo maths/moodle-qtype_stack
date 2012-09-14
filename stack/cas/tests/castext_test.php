@@ -141,8 +141,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_redefine_variables() {
         // Notice this means that within a session the value of n has to be returned at every stage....
-        $at1 = new stack_cas_text('Let $n$ be defined by @n:3@. Now add one to get @n:n+1@ and square the result @n:n^2@.', null, 0);
-        $this->assertEquals('Let $n$ be defined by $3$. Now add one to get $4$ and square the result $16$.', $at1->get_display_castext());
+        $at1 = new stack_cas_text(
+                'Let $n$ be defined by @n:3@. Now add one to get @n:n+1@ and square the result @n:n^2@.', null, 0);
+        $this->assertEquals('Let $n$ be defined by $3$. Now add one to get $4$ and square the result $16$.',
+                $at1->get_display_castext());
     }
 
     public function testcheck_external_forbidden_words() {
@@ -171,11 +173,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_bad_variablenames() {
         $cs = new stack_cas_session(array(), null, 0);
-        $rawcastext = '\[\begin{array}{rcl} & =& @Ax2@ + @double_cAx@ + @c2A@ + @Bx2@ + @cBx@ + @Cx@,\\ & =& @ApBx2@ + @xterm@ + @c2A@. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =& @a@\,\\ @double_cA + cB@ + C& =& 0,\\ @Ac2@& =& @b@. \end{array}\]';
+        $rawcastext = '\[\begin{array}{rcl} & =& @Ax2@ + @double_cAx@ + @c2A@ + @Bx2@ + @cBx@ + @Cx@,\\ & =' .
+                '& @ApBx2@ + @xterm@ + @c2A@. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
+                '& @a@\,\\ @double_cA + cB@ + C& =& 0,\\ @Ac2@& =& @b@. \end{array}\]';
         $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, true);
 
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid. </br>You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.You seem to be missing * characters. Perhaps you meant to type <span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.');
+        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .
+                        'CAS commands not valid. </br>You seem to be missing * characters. Perhaps you meant to type ' .
+                        '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.' .
+                        'You seem to be missing * characters. Perhaps you meant to type ' .
+                        '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.');
     }
 }
 

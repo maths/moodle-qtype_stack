@@ -158,11 +158,7 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumSigFigs':
-                // Set a default option.
-                if ('' == trim($casoption)) {
-                    $casoption = '3';
-                }
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumSigFigs', true, $casoption, $options, true);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumSigFigs', true, $casoption, $options, true, true);
                 break;
 
             case 'LowestTerms':

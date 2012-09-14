@@ -57,7 +57,7 @@ Hence, we need quite a number of different answer tests to establish equality in
 
 | Test                                              | Description
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| CASEqual                                          | Are the parse trees of the two expressions equal?
+| CasEqual                                          | Are the parse trees of the two expressions equal?
 | [EqualComAss](Answer_tests.md#EqualComAss)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?  For example<br>\[a+b=b+a\mbox{,}\]<br>but<br>\[x+x\neq 2x\mbox{.}\]<br>This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
 | [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
@@ -83,7 +83,7 @@ Exactly what it does depends on what objects are given to it.
 * This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
 * Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../CAS/Predicate_functions.md).
 
-### Associativity and Commutativity ### {#EqualComAss}
+### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 
 This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, $2x+y=y+2x$ but $x+x+y\neq 2x+y$.  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
 
@@ -91,7 +91,7 @@ Notice that this test does not include laws of indices, so $x\times x \neq x^2$.
 
 This is a particularly useful test for checking that an answer is the same and simplified.
 
-### CASEqual ###
+### CasEqual ###
 
 The CAS returns the result of the simple Maxima command
 
@@ -174,13 +174,13 @@ which this test will cope with.
 
 These tests deal with the precision of numbers.
 
-| Expression         | Description
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Num_tol_relative   | Tests whether `|sa-ta| <= opt * |ta|` Hence the opt is a tolerance.
-| Num_tol_absolute   | Tests whether `|sa-ta| < opt`  Hence the opt is a tolerance. The default tolerance is 0.05.
-| Num_sig_figs       | If no option is supplied, a default of \(3\) is assumed.   Tests (i) whether the student's answer contains `opt` significant figures, and (ii) whether the answer is accurate to `opt` significant figures.   If the option is a list \([n,m]\) then we check the answer has been written to \(n\) significant figures, with an accuracy of \(m\) places.  A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
-| Num_SAns>TAns      | Both are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
-| Num_SAns>=TAns     | See above.
+| Expression    | Description
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| NumRelative   | Tests whether `|sa-ta| <= opt * |ta|` Hence the opt is a tolerance.
+| NumAbsolute   | Tests whether `|sa-ta| < opt`  Hence the opt is a tolerance. The default tolerance is 0.05.
+| NumSigFigs    | Tests (i) whether the student's answer contains `opt` significant figures, and (ii) whether the answer is accurate to `opt` significant figures.   If the option is a list \([n,m]\) then we check the answer has been written to \(n\) significant figures, with an accuracy of \(m\) places.  A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
+| GT            | Both are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
+| GTE           | See above.
 
 # Calculus #
 

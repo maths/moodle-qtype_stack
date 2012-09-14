@@ -77,6 +77,14 @@ class stack_answertest_general_cas extends stack_anstest {
      * @access public
      */
     public function do_test() {
+
+        if ('' == trim($this->sanskey)) {
+            throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty sans field.');
+        }
+        if ('' == trim($this->tanskey)) {
+            throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty tans field.');
+        }
+
         if ($this->processcasoptions) {
             if (null == $this->atoption or '' == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';

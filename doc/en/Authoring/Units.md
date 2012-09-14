@@ -37,7 +37,7 @@ Let us assume that the correct answer is `12.1*m/s^2`.
    coefficients automatically (e.g. 1*km = 1000*m etc.).
 4. STACK picks the number from this converted code (the command "coeff").
 5. Finally STACK compares this number to the respective model answer. In this comparison it
-   uses `Num_tol_absolute` or something like that.
+   uses `NumAbsolute` or something like that.
 
 So, the following code is needed in the [feedback variables](KeyVals.md#Feedback_variables) (`ans1` is the student's answer).
 

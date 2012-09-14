@@ -485,7 +485,8 @@ class stack_answertest_test_data {
         array('NumAbsolute', '1.05', '3', 0, '0.1', ''),
         array('NumAbsolute', '3.14', 'pi', 0, '0.001', ''),
 
-        array('NumSigFigs', '1/0', '3', 0, '0', 'Basic tests'),
+        array('NumSigFigs', '3.141', '3.1415927', 0, '', 'Basic tests'),
+        array('NumSigFigs', '1/0', '3', 0, '0', ''),
         array('NumSigFigs', '0', '1/0', 0, '0', ''),
         array('NumSigFigs', '0', '0', 0, '1/0', ''),
         array('NumSigFigs', '0', '1', 0, '(', ''),

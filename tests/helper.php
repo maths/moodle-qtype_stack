@@ -50,6 +50,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             // 'test10', // CBM using a slider input for certainty. Not currently supported.
             'divide', // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
+            'numsigfigs', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
         );
     }
 
@@ -742,10 +743,41 @@ class qtype_stack_test_helper extends question_test_helper {
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('2');
         $tans->get_valid('t');
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node));
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question using a numerical precision answertest.
+     */
+    public static function make_stack_question_numsigfigs() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-numsigfigs';
+        $q->questionvariables = '';
+        $q->questiontext = 'Please round $\pi$ to three significant figures. [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.1; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', '3.14', array('boxWidth' => 5, 'forbidFloats' => false));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('3.14');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '3');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node));
 
         return $q;
     }
@@ -1145,4 +1177,5 @@ class qtype_stack_test_helper extends question_test_helper {
 
         return $qdata;
     }
+
 }

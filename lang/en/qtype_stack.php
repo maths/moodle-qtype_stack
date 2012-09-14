@@ -446,7 +446,7 @@ $string['stackOptions_AnsTest_values_RegExp']             =  "RegExp";
 
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
 $string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. ';
-$string['AT_MissingOptions']        = 'Missing variable in CAS Option field. ';
+$string['AT_MissingOptions']        = 'Missing option when executing the test. ';
 $string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';

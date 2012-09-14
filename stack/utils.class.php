@@ -111,6 +111,9 @@ class stack_debug_log_null implements stack_debug_log {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_utils {
+    /** @var object the STACK config data, so we only ever have to load it from the DB once. */
+    protected static $config = null;
+
     /**
      * @var string fragment of regular expression that matches valid PRT and
      * input names.
@@ -667,5 +670,13 @@ class stack_utils {
         preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
                 $text, $matches);
         return $matches[1];
+    }
+
+    /** Get the stack configuration settings. */
+    public static function get_config() {
+        if (is_null(self::$config)) {
+            self::$config = get_config('qtype_stack');
+        }
+        return self::$config;
     }
 }

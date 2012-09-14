@@ -64,7 +64,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     public static function make() {
         if (is_null(self::$config)) {
-            self::$config = self::load_config();
+            self::$config = stack_utils::get_config();
         }
 
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
@@ -107,13 +107,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         return $connection;
-    }
-
-    /**
-     * @return stdClass the configuration that affects the type of connection to use.
-     */
-    protected static function load_config() {
-        return get_config('qtype_stack');
     }
 
     /**

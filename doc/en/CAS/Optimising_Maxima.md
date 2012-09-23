@@ -54,7 +54,7 @@ get no results try doing a **sudo updatedb**.
 * Go into the STACK settings and set Platform type to 'Linux (Optimised)'.
 * Set Maxima command to.
 ~~~~~~
-	<path>/lisp.run -q -M <path>/maxima-clisp.mem
+	<path>/lisp.run -q -M <path>/maxima-optimised.mem
 ~~~~~~
 
 * Click Save changes at the bottom of the settings page.
@@ -91,5 +91,34 @@ The following web pages have more information for a few types of lisp: <http://s
 See https://github.com/aharjula/maximapool for an implementation of this.
 
 Running Maxima on a separate server dedicated to the task is more secure. It also
-improves performance becuase the server can start up Maxima processes in advance
+improves performance because the server can start up Maxima processes in advance
 so they are all ready and waiting to compute some CAS with zero delay.
+
+## Optimization results ##
+
+The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLISP 2.49 (2010-07-07) on a linux server.
+
+Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test. 
+
+CAS setting       | Answertest (460 tests) | Inputs (257 tests)
+----------------- | ---------------------- | -------------------
+Linux             | 517.8672               | 208.85655
+                  | _1.1258_               | _0.81267_
+Mature cache      | 0.92644                | 13.9798
+(with linux)      | _0.00201_              | _0.0544_
+Linux (optimised) | 95.16954               | 20.89807
+                  | _0.20689_              | _0.08132_
+Mature cache      | 0.90839                | 1.48648
+(when optimised)  | _0.00197_              | _0.00578_
+
+However, not all tests result in a CAS call.  So, to estimate this we subtract the overhead time for a mature cache (which is essentially time for database/PHP processing) from the raw time and divide by the number of CAS calls.  We have the following time per CAS call estimates.
+
+CAS setting       | Answertest (438 calls) | Inputs (204 calls)
+----------------- | ---------------------- | -------------------
+Linux             | 1.180                  | 0.955
+Linux (optimised) | 0.215                  | 0.095
+
+The optimised version saves a considerable amount of time, representing a significant performance improvement in the critical step of just under a second per call.  Well worth the effort (& maintenance) to reward ratio.  It is likely that using a compiled version of LISP would result in further considerable savings.
+
+However, it isn't entirely clear to me at this point why the input tests with a mature cache using the default linux connection takes over 13 seconds.  This seems anomalous.
+

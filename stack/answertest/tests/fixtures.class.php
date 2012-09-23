@@ -379,7 +379,6 @@ class stack_answertest_test_data {
         array('Diff', '1/0', '3*x^2', 0, 'x', ''),
         array('Diff', '0', '1/0', 0, 'x', ''),
         array('Diff', '0', '0', 0, '1/0', ''),
-        array('Diff', 'x^4/4+c', '', 0, 'x', ''),
         array('Diff', '3*x^2', '3*x^2', 1, 'x', 'Basic tests'),
         array('Diff', '3*X^2', '3*x^2', 0, 'x', ''),
         array('Diff', 'x^4/4', '3*x^2', 0, 'x', ''),

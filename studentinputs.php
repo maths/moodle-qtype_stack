@@ -75,6 +75,8 @@ $start = microtime(true);
 
 foreach ($tests as $test) {
 
+    $notests++;
+
     if ($test->notes) {
         reset($columns);
         $firstcol = key($columns);

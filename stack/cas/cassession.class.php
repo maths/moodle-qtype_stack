@@ -237,10 +237,10 @@ class stack_cas_session {
         $this->session = $new_session;
 
         if (''!= $new_errors) {
-            $this->errors .= '<span class="error">'.stack_string('stackCas_CASError').'</span>'.$new_errors;
+            $this->errors .= '<span class="error">'.stack_string('stackCas_CASError').'</span>'.$new_errors.$this->debuginfo;
         }
         if ($all_fail) {
-            $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
+            $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>'.$this->debuginfo;
         }
 
         $this->instantiated = true;

@@ -99,7 +99,7 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
         $this->assertEquals(false, $result->valid);
         $this->assertNotEquals('', $result->errors);
-        $this->assertEquals(array('The answer test failed to execute correctly: please alert your teacher.', 'Boo!'),
+        $this->assertEquals(array('The answer test failed to execute correctly: please alert your teacher. Division by zero.', 'Boo!'),
                 $result->feedback);
         $this->assertEquals(-1, $nextnode);
     }

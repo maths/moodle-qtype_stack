@@ -445,7 +445,7 @@ $string['stackOptions_AnsTest_values_StringSloppy']       =  "StringSloppy";
 $string['stackOptions_AnsTest_values_RegExp']             =  "RegExp";
 
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
-$string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. ';
+$string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. {$a->errors}';
 $string['AT_MissingOptions']        = 'Missing option when executing the test. ';
 $string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
 
@@ -535,6 +535,8 @@ $string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or
 $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
 $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are those that are incorrect. {$a->m0} ';
+
+$string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
 
 $string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as follows:';
 $string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';

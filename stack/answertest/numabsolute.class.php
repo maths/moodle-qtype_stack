@@ -41,9 +41,8 @@ class stack_anstest_numabsolute extends stack_anstest {
             $cs = new stack_cas_casstring($com);
             if (!$cs->get_valid('t', true, false)) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string("TEST_FAILED");
-                $errors = $cs->get_errors();
-                $this->atfeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
+                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
                 $this->atansnote    = 'STACKERROR_OPTION';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -69,7 +68,7 @@ class stack_anstest_numabsolute extends stack_anstest {
 
         if (''!=$session->get_errors_key('caschat0')) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = ' stack_trans("TEST_FAILED"); ';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat0')));
             $this->atansnote    = 'NumAbsolute_STACKERROR_SAns';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -78,7 +77,7 @@ class stack_anstest_numabsolute extends stack_anstest {
 
         if (''!=$session->get_errors_key('caschat1')) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string("TEST_FAILED");
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat1')));
             $this->atansnote    = 'NumAbsolute_STACKERROR_TAns';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -87,9 +86,8 @@ class stack_anstest_numabsolute extends stack_anstest {
 
         if (''!=$session->get_errors_key('caschat2')) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string("TEST_FAILED");
-            $errors = $session->get_errors_key('caschat2');
-            $this->atfeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+            $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $session->get_errors_key('caschat2')));
             $this->atansnote    = 'NumAbsolute_STACKERROR_Options';
             $this->atmark       = 0;
             $this->atvalid      = false;

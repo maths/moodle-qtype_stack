@@ -520,6 +520,7 @@ class stack_answertest_test_data {
         array('StringSloppy', 'hel lo', 'Hello', 1, '', ''),
         array('StringSloppy', 'hello', 'heloo', 0, '', ''),
 
+        array('RegExp', '3.1415927', '3.1415927', 0, '', ''),
         array('RegExp', '3.1415927', '3.1415927', 1, '{[0-9]*\.[0-9]*}', ''),
         array('RegExp', 'cxcxcz', '3.1415927', 0, '{[0-9]*\.[0-9]*}', ''),
 

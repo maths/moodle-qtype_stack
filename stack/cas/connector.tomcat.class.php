@@ -62,6 +62,7 @@ class stack_cas_connection_tomcat extends stack_cas_connection_base {
         $this->debug->log('Timings', "Start: {$start_time}, End: {$now}, Taken = ".($now - $start_time));
 
         // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
+        // WARNING: the string 'The CAS timed out' is used by the cache to serach for a timout occurance.
         if ($timedout) {
             $ret .=' The CAS timed out. ] ] ] ]';
         }

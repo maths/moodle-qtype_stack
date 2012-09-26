@@ -13,14 +13,15 @@ can prove useful for scaling.
 
 ## Compiled Lisp ##
 
-[Maxima](../CAS/Maxima.md) can be run with a number of Lisp implementations.
+[Maxima](../CAS/Maxima.md) can be run with a number of different [lisp implementations](http://maxima-project.org/wiki/index.php?title=Lisp_implementations).
 Although CLISP is the most portable -- due to being interpreted -- other lisps can give faster execution.
 
 [Maxima](../CAS/Maxima.md) can be compiled with one or more of 4 LISP implementations;
 [CLISP](http://en.wikipedia.org/wiki/CLISP) , [CMUCL](http://en.wikipedia.org/wiki/CMU_Common_Lisp),
-GCL and SBCL. Of the four, CLISP is the most portable, but is also by far the slowest due to its being
+[GCL](http://www.gnu.org/software/gcl/) and [SBCL](http://http://www.sbcl.org/). Of the four, CLISP is the most portable, but is also by far the slowest due to its being
 the only LISP interpreter. Using [Maxima](../CAS/Maxima.md) compiled with CMUCL, GCL or SBCL will generally
 give much better performance.
+
 
 ## Preloading ##
 
@@ -94,7 +95,7 @@ Running Maxima on a separate server dedicated to the task is more secure. It als
 improves performance because the server can start up Maxima processes in advance
 so they are all ready and waiting to compute some CAS with zero delay.
 
-## Optimization results ##
+## Optimisation results ##
 
 The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLISP 2.49 (2010-07-07) on a linux server.
 

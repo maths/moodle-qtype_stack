@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 120  -->
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>$course$/CR/CR_Diff_01</text>
+
+    </category>
+  </question>
+
+<!-- question: 63  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-1.b</text>
     </name>
     <questiontext format="html">
       <text>Differentiate $@v@^{@rdm@}$ with respect to @v@.
-
-[[input:R]] [[validation:R]]
-</text>
+ 
+ [[input:R]] [[validation:R]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
-<br/>
-\[ \frac{d}{d@v@}(@p@) = @rdm@@v@^{@rdm@-1}
-= @rdm@@v@^{@rdm-1@}.\] ]]></text>
+ <br/>
+ \[ \frac{d}{d@v@}(@p@) = @rdm@@v@^{@rdm@-1}
+ = @rdm@@v@^{@rdm-1@}.\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm:(2+rand(8));
-p:v^(rdm);</text>
+ rdm:(2+rand(8));
+ p:v^(rdm);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -117,6 +124,12 @@ p:v^(rdm);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>151430450</deployedseed>
+    <deployedseed>578669668</deployedseed>
+    <deployedseed>2025667507</deployedseed>
+    <deployedseed>1585855368</deployedseed>
+    <deployedseed>413881520</deployedseed>
+    <deployedseed>1452074302</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -158,32 +171,31 @@ p:v^(rdm);</text>
     </qtest>
   </question>
 
-<!-- question: 121  -->
+<!-- question: 64  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-1.e</text>
     </name>
     <questiontext format="html">
       <text>Differentiate $@v@^{@rdm@}$ with respect to @v@.
-
-[[input:R]] [[validation:R]]
-</text>
+ 
+ [[input:R]] [[validation:R]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
-
-\[\begin{array}{rcl}\displaystyle
-  \frac{d}{d@v@}[@v@^{@rdm@}] &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
-   &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
- \end{array}\] ]]></text>
+ 
+ \[\begin{array}{rcl}\displaystyle
+   \frac{d}{d@v@}[@v@^{@rdm@}] &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
+    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm:-(2+rand(8));
-p:v^(rdm);</text>
+ rdm:-(2+rand(8));
+ p:v^(rdm);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -277,6 +289,11 @@ p:v^(rdm);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>929616030</deployedseed>
+    <deployedseed>888723678</deployedseed>
+    <deployedseed>164339593</deployedseed>
+    <deployedseed>164735038</deployedseed>
+    <deployedseed>111024116</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -305,32 +322,31 @@ p:v^(rdm);</text>
     </qtest>
   </question>
 
-<!-- question: 122  -->
+<!-- question: 65  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-1.f</text>
     </name>
     <questiontext format="html">
       <text>Differentiate $@v@^{@rdm@}$ with respect to @v@.
-
-[[input:R]] [[validation:R]]
-</text>
+ 
+ [[input:R]] [[validation:R]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
-
-\[\begin{array}{rcl}\displaystyle
-  \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
-   &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
- \end{array}\] ]]></text>
+ 
+ \[\begin{array}{rcl}\displaystyle
+   \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
+    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm:1/(2+rand(8));
-p:v^(rdm);</text>
+ rdm:1/(2+rand(8));
+ p:v^(rdm);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -424,6 +440,9 @@ p:v^(rdm);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1053194343</deployedseed>
+    <deployedseed>655340636</deployedseed>
+    <deployedseed>2101103018</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -452,32 +471,31 @@ p:v^(rdm);</text>
     </qtest>
   </question>
 
-<!-- question: 123  -->
+<!-- question: 66  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-1.h</text>
     </name>
     <questiontext format="html">
       <text>Differentiate $@v@^{@rdm@}$ with respect to @v@.
-
-[[input:R]] [[validation:R]]
-</text>
+ 
+ [[input:R]] [[validation:R]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
-
-\[\begin{array}{rcl}\displaystyle
-  \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
-   &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
- \end{array}\] ]]></text>
+ 
+ \[\begin{array}{rcl}\displaystyle
+   \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
+    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm:(50+rand(12)+10*rand(6));
-p:v^(rdm);</text>
+ rdm:(50+rand(12)+10*rand(6));
+ p:v^(rdm);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -571,6 +589,13 @@ p:v^(rdm);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1941928446</deployedseed>
+    <deployedseed>2016192492</deployedseed>
+    <deployedseed>1948513017</deployedseed>
+    <deployedseed>144852305</deployedseed>
+    <deployedseed>995029406</deployedseed>
+    <deployedseed>1232012922</deployedseed>
+    <deployedseed>1178490731</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -612,33 +637,32 @@ p:v^(rdm);</text>
     </qtest>
   </question>
 
-<!-- question: 124  -->
+<!-- question: 67  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-1.j</text>
     </name>
     <questiontext format="html">
       <text>Differentiate $@p@$ with respect to @v@.
-
-[[input:R]] [[validation:R]]
-</text>
+ 
+ [[input:R]] [[validation:R]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[\[@p@ = @v@^@rdm@\]
-So, using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
-
-\[\begin{array}{rcl}\displaystyle
-  \frac{d}{d@v@}\left(@p@\right) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
-   &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
- \end{array}\] ]]></text>
+ So, using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
+ 
+ \[\begin{array}{rcl}\displaystyle
+   \frac{d}{d@v@}\left(@p@\right) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
+    &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm:-1/(2+rand(7));
-p:v^(rdm);</text>
+ rdm:-1/(2+rand(7));
+ p:v^(rdm);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -732,6 +756,11 @@ p:v^(rdm);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>343533017</deployedseed>
+    <deployedseed>1288784389</deployedseed>
+    <deployedseed>1694709340</deployedseed>
+    <deployedseed>1465589636</deployedseed>
+    <deployedseed>627057225</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -760,49 +789,41 @@ p:v^(rdm);</text>
     </qtest>
   </question>
 
-<!-- question: 125  -->
+<!-- question: 68  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-1.k</text>
     </name>
     <questiontext format="html">
-      <text>Differentiate $@v@^{@rdm@}$ with respect to @v@.
-
-[[input:R]] [[validation:R]]
-</text>
+      <text><![CDATA[<p>Differentiate $@v@^{@rdm@}$ with respect to @v@. [[input:R]] [[validation:R]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\]
-
-\[\begin{array}{rcl}\displaystyle
-  \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm@-1} \\
-   &\displaystyle =&\displaystyle  @rdm@@v@^{@rdm-1@}.
- \end{array}\] ]]></text>
+      <text><![CDATA[<p>Using the rule for differentiation \[\frac{d}{dx}(x^n)=nx^{n-1},\] \[\begin{array}{rcl}\displaystyle \frac{d}{d@v@}(@p@) &amp;\displaystyle =&amp;\displaystyle @rdm@@v@^{@rdm@-1} \\ &amp;\displaystyle =&amp;\displaystyle @rdm@@v@^{@rdm-1@}. \end{array}\]</p>]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm:-(1+2*rand(5))/(2+2*rand(5));
-p:v^(rdm);</text>
+ rdm:-(1+2*rand(5))/(2+2*rand(5));
+ p:v^(rdm);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
     </specificfeedback>
     <questionnote>
-      <text>\[\frac{d}{d@v@}(@p@) = @diff(p,v)@ \]</text>
+      <text>\[\frac{d}{d@v@}\left(@p@\right) = @diff(p,v)@ \]</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <prtcorrect format="html">
-      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<span class='incorrect'>Incorrect answer.</span>]]></text>
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
     </prtincorrect>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
@@ -867,7 +888,7 @@ p:v^(rdm);</text>
         <truenextnode>-1</truenextnode>
         <trueanswernote>Result-1-T </trueanswernote>
         <truefeedback format="html">
-          <text>You have lost a coefficient. The derivative of $x^n$ is $nx^{n-1}$, here $n=@rdm@$ but you do not appear to have a @rdm@ coefficient.</text>
+          <text><![CDATA[<p>You have lost a coefficient. The derivative of $x^n$ is $nx^{n-1}$, here $n=@rdm@$ but you do not appear to have a @rdm@ coefficient.</p>]]></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
         <falsescore>0.0000000</falsescore>
@@ -879,6 +900,12 @@ p:v^(rdm);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>742018032</deployedseed>
+    <deployedseed>420257484</deployedseed>
+    <deployedseed>2047095224</deployedseed>
+    <deployedseed>655681916</deployedseed>
+    <deployedseed>1059908655</deployedseed>
+    <deployedseed>1586836637</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -907,7 +934,7 @@ p:v^(rdm);</text>
     </qtest>
   </question>
 
-<!-- question: 126  -->
+<!-- question: 69  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-2.b</text>
@@ -916,15 +943,15 @@ p:v^(rdm);</text>
       <text><![CDATA[<p>Differentiate \[@p@\] with respect to @v@ [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>The derivative of $cos(x)$ with respect to $x$ is $-sin(x)$, so \[\frac{d}{d@v@}\left[ @p@\right] =@diff(p,v)@ .\]</p>]]></text>
+      <text><![CDATA[<p>The derivative of $\cos(x)$ with respect to $x$ is $-\sin(x)$, so \[\frac{d}{d@v@}\left[ @p@\right] =@diff(p,v)@ .\]</p>]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:z;
-rdm:rand(8)+2;
-p:cos(rdm*v);</text>
+ rdm:rand(8)+2;
+ p:cos(rdm*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -1066,6 +1093,12 @@ p:cos(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1563785064</deployedseed>
+    <deployedseed>1739785683</deployedseed>
+    <deployedseed>1318425238</deployedseed>
+    <deployedseed>1917838172</deployedseed>
+    <deployedseed>644236425</deployedseed>
+    <deployedseed>1583369050</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1120,7 +1153,7 @@ p:cos(rdm*v);</text>
     </qtest>
   </question>
 
-<!-- question: 127  -->
+<!-- question: 70  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-2.d</text>
@@ -1136,8 +1169,8 @@ p:cos(rdm*v);</text>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:z;
-rdm:(2*rand(4)+3)/(2*rand(5)+2);
-p:sin(rdm*v);</text>
+ rdm:(2*rand(4)+3)/(2*rand(5)+2);
+ p:sin(rdm*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -1279,6 +1312,13 @@ p:sin(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1018569746</deployedseed>
+    <deployedseed>244322180</deployedseed>
+    <deployedseed>562266404</deployedseed>
+    <deployedseed>658843325</deployedseed>
+    <deployedseed>1005732543</deployedseed>
+    <deployedseed>159338719</deployedseed>
+    <deployedseed>1714735075</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1333,7 +1373,7 @@ p:sin(rdm*v);</text>
     </qtest>
   </question>
 
-<!-- question: 128  -->
+<!-- question: 71  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-2.f</text>
@@ -1349,8 +1389,8 @@ p:sin(rdm*v);</text>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:z;
-rdm:pi*(rand(5)+1);
-p:tan(rdm*v);</text>
+ rdm:pi*(rand(5)+2);
+ p:tan(rdm*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -1492,6 +1532,10 @@ p:tan(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>684563370</deployedseed>
+    <deployedseed>995382306</deployedseed>
+    <deployedseed>893482269</deployedseed>
+    <deployedseed>1707844053</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1546,7 +1590,7 @@ p:tan(rdm*v);</text>
     </qtest>
   </question>
 
-<!-- question: 129  -->
+<!-- question: 72  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-2.g</text>
@@ -1562,8 +1606,8 @@ p:tan(rdm*v);</text>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:z;
-rdm:-(rand(9)+3);
-p:sin(rdm*v);</text>
+ rdm:-(rand(9)+3);
+ p:sin(rdm*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -1705,6 +1749,11 @@ p:sin(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>190430761</deployedseed>
+    <deployedseed>785941397</deployedseed>
+    <deployedseed>1728819035</deployedseed>
+    <deployedseed>780018979</deployedseed>
+    <deployedseed>375184246</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1759,7 +1808,7 @@ p:sin(rdm*v);</text>
     </qtest>
   </question>
 
-<!-- question: 130  -->
+<!-- question: 73  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-2.h</text>
@@ -1775,8 +1824,8 @@ p:sin(rdm*v);</text>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:z;
-rdm:1/(rand(5)+2);
-p:tan(rdm*v);</text>
+ rdm:1/(rand(5)+2);
+ p:tan(rdm*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -1918,6 +1967,9 @@ p:tan(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>296542016</deployedseed>
+    <deployedseed>1979621231</deployedseed>
+    <deployedseed>150660405</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1972,7 +2024,7 @@ p:tan(rdm*v);</text>
     </qtest>
   </question>
 
-<!-- question: 131  -->
+<!-- question: 74  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-2.i</text>
@@ -1987,8 +2039,8 @@ p:tan(rdm*v);</text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
-      <text>v:z;
-rdm:(rand(6)+1)*pi;
+      <text>v:rand([x,z,t]);
+rdm:(rand(6)+3)*pi;
 p:cos(rdm*v);</text>
     </questionvariables>
     <specificfeedback format="html">
@@ -2131,6 +2183,11 @@ p:cos(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1408641705</deployedseed>
+    <deployedseed>1877282282</deployedseed>
+    <deployedseed>67797969</deployedseed>
+    <deployedseed>2072856646</deployedseed>
+    <deployedseed>1945944429</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -2185,33 +2242,32 @@ p:cos(rdm*v);</text>
     </qtest>
   </question>
 
-<!-- question: 132  -->
+<!-- question: 75  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-3.b</text>
     </name>
     <questiontext format="html">
       <text>Find the following derivative:
-\[\frac{d}{d@v@}(@p@).\]
-
-[[input:ans1]] [[validation:ans1]]
-</text>
+ \[\frac{d}{d@v@}(@p@).\]
+ 
+ [[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
-
-\[\begin{array}{rcl}\displaystyle
-\frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
-   &\displaystyle =&\displaystyle  @diff(p,v)@
- \end{array}\] ]]></text>
+ 
+ \[\begin{array}{rcl}\displaystyle
+ \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
+    &\displaystyle =&\displaystyle  @diff(p,v)@
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm1:(rand(6)+2);
-p:exp(rdm1*v);</text>
+ rdm1:(rand(6)+2);
+ p:exp(rdm1*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -2353,6 +2409,11 @@ p:exp(rdm1*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>2054382729</deployedseed>
+    <deployedseed>737497286</deployedseed>
+    <deployedseed>618859666</deployedseed>
+    <deployedseed>1716173633</deployedseed>
+    <deployedseed>1731071208</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -2407,33 +2468,32 @@ p:exp(rdm1*v);</text>
     </qtest>
   </question>
 
-<!-- question: 133  -->
+<!-- question: 76  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-3.c</text>
     </name>
     <questiontext format="html">
       <text>Find the following derivative:
-\[\frac{d}{d@v@}(@p@).\]
-
-[[input:ans1]] [[validation:ans1]]
-</text>
+ \[\frac{d}{d@v@}(@p@).\]
+ 
+ [[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
-
-\[\begin{array}{rcl}\displaystyle
-\frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
-   &\displaystyle =&\displaystyle  @diff(p,v)@
- \end{array}\] ]]></text>
+ 
+ \[\begin{array}{rcl}\displaystyle
+ \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
+    &\displaystyle =&\displaystyle  @diff(p,v)@
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm1:-(rand(8)+2);
-p:exp(rdm1*v);</text>
+ rdm1:-(rand(8)+2);
+ p:exp(rdm1*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -2575,6 +2635,11 @@ p:exp(rdm1*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>56131753</deployedseed>
+    <deployedseed>212603816</deployedseed>
+    <deployedseed>160213174</deployedseed>
+    <deployedseed>1322768370</deployedseed>
+    <deployedseed>429891736</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -2629,34 +2694,33 @@ p:exp(rdm1*v);</text>
     </qtest>
   </question>
 
-<!-- question: 134  -->
+<!-- question: 77  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-3.d</text>
     </name>
     <questiontext format="html">
       <text>Find the following derivative:
-\[\frac{d}{d@v@}(@p@).\]
-
-[[input:ans1]] [[validation:ans1]]
-</text>
+ \[\frac{d}{d@v@}(@p@).\]
+ 
+ [[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
-
-\[\begin{array}{rcl}\displaystyle
-\frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
-   &\displaystyle =&\displaystyle  @diff(p,v)@
- \end{array}\] ]]></text>
+ 
+ \[\begin{array}{rcl}\displaystyle
+ \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
+    &\displaystyle =&\displaystyle  @diff(p,v)@
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm1:-1/(rand(4)+2);
-rdm2:2+rand(5);
-p:rdm2*exp(rdm1*v);</text>
+ rdm1:-1/(rand(4)+2);
+ rdm2:2+rand(5);
+ p:rdm2*exp(rdm1*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -2798,6 +2862,12 @@ p:rdm2*exp(rdm1*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>908681713</deployedseed>
+    <deployedseed>813876766</deployedseed>
+    <deployedseed>1399903183</deployedseed>
+    <deployedseed>995102480</deployedseed>
+    <deployedseed>1783636792</deployedseed>
+    <deployedseed>761871919</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -2852,33 +2922,32 @@ p:rdm2*exp(rdm1*v);</text>
     </qtest>
   </question>
 
-<!-- question: 135  -->
+<!-- question: 78  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-3.e</text>
     </name>
     <questiontext format="html">
       <text>Find the following derivative:
-\[\frac{d}{d@v@}(@p@).\]
-
-[[input:ans1]] [[validation:ans1]]
-</text>
+ \[\frac{d}{d@v@}(@p@).\]
+ 
+ [[input:ans1]] [[validation:ans1]]</text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[The derivative of $e^z$ with respect to $z$ is $e^z$, so
-
-\[\begin{array}{rcl}\displaystyle
-\frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
-   &\displaystyle =&\displaystyle  @diff(p,v)@
- \end{array}\] ]]></text>
+ 
+ \[\begin{array}{rcl}\displaystyle
+ \frac{d}{d@v@}(@p@) &\displaystyle =&\displaystyle  @rdm1@@p@ \\
+    &\displaystyle =&\displaystyle  @diff(p,v)@
+  \end{array}\]]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>v:x;
-rdm1:(rand(6)+2)/pi;
-p:exp(rdm1*v);</text>
+ rdm1:(rand(6)+2)/pi;
+ p:exp(rdm1*v);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
@@ -3020,6 +3089,11 @@ p:exp(rdm1*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1375287114</deployedseed>
+    <deployedseed>122774232</deployedseed>
+    <deployedseed>1356546627</deployedseed>
+    <deployedseed>778831050</deployedseed>
+    <deployedseed>1707910054</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -3074,7 +3148,7 @@ p:exp(rdm1*v);</text>
     </qtest>
   </question>
 
-<!-- question: 136  -->
+<!-- question: 79  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-4.b</text>
@@ -3089,7 +3163,7 @@ p:exp(rdm1*v);</text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
-      <text>v:z;
+      <text>v:rand([x,z,t]);
 rdm:rand(5)+2;
 p:log(rdm*v);</text>
     </questionvariables>
@@ -3209,6 +3283,11 @@ p:log(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>846458427</deployedseed>
+    <deployedseed>2093749180</deployedseed>
+    <deployedseed>1956487597</deployedseed>
+    <deployedseed>1008267436</deployedseed>
+    <deployedseed>1877288955</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -3250,7 +3329,7 @@ p:log(rdm*v);</text>
     </qtest>
   </question>
 
-<!-- question: 137  -->
+<!-- question: 80  -->
   <question type="stack">
     <name>
       <text>CR-Diff-01-basic-4.c</text>
@@ -3265,7 +3344,7 @@ p:log(rdm*v);</text>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <questionvariables>
-      <text>v:z;
+      <text>v:rand([x,z,t]);
 rdm:(2*rand(5)+1)/(2*rand(5)+2);
 p:log(rdm*v);</text>
     </questionvariables>
@@ -3385,6 +3464,13 @@ p:log(rdm*v);</text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1511370076</deployedseed>
+    <deployedseed>91492666</deployedseed>
+    <deployedseed>931946757</deployedseed>
+    <deployedseed>690465511</deployedseed>
+    <deployedseed>343310409</deployedseed>
+    <deployedseed>1335823310</deployedseed>
+    <deployedseed>1047719842</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>

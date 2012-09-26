@@ -374,7 +374,7 @@ $string['stackOptions_AnsTest_values_StringSloppy']       =  'StringSloppy';
 $string['stackOptions_AnsTest_values_RegExp']             =  'RegExp';
 
 $string['AT_NOTIMPLEMENTED']        = 'Tämä tarkistustestiä ei ole käytössä. ';
-$string['TEST_FAILED']              = 'Tarkistustesti ei toiminut.  Ilmoita opettajalle tai järjestelmän ylläpitäjälle.';
+$string['TEST_FAILED']              = 'Tarkistustesti ei toiminut.  Ilmoita opettajalle tai järjestelmän ylläpitäjälle. {$a->errors}';
 $string['AT_MissingOptions']        = 'CAS lisävalinnat-kentän muuttuja puuttuu.';
 $string['AT_InvalidOptions']        = 'Lisävalinnat kenttä ei kelpaa. {$a->errors}';
 

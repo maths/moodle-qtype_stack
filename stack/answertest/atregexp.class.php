@@ -24,8 +24,8 @@ class stack_anstest_atregexp extends stack_anstest {
 
     public function do_test() {
         if ($this->atoption == null) {
-            $this->aterror = 'Missing regular expression in CAS Option field';
-            $this->atfeedback = ' stack_trans("TEST_FAILED");';
+            $this->aterror = stack_string('ATRegEx_missing_option');
+            $this->atfeedback = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atansnote = 'STACKERROR_OPTION_REGEX';
             $this->atmark = 0;
             $this->atvalid = false;

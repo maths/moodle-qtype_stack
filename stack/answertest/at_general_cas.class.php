@@ -88,7 +88,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ($this->processcasoptions) {
             if (null == $this->atoption or '' == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   =  stack_string("TEST_FAILED").stack_string("AT_MissingOptions");
+                $this->atfeedback   =  stack_string('TEST_FAILED', array('errors' => 'stack_string("AT_MissingOptions")'));
                 $this->atansnote    = 'STACKERROR_OPTION';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -99,9 +99,8 @@ class stack_answertest_general_cas extends stack_anstest {
 
                 if (!$ct->get_valid('t', true, true)) {
                     $this->aterror      = 'TEST_FAILED';
-                    $this->atfeedback   = stack_string("TEST_FAILED");
-                    $errors = $ct->get_errors();
-                    $this->atfeedback  .= stack_string('AT_InvalidOptions', array("errors" => $errors));
+                    $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
+                    $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $ct->get_errors()));
                     $this->atansnote    = 'STACKERROR_OPTION';
                     $this->atmark       = 0;
                     $this->atvalid      = false;
@@ -138,7 +137,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         if (''!=$session->get_errors_key('STACKSA')) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = ' stack_trans("TEST_FAILED"); ';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKSA')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_SAns';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -147,7 +146,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         if (''!=$session->get_errors_key('STACKTA')) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string("TEST_FAILED");
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_TAns';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -156,7 +155,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         if (''!=$session->get_errors_key('result')) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string("TEST_FAILED");
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('result')));
             $this->atansnote    = $this->casfunction.'_STACKERROR_result';
             $this->atmark       = 0;
             $this->atvalid      = false;

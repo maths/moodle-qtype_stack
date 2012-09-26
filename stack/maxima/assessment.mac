@@ -269,6 +269,8 @@ ineqprepare(ex) := block([op2,ex2],
 /* A general all purpose function on **expressions**.
    Takes two objects and returns true if they are equal, and false otherwise
    This is a "bash as hard as possible" function
+
+   26/9/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
 */
 algebraic_equivalence(SA,SB) :=
     block([keepfloat,trigexpand,logexpand,ex,vi],
@@ -284,12 +286,12 @@ algebraic_equivalence(SA,SB) :=
     ex:rectform(ex),
     ex:exponentialize(ex),
     /* ex:trigreduce(ex), CJS, removed 21/1/2010.  This was breaking ATSingleFrac!  Don't know why. */
-    if fullratsimp(ex)=0 then return(true),
+    if ratsimp(ex)=0 then return(true),
     ex:radcan(ex),
     ex:factcomb(ex),
-    if fullratsimp(ex)=0 then return(true),
+    if ratsimp(ex)=0 then return(true),
     for vi:1 while ex#sqrtdenest(ex) do ex:sqrtdenest(ex),
-    if fullratsimp(ex)=0 then return(true) else return(false)
+    if ratsimp(ex)=0 then return(true) else return(false)
     )$
 
 /* This function takes two expressions.

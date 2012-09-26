@@ -88,7 +88,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if ($this->processcasoptions) {
             if (null == $this->atoption or '' == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   =  stack_string('TEST_FAILED', array('errors' => 'stack_string("AT_MissingOptions")'));
+                $this->atfeedback   =  stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
                 $this->atansnote    = 'STACKERROR_OPTION';
                 $this->atmark       = 0;
                 $this->atvalid      = false;

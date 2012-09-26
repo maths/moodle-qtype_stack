@@ -195,6 +195,7 @@ detexcolor(ex):=block([argsex],
   if atom(ex) then return(ex),
   argsex:args(ex),
   if op(ex)=texcolor then return(detexcolor(argsex[2])),
+  if op(ex)="/" then return(detexcolor(argsex[1])/detexcolor(argsex[2])),
   map(detexcolor,ex)
 )$
 
@@ -202,6 +203,7 @@ detexdecorate(ex):=block([argsex],
   if atom(ex) then return(ex),
   argsex:args(ex),
   if op(ex)=texdecorate then return(detexdecorate(argsex[2])),
+  if op(ex)="/" then return(detexdecorate(argsex[1])/detexdecorate(argsex[2])),
   map(detexdecorate,ex)
 )$
 

@@ -307,7 +307,8 @@ class stack_inputvalidation_test_data {
         array('x_y', 'php_true', 'x_y', 'cas_true', ""),
         array('([x)]', 'php_false', '([x)]', '', ""),
         array('if(x,y,z)', 'php_true', 'if(x,y,z)', 'cas_true', ""),
-    );
+        array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true', ""),
+        );
 
     public static function get_raw_test_data() {
         return self::$rawdata;

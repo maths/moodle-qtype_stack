@@ -298,6 +298,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
+    public function format_hint(question_hint $hint, question_attempt $qa) {
+        if (empty($hint->hint)) {
+            return '';
+        }
+
+        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, true);
+
+        if ($hinttext->get_errors()) {
+            throw new stack_exception('Error rendering the hint text: ' . $gftext->get_errors());
+        }
+
+        return parent::format_hint(new question_hint($hint->id,
+                $hinttext->get_display_castext(), $hint->hintformat), $qa);
+    }
+
     public function format_generalfeedback($qa) {
         if (empty($this->generalfeedback)) {
             return '';
@@ -392,6 +407,19 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $this->inputstates[$name];
     }
 
+    /**
+     * @param array $response the current response being processed.
+     * @return boolean whether any of the inputs are blank.
+     */
+    public function is_any_input_blank(array $response) {
+        foreach ($this->inputs as $name => $input) {
+            if (stack_input::BLANK == $this->get_input_state($name, $response)->status) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function is_any_part_invalid(array $response) {
         // Invalid if any input is invalid, ...
         foreach ($this->inputs as $name => $input) {
@@ -432,8 +460,16 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_validation_error(array $response) {
-        // We don't use this method, but the interface requires us to have implemented it.
-        return '';
+        if ($this->is_any_part_invalid($response)) {
+            // There will already be a more specific validation error displayed.
+            return '';
+
+        } else if ($this->is_any_input_blank($response)) {
+            return get_string('pleaseananswerallparts', 'qtype_stack');
+
+        } else {
+            return get_string('pleasecheckyourinputs', 'qtype_stack');
+        }
     }
 
     public function grade_response(array $response) {
@@ -672,6 +708,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 array('prtnodefalsefeedback', 'prtnodetruefeedback'))) {
             // This is a bit lax, but anything else is computationally very expensive.
             return $options->feedback;
+
+        } else if ($component == 'question' && $filearea == 'hint') {
+            return $this->check_hint_file_access($qa, $options, $args);
 
         } else {
             return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);

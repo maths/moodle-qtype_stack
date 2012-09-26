@@ -73,9 +73,18 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
-        return $this->question_tests_link($question, $options) .
-                $question->format_text($questiontext, $question->questiontextformat,
+        $result = '';
+        $result .= $this->question_tests_link($question, $options);
+        $result .= $question->format_text($questiontext, $question->questiontextformat,
                 $qa, 'question', 'questiontext', $question->id);
+
+        if ($qa->get_state() == question_state::$invalid) {
+            $result .= html_writer::nonempty_tag('div',
+                    $question->get_validation_error($response),
+                    array('class' => 'validationerror'));
+        }
+
+        return $result;
     }
 
     /**

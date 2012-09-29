@@ -80,9 +80,11 @@ class stack_answertest_general_cas extends stack_anstest {
 
         if ('' == trim($this->sanskey)) {
             throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty sans field.');
+            //$this->sanskey = 'EMPTY';
         }
         if ('' == trim($this->tanskey)) {
             throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty tans field.');
+            //$this->tanskey = 'EMPTY';
         }
 
         if ($this->processcasoptions) {

@@ -37,6 +37,7 @@ class stack_anstest_numabsolute_test extends qtype_stack_testcase {
         $at = new stack_anstest_numabsolute('1.01', '1');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
+        $this->assertTrue($at->required_atoptions());
     }
 
     public function test_is_false_for_unequal_expressions() {

@@ -314,6 +314,11 @@ $string['testingquestion'] = 'Testing question {$a}';
 $string['testinputs'] = 'Test inputs';
 $string['testthisvariant'] = 'Switch to test this variant';
 $string['undeploy'] = 'Un-deploy';
+$string['deploymany'] = 'Attempt to automatically deploy the following number of variants:';
+$string['deploymanynotes'] = 'Note, STACK will give up if there are 3 failed attempts to generate a new question note, or when one question test fails.';
+$string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" variants.';
+$string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
+$string['deploymanysuccess'] = 'Number of new variants successfully created, tested and deployed: {$a->no}.';
 
 // Support scripts (CAS chat, healthcheck, etc.)
 $string['all'] = 'All';

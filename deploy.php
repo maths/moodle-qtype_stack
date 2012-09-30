@@ -70,4 +70,79 @@ if (!is_null($undeploy)) {
     redirect($nexturl);
 }
 
-redirect($nexturl);
+$deploy = optional_param('deploymany', null, PARAM_INT);
+$deploytxt = optional_param('deploymany', null, PARAM_TEXT);
+if (!is_null($deploy)) {
+
+    if (0==$deploy) {
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err'=>$deploytxt)));
+        redirect($nexturl);
+    }
+
+    $maxfailedattempts = 3;
+    $failedattempts = 0;
+    $numberdeployed = 0;
+
+    while($failedattempts<$maxfailedattempts and $numberdeployed<$deploy) {
+        // Genrate a new seed
+        $seed = mt_rand();
+        $variantdeployed = false;
+
+        // Reload the question to ensure any new deployed version is included.
+        $question = question_bank::load_question($questionid);
+        $question->seed = (int) $seed;
+        $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
+        $quba->set_preferred_behaviour('adaptive');
+        $slot = $quba->add_question($question, $question->defaultmark);
+        $quba->start_question($slot);
+
+        foreach ($question->deployedseeds as $key => $deployedseed) {
+            $qn = question_bank::load_question($questionid);
+            $qn->seed = (int) $deployedseed;
+            $cn = $qn->get_context();
+            $qunote = question_engine::make_questions_usage_by_activity('qtype_stack', $cn);
+            $qunote->set_preferred_behaviour('adaptive');
+            $slotnote = $qunote->add_question($qn, $qn->defaultmark);
+            $qunote->start_question($slotnote);
+
+            // Check if the question note has already been deployed.
+            if ($qn->get_question_summary() == $question->get_question_summary()) {
+                $variantdeployed = true;
+                $failedattempts++;
+            }
+
+        }
+
+        if (!$variantdeployed) {
+            // Load the list of test cases.
+            $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
+            // Exectue the tests.
+            $testresults = array();
+            $allpassed = true;
+            foreach ($testscases as $key => $testcase) {
+                $testresults[$key] = $testcase->test_question($quba, $question, $seed);
+                if (!$testresults[$key]->passed()) {
+                    $nexturl->param('seed', $seed);
+                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no'=>$numberdeployed)));
+                    $nexturl->param('deployfeedbackerr', stack_string('stackInstall_testsuite_fail'));
+                    redirect($nexturl);
+                }
+            }
+
+            // Actually deploy the question.
+            $record = new stdClass();
+            $record->questionid = $question->id;
+            $record->seed = $seed;
+            $DB->insert_record('qtype_stack_deployed_seeds', $record);
+            $numberdeployed++;
+        }
+    }
+
+    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no'=>$numberdeployed)));
+    $nexturl->param('seed', $seed);
+    if ($failedattempts>=$maxfailedattempts) {
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanynonew'));
+    }
+    redirect($nexturl);
+}
+

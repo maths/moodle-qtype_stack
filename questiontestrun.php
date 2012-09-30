@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+// along with STACK.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * This script lets the user test a question using any question tests defined
@@ -93,6 +93,15 @@ foreach ($testscases as $key => $testcase) {
 // Start output.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
+
+$deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
+if (!is_null($deployfeedback)) {
+    echo html_writer::tag('p', $deployfeedback, array('class' => 'overallresult pass'));
+}
+$deployfeedbackerr = optional_param('deployfeedbackerr', null, PARAM_TEXT);
+if (!is_null($deployfeedbackerr)) {
+    echo html_writer::tag('p', $deployfeedbackerr, array('class' => 'overallresult fail'));
+}
 
 // Display the list of deployed variants, with UI to edit the list.
 echo $OUTPUT->heading(get_string('deployedvariants', 'qtype_stack'), 3);
@@ -188,6 +197,23 @@ if ($question->has_random_variants()) {
 
     echo html_writer::end_tag('p');
     echo html_writer::end_tag('form');
+
+// Deploy many variants
+    if ($canedit) {
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
+                'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+        echo html_writer::start_tag('p');
+        echo html_writer::input_hidden_params($PAGE->url, array('seed'));
+
+        echo html_writer::tag('label', get_string('deploymany', 'qtype_stack'));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 4,
+                'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => ''));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+        echo html_writer::tag('label', ' '.get_string('deploymanynotes', 'qtype_stack'));
+
+        echo html_writer::end_tag('p');
+        echo html_writer::end_tag('form');
+    }
 }
 
 // Display the question.

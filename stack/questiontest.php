@@ -138,7 +138,9 @@ class stack_question_test {
             if ('' == $computedinput) {
                 $computedinput = $inputs[$name];
             }
-            $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($computedinput));
+            if (array_key_exists($name,$question->inputs)) {
+                $response = array_merge($response, $question->inputs[$name]->maxima_to_response_array($computedinput));
+            }
         }
         return $response;
     }

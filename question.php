@@ -401,10 +401,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         $forbiddenkeys = $this->session->get_all_keys();
         $teacheranswer = $this->session->get_value_key($name);
-        $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
+        if (array_key_exists($name,$this->inputs)) {
+            $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $forbiddenkeys);
-
-        return $this->inputstates[$name];
+            return $this->inputstates[$name];
+        }
+        return '';
     }
 
     /**

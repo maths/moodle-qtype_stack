@@ -6,7 +6,15 @@ STACK is distributed with sample questions in
 
 The sample questions are in English.
 
-We would encourage colleagues to release their materials under a creative commons licence.
+We would encourage colleagues to release their materials under a creative commons licence.  Please contact the developers.
+
+# Moodle courses released with STACK #
+
+STACK is released with a demonstration course.
+
+     /qtype_stack/samplequestions/STACK-demo.mbz
+
+This contains many of the materials listed below.  You can "restore" this into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed versions. 
 
 # Materials released with STACK #
 

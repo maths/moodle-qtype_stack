@@ -974,7 +974,7 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
   /* Special situation for the linear case to avoid strange results */
   if deg=1 then block([lt],
     lt:ev(bothcoef(p,v),simp),
-    if lt[1]=1 or lt[2]= 1 then ret:[true,""]
+    if lt[1]=1 or lt[2]=1 then ret:[true,""]
   ),
   /* Special case of quadratics, which are irreducible over the rationals */
   if deg=2 then block([a,b,c,q],
@@ -988,6 +988,13 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
   ),
   /* Check we have a common integer factor: note can't use GCD function which only allows 2 arguments */
   if length(cl)>1 and ci and commonfaclist(cl)>1 then ret:[false,StackAddFeedback("","irred_Q_commonint")],
+  /* Check we have a common integer factor: note can't use GCD function which only allows 2 arguments */
+  if deg>2 then block([q],
+    /* take out any integer common factor */
+    q:p,
+    if length(cl)>1 and ci then q:expand(p/commonfaclist(cl)),
+    if is(q#factor(q)) then ret:[false,StackAddFeedback("","irred_Q_common_fac")]
+  ),
   return(ret)
 );
 

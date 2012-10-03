@@ -203,8 +203,6 @@ if ($question->has_random_variants()) {
         echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
                 'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
         echo html_writer::start_tag('p');
-        //echo html_writer::input_hidden_params($PAGE->url, array('seed'));
-        //echo html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()));
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
 
         echo html_writer::tag('label', get_string('deploymany', 'qtype_stack'));

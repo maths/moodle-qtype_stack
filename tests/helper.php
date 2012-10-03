@@ -221,7 +221,7 @@ class qtype_stack_test_helper extends question_test_helper {
                         array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0',
                         array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
-        $q->inputs['ans4'] = stack_input_factory::make('boolean',   'ans4', 'true');
+        $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true');
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null, 't');
         $sans = new stack_cas_casstring('sa');

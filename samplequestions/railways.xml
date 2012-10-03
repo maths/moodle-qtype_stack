@@ -36,10 +36,10 @@ tsys1:maplist(stack_eqnprepare,[v*t=90 , (v+5)*(t-15)=90]);</text>
       <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
     <prtpartiallycorrect format="html">
-      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+      <text><![CDATA[<p><span class="incorrect">Your answer is partially correct.</span></p>]]></text>
     </prtpartiallycorrect>
     <prtincorrect format="html">
-      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+      <text><![CDATA[<p><span class="partially">Incorrect answer.</span></p>]]></text>
     </prtincorrect>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>

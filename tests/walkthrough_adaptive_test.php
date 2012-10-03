@@ -611,6 +611,82 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
     }
 
+    public function test_test3_submit_wrong_response_correct_then_stubmit() {
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test3');
+        $this->start_attempt_at_question($q, 'adaptive', 4);
+    
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_contains_text_input('ans3');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+        $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+    
+        // Try to submit a response:
+        // 1. all parts wrong but valid
+        $this->process_submission(array('ans1' => 'x^2', 'ans2' => 'x^3', 'ans3' => '1+x^3', 'ans4' => 'false', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^2');
+        $this->check_output_contains_text_input('ans2', 'x^3');
+        $this->check_output_contains_text_input('ans3', '1+x^3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_prt_feedback('odd');
+        $this->check_output_does_not_contain_prt_feedback('even');
+        $this->check_output_does_not_contain_prt_feedback('oddeven');
+        $this->check_output_contains_prt_feedback('unique');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+    
+        // Submit again without editing. 
+        $this->process_submission(array('ans1' => 'x^2', 'ans2' => 'x^3', 'ans3' => '1+x^3', 'ans4' => 'false',
+                'ans1_val' => 'x^2', 'ans2_val' => 'x^3', 'ans3_val' => '1+x^3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->render();
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_contains_prt_feedback('odd');
+        $this->check_output_contains_prt_feedback('even');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_contains_prt_feedback('unique');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', true),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+        $this->check_current_output(
+                new question_pattern_expectation('/Incorrect answer./')
+        );
+        $this->check_current_output(
+                new question_no_pattern_expectation('/Your answer is partially correct./')
+        );
+        
+    }
+
     public function test_test3_save_invalid_response_correct_then_stubmit() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');

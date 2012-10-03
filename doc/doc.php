@@ -42,7 +42,7 @@ if (substr($_SERVER['REQUEST_URI'], -7) == 'doc.php') {
     exit();
 }
 
-require_login();
+//require_login();
 
 $moodleroot = $CFG->dirroot;
 $webroot = $CFG->wwwroot;

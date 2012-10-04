@@ -85,9 +85,9 @@ Exactly what it does depends on what objects are given to it.
 
 ### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 
-This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, $2x+y=y+2x$ but $x+x+y\neq 2x+y$.  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
+This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
 
-Notice that this test does not include laws of indices, so $x\times x \neq x^2$. Since we are dealing only with nouns $-\times -$ does not simplify to $1$. E.g. $-x\times -x \neq x\times x \neq x^2$.  An extra re-write rule could be added to achieve this, which would change the equivalence classes.
+Notice that this test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  An extra re-write rule could be added to achieve this, which would change the equivalence classes.
 
 This is a particularly useful test for checking that an answer is the same and simplified.
 
@@ -146,13 +146,13 @@ are fully simplified, as long as they are irreducible.
 
 Irreducibility on the other hand means we can't find further factors, but here we need some care.
 
-Consider $x^8+16x^4+48$.
+Consider \(x^8+16x^4+48\).
 
-1. Any non-trivial factorization, e.g. $(x^4+4)(x^4+12)$.
-2. A factorization into irreducible factors over the integers/rational numbers, i.e. $(x^2+2x+x)(x^2-2x+2)(x^4+12)$.
-3. A factorization into terms irreducible over the reals, i.e. $(x^2+2x+x)(x^2-2x+2)(x^2+2\sqrt[4]{3}x+2\sqrt[4]{3})(x^2-2\sqrt[4]{3}x+2\sqrt[4]{3})$.
-4. A factorization into irreducible polynomials over the Gaussian integers, with $i$ allowed, i.e. $(x+1+i)(x+1-i)(x-1+i)(x-1-i)(x^4+12)$.
-5. A factorization over the complex numbers, where the factor $(x^4+12)$ would also be split into the four terms $x\pm\sqrt[4]{3}(1\pm i)$.
+1. Any non-trivial factorization, e.g. \((x^4+4)(x^4+12)\).
+2. A factorization into irreducible factors over the integers/rational numbers, i.e. \((x^2+2x+x)(x^2-2x+2)(x^4+12)\).
+3. A factorization into terms irreducible over the reals, i.e. \((x^2+2x+x)(x^2-2x+2)(x^2+2\sqrt[4]{3}x+2\sqrt[4]{3})(x^2-2\sqrt[4]{3}x+2\sqrt[4]{3})\).
+4. A factorization into irreducible polynomials over the Gaussian integers, with \(i\) allowed, i.e. \((x+1+i)(x+1-i)(x-1+i)(x-1-i)(x^4+12)\).
+5. A factorization over the complex numbers, where the factor \((x^4+12)\) would also be split into the four terms \(x\pm\sqrt[4]{3}(1\pm i)\).
 
 In elementary teaching, meaning 4. is unlikely to occur.
 Indeed, we might take this example to represent factoring over
@@ -167,7 +167,7 @@ The FacForm test establishes that the expression is factored
 over the rational numbers.  If the coefficients of the
 polynomial are all real, at worst you will have quadratic
 irredicible terms.  There are some delicate cases such as:
-$(2-x)(3-x)$ vs  $(x-2)(x-3)$  and $(1-x)^2$ vs $(x-1)^2$,
+\((2-x)(3-x)\) vs  \((x-2)(x-3)\)  and \((1-x)^2\) vs \((x-1)^2\),
 which this test will cope with.
 
 # Precision 			{#Precision}

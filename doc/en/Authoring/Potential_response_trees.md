@@ -43,7 +43,7 @@ The outcomes are
 
 ### Question Value 			{#Question_value}
 
-The potential response tree itself is expected to return a numerical raw score between $0$ and $1$.
+The potential response tree itself is expected to return a numerical raw score between \(0\) and \(1\).
 This number is multiplied by the question value before being returned to the student as [feedback](Feedback.md) or recorded in the database.
 
 ### Answer note 			{#Answer_note}

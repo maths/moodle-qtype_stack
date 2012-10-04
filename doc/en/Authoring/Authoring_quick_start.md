@@ -25,7 +25,7 @@ We are now ready to edit an example question.  The question name is compulsory i
 
 Ensure the question text contains the following information. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
 
-	Differentiate $(x-1)^3$ with respect to $x$.
+	Differentiate \((x-1)^3\) with respect to \(x\).
 	[[input:ans1]]
     [[validation:ans1]]
 
@@ -201,7 +201,7 @@ Modify the [question variables](KeyVals.md#Question_variables) from the previous
 
 Then change the [question text](CASText.md#question_text) to
 
-	Differentiate @p@ with respect to $x$.
+	Differentiate @p@ with respect to \(x\).
 	[[input:ans1]]
     [[validation:ans1]]
 
@@ -211,7 +211,7 @@ and in the inputs change the model answer to
 
 Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `$` symbols and `@` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `$`s, and CAS expressions (including your variables) between `@` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
 
-Since we have used `@p@` here, the user will not see a $p$ on the screen when the question is instantiated, but the _displayed value_ of `p`.
+Since we have used `@p@` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
 
 Notice also that in the model answer there is a CAS command to differentiate the value of `p` with respect to `x`.
 It is necessary for the CAS to work out the answer in a random question.

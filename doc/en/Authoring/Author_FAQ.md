@@ -39,7 +39,7 @@ Details of how to load STACK functions into a command line Maxima session are gi
 ## How can I confirm my student's answer is fully simplified? ##
 
 The philosophy of STACK is to establish properties of the student's answer.  "Simplify" is an ambiguous notion.
-For example, $1$ is simpler than $2^0$ but $2^{2^{10}}$ is probably simpler than writing the integer it represents in decimals.  Everyone would agree that $x+2$ is simpler than $\frac{x^2-4}{x-2}$, but we might argue that the first expression below is simpler.
+For example, \(1\) is simpler than \(2^0\) but \(2^{2^{10}}\) is probably simpler than writing the integer it represents in decimals.  Everyone would agree that \(x+2\) is simpler than \(\frac{x^2-4}{x-2}\), but we might argue that the first expression below is simpler.
 \[ \frac{x^{12}-1}{x-1} =  x^{11}+x^{10}+x^9+x^8+x^7+x^6+x^5+x^4+x^3+x^2+x+1.\]
 
 Simplify is often taken implicitly to mean "the shortest equivalent expression", but this issue is often not discussed.  

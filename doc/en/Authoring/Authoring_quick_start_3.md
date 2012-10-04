@@ -12,7 +12,7 @@ Where \(a\), \(b\) and \(n\) are randomly generated numbers.
 
 It is tempting when writing questions such as this to operate at the _level of display._  We could randomly generate \(a\), \(b\) and \(n\) and insert them into the question text.  For example:
 
-     $\right(@a@e^{@b@ i}\left)^{@n@}$
+     \(\right(@a@e^{@b@ i}\left)^{@n@}\)
 
 What we are doing here is to treat every variable separately, not to create a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because it mixes CAS and LaTeX.
 
@@ -42,7 +42,7 @@ In particular, we are going to define the question variables as follows.
     q : a*%e^(b*%i*%pi);
     p : ev(mod(b*n,2),simp);
 
-The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  The difficulty is often with the unary minus.  Inserting numbers into expressions such as `y=@m@x+@c@$` if $c<0$ is that it will be displayed as $y=3x+-5$, for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
+The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  The difficulty is often with the unary minus.  Inserting numbers into expressions such as `y=@m@x+@c@` if \(c<0\) is that it will be displayed as \(y=3x+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
 
 ## The importance of the question note ##
 
@@ -66,9 +66,9 @@ This question has two independent parts.  Hence, it probably needs two separate 
 
 The question text might look something like the following:
 
-    Given a complex number $\displaystyle z=@q@$ determine
-    $|z^{@n@}|=$[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
-    and $\arg(z^{@n@})=$[[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
+    Given a complex number \(\displaystyle z=@q@\) determine
+    \( |z^{@n@}|= \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
+    and \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
 
 Update the form.  Because there are two inputs and two potential response trees these will be automatically created.
 
@@ -79,7 +79,7 @@ We need to supply _correct_ answers for each part.  In terms of our question var
 
 ## Assessment of the answers ##
 
-It is unlikely that the purpose of this question is to decide if the student can work out powers of integers.  So we will assume it is acceptable to enter an answer such as $a^b$ for the first part, rather than calculating this as an integer.  If the randomization was more conservative, this calculation might be an additional goal of the question. 
+It is unlikely that the purpose of this question is to decide if the student can work out powers of integers.  So we will assume it is acceptable to enter an answer such as \(a^b\) for the first part, rather than calculating this as an integer.  If the randomization was more conservative, this calculation might be an additional goal of the question. 
 
 Hence, for `prt1` fill in the following information
 
@@ -89,7 +89,7 @@ Hence, for `prt1` fill in the following information
 
 If you really want to test for the integer, you need to calculate `ev(a^n,simp)` and then use the `EqualComAss` test to establish the student has the right integer.
 
-For `prt2` we need to establish the student has the right argument.  Since this is modulo $2\pi$ we can use the trigonometrical functions.  Fill in the following information
+For `prt2` we need to establish the student has the right argument.  Since this is modulo \(2\pi\) we can use the trigonometrical functions.  Fill in the following information
 
     sans:[cos(ans2),sin(ans2)]
     tans:[cos(n*b*%pi),sin(n*b*%pi)]
@@ -107,7 +107,7 @@ Please create some question tests!  This will save time in the long term, by ena
     ans1:a^b
     ans2:n*b*%pi
     
-as the two correct answers, and then incorrect answers to ensure these are being trapped.  If you have enforced the _form_ of the answer, i.e. _integer representation_ for `ans1` and _principle argument_ for `ans2`, you need to add tests to distinguish between these.  For the first part $a^n$ and the integer it represents, i.e. `ev(a^n,simp)`.  For the second part between $b\times n$ and the variable `q`.
+as the two correct answers, and then incorrect answers to ensure these are being trapped.  If you have enforced the _form_ of the answer, i.e. _integer representation_ for `ans1` and _principle argument_ for `ans2`, you need to add tests to distinguish between these.  For the first part \(a^n\) and the integer it represents, i.e. `ev(a^n,simp)`.  For the second part between \(b\times n\) and the variable `q`.
 
 ## General feedback ##
 
@@ -117,7 +117,7 @@ The general feedback (previously known as the worked solution) can show some of 
     \[ @q^n@ =@a^n@ e^{@b*n*%i*%pi@}.\]
     Recall that
     \[ e^{i\theta} = \cos(\theta)+i\sin(\theta).\]
-    Working with the principle argument $0\leq \theta \leq 2\pi$ gives us
+    Working with the principle argument \( 0\leq \theta \leq 2\pi \) gives us
     \[ @q^n@ = @a^n@ e^{@b*n*%i*%pi@} = @a^n@ e^{@ev(b*n,simp)*%i*%pi@} = @a^n@ e^{@p*%i*%pi@}.\]
 
 # Next steps #

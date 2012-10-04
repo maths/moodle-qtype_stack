@@ -197,15 +197,12 @@ function do_display_math($text) {
 }mx',
     '_do_display_math_callback', $text);
 
-    $text = str_replace('\(', '$', $text);
-    $text = str_replace('\)', '$', $text);
-
     return $text;
 }
 
 function _do_display_math_callback($matches) {
     $texblock = $matches[1];
     $texblock = trim($texblock);
-    $texblock = "$$ $texblock  $$";
+    $texblock = "\[ $texblock  \]";
     return "\n\n".$texblock."\n\n";
 }

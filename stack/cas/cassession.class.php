@@ -64,7 +64,7 @@ class stack_cas_session {
     private $errors;
 
     /**
-     * @var boolean
+     * @var string
      */
     private $debuginfo;
 

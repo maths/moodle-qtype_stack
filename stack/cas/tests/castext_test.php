@@ -25,7 +25,7 @@ require_once(dirname(__FILE__) . '/../castext.class.php');
  */
 class stack_cas_text_test extends qtype_stack_testcase {
 
-    public function get_valid($strin, $sa, $val, $disp) {
+    public function basic_castext_instantiation($strin, $sa, $val, $disp) {
 
         if (is_array($sa)) {
             $s1=array();
@@ -42,7 +42,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($disp, $at1->get_display_castext());
     }
 
-    public function test_get_valid() {
+    public function test_basic_castext_instantiation() {
 
         $a1 = array('a:x^2', 'b:(x+1)^2');
         $a2 = array('a:x^2)', 'b:(x+1)^2');
@@ -51,21 +51,23 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('', null, true, ''),
                 array('Hello world', null, true, 'Hello world'),
                 array('$x^2$', null, true, '$x^2$'),
-                array('@x*x^2@', null, true, '$x^3$'),
-                array('@1+2@', null, true, '$3$'),
+                array('$$@x^2@$$', null, true, '$$x^2$$'),
+                array('\(x^2\)', null, true, '\(x^2\)'),
+                array('@x*x^2@', null, true, '\(x^3\)'),
+                array('@1+2@', null, true, '\(3\)'),
                 array('\[@x^2@\]', null, true, '\[x^2\]'),
                 array('\[@a@\]', $a1, true, '\[x^2\]'),
-                array('@a@', $a1, true, '$x^2$'),
-                array('@sin(x)@', $a1, true, '$\sin \left( x \right)$'),
+                array('@a@', $a1, true, '\(x^2\)'),
+                array('@sin(x)@', $a1, true, '\(\sin \left( x \right)\)'),
                 array('\[@a*b@\]', $a1, true, '\[x^2\cdot \left(x+1\right)^2\]'),
                 array('@', null, false, false),
                 array('@(x^2@', null, false, false),
-                array('@1/0@', null, true, '$1/0$'),
+                array('@1/0@', null, true, '\(1/0\)'),
                 array('@x^2@', $a2, false, false),
         );
 
         foreach ($cases as $case) {
-            $this->get_valid($case[0], $case[1], $case[2], $case[3]);
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
         }
 
     }
@@ -74,7 +76,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $ct = new stack_cas_text('Here @x@ is some @@PLUGINFILE@@ @x + 1@ some input', null, 0);
         $this->assertTrue($ct->get_valid());
         $this->assertEquals(array('x', 'x + 1'), $ct->get_all_raw_casstrings());
-        $this->assertEquals('Here $x$ is some @@PLUGINFILE@@ $x+1$ some input', $ct->get_display_castext());
+        $this->assertEquals('Here \(x\) is some @@PLUGINFILE@@ \(x+1\) some input', $ct->get_display_castext());
     }
 
     public function test_get_all_raw_casstrings() {
@@ -142,8 +144,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_redefine_variables() {
         // Notice this means that within a session the value of n has to be returned at every stage....
         $at1 = new stack_cas_text(
-                'Let $n$ be defined by @n:3@. Now add one to get @n:n+1@ and square the result @n:n^2@.', null, 0);
-        $this->assertEquals('Let $n$ be defined by $3$. Now add one to get $4$ and square the result $16$.',
+                'Let \(n\) be defined by @n:3@. Now add one to get @n:n+1@ and square the result @n:n^2@.', null, 0);
+        $this->assertEquals('Let \(n\) be defined by \(3\). Now add one to get \(4\) and square the result \(16\).',
                 $at1->get_display_castext());
     }
 
@@ -166,8 +168,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text("<hint>calc_diff_linearity_rule</hint>", $cs2, 0);
         $s1 = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                 'The Linearity Rule for Differentiation</h3>' .
-                '$${{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+' .
-                'b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant}$$</div>';
+                '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+' .
+                'b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant}\]</div>';
         $this->assertEquals($s1, $at1->get_display_castext());
     }
 

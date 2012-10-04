@@ -16,7 +16,7 @@ The following things to remember about CASText:
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
 * Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
 * Anything enclosed between `@` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
- * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `$@ stuff @$`, and that `@ stuff @` is sufficient.
+ * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\(@ stuff @\)`, and that `@ stuff @` is sufficient.
  * To get a displayed equation centred on a line of its own, you must use `\[@ stuff @\]`, as in LaTeX.
 * Multiple CAS expressions may appear in a single LaTeX equation, as needed.  For example `\[  \frac{@p@}{@q@} \]`.  Note that many problems are _best solved_ at the level of the CAS, e.g. by defining a variable `p/q` in the CAS, not at the level of display.  This is a design decision which needs experience to resolve efficiently in each case.  For an example of this, see the example [showing working](../CAS/Matrix.md#Showing_working).
 

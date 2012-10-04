@@ -56,18 +56,47 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $at = new stack_answertest_general_cas('1', '1', 'ATAlgEquiv');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
+        $this->assertEquals('', $at->get_at_feedback());
     }
 
     public function test_is_false_for_unequal_expressions_algequiv() {
         $at = new stack_answertest_general_cas('x^2+2*x-1', '(x+1)^2', 'ATAlgEquiv');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('', $at->get_at_feedback());
     }
 
     public function test_is_false_for_expressions_with_different_type_algequiv() {
         $at = new stack_answertest_general_cas('(x+1)^2', '[a,b,c]', 'ATAlgEquiv');
         $this->assertFalse($at->do_test());
+        print_r($at->get_debuginfo());
         $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_list');", $at->get_at_feedback());
+        $this->assertEquals("ATAlgEquiv_SA_not_list", $at->get_at_answernote());
+    }
+
+    public function test_algequivfeedback_1() {
+        $at = new stack_answertest_general_cas('[1,2]', '[1,2,3]', 'ATAlgEquiv');
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals("stack_trans('ATList_wronglen' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );", $at->get_at_feedback());
+        $this->assertEquals("ATList_wronglen", $at->get_at_answernote());
+    }
+
+    public function test_algequivfeedback_2() {
+        $at = new stack_answertest_general_cas('x', '{1,2,3}', 'ATAlgEquiv');
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_set');", $at->get_at_feedback());
+        $this->assertEquals("ATAlgEquiv_SA_not_set", $at->get_at_answernote());
+    }
+
+    public function test_algequivfeedback_3() {
+        $at = new stack_answertest_general_cas('{1,2}', '{1,2,3}', 'ATAlgEquiv');
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals("stack_trans('ATSet_wrongsz' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );", $at->get_at_feedback());
+        $this->assertEquals("ATSet_wrongsz", $at->get_at_answernote());
     }
 
     public function test_is_true_for_equal_expressions_comass() {

@@ -24,7 +24,7 @@ This is a simple, single part integral question with randomization.
 
 ### `test_2_rectangle.xml` ###
 
-A rectangle has length 6cm greater than its width. If it has an area of 27cm$^2$, find the dimensions of the rectangle.
+A rectangle has length 6cm greater than its width. If it has an area of 27cm\(^2\), find the dimensions of the rectangle.
 
 This is a multi-part question which illustrates _follow-through marking_.  Get the first part wrong, but the second part correct based on the first part to see the feedback.
 
@@ -42,7 +42,7 @@ See the [authoring quick start 3](Authoring_quick_start_3.md).
 
 In a railway journey of 90km an increase of 5 kilometers per hour in the speed decreases the time taken by 15 minutes.
 
-This question asks students to write a system of equations (one equation per line) to represent this situation using $v$ as the speed of the train and $t$ as the time.  This multi-part question uses the text area input method, and systems of equations answer test. 
+This question asks students to write a system of equations (one equation per line) to represent this situation using \(v\) as the speed of the train and \(t\) as the time.  This multi-part question uses the text area input method, and systems of equations answer test. 
 
 ### `tangent-line.xml` ###
 

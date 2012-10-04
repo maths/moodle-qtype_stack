@@ -4,11 +4,11 @@ This is the second part of the [authoring quick start](Authoring_quick_start.md)
 
 ### Example 1 ###
 
-Find the equation of the line tangent to \(x^3-2x^2+x\) at the point $x=2$.
+Find the equation of the line tangent to \(x^3-2x^2+x\) at the point \(x=2\).
 
-1. Differentiate \(x^3-2x^2+x\) with respect to $x$.
-2. Evaluate your derivative at $x=2$.
-3. Hence, find the equation of the tangent line. $y=...$
+1. Differentiate \(x^3-2x^2+x\) with respect to \(x\).
+2. Evaluate your derivative at \(x=2\).
+3. Hence, find the equation of the tangent line. \(y=...\)
 
 Since all three parts refer to one polynomial, if randomly generated questions are being used then each
 of these parts needs to reference a single randomly generated equation. Hence parts 1.-3. really form
@@ -108,10 +108,10 @@ __Question text__
 
 This text should be input directly in HTML mode.
 
-     <p>Find the equation of the line tangent to @p@ at the point $x=@pt@$.</p>
-     <p>1. Differentiate @p@ with respect to $x$. [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
-     <p>2. Evaluate your derivative at $x=@pt@$. [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
-     <p>3. Hence, find the equation of the tangent line. $y=$[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
+     <p>Find the equation of the line tangent to @p@ at the point \(x=@pt@\).</p>
+     <p>1. Differentiate @p@ with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+     <p>2. Evaluate your derivative at \(x=@pt@\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+     <p>3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
 
 Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question.
 Notice there is one potential response tree for each "part".
@@ -122,7 +122,7 @@ STACK has created the three potential response trees by detecting the feedback t
 
 ###Stage 1: getting a working question###
 
-The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure that $\mbox{ans}_i$ is algebraically equivalent to $\mbox{ta}_i$, for $i=1,2,3$.  At this stage we have a working question.  Save it and preview the question.  For reference the correct answers are
+The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure that \(\mbox{ans}_i\) is algebraically equivalent to \(\mbox{ta}_i\), for \(i=1,2,3\).  At this stage we have a working question.  Save it and preview the question.  For reference the correct answers are
 
      ans1 = 3*x^2-4*x+1
      ans2 = 5

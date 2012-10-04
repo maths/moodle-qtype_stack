@@ -17,7 +17,7 @@ Deploying a question variant chooses and fixes specific values for any random el
 
 Any number of instances can be requested and deployed but only one instance of each [question note](Question_note.md) can be deployed.  The teacher is responsible to ensure question variants are different if and only if the question notes are different.  The deployment management also allows specific variants to be dropped.  You can also return to the question preview window and try a specific deployed variant.
 
-_In STACK 2, it was possible to deploy $n$ variants in one go.  We have yet to re-implement this feature in STACK 3.  Only one variant may be deployed at a time.  Also, it would be nice to loop to look for variants which have not been deployed yet...._
+_In STACK 2, it was possible to deploy \(n\) variants in one go.  We have yet to re-implement this feature in STACK 3.  Only one variant may be deployed at a time.  Also, it would be nice to loop to look for variants which have not been deployed yet...._
 
 **If a question uses randomization then it must have at least one deployed instance before it can be presented to a student.**  Questions that don't use randomization cannot be deployed explicitly.  STACK automatically detects randomization.
 

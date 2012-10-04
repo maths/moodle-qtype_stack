@@ -729,8 +729,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'divide';
-        $q->questiontext = '<p>Give me $x$ such that $$1/x = 2$$</p>
-                            <p>$x = $ [[input:ans1]]</p>
+        $q->questiontext = '<p>Give me \(x\) such that \[1/x = 2\]</p>
+                            <p>\(x = \) [[input:ans1]]</p>
                             [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:prt1]]';

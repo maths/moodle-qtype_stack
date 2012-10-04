@@ -46,7 +46,7 @@ In this way, the teacher can record, within the question itself, how they expect
 8. You may add as many test cases are you need.  It is sensible to add in
  1. The correct response
  2. One example of each distinction you wish to make.  I.e. if you have added specific feedback then provide an answer you expect to trigger this.
- 3. Some "invalid" responses, especially if these are syntactically valid expressions.  E.g. If the answer is an equation such as $y=2x+1$, then $2x+1$ might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this. 
+ 3. Some "invalid" responses, especially if these are syntactically valid expressions.  E.g. If the answer is an equation such as \(y=2x+1\), then \(2x+1\) might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this. 
  4. Add a totally incorrect answer.
 
 Note, if you have used the question level option `simplify:false`, then this option will be respected when you construct your question tests.  In particular you will need to remember to

@@ -82,7 +82,7 @@ Think carefully about the expression `a/b/c`.  What do you think this means?  Th
 
 \[\frac{a}{b}\cdot\frac{1}{c} = \frac{a}{bc}\quad\mbox{or}\quad\frac{a}{\frac{b}{c}}=\frac{ac}{b}.\]
 
-Maxima interprets this as $\frac{a}{bc}$.  If in doubt use brackets.
+Maxima interprets this as \(\frac{a}{bc}\).  If in doubt use brackets.
 
 Note that in this context you should always use ordinary round bracket (like (a+b)), not square or curly ones (like [a+b] or {a+b}).
 

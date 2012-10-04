@@ -430,7 +430,7 @@ class stack_utils {
 
     public static function delimit_callback($matches) {
         if (!empty($matches[1])) {
-            return '$@' . $matches[1] . '@$';
+            return '\(@' . $matches[1] . '@\)';
         } else {
             return '@@';
         }

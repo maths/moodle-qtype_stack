@@ -57,7 +57,7 @@ if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
 
 // Some test data.
 $sampletex = '\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.';
-$samplecastext = 'The derivative of @ x^4/(1+x^4) @ is $$ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. $$';
+$samplecastext = 'The derivative of @ x^4/(1+x^4) @ is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \]';
 $sampleplots = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@  ' .
         '@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
 

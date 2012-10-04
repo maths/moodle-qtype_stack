@@ -60,7 +60,7 @@ There are a number of reasons why your answer could be considered to be invalid.
 Think about the form your answer should have before you type it in.
 
 * Sometimes the teacher may not let you type in certain strings for educational reasons.
-* Sometimes the teacher may not permit you to use floating point numbers, e.g. $0.33$.
+* Sometimes the teacher may not permit you to use floating point numbers, e.g. \(0.33\).
   In this case you should give an exact answer as, e.g. a fraction: `1/2` or a surd: `sqrt(2)`.
 * Some expressions make no mathematical sense at all, e.g. one divided by zero. These are also invalid.
 

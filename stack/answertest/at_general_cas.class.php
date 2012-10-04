@@ -44,6 +44,11 @@ class stack_answertest_general_cas extends stack_anstest {
     private $simp;
 
     /**
+     * $var string.  Copies the debug info from the CAS session.
+     */
+    private $debuginfo;
+
+    /**
      * @param  string $sans
      * @param  string $tans
      * @param  string $casoption
@@ -136,6 +141,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
         $session = new stack_cas_session($cts, $this->options, 0);
         $session->instantiate();
+        $this->debuginfo = $session->get_debuginfo();
 
         if (''!=$session->get_errors_key('STACKSA')) {
             $this->aterror      = 'TEST_FAILED';
@@ -191,6 +197,10 @@ class stack_answertest_general_cas extends stack_anstest {
 
     public function required_atoptions() {
         return $this->requiredoptions;
+    }
+
+    public function get_debuginfo() {
+        return $this->debuginfo;
     }
 
     /**

@@ -33,7 +33,7 @@ it must be validated.  In particular, at each attempt, each input is assigned a 
 
 Normally a student will view a displayed form of their expression and submit it again.  This default behaviour is inappropriate for multiple choice/selection interactions, and can be changed for each input using the option "Student must verify".  Whether the student's answer is echoed back and shown is controlled by a separate option "Show the validation".  Validation errors are always shown.
 
-Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. $i$ and $j$ change meaning in differnent contexts, e.g. $\sqrt{-1}$ or vector components.  See details about [options](Options.md).
+Whether a string entered by the student is valid or invalid does not depend on the question. I.e. there _should_ be a consistent mechanism for what constitutes a syntactically valid expression. However, in practice things are not quite so clean!  Some [input options](Inputs.md#Input_options) do affect validity, such as _forbid floats_.   Some symbols, e.g. \(i\) and \(j\) change meaning in differnent contexts, e.g. \(\sqrt{-1}\) or vector components.  See details about [options](Options.md).
 
 # Properties #
 
@@ -63,13 +63,13 @@ The numerical scores are assembled by traversing each potential response tree.
 
 STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(0.1=10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
 
-It works in the following way. For each attempt $k$, we let
+It works in the following way. For each attempt \(k\), we let
 
-* $s_k$ be the score from the potential response tree.
-* $p_k$ be the "penalty" as follows:
- * If $s_k=1$ then $p_k=0$, else
- * If the penalty $p$ set in the _last branch_ traversed before exiting the potential response tree is not `NULL` then $p_k=p$, else
- * $p_k$ is the penalty set in the question options, (default \(0.1=10\%\) ).
+* \(s_k\) be the score from the potential response tree.
+* \(p_k\) be the "penalty" as follows:
+ * If \(s_k=1\) then \(p_k=0\), else
+ * If the penalty \(p\) set in the _last branch_ traversed before exiting the potential response tree is not `NULL` then \(p_k=p\), else
+ * \(p_k\) is the penalty set in the question options, (default \(0.1=10\%\) ).
 
 The default penalty scheme takes the _maximum_ score for each attempt, so that by accruing further penalties a student may never be worse off.
 

@@ -14,7 +14,7 @@ More about what we are trying to achieve can be found under [the philosophy of S
 
 ## Equivalent answers of the right form ##
 
-STACK can mark questions where the correct answer can be expressed in many different forms. In mathematics this is the rule rather than the exception because of algebraic equivalence between expressions, for example $(x+1)^2 = x^2+2x+1$. STACK can identify these equivalences.  STACK can also establish the form of an answer, independent of equivalence to the teacher's.  These two properties are independent.
+STACK can mark questions where the correct answer can be expressed in many different forms. In mathematics this is the rule rather than the exception because of algebraic equivalence between expressions, for example \((x+1)^2 = x^2+2x+1\). STACK can identify these equivalences.  STACK can also establish the form of an answer, independent of equivalence to the teacher's.  These two properties are independent.
 
 ## Ask for examples ##
 
@@ -33,8 +33,8 @@ STACK can randomise problems in such a way that the level of difficulty is kept 
 For example, in a question like:
 Give an example of a cubic polynomial with the following properties:
 
-* $p(0)=1$,
-* $p(x)=0$ at $x=2$ and at $x=3$.
+* \(p(0)=1\),
+* \(p(x)=0\) at \(x=2\) and at \(x=3\).
 
 STACK can check each condition separately on the student's answer and assign partial credit accordingly.
 If the student gave the answer \(p(x) = x^2-5x+6\) for example, then STACK could reply: _Your answer does have zeros at the required points but its value at zero is not equal to 1. You received 2 out of 3 points. Please try again._

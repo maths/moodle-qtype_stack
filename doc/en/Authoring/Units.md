@@ -56,7 +56,7 @@ This will provide feedback such as
 
 * correct units, wrong number
 * wrong units, but number is equivalent on conversion
-* wrong class of units, i.e. Imperial not metric is a different problem from using $m$ vs $km$.
+* wrong class of units, i.e. Imperial not metric is a different problem from using \(m\) vs \(km\).
 * dimensional problems
 
 This answer test will then be similar to Algebraic Equivalence, but will automatically provide built in feedback.
@@ -65,7 +65,7 @@ This answer test will then be similar to Algebraic Equivalence, but will automat
 
 1. 30/7/10 Jarno Ruokokoski reports  `load(unit);` this is very slow (10 seconds) to load.
 Adding "load(unit)" to Maxima automatically under these circumstances would not work...
-2. If we automatically `load` a library every time, then variable names such as $m$ will
+2. If we automatically `load` a library every time, then variable names such as \(m\) will
    acquire a meaning.  Perhaps it might be better to have a global question option "load unit(s)
    package" which will only load units for questions which make use of them.
    More complex for question authors, of course, and may not actually speed things up when compiled...

@@ -12,6 +12,19 @@
     padding: 0.2em;
 }
 
+.que.stack .stackinputfeedback.empty {
+    display: none;
+}
+.que.stack .stackinputfeedback.loading {
+    color: #666;
+    background: #ddd url([[pix:moodle|i/loading_small]]) no-repeat top right;
+    min-height: 1em;
+}
+.que.stack .stackinputfeedback.waiting {
+    color: #666;
+    min-height: 1em;
+}
+
 .que.stack .formulation .stackprtfeedback {
     background: #fff3bf;
     margin: 0.2em -0.2em 0.5em;

@@ -27,6 +27,7 @@ class stack_algebraic_input extends stack_input {
         $attributes = array(
             'type' => 'text',
             'name' => $fieldname,
+            'id'   => $fieldname,
             'size' => $this->parameters['boxWidth'],
         );
 

@@ -63,6 +63,10 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
 
+$settings->add(new admin_setting_configcheckbox('qtype_stack/ajaxvalidation',
+        get_string('settingajaxvalidation', 'qtype_stack'),
+        get_string('settingajaxvalidation_desc', 'qtype_stack'), 0));
+
 $settings->add(new admin_setting_heading('docs',
         get_string('stackDoc_docs', 'qtype_stack'),
         get_string('stackDoc_docs_desc', 'qtype_stack',

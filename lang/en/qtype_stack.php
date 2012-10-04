@@ -242,6 +242,8 @@ $string['pleasecheckyourinputs'] = 'Please verify that what you entered was inte
 $string['singlechargotmorethanone'] = 'You can only enter a single character here.';
 
 // Admin settings.
+$string['settingajaxvalidation'] = 'Instant validation';
+$string['settingajaxvalidation_desc'] = 'With this setting turned on, the students current input will be validated whenever they pause in their typing. This gives a better user experience, but is likely to increase the server load.';
 $string['settingcasdebugging'] = 'CAS debugging';
 $string['settingcasdebugging_desc'] = 'Whether to store debugging information about the CAS connection.';
 $string['settingcasmaximaversion'] = 'Maxima version';

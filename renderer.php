@@ -44,14 +44,24 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Replace inputs.
         foreach ($question->inputs as $name => $input) {
+            $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);
 
             $questiontext = str_replace("[[input:{$name}]]",
-                    $input->render($state, $qa->get_qt_field_name($name), $options->readonly),
+                    $input->render($state, $fieldname, $options->readonly),
                     $questiontext);
 
-            $feedback = $this->input_validation($name, $input->render_validation($state, $qa->get_qt_field_name($name)));
+            $feedback = $this->input_validation($fieldname . '_val', $input->render_validation($state, $fieldname));
             $questiontext = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
+
+            $qaid = $qa->get_database_id();
+            if ($input->requires_validation() && $qaid && stack_utils::get_config()->ajaxvalidation) {
+                // TODO remove the need for this test.
+                if (get_class($input) !== 'stack_matrix_input') {
+                    $this->page->requires->yui_module('moodle-qtype_stack-input',
+                            'M.qtype_stack.init_input', array($name, $qaid, $qa->get_qt_field_name($name)));
+                }
+            }
         }
 
         foreach ($question->prts as $index => $prt) {
@@ -218,9 +228,12 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $feedback the raw feedback message from the intput element.
      * @return string Nicely formatted feedback, for display.
      */
-    protected function input_validation($name, $feedback) {
-        return html_writer::nonempty_tag('div', $feedback,
-                array('class' => "stackinputfeedback stackinputfeedback-{$name}"));
+    protected function input_validation($id, $feedback) {
+        $class = "stackinputfeedback";
+        if (!$feedback) {
+            $class .= ' empty';
+        }
+        return html_writer::tag('div', $feedback, array('class' => $class, 'id' => $id));
     }
 
     /**

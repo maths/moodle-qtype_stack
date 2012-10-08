@@ -89,7 +89,7 @@ The following web pages have more information for a few types of lisp: <http://s
 
 ## Putting Maxima on other servers ##
 
-See https://github.com/aharjula/maximapool for an implementation of this.
+See https://github.com/maths/stack_util_maximapool for an implementation of this.
 
 Running Maxima on a separate server dedicated to the task is more secure. It also
 improves performance because the server can start up Maxima processes in advance

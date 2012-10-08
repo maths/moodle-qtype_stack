@@ -65,7 +65,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
             // how come there is no core library solution to this!?
             // create temp file, save zip there.
             $ziptemp = $CFG->dataroot . "/stack/tmp/";
-            $ziptemp = tempname($ziptemp, "zip");
+            $ziptemp = tempnam($ziptemp, "zip");
             $fp = fopen($ziptemp, "w");
             fwrite($fp, $ret);
             fclose($fp);

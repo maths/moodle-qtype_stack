@@ -39,7 +39,9 @@ class stack_cas_connection_server extends stack_cas_connection_base {
 
         $request = curl_init($this->command);
 
-        $postdata = "input=".urlencode($command)."&timeout=".($this->timeout*1000);
+        $postdata = 'input=' . urlencode($command) .
+                '&timeout=' . ($this->timeout*1000) .
+                '&ploturlbase=' . urlencode($CFG->wwwroot . '/question/type/stack/plot.php/');
 
         curl_setopt($request, CURLOPT_POST, true);
         curl_setopt($request, CURLOPT_POSTFIELDS, $postdata);

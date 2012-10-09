@@ -509,7 +509,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Once we are confident enough, we can try to optimise.
 
         foreach ($this->prts as $index => $prt) {
-            if (!$this->can_execute_prt($prt, $response, $finalsubmit)) {
+
+            $results = $this->get_prt_result($index, $response, $finalsubmit);
+
+            if ($results->valid === null) {
+                continue;
+            }
+
+            if ($results->errors) {
+                $partresults[$index] = new qbehaviour_adaptivemultipart_part_result($index, null, null, true);
                 continue;
             }
 
@@ -525,9 +533,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if ($this->is_same_prt_input($index, $lastinput, $prtinput)) {
                 continue;
             }
-
-            $results = $this->prts[$index]->evaluate_response($this->session,
-                    $this->options, $prtinput, $this->seed);
 
             $partresults[$index] = new qbehaviour_adaptivemultipart_part_result(
                     $index, $results->score, $results->penalty);

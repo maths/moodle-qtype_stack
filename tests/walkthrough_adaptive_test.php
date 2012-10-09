@@ -1283,4 +1283,48 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
+    public function test_test0_save_does_validate_but_does_not_submit() {
+
+        // Create the stack question 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/What is/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Just save a response. This will validate.
+        $this->process_submission(array('ans1' => '2'));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Just save again. Nothing visible should change.
+        $lastoutput = $this->currentoutput;
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '2'));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->assertEquals(str_replace('sequencecheck" value="2"', 'sequencecheck" value="3"', $lastoutput),
+                    $this->currentoutput);
+    }
 }

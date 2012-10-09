@@ -67,15 +67,12 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             if ($options->feedback) {
-                $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
-                if (!is_null($result->valid)) {
-                    $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
-                }
+                $feedback = $this->prt_feedback($index, $response, $qa, $options);
 
-            } else if ($qa->get_behaviour_name() == 'interactivecountback') {
+            } else if (in_array($qa->get_behaviour_name(), array('interactivecountback', 'adaptivemulipart'))) {
                 // The behaviour name test here is a hack. The trouble is that interactive
-                // behaviour does not show feedback if the input is invalid, but we want
-                // to show the CAS errors from the PRT.
+                // behaviour or adaptivemulipart does not show feedback if the input
+                // is invalid, but we want to show the CAS errors from the PRT.
                 $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
                 $feedback = html_writer::nonempty_tag('div', $result->errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
@@ -207,11 +204,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Replace any PRT feedback.
         $allempty = true;
         foreach ($question->prts as $index => $prt) {
-            $feedback = '';
-            $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
-            if (!is_null($result->valid)) {
-                $feedback = $this->prt_feedback($index, $qa, $question, $result, $options);
-            }
+            $feedback = $this->prt_feedback($index, $response, $qa, $options);
             $allempty = $allempty && !$feedback;
             $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
         }
@@ -237,6 +230,43 @@ class qtype_stack_renderer extends qtype_renderer {
     }
 
     /**
+     * Slighly complex rules for what feedback to display.
+     * @param string $name the PRT name.
+     * @param array $response the most recent student response.
+     * @param question_attempt $qa the question attempt to display.
+     * @param question_display_options $options controls what should and should not be displayed.
+     * @return string nicely formatted feedback, for display.
+     */
+    protected function prt_feedback($name, $response, question_attempt $qa, question_display_options $options) {
+        $question = $qa->get_question();
+
+        if ($qa->get_behaviour_name() == 'adaptivemultipart') {
+            // The behaviour name test here is a hack. The trouble is that
+            // for adaptive behaviour, exactly what feedback to display is
+            // is complex, so we need to ask the behaviour.
+            $step = $qa->get_behaviour()->get_last_graded_response_step_for_part($name);
+
+            if (!$step) {
+                return '';
+            }
+
+            $relevantresponse = $step->get_qt_data();
+            if (!$question->is_same_response_for_part($name, $relevantresponse, $response)) {
+                return '';
+            }
+        } else {
+            $relevantresponse = $response;
+        }
+
+        $result = $question->get_prt_result($name, $response, $qa->get_state()->is_finished());
+        if (is_null($result->valid)) {
+            return '';
+        }
+        return $this->prt_feedback_display($name, $qa, $question, $result, $options);
+    }
+
+    /**
+     * Actually generate the display of the PRT feedback.
      * @param string $name the PRT name.
      * @param question_attempt $qa the question attempt to display.
      * @param question_definition $question the question being displayed.
@@ -244,7 +274,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param question_display_options $options controls what should and should not be displayed.
      * @return string nicely formatted feedback, for display.
      */
-    protected function prt_feedback($name, question_attempt $qa,
+    protected function prt_feedback_display($name, question_attempt $qa,
             question_definition $question, stack_potentialresponse_tree_state $result,
             question_display_options $options) {
         $err = '';

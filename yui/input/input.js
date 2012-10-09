@@ -35,6 +35,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         this.input.on('blur', this.value_changed, this);
 
         this.lastvalidatedvalue = this.get_intput_value();
+        this.validationresults = {};
     }
 
     /** Configuration. How long a pause in typing before we make an ajax validation request. */

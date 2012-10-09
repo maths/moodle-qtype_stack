@@ -163,21 +163,24 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         }
     }
 
-    protected function check_output_contains_input_validation($name = null) {
-        $class = 'stackinputfeedback';
-        if ($name) {
-            $class .= ' stackinputfeedback-' . $name;
-        }
-        $this->assertTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+    protected function check_output_contains_input_validation($name) {
+        $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
+        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
+    protected function check_output_does_not_contain_any_input_validation() {
+        $this->assertNotRegExp('~<div [^>]*\bclass="stackinputfeedback(?:(?! empty)[^"])*"~',
+                $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
+    }
+
     protected function check_output_does_not_contain_input_validation($name = null) {
-        $class = 'stackinputfeedback';
-        if ($name) {
-            $class .= ' stackinputfeedback-' . $name;
+        if (!$name) {
+            $this->check_output_does_not_contain_any_input_validation();
+            return;
         }
-        $this->assertNotTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+        $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
+        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,
                 'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 

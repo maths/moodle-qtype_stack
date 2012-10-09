@@ -465,7 +465,7 @@ $string['ATSysEquiv_SA_extra_variables']        = 'Vastauksessasi on liikaa muut
 $string['ATSysEquiv_SA_system_underdetermined'] = 'Vastauksessasi olevat yhtälöt näyttävät oikeilta mutta niitä tarvitaan lisää.';
 $string['ATSysEquiv_SA_system_overdetermined']  = 'Seuraavassa punaisella merkityt yhtälöt eivät ole oikein. {$a->m0} ';
 
-$string['studentValidation_yourLastAnswer']  = 'Vastauksesi tulkittiin muodossa:';
+$string['studentValidation_yourLastAnswer']  = 'Vastauksesi tulkittiin muodossa: {$a}';
 $string['studentValidation_invalidAnswer']   = 'Tämä vastaus ei kelpaa. ';
 $string['stackQuestion_noQuestionParts']        = 'Tässä tehtävässä ei ole osia, joihin voidaan vastata.';
 

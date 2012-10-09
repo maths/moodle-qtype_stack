@@ -547,7 +547,7 @@ $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are 
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
 
-$string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as follows:';
+$string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 

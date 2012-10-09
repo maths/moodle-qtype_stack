@@ -434,7 +434,7 @@ abstract class stack_input {
         }
 
         $feedback  = '';
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer') . $state->contentsdisplayed);
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',

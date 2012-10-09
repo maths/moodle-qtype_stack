@@ -1,28 +1,31 @@
 /* Styles used when questions are being attempted. */
 .que.stack .stacksyntaxexample {
-    color: blue;
+    color: #1F536B;
     font-family: monospace;
     font-size: 100%;
     font-weight: bold;
 }
 
 .que.stack .stackinputfeedback {
-    background-color: #ddd;
-    margin: 0.2em -0.2em 0.5em;
-    padding: 0.2em;
+    background-color: #fff;
+    margin: 0.2em 3em 0.5em;
+    padding: 0.5em 0.5em 0.01em;
 }
 
 .que.stack .stackinputfeedback.empty {
     display: none;
 }
+.que.stack .stackinputfeedback.waiting,
 .que.stack .stackinputfeedback.loading {
-    color: #666;
-    background: #ddd url([[pix:moodle|i/loading_small]]) no-repeat top right;
+    color: #888;
     min-height: 1em;
 }
-.que.stack .stackinputfeedback.waiting {
-    color: #666;
-    min-height: 1em;
+.que.stack .stackinputfeedback.loading {
+    background: #fff url([[pix:moodle|i/loading_small]]) no-repeat top right;
+}
+.que.stack .stackinputfeedback.waiting .stacksyntaxexample,
+.que.stack .stackinputfeedback.loading .stacksyntaxexample {
+    color: #84aec1;
 }
 
 .que.stack .formulation .stackprtfeedback {

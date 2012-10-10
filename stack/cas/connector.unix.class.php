@@ -63,12 +63,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             throw new stack_exception('stack_cas_connection: could not open a CAS process');
         }
 
-        $init = $this->initcommand;
-        // For unix-optimised do not load the STACK libraries twice.
-        if (self::$config->platform == 'unix-optimised') {
-            $init = "x^2;\n";
-        }
-        if (!fwrite($pipes[0], $init)) {
+        if (!fwrite($pipes[0], $this->initcommand)) {
             throw new stack_exception('stack_cas_connection: could not write to the CAS process.');
         }
         fwrite($pipes[0], $command);

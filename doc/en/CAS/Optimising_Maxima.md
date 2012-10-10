@@ -1,20 +1,13 @@
 # Optimising Maxima
 
-The optimisations described here have not been tested much, but they have the
-potential to greatly speed up STACK. Please let us know if you try them.
+There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. The optimisations described here have been tested, but not extensively.  They have the potential to greatly speed up STACK.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
 
-The instructions for both CLISP and SBCL have been tested and work in STACK 3,
-but it is not clear how much they actually shorten access times, if at all. SBCL
-was tested with Maxima version 5.23.2 and CLISP with some Maxima version. The
-instructions do *not* seem to work with Maxma 5.27 as of 28 May 2012.
-
-There are several ways to reduce the access and execution time of this CAS which
-can prove useful for scaling.
+The instructions for both CLISP and SBCL have been tested and work in STACK 3, with Maxima version 5.28.0, in October 2012. 
 
 ## Compiled Lisp ##
 
 [Maxima](../CAS/Maxima.md) can be run with a number of different [lisp implementations](http://maxima-project.org/wiki/index.php?title=Lisp_implementations).
-Although CLISP is the most portable -- due to being interpreted -- other lisps can give faster execution.
+Although CLISP is the most portable - due to being interpreted - other lisps can give faster execution.
 
 [Maxima](../CAS/Maxima.md) can be compiled with one or more of 4 LISP implementations;
 [CLISP](http://en.wikipedia.org/wiki/CLISP) , [CMUCL](http://en.wikipedia.org/wiki/CMU_Common_Lisp),
@@ -89,7 +82,7 @@ The following web pages have more information for a few types of lisp: <http://s
 
 ## Putting Maxima on other servers ##
 
-See https://github.com/maths/stack_util_maximapool for an implementation of this.
+See <http://github.com/maths/stack_util_maximapool> for an implementation of this.
 
 Running Maxima on a separate server dedicated to the task is more secure. It also
 improves performance because the server can start up Maxima processes in advance

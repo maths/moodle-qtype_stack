@@ -31,7 +31,7 @@ The principle is to [save an image](http://clisp.cons.org/impnotes/image.html)
 of Maxima running with STACK libraries already loaded then run this directly.  It
 is fairly straightforward with the following steps.
 
-* Get STACK working with Platform type set to 'Linux'. Run the health-check.
+* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this everytime you upgrade your version.
 * Check your Maxima Lisp with **maxima --list-avail** to see what Lisps you have
 to run Maxima.  We assume you have CLISP. Type **locate lisp.run** to find the
 path(s) for the next step. You might need to run the command as root, and if you
@@ -62,7 +62,7 @@ Applying this to compiled Lisp versions - such as CMUCL - is being investigated.
 If you are using stack with sbcl (if you are using CentOS/sl5/RHEL with maxima from epel),
 use the following to generate a stand alone executable:
 
-* Get STACK working with Platform type set to 'Linux'. Run the health-check.
+* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this everytime you upgrade your version.
 * Go into your moodledata/stack folder as the current directory, and run Maxima.
 * In Maxima, type the commands:
 ~~~~
@@ -115,4 +115,13 @@ Linux (optimised) | 0.215                  | 0.095
 The optimised version saves a considerable amount of time, representing a significant performance improvement in the critical step of just under a second per call.  Well worth the effort (& maintenance) to reward ratio.  It is likely that using a compiled version of LISP would result in further considerable savings.
 
 However, it isn't entirely clear to me at this point why the input tests with a mature cache using the default linux connection takes over 13 seconds.  This seems anomalous.
+
+The following data was gathered by CJS on 10/10/2012 using Maxima 5.28.0 with CLISP 2.49 and SBCL 1.0.58-1.el6, both on the same linux server.  The table gives time in seconds to run the answer tests (462 tests).
+
+Maxima version    | Linux    | Linux optimised
+----------------- | -------- | -------------------
+CLISP 2.49        | 652.3    | 117.76314
+SBCL 1.0.58-1.el6 | 1570.6   | 118.39215
+
+With both lisp versions, the optimisation gives a significant performance gain and there is very little difference between the times of the optimised versions.
 

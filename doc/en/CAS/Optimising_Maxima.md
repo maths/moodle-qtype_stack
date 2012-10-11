@@ -72,7 +72,7 @@ use the following to generate a stand alone executable:
 
 * Go into the STACK settings and set the Platform to 'Linux (Optimised)'.
 * You should be able to leave Maxima command blank.
-* Click Save changes at the bottom of the settings page.
+* Click save changes at the bottom of the settings page.
 * Visit the healthcheck page, and clear the cache (if applicable), to make sure everything is still working.
 
 ### Other Lisps ###
@@ -125,3 +125,30 @@ SBCL 1.0.58-1.el6 | 1570.6   | 118.39215
 
 With both lisp versions, the optimisation gives a significant performance gain and there is very little difference between the times of the optimised versions.
 
+## CAS on linux ##
+
+The tests above use Maxima through the PHP interface.  To gauge the overhead from the CAS itself we ran the following tests on the same server using Maxima 5.28.0 with CLISP 2.49.
+
+    model name: Intel(R) Xeon(R) CPU, E3113  @ 3.00GHz
+
+Linux                 | Time for 100 cycles (s)
+----------------------| -----------------------
+Start Maxima and quit | 43
+Start STACK  and quit | 124
+Process AtAlgEquiv    | 133
+
+Without optimising linux, compared to processing one AtAlgEquiv, there is approximately 93% overhead in starting the maxima process.
+
+Optimsed Linux         | Time for 100 cycles (s)
+-----------------------| -----------------------
+Start STACK  and quit  | 12
+Process AtAlgEquiv     | 16
+Process 100 AtAlgEquiv | 104
+Process 100 plot       | 117
+
+The PHP processing time is almost insignificant against the time it takes to initiate and use the CAS.  
+
+With the optimised linux we have reduced the loading time, and the loading overhead considerably.  A single ATAlgEquiv request takes about 0.04s.  Asking for 100 ATAlgEquiv requests in a single session take 0.0092s per request.  Asking for 100 plot commands takes 1.05s per plot - which is rather slow (plots undertake a large number of floating point calculations).
+The overhead times for loading maxima might be reduced, and smoothed out by using the maxima pool, see <http://github.com/maths/stack_util_maximapool> for an implementation of this.  The computation times are difficult to reduce.
+
+Memory appears to be modest: the optimised linux takes about 15Mb of memory per process.

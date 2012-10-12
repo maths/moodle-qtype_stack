@@ -490,7 +490,7 @@ $string['irred_Q_commonint']        = 'You need to take out a common factor. '; 
 $string['irred_Q_optional_fac']     = 'You could do more work, since {$a->m0} can be further factored.  However, you don\'t need to. ';
 
 $string['FacForm_UnPick_morework']  = 'You could still do some more work on the term {$a->m0}. ';
-$string['FacForm_UnPick_intfac']    = $string['irred_Q_commonint'];
+$string['FacForm_UnPick_intfac']    = 'You need to take out a common factor. ';
 
 $string['ATFacForm_error_list']     = 'The answer test failed.  Please contact your systems administrator';
 $string['ATFacForm_error_degreeSA'] = 'The CAS could not establish the algebraic degree of your answer.';
@@ -498,14 +498,14 @@ $string['ATFacForm_isfactored']     = 'Your answer is factored, well done. ';  /
 $string['ATFacForm_notfactored']    = 'Your answer is not factored. '; // Needs a space at the end.
 $string['ATFacForm_notalgequiv']    = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // needs a space at the end.
 
-$string['ATPartFrac_error_list']        = $string['ATFacForm_error_list'];
+$string['ATPartFrac_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATPartFrac_true']              = '';
 $string['ATPartFrac_single_fraction']   ='Your answer seems to be a single fraction, it needs to be in a partial fraction form. ';
 $string['ATPartFrac_diff_variables']    ='The variables in your answer are different to those of the question, please check them. ';
 $string['ATPartFrac_denom_ret']         ='If your answer is written as a single fraction then the denominator would be {$a->m0}. In fact, it should be {$a->m1}. ';
 $string['ATPartFrac_ret_expression']    ='Your answer as a single fraction is {$a->m0} ';
 
-$string['ATSingleFrac_error_list']     = $string['ATFacForm_error_list'];
+$string['ATSingleFrac_error_list']     = 'The answer test failed.  Please contact your systems administrator';
 $string['ATSingleFrac_true']           = '';
 $string['ATSingleFrac_part']           = 'Your answer needs to be a single fraction of the form \( {a}\over{b} \). ';
 $string['ATSingleFrac_var']            = 'The variables in your answer are different to the those of the question, please check them. ';
@@ -518,7 +518,7 @@ $string['ATCompSquare_not_AlgEquiv']    = 'Your answer appears to be in the corr
 $string['ATCompSquare_false_no_summands']     = 'The completed square is of the form \( a(\cdots\cdots)^2 + b\) where \(a\) and \(b\) do not depend on your variable.  More than one of your summands appears to depend on the variable in your answer.';
 
 
-$string['ATInt_error_list']         = $string['ATFacForm_error_list'];
+$string['ATInt_error_list']         = 'The answer test failed.  Please contact your systems administrator';
 $string['ATInt_const_int']          = 'You need to add a constant of integration. This should be an arbitrary constant, not a number.';
 $string['ATInt_const']              = 'You need to add a constant of integration, otherwise this appears to be correct.  Well done.';
 $string['ATInt_EqFormalDiff']       = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, eg, a constant of integration.  Please ask your teacher about this.';
@@ -526,10 +526,10 @@ $string['ATInt_wierdconst']         = 'The formal derivative of your answer does
 $string['ATInt_diff']               = 'It looks like you have differentiated instead!';
 $string['ATInt_generic']            = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
 
-$string['ATDiff_error_list']        = $string['ATFacForm_error_list'];
+$string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';
 
-$string['ATNumSigFigs_error_list']        = $string['ATFacForm_error_list'];
+$string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact your systems administrator';
 $string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';
 $string['ATNumSigFigs_Inaccurate']  = 'The accuracy of your answer is not correct.  Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.';
 $string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of significant digits. ';
@@ -777,9 +777,17 @@ Alternatively, we can write:
 ';
 
 $string['calc_rules_name'] = 'Calculus rules';
-$string['calc_rules_fact']  = '<b>'.$string['calc_product_rule_name'].'</b><br /> '.$string['calc_product_rule_fact'];
-$string['calc_rules_fact']  .= '<b> '.$string['calc_quotient_rule_name'].'</b><br /> '.$string['calc_quotient_rule_fact'];
-$string['calc_rules_fact']  .= '<b> '.$string['calc_chain_rule_name'].'</b><br /> '.$string['calc_chain_rule_fact'];
+$string['calc_rules_fact']  = '<b>The Product Rule</b><br />The following rule allows one to differentiate functions which are
+multiplied together.  Assume that we wish to differentiate \(f(x)g(x)\) with respect to \(x\).
+\[ \frac{\mathrm{d}}{\mathrm{d}{x}} \big(f(x)g(x)\big) = f(x) \cdot \frac{\mathrm{d} g(x)}{\mathrm{d}{x}}  + g(x)\cdot \frac{\mathrm{d} f(x)}{\mathrm{d}{x}},\] or, using alternative notation, \[ (f(x)g(x))\' = f\'(x)g(x)+f(x)g\'(x). \]
+<b>The Quotient Rule</b><br />The quotient rule for differentiation states that for any two differentiable functions \(f(x)\) and \(g(x)\),
+\[\frac{d}{dx}\left(\frac{f(x)}{g(x)}\right)=\frac{g(x)\cdot\frac{df(x)}{dx}\ \ - \ \ f(x)\cdot \frac{dg(x)}{dx}}{g(x)^2}. \]
+<b>The Chain Rule</b><br />The following rule allows one to find the derivative of a composition of two functions.
+Assume we have a function \(f(g(x))\), then defining \(u=g(x)\), the derivative with respect to \(x\) is given by:
+\[\frac{df(g(x))}{dx} = \frac{dg(x)}{dx}\cdot\frac{df(u)}{du}.\]
+Alternatively, we can write:
+\[\frac{df(x)}{dx} = f\'(g(x))\cdot g\'(x).\]
+';
 
 $string['calc_int_standard_integrals_name'] = 'Standard Integrals';
 $string['calc_int_standard_integrals_fact'] = '
@@ -832,5 +840,3 @@ $string['calc_int_methods_parts_fact'] = '\[
 Or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
 g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
 d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x \]';
-
-

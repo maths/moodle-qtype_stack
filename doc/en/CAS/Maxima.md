@@ -166,16 +166,11 @@ STACK also creates two aliases
 
 ## Functions ##
 
-It is sometimes useful for the teacher to define *functions* as part of a STACK question.  This would normally be done in Maxima using the notation.
+It is sometimes useful for the teacher to define *functions* as part of a STACK question.  This can be done in the normal way in Maxima using the notation.
 
 	 f(x):=x^2;
 
-Because STACK uses the equals sign instead of Maxima's colon (`:`) it is much better to define functions using Maxima's
-`define()` command instead of :=. Indeed, think of := as a way to define a small Maxima program, rather than defining a mathematical function.
-
-     define(f(x),x^2);
-
-Notice this expression is un-named.  This is fine.  An alternative is to define `f` as an "unnamed function" using the lambda command.
+Using Maxima's `define()` command is forbidden. An alternative is to define `f` as an "unnamed function" using the lambda command.
 
 	 f:lambda([x],x^2);
 
@@ -183,8 +178,8 @@ Here we are giving a name to an "unnamed function" which seems perverse.  Unname
 
 For example, a piecewise function can be defined by either of these two commands
 
-     define(f(x), if (x<0) then 6*x-2 else -2*exp(-3*x));
-	 f: lambda([x],if (x<0) then 6*x-2 else -2*exp(-3*x));
+     f(x):=if (x<0) then 6*x-2 else -2*exp(-3*x);
+	 f:lambda([x],if (x<0) then 6*x-2 else -2*exp(-3*x));
 
 You can then plot this using
 

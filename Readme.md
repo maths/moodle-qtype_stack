@@ -11,8 +11,10 @@ the University of Birmingham, and includes the work of
 
 ## Current state of development
 
-Stack 3.0 is currently being beta tested. We would appreciate any help you can give
-in testing that it works and reporting bugs at https://github.com/maths/moodle-qtype_stack/issues.
+Stack 3.0 is currently in the final stages of beta testing. Several universities
+are now using it for real. We would appreciate any help you can give to help us
+ensure we have found and fixed all the bugs. Please report any problems you find
+at https://github.com/maths/moodle-qtype_stack/issues.
 
 The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md)
 is explain more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).

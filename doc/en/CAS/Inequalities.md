@@ -11,13 +11,29 @@ Maxima only allows single inequalities, such as \(x-1>y\mbox{.}\)
 
 You can test if two inequalities are the same using the algebraic equivalence test.
 
-Chained inequalities, for example \(1\leq x \leq2\mbox{,}\) or inequalities joined by logical connectives, e.g. "\(x>1\) and \(x<7\)", are not currently supported.
+Chained inequalities, for example \(1\leq x \leq2\mbox{,}\) or inequalities joined by logical connectives, e.g. "\(x>1\) and \(x<7\)", are only supported at a very primitive level.
 
 # Functions to support inequalities
 
-### `ineqprepare(ex)`
+### * `ineqprepare(ex)`
 
 This function ensures an inequality is written in the form `ex>0` or `ex>=0` where `ex` is always simplified.  This is designed for use with the algebraic equivalence answer test in mind.
+
+### * `ineqorder(ex)`
+
+This function takes an expression, applies `ineqprepare()`, and then orders the parts.  For example,
+
+     ineqorder(x>1 and x<5);
+
+returns
+
+      5-x > 0 and x-1 > 0
+
+It also removes duplicate inequalities.  Operating at this syntactic level will enable a relatively strict form of equivalence to be established, simply manipulating the form of the inequalities.  It will respect commutativity and associativity and `and` and `or`, and will also apply `not` to chains of inequalities.  
+
+If the algebraic equivalence test detects inequalities, or systems of inequalities, then this function is automatically applied.
+
+However, to establish the equivalence of `x^2>1` with `x>1 or x<-1` will require significantly more work.  This is an interesting and open mathematical and CAS challenge!
 
 ## See also
 

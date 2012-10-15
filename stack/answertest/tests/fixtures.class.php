@@ -127,7 +127,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x=>1', 'x>=1', 1, '', ''),
         array('AlgEquiv', '2*x>=x^2', 'x^2<=2*x', 1, '', ''),
         array('AlgEquiv', '2*x>=2', 'x=>1', 0, '', ''),
-        array('AlgEquiv', 'x^4>=0', 'x^2>=0', 0, '', ''),
+        array('AlgEquiv', 'x>1 and x<5', 'x>1 and x<5', 1, '', ''),
+        array('AlgEquiv', 'x>1 and x<5', '5>x and 1<x', 1, '', ''),
+        array('AlgEquiv', 'not (x<=2 and -2<=x)', 'x>2 or -2>x', 1, '', ''),
+        array('AlgEquiv', 'x>=1 and 1<=x', 'x>=1', 1, '', ''),
 
         array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
@@ -138,8 +141,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', 1, '', 'These currently fail'),
         array('AlgEquiv', '-%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''),
+        array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', 1, '', ''),
+        array('AlgEquiv', 'x^4>=0', 'x^2>=0', 1, '', ''),
 
-        // SubstEquiv Answer tests.
+                // SubstEquiv Answer tests.
         array('SubstEquiv', '1/0', 'x^2-2*x+1', 0, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^2+1', 1, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^3+1', 0, '', ''),

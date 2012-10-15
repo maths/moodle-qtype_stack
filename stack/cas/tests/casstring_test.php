@@ -67,6 +67,18 @@ class stack_cas_casstring_test extends basic_testcase {
         }
     }
 
+    public function test_get_valid_inequalities() {
+        $cases = array(
+                array('x>1 and x<4', true, true),
+                array('not (x>1)', true, true),
+                array('x<=2 or not (x>1)', true, true),
+        );
+    
+        foreach ($cases as $case) {
+            $this->get_valid($case[0], $case[1], $case[2]);
+        }
+    }
+
     public function get_key($s, $key, $val) {
         $at1 = new stack_cas_casstring($s);
         $this->assertEquals($key, $at1->get_key());

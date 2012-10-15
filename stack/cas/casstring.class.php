@@ -266,7 +266,11 @@ class stack_cas_casstring {
         // If student, check for spaces between letters or numbers in expressions.
         if ($security != 't') {
             $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
-            if (preg_match($pat, $cmd)) {
+            // Special case - allow students to type in expressions such as "x>1 and x<4"
+            $cmdmod = str_replace(' or ', '', $cmd);
+            $cmdmod = str_replace(' and ', '', $cmdmod);
+            $cmdmod = str_replace('not ', '', $cmdmod);
+            if (preg_match($pat, $cmdmod)) {
                 $this->valid = false;
                 $cmds = str_replace(' ', '<font color="red">_</font>', $cmd);
                 $this->add_error(stack_string("stackCas_spaces", array('expr'=>stack_maxima_format_casstring($cmds))));

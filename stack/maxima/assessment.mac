@@ -106,6 +106,7 @@ equationp(ex) := block(
 inequalityp(ex) := block(
    if atom(ex) then return(false),
    if ">"= op(ex) or "<"= op(ex) or ">="= op(ex) or "<="= op(ex) then return(true),
+   if "and"= op(ex) or "or"= op(ex) or "not" then return(true),
    return(false)
 )$
 
@@ -260,7 +261,17 @@ ineqprepare(ex) := block([op2,ex2],
     return(apply(op(ex),ex2))
 )$
 
+/* Writes an expression in a cannonical form */
+ineqorder(ex) := ineqorder_f(ev(ineqprepare(ex),simp))$
 
+/* This function prepares inequalities, removes duplicates (e.g. x>1 and 1<x end up the same. Finally it orders the result. */
+ineqorder_f(ex) := block(
+    if atom(ex) then return(ex),
+    if op(ex)="and" then return(apply("and",sort(listify(setify((map(ineqorder_f,args(ex)))))))),
+    if op(ex)="or" then return(apply("or",sort(listify(setify((map(ineqorder_f,args(ex)))))))),
+    if op(ex)="not" then return(apply("not",sort(listify(setify((map(ineqorder_f,args(ex)))))))),
+    return(ex)
+)$
 
 /* ********************************** */
 /* Equivalence                        */

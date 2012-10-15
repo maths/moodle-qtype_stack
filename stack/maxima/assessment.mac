@@ -251,14 +251,23 @@ infix("=<");
 /* Reduces an inequality to either ? > 0 or ? >=0 */
 ineqprepare(ex) := block([op2,ex2],
     if atom(ex) then return(ex),
-    if op(ex)="="  then return(ev(part(ex,1) - part(ex,2),simp,trigreduce) = 0),
-    if op(ex)=">"  then return(ev(part(ex,1) - part(ex,2),simp,trigreduce) > 0),
-    if op(ex)=">=" then return(ev(part(ex,1) - part(ex,2),simp,trigreduce) >= 0),
-    if op(ex)="<"  then return(ev(part(ex,2) - part(ex,1),simp,trigreduce) > 0),
-    if op(ex)="<=" then return(ev(part(ex,2) - part(ex,1),simp,trigreduce) >= 0),
+    if op(ex)="="  then return(make_monic(ev(part(ex,1) - part(ex,2),simp,trigreduce)) = 0),
+    if op(ex)=">"  then return(make_monic(ev(part(ex,1) - part(ex,2),simp,trigreduce)) > 0),
+    if op(ex)=">=" then return(make_monic(ev(part(ex,1) - part(ex,2),simp,trigreduce)) >= 0),
+    if op(ex)="<"  then return(make_monic(ev(part(ex,2) - part(ex,1),simp,trigreduce)) > 0),
+    if op(ex)="<=" then return(make_monic(ev(part(ex,2) - part(ex,1),simp,trigreduce)) >= 0),
     ex2:args(ex),
     ex2:map(ineqprepare,ex2),
     return(apply(op(ex),ex2))
+)$
+
+/* Turn an single variable polynomial expression into a +1/-1 monic polynomial */
+make_monic(ex):=block(
+    if atom(ex) then return(ex),
+    if not(polynomialpsimp(ex)) then return(ex),
+    if length(listofvars(ex))>1 then return(ex),
+    ex:expand(ex),
+    expand(ex/abs(coeff(ex,first(listofvars(ex)),degree(ex,first(listofvars(ex))))))
 )$
 
 /* Writes an expression in a cannonical form */

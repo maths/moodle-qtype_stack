@@ -597,15 +597,18 @@ ATEquation(SA,SB):= block([RawMark,SA1,SB1,SB2],
 ATInequality(SA,SB):=
     block([RawMark,FeedBack,AnswerNote,SA1,SB1,samex],
     RawMark:false, FeedBack:"", AnswerNote:"",
+    /* Write the inequalities in canonical form then compare. */
     SA:ineqorder(SA),
     SB:ineqorder(SB),
-    SA1:ev(part(SA,1),simp),
-    SB1:ev(part(SB,1),simp),
-    sameex:algebraic_equivalence(SA1,SB1),
-    if (op(SA)=op(SB) and sameex) then RawMark:true,
+    if SA=SB then RawMark:true,
+    /* Now try to give some basic feedback: potential for more work to recurse over complex expressions... */
     if op(SA)=">" and op(SB)=">=" then (AnswerNote:"ATInequality_strict",FeedBack:StackAddFeedback("","ATInequality_strict")),
     if op(SA)=">=" and op(SB)=">" then (AnswerNote:"ATInequality_nonstrict",FeedBack:StackAddFeedback("","ATInequality_nonstrict")),
-    if algebraic_equivalence(-1*SA1,SB1) then (AnswerNote:concat(AnswerNote," ATInequality_backwards"),FeedBack:StackAddFeedback(FeedBack,"ATInequality_backwards")),
+    if (">"=op(SA) or ">="=op(SA)) and  (">"=op(SB) or ">="=op(SB)) then block(
+        SA1:ev(part(SA,1),simp),
+        SB1:ev(part(SB,1),simp),
+        if algebraic_equivalence(-1*SA1,SB1) then (AnswerNote:concat(AnswerNote," ATInequality_backwards"),FeedBack:StackAddFeedback(FeedBack,"ATInequality_backwards"))
+    ),
     return([true,RawMark,AnswerNote,FeedBack])
     )$
 
@@ -1694,5 +1697,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-print("[ Stack-Maxima started V3.0, 16/6/12]");
+print("[ Stack-Maxima started V3.0, 16/10/12]");
 

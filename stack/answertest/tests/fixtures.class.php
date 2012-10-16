@@ -90,6 +90,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '{2/4, 1/3}', '{1/2, 1/3}', 1, '', ''),
         array('AlgEquiv', '{1,2,4}', '{1,2,3}', 0, '', ''),
         array('AlgEquiv', '{1,x>4}', '{4<x, 1}', 1, '', ''),
+        array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=1}', 1, '', ''),
+        array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, '', ''),
+        array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, '', ''),
 
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'),
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2,3],[2,3,3])', 0, '', ''),
@@ -115,6 +118,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', 's^2*%e^(s*t)=0', 's^2=0', 0, '', ''),
 
         array('AlgEquiv', '1', 'x>1', 0, '', 'Inequalities'),
+        array('AlgEquiv', 'x=1', 'x>1 and x<5', 0, '', ''),
+        array('AlgEquiv', 'x<1', 'x>1', 0, '', ''),
+        array('AlgEquiv', 'x=>1', 'x<=1', 0, '', ''),
         array('AlgEquiv', 'x>1', 'x<=1', 0, '', ''),
         array('AlgEquiv', 'x>=2', 'x<2', 0, '', ''),
         array('AlgEquiv', 'x>=1', 'x>2', 0, '', ''),
@@ -122,8 +128,6 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x>=1', 'x>=1', 1, '', ''),
         array('AlgEquiv', 'x>2', 'x>1', 0, '', ''),
         array('AlgEquiv', '1<x', 'x>1', 1, '', ''),
-        array('AlgEquiv', 'x<1', 'x>1', 0, '', ''),
-        array('AlgEquiv', 'x=>1', 'x<=1', 0, '', ''),
         array('AlgEquiv', '2*x>=x^2', 'x^2<=2*x', 1, '', ''),
         array('AlgEquiv', '2*x>=2', 'x=>1', 1, '', ''),
         array('AlgEquiv', 'x^2+x+4<(3*x-1)*(2*x+1)', 'x^2-1>0', 1, '', ''),
@@ -131,6 +135,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x>1 and x<5', '5>x and 1<x', 1, '', ''),
         array('AlgEquiv', 'not (x<=2 and -2<=x)', 'x>2 or -2>x', 1, '', ''),
         array('AlgEquiv', 'x>=1 or 1<=x', 'x>=1', 1, '', ''),
+        array('AlgEquiv', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)', '(x>-5 and x<-4) or (x>4 and x<5)', 1, '', ''),
+        array('AlgEquiv', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)', '(x>-5 and x<-4) or (x>8 and x<5)', 0, '', ''),
 
         array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),

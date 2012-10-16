@@ -267,7 +267,7 @@ make_monic(ex):=block(
     if not(polynomialpsimp(ex)) then return(ex),
     if length(listofvars(ex))>1 then return(ex),
     ex:expand(ex),
-    expand(ex/abs(coeff(ex,first(listofvars(ex)),degree(ex,first(listofvars(ex))))))
+    ev(expand(ex/abs(coeff(ex,first(listofvars(ex)),degree(ex,first(listofvars(ex)))))),simp)
 )$
 
 /* Writes an expression in a cannonical form */

@@ -31,6 +31,7 @@ require_once(dirname(__FILE__) . '/stack/options.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/casstring.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
+require_once(dirname(__FILE__) . '/stack/cas/keyval.class.php');
 
 
 require_login();
@@ -42,45 +43,74 @@ $PAGE->set_url('/question/type/stack/caschat.php');
 $title = stack_string('chattitle');
 $PAGE->set_title($title);
 
-// Enable testing of CAStext in with a background of a non-trivial session, with some options set.
-
-/* 
-$options = new stack_options();
-$options->set_option('simplify', false);
-
-$a1 = array('a:-2', 'b:ev(-1-2,simp)');
-
-$s1 = array();
-foreach ($a1 as $s) {
-    $cs = new stack_cas_casstring($s);
-    $cs->validate('t');
-    $s1[] = $cs;
-}
-$cs1 = new stack_cas_session($s1, $options);
-*/
-
-$string = optional_param('cas', '', PARAM_RAW);
 
 $debuginfo = '';
+$errs = '';
+$varerrs = '';
+
+$vars   = optional_param('vars', '', PARAM_RAW);
+$string = optional_param('cas', '', PARAM_RAW);
+$simp   = optional_param('simp', '', PARAM_RAW);
+
+// Sort out simplification.
+if ('on' == $simp) {
+    $simp = true;
+} else {
+    $simp = false;
+}
+// Initially simplification should be on.
+if (!$vars and !$string) {
+    $simp = true;
+}
+
 if ($string) {
-    $ct           = new stack_cas_text($string); // Need to add in $cs1 here if we intend to use it...
-    $displaytext  = $ct->get_display_castext();
-    $errs         = $ct->get_errors();
-    $debuginfo    = $ct->get_debuginfo();
+    $options = new stack_options();
+    $options->set_option('simplify', $simp);
+
+    $session = new stack_cas_session(null, $options);
+    if ($vars) {
+        $keyvals = new stack_cas_keyval($vars, $options, 0, 't');
+        $session = $keyvals->get_session();
+        $varerrs = $keyvals->get_errors();
+    }
+
+    if (!$varerrs) {
+        $ct           = new stack_cas_text($string, $session, 0, 't');
+        $displaytext  = $ct->get_display_castext();
+        $errs         = $ct->get_errors();
+        $debuginfo    = $ct->get_debuginfo();
+    }
 }
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 echo html_writer::tag('p', stack_string('chatintro'));
 
-if ($string) {
-    echo html_writer::tag('p', format_text($displaytext));
-    echo $errs;
+if (!$varerrs) {
+    if ($string) {
+        echo $OUTPUT->box(format_text($displaytext));
+    }
 }
 
+if ($simp) {
+    $simp = stack_string('autosimplify').' '.html_writer::empty_tag('input', array('type' => 'checkbox', 'checked' => $simp, 'name'=>'simp'));
+} else {
+    $simp = stack_string('autosimplify').' '.html_writer::empty_tag('input', array('type' => 'checkbox', 'name'=>'simp'));
+}
+
+$varlen = substr_count($vars, "\n")+3;
+$stringlen = max(substr_count($string, "\n")+3,8);
+
 echo html_writer::tag('form',
+            html_writer::tag('h2', stack_string('questionvariables')) .
+            html_writer::tag('p', $varerrs) .
+            html_writer::tag('p', html_writer::tag('textarea', $vars,
+                    array('cols' => 100, 'rows' => $varlen, 'name' => 'vars'))) .
+            html_writer::tag('p', $simp) .
+            html_writer::tag('h2', stack_string('castext')) .
+            html_writer::tag('p', $errs) .
             html_writer::tag('p', html_writer::tag('textarea', $string,
-                    array('cols' => 80, 'rows' => 5, 'name' => 'cas'))) .
+                    array('cols' => 100, 'rows' => $stringlen, 'name' => 'cas'))) .
             html_writer::tag('p', html_writer::empty_tag('input',
                     array('type' => 'submit', 'value' => stack_string('chat')))),
         array('action' => $PAGE->url, 'method' => 'post'));

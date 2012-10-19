@@ -62,6 +62,7 @@ load("log10");
 texput(log10,"\\log\\mathrm{10}",prefix);
 alias(lg,log10);
 texput(lg,"\\mathrm{lg}",prefix);
+load ("functs");
 
 /* ********************************** */
 /* Load contributed packages          */

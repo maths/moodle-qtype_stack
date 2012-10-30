@@ -25,13 +25,6 @@ class stack_boolean_input extends stack_input {
     const T = 'true';
     const NA = '';
 
-    public function __construct($name, $teacheranswer, $parameters) {
-        if (!in_array($teacheranswer, array(self::T, self::F))) {
-            $teacheranswer = self::NA;
-        }
-        parent::__construct($name, $teacheranswer, $parameters);
-    }
-
     public static function get_choices() {
         return array(
             self::F => stack_string('false'),
@@ -58,11 +51,11 @@ class stack_boolean_input extends stack_input {
                 $this->contents_to_maxima($state->contents), '', $attributes);
     }
 
-    public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('select', $this->name, $this->name, self::get_choices());
-        $mform->setDefault($this->name, '');
-    }
 
+    public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
+    	$mform->addElement('text', $this->name, $this->name);
+    }
+    
     /**
      * Return the default values for the parameters.
      * @return array parameters` => default value.

@@ -48,7 +48,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with intersting feedback.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
-            // 'test10', // CBM using a slider input for certainty. Not currently supported.
+            'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'divide', // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
             'numsigfigs', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
         );
@@ -523,6 +523,37 @@ class qtype_stack_test_helper extends question_test_helper {
         return $q;
     }
 
+    /**
+     * @return qtype_stack_question in which the expected answer in the true/false input is generated from the question variables...
+     */
+    public static function make_stack_question_test_boolean() {
+    	$q = self::make_a_stack_question();
+    	
+    	$q->name = 'test-boolean';
+    	$q->questionvariables = 'ta:true;';
+    	$q->questiontext = 'What is @ta@? [[input:ans1]]
+                           [[validation:ans1]]';
+    	
+    	$q->specificfeedback = '[[feedback:firsttree]]';
+    	$q->penalty = 0.3; // Non-zero and not the default.
+    	
+    	$q->inputs['ans1'] = stack_input_factory::make('boolean', 'ans1', 'ta');
+    	
+    	$q->options->questionsimplify = 1;
+    	
+    	$sans = new stack_cas_casstring('ans1');
+    	$sans->get_valid('t');
+    	$tans = new stack_cas_casstring('ta');
+    	$tans->get_valid('t');
+    	$node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
+    	$node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+    	$node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+    	$q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node));
+    	
+    	return $q;
+    }
+    
+    
     /**
      * @return qtype_stack_question the question from the test7.xml file.
      */

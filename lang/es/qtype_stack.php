@@ -495,12 +495,12 @@ $string['ATFacForm_error_list']     = 'La prueba a la respuesta ha fallado. Por 
 $string['ATFacForm_error_degreeSA'] = 'El CAS no pudo establecer el grado algebraico de tu respuesta.';
 $string['ATFacForm_isfactored']     = 'La respuesta esta factorizada, bien hecho. ';  // Needs a space at the end.
 $string['ATFacForm_notfactored']    = 'La respuesta no esta factorizada. '; // Needs a space at the end.
-$string['ATFacForm_notalgequiv']    = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // needs a space at the end.
+$string['ATFacForm_notalgequiv']    = 'Nota que tu respuesta no es algebraicamente equivalente a la respuesta correcta. Debiste cometer un error. '; // needs a space at the end.
 
-$string['ATPartFrac_error_list']        = 'The answer test failed.  Please contact your systems administrator';
+$string['ATPartFrac_error_list']        = 'La prueba a la respuesta falló. Por favor contacta al administrador del sistema';
 $string['ATPartFrac_true']              = '';
-$string['ATPartFrac_single_fraction']   ='Your answer seems to be a single fraction, it needs to be in a partial fraction form. ';
-$string['ATPartFrac_diff_variables']    ='The variables in your answer are different to those of the question, please check them. ';
+$string['ATPartFrac_single_fraction']   ='La respuesta parece ser una fracción común, cuando debería ser una fracción parcial. ';
+$string['ATPartFrac_diff_variables']    ='Las variables en la respuesta son diferentes a las de la pregunta, por favor revisa. ';
 $string['ATPartFrac_denom_ret']         ='If your answer is written as a single fraction then the denominator would be {$a->m0}. In fact, it should be {$a->m1}. ';
 $string['ATPartFrac_ret_expression']    ='Your answer as a single fraction is {$a->m0} ';
 

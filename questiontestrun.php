@@ -240,6 +240,20 @@ echo $OUTPUT->heading(get_string('generalfeedback', 'qtype_stack'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $question->format_generalfeedback($qa),
         array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
+// Add a link to the cas chat to facilitate editing the general feedback.
+if ($question->options->get_option('simplify')) {
+	$simp = 'on';
+} else {
+	$simp = '';
+}
+echo html_writer::tag('form',
+    html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $displayqvs, 'name' => 'vars')).
+    html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $simp, 'name' => 'simp')).
+    html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $question->generalfeedback, 'name' => 'cas')).
+	html_writer::tag('p', html_writer::empty_tag('input',
+        array('type' => 'submit', 'value' => stack_string('chat')))),
+		array('action' => $CFG->wwwroot.'/question/type/stack/caschat.php', 'method' => 'post'));
+
 // Display the controls to add another question test.
 echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 2);
 

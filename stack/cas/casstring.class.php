@@ -320,13 +320,13 @@ class stack_cas_casstring {
             $this->valid = false;
             if ($inline == 'left') {
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($cmd))));
+                 array('bracket'=>'[', 'cmd' => stack_maxima_format_casstring($cmd))));
             } else {
                 $this->add_error(stack_string('stackCas_missingRightBracket',
                  array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($cmd))));
             }
         }
-
+        
         if (!stack_utils::check_nested_bookends($cmd)) {
             $this->valid = false;
             $this->add_error(stack_string('stackCas_bracketsdontmatch',
@@ -381,10 +381,26 @@ class stack_cas_casstring {
                 $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
         }
 
+        // Check for spurious operators.
+        $spuriousops = array('<>', '||', '&', '..');
+        foreach ($spuriousops as $op) {
+        	if (substr_count($cmd, $op)>0) {
+        		$this->valid = false;
+        		$a = array();
+        		$a['cmd']  = stack_maxima_format_casstring($op);
+        		$this->add_error(stack_string('stackCas_spuriousop', $a));
+            }
+        }
+        
+        if (!($this->check_chained_inequalities($cmd))) {
+        	$this->valid = false;
+        	$this->add_error(stack_string('stackCas_chained_inequalities'));
+        }
+        
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security);
-
+     
         $this->key_val_split();
         return $this->valid;
     }
@@ -512,6 +528,65 @@ class stack_cas_casstring {
         return null;
     }
 
+    /**
+    * This function checks chained inequalities
+    * If we have two or more inequality symbols then we must have a logical connection {or/and} between each pair.
+    * First we need to split over commas to break up lists etc.
+    */
+    private function check_chained_inequalities($ex) {
+    
+    	if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+    		return true;
+    	}
+    
+    	// Separate out lists, sets, etc.
+    	$ex_split = explode(',', $ex);
+    	$bits = array();
+    	$ok = true;
+    	foreach ($ex_split as $bit) {
+    		$ok = $ok && $this->check_chained_inequalities_ind($bit);
+    	}
+    
+    	return $ok;
+    }
+    
+    private function check_chained_inequalities_ind($ex) {
+    
+    	if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+    		return true;
+    	}
+    
+    	// Split over characters '<>', '<=', '>=', '<', '>', '=',
+    	// Note the order in splits:  this is important.
+    	$splits = array( '<>', '<=', '>=', '<', '>', '=');
+    	$bits = array($ex);
+    	foreach ($splits as $split) {
+    		$newbits = array();
+    		foreach ($bits as $bit) {
+    			$newbits = array_merge($newbits, explode($split, $bit));
+    		}
+    		$bits = $newbits;
+    	}
+    	// Remove first and last entries
+    	unset($bits[count($bits)-1]);
+    	unset($bits[0]);
+    
+    	// Now check each "middle bit" has one of the following.
+    	// Note the space before, but not afterwards....
+    	$connectives = array(' and', ' or');
+    	$ok = true;
+    	foreach ($bits as $bit) {
+    		$onefound = false;
+    		foreach ($connectives as $con) {
+    			if (!(false === strpos($bit, $con))) {
+    				$onefound = true;
+    			}
+    		}
+    		$ok = $ok && $onefound;
+    	}
+    	return $ok;
+    
+    }
     /**
      * Check for CAS commands which appear in the $keywords array, which are not just single variables
      * Notes, (i)  this is case insensitive.

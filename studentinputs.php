@@ -38,7 +38,7 @@ require_capability('moodle/site:config', $context);
 
 // Set up the page object.
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/studentinput.php');
+$PAGE->set_url('/question/type/stack/studentinputs.php');
 $title = stack_string('stackInstall_input_title');
 $PAGE->set_title($title);
 

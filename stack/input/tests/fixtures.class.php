@@ -87,17 +87,17 @@ class stack_inputvalidation_test_data {
         array('[[1,2],[3,4]]', 'php_true', '[[1,2],[3,4]]', 'cas_true', ""),
         array('(a,b,c)', 'php_true', '(a,b,c)', 'cas_true',
         "In Maxima this syntax is a programme block which returns its last element."),
-        array('0..1', 'php_true', '0..1', 'cas_false',
+        array('0..1', 'php_false', '', '',
         "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\)."),
-        array('0.1..1.2', 'php_true', '0.1..1.2', 'cas_false', ""),
-        array('not x', 'php_false', '', '', ""),
-        array('x and y', 'php_false', '', '', ""),
-        array('x or y', 'php_false', '', '', ""),
+        array('0.1..1.2', 'php_false', '', '', ""),
+        array('not x', 'php_true', 'not x', 'cas_true', ""),
+        array('x and y', 'php_true', 'x and y', 'cas_true', ""),
+        array('x or y', 'php_true', 'x or y', 'cas_true', ""),
         array('x xor y', 'php_false', '', '', ""),
         array('x isa "number"', 'php_false', '', '', ""),
-        array('x && y', 'php_true', 'x && y', '', ""),
-        array('x || y', 'php_true', 'x || y', '', ""),
+        array('x && y', 'php_false', '', '', ""),
+        array('x || y', 'php_false', '', '', ""),
         array('x | y', 'php_true', 'x | y', '', ""),
         array('x * y', 'php_true', 'x * y', 'cas_true',
         "Operations: there are options on how this is displayed, either as \(x\cdot y\), \(x\\times y\), or as \(x\, y\)."),
@@ -112,10 +112,16 @@ class stack_inputvalidation_test_data {
         array('!x', 'php_true', '!x', 'cas_false', ""),
         array('x_1', 'php_true', 'x_1', 'cas_true', ""),
         array('x <= y', 'php_true', 'x <= y', 'cas_true',
-        "Only single inequalities are currently acceptable."),
+        "Inequalities in various forms."),
         array('x >= y', 'php_true', 'x >= y', 'cas_true', ""),
-        array('x <> y', 'php_true', 'x <> y', 'cas_false', "This isn't permitted in Maxima"),
-        array('x+', 'php_false', 'x+', '', "Not enough arguments for op error"),
+        array('x<1 and x>1', 'php_true', 'x<1 and x>1', 'cas_true', ""),
+        array('x>1 or (x<1 and t<sin(x))', 'php_true', 'x>1 or (x<1 and t<sin(x))', 'cas_true', ""),
+    	array('1<x<3', 'php_false', '', '', ""),
+    	array('[1<x,x<3]', 'php_true', '[1<x,x<3]', 'cas_true', ""),
+    	array('[1<x,y<1 or y>7]', 'php_true', '[1<x,y<1 or y>7]', 'cas_true', ""),
+    	array('[1<x,1<y<3]', 'php_false', '', '', ""),
+    	array('x <> y', 'php_false', '', '', "This isn't permitted in Maxima"),
+   		array('x+', 'php_false', 'x+', '', "Not enough arguments for op error"),
         array('y*', 'php_false', 'y*', '', ""),
         array('x^', 'php_flase', 'x^', '', ""),
         array('x and', 'php_false', '', '', ""),
@@ -209,20 +215,20 @@ class stack_inputvalidation_test_data {
         array('(-1)', 'php_true', '(-1)', 'cas_true', ""),
         array('[-1,-2]', 'php_true', '[-1,-2]', 'cas_true', ""),
         array('[1,-2]', 'php_true', '[1,-2]', 'cas_true', ""),
-        array('x & y', 'php_true', 'x & y', '', "Synonyms"),
-        array('x && y', 'php_true', 'x && y', '', ""),
-        array('x and y', 'php_false', '', '', ""),
+        array('x & y', 'php_false', 'x & y', '', "Synonyms"),
+        array('x && y', 'php_false', 'x && y', '', ""),
+        array('x and y', 'php_true', 'x and y', 'cas_true', ""),
         array('x divides y', 'php_false', '', '', ""),
         array('x | y', 'php_true', 'x | y', '', ""),
-        array('x or y', 'php_false', '', '', ""),
+        array('x or y', 'php_true', 'x or y', 'cas_true', ""),
         array('x || y', 'php_false', 'x || y', 'cas_true', ""),
-        array('sqr(x)', 'php_true', 'sqr(x)', 'cas_true', ""),
+        array('sqr(x)', 'php_false', '', '', ""),
         array('sqrt(x)', 'php_true', 'sqrt(x)', 'cas_true', "There is an option to display this as \(x^{1/2}|\)."),
-        array('gcf(x,y)', 'php_true', 'gcf(x,y)', 'cas_true', ""),
+        array('gcf(x,y)', 'php_false', '', '', ""),
         array('gcd(x,y)', 'php_true', 'gcd(x,y)', 'cas_true', "Don't understand why this is evaluated by Maxima..."),
-        array('sgn(x)', 'php_true', 'sgn(x)', 'cas_true', ""),
+        array('sgn(x)', 'php_false', '', '', ""),
         array('sign(x)', 'php_true', 'sign(x)', 'cas_true', ""),
-        array('len(x)', 'php_true', 'len(x)', 'cas_true', ""),
+        array('len(x)', 'php_false', '', '', ""),
         array('abs(x)', 'php_true', 'abs(x)', 'cas_true', ""),
         array('|x|', 'php_true', '|x|', 'cas_true', ""),
         array('length(x)', 'php_true', 'length(x)', 'cas_true', ""),
@@ -258,19 +264,19 @@ class stack_inputvalidation_test_data {
         array('x*(-y)', 'php_true', 'x*(-y)', 'cas_true', ""),
         array('(-x)*y', 'php_true', '(-x)*y', 'cas_true', ""),
         array('abs(13)', 'php_true', 'abs(13)', 'cas_true', ""),
-        array('fact(13)', 'php_true', 'fact(13)', 'cas_true', ""),
+        array('fact(13)', 'php_false', '', '', ""),
         array('ceiling(x)', 'php_true', 'ceiling(x)', 'cas_true', ""),
         array('floor(x)', 'php_true', 'floor(x)', 'cas_true', ""),
         array('int(x,y)', 'php_true', 'int(x,y)', 'cas_true', ""),
         array('diff(x,y)', 'php_true', 'diff(x,y)', 'cas_true', ""),
         array("'int(x,y)", 'php_false', '', 'cas_true', "Note the use of the apostrophe here to make an inert function."),
         array("'diff(x,y)", 'php_false', '', 'cas_true', "Not ideal...arises because we don't 'simplify'."),
-        array('partialdiff(x,y,1)', 'php_true', 'partialdiff(x,y,1)', 'cas_true', ""),
+        array('partialdiff(x,y,1)', 'php_false', '', '', ""),
         array('limit(y,x,3)', 'php_true', 'limit(y,x,3)', 'cas_true', ""),
         array('mod(x,y)', 'php_true', 'mod(x,y)', 'cas_true', ""),
-        array('perm(x,y)', 'php_true', 'perm(x,y)', 'cas_true', ""),
-        array('comb(x,y)', 'php_true', 'comb(x,y)', 'cas_true', ""),
-        array('root(3,2)', 'php_true', 'root(3,2)', 'cas_true', ""),
+        array('perm(x,y)', 'php_false', '', '', ""),
+        array('comb(x,y)', 'php_false', '', '', ""),
+        array('root(3,2)', 'php_false', '', '', ""),
         array('switch(x,a,y,b,c)', 'php_false', '', '', ""),
         array('sin(x)', 'php_true', 'sin(x)', 'cas_true', "Trig functions"),
         array('cos(x)', 'php_true', 'cos(x)', 'cas_true', ""),
@@ -304,7 +310,7 @@ class stack_inputvalidation_test_data {
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', ""),
         array('a,b,c', 'php_true', 'a,b,c', 'cas_true', "The following are known to fail.  Some are bugs...."),
-        array('x_y', 'php_true', 'x_y', 'cas_true', ""),
+        array('x_y', 'php_false', '', '', ""),
         array('([x)]', 'php_false', '([x)]', '', ""),
         array('if(x,y,z)', 'php_true', 'if(x,y,z)', 'cas_true', ""),
         array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true', ""),
@@ -349,8 +355,8 @@ class stack_inputvalidation_test_data {
         if ($phpvalid) {
             // Trim off stack_validate_typeless([..], true, true).
             $phpcasstring = $cs->get_casstring();
-            $phpcasstring = substr($cs->get_casstring(), 25, strlen($cs->get_casstring())-37);
-            $phpcasstring = substr($phpcasstring, -13);
+            $phpcasstring = substr($phpcasstring, 25);
+            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring)-12);
             $outputphpcasstring = $phpcasstring;
         } else {
             $phpcasstring = '';
@@ -359,7 +365,7 @@ class stack_inputvalidation_test_data {
 
         $errors   = $cs->get_errors();
 
-        if ('php_true'==$test->phpvalid) {
+        if ('php_true' === $test->phpvalid) {
             $expected = true;
         } else {
             $expected = false;

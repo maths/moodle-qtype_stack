@@ -74,7 +74,8 @@ class stack_cas_casstring_test extends basic_testcase {
                 array('x<=2 or not (x>1)', true, true),
                 array('x<1 or (x>1 and t<sin(x))', true, true),
                 array('[x<1, x>3]', true, true),
-        		array('1<x<7', false, false),
+                array('pg:if x<x0 then f0 else if x<x1 then 1000 else f1;', false, true),
+                array('1<x<7', false, false),
                 array('1<a<=x^2', false, false),
         		array('{1<x<y, c>0}', false, false),
         );

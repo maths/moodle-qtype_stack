@@ -84,12 +84,23 @@ class stack_answertest_general_cas extends stack_anstest {
     public function do_test() {
 
         if ('' == trim($this->sanskey)) {
-            throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty sans field.');
-            //$this->sanskey = 'EMPTY';
+            //throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty sans field.');
+            $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
+            $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty SA';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
         }
+
         if ('' == trim($this->tanskey)) {
-            throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty tans field.');
-            //$this->tanskey = 'EMPTY';
+            //throw new stack_exception('stack_answertest_general_cas: Attempted to execute '.$this->casfunction.' with an empty tans field.');
+            $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
+            $this->atansnote    = $this->casfunction.'TEST_FAILED:Empty TA';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
         }
 
         if ($this->processcasoptions) {

@@ -253,7 +253,7 @@ class stack_utils {
     }
 
     /**
-     * Gets the characters between two chars
+     * Gets the characters between two *characters*
      * Works throughout a string returning an array of matches
      *
      * @param string $string the string to analyse.

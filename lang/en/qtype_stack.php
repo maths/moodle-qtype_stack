@@ -460,6 +460,9 @@ $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented
 $string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. {$a->errors}';
 $string['AT_MissingOptions']        = 'Missing option when executing the test. ';
 $string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
+$string['AT_EmptySA']               = 'Attempted to execute an answertest with an empty student answer, probably a CAS validation problem when authoring the question.';
+$string['AT_EmptyTA']               = 'Attempted to execute an answertest with an empty teacher answer, probably a CAS validation problem when authoring the question.';
+
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';

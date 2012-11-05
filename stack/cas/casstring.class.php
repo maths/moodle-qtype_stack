@@ -539,6 +539,12 @@ class stack_cas_casstring {
             return true;
         }
 
+        // Plots, and HTML elements are protected within strings when they come back through the CAS
+        $found = stack_utils::substring_between($ex, '<html>', '</html>');
+        if ($found[1]>0) {
+            $ex = str_replace($found[0], '', $ex);
+        }
+
         // Separate out lists, sets, etc.
         $ex_split = explode(',', $ex);
         $bits = array();
@@ -547,7 +553,7 @@ class stack_cas_casstring {
             $ok = $ok && $this->check_chained_inequalities_ind($bit);
         }
 
-    	return $ok;
+        return $ok;
     }
     
     private function check_chained_inequalities_ind($ex) {

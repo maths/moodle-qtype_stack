@@ -501,26 +501,26 @@ $string['ATPartFrac_error_list']        = 'La prueba a la respuesta falló. Por 
 $string['ATPartFrac_true']              = '';
 $string['ATPartFrac_single_fraction']   ='La respuesta parece ser una fracción común, cuando debería ser una fracción parcial. ';
 $string['ATPartFrac_diff_variables']    ='Las variables en la respuesta son diferentes a las de la pregunta, por favor revisa. ';
-$string['ATPartFrac_denom_ret']         ='If your answer is written as a single fraction then the denominator would be {$a->m0}. In fact, it should be {$a->m1}. ';
-$string['ATPartFrac_ret_expression']    ='Your answer as a single fraction is {$a->m0} ';
+$string['ATPartFrac_denom_ret']         ='Si la respuesta se escribe como fracción común, entonces el denominador sería {$a->m0}. De hecho, debería ser {$a->m1}. ';
+$string['ATPartFrac_ret_expression']    ='La respuesta como fracción común es {$a->m0} ';
 
-$string['ATSingleFrac_error_list']     = 'The answer test failed.  Please contact your systems administrator';
+$string['ATSingleFrac_error_list']     = 'La prueba a la respuesta falló.  Por favor contacta al administrador del sistema';
 $string['ATSingleFrac_true']           = '';
-$string['ATSingleFrac_part']           = 'Your answer needs to be a single fraction of the form \( {a}\over{b} \). ';
-$string['ATSingleFrac_var']            = 'The variables in your answer are different to the those of the question, please check them. ';
-$string['ATSingleFrac_ret_exp']        = 'Your answer is not algebraically equivalent to the correct answer. You must have done something wrong. ';
-$string['ATSingleFrac_div']            = 'Your answer contains fractions within fractions.  You need to clear these and write your answer as a single fraction.';
+$string['ATSingleFrac_part']           = 'La respuesta debe ser una fracción común de la forma \( {a}\over{b} \). ';
+$string['ATSingleFrac_var']            = 'Las variables en la respuesta son diferentes a las de la pregunta, por favor revisa. ';
+$string['ATSingleFrac_ret_exp']        = 'La respuesta no es algebraicamente equivalente a la respuesta correcta. Debiste cometer un error. ';
+$string['ATSingleFrac_div']            = 'La respuesta contiene fracciones dentro de fracciones.  Necesitas simplificar y escribir la respuesta como una fracción común.';
 
 $string['ATCompSquare_true']            = '';
 $string['ATCompSquare_false']           = '';
-$string['ATCompSquare_not_AlgEquiv']    = 'Your answer appears to be in the correct form, but is not equivalent to the correct answer.';
+$string['ATCompSquare_not_AlgEquiv']    = 'La respuesta parece estar en forma correcta, pero no es equivalente a la respuesta correcta.';
 $string['ATCompSquare_false_no_summands']     = 'The completed square is of the form \( a(\cdots\cdots)^2 + b\) where \(a\) and \(b\) do not depend on your variable.  More than one of your summands appears to depend on the variable in your answer.';
 
 
-$string['ATInt_error_list']         = 'The answer test failed.  Please contact your systems administrator';
-$string['ATInt_const_int']          = 'You need to add a constant of integration. This should be an arbitrary constant, not a number.';
+$string['ATInt_error_list']         = 'La prueba a la respuesta falló.  Por favor contacta al administrador del sistema';
+$string['ATInt_const_int']          = 'Necesistas agregar una constante de integración. Debe ser una constante arbitraria, no un número.';
 $string['ATInt_const']              = 'You need to add a constant of integration, otherwise this appears to be correct.  Well done.';
-$string['ATInt_EqFormalDiff']       = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, eg, a constant of integration.  Please ask your teacher about this.';
+$string['ATInt_EqFormalDiff']       = 'La derivada formal de la respuesta es igual a la expresión que se te pidió integrar. Sin embargo, tu respuesta difiere significativamente de la respuesta correcta, The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, eg, a constant of integration.  Please ask your teacher about this.';
 $string['ATInt_wierdconst']         = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, you have a strange constant of integration.  Please ask your teacher about this.';
 $string['ATInt_diff']               = 'It looks like you have differentiated instead!';
 $string['ATInt_generic']            = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
@@ -528,23 +528,23 @@ $string['ATInt_generic']            = 'The derivative of your answer should be e
 $string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';
 
-$string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact your systems administrator';
-$string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';
-$string['ATNumSigFigs_Inaccurate']  = 'The accuracy of your answer is not correct.  Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.';
-$string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of significant digits. ';
+$string['ATNumSigFigs_error_list']  = 'La prueba a la respuesta falló.  Por favor, contacta al administrador del sistema';
+$string['ATNumSigFigs_NotDecimal']  = 'La respuesta debería ser un número decimal, pero no es así! ';
+$string['ATNumSigFigs_Inaccurate']  = 'La precisión de la respuesta no es correcta. O no has redondeado adecuadamente, o has redondeado un resultado parcial donde se propago el error.';
+$string['ATNumSigFigs_WrongDigits'] = 'La respuesta contiene un número incorrecto de dígitos significativos. ';
 
-$string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
-$string['ATSysEquiv_SB_not_list']               = 'The Teacher\'s answer is not a list.  Please contact your teacher.';
-$string['ATSysEquiv_SA_not_eq_list']            = 'Your answer should be a list of equations, but it is not!';
-$string['ATSysEquiv_SB_not_eq_list']            = 'Teacher answer is not a list of equations';
-$string['ATSysEquiv_SA_not_poly_eq_list']       = 'One or more of your equations is not a polynomial!';
-$string['ATSysEquiv_SB_not_poly_eq_list']       = 'The Teacher\'s answer should be a list of polynomial equations, but is not.  Please contact your teacher.';
-$string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or more variables!';
+$string['ATSysEquiv_SA_not_list']               = 'La respuesta debería ser una lista, pero no es así!';
+$string['ATSysEquiv_SB_not_list']               = 'La respuesta del profesor no es una lista.  Por favor, contacta al profesor.';
+$string['ATSysEquiv_SA_not_eq_list']            = 'La respuesta debería ser una lista de ecuaciones, pero no es así!';
+$string['ATSysEquiv_SB_not_eq_list']            = 'La respuesta del profesor no es una lista de ecuaciones';
+$string['ATSysEquiv_SA_not_poly_eq_list']       = 'Una o mas de las ecuaciones no es un polinomio!';
+$string['ATSysEquiv_SB_not_poly_eq_list']       = 'La respuesta del profesor debe ser una lista de ecuaciones polinómicas, pero no es así. Por favor, contacta al profesor.';
+$string['ATSysEquiv_SA_missing_variables']      = 'Falta en la respuesta una o mas variables!';
 $string['ATSysEquiv_SA_extra_variables']        = 'La respuesta incluye muchas variables!';
 $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
-$string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are those that are incorrect. {$a->m0} ';
+$string['ATSysEquiv_SA_system_overdetermined']  = 'Las siguientes entradas en rojo son incorrectas. {$a->m0} ';
 
-$string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
+$string['ATRegEx_missing_option']               = 'Falta una expresión regular en el campo opciones \(CAS\).';
 
 $string['studentValidation_yourLastAnswer']  = 'Tu respuesta fue interpretado como: {$a}';
 $string['studentValidation_invalidAnswer']   = 'Esta respuesta es invalida. ';
@@ -561,4 +561,280 @@ $string['stackDoc_siteMap']             = 'Mapa del sitio';
 $string['stackDoc_404message']          = 'Archivo no encontrado.';
 $string['stackDoc_directoryStructure']  = 'Estructura del directorio';
 
+// Old hints system.
+$string['greek_alphabet_name'] = 'Alfabeto Griego';
+$string['greek_alphabet_fact'] = '
+<center>
+<table>
+<tr><td>
+ Mayúsculas, \(\quad\) </td><td>  Minúsculas, \(\quad\) </td><td>  Nombre </td> </tr>   <tr> <td>
+ \(A\)  </td><td>  \(\alpha\)  </td><td>  alfa  </td> </tr>   <tr> <td>
+ \(B\)  </td><td>  \(\beta\)  </td><td>  beta </td> </tr>   <tr> <td>
+ \(\Gamma\)  </td><td>  \(\gamma\)  </td><td>  gamma </td> </tr>   <tr> <td>
+ \(\Delta\)  </td><td>  \(\delta\)  </td><td>  delta </td> </tr>   <tr> <td>
+ \(E\)  </td><td>  \(\epsilon\)  </td><td>  épsilon </td> </tr>   <tr> <td>
+ \(Z\)  </td><td>  \(\zeta\)  </td><td>  dseta </td> </tr>   <tr> <td>
+ \(H\)  </td><td>  \(\eta\)  </td><td>  eta </td> </tr>   <tr> <td>
+ \(\Theta\)  </td><td>  \(\theta\)  </td><td>  theta </td> </tr>   <tr> <td>
+ \(K\)  </td><td>  \(\kappa\)  </td><td>  kappa </td> </tr>   <tr> <td>
+ \(M\)  </td><td>  \(\mu\)  </td><td>  mi </td> </tr>   <tr> <td>
+ \(N\)  </td><td>  \) u\)  </td><td>  ni </td> </tr>   <tr> <td>
+ \(\Xi\)  </td><td>  \(\xi\)  </td><td>  xi </td> </tr>   <tr> <td>
+ \(O\)  </td><td>  \(o\)  </td><td>  omicron </td> </tr>   <tr> <td>
+ \(\Pi\)  </td><td>  \(\pi\)  </td><td>  pi </td> </tr>   <tr> <td>
+ \(I\)  </td><td>  \(\iota\)  </td><td>  iota </td> </tr>   <tr> <td>
+ \(P\)  </td><td>  \(\rho\) </td><td>  rho </td> </tr>   <tr> <td>
+ \(\Sigma\)  </td><td>  \(\sigma\)  </td><td>  sigma </td> </tr>   <tr> <td>
+ \(\Lambda\)  </td><td>  \(\lambda\)  </td><td>  lambda </td> </tr>   <tr> <td>
+ \(T\)  </td><td>  \(\tau\)  </td><td>  tau </td> </tr>   <tr> <td>
+ \(\Upsilon\)  </td><td>  \(\upsilon\)  </td><td>  ípsilon </td> </tr>   <tr> <td>
+ \(\Phi\)  </td><td>  \(\phi\)  </td><td>  phi </td> </tr>   <tr> <td>
+ \(X\)  </td><td>  \(\chi\)  </td><td>  xi </td> </tr>   <tr> <td>
+ \(\Psi\)  </td><td>  \(\psi\)  </td><td> psi </td> </tr>   <tr> <td>
+ \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr> 
+</table></center>';
+
+$string['alg_inequalities_name'] = 'Desigualdades';
+$string['alg_inequalities_fact'] = '\[a>b \hbox{ significa } a \hbox{ es mayor que } b\]
+<br />
+\[ a < b \hbox{ significa } a \hbox{ es menor que } b\]
+<br />
+\[a\geq b \hbox{ significa } a \hbox{ es mayor o igual que } b\]
+<br />
+\[a\leq b \hbox{ significa } a \hbox{ es menor o igual que } b\]';
+
+$string['alg_indices_name'] = 'Leyes de los expenentes';
+$string['alg_indices_fact'] = 'Las siguientes leyes rigen la manipulación de exponentes:
+\[a^ma^n = a^{m+n}\] 
+\[\frac{a^m}{a^n} = a^{m-n}\] 
+\[(a^m)^n = a^{mn}\]
+\[a^0 = 1\] 
+\[a^{-m} = \frac{1}{a^m}\] 
+\[a^{\frac{1}{n}} = \sqrt[n]{a}\] 
+\[a^{\frac{m}{n}} = \left(\sqrt[n]{a}\right)^m\]'; 
+
+$string['alg_logarithms_name'] = 'Leyes de Logaritmos';
+$string['alg_logarithms_fact'] = 'Para cualquier base positiva \(b\) (con \(b \neq 1\)):
+\[\log_b(a) = c \mbox{, significa } a = b^c\]
+\[\log_b(a) + \log_b(b) = \log_b(ab)\]
+\[\log_b(a) - \log_b(b) = \log_b\left(\frac{a}{b}\right)\]
+\[n\log_b(a) = \log_b\left(a^n\right)\]
+\[\log_b(1) = 0\]
+\[\log_b(b) = 1\]
+La fórmula para cambiar de base es:
+\[\log_a(x) = \frac{\log_b(x)}{\log_b(a)}\]
+Logaritmos de base $e$, denotado por $\log_e$ o también $\ln$ se llaman logaritmos naturales.  La letra $e$ representa una constante exponencial que es aproximadamente 2.718.';
+
+$string['alg_quadratic_formula_name'] = 'Fórmula Cuadrática';
+$string['alg_quadratic_formula_fact'] = 'Si tenemos una ecuación cuadrática en la forma:
+\[ax^2 + bx + c = 0,\]
+entonces las soluciones para esta ecuación estan dadas por la fórmula cuadrática:
+\[x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.\]';
+
+
+$string['alg_partial_fractions_name'] = 'Fracciones Parciales';
+$string['alg_partial_fractions_fact'] = 'Las fracciones parciales se crean cuando \[{\frac{P(x)}{Q(x)}}\]
+donde $P$ y $Q$ son polinomios con el grado de $P$ menor que el grado de $Q$. En este caso, se procede
+como sigue: escribe $Q(x)$ en su forma factorizada,
+<ul>
+<li>
+a <em>factor lineal</em> $ax+b$ en el denominador se produce una fracción parcial de la forma \[{\frac{A}{ax+b}}.\]
+</li>
+<li>
+a <em>factores lineales repetidos</em> $(ax+b)^2$ en el denominador
+produce una fracción parcial de la forma \[{A\over ax+b}+{B\over (ax+b)^2}.\]
+</li>
+<li>
+a <em>factor cuadrático</em> $ax^2+bx+c$
+en el denominador produce una fracción parcial de
+la forma \[{Ax+B\over ax^2+bx+c}\]
+</li>
+<li>
+<em>Fracciones impropias}</em> requiere un término
+adicional con un polinomio de grado $n-d$ donde $n$ es
+el grado del numerador (p.e. $P(x)$) y $d$ es el grado de
+el denominador (p.e. $Q(x)$).
+</li></ul>';
+
+$string['trig_degrees_radians_name'] = 'Grados y Radianes';
+$string['trig_degrees_radians_fact'] = '\[
+360^\circ= 2\pi \hbox{ radians},\quad
+1^\circ={2\pi\over 360}={\pi\over 180}\hbox{ radianes}
+\]
+\[
+1 \hbox{ radián} = {180\over \pi} \hbox{ grados}
+\approx 57.3^\circ
+\]';
+
+$string['trig_standard_values_name'] = 'Valores de Funciones Trigonométricas';
+$string['trig_standard_values_fact'] = '
+\[\sin(45^\circ)={1\over \sqrt{2}}, \qquad \cos(45^\circ) = {1\over \sqrt{2}},\qquad
+\tan( 45^\circ)=1
+\]
+\[
+\sin (30^\circ)={1\over 2}, \qquad \cos (30^\circ)={\sqrt{3}\over 2},\qquad
+\tan (30^\circ)={1\over \sqrt{3}}
+\]
+\[
+\sin (60^\circ)={\sqrt{3}\over 2}, \qquad \cos (60^\circ)={1\over 2},\qquad
+\tan (60^\circ)={ \sqrt{3}}
+\]';
+
+$string['trig_standard_identities_name'] = 'Identidades Trigonométricas';
+$string['trig_standard_identities_fact'] = '\[\sin(a\pm b)\ = \  \sin(a)\cos(b)\ \pm\  \cos(a)\sin(b)\]
+ \[\cos(a\ \pm\ b)\ = \  \cos(a)\cos(b)\ \mp \\sin(a)\sin(b)\]
+ \[\tan (a\ \pm\ b)\ = \  {\tan (a)\ \pm\ \tan (b)\over1\ \mp\ \tan (a)\tan (b)}\]
+ \[ 2\sin(a)\cos(b)\ = \  \sin(a+b)\ +\ \sin(a-b)\]
+ \[ 2\cos(a)\cos(b)\ = \  \cos(a-b)\ +\ \cos(a+b)\]
+ \[ 2\sin(a)\sin(b) \ = \  \cos(a-b)\ -\ \cos(a+b)\]
+ \[ \sin^2(a)+\cos^2(a)\ = \  1\]
+ \[ 1+{\rm cot}^2(a)\ = \  {\rm cosec}^2(a),\quad \tan^2(a) +1 \ = \  \sec^2(a)\]
+ \[ \cos(2a)\ = \  \cos^2(a)-\sin^2(a)\ = \  2\cos^2(a)-1\ = \  1-2\sin^2(a)\]
+ \[ \sin(2a)\ = \  2\sin(a)\cos(a)\]
+ \[ \sin^2(a) \ = \  {1-\cos (2a)\over 2}, \qquad \cos^2(a)\ = \  {1+\cos(2a)\over 2}\]';
+
+$string['hyp_functions_name'] = 'Funciones Hiperbólicas';
+$string['hyp_functions_fact'] = 'Las funciones hiperbólicas tienen propiedades similares a las funciones trigonométricas pero pueden ser representadas en forma exponencial como sigue:
+ \[ \cosh(x)      = \frac{e^x+e^{-x}}{2}, \qquad \sinh(x)=\frac{e^x-e^{-x}}{2} \]
+ \[ \tanh(x)      = \frac{\sinh(x)}{\cosh(x)} = \frac{{e^x-e^{-x}}}{e^x+e^{-x}} \]
+ \[ {\rm sech}(x) ={1\over \cosh(x)}={2\over {\rm e}^x+{\rm e}^{-x}}, \qquad  {\rm cosech}(x)= {1\over \sinh(x)}={2\over {\rm e}^x-{\rm e}^{-x}} \]
+ \[ {\rm coth}(x) ={\cosh(x)\over \sinh(x)} = {1\over {\rm tanh}(x)} ={{\rm e}^x+{\rm e}^{-x}\over {\rm e}^x-{\rm e}^{-x}}\]';
+
+$string['hyp_identities_name'] = 'Identidades Hiperbólicas';
+$string['hyp_identities_fact'] = 'La similitud de comportamiento entre las funciones hiperbólicas y la trigonométricas se hace evidente al observar algunas identidades hiperbólicas básicas:
+  \[{\rm e}^x=\cosh(x)+\sinh(x), \quad {\rm e}^{-x}=\cosh(x)-\sinh(x)\]
+  \[\cosh^2(x) -\sinh^2(x) = 1\]
+  \[1-{\rm tanh}^2(x)={\rm sech}^2(x)\]
+  \[{\rm coth}^2(x)-1={\rm cosech}^2(x)\]
+  \[\sinh(x\pm y)=\sinh(x)\ \cosh(y)\ \pm\ \cosh(x)\ \sinh(y)\]
+  \[\cosh(x\pm y)=\cosh(x)\ \cosh(y)\ \pm\ \sinh(x)\ \sinh(y)\]
+  \[\sinh(2x)=2\,\sinh(x)\cosh(x)\]
+  \[\cosh(2x)=\cosh^2(x)+\sinh^2(x)\]
+  \[\cosh^2(x)={\cosh(2x)+1\over 2}\]
+  \[\sinh^2(x)={\cosh(2x)-1\over 2}\]';
+
+$string['hyp_inverse_functions_name'] = 'Funciones Hiperbólicas Inversas';
+$string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}\right) \quad \mbox{ for } x\geq 1\]
+ \[\sinh^{-1}(x)=\ln\left(x+\sqrt{x^2+1}\right)\]
+ \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \mbox{ for } -1< x < 1\]';
+
+
+$string['calc_diff_standard_derivatives_name'] = 'Derivadas Básicas';
+$string['calc_diff_standard_derivatives_fact'] = 'La siguiente tabla muestra algunas derivadas de funciones básicas.  Es útil aprender estas derivadas básicas porque son usadas frecuentemente en cálculo.
+<center>
+<table>
+<tr><th>\(f(x)\)               </th><th> \(f\'(x)\)</th></tr>
+<tr>
+<td>\(k\), constant           </td> <td> \(0\) </td> </tr> <tr> <td>
+\(x^n\), any constant \(n\) </td> <td> \(nx^{n-1}\)</td> </tr> <tr> <td>
+\(e^x\)                   </td> <td> \(e^x\)</td> </tr> <tr> <td>
+\(\ln(x)=\log_{\rm e}(x)\)              </td> <td> \(\frac{1}{x}\)                </td> </tr> <tr> <td>
+\(\sin(x)\)                             </td> <td> \(\cos(x)\)                    </td> </tr> <tr> <td>
+\(\cos(x)\)                             </td> <td> \(-\sin(x)\)                   </td> </tr> <tr> <td>
+\(\tan(x) = \frac{\sin(x)}{\cos(x)}\)   </td> <td>   \(\sec^2(x)\)                </td> </tr> <tr> <td>
+\(cosec(x)=\frac{1}{\sin(x)}\)         </td> <td>   \(-cosec(x)\cot(x)\)        </td> </tr> <tr> <td>
+\(\sec(x)=\frac{1}{\cos(x)}\)           </td> <td>   \(\sec(x)\tan(x)\)           </td> </tr> <tr> <td>
+\(\cot(x)=\frac{\cos(x)}{\sin(x)}\)     </td> <td>   \(-cosec^2(x)\)             </td> </tr> <tr> <td>
+\(\cosh(x)\)                            </td> <td>   \(\sinh(x)\)                 </td> </tr> <tr> <td>
+\(\sinh(x)\)                            </td> <td>   \(\cosh(x)\)                 </td> </tr> <tr> <td>
+\(\tanh(x)\)                            </td> <td>   \(sech^2(x)\)               </td> </tr> <tr> <td>
+\(sech(x)\)                            </td> <td>   \(-sech(x)\tanh(x)\)        </td> </tr> <tr> <td>
+\(cosech(x)\)                          </td> <td>   \(-cosech(x)\coth(x)\)      </td> </tr> <tr> <td>
+\(coth(x)\)                            </td> <td>   \(-cosech^2(x)\)            </td> </tr>
+</table>
+</center>
+
+ \[ \frac{d}{dx}\left(\sin^{-1}(x)\right) =  \frac{1}{\sqrt{1-x^2}}\]
+ \[ \frac{d}{dx}\left(\cos^{-1}(x)\right) =  \frac{-1}{\sqrt{1-x^2}}\]
+ \[ \frac{d}{dx}\left(\tan^{-1}(x)\right) =  \frac{1}{1+x^2}\]
+ \[ \frac{d}{dx}\left(\cosh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2-1}}\]
+ \[ \frac{d}{dx}\left(\sinh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2+1}}\]
+ \[ \frac{d}{dx}\left(\tanh^{-1}(x)\right) =  \frac{1}{1-x^2}\]
+';
+
+
+
+$string['calc_diff_linearity_rule_name'] = 'Regla de Linealidad para la Diferenciación';
+$string['calc_diff_linearity_rule_fact'] = '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant}\]';
+
+$string['calc_product_rule_name'] = 'Regla del Producto';
+$string['calc_product_rule_fact'] = 'La siguiente regla permite derivar funciones que se multiplican entre sí. Supongamos que se desea derivar \(f(x)g(x)\) respecto de \(x\).
+\[ \frac{\mathrm{d}}{\mathrm{d}{x}} \big(f(x)g(x)\big) = f(x) \cdot \frac{\mathrm{d} g(x)}{\mathrm{d}{x}}  + g(x)\cdot \frac{\mathrm{d} f(x)}{\mathrm{d}{x}},\] o, usando una notación alterna, \[ (f(x)g(x))\' = f\'(x)g(x)+f(x)g\'(x). \]';
+
+$string['calc_quotient_rule_name'] = 'Regla del Cociente';
+$string['calc_quotient_rule_fact'] = 'La regla del cociente permite derivar dos funciones diferenciables \(f(x)\) y \(g(x)\),
+ \[\frac{d}{dx}\left(\frac{f(x)}{g(x)}\right)=\frac{g(x)\cdot\frac{df(x)}{dx}\ \ - \ \ f(x)\cdot \frac{dg(x)}{dx}}{g(x)^2}. \]';
+
+$string['calc_chain_rule_name'] = 'Regla de la Cadena';
+$string['calc_chain_rule_fact'] = 'La regla de la cadena permite encontrar la derivada de dos funciones compuestas.
+Supongamos que tenemos la función \(f(g(x))\), entonces definimos \(u=g(x)\), la derivada respecto de \(x\) esta dada por:
+\[\frac{df(g(x))}{dx} = \frac{dg(x)}{dx}\cdot\frac{df(u)}{du}.\]
+También podemos escribirla como:
+\[\frac{df(x)}{dx} = f\'(g(x))\cdot g\'(x).\]
+';
+
+$string['calc_rules_name'] = 'Reglas para Cálculo';
+$string['calc_rules_fact']  = '<b>The Product Rule</b><br />The following rule allows one to differentiate functions which are
+multiplied together.  Assume that we wish to differentiate \(f(x)g(x)\) with respect to \(x\).
+\[ \frac{\mathrm{d}}{\mathrm{d}{x}} \big(f(x)g(x)\big) = f(x) \cdot \frac{\mathrm{d} g(x)}{\mathrm{d}{x}}  + g(x)\cdot \frac{\mathrm{d} f(x)}{\mathrm{d}{x}},\] or, using alternative notation, \[ (f(x)g(x))\' = f\'(x)g(x)+f(x)g\'(x). \]
+<b>The Quotient Rule</b><br />The quotient rule for differentiation states that for any two differentiable functions \(f(x)\) and \(g(x)\),
+\[\frac{d}{dx}\left(\frac{f(x)}{g(x)}\right)=\frac{g(x)\cdot\frac{df(x)}{dx}\ \ - \ \ f(x)\cdot \frac{dg(x)}{dx}}{g(x)^2}. \]
+<b>The Chain Rule</b><br />The following rule allows one to find the derivative of a composition of two functions.
+Assume we have a function \(f(g(x))\), then defining \(u=g(x)\), the derivative with respect to \(x\) is given by:
+\[\frac{df(g(x))}{dx} = \frac{dg(x)}{dx}\cdot\frac{df(u)}{du}.\]
+Alternatively, we can write:
+\[\frac{df(x)}{dx} = f\'(g(x))\cdot g\'(x).\]
+';
+
+$string['calc_int_standard_integrals_name'] = 'Integrales Básicas';
+$string['calc_int_standard_integrals_fact'] = '
+
+\[\int k\ dx = kx +c, \mbox{ donde k es una constante.}\]
+\[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
+\[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k*|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
+\ln(-x)+c & x<0\cr}\right.\]
+
+<center>
+<table>
+<tr><th>\(f(x)\)</th><th> \(\int f(x)\ dx\)</th></tr>
+<tr><td>\(e^x\) </td> <td>  \(e^x+c\)</td> <td> </td> </tr>
+<tr><td>\(\cos(x)\) </td> <td>  \(\sin(x)+c\)   </td> <td> </td> </tr>
+<tr><td>\(\sin(x)\) </td> <td>  \(-\cos(x)+c\)  </td> <td> </td> </tr>
+<tr><td>\(\tan(x)\) </td> <td>  \(\ln(\sec(x))+c\) </td> <td>\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)</td> </tr>
+<tr><td>\(\sec x\)  </td> <td>  \(\ln (\sec(x)+\tan(x))+c\) </td> <td> \( -{\pi\over 2}< x < {\pi\over 2}\)</td> </tr>
+<tr><td>cosec\(\, x\) </td> <td>  \(\ln ($cosec$(x)-\cot(x))+c\) </td> <td>\(0 < x < \pi\)</td> </tr>
+<tr><td>cot\(\,x\) </td> <td>  \(\ln(\sin(x))+c\) </td> <td>  \(0< x< \pi\) </td> </tr>
+<tr><td>\(\cosh(x)\) </td> <td>  \(\sinh(x)+c\)</td> <td></td> </tr>
+<tr><td>\(\sinh(x)\) </td> <td>  \(\cosh(x) + c\) </td> <td> </td> </tr>
+<tr><td>\(\tanh(x)\) </td> <td>  \(\ln(\cosh(x))+c\)</td> <td> </td> </tr>
+<tr><td>coth\((x)\) </td> <td>  \(\ln(\sinh(x))+c \)</td> <td>   \(x>0\)</td> </tr>
+<tr><td>\({1\over x^2+a^2}\) </td> <td>  \({1\over a}\tan^{-1}{x\over a}+c\)</td> <td> \(a>0\)</td> </tr>
+<tr><td>\({1\over x^2-a^2}\) </td> <td>  \({1\over 2a}\ln{x-a\over x+a}+c\) </td> <td>  \(|x|>a>0\)</td> </tr>
+<tr><td>\({1\over a^2-x^2}\) </td> <td>  \({1\over 2a}\ln{a+x\over a-x}+c\) </td> <td>   \(|x|<a\)</td> </tr>
+<tr><td>\({1\over \sqrt{x^2+a^2}}\) </td> <td>  \(\sinh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td> \(a>0\) </td> </tr>
+<tr><td>\({1\over \sqrt{x^2-a^2}}\) </td> <td>  \(\cosh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td>  \(x\geq a > 0\) </td> </tr>
+<tr><td>\({1\over \sqrt{x^2+k}}\) </td> <td>  \(\ln (x+\sqrt{x^2+k})+c\)</td> <td> </td> </tr>
+<tr><td>\({1\over \sqrt{a^2-x^2}}\) </td> <td>  \(\sin^{-1}\left(\frac{x}{a}\right)+c\)</td> <td>  \(-a\leq x\leq a\)  </td> </tr>
+</table></canter>';
+
+$string['calc_int_linearity_rule_name'] = 'Regla de Linealidad de la Integral';
+$string['calc_int_linearity_rule_fact'] = '\[\int \left(af(x)+bg(x)\right){\rm d}x = a\int\!\!f(x)\,{\rm d}x
+\,+\,b\int \!\!g(x)\,{\rm d}x, \quad (a,b \, \, {\rm constant})
+\]';
+
+$string['calc_int_methods_substitution_name'] = 'Integración por sustitución';
+$string['calc_int_methods_substitution_fact'] = '\[
+\int f(u){{\rm d}u\over {\rm d}x}{\rm d}x=\int f(u){\rm d}u
+\quad\hbox{and}\quad \int_a^bf(u){{\rm d}u\over {\rm d}x}\,{\rm
+d}x = \int_{u(a)}^{u(b)}f(u){\rm d}u
+\]';
+
+$string['calc_int_methods_parts_name'] = 'Integración por Partes';
+$string['calc_int_methods_parts_fact'] = '\[
+\int_a^b u{{\rm d}v\over {\rm d}x}{\rm d}x=\left[uv\right]_a^b-
+\int_a^b{{\rm d}u\over {\rm d}x}v\,{\rm d}x
+\]
+Or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
+g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
+d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x \]';
 

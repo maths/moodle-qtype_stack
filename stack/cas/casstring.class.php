@@ -384,19 +384,19 @@ class stack_cas_casstring {
         // Check for spurious operators.
         $spuriousops = array('<>', '||', '&', '..');
         foreach ($spuriousops as $op) {
-        	if (substr_count($cmd, $op)>0) {
-        		$this->valid = false;
-        		$a = array();
-        		$a['cmd']  = stack_maxima_format_casstring($op);
-        		$this->add_error(stack_string('stackCas_spuriousop', $a));
+            if (substr_count($cmd, $op)>0) {
+                $this->valid = false;
+                $a = array();
+                $a['cmd']  = stack_maxima_format_casstring($op);
+                $this->add_error(stack_string('stackCas_spuriousop', $a));
             }
         }
-        
+
         if (!($this->check_chained_inequalities($cmd))) {
-        	$this->valid = false;
-        	$this->add_error(stack_string('stackCas_chained_inequalities'));
+            $this->valid = false;
+            $this->add_error(stack_string('stackCas_chained_inequalities'));
         }
-        
+
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security);
@@ -534,59 +534,59 @@ class stack_cas_casstring {
     * First we need to split over commas to break up lists etc.
     */
     private function check_chained_inequalities($ex) {
-    
-    	if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
-    		return true;
-    	}
-    
-    	// Separate out lists, sets, etc.
-    	$ex_split = explode(',', $ex);
-    	$bits = array();
-    	$ok = true;
-    	foreach ($ex_split as $bit) {
-    		$ok = $ok && $this->check_chained_inequalities_ind($bit);
-    	}
-    
+
+        if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+            return true;
+        }
+
+        // Separate out lists, sets, etc.
+        $ex_split = explode(',', $ex);
+        $bits = array();
+        $ok = true;
+        foreach ($ex_split as $bit) {
+            $ok = $ok && $this->check_chained_inequalities_ind($bit);
+        }
+
     	return $ok;
     }
     
     private function check_chained_inequalities_ind($ex) {
-    
-    	if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
-    		return true;
-    	}
-    
-    	// Split over characters '<>', '<=', '>=', '<', '>', '=',
-    	// Note the order in splits:  this is important.
-    	$splits = array( '<>', '<=', '>=', '<', '>', '=');
-    	$bits = array($ex);
-    	foreach ($splits as $split) {
-    		$newbits = array();
-    		foreach ($bits as $bit) {
-    			$newbits = array_merge($newbits, explode($split, $bit));
-    		}
-    		$bits = $newbits;
-    	}
-    	// Remove first and last entries
-    	unset($bits[count($bits)-1]);
-    	unset($bits[0]);
-    
-    	// Now check each "middle bit" has one of the following.
-    	// Note the space before, but not afterwards....
-    	$connectives = array(' and', ' or', ' else', ' then', ' do');
-    	$ok = true;
-    	foreach ($bits as $bit) {
-    		$onefound = false;
-    		foreach ($connectives as $con) {
-    			if (!(false === strpos($bit, $con))) {
-    				$onefound = true;
-    			}
-    		}
-    		$ok = $ok && $onefound;
-    	}
-    	return $ok;
-    
+
+        if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+            return true;
+        }
+
+        // Split over characters '<>', '<=', '>=', '<', '>', '=',
+        // Note the order in splits:  this is important.
+        $splits = array( '<>', '<=', '>=', '<', '>', '=');
+        $bits = array($ex);
+        foreach ($splits as $split) {
+            $newbits = array();
+            foreach ($bits as $bit) {
+                $newbits = array_merge($newbits, explode($split, $bit));
+            }
+            $bits = $newbits;
+        }
+        // Remove first and last entries
+        unset($bits[count($bits)-1]);
+        unset($bits[0]);
+
+        // Now check each "middle bit" has one of the following.
+        // Note the space before, but not afterwards....
+        $connectives = array(' and', ' or', ' else', ' then', ' do');
+        $ok = true;
+        foreach ($bits as $bit) {
+            $onefound = false;
+            foreach ($connectives as $con) {
+                if (!(false === strpos($bit, $con))) {
+                    $onefound = true;
+                }
+           }
+            $ok = $ok && $onefound;
+        }
+        return $ok;
     }
+
     /**
      * Check for CAS commands which appear in the $keywords array, which are not just single variables
      * Notes, (i)  this is case insensitive.

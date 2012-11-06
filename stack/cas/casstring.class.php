@@ -326,7 +326,7 @@ class stack_cas_casstring {
                  array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($cmd))));
             }
         }
-        
+
         if (!stack_utils::check_nested_bookends($cmd)) {
             $this->valid = false;
             $this->add_error(stack_string('stackCas_bracketsdontmatch',
@@ -400,7 +400,7 @@ class stack_cas_casstring {
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security);
-     
+ 
         $this->key_val_split();
         return $this->valid;
     }
@@ -529,10 +529,10 @@ class stack_cas_casstring {
     }
 
     /**
-    * This function checks chained inequalities
-    * If we have two or more inequality symbols then we must have a logical connection {or/and} between each pair.
-    * First we need to split over commas to break up lists etc.
-    */
+     * This function checks chained inequalities
+     * If we have two or more inequality symbols then we must have a logical connection {or/and} between each pair.
+     * First we need to split over commas to break up lists etc.
+     */
     private function check_chained_inequalities($ex) {
 
         if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
@@ -555,7 +555,7 @@ class stack_cas_casstring {
 
         return $ok;
     }
-    
+
     private function check_chained_inequalities_ind($ex) {
 
         if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
@@ -587,7 +587,7 @@ class stack_cas_casstring {
                 if (!(false === strpos($bit, $con))) {
                     $onefound = true;
                 }
-           }
+            }
             $ok = $ok && $onefound;
         }
         return $ok;

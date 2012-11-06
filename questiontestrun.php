@@ -198,7 +198,7 @@ if ($question->has_random_variants()) {
     echo html_writer::end_tag('p');
     echo html_writer::end_tag('form');
 
-// Deploy many variants
+    // Deploy many variants
     if ($canedit) {
         echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
                 'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
@@ -242,17 +242,17 @@ echo html_writer::tag('div', html_writer::tag('div', $question->format_generalfe
 
 // Add a link to the cas chat to facilitate editing the general feedback.
 if ($question->options->get_option('simplify')) {
-	$simp = 'on';
+    $simp = 'on';
 } else {
-	$simp = '';
+    $simp = '';
 }
 echo html_writer::tag('form',
     html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $displayqvs, 'name' => 'vars')).
     html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $simp, 'name' => 'simp')).
     html_writer::empty_tag('input', array('type' => 'hidden', 'value' => $question->generalfeedback, 'name' => 'cas')).
-	html_writer::tag('p', html_writer::empty_tag('input',
+    html_writer::tag('p', html_writer::empty_tag('input',
         array('type' => 'submit', 'value' => stack_string('chat')))),
-		array('action' => $CFG->wwwroot.'/question/type/stack/caschat.php', 'method' => 'post'));
+        array('action' => $CFG->wwwroot.'/question/type/stack/caschat.php', 'method' => 'post'));
 
 // Display the controls to add another question test.
 echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 2);

@@ -77,9 +77,9 @@ class stack_cas_casstring_test extends basic_testcase {
                 array('pg:if x<x0 then f0 else if x<x1 then 1000 else f1', false, true),
                 array('1<x<7', false, false),
                 array('1<a<=x^2', false, false),
-        		array('{1<x<y, c>0}', false, false),
+                array('{1<x<y, c>0}', false, false),
         );
-    
+
         foreach ($cases as $case) {
             $this->get_valid($case[0], $case[1], $case[2]);
         }

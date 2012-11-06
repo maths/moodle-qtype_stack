@@ -527,33 +527,32 @@ class qtype_stack_test_helper extends question_test_helper {
      * @return qtype_stack_question in which the expected answer in the true/false input is generated from the question variables...
      */
     public static function make_stack_question_test_boolean() {
-    	$q = self::make_a_stack_question();
-    	
-    	$q->name = 'test-boolean';
-    	$q->questionvariables = 'ta:true;';
-    	$q->questiontext = 'What is @ta@? [[input:ans1]]
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-boolean';
+        $q->questionvariables = 'ta:true;';
+        $q->questiontext = 'What is @ta@? [[input:ans1]]
                            [[validation:ans1]]';
-    	
-    	$q->specificfeedback = '[[feedback:firsttree]]';
-    	$q->penalty = 0.3; // Non-zero and not the default.
-    	
-    	$q->inputs['ans1'] = stack_input_factory::make('boolean', 'ans1', 'ta');
-    	
-    	$q->options->questionsimplify = 1;
-    	
-    	$sans = new stack_cas_casstring('ans1');
-    	$sans->get_valid('t');
-    	$tans = new stack_cas_casstring('ta');
-    	$tans->get_valid('t');
-    	$node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-    	$node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-    	$node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-    	$q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node));
-    	
-    	return $q;
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make('boolean', 'ans1', 'ta');
+
+        $q->options->questionsimplify = 1;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('ta');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node));
+
+        return $q;
     }
-    
-    
+
     /**
      * @return qtype_stack_question the question from the test7.xml file.
      */

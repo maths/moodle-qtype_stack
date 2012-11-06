@@ -53,9 +53,9 @@ class stack_boolean_input extends stack_input {
 
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-    	$mform->addElement('text', $this->name, $this->name);
+        $mform->addElement('text', $this->name, $this->name);
     }
-    
+
     /**
      * Return the default values for the parameters.
      * @return array parameters` => default value.

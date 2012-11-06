@@ -68,16 +68,16 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
      * Establish if the CAS timed out.
      */
     protected function did_cas_timeout($result) {
-       foreach ($result as $res) {
-           if (array_key_exists('error', $res)) {
-               if (!(false===strpos($res['error'], 'The CAS timed out'))) {
-                   return true;
-               }
-           } else {
-               return true;
-           }
-       }
-       return false;
+        foreach ($result as $res) {
+            if (array_key_exists('error', $res)) {
+                if (!(false===strpos($res['error'], 'The CAS timed out'))) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -83,7 +83,7 @@ if (!is_null($deploy)) {
     $failedattempts = 0;
     $numberdeployed = 0;
 
-    while($failedattempts<$maxfailedattempts and $numberdeployed<$deploy) {
+    while ($failedattempts<$maxfailedattempts and $numberdeployed<$deploy) {
         // Genrate a new seed
         $seed = mt_rand();
         $variantdeployed = false;

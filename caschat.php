@@ -93,13 +93,14 @@ if (!$varerrs) {
 }
 
 if ($simp) {
-    $simp = stack_string('autosimplify').' '.html_writer::empty_tag('input', array('type' => 'checkbox', 'checked' => $simp, 'name'=>'simp'));
+    $simp = stack_string('autosimplify').' '.
+                html_writer::empty_tag('input', array('type' => 'checkbox', 'checked' => $simp, 'name'=>'simp'));
 } else {
     $simp = stack_string('autosimplify').' '.html_writer::empty_tag('input', array('type' => 'checkbox', 'name'=>'simp'));
 }
 
 $varlen = substr_count($vars, "\n")+3;
-$stringlen = max(substr_count($string, "\n")+3,8);
+$stringlen = max(substr_count($string, "\n")+3, 8);
 
 echo html_writer::tag('form',
             html_writer::tag('h2', stack_string('questionvariables')) .

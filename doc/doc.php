@@ -127,7 +127,6 @@ if ('Site_map' == $lastseg) {
         $body .= $linkstr;
         $body .= "\n<hr/>\n";
         if (pathinfo($file, PATHINFO_EXTENSION) == 'md') {
-            $page = do_display_math($page);
             $page = str_replace("\\", "\\\\", $page);
             $options = new stdClass();
             $options->noclean = true;
@@ -185,24 +184,3 @@ function index($d, $relpath = '') {
     return $i;
 }
 
-function do_display_math($text) {
-    // Wrap text between \[ and \] in display math tags.
-    $text = preg_replace_callback('{
-      ^\\\\         # line starts with a single backslash (double escaping)
-      \[            # followed by a square bracket
-      (.+)          # then the actual LaTeX code
-      \\\\          # followed by another backslash
-      \]            # and closing bracket
-      \s*$          # and maybe some whitespace before the end of the line
-}mx',
-    '_do_display_math_callback', $text);
-
-    return $text;
-}
-
-function _do_display_math_callback($matches) {
-    $texblock = $matches[1];
-    $texblock = trim($texblock);
-    $texblock = "\[ $texblock  \]";
-    return "\n\n".$texblock."\n\n";
-}

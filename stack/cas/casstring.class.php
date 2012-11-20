@@ -204,6 +204,18 @@ class stack_cas_casstring {
             'TAU', 'THETA', 'UPSILON', 'IOTA', 'PHI', 'KAPPA', 'CHI', 'LAMBDA', 'PSI', 'MU',
             'OMEGA');
 
+    /**
+     * @var all the characters permitted in responses.
+     * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
+     */
+    private static $allowedchars = '0123456789,./\%&{}[]()$£@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
+
+    /**
+     * @var all the permitted which are not allowed to be the final character.
+     * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
+     */
+    private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
+
     public function __construct($rawstring) {
         $this->rawcasstring   = $rawstring;
 
@@ -347,38 +359,36 @@ class stack_cas_casstring {
         }
 
         // Only permit the following characters to be sent to the CAS.
-        $testset = '0123456789,./\%&{}[]()$�@!"?`^~*_-+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: '."'";
         $cmd = trim($cmd);
-        $length = strlen($cmd);
-        $lastchar = $cmd[($length -1)];
+        $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
 
         // Check for permitted characters.
-        $invalidchars=array();
-        foreach (str_split($cmd, 1) as $chr) {
-            if (strpos($testset, $chr) === false) {
-                $invalidchars[] = $chr;
+        if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
+            $invalidchars = array();
+            foreach ($matches as $match) {
+                $badchar = $match[0];
+                if (!array_key_exists($badchar, $invalidchars)) {
+                    $invalidchars[$badchar] = $badchar;
+                }
             }
-        }
-
-        if (count($invalidchars)>0) {
             $this->valid = false;
             $this->add_error(stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars)))));
         }
 
         // Check for disallowed final characters,  / * + - ^ £ # = & ~ |, ? : ;.
-        $disallowedchars = array('/', '+', '*', '/', '-', '^', '£', '#', '~', '=', ',', '_', '&', '`', '¬', ';', ':', '$');
-        if (in_array($lastchar, $disallowedchars)) {
+        $disallowedfinalcharsregex = '~[' . preg_quote(self::$disallowedfinalchars, '~') . ']$~u';
+        if (preg_match($disallowedfinalcharsregex, $cmd, $match)) {
             $this->valid = false;
             $a = array();
-            $a['char'] = $lastchar;
+            $a['char'] = $match[0];
             $a['cmd']  = stack_maxima_format_casstring($cmd);
             $this->add_error(stack_string('stackCas_finalChar', $a));
         }
 
         // Check for empty parentheses `()`.
         if (strpos($cmd, '()') !== false) {
-                $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
+            $this->valid = false;
+            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
         }
 
         // Check for spurious operators.

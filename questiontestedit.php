@@ -65,8 +65,14 @@ if (!is_null($testcase)) {
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('adaptive');
+if (!is_null($seed)) {
+    // This is a bit of a hack to force the question to use a particular seed,
+    // even if it is not one of the deployed seeds.
+    $question->seed = $seed;
+}
+
 $slot = $quba->add_question($question, $question->defaultmark);
-$quba->start_question($slot, $seed);
+$quba->start_question($slot);
 
 // Create the editing form.
 $mform = new qtype_stack_question_test_form($PAGE->url,

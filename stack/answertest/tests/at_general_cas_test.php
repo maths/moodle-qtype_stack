@@ -346,10 +346,10 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = 'stack_trans(\'ATMatrix_wrongentries\' , !quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{2}} & 4 \\\\  \end{array}\right]\]!quot! ); stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ {\color{red}{2}} , 4 \right] \]!quot! );';
+        $fb = 'stack_trans(\'ATMatrix_wrongentries\' , !quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{2}} & 4 \\\\  \end{array}\right]\]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
-        $fbt = 'The entries in red below are those that are incorrect. \[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{2}} & 4 \\\\  \end{array}\right]\] The entries in red below are those that are incorrect. \[\left[ {\color{red}{2}} , 4 \right] \]';
+        $fbt = 'The entries in red below are those that are incorrect. \[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{2}} & 4 \\\\  \end{array}\right]\]';
         $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 }

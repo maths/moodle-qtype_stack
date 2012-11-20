@@ -529,8 +529,10 @@ ATList(SA,SB):=
               ret[2]:ret[2] and retnew[2],
               ret[3]:concat(ret[3]," ",retnew[3]),
               if retnew[2]=false then block(
-                      ret[4]:concat(ret[4],retnew[4]),
-                      SAN[k]:texcolor("red",SA[k]),
+                      /* ret[4]:concat(ret[4],retnew[4]), */
+                      if not(listp(SA[k]) or matrixp(SK[k]) or setp(SK[k])) then block(
+                          SAN[k]:texcolor("red",SA[k])
+                      ),
                       AddFeedBack:true
               )
     ),
@@ -638,13 +640,13 @@ ATMatrix(SA,SB):=
               ret[2]:ret[2] and retnew[2],
               ret[3]:concat(ret[3]," ",retnew[3]),
               if retnew[2]=false then block(
-                      ret[4]:concat(ret[4],retnew[4]),
+                      /*ret[4]:concat(ret[4],retnew[4]),*/
                       AddFeedBack:true
               )
     ),
     if AddFeedBack=true then block(
             ret[3]:concat("(","ATMatrix_wrongentries",ret[3],")"),
-            ret[4]:concat(StackAddFeedback("","ATMatrix_wrongentries",StackDISP(SA,"d")),ret[4])
+            ret[4]:StackAddFeedback("","ATMatrix_wrongentries",StackDISP(SA,"d"))
             ),
     return(ret)
     )$

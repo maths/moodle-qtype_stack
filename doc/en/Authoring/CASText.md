@@ -12,7 +12,7 @@ Currently STACK makes no attempt to alter the LaTeX itself.  This is displayed u
 If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 The following things to remember about CASText:
 
-* Anything enclosed between  `\( .... \)` or `$` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
+* Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
 * Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
 * Anything enclosed between `@` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.

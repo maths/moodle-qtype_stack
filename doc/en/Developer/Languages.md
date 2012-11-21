@@ -8,7 +8,7 @@ Details of who translated STACK are given under [credits](../About/Credits.md).
 
 # STACK 3 is released with the following languages
 
-* EN: English (British), by Chris Sangwin
+* EN: English (British), by Chris Sangwin and Tim Hunt
 * SV: Swedish, by Mikael Kurula
 
 # STACK 3 planned translations
@@ -40,7 +40,9 @@ Please check if STACK has already been translated into your language.  We are us
 
 _ALL_ strings which appear to the user should be found in the single file
 
-    /stack/lang/en/qtype_stack.php
+You need to translate the strings for the Components `qtype_stack`,
+`qbehaviour_adaptivemultipart`, `qbehaviour_dfcbmexplicitvaildate`,
+`qbehaviour_dfexplicitvaildate` and `qformat_stack`.
 
 It is convenient to translate the strings online.  To translate STACK into another language please use Moodle's AMOS system.  See [Moodle online documentation](http://docs.moodle.org/23/en/AMOS) for specific details.
 

@@ -154,16 +154,6 @@ email address work similarly
 
 gives <count@sesamestreet.com>.
 
-### Images
-
-To include an image write `![alt_text](image_url)`, for instance.
-
-    ![STACK Logo](http://stack.bham.ac.uk/graphics/stack.png)
-
-gives
-
-![STACK Logo](http://stack.bham.ac.uk/graphics/stack.png)
-
 ### Other cool features
 
     Definition lists

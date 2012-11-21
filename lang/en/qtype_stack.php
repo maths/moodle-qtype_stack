@@ -412,14 +412,14 @@ $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 
 // Used in castext.class.php.
 $string['stackCas_tooLong']                 = 'CASText statement is too long.';
-$string['stackCas_MissingAt']               = 'You are missing a @ sign.';
-$string['stackCas_MissingDollar']           = 'You are missing a $ sign';
+$string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign.';
+$string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign';
 $string['stackCas_MissingOpenHint']         = 'Missing opening hint';
 $string['stackCas_MissingClosingHint']      = 'Missing closing /hint';
-$string['stackCas_MissingOpenDisplay']      = 'Missing \[';
-$string['stackCas_MissingCloseDisplay']     = 'Missing \]';
-$string['stackCas_MissingOpenInline']       = 'Missing \(';
-$string['stackCas_MissingCloseInline']      = 'Missing \)';
+$string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>';
+$string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>';
+$string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>';
+$string['stackCas_MissingCloseInline']      = 'Missing <code>\)</code>';
 $string['stackCas_MissingOpenHTML']         = 'Missing opening html tag';
 $string['stackCas_MissingCloseHTML']        = 'Missing closing html tag';
 $string['stackCas_failedValidation']        = 'CASText failed validation. ';

@@ -7,8 +7,8 @@ STACK 3 questions now use the "Moodle XML format" to import and export.
 Go to
 
     Question bank => Import
-    
-Choose "Moodle XML format" and the question bank category you wish to import your questions to.  Then select files to import. Some [sample questions](Sample_questions.md) are supplied with STACK in this format. 
+
+Choose "Moodle XML format" and the question bank category you wish to import your questions to.  Then select files to import. Some [sample questions](Sample_questions.md) are supplied with STACK in this format.
 
 ## Exporting STACK 3 questions
 
@@ -21,7 +21,7 @@ You will need to [install](../Installation/index.md) the `qformat_stack` importe
 Go to
 
     Question bank => Import
-    
+
 Choose "STACK2.0 format" and the question bank category you wish to import your questions to.  The importer enables STACK 2 questions which have been exported in STACK's "xml" format to be imported into STACK 3.  Both individual questions and lists of questions can be imported.
 
 There have been a number of changes between STACK 2 and STACK 3.  These are detailed in the [development track](../Developer/Development_track.md).
@@ -36,7 +36,7 @@ Please note the following.
  * Worked Solution on Demand (Reason: the quiz behaviours are the right place to deal with this.  Providing this option was always a hack in the first place...).
  * Feedback shown (Reason: again, the quiz behaviours are the right place to deal with this.)
 * From the old MetaData only the `name` is preserved.  All other MetaData is lost on import.
-* STACK 2 exporter does not seem to export some of the interaction element options correctly, in particular 
+* STACK 2 exporter does not seem to export some of the interaction element options correctly, in particular
  * the options which ask the student to verify and to show validation feedback.
  * question level penalty option.
 * Questions with a single potential response tree import with the PRT feedback in the specific feedback slot, not in the question text.  We envisage this will enable single part questions to respect a wider variety of Moodle question behaviours.

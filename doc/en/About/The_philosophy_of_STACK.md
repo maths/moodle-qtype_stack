@@ -5,7 +5,7 @@ The STACK system is a computer aided assessment package for mathematics, which p
 *  *Teacher-provided answer questions*
 
    >  In these questions, a student makes a selection from, or interacts with, potential answers which the teacher has selected.
-  	  Examples include multiple choice, multiple response and so on.
+      Examples include multiple choice, multiple response and so on.
 *  *Student-provided answer questions*
 
    >  In these questions the student's answer contains the content.
@@ -16,12 +16,12 @@ For example, a student might respond to a question with a polynomial or matrix.
 Essentially STACK asks for mathematical expressions and evaluates these using computer algebra.
 The prototype test is the following pseudo-code.
 
-	If
-	 simplify(student_answer-teacher_answer) = 0
-	then
-	  mark = 1,
-	else
-	  mark = 0.
+    If
+     simplify(student_answer-teacher_answer) = 0
+    then
+      mark = 1,
+    else
+      mark = 0.
 
 STACK uses a *computer algebra system*, (CAS) to implement these mathematical functions.
 A CAS provides a library of functions with which to manipulate students' answers and generate outcomes such as providing feedback.
@@ -36,9 +36,9 @@ In STACK a lot of attention has been paid to allowing teachers to author and man
 * There are many different kinds of inputs. These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
 * Mathematical properties of students' answers are established using answer tests within the CAS Maxima.
 * Feedback is assigned on the basis of these properties using a potential response tree. This feedback includes:
-	1. Textual comments for the student.
-	2. A numerical mark.
-	3. Answer notes from which statistics for the teacher are compiled.
+    1. Textual comments for the student.
+    2. A numerical mark.
+    3. Answer notes from which statistics for the teacher are compiled.
 
 These broadly correspond to formative, summative and evaluative functions of assessment.  Which of these outcomes is available to the student, and when, is under the control of the teacher.
 

@@ -41,9 +41,9 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 
 So, the following code is needed in the [feedback variables](KeyVals.md#Feedback_variables) (`ans1` is the student's answer).
 
-	temp1 = subst(m/1000,mm,ans1)
-	temp2 = convert(temp1,[m,s])
-	temp3 = coeff(coeff(temp2,m),1/s^2)
+    temp1 = subst(m/1000,mm,ans1)
+    temp2 = convert(temp1,[m,s])
+    temp3 = coeff(coeff(temp2,m),1/s^2)
 
 The last command strips out the numbers so we can use a floating point comparison test to gauge the correct level of accuracy.
 

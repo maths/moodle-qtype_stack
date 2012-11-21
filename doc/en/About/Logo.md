@@ -49,6 +49,7 @@ To see this, we group the terms as follows,
 \[ \geq 9\frac{1}{10} + 90\frac{1}{100} + 900\frac{1}{1000} + \cdots \]
 
 \[ = \frac{9}{10}+\frac{9}{10}+\frac{9}{10}+\cdots\]
+
 which shows that the series keeps getting larger as we continue to add
 terms. That is to say it does not converge.
 

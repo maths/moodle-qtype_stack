@@ -67,8 +67,8 @@ server for the cache. Put something like this near the end of your config.php fi
 
 # Other configuration issues
 
-Moodle overides the PHP debug message settings.  To see errors and warnings, go to 
+Moodle overides the PHP debug message settings.  To see errors and warnings, go to
 
     Site administration -> Development -> Debugging
-    
+
 and set the Debug messages option.

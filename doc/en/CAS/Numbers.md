@@ -4,14 +4,14 @@
 
 In maxima the special constants are defined to be
 
-	%i, %e, %pi
+    %i, %e, %pi
 
 etc.   STACK also uses single letters, e.g.
 
-	i: %i
-	j: %i
-	e: %e
-	pi: %pi
+    i: %i
+    j: %i
+    e: %e
+    pi: %pi
 
 Sometimes you need to use \(e\) as an abstract symbol not a number.
 The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function.

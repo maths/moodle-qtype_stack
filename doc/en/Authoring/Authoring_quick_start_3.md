@@ -18,7 +18,7 @@ What we are doing here is to treat every variable separately, not to create a si
 
 The alternative is to switch simplification off and use the CAS to represent expressions more directly.  The following is a single Maxima expression.
 
-     @(a*%e^(b*%i))^n@ 
+     @(a*%e^(b*%i))^n@
 
 Of course, we don't want Maxima to _actually calculate the power_ just to _represent it!_  To see the difference, you can copy the following into a Maxima desktop session.
 
@@ -28,7 +28,7 @@ Of course, we don't want Maxima to _actually calculate the power_ just to _repre
     simp:false;
     (3*%e^(%i*%pi/2))^4;
 
-Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll towards the bottom of the form and set `Question-level simplify` to be `false`.  
+Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll towards the bottom of the form and set `Question-level simplify` to be `false`.
 
 This does have some drawbacks.  Having switched off all simplification, we now need to turn it back on selectively! To do this, we use Maxima commands such as the following.
 
@@ -53,11 +53,11 @@ Hence the teacher must leave a meaningful question note.  Two versions of a ques
 The question note field is ["CAS text"](CASText.md), just like the question text.  We could write something like
 
     @[a,b,n]@
-    
+
 Or we could leave something more meaningful:
 
     @q^n = a^n*(cos(p*%i*%pi)+%i*sin(p*%i*%pi))@
-    
+
 Notice, we probably don't want to evaluate `a^n` here as it isn't likely to be "simpler".  It is up to the teacher, but putting the answer in the answer note helps if students come and ask you for the answer to their version of the question...
 
 ## Multi-part question ##
@@ -79,7 +79,7 @@ We need to supply _correct_ answers for each part.  In terms of our question var
 
 ## Assessment of the answers ##
 
-It is unlikely that the purpose of this question is to decide if the student can work out powers of integers.  So we will assume it is acceptable to enter an answer such as \(a^b\) for the first part, rather than calculating this as an integer.  If the randomization was more conservative, this calculation might be an additional goal of the question. 
+It is unlikely that the purpose of this question is to decide if the student can work out powers of integers.  So we will assume it is acceptable to enter an answer such as \(a^b\) for the first part, rather than calculating this as an integer.  If the randomization was more conservative, this calculation might be an additional goal of the question.
 
 Hence, for `prt1` fill in the following information
 
@@ -102,11 +102,11 @@ Again, if you want to enforce a test for the principle argument you will need to
 
 ## Question tests ##
 
-Please create some question tests!  This will save time in the long term, by enabling you to automatically test your question for each random version you wish to deploy.  You should create one test case for each outcome you expect.   Here, we need 
+Please create some question tests!  This will save time in the long term, by enabling you to automatically test your question for each random version you wish to deploy.  You should create one test case for each outcome you expect. Here, we need
 
     ans1:a^b
     ans2:n*b*%pi
-    
+
 as the two correct answers, and then incorrect answers to ensure these are being trapped.  If you have enforced the _form_ of the answer, i.e. _integer representation_ for `ans1` and _principle argument_ for `ans2`, you need to add tests to distinguish between these.  For the first part \(a^n\) and the integer it represents, i.e. `ev(a^n,simp)`.  For the second part between \(b\times n\) and the variable `q`.
 
 ## General feedback ##

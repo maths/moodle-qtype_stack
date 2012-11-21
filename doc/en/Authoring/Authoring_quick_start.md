@@ -25,8 +25,8 @@ We are now ready to edit an example question.  The question name is compulsory i
 
 Ensure the question text contains the following information. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
 
-	Differentiate \((x-1)^3\) with respect to \(x\).
-	[[input:ans1]]
+    Differentiate \((x-1)^3\) with respect to \(x\).
+    [[input:ans1]]
     [[validation:ans1]]
 
 There are a number of things to notice about this text.
@@ -40,11 +40,11 @@ By default, a new question automatically has one [input](Inputs.md), and one alg
 Scroll down:  there will be an [inputs](Inputs.md) section of the editing form.
 Into the model answer type in the answer as a syntactically valid CAS expression, e.g.
 
-	3*(x-1)^2
+    3*(x-1)^2
 
 Now we have a question, and the model answer.  We next have to decide if the student's answer is correct.
 
-## Establishing properties of the student's answer via the potential response tree			{#Answer_props_via_prt}
+## Establishing properties of the student's answer via the potential response tree {#Answer_props_via_prt}
 
 To establish properties of student's answers we need an algorithm known as a [potential response tree](Potential_response_trees.md).
 
@@ -96,7 +96,7 @@ Assuming there are no errors, you may now choose the link "preview the question"
 This takes us to a new form where the teacher can experiment with the question.
 Try typing in
 
-	3*(x-1)^2
+    3*(x-1)^2
 
 into the answer box.
 
@@ -128,9 +128,9 @@ this problem is to differentiate their answer and compare it to the question.
 
 Update the form so that Node 2 has
 
-	SAns = diff(ans1,x)
-	TAns = (x-1)^3
-	Answer test = AlgEquiv
+    SAns = diff(ans1,x)
+    TAns = (x-1)^3
+    Answer test = AlgEquiv
 
 This gives us the test, but what about the outcomes?
 
@@ -157,11 +157,11 @@ To establish this we need to use a different [answer tests](Answer_tests.md).
 
 Update the form so that Node 3 has
 
-	SAns = ans1
-	TAns = 3*(x-1)^2
-	Answer test = FacForm
-	Test option\s = x
-	Quiet = Yes.
+    SAns = ans1
+    TAns = 3*(x-1)^2
+    Answer test = FacForm
+    Test option\s = x
+    Quiet = Yes.
 
 The FacForm answer test provides feedback automatically which would be inappropriate here.
 We just need to look at whether the answer is factored.  Hence we choose the quiet option.
@@ -174,10 +174,10 @@ We need to assign outcomes.
 3. On the false branch set the feedback to something like
 
 ~~~~~~~~~~
-		Your answer is unfactored.
-		There is no need to expand out the expression in this question.
-		You can differentiate using the chain rule directly and keep
-		the answer in factored form.
+        Your answer is unfactored.
+        There is no need to expand out the expression in this question.
+        You can differentiate using the chain rule directly and keep
+        the answer in factored form.
 ~~~~~~~~~~
 
 This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.
@@ -197,17 +197,17 @@ STACK 3 uses Maxima's syntax for assignment, which is unusual.  In particular th
 
 Modify the [question variables](KeyVals.md#Question_variables) from the previous example so that
 
-	p : (x-1)^3;
+    p : (x-1)^3;
 
 Then change the [question text](CASText.md#question_text) to
 
-	Differentiate @p@ with respect to \(x\).
-	[[input:ans1]]
+    Differentiate @p@ with respect to \(x\).
+    [[input:ans1]]
     [[validation:ans1]]
 
 and in the inputs change the model answer to
 
-	diff(p,x)
+    diff(p,x)
 
 Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `$` symbols and `@` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `$`s, and CAS expressions (including your variables) between `@` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
 
@@ -219,8 +219,8 @@ You now need to go through the potential response tree to use the variable `p` o
 
 We are now in a position to generate a random question. To do this modify the [question variables](KeyVals.md#Question_variables) to be
 
-	n : 2+rand(3);
-	p : (x-1)^n;
+    n : 2+rand(3);
+    p : (x-1)^n;
 
 In this new example, we have an extra variable `n` which is defined to be a random number.
 
@@ -241,7 +241,7 @@ Hence a random question may not have an empty question note.
 
 Fill this in as
 
-	\[ \frac{d}{d@x@}@p@ = @diff(p,x)@ \]
+    \[ \frac{d}{d@x@}@p@ = @diff(p,x)@ \]
 
 It is crucial to do this now since questions with `rand()` in the question variables may not have an empty question note.  By enforcing this now we prevent frustration later when it would be otherwise impossible to distinguish between random versions of a question.
 
@@ -254,14 +254,14 @@ At this point you might consider saving as a new question.
 As a specific example of some of these features, try the question illustrated below.
 This contains random numbers, and also examples of variables and expressions selected from a list.
 
-	n : rand(5)+3;
-	v : rand([x,s,t]);
-	p : rand([sin(n*v),cos(n*v)]);
+    n : rand(5)+3;
+    v : rand([x,s,t]);
+    p : rand([sin(n*v),cos(n*v)]);
 
 Then change the Question text to
 
-	Differentiate @p@ with respect to @v@.
-	[[input:ans1]]
+    Differentiate @p@ with respect to @v@.
+    [[input:ans1]]
     [[validation:ans1]]
 
 Again, we need to use expressions such as `diff(p,v)` throughout the potential response tree, and even in one place `diff(ans1,v)`.
@@ -272,7 +272,7 @@ It is often a good idea to use variables in the question at the outset, even if 
 
 You will also need to update the question note to be
 
-	\[ \frac{d}{d@v@}@p@ = @diff(p,v)@ \]
+    \[ \frac{d}{d@v@}@p@ = @diff(p,v)@ \]
 
 ## Question tests ##
 
@@ -284,10 +284,10 @@ Please read the page on [testing](Testing.md).
 
 Please ensure you have deleted the third node from the potential response tree!  Click `Add a test case` to add a test to your question.  Fill in the following information
 
-     ans1 = diff(p,v)
-     score = 1
-     penalty = 0
-     answernote = prt1-1-T
+    ans1 = diff(p,v)
+    score = 1
+    penalty = 0
+    answernote = prt1-1-T
 
 The system will automatically evaluate `diff(p,v)` to create `ans1` and then mark the question using this information.  It will match up the actual outcomes with those you specified.  This automates the testing process.
 

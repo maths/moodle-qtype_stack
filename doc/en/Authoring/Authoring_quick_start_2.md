@@ -25,7 +25,7 @@ Expand \((x+1)(x+2)\).
 In the context it is to be used it is appropriate to provide students with the
 opportunity to "fill in the blanks", in the following equation.
 
-	(x+1)(x+2) = [¯] x2 + [¯] x + [¯].
+    (x+1)(x+2) = [¯] x2 + [¯] x + [¯].
 
 We argue this is really "one question" with "three inputs".
 Furthermore, it is likely that the teacher will want the student to complete all boxes
@@ -195,8 +195,8 @@ In the second test you might as well leave the test as is.
 
 # Next steps #
 
-* You might like to look at the entry for [feedback](Feedback.md). 
-* Quality control and  testing your question can be made easier by looking at [testing](Testing.md).  
+* You might like to look at the entry for [feedback](Feedback.md).
+* Quality control and  testing your question can be made easier by looking at [testing](Testing.md).
 * You might like to look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
 
 The next part of the authoring quick start guide looks at [turning simplification off](Authoring_quick_start_3.md).

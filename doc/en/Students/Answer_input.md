@@ -10,7 +10,7 @@ Java, C and Basic and in spreadsheet programs, so you will find it useful to mas
 
 For example, to enter \( e^{-t}\sin(3t)\) you need to type in
 
-	e^(-t)*sin(3*t)
+    e^(-t)*sin(3*t)
 
 STACK tries quite hard to give helpful information about any syntax errors.
 It might also forgive some errors you make.

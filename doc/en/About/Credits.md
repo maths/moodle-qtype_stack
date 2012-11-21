@@ -30,28 +30,28 @@ Currently STACK is released with the following languages.
 The following institutions made use of previous versionf of STACK.  If you are actively using or trialling STACK and would like to be listed below then please contcat the developers.
 
 School of Mathematics, The University of Birmingham
-:		The home of STACK. Contact [Chris Sangwin](mailto:c.sangwin@bham.ac.uk).
+: The home of STACK. Contact [Chris Sangwin](mailto:c.sangwin@bham.ac.uk).
 
 School of Mathematics, The University of Manchester
-:		Contact P Bolton
+: Contact P Bolton
 
 Technical University of Helsinki
-:		Contact [Antti Rasila](http://math.tkk.fi/en/research/matta/)
+: Contact [Antti Rasila](http://math.tkk.fi/en/research/matta/)
 
 School of Informatics and Sciences, Nagoya University, Japan
-:		Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)
+: Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)
 
 Ja STACK Community
-:		Contact [Ja STACK.org](http://ja-stack.org/)
+: Contact [Ja STACK.org](http://ja-stack.org/)
 
 Polytechnic Institute of Leiria, Leiria, Portugal
-:		Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
+: Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
 
 School of Physics, The University of Birmingham
-:		Contact Jon Watkins
+: Contact Jon Watkins
 
 School of Computing, Information and Mathematical Sciences, The University of the South Pacific
-:		Contact [Dhiraj bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
+: Contact [Dhiraj bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
 
 Gymnasium Himmelsthür, Hildesheim, Deutschland
-:		Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
+: Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)

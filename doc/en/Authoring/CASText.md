@@ -22,8 +22,8 @@ The following things to remember about CASText:
 
 Here is an example
 
-	The derivative of @ x^4/(1+x^4) @ is
-	\[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @ \]
+    The derivative of @ x^4/(1+x^4) @ is
+    \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @ \]
 
 ## Variables ##   {#Variables}
 
@@ -32,7 +32,7 @@ CASText may depend on variables previously defined in the [question variables](K
 Where the CASText appears in the fields of a [potential response trees](Potential_response_trees.md),
 the variables in the [feedback variables](KeyVals.md#Feedback_variables) may also be included.
 
-## Question text			{#question_text}
+## Question text {#question_text}
 
 The question text what the student actually sees.  This was called "question text" in previous versions.
 
@@ -55,7 +55,7 @@ These strings are replaced by appropriate feedback as necessary.
 They can be moved anywhere within the question text.
 Do **not** place feedback within LaTeX equations!
 
-## General feedback/Worked solution	{#general_feedback}
+## General feedback/Worked solution {#general_feedback}
 
 General feedback (called "worked solution" in previous versions) is shown to the student after they have attempted the question. Unlike feedback, which depends on the response the student gave, the same general feedback text is shown to all students.
 
@@ -68,28 +68,28 @@ problem which can be written before a question is deployed.
 
 HTML Paragraphs (don't forget the end tag!)
 
-	<p>This is a paragraph</p>
-	<p>This is another paragraph</p>
+    <p>This is a paragraph</p>
+    <p>This is another paragraph</p>
 
 HTML Line Breaks
 
 Use the `<br />` tag if you want a line break (a new line) without starting a new paragraph:
 
-	<p>This is<br />a para<br />graph with line breaks</p>
+    <p>This is<br />a para<br />graph with line breaks</p>
 
 Some formatting
 
-	<em>This is emphasis</em>
+    <em>This is emphasis</em>
 
-	<b>This text is bold</b>
+    <b>This text is bold</b>
 
-	<big>This text is big</big>
+    <big>This text is big</big>
 
-	<i>This text is italic</i>
+    <i>This text is italic</i>
 
-	<code>This is computer output</code>
+    <code>This is computer output</code>
 
-	This is <sub>subscript</sub> and <sup>superscript</sup>
+    This is <sub>subscript</sub> and <sup>superscript</sup>
 
 ## Useful LaTeX ##
 

@@ -12,7 +12,7 @@ For example, it might be a form box into which the student enters their answer.
 
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 
-	[[input:ans1]]
+    [[input:ans1]]
 
 Here `ans1` denotes the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
 This must only be letters (optionally) followed by numbers, as in this example. No special characters are permitted.
@@ -20,7 +20,7 @@ This must only be letters (optionally) followed by numbers, as in this example. 
 Feedback as to the syntactic validity of a response is by default inserted just after
 the input. Feedback is positioned using tags such as
 
-	[[validation:ans1]]
+    [[validation:ans1]]
 
 where stuff is the name of the variable. This string is automatically generated if it
 does not exist and is placed after the input. This feedback must be given.
@@ -86,7 +86,7 @@ The width of the input box.
 
 ### Strict Syntax ### {#Strict_Syntax}
 
-Both Strict Syntax and Insert Stars affect the way STACK treats the validation of CAS strings.  
+Both Strict Syntax and Insert Stars affect the way STACK treats the validation of CAS strings.
 
 * Strict Syntax defines the patterns to look for.
 * Insert Stars decides whether to insert stars automatically.
@@ -114,17 +114,17 @@ This can include '?' characters.
 The syntax hint will appear in the answer box whenever this is left blank by the student.
 For example, rather than having to type
 
-	matrix([1,2],[3,4])
+    matrix([1,2],[3,4])
 
 the teacher may want to provide an answer box which already contains the string
 
-	matrix([?,?],[?,?])
+    matrix([?,?],[?,?])
 
 instead. The student then need only to edit this, to replace ?s with their values.
 This helps reduce syntax error problems with more difficult syntax issues.
 The ? may also be used to give partial credit. Of course it could also be used for general expressions such as:
 
-	x^2+?*x+1
+    x^2+?*x+1
 
 ### Forbidden words ### {#Forbidden_Words}
 
@@ -155,7 +155,7 @@ and not an expression such as \(mx+c\).  Remember, you can't compare an expressi
 
 Another useful way of avoiding this problem is to put a LaTeX string such as \(y=\) just before the input.  E.g.
 
-	\(y=\)#ans1#.
+    \(y=\)#ans1#.
 
 ### Student must verify ### {#Student_must_verify}
 
@@ -176,7 +176,7 @@ Setting this option displays any feedback from this input, including echoing bac
 
 Different types of inputs have various options.   These are described under the IE type.
 
-### List			{#List}
+### List {#List}
 
 This allows the following kinds of interactions to be included in STACK questions.
 

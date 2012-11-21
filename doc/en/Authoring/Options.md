@@ -10,7 +10,7 @@ See the entry on [simplification](../CAS/Simplification.md).  Default is `true`.
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
-	assume_pos
+    assume_pos
 
 variable.
 
@@ -40,23 +40,23 @@ The following options affect how mathematics is displayed.
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
-	sqrtdispflag
+    sqrtdispflag
 
 When false the prefix function `sqrt(x)` will be displayed as \(x^{1/2}\).
 Please note that Maxima (by default) does not like to use the \(\sqrt{}\) symbol.
 The internal representation favours fractional powers, for very good reasons.
 In  Maxima 5.19.1 we get:
 
-	(%i1) 4*sqrt(2);
-	(%o1) 2^(5/2)
-	(%i2) 6*sqrt(2);
-	(%o2) 3*2^(3/2)
+    (%i1) 4*sqrt(2);
+    (%o1) 2^(5/2)
+    (%i2) 6*sqrt(2);
+    (%o2) 3*2^(3/2)
 
 The discussion of this issue can be followed on the
 [Maxima mailing list](http://www.math.utexas.edu/pipermail/maxima/2009/018460.html).
 Do you really want to continue using \(\sqrt{}\) in your teaching?
 
-### sqrt(-1)			{#sqrt_minus_one}
+### sqrt(-1) {#sqrt_minus_one}
 
 In Maxima `%i` is the complex unit satisfying `%i^2=-1`.  However, students would
 like to type `i` and physicists and engineers `j`.

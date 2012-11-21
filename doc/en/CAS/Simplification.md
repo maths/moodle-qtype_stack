@@ -1,8 +1,8 @@
-# Simplification 		
+# Simplification
 
 The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
 
-	simp:true
+    simp:true
 
 This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
 

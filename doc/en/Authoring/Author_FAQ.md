@@ -40,13 +40,14 @@ Details of how to load STACK functions into a command line Maxima session are gi
 
 The philosophy of STACK is to establish properties of the student's answer.  "Simplify" is an ambiguous notion.
 For example, \(1\) is simpler than \(2^0\) but \(2^{2^{10}}\) is probably simpler than writing the integer it represents in decimals.  Everyone would agree that \(x+2\) is simpler than \(\frac{x^2-4}{x-2}\), but we might argue that the first expression below is simpler.
+
 \[ \frac{x^{12}-1}{x-1} =  x^{11}+x^{10}+x^9+x^8+x^7+x^6+x^5+x^4+x^3+x^2+x+1.\]
 
-Simplify is often taken implicitly to mean "the shortest equivalent expression", but this issue is often not discussed.  
+Simplify is often taken implicitly to mean "the shortest equivalent expression", but this issue is often not discussed.
 
 To avoid these problems, STACK expects teachers to specify the properties they want.  For example, if you want the factored form you should test for this, not describe it as "simplified".
 
-In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_tests.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.  
+In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_tests.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
 
 ## How can I change which Maxima functions STACK allows? ##
 
@@ -62,29 +63,29 @@ Because \( \int \frac{1}{x}dx = \log(|x|) \) is OK on either the negative or
 positive real axis, but it is not OK in the complex plane. There is a switch that
 controls this, however.
 
-	(%i199) integrate(1/x,x);
-	(%o199) log(x)
+    (%i199) integrate(1/x,x);
+    (%o199) log(x)
 
-	(%i200) integrate(1/x,x), logabs : true;
-	(%o200) log(abs(x))
+    (%i200) integrate(1/x,x), logabs : true;
+    (%o200) log(abs(x))
 
 ## Why don't I get anything back from the CAS?
 
 Debugging questions can be difficult.  We have not written a full parser, so we cannot trap all the errors.  If all else fails, you may need to examine exactly the expression which is being sent to Maxima.
 
-To do this go to 
+To do this go to
 
     Site administration -> Plugins -> Question types -> STACK
 
 Ensure that `CAS debugging` is checked.
 
-Then, you should get error reporting.  As an example navigate to 
+Then, you should get error reporting.  As an example navigate to
 
     Site administration -> Plugins -> Question types -> STACK -> Healthcheck
-    
+
 There you can see an example of an expression sent to Maxima.  Namely:
 
-    cab:block([ RANDOM_SEED, OPT_NoFloats, sqrtdispflag, simp, assume_pos, caschat0, caschat1], stack_randseed(0), make_multsgn(dot), make_complexJ(i), OPT_NoFloats:true, sqrtdispflag:true, simp:true, assume_pos:false, print("[TimeStamp= [ 0 ], Locals= [ ") , print("0=[ error= ["), cte("caschat0",errcatch(caschat0:plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3]))) , print("1=[ error= ["), cte("caschat1",errcatch(caschat1:plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3]))) , print("] ]") , return(true) ); 
+    cab:block([ RANDOM_SEED, OPT_NoFloats, sqrtdispflag, simp, assume_pos, caschat0, caschat1], stack_randseed(0), make_multsgn(dot), make_complexJ(i), OPT_NoFloats:true, sqrtdispflag:true, simp:true, assume_pos:false, print("[TimeStamp= [ 0 ], Locals= [ ") , print("0=[ error= ["), cte("caschat0",errcatch(caschat0:plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3]))) , print("1=[ error= ["), cte("caschat1",errcatch(caschat1:plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3]))) , print("] ]") , return(true) );
 
 Expressions such as this can be copied into the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) and evaluated.  The errors returned here might help track down the problem.
 

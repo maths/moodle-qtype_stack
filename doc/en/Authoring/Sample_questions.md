@@ -14,7 +14,7 @@ STACK is released with a demonstration course.
 
      /qtype_stack/samplequestions/STACK-demo.mbz
 
-This contains many of the materials listed below.  You can "restore" this into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed versions. 
+This contains many of the materials listed below.  You can "restore" this into your version of Moodle.  It has a number of quizzes, pre-created with questions and deployed versions.
 
 # Materials released with STACK #
 
@@ -42,7 +42,7 @@ See the [authoring quick start 3](Authoring_quick_start_3.md).
 
 In a railway journey of 90km an increase of 5 kilometers per hour in the speed decreases the time taken by 15 minutes.
 
-This question asks students to write a system of equations (one equation per line) to represent this situation using \(v\) as the speed of the train and \(t\) as the time.  This multi-part question uses the text area input method, and systems of equations answer test. 
+This question asks students to write a system of equations (one equation per line) to represent this situation using \(v\) as the speed of the train and \(t\) as the time.  This multi-part question uses the text area input method, and systems of equations answer test.
 
 ### `tangent-line.xml` ###
 
@@ -88,9 +88,9 @@ If you have materials you would like to release, please add the details here.
 ### Open Educational Resources ###
 
 The FETLAR project released a large collection of STACK 2 questions in English covering calculus and algebra
-in April 2010.  
+in April 2010.
 
-* Questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).  
+* Questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).
 * Questions to cover all of the [Calculus Refresher](http://www.mathcentre.ac.uk/resources/exercisebooks/mathcentre/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 
 We plan to convert these into STACK 3 format and add them to the distribution in due course.

@@ -16,41 +16,41 @@ This is currently applied to the question text and the worked solution.
 
 In anticipation of unforeseen extensions, we favour a generic format inspired by the Django templating system:
 
-	{% block_type var_1 var_2 ... var_n %}
-	some content
-	{% end block_type %}
+    {% block_type var_1 var_2 ... var_n %}
+    some content
+    {% end block_type %}
 
 ## Conditional blocks ##
 
 The common **if** statement would be written:
 
-	{% if @some_CAS_expression@ %}
-	The expression seems to be true
-	{% end if %}
+    {% if @some_CAS_expression@ %}
+    The expression seems to be true
+    {% end if %}
 
 An **else** sub-block can optionally be included:
 
-	{% if @some_CAS_expression@ %}
-	The expression seems to be true
-	{% else %}
-	not quite true
-	{% end if %}
+    {% if @some_CAS_expression@ %}
+    The expression seems to be true
+    {% else %}
+    not quite true
+    {% end if %}
 
 The **else if** construct is also supported, e.g:
 
-	{% if @is(x=2)@ %}
-	   {% bold %}it is 2{% end bold %}
-	{% else if @is(x=3)@ %}
-	   it is 3
-	{% else %}
-	   {% if @is(x=4)@ %}
-	      {% bold %}is be 4{% end bold%}
-	   {% else if @is(x=5)@ %}
-	      it is 5
-	   {% else %}
-	      it is something else
-	   {% end if %}
-	{% end if %}
+    {% if @is(x=2)@ %}
+       {% bold %}it is 2{% end bold %}
+    {% else if @is(x=3)@ %}
+       it is 3
+    {% else %}
+       {% if @is(x=4)@ %}
+          {% bold %}is be 4{% end bold%}
+       {% else if @is(x=5)@ %}
+          it is 5
+       {% else %}
+          it is something else
+       {% end if %}
+    {% end if %}
 
 ## Development ##
 

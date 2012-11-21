@@ -23,7 +23,7 @@ tree node.
 
 Informally, the answer tests have the following syntax
 
-	[Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, Opt)
+    [Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, Opt)
 
 Where,
 
@@ -65,16 +65,16 @@ Hence, we need quite a number of different answer tests to establish equality in
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? This test determines whether two systems of multivariate polynomials, i.e. polynomials with a number of variables, generate the same ideal, equivalent to checking they have the same solutions.
 
 
-### AlgEquiv			{#AlgEquiv}
+### AlgEquiv {#AlgEquiv}
 
 This is the most commonly used test.  The pseudo code
 
-	If
-	 simplify(ex1-ex2) = 0
-	then
-	  true
-	else
-	  false.
+    If
+      simplify(ex1-ex2) = 0
+    then
+      true
+    else
+      false.
 
 This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object)
 of mathematical objects, including lists, sets, equations, inequalities and matrices.
@@ -95,7 +95,7 @@ This is a particularly useful test for checking that an answer is the same and s
 
 The CAS returns the result of the simple Maxima command
 
-	if StudentAnswer=TeacherAnswer then true else false.
+    if StudentAnswer=TeacherAnswer then true else false.
 
 There is no explicit simplification here (unlike AlgEquiv).
 This test works in different ways depending on whether [simplification](../CAS/Simplification.md) is on.
@@ -110,7 +110,7 @@ As the test allows for polynomials in several variables, it can cope with the in
 * This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it only simplifies its arguments where required.
 This allows the test to list equations in feedback that the student has erroneously included in their system.
 
-# Form 		{#Form}
+# Form {#Form}
 
 Often we wish to establish if the student's expression has the correct _form_.
 For example, consider the following various written forms of \(x^2-4x+4\).
@@ -119,7 +119,7 @@ For example, consider the following various written forms of \(x^2-4x+4\).
 
 Each of these might be considered to be factored.  **Establishing `ex` is factored is not the same as comparing it with**
 
-	factor(ex)
+    factor(ex)
 
 Related tests establish that an expression is _expanded_ or in _partial_
 
@@ -136,7 +136,7 @@ Related tests establish that an expression is _expanded_ or in _partial_
 | PartFrac          | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "partial fraction form". The option must be the variable.
 | CompletedSquare   | This test checks (i) that SAns is algebraically equivalent to TAns , and (ii) that SAns is in "completed square form". The option must be the variable.
 
-# Factorisation of polynomials 			{#FacPoly}
+# Factorisation of polynomials {#FacPoly}
 
 An expression is said to be factored if it is written as a
 product of powers of distinct irreducible factors.   Strictly
@@ -170,7 +170,7 @@ irredicible terms.  There are some delicate cases such as:
 \((2-x)(3-x)\) vs  \((x-2)(x-3)\)  and \((1-x)^2\) vs \((x-1)^2\),
 which this test will cope with.
 
-# Precision 			{#Precision}
+# Precision {#Precision}
 
 These tests deal with the precision of numbers.
 

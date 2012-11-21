@@ -5,11 +5,11 @@ These are called the Question Variables and Answer Variables.
 
 The field is a string which contains a list of assignments of the form
 
-	key : value
+    key : value
 
 for example
 
-	p : (x-1)^3
+    p : (x-1)^3
 
 Each `key` is the name of a variable local to the question, and `value` is an expression in [Maxima's](../CAS/Maxima.md) language.
 When evaluated this list is passed to the CAS, and evaluated in order. The value obtained for each key will be stored and used later, for example in the question marking routines.
@@ -31,14 +31,14 @@ __STACK 3 now uses Maxima's assignment rules.  This is a change from STACK 2.__ 
 * Items are separated by either a newline or ;
 * Adding `;` at the end of each statement is optional, but makes it easier to cut and paste into a Maxima session.
 * If you type a string not in the form `key : value`, a variable name such as `dumvar3` will be
-	assigned automatically to keep track of the command in the list of question variables.
+    assigned automatically to keep track of the command in the list of question variables.
 * If a student uses a variable which has been assigned a value, the attempt will be rejected as invalid.
-	Hence, it is a sensible idea to use variable names which are not used as parameters.
-	For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
+    Hence, it is a sensible idea to use variable names which are not used as parameters.
+    For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
 * You can include C-style block comments for increased clarity, and these may appear on separate lines
-	e.g. `dice : rand(6) + 1 /* roll it! */`
+    e.g. `dice : rand(6) + 1 /* roll it! */`
 
-## Question variables			{#Question_variables}
+## Question variables {#Question_variables}
 
 The question variables are executed when a version of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
 
@@ -47,7 +47,7 @@ The question variables are executed when a version of a question is created.   T
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
 
-## Feedback variables			{#Feedback_variables}
+## Feedback variables {#Feedback_variables}
 
 The feedback variables form one field in the [potential response tree](Potential_response_trees.md).
 

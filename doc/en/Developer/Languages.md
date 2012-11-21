@@ -8,18 +8,18 @@ Details of who translated STACK are given under [credits](../About/Credits.md).
 
 # STACK 3 is released with the following languages
 
-  * EN: English (British), by Chris Sangwin
-  * SV: Swedish, by Mikael Kurula
-  
+* EN: English (British), by Chris Sangwin
+* SV: Swedish, by Mikael Kurula
+
 # STACK 3 planned translations
 
 We believe STACK is being (or has been) translated into the following languages.
 
-  * Japanese
-  * Finnish
-  * Italian
-  * German
-  * Dutch
+* Japanese
+* Finnish
+* Italian
+* German
+* Dutch
 
 If you need these languages please contact the developers for more details of the status of this work.
 
@@ -35,18 +35,16 @@ STACK 2 was distributed in the following languages.  We intend these to be updat
 STACK is part of Moodle.  Hence, we have used the Moodle translation management system.  _ALL_ strings which appear to the user should be found in the single file
 
     /stack/lang/en/qtype_stack.php
-  
+
 To translate STACK into another language create the appropriate directory using the two letter country code.  Copy the above file into this directory and edit it.  This file contains the majority of strings seen by users.  However, remember to translate the other components of STACK, e.g. `qformat_stack` and also the question behaviours.  See the installation instructions for a full list.
 
 Please send your translations to Chris Sangwin for inclusion into the distribution.
 
 # Multilingual materials
 
-Colleagues have asked for multilingual materials.  We plan to implement this using Moodle's Multi-language content filter, see 
+Colleagues have asked for multilingual materials.  We plan to implement this using Moodle's Multi-language content filter, see
 [http://docs.moodle.org/22/en/Multi-language_content_filter](http://docs.moodle.org/22/en/Multi-language_content_filter).
 
 # Documentation
 
 This is currently only available in English.
-
-

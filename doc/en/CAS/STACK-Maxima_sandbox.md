@@ -6,7 +6,7 @@ To do this you will need to load your local settings, and also the libraries of 
 
 For example, many of the functions are defined in
 ~~~~~~~~~
-		stack/stack/maxima/stackmaxima.mac
+        stack/stack/maxima/stackmaxima.mac
 ~~~~~~~~~
 Hence, on a typical Moodle installation you will find the file at
 ~~~~~~~~~
@@ -49,28 +49,28 @@ You need to load this file into Maxima to recreate the setup of Maxima as seen b
 
 and into this file add the line
 
-	load("C:/xampp/data/moodledata/stack/maximalocal.mac");
+    load("C:/xampp/data/moodledata/stack/maximalocal.mac");
 
 To load this into Maxima simply type
 
-	load(sm);
+    load(sm);
 
 at Maxima's command line. The time spent setting the path in this way is soon repaid in not having to type the following line each time you want the sandbox.
 Your path to `maximalocal.mac` might be significantly longer....!   You will know the file is loaded correctly if you see a message such as the following
 
-	(%i1) load(sm);
+    (%i1) load(sm);
     Loading maxima-grobner $Revision: 1.6 $ $Date: 2009-06-02 07:49:49 $
     [Stack-Maxima started V3.0, 13/2/12]
-	(%o0) "C:/maxima/sm.mac"
+    (%o0) "C:/maxima/sm.mac"
 
 You can test this out by using, for example, the `rand()` function.
 
-	rand(matrix([5,5],[5,5]));
+    rand(matrix([5,5],[5,5]));
 
 to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.
 
 ### Useful tips
 
-STACK turns off the traditional two dimensional display, which we can turn back on with the following command. 
+STACK turns off the traditional two dimensional display, which we can turn back on with the following command.
 
     display2d:true;

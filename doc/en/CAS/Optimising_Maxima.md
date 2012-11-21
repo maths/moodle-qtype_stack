@@ -2,7 +2,7 @@
 
 There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. The optimisations described here have been tested, but not extensively.  They have the potential to greatly speed up STACK.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
 
-The instructions for both CLISP and SBCL have been tested and work in STACK 3, with Maxima version 5.28.0, in October 2012. 
+The instructions for both CLISP and SBCL have been tested and work in STACK 3, with Maxima version 5.28.0, in October 2012.
 
 ## Compiled Lisp ##
 
@@ -40,15 +40,15 @@ get no results try doing a **sudo updatedb**.
 * Within Maxima, type the following lines to create an image and exit.
 
 ~~~~
-	load("<path>/maximalocal.mac");
-	:lisp (ext:saveinitmem "/path/to/moodledata/stack/maxima-optimised.mem" :init-function #'user::run)
-	quit();
+    load("<path>/maximalocal.mac");
+    :lisp (ext:saveinitmem "/path/to/moodledata/stack/maxima-optimised.mem" :init-function #'user::run)
+    quit();
 ~~~~
 
 * Go into the STACK settings and set Platform type to 'Linux (Optimised)'.
 * Set Maxima command to.
 ~~~~~~
-	<path>/lisp.run -q -M <path>/maxima-optimised.mem
+    <path>/lisp.run -q -M <path>/maxima-optimised.mem
 ~~~~~~
 
 * Click Save changes at the bottom of the settings page.
@@ -66,8 +66,8 @@ use the following to generate a stand alone executable:
 * Go into your moodledata/stack folder as the current directory, and run Maxima.
 * In Maxima, type the commands:
 ~~~~
-	load("maximalocal.mac");
-	:lisp (sb-ext:save-lisp-and-die "maxima-optimised" :toplevel #'run :executable t)
+    load("maximalocal.mac");
+    :lisp (sb-ext:save-lisp-and-die "maxima-optimised" :toplevel #'run :executable t)
 ~~~~
 
 * Go into the STACK settings and set the Platform to 'Linux (Optimised)'.
@@ -92,7 +92,7 @@ so they are all ready and waiting to compute some CAS with zero delay.
 
 The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLISP 2.49 (2010-07-07) on a linux server.
 
-Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test. 
+Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test.
 
 CAS setting       | Answertest (460 tests) | Inputs (257 tests)
 ----------------- | ---------------------- | -------------------
@@ -146,7 +146,7 @@ Process AtAlgEquiv     | 16
 Process 100 AtAlgEquiv | 104
 Process 100 plot       | 117
 
-The PHP processing time is almost insignificant against the time it takes to initiate and use the CAS.  
+The PHP processing time is almost insignificant against the time it takes to initiate and use the CAS.
 
 With the optimised linux we have reduced the loading time, and the loading overhead considerably.  A single ATAlgEquiv request takes about 0.04s.  Asking for 100 ATAlgEquiv requests in a single session take 0.0092s per request.  Asking for 100 plot commands takes 1.05s per plot - which is rather slow (plots undertake a large number of floating point calculations).
 The overhead times for loading maxima might be reduced, and smoothed out by using the maxima pool, see <http://github.com/maths/stack_util_maximapool> for an implementation of this.  The computation times are difficult to reduce.

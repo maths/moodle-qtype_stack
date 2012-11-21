@@ -41,12 +41,12 @@ The outcomes are
 3. [Feedback](Feedback.md) to the student
 4. An Answer Note
 
-### Question Value 			{#Question_value}
+### Question Value {#Question_value}
 
 The potential response tree itself is expected to return a numerical raw score between \(0\) and \(1\).
 This number is multiplied by the question value before being returned to the student as [feedback](Feedback.md) or recorded in the database.
 
-### Answer note 			{#Answer_note}
+### Answer note {#Answer_note}
 
 The answer note is a tag which is key for reporting purposes.  It is designed to record the outcome of each answer test and the unique path through the tree.  This is automatically generated, but can be changed to something meaningful.   When looking for identical paths through the tree we have to do so, regardless of which random numbers were selected in this version of the question given to a particular student.  Hence, this string may not depend on any of the variables.
 

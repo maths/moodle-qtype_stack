@@ -2,7 +2,7 @@
 
 The non-strict inequalities \(\geq\) and \(\leq\) are created as infix operators with the respective syntax
 
-	>=,  <=
+    >=,  <=
 
 Maxima allows single inequalities, such as \(x-1>y\), and also support for inequalities connected by logical operators, e.g. \( x>1 \mbox{ and } x<=5\).
 
@@ -28,7 +28,7 @@ returns
 
       5-x > 0 and x-1 > 0
 
-It also removes duplicate inequalities.  Operating at this syntactic level will enable a relatively strict form of equivalence to be established, simply manipulating the form of the inequalities.  It will respect commutativity and associativity and `and` and `or`, and will also apply `not` to chains of inequalities.  
+It also removes duplicate inequalities.  Operating at this syntactic level will enable a relatively strict form of equivalence to be established, simply manipulating the form of the inequalities.  It will respect commutativity and associativity and `and` and `or`, and will also apply `not` to chains of inequalities.
 
 If the algebraic equivalence test detects inequalities, or systems of inequalities, then this function is automatically applied.
 

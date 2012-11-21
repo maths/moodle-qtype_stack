@@ -13,10 +13,10 @@ STACK creates pseudo-random numbers from a definite seed.
 This ensures that when a particular student returns they see the same version of the question.
 Hence, STACK provides its own function `rand()`.
 
-## rand() 			{#rand}
+## rand() {#rand}
 
 * `rand(n)` generates an integer between \(0\) and \(n-1\).
-* `rand(n.0)` generates a floating point number between \(0\) and \(n\).  It is probably more useful to use something like 	a=float(rand(1000)/1000)
+* `rand(n.0)` generates a floating point number between \(0\) and \(n\).  It is probably more useful to use something like a=float(rand(1000)/1000)
   to obtain an accurate number of decimal places.  An alterative is to use the [Maxima](Maxima.md) function `round()`
 * `rand([a,b,...,z])` makes a random selection from a list.
 * `rand(matrix(..))` applies rand to each element of the matrix.
@@ -24,13 +24,13 @@ Hence, STACK provides its own function `rand()`.
 It is probably much better **not** to use conditional statements when creating random objects.
 For example, if you would like to create a random small prime number, try
 
-	p : rand([2,3,5,7,11,13,17,19]);
+    p : rand([2,3,5,7,11,13,17,19]);
 
 This might not appear to be the neatest mathematical solution, but it is probably the most reliable.
 Usually we need to combine `rand()` with some code to generate objects.
 For example, if you want a matrix with integer elements in the range -5..5 you need something like
 
-	A:matrix([5,5],[5,5])-rand(matrix([11,11],[11,11]));
+    A:matrix([5,5],[5,5])-rand(matrix([11,11],[11,11]));
 
 ### rand_with_step (lower,upper,step) ###
 

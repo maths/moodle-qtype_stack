@@ -11,13 +11,13 @@ These instructions are adapted from http://moodle.org/mod/forum/discuss.php?d=19
 If you want to use MathJax with all themes of your moodle 2.x.x the easiest way is to include it in the head of every page.
 
 1. Admin -> Appearance -> Additional HTML -> Within HEAD
-2. Put the following script in it and save 
+2. Put the following script in it and save
 
 `<script type="text/x-mathjax-config"> MathJax.Hub.Config({`<br>
 `        MMLorHTML: { prefer: "HTML" },`<br>
 `        tex2jax: {`<br>
-`            displayMath: [['$$', '$$'], ['\\[', '\\]']],`<br>
-`            inlineMath:  [['$',  '$' ], ['\\(', '\\)']],`<br>
+`            displayMath: [['$$', '$$'],['\\[', '\\]']],`<br>
+`            inlineMath:  [['$',  '$' ],['\\(', '\\)']],`<br>
 `            processEscapes: true`<br>
 `        }`<br>
 `      });`<br>

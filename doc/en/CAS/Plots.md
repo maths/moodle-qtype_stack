@@ -4,24 +4,24 @@ Plots and graphics can be placed into any of the [CAStext](../Authoring/CASText.
 
 The main way to create plots is using Maxima.
 
-## plot() 			{#plot}
+## plot() {#plot}
 
 In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command. Try, for example, the following in the question stem.
 
-	@plot(x^2,[x,-1,1])@
+    @plot(x^2,[x,-1,1])@
 
 You can add a second variable to control the axes.
 
-	plot(x^2,[x,-1,1],[y,0,2])
+    plot(x^2,[x,-1,1],[y,0,2])
 
 However, Maxima will not always allow you to get the axes you want (this is a bug in Maxima).
 To get many plots in one window, we need to define a list of functions.
 
-	plot([x^2,sin(x)],[x,-1,1])
+    plot([x^2,sin(x)],[x,-1,1])
 
 This can be done with Maxima's `makelist` command
 
-	(p(k):=x^k,pl:makelist(p(k),k,1,5),plot(pl,[x,-1,1]))
+    (p(k):=x^k,pl:makelist(p(k),k,1,5),plot(pl,[x,-1,1]))
 
 ## implicit_plot()  {#implicit}
 

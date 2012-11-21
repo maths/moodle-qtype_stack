@@ -131,16 +131,16 @@ class stack_question_test_result {
             if (is_null($state->expectedscore) != is_null($state->score) ||
                     abs($state->expectedscore - $state->score) > 10E-6) {
                 $state->testoutcome = false;
-                $reason[] = get_string('score', 'qtype_stack');
+                $reason[] = stack_string('score');
             }
             if (is_null($state->expectedpenalty) != is_null($state->penalty) ||
                     abs($state->expectedpenalty - $state->penalty) > 10E-6) {
                 $state->testoutcome = false;
-                $reason[] = get_string('penalty', 'qtype_stack');
+                $reason[] = stack_string('penalty');
             }
             if (!$this->test_answer_note($state->expectedanswernote, $actualresult->answernotes)) {
                 $state->testoutcome = false;
-                $reason[] = get_string('answernote', 'qtype_stack');
+                $reason[] = stack_string('answernote');
             }
             if (empty($reason)) {
                 $state->reason = '';

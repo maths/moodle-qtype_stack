@@ -54,7 +54,7 @@ $canedit = question_has_capability_on($questiondata, 'edit');
 
 // Initialise $PAGE.
 $PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
-$title = get_string('testingquestion', 'qtype_stack', format_string($question->name));
+$title = stack_string('testingquestion', format_string($question->name));
 $PAGE->set_title($title);
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->set_pagelayout('admin');
@@ -104,36 +104,36 @@ if (!is_null($deployfeedbackerr)) {
 }
 
 // Display the list of deployed variants, with UI to edit the list.
-echo $OUTPUT->heading(get_string('deployedvariants', 'qtype_stack'), 3);
+echo $OUTPUT->heading(stack_string('deployedvariants'), 3);
 
 $variantmatched = false;
 $variantdeployed = false;
 if (!$question->has_random_variants()) {
-    echo html_writer::tag('p', get_string('questiondoesnotuserandomisation', 'qtype_stack') .
+    echo html_writer::tag('p', stack_string('questiondoesnotuserandomisation') .
             ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
             new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
 } else if (empty($question->deployedseeds)) {
-    echo html_writer::tag('p', get_string('questionnotdeployedyet', 'qtype_stack').' '.
+    echo html_writer::tag('p', stack_string('questionnotdeployedyet').' '.
             $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
                 new pix_icon('t/preview', get_string('preview'))));
 } else {
 
     $notestable = new html_table();
     $notestable->head = array(
-        get_string('deployedvariants', 'qtype_stack'),
-        get_string('questionnote', 'qtype_stack'),
+        stack_string('deployedvariants'),
+        stack_string('questionnote'),
     );
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
 
     foreach ($question->deployedseeds as $key => $deployedseed) {
         if (!is_null($question->seed) && $question->seed == $deployedseed) {
             $choice= html_writer::tag('b', $deployedseed,
-                    array('title' => get_string('currentlyselectedvariant', 'qtype_stack')));;
+                    array('title' => stack_string('currentlyselectedvariant')));;
             $variantmatched = true;
         } else {
             $choice = html_writer::link(new moodle_url($PAGE->url, array('seed' => $deployedseed)),
-                    $deployedseed, array('title' => get_string('testthisvariant', 'qtype_stack')));
+                    $deployedseed, array('title' => stack_string('testthisvariant')));
         }
 
         $choice .= ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, $key + 1, $context),
@@ -142,7 +142,7 @@ if (!$question->has_random_variants()) {
         if ($canedit) {
             $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/type/stack/deploy.php',
                         $urlparams + array('undeploy' => $deployedseed, 'sesskey' => sesskey())),
-                    new pix_icon('t/delete', get_string('undeploy', 'qtype_stack')));
+                    new pix_icon('t/delete', stack_string('undeploy')));
         }
 
         // Print out question notes of all deployed versions.
@@ -164,7 +164,7 @@ if (!$question->has_random_variants()) {
         );
     }
 
-    echo html_writer::tag('p', get_string('deployedvariantoptions', 'qtype_stack'));
+    echo html_writer::tag('p', stack_string('deployedvariantoptions'));
     echo html_writer::table($notestable);
 }
 
@@ -172,14 +172,14 @@ if (!$variantmatched) {
     if ($canedit) {
         $deploybutton = ' ' . $OUTPUT->single_button(new moodle_url('/question/type/stack/deploy.php',
                 $urlparams + array('deploy' => $question->seed)),
-                get_string('deploy', 'qtype_stack'));
+                stack_string('deploy'));
         if ($variantdeployed) {
-            $deploybutton = get_string('alreadydeployed', 'qtype_stack');
+            $deploybutton = stack_string('alreadydeployed');
         }
     } else {
         $deploybutton = '';
     }
-    echo html_writer::tag('div', get_string('showingundeployedvariant', 'qtype_stack',
+    echo html_writer::tag('div', stack_string('showingundeployedvariant',
             html_writer::tag('b', $question->seed)) . $deploybutton,
             array('class' => 'undeployedvariant'));
 }
@@ -190,7 +190,7 @@ if ($question->has_random_variants()) {
     echo html_writer::start_tag('p');
     echo html_writer::input_hidden_params($PAGE->url, array('seed'));
 
-    echo html_writer::tag('label', get_string('switchtovariant', 'qtype_stack'), array('for' => 'seedfield'));
+    echo html_writer::tag('label', stack_string('switchtovariant'), array('for' => 'seedfield'));
     echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 7,
             'id' => 'seedfield', 'name' => 'seed', 'value' => mt_rand()));
     echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
@@ -205,11 +205,11 @@ if ($question->has_random_variants()) {
         echo html_writer::start_tag('p');
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
 
-        echo html_writer::tag('label', get_string('deploymany', 'qtype_stack'));
+        echo html_writer::tag('label', stack_string('deploymany'));
         echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 4,
                 'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => ''));
         echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
-        echo html_writer::tag('label', ' '.get_string('deploymanynotes', 'qtype_stack'));
+        echo html_writer::tag('label', ' '.stack_string('deploymanynotes'));
 
         echo html_writer::end_tag('p');
         echo html_writer::end_tag('form');
@@ -217,15 +217,15 @@ if ($question->has_random_variants()) {
 }
 
 // Display the question.
-echo $OUTPUT->heading(get_string('questionpreview', 'qtype_stack'), 3);
+echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $quba->render_question($slot, $options);
 
 // Display the question note.
-echo $OUTPUT->heading(get_string('questionnote', 'qtype_stack'), 3);
+echo $OUTPUT->heading(stack_string('questionnote'), 3);
 echo html_writer::tag('p', $question->get_question_summary(), array('class' => 'questionnote'));
 
 // Display the question variables.
-echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
+echo $OUTPUT->heading(stack_string('questionvariables'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 $displayqvs = '';
 foreach ($question->get_all_question_vars() as $key => $value) {
@@ -236,7 +236,7 @@ echo html_writer::end_tag('div');
 
 // Display the general feedback, aka "Worked solution".
 $qa = new question_attempt($question, 0);
-echo $OUTPUT->heading(get_string('generalfeedback', 'qtype_stack'), 3);
+echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $question->format_generalfeedback($qa),
         array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
@@ -255,12 +255,12 @@ echo html_writer::tag('form',
         array('action' => $CFG->wwwroot.'/question/type/stack/caschat.php', 'method' => 'post'));
 
 // Display the controls to add another question test.
-echo $OUTPUT->heading(get_string('questiontests', 'qtype_stack'), 2);
+echo $OUTPUT->heading(stack_string('questiontests'), 2);
 
 // Display the test results.
 $addlabel = stack_string('addanothertestcase', 'qtype_stack');
 if (empty($testresults)) {
-    echo html_writer::tag('p', get_string('notestcasesyet', 'qtype_stack'));
+    echo html_writer::tag('p', stack_string('notestcasesyet'));
     $addlabel = stack_string('addatestcase', 'qtype_stack');
 } else if ($allpassed) {
     echo html_writer::tag('p', stack_string('stackInstall_testsuite_pass'), array('class' => 'overallresult pass'));
@@ -275,22 +275,22 @@ if ($canedit) {
 
 foreach ($testresults as $key => $result) {
     if ($result->passed()) {
-        $outcome = html_writer::tag('span', get_string('testsuitepass', 'qtype_stack'), array('class' => 'pass'));
+        $outcome = html_writer::tag('span', stack_string('testsuitepass'), array('class' => 'pass'));
     } else {
-        $outcome = html_writer::tag('span', get_string('testsuitefail', 'qtype_stack'), array('class' => 'fail'));
+        $outcome = html_writer::tag('span', stack_string('testsuitefail'), array('class' => 'fail'));
     }
-    echo $OUTPUT->heading(get_string('testcasexresult', 'qtype_stack',
+    echo $OUTPUT->heading(stack_string('testcasexresult',
             array('no' => $key, 'result' => $outcome)), 3);
 
     // Display the information about the inputs.
     $inputstable = new html_table();
     $inputstable->head = array(
-        get_string('inputname', 'qtype_stack'),
-        get_string('inputexpression', 'qtype_stack'),
-        get_string('inputentered', 'qtype_stack'),
-        get_string('inputdisplayed', 'qtype_stack'),
-        get_string('inputstatus', 'qtype_stack'),
-        get_string('errors', 'qtype_stack'),
+        stack_string('inputname'),
+        stack_string('inputexpression'),
+        stack_string('inputentered'),
+        stack_string('inputdisplayed'),
+        stack_string('inputstatus'),
+        stack_string('errors'),
     );
     $inputstable->attributes['class'] = 'generaltable stacktestsuite';
 
@@ -304,7 +304,7 @@ foreach ($testresults as $key => $result) {
             s($inputstate->rawinput),
             $inputval,
             $inputstate->display,
-            get_string('inputstatusname' . $inputstate->status, 'qtype_stack'),
+            stack_string('inputstatusname' . $inputstate->status),
             $inputstate->errors,
         );
     }
@@ -314,25 +314,25 @@ foreach ($testresults as $key => $result) {
     // Display the information about the PRTs.
     $prtstable = new html_table();
     $prtstable->head = array(
-        get_string('prtname', 'qtype_stack'),
-        get_string('score', 'qtype_stack'),
-        get_string('expectedscore', 'qtype_stack'),
-        get_string('penalty', 'qtype_stack'),
-        get_string('expectedpenalty', 'qtype_stack'),
-        get_string('answernote', 'qtype_stack'),
-        get_string('expectedanswernote', 'qtype_stack'),
+        stack_string('prtname'),
+        stack_string('score'),
+        stack_string('expectedscore'),
+        stack_string('penalty'),
+        stack_string('expectedpenalty'),
+        stack_string('answernote'),
+        stack_string('expectedanswernote'),
         get_string('feedback', 'question'),
-        get_string('testsuitecolpassed', 'qtype_stack'),
+        stack_string('testsuitecolpassed'),
     );
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
 
     foreach ($result->get_prt_states() as $prtname => $state) {
         if ($state->testoutcome) {
             $prtstable->rowclasses[] = 'pass';
-            $passedcol = get_string('testsuitepass', 'qtype_stack');
+            $passedcol = stack_string('testsuitepass');
         } else {
             $prtstable->rowclasses[] = 'fail';
-            $passedcol = get_string('testsuitefail', 'qtype_stack').$state->reason;
+            $passedcol = stack_string('testsuitefail').$state->reason;
         }
 
         // Sort out excessive decimal places from the DB.

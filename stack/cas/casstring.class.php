@@ -258,7 +258,7 @@ class stack_cas_casstring {
 
         // CAS strings may not contain @ or $.
         if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
-            $this->add_error(get_string('illegalcaschars', 'qtype_stack'));
+            $this->add_error(stack_string('illegalcaschars'));
             $this->valid = false;
             return false;
         }
@@ -269,7 +269,7 @@ class stack_cas_casstring {
         $htmlfragments = array('<span', '</span>', '<p>', '</p>');
         foreach ($htmlfragments as $frag) {
             if (strpos($cmd, $frag) !== false) {
-                $this->add_error(get_string('htmlfragment', 'qtype_stack').' <pre>'.$cmd.'</pre>');
+                $this->add_error(stack_string('htmlfragment').' <pre>'.$cmd.'</pre>');
                 $this->valid = false;
                 return false;
             }

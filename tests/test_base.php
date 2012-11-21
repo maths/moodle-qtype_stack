@@ -41,6 +41,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     public function setUp() {
         parent::setUp();
 
+        stack_utils::clear_config_cache();
         self::setup_test_maxima_connection($this);
         $this->resetAfterTest();
     }

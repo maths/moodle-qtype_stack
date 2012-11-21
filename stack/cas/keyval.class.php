@@ -79,7 +79,7 @@ class stack_cas_keyval {
 
         // CAS keyval may not contain @ or $.
         if (strpos($this->raw, '@') !== false || strpos($this->raw, '$') !== false) {
-            $this->errors = get_string('illegalcaschars', 'qtype_stack');
+            $this->errors = stack_string('illegalcaschars');
             $this->valid = false;
             return false;
         }

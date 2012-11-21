@@ -136,7 +136,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         return html_writer::tag('div',
                 html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php', $urlparams),
-                        get_string('runquestiontests', 'qtype_stack')),
+                        stack_string('runquestiontests')),
                 array('class' => 'questiontestslink'));
     }
 

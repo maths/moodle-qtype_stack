@@ -54,12 +54,12 @@ if (!is_null($testcase)) {
 $PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
 
 if (!is_null($testcase)) {
-    $title = get_string('editingtestcase', 'qtype_stack',
+    $title = stack_string('editingtestcase',
             array('no' => $testcase, 'question' => format_string($question->name)));
     $submitlabel = get_string('savechanges');
 } else {
-    $title = get_string('addingatestcase', 'qtype_stack', format_string($question->name));
-    $submitlabel = get_string('createtestcase', 'qtype_stack');
+    $title = stack_string('addingatestcase', format_string($question->name));
+    $submitlabel = stack_string('createtestcase');
 }
 
 // Create the question usage we will use.
@@ -142,7 +142,7 @@ echo $OUTPUT->heading($title);
 echo $quba->render_question($slot, $options);
 
 // Display the question variables.
-echo $OUTPUT->heading(get_string('questionvariables', 'qtype_stack'), 3);
+echo $OUTPUT->heading(stack_string('questionvariables'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 foreach ($question->get_all_question_vars() as $key => $value) {
     echo  html_writer::tag('p', s($key) . ' = ' . s($value));
@@ -152,7 +152,7 @@ echo html_writer::end_tag('div');
 // Display the question text.
 // We need this as well as the rendered view above so that teachers can see the names of variables used.
 // This helps when writing question tests using those variables to reflect randomization.
-echo $OUTPUT->heading(get_string('questiontext', 'qtype_stack'), 3);
+echo $OUTPUT->heading(stack_string('questiontext'), 3);
 echo html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
 
 // Show the form.

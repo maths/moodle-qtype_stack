@@ -40,27 +40,27 @@ class qtype_stack_question_test_form extends moodleform {
         $question = $this->_customdata['question'];
 
         // Inputs.
-        $mform->addElement('header', 'inputsheader', get_string('testinputs', 'qtype_stack'));
+        $mform->addElement('header', 'inputsheader', stack_string('testinputs'));
 
         foreach ($question->inputs as $inputname => $input) {
             // We do not require these to be filled in, (or contain valid input), as the teacher may want to test such cases.
             $input->add_to_moodleform_testinput($mform);
         }
 
-        $mform->addElement('submit', 'complete', get_string('completetestcase', 'qtype_stack'));
+        $mform->addElement('submit', 'complete', stack_string('completetestcase'));
         $mform->registerNoSubmitButton('complete');
 
         // Expected outcome.
-        $mform->addElement('header', 'prtsheader', get_string('expectedoutcomes', 'qtype_stack'));
+        $mform->addElement('header', 'prtsheader', stack_string('expectedoutcomes'));
 
         foreach ($question->prts as $prtname => $prt) {
             $elements = array(
                 $mform->createElement('text', $prtname . 'score',
-                    get_string('score', 'qtype_stack'), array('size' => 2)),
+                    stack_string('score'), array('size' => 2)),
                 $mform->createElement('text', $prtname . 'penalty',
-                    get_string('penalty', 'qtype_stack'), array('size' => 2)),
+                    stack_string('penalty'), array('size' => 2)),
                 $mform->createElement('select', $prtname . 'answernote',
-                    get_string('answernote', 'qtype_stack'), $prt->get_all_answer_notes())
+                    stack_string('answernote'), $prt->get_all_answer_notes())
             );
             $mform->addGroup($elements, $prtname . 'group', $prtname, ' ', false);
         }

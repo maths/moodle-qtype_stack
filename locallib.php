@@ -50,7 +50,7 @@ function stack_trans() {
                 $a["m{$index}"] = func_get_arg($i);
             }
         }
-        $return = get_string($identifier, 'qtype_stack', $a);
+        $return = stack_string($identifier, $a);
         echo $return;
     }
 }

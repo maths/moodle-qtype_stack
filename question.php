@@ -467,10 +467,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return '';
 
         } else if ($this->is_any_input_blank($response)) {
-            return get_string('pleaseananswerallparts', 'qtype_stack');
+            return stack_string('pleaseananswerallparts');
 
         } else {
-            return get_string('pleasecheckyourinputs', 'qtype_stack');
+            return stack_string('pleasecheckyourinputs');
         }
     }
 

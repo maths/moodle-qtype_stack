@@ -49,7 +49,7 @@ question_require_capability_on($questiondata, 'edit');
 $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 $urlparams['testcase'] = $testcase;
 $PAGE->set_url('/question/type/stack/questiontestdelete.php', $urlparams);
-$title = get_string('deletetestcase', 'qtype_stack',
+$title = stack_string('deletetestcase',
         array('no' => $testcase, 'question' => format_string($question->name)));
 
 if (data_submitted() && confirm_sesskey()) {
@@ -64,7 +64,7 @@ $PAGE->set_pagelayout('admin');
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-echo $OUTPUT->confirm(get_string('deletetestcaseareyousure', 'qtype_stack',
+echo $OUTPUT->confirm(stack_string('deletetestcaseareyousure',
         array('no' => $testcase, 'question' => format_string($question->name))),
         new moodle_url($PAGE->url, array('sesskey' => sesskey())), $backurl);
 

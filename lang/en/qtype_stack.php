@@ -608,7 +608,7 @@ $string['greek_alphabet_fact'] = '
  \(\Phi\)  </td><td>  \(\phi\)  </td><td>  phi </td> </tr>   <tr> <td>
  \(X\)  </td><td>  \(\chi\)  </td><td>  chi </td> </tr>   <tr> <td>
  \(\Psi\)  </td><td>  \(\psi\)  </td><td> psi </td> </tr>   <tr> <td>
- \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr> 
+ \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr>
 </table></center>';
 
 $string['alg_inequalities_name'] = 'Inequalities';
@@ -622,13 +622,13 @@ $string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater tha
 
 $string['alg_indices_name'] = 'The Laws of Indices';
 $string['alg_indices_fact'] = 'The following laws govern index manipulation:
-\[a^ma^n = a^{m+n}\] 
-\[\frac{a^m}{a^n} = a^{m-n}\] 
+\[a^ma^n = a^{m+n}\]
+\[\frac{a^m}{a^n} = a^{m-n}\]
 \[(a^m)^n = a^{mn}\]
-\[a^0 = 1\] 
-\[a^{-m} = \frac{1}{a^m}\] 
-\[a^{\frac{1}{n}} = \sqrt[n]{a}\] 
-\[a^{\frac{m}{n}} = \left(\sqrt[n]{a}\right)^m\]'; 
+\[a^0 = 1\]
+\[a^{-m} = \frac{1}{a^m}\]
+\[a^{\frac{1}{n}} = \sqrt[n]{a}\]
+\[a^{\frac{m}{n}} = \left(\sqrt[n]{a}\right)^m\]';
 
 $string['alg_logarithms_name'] = 'The Laws of Logarithms';
 $string['alg_logarithms_fact'] = 'For any positive base \(b\) (with \(b \neq 1\)):

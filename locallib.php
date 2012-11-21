@@ -15,6 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
+require_once(dirname(__FILE__) . '/stack/mathsoutput/mathsoutput.class.php');
+
+
 /**
  * Base class for all the types of exception we throw.
  */
@@ -25,7 +28,7 @@ class stack_exception extends moodle_exception {
 }
 
 function stack_string($key, $a = null) {
-    return get_string($key, 'qtype_stack', $a);
+    return stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
 }
 
  /**
@@ -61,7 +64,6 @@ function stack_maxima_translate($rawfeedback) {
         $rawfeedback = str_replace(']]', '', $rawfeedback);
         $rawfeedback = str_replace('\n', '', $rawfeedback);
         $rawfeedback = str_replace('\\', '\\\\', $rawfeedback);
-        $rawfeedback = str_replace('$', '\$', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
         ob_start();

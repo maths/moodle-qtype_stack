@@ -329,7 +329,7 @@ $string['stackCas_failedReturn']            = 'Maxima ei palauttanut vastauksia.
 // Used in castext.class.php.
 $string['stackCas_tooLong']                 = 'CASText komento on liian pitkä.';
 $string['stackCas_MissingAt']               = '@-merkki puuttuu.';
-$string['stackCas_MissingDollar']           = '\$-merkki puuttuu';
+$string['stackCas_MissingDollar']           = '$-merkki puuttuu';
 $string['stackCas_MissingOpenHint']         = 'Missing opening hint';
 $string['stackCas_MissingClosingHint']      = 'Missing closing /hint';
 $string['stackCas_MissingOpenDisplay']      = '[-merkki puuttuu';

@@ -16,7 +16,7 @@
 
 
 /**
- * Language strings for the Stack question type.
+ * Language strings for the STACK question type.
  *
  * @package    qtype_stack
  * @copyright  2012 The Open University
@@ -95,7 +95,7 @@ $string['showvalidation'] = 'Show the validation';
 $string['showvalidation_help'] = 'Setting this option displays any validation feedback from this input, including echoing back their expression in traditional two dimensional notation.';
 $string['showvalidation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Show_validation';
 $string['htmlfragment'] = 'You appear to have some HTML elements in your expression.';
-$string['illegalcaschars'] = 'The characters @ and \$ are not allowed in CAS input.';
+$string['illegalcaschars'] = 'The characters @ and $ are not allowed in CAS input.';
 $string['inputheading'] = 'Input: {$a}';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
@@ -254,17 +254,25 @@ $string['settingcasresultscache_desc'] = 'This setting determines whether calls 
 $string['settingcasresultscache_none'] = 'Do not cache';
 $string['settingcastimeout'] = 'CAS connection timeout';
 $string['settingcastimeout_desc'] = 'The timout to use when trying to connect to Maxima.';
+$string['settingmathsdisplay'] = 'Maths filter';
+$string['settingmathsdisplay_mathjax'] = 'MathJax';
+$string['settingmathsdisplay_tex'] = 'Moodle TeX filter';
+$string['settingmathsdisplay_maths'] = 'OU maths filter';
+$string['settingmathsdisplay_desc'] = 'The method used to display maths. If you select MathJax, then you will need to follow the instrucions on the Healthcheck page to set it up. If you select a filter, then you must ensure that filter is enabled on the Manage filters configuration page.';
 $string['settingplatformtype'] = 'Platform type';
-$string['settingplatformtype_desc'] = 'Stack needs to know what sort of operating system it is running on. The Server and MaximaPool options give better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
+$string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The Server and MaximaPool options give better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
 $string['settingplatformtypeunix'] = 'Linux';
 $string['settingplatformtypeunixoptimised'] = 'Linux (optimised)';
 $string['settingplatformtypewin']  = 'Windows';
 $string['settingplatformtypeserver'] = 'Server';
 $string['settingplatformtypemaximapool'] = 'MaximaPool';
 $string['settingplatformmaximacommand'] = 'Maxima command';
-$string['settingplatformmaximacommand_desc'] = 'Stack needs to know the shell command to start Maxima.  If this is blank, Stack will make an educated guess.';
+$string['settingplatformmaximacommand_desc'] = 'STACK needs to know the shell command to start Maxima.  If this is blank, STACK will make an educated guess.';
 $string['settingplatformplotcommand'] = 'Plot command';
-$string['settingplatformplotcommand_desc'] = 'Stack needs to know the gnuplot command.  If this is blank, Stack will make an educated guess.';
+$string['settingplatformplotcommand_desc'] = 'STACK needs to know the gnuplot command.  If this is blank, STACK will make an educated guess.';
+$string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
+$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>.';
+$string['settingusefullinks'] = 'Useful links';
 
 // Strings used by interaction elements.
 $string['false'] = 'False';
@@ -331,7 +339,7 @@ $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It 
 $string['chattitle'] = 'Test the connection to the CAS';
 $string['clearthecache'] = 'Clear the cache';
 $string['healthcheck'] = 'STACK healthcheck';
-$string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of Stack are working properly.';
+$string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';
 $string['healthcheckcache_db'] = 'CAS results are being cached in the database.';
 $string['healthcheckcache_none'] = 'CAS results are not being cached.';
 $string['healthcheckcachestatus'] = 'The cache currently contains {$a} entries.';
@@ -341,7 +349,7 @@ $string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima c
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
-$string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. Stack only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
+$string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. STACK only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
 $string['healthchecklatexmathjax'] = 'One way to get equiation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';

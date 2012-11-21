@@ -419,7 +419,7 @@ class stack_cas_casstring {
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security);
- 
+
         $this->key_val_split();
         return $this->valid;
     }

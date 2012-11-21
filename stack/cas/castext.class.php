@@ -327,7 +327,7 @@ class stack_cas_text {
         $this->castext = str_replace('\begin{itemize}', '<ol>', $this->castext);
         $this->castext = str_replace('\end{itemize}', '</ol>', $this->castext);
         $this->castext = str_replace('\begin{enumerate}', '<ul>', $this->castext);
-        $this->castext = str_replace('\end{enumerate}', '<ul>', $this->castext);
+        $this->castext = str_replace('\end{enumerate}', '</ul>', $this->castext);
         $this->castext = str_replace('\item', '<li>', $this->castext);
     }
 

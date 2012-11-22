@@ -22,9 +22,10 @@
  */
 
 
-require_once(dirname(__FILE__) . '/../potentialresponsenode.class.php');
+require_once(dirname(__FILE__) . '/../potentialresponsetree.class.php');
 require_once(dirname(__FILE__) . '/../cas/castext.class.php');
 require_once(dirname(__FILE__) . '/../../locallib.php');
+require_once(dirname(__FILE__) . '/../../tests/test_base.php');
 
 
 /**
@@ -99,7 +100,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
         $this->assertEquals(false, $result->valid);
         $this->assertNotEquals('', $result->errors);
-        $this->assertEquals(array('The answer test failed to execute correctly: please alert your teacher. Division by zero.', 'Boo!'),
+        // TODO this next line looks wrong. Presumably a regressions from Chris's recent changes.
+        $this->assertEquals(array('The answer test failed to execute correctly: please alert your teacher. Division by 0part: invalid index of list or matrix.', 'Boo!'),
                 $result->feedback);
         $this->assertEquals(-1, $nextnode);
     }

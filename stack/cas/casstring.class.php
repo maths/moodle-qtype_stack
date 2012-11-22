@@ -402,7 +402,16 @@ class stack_cas_casstring {
             }
         }
 
-        if (!($this->check_chained_inequalities($cmd))) {
+        // CAS strings may not contain @ or $.
+        if (strpos($cmd, '=<') !== false || strpos($cmd, '=>') !== false) {
+            if (strpos($cmd, '=<') !== false) {
+                $a['cmd'] = stack_maxima_format_casstring('=<');
+            } else {
+                $a['cmd'] = stack_maxima_format_casstring('=>');
+            }
+            $this->add_error(stack_string('stackCas_backward_inequalities', $a));
+            $this->valid = false;
+        } else if (!($this->check_chained_inequalities($cmd))) {
             $this->valid = false;
             $this->add_error(stack_string('stackCas_chained_inequalities'));
         }

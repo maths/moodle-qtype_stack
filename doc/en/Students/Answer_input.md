@@ -141,15 +141,23 @@ must be entered as `matrix([1,2,3],[4,5,6])`.
 Each row is entered as a list, and these should be the same length.
 The function matrix is used to indicate this is a matrix and not a "list of lists".
 
+### Equations and Inequalities ###
+
+
+Equations can be entered using the equals sign. For example, to enter the equation \(y=x^2-2x+1\) type `y=x^2-2*x+1`.
+
+Inequalities can be entered using the greater than and less than signs on the keyboard.
+Notice that there are four possibilities for you to choose from: `<` or `>` or `<=` or `>=`.
+Note there is no space between these symbols, and the equality must come second when it is used, i.e. you cannot use `=<`.
+
+Sometimes you will need to connect inqualities together as `x>1 and x<=5`.  You must use the logical connectives `and` and `or`.  "Chained inequalities" such as \(1<x<5\) are not permitted as input syntax.  You should enter this as `1<x and x<5`.
+
+
 ## Other notes  ##
 
 * **Greek letters** can be entered using their English names. For example, enter \(\alpha+\beta\) as `alpha+beta`, and \(2\pi\) as `2*pi`.
 * **Sets**: To enter a set such as \(\{1,2,3\}\) in Maxima you could use the function `set(1,2,3)`, or use curly brackets and type `{1,2,3}`.
 * **Lists**: can be entered using square brackets. For example, to enter the list _1,2,2,3_ type `[1,2,2,3]`.
-* **Equations**: can be entered using the equals sign. For example, to enter the equation \(y=x^2-2x+1\) type `y=x^2-2*x+1`.
-* **Inequalities**: can be entered using the greater than and less than signs on the keyboard.
-  Notice that there are four possibilities for you to choose from: < or > or <= or >=.
-  Note there is no space between these symbols, and the equality must come second when it is used.
 * Note that you do **not** need a semicolon at the end, unlike when you are using a CAS directly.
 
 You can also learn about the right syntax by doing tests in practice mode and asking for the solutions;

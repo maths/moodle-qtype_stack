@@ -55,13 +55,7 @@ if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
     redirect($PAGE->url);
 }
 
-// Some test data.
-$sampletex = '\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.';
-$samplecastext = 'The derivative of @ x^4/(1+x^4) @ is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \]';
-$sampleplots = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@  ' .
-        '@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
-
-$config = get_config('qtype_stack');
+$config = stack_utils::get_config();
 
 // Start output.
 echo $OUTPUT->header();
@@ -69,37 +63,27 @@ echo $OUTPUT->heading($title);
 
 // LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
+echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
+        stack_maths::configured_output_name()));
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
-echo html_writer::tag('dt', stack_string('texdoubledollar'));
-echo html_writer::tag('dd', format_text('$$' . $sampletex . '$$'));
+echo html_writer::tag('dt', stack_string('texdisplaystyle'));
+echo html_writer::tag('dd', stack_string('healthchecksampledisplaytex'));
 
-echo html_writer::tag('dt', stack_string('texsingledollar'));
-echo html_writer::tag('dd', format_text('$' . $sampletex . '$'));
+echo html_writer::tag('dt', stack_string('texinlinestyle'));
+echo html_writer::tag('dd', stack_string('healthchecksampleinlinetex'));
 
-echo html_writer::tag('dt', stack_string('texdisplayedbracket'));
-echo html_writer::tag('dd', format_text('\[' . $sampletex . '\]'));
-
-echo html_writer::tag('dt', stack_string('texinlinebracket'));
-echo html_writer::tag('dd', format_text('\(' . $sampletex . '\)'));
-
-echo html_writer::tag('p', stack_string('healthchecklatexmathjax', $CFG->wwwroot .
-        '/' . $CFG->admin . '/settings.php?section=additionalhtml'));
-$mathjaxcode = <<<END
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    MMLorHTML: { prefer: "HTML" },
-    tex2jax: {
-        displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
-        inlineMath:  [['$',  '$' ], ['\\\\(', '\\\\)']],
-        processEscapes: true
-    }
-});
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-END;
-echo html_writer::tag('textarea', s($mathjaxcode),
-        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
+if ($config->mathsdisplay === 'mathjax') {
+    $settingsurl = new moodle_url('/admin/settings.php', array('section' => 'additionalhtml'));
+    echo html_writer::tag('p', stack_string('healthchecklatexmathjax',
+            $settingsurl->out()));
+    echo html_writer::tag('textarea', s(stack_maths_output_mathjax::get_mathjax_code()),
+            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
+} else {
+    $settingsurl = new moodle_url('/admin/filters.php');
+    echo html_writer::tag('p', stack_string('healthcheckfilters',
+            array('filter' => stack_maths::configured_output_name(), 'url' => $settingsurl->out())));
+}
 
 // Maxima config.
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
@@ -124,12 +108,14 @@ if (stack_cas_configuration::maxima_bat_is_missing()) {
 }
 
 // Test Maxima connection.
+// Intentionally use get_string for the sample CAS and plots, so we don't render
+// the maths too soon.
 output_cas_text(stack_string('healthcheckconnect'),
-        stack_string('healthcheckconnectintro'), $samplecastext);
+        stack_string('healthcheckconnectintro'), get_string('healthchecksamplecas', 'qtype_stack'));
 
 // Test plots.
 output_cas_text(stack_string('healthcheckplots'),
-        stack_string('healthcheckplotsintro'), $sampleplots);
+        stack_string('healthcheckplotsintro'), get_string('healthchecksampleplots', 'qtype_stack'));
 
 // State of the cache.
 echo $OUTPUT->heading(stack_string('settingcasresultscache'), 3);

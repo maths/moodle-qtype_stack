@@ -73,12 +73,26 @@ class stack_maths {
     }
 
     /**
+     * @return string the name of the currently configured output method.
+     */
+    public static function configured_output_name() {
+        return stack_string('settingmathsdisplay_' . stack_utils::get_config()->mathsdisplay);
+    }
+
+    /**
      * @return stack_maths_output the output method that has been set in the
      *      configuration options.
      */
     protected static function get_output() {
-        $class = self::class_for_type(stack_utils::get_config()->mathsdisplay);
-        return new $class();
+        return self::get_output_instance(stack_utils::get_config()->mathsdisplay);
+    }
+
+    protected static function get_output_instance($method) {
+        if (!array_key_exists($method, self::$outputs)) {
+            $class = self::class_for_type($method);
+            self::$outputs[$method] = new $class();
+        }
+        return self::$outputs[$method];
     }
 
     /**

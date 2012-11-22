@@ -348,9 +348,15 @@ $string['healthcheckconfigintro1'] = 'Found, and using, Maxima in the following 
 $string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima configuration file.';
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
+$string['healthcheckfilters'] = 'Please ensure that the {$a->filter} is enabled on the <a href="{$a->url}">Manage filters</a> page.';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. STACK only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
 $string['healthchecklatexmathjax'] = 'One way to get equiation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';
+$string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
+$string['healthchecksamplecas'] = 'The derivative of @ x^4/(1+x^4) @ is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \]';
+$string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
+$string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
+$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
 $string['healthcheckplots'] = 'Graph plotting';
@@ -390,10 +396,8 @@ $string['casvalue'] = 'CAS value';
 $string['casdisplay'] = 'CAS display';
 $string['cassuitecolerrors'] = 'CAS errors';
 
-$string['texdisplayedbracket'] = 'Displayed bracket';
-$string['texinlinebracket'] = 'Inline bracket';
-$string['texdoubledollar'] = 'Double dollar';
-$string['texsingledollar'] = 'Single dollar';
+$string['texdisplaystyle'] = 'Display-style equation';
+$string['texinlinestyle'] = 'Inline-style equation';
 
 // Used in casstring.class.php.
 $string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';

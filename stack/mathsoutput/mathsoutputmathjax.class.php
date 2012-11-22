@@ -23,4 +23,19 @@
  */
 class stack_maths_output_mathjax extends stack_maths_output {
     // Default implementation in the base class does what we want!
+
+    public static function get_mathjax_code() {
+        return <<<END
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    MMLorHTML: { prefer: "HTML" },
+    tex2jax: {
+        displayMath: [['\\\\[', '\\\\]']],
+        inlineMath:  [['\\\\(', '\\\\)']]
+    }
+});
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+END;
+    }
 }

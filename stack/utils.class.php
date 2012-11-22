@@ -676,4 +676,8 @@ class stack_utils {
         }
         return self::$config;
     }
+
+    public static function clear_config_cache() {
+        self::$config = null;
+    }
 }

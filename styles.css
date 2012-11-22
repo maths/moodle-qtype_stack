@@ -138,3 +138,8 @@ body.path-question-type-stack .undeployedvariant .singlebutton form {
 body.path-question-type-stack .switchtovariant {
     margin-top: 1em;
 }
+
+.displayequation {
+    display: block;
+    text-align: center;
+}

@@ -160,7 +160,7 @@ if (!$question->has_random_variants()) {
         }
         $notestable->data[] = array(
             $choice,
-            $qn->get_question_summary(),
+            stack_ouput_castext($qn->get_question_summary()),
         );
     }
 
@@ -222,7 +222,8 @@ echo $quba->render_question($slot, $options);
 
 // Display the question note.
 echo $OUTPUT->heading(stack_string('questionnote'), 3);
-echo html_writer::tag('p', $question->get_question_summary(), array('class' => 'questionnote'));
+echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
+        array('class' => 'questionnote'));
 
 // Display the question variables.
 echo $OUTPUT->heading(stack_string('questionvariables'), 3);

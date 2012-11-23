@@ -109,7 +109,8 @@ foreach ($tests as $test) {
         'error'              => $error,
         'casvalid'           => s($casvalid),
         'casvalue'           => $casvalue,
-        'casdisplay'         => s($display) . html_writer::tag('pre', s($casdisplay)),
+        'casdisplay'         => stack_maths::process_lang_string(s($display)) .
+                html_writer::tag('pre', s($casdisplay)),
         'caserrors'          => $caserrors,
     );
     $table->add_data_keyed($row, $class);

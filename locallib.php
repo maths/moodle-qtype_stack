@@ -27,6 +27,10 @@ class stack_exception extends moodle_exception {
     }
 }
 
+function stack_ouput_castext($castext) {
+    return format_text(stack_maths::pre_process_user_input($castext));
+}
+
 function stack_string($key, $a = null) {
     return stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
 }

@@ -88,7 +88,7 @@ echo html_writer::tag('p', stack_string('chatintro'));
 
 if (!$varerrs) {
     if ($string) {
-        echo $OUTPUT->box(format_text($displaytext));
+        echo $OUTPUT->box(stack_ouput_castext($displaytext));
     }
 }
 

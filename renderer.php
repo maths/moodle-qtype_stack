@@ -41,6 +41,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $response = $qa->get_last_qt_data();
 
         $questiontext = $qa->get_last_qt_var('_questiontext');
+        $questiontext = stack_maths::pre_process_user_input($questiontext);
 
         // Replace inputs.
         foreach ($question->inputs as $name => $input) {
@@ -77,7 +78,7 @@ class qtype_stack_renderer extends qtype_renderer {
                 $feedback = html_writer::nonempty_tag('div', $result->errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
-            $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
+            $questiontext = str_replace("[[feedback:{$index}]]", stack_maths::pre_process_user_input($feedback), $questiontext);
         }
 
         $result = '';
@@ -206,7 +207,8 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $index => $prt) {
             $feedback = $this->prt_feedback($index, $response, $qa, $options);
             $allempty = $allempty && !$feedback;
-            $feedbacktext = str_replace("[[feedback:{$index}]]", $feedback, $feedbacktext);
+            $feedbacktext = str_replace("[[feedback:{$index}]]",
+                    stack_maths::pre_process_user_input($feedback), $feedbacktext);
         }
 
         if ($allempty) {
@@ -316,7 +318,8 @@ class qtype_stack_renderer extends qtype_renderer {
         $field = 'prt' . $class;
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
-            return html_writer::tag('div', $question->format_text($question->$field,
+            return html_writer::tag('div', $question->format_text(
+                    stack_maths::pre_process_user_input($question->$field),
                     $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';

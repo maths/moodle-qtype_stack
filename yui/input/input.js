@@ -159,6 +159,25 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
     }
 
     /**
+     * Some browsers cannot execute JavaScript just by inserting script tags.
+     * To avoid that problem, remove all script tags from the given content,
+     * and run them later.
+     * @param
+     * @param html HTML content
+     * @return new text with JS removed
+     */
+    stack_input.prototype.extract_scripts = function(html, scriptcommands) {
+        var scriptregexp = /<script[^>]*>([\s\S]*?)<\/script>/g;
+
+        while ((result = scriptregexp.exec(html)) != null) {
+            scriptcommands.push(result[1]);
+        }
+
+        return html.replace(scriptregexp, '');
+    }
+
+
+    /**
      * Update the validation div to show the results of the validation.
      * @param e the data that came back from the ajax validation call.
      */
@@ -171,14 +190,25 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
 
         var results = this.validationresults[val];
         this.lastvalidatedvalue = val;
-        this.validationdiv.setContent(results.message);
+
+        var scriptcommands = [];
+        var html = this.extract_scripts(results.message, scriptcommands);
+        this.validationdiv.setContent(html);
+
+        // Run script commands.
+        for (var i=0; i<scriptcommands.length; i++) {
+            eval(scriptcommands[i]);
+        }
+
         this.remove_all_classes();
         if (!results.message) {
             this.validationdiv.addClass('empty');
         }
+
         if (typeof MathJax != 'undefined') {
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.validationdiv.getDOMNode()]);
         }
+
         return true;
     }
 

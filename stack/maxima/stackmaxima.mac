@@ -173,7 +173,7 @@ rand_with_prohib(lower,upper,list):=block([currents,retVal],
 StackDISP(expr,m):= block([str:""],
  /* LaTeX display */
  if OPT_OUTPUT="LaTeX" then
-  if not(elementp(m,{"","i","d"})) then print(concat("ERROR: illegal delimiter option found: ",m)),
+  if not(ev(elementp(m,{"","i","d"}),simp)) then print(concat("ERROR: illegal delimiter option found: ",m)),
   str:block([expstr,offset,ld,rd],
           ld:"",rd:"",
           if m="i" then (ld:"\\(",rd:"\\)"),
@@ -724,7 +724,7 @@ ATLowestTerms(SA,SB) := block([simp:false,ret,validity,mark,FeedBack,AnswerNote,
       if badNos=[] then
                    FeedBack:StackAddFeedback("","ATLowestTerms_wrong","")
       else
-                   FeedBack:StackAddFeedback("","ATLowestTerms_entries",StackDISP(badNos,""))
+                   FeedBack:StackAddFeedback("","ATLowestTerms_entries",StackDISP(badNos,"d"))
    ),
    return([validity,mark,AnswerNote,FeedBack])
    )$
@@ -903,7 +903,7 @@ ATSysEquivGrob(GA,GB,SA,varlist):=block([retl,ret],
 		else
 			ret:append(ret,[texcolor("red", SA[ev(k,simp)])])),
 
-	return([true,false,"ATSysEquiv_SA_system_overdetermined",StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", StackDISP(ret, ""))])
+	return([true,false,"ATSysEquiv_SA_system_overdetermined",StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", StackDISP(ret, "d"))])
 )$
 
 /*****************************************************************/

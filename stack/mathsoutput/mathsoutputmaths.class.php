@@ -15,27 +15,39 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
+global $CFG;
 require_once($CFG->libdir . '/filterlib.php');
-require_once($CFG->dirroot . '/filter/tex/filter.php');
 require_once(dirname(__FILE__) . '/mathsoutputfilterbase.class.php');
 
 
 /**
- * STACK maths output methods for using Moodle's TeX filter.
+ * STACK maths output methods for using The OU's maths filter.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_maths_output_tex extends stack_maths_output_filter_base {
+class stack_maths_output_maths extends stack_maths_output_filter_base {
+
+    public static function filter_is_installed() {
+        global $CFG;
+        return file_exists($CFG->dirroot . '/filter/maths/filter.php');
+    }
 
     protected function initialise_delimiters() {
-        $this->displaystart = '\[\displaystyle ';
-        $this->displayend = '\]';
-        $this->inlinestart = '\[';
-        $this->inlineend = '\]';
+        $this->displaystart = '&lt;tex mode="display"&gt;';
+        $this->displayend = '&lt;/tex&gt;';
+        $this->inlinestart = '&lt;tex mode="inline"&gt;';
+        $this->inlineend = '&lt;/tex&gt;';
     }
 
     protected function make_filter() {
-        return new filter_tex(context_system::instance(), array());
+        global $CFG;
+
+        if (!self::filter_is_installed()) {
+            throw new coding_exception('The OU maths filter is not installed.');
+        }
+
+        require_once($CFG->dirroot . '/filter/maths/filter.php');
+        return new filter_maths(context_system::instance(), array());
     }
 }

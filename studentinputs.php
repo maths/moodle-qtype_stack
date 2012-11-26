@@ -40,6 +40,7 @@ require_capability('moodle/site:config', $context);
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/studentinputs.php');
 $title = stack_string('stackInstall_input_title');
+$PAGE->set_pagelayout('report');
 $PAGE->set_title($title);
 
 // Set up the results table.

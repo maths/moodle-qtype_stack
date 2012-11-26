@@ -14,16 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Holds the results of one {@link stack_question_test).
- *
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
-require_once(dirname(__FILE__) . '/questiontestresult.php');
-
 
 /**
  * Holds the results of one {@link stack_question_test).

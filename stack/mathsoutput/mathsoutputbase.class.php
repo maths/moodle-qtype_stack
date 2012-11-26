@@ -67,6 +67,33 @@ abstract class stack_maths_output {
      * @return string the content ready to pass to format_text.
      */
     public function pre_process_user_input($text, $replacedollars) {
-        return $text; // TODO replace dollars option.
+        if ($replacedollars) {
+            $text = $this->replace_dollars($text);
+        }
+        return $text;
+    }
+
+    /**
+     * Replace dollar delimiters ($...$ and $$...$$) in text with the safer
+     * \(...\) and \[...\].
+     * @param string $text the original text.
+     * @param bool $markup surround the change with <ins></ins> tags.
+     * @return string the text with delimiters replaced.
+     */
+    public function replace_dollars($text, $markup = false) {
+        if ($markup) {
+            $displaystart = '<ins>\[</ins>';
+            $displayend   = '<ins>\]</ins>';
+            $inlinestart  = '<ins>\(</ins>';
+            $inlineend    = '<ins>\)</ins>';
+        } else {
+            $displaystart = '\[';
+            $displayend   = '\]';
+            $inlinestart  = '\(';
+            $inlineend    = '\)';
+        }
+        $text = preg_replace('~(?<!\\\\)\$\$(.*?)(?<!\\\\)\$\$~', $displaystart . '$1' . $displayend, $text);
+        $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
+        return $text;
     }
 }

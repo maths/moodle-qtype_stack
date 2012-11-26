@@ -33,7 +33,7 @@ require_once(dirname(__FILE__) . '/../../../doc/docslib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_maths_mathjax_test extends basic_testcase {
+class stack_maths_mathjax_test extends advanced_testcase {
 
     public function test_maths_output_mathsjax() {
         // MathJax output is the default.
@@ -44,6 +44,10 @@ class stack_maths_mathjax_test extends basic_testcase {
 
         $this->assertEquals('What is \(x^2\)?', stack_maths::pre_process_user_input('What is \(x^2\)?'));
 
-        // TODO replacedollars option.
+        $this->resetAfterTest();
+        set_config('replacedollars', '1', 'qtype_stack');
+        stack_utils::clear_config_cache();
+        $this->assertEquals('What is \(x^2\) or \[x^2\]?', stack_maths::pre_process_user_input('What is $x^2$ or $$x^2$$?'));
+        stack_utils::clear_config_cache();
     }
 }

@@ -63,7 +63,10 @@ class stack_maths_maths_test extends advanced_testcase {
 
         $this->assertEquals('What is <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?', stack_maths::pre_process_user_input('What is \[x^2\]?'));
 
-        // TODO replacedollars option.
+        set_config('replacedollars', '1', 'qtype_stack');
+        stack_utils::clear_config_cache();
+        $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt; or <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?', stack_maths::pre_process_user_input('What is $x^2$ or $$x^2$$?'));
+
         stack_utils::clear_config_cache();
     }
 }

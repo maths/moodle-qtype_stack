@@ -73,6 +73,17 @@ class stack_maths {
     }
 
     /**
+     * Replace dollar delimiters ($...$ and $$...$$) in text with the safer
+     * \(...\) and \[...\].
+     * @param string $text the original text.
+     * @param bool $markup surround the change with <ins></ins> tags.
+     * @return string the text with delimiters replaced.
+     */
+    public static function replace_dollars($text, $markup = false) {
+        return self::get_output()->replace_dollars($text, $markup);
+    }
+
+    /**
      * @return string the name of the currently configured output method.
      */
     public static function configured_output_name() {

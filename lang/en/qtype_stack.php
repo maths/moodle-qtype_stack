@@ -271,8 +271,17 @@ $string['settingplatformmaximacommand_desc'] = 'STACK needs to know the shell co
 $string['settingplatformplotcommand'] = 'Plot command';
 $string['settingplatformplotcommand_desc'] = 'STACK needs to know the gnuplot command.  If this is blank, STACK will make an educated guess.';
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
-$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>.';
+$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to user the \'Fix maths delimiters\' script which is referred to below.';
 $string['settingusefullinks'] = 'Useful links';
+
+// Strings used by replace dollars script.
+$string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
+$string['replacedollarsin'] = 'Fixed maths delimiters in field {$a}';
+$string['replacedollarsindex'] = 'Contexts with STACK questions';
+$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them.';
+$string['replacedollarsindextitle'] = 'Replace $s in question texts';
+$string['replacedollarsnoproblems'] = 'No problem delimiters found.';
+$string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
 
 // Strings used by interaction elements.
 $string['false'] = 'False';
@@ -361,6 +370,7 @@ $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
+$string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
 $string['stackInstall_testsuite_intro'] = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';

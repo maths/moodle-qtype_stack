@@ -44,7 +44,10 @@
 }
 
 .que.stack .matrixtable {
-    border: 0px solid black:
+    border: 0px solid black;
+}
+.que.stack .matrixtable td {
+    border: 0px solid black;
 }
 
 

@@ -32,12 +32,26 @@ class stack_maths {
     protected static $outputs = array();
 
     /**
-     * Do the necessary processing on equations in a language string, before it is output.
+     * Do the necessary processing on equations in a language string, before it
+     * is output. Rather than calling this method directly, you should probably
+     * use the stack_string method in locallib.php.
      * @param string $string the language string, as loaded by get_string.
      * @return string the string, with equations rendered to HTML.
      */
     public static function process_lang_string($string) {
         return self::get_output()->process_lang_string($string);
+    }
+
+    /**
+     * Do the necessary processing on content that came from the user, for example
+     * the question text or general feedback. The result of calling this method is
+     * then passed to Moodle's {@link format_text()} function.
+     * @param string $text the content to process.
+     * @return string the content ready to pass to format_text.
+     */
+    public static function process_display_castext($text) {
+        return self::get_output()->process_display_castext($text,
+                stack_utils::get_config()->replacedollars);
     }
 
     /**
@@ -58,18 +72,6 @@ class stack_maths {
      */
     public static function post_process_docs_page($html) {
         return self::get_output()->post_process_docs_page($html);
-    }
-
-    /**
-     * Do the necessary processing on content that came from the user, for example
-     * the question text or general feedback. The result of calling this method is
-     * then passed to Moodle's {@link format_text()} function.
-     * @param string $text the content to process.
-     * @return string the content ready to pass to format_text.
-     */
-    public static function pre_process_user_input($text) {
-        return self::get_output()->pre_process_user_input($text,
-                stack_utils::get_config()->replacedollars);
     }
 
     /**
@@ -98,6 +100,10 @@ class stack_maths {
         return self::get_output_instance(stack_utils::get_config()->mathsdisplay);
     }
 
+    /**
+     * @param string $type the output method name.
+     * @return stack_maths_output instance of the output class for this method.
+     */
     protected static function get_output_instance($method) {
         if (!array_key_exists($method, self::$outputs)) {
             $class = self::class_for_type($method);

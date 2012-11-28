@@ -325,7 +325,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             throw new stack_exception('Error rendering the general feedback text: ' . $gftext->get_errors());
         }
 
-        return $this->format_text(stack_maths::pre_process_user_input($gftext->get_display_castext()),
+        return $this->format_text(stack_maths::process_display_castext($gftext->get_display_castext()),
                 $this->generalfeedbackformat, $qa, 'question', 'generalfeedback', $this->id);
     }
 

@@ -42,12 +42,12 @@ class stack_maths_mathjax_test extends advanced_testcase {
         $this->assertEquals("<p><code>\(x^2\)</code> gives &#92;(x^2&#92;).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', ''));
 
-        $this->assertEquals('What is \(x^2\)?', stack_maths::pre_process_user_input('What is \(x^2\)?'));
+        $this->assertEquals('What is \(x^2\)?', stack_maths::process_display_castext('What is \(x^2\)?'));
 
         $this->resetAfterTest();
         set_config('replacedollars', '1', 'qtype_stack');
         stack_utils::clear_config_cache();
-        $this->assertEquals('What is \(x^2\) or \[x^2\]?', stack_maths::pre_process_user_input('What is $x^2$ or $$x^2$$?'));
+        $this->assertEquals('What is \(x^2\) or \[x^2\]?', stack_maths::process_display_castext('What is $x^2$ or $$x^2$$?'));
         stack_utils::clear_config_cache();
     }
 }

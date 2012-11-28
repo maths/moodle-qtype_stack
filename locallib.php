@@ -27,10 +27,24 @@ class stack_exception extends moodle_exception {
     }
 }
 
+/**
+ * You need to call this method on the string you get from
+ * $castext->get_display_castext() before you echo it. This ensures that equations
+ * are displayed properly.
+ * @param string $castext the result of calling $castext->get_display_castext().
+ * @return string HTML ready to output.
+ */
 function stack_ouput_castext($castext) {
-    return format_text(stack_maths::pre_process_user_input($castext));
+    return format_text(stack_maths::process_display_castext($castext));
 }
 
+/**
+ * Equivalent to get_string($key, 'qtype_stack', $a), but this method ensure that
+ * any equations in the string are displayed properly.
+ * @param string $key the string name.
+ * @param mixed $a (optional) any values to interpolate into the string.
+ * @return string the language string
+ */
 function stack_string($key, $a = null) {
     return stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
 }

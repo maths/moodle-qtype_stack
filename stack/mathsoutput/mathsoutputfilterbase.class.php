@@ -35,6 +35,9 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     protected $inlinestart;
     protected $inlineend;
 
+    /**
+     * Constructor.
+     */
     public function __construct() {
         $this->initialise_delimiters();
     }
@@ -50,20 +53,37 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         return $html;
     }
 
-    public function pre_process_user_input($text, $replacedollars) {
-        $text = parent::pre_process_user_input($text, $replacedollars);
+    public function process_display_castext($text, $replacedollars) {
+        $text = parent::process_display_castext($text, $replacedollars);
         $text = $this->find_equations_and_replace_delimiters($text);
         return $text;
     }
 
+    /**
+     * Find all the equations in some content, and use the filter to render any
+     * maths.
+     * @param string $html the input HTML.
+     * @return string the updated HTML.
+     */
     protected function find_and_render_equations($html) {
         return $this->find_and_process_equations($html, 'render_equation_callback');
     }
 
+    /**
+     * Callback used by {@link find_and_render_equations()}.
+     * @param array $match what was matched by the regular expression.
+     * @return string what the match should be replaced by.
+     */
     protected function render_equation_callback($match) {
         return $this->render_equation($match[1], $match[2] == ']');
     }
 
+    /**
+     * Helper used by {@link find_and_render_equations()}.
+     * @param string $tex the LaTeX code to render.
+     * @param bool $displaystyle if true this is a displya-style equation, else
+     *       an inline-style one.
+     */
     protected function render_equation($tex, $displaystyle) {
         if ($displaystyle) {
             return $this->displaywrapstart .
@@ -74,14 +94,31 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         }
     }
 
+    /**
+     * Find all the equations in some content and replace the standard \(...\)
+     * and \[...\] delimiters with the ones this filter expects.
+     * @param string $html the input HTML.
+     * @return string the updated HTML.
+     */
     protected function find_equations_and_replace_delimiters($html) {
         return $this->find_and_process_equations($html, 'replace_delimiters_callback');
     }
 
+    /**
+     * Callback used by {@link find_equations_and_replace_delimiters()}.
+     * @param array $match what was matched by the regular expression.
+     * @return string what the match should be replaced by.
+     */
     protected function replace_delimiters_callback($match) {
         return $this->replace_delimiters($match[1], $match[2] == ']');
     }
 
+    /**
+     * Helper used by {@link find_and_render_equations()}.
+     * @param string $tex the LaTeX code to render.
+     * @param bool $displaystyle if true this is a displya-style equation, else
+     *       an inline-style one.
+     */
     protected function replace_delimiters($tex, $displaystyle) {
         if ($displaystyle) {
             return $this->displaywrapstart . $this->displaystart . $tex .
@@ -91,13 +128,21 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         }
     }
 
+    /**
+     * Helper used by {@link find_and_render_equations()} and
+     * {@link find_and_render_equations()}.
+     * @param string $html the input HTML.
+     * @param string $callback the name of the callback method to use.
+     * @return string the updated HTML.
+     */
     protected function find_and_process_equations($html, $callback) {
         return preg_replace_callback('~(?<!\\\\)(?<!<code>)\\\\[([](.*?)(?<!\\\\)\\\\([])])(?!</code>)~s',
                 array($this, $callback), $html);
     }
 
     /**
-     * @return moodle_text_filter and instance of the Moodle TeX filter.
+     * @return moodle_text_filter an instance of the text filter to use to
+     * render equations.
      */
     protected function get_filter() {
         if (is_null($this->filter)) {
@@ -106,10 +151,14 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         return $this->filter;
     }
 
+    /**
+     * Initialise the fields of this class that contin the delimiters to use.
+     */
     protected abstract function initialise_delimiters();
 
     /**
-     * @return moodle_text_filter and instance of the Moodle TeX filter.
+     * @return moodle_text_filter an newly created instance of the text filter
+     * to use to render equations.
      */
     protected abstract function make_filter();
 }

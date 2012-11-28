@@ -22,8 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_maths_output_mathjax extends stack_maths_output {
-    // Default implementation in the base class does what we want!
 
+    /**
+     * @return string code that should be pasted into Admin -> Appearance ->
+     * Additional HTML -> Head code to make MathJax work the way STACK expects.
+     */
     public static function get_mathjax_code() {
         return <<<END
 <script type="text/x-mathjax-config">

@@ -66,7 +66,7 @@ abstract class stack_maths_output {
      * @param string $text the content to process.
      * @return string the content ready to pass to format_text.
      */
-    public function pre_process_user_input($text, $replacedollars) {
+    public function process_display_castext($text, $replacedollars) {
         if ($replacedollars) {
             $text = $this->replace_dollars($text);
         }

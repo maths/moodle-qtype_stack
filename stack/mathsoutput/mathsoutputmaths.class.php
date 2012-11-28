@@ -28,6 +28,9 @@ require_once(dirname(__FILE__) . '/mathsoutputfilterbase.class.php');
  */
 class stack_maths_output_maths extends stack_maths_output_filter_base {
 
+    /**
+     * @return boolean is the OU maths filter installed?
+     */
     public static function filter_is_installed() {
         global $CFG;
         return file_exists($CFG->dirroot . '/filter/maths/filter.php');

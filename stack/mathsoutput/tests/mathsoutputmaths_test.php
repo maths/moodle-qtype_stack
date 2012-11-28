@@ -59,13 +59,13 @@ class stack_maths_maths_test extends advanced_testcase {
         $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x squared".*</a>\.</p>\n$~',
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).', ''));
 
-        $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt;?', stack_maths::pre_process_user_input('What is \(x^2\)?'));
+        $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt;?', stack_maths::process_display_castext('What is \(x^2\)?'));
 
-        $this->assertEquals('What is <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?', stack_maths::pre_process_user_input('What is \[x^2\]?'));
+        $this->assertEquals('What is <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?', stack_maths::process_display_castext('What is \[x^2\]?'));
 
         set_config('replacedollars', '1', 'qtype_stack');
         stack_utils::clear_config_cache();
-        $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt; or <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?', stack_maths::pre_process_user_input('What is $x^2$ or $$x^2$$?'));
+        $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt; or <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?', stack_maths::process_display_castext('What is $x^2$ or $$x^2$$?'));
 
         stack_utils::clear_config_cache();
     }

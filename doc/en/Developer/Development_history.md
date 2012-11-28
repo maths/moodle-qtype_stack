@@ -6,7 +6,7 @@ STACK is a direct development of the CABLE project which ran at the University o
 
 ## Version 3.0
 
-_Not yet released_.  Target, September 2012.
+Released September 2012.
 
 Major re-engineering of the code by the Open University, The  University of Birmingham and the University of Helsinki.  Reporting and documentation added by Ben Holmes.
 
@@ -15,7 +15,7 @@ The most important change is the decision to re-work STACK as a question type fo
 Key features
 
 * __Major difference:__ Integration into the quiz of Moodle 2.3 as a question type.
-* Support for Maxima up to 5.27.0.
+* Support for Maxima up to 5.28.0.
 * Documentation moved from the wiki to within the code base.
 * Move from CVS to GIT.
 
@@ -36,6 +36,8 @@ Key features
 * Answer tests no longer return a numerical mark, hence the "+AT" option for mark modification method has been dropped.
 * The STACK function `filter` has been removed.  It should be replaced by the internal Maxima function `sublist`.  Note, the order of the arguments is reversed!
 * The libraries `powers` and `format` have been removed.
+* We now strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments.  See the pages on [mathjax](MathJax.md#delimiters) for more information on this change.
+
 
 ## Version 2.2
 

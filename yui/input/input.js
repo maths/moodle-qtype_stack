@@ -176,7 +176,6 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         return html.replace(scriptregexp, '');
     }
 
-
     /**
      * Update the validation div to show the results of the validation.
      * @param e the data that came back from the ajax validation call.

@@ -51,7 +51,7 @@ $qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect
 $prtnodefields = array('truefeedback', 'falsefeedback');
 $anychanges = false;
 
-// Display
+// Display.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
@@ -148,8 +148,10 @@ class qtype_stack_dollar_fixer {
      * Constructor.
      */
     public function __construct() {
-        $this->search = array(s('<ins>\[</ins>'), s('<ins>\]</ins>'), s('<ins>\(</ins>'), s('<ins>\)</ins>'));
-        $this->replace = array('<del>$$</del><ins>\[</ins>', '<del>$$</del><ins>\]</ins>', '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>');
+        $this->search = array(s('<ins>\[</ins>'), s('<ins>\]</ins>'),
+                s('<ins>\(</ins>'), s('<ins>\)</ins>'));
+        $this->replace = array('<del>$$</del><ins>\[</ins>', '<del>$$</del><ins>\]</ins>',
+                '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>');
     }
 
     /**

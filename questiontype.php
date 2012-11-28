@@ -327,7 +327,9 @@ class qtype_stack extends question_type {
             $totalvalue += $prtdata->value;
         }
         if ($totalvalue < 0.0000001) {
-            throw new coding_exception('There is an error authoring your question.  The $totalvalue, the marks available for the question, must be positive in question '.$question->name);
+            throw new coding_exception('There is an error authoring your question. ' .
+                    'The $totalvalue, the marks available for the question, must be positive in question ' .
+                    $question->name);
         }
 
         foreach ($questiondata->prts as $name => $prtdata) {

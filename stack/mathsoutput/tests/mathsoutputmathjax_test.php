@@ -37,7 +37,8 @@ class stack_maths_mathjax_test extends advanced_testcase {
 
     public function test_maths_output_mathsjax() {
         // MathJax output is the default.
-        $this->assertEquals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ', stack_string('ATSingleFrac_part'));
+        $this->assertEquals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
+                stack_string('ATSingleFrac_part'));
 
         $this->assertEquals("<p><code>\(x^2\)</code> gives &#92;(x^2&#92;).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', ''));

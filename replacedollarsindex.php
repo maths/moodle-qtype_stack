@@ -47,7 +47,7 @@ $counts = $DB->get_records_sql_menu("
           ORDER BY ctx.path
         ");
 
-// Display
+// Display.
 echo $OUTPUT->header();
 echo $OUTPUT->heading(stack_string('replacedollarsindex'));
 

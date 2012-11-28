@@ -63,7 +63,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('system(rm *)', false, false), // This should never occur.
             array('$', false, false),
             array('@', false, false),
-            // Inequalities
+            // Inequalities.
             array('x>=1', true, true),
             array('x=>1', false, false),
         );

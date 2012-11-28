@@ -40,7 +40,8 @@ class stack_maths_tex_test extends advanced_testcase {
         set_config('mathsdisplay', 'tex', 'qtype_stack');
         stack_utils::clear_config_cache();
 
-        $this->assertRegExp('~^Your answer needs to be a single fraction of the form <a .*alt=" \{a\}\\\\over\{b\} ".*</a> \. $~',
+        $this->assertRegExp('~^Your answer needs to be a single fraction of the form ' .
+                '<a .*alt=" \{a\}\\\\over\{b\} ".*</a> \. $~',
                 stack_string('ATSingleFrac_part'));
 
         $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x\^2".*</a> \.</p>\n$~',
@@ -48,11 +49,13 @@ class stack_maths_tex_test extends advanced_testcase {
 
         $this->assertEquals('What is \[x^2\]?', stack_maths::process_display_castext('What is \(x^2\)?'));
 
-        $this->assertEquals('What is <span class="displayequation">\[\displaystyle x^2\]</span>?', stack_maths::process_display_castext('What is \[x^2\]?'));
+        $this->assertEquals('What is <span class="displayequation">\[\displaystyle x^2\]</span>?',
+                stack_maths::process_display_castext('What is \[x^2\]?'));
 
         set_config('replacedollars', '1', 'qtype_stack');
         stack_utils::clear_config_cache();
-        $this->assertEquals('What is \[x^2\] or <span class="displayequation">\[\displaystyle x^2\]</span>?', stack_maths::process_display_castext('What is $x^2$ or $$x^2$$?'));
+        $this->assertEquals('What is \[x^2\] or <span class="displayequation">\[\displaystyle x^2\]</span>?',
+                stack_maths::process_display_castext('What is $x^2$ or $$x^2$$?'));
 
         stack_utils::clear_config_cache();
     }

@@ -198,7 +198,7 @@ if ($question->has_random_variants()) {
     echo html_writer::end_tag('p');
     echo html_writer::end_tag('form');
 
-    // Deploy many variants
+    // Deploy many variants.
     if ($canedit) {
         echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
                 'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));

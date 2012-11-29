@@ -38,11 +38,11 @@ class stack_maths_maths_test extends advanced_testcase {
 
     public function test_maths_rendering() {
         if (!stack_maths_output_maths::filter_is_installed()) {
-            $testcase->markTestSkipped('The OU maths filter is not installed.');
+            $this->markTestSkipped('The OU maths filter is not installed.');
         }
 
         if (!defined('FILTER_MATHS_TEST_SERVICE_URL_BASE')) {
-            $testcase->markTestSkipped('To run the OU maths filter output tests, ' .
+            $this->markTestSkipped('To run the OU maths filter output tests, ' .
                     'you must define FILTER_MATHS_TEST_SERVICE_URL_BASE in config.php.');
         }
 

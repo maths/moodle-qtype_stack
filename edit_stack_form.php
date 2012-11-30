@@ -866,10 +866,19 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Check the nodes.
         $nodes = $this->get_required_nodes_for_prt($prtname);
+        $textformat = null;
         foreach ($nodes as $nodekey) {
 
             // Check the fields the belong to this node individually.
             $errors = $this->validate_prt_node($errors, $fromform, $prtname, $nodekey);
+
+            if (is_null($textformat)) {
+                $textformat = $fromform[$prtname . 'truefeedback'][$nodekey]['format'];
+            }
+            if ($textformat != $fromform[$prtname . 'truefeedback'][$nodekey]['format']) {
+                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] =
+                        stack_string('allnodefeedbackmustusethesameformat');
+            }
 
             // Also build the $nextnodes graph structure array that we will need in a second.
             $nextnodes[$nodekey] = array();

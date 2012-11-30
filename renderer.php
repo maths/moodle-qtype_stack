@@ -41,7 +41,10 @@ class qtype_stack_renderer extends qtype_renderer {
         $response = $qa->get_last_qt_data();
 
         $questiontext = $qa->get_last_qt_var('_questiontext');
-        $questiontext = stack_maths::process_display_castext($questiontext);
+        $questiontext = $question->format_text(
+                stack_maths::process_display_castext($questiontext),
+                $question->questiontextformat,
+                $qa, 'question', 'questiontext', $question->id);
 
         // Replace inputs.
         foreach ($question->inputs as $name => $input) {
@@ -78,13 +81,11 @@ class qtype_stack_renderer extends qtype_renderer {
                 $feedback = html_writer::nonempty_tag('div', $result->errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
-            $questiontext = str_replace("[[feedback:{$index}]]", stack_maths::process_display_castext($feedback), $questiontext);
+            $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
         $result = '';
-        $result .= $this->question_tests_link($question, $options);
-        $result .= $question->format_text($questiontext, $question->questiontextformat,
-                $qa, 'question', 'questiontext', $question->id);
+        $result .= $this->question_tests_link($question, $options) . $questiontext;
 
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',
@@ -165,6 +166,10 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
+        $feedbacktext = stack_maths::process_display_castext($feedbacktext);
+        $feedbacktext = $question->format_text($feedbacktext, $question->specificfeedbackformat,
+                $qa, 'qtype_stack', 'specificfeedback', $question->id);
+
         // Replace any PRT feedback.
         $allempty = true;
         foreach ($question->prts as $name => $prt) {
@@ -182,8 +187,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        return $question->format_text($feedbacktext, $question->specificfeedbackformat,
-                $qa, 'qtype_stack', 'specificfeedback', $question->id);
+        return $feedbacktext;
     }
 
     /**
@@ -202,6 +206,10 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
+        $feedbacktext = stack_maths::process_display_castext($feedbacktext);
+        $feedbacktext = $question->format_text($feedbacktext, $question->specificfeedbackformat,
+                $qa, 'qtype_stack', 'specificfeedback', $question->id);
+
         // Replace any PRT feedback.
         $allempty = true;
         foreach ($question->prts as $index => $prt) {
@@ -215,8 +223,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        return $question->format_text($feedbacktext, $question->specificfeedbackformat,
-                $qa, 'qtype_stack', 'specificfeedback', $question->id);
+        return $feedbacktext;
     }
 
     /**
@@ -284,6 +291,24 @@ class qtype_stack_renderer extends qtype_renderer {
             $err = $result->errors;
         }
 
+        $feedback = '';
+        $feedbackbits = $result->get_feedback();
+        if ($feedbackbits) {
+            $feedback = array();
+            $format = reset($feedbackbits)->format;
+            foreach ($feedbackbits as $bit) {
+                $feedback[] = $qa->rewrite_pluginfile_urls(
+                        $bit->feedback, 'qtype_stack', $bit->filearea, $bit->itemid);
+                if ($bit->format != $format) {
+                    throw new coding_exception('Inconsistent feedback formats found in PRT ' . $name);
+                }
+            }
+
+            $feedback = $result->substitue_variables_in_feedback(implode(' ', $feedback));
+            $feedback = format_text(stack_maths::process_display_castext($feedback),
+                    $format, array('noclean' => true, 'para' => false));
+        }
+
         $gradingdetails = '';
         if (!$result->errors && $qa->get_behaviour_name() == 'adaptivemultipart') {
             // This is rather a hack, but it will probably work.
@@ -291,8 +316,6 @@ class qtype_stack_renderer extends qtype_renderer {
             $gradingdetails = $renderer->render_adaptive_marks(
                     $qa->get_behaviour()->get_part_mark_details($name), $options);
         }
-
-        $feedback = $result->get_feedback($qa);
 
         return html_writer::nonempty_tag('div',
                 $this->standard_prt_feedback($qa, $question, $result) .

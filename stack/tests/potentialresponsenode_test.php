@@ -64,7 +64,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
-        $this->assertEquals(array('Yeah!'), $result->feedback);
+        $this->assertEquals(1, count($result->feedback));
+        $this->assertEquals('Yeah!', $result->feedback[0]->feedback);
         $this->assertEquals(3, $nextnode);
     }
 
@@ -82,7 +83,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
-        $this->assertEquals(array('Boo!'), $result->feedback);
+        $this->assertEquals(1, count($result->feedback));
+        $this->assertEquals('Boo!', $result->feedback[0]->feedback);
         $this->assertEquals(-1, $nextnode);
     }
 
@@ -100,10 +102,12 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
         $this->assertEquals(false, $result->valid);
         $this->assertNotEquals('', $result->errors);
+        $this->assertEquals(2, count($result->feedback));
         // TODO this next line looks wrong. Presumably a regressions from Chris's recent changes.
-        $this->assertEquals(array('The answer test failed to execute correctly: ' .
-                'please alert your teacher. Division by 0part: invalid index of list or matrix.', 'Boo!'),
-                $result->feedback);
+        $this->assertEquals('The answer test failed to execute correctly: ' .
+                'please alert your teacher. Division by 0part: invalid index of list or matrix.',
+                $result->feedback[0]->feedback);
+        $this->assertEquals('Boo!', $result->feedback[1]->feedback);
         $this->assertEquals(-1, $nextnode);
     }
 
@@ -121,7 +125,8 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
-        $this->assertEquals(array('Yeah!'), $result->feedback);
+        $this->assertEquals(1, count($result->feedback));
+        $this->assertEquals('Yeah!', $result->feedback[0]->feedback);
         $this->assertEquals(3, $nextnode);
     }
 
@@ -139,8 +144,10 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
         $this->assertEquals(true, $result->valid);
         $this->assertEquals('', $result->errors);
-        $this->assertEquals(array('Your answer is not factored. You need to take out a common factor.', 'Boo!'),
-                $result->feedback);
+        $this->assertEquals(2, count($result->feedback));
+        $this->assertEquals('Your answer is not factored. You need to take out a common factor.',
+                $result->feedback[0]->feedback);
+        $this->assertEquals('Boo!', $result->feedback[1]->feedback);
 
     }
 
@@ -157,8 +164,9 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $result = new stack_potentialresponse_tree_state(1, true, 1);
         $nextnode = $node->do_test('3*x+6', '3*(x+2)', 'x', $options, $result);
 
-        $this->assertEquals(array('Boo! Your answer should be in factored form, i.e. @factor(ans1)@.'),
-                $result->feedback);
+        $this->assertEquals(1, count($result->feedback));
+        $this->assertEquals('Boo! Your answer should be in factored form, i.e. @factor(ans1)@.',
+                $result->feedback[0]->feedback);
 
         $this->assertEquals(1.5, $result->score);
 

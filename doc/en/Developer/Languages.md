@@ -20,6 +20,8 @@ We believe STACK is being (or has been) translated into the following languages.
 * Italian
 * German
 * Dutch
+* Spanish
+* Portuguese 
 
 If you need these languages please contact the developers for more details of the status of this work.
 
@@ -32,13 +34,17 @@ STACK 2 was distributed in the following languages.  We intend these to be updat
 
 # How to translate STACK
 
-STACK is part of Moodle.  Hence, we have used the Moodle translation management system.  _ALL_ strings which appear to the user should be found in the single file
+STACK is part of Moodle.  Hence, we have used the Moodle translation management system.  
+
+Please check if STACK has already been translated into your language.  We are using [http://docs.moodle.org/23/en/AMOS](Moodle's AMOS system) to do this.  
+
+_ALL_ strings which appear to the user should be found in the single file
 
     /stack/lang/en/qtype_stack.php
 
-To translate STACK into another language create the appropriate directory using the two letter country code.  Copy the above file into this directory and edit it.  This file contains the majority of strings seen by users.  However, remember to translate the other components of STACK, e.g. `qformat_stack` and also the question behaviours.  See the installation instructions for a full list.
+It is convenient to translate the strings online.  To translate STACK into another language please use Moodle's AMOS system.  See [http://docs.moodle.org/23/en/AMOS](Moodle online documentation) for specific details.
 
-Please send your translations to Chris Sangwin for inclusion into the distribution.
+Please contact Chris Sangwin to add your name to the credits on this page.
 
 # Multilingual materials
 

@@ -36,13 +36,13 @@ STACK 2 was distributed in the following languages.  We intend these to be updat
 
 STACK is part of Moodle.  Hence, we have used the Moodle translation management system.  
 
-Please check if STACK has already been translated into your language.  We are using [http://docs.moodle.org/23/en/AMOS](Moodle's AMOS system) to do this.  
+Please check if STACK has already been translated into your language.  We are using [Moodle's AMOS system](http://docs.moodle.org/23/en/AMOS) to do this.  
 
 _ALL_ strings which appear to the user should be found in the single file
 
     /stack/lang/en/qtype_stack.php
 
-It is convenient to translate the strings online.  To translate STACK into another language please use Moodle's AMOS system.  See [http://docs.moodle.org/23/en/AMOS](Moodle online documentation) for specific details.
+It is convenient to translate the strings online.  To translate STACK into another language please use Moodle's AMOS system.  See [Moodle online documentation](http://docs.moodle.org/23/en/AMOS) for specific details.
 
 Please contact Chris Sangwin to add your name to the credits on this page.
 

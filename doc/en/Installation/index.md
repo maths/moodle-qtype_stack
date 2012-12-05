@@ -4,7 +4,7 @@ STACK 3.0 beta is still under active testing.
 
 ## 1. Set up moodle.
 
-* Please ensure you have [installed moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use moodle 2.3 or later.  [E.g.](https://github.com/moodle/moodle)
+* Please ensure you have [installed moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use moodle 2.3.2 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](../Developer/Mathjax.md).
 
 ## 2. Install GNUPlot and Maxima

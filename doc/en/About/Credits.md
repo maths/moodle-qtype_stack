@@ -24,10 +24,12 @@ Currently STACK is released with the following languages.
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
+  * ES: Spanish, by VÌctor Hugo Huerta,  
+
 
 # User list
 
-The following institutions made use of previous versionf of STACK.  If you are actively using or trialling STACK and would like to be listed below then please contcat the developers.
+The following institutions made use of previous versionf of STACK.  If you are actively using or trialling STACK and would like to be listed below then please contact the developers.
 
 School of Mathematics, The University of Birmingham
 : The home of STACK. Contact [Chris Sangwin](mailto:c.sangwin@bham.ac.uk).
@@ -55,3 +57,6 @@ School of Computing, Information and Mathematical Sciences, The University of th
 
 Gymnasium Himmelsth√ºr, Hildesheim, Deutschland
 : Contact [Frank Sch√ºtte](mailto:fschuett@gymnasium-himmelsthuer.de)
+
+Universidad Michoacana de San Nicolas de Hidalgo
+: Contcat [VÌctor Hugo Huerta](mailto:v2hugo@gmail.com)

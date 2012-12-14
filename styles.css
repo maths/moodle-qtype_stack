@@ -144,6 +144,9 @@ body.path-question-type-stack .switchtovariant {
     display: block;
     text-align: center;
 }
+.stack_plot {
+    text-align: center;
+}
 body#page-question-type-stack-replacedollars pre.questiontext {
     white-space: pre-wrap;
 }

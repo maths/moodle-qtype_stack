@@ -70,6 +70,8 @@ abstract class stack_maths_output {
         if ($replacedollars) {
             $text = $this->replace_dollars($text);
         }
+        $text = str_replace('!ploturl!',
+                moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $text);
         return $text;
     }
 

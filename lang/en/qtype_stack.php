@@ -825,7 +825,7 @@ $string['calc_int_standard_integrals_fact'] = '
 <tr><td>\({1\over \sqrt{x^2-a^2}}\) </td> <td>  \(\cosh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td>  \(x\geq a > 0\) </td> </tr>
 <tr><td>\({1\over \sqrt{x^2+k}}\) </td> <td>  \(\ln (x+\sqrt{x^2+k})+c\)</td> <td> </td> </tr>
 <tr><td>\({1\over \sqrt{a^2-x^2}}\) </td> <td>  \(\sin^{-1}\left(\frac{x}{a}\right)+c\)</td> <td>  \(-a\leq x\leq a\)  </td> </tr>
-</table></canter>';
+</table></center>';
 
 $string['calc_int_linearity_rule_name'] = 'The Linearity Rule for Integration';
 $string['calc_int_linearity_rule_fact'] = '\[\int \left(af(x)+bg(x)\right){\rm d}x = a\int\!\!f(x)\,{\rm d}x

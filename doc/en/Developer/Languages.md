@@ -22,15 +22,9 @@ We believe STACK is being (or has been) translated into the following languages.
 * Dutch
 * Spanish
 * Portuguese 
+* French
 
 If you need these languages please contact the developers for more details of the status of this work.
-
-# Translation of older versions
-
-STACK 2 was distributed in the following languages.  We intend these to be updated for STACK 3.
-
-  * DE: German, by Frank Schutte
-  * NL: Dutch, by Tim Neijens
 
 # How to translate STACK
 
@@ -46,7 +40,7 @@ You need to translate the strings for the Components `qtype_stack`,
 
 It is convenient to translate the strings online.  To translate STACK into another language please use Moodle's AMOS system.  See [Moodle online documentation](http://docs.moodle.org/23/en/AMOS) for specific details.
 
-Please contact Chris Sangwin to add your name to the credits on this page.
+Apologies to those people who have translated STACK through AMOS, but who do not appear here. Please contact Chris Sangwin to add your name to the credits.
 
 # Multilingual materials
 
@@ -55,4 +49,4 @@ Colleagues have asked for multilingual materials.  We plan to implement this usi
 
 # Documentation
 
-This is currently only available in English.
+This is currently only available in English.  

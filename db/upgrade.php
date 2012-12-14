@@ -509,5 +509,15 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012062504, 'qtype', 'stack');
     }
 
+    // Add new upgrade blocks just above here.
+
+    // This block of code is intentionally outside of an if statement. We want
+    // this bit of code to run every time that qtype_stack is updated.
+    if (!preg_match('~\[ STACK-Maxima started, library version (\d{10}) \]~',
+            file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
+        throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
+    }
+    set_config('stackmaximaversion', $matches[1], 'qtype_stack');
+
     return true;
 }

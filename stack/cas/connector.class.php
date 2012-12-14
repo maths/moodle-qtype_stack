@@ -15,8 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once(dirname(__FILE__) . '/connector.interface.php');
-require_once(dirname(__FILE__) . '/connector.dbcache.class.php');
+require_once(dirname(__FILE__) . '/../cas/connector.interface.php');
 
 
 /**
@@ -26,8 +25,6 @@ require_once(dirname(__FILE__) . '/connector.dbcache.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class stack_cas_connection_base implements stack_cas_connection {
-    protected static $config = null;
-
     /** @var string path to write Maxiam error output to. */
     protected $logs;
 
@@ -55,86 +52,10 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string replacement strings in relation to $wwwroothasunderscores. */
     protected $wwwrootfixupreplace;
 
-    /** @var moodle_database keeps the connection to the 'otherdb' if we are using that option. */
-    protected static $otherdb = null;
-
-    /**
-     * Create a Maxima connection.
-     * @return stack_cas_connection the connection.
-     */
-    public static function make() {
-        if (is_null(self::$config)) {
-            self::$config = stack_utils::get_config();
-        }
-
-        $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
-
-        switch (self::$config->platform) {
-            case 'win':
-                require_once(dirname(__FILE__) . '/connector.windows.class.php');
-                $connection = new stack_cas_connection_windows(self::$config, $debuglog);
-                break;
-            case 'unix':
-            case 'unix-optimised':
-                require_once(dirname(__FILE__) . '/connector.unix.class.php');
-                $connection = new stack_cas_connection_unix(self::$config, $debuglog);
-                break;
-            case 'server':
-                require_once(dirname(__FILE__) . '/connector.server.class.php');
-                $connection = new stack_cas_connection_server(self::$config, $debuglog);
-                break;
-            case 'tomcat':
-                require_once(dirname(__FILE__) . '/connector.tomcat.class.php');
-                $connection = new stack_cas_connection_tomcat(self::$config, $debuglog);
-                break;
-
-            default:
-                throw new stack_exception('stack_cas_connection: Unknown platform ' . self::$config->platform);
-        }
-
-        switch (self::$config->casresultscache) {
-            case 'db':
-                global $DB;
-                $connection = new stack_cas_connection_db_cache($connection, $debuglog, $DB);
-                break;
-
-            case 'otherdb':
-                $connection = new stack_cas_connection_db_cache($connection, $debuglog, self::get_other_db());
-                break;
-
-            default:
-                // Just use the raw $connection.
-        }
-
-        return $connection;
-    }
-
-    /**
-     * Initialises the database connection for the 'otherdb' cache type.
-     * @return moodle_database the DB connection to use.
-     */
-    protected static function get_other_db() {
-        if (!is_null(self::$otherdb)) {
-            return self::$otherdb;
-        }
-
-        $dboptions = array();
-        if (!empty(self::$config->cascachedbsocket)) {
-            $dboptions['dbsocket'] = true;
-        }
-
-        self::$otherdb = moodle_database::get_driver_instance(
-                self::$config->cascachedbtype, self::$config->cascachedblibrary);
-        self::$otherdb->connect(self::$config->cascachedbhost,
-                self::$config->cascachedbuser, self::$config->cascachedbpass,
-                self::$config->cascachedbname, self::$config->cascachedbprefix, $dboptions);
-        return self::$otherdb;
-    }
-
     /* @see stack_cas_connection::compute() */
     public function compute($command) {
 
-        $context = "Platform: ". self::$config->platform . "\n";
+        $context = "Platform: ". stack_connection_helper::get_platform() . "\n";
         $context .= "Maxima shell command: ". $this->command . "\n";;
         $context .= "Maxima initial command: ". $this->initcommand . "\n";
         $context .= "Maxima timeout: ". $this->timeout;
@@ -147,6 +68,11 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         $unpackedresult = $this->unpack_raw_result($rawresult);
         $this->debug->log('Unpacked result as', print_r($unpackedresult, true));
+
+        if (!stack_connection_helper::did_cas_timeout($unpackedresult) &&
+                !stack_connection_helper::check_stackmaxima_version($unpackedresult)) {
+            stack_connection_helper::warn_about_version_mismatch($this->debug);
+        }
 
         return $unpackedresult;
     }
@@ -177,7 +103,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @param stdClass $settings the Maxima configuration settings.
      * @param stack_debug_log $debuglog the debug log to use.
      */
-    protected function __construct($settings, stack_debug_log $debuglog) {
+    public function __construct($settings, stack_debug_log $debuglog) {
         global $CFG;
 
         $path = $CFG->dataroot . '/stack';
@@ -327,7 +253,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $unparsed['errors'] = $errors;
         }
 
-        return($unparsed);
+        return $unparsed;
     }
 
     /**

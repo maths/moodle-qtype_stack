@@ -105,7 +105,7 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $this->assertEquals(2, count($result->feedback));
         // TODO this next line looks wrong. Presumably a regressions from Chris's recent changes.
         $this->assertEquals('The answer test failed to execute correctly: ' .
-                'please alert your teacher. Division by 0part: invalid index of list or matrix.',
+                'please alert your teacher. Division by zero.',
                 $result->feedback[0]->feedback);
         $this->assertEquals('Boo!', $result->feedback[1]->feedback);
         $this->assertEquals(-1, $nextnode);

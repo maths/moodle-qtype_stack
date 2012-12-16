@@ -118,7 +118,11 @@ class stack_question_test_result {
                 $state->score = $actualresult->score;
                 $state->penalty = $actualresult->penalty;
                 $state->answernote = implode(' | ', $actualresult->answernotes);
-                $state->feedback = implode(' ', $actualresult->feedback);
+                $feedback = array();
+                foreach($actualresult->feedback as $fb) {
+                    $feedback[] = $fb->feedback;
+                }
+                $state->feedback = implode(' ', $feedback);
             } else {
                 $state->score = '';
                 $state->penalty = '';

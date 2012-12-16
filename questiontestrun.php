@@ -80,7 +80,7 @@ $options->suppressruntestslink = true;
 // Load the list of test cases.
 $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 
-// Exectue the tests.
+// Execute the tests.
 $testresults = array();
 $allpassed = true;
 foreach ($testscases as $key => $testcase) {

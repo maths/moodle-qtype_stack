@@ -16,7 +16,7 @@
 
 
 /**
- * Language strings for the Stack question type.
+ * Language strings for the STACK question type.
  *
  * @package    qtype_stack
  * @copyright  2012 The Open University
@@ -36,6 +36,7 @@ $string['exceptionmessage'] = '{$a}';
 
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
+$string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
 $string['answernote'] = 'Answer note';
 $string['answernote_err'] = 'Answer notes may not contain the character |.  This character is inserted by STACK and is later used to split answer notes automatically.';
 $string['answernote_help'] = 'This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.';
@@ -95,7 +96,7 @@ $string['showvalidation'] = 'Show the validation';
 $string['showvalidation_help'] = 'Setting this option displays any validation feedback from this input, including echoing back their expression in traditional two dimensional notation.';
 $string['showvalidation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Show_validation';
 $string['htmlfragment'] = 'You appear to have some HTML elements in your expression.';
-$string['illegalcaschars'] = 'The characters @ and \$ are not allowed in CAS input.';
+$string['illegalcaschars'] = 'The characters @ and $ are not allowed in CAS input.';
 $string['inputheading'] = 'Input: {$a}';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
@@ -254,17 +255,34 @@ $string['settingcasresultscache_desc'] = 'This setting determines whether calls 
 $string['settingcasresultscache_none'] = 'Do not cache';
 $string['settingcastimeout'] = 'CAS connection timeout';
 $string['settingcastimeout_desc'] = 'The timout to use when trying to connect to Maxima.';
+$string['settingmathsdisplay'] = 'Maths filter';
+$string['settingmathsdisplay_mathjax'] = 'MathJax';
+$string['settingmathsdisplay_tex'] = 'Moodle TeX filter';
+$string['settingmathsdisplay_maths'] = 'OU maths filter';
+$string['settingmathsdisplay_desc'] = 'The method used to display maths. If you select MathJax, then you will need to follow the instrucions on the Healthcheck page to set it up. If you select a filter, then you must ensure that filter is enabled on the Manage filters configuration page.';
 $string['settingplatformtype'] = 'Platform type';
-$string['settingplatformtype_desc'] = 'Stack needs to know what sort of operating system it is running on. The Server and MaximaPool options give better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
+$string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The Server and MaximaPool options give better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
 $string['settingplatformtypeunix'] = 'Linux';
 $string['settingplatformtypeunixoptimised'] = 'Linux (optimised)';
 $string['settingplatformtypewin']  = 'Windows';
 $string['settingplatformtypeserver'] = 'Server';
 $string['settingplatformtypemaximapool'] = 'MaximaPool';
 $string['settingplatformmaximacommand'] = 'Maxima command';
-$string['settingplatformmaximacommand_desc'] = 'Stack needs to know the shell command to start Maxima.  If this is blank, Stack will make an educated guess.';
+$string['settingplatformmaximacommand_desc'] = 'STACK needs to know the shell command to start Maxima.  If this is blank, STACK will make an educated guess.';
 $string['settingplatformplotcommand'] = 'Plot command';
-$string['settingplatformplotcommand_desc'] = 'Stack needs to know the gnuplot command.  If this is blank, Stack will make an educated guess.';
+$string['settingplatformplotcommand_desc'] = 'STACK needs to know the gnuplot command.  If this is blank, STACK will make an educated guess.';
+$string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
+$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to user the \'Fix maths delimiters\' script which is referred to below.';
+$string['settingusefullinks'] = 'Useful links';
+
+// Strings used by replace dollars script.
+$string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
+$string['replacedollarsin'] = 'Fixed maths delimiters in field {$a}';
+$string['replacedollarsindex'] = 'Contexts with STACK questions';
+$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them.';
+$string['replacedollarsindextitle'] = 'Replace $s in question texts';
+$string['replacedollarsnoproblems'] = 'No problem delimiters found.';
+$string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
 
 // Strings used by interaction elements.
 $string['false'] = 'False';
@@ -334,7 +352,7 @@ $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It 
 $string['chattitle'] = 'Test the connection to the CAS';
 $string['clearthecache'] = 'Clear the cache';
 $string['healthcheck'] = 'STACK healthcheck';
-$string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of Stack are working properly.';
+$string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';
 $string['healthcheckcache_db'] = 'CAS results are being cached in the database.';
 $string['healthcheckcache_none'] = 'CAS results are not being cached.';
 $string['healthcheckcachestatus'] = 'The cache currently contains {$a} entries.';
@@ -343,13 +361,20 @@ $string['healthcheckconfigintro1'] = 'Found, and using, Maxima in the following 
 $string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima configuration file.';
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
+$string['healthcheckfilters'] = 'Please ensure that the {$a->filter} is enabled on the <a href="{$a->url}">Manage filters</a> page.';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
-$string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. Stack only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
+$string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. STACK only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
 $string['healthchecklatexmathjax'] = 'One way to get equiation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';
+$string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
+$string['healthchecksamplecas'] = 'The derivative of @ x^4/(1+x^4) @ is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \]';
+$string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
+$string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
+$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
+$string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
 $string['stackInstall_testsuite_intro'] = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';
@@ -385,10 +410,8 @@ $string['casvalue'] = 'CAS value';
 $string['casdisplay'] = 'CAS display';
 $string['cassuitecolerrors'] = 'CAS errors';
 
-$string['texdisplayedbracket'] = 'Displayed bracket';
-$string['texinlinebracket'] = 'Inline bracket';
-$string['texdoubledollar'] = 'Double dollar';
-$string['texsingledollar'] = 'Single dollar';
+$string['texdisplaystyle'] = 'Display-style equation';
+$string['texinlinestyle'] = 'Inline-style equation';
 
 // Used in casstring.class.php.
 $string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';
@@ -415,14 +438,14 @@ $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 
 // Used in castext.class.php.
 $string['stackCas_tooLong']                 = 'CASText statement is too long.';
-$string['stackCas_MissingAt']               = 'You are missing a @ sign.';
-$string['stackCas_MissingDollar']           = 'You are missing a $ sign';
+$string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign.';
+$string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign';
 $string['stackCas_MissingOpenHint']         = 'Missing opening hint';
 $string['stackCas_MissingClosingHint']      = 'Missing closing /hint';
-$string['stackCas_MissingOpenDisplay']      = 'Missing \[';
-$string['stackCas_MissingCloseDisplay']     = 'Missing \]';
-$string['stackCas_MissingOpenInline']       = 'Missing \(';
-$string['stackCas_MissingCloseInline']      = 'Missing \)';
+$string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>';
+$string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>';
+$string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>';
+$string['stackCas_MissingCloseInline']      = 'Missing <code>\)</code>';
 $string['stackCas_MissingOpenHTML']         = 'Missing opening html tag';
 $string['stackCas_MissingCloseHTML']        = 'Missing closing html tag';
 $string['stackCas_failedValidation']        = 'CASText failed validation. ';
@@ -603,7 +626,7 @@ $string['greek_alphabet_fact'] = '
  \(\Phi\)  </td><td>  \(\phi\)  </td><td>  phi </td> </tr>   <tr> <td>
  \(X\)  </td><td>  \(\chi\)  </td><td>  chi </td> </tr>   <tr> <td>
  \(\Psi\)  </td><td>  \(\psi\)  </td><td> psi </td> </tr>   <tr> <td>
- \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr> 
+ \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr>
 </table></center>';
 
 $string['alg_inequalities_name'] = 'Inequalities';
@@ -617,13 +640,13 @@ $string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater tha
 
 $string['alg_indices_name'] = 'The Laws of Indices';
 $string['alg_indices_fact'] = 'The following laws govern index manipulation:
-\[a^ma^n = a^{m+n}\] 
-\[\frac{a^m}{a^n} = a^{m-n}\] 
+\[a^ma^n = a^{m+n}\]
+\[\frac{a^m}{a^n} = a^{m-n}\]
 \[(a^m)^n = a^{mn}\]
-\[a^0 = 1\] 
-\[a^{-m} = \frac{1}{a^m}\] 
-\[a^{\frac{1}{n}} = \sqrt[n]{a}\] 
-\[a^{\frac{m}{n}} = \left(\sqrt[n]{a}\right)^m\]'; 
+\[a^0 = 1\]
+\[a^{-m} = \frac{1}{a^m}\]
+\[a^{\frac{1}{n}} = \sqrt[n]{a}\]
+\[a^{\frac{m}{n}} = \left(\sqrt[n]{a}\right)^m\]';
 
 $string['alg_logarithms_name'] = 'The Laws of Logarithms';
 $string['alg_logarithms_fact'] = 'For any positive base \(b\) (with \(b \neq 1\)):

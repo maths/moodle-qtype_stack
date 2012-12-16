@@ -8,12 +8,13 @@ Many of the fields in a STACK question, such as the question text, are of this t
 
 Information about [Basic HTML](http://www.w3schools.com/html/html_primary.asp) is available elsewhere.
 
-Currently STACK makes no attempt to alter the LaTeX itself.  This is displayed using [MathJAX](http://http://www.mathjax.org/).
-If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
+Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJAX](http://http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
+
 The following things to remember about CASText:
 
-* Anything enclosed between  `\( .... \)` or `$` symbols is treated as an _inline equation_, as is the case with normal LaTeX.
+* Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.  
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
+* We strongly discourage the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the [mathjax](../Developer/MathJax.md#delimiters) pages for more information.
 * Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
 * Anything enclosed between `@` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\(@ stuff @\)`, and that `@ stuff @` is sufficient.
@@ -24,6 +25,7 @@ Here is an example
 
     The derivative of @ x^4/(1+x^4) @ is
     \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @ \]
+
 
 ## Variables ##   {#Variables}
 

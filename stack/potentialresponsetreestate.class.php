@@ -28,24 +28,9 @@ class stack_potentialresponse_tree_state {
     public $_errors      = '';
 
     /**
-     * @var array of feedback strings for the student.
+     * @var array of stack_prt_feedback_element.
      */
-    public $_feedback         = array();
-
-    /**
-     * @var array of FORMAT_... constants corresponding to the feedback strings.
-     */
-    public $_feedbackformat   = array();
-
-    /**
-     * @var array of file area names corresponding to the feedback strings.
-     */
-    public $_feedbackfilearea = array();
-
-    /**
-     * @var array of node ids corresponding to the feedback strings.
-     */
-    public $_feedbacknodeid   = array();
+    public $_feedback    = array();
 
     /**
      * @var array of answernote strings for the teacher.
@@ -162,33 +147,51 @@ class stack_potentialresponse_tree_state {
      * @param string $feedback the next bit of feedback.
      */
     public function add_feedback($feedback, $format = null, $filearea = null, $nodeid = null) {
-        $this->_feedback[] = $feedback;
-        $this->_feedbackformat[] = $format;
-        $this->_feedbackfilearea[] = $filearea;
-        $this->_feedbacknodeid[] = $nodeid;
+        $this->_feedback[] = new stack_prt_feedback_element($feedback, $format, $filearea, $nodeid);
     }
 
     /**
-     * Prepare the feedback for output.
-     * @return string HTML to output.
+     * Get the bits of feedback.
+     * @return array of stack_prt_feedback_element.
      */
-    public function get_feedback(question_attempt $qa) {
+    public function get_feedback() {
+        return $this->_feedback;
+    }
 
-        $formattedfeedback = array();
-        foreach ($this->_feedback as $key => $feedback) {
-            if (is_null($this->_feedbackformat[$key])) {
-                $formattedfeedback[] = $feedback;
-            } else {
-                $formattedfeedback[] = $qa->get_question()->format_text($feedback,
-                        $this->_feedbackformat[$key], $qa, 'qtype_stack',
-                        $this->_feedbackfilearea[$key], $this->_feedbacknodeid[$key]);
-            }
-        }
-
-        $feedbackct = new stack_cas_text(implode(' ', $formattedfeedback), $this->cascontext, $this->seed, 't', false, false);
+    /**
+     * Subsitute variables into the feedback text.
+     * @param string $feedback the concatenated feedback text.
+     * @return string the feedback with question variables substituted.
+     */
+    public function substitue_variables_in_feedback($feedback) {
+        $feedbackct = new stack_cas_text($feedback, $this->cascontext, $this->seed, 't', false, false);
         $result = $feedbackct->get_display_castext();
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
-
         return $result;
+    }
+}
+
+
+/**
+ * Small class to encapsulate all the data for the feedback from one PRT node.
+ */
+class stack_prt_feedback_element {
+    /** @var string the feedback text. */
+    public $feedback;
+
+    /** @var int the feedback format. One of the FORMAT_... constants. */
+    public $format;
+
+    /** @var string feedback file area name. */
+    public $filearea;
+
+    /** @var int node id (used as the file area item id. */
+    public $itemid;
+
+    public function __construct($feedback, $format, $filearea, $itemid) {
+        $this->feedback = $feedback;
+        $this->format   = $format;
+        $this->filearea = $filearea;
+        $this->itemid   = $itemid;
     }
 }

@@ -411,21 +411,18 @@ class stack_utils {
 
     /**
      * Replaces @blah@ with $@blah@$ if the castext is not otherwise enclosed by $'s.
-     *
-     *
-     * @access public
+     * @param string
      * @return string
      */
     public static function wrap_around($string) {
-        $string = preg_replace('/\\\\\$/', 'escapeddollar', $string);
-        $string = self::wrap($string);
-        $string = preg_replace('/escapeddollar/', '\\\\$', $string);
-        return $string;
+        return self::wrap($string);
     }
 
     /**
      * Ensures that all elements within this text that need to be in math mode, are so.
      * Specifically, CAS elements and inline input macros.
+     * @param string
+     * @return string
      */
     public static function delimit($text) {
         return preg_replace_callback('/@([^@]*)@/', array('stack_utils', 'delimit_callback'), $text);
@@ -678,5 +675,9 @@ class stack_utils {
             self::$config = get_config('qtype_stack');
         }
         return self::$config;
+    }
+
+    public static function clear_config_cache() {
+        self::$config = null;
     }
 }

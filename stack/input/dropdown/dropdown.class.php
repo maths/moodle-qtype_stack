@@ -45,7 +45,7 @@ class stack_dropdown_input extends stack_input {
 
     protected function extra_validation($contents) {
         if (!array_key_exists($contents[0], $this->get_choices())) {
-            return get_string('dropdowngotunrecognisedvalue', 'qtype_stack');
+            return stack_string('dropdowngotunrecognisedvalue');
         }
         return '';
     }

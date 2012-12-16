@@ -52,6 +52,10 @@ $vars   = optional_param('vars', '', PARAM_RAW);
 $string = optional_param('cas', '', PARAM_RAW);
 $simp   = optional_param('simp', '', PARAM_RAW);
 
+// Always fix dollars in this script.
+// Very useful for converting existing text for use elswhere in Moodle, such as in pages of text.
+$string = stack_maths::replace_dollars($string);
+
 // Sort out simplification.
 if ('on' == $simp) {
     $simp = true;
@@ -88,7 +92,7 @@ echo html_writer::tag('p', stack_string('chatintro'));
 
 if (!$varerrs) {
     if ($string) {
-        echo $OUTPUT->box(format_text($displaytext));
+        echo $OUTPUT->box(stack_ouput_castext($displaytext));
     }
 }
 

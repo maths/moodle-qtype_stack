@@ -634,7 +634,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
 
         // Try to submit a response:
-        // 1. all parts wrong but valid
+        // 1. all parts wrong but valid.
         $this->process_submission(array('ans1' => 'x^2', 'ans2' => 'x^3', 'ans3' => '1+x^3', 'ans4' => 'false', '-submit' => 1));
 
         $this->check_current_state(question_state::$todo);
@@ -1371,6 +1371,5 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
-     }
-
+    }
 }

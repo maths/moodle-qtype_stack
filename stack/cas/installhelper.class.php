@@ -86,7 +86,7 @@ class stack_cas_configuration {
         }
 
         $this->blocksettings['MAXIMA_VERSION'] = $this->settings->maximaversion;
-        $this->blocksettings['URL_BASE']       = moodle_url::make_file_url('/question/type/stack/plot.php', '/');
+        $this->blocksettings['URL_BASE']       = '!ploturl!';
     }
 
     /**

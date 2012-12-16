@@ -15,6 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
+require_once(dirname(__FILE__) . '/stack/mathsoutput/mathsoutput.class.php');
+
+
 /**
  * Base class for all the types of exception we throw.
  */
@@ -24,8 +27,26 @@ class stack_exception extends moodle_exception {
     }
 }
 
+/**
+ * You need to call this method on the string you get from
+ * $castext->get_display_castext() before you echo it. This ensures that equations
+ * are displayed properly.
+ * @param string $castext the result of calling $castext->get_display_castext().
+ * @return string HTML ready to output.
+ */
+function stack_ouput_castext($castext) {
+    return format_text(stack_maths::process_display_castext($castext));
+}
+
+/**
+ * Equivalent to get_string($key, 'qtype_stack', $a), but this method ensure that
+ * any equations in the string are displayed properly.
+ * @param string $key the string name.
+ * @param mixed $a (optional) any values to interpolate into the string.
+ * @return string the language string
+ */
 function stack_string($key, $a = null) {
-    return get_string($key, 'qtype_stack', $a);
+    return stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
 }
 
  /**
@@ -47,7 +68,7 @@ function stack_trans() {
                 $a["m{$index}"] = func_get_arg($i);
             }
         }
-        $return = get_string($identifier, 'qtype_stack', $a);
+        $return = stack_string($identifier, $a);
         echo $return;
     }
 }
@@ -61,7 +82,6 @@ function stack_maxima_translate($rawfeedback) {
         $rawfeedback = str_replace(']]', '', $rawfeedback);
         $rawfeedback = str_replace('\n', '', $rawfeedback);
         $rawfeedback = str_replace('\\', '\\\\', $rawfeedback);
-        $rawfeedback = str_replace('$', '\$', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
         ob_start();

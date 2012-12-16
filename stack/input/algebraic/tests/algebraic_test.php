@@ -78,7 +78,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" size="15" value="x+1" readonly="readonly" />',
+        $this->assertEquals(
+                '<input type="text" name="stack1__input" id="stack1__input" size="15" value="x+1" readonly="readonly" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', ''),
                         'stack1__input', true));
     }

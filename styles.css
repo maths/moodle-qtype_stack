@@ -122,6 +122,7 @@ body.path-question-type-stack .testcasebuttons form {
 }
 
 body.path-question-type-stack pre.questiontext,
+body#page-question-type-stack-replacedollars div.questiontext,
 body.path-question-type-stack .questionnote,
 body.path-question-type-stack .questionvariables {
     background: #eee;
@@ -137,4 +138,23 @@ body.path-question-type-stack .undeployedvariant .singlebutton form {
 }
 body.path-question-type-stack .switchtovariant {
     margin-top: 1em;
+}
+
+.displayequation {
+    display: block;
+    text-align: center;
+}
+.stack_plot {
+    text-align: center;
+}
+body#page-question-type-stack-replacedollars pre.questiontext {
+    white-space: pre-wrap;
+}
+body#page-question-type-stack-replacedollars pre del {
+    color: red;
+    font-weight: bold;
+}
+body#page-question-type-stack-replacedollars pre ins {
+    color: green;
+    font-weight: bold;
 }

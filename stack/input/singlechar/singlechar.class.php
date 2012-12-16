@@ -45,7 +45,7 @@ class stack_singlechar_input extends stack_input {
 
     protected function extra_validation($contents) {
         if (strlen($contents[0]) > 1) {
-            return get_string('singlechargotmorethanone', 'qtype_stack');
+            return stack_string('singlechargotmorethanone');
         }
         return '';
     }

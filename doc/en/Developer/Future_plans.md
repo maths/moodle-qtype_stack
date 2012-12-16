@@ -43,8 +43,7 @@ question authors embed maths in the question text using their own conventions
 (e.g. $ for inline maths, that Moodle does not recognise by default.) Do we try
 to fix question text too?
 
-This may also require changes to the Maxima code, to change from dollars to
-\[ \] and \( and \).
+This may also require changes to the Maxima code, to change from dollars to `\[ and \]` and `\( and \)`.
 
 ### Input elements in equations ###
 

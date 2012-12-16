@@ -109,7 +109,8 @@ foreach ($tests as $test) {
         'error'              => $error,
         'casvalid'           => s($casvalid),
         'casvalue'           => $casvalue,
-        'casdisplay'         => s($display) . html_writer::tag('pre', s($casdisplay)),
+        'casdisplay'         => stack_maths::process_lang_string(s($display)) .
+                html_writer::tag('pre', s($casdisplay)),
         'caserrors'          => $caserrors,
     );
     $table->add_data_keyed($row, $class);
@@ -120,9 +121,9 @@ foreach ($tests as $test) {
 $took = (microtime(true) - $start);
 $rtook = round($took, 5);
 $pertest = round($took/$notests, 5);
-echo '<p>'.get_string('testsuitenotests', 'qtype_stack', array('no' => $notests));
-echo '<br/>'.get_string('testsuiteteststook', 'qtype_stack', array('time' => $rtook));
-echo '<br/>'.get_string('testsuiteteststookeach', 'qtype_stack', array('time' => $pertest));
+echo '<p>'.stack_string('testsuitenotests', array('no' => $notests));
+echo '<br/>'.stack_string('testsuiteteststook', array('time' => $rtook));
+echo '<br/>'.stack_string('testsuiteteststookeach', array('time' => $pertest));
 echo '</p>';
 
 $config = get_config('qtype_stack');

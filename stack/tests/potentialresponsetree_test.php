@@ -26,6 +26,7 @@ require_once(dirname(__FILE__) . '/../potentialresponsetree.class.php');
 require_once(dirname(__FILE__) . '/../cas/castext.class.php');
 require_once(dirname(__FILE__) . '/../cas/keyval.class.php');
 require_once(dirname(__FILE__) . '/../../locallib.php');
+require_once(dirname(__FILE__) . '/../../tests/test_base.php');
 
 
 /**
@@ -61,7 +62,8 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals('', $result->errors);
         $this->assertEquals(1, $result->score);
         $this->assertEquals(0, $result->penalty);
-        $this->assertEquals(array('Yeah!'), $result->feedback);
+        $this->assertEquals(1, count($result->feedback));
+        $this->assertEquals('Yeah!', $result->feedback[0]->feedback);
         $this->assertEquals(array('ATInt_true', '1-0-1'), $result->answernotes);
         $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'), $tree->get_all_answer_notes());
     }
@@ -100,7 +102,9 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals('', $result->errors);
         $this->assertEquals(1, $result->score);
         $this->assertEquals(0, $result->penalty);
-        $this->assertEquals(array('Ok, you can diff.', 'Do not expand!'), $result->feedback);
+        $this->assertEquals(2, count($result->feedback));
+        $this->assertEquals('Ok, you can diff.', $result->feedback[0]->feedback);
+        $this->assertEquals('Do not expand!', $result->feedback[1]->feedback);
         $this->assertEquals(array('ATDiff_true', '1-0-1', 'ATFacForm_notfactored.', '1-1-0'), $result->answernotes);
 
         // Now have another attempt at the same PRT!
@@ -112,7 +116,10 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals('', $result->errors);
         $this->assertEquals(1, $result->score);
         $this->assertEquals(0, $result->penalty);
-        $this->assertEquals(array('Ok, you can diff.', 'Yeah!'), $result->feedback);
+        $this->assertEquals(2, count($result->feedback));
+        $this->assertEquals('Ok, you can diff.', $result->feedback[0]->feedback);
+        $this->assertEquals('Yeah!', $result->feedback[1]->feedback);
+
         $this->assertEquals(array('ATDiff_true', '1-0-1', 'ATFacForm_true', '1-1-1'), $result->answernotes);
         $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
                 '1-1-1' => '1-1-1', '1-1-0' => '1-1-0'), $tree->get_all_answer_notes());
@@ -166,7 +173,9 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals('', $result->errors);
         $this->assertEquals(0.3, $result->score);
         $this->assertEquals(0, $result->penalty);
-        $this->assertEquals(array('Test 1 true.', 'Test 2 false.'), $result->feedback);
+        $this->assertEquals(2, count($result->feedback));
+        $this->assertEquals('Test 1 true.', $result->feedback[0]->feedback);
+        $this->assertEquals('Test 2 false.', $result->feedback[1]->feedback);
         $this->assertEquals(array('1-0-1', 'ATFacForm_notfactored.', '1-1-0', '[PRT-CIRCULARITY]=0'), $result->answernotes);
 
         $this->assertEquals(array('sa1', 'ta'), $tree->get_required_variables(array('sa1', 'sa3', 'ta', 'ssa1', 'a1', 't')));

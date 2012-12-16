@@ -310,7 +310,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         return parent::format_hint(new question_hint($hint->id,
-                $hinttext->get_display_castext(), $hint->hintformat), $qa);
+                stack_maths::process_display_castext($hinttext->get_display_castext()),
+                $hint->hintformat), $qa);
     }
 
     public function format_generalfeedback($qa) {
@@ -324,8 +325,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             throw new stack_exception('Error rendering the general feedback text: ' . $gftext->get_errors());
         }
 
-        return $this->format_text($gftext->get_display_castext(), $this->generalfeedbackformat,
-                $qa, 'question', 'generalfeedback', $this->id);
+        return $this->format_text(stack_maths::process_display_castext($gftext->get_display_castext()),
+                $this->generalfeedbackformat, $qa, 'question', 'generalfeedback', $this->id);
     }
 
     public function get_expected_data() {
@@ -477,10 +478,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return '';
 
         } else if ($this->is_any_input_blank($response)) {
-            return get_string('pleaseananswerallparts', 'qtype_stack');
+            return stack_string('pleaseananswerallparts');
 
         } else {
-            return get_string('pleasecheckyourinputs', 'qtype_stack');
+            return stack_string('pleasecheckyourinputs');
         }
     }
 

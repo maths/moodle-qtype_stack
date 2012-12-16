@@ -111,10 +111,10 @@ class quiz_stack_report extends quiz_attempts_report {
 
             $inputstable = new html_table();
             $inputstable->attributes['class'] = 'generaltable stacktestsuite';
-            $inputstable->head = array('', '', '');
+            $inputstable->head = array_merge(array(stack_string('questionreportingsummary'), '', stack_string('questionreportingscore')), $this->prts);
             foreach($results[$note] as $dsummary => $summary) {
                 foreach($summary as $key => $res) {
-                    $inputstable->data[] = array($dsummary, $key, $res);
+                    $inputstable->data[] = array_merge(array($dsummary, $res['count'], $res['fraction']), $res['answernotes']);
                 }
             }
             echo html_writer::table($inputstable);
@@ -158,14 +158,26 @@ class quiz_stack_report extends quiz_attempts_report {
                 if($data = $this->nontrivial_response_step($qattempt, $i)) {
                     $fraction = (string) $step->get_fraction();
                     $summary = $question->summarise_response($data);
+
+                    $answernotes = array();
+                    foreach($this->prts as $prt) {
+                        $prt_object = $question->get_prt_result($prt, $data, true);
+                        $answernotes[$prt] = implode(' | ', $prt_object->__get('answernotes'));
+                    }
+                    $answernote_key = implode(' # ', $answernotes);
+
                     if (array_key_exists($summary, $results[$note])) {
-                        if (array_key_exists($fraction, $results[$note][$summary])) {
-                            $results[$note][$summary][$fraction] += 1;
+                        if (array_key_exists($answernote_key, $results[$note][$summary])) {
+                            $results[$note][$summary][$answernote_key]['count'] += 1;
                         } else {
-                            $results[$note][$summary][$fraction] = 1;
+                            $results[$note][$summary][$answernote_key]['count'] = 1;
+                            $results[$note][$summary][$answernote_key]['answernotes'] = $answernotes;
+                            $results[$note][$summary][$answernote_key]['fraction'] = $fraction;
                         }
                     } else {
-                        $results[$note][$summary][$fraction] = 1;
+                        $results[$note][$summary][$answernote_key]['count'] = 1;
+                        $results[$note][$summary][$answernote_key]['answernotes'] = $answernotes;
+                        $results[$note][$summary][$answernote_key]['fraction'] = $fraction;
                     }
                 }
             }

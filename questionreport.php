@@ -58,7 +58,7 @@ $context = context_module::instance($cm->id);
 // Initialise $PAGE.
 $urlparams = array();
 $PAGE->set_url('/question/type/stack/questionreport.php', $urlparams);
-$title = get_string('questionreporting', 'qtype_stack', format_string($question->name));
+$title = stack_string('questionreporting');
 $PAGE->set_title($title);
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->set_pagelayout('report');

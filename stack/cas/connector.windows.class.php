@@ -34,6 +34,7 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
 
     /* @see stack_cas_connection_base::call_maxima() */
     protected function call_maxima($command) {
+        set_time_limit(0); // Note, some users may not want this!
         $ret = false;
 
         $descriptors = array(

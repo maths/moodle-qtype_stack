@@ -148,10 +148,23 @@ abstract class stack_connection_helper {
         self::ensure_config_loaded();
 
         if (!isset(self::$config->stackmaximaversion)) {
+            // STACK not fully installed/updated. Report this as an error.
             return false;
         }
 
+        if (empty($unpackedresult)) {
+            // CAS syntax errors lead to nothing at all being returned. Don't
+            // report this as a version check failure.
+            return true;
+        }
+
         foreach ($unpackedresult as $result) {
+            if (array_key_exists('error', $result)) {
+                // If an error has happened before we output the version number,
+                // then we cannot check it, so return OK to avoid false postitives.
+                return true;
+            }
+
             if ($result['key'] != '__stackmaximaversion') {
                 continue;
             }
@@ -177,8 +190,8 @@ abstract class stack_connection_helper {
     public static function stackmaxima_version_healthcheck() {
         self::ensure_config_loaded();
 
-        $command = 'print("[TimeStamp= [ 0 ], Local= [ 0=[ error= ["), ' .
-                'cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)), , print("] ]");' . "\n";
+        $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
+                'cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)), print("] ]"), return(true));' . "\n";
         $connection = self::make();
         $results = $connection->compute($command);
 

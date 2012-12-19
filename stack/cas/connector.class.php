@@ -69,8 +69,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $unpackedresult = $this->unpack_raw_result($rawresult);
         $this->debug->log('Unpacked result as', print_r($unpackedresult, true));
 
-        if (!stack_connection_helper::did_cas_timeout($unpackedresult) &&
-                !stack_connection_helper::check_stackmaxima_version($unpackedresult)) {
+        if (!stack_connection_helper::check_stackmaxima_version($unpackedresult)) {
             stack_connection_helper::warn_about_version_mismatch($this->debug);
         }
 
@@ -170,6 +169,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         // Now we need to turn the (error,key,value,display) tuple into an array.
         $locals = array();
+
         foreach ($this->unpack_helper($uplocs) as $var => $valdval) {
             if (is_array($valdval)) {
                 $errors["CAS"] = "unpack_raw_result: CAS failed to generate any useful output.";
@@ -180,7 +180,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                     if ('' == trim($loc['error'])) {
                         unset($loc['error']);
                     }
-                    $locals[]=$loc;
+                    $locals[$var] = $loc;
 
                 } else {
                     $errors["LocalVarGet$var"] = "Couldn't unpack the local variable $var from the string $valdval.";
@@ -189,30 +189,30 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         // Next process and tidy up these values.
-        for ($i=0; $i < count($locals); $i++) {
+        foreach ($locals as $i => &$local) {
 
-            if (isset($locals[$i]['error'])) {
-                $locals[$i]['error'] = $this->tidy_error($locals[$i]['error']);
+            if (isset($local['error'])) {
+                $local['error'] = $this->tidy_error($local['error']);
             } else {
-                $locals[$i]['error'] = '';
+                $local['error'] = '';
             }
             // If there are plots in the output.
-            $plot = isset($locals[$i]['display']) ? substr_count($locals[$i]['display'], '<img') : 0;
+            $plot = isset($local['display']) ? substr_count($local['display'], '<img') : 0;
             if ($plot > 0) {
                 // Plots always contain errors, so remove.
-                $locals[$i]['error'] = '';
+                $local['error'] = '';
                 // For mathml display, remove the mathml that is inserted wrongly round the plot.
-                $locals[$i]['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>',
-                    '', $locals[$i]['display']);
-                $locals[$i]['display'] = str_replace('</math>', '', $locals[$i]['display']);
+                $local['display'] = str_replace('<math xmlns=\'http://www.w3.org/1998/Math/MathML\'>',
+                    '', $local['display']);
+                $local['display'] = str_replace('</math>', '', $local['display']);
 
                 // For latex mode, remove the mbox.
                 // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.
-                $locals[$i]['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $locals[$i]['display']);
+                $local['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $local['display']);
 
                 if ($this->wwwroothasunderscores) {
-                    $locals[$i]['display'] = str_replace($this->wwwrootfixupfind,
-                            $this->wwwrootfixupreplace, $locals[$i]['display']);
+                    $local['display'] = str_replace($this->wwwrootfixupfind,
+                            $this->wwwrootfixupreplace, $local['display']);
                 }
             }
         }
@@ -234,7 +234,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 $val = substr($gb[0], 1, strlen($gb[0])-2);
                 $val = trim($val);
 
-                if (preg_match('/[A-Za-z0-9].*/', substr($rawresultfragment, $offset, $eqpos-$offset), $regs)) {
+                if (preg_match('/[-A-Za-z0-9].*/', substr($rawresultfragment, $offset, $eqpos-$offset), $regs)) {
                     $var = trim($regs[0]);
                 } else {
                     $var = 'errors';

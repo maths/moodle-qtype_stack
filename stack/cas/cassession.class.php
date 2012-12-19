@@ -448,6 +448,8 @@ class stack_cas_session {
         $csvars  = $cas_options['commands'];
         $cascommands= '';
 
+        $cascommands .= ', print("-1=[ error= ["), cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)) ';
+
         $i=0;
         foreach ($this->session as $cs) {
             if ('' ==  $cs->get_key()) {
@@ -463,8 +465,6 @@ class stack_cas_session {
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
             $i++;
         }
-
-        $cascommands .= ", print(\"$i=[ error= [\"), cte(\"__stackmaximaversion\",errcatch(__stackmaximaversion:stackmaximaversion)) ";
 
         $cass ='cab:block([ RANDOM_SEED';
         $cass .= $csnames;

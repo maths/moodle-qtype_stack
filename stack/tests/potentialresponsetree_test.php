@@ -52,7 +52,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $tree = new stack_potentialresponse_tree('', '', true, 5, null, $potentialresponses);
 
-        $questionvars = null;
+        $questionvars = new stack_cas_session(array());
         $options = new stack_options();
         $answers = array('sans'=>'(x+1)^3/3+c');
         $seed = 12345;

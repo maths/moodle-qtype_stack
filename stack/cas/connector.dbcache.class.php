@@ -59,10 +59,8 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         // Only add to the cache if we didn't timeout!
         if (stack_connection_helper::did_cas_timeout($result)) {
             // Do nothing.
-        } else if (stack_connection_helper::check_stackmaxima_version($result)) {
-            $this->add_to_cache($command, $result, $cached->key);
         } else {
-            // The rawconnection will already have warned about the incompatibility.
+            $this->add_to_cache($command, $result, $cached->key);
         }
         return $result;
     }

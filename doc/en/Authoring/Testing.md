@@ -49,10 +49,17 @@ In this way, the teacher can record, within the question itself, how they expect
  3. Some "invalid" responses, especially if these are syntactically valid expressions.  E.g. If the answer is an equation such as \(y=2x+1\), then \(2x+1\) might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this.
  4. Add a totally incorrect answer.
 
-Note, if you have used the question level option `simplify:false`, then this option will be respected when you construct your question tests.  In particular you will need to remember to
-simplify parts of your expressions.
+## Simplification ## {#Simplification}
 
-E.g. if your question is "what is \(@a@+@b@\)?" where @a@ and @b@ are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.
+You can set global [simplification](../CAS/Simplification.md) flags in two places within questions:
+
+1. Globally in the question.
+2. In each potential response tree.
+
+Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is "what is \(@a@+@b@\)?" where @a@ and @b@ are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
+
+If you have set `simplify:true` everywhere in your question, and you are only establishing algebraic equivalence of your answers anyway, "unsimplified" expressions as inputs to the tests will not matter.
+
 
 ## Next steps
 

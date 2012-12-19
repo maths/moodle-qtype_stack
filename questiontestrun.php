@@ -85,7 +85,6 @@ $testresults = array();
 $allpassed = true;
 foreach ($testscases as $key => $testcase) {
     $testresults[$key] = $testcase->test_question($quba, $question, $seed);
-    print_r($testresults[$key]->passed());
     if (!$testresults[$key]->passed()) {
         $allpassed = false;
     }

@@ -102,12 +102,19 @@ class stack_potentialresponse_tree {
      */
     protected function create_cas_context_for_evaluation($questionvars, $options, $answers, $seed) {
 
-        // Start with the quetsion variables (note that order matters here).
-        $cascontext = new stack_cas_session(null, $options, $seed);
-        $cascontext->merge_session($questionvars);
+        // Start with the question variables (note that order matters here).
+        $cascontext = clone $questionvars;
+        // Set the value of simp from this point onwards.  If the question has simp:true, but the prt simp:false, then this needs to be done here.
+        if ($this->simplify) {
+            $simp = 'true';
+        } else {
+            $simp = 'false';
+        }
+        $cs = new stack_cas_casstring($simp);
+        $cs->set_key('simp');
+        $answervars = array($cs);
         // Add the student's responses, but only those needed by this prt.
         // Some irrelevant but invalid answers might break the CAS connection.
-        $answervars = array();
         foreach ($this->get_required_variables(array_keys($answers)) as $name) {
             if (array_key_exists($name . '_val', $answers)) {
                 $cs = new stack_cas_casstring($answers[$name . '_val']);
@@ -141,7 +148,7 @@ class stack_potentialresponse_tree {
      * @param int $seed the random number seed.
      * @return stack_potentialresponse_tree_state the result.
      */
-    public function evaluate_response($questionvars, $options, $answers, $seed) {
+    public function evaluate_response(stack_cas_session $questionvars, $options, $answers, $seed) {
 
         if (empty($this->nodes)) {
             throw new stack_exception('stack_potentialresponse_tree: evaluate_response ' .

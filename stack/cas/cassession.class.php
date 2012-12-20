@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once('casstring.class.php');
-require_once('connector.class.php');
+require_once('connectorhelper.class.php');
 require_once(dirname(__FILE__) . '/../options.class.php');
 
 
@@ -167,7 +167,7 @@ class stack_cas_session {
             return true;
         }
 
-        $connection = stack_cas_connection_base::make();
+        $connection = stack_connection_helper::make();
         $results = $connection->compute($this->construct_maxima_command());
         $this->debuginfo = $connection->get_debuginfo();
 
@@ -447,6 +447,8 @@ class stack_cas_session {
         $csnames = $cas_options['names'];
         $csvars  = $cas_options['commands'];
         $cascommands= '';
+
+        $cascommands .= ', print("-1=[ error= ["), cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)) ';
 
         $i=0;
         foreach ($this->session as $cs) {

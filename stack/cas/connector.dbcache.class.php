@@ -48,12 +48,18 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         if ($cached->result) {
             $this->debug->log('Maxima command', $command);
             $this->debug->log('Unpacked result found in the DB cache', print_r($cached->result, true));
+            if (!stack_connection_helper::check_stackmaxima_version($cached->result)) {
+                stack_connection_helper::warn_about_version_mismatch($this->debug);
+                // We could consider automatically purging the cache here.
+            }
             return $cached->result;
         }
         $this->debug->log('Maxima command not found in the cache. Using the raw connection.');
         $result = $this->rawconnection->compute($command);
         // Only add to the cache if we didn't timeout!
-        if (!$this->did_cas_timeout($result)) {
+        if (stack_connection_helper::did_cas_timeout($result)) {
+            // Do nothing.
+        } else {
             $this->add_to_cache($command, $result, $cached->key);
         }
         return $result;
@@ -62,22 +68,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
     /* @see stack_cas_connection::get_debuginfo() */
     public function get_debuginfo() {
         return $this->debug->get_log();
-    }
-
-    /**
-     * Establish if the CAS timed out.
-     */
-    protected function did_cas_timeout($result) {
-        foreach ($result as $res) {
-            if (array_key_exists('error', $res)) {
-                if (!(false===strpos($res['error'], 'The CAS timed out'))) {
-                    return true;
-                }
-            } else {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

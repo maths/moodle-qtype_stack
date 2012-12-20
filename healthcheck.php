@@ -107,6 +107,16 @@ if (stack_cas_configuration::maxima_bat_is_missing()) {
     echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $CFG->dataroot));
 }
 
+// Test the version of the STACK libraries that Maxima is using.
+// When Maxima is being run pre-compiled (maxima-optimise) or on a server,
+// it is possible for the version of the Maxima libraries to get out of synch
+// with the qtype_stack code.
+$problem = stack_connection_helper::stackmaxima_version_healthcheck();
+if ($problem) {
+    list($message, $details) = $problem;
+    echo html_writer::tag('p', stack_string($message, $details));
+}
+
 // Test Maxima connection.
 // Intentionally use get_string for the sample CAS and plots, so we don't render
 // the maths too soon.
@@ -129,7 +139,6 @@ if ('db' == $config->casresultscache) {
 }
 
 echo $OUTPUT->footer();
-
 
 function output_cas_text($title, $intro, $castext) {
     global $OUTPUT;

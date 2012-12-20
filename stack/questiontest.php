@@ -114,8 +114,12 @@ class stack_question_test {
         $cascontext = new stack_cas_session(null, $localoptions, $question->seed);
         $question->add_question_vars_to_session($cascontext);
 
-        // Now add the expressions we want evaluated.
+        // Turn off simplification - we *always* need test cases to be unsimplified, even if the question option is true.
         $vars = array();
+        $cs = new stack_cas_casstring('false');
+        $cs->set_key('simp');
+        $vars[] = $cs;
+        // Now add the expressions we want evaluated.
         foreach ($inputs as $name => $value) {
             if ('' !== $value) {
                 $cs = new stack_cas_casstring($value);

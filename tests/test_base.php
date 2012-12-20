@@ -51,9 +51,19 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * from test classes that cannot subclass this one, for whatever reason.
      */
     public static function setup_test_maxima_connection($testcase) {
+        global $CFG;
+
         if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')) {
             $testcase->markTestSkipped(
                     'To run the STACK unit tests, you must set up the Maxima configuration in phpunit.xml.');
+        }
+
+        if (!defined('QTYPE_STACK_EXPECTED_VERSION')) {
+            if (!preg_match('~\[ STACK-Maxima started, library version (\d{10}) \]~',
+                    file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
+                throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
+            }
+            define('QTYPE_STACK_EXPECTED_VERSION', $matches[1]);
         }
 
         set_config('platform',        QTYPE_STACK_TEST_CONFIG_PLATFORM,        'qtype_stack');
@@ -63,6 +73,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         set_config('maximacommand',   QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,   'qtype_stack');
         set_config('plotcommand',     QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,     'qtype_stack');
         set_config('casdebugging',    QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,    'qtype_stack');
+        set_config('mathsdisplay',    'mathjax',                               'qtype_stack');
+        set_config('replacedollars',  0,                                       'qtype_stack');
+        set_config('stackmaximaversion', QTYPE_STACK_EXPECTED_VERSION,         'qtype_stack');
 
         if (QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE == 'otherdb') {
             set_config('cascachedbtype',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE,    'qtype_stack');

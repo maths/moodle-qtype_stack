@@ -19,3 +19,5 @@ Some example are given:
 
 * Matrix examples in [showing working](Matrix.md#Showing_working).
 * An example of a question with `simp:false` is discussed in [authoring quick start 3](../Authoring/Authoring_quick_start_3.md).
+
+Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.

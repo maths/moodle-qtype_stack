@@ -148,6 +148,7 @@ class stack_answertest_general_cas extends stack_anstest {
             $cs->validate('t', true, false);
             $cts[] = $cs;
         }
+
         $session = new stack_cas_session($cts, $this->options, 0);
         $session->instantiate();
         $this->debuginfo = $session->get_debuginfo();

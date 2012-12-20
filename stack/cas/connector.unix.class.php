@@ -26,7 +26,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
     /* @see stack_cas_connection_base::guess_maxima_command() */
     protected function guess_maxima_command($path) {
         global $CFG;
-        if (self::$config->platform == 'unix-optimised') {
+        if (stack_connection_helper::get_platform() == 'unix-optimised') {
             // We are trying to use a Lisp snapshot of Maxima with all the
             // STACK libraries loaded.
             $lispimage = $CFG->dataroot . '/stack/maxima-optimised';

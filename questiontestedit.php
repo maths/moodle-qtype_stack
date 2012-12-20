@@ -155,6 +155,8 @@ echo html_writer::end_tag('div');
 echo $OUTPUT->heading(stack_string('questiontext'), 3);
 echo html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
 
+echo html_writer::tag('p', stack_string('testinputsimpwarning'));
+
 // Show the form.
 $mform->display();
 echo $OUTPUT->footer();

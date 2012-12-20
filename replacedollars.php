@@ -47,7 +47,7 @@ $categories = reset($categories);
 
 $fixer = new qtype_stack_dollar_fixer();
 $questionfields = array('questiontext', 'generalfeedback');
-$qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect');
+$qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questionnote');
 $prtnodefields = array('truefeedback', 'falsefeedback');
 $anychanges = false;
 

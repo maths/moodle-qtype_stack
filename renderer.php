@@ -295,13 +295,21 @@ class qtype_stack_renderer extends qtype_renderer {
         $feedbackbits = $result->get_feedback();
         if ($feedbackbits) {
             $feedback = array();
-            $format = reset($feedbackbits)->format;
+            $format = null;
             foreach ($feedbackbits as $bit) {
                 $feedback[] = $qa->rewrite_pluginfile_urls(
                         $bit->feedback, 'qtype_stack', $bit->filearea, $bit->itemid);
-                if ($bit->format != $format) {
-                    throw new coding_exception('Inconsistent feedback formats found in PRT ' . $name);
+                if (!is_null($bit->format)) {
+                    if (is_null($format)) {
+                        $format = $bit->format;
+                    }
+                    if ($bit->format != $format) {
+                        throw new coding_exception('Inconsistent feedback formats found in PRT ' . $name);
+                    }
                 }
+            }
+            if (is_null($format)) {
+                $format = FORMAT_HTML;
             }
 
             $feedback = $result->substitue_variables_in_feedback(implode(' ', $feedback));

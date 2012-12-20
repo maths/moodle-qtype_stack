@@ -31,8 +31,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         this.name          = name;
         this.qaid          = qaid;
 
-        this.input.on('keypress', this.value_changing, this);
-        this.input.on('blur', this.value_changed, this);
+        this.input.add_event_handers(this);
 
         this.lastvalidatedvalue = this.get_intput_value();
         this.validationresults = {};
@@ -141,7 +140,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
      * @return String the current value of the input.
      */
     stack_input.prototype.get_intput_value = function() {
-        return this.input.get('value').replace(/^\s+|\s+$/g, '');
+        return this.input.get_value();
     }
 
     /**
@@ -247,18 +246,129 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         this.validationdiv.removeClass('waiting');
     }
 
+    /**
+     * Constructor. Represents simple inputs (one input).
+     * @param input a YUI Node object for the input element for this input.
+     */
+    stack_simple_input = function(input) {
+        this.input = input;
+    }
+
+    /**
+     * Add the event handlers to call the value when things change.
+     * @param stack_input validator
+     */
+    stack_simple_input.prototype.add_event_handers = function(validator) {
+        this.input.on('keypress', validator.value_changing, validator);
+        this.input.on('blur', validator.value_changed, validator);
+    }
+
+    /**
+     * Get the current value of this input.
+     * @return string.
+     */
+    stack_simple_input.prototype.get_value = function() {
+        return this.input.get('value').replace(/^\s+|\s+$/g, '');
+    }
+
+    /**
+     * Constructor. Represents simple inputs (one input).
+     * Constructor.
+     * @param name the input name, for example ans1.
+     * @param qaid the question-attempt id.
+     * @param input a YUI Node object for the input element for this input.
+     */
+    stack_matrix_input = function(idprefix, container) {
+        this.container = container;
+        this.idprefix  = idprefix;
+
+        this.numcol = 0;
+        this.numrow = 0;
+
+        this.container.all('input[type=text]').each(function(e) {
+            var name = e.get('name');
+            if (!name.startsWith(this.idprefix + '_sub_')) {
+                return;
+            }
+            var bits = name.substring(this.idprefix.length + 5).split('_');
+            this.numrow = Math.max(this.numrow, parseInt(bits[0]) + 1);
+            this.numcol = Math.max(this.numcol, parseInt(bits[1]) + 1);
+        }, this);
+    }
+
+    /**
+     * Add the event handlers to call the value when things change.
+     * @param stack_input validator
+     */
+    stack_matrix_input.prototype.add_event_handers = function(validator) {
+        this.container.delegate('keypress', validator.value_changing, 'input[type=text]', validator);
+        this.container.delegate('blur', validator.value_changing, 'input[type=text]', validator);
+    }
+
+    /**
+     * Get the current value of this input.
+     * @return string.
+     */
+    stack_matrix_input.prototype.get_value = function() {
+        var values = Array(this.numrow);
+        for (var i = 0; i < this.numrow; i++) {
+            values[i] = Array(this.numcol);
+        }
+
+        this.container.all('input[type=text]').each(function(e) {
+            var name = e.get('name');
+            if (!name.startsWith(this.idprefix + '_sub_')) {
+                return;
+            }
+            var bits = name.substring(this.idprefix.length + 5).split('_');
+            values[bits[0]][bits[1]] = e.get('value').replace(/^\s+|\s+$/g, '');
+        }, this);
+
+        return 'matrix([' + values.join('],[') + '])';
+    }
+
     // Provide an external API.
     M.qtype_stack = M.qtype_stack || {};
-    M.qtype_stack.init_input = function(name, qaid, inputid) {
-        var input = Y.one(document.getElementById(inputid));
-        if (!input) {
-            return;
+    M.qtype_stack.init_inputs = function(inputs, qaid, prefix) {
+        var allok = true;
+        for (var i = 0; i < inputs.length; i++) {
+            var name = inputs[i];
+
+            allok = M.qtype_stack.init_input(name, qaid, prefix) && allok;
         }
-        var valinput = Y.one(document.getElementById(inputid + '_val'));
+
+        var outerdiv = Y.one('input[name="' + prefix + ':sequencecheck"]').ancestor('div.que.stack');
+        if (allok && outerdiv && (outerdiv.hasClass('dfexplicitvaildate') || outerdiv.hasClass('dfcbmexplicitvaildate'))) {
+            // With instant validation, we don't need the Check button, so hide it.
+            var button = outerdiv.one('.im-controls input.submit');
+            if (button.get('id') == prefix + '-submit') {
+                button.hide();
+            }
+        }
+    }
+
+    M.qtype_stack.init_input = function(name, qaid, prefix) {
+        var valinput = Y.one(document.getElementById(prefix + name + '_val'));
         if (!valinput) {
-            return;
+            return false;
         }
-        new stack_input(name, qaid, input, valinput);
+
+        // See if it is an ordinary input:
+        var input = Y.one(document.getElementById(prefix + name));
+        if (input) {
+            new stack_input(name, qaid, new stack_simple_input(input), valinput);
+            return true;
+        }
+
+        // See if it is a matrix input:
+        var matrix = Y.one(document.getElementById(prefix + name + '_container'));
+        if (matrix) {
+            new stack_input(name, qaid, new stack_matrix_input(prefix + name, matrix), valinput);
+            return true;
+        }
+
+        // Give up.
+        return false;
     }
 }, '@VERSION@', {
       requires:['node', 'event', 'io', 'json-parse']

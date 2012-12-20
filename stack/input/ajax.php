@@ -38,7 +38,7 @@ $qa = $dm->load_question_attempt($qaid);
 $question = $qa->get_question();
 
 $input = $question->inputs[$inputname];
-$state = $question->get_input_state($inputname, array($inputname => $inputvalue));
+$state = $question->get_input_state($inputname, $input->maxima_to_response_array($inputvalue));
 
 $result = array(
     'input'   => $inputvalue,

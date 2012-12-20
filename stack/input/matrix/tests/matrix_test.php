@@ -38,7 +38,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
     public function test_render_blank() {
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $this->assertEquals('<table class="matrixtable" ' .
+        $this->assertEquals('<table class="matrixtable" id="ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" border="0" cellpadding="1" cellspacing="0">' .
                 '<tbody><tr><td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>' .
                 '<td><input type="text" name="ans1_sub_0_0" value="" size="5" ></td>' .
@@ -68,16 +68,40 @@ class stack_matrix_input_test extends qtype_stack_testcase {
     }
 
     public function test_modinput_tokenizer_1() {
-        $in = "[1,2],[2,3]";
-        $out = array("[1,2]", "[2,3]");
+        $in = '[1,2],[2,3]';
+        $out = array('[1,2]', '[2,3]');
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));
     }
 
     public function test_modinput_tokenizer_2() {
-        $in = "[1,2,3],[4,5,6]";
-        $out = array("[1,2,3]", "[4,5,6]");
+        $in = '[1,2,3],[4,5,6]';
+        $out = array('[1,2,3]', '[4,5,6]');
+
+        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $this->assertEquals($out, $el->modinput_tokenizer($in));
+    }
+
+    public function test_modinput_tokenizer_row() {
+        $in = '1,2,3';
+        $out = array('1','2','3');
+
+        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $this->assertEquals($out, $el->modinput_tokenizer($in));
+    }
+
+    public function test_modinput_tokenizer_incomplete() {
+        $in = '[1,],[,]';
+        $out = array('[1,]', '[,]');
+
+        $el = stack_input_factory::make('matrix', 'ans1', 'M');
+        $this->assertEquals($out, $el->modinput_tokenizer($in));
+    }
+
+    public function test_modinput_tokenizer_incomplete_row() {
+        $in = '1,';
+        $out = array('1', '');
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));

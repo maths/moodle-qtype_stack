@@ -47,6 +47,7 @@ class qtype_stack_renderer extends qtype_renderer {
                 $qa, 'question', 'questiontext', $question->id);
 
         // Replace inputs.
+        $inputstovaldiate = array();
         foreach ($question->inputs as $name => $input) {
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);
@@ -59,15 +60,18 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 
             $qaid = $qa->get_database_id();
-            if ($input->requires_validation() && $qaid && stack_utils::get_config()->ajaxvalidation) {
-                // TODO remove the need for this test.
-                if (get_class($input) !== 'stack_matrix_input') {
-                    $this->page->requires->yui_module('moodle-qtype_stack-input',
-                            'M.qtype_stack.init_input', array($name, $qaid, $qa->get_qt_field_name($name)));
-                }
+            if ($input->requires_validation()) {
+                $inputstovaldiate[] = $name;
             }
         }
 
+        // Initialise automatic validation, if enabled.
+        if ($qaid && stack_utils::get_config()->ajaxvalidation) {
+            $this->page->requires->yui_module('moodle-qtype_stack-input',
+                    'M.qtype_stack.init_inputs', array($inputstovaldiate, $qaid, $qa->get_field_prefix()));
+        }
+
+        // Replace PRTs.
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             if ($options->feedback) {

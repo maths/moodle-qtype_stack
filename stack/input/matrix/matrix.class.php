@@ -134,6 +134,7 @@ class stack_matrix_input extends stack_input {
         // Build an empty array.
         $firstrow = array_fill(0, $this->width, '');
         $tc       = array_fill(0, $this->height, $firstrow);
+
         // Turn the student's answer into a PHP array.
         $t = trim($in);
         if ('matrix(' == substr($t, 0, 7)) {
@@ -204,8 +205,14 @@ class stack_matrix_input extends stack_input {
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
 
+        if ($readonly) {
+            $readonlyattr = ' readonly="readonly"';
+        } else {
+            $readonlyattr = '';
+        }
+
         // Build the html table to contain these values.
-        $xhtml = '<table class="matrixtable" style="display:inline; vertical-align: middle;" ' .
+        $xhtml = '<table class="matrixtable" id="' . $fieldname . '_container" style="display:inline; vertical-align: middle;" ' .
                 'border="0" cellpadding="1" cellspacing="0"><tbody>';
         for ($i=0; $i < $this->height; $i++) {
             $xhtml .= '<tr>';
@@ -227,7 +234,7 @@ class stack_matrix_input extends stack_input {
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
                 $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.
-                        $this->parameters['boxWidth'].'" ></td>';
+                        $this->parameters['boxWidth'].'"'.$readonlyattr.'></td>';
             }
 
             if ($i == 0) {
@@ -336,9 +343,7 @@ class stack_matrix_input extends stack_input {
         $out = array ();
 
         $current = '';
-        $unplaced = 0;
         for ($i = 0; $i < strlen($in); $i++) {
-            $unplaced++;
             $char = $in[$i];
             switch ($char) {
                 case '{':
@@ -369,7 +374,6 @@ class stack_matrix_input extends stack_input {
                     if ($bracketcount == 0 && $parenthesiscount == 0 && $bracecount == 0) {
                         $out[] = $current;
                         $current = '';
-                        $unplaced = 0;
                     } else {
                         $current .= $char;
                     }
@@ -379,7 +383,7 @@ class stack_matrix_input extends stack_input {
             }
         }
 
-        if ($unplaced > 0 && $bracketcount == 0 && $parenthesiscount == 0 && $bracecount == 0) {
+        if ($bracketcount == 0 && $parenthesiscount == 0 && $bracecount == 0) {
             $out[] = $current;
         }
 

@@ -287,7 +287,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
 
         this.container.all('input[type=text]').each(function(e) {
             var name = e.get('name');
-            if (!name.startsWith(this.idprefix + '_sub_')) {
+            if (name.slice(0, this.idprefix.length + 5) != this.idprefix + '_sub_') {
                 return;
             }
             var bits = name.substring(this.idprefix.length + 5).split('_');
@@ -317,7 +317,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
 
         this.container.all('input[type=text]').each(function(e) {
             var name = e.get('name');
-            if (!name.startsWith(this.idprefix + '_sub_')) {
+            if (name.slice(0, this.idprefix.length + 5) != this.idprefix + '_sub_') {
                 return;
             }
             var bits = name.substring(this.idprefix.length + 5).split('_');

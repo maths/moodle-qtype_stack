@@ -37,6 +37,45 @@ require_once(dirname(__FILE__) . '/stack/questiontest.php');
  */
 class qtype_stack extends question_type {
 
+    public function save_question($question, $fromform) {
+
+        if (!empty($fromform->fixdollars)) {
+            $this->fix_dollars_in_form_data($fromform);
+        }
+
+        return parent::save_question($question, $fromform);
+    }
+
+    /**
+     * Replace any $...$ and $$...$$ delimiters in the question text from the
+     * form with the recommended delimiters.
+     * @param object $fromform the data from the form.
+     */
+    protected function fix_dollars_in_form_data($fromform) {
+        $questionfields = array('questiontext', 'generalfeedback', 'specificfeedback',
+                'prtcorrect', 'prtpartiallycorrect', 'prtincorrect');
+        foreach ($questionfields as $field) {
+            $fromform->{$field}['text'] = stack_maths::replace_dollars($fromform->{$field}['text']);
+        }
+        $fromform->questionnote = stack_maths::replace_dollars($fromform->questionnote);
+
+        $prtnames = stack_utils::extract_placeholders(
+                $fromform->questiontext['text'] . $fromform->specificfeedback['text'], 'feedback');
+        foreach ($prtnames as $prt) {
+            foreach ($fromform->{$prt . 'truefeedback'} as &$feedback) {
+                $feedback['text'] = stack_maths::replace_dollars($feedback['text']);
+            }
+
+            foreach ($fromform->{$prt . 'falsefeedback'} as &$feedback) {
+                $feedback['text'] = stack_maths::replace_dollars($feedback['text']);
+            }
+        }
+
+        foreach ($fromform->hint as &$hint) {
+            $hint['text'] = stack_maths::replace_dollars($hint['text']);
+        }
+    }
+
     public function save_question_options($fromform) {
         global $DB;
         $context = $fromform->context;

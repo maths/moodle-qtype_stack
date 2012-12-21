@@ -816,6 +816,11 @@ class qtype_stack_edit_form extends question_edit_form {
             $errors = $this->validate_prt($errors, $fromform, $prtname);
         }
 
+        // 4) Validate all hints.
+        foreach ($fromform['hint'] as $index => $hint) {
+            $errors = $this->validate_cas_text($errors, $hint['text'], 'hint[' . $index . ']');
+        }
+
         // Clear out any empty $errors elements, ready for the next check.
         foreach ($errors as $field => $messages) {
             if (empty($messages)) {

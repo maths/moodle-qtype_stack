@@ -97,6 +97,15 @@ foreach ($categories as $key => $category) {
             $anychanges = $anychanges || $changes;
         }
 
+        $hints = $DB->get_records('question_hints', array('questionid' => $question->id), 'id');
+        foreach ($hints as $hint) {
+            $changes = $fixer->fix_question_field($hint, 'hint');
+            if ($changes && $confirm) {
+                $DB->update_record('question_hints', $hint);
+            }
+            $anychanges = $anychanges || $changes;
+        }
+
         $attemptdata = $DB->get_records_sql("
                     SELECT qasd.*
                       FROM {question_attempt_step_data} qasd

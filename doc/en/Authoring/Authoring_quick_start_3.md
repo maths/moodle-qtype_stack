@@ -42,6 +42,16 @@ In particular, we are going to define the question variables as follows.
     q : a*%e^(b*%i*%pi);
     p : ev(mod(b*n,2),simp);
 
+A userful alternative when many consecutive expressions need to be simplified is to use the following.
+
+    simp : true;
+    a : 2+rand(15);
+    b : (-1)^rand(2)*((1+rand(10)))/(2+rand(15));
+    n : 3+rand(20);
+    simp : false;
+    q : a*%e^(b*%i*%pi);
+    p : ev(mod(b*n,2),simp);
+
 The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  The difficulty is often with the unary minus.  Inserting numbers into expressions such as `y=@m@x+@c@` if \(c<0\) is that it will be displayed as \(y=3x+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
 
 ## The importance of the question note ##

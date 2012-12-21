@@ -345,6 +345,7 @@ $string['deploymanysuccess'] = 'Number of new variants successfully created, tes
 $string['questionreporting'] = 'Report on attempts at one question.';
 $string['questionreportingscore'] = 'Score';
 $string['questionreportingsummary'] = 'Input summary';
+$string['questionreportingtotal'] = 'Total';
 
 // Support scripts (CAS chat, healthcheck, etc.)
 $string['all'] = 'All';

@@ -51,6 +51,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'divide', // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
             'numsigfigs', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
+            '1input2prts', // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
         );
     }
 
@@ -808,6 +809,45 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node));
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question the question from the test1.xml file.
+     */
+    public static function make_stack_question_1input2prts() {
+        $q = self::make_a_stack_question();
+
+        $q->name = '1input2prts';
+        $q->questionvariables = '';
+        $q->questiontext = 'Enter a multiple of 6: [[input:ans1]]
+                            [[validation:ans1]]';
+        $q->generalfeedback = '';
+
+        $q->specificfeedback = '[[feedback:prt1]] [[feedback:prt2]]';
+        $q->penalty = 0.1;
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                        'algebraic', 'ans1', '6', array('boxWidth' => 15));
+
+        $sans = new stack_cas_casstring('mod(ans1,2)');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('0');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not even.', FORMAT_HTML, 'prt1-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-0-1');
+        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node));
+
+        $sans = new stack_cas_casstring('mod(ans1,3)');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('0');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not divisible by three.', FORMAT_HTML, 'prt2-0-0');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt2-0-1');
+        $q->prts['prt2'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node));
 
         return $q;
     }

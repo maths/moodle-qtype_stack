@@ -75,7 +75,7 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             if ($options->feedback) {
-                $feedback = $this->prt_feedback($index, $response, $qa, $options);
+                $feedback = $this->prt_feedback($index, $response, $qa, $options, true);
 
             } else if (in_array($qa->get_behaviour_name(), array('interactivecountback', 'adaptivemulipart'))) {
                 // The behaviour name test here is a hack. The trouble is that interactive
@@ -150,6 +150,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $output = '';
         if ($options->feedback) {
             $output .= $this->stack_specific_feedback($qa, $options);
+
         } else if ($qa->get_behaviour_name() == 'interactivecountback') {
             // The behaviour name test here is a hack. The trouble is that interactive
             // behaviour does not show feedback if the input is invalid, but we want
@@ -214,20 +215,27 @@ class qtype_stack_renderer extends qtype_renderer {
         $feedbacktext = $question->format_text($feedbacktext, $question->specificfeedbackformat,
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
 
+        $individualfeedback = count($question->prts) == 1;
+        if ($individualfeedback) {
+            $overallfeedback = '';
+        } else {
+            $overallfeedback = $this->overall_standard_prt_feedback($qa, $question, $response);
+        }
+
         // Replace any PRT feedback.
         $allempty = true;
         foreach ($question->prts as $index => $prt) {
-            $feedback = $this->prt_feedback($index, $response, $qa, $options);
+            $feedback = $this->prt_feedback($index, $response, $qa, $options, $individualfeedback);
             $allempty = $allempty && !$feedback;
             $feedbacktext = str_replace("[[feedback:{$index}]]",
                     stack_maths::process_display_castext($feedback), $feedbacktext);
         }
 
-        if ($allempty) {
+        if ($allempty && !$overallfeedback) {
             return '';
         }
 
-        return $feedbacktext;
+        return $overallfeedback . $feedbacktext;
     }
 
     /**
@@ -243,39 +251,57 @@ class qtype_stack_renderer extends qtype_renderer {
     }
 
     /**
+     * Get the appropriate response to use for generating the feedback to a PRT.
+     * @param string $name PRT name
+     * @param array $response the current reponse.
+     * @param question_attempt $qa the question_attempt we are displaying.
+     */
+    protected function get_applicable_response_for_prt($name, $response, question_attempt $qa) {
+        if ($qa->get_behaviour_name() != 'adaptivemultipart') {
+            return $response;
+        }
+
+        // The behaviour name test above is a hack. The trouble is that
+        // for adaptive behaviour, exactly what feedback to display is
+        // is complex, so we need to ask the behaviour.
+        $step = $qa->get_behaviour()->get_last_graded_response_step_for_part($name);
+
+        if (!$step) {
+            return null;
+        }
+
+        $lastgradedresponse = $step->get_qt_data();
+        if (!$qa->get_question()->is_same_response_for_part($name, $lastgradedresponse, $response)) {
+            return null;
+        }
+
+        return $response;
+    }
+
+    /**
      * Slighly complex rules for what feedback to display.
      * @param string $name the PRT name.
      * @param array $response the most recent student response.
      * @param question_attempt $qa the question attempt to display.
      * @param question_display_options $options controls what should and should not be displayed.
+     * @param bool $includestandardfeedback whether to include the standard
+     *      'Your answer is partially correct' bit at the start of the feedback.
      * @return string nicely formatted feedback, for display.
      */
-    protected function prt_feedback($name, $response, question_attempt $qa, question_display_options $options) {
+    protected function prt_feedback($name, $response, question_attempt $qa,
+            question_display_options $options, $includestandardfeedback) {
         $question = $qa->get_question();
 
-        if ($qa->get_behaviour_name() == 'adaptivemultipart') {
-            // The behaviour name test here is a hack. The trouble is that
-            // for adaptive behaviour, exactly what feedback to display is
-            // is complex, so we need to ask the behaviour.
-            $step = $qa->get_behaviour()->get_last_graded_response_step_for_part($name);
-
-            if (!$step) {
-                return '';
-            }
-
-            $relevantresponse = $step->get_qt_data();
-            if (!$question->is_same_response_for_part($name, $relevantresponse, $response)) {
-                return '';
-            }
-        } else {
-            $relevantresponse = $response;
+        $relevantresponse = $this->get_applicable_response_for_prt($name, $response, $qa);
+        if (is_null($relevantresponse)) {
+            return '';
         }
 
-        $result = $question->get_prt_result($name, $response, $qa->get_state()->is_finished());
+        $result = $question->get_prt_result($name, $relevantresponse, $qa->get_state()->is_finished());
         if (is_null($result->valid)) {
             return '';
         }
-        return $this->prt_feedback_display($name, $qa, $question, $result, $options);
+        return $this->prt_feedback_display($name, $qa, $question, $result, $options, $includestandardfeedback);
     }
 
     /**
@@ -289,7 +315,7 @@ class qtype_stack_renderer extends qtype_renderer {
      */
     protected function prt_feedback_display($name, question_attempt $qa,
             question_definition $question, stack_potentialresponse_tree_state $result,
-            question_display_options $options) {
+            question_display_options $options, $includestandardfeedback) {
         $err = '';
         if ($result->errors) {
             $err = $result->errors;
@@ -329,9 +355,13 @@ class qtype_stack_renderer extends qtype_renderer {
                     $qa->get_behaviour()->get_part_mark_details($name), $options);
         }
 
-        return html_writer::nonempty_tag('div',
-                $this->standard_prt_feedback($qa, $question, $result) .
-                $err . $feedback . $gradingdetails,
+        if ($includestandardfeedback) {
+            $standardfeedback = $this->standard_prt_feedback($qa, $question, $result);
+        } else {
+            $standardfeedback = '';
+        }
+
+        return html_writer::nonempty_tag('div', $standardfeedback . $err . $feedback . $gradingdetails,
                 array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
     }
 
@@ -349,7 +379,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $state = question_state::graded_state_for_fraction($result->score);
 
-        $class = $state->get_feedback_class($qa);
+        $class = $state->get_feedback_class();
         $field = 'prt' . $class;
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
@@ -358,5 +388,39 @@ class qtype_stack_renderer extends qtype_renderer {
                     $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';
+    }
+
+    /**
+     * Display and appropriate piece of standard PRT feedback given the overall
+     * state of the question.
+     * @param question_attempt $qa
+     * @param qtype_stack_question $question the question being displayed.
+     * @param array $response the current response.
+     * @return string HTML fragment.
+     */
+    protected function overall_standard_prt_feedback(question_attempt $qa,
+            qtype_stack_question $question, $response) {
+
+        $fraction = null;
+        foreach ($question->prts as $name => $prt) {
+            $relevantresponse = $this->get_applicable_response_for_prt($name, $response, $qa);
+            if (is_null($relevantresponse)) {
+                continue;
+            }
+
+            $result = $question->get_prt_result($name, $relevantresponse, $qa->get_state()->is_finished());
+            if (is_null($result->valid)) {
+                continue;
+            }
+
+            $fraction += $result->fraction;
+        }
+
+        if (is_null($fraction)) {
+            return '';
+        }
+
+        $result = new stack_potentialresponse_tree_state(1, true, $fraction);
+        return $this->standard_prt_feedback($qa, $qa->get_question(), $result);
     }
 }

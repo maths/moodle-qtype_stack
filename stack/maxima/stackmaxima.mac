@@ -1006,7 +1006,7 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
     /* take out any integer common factor */
     q:p,
     if length(cl)>1 and ci then q:expand(p/commonfaclist(cl)),
-    if is(q#factor(q)) then ret:[false,StackAddFeedback("","irred_Q_common_fac")]
+    if is(q#factor(q)) then ret:[false,StackAddFeedback("","irred_Q_commonint")]
   ),
   return(ret)
 );
@@ -1700,5 +1700,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2012121400$
-print("[ STACK-Maxima started, library version 2012121400 ]")$
+stackmaximaversion:2012122100$
+print("[ STACK-Maxima started, library version 2012122100 ]")$

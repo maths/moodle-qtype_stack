@@ -304,7 +304,7 @@ foreach ($testresults as $key => $result) {
             s($inputname),
             s($inputstate->rawinput),
             $inputval,
-            $inputstate->display,
+            stack_ouput_castext($inputstate->display),
             stack_string('inputstatusname' . $inputstate->status),
             $inputstate->errors,
         );

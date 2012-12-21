@@ -49,6 +49,8 @@ $fixer = new qtype_stack_dollar_fixer();
 $questionfields = array('questiontext', 'generalfeedback');
 $qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questionnote');
 $prtnodefields = array('truefeedback', 'falsefeedback');
+$qafields = array('questionsummary', 'rightanswer', 'responsesummary');
+$stepdatanames = "'_questiontext', '_feedback', '_questionnote'";
 $anychanges = false;
 
 // Display.
@@ -66,6 +68,7 @@ foreach ($categories as $key => $category) {
     foreach ($questions as $question) {
         echo $OUTPUT->heading(format_string($question->name), 4);
 
+        // Fields in the question table.
         $changes = false;
         foreach ($questionfields as $field) {
             $changes = $fixer->fix_question_field($question, $field) || $changes;
@@ -75,6 +78,7 @@ foreach ($categories as $key => $category) {
         }
         $anychanges = $anychanges || $changes;
 
+        // Fields in the qtype_stack table.
         $stackoptions = $DB->get_record('qtype_stack', array('questionid' => $question->id), '*', MUST_EXIST);
         $changes = false;
         foreach ($qtypestackfields as $field) {
@@ -85,6 +89,7 @@ foreach ($categories as $key => $category) {
         }
         $anychanges = $anychanges || $changes;
 
+        // Fields in the qtype_stack_prt_nodes table.
         $prtnodes = $DB->get_records('qtype_stack_prt_nodes', array('questionid' => $question->id), 'prtname,nodename');
         foreach ($prtnodes as $node) {
             $changes = false;
@@ -97,6 +102,7 @@ foreach ($categories as $key => $category) {
             $anychanges = $anychanges || $changes;
         }
 
+        // Fields in the question_hints table.
         $hints = $DB->get_records('question_hints', array('questionid' => $question->id), 'id');
         foreach ($hints as $hint) {
             $changes = $fixer->fix_question_field($hint, 'hint');
@@ -106,13 +112,31 @@ foreach ($categories as $key => $category) {
             $anychanges = $anychanges || $changes;
         }
 
+        // Fields in the question_attempts table.
+        $attemptdata = $DB->get_records_sql("
+                    SELECT qa.*
+                      FROM {question_attempts} qa
+                     WHERE qa.questionid = :questionid
+                ", array('questionid' => $question->id));
+        foreach ($attemptdata as $qa) {
+            $changes = false;
+            foreach ($qafields as $field) {
+                $changes = $fixer->fix_question_field($qa, $field) || $changes;
+            }
+            if ($changes && $confirm) {
+                $DB->update_record('question_attempts', $qa);
+            }
+            $anychanges = $anychanges || $changes;
+        }
+
+        // Fields in the question_attempt_step_data table.
         $attemptdata = $DB->get_records_sql("
                     SELECT qasd.*
                       FROM {question_attempt_step_data} qasd
                       JOIN {question_attempt_steps} qas ON qasd.attemptstepid = qas.id
                       JOIN {question_attempts} qa ON qa.id = qas.questionattemptid
                      WHERE qa.questionid = :questionid
-                       AND qasd.name IN ('_questiontext', '_feedback')
+                       AND qasd.name IN ({$stepdatanames})
                 ", array('questionid' => $question->id));
         foreach ($attemptdata as $data) {
             $changes = $fixer->fix_question_field($data, 'value');

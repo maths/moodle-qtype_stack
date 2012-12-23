@@ -341,12 +341,6 @@ $string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" var
 $string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
 $string['deploymanysuccess'] = 'Number of new variants successfully created, tested and deployed: {$a->no}.';
 
-// Strings used by the reporting script.
-$string['questionreporting'] = 'Report on attempts at one question.';
-$string['questionreportingscore'] = 'Score';
-$string['questionreportingsummary'] = 'Input summary';
-$string['questionreportingtotal'] = 'Total';
-
 // Support scripts (CAS chat, healthcheck, etc.)
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';

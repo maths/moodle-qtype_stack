@@ -10,8 +10,6 @@ Computer aided assessment of mathematics works in the following phases.
 
 Reviewing students' answers closes the learning cycle for teachers by allowing them to understand what students are doing. Basic reviewing is undertaken through the Moodle quiz.  For example, lists of scores etc. are available there.  The Moodle quiz also calculates basic statistics based on the numerical information.
 
-**NOTE** most of the STACK specific review features are not yet implemented in STACK 3.
-
 To review work we need to use two important parts of the question. Please read the following two entries before continuing with this article.
 
 * The [question note](Question_note.md).
@@ -19,10 +17,9 @@ To review work we need to use two important parts of the question. Please read t
 
 ## Individual item analysis ##
 
-_NOT YET IMPLEMENTED_
+To access the quiz reports you need to look in the Moodle navigation block. Under the quiz, select Results then STACK response analysis.  The reports do the following
 
-* Analysis of item as a whole, e.g. combine all the answer notes from each deployed version.
-* Analysis of different versions.  Differences in frequencies of answer notes?
-* List of invalid answers.
+* Analysis of each item as a whole.  This combines all the [answer notes](Potential_response_trees.md#Answer_note) from each deployed version and each attempt.  We list by the whole answer note (route through the potential response tree) and list by split answer notes, which give the occurances of each outcome.  The precise details of the question dictate the relative importance of these two sets of data.
+* List of all answers to each version, orderd by frequency and highlighting invalid answers.
 
 

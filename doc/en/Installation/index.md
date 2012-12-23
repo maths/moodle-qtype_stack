@@ -37,7 +37,15 @@ You must be able to connect to the CAS, and for the CAS to successfully create p
 
 You should now have a question type available to the moodle quiz.
 
-## 5. Add the STACK question format
+## 5. Add the STACK quiz report
+
+If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  
+This is distributed as `quiz_stack`.  
+
+1. Obtain the code. Either [download the zip file](https://github.com/maths/quiz_stack/zipball/master), unzip it, and place it in the directory `moodle\mod\quiz\report\stack`. (You will need to rename the directory `quiz_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/maths/quiz_stack.git /mod/quiz/report/stack`.
+2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
+
+## 6. Add the STACK question format
 
 If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
 

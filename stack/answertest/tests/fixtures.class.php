@@ -55,6 +55,11 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''),
         array('AlgEquiv', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''),
 
+        array('AlgEquiv', 'inf', 'inf', 1, '', 'Infinity'),
+        array('AlgEquiv', 'inf', '-inf', 0, '', ''),
+        array('AlgEquiv', '2*inf', 'inf', 0, '', ''),
+        array('AlgEquiv', '0*inf', '0', 1, '', ''),
+
         array('AlgEquiv', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'),
         array('AlgEquiv', 'x', 'sqrt(x^2)', 0, '', ''),
         array('AlgEquiv', '1/sqrt(x)', 'sqrt(1/x)', 1, '', ''),

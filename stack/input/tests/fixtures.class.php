@@ -55,6 +55,7 @@ class stack_inputvalidation_test_data {
         array('%pi', 'php_true', '%pi', 'cas_true', ""),
         array('%e', 'php_true', '%e', 'cas_true', ""),
         array('%i', 'php_true', '%i', 'cas_true', ""),
+        array('inf', 'php_true', 'inf', 'cas_true', ""),
         array('1E+3', 'php_true', '1*E+3', 'cas_true', "Scientific notation - does not work when strict syntax is false."),
         array('3E2', 'php_true', '3*E*2', 'cas_true', ""),
         array('1+i', 'php_true', '1+i', 'cas_true', ""),

@@ -2,36 +2,39 @@
 
 The following features are in approximate priority order.  How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-
 ## Minor features to add immediately on completion of 3.0 ##
 
-* Add back all questions from the diagnostic quiz project as further examples.
-* Introduce a variable so the maxima code "knows the attempt number".
+* [DONE] Add back all questions from the diagnostic quiz project as further examples.
+* Improve the way questions are deployed.
+ 1. [DONE] Deploy many versions at once.
+ 2. Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
+ 3. Remove many versions at once.
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto)
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.
 * Improve editing UI for test-cases https://github.com/maths/moodle-qtype_stack/issues/15
-* Improve the way questions are deployed.
- 1. Deploy many versions at once.
- 2. Remove many versions at once.
 * Add back remaining input types
  1. dragmath
  2. NUMBAS
+ 3. Dropdown/MCQ input type. 
 * Refactor answer tests.
  1. They should be like inputs. We should return an answer test object, not a controller object.
  2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
-* It must be possible to create questions using the dropdown input type. Currently there is no way to input the choices.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
+* Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting]
 
 ## Features to add - round two! ##
 
-### Add back the custom STACK reports ###
+### STACK custom reports ###
 
-That were available in STACK 2.0.
+* [DONE] Split up the answer notes to report back for each PRT separately.
+* Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigations to and from the page etc.
+* Introduce "validation notes".
+* Rename the "Reviewing" to "Reporting" in the docs.
 
 ### Rethink how STACK embed maths ###
 
-The goal will be to work more closely with how Moodle handles maths, so that
+[DONE] The goal will be to work more closely with how Moodle handles maths, so that
 the option to use the standard Moodle tex filter, or a custom filter like the
 OU's is feasible.
 
@@ -83,7 +86,6 @@ filters?
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
  * Package for scientific [units](../Authoring/Units.md), and a science answer test
  * Support for inequalities.  This includes real intervals and sets of real numbers.
-
 
 ## More speculative long terms plans ##
 

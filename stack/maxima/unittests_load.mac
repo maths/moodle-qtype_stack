@@ -1,7 +1,7 @@
 /* Unit tests for STACK Maxima */
 kill(all);
 /*load("C:/xampp/htdocs/stack-dev/logfiles/maximalocal.mac")$*/
-LOADDIR:"C:/xampp/moodledata/stack/maximalocal.mac"$
+LOADDIR:"C:/xampp/data/moodledata/stack/maximalocal.mac"$
 print("Working from: ")$
 print(LOADDIR)$
 load(LOADDIR)$

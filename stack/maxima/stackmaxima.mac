@@ -973,21 +973,22 @@ ATGTE(SA,SB) :=
 /*     and p does not factor over the **rationals**                     */
 
 /* Is p an irreducible term in v, over the rationals Q? */
-/* Returns a list, of [true/false , FeedBack] */
+/* Returns a list, of [true/false, FeedBack, true/false] */
+/* The third argument is the special case when we just have an integer factor to pull out. Needed for PartFrac. */
 irred_Q(p,v) := block([ret,deg,cl,ci],
   deg:ev(hipow(expand(p),v),simp),
   /* Now perform the general test */
-  cl:ev(map(second,coeff_list_nz(p,v)),simp),
+  cl:ev(map(second,coeff_list_nz(expand(p),v)),simp),
   /* all coefficients of p are integers?  (note, negative number don't count as integers here!)  */
   ci:all_listp(lambda([ex],integerp(ev(abs(ex),simp))),cl),
   /* General starting position */
-  ret:[factorp(p),""],
+  ret:[factorp(p),"",false],
   /* Special cases */
-  if deg=0 then ret:[true,""],
+  if deg=0 then ret:[true,"",false],
   /* Special situation for the linear case to avoid strange results */
   if deg=1 then block([lt],
     lt:ev(bothcoef(p,v),simp),
-    if lt[1]=1 or lt[2]=1 then ret:[true,""]
+    if lt[1]=1 or lt[2]=1 then ret:[true,"",false]
   ),
   /* Special case of quadratics, which are irreducible over the rationals */
   if deg=2 then block([a,b,c,q],
@@ -995,31 +996,31 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
        a:ev(coeff(q,v,2),simp),
        b:ev(coeff(q,v,1),simp),
        c:ev(coeff(q,v,0),simp),
-       if (b=0 and c=0 and a>1 and ratnump(ev(sqrt(a),simp))) then ret:[true,StackAddFeedback("","irred_Q_optional_fac",StackDISP(p,"i"))]
-       else if (b=0 and c=0) then ret:[true,""]
-       else if ratnump(ev(sqrt(b^2-4*a*c),simp)) then ret:[false,""]
+       if (b=0 and c=0 and a>1 and ratnump(ev(sqrt(a),simp))) then ret:[true,StackAddFeedback("","irred_Q_optional_fac",StackDISP(p,"i")),false]
+       else if (b=0 and c=0) then ret:[true,"",false]
+       else if ratnump(ev(sqrt(b^2-4*a*c),simp)) then ret:[false,"",false]
   ),
   /* Check we have a common integer factor: note can't use GCD function which only allows 2 arguments */
-  if length(cl)>1 and ci and commonfaclist(cl)>1 then ret:[false,StackAddFeedback("","irred_Q_commonint")],
-  /* Check we have a common integer factor: note can't use GCD function which only allows 2 arguments */
+  if length(cl)>1 and ci and commonfaclist(cl)>1 then ret:[false,StackAddFeedback("","irred_Q_commonint"),true],
   if deg>2 then block([q],
     /* take out any integer common factor */
     q:p,
-    if length(cl)>1 and ci then q:expand(p/commonfaclist(cl)),
-    if is(q#factor(q)) then ret:[false,StackAddFeedback("","irred_Q_commonint")]
+    if length(cl)>1 and ci then q:ev(expand(p/commonfaclist(cl)),simp),
+    if is(ev(q#factor(q),simp)) then ret:[false,ret[2],false]
   ),
   return(ret)
 );
 
-/* Is p a power of an irreducible term in v, over the rationals Q? */ /* 
-Returns true/false */ 
+/* Is p a power of an irreducible term in v, over the rationals Q, disregarding the special case of a numerical factor? */ 
+/* Only used by ATPartFrac */ 
+/* Returns true/false */ 
 irred_power_Qp(p,v) := block([ret],
  if safe_op(p)="^" then ret:irred_Q(first(args(p)),v) else ret:irred_Q(p,v),
- if second(ret)="stack_trans('irred_Q_commonint')\; " then true else first(ret)
+ if third(ret) then true else first(ret)
 ); 
+
 /* Picks apart an expression p of v, and gives some feedback */
 /* on why this is not a factored expression */
-
 FacForm_UnPick(p,v) := block([negdistrib,PARTSWITCH,fb,i,irred,res],
   negdistrib:false,
   partswitch:true,
@@ -1714,5 +1715,5 @@ STACKanalysis(A):=block([l0,l1,l2,l3],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2012122100$
-print("[ STACK-Maxima started, library version 2012122100 ]")$
+stackmaximaversion:2012122800$
+print("[ STACK-Maxima started, library version 2012122800 ]")$

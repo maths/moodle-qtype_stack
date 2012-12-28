@@ -115,43 +115,58 @@ anyfloatex(sin(x*0.2));
 true$ 
 
 irred_Q(0,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(x,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(1+x,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(1-x,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(2-3*x,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(2*x-2,x); 
-[false,"stack_trans('irred_Q_commonint'); "]$ 
+[false,"stack_trans('irred_Q_commonint'); ",true]$ 
 irred_Q(t+t*x,x); 
-[false,""]$ 
+[false,"",false]$ 
 irred_Q(3*x^2,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(4*x^2,x); 
-[true,"stack_trans('irred_Q_optional_fac' , !quot!$4\\,x^2$!quot! ); "]$ 
+[true,"stack_trans('irred_Q_optional_fac' , !quot!$4\\,x^2$!quot! ); ",false]$ 
 irred_Q(x^2-4,x); 
-[false,""]$ 
+[false,"",false]$ 
 irred_Q(x^2-2,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(n+n^2,n); 
-[false,""]$ 
+[false,"",false]$ 
 irred_Q(n*(1+n),n); 
-[false,""]$ 
+[false,"",false]$ 
 irred_Q(n*(n-1),n); 
-[false,""]$ 
-irred_Q(n^3-1,n); 
-[false,""]$ 
+[false,"",false]$ 
 irred_Q(0.5+x,x); 
-[true,""]$ 
+[true,"",false]$ 
 irred_Q(2-3*x+x^2,x); 
-[false,""]$ 
-irred_Q(9-3*x+3*x^5,x); 
-[false,"stack_trans('irred_Q_commonint'); "]$ 
+[false,"",false]$ 
 irred_Q(1+x^2+x^5,x); 
-[true,""]$ 
+[true,"",false]$ 
+irred_Q(n^3-1,n); 
+[false,"",false]$
+irred_Q(3*x-6*x^3+3*x^6,x); 
+[false,"stack_trans('irred_Q_commonint'); ",false]$ 
+irred_Q(9-3*x+3*x^5,x); 
+[false,"stack_trans('irred_Q_commonint'); ",true]$ 
+
+irred_power_Qp(2,x);
+true$
+irred_power_Qp((x-1)^2,x);
+true$
+irred_power_Qp((3*x-6)^4,x);
+true$
+irred_power_Qp(x^2-1,x);
+false$
+irred_power_Qp(3*x-6*x^3+3*x^6,x);
+false$
+irred_power_Qp(9-3*x+3*x^5,x);
+true$
 
 continuousp(x^2,x,1); 
 true$ 

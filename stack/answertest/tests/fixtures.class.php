@@ -295,6 +295,8 @@ class stack_answertest_test_data {
         array('FacForm', '-(1-x)^2', '-(x-1)^2', 1, 'x', ''),
         array('FacForm', '4*(1-x/2)^2', '(x-2)^2', 1, 'x', ''),
         array('FacForm', '(x-1)*(x^2+x+1)', 'x^3-1', 1, 'x', 'Cubics'),
+        array('FacForm', 'x^3-x+1', 'x^3-x+1', 1, 'x', ''),
+        array('FacForm', '7*x^3-7*x+7', '7*(x^3-x+1)', 0, 'x', ''),
         array('FacForm', '(1-x)*(2-x)*(3-x)', '-x^3+6*x^2-11*x+6', 1, 'x', ''),
         array('FacForm', '(2-x)*(2-x)*(3-x)', '-x^3+7*x^2-16*x+12', 1, 'x', ''),
         array('FacForm', '(2-x)^2*(3-x)', '-x^3+7*x^2-16*x+12', 1, 'x', ''),

@@ -266,6 +266,12 @@ StackDISP(asin(x),"");
 "\\sin^{-1} \\left( x \\right)"$ 
 StackDISP(log(x),""); 
 "\\ln \\left( x \\right)"$ 
+StackDISP(y^3-2*y^2-8*y,"");
+"y^3-2\\,y^2-8\\,y"$ 
+StackDISP(y^2-2*y-8,""); 
+"y^2-2\\,y-8"$
+StackDISP(y^2-2*y-0.5,""); 
+"y^2-2\\,y-0.5"$
 
 strip_int_const(k+x,x); 
 x$ 

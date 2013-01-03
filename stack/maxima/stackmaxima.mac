@@ -179,7 +179,7 @@ StackDISP(expr,m):= block([str:""],
           if m="i" then (ld:"\\(",rd:"\\)"),
           if m="d" then (ld:"\\[",rd:"\\]"),
           expru:unary_minus_sort(expr),   
-          expstr:tex(expr,false),
+          expstr:tex(expru,false),
           /* Remove $$'s from Maxima's TEX command */
           if ?subseq(expstr,0,2)="$$" then expstr:concat(ld,?subseq(expstr,2,ev(?length(expstr)-3,simp)),rd) 
           /* Remove \begin{verbatim}'s from Maxima's TEX command */

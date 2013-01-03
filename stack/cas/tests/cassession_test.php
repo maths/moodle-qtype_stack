@@ -149,7 +149,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     public function test_get_display_unary_minus() {
 
-        $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x+-3+y', 'p5:x+(-3+y)');
+        $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x+-3+y', 'p5:x+(-5+y)');
         /* Notice the subtle difference in p4 & p5 */
         /* Where extra brackets are put in they should stay... */
         foreach ($cs as $s) {
@@ -160,11 +160,11 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
-        $this->assertEquals('y^3-2\\,y^2-8\\,y', $at1->get_display_key('p1'));
-        $this->assertEquals('y^2-2\\,y-8', $at1->get_display_key('p2'));
-        $this->assertEquals('y^2-2\\,y-0.5', $at1->get_display_key('p3'));
+        $this->assertEquals('y^3-2\\cdot y^2-8\\cdot y', $at1->get_display_key('p1'));
+        $this->assertEquals('y^2-2\\cdot y-8', $at1->get_display_key('p2'));
+        $this->assertEquals('y^2-2\\cdot y-0.5', $at1->get_display_key('p3'));
         $this->assertEquals('x-3+y', $at1->get_display_key('p4'));
-        $this->assertEquals('x+\\left(-3+y\\right)', $at1->get_display_key('p4'));
+        $this->assertEquals('x+\\left(-5+y\\right)', $at1->get_display_key('p5'));
     }
 
     public function test_string1() {

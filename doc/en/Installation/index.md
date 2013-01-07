@@ -9,7 +9,7 @@ STACK 3.0 beta is still under active testing.
 
 ## 2. Install GNUPlot and Maxima
 
-Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.21.1 to 5.28.0 are supported.  Please contact the developers to request support for other versions.
+Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.28.0 are supported.  Please contact the developers to request support for other versions.
 
 Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained
 installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and

@@ -39,8 +39,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
         get_string('settingcasmaximaversion', 'qtype_stack'),
         get_string('settingcasmaximaversion_desc', 'qtype_stack'), '5.28.0',
-                array('5.21.1' => '5.21.1', '5.22.1' => '5.22.1', '5.23.1' => '5.23.1',
-                      '5.24.0' => '5.24.0', '5.25.1' => '5.25.1', '5.26.0' => '5.26.0',
+                array('5.25.1' => '5.25.1', '5.26.0' => '5.26.0',
                       '5.27.0' => '5.27.0', '5.28.0' => '5.28.0')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',

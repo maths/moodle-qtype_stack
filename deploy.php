@@ -50,19 +50,14 @@ $PAGE->set_pagelayout('admin');
 // Process deploy if applicable.
 $deploy = optional_param('deploy', null, PARAM_INT);
 if (!is_null($deploy)) {
-    $record = new stdClass();
-    $record->questionid = $question->id;
-    $record->seed = $deploy;
-    $DB->insert_record('qtype_stack_deployed_seeds', $record);
-
+    $question->deploy_variant($deploy);
     redirect($nexturl);
 }
 
 // Process undeploy if applicable.
 $undeploy = optional_param('undeploy', null, PARAM_INT);
 if (!is_null($undeploy)) {
-    $DB->delete_records('qtype_stack_deployed_seeds',
-            array('questionid' => $question->id, 'seed' => $undeploy));
+    $question->undeploy_variant($undeploy);
 
     // As we redirect, switch to the undeployed variant, so it easy to re-deploy
     // if you just made a mistake.
@@ -74,7 +69,7 @@ $deploy = optional_param('deploymany', null, PARAM_INT);
 $deploytxt = optional_param('deploymany', null, PARAM_TEXT);
 if (!is_null($deploy)) {
 
-    if (0==$deploy) {
+    if (0 == $deploy) {
         $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err'=>$deploytxt)));
         redirect($nexturl);
     }
@@ -83,7 +78,7 @@ if (!is_null($deploy)) {
     $failedattempts = 0;
     $numberdeployed = 0;
 
-    while ($failedattempts<$maxfailedattempts and $numberdeployed<$deploy) {
+    while ($failedattempts < $maxfailedattempts && $numberdeployed < $deploy) {
         // Genrate a new seed.
         $seed = mt_rand();
         $variantdeployed = false;
@@ -130,19 +125,15 @@ if (!is_null($deploy)) {
             }
 
             // Actually deploy the question.
-            $record = new stdClass();
-            $record->questionid = $question->id;
-            $record->seed = $seed;
-            $DB->insert_record('qtype_stack_deployed_seeds', $record);
+            $question->deploy_variant($seed);
             $numberdeployed++;
         }
     }
 
     $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no'=>$numberdeployed)));
     $nexturl->param('seed', $seed);
-    if ($failedattempts>=$maxfailedattempts) {
+    if ($failedattempts >= $maxfailedattempts) {
         $nexturl->param('deployfeedbackerr', stack_string('deploymanynonew'));
     }
     redirect($nexturl);
 }
-

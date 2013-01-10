@@ -519,6 +519,48 @@ class qtype_stack extends question_type {
     }
 
     /**
+     * Deploy a variant of a question.
+     * @param int $questionid the question id.
+     * @param int $seed the seed to deploy.
+     */
+    public function deploy_variant($questionid, $seed) {
+        global $DB;
+
+        $record = new stdClass();
+        $record->questionid = $questionid;
+        $record->seed = $seed;
+        $DB->insert_record('qtype_stack_deployed_seeds', $record);
+
+        $this->notify_question_edited($questionid);
+    }
+
+    /**
+     * Un-deploy a variant of a question.
+     * @param int $questionid the question id.
+     * @param int $seed the seed to un-deploy.
+     */
+    public function undeploy_variant($questionid, $seed) {
+        global $DB;
+
+        $DB->delete_records('qtype_stack_deployed_seeds',
+                array('questionid' => $questionid, 'seed' => $seed));
+
+        $this->notify_question_edited($questionid);
+    }
+
+    /**
+     * From Moodle 2.4 onwards, we need to clear the entry from the question
+     * cache if a question definition changes. This method deals with doing
+     * that without causing errors on earlier versions of Moodle.
+     * @param int $questionid the question id to clear from the cache.
+     */
+    protected function notify_question_edited($questionid) {
+        if (method_exists('question_bank', 'notify_question_edited')) {
+            call_user_func(array('question_bank', 'notify_question_edited'), $questionid);
+        }
+    }
+
+    /**
      * Load all the question tests for a question.
      * @param int $questionid the id of the question to load the tests for.
      * @return array testcase number => stack_question_test

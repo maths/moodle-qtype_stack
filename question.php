@@ -816,4 +816,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         return $classification;
     }
+
+    /**
+     * Deploy a variant of this question.
+     * @param int $seed the seed to deploy.
+     */
+    public function deploy_variant($seed) {
+        $this->qtype->deploy_variant($this->id, $seed);
+    }
+
+    /**
+     * Un-deploy a variant of this question.
+     * @param int $seed the seed to un-deploy.
+     */
+    public function undeploy_variant($seed) {
+        $this->qtype->undeploy_variant($this->id, $seed);
+    }
 }

@@ -495,4 +495,59 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
     }
+
+    public function test_1input2prts_specific_feedback_handling() {
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', '1input2prts');
+        $this->start_attempt_at_question($q, 'deferredfeedback', 1);
+
+        // Check the right behaviour is used.
+        $this->assertEquals('dfexplicitvaildate', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Save the correct response.
+        $this->process_submission(array('ans1' => '12', 'ans1_val' => '12'));
+
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '12');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Submit all and finish.
+        $this->quba->finish_all_questions();
+
+        $this->check_current_state(question_state::$gradedright);
+        $this->check_current_mark(1);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '12', false);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback(); // Since there is no feedback for right.
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assertRegExp('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->check_current_output(
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+    }
 }

@@ -72,3 +72,13 @@ Moodle overides the PHP debug message settings.  To see errors and warnings, go 
     Site administration -> Development -> Debugging
 
 and set the Debug messages option.
+
+# Resetting the database
+
+Subvert the function in `C:\xampp\htdocs\moodle\lib\phpunit\classes\util.php` 
+
+    public static function reset_database() {
+
+By adding the following line at the beginning of the function.
+
+    return false;

@@ -24,12 +24,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013011100;
+$plugin->version   = 2013011101;
 $plugin->requires  = 2012062503;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '3.0 for Moodle 2.3.3+';
+$plugin->maturity = MATURITY_ALPHA;
+$plugin->release = 'development version on the way to 3.1 for Moodle 2.3.3+';
 
 $plugin->dependencies = array(
     'qbehaviour_adaptivemultipart'     => 2013011100,

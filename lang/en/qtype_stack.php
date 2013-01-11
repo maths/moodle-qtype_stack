@@ -292,7 +292,7 @@ $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
-$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values link a,b,c,d';
+$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
 
 // Strings used by the question test script.
 $string['addanothertestcase'] = 'Add another test case...';

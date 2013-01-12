@@ -1,4 +1,4 @@
-# Reviewing
+# Reporting
 
 Computer aided assessment of mathematics works in the following phases.
 
@@ -6,11 +6,11 @@ Computer aided assessment of mathematics works in the following phases.
 2. [Testing](Testing.md) and
 3. [Deploying](Deploying.md) questions.
 4. [Adding questions to a quiz](Quiz.md) and use by students.
-5. [Reviewing](Reviewing.md) and statistical analysis.
+5. [Reporting](Reporting.md) and statistical analysis.
 
-Reviewing students' answers closes the learning cycle for teachers by allowing them to understand what students are doing. Basic reviewing is undertaken through the Moodle quiz.  For example, lists of scores etc. are available there.  The Moodle quiz also calculates basic statistics based on the numerical information.
+Reviewing students' answers closes the learning cycle for teachers by allowing them to understand what students are doing. Basic reporting is undertaken through the Moodle quiz.  For example, lists of scores etc. are available there.  The Moodle quiz also calculates basic statistics based on the numerical information.
 
-To review work we need to use two important parts of the question. Please read the following two entries before continuing with this article.
+To review work in more detail we need to use two important parts of the question. Please read the following two entries before continuing with this article.
 
 * The [question note](Question_note.md).
 * The [answer note](Potential_response_trees.md#Answer_note).

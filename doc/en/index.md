@@ -16,7 +16,7 @@ More about what we are trying to achieve can be found under [the philosophy of S
   1. [Authoring questions](Authoring/index.md), including an [authoring quick start guide](Authoring/Authoring_quick_start.md).
   2. [Question testing](Authoring/Testing.md).
   3. [Deploying questions](Authoring/Deploying.md).
-  4. [Reviewing](Authoring/Reviewing.md)
+  4. [Reporting](Authoring/Reporting.md)
   *  [Frequently asked questions](Authoring/Author_FAQ.md)
 * [**Students**](Students/index.md)
   * [Frequently asked questions](Students/FAQ.md).

@@ -6,7 +6,7 @@ Computer aided assessment of mathematics works in the following phases.
 2. [Testing](Testing.md) and
 3. [Deploying](Deploying.md) questions.
 4. [Adding questions to a quiz](Quiz.md) and use by students.
-5. [Reviewing](Reviewing.md) and statistical analysis.
+5. [Reporting](Reporting.md) and statistical analysis.
 
 
 Deploying a question variant chooses and fixes specific values for any random elements within the question variables.  When a student attempts the question they will be given a random selection from the deployed variants.  STACK questions are not randomly generated on the fly.  We have chosen to add this step, instead of generating on the fly, for a number of reasons.

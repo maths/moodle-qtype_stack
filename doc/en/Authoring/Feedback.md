@@ -9,7 +9,7 @@ and on the basis of the properties we establish to assign _feedback_.
   In mathematics, summative feedback is most often _quantitative_,  either a mark or a percentage.
 * _Evaluative assessment_ is to measure the effectiveness of the teaching or the
   assessment of students.  Such assessments could have quality enhancement or quality audit functions.
-  See [reviewing](Reviewing.md). The ability to automatically generate data about an individual student or
+  See [reporting](Reporting.md). The ability to automatically generate data about an individual student or
   across a cohort is one particular strength of CAA, potentially enabling regular, detailed evaluative assessment.
 
 In STACK multi-part questions there is a complete separation between two important components.
@@ -42,7 +42,7 @@ Each [potential response tree](Potential_response_trees.md) returns three outcom
 1. text for the student,
 2. a numerical score,
 3. an [answer note](Potential_response_trees.md#Answer_note)
-   for use by the teacher during [reviewing](Reviewing.md).
+   for use by the teacher during [reporting](Reporting.md).
 
 These correspond approximately to formative, summative and evaluative functions of assessment respectively.
 The [general feedback](CASText.md#General_feedback) (known as worked solution in previous versions) is fixed and may not depend on the student's answers.

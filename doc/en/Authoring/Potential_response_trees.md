@@ -50,9 +50,8 @@ This number is multiplied by the question value before being returned to the stu
 
 The answer note is a tag which is key for reporting purposes.  It is designed to record the outcome of each answer test and the unique path through the tree.  This is automatically generated, but can be changed to something meaningful.   When looking for identical paths through the tree we have to do so, regardless of which random numbers were selected in this version of the question given to a particular student.  Hence, this string may not depend on any of the variables.
 
-
 The answer note is the concatenation of each answer note from the [answer tests](Answer_tests.md) and
 then the corresponding true/false branch.  This note provides a record of the result of applying each
 test and the route taken through the tree.
 
-This field is completed automatically for the question author and is used for [reviewing](Reviewing.md) students' work.
+This field is given a default value automatically and is used for [reporting](Reporting.md) students' work.

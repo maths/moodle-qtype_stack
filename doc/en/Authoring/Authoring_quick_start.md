@@ -5,7 +5,7 @@ Computer aided assessment of mathematics works in the following phases.
 1. [Authoring](../Authoring/index.md)
 2. [Testing](Testing.md)
 3. [Deploying](Deploying.md)
-4. [Reviewing](Reviewing.md)
+4. [Reporting](Reporting.md)
 
 Each of these links contains detailed instructions.  The purpose of this page is to work through a simple example.
 
@@ -65,13 +65,13 @@ A potential response tree is a non-empty acyclic directed graph of _potential re
 2. If `true` then we execute the `true` branch.
 3. If `false` then we execute the `false` branch.
 
-The answer test itself sometimes produces [feedback](Feedback.md) for the student (which the teacher might choose to suppress with the quiet option).  The answer test also produces an internal [answer note](Potential_response_trees.md#Answer_note) for the teacher which is essential for reviewing students' attempts later.
+The answer test itself sometimes produces [feedback](Feedback.md) for the student (which the teacher might choose to suppress with the quiet option).  The answer test also produces an internal [answer note](Potential_response_trees.md#Answer_note) for the teacher which is essential for Reporting students' attempts later.
 
 Each branch can then
 
 * Assign/update the score.
 * Assign formative [feedback](Feedback.md) to the student.
-* Leave an [answer note](Potential_response_trees.md#Answer_note) for [reviewing](Reviewing.md) purposes.
+* Leave an [answer note](Potential_response_trees.md#Answer_note) for [Reporting](Reporting.md) purposes.
 * Nominate the next potential response node, or end the process `[stop]`.
 
 We refer to the student's answer in computer algebra calculations by using the name `ans1` since we gave this name to the input in the question text.  The model answer was `3*(x-1)^2`.  Update the form fields so that
@@ -139,7 +139,7 @@ This gives us the test, but what about the outcomes?
 
 Notice here that STACK also adds an "intelligent note to self" in the [answer note](Potential_response_trees.md#Answer_note) field.
 This is useful for statistical grouping of similar outcomes when the feedback depends on randomly generated questions,
-and different responses. You have something definite to group over.  This is discussed in [reviewing](Reviewing.md).
+and different responses. You have something definite to group over.  This is discussed in [reporting](Reporting.md).
 
 Press the `[Save changes]` button and preview the question.
 

@@ -34,7 +34,8 @@ filters?
 
 ## Features that might be attempted in the future - possible self contained projects ##
 
-* [Question blocks](../Authoring/Question_blocks.md)
+* Investigate how a whole PRT might make only one CAS call.
+* Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto) See [question blocks](../Authoring/Question_blocks.md)
 * Read other file formats into STACK.  In particular
   * AIM
   * WebWork

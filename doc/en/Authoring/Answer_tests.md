@@ -41,7 +41,7 @@ e.g. Algebraic Equivalence, really need to assume which expression belongs to th
 | Errors    | Hopefully this will be empty!
 | Result    | is either `true`, `false`, or `fail` (which indicates a failure of the test).  This determines which branch of the tree is traversed.
 | FeedBack  | This is a text string which is displayed to the student. It is [CASText](CASText.md) which may depend on properties of the student's answer.
-| Note      | This is a text string which is used for [Reviewing](Reviewing.md). Each answer note is concatenated with the previous notes and any contributions from the branch.
+| Note      | This is a text string which is used for [Reporting](Reporting.md). Each answer note is concatenated with the previous notes and any contributions from the branch.
 
 
 # Equality #

@@ -80,6 +80,13 @@ class stack_cas_casstring_test extends basic_testcase {
                 $casstring->get_errors());
     }
 
+    public function test_spurious_operators() {
+        $casstring = new stack_cas_casstring('2/*x');
+        $casstring->validate('s');
+        $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">/*</span>.',
+                $casstring->get_errors());
+    }
+
     public function test_get_valid_inequalities() {
         $cases = array(
                 array('x>1 and x<4', true, true),

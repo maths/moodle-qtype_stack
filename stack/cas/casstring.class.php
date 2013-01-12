@@ -579,7 +579,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..');
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op)>0) {
                 $this->valid = false;

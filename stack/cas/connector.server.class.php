@@ -60,7 +60,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         }
 
         // Did we get files?
-        if (curl_getinfo($request, CURLINFO_CONTENT_TYPE) != "text/plain") {
+        if (strpos(curl_getinfo($request, CURLINFO_CONTENT_TYPE),"text/plain")===FALSE) {
             // We have to save the zip file on local disk before opening...
             // how come there is no core library solution to this!?
             // create temp file, save zip there.

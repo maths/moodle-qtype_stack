@@ -252,7 +252,7 @@ class stack_potentialresponse_tree {
      * @return bool whether the string refers to the variable.
      */
     private function string_contains_variable($variable, $string) {
-        $regex = '~\b' . preg_quote(strtolower($variable)) . '\b~';
+        $regex = '~\b' . preg_quote(strtolower($variable), '~') . '\b~';
         return preg_match($regex, strtolower($string));
     }
 

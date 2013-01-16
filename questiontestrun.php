@@ -104,7 +104,11 @@ if (!is_null($deployfeedbackerr)) {
 }
 
 // Display the list of deployed variants, with UI to edit the list.
-echo $OUTPUT->heading(stack_string('deployedvariants'), 3);
+if ($question->deployedseeds) {
+    echo $OUTPUT->heading(stack_string('deployedvariantsn', count($question->deployedseeds)), 3);
+} else {
+    echo $OUTPUT->heading(stack_string('deployedvariants'), 3);
+}
 
 $variantmatched = false;
 $variantdeployed = false;
@@ -121,7 +125,7 @@ if (!$question->has_random_variants()) {
 
     $notestable = new html_table();
     $notestable->head = array(
-        stack_string('deployedvariants'),
+        stack_string('variant'),
         stack_string('questionnote'),
     );
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
@@ -164,7 +168,6 @@ if (!$question->has_random_variants()) {
         );
     }
 
-    echo html_writer::tag('p', stack_string('deployedvariantoptions'));
     echo html_writer::table($notestable);
 }
 

@@ -463,7 +463,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('selectyesno', $prtname . 'autosimplify',
                 stack_string('autosimplify'));
         $mform->setDefault($prtname . 'autosimplify', true);
-        $mform->addHelpButton($prtname . 'autosimplify', 'autosimplify', 'qtype_stack');
+        $mform->addHelpButton($prtname . 'autosimplify', 'autosimplifyprt', 'qtype_stack');
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
                 stack_string('feedbackvariables'), array('rows' => 3, 'cols' => 80));

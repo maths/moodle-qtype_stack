@@ -155,7 +155,7 @@ and not an expression such as \(mx+c\).  Remember, you can't compare an expressi
 
 Another useful way of avoiding this problem is to put a LaTeX string such as \(y=\) just before the input.  E.g.
 
-    \(y=\)#ans1#.
+    \(y=\)[[input:ans1]].
 
 ### Student must verify ### {#Student_must_verify}
 

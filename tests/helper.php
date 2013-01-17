@@ -144,7 +144,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20));
+                        'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]'));
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');

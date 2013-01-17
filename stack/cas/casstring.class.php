@@ -391,6 +391,27 @@ class stack_cas_casstring {
             'OMEGA');
 
     /**
+     * These lists are used by question authors for groups of words.
+     */
+    private static $keywordlists = array(
+            '[[BASIC-ALGEBRA]]' => array('COEFF', 'CONCAT', 'CONJUGATE', 'CSPLINE', 'DISJOIN', 'DIVISORS', 
+                    'EV', 'ELIMINATE', 'EQUIV_CLASSES', 'EXPAND', 'EXPANDWRT', 'FACSUM', 'FACTOR', 'FIND_ROOT', 
+                    'FULLRATSIMP', 'GCD', 'GFACTOR', 'IMAGPART', 'INTERSECTION', 'LCM', 'LOGCONTRACT', 'LOGEXPAND',
+                    'MEMBER', 'NROOTS', 'NTHROOT', 'NUMER', 'PARTFRAC', 'POLARFORM', 'POLARTORECT', 'RATEXPAND',
+                    'RATSIMP', 'REALPART', 'ROUND', 'RADCAN', 'NUM', 'DENOM', 'TRIGSIMP', 'TRIGREDUCE', 'SOLVE',
+                    'ALLROOTS', 'SIMP', 'SETDIFFERENCE', 'SORT', 'SUBST', 'TRIGEXPAND', 'TRIGEXPANDPLUS',
+                    'TRIGEXPANDTIMES', 'TRIGINVERSES', 'TRIGRAT', 'TRIGREDUCE', 'TRIGSIGN', 'TRIGSIMP',
+                    'TRUNCATE', 'DECIMALPLACES', 'SIMPLIFY'),
+            '[[BASIC-CALCULUS]]' => array('DEFINT', 'DIFF', 'INT', 'INTEGRATE', 'LIMIT', 'PARTIAL', 'DESOLVE', 'EXPRESS', 'TAYLOR'),
+            '[[BASIC-MATRIX]]' => array('ADDMATRICES', 'ADJOIN', 'AUGCOEFMATRIX', 'BLOCKMATRIXP', 'CHARPOLY',
+                    'COEFMATRIX', 'COL', 'COLUMNOP', 'COLUMNSPACE', 'COLUMNSWAP', 'COVECT', 'CTRANSPOSE',
+                    'DETERMINANT', ' DIAG_MATRIX', 'DIAGMATRIX', 'DOTPRODUCT', 'ECHELON', 'EIGENVALUES',
+                    'EIGENVECTORS', 'EIVALS', 'EIVECTS', 'EMATRIX', 'INVERT', 'MATRIX_ELEMENT_ADD',
+                    'MATRIX_ELEMENT_MULT', 'MATRIX_ELEMENT_TRANSPOSE', 'NULLSPACE', 'RESULTANT',
+                    'ROWOP', 'ROWSWAP', 'TRANSPOSE')
+    );
+
+    /**
      * @var all the characters permitted in responses.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
@@ -809,9 +830,17 @@ class stack_cas_casstring {
         if (null===$this->valid) {
             $this->validate();
         }
+
         // Ensure all $keywords are upper case.
-        foreach ($keywords as $key => $val) {
-            $keywords[$key] = trim(strtoupper($val));
+        // Replace lists of keywords with their actual values.
+        $kws = array();
+        foreach ($keywords as $val) {
+            $kw = trim(strtoupper($val));
+            if (array_key_exists($kw, self::$keywordlists)) {
+                $kws = array_merge($kws, self::$keywordlists[$kw]);
+            } else {
+                $kws[] = $kw;
+            }
         }
 
         $found          = false;
@@ -829,7 +858,7 @@ class stack_cas_casstring {
         $strin_keywords = array_unique($strin_keywords);
 
         foreach ($strin_keywords as $key) {
-            if (in_array($key, $keywords)) {
+            if (in_array($key, $kws)) {
                 $found = true;
                 $this->valid = false;
                 $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));

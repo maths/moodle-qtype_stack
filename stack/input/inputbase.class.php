@@ -366,6 +366,7 @@ abstract class stack_input {
             }
 
             $forbiddenwords = $this->get_parameter('forbidWords', '');
+
             if ($forbiddenwords) {
                 $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
             }

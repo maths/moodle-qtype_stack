@@ -321,9 +321,14 @@ class stack_answertest_test_data {
         array('CompSquare', '1/0', '0', 0, 'x', ''),
         array('CompSquare', '0', '1/0', 0, 'x', ''),
         array('CompSquare', '0', '0', 0, '1/0', ''),
+        array('CompSquare', '1', '(x-1)^2+1', 0, 'x', 'Category errors.'),
+        array('CompSquare', '(t-1)^2+1', '(x-1)^2+1', 0, 'x', ''),
         array('CompSquare', '(x-1)^2+1=0', '(x-1)^2+1', 0, 'x', ''),
         array('CompSquare', 'sin(x-1)+a-1', '(x-1)^2+1', 0, 'x', ''),
-        array('CompSquare', 'x^2-1', '(x-1)*(x+1)', 1, 'x', 'Trivial cases'),
+        array('CompSquare', '1', '1', 1, 'x', 'Trivial cases'),
+        array('CompSquare', 'x-a', 'x-a', 1, 'x', ''),
+        array('CompSquare', 'x^2', 'x^2', 1, 'x', ''),
+        array('CompSquare', 'x^2-1', '(x-1)*(x+1)', 1, 'x', ''),
         array('CompSquare', '(x-1)^2*k', '(x-1)^2*k', 1, 'x', ''),
         array('CompSquare', '(x-1)^2/k', '(x-1)^2/k', 1, 'x', ''),
         array('CompSquare', '(x-1)^2+1', '(x-1)^2+1', 1, 'x', 'Normal cases'),
@@ -338,6 +343,7 @@ class stack_answertest_test_data {
         array('CompSquare', '(x^2-1)^2+1', '(x^2-1)^2+1', 1, 'x^2', ''),
         array('CompSquare', '(y-1)^2+1', '(y-1)^2+1', 1, 'y', ''),
         array('CompSquare', '(y+1)^2+1', '(y-1)^2+1', 0, 'y', ''),
+        array('CompSquare', '(x-1)^2+1', '(sin(x)-1)^2+1', 0, 'sin(x)', ''),
 
         // Single Fraction Test.
         array('SingleFrac', '1/0', '1/n', 0, '', ''),

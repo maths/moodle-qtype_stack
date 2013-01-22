@@ -560,7 +560,8 @@ $string['ATSingleFrac_div']            = 'Your answer contains fractions within 
 $string['ATCompSquare_true']            = '';
 $string['ATCompSquare_false']           = '';
 $string['ATCompSquare_not_AlgEquiv']    = 'Your answer appears to be in the correct form, but is not equivalent to the correct answer.';
-$string['ATCompSquare_false_no_summands']     = 'The completed square is of the form \( a(\cdots\cdots)^2 + b\) where \(a\) and \(b\) do not depend on your variable.  More than one of your summands appears to depend on the variable in your answer.';
+$string['ATCompSquare_false_no_summands']  = 'The completed square is of the form \( a(\cdots\cdots)^2 + b\) where \(a\) and \(b\) do not depend on your variable.  More than one of your summands appears to depend on the variable in your answer.';
+$string['ATCompSquare_SA_not_depend_var']  = 'Your answer should depend on the variable {$a->m0} but it does not!';
 
 
 $string['ATInt_error_list']         = 'The answer test failed.  Please contact your systems administrator';

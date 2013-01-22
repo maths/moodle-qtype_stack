@@ -1488,8 +1488,8 @@ sameVars(expr1, expr2):=
 /* Completed squares                  */
 /* ********************************** */
 
-ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,SAA,SBB,facdum,opa,argsa,deg,cform],
-    Validity:true,RawMark:true, FeedBack:"", AnswerNote:"",cform:false,
+ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,SAA,SBB,facdum,opa,argsa,deg,cform,ae],
+    Validity:true,RawMark:true, FeedBack:"", AnswerNote:"", cform:false,
     SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,"ATCompSquare_STACKERROR_SAns",""]),
     SBB:errcatch(ev(SBL,simp,fullratsimp,nouns)),
@@ -1506,7 +1506,17 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
     /* If we don't have an atom as the teacher's variable, then we need to make a substitution */
     if atom(wrt)#true then (SA:subst(facdum,wrt,SA),SB:subst(facdum,wrt,SB),wrt:facdum),
 
-    opa:op(SA),
+    if member(wrt,listofvars(SB)) and not(member(wrt,listofvars(SA))) then
+        return([true,false,"ATCompSquare_SA_not_depend_var",StackAddFeedback("","ATCompSquare_SA_not_depend_var", StackDISP(SBL[2],"i"))]),
+
+    opa:safe_op(SA),
+
+    /* Special case of teacher using constant or linear quadratics */
+    ae:algebraic_equivalence(SA,SB),
+    if ae and not(member(wrt,listofvars(SB))) then
+        return([true,true,"ATCompSquare_true_trivial",""]),
+    if ae and is(degree(expand(SB),wrt)=1) then
+        return([true,true,"ATCompSquare_true_trivial",""]),
 
     /* case: (x-1)^2 */
     if opa="^" and part(args(SA),2)=2 then cform:true,
@@ -1543,12 +1553,15 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
     ),
     
     /* Check for algebraic equivalence */
-    if cform and algebraic_equivalence(SA,SB) then
+    if cform and ae then
         return([true,true,"ATCompSquare_true",""]),
 
-    if cform  then
-        return([true,false,"ATCompSquare_not_AlgEquiv",StackAddFeedback("","ATCompSquare_not_AlgEquiv")]),
-    
+    if cform then
+        return([true,false,"ATCompSquare_true_not_AlgEquiv",StackAddFeedback("","ATCompSquare_not_AlgEquiv")]),
+
+    if not(ae) then
+        return([true,false,"ATCompSquare_false_not_AlgEquiv",""]),
+
     AnswerNote:concat("ATCompSquare_false",AnswerNote),
     return([true,false,AnswerNote,StackAddFeedback("",AnswerNote)])
     )$
@@ -1779,5 +1792,5 @@ STACKanalysis(A):=block([l0,l1,l2,l3],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2012122800$
-print("[ STACK-Maxima started, library version 2012122800 ]")$
+stackmaximaversion:2013012200$
+print("[ STACK-Maxima started, library version 2013012200 ]")$

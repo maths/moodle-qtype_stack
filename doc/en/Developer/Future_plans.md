@@ -35,6 +35,8 @@ filters?
 ## Features that might be attempted in the future - possible self contained projects ##
 
 * Investigate how a whole PRT might make only one CAS call.
+* Visualization of the PRT.  E.g. https://github.com/hafriedlander/php-peg, http://jsplumb.org/ (works with multiple underlying libraries including YUI).
+* Text-based input, parser: http://zaach.github.com/jison/ 
 * Ensure the conditionals in CASText adaptive blocks code makes it into version 3. (Aalto) See [question blocks](../Authoring/Question_blocks.md)
 * Read other file formats into STACK.  In particular
   * AIM

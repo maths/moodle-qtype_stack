@@ -101,10 +101,6 @@ Note that in this context you should always use ordinary round bracket (like (a+
 * **Standard functions**: Functions, such as \(\sin\), \(\cos\), \(\tan\), \(\exp\), \(\log\) and so on
   can be entered using their usual names. However, the argument must always be enclosed in brackets:
   \(\sin x\) should be entered as `sin(x)`, \(\ln 3\) should be entered as `ln(3)` and so on.
-* **Logarithm**: You can use either `log(x)` or `ln(x)` for the natural logarithm of _x_
-  (note that both of these start with a lower case l, not a capital I).
-* **Exponential function**: You should always write `exp(x)` for _e_.
-  (Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!)
 * **Modulus function**: The modulus function, sometimes called the absolute value of _x_,
   is written as |_x_| in traditional notation. This must be entered as `abs(x)`.
 
@@ -122,10 +118,11 @@ Things to remember:
     This traditional notation is really rather unfortunate and is not used by the CAS; instead,
     \(\sin^{-1}(x)\) should be entered as `asin(x)`. Similarly, \(\tan^{-1}(x)\) should be entered as `atan(x)` and so on.
 
-### **Logarithms**  ###
+### **Exponentials** and **Logarithms** ###
 
-Currently in STACK both \(\ln\) and \(\log\) are the _natural logarithms_ with base \(e\approx 2.71\cdots\).
-Log to base \(10\) is entered as `lg`.
+* You should always write `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
+* Currently in STACK both \(\ln\) and \(\log\) are the _natural logarithms_ with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l, not a capital I. 
+* Log to base \(10\) is entered as `lg`.
 
 ## Matrices  ##
 

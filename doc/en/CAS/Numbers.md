@@ -8,10 +8,13 @@ In maxima the special constants are defined to be
 
 etc.   STACK also uses single letters, e.g.
 
-    i: %i
-    j: %i
     e: %e
     pi: %pi
+
+Optinally, depending on the question settings, you have
+
+    i: %i
+    j: %i
 
 Sometimes you need to use \(e\) as an abstract symbol not a number.
 The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function.

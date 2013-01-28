@@ -80,6 +80,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(2*sec(2*t)^2-2)/2',
             '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
             1, '', ''),
+        array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', 1, '', ''),
         array('AlgEquiv', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),

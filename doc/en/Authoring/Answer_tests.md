@@ -43,6 +43,11 @@ e.g. Algebraic Equivalence, really need to assume which expression belongs to th
 | FeedBack  | This is a text string which is displayed to the student. It is [CASText](CASText.md) which may depend on properties of the student's answer.
 | Note      | This is a text string which is used for [Reporting](Reporting.md). Each answer note is concatenated with the previous notes and any contributions from the branch.
 
+The feedback is only shown to a student if the quiet option is set to 'no'.  If feedback is shown, then examples are given in the answer test test suite.  Login as the admin user then navigate to
+
+     Home > Site administration > Plugins > Question types > Stack
+
+A [static version is also available](%CONTENT/AnswerTests.html).
 
 # Equality #
 

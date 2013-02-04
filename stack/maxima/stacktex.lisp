@@ -96,7 +96,7 @@
 (defprop $texdecorate tex-texdecorate tex)
 
 ;; Changed log to ln, and other things
-
+;; If changes are made here, then we also need to update arccos.lisp
 (mapc #'tex-setup
   '(
      (%acos "\\cos^{-1} ") ; CJS, changed!

@@ -100,7 +100,14 @@ load("assessment.mac"); /* Currently part of the STACK distribution */
 load("stacktex.lisp"); /* Loads LaTeX adaptions and preferences */
 texput(QMCHAR,"\\color{red}{?}");
 
+alias(arccos,acos);          /* At the request of the OU, 4 Feb 2013 */
+alias(arcsin,asin);           
+alias(arctan,atan);           
+
+/*load("arccos.lisp");*/
+
 load("mathml.lisp");   /* loads MathML */
+
 
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ=i then 

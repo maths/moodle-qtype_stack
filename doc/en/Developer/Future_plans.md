@@ -30,7 +30,7 @@ filters?
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
 * Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
-
+* Check CAS/maxima literature on -inf=minf.
 
 ## Features that might be attempted in the future - possible self contained projects ##
 

@@ -153,6 +153,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '-%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''),
         array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', 1, '', ''),
         array('AlgEquiv', 'x^4>=0', 'x^2>=0', 1, '', ''),
+        array('AlgEquiv', '-inf', 'minf', 1, '', ''),
 
                 // SubstEquiv Answer tests.
         array('SubstEquiv', '1/0', 'x^2-2*x+1', 0, '', ''),

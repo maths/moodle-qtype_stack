@@ -15,7 +15,7 @@ Basic reports now work.
 * **DONE** Split up the answer notes to report back for each PRT separately.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Introduce "validation notes".
-* Add better maxima support functions for off line analysis.
+* Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 
 ## Assorted minor improvements ##
@@ -40,5 +40,6 @@ Basic reports now work.
  2. Announcements on Moodle mailing lists.
  3. Re-install demonstration servers.
 * Review the list of forbidden keywords.
+* Enable certain packages to be loaded by STACK.
 * Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the systems use as the ALT text of the image. That way, we can say the function that the graph is of. 
 * With "Check the type of the response" set to "Yes", if an expression is given and an equation is entered, the error generated is: "Your answer is an equation, but the expression to which it is being compared is not. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." This might confuse students. They don't know what " the expression to which it is being compared" is! Perhaps this warning could be reworded something like: "You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." We should have more messages for each type of failed situation....

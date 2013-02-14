@@ -15,8 +15,6 @@ filters?
 
 * A button to remove a given PRT or input, without having to guess that the way to do it is to delete the placeholders from the question text.
 * A button to remove a new PRT or input, without having to guess that the way to do it is to add the placeholders to the question text.
-* A way to rename a given PRT or input. (The only way to do this might be a separate bit of UI, perhaps linked to from the questiontestrun.php script).
-* Feature in the edit forms to expand/fold away each PRT and input. This would be a Moodle core change. See https://tracker.moodle.org/browse/MDL-30637.
 * A button to save the current definition and continue editing. This would be a Moodle core change. See https://tracker.moodle.org/browse/MDL-33653.
 
 ### Other ideas ###

@@ -5,11 +5,11 @@
     font-size: 100%;
     font-weight: bold;
 }
-
 .que.stack .stackinputfeedback {
+    border: 1px solid #fff;
     background-color: #fff;
     margin: 0.2em 3em 0.5em;
-    padding: 0.5em 0.5em 0.01em;
+    padding: 0.5em 0.5em 0em;
 }
 
 .que.stack .stackinputfeedback.empty {

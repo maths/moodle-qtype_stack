@@ -32,6 +32,7 @@ class stack_textarea_input extends stack_input {
 
         $attributes = array(
             'name' => $fieldname,
+            'id'   => $fieldname,
         );
 
         if ($this->is_blank_response($state->contents)) {

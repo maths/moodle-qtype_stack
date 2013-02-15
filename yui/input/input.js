@@ -272,6 +272,32 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
     }
 
     /**
+     * Constructor. Represents textarea input.
+     * @param textarea a YUI Node object for the textarea element for this input.
+     */
+    stack_textarea_input = function(textarea) {
+        this.textarea = textarea;
+    }
+
+    /**
+     * Add the event handlers to call the value when things change.
+     * @param stack_input validator
+     */
+    stack_textarea_input.prototype.add_event_handers = function(validator) {
+        this.textarea.on('valuechange', validator.value_changing, validator);
+        this.textarea.on('blur', validator.value_changed, validator);
+    }
+
+    /**
+     * Get the current value of this input.
+     * @return string.
+     */
+    stack_textarea_input.prototype.get_value = function() {
+        var raw = this.textarea.get('value').replace(/^\s+|\s+$/g, '');
+        return '[' + raw.split(/\s*[\r\n]\s*/).join(',') + ']';
+    }
+
+    /**
      * Constructor. Represents simple inputs (one input).
      * Constructor.
      * @param name the input name, for example ans1.
@@ -356,7 +382,11 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         // See if it is an ordinary input:
         var input = Y.one(document.getElementById(prefix + name));
         if (input) {
-            new stack_input(name, qaid, new stack_simple_input(input), valinput);
+            if (input.get('tagName') == 'TEXTAREA') {
+                new stack_input(name, qaid, new stack_textarea_input(input), valinput);
+            } else {
+                new stack_input(name, qaid, new stack_simple_input(input), valinput);
+            }
             return true;
         }
 

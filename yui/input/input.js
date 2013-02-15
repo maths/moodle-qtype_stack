@@ -259,7 +259,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
      * @param stack_input validator
      */
     stack_simple_input.prototype.add_event_handers = function(validator) {
-        this.input.on('keypress', validator.value_changing, validator);
+        this.input.on('valuechange', validator.value_changing, validator);
         this.input.on('blur', validator.value_changed, validator);
     }
 
@@ -301,7 +301,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
      * @param stack_input validator
      */
     stack_matrix_input.prototype.add_event_handers = function(validator) {
-        this.container.delegate('keypress', validator.value_changing, 'input[type=text]', validator);
+        this.container.delegate('valuechange', validator.value_changing, 'input[type=text]', validator);
         this.container.delegate('blur', validator.value_changing, 'input[type=text]', validator);
     }
 
@@ -371,5 +371,5 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         return false;
     }
 }, '@VERSION@', {
-      requires:['node', 'event', 'io', 'json-parse']
+      requires:['node', 'event-valuechange', 'io', 'json-parse']
 });

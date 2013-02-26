@@ -25,7 +25,7 @@ an equality sign;
   3. sets, for example, \(\{1,2,3\}\);
   4. lists, for example, \([1,2,3]\).   In Maxima ordered lists are entered using square brackets, for example as `p:[1,1,2,x^2]`.
     An element is accessed using the syntax `p[1]`.
-  5. matrices.  The basic syntax for a matrix is `p:matrix([1,2],[3,4])`.  Each row is a list. Elements are accessed as `p[1,2]`, etc.
+  5. [matrices](Matrix.md).  The basic syntax for a matrix is `p:matrix([1,2],[3,4])`.  Each row is a list. Elements are accessed as `p[1,2]`, etc.
   6. expressions.
 
 Expressions come last, since they are just counted as being

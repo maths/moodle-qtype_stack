@@ -23,6 +23,13 @@ And a function to compute reduced row echelon form
 
     rref(m)
 
+## Assigning individual elements ##
+
+To assign values to individual elements, use the simple syntax such as the following.
+
+    m:matrix([1,1],[1,2])
+    m[1,2]:3
+
 ### Showing working {#Showing_working}
 
 It is quite common to want to show part of a matrix calculation "un-evaluated".  For example, the following is typical.

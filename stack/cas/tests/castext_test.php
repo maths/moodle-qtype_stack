@@ -187,6 +187,23 @@ class stack_cas_text_test extends qtype_stack_testcase {
                         'You seem to be missing * characters. Perhaps you meant to type ' .
                         '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.');
     }
+
+    public function test_assignmatrixelements() {
+        // Assign a value to matrix entries.
+        $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+
+        $at1 = new stack_cas_text("@A@", $at1, 0);
+        $at1->get_display_castext();
+
+        $this->assertEquals('\(\left[\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \\\\ \end{array}\right]\)', $at1->get_display_castext());
+    }
 }
 
 /**

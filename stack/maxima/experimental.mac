@@ -44,7 +44,8 @@ node_no(prt,num,inputs) := block([res,err],
        first(res)
     );
 
-/* Actually traverse the PRT with given inputs */
+/* Actually traverse the PRT with given inputs                  */
+/* Inputs should be in the form of equations such as [ans1=x^2] */
 traverse_prt(inputs) := block(
     /* Type checking */
     if not(listp(inputs)) then (print("STACK exception: traverse_prt expects its argument to be a list."), return(false)),

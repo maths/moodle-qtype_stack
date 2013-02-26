@@ -197,6 +197,24 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([?,1],[1,?])', $at1->get_value_key('A'));
     }
 
+    public function test_assignmatrixelements() {
+        // Assign a value to matrix entries.
+        $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3', 'B:A');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+
+        // Note we need to re-evaluate the matrix to get its actual value.
+        // This is not a bug, but might produce unexpected behaviour within a session.
+        // CAStext is fine, because we re-evaluate it anyway when we use it.
+        $this->assertEquals('matrix([1,2],[1,1])', $at1->get_value_key('A'));
+        $this->assertEquals('matrix([1,3],[1,1])', $at1->get_value_key('B'));
+    }
+
     public function test_simplify_false() {
 
         $cs=array('a:2+3', 'b:ev(a,simp)');

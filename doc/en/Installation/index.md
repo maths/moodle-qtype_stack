@@ -1,6 +1,6 @@
 # Installation instructions.
 
-STACK 3.0 beta is still under active testing.
+STACK 3.0 is beging used live at a number of institutions, including the University of Birmingham in the UK.  The core code is still under development and active testing.
 
 ## 1. Set up moodle.
 

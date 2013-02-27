@@ -22,7 +22,11 @@
  */
 require_once('cassession.class.php');
 require_once('casstring.class.php');
-
+//require_once('castext/simplecastextparser.php');
+require_once('castext/castextparser.class.php');
+require_once('castext/raw.class.php');
+require_once('castext/latex.class.php');
+require_once('castext/if.class.php');
 
 class stack_cas_text {
 
@@ -58,6 +62,13 @@ class stack_cas_text {
 
     /** @var bool whether to do strict syntax checks. */
     private $syntax;
+
+    /** @var DOMDocument holds the XML-document matching this text */
+    private $dom;
+
+    /** @var array holds block-handlers for various DOM elements */
+    private $blocks = array();
+
 
     public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
@@ -123,19 +134,6 @@ class stack_cas_text {
         // Find reasons to invalidate the text...
         $this->valid = true;
 
-        // Check @'s match.
-        $amps = stack_utils::check_matching_pairs($this->trimmedcastext, '@');
-        if ($amps == false) {
-            $this->errors .= stack_string('stackCas_MissingAt');
-            $this->valid = false;
-        }
-
-        $dollar = stack_utils::check_matching_pairs($this->trimmedcastext, '$');
-        if ($dollar == false) {
-            $this->errors .= stack_string('stackCas_MissingDollar');
-            $this->valid = false;
-        }
-
         $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
         if ($hints !== true) {
             // The method check_bookends does not return false.
@@ -194,6 +192,17 @@ class stack_cas_text {
         // This does alot more than strictly "validate" the castext, but is makes sense to do all these things at once...
         $this->extract_cas_commands();
 
+        $xml_errors = libxml_get_errors();
+
+        if (count($xml_errors) > 0) {
+            foreach ($xml_errors as $err) {
+                $this->errors .= "<p>".$err->message."</p>";
+                if ($err->level !== LIBXML_ERR_WARNING) {
+                    $this->valid = false;
+                }
+            }
+        }
+
         if (false === $this->valid) {
             $this->errors = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$this->errors;
         }
@@ -208,66 +217,88 @@ class stack_cas_text {
      * @return bool false if no commands to extract, true if succeeds.
      */
     private function extract_cas_commands() {
-        // First check contains @s.
-        $count = preg_match_all('~(?<!@)@(?!@)~', $this->trimmedcastext, $notused);
+        $xml_string = "<castext>".$this->trimmedcastext."</castext>";
 
-        if ($count == 0) {
-            // Nothing to do.
-            return null;
-        } else {
-            // Extract the CAS commands.
-            $temp = stack_utils::all_substring_between($this->trimmedcastext, '@', '@', true);
+        if ($this->session == null) {
+             $this->session = new stack_cas_session(array(), null, $this->seed);
+        }
 
-            // Create array of commands matching with their labels.
-            $i = 0;
-            $valid = true;
-            $errors = '';
-            $cmdarray = array();
-            $labels   = array();
+        libxml_use_internal_errors(true);
+        libxml_clear_errors();
 
-            $session_keys = array();
-            if (is_a($this->session, 'stack_cas_session')) {
-                $session_keys = $this->session->get_all_keys();
-            }
-            foreach ($temp as $cmd) {
-                // Trim of surrounding white space and CAS commands.
-                $cmd = stack_utils::trim_commands($cmd);
+        $this->dom = new DOMDocument();
+        $err = $this->dom->loadXML($xml_string);
+        // once we output it again we might want to add some indentation.
+        $this->dom->formatOutput = true;
+        $this->dom->normalizeDocument();
 
-                $cs = new stack_cas_casstring($cmd);
-                $cs->validate($this->security, $this->insertstars, $this->syntax);
+        $this->first_pass_recursion($this->dom->documentElement,array());
+    }
 
-                do { // ... make sure names are not already in use.
-                    $key = 'caschat'.$i;
-                    $i++;
-                } while (in_array($key, $session_keys));
-                $sesion_keys[] = $key;
-                $labels[] = $key;
-                $cs->set_key($key, true);
-                $cmdarray[] = $cs;
 
-                $valid = $valid && $cs->get_valid();
-                $errors .= $cs->get_errors();
-            }
-
-            if (!$valid) {
-                $this->valid = false;
-                $this->errors .= stack_string('stackCas_invalidCommand').'</br>'.$errors;
-            }
-
-            if (!empty($cmdarray)) {
-                $new_session   = $this->session;
-                if (null===$new_session) {
-                    $new_session = new stack_cas_session($cmdarray, null, $this->seed);
-                } else {
-                    $new_session->add_vars($cmdarray);
+    private function first_pass_recursion(&$node,$condition_stack) {
+        $block_child_evaluation = false;
+        if ($node->hasAttributes()) {
+            for ($i = 0; $i < $node->attributes->length; $i++) {
+                if (stack_cas_castext_castextparser::castext_parsing_required($node->attributes->item($i)->value)) {
+                    $parser = new stack_cas_castext_castextparser($node->attributes->item($i)->value);
+                    $parse_tree = $parser->match_castext();
+                    $this->first_pass_castext_parser_recursion($node->attributes->item($i),$parse_tree,$condition_stack);
                 }
-                $this->session = $new_session;
-
-                // Now replace the commannds with their labels in the text.
-                $this->trimmedcastext = stack_utils::replace_between($this->trimmedcastext, '@', '@', $labels, true);
+            }
+        }
+        if (is_a($node,'DOMElement')) {
+            if ($node->tagName == 'if') {
+                $block = new stack_cas_castext_if($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                // The following lines are common to all blocks, but as if is the only block for now...
+                $block->extract_attributes($this->session,$condition_stack);
+                $new_stack = $block->content_evaluation_context($condition_stack);
+                if ($new_stack === FALSE)
+                    $block_child_evaluation = true;
+                else
+                    $condition_stack = $new_stack;
+                $this->blocks[] = $block;
+            }
+        }
+        if (!$block_child_evaluation && $node->hasChildNodes()) {
+            // Not a foreach... due to reference issues
+            for ($i = 0 ; $i < $node->childNodes->length; $i++) {
+                $this->first_pass_recursion($node->childNodes->item($i),$condition_stack);
+            }
+        }
+        if (is_a($node,'DOMText')) {
+            if (stack_cas_castext_castextparser::castext_parsing_required($node->wholeText)) {
+                $parser = new stack_cas_castext_castextparser($node->wholeText);
+                $parse_tree = $parser->match_castext();
+                $this->first_pass_castext_parser_recursion($node,$parse_tree,$condition_stack);
             }
         }
     }
+
+    private function first_pass_castext_parser_recursion(&$node,$parse_tree,$condition_stack) {
+        if (array_key_exists('item',$parse_tree)) {
+            if (!array_key_exists('_matchrule',$parse_tree['item'])) {
+                foreach ($parse_tree['item'] as $item) {
+                    $this->first_pass_castext_parser_recursion($node,$item,$condition_stack);
+                }
+            } else {
+                $this->first_pass_castext_parser_recursion($node,$parse_tree['item'],$condition_stack);
+            }
+        } else if (array_key_exists('cascontent',$parse_tree)) {
+            if ($parse_tree['_matchrule'] == 'rawcasblock') {
+                $block = new stack_cas_castext_raw($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                $block->set_content($parse_tree['cascontent']['text']);
+                $block->extract_attributes($this->session,$condition_stack);
+                $this->blocks[] = $block;
+            } else if ($parse_tree['_matchrule'] == 'texcasblock') {
+                $block = new stack_cas_castext_latex($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                $block->set_content($parse_tree['cascontent']['text']);
+                $block->extract_attributes($this->session,$condition_stack);
+                $this->blocks[] = $block;
+           }
+        }
+    }
+
 
     /**
      * This function actually evaluates the castext.
@@ -279,10 +310,32 @@ class stack_cas_text {
         }
 
         // Deal with castext without any CAS variables.
-        if (null !== $this->session) {
+        if (null !== $this->session && count($this->session->get_session()) > 0) {
             $this->session->instantiate();
             $this->errors .= $this->session->get_errors();
         }
+
+        // Handle blocks
+        $requires_rerun = false;
+        foreach (array_reverse($this->blocks) as $block) {
+            $requires_rerun = $block->process_content($this->session) || $requires_rerun;
+        }
+
+        while ($requires_rerun) {
+            $this->blocks = array();
+            first_pass_recursion($this->dom->documentElement,array());
+            $this->session->instantiate();
+            $this->errors .= $this->session->get_errors();
+            $requires_rerun = false;
+            foreach ($this->blocks as $block) {
+                $requires_rerun = $block->process_content($this->session) || $requires_rerun;
+            }
+        }
+
+        if (trim($this->trimmedcastext) !== '') {
+            $this->trimmedcastext = substr($this->dom->saveXML($this->dom->documentElement),9,-10);
+        }
+
 
         // Replaces the old "hints" filter from STACK 2.0.
         // These strings are now part of the regular language files.
@@ -297,9 +350,7 @@ class stack_cas_text {
         $this->trimmedcastext = $strin;
 
         $this->castext = stack_utils::wrap_around($this->trimmedcastext);
-        if (null !== $this->session) {
-            $this->castext = $this->session->get_display_castext($this->castext);
-        }
+
         // Another modification. Stops <html> tags from being given $ tags and therefore breaking tth.
         $this->castext = str_replace('\(<html>', '', $this->castext);
         // Bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors.

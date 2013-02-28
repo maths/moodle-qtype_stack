@@ -23,6 +23,21 @@ This can be done with Maxima's `makelist` command
 
     (p(k):=x^k,pl:makelist(p(k),k,1,5),plot(pl,[x,-1,1]))
 
+## alt-text
+
+The default alt-text of a plot command such as
+
+    plot(x^2,[x,-2,2]);
+
+is "STACK auto-generated plot of x^2 with parameters [[x,-2,2]]".  To set specific alt text, pass a string as an argument to the plot function.
+
+    plot(x^2,[x,-2,2],alt="Hello world");
+
+If you would like an expression as part of this then try
+
+    p:sin(x);
+    plot(p,[x,-2,2],alt=concat("Here is ",string(p)));
+
 ## implicit_plot()  {#implicit}
 
 In Maxima

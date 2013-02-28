@@ -76,7 +76,7 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         $original = "{@".$this->content."@}";
 
         // Now as evaluated
-        $thenewone = $evaluatedcassession->get_display_key("latexCASchat".$this->thiscount);
+        $thenewone = "{".$evaluatedcassession->get_display_key("latexCASchat".$this->thiscount)."}";
 
         // If this is a plot we need to do some trickery
         if (strpos($thenewone,"<html>")!==FALSE) {

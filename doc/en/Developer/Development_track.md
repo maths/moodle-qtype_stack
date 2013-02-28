@@ -35,10 +35,11 @@ Basic reports now work.
 * Improvements to the editing form:
  1. When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
  2. A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
- 3. Display inputs and PRTs in the order they are mentioned in the question text + specific feedback.
- 4. Display Nodes in and order that comes from a natural traversal of the PRT, rather than the order they were added to the question.
+ 3. **DONE** Display inputs and PRTs in the order they are mentioned in the question text + specific feedback.
+ 4. Display Nodes in and order that comes from a natural traversal of the PRT, rather than the order they were added to the question. [See tidy question script below.]
  5. Display a graphical representation of each PRT, that can be clicked to jump to that Node on the editing form.
 * Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
+  * Enable an arbitrary node to be designated as the root node/auto find natural root?
 * Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting]
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 * Consolidation of mailing lists, forum, wiki etc.

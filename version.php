@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013011101;
+$plugin->version   = 2013022800;
 $plugin->requires  = 2012062503;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';

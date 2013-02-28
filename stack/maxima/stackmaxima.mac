@@ -432,9 +432,10 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
        (print(concat("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)")),return("<center>[Empty plot]</center>")),
     /* Sort out alt-text */
     kill(alt),
-    altc:sublist(rae,lambda([ex],is(lhs(ex)=alt))),
     alttext:concat("STACK auto-generated plot of ",string(ex)," with parameters ",string(ral)),
-    if not(emptyp(altc)) then if lhs(first(altc))=alt then alttext:rhs(first(altc)),
+    altc:sublist(rae,lambda([ex],is(lhs(ex)=alt))),
+    if not(emptyp(altc)) then alttext:rhs(first(altc)),
+    if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."),return("")),
     /* Assemble files names and URLs */
     if (MAXIMA_VERSION=[5,12,0] or MAXIMA_VERSION=[5,13,0] or MAXIMA_VERSION_NUM>=16.3) then tn:string(absolute_real_time()) else tn:concat(?subseq(timedate(),0,2),?subseq(timedate(),3,5),?subseq(timedate(),6,8)),
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
@@ -1810,5 +1811,5 @@ STACKanalysis(A):=block([l0,l1,l2,l3],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013012200$
-print("[ STACK-Maxima started, library version 2013012200 ]")$
+stackmaximaversion:2013022800$
+print("[ STACK-Maxima started, library version 2013022800 ]")$

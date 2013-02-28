@@ -246,6 +246,27 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".png' alt='Hello World!'")));
     }
+
+    public function test_plot_alttext_error() {
+
+        $a2=array('p:sin(x)');
+        $s2=array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        // Alt tags must be a string.
+        $at1 = new stack_cas_text('This is some text @plot(p,[x,-2,3],alt=x)@', $cs2, 0,'t');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
+        $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
+    }
 }
 
 /**

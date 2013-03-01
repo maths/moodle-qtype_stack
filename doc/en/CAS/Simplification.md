@@ -28,12 +28,12 @@ This displays the polynomial as follows.
 
     y^3-2*y^2+(-8)*y
 
-Notice the first subtraction is fine, but the seconf one is not.  To understand this, we can view the internal tree structure of the expression by typing in
+Notice the first subtraction is fine, but the second one is not.  To understand this, we can view the internal tree structure of the expression by typing in
 
     ?print(p);
     ((MPLUS) ((MEXPT) $Y 3) ((MMINUS) ((MTIMES) 2 ((MEXPT) $Y 2))) ((MTIMES) ((MMINUS) 8) $Y))
    
-In the structure of this expression the first negative coefficient is `-(2y^2)` BUT the second is `-(8)*y`.   This again is a crucial but subtle difference!  To address this issue we have a function
+In the structure of this expression the first negative coefficient is `-(2*y^2)` BUT the second is `-(8)*y`.   This again is a crucial but subtle difference!  To address this issue we have a function
    
     unary_minus_sort(p);
 

@@ -78,14 +78,14 @@ foreach ($categories as $key => $category) {
         }
         $anychanges = $anychanges || $changes;
 
-        // Fields in the qtype_stack table.
-        $stackoptions = $DB->get_record('qtype_stack', array('questionid' => $question->id), '*', MUST_EXIST);
+        // Fields in the qtype_stack_options table.
+        $stackoptions = $DB->get_record('qtype_stack_options', array('questionid' => $question->id), '*', MUST_EXIST);
         $changes = false;
         foreach ($qtypestackfields as $field) {
             $changes = $fixer->fix_question_field($stackoptions, $field) || $changes;
         }
         if ($changes && $confirm) {
-            $DB->update_record('qtype_stack', $stackoptions);
+            $DB->update_record('qtype_stack_options', $stackoptions);
         }
         $anychanges = $anychanges || $changes;
 

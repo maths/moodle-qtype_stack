@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="qtype_stack" COMMENT="Stores the main options for each Stack question" NEXT="qtype_stack_inputs">
+    <TABLE NAME="qtype_stack_options" COMMENT="Stores the main options for each Stack question" NEXT="qtype_stack_inputs">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id" PREVIOUS="id" NEXT="questionvariables"/>
@@ -30,7 +30,7 @@
         <KEY NAME="questionid" TYPE="foreign-unique" FIELDS="questionid" REFTABLE="question" REFFIELDS="id" PREVIOUS="primary"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="qtype_stack_inputs" COMMENT="One row for each input in the question." PREVIOUS="qtype_stack" NEXT="qtype_stack_prts">
+    <TABLE NAME="qtype_stack_inputs" COMMENT="One row for each input in the question." PREVIOUS="qtype_stack_options" NEXT="qtype_stack_prts">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key referencing question.id." PREVIOUS="id" NEXT="name"/>

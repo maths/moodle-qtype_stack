@@ -109,7 +109,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $stackdeployedseeds->add_child($stackdeployedseed);
 
         // Set source to populate the data.
-        $stackoptions->set_source_table('qtype_stack', array('questionid' => backup::VAR_PARENTID));
+        $stackoptions->set_source_table('qtype_stack_options', array('questionid' => backup::VAR_PARENTID));
         $stackinput->set_source_table('qtype_stack_inputs', array('questionid' => backup::VAR_PARENTID));
         $stackprt->set_source_table('qtype_stack_prts', array('questionid' => backup::VAR_PARENTID));
         $stackprtnode->set_source_table('qtype_stack_prt_nodes',

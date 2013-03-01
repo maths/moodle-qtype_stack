@@ -82,7 +82,7 @@ class qtype_stack extends question_type {
 
         parent::save_question_options($fromform);
 
-        $options = $DB->get_record('qtype_stack', array('questionid' => $fromform->id));
+        $options = $DB->get_record('qtype_stack_options', array('questionid' => $fromform->id));
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $fromform->id;
@@ -91,7 +91,7 @@ class qtype_stack extends question_type {
             $options->prtcorrect = '';
             $options->prtpartiallycorrect = '';
             $options->prtincorrect = '';
-            $options->id = $DB->insert_record('qtype_stack', $options);
+            $options->id = $DB->insert_record('qtype_stack_options', $options);
         }
 
         $options->questionvariables         = $fromform->questionvariables;
@@ -114,7 +114,7 @@ class qtype_stack extends question_type {
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
-        $DB->update_record('qtype_stack', $options);
+        $DB->update_record('qtype_stack_options', $options);
 
         $inputnames = stack_utils::extract_placeholders($fromform->questiontext, 'input');
         $inputs = $DB->get_records('qtype_stack_inputs',
@@ -284,7 +284,7 @@ class qtype_stack extends question_type {
 
         parent::get_question_options($question);
 
-        $question->options = $DB->get_record('qtype_stack',
+        $question->options = $DB->get_record('qtype_stack_options',
                 array('questionid' => $question->id), '*', MUST_EXIST);
 
         $question->inputs = $DB->get_records('qtype_stack_inputs',
@@ -425,7 +425,7 @@ class qtype_stack extends question_type {
         $DB->delete_records('qtype_stack_prt_nodes',      array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_prts',           array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_inputs',         array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack',                array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_options',        array('questionid' => $questionid));
         parent::delete_question($questionid, $contextid);
     }
 

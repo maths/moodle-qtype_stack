@@ -80,8 +80,8 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         if ($questioncreated) {
             $oldid = $data->id;
             $data->questionid = $this->get_new_parentid('question');
-            $newitemid = $DB->insert_record('qtype_stack', $data);
-            $this->set_mapping('qtype_stack', $oldid, $newitemid);
+            $newitemid = $DB->insert_record('qtype_stack_options', $data);
+            $this->set_mapping('qtype_stack_options', $oldid, $newitemid);
         }
     }
 
@@ -232,9 +232,9 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
      */
     public static function define_decode_contents() {
         return array(
-            new restore_decode_content('qtype_stack',
+            new restore_decode_content('qtype_stack_options',
                     array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect'),
-                    'qtype_stack'),
+                    'qtype_stack_options'),
             new restore_decode_content('qtype_stack_prt_nodes', array('truefeedback', 'falsefeedback'),
                     'qtype_stack_prt_nodes'),
         );

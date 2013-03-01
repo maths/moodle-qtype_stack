@@ -579,7 +579,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
-     * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack table.
+     * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack_options table.
      * @param object $question the raw data.
      * @return object the updated $question updated object closer to being ready to send to the form.
      */

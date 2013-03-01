@@ -509,6 +509,18 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012062504, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2013030100) {
+
+        // Define table qtype_stack to be renamed to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack');
+
+        // Launch rename table for qtype_stack.
+        $dbman->rename_table($table, 'qtype_stack_options');
+
+        // stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030100, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // This block of code is intentionally outside of an if statement. We want

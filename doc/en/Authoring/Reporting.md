@@ -15,6 +15,12 @@ To review work in more detail we need to use two important parts of the question
 * The [question note](Question_note.md).
 * The [answer note](Potential_response_trees.md#Answer_note).
 
+## Moodle quiz features ##
+
+Most of the day to day reporting is done through the Moodle quiz features.  Details of the statistice available are online at [
+http://labspace.open.ac.uk/mod/oucontent/view.php?id=470306&direct=1](
+http://labspace.open.ac.uk/mod/oucontent/view.php?id=470306&direct=1).
+
 ## Individual item analysis ##
 
 To access the quiz reports you need to look in the Moodle navigation block. Under the quiz, select Results then STACK response analysis.  The reports do the following

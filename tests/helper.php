@@ -942,6 +942,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans1'] = $input;
 
         $prt = new stdClass();
@@ -1057,6 +1058,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans1'] = $input;
 
         $input = new stdClass();
@@ -1075,6 +1077,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans2'] = $input;
 
         $input = new stdClass();
@@ -1093,6 +1096,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans3'] = $input;
 
         $input = new stdClass();
@@ -1111,6 +1115,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 0;
         $input->showvalidation     = 0;
+        $input->options            = '';
         $qdata->inputs['ans4'] = $input;
 
         $prt = new stdClass();

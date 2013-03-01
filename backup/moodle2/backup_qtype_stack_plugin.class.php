@@ -59,7 +59,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $stackinput = new backup_nested_element('stackinput', array('id'),
                 array('name', 'type', 'tans', 'boxsize', 'strictsyntax', 'insertstars',
                        'syntaxhint', 'forbidwords', 'forbidfloat', 'requirelowestterms',
-                       'checkanswertype', 'mustverify', 'showvalidation'));
+                       'checkanswertype', 'mustverify', 'showvalidation', 'options'));
 
         $stackprts = new backup_nested_element('stackprts');
         $stackprt = new backup_nested_element('stackprt', array('id'),

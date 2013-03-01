@@ -144,6 +144,7 @@ class qtype_stack extends question_type {
             $input->checkanswertype    = $fromform->{$inputname . 'checkanswertype'};
             $input->mustverify         = $fromform->{$inputname . 'mustverify'};
             $input->showvalidation     = $fromform->{$inputname . 'showvalidation'};
+            $input->options            = $fromform->{$inputname . 'options'};
 
             $questionhasinputs = true;
             $DB->update_record('qtype_stack_inputs', $input);
@@ -299,7 +300,7 @@ class qtype_stack extends question_type {
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, forbidwords, forbidfloat, requirelowestterms, ' .
-                'checkanswertype, mustverify, showvalidation');
+                'checkanswertype, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
@@ -366,6 +367,7 @@ class qtype_stack extends question_type {
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
+            // TODO: Do something with $inputdata->options here.
             $question->inputs[$name] = stack_input_factory::make(
                     $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
         }
@@ -801,6 +803,7 @@ class qtype_stack extends question_type {
             $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
             $output .= "      <mustverify>{$input->mustverify}</mustverify>\n";
             $output .= "      <showvalidation>{$input->showvalidation}</showvalidation>\n";
+            $output .= "      <options>{$input->options}</options>\n";
             $output .= "    </input>\n";
         }
 
@@ -970,7 +973,7 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
         $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
         $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
-        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
+        $fromform->{$name . 'options'}            = $format->getpath($xml, array('#', 'options', 0, '#'), '');
         $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);
         $fromform->{$name . 'mustverify'}         = $format->getpath($xml, array('#', 'mustverify', 0, '#'), 1);
         $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, array('#', 'showvalidation', 0, '#'), 1);

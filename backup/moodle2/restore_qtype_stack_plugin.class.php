@@ -98,6 +98,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
+        if (!property_exists($data, 'options')) {
+            $data->options = '';
+        }
+
         // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 

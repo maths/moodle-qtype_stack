@@ -451,6 +451,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('showvalidation'));
         $mform->setDefault($inputname . 'showvalidation', true);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
+
+        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
+        $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
 
     /**
@@ -638,6 +641,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;
             $question->{$inputname . 'mustverify'}         = $input->mustverify;
             $question->{$inputname . 'showvalidation'}     = $input->showvalidation;
+            $question->{$inputname . 'options'}            = $input->options;
         }
 
         return $question;
@@ -843,6 +847,15 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputs as $inputname => $notused) {
             $errors = $this->validate_cas_string($errors,
                     $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
+
+            // TODO: find out if this input type acutally requires options, rather than
+            // the hard-coded check here.
+            if (false) {
+                $errors = $this->validate_cas_string($errors,
+                        $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
+            } else if ($fromform[$inputname . 'options']) {
+                $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
+            }
         }
 
         // 3) Validate all prts.
@@ -1034,7 +1047,7 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param array $errors the errors array that validation is assembling.
      * @param string $value the submitted value validate.
      * @param string $fieldname the name of the field add any errors to.
-     * @param string $savestring the array key to save the string to in $this->validationcasstrings.
+     * @param string $savesession the array key to save the string to in $this->validationcasstrings.
      * @param bool|string $notblank false means do nothing (default). A string
      *      will validate that the field is not blank, and if it is, display that error.
      * @param int $maxlength the maximum allowable length. Defaults to 255.
@@ -1146,6 +1159,12 @@ class qtype_stack_edit_form extends question_edit_form {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
             $cs->validate('t');
             $inputvalues[] = $cs;
+
+            if ($fromform[$inputname . 'options']) {
+                $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
+                $cs->validate('t');
+                $inputvalues[] = $cs;
+            }
         }
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);
@@ -1153,6 +1172,14 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputs as $inputname => $notused) {
             if ($inputsession->get_errors_key($inputname)) {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
+                // TODO: Send the acutal value to to input, and ask it to validate it.
+                // For example, the matrix input type could check that the model answer is a matrix.
+            }
+
+            if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
+                $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
+            } else {
+                // TODO: Send the acutal value to to input, and ask it to validate it.
             }
         }
 
@@ -1160,6 +1187,7 @@ class qtype_stack_edit_form extends question_edit_form {
         if (!empty($errors)) {
             return $errors;
         }
+
         // TODO: loop over all the PRTs in a similar manner....
         // Remember, to use
         // clone $inputsession

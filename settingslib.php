@@ -35,8 +35,6 @@ defined('MOODLE_INTERNAL') || die();
  */
 class qtype_stack_admin_setting_maths_display_method extends admin_setting_configselect {
     public function load_choices() {
-        global $CFG;
-
         if (is_array($this->choices)) {
             return true;
         }
@@ -52,6 +50,30 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
         if (array_key_exists('maths', $filters)) {
             $this->choices['maths'] = get_string('settingmathsdisplay_maths', 'qtype_stack');
         }
+
+        return true;
+    }
+}
+
+
+/**
+ * Admin settings class for the STACK input type choices.
+ *
+ * So we can lazy-load the choices.
+ *
+ * @copyright  2013 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class qtype_stack_admin_setting_input_types extends admin_setting_configselect {
+    public function load_choices() {
+        global $CFG;
+        require_once($CFG->dirroot . '/question/type/stack/stack/input/factory.class.php');
+
+        if (is_array($this->choices)) {
+            return true;
+        }
+
+        $this->choices = stack_input_factory::get_available_type_choices();
 
         return true;
     }

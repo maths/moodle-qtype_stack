@@ -128,6 +128,19 @@ class stack_input_factory {
     }
 
     /**
+     * @return array input type internal name => display name.
+     */
+    public static function get_available_type_choices() {
+        $types = self::get_available_types();
+        $choices = array();
+        foreach ($types as $type => $notused) {
+            $choices[$type] = stack_string('inputtype' . $type);
+        }
+        collatorlib::asort($choices);
+        return $choices;
+    }
+
+    /**
      * Return array of the options used by each type of input, for
      * use in authoring interface.
      * @return array $typename => array of names of options used.

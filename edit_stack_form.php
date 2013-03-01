@@ -52,11 +52,23 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var int array key into the results of get_input_names_from_question_text for the count of validation placeholders. */
     const VALIDATAIONS = 1;
 
+    /** @var options the STACK configuration settings. */
+    protected $stackconfig = null;
+
     /** @var string caches the result of {@link get_current_question_text()}. */
     protected $questiontext = null;
 
     /** @var string caches the result of {@link get_current_specific_feedback()}. */
     protected $specificfeedback = null;
+
+    /** @var array the set of choices used for the type of all inputs. */
+    protected $typechoices;
+
+    /** @var array the set of choices used for the type of all answer tests. */
+    protected $answertestchoices;
+
+    /** @var array the set of choices used for the score mode of all PRT branches. */
+    protected $scoremodechoices;
 
     /** @var int the CAS seed using during validation. */
     protected $seed = 1;
@@ -254,13 +266,11 @@ class qtype_stack_edit_form extends question_edit_form {
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
 
+        // Load the configuration.
+        $this->stackconfig = stack_utils::get_config();
+
         // Prepare input types.
-        $types = stack_input_factory::get_available_types();
-        $this->typechoices = array();
-        foreach ($types as $type => $notused) {
-            $this->typechoices[$type] = stack_string('inputtype' . $type);
-        }
-        collatorlib::asort($this->typechoices);
+        $this->typechoices = stack_input_factory::get_available_type_choices();
 
         // Prepare answer test types.
         $answertests = stack_ans_test_controller::get_available_ans_tests();
@@ -328,51 +338,55 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('selectyesno', 'questionsimplify',
                 stack_string('questionsimplify'));
-        $mform->setDefault('questionsimplify', true);
+        $mform->setDefault('questionsimplify', $this->stackconfig->questionsimplify);
         $mform->addHelpButton('questionsimplify', 'autosimplify', 'qtype_stack');
 
         $mform->addElement('selectyesno', 'assumepositive',
                 stack_string('assumepositive'));
+        $mform->setDefault('assumepositive', $this->stackconfig->assumepositive);
         $mform->addHelpButton('assumepositive', 'assumepositive', 'qtype_stack');
 
         $mform->addElement('editor', 'prtcorrect',
                 stack_string('prtcorrectfeedback'),
                 array('rows' => 1), $this->editoroptions);
         $mform->getElement('prtcorrect')->setValue(array(
-                'text' => stack_string('defaultprtcorrectfeedback')));
+                'text' => $this->stackconfig->prtcorrect));
 
         $mform->addElement('editor', 'prtpartiallycorrect',
                 stack_string('prtpartiallycorrectfeedback'),
                 array('rows' => 1), $this->editoroptions);
         $mform->getElement('prtpartiallycorrect')->setValue(array(
-                        'text' => stack_string('defaultprtpartiallycorrectfeedback')));
+                        'text' => $this->stackconfig->prtpartiallycorrect));
 
         $mform->addElement('editor', 'prtincorrect',
                 stack_string('prtincorrectfeedback'),
                 array('rows' => 1), $this->editoroptions);
         $mform->getElement('prtincorrect')->setValue(array(
-                        'text' => stack_string('defaultprtincorrectfeedback')));
+                        'text' => $this->stackconfig->prtincorrect));
 
         $mform->addElement('select', 'multiplicationsign',
                 stack_string('multiplicationsign'), array(
                     'dot'   => stack_string('multdot'),
                     'cross' => stack_string('multcross'),
                     'none'  => get_string('none')));
+        $mform->setDefault('multiplicationsign', $this->stackconfig->multiplicationsign);
         $mform->addHelpButton('multiplicationsign', 'multiplicationsign', 'qtype_stack');
 
         $mform->addElement('selectyesno', 'sqrtsign',
                 stack_string('sqrtsign'));
-        $mform->setDefault('sqrtsign', true);
+        $mform->setDefault('sqrtsign', $this->stackconfig->sqrtsign);
         $mform->addHelpButton('sqrtsign', 'sqrtsign', 'qtype_stack');
 
         $mform->addElement('select', 'complexno',
                 stack_string('complexno'), array(
                     'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
+        $mform->setDefault('complexno', $this->stackconfig->complexno);
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
 
         $mform->addElement('select', 'inversetrig',
                 stack_string('inversetrig'), array(
                     'cos-1' => 'cos⁻¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+        $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
         // Hints.
@@ -399,6 +413,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('header', $inputname . 'header', stack_string('inputheading', $inputname));
 
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
+        $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
@@ -407,49 +422,50 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 3));
-        $mform->setDefault($inputname . 'boxsize', 15);
+        $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'strictsyntax',
                 stack_string('strictsyntax'));
-        $mform->setDefault($inputname . 'strictsyntax', true);
+        $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
         $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'insertstars',
                 stack_string('insertstars'));
-        $mform->setDefault($inputname . 'insertstars', false);
+        $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), array('size' => 20));
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), array('size' => 20));
+        $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
-        $mform->setDefault($inputname . 'forbidfloat', true);
+        $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
         $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 stack_string('requirelowestterms'));
-        $mform->setDefault($inputname . 'requirelowestterms', false);
+        $mform->setDefault($inputname . 'requirelowestterms', $this->stackconfig->inputrequirelowestterms);
         $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 stack_string('checkanswertype'));
-        $mform->setDefault($inputname . 'checkanswertype', false);
+        $mform->setDefault($inputname . 'checkanswertype', $this->stackconfig->inputcheckanswertype);
         $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'mustverify',
                 stack_string('mustverify'));
-        $mform->setDefault($inputname . 'mustverify', true);
+        $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'showvalidation',
                 stack_string('showvalidation'));
-        $mform->setDefault($inputname . 'showvalidation', true);
+        $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));

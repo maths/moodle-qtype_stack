@@ -113,6 +113,7 @@ class qtype_stack extends question_type {
         $options->multiplicationsign        = $fromform->multiplicationsign;
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
+        $options->inversetrig               = $fromform->inversetrig;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $DB->update_record('qtype_stack_options', $options);
 
@@ -332,6 +333,7 @@ class qtype_stack extends question_type {
         $question->options = new stack_options();
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
+        $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
         $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
         $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
         $question->options->set_option('assumepos',   (bool) $questiondata->options->assumepositive);
@@ -774,6 +776,7 @@ class qtype_stack extends question_type {
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
+        $output .= "    <inversetrig>{$options->inversetrig}</inversetrig>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
         foreach ($questiondata->inputs as $input) {
@@ -883,6 +886,7 @@ class qtype_stack extends question_type {
         $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
+        $fromform->inversetrig           = $format->getpath($xml, array('#', 'inversetrig', 0, '#'), 'cos-1');
         $fromform->variantsselectionseed = $format->getpath($xml, array('#', 'variantsselectionseed', 0, '#'), 'i');
 
         if (isset($xml['#']['input'])) {

@@ -68,6 +68,9 @@ $string['defaultprtpartiallycorrectfeedback'] = 'Your answer is partially correc
 $string['branchfeedback'] = 'Node branch feedback';
 $string['branchfeedback_help'] = 'This is CASText which may depend on any of the question variables, input elements or the feedback variables. This is evaluated and displayed to the student if they pass down this branch.';
 $string['inputtest'] ='Input test';
+$string['inversetrig'] = 'Inverse trigonometric functions';
+$string['inversetrig_help'] = 'Controls how inverse trigonometric functions are displayed in CAS output.';
+$string['inversetrig_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#inverse_trig';
 $string['falsebranch'] = 'False branch';
 $string['falsebranch_help'] = 'These fields control what happens when the answer test does not pass
 ### Mod and score

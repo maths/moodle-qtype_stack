@@ -370,6 +370,11 @@ class qtype_stack_edit_form extends question_edit_form {
                     'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
 
+        $mform->addElement('select', 'inversetrig',
+                stack_string('inversetrig'), array(
+                    'cos-1' => 'cos⁻¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+        $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
+
         // Hints.
         $this->add_interactive_settings();
 
@@ -602,6 +607,7 @@ class qtype_stack_edit_form extends question_edit_form {
                                             $opt->prtincorrect, $opt->prtincorrectformat, $question->id);
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
+        $question->inversetrig           = $opt->inversetrig;
         $question->sqrtsign              = $opt->sqrtsign;
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
@@ -744,6 +750,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $this->options = new stack_options();
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
+        $this->options->set_option('inversetrig',        $fromform['inversetrig']);
         $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
         $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
         $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);

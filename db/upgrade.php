@@ -521,6 +521,21 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2013030100, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2013030101) {
+
+        // Define field inversetrig to be added to qtype_stack_options
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('inversetrig', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, 'cos-1', 'complexno');
+
+        // Conditionally launch add field inversetrig
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // stack savepoint reached
+        upgrade_plugin_savepoint(true, 2013030101, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // This block of code is intentionally outside of an if statement. We want

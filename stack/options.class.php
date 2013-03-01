@@ -53,6 +53,14 @@ class stack_options {
                 'caskey'     =>  'make_complexJ',
                 'castype'    =>  'fun',
             ),
+            'inversetrig'   =>  array(
+                'type'       =>  'list',
+                'value'      =>  'cos-1',
+                'strict'     =>  true,
+                'values'     =>  array('cos-1', 'acos', 'arccos'),
+                'caskey'     =>  'TODO', // TODO Chris to fix this.
+                'castype'    =>  'fun',
+            ),
             'floats'   =>  array(
                 'type'       =>  'boolean',
                 'value'      =>  1,

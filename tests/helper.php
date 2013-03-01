@@ -883,6 +883,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
+        $qdata->options->inversetrig               = 'cos-1';
         $qdata->options->variantsselectionseed     = '';
 
         $input = new stdClass();
@@ -997,6 +998,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
+        $qdata->options->inversetrig               = 'cos-1';
         $qdata->options->variantsselectionseed     = '';
 
         $input = new stdClass();

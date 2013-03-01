@@ -85,12 +85,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     /**
      * @var array STACK specific: string name as it appears in the question text => stack_input
      */
-    public $inputs;
+    public $inputs = array();
 
     /**
      * @var array stack_potentialresponse_tree STACK specific: respones tree number => ...
      */
-    public $prts;
+    public $prts = array();
 
     /**
      * @var stack_options STACK specific: question-level options.
@@ -182,6 +182,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
+        if (empty($this->inputs)) {
+            return question_engine::make_behaviour('informationitem', $qa, $preferredbehaviour);
+        }
+
+        if (empty($this->prts)) {
+            return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
+        }
+
         if ($preferredbehaviour == 'adaptive' || $preferredbehaviour == 'adaptivenopenalty') {
             return question_engine::make_behaviour('adaptivemultipart', $qa, $preferredbehaviour);
         }
@@ -453,12 +461,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function is_complete_response(array $response) {
+
         // If all PRTs are gradable, then the question is complete. (Optional inputs may be blank.)
         foreach ($this->prts as $index => $prt) {
             if (!$this->can_execute_prt($prt, $response, false)) {
                 return false;
             }
         }
+
+        // If there are no PRTs, then check that all inputs are complete.
+        if (!$this->prts) {
+            foreach ($this->inputs as $name => $notused) {
+                if (stack_input::SCORE != $this->get_input_state($name, $response)->status) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 

@@ -120,6 +120,7 @@ class qtype_stack extends question_type {
         $inputnames = stack_utils::extract_placeholders($fromform->questiontext, 'input');
         $inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
+        $questionhasinputs = false;
         foreach ($inputnames as $inputname) {
             if (array_key_exists($inputname, $inputs)) {
                 $input = $inputs[$inputname];
@@ -144,6 +145,7 @@ class qtype_stack extends question_type {
             $input->mustverify         = $fromform->{$inputname . 'mustverify'};
             $input->showvalidation     = $fromform->{$inputname . 'showvalidation'};
 
+            $questionhasinputs = true;
             $DB->update_record('qtype_stack_inputs', $input);
         }
 
@@ -152,6 +154,11 @@ class qtype_stack extends question_type {
             $params[] = $fromform->id;
             $DB->delete_records_select('qtype_stack_inputs',
                     'name ' . $test . ' AND questionid = ?', $params);
+        }
+
+        if (!$questionhasinputs) {
+            // A question with no inputs is an information item.
+            $DB->set_field('question', 'length', 0, array('id' => $fromform->id));
         }
 
         $prtnames = stack_utils::extract_placeholders(
@@ -268,12 +275,12 @@ class qtype_stack extends question_type {
             // Otherwise, make sure there is no garbage left in the database,
             // for example if we delete a PRT, remove the expected values for
             // that PRT while leaving the rest of the testcases alone.
-            list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false);
+            list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false, null);
             $params['questionid'] = $fromform->id;
             $DB->delete_records_select('qtype_stack_qtest_inputs',
                     'questionid = :questionid AND inputname ' . $nametest, $params);
 
-            list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false);
+            list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false, null);
             $params['questionid'] = $fromform->id;
             $DB->delete_records_select('qtype_stack_qtest_expected',
                     'questionid = :questionid AND prtname ' . $nametest, $params);
@@ -367,7 +374,7 @@ class qtype_stack extends question_type {
         foreach ($questiondata->prts as $name => $prtdata) {
             $totalvalue += $prtdata->value;
         }
-        if ($totalvalue < 0.0000001) {
+        if ($questiondata->prts && $totalvalue < 0.0000001) {
             throw new coding_exception('There is an error authoring your question. ' .
                     'The $totalvalue, the marks available for the question, must be positive in question ' .
                     $question->name);

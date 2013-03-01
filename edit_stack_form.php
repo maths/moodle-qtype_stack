@@ -789,6 +789,15 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
+        if (empty($inputs) && !empty($prts)) {
+            $errors['questiontext'][] = stack_string('noprtsifnoinputs');
+        }
+
+        // Default mark.
+        if (empty($inputs) && $fromform['defaultmark'] != 0) {
+            $errors['defaultmark'][] = stack_string('defaultmarkzeroifnoprts');
+        }
+
         // Penalty.
         $penalty = $fromform['penalty'];
         if (!is_numeric($penalty) || $penalty < 0 || $penalty > 1) {
@@ -1132,7 +1141,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Make a list of all inputs, instantiate it and then look for errors.
         $inputs = $this->get_input_names_from_question_text();
-        $inputsvalues = array();
+        $inputvalues = array();
         foreach ($inputs as $inputname => $notused) {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
             $cs->validate('t');

@@ -177,3 +177,55 @@ body#page-question-type-stack-replacedollars pre ins {
     color: green;
     font-weight: bold;
 }
+
+body.ie .stack_abstract_graph {
+    /* Once IE can cope, we can delete this rule. */
+    display: none;
+}
+.stack_abstract_graph {
+    background: #ffc;
+    margin: 5px;
+}
+.stack_abstract_graph path {
+    stroke-width: 3px;
+    fill: none;
+}
+.stack_abstract_graph path.left {
+    stroke: #0d0;
+}
+.stack_abstract_graph circle.left {
+    fill: #0d0;
+}
+.stack_abstract_graph path.right {
+    stroke: #a00;
+}
+.stack_abstract_graph circle.right {
+    fill: #a00;
+}
+.stack_abstract_graph path.cross {
+    stroke: #f00;
+    stroke-linecap: round;
+}
+.stack_abstract_graph text {
+    font-family: Verdana;
+}
+.stack_abstract_graph text.nodelabel {
+    font-size: 14px;
+    fill: #fff;
+    alignment-baseline: middle;
+    text-anchor: middle;
+}
+.stack_abstract_graph text.edgelabel {
+    font-size: 10px;
+    fill: #000;
+    alignment-baseline: middle;
+}
+.stack_abstract_graph text.edgelabel.left {
+    text-anchor: end;
+}
+.stack_abstract_graph text.edgelabel.right {
+    text-anchor: start;
+}
+.stack_abstract_graph circle.node {
+    fill: #00f;
+}

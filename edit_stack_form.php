@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/answertest/controller.c
 
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/keyval.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/castext.class.php');
-require_once($CFG->dirroot . '/question/type/stack/stack/acyclicchecker.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php');
 
 
 /**
@@ -60,6 +60,12 @@ class qtype_stack_edit_form extends question_edit_form {
 
     /** @var string caches the result of {@link get_current_specific_feedback()}. */
     protected $specificfeedback = null;
+
+    /**
+     * @var array prt name => stack_abstract_graph caches the result of
+     * {@link get_required_nodes_for_prt()}.
+     */
+    protected $prtnodes = array();
 
     /** @var array the set of choices used for the type of all inputs. */
     protected $typechoices;
@@ -123,37 +129,92 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array list of nodes that should be present in the form definitino for this PRT.
      */
     protected function get_required_nodes_for_prt($prtname) {
+        if (array_key_exists($prtname, $this->prtnodes)) {
+            return $this->prtnodes[$prtname];
+        }
+
         // If the form has been submitted and is being redisplayed, and this is
         // an existing PRT, base things on the submitted data.
-        $submitted = optional_param_array($prtname . 'answertest', null, PARAM_RAW);
+        $submitted = optional_param_array($prtname . 'truenextnode', null, PARAM_RAW);
         if ($submitted) {
-            foreach ($submitted as $key => $notused) {
+            $truescoremode  = optional_param_array($prtname . 'truescoremode',  null, PARAM_RAW);
+            $truescore      = optional_param_array($prtname . 'truescore',      null, PARAM_RAW);
+            $falsenextnode  = optional_param_array($prtname . 'falsenextnode',  null, PARAM_RAW);
+            $falsescoremode = optional_param_array($prtname . 'falsescoremode', null, PARAM_RAW);
+            $falsescore     = optional_param_array($prtname . 'falsescore',     null, PARAM_RAW);
+            $graph = new stack_abstract_graph();
+            $lastkey = -1;
+            foreach ($submitted as $key => $truenextnode) {
                 if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
-                    unset($submitted[$key]);
 
                     // Slightly odd to register the button here, especially since
                     // now this node has been deleted, this button will not exist,
                     // but anyway this works, and in necessary to stop the form
                     // from being submitted.
                     $this->_form->registerNoSubmitButton($prtname . 'nodedelete' . $key);
+
+                    continue;
                 }
+
+                if ($truenextnode == -1 || !array_key_exists($truenextnode, $submitted)) {
+                    $left = null;
+                } else {
+                    $left = $truenextnode + 1;
+                }
+                if ($falsenextnode[$key] == -1 || !array_key_exists($falsenextnode[$key], $submitted)) {
+                    $right = null;
+                } else {
+                    $right = $falsenextnode[$key] + 1;
+                }
+                $graph->add_node($key + 1, $left, $right,
+                        $truescoremode[$key] . round($truescore[$key], 2),
+                        $falsescoremode[$key] . round($falsescore[$key], 2),
+                        '#fgroup_id_' . $prtname . 'node_' . $key);
+
+                $lastkey = max($lastkey, $key);
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $submitted[] = true;
+                $graph->add_node($lastkey + 1, null, null, '+0', '-0',
+                        '#fgroup_id_' . $prtname . 'node_' . $lastkey);
             }
 
-            return array_keys($submitted);
+            $graph->layout();
+            $this->prtnodes[$prtname] = $graph;
+            return $graph;
         }
 
         // Otherwise, if an existing question is being edited, and this is an
         // existing PRT, base things on the existing question definition.
         if (!empty($this->question->prts[$prtname]->nodes)) {
-            return array_keys($this->question->prts[$prtname]->nodes);
+            $graph = new stack_abstract_graph();
+            foreach ($this->question->prts[$prtname]->nodes as $node) {
+                if ($node->truenextnode == -1) {
+                    $left = null;
+                } else {
+                    $left = $node->truenextnode + 1;
+                }
+                if ($node->falsenextnode == -1) {
+                    $right = null;
+                } else {
+                    $right = $node->falsenextnode + 1;
+                }
+                $graph->add_node($node->nodename + 1, $left, $right,
+                        $node->truescoremode . round($node->truescore, 2),
+                        $node->falsescoremode . round($node->falsescore, 2),
+                        '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
+            }
+            $graph->layout();
+            $this->prtnodes[$prtname] = $graph;
+            return $graph;
         }
 
         // Otherwise, it is a new PRT. Just one node.
-        return array(0);
+        $graph = new stack_abstract_graph();
+        $graph->add_node('1', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
+        $graph->layout();
+        $this->prtnodes[$prtname] = $graph;
+        return $graph;
     }
 
     /**
@@ -499,17 +560,20 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('prtwillbecomeactivewhen', html_writer::tag('b', $inputnames)));
 
         // Create the section of the form for each node - general bits.
-        $nodes = $this->get_required_nodes_for_prt($prtname);
+        $graph = $this->get_required_nodes_for_prt($prtname);
+
+        $mform->addElement('static', $prtname . 'graph', '',
+                stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
 
         $nextnodechoices = array('-1' => stack_string('stop'));
-        foreach ($nodes as $nodekey) {
-            $nextnodechoices[$nodekey] = stack_string('nodex', $nodekey + 1);
+        foreach ($graph->get_nodes() as $node) {
+            $nextnodechoices[$node->name - 1] = stack_string('nodex', $node->name);
         }
 
-        $deletable = count($nodes) > 1;
+        $deletable = count($graph->get_nodes()) > 1;
 
-        foreach ($nodes as $nodekey) {
-            $this->definition_prt_node($prtname, $nodekey, $nextnodechoices, $deletable, $mform);
+        foreach ($graph->get_nodes() as $node) {
+            $this->definition_prt_node($prtname, $node->name, $nextnodechoices, $deletable, $mform);
         }
 
         $mform->addElement('submit', $prtname . 'nodeadd', stack_string('addanothernode'));
@@ -519,13 +583,13 @@ class qtype_stack_edit_form extends question_edit_form {
     /**
      * Add the form elements defining one PRT node.
      * @param string $prtname the name of the PRT.
-     * @param string $nodekey the name of the node.
+     * @param string $name the name of the node.
      * @param array $nextnodechoices the available choices for the next node.
      * @param bool $deletable whether the user is allowed to delete this node.
      * @param MoodleQuickForm $mform the form being assembled.
      */
-    protected function definition_prt_node($prtname, $nodekey, $nextnodechoices, $deletable, MoodleQuickForm $mform) {
-        $name = $nodekey + 1;
+    protected function definition_prt_node($prtname, $name, $nextnodechoices, $deletable, MoodleQuickForm $mform) {
+        $nodekey = $name - 1;
 
         unset($nextnodechoices[$nodekey]);
 
@@ -556,10 +620,17 @@ class qtype_stack_edit_form extends question_edit_form {
 
             $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'scoremode[' . $nodekey . ']',
                     stack_string('scoremode'), $this->scoremodechoices);
+            if ($nodekey > 0) {
+                if ($branch === 'true') {
+                    $mform->setDefault($prtname . $branch . 'scoremode[' . $nodekey . ']', '+');
+                } else {
+                    $mform->setDefault($prtname . $branch . 'scoremode[' . $nodekey . ']', '-');
+                }
+            }
 
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'score[' . $nodekey . ']',
                     stack_string('score'), array('size' => 2));
-            $mform->setDefault($prtname . $branch . 'score[' . $nodekey . ']', (float) $branch);
+            $mform->setDefault($prtname . $branch . 'score[' . $nodekey . ']', (int) ($branch === 'true' && $nodekey == 0));
 
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'penalty[' . $nodekey . ']',
                     stack_string('penalty'), array('size' => 2));
@@ -934,9 +1005,10 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // Check the nodes.
-        $nodes = $this->get_required_nodes_for_prt($prtname);
+        $graph = $this->get_required_nodes_for_prt($prtname);
         $textformat = null;
-        foreach ($nodes as $nodekey) {
+        foreach ($graph->get_nodes() as $node) {
+            $nodekey = $node->name - 1;
 
             // Check the fields the belong to this node individually.
             $errors = $this->validate_prt_node($errors, $fromform, $prtname, $nodekey, $fixingdollars);
@@ -948,39 +1020,25 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] =
                         stack_string('allnodefeedbackmustusethesameformat');
             }
-
-            // Also build the $nextnodes graph structure array that we will need in a second.
-            $nextnodes[$nodekey] = array();
-
-            $next = $fromform[$prtname . 'truenextnode'][$nodekey];
-            if ($next != -1) {
-                $nextnodes[$nodekey][] = $next;
-            }
-
-            $next = $fromform[$prtname . 'falsenextnode'][$nodekey];
-            if ($next != -1) {
-                $nextnodes[$nodekey][] = $next;
-            }
         }
 
         // Check that the nodes form a directed acyclic graph.
-        $firstnode = reset($nodes);
-        list($problem, $details) = stack_acyclic_graph_checker::check_graph($nextnodes, $firstnode);
-        switch ($problem) {
-            case 'disconnected':
-                foreach ($details as $unusednode) {
-                    $errors[$prtname . 'node[' . $unusednode . ']'][] = stack_string('nodenotused');
-                }
-                break;
-
-            case 'backlink':
-                list($from, $to) = $details;
-                if ($fromform[$prtname.'truenextnode'][$from] == $to) {
-                    $errors[$prtname.'nodewhentrue['.$from.']'][] = stack_string('nodeloopdetected', $to + 1);
-                } else {
-                    $errors[$prtname.'nodewhenfalse['.$from.']'][] = stack_string('nodeloopdetected', $to + 1);
-                }
-                break;
+        $roots = $graph->get_roots();
+        if (!array_key_exists(1, $roots)) {
+            $errors[$prtname . 'node[0]'][] = stack_string('firstnodemustberoot');
+        }
+        unset($roots[1]);
+        foreach ($roots as $node) {
+            $errors[$prtname . 'node[' . ($node->name - 1) . ']'][] = stack_string('nodenotused');
+        }
+        foreach ($graph->get_broken_cycles() as $backlink => $notused) {
+            list($nodename, $direction) = explode('|', $backlink);
+            if ($direction == stack_abstract_graph::LEFT) {
+                $field = 'nodewhentrue';
+            } else {
+                $field = 'nodewhenfalse';
+            }
+            $errors[$prtname.$field.'['.($nodename - 1).']'][] = stack_string('nodeloopdetected');
         }
 
         return $errors;

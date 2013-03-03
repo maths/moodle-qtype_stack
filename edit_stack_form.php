@@ -417,9 +417,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
-        $mform->addRule($inputname . 'modelans', stack_string('teachersanswer'),
-                'required', '', 'client', false, false);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
+        // We don't make modelans a required field in the formslib sense, because
+        // That stops the input sections collapsing by default. Instead, we enforce
+        // that it is non-blank in the server-side validation.
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 3));
         $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
@@ -1071,8 +1072,8 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function validate_cas_string($errors, $value, $fieldname, $savesession, $notblank = true, $maxlength = 255) {
 
-        if ($notblank && '' == trim($value)) {
-            $errors[$fieldname][] = stack_string($notblank);
+        if ($notblank && '' === trim($value)) {
+            $errors[$fieldname][] = stack_string('nonempty');
 
         } else if (strlen($value) > $maxlength) {
             $errors[$fieldname][] = stack_string('strlengtherror');

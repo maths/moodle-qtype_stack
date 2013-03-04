@@ -129,6 +129,7 @@ class qtype_stack extends question_type {
                 $input = new stdClass();
                 $input->questionid = $fromform->id;
                 $input->name       = $inputname;
+                $input->options    = '';
                 $input->id = $DB->insert_record('qtype_stack_inputs', $input);
             }
 
@@ -266,26 +267,35 @@ class qtype_stack extends question_type {
             }
         }
 
+        // This is a bit of a hack. If doing 'Make a copy' when saving the
+        // editing form, then detect that here, and try to copy the question
+        // tests from the original question.
+        if (!isset($fromform->testcases) && $fromform->makecopy) {
+            $oldquestionid = optional_param('id', 0, PARAM_INT);
+            if ($oldquestionid) {
+                $fromform->testcases = $this->load_question_tests($oldquestionid);
+            }
+        }
+
         if (isset($fromform->testcases)) {
             // If the data includes the defintion of the question tests that there
             // should be (i.e. when doing import) then replace the existing set
             // of tests with the new one.
             $this->save_question_tests($fromform->id, $fromform->testcases);
-
-        } else {
-            // Otherwise, make sure there is no garbage left in the database,
-            // for example if we delete a PRT, remove the expected values for
-            // that PRT while leaving the rest of the testcases alone.
-            list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false, null);
-            $params['questionid'] = $fromform->id;
-            $DB->delete_records_select('qtype_stack_qtest_inputs',
-                    'questionid = :questionid AND inputname ' . $nametest, $params);
-
-            list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false, null);
-            $params['questionid'] = $fromform->id;
-            $DB->delete_records_select('qtype_stack_qtest_expected',
-                    'questionid = :questionid AND prtname ' . $nametest, $params);
         }
+
+        // Irrespective of what else has happened, ensure there is no garbage
+        // in the database, for example if we delete a PRT, remove the expected
+        // values for that PRT while leaving the rest of the testcases alone.
+        list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false, null);
+        $params['questionid'] = $fromform->id;
+        $DB->delete_records_select('qtype_stack_qtest_inputs',
+                'questionid = :questionid AND inputname ' . $nametest, $params);
+
+        list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false, null);
+        $params['questionid'] = $fromform->id;
+        $DB->delete_records_select('qtype_stack_qtest_expected',
+                'questionid = :questionid AND prtname ' . $nametest, $params);
     }
 
     public function get_question_options($question) {

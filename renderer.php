@@ -37,7 +37,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $response = $qa->get_last_qt_data();
 
-        $questiontext = $qa->get_last_qt_var('_questiontext');
+        $questiontext = $question->questiontextinstantiated;
         $questiontext = $question->format_text(
                 stack_maths::process_display_castext($questiontext),
                 $question->questiontextformat,
@@ -164,7 +164,7 @@ class qtype_stack_renderer extends qtype_renderer {
     protected function stack_specific_feedback_errors_only(question_attempt $qa) {
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $qa->get_last_qt_var('_feedback');
+        $feedbacktext = $question->specificfeedbackinstantiated;
         if (!$feedbacktext) {
             return '';
         }
@@ -204,7 +204,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $qa->get_last_qt_var('_feedback');
+        $feedbacktext = $question->specificfeedbackinstantiated;
         if (!$feedbacktext) {
             return '';
         }

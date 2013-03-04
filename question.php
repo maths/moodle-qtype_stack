@@ -118,6 +118,16 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected $questionnoteinstantiated;
 
     /**
+     * @var array stack_cas_session STACK specific: session of variables.
+     */
+    public $questiontextinstantiated;
+
+    /**
+     * @var array stack_cas_session STACK specific: session of variables.
+     */
+    public $specificfeedbackinstantiated;
+
+    /**
      * The next three fields cache the results of some expensive computations.
      * The chache is only vaid for a particular response, so we store the current
      * response, so that we can clearn the cached information in the result changes.
@@ -225,6 +235,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $step->set_qt_var('_seed', $this->seed);
 
+        $this->initialise_question_from_seed();
+    }
+
+    /**
+     * Once we know the random seed, we can initialise all the other parts of the question.
+     */
+    public function initialise_question_from_seed() {
         // Build up the question session out of all the bits that need to go into it.
         // 1. question variables.
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
@@ -272,14 +289,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $session->get_errors($this->user_can_edit()));
         }
 
-        // Now store the values that depend on the instantiated session.
-        $step->set_qt_var('_questionvars', $session->get_keyval_representation());
-        $step->set_qt_var('_questiontext', $questiontext->get_display_castext());
-        $step->set_qt_var('_feedback', $feedbacktext->get_display_castext());
-        $this->questionnoteinstantiated = $notetext->get_display_castext();
-        $step->set_qt_var('_questionnote', $this->questionnoteinstantiated);
-
         // Finally, store only those values really needed for later.
+        $this->questiontextinstantiated     = $questiontext->get_display_castext();
+        $this->specificfeedbackinstantiated = $feedbacktext->get_display_castext();
+        $this->questionnoteinstantiated     = $notetext->get_display_castext();
         $session->prune_session($session_length);
         $this->session = $session;
 
@@ -289,10 +302,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function apply_attempt_state(question_attempt_step $step) {
         $this->seed = (int) $step->get_qt_var('_seed');
-        $questionvars = new stack_cas_keyval($step->get_qt_var('_questionvars'), $this->options, $this->seed, 't');
-        $this->session = $questionvars->get_session();
-        $this->questionnoteinstantiated = $step->get_qt_var('_questionnote');
-        $this->adapt_inputs();
+        $this->initialise_question_from_seed();
     }
 
     /**

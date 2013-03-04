@@ -201,11 +201,11 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
       <forbidfloat>1</forbidfloat>
-      <options>0</options>
+      <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <requirelowestterms>0</requirelowestterms>
+      <options></options>
     </input>
     <prt>
       <name>firsttree</name>
@@ -313,7 +313,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
-      <options>0</options>
+      <options></options>
     </input>
     <prt>
       <name>firsttree</name>

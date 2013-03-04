@@ -23,6 +23,7 @@
 
 require_once(dirname(__FILE__).'/../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
+require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->libdir .'/filelib.php');
 require_once($CFG->libdir .'/tablelib.php');
 
@@ -31,14 +32,31 @@ require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
 require_once(dirname(__FILE__) . '/stack/input/factory.class.php');
 require_once(dirname(__FILE__) . '/stack/input/tests/fixtures.class.php');
 
+// Get the parameters from the URL.
+$questionid = optional_param('questionid', null, PARAM_INT);
+
 // Authentication.
-require_login();
-$context = context_system::instance();
-require_capability('moodle/site:config', $context);
+if (!$questionid) {
+    require_login();
+    $context = context_system::instance();
+    require_capability('moodle/site:config', $context);
+    $urlparams = array();
+
+} else {
+    // Load the necessary data.
+    $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+    $question = question_bank::load_question($questionid);
+
+    // Process any other URL parameters, and do require_login.
+    list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+
+    // Check permissions.
+    question_require_capability_on($questiondata, 'view');
+}
 
 // Set up the page object.
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/studentinputs.php');
+$PAGE->set_url('/question/type/stack/studentinputs.php', $urlparams);
 $title = stack_string('stackInstall_input_title');
 $PAGE->set_pagelayout('report');
 $PAGE->set_title($title);

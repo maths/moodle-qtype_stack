@@ -101,6 +101,7 @@ functions](Predicate_functions.md).
 | `stack_op(ex)`                  | Returns the operation of the expression in a safe way.  [Parts of Maxima expressions](Maxima.md#Parts_of_Maxima_expressions).
 | `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed sequare form.
 | `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
+| `unary_minus_sort(ex)`          | Tidies up the way unary minus is represented within expressions when `simp:false`.  See also [simplification](Simplification.md).
 
 ## Assignment ## {#assignment}
 

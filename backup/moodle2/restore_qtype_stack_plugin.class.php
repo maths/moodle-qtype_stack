@@ -73,6 +73,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $data = (object)$data;
 
+        if (!property_exists($data, 'inversetrig')) {
+            $data->inversetrig = 'cos-1';
+        }
+
         // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
@@ -80,8 +84,8 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         if ($questioncreated) {
             $oldid = $data->id;
             $data->questionid = $this->get_new_parentid('question');
-            $newitemid = $DB->insert_record('qtype_stack', $data);
-            $this->set_mapping('qtype_stack', $oldid, $newitemid);
+            $newitemid = $DB->insert_record('qtype_stack_options', $data);
+            $this->set_mapping('qtype_stack_options', $oldid, $newitemid);
         }
     }
 
@@ -93,6 +97,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         global $DB;
 
         $data = (object)$data;
+
+        if (!property_exists($data, 'options')) {
+            $data->options = '';
+        }
 
         // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
@@ -232,9 +240,9 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
      */
     public static function define_decode_contents() {
         return array(
-            new restore_decode_content('qtype_stack',
+            new restore_decode_content('qtype_stack_options',
                     array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect'),
-                    'qtype_stack'),
+                    'qtype_stack_options'),
             new restore_decode_content('qtype_stack_prt_nodes', array('truefeedback', 'falsefeedback'),
                     'qtype_stack_prt_nodes'),
         );

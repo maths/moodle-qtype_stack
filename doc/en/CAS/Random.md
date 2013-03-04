@@ -61,6 +61,19 @@ Here is an example which generates a random polynomial, of degree 5, with coeffi
 
     apply("+",makelist(rand(7)*x^(k-1),k,6));
 
+## Generating random expressions which need to be "gathered and sorted".
+
+It is relatively common to want to be able to generate random expressions which need to be "gathered and sorted".  For example in \(2y-y+3y+1\) we need to collect together the \(y\) terms.
+
+    simp:false;
+    p:apply("+",makelist(ev(rand_with_prohib(-5,5,[0])*y^rand(2),simp), ev(rand(6)+2,simp)));
+    p:unary_minus_sort(p);
+
+Now, the output from the first expression will be a random expression in constants and \(y\) variables.   The second line tidies up the unary minus.  For more details of this, see [simplification](Simplification.md).
+
+    4*y+5*y+(-2*y)
+    4*y+5*y-2*y
+
 ## See also
 
 [Maxima reference topics](index.md#reference).

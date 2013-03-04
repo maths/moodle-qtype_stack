@@ -49,9 +49,11 @@ class qtype_stack_test_helper extends question_test_helper {
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
-            'divide', // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
-            'numsigfigs', // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
-            '1input2prts', // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
+            'divide',       // One input, one PRT, tests 1 / ans1 - useful for testing CAS errors like divide by 0.
+            'numsigfigs',   // One input, one PRT, tests 1 / ans1 - uses the NumSigFigs test.
+            '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
+            'information',  // Neither inputs nor PRTs.
+            'survey',       // Inputs, but no PRTs.
         );
     }
 
@@ -853,6 +855,44 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a information item, rather than a question.
+     */
+    public static function make_stack_question_information() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'Information item';
+        $q->questionvariables = 'a:7;';
+        $q->questiontext = '\[a = @a@\].';
+        $q->generalfeedback = 'The end.';
+
+        $q->specificfeedback = '';
+        $q->defaultmark = 0;
+        $q->length = 0;
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a 'survey' item. Inputs, but no grading.
+     */
+    public static function make_stack_question_survey() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'Survey';
+        $q->questionvariables = '';
+        $q->questiontext = 'What is your favourite equation? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '';
+        $q->defaultmark = 0;
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', '2', array('boxWidth' => 15, 'sameType' => false));
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question the question from the test0.xml file.
      */
     public static function get_stack_question_data_test0() {
@@ -883,6 +923,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
+        $qdata->options->inversetrig               = 'cos-1';
         $qdata->options->variantsselectionseed     = '';
 
         $input = new stdClass();
@@ -901,6 +942,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans1'] = $input;
 
         $prt = new stdClass();
@@ -997,6 +1039,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
+        $qdata->options->inversetrig               = 'cos-1';
         $qdata->options->variantsselectionseed     = '';
 
         $input = new stdClass();
@@ -1015,6 +1058,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans1'] = $input;
 
         $input = new stdClass();
@@ -1033,6 +1077,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans2'] = $input;
 
         $input = new stdClass();
@@ -1051,6 +1096,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
+        $input->options            = '';
         $qdata->inputs['ans3'] = $input;
 
         $input = new stdClass();
@@ -1069,6 +1115,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 0;
         $input->showvalidation     = 0;
+        $input->options            = '';
         $qdata->inputs['ans4'] = $input;
 
         $prt = new stdClass();

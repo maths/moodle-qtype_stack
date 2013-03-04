@@ -58,7 +58,25 @@ body#page-question-type-stack-questiontestedit .fitem_fgroup .accesshide {
     left: 0;
     position: static;
 }
-
+body#page-question-type-stack div[id^=fgroup_id_][id*=node_] {
+    margin-top: 2em;
+    background: #ddf;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fgroup_id_][id*=nodewhentrue_],
+body#page-question-type-stack div[id^=fitem_id_][id*=truefeedback_] {
+    background: #cfc;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fgroup_id_][id*=nodewhenfalse_],
+body#page-question-type-stack div[id^=fitem_id_][id*=falsefeedback_] {
+    background: #fcc;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fitem_id_][id*=truefeedback_],
+body#page-question-type-stack div[id^=fitem_id_][id*=falsefeedback_] {
+    padding-bottom: 0.3em;
+}
 
 /* Styles for the supporting scripts, healthcheck, etc. */
 body.path-question-type-stack dt {
@@ -142,7 +160,8 @@ body.path-question-type-stack .switchtovariant {
 
 .displayequation {
     display: block;
-    text-align: center;
+    text-align: left;
+    margin: 0.5em 0 0.5em 2em;
 }
 .stack_plot {
     text-align: center;

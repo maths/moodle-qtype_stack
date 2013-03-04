@@ -34,9 +34,6 @@ class qtype_stack_renderer extends qtype_renderer {
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         $question = $qa->get_question();
-        if (empty($question->inputs)) {
-            throw new coding_exception('This question does not have any inputs.');
-        }
 
         $response = $qa->get_last_qt_data();
 
@@ -48,6 +45,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Replace inputs.
         $inputstovaldiate = array();
+        $qaid = null;
         foreach ($question->inputs as $name => $input) {
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);

@@ -82,7 +82,7 @@ class qtype_stack extends question_type {
 
         parent::save_question_options($fromform);
 
-        $options = $DB->get_record('qtype_stack', array('questionid' => $fromform->id));
+        $options = $DB->get_record('qtype_stack_options', array('questionid' => $fromform->id));
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $fromform->id;
@@ -91,7 +91,7 @@ class qtype_stack extends question_type {
             $options->prtcorrect = '';
             $options->prtpartiallycorrect = '';
             $options->prtincorrect = '';
-            $options->id = $DB->insert_record('qtype_stack', $options);
+            $options->id = $DB->insert_record('qtype_stack_options', $options);
         }
 
         $options->questionvariables         = $fromform->questionvariables;
@@ -113,12 +113,14 @@ class qtype_stack extends question_type {
         $options->multiplicationsign        = $fromform->multiplicationsign;
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
+        $options->inversetrig               = $fromform->inversetrig;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
-        $DB->update_record('qtype_stack', $options);
+        $DB->update_record('qtype_stack_options', $options);
 
         $inputnames = stack_utils::extract_placeholders($fromform->questiontext, 'input');
         $inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $fromform->id), '', 'name, id, questionid');
+        $questionhasinputs = false;
         foreach ($inputnames as $inputname) {
             if (array_key_exists($inputname, $inputs)) {
                 $input = $inputs[$inputname];
@@ -142,7 +144,9 @@ class qtype_stack extends question_type {
             $input->checkanswertype    = $fromform->{$inputname . 'checkanswertype'};
             $input->mustverify         = $fromform->{$inputname . 'mustverify'};
             $input->showvalidation     = $fromform->{$inputname . 'showvalidation'};
+            $input->options            = $fromform->{$inputname . 'options'};
 
+            $questionhasinputs = true;
             $DB->update_record('qtype_stack_inputs', $input);
         }
 
@@ -151,6 +155,11 @@ class qtype_stack extends question_type {
             $params[] = $fromform->id;
             $DB->delete_records_select('qtype_stack_inputs',
                     'name ' . $test . ' AND questionid = ?', $params);
+        }
+
+        if (!$questionhasinputs) {
+            // A question with no inputs is an information item.
+            $DB->set_field('question', 'length', 0, array('id' => $fromform->id));
         }
 
         $prtnames = stack_utils::extract_placeholders(
@@ -267,12 +276,12 @@ class qtype_stack extends question_type {
             // Otherwise, make sure there is no garbage left in the database,
             // for example if we delete a PRT, remove the expected values for
             // that PRT while leaving the rest of the testcases alone.
-            list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false);
+            list($nametest, $params) = $DB->get_in_or_equal($inputnames, SQL_PARAMS_NAMED, 'input', false, null);
             $params['questionid'] = $fromform->id;
             $DB->delete_records_select('qtype_stack_qtest_inputs',
                     'questionid = :questionid AND inputname ' . $nametest, $params);
 
-            list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false);
+            list($nametest, $params) = $DB->get_in_or_equal($prtnames, SQL_PARAMS_NAMED, 'prt', false, null);
             $params['questionid'] = $fromform->id;
             $DB->delete_records_select('qtype_stack_qtest_expected',
                     'questionid = :questionid AND prtname ' . $nametest, $params);
@@ -284,14 +293,14 @@ class qtype_stack extends question_type {
 
         parent::get_question_options($question);
 
-        $question->options = $DB->get_record('qtype_stack',
+        $question->options = $DB->get_record('qtype_stack_options',
                 array('questionid' => $question->id), '*', MUST_EXIST);
 
         $question->inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, forbidwords, forbidfloat, requirelowestterms, ' .
-                'checkanswertype, mustverify, showvalidation');
+                'checkanswertype, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
@@ -332,6 +341,7 @@ class qtype_stack extends question_type {
         $question->options = new stack_options();
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
+        $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
         $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
         $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
         $question->options->set_option('assumepos',   (bool) $questiondata->options->assumepositive);
@@ -357,6 +367,7 @@ class qtype_stack extends question_type {
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
+            // TODO: Do something with $inputdata->options here.
             $question->inputs[$name] = stack_input_factory::make(
                     $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
         }
@@ -365,7 +376,7 @@ class qtype_stack extends question_type {
         foreach ($questiondata->prts as $name => $prtdata) {
             $totalvalue += $prtdata->value;
         }
-        if ($totalvalue < 0.0000001) {
+        if ($questiondata->prts && $totalvalue < 0.0000001) {
             throw new coding_exception('There is an error authoring your question. ' .
                     'The $totalvalue, the marks available for the question, must be positive in question ' .
                     $question->name);
@@ -425,7 +436,7 @@ class qtype_stack extends question_type {
         $DB->delete_records('qtype_stack_prt_nodes',      array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_prts',           array('questionid' => $questionid));
         $DB->delete_records('qtype_stack_inputs',         array('questionid' => $questionid));
-        $DB->delete_records('qtype_stack',                array('questionid' => $questionid));
+        $DB->delete_records('qtype_stack_options',        array('questionid' => $questionid));
         parent::delete_question($questionid, $contextid);
     }
 
@@ -774,6 +785,7 @@ class qtype_stack extends question_type {
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
+        $output .= "    <inversetrig>{$options->inversetrig}</inversetrig>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
         foreach ($questiondata->inputs as $input) {
@@ -791,6 +803,7 @@ class qtype_stack extends question_type {
             $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
             $output .= "      <mustverify>{$input->mustverify}</mustverify>\n";
             $output .= "      <showvalidation>{$input->showvalidation}</showvalidation>\n";
+            $output .= "      <options>{$input->options}</options>\n";
             $output .= "    </input>\n";
         }
 
@@ -883,6 +896,7 @@ class qtype_stack extends question_type {
         $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
+        $fromform->inversetrig           = $format->getpath($xml, array('#', 'inversetrig', 0, '#'), 'cos-1');
         $fromform->variantsselectionseed = $format->getpath($xml, array('#', 'variantsselectionseed', 0, '#'), 'i');
 
         if (isset($xml['#']['input'])) {
@@ -959,7 +973,7 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
         $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
         $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
-        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
+        $fromform->{$name . 'options'}            = $format->getpath($xml, array('#', 'options', 0, '#'), '');
         $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);
         $fromform->{$name . 'mustverify'}         = $format->getpath($xml, array('#', 'mustverify', 0, '#'), 1);
         $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, array('#', 'showvalidation', 0, '#'), 1);

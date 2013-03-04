@@ -243,6 +243,8 @@ class stack_answertest_test_data {
         array('SameType', '1', 'x>1', 0, '', 'Inequalities'),
         array('SameType', 'x>2', 'x>1', 1, '', ''),
         array('SameType', 'x>1', 'x>=1', 1, '', ''),
+        array('SameType', 'x>1 and x<3', 'x>=1', 1, '', ''),
+        array('SameType', '{x>1,x<3}', 'x>=1', 0, '', ''),
 
         array('SysEquiv', '[90=v*t,90=(v+5)*(t-1/4)]', '[90=v*t,90=(v+5)*(t-1/4)]', 1, '', ''),
         array('SysEquiv', '[d=90,d=v*t,d=(v+5)*(t-1/4)]', '[90=v*t,90=(v+5)*(t-1/4)]', 1, '', ''),

@@ -107,7 +107,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
 
         } else {
             // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
-            // WARNING: the string 'The CAS timed out' is used by the cache to serach for a timout occurance.
+            // WARNING: the string 'The CAS timed out' is used by the cache to search for a timeout occurrence.
             $ret .=' The CAS timed out. ] ] ] ]';
         }
 

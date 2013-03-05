@@ -25,7 +25,7 @@
 function xmldb_qtype_stack_install() {
     global $CFG;
 
-    // Define stackmaximaversion config parameter
+    // Define stackmaximaversion config parameter.
     if (!preg_match('~\[ STACK-Maxima started, library version (\d{10}) \]~',
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
         throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');

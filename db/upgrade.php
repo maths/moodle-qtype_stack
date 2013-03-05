@@ -562,11 +562,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     if ($oldversion < 2013030104) {
 
-        // Changing nullability of field options on table qtype_stack_inputs to not null
+        // Changing nullability of field options on table qtype_stack_inputs to not null.
         $table = new xmldb_table('qtype_stack_inputs');
         $field = new xmldb_field('options', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null, 'showvalidation');
 
-        // Launch change of nullability for field options
+        // Launch change of nullability for field options.
         $dbman->change_field_notnull($table, $field);
 
         // Qtype stack savepoint reached.

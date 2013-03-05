@@ -119,7 +119,7 @@ class stack_question_test_result {
                 $state->penalty = $actualresult->penalty;
                 $state->answernote = implode(' | ', $actualresult->answernotes);
                 $feedback = array();
-                foreach($actualresult->feedback as $fb) {
+                foreach ($actualresult->feedback as $fb) {
                     $feedback[] = $fb->feedback;
                 }
                 $state->feedback = implode(' ', $feedback);

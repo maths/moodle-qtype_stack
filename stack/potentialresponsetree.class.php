@@ -104,7 +104,8 @@ class stack_potentialresponse_tree {
 
         // Start with the question variables (note that order matters here).
         $cascontext = clone $questionvars;
-        // Set the value of simp from this point onwards.  If the question has simp:true, but the prt simp:false, then this needs to be done here.
+        // Set the value of simp from this point onwards.
+        // If the question has simp:true, but the prt simp:false, then this needs to be done here.
         if ($this->simplify) {
             $simp = 'true';
         } else {

@@ -120,7 +120,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_acos_option_cosmone() {
-    
+
         $cs=array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
@@ -136,7 +136,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_acos_option_acos() {
-    
+
         $cs=array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
@@ -152,7 +152,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_acos_option_arccos() {
-    
+
         $cs=array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);

@@ -373,7 +373,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return implode('; ', $bits);
     }
 
-    // Used in reporting - needs to return an array
+    // Used in reporting - needs to return an array.
     public function summarise_response_data(array $response) {
         $bits = array();
         foreach ($this->inputs as $name => $input) {

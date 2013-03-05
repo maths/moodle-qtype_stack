@@ -23,7 +23,7 @@
  */
 class stack_options {
 
-    private $options; // Exactly the CASText entered.
+    private $options;
 
     public function __construct($settings = array()) {
 

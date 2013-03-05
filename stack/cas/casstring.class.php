@@ -100,7 +100,7 @@ class stack_cas_casstring {
             'WRITE_DATA', 'WRITEFILE');
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
-    // note we allow RANDOM_PERMUTATION.
+    // Note we allow RANDOM_PERMUTATION.
     private static $teachernotallow = array('%UNITEXPAND', 'ABASEP', 'ABSBOXCHAR', 'ACTIVATE',
             'ACTIVECONTEXTS', 'ADDITIVE', 'ADIM', 'AF', 'AFORM', 'AGD', 'ALG_TYPE',
             'ALL_DOTSIMP_DENOMS', 'ALLSYM', 'ANTID', 'ANTIDIFF', 'ANTIDIFFERENCE', 'ANTISYMMETRIC',
@@ -394,8 +394,8 @@ class stack_cas_casstring {
      * These lists are used by question authors for groups of words.
      */
     private static $keywordlists = array(
-            '[[BASIC-ALGEBRA]]' => array('COEFF', 'CONCAT', 'CONJUGATE', 'CSPLINE', 'DISJOIN', 'DIVISORS', 
-                    'EV', 'ELIMINATE', 'EQUIV_CLASSES', 'EXPAND', 'EXPANDWRT', 'FACSUM', 'FACTOR', 'FIND_ROOT', 
+            '[[BASIC-ALGEBRA]]' => array('COEFF', 'CONCAT', 'CONJUGATE', 'CSPLINE', 'DISJOIN', 'DIVISORS',
+                    'EV', 'ELIMINATE', 'EQUIV_CLASSES', 'EXPAND', 'EXPANDWRT', 'FACSUM', 'FACTOR', 'FIND_ROOT',
                     'FULLRATSIMP', 'GCD', 'GFACTOR', 'IMAGPART', 'INTERSECTION', 'LCM', 'LOGCONTRACT', 'LOGEXPAND',
                     'MEMBER', 'NROOTS', 'NTHROOT', 'NUMER', 'PARTFRAC', 'POLARFORM', 'POLARTORECT', 'RATEXPAND',
                     'RATSIMP', 'REALPART', 'ROUND', 'RADCAN', 'NUM', 'DENOM', 'TRIGSIMP', 'TRIGREDUCE', 'SOLVE',

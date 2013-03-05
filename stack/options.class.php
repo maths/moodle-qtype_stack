@@ -109,6 +109,19 @@ class stack_options {
         }
     }
 
+    public function set_site_defaults() {
+        $stackconfig = stack_utils::get_config();
+        // display option does not match up to $stackconfig->mathsdisplay);
+        $this->set_option('multiplicationsign', $stackconfig->multiplicationsign);
+        $this->set_option('complexno', $stackconfig->complexno);
+        $this->set_option('inversetrig', $stackconfig->inversetrig);
+        $this->set_option('floats', (bool) $stackconfig->inputforbidfloat);
+        $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
+        $this->set_option('simplify', (bool) $stackconfig->questionsimplify);
+        $this->set_option('assumepos', (bool) $stackconfig->assumepositive);
+        return true;
+    }
+
     /*
      * This function validates the information.
      */

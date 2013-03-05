@@ -89,6 +89,7 @@ if (!$vars and !$string) {
 
 if ($string) {
     $options = new stack_options();
+    $options->set_site_defaults();
     $options->set_option('simplify', $simp);
 
     $session = new stack_cas_session(null, $options);

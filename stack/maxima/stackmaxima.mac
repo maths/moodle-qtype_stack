@@ -1816,5 +1816,5 @@ STACKanalysis(A):=block([l0,l1,l2,l3],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013022800$
+stackmaximaversion:2013030500$
 print("[ STACK-Maxima started, library version 2013030500 ]")$

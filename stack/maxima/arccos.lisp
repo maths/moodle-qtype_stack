@@ -3,7 +3,6 @@
 	(%acos "\\arccos ")
 	(%asin "\\arcsin ")
 	(%atan "\\arctan ")
-
 					; Latex's arg(x) is ... ?
 	(%cos "\\cos ")
 	(%cosh "\\cosh ")
@@ -37,21 +36,16 @@
 					;(%laplace "{\\cal L}")
 
     ; Maxima built-in functions which do not have corresponding TeX symbols.
-
     (%asec "{\\rm arcsec}")
     (%acsc "{\\rm arccsc}")
     (%acot "{\\rm arccot}")
-
     (%sech "{\\rm sech}")
     (%csch "{\\rm csch}")
-    
     (%asinh "{\\rm arcsinh}")
     (%acosh "{\\rm arccosh}")
     (%atanh "{\\rm arctanh}")
-
     (%asech "{\\rm arcsech}")
     (%acsch "{\\rm arccsch}")
     (%acoth "{\\rm arccoth}")
-
 )) ;; etc
 

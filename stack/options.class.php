@@ -58,7 +58,7 @@ class stack_options {
                 'value'      =>  'cos-1',
                 'strict'     =>  true,
                 'values'     =>  array('cos-1', 'acos', 'arccos'),
-                'caskey'     =>  'TODO', // TODO Chris to fix this.
+                'caskey'     =>  'make_arccos',
                 'castype'    =>  'fun',
             ),
             'floats'   =>  array(
@@ -167,7 +167,7 @@ class stack_options {
                     $names      .= ', '.$opt['caskey'];
                     $commands   .= ', '.$opt['caskey'].':'.$value;
                 } else if ('fun' == $opt['castype']) {
-                    $commands   .= ', '.$opt['caskey'].'('.$value.')';
+                    $commands   .= ', '.$opt['caskey'].'("'.$value.'")'; // Make sure these options are *strings*, otherwise they clash with Maxim names, particularly alias.
                 }
             }
         }

@@ -119,6 +119,54 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     }
 
+    public function test_acos_option_cosmone() {
+    
+        $cs=array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('inversetrig', 'cos-1');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('\cos^{-1}\left( x \right)', $at1->get_display_key('a'));
+        $this->assertEquals('\sin^{-1}\left( x \right)', $at1->get_display_key('b'));
+        $this->assertEquals('{\rm sinh}^{-1}\left( x \right)', $at1->get_display_key('c'));
+    }
+
+    public function test_acos_option_acos() {
+    
+        $cs=array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('inversetrig', 'acos');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('{\rm acos}\left( x \right)', $at1->get_display_key('a'));
+        $this->assertEquals('{\rm asin}\left( x \right)', $at1->get_display_key('b'));
+        $this->assertEquals('{\rm asinh}\left( x \right)', $at1->get_display_key('c'));
+    }
+
+    public function test_acos_option_arccos() {
+    
+        $cs=array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)');
+        foreach ($cs as $s) {
+            $s1[] = new stack_cas_casstring($s);
+        }
+
+        $options = new stack_options();
+        $options->set_option('inversetrig', 'arccos');
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals('\arccos \left( x \right)', $at1->get_display_key('a'));
+        $this->assertEquals('\arcsin \left( x \right)', $at1->get_display_key('b'));
+        $this->assertEquals('{\rm arcsinh}\left( x \right)', $at1->get_display_key('c'));
+    }
+
     public function test_keyval_representation_1() {
 
         $cs=array('a:x^2', 'b:1/(1+x^2)', 'c:e^(i*pi)');

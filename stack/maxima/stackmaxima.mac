@@ -104,28 +104,33 @@ alias(arccos,acos);          /* At the request of the OU, 4 Feb 2013 */
 alias(arcsin,asin);           
 alias(arctan,atan);           
 
-/*load("arccos.lisp");*/
-
 load("mathml.lisp");   /* loads MathML */
 
 
 make_complexJ(OPT_COMPLEXJ) := block(
-  if OPT_COMPLEXJ=i then 
+  if OPT_COMPLEXJ="i" then 
     (i:%i,load("complexi.lisp")) 
-  else if OPT_COMPLEXJ=j then
+  else if OPT_COMPLEXJ="j" then
     (%j:%i,j:%i,load("complexj.lisp"))
-  else if OPT_COMPLEXJ=symi then
+  else if OPT_COMPLEXJ="symi" then
     (load("complexi.lisp")) 
-  else if OPT_COMPLEXJ=symj then
+  else if OPT_COMPLEXJ="symj" then
     (load("complexj.lisp"))
   else true
 );
 
 /* Makes multiplication signs look correct */
 make_multsgn(OPT_MULTSGN) := block(
-    if OPT_MULTSGN=cross then load("multiply_cross.lisp"),
-    if OPT_MULTSGN=dot then load("multiply_dot.lisp")
-    );
+    if OPT_MULTSGN="cross" then load("multiply_cross.lisp"),
+    if OPT_MULTSGN="dot" then load("multiply_dot.lisp")
+);
+
+/* Options for cos^(-1), acos or arccos */
+make_arccos(OPT_ACOS) := block(
+    if OPT_ACOS="cos-1" then load("cos-1.lisp"),
+    if OPT_ACOS="arccos" then load("arccos.lisp")
+);
+
 
 /* ********************************** */
 /* Random numbers                     */
@@ -1812,4 +1817,4 @@ load(linearalgebra);
 
 /* Stack expects some output */
 stackmaximaversion:2013022800$
-print("[ STACK-Maxima started, library version 2013022800 ]")$
+print("[ STACK-Maxima started, library version 2013030500 ]")$

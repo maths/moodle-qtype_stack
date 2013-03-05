@@ -1,8 +1,8 @@
 (mapc #'tex-setup
       '(
-	(%acos "\\arccos ")
-	(%asin "\\arcsin ")
-	(%atan "\\arctan ")
+	(%acos "\\cos^{-1}")
+	(%asin "\\sin^{-1}")
+	(%atan "\\tan^{-1}")
 
 					; Latex's arg(x) is ... ?
 	(%cos "\\cos ")
@@ -38,20 +38,20 @@
 
     ; Maxima built-in functions which do not have corresponding TeX symbols.
 
-    (%asec "{\\rm arcsec}")
-    (%acsc "{\\rm arccsc}")
-    (%acot "{\\rm arccot}")
+    (%asec "{\\rm sec}^{-1}")
+    (%acsc "{\\rm csc}^{-1} ")
+    (%acot "{\\rm cot}^{-1}")
 
     (%sech "{\\rm sech}")
     (%csch "{\\rm csch}")
     
-    (%asinh "{\\rm arcsinh}")
-    (%acosh "{\\rm arccosh}")
-    (%atanh "{\\rm arctanh}")
+    (%asinh "{\\rm sinh}^{-1}")
+    (%acosh "{\\rm cosh}^{-1}")
+    (%atanh "{\\rm tanh}^{-1}")
 
-    (%asech "{\\rm arcsech}")
-    (%acsch "{\\rm arccsch}")
-    (%acoth "{\\rm arccoth}")
+    (%asech "{\\rm sech}^{-1}")
+    (%acsch "{\\rm csch}^{-1}")
+    (%acoth "{\\rm coth}^{-1}")
 
 )) ;; etc
 

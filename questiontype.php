@@ -270,7 +270,7 @@ class qtype_stack extends question_type {
         // This is a bit of a hack. If doing 'Make a copy' when saving the
         // editing form, then detect that here, and try to copy the question
         // tests from the original question.
-        if (!isset($fromform->testcases) && $fromform->makecopy) {
+        if (!isset($fromform->testcases) && !empty($fromform->makecopy)) {
             $oldquestionid = optional_param('id', 0, PARAM_INT);
             if ($oldquestionid) {
                 $fromform->testcases = $this->load_question_tests($oldquestionid);

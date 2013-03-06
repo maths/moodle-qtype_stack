@@ -378,7 +378,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $state = question_state::graded_state_for_fraction($result->score);
 
         $class = $state->get_feedback_class();
-        $field = 'prt' . $class;
+        $field = 'prt' . $class . 'instantiated';
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
             return html_writer::tag('div', $question->format_text(

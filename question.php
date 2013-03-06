@@ -118,14 +118,34 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     protected $questionnoteinstantiated;
 
     /**
-     * @var array stack_cas_session STACK specific: session of variables.
+     * @var string instantiated version of questiontext.
+     * Initialised in start_attempt / apply_attempt_state.
      */
     public $questiontextinstantiated;
 
     /**
-     * @var array stack_cas_session STACK specific: session of variables.
+     * @var string instantiated version of specificfeedback.
+     * Initialised in start_attempt / apply_attempt_state.
      */
     public $specificfeedbackinstantiated;
+
+    /**
+     * @var string instantiated version of prtcorrect.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $prtcorrectinstantiated;
+
+    /**
+     * @var string instantiated version of prtpartiallycorrect.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $prtpartiallycorrectinstantiated;
+
+    /**
+     * @var string instantiated version of prtincorrect.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $prtincorrectinstantiated;
 
     /**
      * The next three fields cache the results of some expensive computations.
@@ -248,7 +268,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $session = $questionvars->get_session();
 
         // 2. correct answer for all inputs.
-        $response =array();
+        $response = array();
         foreach ($this->inputs as $name => $input) {
             $cs = new stack_cas_casstring($input->get_teacher_answer());
             $cs->validate('t');
@@ -259,25 +279,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $session_length = count($session->get_session());
 
         // 3. CAS bits inside the question text.
-        $questiontext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
-        if ($questiontext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error in the question text: ' .
-                    $questiontext->get_errors());
-        }
+        $questiontext = $this->prepare_cas_text($this->questiontext, $session);
 
         // 4. CAS bits inside the specific feedback.
-        $feedbacktext = new stack_cas_text($this->specificfeedback, $session, $this->seed, 't', false, true);
-        if ($questiontext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error in the feedback text: ' .
-                    $feedbacktext->get_errors());
-        }
+        $feedbacktext = $this->prepare_cas_text($this->specificfeedback, $session);
 
         // 5. CAS bits inside the question note.
-        $notetext = new stack_cas_text($this->questionnote,  $session, $this->seed, 't', false, true);
-        if ($questiontext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error in the question note: ' .
-                    $notetext->get_errors());
-        }
+        $notetext = $this->prepare_cas_text($this->questionnote, $session);
+
+        // 6. The standard PRT feedback.
+        $prtcorrect          = $this->prepare_cas_text($this->prtcorrect, $session);
+        $prtpartiallycorrect = $this->prepare_cas_text($this->prtpartiallycorrect, $session);
+        $prtincorrect        = $this->prepare_cas_text($this->prtincorrect, $session);
 
         // Now instantiate the session.
         $session->instantiate();
@@ -290,14 +303,32 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // Finally, store only those values really needed for later.
-        $this->questiontextinstantiated     = $questiontext->get_display_castext();
-        $this->specificfeedbackinstantiated = $feedbacktext->get_display_castext();
-        $this->questionnoteinstantiated     = $notetext->get_display_castext();
+        $this->questiontextinstantiated        = $questiontext->get_display_castext();
+        $this->specificfeedbackinstantiated    = $feedbacktext->get_display_castext();
+        $this->questionnoteinstantiated        = $notetext->get_display_castext();
+        $this->prtcorrectinstantiated          = $prtcorrect->get_display_castext();
+        $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect->get_display_castext();
+        $this->prtincorrectinstantiated        = $prtincorrect->get_display_castext();
         $session->prune_session($session_length);
         $this->session = $session;
 
         // Allow inputs to update themselves based on the model answers.
         $this->adapt_inputs();
+    }
+
+    /**
+     * Helper method used by initialise_question_from_seed.
+     * @param string $text a textual part of the question that is CAS text.
+     * @param stack_cas_session $session the question's CAS session.
+     * @return stack_cas_text the CAS text version of $text.
+     */
+    protected function prepare_cas_text($text, $session) {
+        $castext = new stack_cas_text($text, $session, $this->seed, 't', false, true);
+        if ($castext->get_errors()) {
+            throw new stack_exception('qtype_stack_question : Error part of the question: ' .
+                    $castext->get_errors());
+        }
+        return $castext;
     }
 
     public function apply_attempt_state(question_attempt_step $step) {

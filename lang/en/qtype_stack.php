@@ -56,6 +56,7 @@ $string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/C
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
+$string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">run the question tests in bulk script</a> lets you easily run all the question all the STACK questions in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleard.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
 $string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
@@ -306,6 +307,15 @@ $string['replacedollarsindexintro'] = 'Clicking on any of the links will take yo
 $string['replacedollarsindextitle'] = 'Replace $s in question texts';
 $string['replacedollarsnoproblems'] = 'No problem delimiters found.';
 $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
+
+// Strings used by the bulk run question tests script:
+$string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
+$string['bulktestindextitle'] = 'Run the question tests in bulk';
+$string['bulktestnotests'] = 'This question does not have any tests.';
+$string['bulktesttitle'] = 'Running all the question tests in {$a}';
+$string['overallresult'] = 'Overall result';
+$string['seedx'] = 'Seed {$a}';
+$string['testpassesandfails'] = '{$a->passes} passes and {$a->fails} failures.';
 
 // Strings used by interaction elements.
 $string['false'] = 'False';

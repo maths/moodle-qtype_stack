@@ -39,6 +39,8 @@ $links = array(
             array('link' => (string) new moodle_url('/question/type/stack/answertests.php'))),
     get_string('stackInstall_input_title_desc', 'qtype_stack',
             array('link' => (string) new moodle_url('/question/type/stack/studentinputs.php'))),
+    get_string('bulktestindexintro_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/bulktestindex.php'))),
     get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
             array('link' => (string) new moodle_url('/question/type/stack/replacedollarsindex.php'))),
 );

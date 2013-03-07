@@ -114,6 +114,7 @@ echo $OUTPUT->footer();
  */
 function qtype_stack_test_question($question, $tests, $seed = null) {
     flush(); // Force output to prevent timeouts and to make progress clear.
+    set_time_limit(30); // Prevent PHP timeouts.
     gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
     // Prepare the question and a usage.

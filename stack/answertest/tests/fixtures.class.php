@@ -142,6 +142,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)', '(x>-5 and x<-4) or (x>4 and x<5)', 1, '', ''),
         array('AlgEquiv', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)', '(x>-5 and x<-4) or (x>8 and x<5)', 0, '', ''),
 
+        array('AlgEquiv', '2*x^2+x>=6', 'x<=-2 or x>=3/2', 0, '', 'Inequalities - not currently considered equivalent, but maybe in the future'),
+
         array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
         array('AlgEquiv', '(19601-13860*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 1, '', ''),
@@ -154,8 +156,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', 1, '', ''),
         array('AlgEquiv', 'x^4>=0', 'x^2>=0', 1, '', ''),
         array('AlgEquiv', '-inf', 'minf', 1, '', ''),
+        array('AlgEquiv', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', 1, '', ''), //Cardano's example!
 
-                // SubstEquiv Answer tests.
+        // SubstEquiv Answer tests.
         array('SubstEquiv', '1/0', 'x^2-2*x+1', 0, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^2+1', 1, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^3+1', 0, '', ''),

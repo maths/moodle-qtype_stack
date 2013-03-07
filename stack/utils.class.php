@@ -669,6 +669,14 @@ class stack_utils {
         return $matches[1];
     }
 
+    /**
+     * @param string $name a potential name for part of a STACK question.
+     * @return bool whether that name is allowed.
+     */
+    public static function is_valid_name($name) {
+        return preg_match('~^' . self::VALID_NAME_REGEX . '$~', $name);
+    }
+
     /** Get the stack configuration settings. */
     public static function get_config() {
         if (is_null(self::$config)) {
@@ -679,5 +687,102 @@ class stack_utils {
 
     public static function clear_config_cache() {
         self::$config = null;
+    }
+
+    /**
+     * This breaks down a complex rename of the names of a set of things, so that
+     * the renames may safely be performed one-at-a-time. This is easier to understand
+     * with an example:
+     *
+     * Suppose the input is array(1 => 2, 2 => 1). Then the output will be
+     * array (1 => temp1, 2 => 1, temp1 => 2).
+     *
+     * This function can solve this problem in the general case.
+     *
+     * @param array $renamemap a mapping from oldname => newname for a set of things.
+     * @return array $saferenames a sequence of single rename operations,
+     *      oldname => newname that when performed in order, will not cause a
+     *      name clash.
+     */
+    public static function decompose_rename_operation(array $renamemap) {
+
+        $nontrivialmap = array();
+        $usednames = array();
+        foreach ($renamemap as $from => $to) {
+            $usednames[(string) $from] = 1;
+            $usednames[(string) $to] = 1;
+            if ((string) $from !== (string) $to) {
+                $nontrivialmap[(string) $from] = (string) $to;
+            }
+        }
+
+        if (empty($nontrivialmap)) {
+            return array();
+        }
+
+        // First we deal with all renames that are not part of cycles.
+        // This bit is O(n^2) and it ought to be possible to do better,
+        // but it does not seem worth the effort.
+        $saferenames = array();
+        $todocount = count($nontrivialmap) + 1;
+        while (count($nontrivialmap) < $todocount) {
+            $todocount = count($nontrivialmap);
+
+            foreach ($nontrivialmap as $from => $to) {
+                if (array_key_exists($to, $nontrivialmap)) {
+                    continue; // Cannot currenly do this rename.
+                }
+                // Is safe to do this rename now.
+                $saferenames[$from] = $to;
+                unset($nontrivialmap[$from]);
+            }
+        }
+
+        // Are we done?
+        if (empty($nontrivialmap)) {
+            return $saferenames;
+        }
+
+        // Now, what is left in $nontrivialmap will permutation, which must be a
+        // combination of distinct cycles. We need to break them.
+        $tempname = self::get_next_unused_name($usednames);
+        while (!empty($nontrivialmap)) {
+            // Extract the first cycle.
+            reset($nontrivialmap);
+            $current = $cyclestart = key($nontrivialmap);
+            $cycle = array();
+            do {
+                $cycle[] = $current;
+                $next = $nontrivialmap[$current];
+                unset($nontrivialmap[$current]);
+                $current = $next;
+            } while ($current !== $cyclestart);
+
+            // Now convert it to a sequence of safe renames by using a temp.
+            $saferenames[$cyclestart] = $tempname;
+            $cycle[0] = $tempname;
+            $to = $cyclestart;
+            while ($from = array_pop($cycle)) {
+                $saferenames[$from] = $to;
+                $to = $from;
+            }
+
+            $tempname = self::get_next_unused_name($usednames, ++$tempname);
+        }
+
+        return $saferenames;
+    }
+
+    /**
+     * Get an name that is not used as a key in $usednames.
+     * @param array $usednames where the keys are the used names.
+     * @param string $suggestedname the form the name should take. Default 'temp1'.
+     * @return string an unused name.
+     */
+    protected static function get_next_unused_name($usednames, $suggestedname = 'temp1') {
+        while (array_key_exists($suggestedname, $usednames)) {
+            $suggestedname++;
+        }
+        return $suggestedname;
     }
 }

@@ -33,11 +33,10 @@ Basic reports now work.
  1. When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
  2. **DONE** A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
  3. **DONE** Display inputs and PRTs in the order they are mentioned in the question text + specific feedback.
- 4. Display Nodes in and order that comes from a natural traversal of the PRT, rather than the order they were added to the question. [See tidy question script below.]
+ 4. Allow an arbitrary PRT node to be the root node, rather than assuming it is the lowest numbered one.
  5. **DONE** Display a graphical representation of each PRT, that can be clicked to jump to that Node on the editing form.
  6. **DONE** When cloninig a question with the 'Make copy' button, also clone the question tests.
-* Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
-  * Enable an arbitrary node to be designated as the root node/auto find natural root?
+* **DONE** Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 * Review the list of forbidden keywords.
 * **DONE** Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of. 

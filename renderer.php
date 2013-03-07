@@ -112,7 +112,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        $urlparams = array('questionid' => $question->id, 'seed' => $question->seed);
+        $urlparams = array('questionid' => $question->id);
 
         // This is a bit of a hack to find the right thing to put in the URL.
         $context = $question->get_context();
@@ -138,10 +138,19 @@ class qtype_stack_renderer extends qtype_renderer {
             $urlparams['courseid'] = get_site()->id;
         }
 
-        return html_writer::tag('div',
-                html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php', $urlparams),
-                        stack_string('runquestiontests')),
-                array('class' => 'questiontestslink'));
+        $links = array();
+        if ($question->user_can_edit()) {
+            $links[] = html_writer::link(new moodle_url(
+                    '/question/type/stack/tidyquestion.php', $urlparams),
+                    stack_string('tidyquestion'));
+        }
+
+        $urlparams['seed'] = $question->seed;
+        $links[] = html_writer::link(new moodle_url(
+                '/question/type/stack/questiontestrun.php', $urlparams),
+                stack_string('runquestiontests'));
+
+        return html_writer::tag('div', implode(' | ', $links), array('class' => 'questiontestslink'));
     }
 
     public function feedback(question_attempt $qa, question_display_options $options) {

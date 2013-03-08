@@ -460,7 +460,7 @@ class stack_cas_session {
 
             // Replace any ?'s with a safe value.
             $cmd = str_replace('?', 'QMCHAR', $cs->get_casstring());
-            // Strip off any []s at the end of a variable name.  
+            // Strip off any []s at the end of a variable name.
             // These are used to assign elements of lists and matrices, but this breaks Maxima's block command.
             if (false === strpos($label, '[')) {
                 $cleanlabel = $label;

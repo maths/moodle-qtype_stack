@@ -38,7 +38,7 @@ class stack_abstract_graph_test extends basic_testcase {
      * This graph has 4 nodes and should look like:
      * /\
      * \
-     */ 
+     */
     public function test_simple_graph() {
         $graph = new stack_abstract_graph();
         $graph->add_node(1, 2, 3, '=1', '=0');

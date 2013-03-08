@@ -186,12 +186,14 @@ class stack_utils_test extends basic_testcase {
     }
 
     public function test_decompose_rename_operation_cycle_temp_already_used() {
-        $this->assertEquals(array('temp1' => 'temp4', 'temp3' => 'temp1', 'temp2' => 'temp3', 'temp4' => 'temp2'), stack_utils::decompose_rename_operation(
+        $this->assertEquals(array('temp1' => 'temp4', 'temp3' => 'temp1', 'temp2' => 'temp3', 'temp4' => 'temp2'),
+                stack_utils::decompose_rename_operation(
                 array('temp1' => 'temp2', 'temp2' => 'temp3', 'temp3' => 'temp1')));
     }
 
     public function test_decompose_rename_operation_complex() {
-        $this->assertEquals(array('i' => 'j', 'h' => 'i', 'a' => 'temp1', 'e' => 'a', 'g' => 'e', 'temp1' => 'g', 'd' => 'temp2', 'f' => 'd', 'temp2' => 'f'), stack_utils::decompose_rename_operation(
+        $this->assertEquals(array('i' => 'j', 'h' => 'i', 'a' => 'temp1', 'e' => 'a', 'g' => 'e', 'temp1' => 'g',
+                'd' => 'temp2', 'f' => 'd', 'temp2' => 'f'), stack_utils::decompose_rename_operation(
                 array('a' => 'g', 'b' => 'b', 'd' => 'f', 'd' => 'f', 'e' => 'a', 'f' => 'd', 'g' => 'e', 'h' => 'i', 'i' => 'j')));
     }
 }

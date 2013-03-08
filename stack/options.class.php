@@ -111,7 +111,7 @@ class stack_options {
 
     public function set_site_defaults() {
         $stackconfig = stack_utils::get_config();
-        // display option does not match up to $stackconfig->mathsdisplay);
+        // Display option does not match up to $stackconfig->mathsdisplay).
         $this->set_option('multiplicationsign', $stackconfig->multiplicationsign);
         $this->set_option('complexno', $stackconfig->complexno);
         $this->set_option('inversetrig', $stackconfig->inversetrig);
@@ -180,7 +180,9 @@ class stack_options {
                     $names      .= ', '.$opt['caskey'];
                     $commands   .= ', '.$opt['caskey'].':'.$value;
                 } else if ('fun' == $opt['castype']) {
-                    $commands   .= ', '.$opt['caskey'].'("'.$value.'")'; // Make sure these options are *strings*, otherwise they clash with Maxim names, particularly alias.
+                    // Make sure these options are *strings*, otherwise they clash
+                    // with Maxim names, particularly alias.
+                    $commands   .= ', '.$opt['caskey'].'("'.$value.'")';
                 }
             }
         }

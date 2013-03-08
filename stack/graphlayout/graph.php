@@ -185,6 +185,9 @@ class stack_abstract_graph {
             uasort($this->nodesbydepth[$depth], array('stack_abstract_graph', 'compare_node_x_coords'));
         }
         ksort($this->nodesbydepth);
+
+        // Sort the roots into name order.
+        ksort($this->roots);
     }
 
     /**

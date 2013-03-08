@@ -160,15 +160,6 @@ class qtype_stack_tidy_question_form extends moodleform {
                     $nodenames[$proposedname] = $nodekey;
                 }
             }
-
-            reset($nodes);
-            $firstkey = key($nodes);
-            $field = 'nodename_' . $prtname . '_' . $firstkey;
-            if (empty($errors[$field])) {
-                if ($data[$field] > min(array_keys($nodenames))) {
-                    $errors[$field] = stack_string('firstnodemusthavelowestnumber');
-                }
-            }
         }
 
         return $errors;

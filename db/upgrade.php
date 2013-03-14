@@ -573,6 +573,47 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2013030104, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2013030800) {
+
+        // Define field firstnodename to be added to qtype_stack_prts
+        $table = new xmldb_table('qtype_stack_prts');
+        $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, null, null, null, 'feedbackvariables');
+
+        // Conditionally launch add field firstnodename
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030800, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030801) {
+        // Fill the qtype_stack_prts.firstnodename column.
+        $DB->execute('UPDATE {qtype_stack_prts} SET firstnodename = (
+                      SELECT MIN(' . $DB->sql_cast_char2int('nodename') . ')
+                        FROM {qtype_stack_prt_nodes} nodes
+                       WHERE nodes.questionid = {qtype_stack_prts}.questionid
+                         AND nodes.prtname = {qtype_stack_prts}.name
+                    )');
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030801, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030802) {
+
+        // Changing nullability of field firstnodename on table qtype_stack_prts to not null
+        $table = new xmldb_table('qtype_stack_prts');
+        $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, null, 'feedbackvariables');
+
+        // Launch change of nullability for field firstnodename
+        $dbman->change_field_notnull($table, $field);
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030802, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // This block of code is intentionally outside of an if statement. We want

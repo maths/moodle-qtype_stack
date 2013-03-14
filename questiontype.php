@@ -180,9 +180,39 @@ class qtype_stack extends question_type {
                 $prt->id = $DB->insert_record('qtype_stack_prts', $prt);
             }
 
+            // Find the root node of the PRT.
+            // Otherwise, if an existing question is being edited, and this is an
+            // existing PRT, base things on the existing question definition.
+            $graph = new stack_abstract_graph();
+            foreach ($fromform->{$prtname . 'answertest'} as $nodename => $notused) {
+                $truenextnode  = $fromform->{$prtname . 'truenextnode'}[$nodename];
+                $falsenextnode = $fromform->{$prtname . 'falsenextnode'}[$nodename];
+
+                if ($truenextnode == -1) {
+                    $left = null;
+                } else {
+                    $left = $truenextnode + 1;
+                }
+                if ($falsenextnode == -1) {
+                    $right = null;
+                } else {
+                    $right = $falsenextnode + 1;
+                }
+
+                $graph->add_node($nodename + 1, $left, $right);
+            }
+            $graph->layout();
+            $roots = $graph->get_roots();
+            if (count($roots) != 1 || $graph->get_broken_cycles()) {
+                throw new coding_exception('The PRT ' . $prtname . ' is malformed.');
+            }
+            reset($roots);
+            $firstnode = key($roots) - 1;
+
             $prt->value             = $fromform->{$prtname . 'value'};
             $prt->autosimplify      = $fromform->{$prtname . 'autosimplify'};
             $prt->feedbackvariables = $fromform->{$prtname . 'feedbackvariables'};
+            $prt->firstnodename     = $firstnode;
             $DB->update_record('qtype_stack_prts', $prt);
 
             $nodes = $DB->get_records('qtype_stack_prt_nodes',
@@ -314,7 +344,7 @@ class qtype_stack extends question_type {
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
-                'name, id, questionid, value, autosimplify, feedbackvariables');
+                'name, id, questionid, value, autosimplify, feedbackvariables, firstnodename');
 
         $noders = $DB->get_recordset('qtype_stack_prt_nodes',
                 array('questionid' => $question->id),
@@ -419,7 +449,6 @@ class qtype_stack extends question_type {
                 $node->add_branch(1, $nodedata->truescoremode, $nodedata->truescore,
                         $truepenalty, $nodedata->truenextnode,
                         $nodedata->truefeedback, $nodedata->truefeedbackformat, $nodedata->trueanswernote);
-                // TODO true/false feedbackformat.
                 $nodes[$nodedata->nodename] = $node;
             }
 
@@ -431,9 +460,10 @@ class qtype_stack extends question_type {
             } else {
                 $feedbackvariables = null;
             }
+
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                     (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
-                    $feedbackvariables, $nodes);
+                    $feedbackvariables, $nodes, $prtdata->firstnodename);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -605,6 +635,133 @@ class qtype_stack extends question_type {
         $DB->delete_records('qtype_stack_deployed_seeds',
                 array('questionid' => $questionid, 'seed' => $seed));
 
+        $this->notify_question_edited($questionid);
+    }
+
+    /**
+     * Rename an input in the question data. It is the caller's responsibility
+     * to ensure that the $to name will not violate any unique constraints.
+     * @param int $questionid the question id.
+     * @param string $from the input to rename.
+     * @param string $to the new name to give it.
+     */
+    public function rename_input($questionid, $from, $to) {
+        global $DB;
+        $transaction = $DB->start_delegated_transaction();
+
+        // Place-holders in the question text.
+        $questiontext = $DB->get_field('question', 'questiontext', array('id' => $questionid));
+        $questiontext = str_replace(array("[[input:{$from}]]", "[[validation:{$from}]]"),
+                array("[[input:{$to}]]", "[[validation:{$to}]]"), $questiontext);
+        $DB->set_field('question', 'questiontext', $questiontext, array('id' => $questionid));
+
+        // Input names in question test data.
+        $DB->set_field('qtype_stack_qtest_inputs', 'inputname', $to,
+                array('questionid' => $questionid, 'inputname' => $from));
+
+        // The input itself.
+        $DB->set_field('qtype_stack_inputs', 'name', $to,
+                array('questionid' => $questionid, 'name' => $from));
+
+        // Where the input name appears in expressions in PRTs.
+        $regex = '~\b' . preg_quote($from, '~') . '\b~';
+        $prts = $DB->get_records('qtype_stack_prts', array('questionid' => $questionid),
+                    'id, feedbackvariables');
+        foreach ($prts as $prt) {
+            $prt->sans = preg_replace($regex, $to, $prt->feedbackvariables, -1, $changes);
+            if ($changes) {
+                $DB->update_record('qtype_stack_prts', $prt);
+            }
+        }
+
+        // Where the input name appears in expressions in PRT node.
+        $nodes = $DB->get_records('qtype_stack_prt_nodes', array('questionid' => $questionid),
+                        'id, sans, tans, testoptions, truefeedback, falsefeedback');
+        foreach ($nodes as $node) {
+            $changes = false;
+            $node->sans = preg_replace($regex, $to, $node->sans, -1, $count);
+            $changes = $changes || $count;
+            $node->tans = preg_replace($regex, $to, $node->tans, -1, $count);
+            $changes = $changes || $count;
+            $node->testoptions = preg_replace($regex, $to, $node->testoptions, -1, $count);
+            $changes = $changes || $count;
+            $node->truefeedback = preg_replace($regex, $to, $node->truefeedback, -1, $count);
+            $changes = $changes || $count;
+            $node->falsefeedback = preg_replace($regex, $to, $node->falsefeedback, -1, $count);
+            $changes = $changes || $count;
+            if ($changes) {
+                $DB->update_record('qtype_stack_prt_nodes', $node);
+            }
+        }
+
+        $transaction->allow_commit();
+        $this->notify_question_edited($questionid);
+    }
+
+    /**
+     * Rename a PRT in the question data. It is the caller's responsibility
+     * to ensure that the $to name will not violate any unique constraints.
+     * @param int $questionid the question id.
+     * @param string $from the PRT to rename.
+     * @param string $to the new name to give it.
+     */
+    public function rename_prt($questionid, $from, $to) {
+        global $DB;
+        $transaction = $DB->start_delegated_transaction();
+
+        // Place-holders in the question text.
+        $questiontext = $DB->get_field('question', 'questiontext', array('id' => $questionid));
+        $questiontext = str_replace("[[feedback:{$from}]]", "[[feedback:{$to}]]", $questiontext);
+        $DB->set_field('question', 'questiontext', $questiontext, array('id' => $questionid));
+
+        // Place-holders in the specific feedback.
+        $specificfeedback = $DB->get_field('qtype_stack_options', 'specificfeedback',
+                array('questionid' => $questionid));
+        $specificfeedback = str_replace("[[feedback:{$from}]]", "[[feedback:{$to}]]", $specificfeedback);
+        $DB->set_field('qtype_stack_options', 'specificfeedback', $specificfeedback,
+                array('questionid' => $questionid));
+
+        // PRT names in question test data.
+        $DB->set_field('qtype_stack_qtest_expected', 'prtname', $to,
+                array('questionid' => $questionid, 'prtname' => $from));
+
+        // The PRT name in its nodes.
+        $DB->set_field('qtype_stack_prt_nodes', 'prtname', $to,
+                array('questionid' => $questionid, 'prtname' => $from));
+
+        // The PRT itself.
+        $DB->set_field('qtype_stack_prts', 'name', $to,
+                array('questionid' => $questionid, 'name' => $from));
+
+        $transaction->allow_commit();
+        $this->notify_question_edited($questionid);
+    }
+
+    /**
+     * Rename a PRT node in the question data. It is the caller's responsibility
+     * to ensure that the $to name will not violate any unique constraints.
+     * @param int $questionid the question id.
+     * @param string $prtname the PRT that the node belongs to.
+     * @param string $from the input to rename.
+     * @param string $to the new name to give it.
+     */
+    public function rename_prt_node($questionid, $prtname, $from, $to) {
+        global $DB;
+        $transaction = $DB->start_delegated_transaction();
+
+        // The PRT node itself.
+        $DB->set_field('qtype_stack_prt_nodes', 'nodename', $to,
+                array('questionid' => $questionid, 'prtname' => $prtname, 'nodename' => $from));
+
+        // True next node links.
+        $DB->set_field('qtype_stack_prt_nodes', 'truenextnode', $to,
+                array('questionid' => $questionid, 'prtname' => $prtname, 'truenextnode' => $from));
+
+        // False next node links.
+        $DB->set_field('qtype_stack_prt_nodes', 'falsenextnode', $to,
+                array('questionid' => $questionid, 'prtname' => $prtname, 'falsenextnode' => $from));
+
+        $transaction->allow_commit();
         $this->notify_question_edited($questionid);
     }
 

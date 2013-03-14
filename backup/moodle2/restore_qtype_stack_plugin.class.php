@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php');
+
 
 /**
  * Provides the information to restore STACK questions
@@ -123,10 +125,14 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
         $this->currentprtname = $data->name;
 
+        if (!property_exists($data, 'firstnodename')) {
+            $data->firstnodename = -1; // This will be fixed later.
+        }
+
         // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
-        // If the question is being created, save this input.
+        // If the question is being created, save this PRT.
         if ($questioncreated) {
             $data->questionid = $this->get_new_parentid('question');
             $DB->insert_record('qtype_stack_prts', $data, false);
@@ -246,5 +252,52 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             new restore_decode_content('qtype_stack_prt_nodes', array('truefeedback', 'falsefeedback'),
                     'qtype_stack_prt_nodes'),
         );
+    }
+
+    /**
+     * When restoring old data, that does not have the essay options information
+     * in the XML, supply defaults.
+     */
+    protected function after_execute_question() {
+        global $DB;
+
+        $prtswithoutfirstnode = $DB->get_records('qtype_stack_prts',
+                array('firstnodename' => -1), '', 'id, questionid, name');
+
+        foreach ($prtswithoutfirstnode as $prt) {
+            $nodes = $DB->get_records('qtype_stack_prt_nodes',
+                    array('questionid' => $prt->questionid, 'prtname' => $prt->name), '',
+                    'nodename, truenextnode, falsenextnode');
+
+            // Find the root node of the PRT.
+            // Otherwise, if an existing question is being edited, and this is an
+            // existing PRT, base things on the existing question definition.
+            $graph = new stack_abstract_graph();
+            foreach ($nodes as $node) {
+
+                if ($node->truenextnode == -1) {
+                    $left = null;
+                } else {
+                    $left = $node->truenextnode + 1;
+                }
+                if ($node->falsenextnode == -1) {
+                    $right = null;
+                } else {
+                    $right = $node->falsenextnode + 1;
+                }
+
+                $graph->add_node($node->nodename + 1, $left, $right);
+            }
+            $graph->layout();
+            $roots = $graph->get_roots();
+            if (count($roots) != 1 || $graph->get_broken_cycles()) {
+                throw new coding_exception('The PRT ' . $prt->name . ' is malformed.');
+            }
+            reset($roots);
+            $firstnode = key($roots) - 1;
+
+            $DB->set_field('qtype_stack_prts', 'firstnodename', $firstnode,
+                    array('id' => $prt->id));
+        }
     }
 }

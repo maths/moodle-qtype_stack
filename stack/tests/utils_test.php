@@ -21,6 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(dirname(__FILE__) . '/../../locallib.php');
 require_once(dirname(__FILE__) . '/../utils.class.php');
 
 
@@ -162,5 +163,37 @@ class stack_utils_test extends basic_testcase {
         $strin = '[[1,2,3], {x^2,x^3}]';
         $a = array(array('1', '2', '3'), ' {x^2,x^3}');
         $this->assertEquals($a, stack_utils::list_to_array($strin, true));
+    }
+
+    public function test_decompose_rename_operation_identity() {
+        $this->assertEquals(array(), stack_utils::decompose_rename_operation(
+                array('a' => 'a', 'b' => 'b')));
+    }
+
+    public function test_decompose_rename_operation_no_overlap() {
+        $this->assertEquals(array('a' => 'c', 'b' => 'd'), stack_utils::decompose_rename_operation(
+                array('a' => 'c', 'b' => 'd')));
+    }
+
+    public function test_decompose_rename_operation_shift() {
+        $this->assertSame(array('x3' => 'x4', 'x2' => 'x3', 'x1' => 'x2'), stack_utils::decompose_rename_operation(
+                array('x1' => 'x2', 'x2' => 'x3', 'x3' => 'x4')));
+    }
+
+    public function test_decompose_rename_operation_simple_swap() {
+        $this->assertEquals(array('a' => 'temp1', 'b' => 'a', 'temp1' => 'b'), stack_utils::decompose_rename_operation(
+                array('a' => 'b', 'b' => 'a')));
+    }
+
+    public function test_decompose_rename_operation_cycle_temp_already_used() {
+        $this->assertEquals(array('temp1' => 'temp4', 'temp3' => 'temp1', 'temp2' => 'temp3', 'temp4' => 'temp2'),
+                stack_utils::decompose_rename_operation(
+                array('temp1' => 'temp2', 'temp2' => 'temp3', 'temp3' => 'temp1')));
+    }
+
+    public function test_decompose_rename_operation_complex() {
+        $this->assertEquals(array('i' => 'j', 'h' => 'i', 'a' => 'temp1', 'e' => 'a', 'g' => 'e', 'temp1' => 'g',
+                'd' => 'temp2', 'f' => 'd', 'temp2' => 'f'), stack_utils::decompose_rename_operation(
+                array('a' => 'g', 'b' => 'b', 'd' => 'f', 'd' => 'f', 'e' => 'a', 'f' => 'd', 'g' => 'e', 'h' => 'i', 'i' => 'j')));
     }
 }

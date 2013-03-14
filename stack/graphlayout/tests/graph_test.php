@@ -38,7 +38,7 @@ class stack_abstract_graph_test extends basic_testcase {
      * This graph has 4 nodes and should look like:
      * /\
      * \
-     */ 
+     */
     public function test_simple_graph() {
         $graph = new stack_abstract_graph();
         $graph->add_node(1, 2, 3, '=1', '=0');
@@ -136,11 +136,7 @@ class stack_abstract_graph_test extends basic_testcase {
         $this->assertEquals(0, $n->x);
 
         $this->assertEmpty($graph->get_broken_cycles());
-
-        $roots = $graph->get_roots();
-        $this->assertCount(2, $roots);
-        $this->assertArrayHasKey(1, $roots);
-        $this->assertArrayHasKey(2, $roots);
+        $this->assertSame(array(1, 2), array_keys($graph->get_roots()));
     }
 
     /**

@@ -418,7 +418,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
-                    $input->maxima_to_response_array($this->session->get_casstring_key($name)));
+                    $input->maxima_to_response_array($this->session->get_value_key($name)));
         }
 
         return $teacheranswer;
@@ -740,6 +740,46 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $this->options, $prtinput, $this->seed);
 
         return $this->prtresults[$index];
+    }
+
+    /**
+     * For a possibly nested array, replace all the values with $newvalue.
+     * @param array $array input array.
+     * @param mixed $newvalue the new value to set.
+     * @return modified array.
+     */
+    protected function set_value_in_nested_arrays($arrayorscalar, $newvalue) {
+        if (!is_array($arrayorscalar)) {
+            return $newvalue;
+        }
+
+        $newarray = array();
+        foreach ($arrayorscalar as $key => $value) {
+            $newarray[$key] = $this->set_value_in_nested_arrays($value, $newvalue);
+        }
+        return $newarray;
+    }
+
+    /**
+     * Pollute the question's input state and PRT result caches so that each
+     * input appears to contain the name of the input, and each PRT feedback
+     * area displays "Feedback from PRT {name}". Naturally, this method should
+     * only be used for special purposes, namely the tidyquestion.php script.
+     */
+    public function setup_fake_feedback_and_input_validation() {
+        // Set the cached input stats as if the user types the input name into each box.
+        foreach ($this->inputstates as $name => $inputstate) {
+            $this->inputstates[$name] = new stack_input_state(
+                    $inputstate->status, $this->set_value_in_nested_arrays($inputstate->contents, $name),
+                    $inputstate->contentsmodified, $inputstate->contentsdisplayed, $inputstate->errors);
+        }
+
+        // Set the cached prt results as if the feedback for each PRT was
+        // "Feedback from PRT {name}".
+        foreach ($this->prtresults as $name => $prtresult) {
+            $prtresult->_feedback = array();
+            $prtresult->add_feedback(stack_string('feedbackfromprtx', $name));
+        }
     }
 
     /**

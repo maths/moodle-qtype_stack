@@ -289,10 +289,14 @@ class stack_potentialresponse_node {
      */
     public function summarise_branches() {
         $summary = new stdClass();
-        $summary->falsenote  = $this->branches[false]['answernote'];
-        $summary->falsescore = $this->branches[false]['score'];
-        $summary->truenote   = $this->branches[true]['answernote'];
-        $summary->truescore  = $this->branches[true]['score'];
+        $summary->falsenextnode  = $this->branches[false]['nextnode'];
+        $summary->falsenote      = $this->branches[false]['answernote'];
+        $summary->falsescore     = $this->branches[false]['score'];
+        $summary->falsescoremode = $this->branches[false]['scoremodification'];
+        $summary->truenextnode   = $this->branches[true]['nextnode'];
+        $summary->truenote       = $this->branches[true]['answernote'];
+        $summary->truescore      = $this->branches[true]['score'];
+        $summary->truescoremode  = $this->branches[true]['scoremodification'];
         return $summary;
     }
 }

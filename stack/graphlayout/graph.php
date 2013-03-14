@@ -185,6 +185,9 @@ class stack_abstract_graph {
             uasort($this->nodesbydepth[$depth], array('stack_abstract_graph', 'compare_node_x_coords'));
         }
         ksort($this->nodesbydepth);
+
+        // Sort the roots into name order.
+        ksort($this->roots);
     }
 
     /**
@@ -383,6 +386,54 @@ class stack_abstract_graph {
             }
         }
         return false;
+    }
+
+    /**
+     * Return new node names for this tree in a tidy order.
+     * We generate the names by doing a depth-first traversal according to the
+     * following rules:
+     *  - if the two children have unequal depth, follow the shallower branch first.
+     *  - otherwise true branch before false branch.
+     * @return array old node name => new node name.
+     */
+    public function get_suggested_node_names() {
+        $rawresults = $this->suggested_names_worker(array(), reset($this->roots));
+        $newnames = array();
+        foreach ($rawresults as $newkey => $oldname) {
+            $newnames[$oldname] = $newkey + 1;
+        }
+        return $newnames;
+    }
+
+    /**
+     * Recursive function used by {@link get_suggested_node_names}.
+     * @param array $alreadynamed partial array of new node name - 1 => old node name.
+     * @param stack_abstract_graph_node $node the current node being visited by the algorithm.
+     * @param array partial array of new node name - 1 => old node name with all the childern of $currentnode named.
+     */
+    protected function suggested_names_worker(array $alreadynamed,
+            stack_abstract_graph_node $node) {
+        if (array_key_exists($node->name, $alreadynamed)) {
+            return $alreadynamed;
+        }
+
+        $alreadynamed[] = $node->name;
+
+        if (is_null($node->left) && is_null($node->right)) {
+            return $alreadynamed;
+
+        } else if (is_null($node->right)) {
+            return $this->suggested_names_worker($alreadynamed, $this->get($node->left));
+
+        } else if (is_null($node->left)) {
+            return $this->suggested_names_worker($alreadynamed, $this->get($node->right));
+
+        } else if ($this->get($node->right)->depth < $this->get($node->left)->depth) {
+            return $this->suggested_names_worker($alreadynamed, $this->get($node->right));
+
+        } else {
+            return $this->suggested_names_worker($alreadynamed, $this->get($node->left));
+        }
     }
 
     public function __toString() {

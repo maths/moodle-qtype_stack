@@ -65,7 +65,8 @@
         <FIELD NAME="name" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name used to identify this PRT." PREVIOUS="questionid" NEXT="value"/>
         <FIELD NAME="value" TYPE="number" LENGTH="12" NOTNULL="true" DEFAULT="1" SEQUENCE="false" DECIMALS="7" COMMENT="The maximum score this PRT can contribute to the question." PREVIOUS="name" NEXT="autosimplify"/>
         <FIELD NAME="autosimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to automatically simplify the variables used in this tree." PREVIOUS="value" NEXT="feedbackvariables"/>
-        <FIELD NAME="feedbackvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Additional expressions that should be computed before evaluating this tree." PREVIOUS="autosimplify"/>
+        <FIELD NAME="feedbackvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Additional expressions that should be computed before evaluating this tree." PREVIOUS="autosimplify" NEXT="firstnodename"/>
+        <FIELD NAME="firstnodename" TYPE="char" LENGTH="8" NOTNULL="true" SEQUENCE="false" COMMENT="Refers to qtype_stack_prt_nodes.nodename of the first node in the tree." PREVIOUS="feedbackvariables"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>

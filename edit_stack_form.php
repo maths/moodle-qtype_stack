@@ -63,9 +63,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
     /**
      * @var array prt name => stack_abstract_graph caches the result of
-     * {@link get_required_nodes_for_prt()}.
+     * {@link get_prt_graph()}.
      */
-    protected $prtnodes = array();
+    protected $prtgraph = array();
 
     /** @var array the set of choices used for the type of all inputs. */
     protected $typechoices;
@@ -128,9 +128,9 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param string $prtname the name of a PRT.
      * @return array list of nodes that should be present in the form definitino for this PRT.
      */
-    protected function get_required_nodes_for_prt($prtname) {
-        if (array_key_exists($prtname, $this->prtnodes)) {
-            return $this->prtnodes[$prtname];
+    protected function get_prt_graph($prtname) {
+        if (array_key_exists($prtname, $this->prtgraph)) {
+            return $this->prtgraph[$prtname];
         }
 
         // If the form has been submitted and is being redisplayed, and this is
@@ -180,7 +180,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
 
             $graph->layout();
-            $this->prtnodes[$prtname] = $graph;
+            $this->prtgraph[$prtname] = $graph;
             return $graph;
         }
 
@@ -205,7 +205,7 @@ class qtype_stack_edit_form extends question_edit_form {
                         '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
             }
             $graph->layout();
-            $this->prtnodes[$prtname] = $graph;
+            $this->prtgraph[$prtname] = $graph;
             return $graph;
         }
 
@@ -213,7 +213,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $graph = new stack_abstract_graph();
         $graph->add_node('1', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
         $graph->layout();
-        $this->prtnodes[$prtname] = $graph;
+        $this->prtgraph[$prtname] = $graph;
         return $graph;
     }
 
@@ -304,7 +304,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
         $potential_response_tree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prt_nodes);
+                '', '', false, 0, $feedbackvariables->get_session(), $prt_nodes, $prt->firstnodename);
         return $potential_response_tree->get_required_variables($input_keys);
     }
 
@@ -560,7 +560,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('prtwillbecomeactivewhen', html_writer::tag('b', $inputnames)));
 
         // Create the section of the form for each node - general bits.
-        $graph = $this->get_required_nodes_for_prt($prtname);
+        $graph = $this->get_prt_graph($prtname);
 
         $mform->addElement('static', $prtname . 'graph', '',
                 stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
@@ -1005,7 +1005,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // Check the nodes.
-        $graph = $this->get_required_nodes_for_prt($prtname);
+        $graph = $this->get_prt_graph($prtname);
         $textformat = null;
         foreach ($graph->get_nodes() as $node) {
             $nodekey = $node->name - 1;
@@ -1024,10 +1024,10 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Check that the nodes form a directed acyclic graph.
         $roots = $graph->get_roots();
-        if (!array_key_exists(1, $roots)) {
-            $errors[$prtname . 'node[0]'][] = stack_string('firstnodemustberoot');
-        }
-        unset($roots[1]);
+
+        // There should only be a single root. If there is more than one, then we
+        // we assume that the first one is the intended root, and flat the others as unused.
+        array_shift($roots);
         foreach ($roots as $node) {
             $errors[$prtname . 'node[' . ($node->name - 1) . ']'][] = stack_string('nodenotused');
         }

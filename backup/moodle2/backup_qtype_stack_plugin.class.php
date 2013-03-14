@@ -63,7 +63,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
 
         $stackprts = new backup_nested_element('stackprts');
         $stackprt = new backup_nested_element('stackprt', array('id'),
-                array('name', 'value', 'autosimplify', 'feedbackvariables'));
+                array('name', 'value', 'autosimplify', 'feedbackvariables', 'firstnode'));
 
         $stackprtnodes = new backup_nested_element('stackprtnodes');
         $stackprtnode = new backup_nested_element('stackprtnode', array('id'),

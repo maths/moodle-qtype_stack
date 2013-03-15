@@ -14,7 +14,7 @@ Basic reports now work.
 * Add titles and explanations to the page, and document with examples.
 * **DONE** Split up the answer notes to report back for each PRT separately.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
-* Introduce "validation notes".
+* Introduce "validation notes".  This should work at the PHP level, recording reasons for invalidity.  Since we already connect to the CAS, this should also record whether the student's input is equivalent to the teacher's, in what sense, and what form their answer is in.  Maybe too slow?  Useful perhaps for learning analytics.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 
@@ -33,7 +33,7 @@ Basic reports now work.
  1. When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
  2. **DONE** A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
  3. **DONE** Display inputs and PRTs in the order they are mentioned in the question text + specific feedback.
- 4. Allow an arbitrary PRT node to be the root node, rather than assuming it is the lowest numbered one.
+ 4. **DONE** Allow an arbitrary PRT node to be the root node, rather than assuming it is the lowest numbered one.
  5. **DONE** Display a graphical representation of each PRT, that can be clicked to jump to that Node on the editing form.
  6. **DONE** When cloninig a question with the 'Make copy' button, also clone the question tests.
 * **DONE** Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.

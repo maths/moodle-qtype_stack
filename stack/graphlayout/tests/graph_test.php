@@ -136,11 +136,7 @@ class stack_abstract_graph_test extends basic_testcase {
         $this->assertEquals(0, $n->x);
 
         $this->assertEmpty($graph->get_broken_cycles());
-
-        $roots = $graph->get_roots();
-        $this->assertCount(2, $roots);
-        $this->assertArrayHasKey(1, $roots);
-        $this->assertArrayHasKey(2, $roots);
+        $this->assertSame(array(1, 2), array_keys($graph->get_roots()));
     }
 
     /**

@@ -180,9 +180,39 @@ class qtype_stack extends question_type {
                 $prt->id = $DB->insert_record('qtype_stack_prts', $prt);
             }
 
+            // Find the root node of the PRT.
+            // Otherwise, if an existing question is being edited, and this is an
+            // existing PRT, base things on the existing question definition.
+            $graph = new stack_abstract_graph();
+            foreach ($fromform->{$prtname . 'answertest'} as $nodename => $notused) {
+                $truenextnode  = $fromform->{$prtname . 'truenextnode'}[$nodename];
+                $falsenextnode = $fromform->{$prtname . 'falsenextnode'}[$nodename];
+
+                if ($truenextnode == -1) {
+                    $left = null;
+                } else {
+                    $left = $truenextnode + 1;
+                }
+                if ($falsenextnode == -1) {
+                    $right = null;
+                } else {
+                    $right = $falsenextnode + 1;
+                }
+
+                $graph->add_node($nodename + 1, $left, $right);
+            }
+            $graph->layout();
+            $roots = $graph->get_roots();
+            if (count($roots) != 1 || $graph->get_broken_cycles()) {
+                throw new coding_exception('The PRT ' . $prtname . ' is malformed.');
+            }
+            reset($roots);
+            $firstnode = key($roots) - 1;
+
             $prt->value             = $fromform->{$prtname . 'value'};
             $prt->autosimplify      = $fromform->{$prtname . 'autosimplify'};
             $prt->feedbackvariables = $fromform->{$prtname . 'feedbackvariables'};
+            $prt->firstnodename     = $firstnode;
             $DB->update_record('qtype_stack_prts', $prt);
 
             $nodes = $DB->get_records('qtype_stack_prt_nodes',
@@ -314,7 +344,7 @@ class qtype_stack extends question_type {
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
-                'name, id, questionid, value, autosimplify, feedbackvariables');
+                'name, id, questionid, value, autosimplify, feedbackvariables, firstnodename');
 
         $noders = $DB->get_recordset('qtype_stack_prt_nodes',
                 array('questionid' => $question->id),
@@ -430,9 +460,10 @@ class qtype_stack extends question_type {
             } else {
                 $feedbackvariables = null;
             }
+
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                     (bool) $prtdata->autosimplify, $prtdata->value / $totalvalue,
-                    $feedbackvariables, $nodes);
+                    $feedbackvariables, $nodes, $prtdata->firstnodename);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);

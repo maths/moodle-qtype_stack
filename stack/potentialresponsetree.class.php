@@ -47,10 +47,13 @@ class stack_potentialresponse_tree {
     /** @var stack_cas_cassession Feeback variables. */
     private $feedbackvariables;
 
+    /** @var string index of the first node. */
+    private $firstnode;
+
     /** @var array of stack_potentialresponse_node. */
     private $nodes;
 
-    public function __construct($name, $description, $simplify, $value, $feedbackvariables, $nodes) {
+    public function __construct($name, $description, $simplify, $value, $feedbackvariables, $nodes, $firstnode) {
 
         $this->name        = $name;
         $this->description = $description;
@@ -85,8 +88,13 @@ class stack_potentialresponse_tree {
                         'responses which are not stack_potentialresponse');
             }
         }
-
         $this->nodes = $nodes;
+
+        if (!array_key_exists($firstnode, $this->nodes)) {
+            throw new stack_exception ('stack_potentialresponse_tree: __construct: ' .
+                    'the specified first node does not exist in the tree.');
+        }
+        $this->firstnode = $firstnode;
     }
 
     /**
@@ -165,8 +173,7 @@ class stack_potentialresponse_tree {
                                                             $cascontext->get_errors());
 
         // Traverse the tree.
-        reset($this->nodes);
-        $nodekey = key($this->nodes);
+        $nodekey = $this->firstnode;
         $visitednodes = array();
         while ($nodekey != -1) {
 

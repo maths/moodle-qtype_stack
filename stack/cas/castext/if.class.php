@@ -41,7 +41,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
         self::$count++;
 
-        $condition = $this->get_node()->getAttribute("test");
+        $condition = $this->get_node()->get_parameter("test","false");
 
         $cs = NULL;
         if ($conditionstack === NULL || count($conditionstack) === 0) {
@@ -70,19 +70,11 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         $evaluated = $evaluatedcassession->get_value_key("ifCASchat".$this->thiscount);
 
         // If so then move childs up
-        if ($evaluated === 'true') {
-            for ($i = 0; $i < $this->get_node()->childNodes->length; $i++) {
-                $child = $this->get_node()->childNodes->item($i)->cloneNode(true);
-                if ($this->get_node()->previousSibling) {
-                    $this->get_node()->parentNode->insertBefore($child,$this->get_node());
-                } else {
-                    $this->get_node()->parentNode->appendChild($child);
-                }
-            }
+        if ($evaluated == 'true') {
+            $this->get_node()->destroy_node_promote_children();
+        } else { // otherwise blank
+            $this->get_node()->destroy_node();
         }
-
-        // and in all cases make this node go away
-        $this->get_node()->parentNode->removeChild($this->get_node());
 
         return false;
     }

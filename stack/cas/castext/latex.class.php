@@ -29,11 +29,6 @@ require_once("block.interface.php");
 class stack_cas_castext_latex extends stack_cas_castext_block {
 
     /**
-     * content separated by the parser
-     */
-    private $content;
-
-    /**
      * counts blocks so that we can generate unique variable-names for the CAS,
      */
     private static $count = 1;
@@ -43,18 +38,14 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
      */
     private $thiscount;
 
-    public function set_content($content) {
-        $this->content = $content;
-    }
-
     public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
         self::$count++;
 
         $cs = NULL;
         if ($conditionstack === NULL || count($conditionstack) === 0) {
-            $cs = new stack_cas_casstring($this->content);
+            $cs = new stack_cas_casstring($this->get_node()->get_content());
         } else {
-            $cs = new stack_cas_conditionalcasstring($this->content,$conditionstack);
+            $cs = new stack_cas_conditionalcasstring($this->get_node()->get_content(),$conditionstack);
         }
 
         // TODO: we might want to check that key just in case there is a collision.
@@ -72,38 +63,8 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession,$conditionstack = NULL) {
-	// String that we were
-        $original = "{@".$this->content."@}";
-
-        // Now as evaluated
         $thenewone = "{".$evaluatedcassession->get_display_key("latexCASchat".$this->thiscount)."}";
-
-        // If this is a plot we need to do some trickery
-        if (strpos($thenewone,"<html>")!==FALSE) {
-            $doc = new DOMDocument();
-            $doc->loadXML($thenewone);
-            $doc->normalizeDocument();
-
-            // split the DOMText node we have at the begining of $original insert the contents of HTML
-            // after that then split the remaining text at end of $original and destroy the node containing $original
-            $end = $this->get_node()->splitText(strpos($this->get_node()->wholeText,$original));
-
-            foreach ($doc->documentElement->childNodes as $child) {
-                $end->parentNode->insertBefore($end->ownerDocument->importNode($child,true),$end);
-            }
-
-            $end->splitText(strlen($original));
-            $end->parentNode->removeChild($end);
-
-            return false;
-        }
-
-        // replace
-        if (is_a($this->get_node(),"DOMAttr")) {
-            $this->get_node()->parentNode->setAttribute($this->get_node()->name,str_replace($original,$thenewone,$this->get_node()->value));
-        } else {
-            $this->get_node()->replaceData(strpos($this->get_node()->wholeText,$original),strlen($original),$thenewone);
-        }
+        $this->get_node()->convert_to_text($thenewone);
 
         return false;
     }

@@ -509,6 +509,111 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2012062504, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2013030100) {
+
+        // Define table qtype_stack to be renamed to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack');
+
+        // Launch rename table for qtype_stack.
+        $dbman->rename_table($table, 'qtype_stack_options');
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030100, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030101) {
+
+        // Define field inversetrig to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('inversetrig', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, 'cos-1', 'complexno');
+
+        // Conditionally launch add field inversetrig.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030101, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030102) {
+
+        // Define field options to be added to qtype_stack_inputs.
+        $table = new xmldb_table('qtype_stack_inputs');
+        $field = new xmldb_field('options', XMLDB_TYPE_TEXT, null, null, null, null, null, 'showvalidation');
+
+        // Conditionally launch add field options.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030102, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030103) {
+
+        // Fill qtype_stack_inputs.options column with empty strings.
+        $DB->set_field('qtype_stack_inputs', 'options', '');
+
+        // Question stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030103, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030104) {
+
+        // Changing nullability of field options on table qtype_stack_inputs to not null.
+        $table = new xmldb_table('qtype_stack_inputs');
+        $field = new xmldb_field('options', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null, 'showvalidation');
+
+        // Launch change of nullability for field options.
+        $dbman->change_field_notnull($table, $field);
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030104, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030800) {
+
+        // Define field firstnodename to be added to qtype_stack_prts
+        $table = new xmldb_table('qtype_stack_prts');
+        $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, null, null, null, 'feedbackvariables');
+
+        // Conditionally launch add field firstnodename
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030800, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030801) {
+        // Fill the qtype_stack_prts.firstnodename column.
+        $DB->execute('UPDATE {qtype_stack_prts} SET firstnodename = (
+                      SELECT MIN(' . $DB->sql_cast_char2int('nodename') . ')
+                        FROM {qtype_stack_prt_nodes} nodes
+                       WHERE nodes.questionid = {qtype_stack_prts}.questionid
+                         AND nodes.prtname = {qtype_stack_prts}.name
+                    )');
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030801, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013030802) {
+
+        // Changing nullability of field firstnodename on table qtype_stack_prts to not null
+        $table = new xmldb_table('qtype_stack_prts');
+        $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, null, 'feedbackvariables');
+
+        // Launch change of nullability for field firstnodename
+        $dbman->change_field_notnull($table, $field);
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2013030802, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // This block of code is intentionally outside of an if statement. We want

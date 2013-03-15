@@ -191,7 +191,8 @@ abstract class stack_connection_helper {
         self::ensure_config_loaded();
 
         $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
-                'cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)), print("] ]"), return(true));' . "\n";
+                'cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)), print("] ]"), return(true));' .
+                "\n";
         $connection = self::make();
         $results = $connection->compute($command);
 

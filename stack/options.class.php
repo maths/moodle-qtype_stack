@@ -23,7 +23,7 @@
  */
 class stack_options {
 
-    private $options; // Exactly the CASText entered.
+    private $options;
 
     public function __construct($settings = array()) {
 
@@ -51,6 +51,14 @@ class stack_options {
                 'strict'     =>  true,
                 'values'     =>  array('i', 'j', 'symi', 'symj'),
                 'caskey'     =>  'make_complexJ',
+                'castype'    =>  'fun',
+            ),
+            'inversetrig'   =>  array(
+                'type'       =>  'list',
+                'value'      =>  'cos-1',
+                'strict'     =>  true,
+                'values'     =>  array('cos-1', 'acos', 'arccos'),
+                'caskey'     =>  'make_arccos',
                 'castype'    =>  'fun',
             ),
             'floats'   =>  array(
@@ -99,6 +107,19 @@ class stack_options {
                 $this->options[$key] = $val;
             }
         }
+    }
+
+    public function set_site_defaults() {
+        $stackconfig = stack_utils::get_config();
+        // Display option does not match up to $stackconfig->mathsdisplay).
+        $this->set_option('multiplicationsign', $stackconfig->multiplicationsign);
+        $this->set_option('complexno', $stackconfig->complexno);
+        $this->set_option('inversetrig', $stackconfig->inversetrig);
+        $this->set_option('floats', (bool) $stackconfig->inputforbidfloat);
+        $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
+        $this->set_option('simplify', (bool) $stackconfig->questionsimplify);
+        $this->set_option('assumepos', (bool) $stackconfig->assumepositive);
+        return true;
     }
 
     /*
@@ -159,7 +180,9 @@ class stack_options {
                     $names      .= ', '.$opt['caskey'];
                     $commands   .= ', '.$opt['caskey'].':'.$value;
                 } else if ('fun' == $opt['castype']) {
-                    $commands   .= ', '.$opt['caskey'].'('.$value.')';
+                    // Make sure these options are *strings*, otherwise they clash
+                    // with Maxim names, particularly alias.
+                    $commands   .= ', '.$opt['caskey'].'("'.$value.'")';
                 }
             }
         }

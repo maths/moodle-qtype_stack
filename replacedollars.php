@@ -50,7 +50,6 @@ $questionfields = array('questiontext', 'generalfeedback');
 $qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questionnote');
 $prtnodefields = array('truefeedback', 'falsefeedback');
 $qafields = array('questionsummary', 'rightanswer', 'responsesummary');
-$stepdatanames = "'_questiontext', '_feedback', '_questionnote'";
 $anychanges = false;
 
 // Display.
@@ -78,14 +77,14 @@ foreach ($categories as $key => $category) {
         }
         $anychanges = $anychanges || $changes;
 
-        // Fields in the qtype_stack table.
-        $stackoptions = $DB->get_record('qtype_stack', array('questionid' => $question->id), '*', MUST_EXIST);
+        // Fields in the qtype_stack_options table.
+        $stackoptions = $DB->get_record('qtype_stack_options', array('questionid' => $question->id), '*', MUST_EXIST);
         $changes = false;
         foreach ($qtypestackfields as $field) {
             $changes = $fixer->fix_question_field($stackoptions, $field) || $changes;
         }
         if ($changes && $confirm) {
-            $DB->update_record('qtype_stack', $stackoptions);
+            $DB->update_record('qtype_stack_options', $stackoptions);
         }
         $anychanges = $anychanges || $changes;
 
@@ -125,23 +124,6 @@ foreach ($categories as $key => $category) {
             }
             if ($changes && $confirm) {
                 $DB->update_record('question_attempts', $qa);
-            }
-            $anychanges = $anychanges || $changes;
-        }
-
-        // Fields in the question_attempt_step_data table.
-        $attemptdata = $DB->get_records_sql("
-                    SELECT qasd.*
-                      FROM {question_attempt_step_data} qasd
-                      JOIN {question_attempt_steps} qas ON qasd.attemptstepid = qas.id
-                      JOIN {question_attempts} qa ON qa.id = qas.questionattemptid
-                     WHERE qa.questionid = :questionid
-                       AND qasd.name IN ({$stepdatanames})
-                ", array('questionid' => $question->id));
-        foreach ($attemptdata as $data) {
-            $changes = $fixer->fix_question_field($data, 'value');
-            if ($changes && $confirm) {
-                $DB->update_record('question_attempt_step_data', $data);
             }
             $anychanges = $anychanges || $changes;
         }

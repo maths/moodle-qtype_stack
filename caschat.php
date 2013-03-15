@@ -25,6 +25,7 @@
 
 require_once(dirname(__FILE__).'/../../../config.php');
 
+require_once($CFG->libdir . '/questionlib.php');
 require_once(dirname(__FILE__) . '/locallib.php');
 require_once(dirname(__FILE__) . '/stack/utils.class.php');
 require_once(dirname(__FILE__) . '/stack/options.class.php');
@@ -34,12 +35,31 @@ require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
 require_once(dirname(__FILE__) . '/stack/cas/keyval.class.php');
 
 
-require_login();
+// Get the parameters from the URL.
+$questionid = optional_param('questionid', null, PARAM_INT);
+
+if (!$questionid) {
+    require_login();
+    $context = context_system::instance();
+    require_capability('moodle/site:config', $context);
+    $urlparams = array();
+
+} else {
+    // Load the necessary data.
+    $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+    $question = question_bank::load_question($questionid);
+
+    // Process any other URL parameters, and do require_login.
+    list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+
+    // Check permissions.
+    question_require_capability_on($questiondata, 'view');
+}
 
 $context = context_system::instance();
 require_capability('moodle/site:config', $context);
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/caschat.php');
+$PAGE->set_url('/question/type/stack/caschat.php', $urlparams);
 $title = stack_string('chattitle');
 $PAGE->set_title($title);
 
@@ -69,6 +89,7 @@ if (!$vars and !$string) {
 
 if ($string) {
     $options = new stack_options();
+    $options->set_site_defaults();
     $options->set_option('simplify', $simp);
 
     $session = new stack_cas_session(null, $options);

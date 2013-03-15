@@ -1,7 +1,7 @@
-# Development track
+# Development track for STACK 3.1
 
 This page describes the major tasks we still need to complete in order to be
-able to release the next version of STACK. That is STACK 3.1. Plans looking
+able to release the next version: STACK 3.1. Plans looking
 further into the future are described on [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
@@ -18,28 +18,43 @@ Basic reports now work.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 
+## Expanding CAStext features
+
+* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.
+* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
+
 ## Assorted minor improvements ##
 
 * Improve the way questions are deployed.
  1. Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
- 1. Remove many versions at once.
-* Facility to import test-cases in-bulk as CSV (or something). Likewise export.
-* Add back remaining input types
- 1. Dragmath (actually, probably use javascript from NUMBAS instead here).
- 2. Sliders.
- 3. Dropdown/MCQ input type.
-* Refactor answer tests.
- 1. They should be like inputs. We should return an answer test object, not a controller object.
- 2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
-* When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
-* A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
-* Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting]
+ 2. Remove many versions at once.
+* **DONE** Fix instant validation for text-area inputs.
+* Improvements to the editing form:
+ 1. When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
+ 2. **DONE** A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
+ 3. **DONE** Display inputs and PRTs in the order they are mentioned in the question text + specific feedback.
+ 4. **DONE** Allow an arbitrary PRT node to be the root node, rather than assuming it is the lowest numbered one.
+ 5. **DONE** Display a graphical representation of each PRT, that can be clicked to jump to that Node on the editing form.
+ 6. **DONE** When cloninig a question with the 'Make copy' button, also clone the question tests.
+* **DONE** Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
+* Review the list of forbidden keywords.
+* **DONE** Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of. 
+* **DONE** With "Check the type of the response" set to "Yes", if an expression is given and an equation is entered, the error generated is: "Your answer is an equation, but the expression to which it is being compared is not. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." This might confuse students. They don't know what " the expression to which it is being compared" is! Perhaps this warning could be reworded something like: "You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." We should have more messages for each type of failed situation....
+* **DONE** New option for how inverse trig functions are displayed.
+* **DONE** A script to run question tests in bulk.
+
+## Community
+
 * Consolidation of mailing lists, forum, wiki etc.
  1. Update forum.
  2. Announcements on Moodle mailing lists.
  3. Re-install demonstration servers.
-* Review the list of forbidden keywords.
-* Enable certain packages to be loaded by STACK.
-* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the systems use as the ALT text of the image. That way, we can say the function that the graph is of. 
-* With "Check the type of the response" set to "Yes", if an expression is given and an equation is entered, the error generated is: "Your answer is an equation, but the expression to which it is being compared is not. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." This might confuse students. They don't know what " the expression to which it is being compared" is! Perhaps this warning could be reworded something like: "You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." We should have more messages for each type of failed situation....
+
+# Changes in features between STACK 3.0 and STACK 3.1.
+
+* **DONE** Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../CAS/Plots.md#alttext) for more details.
+* **DONE** Assorted other accessiblity fixes.
+* **DONE** Standard PRT feedback options are now processed as CAS text.
+* **DONE** STACK questions with no inputs, and/or no PRTs now work properly.
+* **DONE** There was a bug where clearing the CAS cache broke images in the question text. Now fixed.

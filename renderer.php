@@ -34,13 +34,10 @@ class qtype_stack_renderer extends qtype_renderer {
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         $question = $qa->get_question();
-        if (empty($question->inputs)) {
-            throw new coding_exception('This question does not have any inputs.');
-        }
 
         $response = $qa->get_last_qt_data();
 
-        $questiontext = $qa->get_last_qt_var('_questiontext');
+        $questiontext = $question->questiontextinstantiated;
         $questiontext = $question->format_text(
                 stack_maths::process_display_castext($questiontext),
                 $question->questiontextformat,
@@ -48,6 +45,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Replace inputs.
         $inputstovaldiate = array();
+        $qaid = null;
         foreach ($question->inputs as $name => $input) {
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);
@@ -114,7 +112,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        $urlparams = array('questionid' => $question->id, 'seed' => $question->seed);
+        $urlparams = array('questionid' => $question->id);
 
         // This is a bit of a hack to find the right thing to put in the URL.
         $context = $question->get_context();
@@ -140,10 +138,19 @@ class qtype_stack_renderer extends qtype_renderer {
             $urlparams['courseid'] = get_site()->id;
         }
 
-        return html_writer::tag('div',
-                html_writer::link(new moodle_url('/question/type/stack/questiontestrun.php', $urlparams),
-                        stack_string('runquestiontests')),
-                array('class' => 'questiontestslink'));
+        $links = array();
+        if ($question->user_can_edit()) {
+            $links[] = html_writer::link(new moodle_url(
+                    '/question/type/stack/tidyquestion.php', $urlparams),
+                    stack_string('tidyquestion'));
+        }
+
+        $urlparams['seed'] = $question->seed;
+        $links[] = html_writer::link(new moodle_url(
+                '/question/type/stack/questiontestrun.php', $urlparams),
+                stack_string('runquestiontests'));
+
+        return html_writer::tag('div', implode(' | ', $links), array('class' => 'questiontestslink'));
     }
 
     public function feedback(question_attempt $qa, question_display_options $options) {
@@ -166,7 +173,7 @@ class qtype_stack_renderer extends qtype_renderer {
     protected function stack_specific_feedback_errors_only(question_attempt $qa) {
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $qa->get_last_qt_var('_feedback');
+        $feedbacktext = $question->specificfeedbackinstantiated;
         if (!$feedbacktext) {
             return '';
         }
@@ -206,7 +213,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $qa->get_last_qt_var('_feedback');
+        $feedbacktext = $question->specificfeedbackinstantiated;
         if (!$feedbacktext) {
             return '';
         }
@@ -380,7 +387,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $state = question_state::graded_state_for_fraction($result->score);
 
         $class = $state->get_feedback_class();
-        $field = 'prt' . $class;
+        $field = 'prt' . $class . 'instantiated';
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
             return html_writer::tag('div', $question->format_text(

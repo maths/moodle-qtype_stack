@@ -53,17 +53,17 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                       'questionnote', 'questionsimplify', 'assumepositive',
                       'prtcorrect', 'prtcorrectformat', 'prtpartiallycorrect', 'prtpartiallycorrectformat',
                       'prtincorrect', 'prtincorrectformat', 'multiplicationsign', 'sqrtsign',
-                      'complexno', 'variantsselectionseed'));
+                      'complexno', 'inversetrig', 'variantsselectionseed'));
 
         $stackinputs = new backup_nested_element('stackinputs');
         $stackinput = new backup_nested_element('stackinput', array('id'),
                 array('name', 'type', 'tans', 'boxsize', 'strictsyntax', 'insertstars',
                        'syntaxhint', 'forbidwords', 'forbidfloat', 'requirelowestterms',
-                       'checkanswertype', 'mustverify', 'showvalidation'));
+                       'checkanswertype', 'mustverify', 'showvalidation', 'options'));
 
         $stackprts = new backup_nested_element('stackprts');
         $stackprt = new backup_nested_element('stackprt', array('id'),
-                array('name', 'value', 'autosimplify', 'feedbackvariables'));
+                array('name', 'value', 'autosimplify', 'feedbackvariables', 'firstnode'));
 
         $stackprtnodes = new backup_nested_element('stackprtnodes');
         $stackprtnode = new backup_nested_element('stackprtnode', array('id'),
@@ -109,7 +109,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $stackdeployedseeds->add_child($stackdeployedseed);
 
         // Set source to populate the data.
-        $stackoptions->set_source_table('qtype_stack', array('questionid' => backup::VAR_PARENTID));
+        $stackoptions->set_source_table('qtype_stack_options', array('questionid' => backup::VAR_PARENTID));
         $stackinput->set_source_table('qtype_stack_inputs', array('questionid' => backup::VAR_PARENTID));
         $stackprt->set_source_table('qtype_stack_prts', array('questionid' => backup::VAR_PARENTID));
         $stackprtnode->set_source_table('qtype_stack_prt_nodes',

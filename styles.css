@@ -5,11 +5,11 @@
     font-size: 100%;
     font-weight: bold;
 }
-
 .que.stack .stackinputfeedback {
+    border: 1px solid #fff;
     background-color: #fff;
     margin: 0.2em 3em 0.5em;
-    padding: 0.5em 0.5em 0.01em;
+    padding: 0.5em 0.5em 0em;
 }
 
 .que.stack .stackinputfeedback.empty {
@@ -58,7 +58,25 @@ body#page-question-type-stack-questiontestedit .fitem_fgroup .accesshide {
     left: 0;
     position: static;
 }
-
+body#page-question-type-stack div[id^=fgroup_id_][id*=node_] {
+    margin-top: 2em;
+    background: #ddf;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fgroup_id_][id*=nodewhentrue_],
+body#page-question-type-stack div[id^=fitem_id_][id*=truefeedback_] {
+    background: #cfc;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fgroup_id_][id*=nodewhenfalse_],
+body#page-question-type-stack div[id^=fitem_id_][id*=falsefeedback_] {
+    background: #fcc;
+    margin-bottom: 0;
+}
+body#page-question-type-stack div[id^=fitem_id_][id*=truefeedback_],
+body#page-question-type-stack div[id^=fitem_id_][id*=falsefeedback_] {
+    padding-bottom: 0.3em;
+}
 
 /* Styles for the supporting scripts, healthcheck, etc. */
 body.path-question-type-stack dt {
@@ -88,10 +106,12 @@ body#page-question-type-stack-healthcheck div.box pre {
     margin-bottom: 0;
 }
 
-body.path-question-type-stack table.stacktestsuite .pass td {
+body.path-question-type-stack table.stacktestsuite .pass td,
+body.path-question-type-stack p.pass {
     background-color: #dfd;
 }
-body.path-question-type-stack table.stacktestsuite .fail td {
+body.path-question-type-stack table.stacktestsuite .fail td,
+body.path-question-type-stack p.fail {
     background-color: #fdd;
 }
 body.path-question-type-stack table.stacktestsuite pre {
@@ -142,7 +162,8 @@ body.path-question-type-stack .switchtovariant {
 
 .displayequation {
     display: block;
-    text-align: center;
+    text-align: left;
+    margin: 0.5em 0 0.5em 2em;
 }
 .stack_plot {
     text-align: center;
@@ -157,4 +178,56 @@ body#page-question-type-stack-replacedollars pre del {
 body#page-question-type-stack-replacedollars pre ins {
     color: green;
     font-weight: bold;
+}
+
+body.ie .stack_abstract_graph {
+    /* Once IE can cope, we can delete this rule. */
+    display: none;
+}
+.stack_abstract_graph {
+    background: #ffc;
+    margin: 5px;
+}
+.stack_abstract_graph path {
+    stroke-width: 3px;
+    fill: none;
+}
+.stack_abstract_graph path.left {
+    stroke: #0d0;
+}
+.stack_abstract_graph circle.left {
+    fill: #0d0;
+}
+.stack_abstract_graph path.right {
+    stroke: #a00;
+}
+.stack_abstract_graph circle.right {
+    fill: #a00;
+}
+.stack_abstract_graph path.cross {
+    stroke: #f00;
+    stroke-linecap: round;
+}
+.stack_abstract_graph text {
+    font-family: Verdana;
+}
+.stack_abstract_graph text.nodelabel {
+    font-size: 14px;
+    fill: #fff;
+    alignment-baseline: middle;
+    text-anchor: middle;
+}
+.stack_abstract_graph text.edgelabel {
+    font-size: 10px;
+    fill: #000;
+    alignment-baseline: middle;
+}
+.stack_abstract_graph text.edgelabel.left {
+    text-anchor: end;
+}
+.stack_abstract_graph text.edgelabel.right {
+    text-anchor: start;
+}
+.stack_abstract_graph circle.node {
+    fill: #00f;
 }

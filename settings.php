@@ -26,7 +26,33 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(__FILE__) . '/settingslib.php');
 
+
+// Useful links.
+$links = array(
+    get_string('stackDoc_docs_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/doc/doc.php/'))),
+    get_string('healthcheck_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/healthcheck.php'))),
+    get_string('chat_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/caschat.php'))),
+    get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/answertests.php'))),
+    get_string('stackInstall_input_title_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/studentinputs.php'))),
+    get_string('bulktestindexintro_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/bulktestindex.php'))),
+    get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
+            array('link' => (string) new moodle_url('/question/type/stack/replacedollarsindex.php'))),
+);
+$settings->add(new admin_setting_heading('docs',
+        get_string('settingusefullinks', 'qtype_stack'),
+        '* ' . implode("\n* ", $links)));
+
+
 // Options for connection to Maxima.
+$settings->add(new admin_setting_heading('maixmasettingsheading',
+        get_string('settingsmaximasettings', 'qtype_stack'), ''));
+
 $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype', 'qtype_stack'),
         get_string('settingplatformtype_desc', 'qtype_stack'), 'linux', array(
@@ -65,7 +91,11 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
         get_string('settingcasdebugging_desc', 'qtype_stack'), 0));
 
-// Options for Maths display.
+
+// Options for maths display.
+$settings->add(new admin_setting_heading('mathsdisplayheading',
+        get_string('settingsmathsdisplayheading', 'qtype_stack'), ''));
+
 $settings->add(new admin_setting_configcheckbox('qtype_stack/ajaxvalidation',
         get_string('settingajaxvalidation', 'qtype_stack'),
         get_string('settingajaxvalidation_desc', 'qtype_stack'), 0));
@@ -78,21 +108,128 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/replacedollars',
         get_string('settingreplacedollars', 'qtype_stack'),
         get_string('settingreplacedollars_desc', 'qtype_stack'), false));
 
-// Useful links.
-$links = array(
-    get_string('stackDoc_docs_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/doc/doc.php/'))),
-    get_string('healthcheck_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/healthcheck.php'))),
-    get_string('chat_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/caschat.php'))),
-    get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/answertests.php'))),
-    get_string('stackInstall_input_title_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/studentinputs.php'))),
-    get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/replacedollarsindex.php'))),
-);
-$settings->add(new admin_setting_heading('docs',
-        get_string('settingusefullinks', 'qtype_stack'),
-        '* ' . implode("\n* ", $links)));
+
+// Options for new inputs.
+$settings->add(new admin_setting_heading('inputoptionsheading',
+        get_string('settingdefaultinputoptions', 'qtype_stack'),
+        get_string('settingdefaultinputoptions_desc', 'qtype_stack')));
+
+$settings->add(new qtype_stack_admin_setting_input_types('qtype_stack/inputtype',
+        get_string('inputtype', 'qtype_stack'),
+        get_string('inputtype_help', 'qtype_stack'), 'algebraic', null));
+
+$settings->add(new admin_setting_configtext('qtype_stack/inputboxsize',
+        get_string('boxsize', 'qtype_stack'),
+        get_string('boxsize_help', 'qtype_stack'), '15', PARAM_INT));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputstrictsyntax',
+        get_string('strictsyntax', 'qtype_stack'),
+        get_string('strictsyntax_help', 'qtype_stack'), '1', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputinsertstars',
+        get_string('insertstars', 'qtype_stack'),
+        get_string('insertstars_help', 'qtype_stack'), '0', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',
+        get_string('forbidwords', 'qtype_stack'),
+        get_string('forbidwords_help', 'qtype_stack'), '', PARAM_RAW));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputforbidfloat',
+        get_string('forbidfloat', 'qtype_stack'),
+        get_string('forbidfloat_help', 'qtype_stack'), '1', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputrequirelowestterms',
+        get_string('requirelowestterms', 'qtype_stack'),
+        get_string('requirelowestterms_help', 'qtype_stack'), '0', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputcheckanswertype',
+        get_string('checkanswertype', 'qtype_stack'),
+        get_string('checkanswertype_help', 'qtype_stack'), '0', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputmustverify',
+        get_string('mustverify', 'qtype_stack'),
+        get_string('mustverify_help', 'qtype_stack'), '1', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputshowvalidation',
+        get_string('showvalidation', 'qtype_stack'),
+        get_string('showvalidation_help', 'qtype_stack'), '1', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+
+// Options for new questions.
+$settings->add(new admin_setting_heading('questionoptionsheading',
+        get_string('settingdefaultquestionoptions', 'qtype_stack'),
+        get_string('settingdefaultquestionoptions_desc', 'qtype_stack')));
+
+$settings->add(new admin_setting_configselect('qtype_stack/questionsimplify',
+        get_string('questionsimplify', 'qtype_stack'),
+        get_string('autosimplify_help', 'qtype_stack'), '1', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/assumepositive',
+        get_string('assumepositive', 'qtype_stack'),
+        get_string('assumepositive_help', 'qtype_stack'), '0', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configtextarea('qtype_stack/prtcorrect',
+        get_string('prtcorrectfeedback', 'qtype_stack'), '',
+        get_string('defaultprtcorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+
+$settings->add(new admin_setting_configtextarea('qtype_stack/prtpartiallycorrect',
+        get_string('prtpartiallycorrectfeedback', 'qtype_stack'), '',
+        get_string('defaultprtpartiallycorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+
+$settings->add(new admin_setting_configtextarea('qtype_stack/prtincorrect',
+        get_string('prtincorrectfeedback', 'qtype_stack'), '',
+        get_string('defaultprtincorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+
+$settings->add(new admin_setting_configselect('qtype_stack/multiplicationsign',
+        get_string('multiplicationsign', 'qtype_stack'),
+        get_string('multiplicationsign_help', 'qtype_stack'), 'dot', array(
+            'dot'   => get_string('multdot', 'qtype_stack'),
+            'cross' => get_string('multcross', 'qtype_stack'),
+            'none'  => get_string('none'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/sqrtsign',
+        get_string('sqrtsign', 'qtype_stack'),
+        get_string('sqrtsign_help', 'qtype_stack'), '1', array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/complexno',
+        get_string('complexno', 'qtype_stack'),
+        get_string('complexno_help', 'qtype_stack'), 'i', array(
+            'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
+        get_string('inversetrig', 'qtype_stack'),
+        get_string('inversetrig_help', 'qtype_stack'), 'cos-1', array(
+            'cos-1' => 'cos⁻¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'
+        )));

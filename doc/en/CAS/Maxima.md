@@ -25,7 +25,7 @@ an equality sign;
   3. sets, for example, \(\{1,2,3\}\);
   4. lists, for example, \([1,2,3]\).   In Maxima ordered lists are entered using square brackets, for example as `p:[1,1,2,x^2]`.
     An element is accessed using the syntax `p[1]`.
-  5. matrices.  The basic syntax for a matrix is `p:matrix([1,2],[3,4])`.  Each row is a list. Elements are accessed as `p[1,2]`, etc.
+  5. [matrices](Matrix.md).  The basic syntax for a matrix is `p:matrix([1,2],[3,4])`.  Each row is a list. Elements are accessed as `p[1,2]`, etc.
   6. expressions.
 
 Expressions come last, since they are just counted as being
@@ -101,6 +101,7 @@ functions](Predicate_functions.md).
 | `stack_op(ex)`                  | Returns the operation of the expression in a safe way.  [Parts of Maxima expressions](Maxima.md#Parts_of_Maxima_expressions).
 | `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed sequare form.
 | `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
+| `unary_minus_sort(ex)`          | Tidies up the way unary minus is represented within expressions when `simp:false`.  See also [simplification](Simplification.md).
 
 ## Assignment ## {#assignment}
 

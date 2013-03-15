@@ -65,6 +65,14 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $this->assertEquals(array('ans1' => '2', 'ans1_val' => '2'), $q->get_correct_response());
     }
 
+    public function test_get_correct_response_test1() {
+        $q = $this->get_test_stack_question('test1');
+        $q->start_attempt(new question_attempt_step(), 1);
+
+        $this->assertEquals(array('ans1' => '(x-7)^4/4+c', 'ans1_val' => '(x-7)^4/4+c'),
+                $q->get_correct_response());
+    }
+
     public function test_get_correct_response_test3() {
         $q = $this->get_test_stack_question('test3');
         $q->start_attempt(new question_attempt_step(), 1);

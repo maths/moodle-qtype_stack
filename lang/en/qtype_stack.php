@@ -56,18 +56,23 @@ $string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/C
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
+$string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">run the question tests in bulk script</a> lets you easily run all the question all the STACK questions in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleard.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
 $string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
 $string['complexno'] = 'Meaning and display of sqrt(-1)';
 $string['complexno_help'] = 'Controls the meaning and display of the symbol i and sqrt(-1)';
 $string['complexno_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#sqrt_minus_one.';
+$string['defaultmarkzeroifnoprts'] = 'The default mark must be 0 if this question has no PRTs.';
 $string['defaultprtcorrectfeedback'] = 'Correct answer, well done.';
 $string['defaultprtincorrectfeedback'] = 'Incorrect answer.';
 $string['defaultprtpartiallycorrectfeedback'] = 'Your answer is partially correct.';
 $string['branchfeedback'] = 'Node branch feedback';
 $string['branchfeedback_help'] = 'This is CASText which may depend on any of the question variables, input elements or the feedback variables. This is evaluated and displayed to the student if they pass down this branch.';
 $string['inputtest'] ='Input test';
+$string['inversetrig'] = 'Inverse trigonometric functions';
+$string['inversetrig_help'] = 'Controls how inverse trigonometric functions are displayed in CAS output.';
+$string['inversetrig_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#inverse_trig';
 $string['falsebranch'] = 'False branch';
 $string['falsebranch_help'] = 'These fields control what happens when the answer test does not pass
 ### Mod and score
@@ -82,10 +87,12 @@ Whether to go to another node, and if so which, or stop.
 ### Answer note
 This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.
 ';
+$string['feedbackfromprtx'] = '[ Feedback from {$a}. ]';
 $string['feedbackvariables'] = 'Feedback variables';
 $string['feedbackvariables_help'] = 'The feedback variables enable you to manipulate any of the inputs, together with the question variables, prior to traversing the tree.  Variables defined here may be used anywhere else in this tree.';
 $string['feedbackvariables_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/KeyVals.md#Feedback_variables';
 $string['fieldshouldnotcontainplaceholder'] = '{$a->field} should not contain any [[{$a->type}:...]] placeholders.';
+$string['firstnodemusthavelowestnumber'] = 'The first node must have the lowest number.';
 $string['fixdollars'] = 'Fix dollars';
 $string['fixdollarslabel'] = 'Replace <code>$...$</code> with <code>\(...\)</code> and <code>$$...$$</code> with <code>\[...\]</code> on save.';
 $string['fixdollars_help'] = 'This option is useful if are copying and pasting (or typing) TeX with <code>$...$</code> and <code>$$...$$</code> delimiters. Those delimiters will be replaced by the recommended delimiters during the save process.';
@@ -104,7 +111,11 @@ $string['showvalidation_help'] = 'Setting this option displays any validation fe
 $string['showvalidation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Show_validation';
 $string['htmlfragment'] = 'You appear to have some HTML elements in your expression.';
 $string['illegalcaschars'] = 'The characters @ and $ are not allowed in CAS input.';
+$string['inputextraoptions'] = 'Extra options';
+$string['inputextraoptions_help'] = 'Some input types require extra options in order to work. You can enter them here. This value is a CAS expression.';
+$string['inputextraoptions_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Extra options';
 $string['inputheading'] = 'Input: {$a}';
+$string['inputs'] = 'Inputs';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
 $string['inputtype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md';
@@ -125,6 +136,8 @@ $string['multdot'] = 'Dot';
 $string['mustverify'] = 'Student must verify';
 $string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them before scoring.';
 $string['mustverify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Student_must_verify';
+$string['namealreadyused'] = 'You have already used this name.';
+$string['newnameforx'] = 'New name for \'{$a}\'';
 $string['next'] = 'Next';
 $string['nextcannotbeself'] = 'A node cannot link to itself as the next node.';
 $string['nodehelp'] = 'Response tree node';
@@ -144,7 +157,7 @@ This field enables answer tests to accept an option, e.g. a variable or a numeri
 When set to yes any feedback automatically generated by the answer tests is surpressed, and not displayed to the student.  The feedback fields in the branches are unaffected by this option.
 
 ';
-$string['nodeloopdetected'] = 'A cycle was detected in this PRT.';
+$string['nodeloopdetected'] = 'This link creates a cycle in this PRT.';
 $string['nodenotused'] = 'No other nodes in the PRT link to this node.';
 $string['nodex'] = 'Node {$a}';
 $string['nodexdelete'] = 'Delete node {$a}';
@@ -153,6 +166,9 @@ $string['nodextruefeedback'] = 'Node {$a} true feedback';
 $string['nodexwhenfalse'] = 'Node {$a} when false';
 $string['nodexwhentrue'] = 'Node {$a} when true';
 $string['nonempty'] = 'This must not be empty.';
+$string['noprtsifnoinputs'] = 'A question with no inputs cannot have any PRTs.';
+$string['notavalidname'] = 'Not a valid name';
+$string['optionsnotrequired'] = 'This input type does not require any options.';
 $string['penalty'] = 'Penalty';
 $string['penalty_help'] = 'The penalty scheme deducts this value from the result of each PRT for each different and valid attempt which is not completely correct.';
 $string['penalty_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Feedback.md';
@@ -160,8 +176,10 @@ $string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1.'
 $string['penaltyerror2'] = 'The penalty must empty, or be a numeric value between 0 and 1.';
 $string['prtcorrectfeedback'] = 'Standard feedback for correct';
 $string['prtheading'] = 'Potential response tree: {$a}';
+$string['prtnodesheading'] = 'Potential response tree nodes ({$a})';
 $string['prtincorrectfeedback'] = 'Standard feedback for incorrect';
 $string['prtpartiallycorrectfeedback'] = 'Standard feedback for partially correct';
+$string['prts'] = 'Potential response trees';
 $string['prtwillbecomeactivewhen'] = 'This potential response tree will become active when the student has answered: {$a}';
 $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random versions of a question. Two question versions are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
@@ -185,6 +203,7 @@ $string['questionvariables_help'] = 'This field allows you to define and manipul
 $string['questionvariables_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/KeyVals.md';
 $string['quiet'] = 'Quiet';
 $string['quiet_help'] = 'When set to yes any feedback automatically generated by the answer tests is surpressed, and not displayed to the student.  The feedback fields in the branches are unaffected by this option.';
+$string['renamequestionparts'] = 'Rename parts of the question';
 $string['requiredfield'] = 'This field is required!';
 $string['requirelowestterms'] = 'Require lowest terms';
 $string['requirelowestterms_help'] = 'When this option is set to yes, any coefficients or other rational numbers in an expression, must be written in lowest terms.  Otherwise the answer is rejected as invalid.';
@@ -262,11 +281,17 @@ $string['settingcasresultscache_desc'] = 'This setting determines whether calls 
 $string['settingcasresultscache_none'] = 'Do not cache';
 $string['settingcastimeout'] = 'CAS connection timeout';
 $string['settingcastimeout_desc'] = 'The timout to use when trying to connect to Maxima.';
+$string['settingdefaultinputoptions'] = 'Default input options';
+$string['settingdefaultinputoptions_desc'] = 'Used when creating a new question, or adding a new input to an existing question.';
+$string['settingdefaultquestionoptions'] = 'Default input options';
+$string['settingdefaultquestionoptions_desc'] = 'Used when creating a new question.';
 $string['settingmathsdisplay'] = 'Maths filter';
 $string['settingmathsdisplay_mathjax'] = 'MathJax';
 $string['settingmathsdisplay_tex'] = 'Moodle TeX filter';
 $string['settingmathsdisplay_maths'] = 'OU maths filter';
 $string['settingmathsdisplay_desc'] = 'The method used to display maths. If you select MathJax, then you will need to follow the instrucions on the Healthcheck page to set it up. If you select a filter, then you must ensure that filter is enabled on the Manage filters configuration page.';
+$string['settingsmathsdisplayheading'] = 'Maths display options';
+$string['settingsmaximasettings'] = 'Connecting to Maxima';
 $string['settingplatformtype'] = 'Platform type';
 $string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The Server and MaximaPool options give better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
 $string['settingplatformtypeunix'] = 'Linux';
@@ -290,6 +315,15 @@ $string['replacedollarsindexintro'] = 'Clicking on any of the links will take yo
 $string['replacedollarsindextitle'] = 'Replace $s in question texts';
 $string['replacedollarsnoproblems'] = 'No problem delimiters found.';
 $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
+
+// Strings used by the bulk run question tests script.
+$string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
+$string['bulktestindextitle'] = 'Run the question tests in bulk';
+$string['bulktestnotests'] = 'This question does not have any tests.';
+$string['bulktesttitle'] = 'Running all the question tests in {$a}';
+$string['overallresult'] = 'Overall result';
+$string['seedx'] = 'Seed {$a}';
+$string['testpassesandfails'] = '{$a->passes} passes and {$a->fails} failures.';
 
 // Strings used by interaction elements.
 $string['false'] = 'False';
@@ -346,6 +380,8 @@ $string['testingquestion'] = 'Testing question {$a}';
 $string['testinputs'] = 'Test inputs';
 $string['testinputsimpwarning'] = 'Please note that test inputs are always <em>unsimplified</em> regardless of the question or PRT option setting.  Please use <tt>ev(...,simp)</tt> to simplify part or all of the test input expressions.';
 $string['testthisvariant'] = 'Switch to test this variant';
+$string['tidyquestion'] = 'Tidy question';
+$string['tidyquestionx'] = 'Rename the parts of question {$a}';
 $string['undeploy'] = 'Un-deploy';
 $string['variant'] = 'Variant';
 
@@ -508,7 +544,7 @@ $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but i
 $string['ATAlgEquiv_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
 $string['ATAlgEquiv_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
 $string['ATAlgEquiv_SA_not_equation']   = 'Your answer should be an equation, but is not. ';
-$string['ATAlgEquiv_TA_not_equation']   = 'Your answer is an equation, but the expression to which it is being compared is not.  You may have typed something like "y=2*x+1" when you only needed to type "2*x+1". ';
+$string['ATAlgEquiv_TA_not_equation']   = 'You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1". ';
 $string['ATAlgEquiv_SA_not_inequality'] = 'Your answer should be an inequality, but is not. ';
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 

@@ -85,12 +85,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     /**
      * @var array STACK specific: string name as it appears in the question text => stack_input
      */
-    public $inputs;
+    public $inputs = array();
 
     /**
      * @var array stack_potentialresponse_tree STACK specific: respones tree number => ...
      */
-    public $prts;
+    public $prts = array();
 
     /**
      * @var stack_options STACK specific: question-level options.
@@ -116,6 +116,36 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var array stack_cas_session STACK specific: session of variables.
      */
     protected $questionnoteinstantiated;
+
+    /**
+     * @var string instantiated version of questiontext.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $questiontextinstantiated;
+
+    /**
+     * @var string instantiated version of specificfeedback.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $specificfeedbackinstantiated;
+
+    /**
+     * @var string instantiated version of prtcorrect.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $prtcorrectinstantiated;
+
+    /**
+     * @var string instantiated version of prtpartiallycorrect.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $prtpartiallycorrectinstantiated;
+
+    /**
+     * @var string instantiated version of prtincorrect.
+     * Initialised in start_attempt / apply_attempt_state.
+     */
+    public $prtincorrectinstantiated;
 
     /**
      * The next three fields cache the results of some expensive computations.
@@ -182,6 +212,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
+        if (empty($this->inputs)) {
+            return question_engine::make_behaviour('informationitem', $qa, $preferredbehaviour);
+        }
+
+        if (empty($this->prts)) {
+            return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
+        }
+
         if ($preferredbehaviour == 'adaptive' || $preferredbehaviour == 'adaptivenopenalty') {
             return question_engine::make_behaviour('adaptivemultipart', $qa, $preferredbehaviour);
         }
@@ -217,13 +255,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $step->set_qt_var('_seed', $this->seed);
 
+        $this->initialise_question_from_seed();
+    }
+
+    /**
+     * Once we know the random seed, we can initialise all the other parts of the question.
+     */
+    public function initialise_question_from_seed() {
         // Build up the question session out of all the bits that need to go into it.
         // 1. question variables.
         $questionvars = new stack_cas_keyval($this->questionvariables, $this->options, $this->seed, 't');
         $session = $questionvars->get_session();
 
         // 2. correct answer for all inputs.
-        $response =array();
+        $response = array();
         foreach ($this->inputs as $name => $input) {
             $cs = new stack_cas_casstring($input->get_teacher_answer());
             $cs->validate('t');
@@ -234,25 +279,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $session_length = count($session->get_session());
 
         // 3. CAS bits inside the question text.
-        $questiontext = new stack_cas_text($this->questiontext, $session, $this->seed, 't', false, true);
-        if ($questiontext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error in the question text: ' .
-                    $questiontext->get_errors());
-        }
+        $questiontext = $this->prepare_cas_text($this->questiontext, $session);
 
         // 4. CAS bits inside the specific feedback.
-        $feedbacktext = new stack_cas_text($this->specificfeedback, $session, $this->seed, 't', false, true);
-        if ($questiontext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error in the feedback text: ' .
-                    $feedbacktext->get_errors());
-        }
+        $feedbacktext = $this->prepare_cas_text($this->specificfeedback, $session);
 
         // 5. CAS bits inside the question note.
-        $notetext = new stack_cas_text($this->questionnote,  $session, $this->seed, 't', false, true);
-        if ($questiontext->get_errors()) {
-            throw new stack_exception('qtype_stack_question : Error in the question note: ' .
-                    $notetext->get_errors());
-        }
+        $notetext = $this->prepare_cas_text($this->questionnote, $session);
+
+        // 6. The standard PRT feedback.
+        $prtcorrect          = $this->prepare_cas_text($this->prtcorrect, $session);
+        $prtpartiallycorrect = $this->prepare_cas_text($this->prtpartiallycorrect, $session);
+        $prtincorrect        = $this->prepare_cas_text($this->prtincorrect, $session);
 
         // Now instantiate the session.
         $session->instantiate();
@@ -264,14 +302,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $session->get_errors($this->user_can_edit()));
         }
 
-        // Now store the values that depend on the instantiated session.
-        $step->set_qt_var('_questionvars', $session->get_keyval_representation());
-        $step->set_qt_var('_questiontext', $questiontext->get_display_castext());
-        $step->set_qt_var('_feedback', $feedbacktext->get_display_castext());
-        $this->questionnoteinstantiated = $notetext->get_display_castext();
-        $step->set_qt_var('_questionnote', $this->questionnoteinstantiated);
-
         // Finally, store only those values really needed for later.
+        $this->questiontextinstantiated        = $questiontext->get_display_castext();
+        $this->specificfeedbackinstantiated    = $feedbacktext->get_display_castext();
+        $this->questionnoteinstantiated        = $notetext->get_display_castext();
+        $this->prtcorrectinstantiated          = $prtcorrect->get_display_castext();
+        $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect->get_display_castext();
+        $this->prtincorrectinstantiated        = $prtincorrect->get_display_castext();
         $session->prune_session($session_length);
         $this->session = $session;
 
@@ -279,12 +316,24 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $this->adapt_inputs();
     }
 
+    /**
+     * Helper method used by initialise_question_from_seed.
+     * @param string $text a textual part of the question that is CAS text.
+     * @param stack_cas_session $session the question's CAS session.
+     * @return stack_cas_text the CAS text version of $text.
+     */
+    protected function prepare_cas_text($text, $session) {
+        $castext = new stack_cas_text($text, $session, $this->seed, 't', false, true);
+        if ($castext->get_errors()) {
+            throw new stack_exception('qtype_stack_question : Error part of the question: ' .
+                    $castext->get_errors());
+        }
+        return $castext;
+    }
+
     public function apply_attempt_state(question_attempt_step $step) {
         $this->seed = (int) $step->get_qt_var('_seed');
-        $questionvars = new stack_cas_keyval($step->get_qt_var('_questionvars'), $this->options, $this->seed, 't');
-        $this->session = $questionvars->get_session();
-        $this->questionnoteinstantiated = $step->get_qt_var('_questionnote');
-        $this->adapt_inputs();
+        $this->initialise_question_from_seed();
     }
 
     /**
@@ -355,7 +404,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return implode('; ', $bits);
     }
 
-    // Used in reporting - needs to return an array
+    // Used in reporting - needs to return an array.
     public function summarise_response_data(array $response) {
         $bits = array();
         foreach ($this->inputs as $name => $input) {
@@ -369,7 +418,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
-                    $input->maxima_to_response_array($this->session->get_casstring_key($name)));
+                    $input->maxima_to_response_array($this->session->get_value_key($name)));
         }
 
         return $teacheranswer;
@@ -453,12 +502,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function is_complete_response(array $response) {
+
         // If all PRTs are gradable, then the question is complete. (Optional inputs may be blank.)
         foreach ($this->prts as $index => $prt) {
             if (!$this->can_execute_prt($prt, $response, false)) {
                 return false;
             }
         }
+
+        // If there are no PRTs, then check that all inputs are complete.
+        if (!$this->prts) {
+            foreach ($this->inputs as $name => $notused) {
+                if (stack_input::SCORE != $this->get_input_state($name, $response)->status) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -680,6 +740,46 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $this->options, $prtinput, $this->seed);
 
         return $this->prtresults[$index];
+    }
+
+    /**
+     * For a possibly nested array, replace all the values with $newvalue.
+     * @param array $array input array.
+     * @param mixed $newvalue the new value to set.
+     * @return modified array.
+     */
+    protected function set_value_in_nested_arrays($arrayorscalar, $newvalue) {
+        if (!is_array($arrayorscalar)) {
+            return $newvalue;
+        }
+
+        $newarray = array();
+        foreach ($arrayorscalar as $key => $value) {
+            $newarray[$key] = $this->set_value_in_nested_arrays($value, $newvalue);
+        }
+        return $newarray;
+    }
+
+    /**
+     * Pollute the question's input state and PRT result caches so that each
+     * input appears to contain the name of the input, and each PRT feedback
+     * area displays "Feedback from PRT {name}". Naturally, this method should
+     * only be used for special purposes, namely the tidyquestion.php script.
+     */
+    public function setup_fake_feedback_and_input_validation() {
+        // Set the cached input stats as if the user types the input name into each box.
+        foreach ($this->inputstates as $name => $inputstate) {
+            $this->inputstates[$name] = new stack_input_state(
+                    $inputstate->status, $this->set_value_in_nested_arrays($inputstate->contents, $name),
+                    $inputstate->contentsmodified, $inputstate->contentsdisplayed, $inputstate->errors);
+        }
+
+        // Set the cached prt results as if the feedback for each PRT was
+        // "Feedback from PRT {name}".
+        foreach ($this->prtresults as $name => $prtresult) {
+            $prtresult->_feedback = array();
+            $prtresult->add_feedback(stack_string('feedbackfromprtx', $name));
+        }
     }
 
     /**

@@ -189,6 +189,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -204,6 +205,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <prt>
       <name>firsttree</name>
@@ -295,6 +297,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -310,6 +313,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <checkanswertype>0</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <prt>
       <name>firsttree</name>
@@ -390,6 +394,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
+        $expectedq->inversetrig           = 'cos-1';
         $expectedq->variantsselectionseed = '';
 
         $expectedq->ans1type               = 'algebraic';
@@ -404,6 +409,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->ans1checkanswertype    = 0;
         $expectedq->ans1mustverify         = 1;
         $expectedq->ans1showvalidation     = 1;
+        $expectedq->ans1options            = '';
 
         $expectedq->firsttreevalue              = 1;
         $expectedq->firsttreeautosimplify       = 1;

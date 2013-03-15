@@ -85,7 +85,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
 
     public function test_modinput_tokenizer_row() {
         $in = '1,2,3';
-        $out = array('1','2','3');
+        $out = array('1', '2', '3');
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));

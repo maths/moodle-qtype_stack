@@ -97,8 +97,12 @@ class stack_maths {
      *      configuration options.
      */
     protected static function get_output() {
+        if ('' == trim(stack_utils::get_config()->mathsdisplay)) {
+            return self::get_output_instance('mathjax');
+        }
         return self::get_output_instance(stack_utils::get_config()->mathsdisplay);
     }
+
 
     /**
      * @param string $type the output method name.

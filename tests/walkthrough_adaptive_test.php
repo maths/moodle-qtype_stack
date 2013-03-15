@@ -436,7 +436,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Process a validate request.
         // Invalid answer.
         $this->process_submission(array('ans1' => 'solve((x-6)^4,x)', '-submit' => 1));
-    
+
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();
@@ -447,7 +447,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_output(
                 new question_pattern_expectation('/is forbidden/')
         );
-    
+
     }
 
     public function test_test3_repeat_wrong_response_only_penalised_once() {

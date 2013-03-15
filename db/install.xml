@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="qtype_stack" COMMENT="Stores the main options for each Stack question" NEXT="qtype_stack_inputs">
+    <TABLE NAME="qtype_stack_options" COMMENT="Stores the main options for each Stack question" NEXT="qtype_stack_inputs">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id" PREVIOUS="id" NEXT="questionvariables"/>
@@ -22,15 +22,16 @@
         <FIELD NAME="prtincorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for the prtincorrect field." PREVIOUS="prtincorrect" NEXT="multiplicationsign"/>
         <FIELD NAME="multiplicationsign" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="dot" SEQUENCE="false" COMMENT="The symbol to use for multiplication." PREVIOUS="prtincorrectformat" NEXT="sqrtsign"/>
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds." PREVIOUS="multiplicationsign" NEXT="complexno"/>
-        <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented." PREVIOUS="sqrtsign" NEXT="variantsselectionseed"/>
-        <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values." PREVIOUS="complexno"/>
+        <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented." PREVIOUS="sqrtsign" NEXT="inversetrig"/>
+        <FIELD NAME="inversetrig" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="How the inverse trigonometric function should be displayed. The valid values are cos-1, acos or arccos." PREVIOUS="complexno" NEXT="variantsselectionseed"/>
+        <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values." PREVIOUS="inversetrig"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>
         <KEY NAME="questionid" TYPE="foreign-unique" FIELDS="questionid" REFTABLE="question" REFFIELDS="id" PREVIOUS="primary"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="qtype_stack_inputs" COMMENT="One row for each input in the question." PREVIOUS="qtype_stack" NEXT="qtype_stack_prts">
+    <TABLE NAME="qtype_stack_inputs" COMMENT="One row for each input in the question." PREVIOUS="qtype_stack_options" NEXT="qtype_stack_prts">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="questionid"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key referencing question.id." PREVIOUS="id" NEXT="name"/>
@@ -46,7 +47,8 @@
         <FIELD NAME="requirelowestterms" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether any fractions in the input must be given in lowest terms." PREVIOUS="forbidfloat" NEXT="checkanswertype"/>
         <FIELD NAME="checkanswertype" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the type of the students answer (expression, list, ...) should be validated to ensure it is the same as tans." PREVIOUS="requirelowestterms" NEXT="mustverify"/>
         <FIELD NAME="mustverify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the interpretation of this input must be verified by the student before it is graded." PREVIOUS="checkanswertype" NEXT="showvalidation"/>
-        <FIELD NAME="showvalidation" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the validation results for this input should be displayed." PREVIOUS="mustverify"/>
+        <FIELD NAME="showvalidation" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the validation results for this input should be displayed." PREVIOUS="mustverify" NEXT="options"/>
+        <FIELD NAME="options" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Extra options that are interpreted in an input-specific way." PREVIOUS="showvalidation"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>
@@ -63,7 +65,8 @@
         <FIELD NAME="name" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The name used to identify this PRT." PREVIOUS="questionid" NEXT="value"/>
         <FIELD NAME="value" TYPE="number" LENGTH="12" NOTNULL="true" DEFAULT="1" SEQUENCE="false" DECIMALS="7" COMMENT="The maximum score this PRT can contribute to the question." PREVIOUS="name" NEXT="autosimplify"/>
         <FIELD NAME="autosimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to automatically simplify the variables used in this tree." PREVIOUS="value" NEXT="feedbackvariables"/>
-        <FIELD NAME="feedbackvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Additional expressions that should be computed before evaluating this tree." PREVIOUS="autosimplify"/>
+        <FIELD NAME="feedbackvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Additional expressions that should be computed before evaluating this tree." PREVIOUS="autosimplify" NEXT="firstnodename"/>
+        <FIELD NAME="firstnodename" TYPE="char" LENGTH="8" NOTNULL="true" SEQUENCE="false" COMMENT="Refers to qtype_stack_prt_nodes.nodename of the first node in the tree." PREVIOUS="feedbackvariables"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>

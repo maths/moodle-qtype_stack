@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/answertest/controller.c
 
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/keyval.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/castext.class.php');
-require_once($CFG->dirroot . '/question/type/stack/stack/acyclicchecker.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php');
 
 
 /**
@@ -52,11 +52,29 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var int array key into the results of get_input_names_from_question_text for the count of validation placeholders. */
     const VALIDATAIONS = 1;
 
+    /** @var options the STACK configuration settings. */
+    protected $stackconfig = null;
+
     /** @var string caches the result of {@link get_current_question_text()}. */
     protected $questiontext = null;
 
     /** @var string caches the result of {@link get_current_specific_feedback()}. */
     protected $specificfeedback = null;
+
+    /**
+     * @var array prt name => stack_abstract_graph caches the result of
+     * {@link get_prt_graph()}.
+     */
+    protected $prtgraph = array();
+
+    /** @var array the set of choices used for the type of all inputs. */
+    protected $typechoices;
+
+    /** @var array the set of choices used for the type of all answer tests. */
+    protected $answertestchoices;
+
+    /** @var array the set of choices used for the score mode of all PRT branches. */
+    protected $scoremodechoices;
 
     /** @var int the CAS seed using during validation. */
     protected $seed = 1;
@@ -110,38 +128,93 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param string $prtname the name of a PRT.
      * @return array list of nodes that should be present in the form definitino for this PRT.
      */
-    protected function get_required_nodes_for_prt($prtname) {
+    protected function get_prt_graph($prtname) {
+        if (array_key_exists($prtname, $this->prtgraph)) {
+            return $this->prtgraph[$prtname];
+        }
+
         // If the form has been submitted and is being redisplayed, and this is
         // an existing PRT, base things on the submitted data.
-        $submitted = optional_param_array($prtname . 'answertest', null, PARAM_RAW);
+        $submitted = optional_param_array($prtname . 'truenextnode', null, PARAM_RAW);
         if ($submitted) {
-            foreach ($submitted as $key => $notused) {
+            $truescoremode  = optional_param_array($prtname . 'truescoremode',  null, PARAM_RAW);
+            $truescore      = optional_param_array($prtname . 'truescore',      null, PARAM_RAW);
+            $falsenextnode  = optional_param_array($prtname . 'falsenextnode',  null, PARAM_RAW);
+            $falsescoremode = optional_param_array($prtname . 'falsescoremode', null, PARAM_RAW);
+            $falsescore     = optional_param_array($prtname . 'falsescore',     null, PARAM_RAW);
+            $graph = new stack_abstract_graph();
+            $lastkey = -1;
+            foreach ($submitted as $key => $truenextnode) {
                 if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
-                    unset($submitted[$key]);
 
                     // Slightly odd to register the button here, especially since
                     // now this node has been deleted, this button will not exist,
                     // but anyway this works, and in necessary to stop the form
                     // from being submitted.
                     $this->_form->registerNoSubmitButton($prtname . 'nodedelete' . $key);
+
+                    continue;
                 }
+
+                if ($truenextnode == -1 || !array_key_exists($truenextnode, $submitted)) {
+                    $left = null;
+                } else {
+                    $left = $truenextnode + 1;
+                }
+                if ($falsenextnode[$key] == -1 || !array_key_exists($falsenextnode[$key], $submitted)) {
+                    $right = null;
+                } else {
+                    $right = $falsenextnode[$key] + 1;
+                }
+                $graph->add_node($key + 1, $left, $right,
+                        $truescoremode[$key] . round($truescore[$key], 2),
+                        $falsescoremode[$key] . round($falsescore[$key], 2),
+                        '#fgroup_id_' . $prtname . 'node_' . $key);
+
+                $lastkey = max($lastkey, $key);
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $submitted[] = true;
+                $graph->add_node($lastkey + 1, null, null, '+0', '-0',
+                        '#fgroup_id_' . $prtname . 'node_' . $lastkey);
             }
 
-            return array_keys($submitted);
+            $graph->layout();
+            $this->prtgraph[$prtname] = $graph;
+            return $graph;
         }
 
         // Otherwise, if an existing question is being edited, and this is an
         // existing PRT, base things on the existing question definition.
         if (!empty($this->question->prts[$prtname]->nodes)) {
-            return array_keys($this->question->prts[$prtname]->nodes);
+            $graph = new stack_abstract_graph();
+            foreach ($this->question->prts[$prtname]->nodes as $node) {
+                if ($node->truenextnode == -1) {
+                    $left = null;
+                } else {
+                    $left = $node->truenextnode + 1;
+                }
+                if ($node->falsenextnode == -1) {
+                    $right = null;
+                } else {
+                    $right = $node->falsenextnode + 1;
+                }
+                $graph->add_node($node->nodename + 1, $left, $right,
+                        $node->truescoremode . round($node->truescore, 2),
+                        $node->falsescoremode . round($node->falsescore, 2),
+                        '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
+            }
+            $graph->layout();
+            $this->prtgraph[$prtname] = $graph;
+            return $graph;
         }
 
         // Otherwise, it is a new PRT. Just one node.
-        return array(0);
+        $graph = new stack_abstract_graph();
+        $graph->add_node('1', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
+        $graph->layout();
+        $this->prtgraph[$prtname] = $graph;
+        return $graph;
     }
 
     /**
@@ -231,7 +304,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
         $potential_response_tree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prt_nodes);
+                '', '', false, 0, $feedbackvariables->get_session(), $prt_nodes, $prt->firstnodename);
         return $potential_response_tree->get_required_variables($input_keys);
     }
 
@@ -254,13 +327,11 @@ class qtype_stack_edit_form extends question_edit_form {
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
 
+        // Load the configuration.
+        $this->stackconfig = stack_utils::get_config();
+
         // Prepare input types.
-        $types = stack_input_factory::get_available_types();
-        $this->typechoices = array();
-        foreach ($types as $type => $notused) {
-            $this->typechoices[$type] = stack_string('inputtype' . $type);
-        }
-        collatorlib::asort($this->typechoices);
+        $this->typechoices = stack_input_factory::get_available_type_choices();
 
         // Prepare answer test types.
         $answertests = stack_ans_test_controller::get_available_ans_tests();
@@ -328,47 +399,56 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('selectyesno', 'questionsimplify',
                 stack_string('questionsimplify'));
-        $mform->setDefault('questionsimplify', true);
+        $mform->setDefault('questionsimplify', $this->stackconfig->questionsimplify);
         $mform->addHelpButton('questionsimplify', 'autosimplify', 'qtype_stack');
 
         $mform->addElement('selectyesno', 'assumepositive',
                 stack_string('assumepositive'));
+        $mform->setDefault('assumepositive', $this->stackconfig->assumepositive);
         $mform->addHelpButton('assumepositive', 'assumepositive', 'qtype_stack');
 
         $mform->addElement('editor', 'prtcorrect',
                 stack_string('prtcorrectfeedback'),
                 array('rows' => 1), $this->editoroptions);
         $mform->getElement('prtcorrect')->setValue(array(
-                'text' => stack_string('defaultprtcorrectfeedback')));
+                'text' => $this->stackconfig->prtcorrect));
 
         $mform->addElement('editor', 'prtpartiallycorrect',
                 stack_string('prtpartiallycorrectfeedback'),
                 array('rows' => 1), $this->editoroptions);
         $mform->getElement('prtpartiallycorrect')->setValue(array(
-                        'text' => stack_string('defaultprtpartiallycorrectfeedback')));
+                        'text' => $this->stackconfig->prtpartiallycorrect));
 
         $mform->addElement('editor', 'prtincorrect',
                 stack_string('prtincorrectfeedback'),
                 array('rows' => 1), $this->editoroptions);
         $mform->getElement('prtincorrect')->setValue(array(
-                        'text' => stack_string('defaultprtincorrectfeedback')));
+                        'text' => $this->stackconfig->prtincorrect));
 
         $mform->addElement('select', 'multiplicationsign',
                 stack_string('multiplicationsign'), array(
                     'dot'   => stack_string('multdot'),
                     'cross' => stack_string('multcross'),
                     'none'  => get_string('none')));
+        $mform->setDefault('multiplicationsign', $this->stackconfig->multiplicationsign);
         $mform->addHelpButton('multiplicationsign', 'multiplicationsign', 'qtype_stack');
 
         $mform->addElement('selectyesno', 'sqrtsign',
                 stack_string('sqrtsign'));
-        $mform->setDefault('sqrtsign', true);
+        $mform->setDefault('sqrtsign', $this->stackconfig->sqrtsign);
         $mform->addHelpButton('sqrtsign', 'sqrtsign', 'qtype_stack');
 
         $mform->addElement('select', 'complexno',
                 stack_string('complexno'), array(
                     'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
+        $mform->setDefault('complexno', $this->stackconfig->complexno);
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
+
+        $mform->addElement('select', 'inversetrig',
+                stack_string('inversetrig'), array(
+                    'cos-1' => 'cos⁻¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+        $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
+        $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
         // Hints.
         $this->add_interactive_settings();
@@ -394,58 +474,64 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('header', $inputname . 'header', stack_string('inputheading', $inputname));
 
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
+        $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
-        $mform->addRule($inputname . 'modelans', stack_string('teachersanswer'),
-                'required', '', 'client', false, false);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
+        // We don't make modelans a required field in the formslib sense, because
+        // That stops the input sections collapsing by default. Instead, we enforce
+        // that it is non-blank in the server-side validation.
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 3));
-        $mform->setDefault($inputname . 'boxsize', 15);
+        $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'strictsyntax',
                 stack_string('strictsyntax'));
-        $mform->setDefault($inputname . 'strictsyntax', true);
+        $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
         $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'insertstars',
                 stack_string('insertstars'));
-        $mform->setDefault($inputname . 'insertstars', false);
+        $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), array('size' => 20));
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), array('size' => 20));
+        $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
-        $mform->setDefault($inputname . 'forbidfloat', true);
+        $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
         $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 stack_string('requirelowestterms'));
-        $mform->setDefault($inputname . 'requirelowestterms', false);
+        $mform->setDefault($inputname . 'requirelowestterms', $this->stackconfig->inputrequirelowestterms);
         $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 stack_string('checkanswertype'));
-        $mform->setDefault($inputname . 'checkanswertype', false);
+        $mform->setDefault($inputname . 'checkanswertype', $this->stackconfig->inputcheckanswertype);
         $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'mustverify',
                 stack_string('mustverify'));
-        $mform->setDefault($inputname . 'mustverify', true);
+        $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'showvalidation',
                 stack_string('showvalidation'));
-        $mform->setDefault($inputname . 'showvalidation', true);
+        $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
+
+        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
+        $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
 
     /**
@@ -474,17 +560,20 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('prtwillbecomeactivewhen', html_writer::tag('b', $inputnames)));
 
         // Create the section of the form for each node - general bits.
-        $nodes = $this->get_required_nodes_for_prt($prtname);
+        $graph = $this->get_prt_graph($prtname);
+
+        $mform->addElement('static', $prtname . 'graph', '',
+                stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
 
         $nextnodechoices = array('-1' => stack_string('stop'));
-        foreach ($nodes as $nodekey) {
-            $nextnodechoices[$nodekey] = stack_string('nodex', $nodekey + 1);
+        foreach ($graph->get_nodes() as $node) {
+            $nextnodechoices[$node->name - 1] = stack_string('nodex', $node->name);
         }
 
-        $deletable = count($nodes) > 1;
+        $deletable = count($graph->get_nodes()) > 1;
 
-        foreach ($nodes as $nodekey) {
-            $this->definition_prt_node($prtname, $nodekey, $nextnodechoices, $deletable, $mform);
+        foreach ($graph->get_nodes() as $node) {
+            $this->definition_prt_node($prtname, $node->name, $nextnodechoices, $deletable, $mform);
         }
 
         $mform->addElement('submit', $prtname . 'nodeadd', stack_string('addanothernode'));
@@ -494,13 +583,13 @@ class qtype_stack_edit_form extends question_edit_form {
     /**
      * Add the form elements defining one PRT node.
      * @param string $prtname the name of the PRT.
-     * @param string $nodekey the name of the node.
+     * @param string $name the name of the node.
      * @param array $nextnodechoices the available choices for the next node.
      * @param bool $deletable whether the user is allowed to delete this node.
      * @param MoodleQuickForm $mform the form being assembled.
      */
-    protected function definition_prt_node($prtname, $nodekey, $nextnodechoices, $deletable, MoodleQuickForm $mform) {
-        $name = $nodekey + 1;
+    protected function definition_prt_node($prtname, $name, $nextnodechoices, $deletable, MoodleQuickForm $mform) {
+        $nodekey = $name - 1;
 
         unset($nextnodechoices[$nodekey]);
 
@@ -531,10 +620,17 @@ class qtype_stack_edit_form extends question_edit_form {
 
             $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'scoremode[' . $nodekey . ']',
                     stack_string('scoremode'), $this->scoremodechoices);
+            if ($nodekey > 0) {
+                if ($branch === 'true') {
+                    $mform->setDefault($prtname . $branch . 'scoremode[' . $nodekey . ']', '+');
+                } else {
+                    $mform->setDefault($prtname . $branch . 'scoremode[' . $nodekey . ']', '-');
+                }
+            }
 
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'score[' . $nodekey . ']',
                     stack_string('score'), array('size' => 2));
-            $mform->setDefault($prtname . $branch . 'score[' . $nodekey . ']', (float) $branch);
+            $mform->setDefault($prtname . $branch . 'score[' . $nodekey . ']', (int) ($branch === 'true' && $nodekey == 0));
 
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'penalty[' . $nodekey . ']',
                     stack_string('penalty'), array('size' => 2));
@@ -579,7 +675,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
-     * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack table.
+     * Do the bit of {@link data_preprocessing()} for the data in the qtype_stack_options table.
      * @param object $question the raw data.
      * @return object the updated $question updated object closer to being ready to send to the form.
      */
@@ -602,6 +698,7 @@ class qtype_stack_edit_form extends question_edit_form {
                                             $opt->prtincorrect, $opt->prtincorrectformat, $question->id);
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
+        $question->inversetrig           = $opt->inversetrig;
         $question->sqrtsign              = $opt->sqrtsign;
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
@@ -632,6 +729,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;
             $question->{$inputname . 'mustverify'}         = $input->mustverify;
             $question->{$inputname . 'showvalidation'}     = $input->showvalidation;
+            $question->{$inputname . 'options'}            = $input->options;
         }
 
         return $question;
@@ -744,6 +842,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $this->options = new stack_options();
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
+        $this->options->set_option('inversetrig',        $fromform['inversetrig']);
         $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
         $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
         $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);
@@ -780,6 +879,15 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors['questiontext'][] = stack_string(
                         'questiontextonlycontain', '[[validation:' . $inputname . ']]');
             }
+        }
+
+        if (empty($inputs) && !empty($prts)) {
+            $errors['questiontext'][] = stack_string('noprtsifnoinputs');
+        }
+
+        // Default mark.
+        if (empty($inputs) && $fromform['defaultmark'] != 0) {
+            $errors['defaultmark'][] = stack_string('defaultmarkzeroifnoprts');
         }
 
         // Penalty.
@@ -827,6 +935,15 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputs as $inputname => $notused) {
             $errors = $this->validate_cas_string($errors,
                     $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
+
+            // TODO: find out if this input type acutally requires options, rather than
+            // the hard-coded check here.
+            if (false) {
+                $errors = $this->validate_cas_string($errors,
+                        $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
+            } else if ($fromform[$inputname . 'options']) {
+                $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
+            }
         }
 
         // 3) Validate all prts.
@@ -888,9 +1005,10 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // Check the nodes.
-        $nodes = $this->get_required_nodes_for_prt($prtname);
+        $graph = $this->get_prt_graph($prtname);
         $textformat = null;
-        foreach ($nodes as $nodekey) {
+        foreach ($graph->get_nodes() as $node) {
+            $nodekey = $node->name - 1;
 
             // Check the fields the belong to this node individually.
             $errors = $this->validate_prt_node($errors, $fromform, $prtname, $nodekey, $fixingdollars);
@@ -902,39 +1020,25 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] =
                         stack_string('allnodefeedbackmustusethesameformat');
             }
-
-            // Also build the $nextnodes graph structure array that we will need in a second.
-            $nextnodes[$nodekey] = array();
-
-            $next = $fromform[$prtname . 'truenextnode'][$nodekey];
-            if ($next != -1) {
-                $nextnodes[$nodekey][] = $next;
-            }
-
-            $next = $fromform[$prtname . 'falsenextnode'][$nodekey];
-            if ($next != -1) {
-                $nextnodes[$nodekey][] = $next;
-            }
         }
 
         // Check that the nodes form a directed acyclic graph.
-        $firstnode = reset($nodes);
-        list($problem, $details) = stack_acyclic_graph_checker::check_graph($nextnodes, $firstnode);
-        switch ($problem) {
-            case 'disconnected':
-                foreach ($details as $unusednode) {
-                    $errors[$prtname . 'node[' . $unusednode . ']'][] = stack_string('nodenotused');
-                }
-                break;
+        $roots = $graph->get_roots();
 
-            case 'backlink':
-                list($from, $to) = $details;
-                if ($fromform[$prtname.'truenextnode'][$from] == $to) {
-                    $errors[$prtname.'nodewhentrue['.$from.']'][] = stack_string('nodeloopdetected', $to + 1);
-                } else {
-                    $errors[$prtname.'nodewhenfalse['.$from.']'][] = stack_string('nodeloopdetected', $to + 1);
-                }
-                break;
+        // There should only be a single root. If there is more than one, then we
+        // we assume that the first one is the intended root, and flat the others as unused.
+        array_shift($roots);
+        foreach ($roots as $node) {
+            $errors[$prtname . 'node[' . ($node->name - 1) . ']'][] = stack_string('nodenotused');
+        }
+        foreach ($graph->get_broken_cycles() as $backlink => $notused) {
+            list($nodename, $direction) = explode('|', $backlink);
+            if ($direction == stack_abstract_graph::LEFT) {
+                $field = 'nodewhentrue';
+            } else {
+                $field = 'nodewhenfalse';
+            }
+            $errors[$prtname.$field.'['.($nodename - 1).']'][] = stack_string('nodeloopdetected');
         }
 
         return $errors;
@@ -1018,7 +1122,7 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param array $errors the errors array that validation is assembling.
      * @param string $value the submitted value validate.
      * @param string $fieldname the name of the field add any errors to.
-     * @param string $savestring the array key to save the string to in $this->validationcasstrings.
+     * @param string $savesession the array key to save the string to in $this->validationcasstrings.
      * @param bool|string $notblank false means do nothing (default). A string
      *      will validate that the field is not blank, and if it is, display that error.
      * @param int $maxlength the maximum allowable length. Defaults to 255.
@@ -1026,8 +1130,8 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function validate_cas_string($errors, $value, $fieldname, $savesession, $notblank = true, $maxlength = 255) {
 
-        if ($notblank && '' == trim($value)) {
-            $errors[$fieldname][] = stack_string($notblank);
+        if ($notblank && '' === trim($value)) {
+            $errors[$fieldname][] = stack_string('nonempty');
 
         } else if (strlen($value) > $maxlength) {
             $errors[$fieldname][] = stack_string('strlengtherror');
@@ -1125,11 +1229,17 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Make a list of all inputs, instantiate it and then look for errors.
         $inputs = $this->get_input_names_from_question_text();
-        $inputsvalues = array();
+        $inputvalues = array();
         foreach ($inputs as $inputname => $notused) {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
             $cs->validate('t');
             $inputvalues[] = $cs;
+
+            if ($fromform[$inputname . 'options']) {
+                $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
+                $cs->validate('t');
+                $inputvalues[] = $cs;
+            }
         }
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);
@@ -1137,6 +1247,14 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputs as $inputname => $notused) {
             if ($inputsession->get_errors_key($inputname)) {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
+                // TODO: Send the acutal value to to input, and ask it to validate it.
+                // For example, the matrix input type could check that the model answer is a matrix.
+            }
+
+            if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
+                $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
+            } else {
+                // TODO: Send the acutal value to to input, and ask it to validate it.
             }
         }
 
@@ -1144,6 +1262,7 @@ class qtype_stack_edit_form extends question_edit_form {
         if (!empty($errors)) {
             return $errors;
         }
+
         // TODO: loop over all the PRTs in a similar manner....
         // Remember, to use
         // clone $inputsession

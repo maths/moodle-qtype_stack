@@ -187,6 +187,87 @@ class stack_cas_text_test extends qtype_stack_testcase {
                         'You seem to be missing * characters. Perhaps you meant to type ' .
                         '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.');
     }
+
+    public function test_assignmatrixelements() {
+        // Assign a value to matrix entries.
+        $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+
+        $at1 = new stack_cas_text("@A@", $at1, 0);
+        $at1->get_display_castext();
+
+        $this->assertEquals('\(\left[\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \\\\ \end{array}\right]\)', $at1->get_display_castext());
+    }
+
+    public function test_plot() {
+
+        $a2=array('p:x^3');
+        $s2=array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text("This is some text @plot(p, [x,-2,3])@", $cs2, 0);
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
+
+        $this->assertTrue(is_int(strpos($at1->get_display_castext(),
+                ".png' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
+    }
+
+    public function test_plot_alttext() {
+
+        $a2=array('p:sin(x)');
+        $s2=array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        // Note, since we have spaces in the string we currently need to validate this as the teacher....
+        $at1 = new stack_cas_text('This is some text @plot(p, [x,-2,3], alt="Hello World!")@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
+        $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".png' alt='Hello World!'")));
+    }
+
+    public function test_plot_alttext_error() {
+
+        $a2=array('p:sin(x)');
+        $s2=array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        // Alt tags must be a string.
+        $at1 = new stack_cas_text('This is some text @plot(p,[x,-2,3],alt=x)@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
+        $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
+    }
 }
 
 /**

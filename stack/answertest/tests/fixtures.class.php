@@ -243,6 +243,8 @@ class stack_answertest_test_data {
         array('SameType', '1', 'x>1', 0, '', 'Inequalities'),
         array('SameType', 'x>2', 'x>1', 1, '', ''),
         array('SameType', 'x>1', 'x>=1', 1, '', ''),
+        array('SameType', 'x>1 and x<3', 'x>=1', 1, '', ''),
+        array('SameType', '{x>1,x<3}', 'x>=1', 0, '', ''),
 
         array('SysEquiv', '[90=v*t,90=(v+5)*(t-1/4)]', '[90=v*t,90=(v+5)*(t-1/4)]', 1, '', ''),
         array('SysEquiv', '[d=90,d=v*t,d=(v+5)*(t-1/4)]', '[90=v*t,90=(v+5)*(t-1/4)]', 1, '', ''),
@@ -484,6 +486,8 @@ class stack_answertest_test_data {
         array('Int', '(tan(2*t)-2*t)/2+c',
             '-(t*sin(4*t)^2-sin(4*t)+t*cos(4*t)^2+2*t*cos(4*t)+t)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)', 1, 't', ''),
         array('Int', 'tan(x)-x+c', 'tan(x)-x', 1, 'x', ''),
+        array('Int', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
+            '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', 0, 'x', 'Stoutemyer'),
 
         array('GT', '1/0', '1', 0, '', ''),
         array('GT', '1', '1/0', 0, '', ''),

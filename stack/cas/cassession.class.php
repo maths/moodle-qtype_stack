@@ -468,7 +468,7 @@ class stack_cas_session {
                 $cleanlabel = substr($label, 0, strpos($label, '['));
             }
 
-            $csnames   .= ", $label";
+            $csnames   .= ", $cleanlabel";
             // Special handling for the conditionally evaluated strings
             if(is_a($cs, 'stack_cas_conditionalcasstring') && count($cs->get_conditions()) > 0) {
                  $conditions = array();

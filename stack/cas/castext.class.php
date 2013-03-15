@@ -22,7 +22,6 @@
  */
 require_once('cassession.class.php');
 require_once('casstring.class.php');
-//require_once('castext/simplecastextparser.php');
 require_once('castext/castextparser.class.php');
 require_once('castext/raw.class.php');
 require_once('castext/latex.class.php');
@@ -63,10 +62,10 @@ class stack_cas_text {
     /** @var bool whether to do strict syntax checks. */
     private $syntax;
 
-    /** @var DOMDocument holds the XML-document matching this text */
-    private $dom;
+    /** @var stack_cas_castext_parsetreenode the root of the parse tree */
+    private $parse_tree_root;
 
-    /** @var array holds block-handlers for various DOM elements */
+    /** @var array holds block-handlers for various parse_tree nodes */
     private $blocks = array();
 
 
@@ -192,17 +191,6 @@ class stack_cas_text {
         // This does alot more than strictly "validate" the castext, but is makes sense to do all these things at once...
         $this->extract_cas_commands();
 
-        $xml_errors = libxml_get_errors();
-
-        if (count($xml_errors) > 0) {
-            foreach ($xml_errors as $err) {
-                $this->errors .= "<p>".$err->message."</p>";
-                if ($err->level !== LIBXML_ERR_WARNING) {
-                    $this->valid = false;
-                }
-            }
-        }
-
         if (false === $this->valid) {
             $this->errors = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$this->errors;
         }
@@ -217,85 +205,68 @@ class stack_cas_text {
      * @return bool false if no commands to extract, true if succeeds.
      */
     private function extract_cas_commands() {
-        $xml_string = "<castext>".$this->trimmedcastext."</castext>";
+        if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
+            if ($this->session == null) {
+                $this->session = new stack_cas_session(array(), null, $this->seed);
+            }
+            $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+            $array_form = $parser->match_castext();
+            $array_form = stack_cas_castext_castextparser::normalize($array_form);
+            $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
+            $array_form = stack_cas_castext_castextparser::tag($array_form);
+            $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
 
-        if ($this->session == null) {
-             $this->session = new stack_cas_session(array(), null, $this->seed);
+            $this->first_pass_recursion($this->parse_tree_root,array());
         }
-
-        libxml_use_internal_errors(true);
-        libxml_clear_errors();
-
-        $this->dom = new DOMDocument();
-        $err = $this->dom->loadXML($xml_string);
-        // once we output it again we might want to add some indentation.
-        $this->dom->formatOutput = true;
-        $this->dom->normalizeDocument();
-
-        $this->first_pass_recursion($this->dom->documentElement,array());
     }
 
 
     private function first_pass_recursion(&$node,$condition_stack) {
         $block_child_evaluation = false;
-        if ($node->hasAttributes()) {
-            for ($i = 0; $i < $node->attributes->length; $i++) {
-                if (stack_cas_castext_castextparser::castext_parsing_required($node->attributes->item($i)->value)) {
-                    $parser = new stack_cas_castext_castextparser($node->attributes->item($i)->value);
-                    $parse_tree = $parser->match_castext();
-                    $this->first_pass_castext_parser_recursion($node->attributes->item($i),$parse_tree,$condition_stack);
+        switch ($node->type) {
+            case "castext":
+                $iter = $node->first_child;
+                while ($iter !== NULL) {
+                    $this->first_pass_recursion($iter,$condition_stack);
+                    $iter = $iter->next_sibling;
                 }
-            }
-        }
-        if (is_a($node,'DOMElement')) {
-            if ($node->tagName == 'if') {
-                $block = new stack_cas_castext_if($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
-                // The following lines are common to all blocks, but as if is the only block for now...
+                break;
+            case "block":
+                $block = NULL;
+                switch ($node->get_content()) {
+                    case 'if':
+                        $block = new stack_cas_castext_if($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        break;
+                    default:
+                        // TODO EXCEPTION
+                        $echo = "UNKNOWN NODE ".$node->get_content();
+                }
                 $block->extract_attributes($this->session,$condition_stack);
+                $this->blocks[] = $block;
                 $new_stack = $block->content_evaluation_context($condition_stack);
-                if ($new_stack === FALSE)
+                if ($new_stack === FALSE) {
                     $block_child_evaluation = true;
-                else
+                } else {
                     $condition_stack = $new_stack;
-                $this->blocks[] = $block;
-            }
-        }
-        if (!$block_child_evaluation && $node->hasChildNodes()) {
-            // Not a foreach... due to reference issues
-            for ($i = 0 ; $i < $node->childNodes->length; $i++) {
-                $this->first_pass_recursion($node->childNodes->item($i),$condition_stack);
-            }
-        }
-        if (is_a($node,'DOMText')) {
-            if (stack_cas_castext_castextparser::castext_parsing_required($node->wholeText)) {
-                $parser = new stack_cas_castext_castextparser($node->wholeText);
-                $parse_tree = $parser->match_castext();
-                $this->first_pass_castext_parser_recursion($node,$parse_tree,$condition_stack);
-            }
-        }
-    }
-
-    private function first_pass_castext_parser_recursion(&$node,$parse_tree,$condition_stack) {
-        if (array_key_exists('item',$parse_tree)) {
-            if (!array_key_exists('_matchrule',$parse_tree['item'])) {
-                foreach ($parse_tree['item'] as $item) {
-                    $this->first_pass_castext_parser_recursion($node,$item,$condition_stack);
                 }
-            } else {
-                $this->first_pass_castext_parser_recursion($node,$parse_tree['item'],$condition_stack);
-            }
-        } else if (array_key_exists('cascontent',$parse_tree)) {
-            if ($parse_tree['_matchrule'] == 'rawcasblock') {
+                if (!$block_child_evaluation) {
+                    $iter = $node->first_child;
+                    while ($iter !== NULL) {
+                        $this->first_pass_recursion($iter,$condition_stack);
+                        $iter = $iter->next_sibling;
+                    }
+                }
+                break;
+            case "rawcasblock":
                 $block = new stack_cas_castext_raw($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
-                $block->set_content($parse_tree['cascontent']['text']);
                 $block->extract_attributes($this->session,$condition_stack);
                 $this->blocks[] = $block;
-            } else if ($parse_tree['_matchrule'] == 'texcasblock') {
+                break;
+            case "texcasblock":
                 $block = new stack_cas_castext_latex($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
-                $block->set_content($parse_tree['cascontent']['text']);
                 $block->extract_attributes($this->session,$condition_stack);
                 $this->blocks[] = $block;
-           }
+                break;
         }
     }
 
@@ -317,13 +288,23 @@ class stack_cas_text {
 
         // Handle blocks
         $requires_rerun = false;
-        foreach (array_reverse($this->blocks) as $block) {
+        foreach ($this->blocks as $block) {
             $requires_rerun = $block->process_content($this->session) || $requires_rerun;
         }
 
         while ($requires_rerun) {
             $this->blocks = array();
-            first_pass_recursion($this->dom->documentElement,array());
+
+            $this->trimmedcastext = $this->parse_tree_root->to_string();
+
+            $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+            $array_form = $parser->match_castext();
+            $array_form = stack_cas_castext_castextparser::normalize($array_form);
+            $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
+            $array_form = stack_cas_castext_castextparser::tag($array_form);
+            $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
+
+            first_pass_recursion($this->parse_tree_root,array());
             $this->session->instantiate();
             $this->errors .= $this->session->get_errors();
             $requires_rerun = false;
@@ -333,7 +314,7 @@ class stack_cas_text {
         }
 
         if (trim($this->trimmedcastext) !== '') {
-            $this->trimmedcastext = substr($this->dom->saveXML($this->dom->documentElement),9,-10);
+            $this->trimmedcastext = $this->parse_tree_root->to_string();
         }
 
 

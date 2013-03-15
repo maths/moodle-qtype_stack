@@ -26,8 +26,7 @@
 abstract class stack_cas_castext_block {
 
     /**
-     * Nodes here are DOMNodes from the PHP DOM-implementation. SimpleXML was not enough as it does not
-     * relay sufficient structural information.
+     * Nodes here are like DOM-nodes but not quite. The type is stack_cas_castext_parsetreenode, we use these nodes instead of arrays so that the references are simpler to handle.
      */
     private $node;
     private $session;
@@ -36,6 +35,9 @@ abstract class stack_cas_castext_block {
     private $syntax;
     private $insertstars;
 
+    /**
+     * Returns the node this block is supposed to act on
+     */
     public function &get_node() {
         return $this->node;
     }
@@ -44,9 +46,8 @@ abstract class stack_cas_castext_block {
     /**
      * The functions here are listed in the order they will be called from the castext-processor.
      */
-
     public function __construct(&$node,&$session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
-        $this->node = &$node;
+        $this->node = $node;
 
         // These are for creating a new castext-parser if need be.
         $this->session = &$session;
@@ -82,4 +83,8 @@ abstract class stack_cas_castext_block {
     abstract public function process_content($evaluatedcassession,$conditionstack = NULL);
 
 }
+
+
 ?>
+
+

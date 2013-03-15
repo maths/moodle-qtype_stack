@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 // This file is part of Stack - http://stack.bham.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
@@ -26,7 +27,7 @@
  ** WARNING! if the file you are reading has .php-extension do not edit it! It has been generated from castext.peg.inc.
  **/
 /**
- ** Howto to generate the .php file, run the following command, in the directory of this file:
+ ** Howto generate the .php file: run the following command, in the directory of this file:
  ** php ../../../lib/php-peg/cli.php castext.peg.inc > castextparser.class.php
  **/
 require_once(dirname(__FILE__) . '/../../../lib/php-peg/autoloader.php');
@@ -38,35 +39,409 @@ use hafriedlander\Peg\Parser;
  */
 class stack_cas_castext_castextparser extends Parser\Basic {
 
-/**
- * A function to test a string for necessary features related to castextparser.
- * returns true if the string should be passed trough the parser
- */
-public static function castext_parsing_required($test){
- if(strpos($test,"{@")!==FALSE)
-  return true;
- if(strpos($test,"{#")!==FALSE)
-  return true;
+    /**
+     * A function to test a string for necessary features related to castextparser.
+     * returns true if the string should be passed trough the parser
+     */
+    public static function castext_parsing_required($test) {
+        return (strpos($test,"{@")!==FALSE || strpos($test,"{#")!==FALSE || strpos($test,"[[")!==FALSE);
+    }
 
- return false;
+    /**
+     * Takes a parse tree and concatenates the text-elements of its leafs. 
+     * Intentionally skips the text-element of the root as modifications made 
+     * to the leafs might not have been done there. 
+     */
+    public static function to_string($parse_tree) {
+        $r = "";
+        switch ($parse_tree['_matchrule']) {
+            case "castext":
+                if (array_key_exists('_matchrule',$parse_tree['item'])) {
+                    $r .= stack_cas_castext_castextparser::to_string($parse_tree['item']);
+                } else {
+                    foreach ($parse_tree['item'] as $sub_tree) {
+                        $r .= stack_cas_castext_castextparser::to_string($sub_tree);
+                    }
+                }
+                break;
+            case "block":
+                $r .= "[[ " . $parse_tree['name'];
+
+                if (count($parse_tree['params']) > 0) {
+                    foreach ($parse_tree['params'] as $key => $value) {
+                        $r .= " $key=";
+                        if (strpos($value,'"') === FALSE) {
+                            $r .= '"' . $value . '"';
+                        } else {
+                            $r .= "'$value'";
+                        }
+                    }
+                }
+
+                $r .= " ]]";
+
+                if (array_key_exists('_matchrule',$parse_tree['item'])) {
+                    $r .= stack_cas_castext_castextparser::to_string($parse_tree['item']);
+                } else {
+                    foreach ($parse_tree['item'] as $sub_tree) {
+                        $r .= stack_cas_castext_castextparser::to_string($sub_tree);
+                    }
+                }
+                $r .= "[[/ " . $parse_tree['name'] . " ]]";
+
+                break;
+            case "ioblock":
+            case "rawcasblock":
+            case "texcasblock":
+            case "text":
+            case "ws":
+            case "misc":
+            case "break":
+            case "blockopen":
+            case "blockclose":
+                $r .= $parse_tree['text'];
+                break;
+        }
+        return $r;
+    }
+
+    /**
+     * Adds an identifier to each node in the tree so that they may be referenced in a unique way.
+     * These identifiers are used in various other functions.
+     */
+    public static function tag($parse_tree,$tag=array("1")) {
+        $parse_tree['tag'] = implode("-",$tag);
+        switch ($parse_tree['_matchrule']) {
+            case "castext":
+            case "block":
+                $i=1;
+                if (array_key_exists('_matchrule',$parse_tree['item'])) {
+                    array_push($tag,$i);
+                    $parse_tree['item'] = stack_cas_castext_castextparser::tag($parse_tree['item'],$tag);
+                    array_pop($tag);              
+                } else {
+                    foreach ($parse_tree['item'] as $key => $sub_tree) {
+                        array_push($tag,$i);
+                        $parse_tree['item'][$key] = stack_cas_castext_castextparser::tag($parse_tree['item'][$key],$tag);
+                        array_pop($tag);              
+                        $i++;
+                    }
+                }
+                break;
+        }
+        return $parse_tree;
+    }
+
+
+    /**
+     * This function searches the tree for adjacent text nodes and joins them together.
+     * Not unlike similar functions in DOM-parsers.
+     * returns an array that has been normalized
+     */
+    public static function normalize($parse_tree) {
+        if (array_key_exists('item',$parse_tree) && is_array($parse_tree['item']) && !array_key_exists('_matchrule',$parse_tree['item']) && count($parse_tree['item']) > 1) {
+            // Key listing maybe not continuous...
+            $keys = array_keys($parse_tree['item']); 
+            for ($i=0; $i<count($keys)-1; $i++) {
+                $now = $keys[$i];
+                $next = $keys[$i+1];
+                if ($parse_tree['item'][$now]['_matchrule'] == 'ioblock' || $parse_tree['item'][$now]['_matchrule'] == 'ws' || $parse_tree['item'][$now]['_matchrule'] == 'misc' || $parse_tree['item'][$now]['_matchrule'] == 'breaks' || $parse_tree['item'][$now]['_matchrule'] == 'text') {
+                    if ($parse_tree['item'][$next]['_matchrule'] == 'ioblock' || $parse_tree['item'][$next]['_matchrule'] == 'ws' || $parse_tree['item'][$next]['_matchrule'] == 'misc' || $parse_tree['item'][$next]['_matchrule'] == 'breaks') {
+                        $parse_tree['item'][$next]['text'] = $parse_tree['item'][$now]['text'].$parse_tree['item'][$next]['text'];
+                        $parse_tree['item'][$next]['_matchrule'] = 'text';
+                        unset($parse_tree['item'][$now]);
+                    } else {
+                        $parse_tree['item'][$now]['_matchrule'] = 'text';
+                    }
+                } else {
+                    $parse_tree['item'][$now] = stack_cas_castext_castextparser::normalize($parse_tree['item'][$now]);
+                    if ($parse_tree['item'][$next]['_matchrule'] == 'ioblock' || $parse_tree['item'][$next]['_matchrule'] == 'ws' || $parse_tree['item'][$next]['_matchrule'] == 'misc' || $parse_tree['item'][$next]['_matchrule'] == 'breaks') {
+                        $parse_tree['item'][$next]['_matchrule'] = 'text';
+                    }
+                }
+            }
+        }
+        return $parse_tree;
+    }
+
+    /**
+     * This function searches a flat tree for matching block-ends and converts them to a better structure. 
+     * It will also remap any parameters to a simpler form.
+     * returns an array that has been remapped in that way.
+     */
+    public static function block_conversion($parse_tree) {
+        $something_changed = TRUE;
+        while ($something_changed) {
+            $something_changed = FALSE;
+            if (array_key_exists('item',$parse_tree) && is_array($parse_tree['item']) && count($parse_tree['item']) > 1) {
+                $end_blocks = array();
+                $start_blocks = array();
+                foreach ($parse_tree['item'] as $key => $value) {
+                    if ($value['_matchrule'] == 'blockclose') {
+                        $end_blocks[] = $key;
+                    } else if ($value['_matchrule'] == 'blockopen') {
+                        $start_blocks[] = $key;
+                    }
+                }
+
+                while (count($end_blocks) > 0) {
+                    $end_candidate_index = array_shift($end_blocks);
+                    $closest_start_candidate = NULL;
+                    foreach ($start_blocks as $cand) {
+                       if ($cand < $end_candidate_index && $cand > $closest_start_candidate) {
+                           $closest_start_candidate = $cand;
+                       }
+                    }
+
+                    if ($closest_start_candidate !== NULL && $parse_tree['item'][$end_candidate_index]['name'][1]['text'] == $parse_tree['item'][$closest_start_candidate]['name'][1]['text']) {
+                       $parse_tree['item'][$closest_start_candidate]['_matchrule'] = "block";
+
+                       $parse_tree['item'][$closest_start_candidate]['name'] = $parse_tree['item'][$closest_start_candidate]['name'][1]['text'];
+
+                       $params = array();
+
+                       if (array_key_exists('params',$parse_tree['item'][$closest_start_candidate])) {
+                           if (array_key_exists('_matchrule',$parse_tree['item'][$closest_start_candidate]['params'])) {
+                               $params[$parse_tree['item'][$closest_start_candidate]['params']['key']['text']] = $parse_tree['item'][$closest_start_candidate]['params']['value']['text'];
+                           } else {
+                               foreach ($parse_tree['item'][$closest_start_candidate]['params'] as $param) {
+                                   $params[$param['key']['text']] = $param['value']['text'];
+                               }
+                           }
+                       }
+                       $parse_tree['item'][$closest_start_candidate]['params'] = $params;
+                       $parse_tree['item'][$closest_start_candidate]['item'] = array();
+
+                       foreach ($parse_tree['item'] as $key => $value) {
+                           if ($key > $closest_start_candidate && $key < $end_candidate_index) {
+                               $parse_tree['item'][$closest_start_candidate]['item'][] = $value;
+                               $parse_tree['item'][$closest_start_candidate]['text'] .= $value['text'];
+                               unset($parse_tree['item'][$key]);
+                           }
+                       }
+
+                       $parse_tree['item'][$closest_start_candidate]['text'] .= $parse_tree['item'][$end_candidate_index]['text'];
+                       unset($parse_tree['item'][$end_candidate_index]);
+
+                       $something_changed = TRUE;
+                       break;
+                    }
+                }
+            }
+        }
+        return $parse_tree;
+    }
+
+    /*!*
+    texcasblock: "{@" cascontent:/[^@]+/ "@}"
+    rawcasblock: "{#" cascontent:/[^#]+/ "#}"
+    blockid: /[a-zA-Z0-9\-_]+/ 
+    ws: (' ' | /[\n\t\r]/ )+
+    misc:  /[^\{\[]+/ 
+    breaks:  ( '{' |  '[' )
+    param: ws key:blockid '=' q:/["']/ value:/[^$q]+/ "$q" 
+    ioblock: '[[' ws? channel:blockid ws? ':' ws? var:blockid ws? ']]'
+    blockopen: '[[' ws? name:blockid (params:param)* ws? ']]'
+    blockclose: '[[/' ws? name:blockid ws? ']]'
+    castext : ( item:ioblock | item:texcasblock | item:rawcasblock | item:misc | item:ws | item:blockclose | item:blockopen | item:breaks)*
+    */
+
+    // SO WOULD HAVE WANTED THIS BUT COULD NOT UNDERSTAND HOWTO... SO NOW WE HAVE THE NESTED PARSING DONE AFTERWARDS
+    // block: '[[' ws? name:blockid (params:param)* ws? ']]' content:castext '[[/' ws? "$name" ws? ']]'
+
 }
 
 
-/*!*
+/**
+ * A custom datastructure for skipping the annoying task of working with references to arrays. The only array in this structure is something we do not modify.
+ */
+class stack_cas_castext_parsetreenode {
+    
+    public $parent = NULL;
+    public $next_sibling = NULL;
+    public $previous_sibling = NULL;
+    public $first_child = NULL;
+    // There are five types, castext is the root, blocks are containers and text, rawcasblock and texcasblock are root nodes.
+    public $type = "castext";
+    private $params = NULL;
+    private $content = "";
 
-texcasblock: "{@" cascontent:/[^@]+/ "@}"
+    /**
+     * Converts the nested array form tree to parsetreenode-tree
+     */
+    public static function build_from_nested($parse_tree,$parent=NULL) {
+        $node = new stack_cas_castext_parsetreenode();
+        $node->parent = $parent;
 
-rawcasblock: "{#" cascontent:/[^#]+/ "#}"
+        switch ($parse_tree['_matchrule']) {
+            case "block":
+                $node->params = $parse_tree['params'];
+                $node->content = $parse_tree['name'];
+            case "castext":
+                if (array_key_exists('_matchrule',$parse_tree['item'])) {
+                    $node->first_child = stack_cas_castext_parsetreenode::build_from_nested($parse_tree['item'],$node);
+                } else {
+                    $prev = NULL;
+                    foreach ($parse_tree['item'] as $sub_tree) {
+                        $n = stack_cas_castext_parsetreenode::build_from_nested($sub_tree,$node); 
+                        if ($prev !== NULL) {
+                            $n->previous_sibling = $prev;
+                            $prev->next_sibling = $n;
+                        } else {
+                            $node->first_child = $n;
+                        }
+                        $prev = $n;
+                    }
+                }
+                $node->type = $parse_tree['_matchrule'];
+                break;
+            case "rawcasblock":
+            case "texcasblock":
+                $node->type = $parse_tree['_matchrule'];
+                $node->content = $parse_tree['cascontent']['text'];
+                break;
+            default:
+                $node->type = 'text';
+                $node->content = $parse_tree['text'];
+        }
+        return $node;       
+    }
 
-misc:  /[^\{\[]+/
 
-breaks: /[\{\[]+/
+    /**
+     * Returns true if there could be somekind of a substructure.
+     */
+    public function is_container() {
+        if ($this->type == 'castext' || $this->type == 'block') {
+            return true;
+        }
+        return false;
+    }
 
-ws: (' ' | /[\n\t\r]/ )
+    /**
+     * Converts the node to a text node with the given content.
+     */
+    public function convert_to_text($new_content) {
+        $this->type = "text";
+        $this->content = $new_content;
+        // Clear other details just in case, makes dumping the var cleaner when debuging
+        $this->first_child = NULL;
+        $this->params = array();
+    }
 
-castext : ( item:texcasblock | item:rawcasblock | item:misc | item:ws | item:breaks )*
+    /**
+     * Gets the name of this block, the content of this text-node or the cascontent of this casblock
+     */
+    public function get_content() {
+        return $this->content;
+    }
 
-*/
+    /**
+     * Returns the value of a parameter, usefull for nodes of the block-type. You can also set the default value returned should such a parameter be missing.
+     */
+    public function get_parameter($key,$default=NULL) {
+        if (@array_key_exists($key,$this->params)) {
+            return $this->params[$key];
+        }
+        return $default;
+    }
 
+    /**
+     * Use this if you care if a parameter actually exists.
+     */
+    public function parameter_exists($key) {
+        if ($this->params !== NULL) {
+            return array_key_exists($key,$this->params);
+        }
+        return false;
+    }
+
+    /**
+     * Destroys this node (and its children) and removes it from its parent. Should you wish to access the parent the parent-link of this node will work even after destruction.
+     */
+    public function destroy_node() {
+        if ($this->parent->first_child === $this) {
+            $this->parent->first_child = $this->next_sibling;
+        }
+        if ($this->next_sibling !== NULL) {
+            $this->next_sibling->previous_sibling = $this->previous_sibling;
+        }
+        if ($this->previous_sibling !== NULL) {
+            $this->previous_sibling->next_sibling = $this->next_sibling;
+        }
+    }
+
+    /**
+     * Destroys this node but promotes its children to its place. Perfect for removing if-blocks and other wrappers.
+     */
+    public function destroy_node_promote_children() {
+        if ($this->first_child !== NULL) {
+            $next = $this->next_sibling;
+            $iter = $this->first_child;
+            if ($this->parent->first_child === $this) {
+                $this->parent->first_child = $iter;
+            }
+            if ($this->previous_sibling !== NULL) {
+                $this->previous_sibling->next_sibling = $iter;
+            }
+            $iter->previous_sibling = $this->previous_sibling;
+            $iter->parent = $this->parent;
+            while ($iter->next_sibling !== NULL) {
+                $iter->parent = $this->parent;
+                $iter = $iter->next_sibling;
+            }
+            $iter->parent = $this->parent;
+            $iter->next_sibling = $next;
+            if ($next !== NULL) {
+                $next->previous_sibling = $iter;
+            }
+        }
+    }
+
+    /**
+     * Presents the node in string form, might not match perfectly to the original content as quotes and whitespace may have changed.
+     */
+    public function to_string() {
+        $r = "";
+        switch ($this->type) {
+            case "block":  
+                $r .= "[[ " . $this->content;
+                if (count($this->params) > 0) {
+                    foreach ($this->params as $key => $value) {
+                        $r .= " $key=";
+                        if (strpos($value,'"') === FALSE) {
+                            $r .= '"' . $value . '"';
+                        } else {
+                            $r .= "'$value'";
+                        }
+                    }
+                }
+                $r .= " ]]";
+             
+                $iterator = $this->first_child;
+                while ($iterator !== NULL) {
+                    $r .= $iterator->to_string();
+                    $iterator = $iterator->next_sibling;
+                }
+
+                $r .= "[[/ " . $this->content . " ]]";
+                break;
+            case "castext":
+                $iterator = $this->first_child;
+                while ($iterator !== NULL) {
+                    $r .= $iterator->to_string();
+                    $iterator = $iterator->next_sibling;
+                }
+                break;  
+            case "text":
+                return $this->content;
+            case "texcasblock":
+                return "{@" . $this->content . "@}";
+            case "rawcasblock":
+                return "{#" . $this->content . "#}";
+        }
+
+        return $r;
+    }
 }
 ?>

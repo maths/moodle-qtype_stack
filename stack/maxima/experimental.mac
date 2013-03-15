@@ -19,6 +19,68 @@ rand_recurse(ex) := block(
 poly_truncate(pa,d) := apply("+",maplist(lambda([ex],if hipow(ex,x)>d then 0 else ex), args(expand(pa))));
 
 /****************************************************************/
+/*  Inequality functions for STACK                              */
+/*                                                              */
+/*  Chris Sangwin, <chris@sangwin.com>                          */
+/*  V0.1 March 2013                                             */
+/*                                                              */
+/****************************************************************/
+
+
+/* Determines if we have a linear inequality in one variable */
+linear_inequalityp(ex) := block([ex2],
+   if atom(ex) then return(false),
+   if not(">"= op(ex) or "<"= op(ex) or ">="= op(ex) or "<="= op(ex)) then return(false),
+   ex2:ineqprepare(ex),
+   if not(is(length(listofvars(ex2))=1)) then return(false),
+   if is(degree(lhs(ex2),first(listofvars(ex2)))=1) then return(true),
+   return(false)
+)$
+
+/* This removes redundant linear inequalities such as x>1 or x>0 -> x>0 */
+ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv],
+  if atom(ex) then return(ex),
+  if not(op(ex)="and" or op(ex)="or") then return(ex),
+  if op(ex)="and" then exo:[max,min] else exo:[min,max],
+  exn:sublist(args(ex),lambda([ex2],not(linear_inequalityp(ex2)))),  
+  print(exn),
+  exl:sublist(args(ex),linear_inequalityp),
+  /* Separate out different variables */
+  exv:listofvars(exl),
+  exl:maplist(lambda([ex],sublist(exl,lambda([ex2],is(listofvars(ex2)=[ex])))),exv),
+  print(exl),
+  /* At this point we have linear inequalities, in a single variable, separated out into lists for each individual variable. */
+  exl:maplist(lambda([ex],single_linear_ineq_reduce(ex,exo)),exl),
+  exl:flatten(exl),
+  apply(op(ex),append(exn,exl))
+  )$
+
+/* Take a list of linear inequalities the same single variable, and an list of operators, min/max.  
+   Returns the equivalent inequalities.
+*/
+single_linear_ineq_reduce(ex,exo):=block([exg,exl],
+  ex:maplist(ineqprepare,ex),
+  /* Separate out into x>?, x>=? and x<?, x<=?. */
+  exg:sublist(ex,lambda([ex2],is(coeff(lhs(ex2),first(listofvars(ex2)))=1))),
+  exl:sublist(ex,lambda([ex2],is(coeff(lhs(ex2),first(listofvars(ex2)))=-1))),
+  /* Separate into solution and operator */
+  exg:single_linear_ineq_reduce_h(exg,first(exo),true),
+  exl:single_linear_ineq_reduce_h(exl,second(exo),false),
+  append(exg,exl)
+)$
+
+/* Take a list of linear inequalities of the same sign, in a single variable, and an operator, min/max.  
+   Return the single equivalent inequality.
+*/
+single_linear_ineq_reduce_h(exl,exo,odr):=block([m,n,exg],
+  if exl=[] then return([]),
+  exg:maplist(lambda([ex2],[rhs(first(solve(lhs(ex2)))),op(ex2)]),exl),
+  m:apply(exo, maplist(first,exg)),
+  n:sublist_indices(exg,lambda([ex2],is(m=first(ex2)))),
+  [apply(second(exg[first(n)]), if odr then [first(listofvars(exl)),m] else [m,first(listofvars(exl))])]
+)$  
+
+/****************************************************************/
 /*  Reporting support functions for STACK                       */
 /*                                                              */
 /*  Chris Sangwin, <chris@sangwin.com>                          */

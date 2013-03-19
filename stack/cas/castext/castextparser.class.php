@@ -146,7 +146,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
         $something_changed = TRUE;
         while ($something_changed) {
             $something_changed = FALSE;
-            if (array_key_exists('item',$parse_tree) && is_array($parse_tree['item']) && count($parse_tree['item']) > 1) {
+            if (array_key_exists('item',$parse_tree) && is_array($parse_tree['item']) && count($parse_tree['item']) > 1 && !array_key_exists('_matchrule',$parse_tree['item'])) {
                 $end_blocks = array();
                 $start_blocks = array();
                 foreach ($parse_tree['item'] as $key => $value) {
@@ -176,7 +176,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                 $i = 0;
                 while ($i < count($end_blocks)) {
                     $end_candidate_index = $end_blocks[$i];
-                    $closest_start_candidate = NULL;
+                    $closest_start_candidate = -1;
                     foreach ($start_blocks as $cand) {
                         if ($cand < $end_candidate_index && $cand > $closest_start_candidate) {
                             $closest_start_candidate = $cand;
@@ -184,6 +184,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                     }
                     if ($i > 0 && $end_blocks[$i-1] > $closest_start_candidate) {
                         // There is a missmatch of open-close-tags
+                        $i++;
                         break;
                     }
 
@@ -1080,6 +1081,15 @@ class stack_cas_castext_parsetreenode {
             $iter->next_sibling = $next;
             if ($next !== NULL) {
                 $next->previous_sibling = $iter;
+            }
+        } else {
+            if ($this->next_sibling !== NULL && $this->previous_sibling !== NULL) {
+                $this->previous_sibling->next_sibling = $this->next_sibling;
+                $this->next_sibling->previous_sibling = $this->previous_sibling;
+            } else if ($this->previous_sibling !== NULL) {
+                $this->previous_sibling->next_sibling = NULL;
+            } else {
+                $this->parent->first_child = NULL;
             }
         }
     }

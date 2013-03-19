@@ -258,7 +258,12 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals('Test string  {@1/1@}  ',$parsed['tree_form']->to_string());
     }
 
-
+    public function test_block_as_first_element() {
+        $raw = '[[ if test="false"]]blaah[[/if]]';
+        $parsed = $this->basic_parse_and_actions($raw);
+        // Type check
+        $this->assertEquals('block',$parsed['tree_form']->first_child->type);
+    }
 
 
 

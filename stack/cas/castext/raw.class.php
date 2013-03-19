@@ -29,30 +29,27 @@ require_once("block.interface.php");
 class stack_cas_castext_raw extends stack_cas_castext_block {
 
     /**
-     * counts blocks so that we can generate unique variable-names for the CAS,
+     * remembers the number for this instance
      */
-    private static $count = 1;
-
-    /**
-     * remembers the count for this instance
-     */
-    private $thiscount;
+    private $number;
 
     public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
-        self::$count++;
-
         $cs = NULL;
         if ($conditionstack === NULL || count($conditionstack) === 0) {
-            $cs = new stack_cas_casstring($this->get_node()->get_content());
+            $cs = new stack_cas_casstring(trim($this->get_node()->get_content()));
         } else {
-            $cs = new stack_cas_conditionalcasstring($this->get_node()->get_content(),$conditionstack);
+            $cs = new stack_cas_conditionalcasstring(trim($this->get_node()->get_content()),$conditionstack);
         }
 
-        // TODO: we might want to check that key just in case there is a collision.
-        // also the count should be defined at castext instance level so that we can benefit from the cache
-        // even when we instantiate the texts in different order
-        $cs->set_key("rawCASchat".self::$count,true);
-        $this->thiscount = self::$count;
+        $session_keys = $tobeevaluatedcassession->get_all_keys();
+        $i = 0;
+        do { // ... make sure names are not already in use.
+            $key = 'caschat'.$i;
+            $i++;
+        } while (in_array($key, $session_keys));
+        $this->number = $i-1;
+
+        $cs->set_key($key,true);
 
         $tobeevaluatedcassession->add_vars(array($cs));
     }
@@ -63,7 +60,7 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession,$conditionstack = NULL) {
-        $thenewone = $evaluatedcassession->get_value_key("rawCASchat".$this->thiscount);
+        $thenewone = $evaluatedcassession->get_value_key("caschat".$this->number);
         $this->get_node()->convert_to_text($thenewone);
 
         return false;

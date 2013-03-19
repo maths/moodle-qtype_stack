@@ -48,7 +48,7 @@ class stack_cas_text {
     private $valid;
 
     /** @var bool whether this been sent to the CAS yet? Stops re-sending to the CAS. */
-    private $instantiated;
+    private $instantiated = null;
 
     /** @var string any error messages to display to the user. */
     private $errors;
@@ -63,7 +63,7 @@ class stack_cas_text {
     private $syntax;
 
     /** @var stack_cas_castext_parsetreenode the root of the parse tree */
-    private $parse_tree_root;
+    private $parse_tree_root = NULL;
 
     /** @var array holds block-handlers for various parse_tree nodes */
     private $blocks = array();
@@ -133,6 +133,28 @@ class stack_cas_text {
         // Find reasons to invalidate the text...
         $this->valid = true;
 
+        // Check {@...@}'s match.
+        $amps = stack_utils::check_bookends($this->trimmedcastext, '{@', '@}');
+        if ($amps !== true) {
+            if ($amps == 'left') {
+                $this->errors .= stack_string('stackCas_MissingOpenTeXCAS');
+            } else {
+                $this->errors .= stack_string('stackCas_MissingClosingTeXCAS');
+            }
+            $this->valid = false;
+        }
+
+        // Check {#...#}'s match.
+        $amps = stack_utils::check_bookends($this->trimmedcastext, '{#', '#}');
+        if ($amps !== true) {
+            if ($amps == 'left') {
+                $this->errors .= stack_string('stackCas_MissingOpenRawCAS');
+            } else {
+                $this->errors .= stack_string('stackCas_MissingClosingRawCAS');
+            }
+            $this->valid = false;
+        }
+
         $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
         if ($hints !== true) {
             // The method check_bookends does not return false.
@@ -191,6 +213,14 @@ class stack_cas_text {
         // This does alot more than strictly "validate" the castext, but is makes sense to do all these things at once...
         $this->extract_cas_commands();
 
+        // Validate session again for the extracted ones
+        if (null!=$this->session) {
+            if (!$this->session->get_valid()) {
+                $this->valid = false;
+                $this->errors .= $this->session->get_errors();
+            }
+        }
+
         if (false === $this->valid) {
             $this->errors = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$this->errors;
         }
@@ -213,7 +243,6 @@ class stack_cas_text {
             $array_form = $parser->match_castext();
             $array_form = stack_cas_castext_castextparser::normalize($array_form);
             $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
-            $array_form = stack_cas_castext_castextparser::tag($array_form);
             $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
 
             $this->first_pass_recursion($this->parse_tree_root,array());
@@ -301,7 +330,6 @@ class stack_cas_text {
             $array_form = $parser->match_castext();
             $array_form = stack_cas_castext_castextparser::normalize($array_form);
             $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
-            $array_form = stack_cas_castext_castextparser::tag($array_form);
             $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
 
             first_pass_recursion($this->parse_tree_root,array());
@@ -313,7 +341,7 @@ class stack_cas_text {
             }
         }
 
-        if (trim($this->trimmedcastext) !== '') {
+        if (trim($this->trimmedcastext) !== '' && $this->parse_tree_root !== NULL) {
             $this->trimmedcastext = $this->parse_tree_root->to_string();
         }
 
@@ -386,7 +414,7 @@ class stack_cas_text {
         if (null===$this->valid) {
             $this->validate();
         }
-        if (null===$this->instantiated) {
+        if (null === $this->instantiated) {
             $this->instantiate();
         } else if (false === $this->instantiated) {
             return false;

@@ -1033,6 +1033,16 @@ class stack_cas_castext_parsetreenode {
     }
 
     /**
+     * Returns an array containing all the parameters.
+     */
+    public function get_parameters() {
+        if ($this->params === NULL) {
+            return array();
+        }
+        return $this->params;
+    }
+
+    /**
      * Destroys this node (and its children) and removes it from its parent. Should you wish to access the parent the parent-link of this node will work even after destruction.
      */
     public function destroy_node() {

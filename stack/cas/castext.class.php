@@ -288,7 +288,7 @@ class stack_cas_text {
 
         // Handle blocks
         $requires_rerun = false;
-        foreach ($this->blocks as $block) {
+        foreach (array_reverse($this->blocks) as $block) {
             $requires_rerun = $block->process_content($this->session) || $requires_rerun;
         }
 
@@ -308,7 +308,7 @@ class stack_cas_text {
             $this->session->instantiate();
             $this->errors .= $this->session->get_errors();
             $requires_rerun = false;
-            foreach ($this->blocks as $block) {
+            foreach (array_reverse($this->blocks) as $block) {
                 $requires_rerun = $block->process_content($this->session) || $requires_rerun;
             }
         }

@@ -15,7 +15,8 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * If blocks hide their content if the value of their test-attribute is not "true".
+ * Define blocks allow one to (re)define variables in the middle of castext.
+ * They are meant for writing out for-blocks but no one says that you could not use them.
  *
  * @copyright  2013 Aalto University
  * @copyright  2012 University of Birmingham
@@ -24,56 +25,31 @@
 require_once(dirname(__FILE__) . '/../conditionalcasstring.class.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 
-class stack_cas_castext_if extends stack_cas_castext_block {
-
-    /**
-     * remembers the number for this instance
-     */
-    private $number;
-
-    private $condition;
+class stack_cas_castext_define extends stack_cas_castext_block {
 
     public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
-        $condition = $this->get_node()->get_parameter("test","false");
-
-        $cs = NULL;
-        if ($conditionstack === NULL || count($conditionstack) === 0) {
-            $cs = new stack_cas_casstring($condition);
-        } else {
-            $cs = new stack_cas_conditionalcasstring($condition,$conditionstack);
+        foreach ($this->get_node()->get_parameters() as $key => $value) {
+            $cs = NULL;
+            if ($conditionstack === NULL || count($conditionstack) === 0) {
+                $cs = new stack_cas_casstring($value);
+            } else {
+                $cs = new stack_cas_conditionalcasstring($value,$conditionstack);
+            }
+            $cs->set_key($key,true);
+            $tobeevaluatedcassession->add_vars(array($cs));
         }
-
-        $this->condition = $cs;
-
-        $session_keys = $tobeevaluatedcassession->get_all_keys();
-        $i = 0;
-        do { // ... make sure names are not already in use.
-            $key = 'caschat'.$i;
-            $i++;
-        } while (in_array($key, $session_keys));
-        $this->number = $i-1;
-
-        $cs->set_key($key,true);
-
-        $tobeevaluatedcassession->add_vars(array($cs));
     }
 
     public function content_evaluation_context($conditionstack = array()) {
-        $conditionstack[] = $this->condition;
         return $conditionstack;
     }
 
     public function process_content($evaluatedcassession,$conditionstack = NULL) {
-        $evaluated = $evaluatedcassession->get_value_key("caschat".$this->number);
-
-        // If so then move childs up
-        if ($evaluated == 'true') {
-            $this->get_node()->destroy_node_promote_children();
-        } else { // otherwise blank
-            $this->get_node()->destroy_node();
-        }
-
         return false;
+    }
+
+    public function clear() {
+        $this->get_node()->destroy_node();
     }
 
 }

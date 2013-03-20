@@ -82,6 +82,13 @@ abstract class stack_cas_castext_block {
      */
     abstract public function process_content($evaluatedcassession,$conditionstack = NULL);
 
+    /**
+     * Called for the last set of blocks in the evaluation process so that they may clear out anything they
+     * Have left in the tree for multiple pass processing. This is specially meant for the define block.
+     */
+    public function clear() {
+        // Does nothing in most cases 
+    }
 }
 
 

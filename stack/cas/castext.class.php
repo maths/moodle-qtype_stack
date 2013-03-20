@@ -26,6 +26,8 @@ require_once('castext/castextparser.class.php');
 require_once('castext/raw.class.php');
 require_once('castext/latex.class.php');
 require_once('castext/if.class.php');
+require_once('castext/define.class.php');
+require_once('castext/foreach.class.php');
 
 class stack_cas_text {
 
@@ -266,6 +268,12 @@ class stack_cas_text {
                     case 'if':
                         $block = new stack_cas_castext_if($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
                         break;
+                    case 'define':
+                        $block = new stack_cas_castext_define($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        break;
+                    case 'foreach':
+                        $block = new stack_cas_castext_foreach($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        break;
                     default:
                         // TODO EXCEPTION
                         $echo = "UNKNOWN NODE ".$node->get_content();
@@ -331,14 +339,17 @@ class stack_cas_text {
             $array_form = stack_cas_castext_castextparser::normalize($array_form);
             $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
             $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
-
-            first_pass_recursion($this->parse_tree_root,array());
+            $this->first_pass_recursion($this->parse_tree_root,array());
             $this->session->instantiate();
             $this->errors .= $this->session->get_errors();
             $requires_rerun = false;
             foreach (array_reverse($this->blocks) as $block) {
                 $requires_rerun = $block->process_content($this->session) || $requires_rerun;
             }
+        }
+
+        foreach ($this->blocks as $block) {
+            $block->clear();
         }
 
         if (trim($this->trimmedcastext) !== '' && $this->parse_tree_root !== NULL) {

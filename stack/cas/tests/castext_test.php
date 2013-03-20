@@ -59,7 +59,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('\[{@a@}\]', $a1, true, '\[{x^2}\]'),
                 array('{@a@}', $a1, true, '{x^2}'),
                 array('{@sin(x)@}', $a1, true, '{\sin \left( x \right)}'),
-                array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot \left(x+1\right)^2}\]'),
+                array('\[{@a*b@}\]', $a1, true, '\[{x^2\,\left(x+1\right)^2}\]'),
                 array('@', null, true, '@'),
                 array('{#1+2#}', null, true, "3"),
                 array('{#sin(x)#}', null, true, "sin(x)"),
@@ -80,6 +80,34 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('[[ if test="b" ]]ok[[/ if ]]', $a1, true, ""),
                 array('[[ if test="a" ]][[ if test="a" ]]ok[[/ if ]][[/ if ]]', $a1, true, "ok"),
                 array('[[ if test="a" ]][[ if test="b" ]]ok[[/ if ]][[/ if ]]', $a1, true, ""),
+        );
+
+        foreach ($cases as $case) {
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
+        }
+    }
+
+    public function test_define_block() {
+        $a1 = array('a:2');
+
+        $cases = array(
+                array('{#a#} [[ define a="1" /]]{#a#}', $a1, true, "2 1"),
+                array('{#a#} [[ define a="a^2" /]]{#a#}', $a1, true, "2 4"),
+        );
+
+        foreach ($cases as $case) {
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
+        }
+    }
+
+    public function test_foreach_block() {
+        $a1 = array('a:[1,2,3]','b:{4,5,6,7}');
+
+        $cases = array(
+                // The first one is a tricky one it uses the same variable name
+                array('{#a#} [[ foreach a="a" ]]{#a#},[[/foreach]]', $a1, true, "[1,2,3] 1,2,3,"),
+                array('[[ foreach a="b" ]]{#a#},[[/foreach]]', $a1, true, "4,5,6,7,"),
+                array('[[ foreach I="a" K="b" ]]{#I#},{#K#},[[/foreach]]', $a1, true, "1,4,2,5,3,6,"),
         );
 
         foreach ($cases as $case) {

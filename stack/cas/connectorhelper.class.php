@@ -207,10 +207,11 @@ abstract class stack_connection_helper {
                 continue;
             }
 
-            if (self::$config->stackmaximaversion == $result['value']) {
-                return null;
+            $usedversion = $result['value'];
+            if (self::$config->stackmaximaversion == $usedversion) {
+                return array('healthchecksstackmaximaversionok',
+                    array('usedversion' => $usedversion));
             } else {
-                $usedversion = $result['value'];
                 break;
             }
         }

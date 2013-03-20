@@ -111,11 +111,8 @@ if (stack_cas_configuration::maxima_bat_is_missing()) {
 // When Maxima is being run pre-compiled (maxima-optimise) or on a server,
 // it is possible for the version of the Maxima libraries to get out of synch
 // with the qtype_stack code.
-$problem = stack_connection_helper::stackmaxima_version_healthcheck();
-if ($problem) {
-    list($message, $details) = $problem;
-    echo html_writer::tag('p', stack_string($message, $details));
-}
+list($message, $details) = stack_connection_helper::stackmaxima_version_healthcheck();
+echo html_writer::tag('p', stack_string($message, $details));
 
 // Test Maxima connection.
 // Intentionally use get_string for the sample CAS and plots, so we don't render

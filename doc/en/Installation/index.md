@@ -53,3 +53,8 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Authoring/ImportExport.md) before using it.
+
+## 7. Confirming the installation is successful.
+
+At this stage it is important to confirm that the PHP scripts are connecting to the CAS.  To facilitate this we have special scripts which provide confirmation and trouble-shooting data.
+Now is the time to [test the installation](testing_installation.md).

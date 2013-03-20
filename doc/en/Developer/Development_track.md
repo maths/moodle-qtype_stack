@@ -14,7 +14,7 @@ Basic reports now work.
 * Add titles and explanations to the page, and document with examples.
 * **DONE** Split up the answer notes to report back for each PRT separately.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
-* Introduce "validation notes".
+* Introduce "validation notes".  This should work at the PHP level, recording reasons for invalidity.  Since we already connect to the CAS, this should also record whether the student's input is equivalent to the teacher's, in what sense, and what form their answer is in.  Maybe too slow?  Useful perhaps for learning analytics.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 

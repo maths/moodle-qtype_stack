@@ -42,14 +42,21 @@ $nodes = $DB->get_recordset('qtype_stack_prt_nodes', array(), 'questionid, prtna
         'questionid, prtname, nodename, truenextnode, falsenextnode');
 $trees = array();
 foreach ($nodes as $node) {
-    $trees[$node->questionid . '|' . $node->prtname][$node->nodename] = array($node->truenextnode, $node->falsenextnode);
+    $questions = $DB->get_records('question', array('id' => $node->questionid), '', 'name');
+    $qnames = array();
+    foreach($questions as $q) {
+        $qnames[] = $q->name;
+    }
+    $trees[implode(', ',$qnames).' ('.$node->questionid . ') ' . $node->prtname][$node->nodename] = array($node->truenextnode, $node->falsenextnode);
 }
 $nodes->close();
 $uniquetrees = array();
 $frequency = array();
-foreach ($trees as $tree) {
+$qnamesused = array();
+foreach ($trees as $qname => $tree) {
     $key = json_encode($tree);
     $uniquetrees[$key] = $tree;
+    $qnamesused[$key][] = $qname;
     if (array_key_exists($key, $frequency)) {
         $frequency[$key] += 1;
     } else {
@@ -81,6 +88,9 @@ foreach ($frequency as $key => $count) {
     }
     reset($uniquetree);
     echo $OUTPUT->heading('Tree used ' . $count . ' times');
+    if ($count < 10) {
+        echo '<p>'.implode('<br .>', $qnamesused[$key]).'</p>';
+    }
     try {
         $tree->layout();
         echo stack_abstract_graph_svg_renderer::render($tree, 'real' . $i++);

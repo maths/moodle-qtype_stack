@@ -196,6 +196,10 @@ abstract class stack_connection_helper {
         $connection = self::make();
         $results = $connection->compute($command);
 
+        if (empty($results)) {
+            return array('stackCas_allFailed', array());
+        }
+
         if (!isset(self::$config->stackmaximaversion)) {
             $notificationsurl = new moodle_url('/admin/index.php');
             return array('healthchecksstackmaximanotupdated', array($notificationsurl->out()));

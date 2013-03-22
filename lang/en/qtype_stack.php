@@ -415,13 +415,19 @@ $string['healthcheckplotsintro'] = 'There should be two different plots.  If two
 $string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]';
 $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
+<<<<<<< HEAD
 $string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@}';
+=======
+$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
+$string['healthchecksstackmaximaversion'] = 'Maxima version';
+>>>>>>> 699278876842567a1c76a31e36cdf15b74d8e70b
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
 $string['healthchecksstackmaximaversionfixunknown'] = 'It is not really clear how that happened. You will need to debug this problem yourself.';
 $string['healthchecksstackmaximanotupdated'] = 'It seems that STACK has not been properly update. Please visit the <a href="{$a}">System administration -> Notifications page</a>.';
 $string['healthchecksstackmaximatooold'] = 'So old the version is unknown!';
 $string['healthchecksstackmaximaversionmismatch'] = 'The version of the STACK-Maxima libraries being used ({$a->usedversion}) does not match what is expected ({$a->expectedversion}) by this version the the STACK question type. {$a->fix}';
+$string['healthchecksstackmaximaversionok'] = 'The version of the STACK-Maxima libraries being used ({$a->usedversion}) does match that expected.';
 $string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';

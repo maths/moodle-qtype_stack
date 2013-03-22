@@ -647,7 +647,7 @@ $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 
 
-// Old hints system.
+// Hints system.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';
 $string['greek_alphabet_fact'] = '
 <center>

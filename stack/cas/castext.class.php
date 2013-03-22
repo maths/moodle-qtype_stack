@@ -286,13 +286,23 @@ class stack_cas_text {
 
         // Replaces the old "hints" filter from STACK 2.0.
         // These strings are now part of the regular language files.
+        // Code updated by Niels Walet, Feb 2013.
         $strin = $this->trimmedcastext;
-        preg_match_all('|<hint>(.*)</hint>|U', $strin, $html_match);
-        foreach ($html_match[1] as $val) {
-            $sr = '<hint>'.$val.'</hint>';
-            $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
-                    stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
-            $strin = str_replace($sr, $rep, $strin);
+        if (preg_match_all('|\[hint:(.*)\]|U', $strin, $html_match)) {
+            global $CFG;
+            $stackurl = $CFG->wwwroot . '/question/type/stack/';
+
+            $modal_script= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js?ver=1.4.3'></script><script type='text/javascript' src='".$stackurl."jquery.simplemodal.1.4.3.min.js'></script>";
+            $strin = $modal_script.$strin; // prepend script
+            foreach ($html_match[1] as $val) {
+                $sr = '[hint:'.$val.']';
+                // TODO check hint really exists....
+                $rep = $this->modal_popup(stack_string($val.'_name'),//header
+                        stack_string($val.'_fact'),//body
+                        'Hint' //label on button
+                );
+                $strin = str_replace($sr, $rep, $strin);
+            }
         }
         $this->trimmedcastext = $strin;
 
@@ -389,4 +399,36 @@ class stack_cas_text {
         return $this->session->get_debuginfo();
     }
 
+    // Generate a random string (letters and numbers) of length $length
+    private function genRandomString($length) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $string = '';
+        for ($p = 0; $p < $length; $p++) {
+            $string .= $characters[mt_rand(0, strlen($characters)-1)];
+        }
+        return $string;
+    }
+
+    private function modal_popup($header, $body, $buttonlabel) {
+        global $CFG;
+        $stackurl = $CFG->wwwroot . '/question/type/stack/';
+
+        $hint = $this->genRandomString(10);
+        //   <!--<img align="middle" border="0" alt="Hint?" src="'.$stackurl.'pix/help.png" />-->
+        return
+        '<span id="'.$hint.'">
+   <input type="button"  value="'.$buttonlabel.'" class="modal-button"/>
+</span>
+<div id="'.$hint.'2" style="display: none">
+  <div class="secondaryFeedback">
+    <h3 class="secondaryFeedback">'.$header.'</h3>'.
+        $body.'
+  </div>
+</div>
+<div style="display:none">
+   <img src="'.$stackurl.'pix/x.png" alt="X" />
+</div>
+<script>$("#'.$hint.'").click(function(e) {$("#'.$hint.'2").modal(); return false;});</script>';
+    }
+    
 }

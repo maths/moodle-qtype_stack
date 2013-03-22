@@ -175,8 +175,8 @@ class qtype_stack_edit_form extends question_edit_form {
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $graph->add_node($lastkey + 1, null, null, '+0', '-0',
-                        '#fgroup_id_' . $prtname . 'node_' . $lastkey);
+                $graph->add_node($lastkey + 2, null, null, '+0', '-0',
+                        '#fgroup_id_' . $prtname . 'node_' . $lastkey + 1);
             }
 
             $graph->layout();

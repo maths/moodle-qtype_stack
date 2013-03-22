@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(dirname(__FILE__) . '/stack/questiontest.php');
+require_once(dirname(__FILE__) . '/stack/graphlayout/graph.php');
 
 
 /**
@@ -177,6 +178,7 @@ class qtype_stack extends question_type {
                 $prt->questionid        = $fromform->id;
                 $prt->name              = $prtname;
                 $prt->feedbackvariables = '';
+                $prt->firstnodename     = 0;
                 $prt->id = $DB->insert_record('qtype_stack_prts', $prt);
             }
 

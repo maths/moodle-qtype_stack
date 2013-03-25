@@ -143,6 +143,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $falsescoremode = optional_param_array($prtname . 'falsescoremode', null, PARAM_RAW);
             $falsescore     = optional_param_array($prtname . 'falsescore',     null, PARAM_RAW);
             $graph = new stack_abstract_graph();
+
+            $deletednode = null;
             $lastkey = -1;
             foreach ($submitted as $key => $truenextnode) {
                 if (optional_param($prtname . 'nodedelete' . $key, false, PARAM_BOOL)) {
@@ -153,7 +155,11 @@ class qtype_stack_edit_form extends question_edit_form {
                     // from being submitted.
                     $this->_form->registerNoSubmitButton($prtname . 'nodedelete' . $key);
 
-                    continue;
+                    // For deleted nodes, we add them to the tree anyway, and
+                    // then remove them again below. We have to do it that way
+                    // because we also need to delete links that point to the
+                    // deleted node.
+                    $deletednode = $key;
                 }
 
                 if ($truenextnode == -1 || !array_key_exists($truenextnode, $submitted)) {
@@ -177,6 +183,10 @@ class qtype_stack_edit_form extends question_edit_form {
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
                 $graph->add_node($lastkey + 2, null, null, '+0', '-0',
                         '#fgroup_id_' . $prtname . 'node_' . $lastkey + 1);
+            }
+
+            if (!is_null($deletednode)) {
+                $graph->remove_node($deletednode + 1);
             }
 
             $graph->layout();
@@ -286,6 +296,14 @@ class qtype_stack_edit_form extends question_edit_form {
             return array();
         }
 
+        // TODO fix this. At the moment it only considers the data from the unedited
+        // question. We should take into account any changes made since the
+        // form was first shown, for example adding or removing nodes, or changing
+        // the things they compare. However, it is not critical, this information
+        // is only used to display the
+        // This potential response tree will become active when the student has answered: ans1 
+        // line.
+
         // If we are creating a new question, or if we add a new prt in the
         // question stem, then the PRT will not yet exist, so return an empty array.
         if (is_null($this->question->prts) || !array_key_exists($prtname, $this->question->prts)) {
@@ -294,13 +312,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $prt = $this->question->prts[$prtname];
 
         $prt_nodes = array();
-        foreach ($prt->nodes as $node) {
+        foreach ($prt->nodes as $name => $node) {
             $sans = new stack_cas_casstring($node->sans);
             $tans = new stack_cas_casstring($node->tans);
             $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
             $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
             $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
-            $prt_nodes[] = $prt_node;
+            $prt_nodes[$name] = $prt_node;
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
         $potential_response_tree = new stack_potentialresponse_tree(

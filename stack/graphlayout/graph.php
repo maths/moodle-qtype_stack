@@ -82,6 +82,22 @@ class stack_abstract_graph {
                 $leftlabel, $rightlabel, $url);
     }
 
+    public function remove_node($nametodelete) {
+        foreach ($this->nodes as $name => $node) {
+            if ($name == $nametodelete) {
+                unset($this->nodes[$name]);
+                continue;
+            }
+
+            if ($node->left == $nametodelete) {
+                $node->left = null;
+            }
+            if ($node->right == $nametodelete) {
+                $node->right = null;
+            }
+        }
+    }
+
     /**
      * Lay out the graph, based on the left and right links.
      * @param string $firstnode identifier of the root node.

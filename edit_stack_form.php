@@ -301,7 +301,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // form was first shown, for example adding or removing nodes, or changing
         // the things they compare. However, it is not critical, this information
         // is only used to display the
-        // This potential response tree will become active when the student has answered: ans1 
+        // This potential response tree will become active when the student has answered: ans1
         // line.
 
         // If we are creating a new question, or if we add a new prt in the

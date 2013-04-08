@@ -301,7 +301,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // form was first shown, for example adding or removing nodes, or changing
         // the things they compare. However, it is not critical, this information
         // is only used to display the
-        // This potential response tree will become active when the student has answered: ans1 
+        // This potential response tree will become active when the student has answered: ans1
         // line.
 
         // If we are creating a new question, or if we add a new prt in the
@@ -384,6 +384,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $seed = $mform->createElement('text', 'variantsselectionseed',
                 stack_string('variantsselectionseed'), array('size' => 50));
         $mform->insertElementBefore($seed, 'questiontext');
+        $mform->setType('variantsselectionseed', PARAM_RAW);
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
 
         $sf = $mform->createElement('editor', 'specificfeedback',
@@ -477,6 +478,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $pen = $mform->createElement('text', 'penalty', stack_string('penalty'), array('size' => 5));
         $mform->insertElementBefore($pen, 'generalfeedback');
+        $mform->setType('penalty', PARAM_FLOAT);
         $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
         $mform->setDefault('penalty', 0.1000000);
         $mform->addRule('penalty', null, 'required', null, 'client');
@@ -496,6 +498,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
+        $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
         // That stops the input sections collapsing by default. Instead, we enforce
@@ -517,9 +520,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), array('size' => 20));
+        $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), array('size' => 20));
+        $mform->setType($inputname . 'forbidwords', PARAM_RAW);
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
 
@@ -549,6 +554,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
+        $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
 
@@ -562,6 +568,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('header', $prtname . 'header', stack_string('prtheading', $prtname));
 
         $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), array('size' => 3));
+        $mform->setType($prtname . 'value', PARAM_FLOAT);
         $mform->setDefault($prtname . 'value', 1);
 
         $mform->addElement('selectyesno', $prtname . 'autosimplify',

@@ -40,6 +40,12 @@ if (substr($_SERVER['REQUEST_URI'], -7) == 'doc.php') {
 }
 
 $docsroot = $CFG->dirroot . '/question/type/stack/doc/' . current_language();
+// Default to English when docs are missing.
+if (!file_exists($docsroot.'/index.md')) {
+    $docsroot = $CFG->dirroot . '/question/type/stack/doc/en';
+}
+
+
 $docsurl = $CFG->wwwroot . '/question/type/stack/doc/doc.php';
 
 // The URL to the directory for static content to be served by the docs

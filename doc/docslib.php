@@ -57,8 +57,10 @@ function stack_docs_index($dir, $relpath = '') {
             $items[] = "<li><a href=\"$relpath/$filename/\">" . stack_docs_title_from_filename($filename) . "</a>" .
                     stack_docs_index($filepath, "$relpath/$filename") . '</li>';
         } else {
-            $items[] = "<li><a href=\"$relpath/$filename\">" . stack_docs_title_from_filename($filename) .
+            if (substr($filename, -2) === 'md') {
+                $items[] = "<li><a href=\"$relpath/$filename\">" . stack_docs_title_from_filename($filename) .
                     "</a></li>";
+            }
         }
     }
 

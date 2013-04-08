@@ -19,7 +19,7 @@
     r (tex (caddr x) (list "}{") (append '("}") r) 'mparen 'mparen))
   (append l r))
 
-;; Define an explicit multipliction
+;; Define an explicit multiplication
 ;;(defprop mtimes "\\times " texsym)
 ;;(defprop mtimes "\\cdot " texsym)
 
@@ -166,10 +166,38 @@
 	(t (concatenate 'string "\\mbox{" x "}"))))
 
 
-;; Sort out display on inequalitis
+;; Sort out display on inequalities
 ;; Chris Sangwin, 21/9/2010
 
 (defprop mlessp (" < ") texsym)
 (defprop mgreaterp (" > ") texsym)
 
+;; Change the display of derivatives, at the request of the OU
+;; Chris Sangwin, 18/3/2013
+
+(defprop %derivative tex-derivative tex)
+(defun tex-derivative (x l r)
+  (tex (if $derivabbrev
+	   (tex-dabbrev x)
+	   (tex-d x '"\\mathrm{d}")) l r lop rop ))
+
+(defun tex-d(x dsym)		    ;dsym should be $d or "$\\partial" 
+  ;; format the macsyma derivative form so it looks
+  ;; sort of like a quotient times the deriva-dand.
+  (let*
+      ((arg (cadr x)) ;; the function being differentiated
+       (difflist (cddr x)) ;; list of derivs e.g. (x 1 y 2)
+       (ords (odds difflist 0))	;; e.g. (1 2)
+       (vars (odds difflist 1))	;; e.g. (x y)
+       (numer `((blankmult) ((mexpt) ,dsym ((mplus) ,@ords)) ,arg)) ; d^n numerator
+       (denom (cons '(blankmult)
+		    (mapcan #'(lambda(b e)
+				`(,dsym ,(simplifya `((mexpt) ,b ,e) nil)))
+			    vars ords))))
+    `((mquotient) ,(simplifya numer nil) ,(simplifya denom nil))
+      ))
+
+
+(defprop blankmult tex-infix tex)
+(defprop blankmult ("\\, ") texsym)
 

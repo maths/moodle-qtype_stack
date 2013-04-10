@@ -27,7 +27,7 @@ If you want to use MathJax with all themes of your moodle 2.x.x the easiest way 
 `</script>`<br>
 `<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>`
 
-Please note that this enables both types of LaTeX maths environments.
+Please note that this enables only the strict LaTeX maths environments, and does not suport the use of dollars.
 
 ### Option 2: install MathJax locally. ###
 
@@ -46,7 +46,7 @@ STACK contains experimental code to generate presentation mathml on the fly from
 ### What about dollar mathematics delimiters? ###  {#delimiters}
 
 Please note that we strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments such as `$...$` and `$$...$$` for inline and displayed mathematics respectively.  
-The reasons are (1) they do not match, which makes parsing more difficult, and (2) many courses use currency which needs this symbol and protecting it is always problematic.
+The reasons are (1) they do not match, which makes parsing more difficult, and (2) many courses use [currency](../Authoring/CASText.md#currency) which needs this symbol and protecting it is always problematic.
 
 If you have extensive existing materials using these delimiters then we have scripts which will automatically convert them for you.  All fields within existing questions can be converted with the automatic scripts available from
 
@@ -58,6 +58,8 @@ If you really want to use dollars, MathJax can display them with the code
 
 `        displayMath: [['$$', '$$'], ['\\[', '\\]']],`<br>
 `        inlineMath:  [['$',  '$' ], ['\\(', '\\)']],`
+
+Before deciding to support the use of dollars for mathematics on your site, please see the notes on the use of dollars for [currency](../Authoring/CASText.md#currency).
 
 ## Accessibility ##
 

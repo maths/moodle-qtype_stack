@@ -75,9 +75,10 @@ and set the Debug messages option.
 
 # Resetting the database
 
-Subvert the function in `C:\xampp\htdocs\moodle\lib\phpunit\classes\util.php` 
+Subvert one of the functions in `C:\xampp\htdocs\moodle\lib\phpunit\classes\util.php` 
 
     public static function reset_database() {
+    public static function reset_all_data() {
 
 By adding the following line at the beginning of the function.
 

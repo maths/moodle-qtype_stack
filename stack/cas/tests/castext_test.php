@@ -268,6 +268,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
     }
+
+    public function test_currency_1() {
+
+        $at1 = new stack_cas_text('This is system cost \$100,000 to create.', null, 0, 't');
+        $this->assertTrue($at1->get_valid());
+    }
 }
 
 /**

@@ -25,7 +25,7 @@ Basic reports now work.
 * Hints.  Currently code is in the "hints" branch.
  * Make sure the syntax is updated to [hint:...] in line with the new format.
  * Provide a list of hints, and an interface through the docs.
-* Add in support for strings within CASText.  These are currently supported only when the contents is a valid castring, which is overly restrictive.
+* **DONE** Add in support for strings within CASText.  These are currently supported only when the contents is a valid castring, which is overly restrictive.
 
 ## Assorted minor improvements ##
 

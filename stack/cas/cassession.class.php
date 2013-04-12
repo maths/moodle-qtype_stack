@@ -201,7 +201,9 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('display', $result)) {
-                    $cs->set_display($result['display']);
+                    // Need to add this in here also because strings may contain question mark characters.
+                    $disp = str_replace('QMCHAR', '?', $result['display']);
+                    $cs->set_display($disp);
                 }
 
                 if (array_key_exists('valid', $result)) {

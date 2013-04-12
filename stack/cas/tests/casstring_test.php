@@ -182,6 +182,34 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('You appear to have some HTML elements in your expression. <pre><span>n</pre>',
                 $at1->get_errors());
     }
+
+    public function test_strings_1() {
+        $s = 'a:"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t'));
+    }
+
+    public function test_strings_2() {
+        $s = 'a:"hello';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression SYSTEM is forbidden.',
+                $at1->get_errors());
+    }
+
+    public function test_strings_3() {
+        $s = 'a:["2x)",3*x]';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t'));
+    }
+
+    public function test_strings_4() {
+        $s = 'a:["system(\'rm *\')",3*x]';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression SYSTEM is forbidden.',
+                $at1->get_errors());
+    }
 }
 
 

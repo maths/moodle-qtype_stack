@@ -67,6 +67,7 @@ $columns = array(
     'studentanswer'      => stack_string('studentanswer'),
     'phpvalid'           => stack_string('phpvalid'),
     'phpcasstring'       => stack_string('phpcasstring'),
+    'answernote'         => stack_string('answernote'),
     'error'              => stack_string('phpsuitecolerror'),
     'casvalid'           => stack_string('casvalid'),
     'casvalue'           => stack_string('casvalue'),
@@ -103,7 +104,7 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $phpvalid, $phpcasstring, $error, $casvalid, $caserrors, $casdisplay, $casvalue) =
+    list($passed, $phpvalid, $phpcasstring, $error, $casvalid, $caserrors, $casdisplay, $casvalue, $answernote) =
             stack_inputvalidation_test_data::run_test($test);
     $allpassed = $allpassed && $passed;
 
@@ -124,6 +125,7 @@ foreach ($tests as $test) {
         'studentanswer'      => s($test->rawstring),
         'phpvalid'           => s($phpvalid),
         'phpcasstring'       => s($phpcasstring),
+        'answernote'         => $answernote,
         'error'              => $error,
         'casvalid'           => s($casvalid),
         'casvalue'           => $casvalue,

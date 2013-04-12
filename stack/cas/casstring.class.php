@@ -53,7 +53,7 @@ class stack_cas_casstring {
     private $display;
 
     /**
-     * @var string Records logical informataion about the string, used for statistical
+     * @var array Records logical informataion about the string, used for statistical
      *             anaysis of students' answers.
      */
     private $answernote;
@@ -425,6 +425,7 @@ class stack_cas_casstring {
 
     public function __construct($rawstring) {
         $this->rawcasstring   = $rawstring;
+        $this->answernote = array();
 
         $this->valid          =  null;  // If NULL then the validate command has not yet been run....
 
@@ -459,6 +460,7 @@ class stack_cas_casstring {
 
         // CAS strings must be non-empty.
         if (trim($this->casstring) == '') {
+            $this->answernote[] = 'empty';
             $this->valid = false;
             return false;
         }
@@ -466,6 +468,7 @@ class stack_cas_casstring {
         // CAS strings may not contain @ or $.
         if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
             $this->add_error(stack_string('illegalcaschars'));
+            $this->answernote[] = 'illegalcaschars';
             $this->valid = false;
             return false;
         }
@@ -473,6 +476,7 @@ class stack_cas_casstring {
         // Check for matching string delimiters
         if (stack_utils::check_matching_pairs($cmd, '"') == false) {
             $this->errors .= stack_string('stackCas_MissingString');
+            $this->answernote[] = 'MissingString';
             $this->valid = false;
         }
 
@@ -486,6 +490,7 @@ class stack_cas_casstring {
         foreach ($htmlfragments as $frag) {
             if (strpos($cmd, $frag) !== false) {
                 $this->add_error(stack_string('htmlfragment').' <pre>'.$this->strings_replace($cmd, $strings).'</pre>');
+                $this->answernote[] = 'htmlfragment';
                 $this->valid = false;
                 return false;
             }
@@ -499,9 +504,10 @@ class stack_cas_casstring {
             $cmdmod = str_replace(' and ', '', $cmdmod);
             $cmdmod = str_replace('not ', '', $cmdmod);
             if (preg_match($pat, $cmdmod)) {
-                $this->valid = false;
                 $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
-                $this->add_error(stack_string("stackCas_spaces", array('expr'=>stack_maxima_format_casstring($cmds))));
+                $this->add_error(stack_string('stackCas_spaces', array('expr'=>stack_maxima_format_casstring($cmds))));
+                $this->answernote[] = 'spaces';
+                $this->valid = false;
             }
         }
 
@@ -515,8 +521,9 @@ class stack_cas_casstring {
                     || (strpos($match, '%i') !== false) || (strpos($match, '%j') !== false)
                     || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false))) {
                     // Constants %e and %pi are allowed. Any other percentages dissallowed.
-                    $this->valid   = false;
                     $this->add_error(stack_string('stackCas_percent', array('expr' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    $this->answernote[] = 'percent';
+                    $this->valid   = false;
                 }
             }
         }
@@ -525,9 +532,11 @@ class stack_cas_casstring {
         if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
+                $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
                     array('bracket'=>'(', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
+                $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
                     array('bracket'=>')', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
@@ -536,9 +545,11 @@ class stack_cas_casstring {
         if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
+                $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
                  array('bracket'=>'{', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
+                $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
                  array('bracket'=>'}', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
@@ -547,9 +558,11 @@ class stack_cas_casstring {
         if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
+                $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
                  array('bracket'=>'[', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
+                $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
                  array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
@@ -564,13 +577,15 @@ class stack_cas_casstring {
         if ($security == 's') {
             // Check for apostrophes if a student.
             if (strpos($cmd, "'") !== false) {
-                $this->valid = false;
                 $this->add_error(stack_string('stackCas_apostrophe'));
+                $this->answernote[] = 'apostrophe';
+                $this->valid = false;
             }
             // Check new lines.
             if (strpos($cmd, "\n") !== false) {
-                $this->valid = false;
                 $this->add_error(stack_string('stackCas_newline'));
+                $this->answernote[] = 'newline';
+                $this->valid = false;
             }
         }
 
@@ -587,8 +602,9 @@ class stack_cas_casstring {
                     $invalidchars[$badchar] = $badchar;
                 }
             }
-            $this->valid = false;
             $this->add_error(stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars)))));
+            $this->answernote[] = 'forbiddenChar';
+            $this->valid = false;
         }
 
         // Check for disallowed final characters,  / * + - ^ £ # = & ~ |, ? : ;.
@@ -599,12 +615,14 @@ class stack_cas_casstring {
             $a['char'] = $match[0];
             $a['cmd']  = stack_maxima_format_casstring($this->strings_replace($cmd, $strings));
             $this->add_error(stack_string('stackCas_finalChar', $a));
+            $this->answernote[] = 'finalChar';
         }
 
         // Check for empty parentheses `()`.
         if (strpos($cmd, '()') !== false) {
             $this->valid = false;
             $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
+            $this->answernote[] = 'forbiddenWord';
         }
 
         // Check for spurious operators.
@@ -615,6 +633,7 @@ class stack_cas_casstring {
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($op);
                 $this->add_error(stack_string('stackCas_spuriousop', $a));
+                $this->answernote[] = 'spuriousop';
             }
         }
 
@@ -626,10 +645,12 @@ class stack_cas_casstring {
                 $a['cmd'] = stack_maxima_format_casstring('=>');
             }
             $this->add_error(stack_string('stackCas_backward_inequalities', $a));
+            $this->answernote[] = 'backward_inequalities';
             $this->valid = false;
         } else if (!($this->check_chained_inequalities($cmd))) {
-            $this->valid = false;
             $this->add_error(stack_string('stackCas_chained_inequalities'));
+            $this->answernote[] = 'chained_inequalities';
+            $this->valid = false;
         }
 
         $this->check_stars($security, $syntax, $insertstars);
@@ -703,6 +724,7 @@ class stack_cas_casstring {
             return true;
         }
         // Guard clause above - we have missing stars detected.
+        $this->answernote[] = 'missing_stars';
         if ($insertstars) {
             // If we are going to quietly insert them.
             $this->casstring = str_replace('QMCHAR', '?', $cmd);
@@ -748,22 +770,25 @@ class stack_cas_casstring {
         foreach ($strin_keywords as $key) {
             if (in_array($key, self::$globalforbid)) {
                 // Very bad!
-                $this->valid = false;
                 $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
+                $this->answernote[] = 'forbiddenWord';
+                $this->valid = false;
             } else {
                 if ($security == 't') {
                     if (in_array($key, self::$teachernotallow)) {
                         // If a teacher check against forbidden commands.
-                        $this->valid = false;
                         $this->add_error(stack_string('stackCas_unsupportedKeyword',
                             array('forbid'=>stack_maxima_format_casstring($key))));
+                        $this->answernote[] = 'unsupportedKeyword';
+                        $this->valid = false;
                     }
                 } else {
                     // Only allow the student to use set commands.
                     if (!in_array($key, self::$studentallow)) {
-                        $this->valid = false;
                         $this->add_error(stack_string('stackCas_unknownFunction',
                             array('forbid'=>stack_maxima_format_casstring($key))));
+                        $this->answernote[] = 'unknownFunction';
+                        $this->valid = false;
                     }
                     // Else we have not found any security problems with keywords.
                 }
@@ -976,11 +1001,11 @@ class stack_cas_casstring {
     }
 
     public function get_answernote() {
-        return $this->answernote;
+        return implode(' | ', $this->answernote);
     }
 
     public function set_answernote($val) {
-        $this->answernote=$val;
+        $this->answernote[] =$val;
     }
 
     public function get_feedback() {

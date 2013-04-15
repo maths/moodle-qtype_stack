@@ -101,7 +101,7 @@ Some formatting
 
 ## Useful LaTeX ##
 
-LaTex notation can specify inline or display mode for maths by delimiting with `\(` or `\[` respectively.  Here are some simple examples:
+LaTeX notation can specify inline or display mode for maths by delimiting with `\(` or `\[` respectively.  Here are some simple examples:
 
 * `x^2` gives \(x^2\)
 * `x_n` gives \(x_n\)
@@ -115,6 +115,8 @@ LaTex notation can specify inline or display mode for maths by delimiting with `
 * `\int_a^b x^2\ dx` gives \(\int_a^b x^2\ dx\) when inline.  In display mode it gives:
 
 \[ \int_a^b x^2\ dx \]
+
+There is a specific page for [actuarial notation](Actuarial.md).
 
 ## Google Charts ##
 

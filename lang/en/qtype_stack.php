@@ -525,6 +525,7 @@ $string['stackOptions_AnsTest_values_CompSquare']         =  "CompletedSquare";
 $string['stackOptions_AnsTest_values_NumRelative']        =  "NumRelative";
 $string['stackOptions_AnsTest_values_NumAbsolute']        =  "NumAbsolute";
 $string['stackOptions_AnsTest_values_NumSigFigs']         =  "NumSigFigs";
+$string['stackOptions_AnsTest_values_NumDecPlaces']       =  "NumDecPlaces";
 $string['stackOptions_AnsTest_values_GT']                 =  "Num-GT";
 $string['stackOptions_AnsTest_values_GTE']                =  "Num-GTE";
 $string['stackOptions_AnsTest_values_LowestTerms']        =  "LowestTerms";
@@ -618,6 +619,10 @@ $string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact y
 $string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';
 $string['ATNumSigFigs_Inaccurate']  = 'The accuracy of your answer is not correct.  Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.';
 $string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of significant digits. ';
+
+$string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
+$string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
+$string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
 
 $string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
 $string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';

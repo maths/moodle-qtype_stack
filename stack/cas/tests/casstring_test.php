@@ -193,7 +193,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:"hello';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The expression SYSTEM is forbidden.',
+        $this->assertEquals('You are missing a quotation sign <code>"</code>. ',
                 $at1->get_errors());
     }
 
@@ -207,7 +207,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:["system(\'rm *\')",3*x]';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The expression SYSTEM is forbidden.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">SYSTEM</span> is forbidden.',
                 $at1->get_errors());
     }
 }

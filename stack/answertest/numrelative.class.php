@@ -124,7 +124,7 @@ class stack_anstest_numrelative extends stack_anstest {
      * @access public
      */
     public function validate_atoptions($opt) {
-        $cs= new stack_cas_casstring($opt);
+        $cs = new stack_cas_casstring($opt);
         return array($cs->get_valid('t'), $cs->get_errors());
     }
 }

@@ -181,8 +181,8 @@ These tests deal with the precision of numbers.
 
 | Expression    | Description
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| NumRelative   | Tests whether `|sa-ta| <= opt * |ta|` Hence the opt is a tolerance.
-| NumAbsolute   | Tests whether `|sa-ta| < opt`  Hence the opt is a tolerance. The default tolerance is 0.05.
+| NumRelative   | Tests whether `abs(sa-ta) <= opt * abs(ta)` Hence the opt is a tolerance.
+| NumAbsolute   | Tests whether `abs(sa-ta) < opt`  Hence the opt is a tolerance. The default tolerance is 0.05.
 | NumSigFigs    | Tests (i) whether the student's answer contains `opt` significant figures, and (ii) whether the answer is accurate to `opt` significant figures.   If the option is a list \([n,m]\) then we check the answer has been written to \(n\) significant figures, with an accuracy of \(m\) places.  A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
 | GT            | Both are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
 | GTE           | See above.

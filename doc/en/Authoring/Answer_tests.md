@@ -184,9 +184,11 @@ These tests deal with the precision of numbers.
 | NumRelative   | Tests whether `|sa-ta| <= opt * |ta|` Hence the opt is a tolerance.
 | NumAbsolute   | Tests whether `|sa-ta| < opt`  Hence the opt is a tolerance. The default tolerance is 0.05.
 | NumSigFigs    | Tests (i) whether the student's answer contains `opt` significant figures, and (ii) whether the answer is accurate to `opt` significant figures.   If the option is a list \([n,m]\) then we check the answer has been written to \(n\) significant figures, with an accuracy of \(m\) places.  A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
-| NumDecPlaces  | Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
+| NumDecPlaces  | (Not yet released, see notes below) Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
 | GT            | "Greater than".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
 | GTE           | "Greater than or equal to". See above.
+
+Decimal places test.  This test is implemented, and the code works, however it cannot be used in STACK.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.
 
 # Calculus #
 

@@ -13,7 +13,7 @@ STACK provides a number of options.  To set these you must login as the Moodle s
     
 ## Health-check script
 
-To confirm if the PHP scripts are connecting to Maxima navigate to the `STACK configuration page`.  Choose the link to the  healthcheck script.
+To confirm if the PHP scripts are connecting to Maxima navigate to the `STACK configuration page`.  Choose the link to the healthcheck script.
 
 This script checks the following. 
 
@@ -26,14 +26,12 @@ The CAS-debug option in the STACK settings will provide a very verbose output wh
 
 ## Caching CAS output
 
-By default, the interactions with the CAS are cached.  You can  connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the bottom of the Health-check script. 
+By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the bottom of the Health-check script. 
 
 ## Optimizing Maxima 
 
-Maxima is the rate-determining step in performance to STACK.   Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimizing the  performance of Maxima.  See the page dedicated to [optimizing Maxima](../CAS/Optimising_Maxima.md) 
+Maxima is the rate-determining step in performance to STACK. Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimizing the  performance of Maxima.  See the page dedicated to [optimizing Maxima](../CAS/Optimising_Maxima.md) 
 
 ## CAS Chat
 
-At any stage you can evaluate a fragment of CASText by using 
-the CASChat script.  There is a link from the  STACK 
-configuration page. 
+At any stage you can evaluate a fragment of CASText by using the CASChat script.  There is a link from the STACK configuration page. 

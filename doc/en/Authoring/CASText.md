@@ -14,7 +14,7 @@ The following things to remember about CASText:
 
 * Anything enclosed between `\( .... \)` symbols is treated as an _inline equation_, as is the case with normal LaTeX.  
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
-* We strongly discourage the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the [mathjax](../Developer/MathJax.md#delimiters) pages for more information.
+* We strongly discourage the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [mathjax](../Developer/MathJax.md#delimiters) for more information.
 * Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
 * Anything enclosed between `@` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
  * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\(@ stuff @\)`, and that `@ stuff @` is sufficient.
@@ -66,6 +66,12 @@ While this design decision is restrictive, it is a deliberate separation of feed
 which should be done via potential response trees, from a model solution to this
 problem which can be written before a question is deployed.
 
+## CASText and currency {#currency}
+
+It is common to want to use the dollar sign for currency.  However, this conflicts with the use of the dollar sign for delimiters for mathematics.  For this reason we discourage the use of dollars to delimit mathematics in STACK.
+
+* If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
+
 ## Most useful HTML ##
 
 HTML Paragraphs (don't forget the end tag!)
@@ -95,7 +101,7 @@ Some formatting
 
 ## Useful LaTeX ##
 
-LaTex notation can specify inline or display mode for maths by delimiting with `\(` or `\[` respectively.  Here are some simple examples:
+LaTeX notation can specify inline or display mode for maths by delimiting with `\(` or `\[` respectively.  Here are some simple examples:
 
 * `x^2` gives \(x^2\)
 * `x_n` gives \(x_n\)
@@ -109,6 +115,8 @@ LaTex notation can specify inline or display mode for maths by delimiting with `
 * `\int_a^b x^2\ dx` gives \(\int_a^b x^2\ dx\) when inline.  In display mode it gives:
 
 \[ \int_a^b x^2\ dx \]
+
+There is a specific page for [actuarial notation](Actuarial.md).
 
 ## Google Charts ##
 

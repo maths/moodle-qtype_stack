@@ -420,7 +420,8 @@ class stack_inputvalidation_test_data {
             }
             $casdisplay = $cs->get_display();
         }
+        $answernote = $cs->get_answernote();
 
-        return array($passed, $phpvalid, $phpcasstring, $errors, $casvalid, $caserrors, $casdisplay, $casvalue);
+        return array($passed, $phpvalid, $phpcasstring, $errors, $casvalid, $caserrors, $casdisplay, $casvalue, $answernote);
     }
 }

@@ -39,6 +39,8 @@ In the structure of this expression the first negative coefficient is `-(2*y^2)`
 
 which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.  The result here is the anticipated `y^3-2*y^2-8*y`.
 
+Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed. 
+
 ## Further examples
 
 Some further examples are given elsewhere:

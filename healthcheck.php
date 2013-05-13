@@ -78,7 +78,7 @@ if ($config->mathsdisplay === 'mathjax') {
     echo html_writer::tag('p', stack_string('healthchecklatexmathjax',
             $settingsurl->out()));
     echo html_writer::tag('textarea', s(stack_maths_output_mathjax::get_mathjax_code()),
-            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'10', 'cols'=>'100'));
+            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'12', 'cols'=>'100'));
 } else {
     $settingsurl = new moodle_url('/admin/filters.php');
     echo html_writer::tag('p', stack_string('healthcheckfilters',

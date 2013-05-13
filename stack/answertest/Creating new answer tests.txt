@@ -19,7 +19,7 @@ This prevents duplication of code.
 
 Normally, just three methods are needed, the constructor which
 calls the super class's constructor, a do_test() method which
-does the work and a helper function process_atoptions() wich
+does the work and a helper function process_atoptions() which
 decides if the options need to be evaluated by the CAS in the
 context of this question before the test is allowed. For
 example, you might ask students for a random number of

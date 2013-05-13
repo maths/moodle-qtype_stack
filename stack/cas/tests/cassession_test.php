@@ -332,6 +332,19 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([5,2],[4,3])', $at1->get_value_key('A'));
         $this->assertEquals('matrix([5*4+2*6,5*5+2*5],[4*4+3*6,4*5+3*5])', $at1->get_value_key('C'));
     }
+
+    public function test_numerical_precision() {
+
+        $cs=array('a:1385715.257');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('1385715.257', $at1->get_value_key('a'));
+    }
 }
 
 

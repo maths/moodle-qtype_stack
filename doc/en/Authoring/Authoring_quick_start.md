@@ -25,9 +25,10 @@ We are now ready to edit an example question.  The question name is compulsory i
 
 Ensure the question text contains the following information. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
 
-    Differentiate \((x-1)^3\) with respect to \(x\).
-    [[input:ans1]]
-    [[validation:ans1]]
+<textarea readonly="readonly" rows="3" cols="50">
+Differentiate \((x-1)^3\) with respect to \(x\).
+[[input:ans1]]
+[[validation:ans1]]</textarea>
 
 There are a number of things to notice about this text.
 
@@ -175,12 +176,9 @@ We need to assign outcomes.
 2. On the false branch set the `score=1` (well, you may disagree here, but that is up to you!)
 3. On the false branch set the feedback to something like
 
-~~~~~~~~~~
-        Your answer is unfactored.
-        There is no need to expand out the expression in this question.
-        You can differentiate using the chain rule directly and keep
-        the answer in factored form.
-~~~~~~~~~~
+<textarea readonly="readonly" rows="3" cols="50">
+Your answer is unfactored. There is no need to expand out the expression in this question. You can differentiate using the chain rule directly and keep the answer in factored form.</textarea>
+
 
 This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.
 
@@ -203,9 +201,10 @@ Modify the [question variables](KeyVals.md#Question_variables) from the previous
 
 Then change the [question text](CASText.md#question_text) to
 
-    Differentiate @p@ with respect to \(x\).
-    [[input:ans1]]
-    [[validation:ans1]]
+<textarea readonly="readonly" rows="3" cols="50">
+Differentiate @p@ with respect to \(x\).
+[[input:ans1]]
+[[validation:ans1]]</textarea>
 
 and in the inputs change the model answer to
 
@@ -262,9 +261,10 @@ This contains random numbers, and also examples of variables and expressions sel
 
 Then change the Question text to
 
-    Differentiate @p@ with respect to @v@.
-    [[input:ans1]]
-    [[validation:ans1]]
+<textarea readonly="readonly" rows="3" cols="50">
+Differentiate @p@ with respect to @v@.
+[[input:ans1]]
+[[validation:ans1]]</textarea>
 
 Again, we need to use expressions such as `diff(p,v)` throughout the potential response tree, and even in one place `diff(ans1,v)`.
 

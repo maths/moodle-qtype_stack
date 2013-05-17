@@ -66,6 +66,7 @@ abstract class stack_connection_helper {
                 $connection = new stack_cas_connection_server(self::$config, $debuglog);
                 break;
             case 'tomcat':
+            case 'tomcat-optimised':
                 require_once(dirname(__FILE__) . '/connector.tomcat.class.php');
                 $connection = new stack_cas_connection_tomcat(self::$config, $debuglog);
                 break;
@@ -222,6 +223,7 @@ abstract class stack_connection_helper {
 
         switch (self::$config->platform) {
             case 'unix-optimised':
+            case 'tomcat-optimised':
                 $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
                 $fix = stack_string('healthchecksstackmaximaversionfixoptimised', $docsurl);
                 break;

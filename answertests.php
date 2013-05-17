@@ -41,28 +41,13 @@ require_once(dirname(__FILE__) . '/stack/answertest/tests/fixtures.class.php');
 $anstest = optional_param('anstest', '', PARAM_ALPHA);
 $questionid = optional_param('questionid', null, PARAM_INT);
 
-// Authentication.
-if (!$questionid) {
-    require_login();
-    $context = context_system::instance();
-    require_capability('moodle/site:config', $context);
-    $urlparams = array();
-
-} else {
-    // Load the necessary data.
-    $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
-    $question = question_bank::load_question($questionid);
-
-    // Process any other URL parameters, and do require_login.
-    list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
-
-    // Check permissions.
-    question_require_capability_on($questiondata, 'view');
-}
+// Authentication. Because of the cache, it is safe to make this available to any
+// logged in user.
+require_login();
 
 // Set up the page object.
-$PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/answertests.php', $urlparams);
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url('/question/type/stack/answertests.php');
 $title = stack_string('stackInstall_testsuite_title');
 $PAGE->set_pagelayout('report');
 $PAGE->set_title($title);
@@ -155,8 +140,9 @@ foreach ($tests as $test) {
     flush();
 }
 
-// Overall summary.
+$table->finish_output();
 
+// Overall summary.
 if ($notests>0) {
     $took = (microtime(true) - $start);
     $rtook = round($took, 5);
@@ -169,9 +155,6 @@ if ($notests>0) {
     $config = get_config('qtype_stack');
     echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
 }
-
-// Print out the table itself.
-$table->finish_output();
 
 if ($anstest) {
     if ($allpassed) {

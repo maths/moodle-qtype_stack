@@ -26,6 +26,9 @@ where stuff is the name of the variable. This string is automatically generated 
 does not exist and is placed after the input. This feedback must be given.
 Inputs have a number of options. Specific inputs may have extra options.
 
+To see what sort of vaidation is done, look at the
+[test suite for validation of student's input](../../../studentinputs.php).
+
 ## input options ##
 
 Each input may have a number of options.

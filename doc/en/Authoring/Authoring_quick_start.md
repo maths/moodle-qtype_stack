@@ -117,7 +117,9 @@ We would really like to add better feedback, so it is time to edit the question 
 What if the outcome of applying the first answer test was false?
 We would like to check that the student has not integrated by mistake, and we achieve this by adding another potential response node.
 
-Close the preview window and edit the question again.  Scroll down to the Potential Response Tree and click `[Add another node]` button.
+Close the preview window and edit the question again.  Scroll down to the
+Potential Response Tree and click `[Add another node]` button at the bottom of
+the list of nodes.
 
 From the false branch of Node 1, change the "Next" field so it is set to  `[Node 2]`.
 If the first test is false, we will then perform the test in Node 2.

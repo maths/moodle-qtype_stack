@@ -158,6 +158,14 @@ class stack_cas_text {
             $this->valid = false;
         }
 
+        // Dollars can be protected for use with currency.
+        $protected = str_replace('\$', '', $this->trimmedcastext);
+        $dollar = stack_utils::check_matching_pairs($protected, '$');
+        if ($dollar == false) {
+            $this->errors .= stack_string('stackCas_MissingDollar');
+            $this->valid = false;
+        }
+
         $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
         if ($hints !== true) {
             // The method check_bookends does not return false.

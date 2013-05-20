@@ -106,14 +106,11 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
             }
         }
 
-        if ($continue) {
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            // Ok so now we should have a PDF
-            if (!file_exists(str_replace(".tex",".pdf",$label_map["__SOURCE_CODE__"]))) {
-                $this->error = $ret;
-                return;
-            }
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+
+        if (file_exists(str_replace(".tex",".pdf",$label_map["__SOURCE_CODE__"]))) {
             $image = new Imagick();
             $image->setResolution(150,150);
             $image->readImage(str_replace(".tex",".pdf",$label_map["__SOURCE_CODE__"]));

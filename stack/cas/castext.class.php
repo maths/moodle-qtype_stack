@@ -147,7 +147,6 @@ class stack_cas_text {
             $this->valid = false;
         }
 
-<<<<<<< HEAD
         // Check {#...#}'s match.
         $amps = stack_utils::check_bookends($this->trimmedcastext, '{#', '#}');
         if ($amps !== true) {
@@ -156,13 +155,14 @@ class stack_cas_text {
             } else {
                 $this->errors .= stack_string('stackCas_MissingClosingRawCAS');
             }
-=======
+            $this->valid = false;
+        }
+
         // Dollars can be protected for use with currency.
         $protected = str_replace('\$', '', $this->trimmedcastext);
         $dollar = stack_utils::check_matching_pairs($protected, '$');
         if ($dollar == false) {
             $this->errors .= stack_string('stackCas_MissingDollar');
->>>>>>> af033579b06573bc9d47eac623aa4bc7ad9e464a
             $this->valid = false;
         }
 

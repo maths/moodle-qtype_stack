@@ -53,13 +53,13 @@ function stack_docs_index($dir, $relpath = '') {
             continue;
         }
 
+        $title = stack_docs_title_from_filename($filename);
         if (is_dir($filepath)) {
-            $items[] = "<li><a href=\"$relpath/$filename/\">" . stack_docs_title_from_filename($filename) . "</a>" .
+            $items[$title] = "<li><a href=\"$relpath/$filename/\">" . $title . "</a>" .
                     stack_docs_index($filepath, "$relpath/$filename") . '</li>';
         } else {
             if (substr($filename, -2) === 'md') {
-                $items[] = "<li><a href=\"$relpath/$filename\">" . stack_docs_title_from_filename($filename) .
-                    "</a></li>";
+                $items[$title] = "<li><a href=\"$relpath/$filename\">" . $title . '</a></li>';
             }
         }
     }
@@ -68,6 +68,7 @@ function stack_docs_index($dir, $relpath = '') {
         return '';
     }
 
+    collatorlib::ksort($items);
     return '<ul class="dir">' . implode('', $items) . '</ul>';
 }
 

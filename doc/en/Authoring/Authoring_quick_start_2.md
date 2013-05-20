@@ -108,10 +108,12 @@ __Question text__
 
 This text should be input directly in HTML mode.
 
-     <p>Find the equation of the line tangent to @p@ at the point \(x=@pt@\).</p>
-     <p>1. Differentiate @p@ with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
-     <p>2. Evaluate your derivative at \(x=@pt@\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
-     <p>3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
+<textarea readonly="readonly" rows="5" cols="120">
+<p>Find the equation of the line tangent to @p@ at the point \(x=@pt@\).</p>
+<p>1. Differentiate @p@ with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p>2. Evaluate your derivative at \(x=@pt@\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+<p>3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
+</textarea>
 
 Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question.
 Notice there is one potential response tree for each "part".
@@ -146,7 +148,9 @@ Node 1: did they evaluate the expression in part 1 correctly? If "yes" then go t
 
 Node 2: did they get part 1 correct?  if "yes" then this is the ideal situation, full marks.  If "no" then choose marks, as suit your taste in this situation, and add some feedback such as the following in Node 2, false feedback.
 
-    Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
+<textarea readonly="readonly" rows="5" cols="120">
+Your answer to this part is correct, however you have got part 1 wrong!  Please try both parts again!
+</textarea>
 
 ###Stage 3: adding question tests###
 

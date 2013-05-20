@@ -77,6 +77,9 @@ body#page-question-type-stack div[id^=fitem_id_][id*=truefeedback_],
 body#page-question-type-stack div[id^=fitem_id_][id*=falsefeedback_] {
     padding-bottom: 0.3em;
 }
+body#page-question-type-stack div[id^=fitem_id_][id*=nodeadd] {
+    margin-top: 2em;
+}
 
 /* Styles for the supporting scripts, healthcheck, etc. */
 body.path-question-type-stack dt {

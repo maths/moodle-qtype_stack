@@ -69,16 +69,22 @@ $lastseg = $segs[count($segs) - 1];
 // Links for the end of the page.
 if ($uri == '/') {
     // The docs front page at .../doc.php/.
-    $linkurls = array($docsurl . '/Site_map' => stack_string('stackDoc_siteMap'));
+    $linkurls = array(
+        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
+    );
 
 } else if ('/Site_map' == $uri) {
-    $linkurls = array($docsurl               => stack_string('stackDoc_home'));
+    $linkurls = array(
+        $docsurl               => stack_string('stackDoc_home')
+    );
 
 } else {
-    $linkurls = array($docsurl               => stack_string('stackDoc_home'),
-                   './'                   => stack_string('stackDoc_index'),
-                   '../'                  => stack_string('stackDoc_parent'),
-                   $docsurl . '/Site_map' => stack_string('stackDoc_siteMap'));
+    $linkurls = array(
+        $docsurl               => stack_string('stackDoc_home'),
+        './'                   => stack_string('stackDoc_index'),
+        '../'                  => stack_string('stackDoc_parent'),
+        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
+    );
 }
 
 $links = array();

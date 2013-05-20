@@ -6,8 +6,7 @@ prototype test is to establish if they are the _same_.  That is
 to say, _algebraically equivalent_.
 
 The exact behaviour of each answer test can be seen from
-STACK's _test suite for STACK Answer tests_ which is available through the
-Moodle admin menu.
+STACK's [test suite for STACK Answer tests](../../../answertests.php).
 
 This compares pairs of expressions and displays the outcomes
 from each test. Mainly used to ensure STACK is working, it is

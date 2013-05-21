@@ -121,6 +121,8 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
 
             // Clean up
             unlink(str_replace(".tex",".pdf",$label_map["__SOURCE_CODE__"]));
+            unlink(str_replace(".tex",".aux",$label_map["__SOURCE_CODE__"]));
+            unlink(str_replace(".tex",".log",$label_map["__SOURCE_CODE__"]));
         } else {
             // Something went wrong...
             $this->error = $ret;

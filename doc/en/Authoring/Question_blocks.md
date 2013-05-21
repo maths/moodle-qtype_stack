@@ -47,6 +47,17 @@ Should one of the lists or set be shorter/smaller the iteration will stop when t
 Because the foreach block needs to evaluate the lists/sets before it may do the iteration, using foreach blocks 
 will require one additional cas evaluation for each level of foreach blocks.
 
+## External block ##
+
+The External block is a special block sending its contents to external tools for evaluation, typically, generating
+images. All external blocks must define their type and may define additional parameters. For example the following
+would produce an image of an equation:
+
+    [[ external type="latex" template="basic" ]]\[\frac12\sin{{@f@}}\][[/ external ]]
+
+In the Moodle rich text editor you may want to wrap your external blocks in pre-tags to avoid reformatting and entity 
+conversion.
+
 ## Development ##
 
 ### Block development ###

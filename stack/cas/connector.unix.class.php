@@ -57,11 +57,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             0 => array('pipe', 'r'),
             1 => array('pipe', 'w'),
             2 => array('pipe', 'w'));
-        $casprocess = proc_open($this->command, $descriptors, $pipes, $cwd, $env);
-
-        if ($err = fread($pipes[2], 1024)) {
-            throw new stack_exception('stack_cas_connection: could not open a CAS process. '.$err);
-        }
+        $casprocess = proc_open($this->command, $descriptors, $pipes);
 
         if (!is_resource($casprocess)) {
             throw new stack_exception('stack_cas_connection: could not open a CAS process');

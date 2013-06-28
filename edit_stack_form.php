@@ -1017,7 +1017,10 @@ class qtype_stack_edit_form extends question_edit_form {
 
         if (!array_key_exists($prtname . 'feedbackvariables', $fromform)) {
             // This happens when you edit the question text to add more PRTs.
-            // There is nothing to validate for the new PRTs, so stop now.
+            // The user added a new PRT and did not click "Verify the question
+            // text and update the form". We need to fail validation, so the
+            // form is re-displayed so that this PRT can be configured.
+            $errors[$prtname . 'value'][] = stack_string('prtmustbesetup');
             return $errors;
         }
 

@@ -638,6 +638,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 html_writer::tag('b', stack_string('nodex', $name)),
                 null, false);
         $mform->addHelpButton($prtname . 'node[' . $nodekey . ']', 'nodehelp', 'qtype_stack');
+        $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
+        $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
+        $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
 
         // Create the section of the form for each node - the branches.
         foreach (array('true', 'false') as $branch) {
@@ -671,6 +674,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->addGroup($branchgroup, $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']',
                     stack_string('nodexwhen' . $branch, $name), null, false);
             $mform->addHelpButton($prtname . 'nodewhen' . $branch . '[' . $nodekey . ']', $branch . 'branch', 'qtype_stack');
+            $mform->setType($prtname . $branch . 'score[' . $nodekey . ']', PARAM_RAW);
+            $mform->setType($prtname . $branch . 'penalty[' . $nodekey . ']', PARAM_RAW);
+            $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
                     stack_string('nodex' . $branch . 'feedback', $name), array('rows' => 1), $this->editoroptions);

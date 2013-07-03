@@ -176,6 +176,7 @@ $string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1.'
 $string['penaltyerror2'] = 'The penalty must empty, or be a numeric value between 0 and 1.';
 $string['prtcorrectfeedback'] = 'Standard feedback for correct';
 $string['prtheading'] = 'Potential response tree: {$a}';
+$string['prtmustbesetup'] = 'This PRT must be set up before the question can be saved.';
 $string['prtnodesheading'] = 'Potential response tree nodes ({$a})';
 $string['prtincorrectfeedback'] = 'Standard feedback for incorrect';
 $string['prtpartiallycorrectfeedback'] = 'Standard feedback for partially correct';

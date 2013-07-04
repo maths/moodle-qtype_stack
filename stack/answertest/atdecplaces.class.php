@@ -43,7 +43,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        $commands = array($this->sanskey, $this->tanskey, $this->atoption);
+        $commands = array($this->sanskey, $this->tanskey, (string) $this->atoption);
         foreach ($commands as $com) {
             $cs = new stack_cas_casstring($com);
             if (!$cs->get_valid('t', true, false)) {

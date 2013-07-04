@@ -131,11 +131,13 @@ The ? may also be used to give partial credit. Of course it could also be used f
 
 ### Forbidden words ### {#Forbidden_Words}
 
-This is a comma separated list of text strings which are forbidden in a student's answer.
+This is a comma separated list of text strings which are forbidden in a student's answer.  Note, any variable names used in the question variables are automatically forbiden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).
 If one of these strings is present then the student's attempt will be considered invalid,
-and no penalties will be given.
+and no penalties will be given.  This is an unsophisticated string match.
 
-Note that the string `*` is literally taken as `*` and is not a wild card.  Teachers may ask a student to calculate `2*3` and hence need to forbid multiplication.
+Note that the string `*` is literally taken as `*` and is not a wild card.  Teachers may ask a student to calculate `2*3` and hence need to forbid multiplication in an answer.
+
+If you wish to forbid commas, then escape it with a backslash.
 
 There are groups of common keywords which you can forbid simply as
 
@@ -143,7 +145,7 @@ There are groups of common keywords which you can forbid simply as
 * `[[BASIC-CALCULUS]]` common calculus operations such as `int`, `diff`, `taylor` etc.
 * `[[BASIC-MATRIX]]` common matrix operations such as `transpose`, `invert`, `charpoly` etc.
 
-These lists are in the casstring class. If you have suggestions for more lists, or additional operations which should be added to the existing lists please contact the developers.
+These lists are in the casstring class. If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.
 
 ### Forbid Floats ### {#Forbid_Floats}
 

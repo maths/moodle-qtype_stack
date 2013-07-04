@@ -274,6 +274,13 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text('This is system cost \$100,000 to create.', null, 0, 't');
         $this->assertTrue($at1->get_valid());
     }
+
+    public function test_forbidden_words() {
+
+        $at1 = new stack_cas_text('This is system cost @system(rm*)@ to create.', null, 0, 't');
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid. </br>The expression <span class="stacksyntaxexample">system</span> is forbidden.');
+    }
 }
 
 /**

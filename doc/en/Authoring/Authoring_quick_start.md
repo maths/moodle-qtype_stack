@@ -16,8 +16,8 @@ This page explains the process of authoring a question, by working through an ex
 
 Questions are edited through the Moodle quiz.  In Moodle, go to the question bank and ask to create a new STACK question.  Do not be put off by the fact the editing form looks complicated.
 
-There are lots of fields, but the only compulsory fields are the [question text](CASText.md#question_text) and the question name.
-The question text is the string actually displayed to the student, i.e. this is "the question".
+There are lots of fields, but only a few are compulsory.  These are the question name and [question text](CASText.md#question_text). The question text is the string actually displayed to the student, i.e. this is "the question".
+If you have an input (the default is to have one) the teacher's answer must be non-empty.  Nodes in potential response trees have compulsory fields (the default is to provide a tree with one node).
 
 ## An example question ##
 
@@ -108,7 +108,7 @@ The system first establishes the syntactical validity of this answer.
 Press the `[Check]` button again.
 
 The system executes the potential response tree and establishes whether your answer is algebraically equivalent
-to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  You will need to submit each answer twice.
+to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  If your server does not have "instant validation" switched on (an administrator/installation option) you will need to submit each answer twice.
 Notice all your responses are stored in an attempts table.
 
 We would really like to add better feedback, so it is time to edit the question again.  Choose EDIT from the link at the top of the page.

@@ -96,7 +96,7 @@ class stack_cas_casstring {
             'time', 'timer', 'timer_devalue', 'timer_info', 'to_lisp', 'trace', 'trace_options',
             'transcompile', 'translate', 'translate_file', 'transrun', 'ttyoff', 'untimer',
             'untrace', 'user_preamble', 'values', 'with_stdout', 'write_binary_data',
-            'write_data', 'writefile'); 
+            'write_data', 'writefile');
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
     // Note we allow RANDOM_PERMUTATION.
@@ -285,7 +285,7 @@ class stack_cas_casstring {
             'ytics_axis', 'ytics_rotate', 'ytics_rotate_secondary', 'ytics_secondary',
             'ytics_secondary_axis', 'yv_grid', 'z_voxel', 'zaxis', 'zaxis_color', 'zaxis_type',
             'zaxis_width', 'zeilberger', 'zeroa', 'zerob', 'zlabel', 'zlange', 'zrange', 'ztics',
-            'ztics_axis', 'ztics_rotate' ); 
+            'ztics_axis', 'ztics_rotate' );
 
     /** @var array CAS keywords ALLOWED by students. */
     private static $studentallow    = array('%c', '%e', '%gamma', '%i', '%k1', '%k2',
@@ -387,7 +387,7 @@ class stack_cas_casstring {
             'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
             'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
             'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega'); 
+            'omega');
 
     /**
      * These lists are used by question authors for groups of words.
@@ -408,7 +408,7 @@ class stack_cas_casstring {
                     'determinant', ' diag_matrix', 'diagmatrix', 'dotproduct', 'echelon', 'eigenvalues',
                     'eigenvectors', 'eivals', 'eivects', 'ematrix', 'invert', 'matrix_element_add',
                     'matrix_element_mult', 'matrix_element_transpose', 'nullspace', 'resultant',
-                    'rowop', 'rowswap', 'transpose') 
+                    'rowop', 'rowswap', 'transpose')
     );
 
     /**
@@ -474,7 +474,7 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Check for matching string delimiters
+        // Check for matching string delimiters.
         if (stack_utils::check_matching_pairs($cmd, '"') == false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
@@ -522,7 +522,8 @@ class stack_cas_casstring {
                     || (strpos($match, '%i') !== false) || (strpos($match, '%j') !== false)
                     || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false))) {
                     // Constants %e and %pi are allowed. Any other percentages dissallowed.
-                    $this->add_error(stack_string('stackCas_percent', array('expr' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    $this->add_error(stack_string('stackCas_percent',
+                            array('expr' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
                     $this->answernote[] = 'percent';
                     $this->valid   = false;
                 }

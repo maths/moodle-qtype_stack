@@ -160,7 +160,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('sin(ta)', array('ta'), true),
             array('sin(ta)', array('ta', 'a', 'b'), true),
             array('sin(ta)', array('sa'), false),
-            array('sin(a)', array('a'), false), // it ignores single letters
+            array('sin(a)', array('a'), false), // This ignores single letters.
             array('diff(x^2,x)', array('[[BASIC-CALCULUS]]'), true),
         );
 
@@ -173,11 +173,11 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_check_external_forbidden_words_literal() {
         $cases = array(
             array('3+5', '+', true),
-            array('sin(a)', 'a', true), // it includes single letters
-            array('sin(a)', 'i', true), // since it is a string match, this can be inside a name
-            array('sin(a)', 'b', false), 
-            array('sin(a)', 'b,\,,c', false), // test escaped commas
-            array('[x,y,z]', 'b,\,,c', true), 
+            array('sin(a)', 'a', true), // It includes single letters.
+            array('sin(a)', 'i', true), // Since it is a string match, this can be inside a name.
+            array('sin(a)', 'b', false),
+            array('sin(a)', 'b,\,,c', false), // Test escaped commas.
+            array('[x,y,z]', 'b,\,,c', true),
             array('diff(x^2,x)', '[[BASIC-CALCULUS]]', true), // From lists.
             array('solve((x-6)^4,x)', '[[BASIC-ALGEBRA]]', true), // From lists.
         );

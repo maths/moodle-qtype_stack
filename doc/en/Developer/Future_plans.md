@@ -18,7 +18,7 @@ The following features are in approximate priority order.  How to report bugs an
 ### Improve the editing form ###
 
 * A button to remove a given PRT or input, without having to guess that the way to do it is to delete the placeholders from the question text.
-* A button to remove a new PRT or input, without having to guess that the way to do it is to add the placeholders to the question text.
+* A button to add a new PRT or input, without having to guess that the way to do it is to add the placeholders to the question text.
 * A button to save the current definition and continue editing. This would be a Moodle core change. See https://tracker.moodle.org/browse/MDL-33653.
 
 ### Other ideas ###
@@ -40,8 +40,7 @@ The following features are in approximate priority order.  How to report bugs an
 ## Features that might be attempted in the future - possible self contained projects ##
 
 * Investigate how a whole PRT might make only one CAS call.
-* Visualization of the PRT.  E.g. https://github.com/hafriedlander/php-peg, http://jsplumb.org/ (works with multiple underlying libraries including YUI).
-* Text-based input, parser: http://zaach.github.com/jison/ 
+* Provide an alternative way to edit PRTs in a form of computer code, rather than lots of form fields. For example using http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg. 
 * Read other file formats into STACK.  In particular
   * AIM
   * WebWork
@@ -51,5 +50,3 @@ The following features are in approximate priority order.  How to report bugs an
  * Package for scientific [units](../Authoring/Units.md), and a science answer test.
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
-
-

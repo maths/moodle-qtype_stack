@@ -1,20 +1,18 @@
-# Development track for STACK 3.1
+# Development track for STACK 3.2
 
 This page describes the major tasks we still need to complete in order to be
-able to release the next version: STACK 3.1. Plans looking
+able to release the next version: STACK 3.2. Plans looking
 further into the future are described on [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## STACK custom reports ##
+## STACK custom reports
 
 Basic reports now work.
 
 * Add titles and explanations to the page, and document with examples.
-* **DONE** Split up the answer notes to report back for each PRT separately.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
-* **DONE** Introduce "validation notes".  This should work at the PHP level, recording reasons for invalidity.  Since we already connect to the CAS, this should also record whether the student's input is equivalent to the teacher's, in what sense, and what form their answer is in.  Maybe too slow?  Useful perhaps for learning analytics.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 
@@ -25,41 +23,14 @@ Basic reports now work.
 * Hints.  Currently code is in the "hints" branch.
  * Make sure the syntax is updated to [hint:...] in line with the new format.
  * Provide a list of hints, and an interface through the docs.
-* **DONE** Add in support for strings within CASText.  These are currently supported only when the contents is a valid castring, which is overly restrictive.
 
-## Assorted minor improvements ##
+## Assorted minor improvements
 
 * Improve the way questions are deployed.
  1. Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
  2. Remove many versions at once.
-* **DONE** Fix instant validation for text-area inputs.
-* Improvements to the editing form:
- 1. When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
- 2. **DONE** A way to set defaults for many of the options on the question edit form. There are two ways we could do it. We could make it a system-wide setting, controlled by the admin, just like admins can set defaults for all the quiz settings. Alternatively, we could use user_preferences, so the next time you create a STACK question, it uses the same settings as the previous STACK qusetion you created.
- 3. **DONE** Display inputs and PRTs in the order they are mentioned in the question text + specific feedback.
- 4. **DONE** Allow an arbitrary PRT node to be the root node, rather than assuming it is the lowest numbered one.
- 5. **DONE** Display a graphical representation of each PRT, that can be clicked to jump to that Node on the editing form.
- 6. **DONE** When cloning a question with the 'Make copy' button, also clone the question tests.
-* **DONE** Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
+* When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 * Review the list of forbidden keywords.
-* **DONE** Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of. 
-* **DONE** With "Check the type of the response" set to "Yes", if an expression is given and an equation is entered, the error generated is: "Your answer is an equation, but the expression to which it is being compared is not. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." This might confuse students. They don't know what " the expression to which it is being compared" is! Perhaps this warning could be reworded something like: "You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." We should have more messages for each type of failed situation....
-* **DONE** New option for how inverse trig functions are displayed.
-* **DONE** A script to run question tests in bulk.
-* **DONE** Add a new answer test to deal with decimal places.
 
-## Community
-
-* Consolidation of mailing lists, forum, wiki etc.
- 1. **DONE** Update forum.
- 2. **DONE** Announcements on Moodle mailing lists.
- 3. **DONE** Re-install demonstration servers.
-
-# Changes in features between STACK 3.0 and STACK 3.1.
-
-* **DONE** Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../CAS/Plots.md#alttext) for more details.
-* **DONE** Assorted other accessibility fixes.
-* **DONE** Standard PRT feedback options are now processed as CAS text.
-* **DONE** STACK questions with no inputs, and/or no PRTs now work properly.
-* **DONE** There was a bug where clearing the CAS cache broke images in the question text. Now fixed.
+## Other changes since STACK 3.1

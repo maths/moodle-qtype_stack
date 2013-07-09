@@ -24,15 +24,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013060300;
-$plugin->requires  = 2012062503;
+$plugin->version   = 2013070900;
+$plugin->requires  = 2012120300;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = 'development version on the way to 3.1 for Moodle 2.3.3+';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '3.1 for Moodle 2.4+';
 
 $plugin->dependencies = array(
-    'qbehaviour_adaptivemultipart'     => 2013011100,
-    'qbehaviour_dfexplicitvaildate'    => 2013011100,
-    'qbehaviour_dfcbmexplicitvaildate' => 2013011100,
+    'qbehaviour_adaptivemultipart'     => 2013070900,
+    'qbehaviour_dfexplicitvaildate'    => 2013070900,
+    'qbehaviour_dfcbmexplicitvaildate' => 2013070900,
 );

@@ -99,7 +99,7 @@ $settings->add(new admin_setting_heading('mathsdisplayheading',
 
 $settings->add(new admin_setting_configcheckbox('qtype_stack/ajaxvalidation',
         get_string('settingajaxvalidation', 'qtype_stack'),
-        get_string('settingajaxvalidation_desc', 'qtype_stack'), 0));
+        get_string('settingajaxvalidation_desc', 'qtype_stack'), 1));
 
 $settings->add(new qtype_stack_admin_setting_maths_display_method('qtype_stack/mathsdisplay',
         get_string('settingmathsdisplay', 'qtype_stack'),
@@ -232,5 +232,5 @@ $settings->add(new admin_setting_configselect('qtype_stack/complexno',
 $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig', 'qtype_stack'),
         get_string('inversetrig_help', 'qtype_stack'), 'cos-1', array(
-            'cos-1' => 'cos⁻¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'
+            'cos-1' => 'cosâ�»Â¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'
         )));

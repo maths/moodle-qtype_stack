@@ -65,7 +65,7 @@ class qtype_stack_question_test_form extends moodleform {
             $mform->addGroup($elements, $prtname . 'group', $prtname, ' ', false);
             $mform->setType($prtname . 'score', PARAM_FLOAT);
             $mform->setType($prtname . 'penalty', PARAM_FLOAT);
-            $mform->setType($prtname . 'answernote', PARAM_FLOAT);
+            $mform->setType($prtname . 'answernote', PARAM_RAW);
         }
 
         // Submit buttons.

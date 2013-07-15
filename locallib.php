@@ -116,12 +116,12 @@ function qtype_stack_setup_question_test_page($question) {
     if ($cmid = optional_param('cmid', 0, PARAM_INT)) {
         $cm = get_coursemodule_from_id(false, $cmid);
         require_login($cm->course, false, $cm);
-        $context = get_context_instance(CONTEXT_MODULE, $cmid);
+        $context = context_module::instance($cmid);
         $urlparams['cmid'] = $cmid;
 
     } else if ($courseid = optional_param('courseid', 0, PARAM_INT)) {
         require_login($courseid);
-        $context = get_context_instance(CONTEXT_COURSE, $courseid);
+        $context = context_course::instance($courseid);
         $urlparams['courseid'] = $courseid;
 
     } else {

@@ -47,6 +47,7 @@ class stack_algebraic_input extends stack_input {
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
+        $mform->setType($this->name, PARAM_RAW);
     }
 
     /**

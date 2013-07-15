@@ -52,6 +52,7 @@ class stack_singlechar_input extends stack_input {
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => 1, 'maxlength' => 1));
+        $mform->setType($this->name, PARAM_RAW);
     }
 
     /**

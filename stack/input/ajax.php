@@ -33,6 +33,9 @@ if (!isloggedin()) {
     die;
 }
 
+// This should not be necessary, but the TeX filter requires it, because it uses $OUTPUT.
+$PAGE->set_context(context_system::instance());
+
 $dm = new question_engine_data_mapper();
 $qa = $dm->load_question_attempt($qaid);
 $question = $qa->get_question();

@@ -225,7 +225,7 @@ abstract class stack_connection_helper {
             case 'unix-optimised':
             case 'tomcat-optimised':
                 $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
-                $fix = stack_string('healthchecksstackmaximaversionfixoptimised', $docsurl);
+                $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
                 break;
 
             case 'server':

@@ -299,10 +299,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // TODO fix this. At the moment it only considers the data from the unedited
         // question. We should take into account any changes made since the
         // form was first shown, for example adding or removing nodes, or changing
-        // the things they compare. However, it is not critical, this information
-        // is only used to display the
-        // This potential response tree will become active when the student has answered: ans1
-        // line.
+        // the things they compare. However, it is not critical.
 
         // If we are creating a new question, or if we add a new prt in the
         // question stem, then the PRT will not yet exist, so return an empty array.
@@ -465,7 +462,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('select', 'inversetrig',
                 stack_string('inversetrig'), array(
-                    'cos-1' => 'cos⁻¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+                    'cos-1' => 'cosâ�»Â¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
@@ -638,6 +635,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 html_writer::tag('b', stack_string('nodex', $name)),
                 null, false);
         $mform->addHelpButton($prtname . 'node[' . $nodekey . ']', 'nodehelp', 'qtype_stack');
+        $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
+        $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
+        $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
 
         // Create the section of the form for each node - the branches.
         foreach (array('true', 'false') as $branch) {
@@ -671,6 +671,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->addGroup($branchgroup, $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']',
                     stack_string('nodexwhen' . $branch, $name), null, false);
             $mform->addHelpButton($prtname . 'nodewhen' . $branch . '[' . $nodekey . ']', $branch . 'branch', 'qtype_stack');
+            $mform->setType($prtname . $branch . 'score[' . $nodekey . ']', PARAM_RAW);
+            $mform->setType($prtname . $branch . 'penalty[' . $nodekey . ']', PARAM_RAW);
+            $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
                     stack_string('nodex' . $branch . 'feedback', $name), array('rows' => 1), $this->editoroptions);
@@ -873,7 +876,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);
 
         // We slightly break the usual conventions of validation, in that rather
-        // then building up $errors as an array of strings, we initially build it
+        // than building up $errors as an array of strings, we initially build it
         // up as an array of arrays, then at the end remove any empty arrays,
         // and implod (' ', ...) any arrays that are non-empty. This makes our
         // rather complex validation easier to implement.
@@ -1017,7 +1020,10 @@ class qtype_stack_edit_form extends question_edit_form {
 
         if (!array_key_exists($prtname . 'feedbackvariables', $fromform)) {
             // This happens when you edit the question text to add more PRTs.
-            // There is nothing to validate for the new PRTs, so stop now.
+            // The user added a new PRT and did not click "Verify the question
+            // text and update the form". We need to fail validation, so the
+            // form is re-displayed so that this PRT can be configured.
+            $errors[$prtname . 'value'][] = stack_string('prtmustbesetup');
             return $errors;
         }
 
@@ -1222,7 +1228,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
-     * Validate all the maxima code in the questions.
+     * Validate all the maxima code in the question.
      *
      * This is done last, and separate from the other validation for two reasons:
      * 1. The rest of the validation is organised to validate the form in order,

@@ -60,3 +60,6 @@ Gymnasium Himmelsth√ºr, Hildesheim, Deutschland
 
 Universidad Michoacana de San Nicolas de Hidalgo
 : Contcat [VÌctor Hugo Huerta](mailto:v2hugo@gmail.com)
+
+e-MAIO project, Coimbra Institute of Engineering, Portugal
+: Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)

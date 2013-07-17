@@ -60,9 +60,12 @@ class qtype_stack_question_test_form extends moodleform {
                 $mform->createElement('text', $prtname . 'penalty',
                     stack_string('penalty'), array('size' => 2)),
                 $mform->createElement('select', $prtname . 'answernote',
-                    stack_string('answernote'), $prt->get_all_answer_notes())
+                    stack_string('answernote'), $prt->get_all_answer_notes()),
             );
             $mform->addGroup($elements, $prtname . 'group', $prtname, ' ', false);
+            $mform->setType($prtname . 'score', PARAM_FLOAT);
+            $mform->setType($prtname . 'penalty', PARAM_FLOAT);
+            $mform->setType($prtname . 'answernote', PARAM_RAW);
         }
 
         // Submit buttons.

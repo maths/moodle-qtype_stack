@@ -223,6 +223,8 @@ class stack_inputvalidation_test_data {
         array('(-1)', 'php_true', '(-1)', 'cas_true', ""),
         array('[-1,-2]', 'php_true', '[-1,-2]', 'cas_true', ""),
         array('[1,-2]', 'php_true', '[1,-2]', 'cas_true', ""),
+        array('y^3-2*y^2-8*y', 'php_true', 'y^3-2*y^2-8*y', 'cas_true', ""),
+        array('x^7/7-2*x^6/3-4*x^3/3', 'php_true', 'x^7/7-2*x^6/3-4*x^3/3', 'cas_true', ""),
         array('x & y', 'php_false', 'x & y', '', "Synonyms"),
         array('x && y', 'php_false', 'x && y', '', ""),
         array('x and y', 'php_true', 'x and y', 'cas_true', ""),

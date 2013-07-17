@@ -46,13 +46,7 @@ list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($questi
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
 
-// Initialise $PAGE.
-$backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
-if (!is_null($testcase)) {
-    $urlparams['testcase'] = $testcase;
-}
-$PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
-
+// Work out whether we are adding or editing.
 if (!is_null($testcase)) {
     $title = stack_string('editingtestcase',
             array('no' => $testcase, 'question' => format_string($question->name)));
@@ -61,6 +55,16 @@ if (!is_null($testcase)) {
     $title = stack_string('addingatestcase', format_string($question->name));
     $submitlabel = stack_string('createtestcase');
 }
+
+// Initialise $PAGE.
+$backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+if (!is_null($testcase)) {
+    $urlparams['testcase'] = $testcase;
+}
+$PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
+$PAGE->set_title($title);
+$PAGE->set_heading($COURSE->fullname);
+$PAGE->set_pagelayout('admin');
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -132,9 +136,6 @@ $options->flags = question_display_options::HIDDEN;
 $options->suppressruntestslink = true;
 
 // Display the page.
-$PAGE->set_title($title);
-$PAGE->set_heading($COURSE->fullname);
-$PAGE->set_pagelayout('admin');
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 

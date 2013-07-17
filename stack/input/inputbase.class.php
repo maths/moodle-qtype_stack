@@ -368,7 +368,7 @@ abstract class stack_input {
             $forbiddenwords = $this->get_parameter('forbidWords', '');
 
             if ($forbiddenwords) {
-                $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
+                $answer->check_external_forbidden_words_literal($forbiddenwords);
             }
 
             $modifiedcontents[] = $answer->get_casstring();

@@ -43,7 +43,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             return null;
         }
 
-        $commands = array($this->sanskey, $this->tanskey, $this->atoption);
+        $commands = array($this->sanskey, $this->tanskey, (string) $this->atoption);
         foreach ($commands as $com) {
             $cs = new stack_cas_casstring($com);
             if (!$cs->get_valid('t', true, false)) {
@@ -57,7 +57,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             }
         }
 
-        // (1) Check that the first expression is a floating point number,
+        // Check that the first expression is a floating point number,
         // with the right number of decimal places.
         $sans = explode('.', $this->sanskey);
         if (2 === count($sans)) {
@@ -75,7 +75,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $this->atmark       = 0;
         }
 
-        // (2) Check that the two numbers evaluate to the same value.
+        // Check that the two numbers evaluate to the same value.
         $cascommands = array();
         $cascommands[] = "caschat2:ev({$this->atoption},simp)";
         $cascommands[] = "caschat0:ev(float(round(10^caschat2*{$this->sanskey})/10^caschat2),simp)";

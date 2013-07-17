@@ -176,6 +176,7 @@ $string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1.'
 $string['penaltyerror2'] = 'The penalty must empty, or be a numeric value between 0 and 1.';
 $string['prtcorrectfeedback'] = 'Standard feedback for correct';
 $string['prtheading'] = 'Potential response tree: {$a}';
+$string['prtmustbesetup'] = 'This PRT must be set up before the question can be saved.';
 $string['prtnodesheading'] = 'Potential response tree nodes ({$a})';
 $string['prtincorrectfeedback'] = 'Standard feedback for incorrect';
 $string['prtpartiallycorrectfeedback'] = 'Standard feedback for partially correct';
@@ -418,13 +419,13 @@ $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \f
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@}';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
-$string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a}">rebuild your optimised Maxima executable</a>.';
+$string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
 $string['healthchecksstackmaximaversionfixunknown'] = 'It is not really clear how that happened. You will need to debug this problem yourself.';
 $string['healthchecksstackmaximanotupdated'] = 'It seems that STACK has not been properly update. Please visit the <a href="{$a}">System administration -> Notifications page</a>.';
 $string['healthchecksstackmaximatooold'] = 'So old the version is unknown!';
 $string['healthchecksstackmaximaversionmismatch'] = 'The version of the STACK-Maxima libraries being used ({$a->usedversion}) does not match what is expected ({$a->expectedversion}) by this version the the STACK question type. {$a->fix}';
-$string['healthchecksstackmaximaversionok'] = 'The version of the STACK-Maxima libraries being used ({$a->usedversion}) does match that expected.';
+$string['healthchecksstackmaximaversionok'] = 'Correct and expected STACK-Maxima library version being used ({$a->usedversion}).';
 $string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
@@ -612,8 +613,8 @@ $string['ATCompSquare_SA_not_depend_var']  = 'Your answer should depend on the v
 $string['ATInt_error_list']         = 'The answer test failed.  Please contact your systems administrator';
 $string['ATInt_const_int']          = 'You need to add a constant of integration. This should be an arbitrary constant, not a number.';
 $string['ATInt_const']              = 'You need to add a constant of integration, otherwise this appears to be correct.  Well done.';
-$string['ATInt_EqFormalDiff']       = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, eg, a constant of integration.  Please ask your teacher about this.';
-$string['ATInt_wierdconst']         = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, you have a strange constant of integration.  Please ask your teacher about this.';
+$string['ATInt_EqFormalDiff']       = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration.  Please ask your teacher about this.';
+$string['ATInt_weirdconst']         = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, you have a strange constant of integration.  Please ask your teacher about this.';
 $string['ATInt_diff']               = 'It looks like you have differentiated instead!';
 $string['ATInt_generic']            = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
 

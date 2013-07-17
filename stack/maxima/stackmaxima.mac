@@ -245,6 +245,10 @@ detexdecorate(ex):=block([argsex],
 
    The following functions sort this out, pulling "-" out the front in a specific situation: that of
    a product with a negative number at the front.
+   
+   Another interesting example.  This illustrates the interaction with quotients.
+   simp:false;
+   p:x^7/7-2*x^6/3-4*x^3/3;
 */
 
 /* Traverses an entire expression and ensures that "-"(number) really is the negative number.  */
@@ -271,6 +275,7 @@ unary_minus_pull(ex):=block([ex2],
 /* Looks for                                     */
 /* - a negative number                           */
 /* - a product of an number and something.       */
+/* - a quotient of an number and something.       */
 /* Makes sure any minus sign is the top element  */
 unary_minus_pull_helper(ex):=block([fe],
   if numberp(ex) and is(ex<0) then return(-(ev(-1*ex,simp))),  /* Turns -8 into "-"(8) */
@@ -279,8 +284,12 @@ unary_minus_pull_helper(ex):=block([fe],
   if op(ex)="*" then
      if numberp(fe) and is(fe<0) 
          then return(-(apply("*",append([ev(-fe,simp)],rest(args(ex)))))),
+  /* (-4*x^3)/4 is transformed into -(4*x^3)/4 */
+  if op(ex)="/" and safe_op(fe)="-" 
+         then return(-(apply("/",append(args(fe),[second(args(ex))])))),
   return(ex)
 )$
+
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex):= block([ex2],
@@ -1677,10 +1686,14 @@ Intfun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSB
     SAd:diff(SA,v),
     SBd:diff(SB,v),
     if algebraic_equivalence(SAd,SBd) then
-        if dc then
+        if ex=0 then
+            (rawmk:false, fb:StackAddFeedback("","ATInt_const"), ansnote:"ATInt_const")
+        else if dc then
             (rawmk:false, fb:StackAddFeedback("","ATInt_const_int"), ansnote:"ATInt_const_int")
-        else if freeof(log,SA) and not(atom(ex)) and not(atom(-ex)) then
-            (rawmk:false, fb:StackAddFeedback("","ATInt_wierdconst"), ansnote:"ATInt_wierdconst")
+        else if freeof(log,SA) and not(ATIntWeirdConstp(ex)) then
+            (rawmk:true, ansnote:"ATInt_true")
+        else if freeof(log,SA) and ATIntWeirdConstp(ex) then
+                (rawmk:false, fb:StackAddFeedback("","ATInt_weirdconst"), ansnote:"ATInt_weirdconst")
         else if algebraic_equivalence(SA,SB) then
                 (rawmk:false, fb:StackAddFeedback("","ATInt_const"), ansnote:"ATInt_const")
             else /* Check the student's answer has the correct form */
@@ -1694,7 +1707,6 @@ Intfun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSB
             (rawmk:false, fb:StackAddFeedback("","ATInt_diff"), ansnote:"ATInt_diff")
        else (
        rawmk:false, fb:StackAddFeedback("","ATInt_generic",StackDISP(SBd,"d"),StackDISP(v,"i"),StackDISP(SAd,"d")), ansnote:"ATInt_generic"),
-
     lSAv:listofvars(SA),
     lSBv:listofvars(SB),
     mSAv:member(v,lSAv),
@@ -1711,6 +1723,14 @@ Intfun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSB
     ret:[val,rawmk,ansnote,fb],
     return(ret)
     )$
+
+/* This function decides if the constant of integration looks "weird".*/
+ATIntWeirdConstp(ex):=block([l],
+  l:listofvars(ex),
+  if length(l)#1 then return(true),
+  if degree(ex,first(l))#1 then return(true)
+  else return(false)
+)$
 
 /********************************************************************/
 /* An answer test for differentiation questions.                    */
@@ -1822,5 +1842,5 @@ STACKanalysis(A):=block([l0,l1,l2,l3],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013041500$
-print("[ STACK-Maxima started, library version 2013041500 ]")$
+stackmaximaversion:2013060300$
+print("[ STACK-Maxima started, library version 2013060300 ]")$

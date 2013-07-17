@@ -293,7 +293,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             if (count($roots) != 1 || $graph->get_broken_cycles()) {
                 $questions = $DB->get_records('question', array('id' => $prt->questionid), '', 'name');
                 $qnames = array();
-                foreach($questions as $q) {
+                foreach ($questions as $q) {
                     $qnames[] = $q->name;
                 }
                 if (count($roots) != 1) {
@@ -301,7 +301,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
                 } else {
                     $err = 'broken cycles: '.implode('.', $graph->get_broken_cycles());
                 }
-                throw new coding_exception('The PRT named "' . $prt->name . '" is malformed in question id '.$prt->questionid.', question named "'.implode(', ',$qnames).'".  Error reported: '.$err);
+                throw new coding_exception('The PRT named "' . $prt->name . '" is malformed in question id '.$prt->questionid.', question named "'.implode(', ', $qnames).'".  Error reported: '.$err);
             }
             reset($roots);
             $firstnode = key($roots) - 1;

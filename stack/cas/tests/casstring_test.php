@@ -132,12 +132,12 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'system(rm *)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">SYSTEM</span> is forbidden.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
                 $at1->get_errors());
 
         $at2 = new stack_cas_casstring($s);
         $this->assertFalse($at2->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">SYSTEM</span> is forbidden.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
                 $at2->get_errors());
     }
 
@@ -146,7 +146,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'setelmx(2,1,1,C)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('Unknown function: <span class="stacksyntaxexample">SETELMX</span>.',
+        $this->assertEquals('Unknown function: <span class="stacksyntaxexample">setelmx</span>.',
                 $at1->get_errors());
 
         $at2 = new stack_cas_casstring($s);
@@ -155,15 +155,36 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_check_external_forbidden_words() {
+        // Remember, this function returns true if the literal is found.
         $cases = array(
             array('sin(ta)', array('ta'), true),
             array('sin(ta)', array('ta', 'a', 'b'), true),
             array('sin(ta)', array('sa'), false),
+            array('sin(a)', array('a'), false), // This ignores single letters.
+            array('diff(x^2,x)', array('[[BASIC-CALCULUS]]'), true),
         );
 
         foreach ($cases as $case) {
             $cs = new stack_cas_casstring($case[0]);
             $this->assertEquals($case[2], $cs->check_external_forbidden_words($case[1]));
+        }
+    }
+
+    public function test_check_external_forbidden_words_literal() {
+        $cases = array(
+            array('3+5', '+', true),
+            array('sin(a)', 'a', true), // It includes single letters.
+            array('sin(a)', 'i', true), // Since it is a string match, this can be inside a name.
+            array('sin(a)', 'b', false),
+            array('sin(a)', 'b,\,,c', false), // Test escaped commas.
+            array('[x,y,z]', 'b,\,,c', true),
+            array('diff(x^2,x)', '[[BASIC-CALCULUS]]', true), // From lists.
+            array('solve((x-6)^4,x)', '[[BASIC-ALGEBRA]]', true), // From lists.
+        );
+
+        foreach ($cases as $case) {
+            $cs = new stack_cas_casstring($case[0]);
+            $this->assertEquals($case[2], $cs->check_external_forbidden_words_literal($case[1]));
         }
     }
 
@@ -207,7 +228,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:["system(\'rm *\')",3*x]';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">SYSTEM</span> is forbidden.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
                 $at1->get_errors());
     }
 }

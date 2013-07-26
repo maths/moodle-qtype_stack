@@ -29,6 +29,7 @@ require_once('castext/if.class.php');
 require_once('castext/define.class.php');
 require_once('castext/foreach.class.php');
 require_once('castext/external.class.php');
+require_once('castext/workaroundimg.class.php');
 
 class stack_cas_text {
 
@@ -285,6 +286,9 @@ class stack_cas_text {
                         break;
                     case 'external':
                         $block = new stack_cas_castext_external($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        break;
+                    case 'workaroundimg':
+                        $block = new stack_cas_castext_workaroundimg($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
                         break;
                     default:
                         // TODO EXCEPTION

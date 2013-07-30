@@ -1855,5 +1855,5 @@ STACKanalysis(A):=block([l0,l1,l2,l3],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013060300$
-print("[ STACK-Maxima started, library version 2013060300 ]")$
+stackmaximaversion:2013073001$
+print("[ STACK-Maxima started, library version 2013073001 ]")$

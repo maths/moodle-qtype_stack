@@ -59,6 +59,11 @@ class stack_input_state {
     protected $_errors;
 
     /**
+     * @var string any validation note.
+     */
+    protected $_note;
+
+    /**
      * Constructor
      *
      * @param array $contents the current contents of this input.  An array with
@@ -69,7 +74,7 @@ class stack_input_state {
      * @param string $status one of the constants stack_input::EMPTY, stack_input::INVALID, ...
      * @param string $feedback the feedback for the current contents.
      */
-    public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors) {
+    public function __construct($status, $contents, $contentsmodified, $contentsdisplayed, $errors, $note) {
         if (!is_array($contents)) {
             throw new stack_exception('stack_input_state: contents field of constructor must be an array.');
         }
@@ -78,6 +83,7 @@ class stack_input_state {
         $this->_contentsmodified    = $contentsmodified;
         $this->_contentsdisplayed   = $contentsdisplayed;
         $this->_errors              = $errors;
+        $this->_note                = $note;
     }
 
     public function __get($field) {
@@ -92,6 +98,8 @@ class stack_input_state {
                 return $this->_contentsdisplayed;
             case 'errors':
                 return $this->_errors;
+            case 'note':
+                return $this->_note;
             default:
                 throw new stack_exception('stack_input_state: unrecognised property name ' . $field);
         }

@@ -35,20 +35,21 @@ require_once(dirname(__FILE__) . '/../inputbase.class.php');
 class stack_input_state_test extends basic_testcase {
 
     public function test_create_and_get() {
-        $state = new stack_input_state(stack_input::INVALID, array('frog'), 'frog', 'frog', 'Your answer is not an expression.');
+        $state = new stack_input_state(stack_input::INVALID, array('frog'), 'frog', 'frog', 'Your answer is not an expression.', 'CASError');
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals(array('frog'), $state->contents);
         $this->assertEquals('frog', $state->contentsdisplayed);
         $this->assertEquals('Your answer is not an expression.', $state->errors);
+        $this->assertEquals('CASError', $state->note);
     }
 
     public function test_constructor() {
         $this->setExpectedException('stack_exception');
-        $state = new stack_input_state(stack_input::INVALID, 'frog', 'frog', 'frog', 'Your answer is not an expression.');
+        $state = new stack_input_state(stack_input::INVALID, 'frog', 'frog', 'frog', 'Your answer is not an expression.', '');
     }
 
     public function test_unrecognised_property() {
-        $state = new stack_input_state(stack_input::INVALID, array('frog'), 'frog', 'frog', 'Your answer is not an expression.');
+        $state = new stack_input_state(stack_input::INVALID, array('frog'), 'frog', 'frog', 'Your answer is not an expression.', '');
         $this->setExpectedException('stack_exception');
         $x = $state->unknownproperty;
     }

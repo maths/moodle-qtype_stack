@@ -268,7 +268,7 @@ abstract class stack_input {
         $contents = $this->response_to_contents($response);
 
         if (array() == $contents or $this->is_blank_response($contents)) {
-            return new stack_input_state(self::BLANK, array(), '', '', '');
+            return new stack_input_state(self::BLANK, array(), '', '', '', '');
         }
 
         // This method actually validates any CAS strings etc.
@@ -305,6 +305,8 @@ abstract class stack_input {
             }
         }
 
+        $note = $answer->get_answernote();
+
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
         if (!(strpos($interpretedanswer, '?') === false)) {
@@ -319,7 +321,8 @@ abstract class stack_input {
         } else {
             $status = self::SCORE;
         }
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors);
+
+        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note);
     }
 
     /**

@@ -220,15 +220,17 @@ class stack_cas_session {
 
                 if ('' != $result['error']) {
                     $cs->add_errors($result['error']);
+                    $cs->decode_maxima_errors($result['error']);
                     $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring());
                     $new_errors .= ' '.stack_string("stackCas_CASErrorCaused") .
                             ' ' . $result['error'] . ' ';
                 }
-            }
+            } else 
 
             if (!$gotvalue) {
                 $errstr = stack_string("stackCas_failedReturn").' '.stack_maxima_format_casstring($cs->get_raw_casstring());
                 $cs->add_errors($errstr);
+                $cs->set_answernote('CASFailedReturn');
                 $new_errors .= $errstr;
             }
 

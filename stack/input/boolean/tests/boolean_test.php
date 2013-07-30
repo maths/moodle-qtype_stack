@@ -50,7 +50,7 @@ class stack_boolean_input_rendering_test extends question_testcase {
         $this->assert(new question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), stack_boolean_input::NA),
                 $el->render(new stack_input_state(
-                        stack_input::BLANK, array(stack_boolean_input::NA), '', '', ''),
+                        stack_input::BLANK, array(stack_boolean_input::NA), '', '', '', ''),
                         'stack1__ans1', false, ''));
     }
 
@@ -58,7 +58,7 @@ class stack_boolean_input_rendering_test extends question_testcase {
         $el = stack_input_factory::make('boolean', 'ans2', stack_boolean_input::T);
         $this->assert(new question_contains_select_expectation('stack1__ans2', $this->expected_choices(),
                 stack_boolean_input::T), $el->render(new stack_input_state(
-                        stack_input::VALID, array(stack_boolean_input::T), '', '', ''),
+                        stack_input::VALID, array(stack_boolean_input::T), '', '', '', ''),
                         'stack1__ans2', false));
     }
 
@@ -66,7 +66,7 @@ class stack_boolean_input_rendering_test extends question_testcase {
         $el = stack_input_factory::make('boolean', 'ans3', stack_boolean_input::T);
         $this->assert(new question_contains_select_expectation('stack1__ans3', $this->expected_choices(),
                 stack_boolean_input::F), $el->render(new stack_input_state(
-                        stack_input::VALID, array(stack_boolean_input::F), '', '', ''),
+                        stack_input::VALID, array(stack_boolean_input::F), '', '', '', ''),
                         'stack1__ans3', false));
     }
 
@@ -74,7 +74,7 @@ class stack_boolean_input_rendering_test extends question_testcase {
         $el = stack_input_factory::make('boolean', 'input', stack_boolean_input::T);
         $this->assert(new question_contains_select_expectation('stack1__ans1', $this->expected_choices(),
                 stack_boolean_input::NA, false), $el->render(new stack_input_state(
-                        stack_input::BLANK, array(), '', '', ''),
+                        stack_input::BLANK, array(), '', '', '', ''),
                         'stack1__ans1', true));
     }
 }

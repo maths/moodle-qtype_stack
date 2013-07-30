@@ -771,7 +771,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->inputstates as $name => $inputstate) {
             $this->inputstates[$name] = new stack_input_state(
                     $inputstate->status, $this->set_value_in_nested_arrays($inputstate->contents, $name),
-                    $inputstate->contentsmodified, $inputstate->contentsdisplayed, $inputstate->errors);
+                    $inputstate->contentsmodified, $inputstate->contentsdisplayed, $inputstate->errors, $inputstate->note);
         }
 
         // Set the cached prt results as if the feedback for each PRT was

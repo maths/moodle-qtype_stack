@@ -78,6 +78,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $casstring->validate('s');
         $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => 'π')),
                 $casstring->get_errors());
+        $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
 
     public function test_spurious_operators() {
@@ -85,6 +86,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $casstring->validate('s');
         $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">/*</span>.',
                 $casstring->get_errors());
+        $this->assertEquals('spuriousop', $casstring->get_answernote());
     }
 
     public function test_get_valid_inequalities() {

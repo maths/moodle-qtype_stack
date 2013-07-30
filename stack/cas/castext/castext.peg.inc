@@ -29,6 +29,7 @@ error_reporting(E_ALL);
 /**
  ** Howto generate the .php file: run the following command, in the directory of this file:
  ** php ../../../lib/php-peg/cli.php castext.peg.inc > castextparser.class.php
+ ** And do remove that PHP ending the question mark greater than thing after generation.
  **/
 require_once(dirname(__FILE__) . '/../../../lib/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;

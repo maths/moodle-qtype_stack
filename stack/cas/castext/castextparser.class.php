@@ -1140,4 +1140,3 @@ class stack_cas_castext_parsetreenode {
         return $r;
     }
 }
-?>

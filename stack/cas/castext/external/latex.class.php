@@ -140,4 +140,3 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
     }
 }
 
-?>

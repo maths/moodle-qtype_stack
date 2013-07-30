@@ -101,4 +101,3 @@ class stack_cas_castext_workaroundimg extends stack_cas_castext_block {
     }
 
 }
-?>

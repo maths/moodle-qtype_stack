@@ -605,7 +605,6 @@ $string['ATCompSquare_not_AlgEquiv']    = 'Your answer appears to be in the corr
 $string['ATCompSquare_false_no_summands']  = 'The completed square is of the form \( a(\cdots\cdots)^2 + b\) where \(a\) and \(b\) do not depend on your variable.  More than one of your summands appears to depend on the variable in your answer.';
 $string['ATCompSquare_SA_not_depend_var']  = 'Your answer should depend on the variable {$a->m0} but it does not!';
 
-
 $string['ATInt_error_list']         = 'The answer test failed.  Please contact your systems administrator';
 $string['ATInt_const_int']          = 'You need to add a constant of integration. This should be an arbitrary constant, not a number.';
 $string['ATInt_const']              = 'You need to add a constant of integration, otherwise this appears to be correct.  Well done.';

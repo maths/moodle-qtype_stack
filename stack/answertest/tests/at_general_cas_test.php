@@ -72,7 +72,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_list');", $at->get_at_feedback());
-        $this->assertEquals("ATAlgEquiv_SA_not_list", $at->get_at_answernote());
+        $this->assertEquals("ATAlgEquiv_SA_not_list.", $at->get_at_answernote());
     }
 
     public function test_algequivfeedback_1() {
@@ -81,7 +81,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals("stack_trans('ATList_wronglen' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
                 $at->get_at_feedback());
-        $this->assertEquals("ATList_wronglen", $at->get_at_answernote());
+        $this->assertEquals("ATList_wronglen.", $at->get_at_answernote());
     }
 
     public function test_algequivfeedback_2() {
@@ -89,7 +89,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals("stack_trans('ATAlgEquiv_SA_not_set');", $at->get_at_feedback());
-        $this->assertEquals("ATAlgEquiv_SA_not_set", $at->get_at_answernote());
+        $this->assertEquals("ATAlgEquiv_SA_not_set.", $at->get_at_answernote());
     }
 
     public function test_algequivfeedback_3() {
@@ -98,23 +98,23 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals("stack_trans('ATSet_wrongsz' , !quot!\\(3\\)!quot!  , !quot!\\(2\\)!quot! );",
                 $at->get_at_feedback());
-        $this->assertEquals("ATSet_wrongsz", $at->get_at_answernote());
+        $this->assertEquals("ATSet_wrongsz.", $at->get_at_answernote());
     }
 
     public function test_is_true_for_equal_expressions_comass() {
-        $at = new stack_answertest_general_cas('x+y', 'x+y', 'ATEqual_com_ass', false, null, null, false);
+        $at = new stack_answertest_general_cas('x+y', 'x+y', 'ATEqualComAss', false, null, null, false);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_expressions_comass() {
-        $at = new stack_answertest_general_cas('x+x', '2*x', 'ATEqual_com_ass', false, null, null, false);
+        $at = new stack_answertest_general_cas('x+x', '2*x', 'ATEqualComAss', false, null, null, false);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_expressions_with_different_type_comass() {
-        $at = new stack_answertest_general_cas('(x+1)^2', '[a,b,c]', 'ATEqual_com_ass', false, null, null, false);
+        $at = new stack_answertest_general_cas('(x+1)^2', '[a,b,c]', 'ATEqualComAss', false, null, null, false);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }

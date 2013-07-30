@@ -214,6 +214,7 @@ class stack_answertest_test_data {
         array('EqualComAss', 'matrix([x+x, 1],[1, 1])', 'matrix([2*x, 1],[1, 1])', 0, '', ''),
 
         array('CasEqual', '1/0', 'x^2-2*x+1', 0, '', ''),
+        array('CasEqual', 'x', '1/0', 0, '', ''),
         array('CasEqual', 'a', 'A', 0, '', 'Case sensitivity'),
         array('CasEqual', '4^(-1/2)', '1/2', 1, '', 'Numbers'),
         array('CasEqual', '0.5', '1/2', 0, '', 'Mix of floats and rational numbers'),

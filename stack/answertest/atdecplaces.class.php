@@ -37,7 +37,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $this->atoption));
-            $this->atansnote    = 'ATNumDecPlaces_STACKERROR_OPTION';
+            $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -50,7 +50,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
                 $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
-                $this->atansnote    = 'ATNumDecPlaces_STACKERROR_OPTION';
+                $this->atansnote    = 'ATNumDecPlaces_STACKERROR_Option.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
                 return null;
@@ -95,7 +95,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat0')));
             $anotes[]           = 'ATNumDecPlaces_STACKERROR_SAns';
-            $this->atansnote    = implode(' | ', $anotes);
+            $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -105,7 +105,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat1')));
             $anotes[]           = 'ATNumDecPlaces_STACKERROR_TAns';
-            $this->atansnote    = implode(' | ', $anotes);
+            $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -115,8 +115,8 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $session->get_errors_key('caschat2')));
-            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options';
-            $this->atansnote    = implode(' | ', $anotes);
+            $anotes[]           = 'ATNumDecPlaces_STACKERROR_Options.';
+            $this->atansnote    = implode('. ', $anotes).'.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -131,7 +131,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $anotes[]     = 'ATNumDecPlaces_Not_equiv';
         }
 
-        $this->atansnote = implode(' | ', $anotes);
+        $this->atansnote = implode('. ', $anotes).'.';
         if ($this->atmark) {
             return true;
         }

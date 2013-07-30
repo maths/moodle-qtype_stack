@@ -43,7 +43,7 @@ class stack_anstest_numrelative extends stack_anstest {
                 $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
                 $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
-                $this->atansnote    = 'STACKERROR_OPTION';
+                $this->atansnote    = 'STACKERROR_OPTION.';
                 $this->atmark       = 0;
                 $this->atvalid = false;
                 return null;
@@ -69,7 +69,7 @@ class stack_anstest_numrelative extends stack_anstest {
         if (''!=$session->get_errors_key('caschat0')) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat0')));
-            $this->atansnote    = 'NumRelative_STACKERROR_SAns';
+            $this->atansnote    = 'ATNumRelative_STACKERROR_SAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -78,7 +78,7 @@ class stack_anstest_numrelative extends stack_anstest {
         if (''!=$session->get_errors_key('caschat1')) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('caschat1')));
-            $this->atansnote    = 'NumRelative_STACKERROR_TAns';
+            $this->atansnote    = 'ATNumRelative_STACKERROR_TAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -88,7 +88,7 @@ class stack_anstest_numrelative extends stack_anstest {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $session->get_errors_key('caschat2')));
-            $this->atansnote    = 'NumRelative_STACKERROR_Options';
+            $this->atansnote    = 'ATNumRelative_STACKERROR_Options.';
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
@@ -96,7 +96,8 @@ class stack_anstest_numrelative extends stack_anstest {
 
         $flsa = $session->get_value_key('caschat3');
         $flta = $session->get_value_key('caschat4');
-        $this->atansnote = " |sa-ta|={$flsa}>={$flta}=tol*ta";
+        // The code below should be in the analysis.  Student's answser information shouldn't be in the note.
+        //$this->atansnote = "ATNumRelative: |sa-ta|={$flsa}>={$flta}=tol*ta.";
 
         $this->atvalid = true;
         if ($flsa <= $flta) {

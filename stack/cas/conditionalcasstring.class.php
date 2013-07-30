@@ -38,4 +38,3 @@ class stack_cas_conditionalcasstring extends stack_cas_casstring{
     }
 
 }
-?>

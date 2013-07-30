@@ -92,6 +92,3 @@ abstract class stack_cas_castext_block {
 }
 
 
-?>
-
-

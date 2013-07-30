@@ -159,4 +159,3 @@ abstract class stack_cas_castext_external_handler {
     public abstract function get_replacement_text();
 }
 
-?>

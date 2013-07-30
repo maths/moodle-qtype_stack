@@ -53,4 +53,3 @@ class stack_cas_castext_define extends stack_cas_castext_block {
     }
 
 }
-?>

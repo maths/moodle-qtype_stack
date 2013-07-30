@@ -112,4 +112,3 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     }
 
 }
-?>

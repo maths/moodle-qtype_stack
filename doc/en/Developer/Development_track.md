@@ -11,7 +11,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Basic reports now work.
 
-* Add titles and explanations to the page, and document with examples.
+* *done* Add titles and explanations to the page, and document with examples.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?

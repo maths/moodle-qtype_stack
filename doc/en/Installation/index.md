@@ -37,7 +37,7 @@ You must be able to connect to the CAS, and for the CAS to successfully create p
 
 You should now have a question type available to the moodle quiz.
 
-## 5. Add the STACK quiz report
+## 5. Add the STACK quiz report {#Report}
 
 If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  
 This is distributed as `quiz_stack`.  The reports are still in a beta development stage.

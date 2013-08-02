@@ -1,3 +1,19 @@
+/*  Author Chris Sangwin
+    University of Birmingham
+    Copyright (C) 2012 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+
 /****************************************************************/
 /*  An assessment package for Maxima                            */
 /*                                                              */
@@ -17,7 +33,7 @@ if MAXIMA_VERSION_NUM>=15.0 then DIV_OP:"/"$
 /* Load contributed packages          */
 /* ********************************** */
 
-load("grobner.lisp");
+if not(?functionp('poly_reduced_grobner)) then load("grobner");
 
 /* ********************************** */
 /* Parts of expressions               */
@@ -248,7 +264,7 @@ infix("=<");
 "=<"(a,b):=a<=b;
 
 
-/* Reduces an inequality to either ? > 0 or ? >=0 */
+/* Reduces an inequality to either ? > 0 or ? >=0, which is monic in its variable. */
 ineqprepare(ex) := block([op2,ex2],
     if atom(ex) then return(ex),
     if op(ex)="="  then return(make_monic(ev(part(ex,1) - part(ex,2),simp,trigreduce)) = 0),

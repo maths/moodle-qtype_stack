@@ -18,7 +18,7 @@
 /* Global variable options            */
 /* ********************************** */
 
-stack_reset(rand_seed):= block(
+stack_reset(rand_seed) := block(
   kill(allbut [functions]),
   kill(trigsimp),
   /* We need some kind of numerical number to compare against.  */
@@ -59,15 +59,15 @@ stack_reset(rand_seed):= block(
 )$
 
 /* Sometimes we need i,j,e etc to be *symbols*, not values.... */
-stack_reset_vars(ex) := block(kill(i,j,e,pi,Pi,PI));
+stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 
 /* Execute this command to ensure values have been set */
 stack_reset(1000);
 
 alias(int,integrate);        /* Allows integrate to be called with int() */
 
-simplify(ex):=ev(fullratsimp(ex),simp); /* Allows simplify to be something */
-degree(ex,v):=ev(hipow(expand(ex),v),simp); /*See notes on hipow*/
+simplify(ex) := ev(fullratsimp(ex), simp); /* Allows simplify to be something */
+degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
 
 
 /* ********************************** */
@@ -86,8 +86,8 @@ load ("functs");
 
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
-matchfix("|","|");
-"|"([a]):=apply(abs,a);
+matchfix("|", "|");
+"|"([a]) := apply(abs, a);
 
 /* Does not quite work yet ..... */
 /* load("noninteractive.mac"); */
@@ -96,16 +96,17 @@ matchfix("|","|");
 /*load("expandfeedback.mac");*/
 
 /*load("sqdnst")*/
-sqrtdenest(a):=
-  subst("^" = lambda([a,b],
-     block([discr,max,min],
-       if evenp(denom(b)) and not atom(a) and inpart(a,0) = "+"
-			  and (max:max(first(a),rest(a)),
+sqrtdenest(a) :=
+  subst("^" = lambda([a, b],
+     block([discr, max, min],
+       if evenp(denom(b)) and not atom(a) and inpart(a, 0) = "+"
+			  and (max:max(first(a), rest(a)),
 			       min:a-max,
 			       numberp(discr:sqrt(1-(min/max)^2)))
 	  then (sqrt(max*(1+discr)/2)+signum(min)*sqrt(max*(1-discr)/2))^(2*b)
 	  else a^b)),
-      a)$
+      a
+)$
 
 /* ********************************** */
 /* Load stack packages                */
@@ -116,35 +117,35 @@ load("assessment.mac"); /* Currently part of the STACK distribution */
 load("stacktex.lisp"); /* Loads LaTeX changes and preferences */
 texput(QMCHAR,"\\color{red}{?}");
 
-alias(arccos,acos);          /* At the request of the OU, 4 Feb 2013 */
-alias(arcsin,asin);           
-alias(arctan,atan);           
+alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013 */
+alias(arcsin, asin);           
+alias(arctan, atan);           
 
 load("mathml.lisp");   /* loads MathML */
 
 
 make_complexJ(OPT_COMPLEXJ) := block(
-  if OPT_COMPLEXJ="i" then 
+  if OPT_COMPLEXJ = "i" then 
     (i:%i,load("complexi.lisp")) 
-  else if OPT_COMPLEXJ="j" then
+  else if OPT_COMPLEXJ = "j" then
     (%j:%i,j:%i,load("complexj.lisp"))
-  else if OPT_COMPLEXJ="symi" then
+  else if OPT_COMPLEXJ = "symi" then
     (load("complexi.lisp")) 
-  else if OPT_COMPLEXJ="symj" then
+  else if OPT_COMPLEXJ = "symj" then
     (load("complexj.lisp"))
   else true
 );
 
 /* Makes multiplication signs look correct */
 make_multsgn(OPT_MULTSGN) := block(
-    if OPT_MULTSGN="cross" then load("multiply_cross.lisp"),
-    if OPT_MULTSGN="dot" then load("multiply_dot.lisp")
+    if OPT_MULTSGN = "cross" then load("multiply_cross.lisp"),
+    if OPT_MULTSGN = "dot" then load("multiply_dot.lisp")
 );
 
 /* Options for cos^(-1), acos or arccos */
 make_arccos(OPT_ACOS) := block(
-    if OPT_ACOS="cos-1" then load("cos-1.lisp"),
-    if OPT_ACOS="arccos" then load("arccos.lisp")
+    if OPT_ACOS = "cos-1" then load("cos-1.lisp"),
+    if OPT_ACOS = "arccos" then load("arccos.lisp")
 );
 
 

@@ -44,7 +44,10 @@ class stack_docslib_test extends basic_testcase {
     public function test_stack_docs_index() {
         global $CFG;
 
-        $this->assertEquals('', stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',
+        $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/testing_installation.md">' .
+                        'testing installation</a></li></ul>'),
+                stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',
                 $CFG->wwwroot . '/question/type/stack/doc.php/Installation'));
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .

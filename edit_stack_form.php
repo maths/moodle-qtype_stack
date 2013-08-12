@@ -830,6 +830,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $node->falsefeedbackformat, $node->id, 'prtnodefalsefeedback');
 
         // See comment in the parent method about this hack.
+        unset($this->_form->_defaultValues["{$prtname}truescoremode[$nodename]"]);
+        unset($this->_form->_defaultValues["{$prtname}falsescoremode[$nodename]"]);
         unset($this->_form->_defaultValues["{$prtname}truescore[$nodename]"]);
         unset($this->_form->_defaultValues["{$prtname}falsescore[$nodename]"]);
         unset($this->_form->_defaultValues["{$prtname}trueanswernote[$nodename]"]);

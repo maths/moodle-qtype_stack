@@ -131,7 +131,7 @@ irred_Q(t+t*x,x);
 irred_Q(3*x^2,x); 
 [true,"",false]$ 
 irred_Q(4*x^2,x); 
-[true,"stack_trans('irred_Q_optional_fac' , !quot!$4\\,x^2$!quot! ); ",false]$ 
+[true,"stack_trans('irred_Q_optional_fac' , !quot!\\(4\\,x^2\\)!quot! ); ",false]$ 
 irred_Q(x^2-4,x); 
 [false,"",false]$ 
 irred_Q(x^2-2,x); 

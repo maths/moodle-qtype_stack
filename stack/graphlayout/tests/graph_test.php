@@ -149,4 +149,23 @@ class stack_abstract_graph_test extends basic_testcase {
         $this->setExpectedException('coding_exception');
         $graph->layout();
     }
+
+    /**
+     * This graph has a link to a non-existent node. We verify that throws an exception.
+     */
+    public function test_get_suggested_node_names() {
+        $graph = new stack_abstract_graph();
+        $graph->add_node(1, 2, 3);
+        $graph->add_node(2, 7, null);
+        $graph->add_node(3, 2, 4);
+        $graph->add_node(4, 5, 6);
+        $graph->add_node(5, null, 9);
+        $graph->add_node(6, null, null);
+        $graph->add_node(7, null, null);
+        $graph->add_node(9, null, null);
+        $graph->layout();
+
+        $newnames = $graph->get_suggested_node_names();
+        $this->assertEquals(array(1 => 1, 3 => 2, 2 => 3, 7 => 4, 4 => 5, 5 => 6, 9 => 7, 6 => 8), $newnames);
+    }
 }

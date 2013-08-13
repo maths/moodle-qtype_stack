@@ -64,7 +64,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals(0, $result->penalty);
         $this->assertEquals(1, count($result->feedback));
         $this->assertEquals('Yeah!', $result->feedback[0]->feedback);
-        $this->assertEquals(array('ATInt_true', '1-0-1'), $result->answernotes);
+        $this->assertEquals(array('ATInt_true.', '1-0-1'), $result->answernotes);
         $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'), $tree->get_all_answer_notes());
     }
 
@@ -105,7 +105,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals(2, count($result->feedback));
         $this->assertEquals('Ok, you can diff.', $result->feedback[0]->feedback);
         $this->assertEquals('Do not expand!', $result->feedback[1]->feedback);
-        $this->assertEquals(array('ATDiff_true', '1-0-1', 'ATFacForm_notfactored.', '1-1-0'), $result->answernotes);
+        $this->assertEquals(array('ATDiff_true.', '1-0-1', 'ATFacForm_notfactored.', '1-1-0'), $result->answernotes);
 
         // Now have another attempt at the same PRT!
         // Need this test to ensure PRT is "reset" and has no hangover data inside the potential resposnes.
@@ -120,7 +120,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals('Ok, you can diff.', $result->feedback[0]->feedback);
         $this->assertEquals('Yeah!', $result->feedback[1]->feedback);
 
-        $this->assertEquals(array('ATDiff_true', '1-0-1', 'ATFacForm_true', '1-1-1'), $result->answernotes);
+        $this->assertEquals(array('ATDiff_true.', '1-0-1', 'ATFacForm_true.', '1-1-1'), $result->answernotes);
         $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
                 '1-1-1' => '1-1-1', '1-1-0' => '1-1-0'), $tree->get_all_answer_notes());
     }

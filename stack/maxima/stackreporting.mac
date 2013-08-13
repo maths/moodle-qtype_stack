@@ -1,0 +1,27 @@
+/* ****************************************************** */
+/*                                                        */
+/* Reporting functions                                    */
+/*                                                        */
+/* ****************************************************** */
+
+STACKanalysis(A):=block([l0, l1, l2, l3],
+  l0:maplist(ineqorder, A),
+  l1:listify(setify(fullratsimp(l0))),
+  l2:maplist(lambda([ex], setify(sublist(A, lambda([ex2], second(ATAlgEquiv(ex2,ex)))))), l1),
+  l3:maplist(lambda([ex], length(sublist(A, lambda([ex2], second(ATAlgEquiv(ex2,ex)))))), l1),
+  transpose(matrix(l1, l2, l3))
+)$
+
+/* This is an example function which takes a list "l" and returns the equivalence classes for the data. */
+/* Any of the other STACK answer test functions can be used here in place of ATAlgEquiv.                */
+stack_equiv_classes(l):=block(
+  equiv_classes(setify(l), lambda([x, y], second(ATAlgEquiv(x, y)))) 
+);
+
+/* This need to be implemented in the future.  */
+stack_analysis(ex):=block(
+  print("stack_analysis: this function has not yet been implemented.  Please see the maxima code directly for examples of how to analyse data."),
+  false
+)$
+
+simp:false;

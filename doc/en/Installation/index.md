@@ -9,7 +9,7 @@ STACK 3.0 is being used live at a number of institutions, including the Universi
 
 ## 2. Install GNUPlot and Maxima
 
-Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.28.0 are supported.  Please contact the developers to request support for other versions.
+Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.30.0 are supported.  Please contact the developers to request support for other versions.
 
 Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained
 installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and
@@ -37,7 +37,7 @@ You must be able to connect to the CAS, and for the CAS to successfully create p
 
 You should now have a question type available to the moodle quiz.
 
-## 5. Add the STACK quiz report
+## 5. Add the STACK quiz report {#Report}
 
 If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  
 This is distributed as `quiz_stack`.  The reports are still in a beta development stage.

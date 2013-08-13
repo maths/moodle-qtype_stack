@@ -47,6 +47,7 @@ class qtype_stack_tidy_question_form extends moodleform {
             $mform->addElement('text', 'inputname_' . $inputname,
                     stack_string('newnameforx', $inputname), array('size' => 20));
             $mform->setDefault('inputname_' . $inputname, $inputname);
+            $mform->setType('inputname_' . $inputname, PARAM_RAW); // Validated in the validation method.
         }
 
         // PRTs.
@@ -56,6 +57,7 @@ class qtype_stack_tidy_question_form extends moodleform {
             $mform->addElement('text', 'prtname_' . $prtname,
                     stack_string('newnameforx', $prtname), array('size' => 20));
             $mform->setDefault('prtname_' . $prtname, $prtname);
+            $mform->setType('prtname_' . $prtname, PARAM_RAW); // Validated in the validation method.
         }
 
         // PRT nodes.

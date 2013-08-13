@@ -50,6 +50,6 @@ class stack_anstest_atdecplaces_test extends qtype_stack_testcase {
         $at = new stack_anstest_atdecplaces('2.000', '1', null, '3');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('ATNumDecPlaces_Correct | ATNumDecPlaces_Not_equiv', $at->get_at_answernote());
+        $this->assertEquals('ATNumDecPlaces_Correct. ATNumDecPlaces_Not_equiv.', $at->get_at_answernote());
     }
 }

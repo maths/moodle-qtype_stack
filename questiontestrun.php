@@ -56,8 +56,8 @@ $canedit = question_has_capability_on($questiondata, 'edit');
 $PAGE->set_url('/question/type/stack/questiontestrun.php', $urlparams);
 $title = stack_string('testingquestion', format_string($question->name));
 $PAGE->set_title($title);
-$PAGE->set_heading($COURSE->fullname);
-$PAGE->set_pagelayout('admin');
+$PAGE->set_heading($title);
+$PAGE->set_pagelayout('popup');
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -92,7 +92,6 @@ foreach ($testscases as $key => $testcase) {
 
 // Start output.
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
 
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 if (!is_null($deployfeedback)) {

@@ -2,11 +2,13 @@
 
 Plots and graphics can be placed into any of the [CAStext](../Authoring/CASText.md) fields.
 
-The main way to create plots is using Maxima.
+The main way to create plots is using Maxima.  
 
 ## plot() {#plot}
 
-In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command. Try, for example, the following in the question stem.
+In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and returns a URL to the image.  Not all of the features of `plot2d` are available through `plot`.  In particular only a very few of Maxima's `plot_options` are respected by `plot`, maily for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)  If you would like to expand the range of options available please conact the developers.
+
+Try, for example, the following in the question stem.
 
     @plot(x^2,[x,-1,1])@
 
@@ -39,6 +41,24 @@ If you would like an expression as part of this then try
 
     p:sin(x);
     plot(p,[x,-2,2],alt=concat("Here is ",string(p)));
+
+## A catalogue of plots
+
+The following castext gives representaitve examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.
+
+    <h3>Basic plot</h3>
+    @plot(x^2,[x,-2,2])@
+    The following plot tests the option to explicitly test the alt-text.
+    @plot(x^3,[x,-3,3], alt="What is this function?")@
+    <h3>Mutiple graphs, clips the \(y\) values</h3>
+    @plot([x^3,exp(x)],[x,-2,2],[y,-4,4])@
+    <h3>Discrete plots</h3>
+    Basic discrete plot.
+    @plot([discrete,[[0,0],[1,1],[0,2]]])@ 
+    Combination of discrete plots with normal plots.
+    @plot([x^2, [discrete,[ [0,0], [1,1], [0,2]]]],[x,-2,2])@
+    <h3>Parametric plots</h3>
+    @plot([parametric, cos(t), sin(3*t), [t,0,2*%pi]])@
 
 ## implicit_plot()  {#implicit}
 

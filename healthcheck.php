@@ -146,7 +146,7 @@ function output_cas_text($title, $intro, $castext) {
     echo html_writer::tag('p', $intro);
     echo html_writer::tag('pre', s($castext));
 
-    $ct = new stack_cas_text($castext, null, 0);
+    $ct = new stack_cas_text($castext, null, 0, 't');
 
     echo html_writer::tag('p', stack_ouput_castext($ct->get_display_castext()));
     echo output_debug(stack_string('errors'), $ct->get_errors());

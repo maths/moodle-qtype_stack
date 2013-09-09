@@ -196,7 +196,7 @@ class stack_cas_casstring {
             'nonzeroandfreeof', 'noundisp', 'np', 'npi', 'nptetrad', 'ntermst', 'nticks', 'ntrig',
             'numbered_boundaries', 'ode2', 'ode_check', 'odelin', 'optimize', 'optimprefix',
             'optionset', 'orbit', 'orbits', 'orthopoly_recur', 'orthopoly_returns_intervals',
-            'orthopoly_weight', 'outofpois', 'palette', 'parametric', 'parametric_surface',
+            'orthopoly_weight', 'outofpois', 'palette', 'parametric_surface',
             'pargosper', 'partpol', 'pdf_bernoulli', 'pdf_beta', 'pdf_binomial', 'pdf_cauchy',
             'pdf_chi2', 'pdf_continuous_uniform', 'pdf_discrete_uniform', 'pdf_exp', 'pdf_f',
             'pdf_gamma', 'pdf_geometric', 'pdf_gumbel', 'pdf_height', 'pdf_hypergeometric',
@@ -387,7 +387,7 @@ class stack_cas_casstring {
             'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
             'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
             'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega');
+            'omega', 'parametric', 'discrete');
 
     /**
      * These lists are used by question authors for groups of words.

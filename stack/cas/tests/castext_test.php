@@ -239,7 +239,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
 
         // Note, since we have spaces in the string we currently need to validate this as the teacher....
-        $at1 = new stack_cas_text('This is some text @plot(p, [x,-2,3], alt="Hello World!")@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('This is some text @plot(p, [x,-2,3], [alt,"Hello World!"])@', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
@@ -260,7 +260,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
 
         // Alt tags must be a string.
-        $at1 = new stack_cas_text('This is some text @plot(p,[x,-2,3],alt=x)@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('This is some text @plot(p,[x,-2,3],[alt,x])@', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 

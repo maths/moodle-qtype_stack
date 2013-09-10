@@ -24,6 +24,13 @@ Basic reports now work.
  * Make sure the syntax is updated to [hint:...] in line with the new format.
  * Provide a list of hints, and an interface through the docs.
 
+## Expanding CAS features
+
+* *done* Refactor the Maxima plot command to include "discrete" and "parametric plots"
+* Refactor the Maxima plot command to include options, e.g., xlabel, ylabel, legend, color, style, point_type.
+* Enable a function as an answer type, e.g. improve validation.
+* Refactor answer test unit testing to distinguish "test fail" from "zero".
+
 ## Assorted minor improvements
 
 * Improve the way questions are deployed.

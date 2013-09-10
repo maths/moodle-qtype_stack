@@ -278,10 +278,10 @@ class stack_cas_casstring {
             'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson', 'var_rayleigh',
             'var_student_t', 'var_weibull', 'vector', 'verbose', 'vers', 'warnings', 'weyl',
             'wronskian', 'x_voxel', 'xaxis', 'xaxis_color', 'xaxis_secondary', 'xaxis_type',
-            'xaxis_width', 'xlabel', 'xrange', 'xrange_secondary', 'xtics', 'xtics_axis',
+            'xaxis_width', 'xrange', 'xrange_secondary', 'xtics', 'xtics_axis',
             'xtics_rotate', 'xtics_rotate_secondary', 'xtics_secondary', 'xtics_secondary_axis',
             'xu_grid', 'xy_file', 'xyplane', 'y_voxel', 'yaxis', 'yaxis_color', 'yaxis_secondary',
-            'yaxis_type', 'yaxis_width', 'ylabel', 'yrange', 'yrange_secondary', 'ytics',
+            'yaxis_type', 'yaxis_width', 'yrange', 'yrange_secondary', 'ytics',
             'ytics_axis', 'ytics_rotate', 'ytics_rotate_secondary', 'ytics_secondary',
             'ytics_secondary_axis', 'yv_grid', 'z_voxel', 'zaxis', 'zaxis_color', 'zaxis_type',
             'zaxis_width', 'zeilberger', 'zeroa', 'zerob', 'zlabel', 'zlange', 'zrange', 'ztics',
@@ -387,7 +387,7 @@ class stack_cas_casstring {
             'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
             'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
             'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega', 'parametric', 'discrete');
+            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel');
 
     /**
      * These lists are used by question authors for groups of words.

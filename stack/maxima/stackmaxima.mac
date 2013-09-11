@@ -476,27 +476,34 @@ stack_strip_percent(ex,var) := block([lv1, lv2, subcount, indx,exs],
 set_plot_option([run_viewer, false]);
 set_plot_option([plot_format, gnuplot]);
 set_plot_option([nticks, 50]);
-set_plot_option([adapt_depth, 20]);
+set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
-/*stack_web_plot*/
 plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, pltargs],
-    /* Arguments to plot must be lists, so we can pass in arguments to this function as *equations* */
+    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs],
+    /* Arguments to plot must be lists */
     ral:sublist(ra, listp), /* The actual arguments used by plot */
     /* Check expressions to be plotted has/have only one variable. */
     ex:ev(ex, nouns, simp),
     lvs:listofvars(ex),
     lvs:sublist(lvs,lambda([ex],not(ex=discrete or ex=parametric))),
     if length(lvs)>1 then
-       (print(concat("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)")),return("<center>[Empty 
-       plot]</center>")),
+       (print(concat("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)")),
+       return("<center>[Empty plot]</center>")),
     /* Sort out alt-text */
     kill(alt),
     alttext:concat("STACK auto-generated plot of ", string(ex), " with parameters ", string(ral)),
     altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex)=alt) else false)),
     if not(emptyp(altc)) then (ral:delete(first(altc), ral), alttext:second(first(altc))),
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
+    /* remove from option list ral any non-permitted options */
+    kill(y),
+    permitted_options: [y, xlabel, ylabel, legend, color, style, point_type, nticks, logx, logy, axes, plot_realpart],
+    if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options), 
+    ralforbid:sublist(ral, lambda([ex], not(member(first(ex), permitted_options)))),
+    if not(emptyp(ralforbid)) then 
+        (print(concat("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)")), 
+         return("<center>[Empty plot]</center>")),
     /* Assemble files names and URLs */
     tn:string(absolute_real_time()),
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
@@ -505,25 +512,27 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' /></div>"),
     if OPT_OUTPUT#"MathML" then
       ufn:concat(" <html>", ufn, "</html> "),
-    /* Sort out plot options, and plot the graph */
-    preamble:concat("set key off
-set zeroaxis
+    /* Sort out plot_options and preamble*/
+    preamble:"",
+    if not(member(xlabel, maplist(first, ral))) then ral:append(ral, [[xlabel, ""]]),
+    if not(member(ylabel, maplist(first, ral))) then ral:append(ral, [[ylabel, ""]]),
+    if not(member(legend, maplist(first, ral))) then ral:append(ral, [[legend, false]]),
+    /* Note, the axes option in Maxima doesn't seem to work.... */
+    preamble, "set zeroaxis
 set grid
-set terminal ",PLOT_TERMINAL,"  ",PLOT_TERM_OPT,"
-set output ",afn),
-    set_plot_option([gnuplot_out_file,tfn]),
+",
+    preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, " 
+set output ", afn),
+    set_plot_option([gnuplot_out_file, tfn]),
     set_plot_option([gnuplot_preamble, preamble]),
-    if length(ral) = 0 then pltargs:[ex, [xlabel,""], [ylabel,""]],
-    if length(ral) = 1 then pltargs:[ex, ral[1], [xlabel,""], [ylabel,""]],
-    if length(ral) = 2 then pltargs:[ex, ral[1], ra[2], [xlabel,""], [ylabel,""]],
-    p:funmake(plot2d,pltargs),
-    print(p),
+    /* Create and execute the actual plot commands */
+    pltargs:append([ex], ral),
+    p:funmake(plot2d, pltargs),
     ev(p),
     sysp:concat(GNUPLOT_CMD, " ", tfn),
     sysr:concat(DEL_CMD, " ", tfn),
-    /* print(sysp), */
     system(sysp),
-    system(sysr),
+    /*system(sysr),*/
     simp:old_simp,
     return(ufn)
 )$
@@ -1901,5 +1910,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013090900$
-print("[ STACK-Maxima started, library version 2013090900 ]")$
+stackmaximaversion:2013091000$
+print("[ STACK-Maxima started, library version 2013091000 ]")$

@@ -6,7 +6,7 @@ The main way to create plots is using Maxima.
 
 ## plot() {#plot}
 
-In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and returns a URL to the image.  Not all of the features of `plot2d` are available through `plot`.  In particular only a very few of Maxima's `plot_options` are respected by `plot`, maily for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)  If you would like to expand the range of options available please conact the developers.
+In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and returns a URL to the image.  Not all of the features of `plot2d` are available through `plot`.  In particular only a very few of Maxima's `plot_options` are respected by `plot`, maily for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)  Note that the `draw` package is currently not supported.
 
 Try, for example, the following in the question stem.
 
@@ -16,14 +16,21 @@ You can add a second variable to control the axes.
 
     plot(x^2,[x,-1,1],[y,0,2])
 
-However, Maxima will not always allow you to get the axes you want (this is a bug in Maxima).
-To get many plots in one window, we need to define a list of functions.
+However, Maxima will not always allow you to get the axes you want (this is a bug in Maxima). To get many plots in one window, we need to define a list of expressions.
 
     plot([x^2,sin(x)],[x,-1,1])
 
 This can be done with Maxima's `makelist` command
 
     (p(k):=x^k,pl:makelist(p(k),k,1,5),plot(pl,[x,-1,1]))
+
+## Options
+
+The following `plot` options are currently supported by STACK.   If you would like to expand the range of options available please contact the developers.
+
+    [xlabel, ylabel, legend, color, style, point_type, nticks, logx, logy, axes, plot_realpart]
+
+Please see Maxima's documentation for more information on these options.  Note that the `draw` package is currently not supported.
 
 ## Alternate text for an image (alt tag) {#alttext}
 
@@ -42,11 +49,11 @@ If you would like an expression as part of this then try
     p:sin(x);
     plot(p,[x,-2,2],[alt,concat("Here is ",string(p))]);
 
-(Note, previous versions of STACK had the alt-text as an equation.  This has been refactored as a list, in line with other `plot2d` options.)
+(Note, previous versions of STACK had the alt-text as an equation.  This has been refractored as a list, in line with other `plot2d` options.)
 
 ## A catalogue of plots
 
-The following castext gives representaitve examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.
+The following castext gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.
 
     <h3>Basic plot</h3>
     @plot(x^2,[x,-2,2])@
@@ -59,9 +66,16 @@ The following castext gives representaitve examples of the plot2d features suppo
     @plot([discrete,[[0,0],[1,1],[0,2]]])@ 
     Combination of discrete plots with normal plots.
     @plot([x^2, [discrete,[ [0,0], [1,1], [0,2]]]],[x,-2,2])@
+    Using different point styles.
+    @plot([[discrete, [[10, .6], [20, .9], [30, 1.1],[40, 1.3], [50, 1.4]]],[discrete, [[11, .5], [15, .9], [25, 1.2],[40, 1.3], [50, 1.4]]]],[style, points],[point_type,circle,square],[color,black,green])@
     <h3>Parametric plots</h3>
-    @plot([parametric, cos(t), sin(3*t), [t,0,2*%pi]])@
-
+    @plot([parametric, cos(t), sin(3*t), [t,0,2*%pi]], [nticks, 500])@
+    <h3>Setting non-trivial options: labels on the axes and legend</h3>
+    @plot(x*sin(1/x),[x,-1,2],[xlabel,"Independent variable"],[ylabel,"Dependent variable"],[legend,"This is a plot"])@
+    <h3>Log scale for y-axis, with red colour</h3>
+    @plot(exp(3*s),[s, -2, 2],[logy], [color,red])@
+    
+        
 ## implicit_plot()  {#implicit}
 
 In Maxima

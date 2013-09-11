@@ -269,6 +269,20 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
     }
 
+    public function test_plot_option_error() {
+
+        $cs2 = new stack_cas_session(array(), null, 0);
+
+        // Alt tags must be a string.
+        $at1 = new stack_cas_text('This is some text @plot(x^2,[x,-2,3],[notoption,""])@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: STACK does not currently support the following plot2d options:")));
+    }
+
     public function test_currency_1() {
 
         $at1 = new stack_cas_text('This is system cost \$100,000 to create.', null, 0, 't');

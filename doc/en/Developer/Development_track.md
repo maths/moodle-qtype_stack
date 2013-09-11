@@ -27,7 +27,7 @@ Basic reports now work.
 ## Expanding CAS features
 
 * *done* Refactor the Maxima plot command to include "discrete" and "parametric plots"
-* Refactor the Maxima plot command to include options, e.g., xlabel, ylabel, legend, color, style, point_type.
+* *done* Refactor the Maxima plot command to include options, e.g., xlabel, ylabel, legend, color, style, point_type.
 * Enable a function as an answer type, e.g. improve validation.
 * Refactor answer test unit testing to distinguish "test fail" from "zero".
 

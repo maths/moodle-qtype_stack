@@ -117,6 +117,9 @@ body.path-question-type-stack table.stacktestsuite .fail td,
 body.path-question-type-stack p.fail {
     background-color: #fdd;
 }
+body.path-question-type-stack table.stacktestsuite .expectedfail td {
+    background-color: #ffd;
+}
 body.path-question-type-stack table.stacktestsuite pre {
     font-size: 0.7em;
 }

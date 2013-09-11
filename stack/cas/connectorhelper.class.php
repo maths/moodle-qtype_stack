@@ -177,6 +177,14 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * @return the version of the STACK Maxima libraries that should be in use.
+     */
+    public static function get_required_stackmaxima_version() {
+        self::ensure_config_loaded();
+        return self::$config->stackmaximaversion;
+    }
+
+    /**
      * Used when check_stackmaxima_version returns false. Give an appropriate
      * warning.
      * @param stack_debug_log $debug log to write debug information to.
@@ -188,6 +196,13 @@ abstract class stack_connection_helper {
         debugging($warning);
     }
 
+    /**
+     * Exectue a CAS command just so we can get the version number of the
+     * remote libraries being used, then check that version against what it should be.
+     * @return array with two elements, a string like healthchecksstackmaximaversionok
+     * or healthchecksstackmaximanotupdated which can be used as the first argument to,
+     * stack_string, and possibly some extra data that can be used as the second argument.
+     */
     public static function stackmaxima_version_healthcheck() {
         self::ensure_config_loaded();
 

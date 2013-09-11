@@ -429,7 +429,7 @@ class stack_abstract_graph {
      */
     protected function suggested_names_worker(array $alreadynamed,
             stack_abstract_graph_node $node) {
-        if (array_key_exists($node->name, $alreadynamed)) {
+        if (in_array($node->name, $alreadynamed)) {
             return $alreadynamed;
         }
 
@@ -445,10 +445,14 @@ class stack_abstract_graph {
             return $this->suggested_names_worker($alreadynamed, $this->get($node->right));
 
         } else if ($this->get($node->right)->depth < $this->get($node->left)->depth) {
-            return $this->suggested_names_worker($alreadynamed, $this->get($node->right));
+            $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->right));
+            $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->left));
+            return $alreadynamed;
 
         } else {
-            return $this->suggested_names_worker($alreadynamed, $this->get($node->left));
+            $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->left));
+            $alreadynamed = $this->suggested_names_worker($alreadynamed, $this->get($node->right));
+            return $alreadynamed;
         }
     }
 

@@ -445,6 +445,7 @@ $string['testsuitecolerror'] = 'CAS errors';
 $string['testsuitecolrawmark'] = 'Raw mark';
 $string['testsuitecolexpectedscore'] = 'Expected mark';
 $string['testsuitepass'] = 'Pass';
+$string['testsuiteknownfail'] = '(Failing test trapped)';
 $string['testsuitefail'] = 'Fail';
 $string['testsuitenotests']       = 'Number of tests: {$a->no}. ';
 $string['testsuiteteststook']     = 'Tests took {$a->time} seconds. ';

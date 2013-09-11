@@ -40,7 +40,7 @@ class stack_anstest_numabsolute extends stack_anstest {
         foreach ($commands as $com) {
             $cs = new stack_cas_casstring($com);
             if (!$cs->get_valid('t', true, false)) {
-                $this->aterror      = 'TEST_FAILED.';
+                $this->aterror      = 'TEST_FAILED';
                 $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
                 $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
                 $this->atansnote    = 'STACKERROR_OPTION.';

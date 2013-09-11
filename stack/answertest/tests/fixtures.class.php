@@ -34,10 +34,21 @@ class stack_answertest_test_data {
     const OPTIONS = 4;
     const NOTES   = 5;
 
+    /* Raw data should be in the following form.
+     * Name of test
+     * Student's answer
+     * Teacher's answer
+     * Expected result
+     *    0 = different
+     *    1 = same
+     *    -1 = "Test fails", but this is trapped.
+     * Test options
+     * Header row in the table.
+     */
     protected static $rawdata = array(
         // AlgEquiv Answer tests.
-        array('AlgEquiv', '1/0', '1', 0, '', ''),
-        array('AlgEquiv', '1', '1/0', 0, '', ''),
+        array('AlgEquiv', '1/0', '1', -1, '', ''),
+        array('AlgEquiv', '1', '1/0', -1, '', ''),
         array('AlgEquiv', 'integerp(3)', 'true', 1, '', 'Predicates'),
         array('AlgEquiv', 'integerp(3.1)', 'true', 0, '', ''),
         array('AlgEquiv', 'X', 'x', 0, '', 'Case sensitivity'),
@@ -161,7 +172,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', 1, '', ''), // Cardano's example!
 
         // SubstEquiv Answer tests.
-        array('SubstEquiv', '1/0', 'x^2-2*x+1', 0, '', ''),
+        array('SubstEquiv', '1/0', 'x^2-2*x+1', -1, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^2+1', 1, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^3+1', 0, '', ''),
         array('SubstEquiv', 'X^2+1', 'x^2+1', 1, '', ''),
@@ -170,8 +181,8 @@ class stack_answertest_test_data {
         array('SubstEquiv', 'y=x^2', 'a^2=b', 1, '', ''),
         array('SubstEquiv', '{x=1,y=2}', '{x=2,y=1}', 1, '', ''),
 
-        array('EqualComAss', '1/0', '0', 0, '', ''),
-        array('EqualComAss', '0', '1/0', 0, '', ''),
+        array('EqualComAss', '1/0', '0', -1, '', ''),
+        array('EqualComAss', '0', '1/0', -1, '', ''),
         array('EqualComAss', '1+2*x', 'x*2+1', 1, '', 'Simple polynomials'),
         array('EqualComAss', '1+x', '2*x+1', 0, '', ''),
         array('EqualComAss', '1+x+x', '2*x+1', 0, '', ''),
@@ -213,8 +224,8 @@ class stack_answertest_test_data {
         array('EqualComAss', 'matrix([1,2],[2,2+1])', 'matrix([1,2],[2,3])', 0, '', ''),
         array('EqualComAss', 'matrix([x+x, 1],[1, 1])', 'matrix([2*x, 1],[1, 1])', 0, '', ''),
 
-        array('CasEqual', '1/0', 'x^2-2*x+1', 0, '', ''),
-        array('CasEqual', 'x', '1/0', 0, '', ''),
+        array('CasEqual', '1/0', 'x^2-2*x+1', -1, '', ''),
+        array('CasEqual', 'x', '1/0', -1, '', ''),
         array('CasEqual', 'a', 'A', 0, '', 'Case sensitivity'),
         array('CasEqual', '4^(-1/2)', '1/2', 1, '', 'Numbers'),
         array('CasEqual', '0.5', '1/2', 0, '', 'Mix of floats and rational numbers'),
@@ -230,8 +241,8 @@ class stack_answertest_test_data {
         array('CasEqual', 'cos(x)^2+sin(x)^2', '1', 0, '', ''),
         array('CasEqual', '2*cos(x)^2-1', 'cos(2*x)', 0, '', ''),
 
-        array('SameType', '1/0', '1', 0, '', ''),
-        array('SameType', '1', '1/0', 0, '', ''),
+        array('SameType', '1/0', '1', -1, '', ''),
+        array('SameType', '1', '1/0', -1, '', ''),
         array('SameType', '4^(-1/2)', '1/2', 1, '', 'Numbers'),
         array('SameType', 'x', '[1,2,3]', 0, '', 'Lists'),
         array('SameType', '[1,2]', '[1,2,3]', 1, '', ''),
@@ -267,7 +278,7 @@ class stack_answertest_test_data {
         array('SysEquiv', '[90=v*t,90=(v+5)*(t-1/4),90=(v+6)*(t-1/5),90=(v+7)*(t-1/4),90=(v+8)*(t-1/3)]',
             '[90=v*t,90=(v+5)*(t-1/4)]', 0, '', ''),
 
-        array('Expanded', '1/0', '0', 0, '', ''),
+        array('Expanded', '1/0', '0', -1, '', ''),
         array('Expanded', 'x>2', 'x^2-2*x+1', 0, '', ''),
         array('Expanded', 'x^2-1', '0', 1, '', ''),
         array('Expanded', '2*(x-1)', '0', 0, '', ''),
@@ -278,9 +289,9 @@ class stack_answertest_test_data {
         array('Expanded', 'cos(2*x)', '0', 1, '', ''),
 
         // Factored form.
-        array('FacForm', '1/0', '0', 0, 'x', ''),
-        array('FacForm', '0', '1/0', 0, 'x', ''),
-        array('FacForm', '0', '0', 0, '1/0', ''),
+        array('FacForm', '1/0', '0', -1, 'x', ''),
+        array('FacForm', '0', '1/0', -1, 'x', ''),
+        array('FacForm', '0', '0', -1, '1/0', ''),
         array('FacForm', '2', '2', 1, 'x', 'Trivial cases'),
         array('FacForm', '1/3', '1/3', 1, 'x', ''),
         array('FacForm', '3*x^2', '3*x^2', 1, 'x', ''),
@@ -327,10 +338,10 @@ class stack_answertest_test_data {
         array('FacForm', '(x-%i)*(x+%i)', 'x^2+1', 1, 'x', ''),
         array('FacForm', '(x-1)*(x+(1+sqrt(3)*%i)/2)*(x+(1-sqrt(3)*%i)/2)', 'x^3-1', 1, 'x', ''),
 
-        array('CompSquare', '1/0', '0', 0, '', ''),
-        array('CompSquare', '1/0', '0', 0, 'x', ''),
-        array('CompSquare', '0', '1/0', 0, 'x', ''),
-        array('CompSquare', '0', '0', 0, '1/0', ''),
+        array('CompSquare', '1/0', '0', -1, '', ''),
+        array('CompSquare', '1/0', '0', -1, 'x', ''),
+        array('CompSquare', '0', '1/0', -1, 'x', ''),
+        array('CompSquare', '0', '0', -1, '1/0', ''),
         array('CompSquare', '1', '(x-1)^2+1', 0, 'x', 'Category errors.'),
         array('CompSquare', '(t-1)^2+1', '(x-1)^2+1', 0, 'x', ''),
         array('CompSquare', '(x-1)^2+1=0', '(x-1)^2+1', 0, 'x', ''),
@@ -356,8 +367,8 @@ class stack_answertest_test_data {
         array('CompSquare', '(x-1)^2+1', '(sin(x)-1)^2+1', 0, 'sin(x)', ''),
 
         // Single Fraction Test.
-        array('SingleFrac', '1/0', '1/n', 0, '', ''),
-        array('SingleFrac', '0', '1/0', 0, '', ''),
+        array('SingleFrac', '1/0', '1/n', -1, '', ''),
+        array('SingleFrac', '0', '1/0', -1, '', ''),
         array('SingleFrac', 'x=3', '2', 0, '', ''),
         array('SingleFrac', '3', '3', 1, '', ''),
         array('SingleFrac', '3', '2', 0, '', ''),
@@ -375,10 +386,10 @@ class stack_answertest_test_data {
         array('SingleFrac', '(x-2)/4/(2/x^2)', '(x-2)*x^2/8', 0, '', ''),
         array('SingleFrac', '1/(1-1/x)', 'x/(x-1)', 0, '', ''),
 
-        array('PartFrac', '1/0', '3*x^2', 0, '', ''),
-        array('PartFrac', '1/0', '3*x^2', 0, 'x', ''),
-        array('PartFrac', '0', '0', 0, '1/0', ''),
-        array('PartFrac', '0', '1/0', 0, 'x', ''),
+        array('PartFrac', '1/0', '3*x^2', -1, '', ''),
+        array('PartFrac', '1/0', '3*x^2', -1, 'x', ''),
+        array('PartFrac', '0', '0', -1, '1/0', ''),
+        array('PartFrac', '0', '1/0', -1, 'x', ''),
         array('PartFrac', '1/m', '1/n', 0, 'n', 'Basic tests'),
         array('PartFrac', '1/n', '1/n', 1, 'n', ''),
         array('PartFrac', '1/(n+1)-1/n', '1/(n+1)-1/n', 1, 'n', 'A simple cases, linear factors in denominator'),
@@ -422,11 +433,11 @@ class stack_answertest_test_data {
         array('PartFrac', '-5/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)', '(3*x^2-5)/((4*x-4)^2*x)', 1, 'x', ''),
 
             // Differentiation test.
-        array('Diff', '1/0', '3*x^2', 0, '', ''),
-        array('Diff', '0', '1/0', 0, '(x', ''),
-        array('Diff', '1/0', '3*x^2', 0, 'x', ''),
-        array('Diff', '0', '1/0', 0, 'x', ''),
-        array('Diff', '0', '0', 0, '1/0', ''),
+        array('Diff', '1/0', '3*x^2', -1, '', ''),
+        array('Diff', '0', '1/0', -1, '(x', ''),
+        array('Diff', '1/0', '3*x^2', -1, 'x', ''),
+        array('Diff', '0', '1/0', -1, 'x', ''),
+        array('Diff', '0', '0', -1, '1/0', ''),
         array('Diff', '3*x^2', '3*x^2', 1, 'x', 'Basic tests'),
         array('Diff', '3*X^2', '3*x^2', 0, 'x', ''),
         array('Diff', 'x^4/4', '3*x^2', 0, 'x', ''),
@@ -441,10 +452,10 @@ class stack_answertest_test_data {
         array('Diff', 'x^4/4', '3*x^2', 0, 'y', ''),
 
         // Integration test.
-        array('Int', '1/0', '1', 0, '', ''),
-        array('Int', '1/0', '1', 0, 'x', ''),
-        array('Int', '1', '1/0', 0, 'x', ''),
-        array('Int', '0', '0', 0, '1/0', ''),
+        array('Int', '1/0', '1', -1, '', ''),
+        array('Int', '1/0', '1', -1, 'x', ''),
+        array('Int', '1', '1/0', -1, 'x', ''),
+        array('Int', '0', '0', -1, '1/0', ''),
         array('Int', 'x^3/3', 'x^3/3', 0, 'x', 'Basic tests'),
         array('Int', 'x^3/3+1', 'x^3/3', 0, 'x', ''),
         array('Int', 'x^3/3+c', 'x^3/3', 1, 'x', ''),
@@ -497,27 +508,27 @@ class stack_answertest_test_data {
         array('Int', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', 0, 'x', 'Stoutemyer'),
 
-        array('GT', '1/0', '1', 0, '', ''),
-        array('GT', '1', '1/0', 0, '', ''),
+        array('GT', '1/0', '1', -1, '', ''),
+        array('GT', '1', '1/0', -1, '', ''),
         array('GT', '1', '1', 0, '', ''),
         array('GT', '2', '1', 1, '', ''),
         array('GT', '1', '2.1', 0, '', ''),
         array('GT', 'pi', '3', 1, '', ''),
         array('GT', 'pi+2', '5', 1, '', ''),
 
-        array('GTE', '1/0', '1', 0, '', ''),
-        array('GTE', '1', '1/0', 0, '', ''),
+        array('GTE', '1/0', '1', -1, '', ''),
+        array('GTE', '1', '1/0', -1, '', ''),
         array('GTE', '1', '1', 1, '', ''),
         array('GTE', '2', '1', 1, '', ''),
         array('GTE', '1', '2.1', 0, '', ''),
         array('GTE', 'pi', '3', 1, '', ''),
         array('GTE', 'pi+2', '5', 1, '', ''),
 
-        array('NumRelative', '1/0', '0', 0, '', 'Basic tests'),
-        array('NumRelative', '0', '1/0', 0, '', ''),
-        array('NumRelative', '0', '0', 0, '1/0', ''),
-        array('NumRelative', '0', '(x', 0, '', ''),
-        array('NumRelative', '0', '0', 0, '(x', ''),
+        array('NumRelative', '1/0', '0', -1, '', 'Basic tests'),
+        array('NumRelative', '0', '1/0', -1, '', ''),
+        array('NumRelative', '0', '0', -1, '1/0', ''),
+        array('NumRelative', '0', '(x', -1, '', ''),
+        array('NumRelative', '0', '0', -1, '(x', ''),
         array('NumRelative', '1.1', '1', 0, '', 'No option, so 5%'),
         array('NumRelative', '1.05', '1', 1, '', ''),
         array('NumRelative', '1.05', '1', 1, '0.1', 'Options passed'),
@@ -525,27 +536,27 @@ class stack_answertest_test_data {
         array('NumRelative', '3.14', 'pi', 1, '0.001', ''),
 
 
-        array('NumAbsolute', '1/0', '0', 0, '', 'Basic tests'),
-        array('NumAbsolute', '0', '1/0', 0, '', ''),
-        array('NumAbsolute', '0', '0', 0, '1/0', ''),
-        array('NumAbsolute', '0', '(x', 0, '', ''),
-        array('NumAbsolute', '0', '0', 0, '(x', ''),
+        array('NumAbsolute', '1/0', '0', -1, '', 'Basic tests'),
+        array('NumAbsolute', '0', '1/0', -1, '', ''),
+        array('NumAbsolute', '0', '0', -1, '1/0', ''),
+        array('NumAbsolute', '0', '(x', -1, '', ''),
+        array('NumAbsolute', '0', '0', -1, '(x', ''),
         array('NumAbsolute', '1.1', '1', 0, '', 'No option, so 5%'),
         array('NumAbsolute', '1.05', '1', 1, '', ''),
         array('NumAbsolute', '1.05', '1', 1, '0.1', 'Options passed'),
         array('NumAbsolute', '1.05', '3', 0, '0.1', ''),
         array('NumAbsolute', '3.14', 'pi', 0, '0.001', ''),
 
-        array('NumSigFigs', '3.141', '3.1415927', 0, '', 'Basic tests'),
-        array('NumSigFigs', '1/0', '3', 0, '0', ''),
-        array('NumSigFigs', '0', '1/0', 0, '0', ''),
-        array('NumSigFigs', '0', '0', 0, '1/0', ''),
-        array('NumSigFigs', '0', '1', 0, '(', ''),
-        array('NumSigFigs', '(', '1', 0, '1', ''),
-        array('NumSigFigs', '1', '3', 0, 'pi', ''),
-        array('NumSigFigs', '1', '3', 0, '[3,x]', ''),
-        array('NumSigFigs', '1', '3', 0, '[1,2,3]', ''),
-        array('NumSigFigs', '1', '3', 0, '', ''),
+        array('NumSigFigs', '3.141', '3.1415927', -1, '', 'Basic tests'),
+        array('NumSigFigs', '1/0', '3', -1, '0', ''),
+        array('NumSigFigs', '0', '1/0', -1, '0', ''),
+        array('NumSigFigs', '0', '0', -1, '1/0', ''),
+        array('NumSigFigs', '0', '1', -1, '(', ''),
+        array('NumSigFigs', '(', '1', -1, '1', ''),
+        array('NumSigFigs', '1', '3', -1, 'pi', ''),
+        array('NumSigFigs', '1', '3', -1, '[3,x]', ''),
+        array('NumSigFigs', '1', '3', -1, '[1,2,3]', ''),
+        array('NumSigFigs', '1', '3', -1, '', ''),
         array('NumSigFigs', '1.234', '4', 0, '1', 'Option is a number'),
         array('NumSigFigs', '3.141', '3.1415927', 0, '3', ''),
         array('NumSigFigs', '3.141', '3.1415927', 0, '4', ''),
@@ -564,15 +575,15 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3.150', '3.1415927', 0, '[4,3]', ''),
         array('NumSigFigs', '3.1416', '3.1415927', 0, '[4,3]', ''),
 
-        array('NumDecPlaces', '3.141', '3.1415927', 0, '', 'Basic tests'),
-        array('NumDecPlaces', '1/0', '3', 0, '2', ''),
-        array('NumDecPlaces', '0', '1/0', 0, '2', ''),
-        array('NumDecPlaces', '0', '0', 0, '1/0', ''),
-        array('NumDecPlaces', '0', '1', 0, 'x', ''),
-        array('NumDecPlaces', '0', '1', 0, '-1', ''),
-        array('NumDecPlaces', '0', '1', 0, '0', ''),
-        array('NumDecPlaces', '0', '1', 0, '(', ''),
-        array('NumDecPlaces', '(', '1', 0, '1', ''),
+        array('NumDecPlaces', '3.141', '3.1415927', -1, '', 'Basic tests'),
+        array('NumDecPlaces', '1/0', '3', -1, '2', ''),
+        array('NumDecPlaces', '0', '1/0', -1, '2', ''),
+        array('NumDecPlaces', '0', '0', -1, '1/0', ''),
+        array('NumDecPlaces', '0', '1', -1, 'x', ''),
+        array('NumDecPlaces', '0', '1', -1, '-1', ''),
+        array('NumDecPlaces', '0', '1', -1, '0', ''),
+        array('NumDecPlaces', '0', '1', -1, '(', ''),
+        array('NumDecPlaces', '(', '1', -1, '1', ''),
         array('NumDecPlaces', 'x', '3.143', 0, '2', "Student's answer not a floating point number"),
         array('NumDecPlaces', '3', '3.000', 0, '3', ''),
         array('NumDecPlaces', '3.14', '3.143', 1, '2', 'Right number of places'),
@@ -595,11 +606,11 @@ class stack_answertest_test_data {
         array('StringSloppy', 'hel lo', 'Hello', 1, '', ''),
         array('StringSloppy', 'hello', 'heloo', 0, '', ''),
 
-        array('RegExp', '3.1415927', '3.1415927', 0, '', ''),
+        array('RegExp', '3.1415927', '3.1415927', -1, '', ''),
         array('RegExp', '3.1415927', '3.1415927', 1, '{[0-9]*\.[0-9]*}', ''),
         array('RegExp', 'cxcxcz', '3.1415927', 0, '{[0-9]*\.[0-9]*}', ''),
 
-        array('LowestTerms', '1/0', '0', 0, '', ''),
+        array('LowestTerms', '1/0', '0', -1, '', ''),
         array('LowestTerms', '0.5', '0', 1, '', 'Mix of floats and rational numbers'),
         array('LowestTerms', '0.33', '0', 1, '', ''),
         array('LowestTerms', '2/4', '0', 0, '', ''),
@@ -670,16 +681,20 @@ class stack_answertest_test_data {
         $feedback = $anst->get_at_feedback();
         $ansnote  = $anst->get_at_answernote();
 
-        if ($rawmark===$test->expectedscore) {
+        $passed = false;
+        if ($rawmark === $test->expectedscore) {
             $passed = true;
-        } else {
-            $passed = false;
         }
 
-        if ($test->expectedscore != $rawmark) {
-            $passed = false;
+        // The test failed, and we expected it to fail.
+        if ($errors === 'TEST_FAILED') {
+            if (-1 === $test->expectedscore) {
+                $passed = true;
+            } else {
+                $passed = false;
+            }
         }
 
-        return array($passed, $errors, $rawmark, $feedback, $ansnote);
+            return array($passed, $errors, $rawmark, $feedback, $ansnote);
     }
 }

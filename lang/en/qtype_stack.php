@@ -553,6 +553,7 @@ $string['ATAlgEquiv_SA_not_set']        = 'Your answer should be a set, but is n
 $string['ATAlgEquiv_SA_not_equation']   = 'Your answer should be an equation, but is not. ';
 $string['ATAlgEquiv_TA_not_equation']   = 'You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1". ';
 $string['ATAlgEquiv_SA_not_inequality'] = 'Your answer should be an inequality, but is not. ';
+$string['ATAlgEquiv_SA_not_function']   = 'Your answer should be a function, defined using the operator <tt>:=</tt>, but is not. ';
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 
 

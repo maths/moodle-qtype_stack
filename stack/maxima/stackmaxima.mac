@@ -620,7 +620,7 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
 /* ATAlgEquivfun is a recursive "thing" comparing function.   It is designed to
    cope with a variety of different objects, eg lists of inequalities etc.
 
-   Returns [valid,RawMark,AnswerNote,FeedBack]
+   Returns [valid, RawMark, AnswerNote, FeedBack]
    where valid = true/false
    RawMark     = true or false
    AnswerNote  = "string",
@@ -641,6 +641,12 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_list"))
       else
         return(ATList(SA, SB)),
+    /* Are we dealing with a function? */
+    if functionp(SB) then
+      if functionp(SA)#true then
+        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_function"))
+      else
+        return(ATFunction(SA, SB)),
     /* Are we dealing with an equation? */
     if equationp(SB) then
       if equationp(SA)#true then
@@ -649,7 +655,7 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(ATEquation(SA, SB)),
     /* Did the student type in an equation, but the teacher did not? */
     if equationp(SA) then return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation")),
-    /* Are we dealing with an equation? */
+    /* Are we dealing with an inequality? */
     if inequalityp(SB) then
       if inequalityp(SA)#true then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_inequality"))
@@ -793,6 +799,38 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     return([true, RawMark, AnswerNote, FeedBack])
 )$
 
+
+/* This (experimental) code decides if two functions are the same.  Strict notion currently */
+ATFunction(SA, SB) := block([RawMark, FeedBack, AnswerNote, df, SA1, SB1, SAd1, SBd1],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    if not(functionp(SA)) then return([false, 0, "ATFunction_SA_not_function", FeedBack]),
+    if not(functionp(SB)) then return([false, 0, "ATFunction_TA_not_function", FeedBack]),
+    SA1:args(SA),  SAd1:second(SA1),
+    SB1:args(SB),  SBd1:second(SB1),
+    /* Are the functions the same name? */
+    if not(is(op(first(SA1)) = op(first(SB1)))) then block(
+        AnswerNote:StackAddNote("", "ATFunction_wrongname"),
+        RawMark:false
+    ),
+    /* Are the arguments the same? */
+    if is(length(args(first(SA1))) = length(args(first(SB1)))) then block(
+        if not(is(args(first(SA1)) = args(first(SB1)))) then block(
+            AnswerNote:StackAddNote(AnswerNote, "ATFunction_arguments_different"),
+            SAd1:subst(zip_with("=", args(first(SA1)), args(first(SB1))), SAd1)
+        )
+    ) else block(
+        AnswerNote:StackAddNote(AnswerNote, "ATFunction_length_args"),
+        RawMark:false
+    ),
+    df:ATAlgEquivfun(SAd1, SBd1),
+    if second(df) then block(
+        AnswerNote:StackAddNote(AnswerNote, "ATFunction_true")
+    ) else block (
+        AnswerNote:StackAddNote(AnswerNote, "ATFunction_false"),
+        RawMark:false
+    ),
+    return([true, RawMark, AnswerNote, FeedBack])
+)$
 
 /* An answer test based on two matrices for SA and SB */
 ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SBr, SBc, k, AddFeedBack],
@@ -1910,5 +1948,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013091000$
-print("[ STACK-Maxima started, library version 2013091000 ]")$
+stackmaximaversion:2013091200$
+print("[ STACK-Maxima started, library version 2013091200 ]")$

@@ -28,8 +28,8 @@ Basic reports now work.
 
 * *done* Refactor the Maxima plot command to include "discrete" and "parametric plots"
 * *done* Refactor the Maxima plot command to include options, e.g., xlabel, ylabel, legend, color, style, point_type.
-* Enable a function as an answer type, e.g. improve validation.
-* Refactor answer test unit testing to distinguish "test fail" from "zero".
+* *done* Enable a function as an answer type, e.g. improve validation.
+* *done* Refactor answer test unit testing to distinguish "test fail" from "zero".
 
 ## Assorted minor improvements
 

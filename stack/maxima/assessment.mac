@@ -85,14 +85,14 @@ all_listp(p,l):= if listp(l) then ret:apply("and",maplist(p,l)) else ret:"fail"$
 /* any_listp(p,l) true if all elements of l satisfy p */
 any_listp(p,l):= if listp(l) then ret:apply("or",maplist(p,l)) else ret:"fail"$
 
-/* This function applies the binary function f to two lists a and b returning a list
-[ f(a[1],b[1]), f(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  */
-zip_with(f,a,b) := block(
+/* This function applies the binary function zf to two lists a and b returning a list
+[ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  */
+zip_with(zf, a, b) := block(
   if not(listp(a)) then return(false),
   if not(listp(b)) then return(false),
   if emptyp(a) then return([]),
   if emptyp(b) then return([]),
-  cons(f(first(a),first(b)),zip_with(f,rest(a),rest(b)))
+  cons(zf(first(a), first(b)),  zip_with(zf, rest(a), rest(b)))
 )$
 
 /* This function makes a substitution of all variables for their lower case equivalents.
@@ -118,6 +118,13 @@ equationp(ex) := block(
    return(false)
 )$
 
+/* Determines if we are using a function */
+functionp(ex) := block(
+   if atom(ex) then return(false),
+   if ":="= op(ex) then return(true),
+   return(false)
+)$
+
 /* Determines if we are using an inequality */
 inequalityp(ex) := block(
    if atom(ex) then return(false),
@@ -127,7 +134,7 @@ inequalityp(ex) := block(
 )$
 
 expressionp(ex) := block(
- if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or setp(ex) then
+ if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or setp(ex) or functionp(ex) then
     return (false),
  return(true)
 );

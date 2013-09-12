@@ -135,6 +135,17 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x^2+y^2=1', 'y=sqrt(x^2-1)', 0, '', ''),
         array('AlgEquiv', 's^2*%e^(s*t)=0', 's^2=0', 0, '', ''),
 
+        array('AlgEquiv', 'f(x):=1/0', 'f(x):=x^2', -1, '', 'Functions'),
+        array('AlgEquiv', '1', 'f(x):=x^2', 0, '', ''),
+        array('AlgEquiv', 'f(x)=x^2', 'f(x):=x^2', 0, '', ''),
+        array('AlgEquiv', 'f(x):=x^2', 'f(x,y):=x^2+y^2', 0, '', ''),
+        array('AlgEquiv', 'f(x):=x^2', 'f(x)=x^2', 0, '', ''),
+        array('AlgEquiv', 'f(x):=x^2', 'f(x):=x^2', 1, '', ''),
+        array('AlgEquiv', 'f(x):=x^2', 'f(x):=sin(x)', 0, '', ''),
+        array('AlgEquiv', 'g(x):=x^2', 'f(x):=x^2', 0, '', ''),
+        array('AlgEquiv', 'f(y):=y^2', 'f(x):=x^2', 1, '', ''),
+        array('AlgEquiv', 'f(a,b):=a^2+b^2', 'f(x,y):=x^2+y^2', 1, '', ''),
+
         array('AlgEquiv', '1', 'x>1', 0, '', 'Inequalities'),
         array('AlgEquiv', 'x=1', 'x>1 and x<5', 0, '', ''),
         array('AlgEquiv', 'x<1', 'x>1', 0, '', ''),

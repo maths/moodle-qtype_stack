@@ -43,7 +43,12 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
 
         // Remove this if statement once we no longer need to support Moodle 2.5.x.
         if (class_exists('core_component')) {
-            $filters = core_component::get_plugin_list_with_file('filter', 'filter.php');
+            $cc = new core_component;
+            if (method_exists($cc, 'get_plugin_list_with_file')) {
+                $filters = core_component::get_plugin_list_with_file('filter', 'filter.php');
+            } else {
+                $filters = get_plugin_list_with_file('filter', 'filter.php');
+            }
         } else {
             $filters = get_plugin_list_with_file('filter', 'filter.php');
         }

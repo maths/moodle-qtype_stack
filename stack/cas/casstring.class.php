@@ -68,7 +68,7 @@ class stack_cas_casstring {
     /** @var array blacklist of globally forbidden CAS keywords. */
     private static $globalforbid    = array('%th', 'adapth_depth', 'alias', 'aliases',
             'alphabetic', 'appendfile', 'apropos', 'assume_external_byte_order', 'backtrace',
-            'batch', 'batchload', 'box', 'boxchar', 'break', 'bug_report', 'build_info',
+            'batch', 'batchload', 'boxchar', 'break', 'bug_report', 'build_info',
             'catch', 'close', 'closefile', 'compfile', 'compile', 'compile_file',
             'current_let_rule_package', 'data_file_name', 'deactivate', 'debugmode',
             'define', 'define_variable', 'demo', 'dependencies', 'describe', 'dimacs_export',
@@ -293,7 +293,7 @@ class stack_cas_casstring {
             'addmatrices', 'adjoin', 'and', 'ascii', 'asec', 'asech', 'asin', 'asinh', 'atan',
             'atan2', 'atanh', 'augcoefmatrix', 'axes', 'belln', 'bessel_i', 'bessel_j', 'bessel_k',
             'bessel_y', 'besselexpand', 'beta', 'bezout', 'bffac', 'bfhzeta', 'bfloat',
-            'bfloatp', 'binomial', 'black', 'blockmatrixp', 'blue', 'burn', 'cabs', 'cardinality', 'carg',
+            'bfloatp', 'binomial', 'black', 'blockmatrixp', 'blue', 'box', 'burn', 'cabs', 'cardinality', 'carg',
             'cartan', 'cartesian_product', 'ceiling', 'cequal', 'cequalignore', 'cf',
             'cfdisrep', 'cfexpand', 'cflength', 'cgreaterp', 'cgreaterpignore', 'charat',
             'charfun', 'charfun2', 'charlist', 'charp', 'charpoly', 'cint', 'clessp',

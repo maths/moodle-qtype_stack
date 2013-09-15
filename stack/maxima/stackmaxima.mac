@@ -80,6 +80,9 @@ alias(lg, log10);
 texput(lg, "\\mathrm{lg}", prefix);
 load ("functs");
 
+/* We don't want to allow people to put boxes round things. */
+box(ex):=ex;
+
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
@@ -498,7 +501,7 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
     /* remove from option list ral any non-permitted options */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, legend, color, style, point_type, nticks, logx, logy, axes, plot_realpart],
+    permitted_options: [y, xlabel, ylabel, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart],
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options), 
     ralforbid:sublist(ral, lambda([ex], not(member(first(ex), permitted_options)))),
     if not(emptyp(ralforbid)) then 
@@ -516,13 +519,21 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     preamble:"",
     if not(member(xlabel, maplist(first, ral))) then ral:append(ral, [[xlabel, ""]]),
     if not(member(ylabel, maplist(first, ral))) then ral:append(ral, [[ylabel, ""]]),
-    if not(member(legend, maplist(first, ral))) then ral:append(ral, [[legend, false]]),
-    /* Note, the axes option in Maxima doesn't seem to work.... */
-    preamble, "set zeroaxis
+    if member(legend, maplist(first, ral)) then block([lv],
+            /* If we have [legend, true] then we should use the default legend */
+            lv:sublist(ral, lambda([ex], (first(ex)=legend))),
+            if second(first(lv))=true then ral:delete([legend, true], ral)
+        ) else block(
+            ral:append(ral, [[legend, false]])
+        ),
+    if not(member(axes, maplist(first, ral))) then block([lv],
+            preamble:"set zeroaxis
 set grid
-",
-    preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, " 
-set output ", afn),
+"
+        ),
+    /* Note, the axes option in Maxima doesn't seem to work.... */
+    preamble:concat(preamble, "set terminal ",PLOT_TERMINAL,"  ",PLOT_TERM_OPT,"
+set output ",afn), 
     set_plot_option([gnuplot_out_file, tfn]),
     set_plot_option([gnuplot_preamble, preamble]),
     /* Create and execute the actual plot commands */
@@ -1949,4 +1960,4 @@ load(linearalgebra);
 
 /* Stack expects some output */
 stackmaximaversion:2013091200$
-print("[ STACK-Maxima started, library version 2013091200 ]")$
+print("[ STACK-Maxima started, library version 2013091500 ]")$

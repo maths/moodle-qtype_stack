@@ -28,9 +28,14 @@ This can be done with Maxima's `makelist` command
 
 The following `plot` options are currently supported by STACK.   If you would like to expand the range of options available please contact the developers.
 
-    [xlabel, ylabel, legend, color, style, point_type, nticks, logx, logy, axes, plot_realpart]
+    [xlabel, ylabel, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart]
 
 Please see Maxima's documentation for more information on these options.  Note that the `draw` package is currently not supported.
+
+Notes on some of the options.
+
+* The grid has been changed by adding the gnuplot commands `set zeroaxis, set grid`.  This adds more grid lines than Maxima's default (which CJS thinks looks better...).
+* The default in Maxima is to include a legend consisting of a `string` representation of the plot.  In STACK this is turned off by default.  To switch it back on, use the command `[legend, true]`.  Any other value of the option `legend` will respect the original command. 
 
 ## Alternate text for an image (alt tag) {#alttext}
 
@@ -71,10 +76,18 @@ The following castext gives representative examples of the plot2d features suppo
     <h3>Parametric plots</h3>
     @plot([parametric, cos(t), sin(3*t), [t,0,2*%pi]], [nticks, 500])@
     <h3>Setting non-trivial options: labels on the axes and legend</h3>
+    @plot([x^2/(1+x^2),diff(x^2/(1+x^2),x)],[x,-1,2],[legend,true])@
     @plot(x*sin(1/x),[x,-1,2],[xlabel,"Independent variable"],[ylabel,"Dependent variable"],[legend,"This is a plot"])@
     <h3>Log scale for y-axis, with red colour</h3>
     @plot(exp(3*s),[s, -2, 2],[logy], [color,red])@
-    
+    <h3>Turn off the box, grid and the axes</h3>
+    Default options
+    @plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000])@
+    <tt>[axes, false]</tt>
+    @plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000], [axes,false])@
+    <tt>[box, false]</tt>
+    @plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000], [box,false])@
+
         
 ## implicit_plot()  {#implicit}
 

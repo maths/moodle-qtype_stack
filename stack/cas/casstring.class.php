@@ -75,24 +75,25 @@ class stack_cas_casstring {
             'dimacs_import', 'entermatrix', 'errcatch', 'error', 'error_size', 'error_syms', 'errormsg',
             'eval_string', 'example', 'feature', 'featurep', 'features', 'file_name',
             'file_output_append', 'file_search', 'file_search_demo', 'file_search_lisp',
-            'file_search_maxima', 'file_type', 'filename_merge', 'flength', 'fortindent',
-            'fortran', 'fortspaces', 'fposition', 'freshline', 'functions', 'fundef',
-            'funmake', 'gnuplot_file_name', 'gnuplot_out_file', 'gnuplot_preamble',
-            'gnuplot_ps_term_command', 'gnuplot_term', 'inchar', 'infeval', 'infolists',
-            'kill', 'killcontext', 'labels', 'ldisp', 'ldisplay', 'linechar', 'linel',
-            'linenum', 'linsolvewarn', 'lmxchar', 'load', 'loadfile', 'loadprint',
-            'macroexpand', 'macroexpand1', 'macroexpansion', 'macros', 'manual_demo',
+            'file_search_maxima', 'file_search_tests', 'file_search_usage', 'file_type',
+            'filename_merge', 'flength', 'fortindent', 'fortran', 'fortspaces', 'fposition', 'freshline',
+            'functions', 'fundef', 'funmake', 'grind', 'gnuplot_file_name', 'gnuplot_out_file',
+            'gnuplot_preamble', 'gnuplot_ps_term_command', 'gnuplot_term', 'inchar', 'infeval',
+            'infolists', 'kill', 'killcontext', 'labels', 'leftjust', 'ldisp', 'ldisplay', 'linechar',
+            'linel', 'linenum', 'linsolvewarn', 'lmxchar', 'load', 'load_pathname', 'loadfile',
+            'loadprint', 'macroexpand', 'macroexpand1', 'macroexpansion', 'macros', 'manual_demo',
             'maxima_tempdir', 'maxima_userdir', 'multiplot_mode', 'myoptions', 'newline',
             'nolabels', 'opena', 'opena_binary', 'openr', 'openr_binary', 'openw',
-            'openw_binary', 'outchar', 'packagefile', 'parse_string', 'pickapart', 'piece',
-            'playback', 'plotdf', 'print_graph', 'printf', 'printfile', 'prompt', 'psfile',
+            'openw_binary', 'outchar', 'packagefile', 'parse_string', 'pathname_directory', 'pathname_name',
+            'pathname_type', 'pickapart', 'piece',
+            'playback', 'plotdf', 'print', 'print_graph', 'printf', 'printfile', 'prompt', 'psfile',
             'quit', 'read', 'read_array', 'read_binary_array', 'read_binary_list',
             'read_binary_matrix', 'read_hashed_array', 'read_list', 'read_matrix',
-            'read_nested_list', 'read_xpm', 'readline', 'readonly', 'refcheck', 'rembox',
+            'read_nested_list', 'read_xpm', 'readline', 'readonly', 'refcheck', 'rembox', 'remvalue',
             'remfunction', 'reset', 'rmxchar', 'room', 'run_testsuite', 'run_viewer', 'save',
-            'savedef', 'set_plot_option', 'setcheck', 'setcheckbreak', 'setval', 'showtime',
+            'savedef', 'set_plot_option', 'setup_autoload', 'setcheck', 'setcheckbreak', 'setval', 'showtime',
             'sparse6_export', 'sparse6_import', 'splice', 'sprint', 'status', 'stringout',
-            'supcontext', 'system', 'tcl_output', 'terminal', 'testsuite_files', 'throw',
+            'supcontext', 'system', 'tcl_output', 'terminal', 'tex', 'testsuite_files', 'throw',
             'time', 'timer', 'timer_devalue', 'timer_info', 'to_lisp', 'trace', 'trace_options',
             'transcompile', 'translate', 'translate_file', 'transrun', 'ttyoff', 'untimer',
             'untrace', 'user_preamble', 'values', 'with_stdout', 'write_binary_data',
@@ -100,7 +101,7 @@ class stack_cas_casstring {
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
     // Note we allow RANDOM_PERMUTATION.
-    private static $teachernotallow = array('%unitexpand', 'abasep', 'absboxchar', 'activate',
+    private static $teachernotallow = array('%unitexpand', 'abasep', 'absboxchar', 'absolute_real_time', 'activate',
             'activecontexts', 'additive', 'adim', 'af', 'aform', 'agd', 'alg_type',
             'all_dotsimp_denoms', 'allsym', 'antid', 'antidiff', 'antidifference', 'antisymmetric',
             'arithmetic', 'arithsum', 'array', 'arrayapply', 'arrayinfo', 'arraymake', 'arrays',
@@ -153,7 +154,7 @@ class stack_cas_casstring {
             'ic_convert', 'icc1', 'icc2', 'ichr1', 'ichr2', 'icounter', 'icurvature', 'idiff',
             'idim', 'idummy', 'idummyx', 'ieqn', 'ieqnprint', 'ifb', 'ifc1', 'ifc2', 'ifg', 'ifgi',
             'ifr', 'iframe_bracket_form', 'iframes', 'ifri', 'ifs', 'igeodesic_coords',
-            'igeowedge_flag', 'ikt1', 'ikt2', 'image', 'imetric', 'implicit', 'implicit_derivative',
+            'igeowedge_flag', 'ikt1', 'ikt2', 'image', 'imetric', 'implicit', 'implicit_plot', 'implicit_derivative',
             'indexed_tensor', 'indices', 'inference_result', 'inferencep', 'infix', 'init_atensor',
             'init_ctensor', 'inm', 'inmc1', 'inmc2', 'inprod', 'intervalp', 'intopois', 'invariant1',
             'invariant2', 'invert_by_lu', 'ip_grid', 'ip_grid_in', 'ishow', 'isolate',
@@ -205,7 +206,7 @@ class stack_cas_casstring {
             'pdf_poisson', 'pdf_rank_sum', 'pdf_rayleigh', 'pdf_signed_rank', 'pdf_student_t',
             'pdf_weibull', 'pdf_width', 'pearson_skewness', 'permut', 'permutation', 'petrov',
             'pic_height', 'pic_width', 'picture_equalp', 'picturep', 'piechart', 'plot2d',
-            'plot3d', 'plot_format', 'plot_options', 'plot_real_part', 'plsquares', 'pochhammer',
+            'plot3d', 'ploteq', 'plot_format', 'plot_options', 'plot_real_part', 'plsquares', 'pochhammer',
             'pochhammer_max_index', 'points_joined',
             'polar', 'polar_to_xy', 'polygon', 'prederror', 'primep_number_of_tests', 'printprops',
             'prodrac', 'product', 'product_use_gamma', 'programmode', 'proportional_axes', 'props',
@@ -261,7 +262,7 @@ class stack_cas_casstring {
             'take_inference', 'tcontract', 'tensorkill', 'tentex', 'test_mean',
             'test_means_difference', 'test_normality', 'test_proportion',
             'test_proportions_difference', 'test_rank_sum', 'test_sign', 'test_signed_rank',
-            'test_variance', 'test_variance_ratio', 'texput', 'title', 'totaldisrep', 'totient',
+            'test_variance', 'test_variance_ratio', 'texput', 'timedate', 'title', 'totaldisrep', 'totient',
             'tpartpol', 'tr', 'tr_array_as_ref', 'tr_bound_function_applyp', 'tr_file_tty_messagesp',
             'tr_float_can_branch_complex', 'tr_function_call_default', 'tr_numer',
             'tr_optimize_max_loop', 'tr_semicompile', 'tr_state_vars', 'tr_warn_bad_function_calls',
@@ -340,13 +341,13 @@ class stack_cas_casstring {
             'matrix_element_transpose', 'matrix_size', 'matrixmap', 'matrixp', 'mattrace',
             'max', 'member', 'min', 'minf', 'minfactorial', 'mod', 'moebius',
             'multinomial_coeff', 'multthru', 'ncexpt', 'ncharpoly', 'newdet', 'ninth',
-            'noeval', 'nonnegintegerp', 'not', 'notequal', 'nroots', 'nterms', 'nthroot', 'nticks', 
+            'noeval', 'nonnegintegerp', 'not', 'notequal', 'nroots', 'nterms', 'nthroot', 'nticks',
             'nullity', 'nullspace', 'num', 'num_distinct_partitions', 'num_partitions',
             'numberp', 'numer', 'numerval', 'numfactor', 'nusum', 'nzeta', 'nzetai', 'nzetar',
             'oddp', 'op', 'operatorp', 'or', 'ordergreat', 'ordergreatp', 'orderless',
             'orderlessp', 'orthogonal_complement', 'outermap', 'pade', 'parabolic_cylinder_d',
             'part', 'part2cont', 'partfrac', 'partition', 'partition_set', 'permanent',
-            'permutations', 'plog', 'plot_realpart', 'point_type', 'point_size', 'points', 
+            'permutations', 'plog', 'plot_realpart', 'point_type', 'point_size', 'points',
             'poisdiff', 'poisexpt', 'poisint', 'poislim', 'poismap',
             'poisplus', 'poissimp', 'poisson', 'poissubst', 'poistimes', 'poistrim',
             'polarform', 'polartorect', 'polymod', 'polynome2ele', 'polynomialp',
@@ -640,7 +641,9 @@ class stack_cas_casstring {
             }
         }
 
-        // CAS strings may not contain @ or $.
+        // CAS strings may not contain
+        // * reversed inequalities, i.e =< is not permitted in place of <=.
+        // * chained inequalities 1<x<=3.
         if (strpos($cmd, '=<') !== false || strpos($cmd, '=>') !== false) {
             if (strpos($cmd, '=<') !== false) {
                 $a['cmd'] = stack_maxima_format_casstring('=<');
@@ -1126,9 +1129,10 @@ class stack_cas_casstring {
      *  This function decodes the error generated by Maxima into meaningful notes. 
      *  */
     public function decode_maxima_errors($error) {
-        $search_strings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix', 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
+        $search_strings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
+                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
         $found_one = false;
-        foreach($search_strings as $s) {
+        foreach ($search_strings as $s) {
             if (!(false===strpos($error, $s))) {
                 $this->set_answernote($s);
                 $found_one = true;

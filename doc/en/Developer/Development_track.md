@@ -38,6 +38,6 @@ Basic reports now work.
  2. Remove many versions at once.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
-* Review the list of forbidden keywords.
+* *done* Review the list of forbidden keywords.
 
 ## Other changes since STACK 3.1

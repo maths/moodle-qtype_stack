@@ -137,7 +137,7 @@ function stack_docs_render_markdown($page, $docscontent) {
     $page = preg_replace('~(?<!\\\\)%CONTENT~', $docscontent, $page);
     $page = str_replace('\%CONTENT', '%CONTENT', $page);
     $page = stack_maths::pre_process_docs_page($page);
-    $page = Markdown($page);
+    $page = markdown($page);
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }

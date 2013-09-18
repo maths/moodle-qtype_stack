@@ -96,7 +96,6 @@ class stack_anstest_numabsolute extends stack_anstest {
 
         $flsa = $session->get_value_key('caschat3');
         $flta = $session->get_value_key('caschat4');
-        //$this->atansnote = " |sa-ta|={$flsa}>={$flta}=tol.";
 
         $this->atvalid = true;
         if ($flsa <= $flta) {

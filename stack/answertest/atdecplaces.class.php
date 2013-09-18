@@ -27,8 +27,8 @@ class stack_anstest_atdecplaces extends stack_anstest {
         $this->atmark = 1;
         $anotes = array();
 
-        //Used for tracking to see exactly what answer is supplied.
-        //$this->atfeedback   = '<pre>'.$this->sanskey.'</pre>';
+        // Used for tracking to see exactly what answer is supplied.
+        // $this->atfeedback   = '<pre>'.$this->sanskey.'</pre>';
 
         // Note that in casting to an integer we are lucky here.
         // Non-integer strings get cast to zero, which is invalid anyway....

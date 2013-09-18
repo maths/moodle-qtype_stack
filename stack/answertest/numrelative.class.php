@@ -96,8 +96,6 @@ class stack_anstest_numrelative extends stack_anstest {
 
         $flsa = $session->get_value_key('caschat3');
         $flta = $session->get_value_key('caschat4');
-        // The code below should be in the analysis.  Student's answser information shouldn't be in the note.
-        //$this->atansnote = "ATNumRelative: |sa-ta|={$flsa}>={$flta}=tol*ta.";
 
         $this->atvalid = true;
         if ($flsa <= $flta) {

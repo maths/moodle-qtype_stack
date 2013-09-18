@@ -70,7 +70,7 @@ function report($d) {
                             }
 
                             // Let's do some link checking, step one: scrape the links off the document's web page.
-                            $links = strip_tags(Markdown(file_get_contents($fpath)), "<a>");
+                            $links = strip_tags(markdown(file_get_contents($fpath)), "<a>");
                             preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);
                             // Found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.

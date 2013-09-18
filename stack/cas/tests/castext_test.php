@@ -280,7 +280,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $session = $at1->get_session();
         $this->assertEquals(array('caschat0'), $session->get_all_keys());
-        $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: STACK does not currently support the following plot2d options:")));
+        $this->assertTrue(is_int(strpos($at1->get_errors(),
+                "Plot error: STACK does not currently support the following plot2d options:")));
     }
 
     public function test_currency_1() {

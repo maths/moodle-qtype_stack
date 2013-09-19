@@ -450,6 +450,53 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     }
 
+    public function test_test1_valid_student_uses_allowed_words() {
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test1');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Find/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Process a validate request, with a function name from the allowwords list.
+        $this->process_submission(array('ans1' => 'popup(x^2+c)', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'popup(x^2+c)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => 'popup(x^2+c)', 'ans1_val' => 'popup(x^2+c)', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('PotResTree_1', 0, 0.25);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'popup(x^2+c)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+    }
+
     public function test_test3_repeat_wrong_response_only_penalised_once() {
         // The scenario is this: (we use only the ans3 part of test3, leaving the others blank.)
         //

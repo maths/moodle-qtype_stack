@@ -200,6 +200,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -308,6 +309,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -404,6 +406,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->ans1insertstars        = 0;
         $expectedq->ans1syntaxhint         = '';
         $expectedq->ans1forbidwords        = '';
+        $expectedq->ans1allowwords         = '';
         $expectedq->ans1forbidfloat        = 1;
         $expectedq->ans1requirelowestterms = 0;
         $expectedq->ans1checkanswertype    = 0;

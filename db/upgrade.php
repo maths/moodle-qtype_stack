@@ -624,5 +624,21 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
     set_config('stackmaximaversion', $matches[1], 'qtype_stack');
 
+    if ($oldversion < 2013091900) {
+
+        // Define table qtype_stack_inputs to be created.
+        $table = new xmldb_table('qtype_stack_inputs');
+
+        $field = new xmldb_field('allowwords', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'forbidwords');
+
+        // Conditionally launch add field forbidwords.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2013091900, 'qtype', 'stack');
+    }
+
     return true;
 }

@@ -443,7 +443,7 @@ class stack_cas_casstring {
     /*********************************************************/
 
     // We may need to use this function more than once to validate with different options.
-    public function validate($security='s', $syntax=true, $insertstars=false) {
+    public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
 
         if (!('s'===$security || 't'===$security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
@@ -661,7 +661,7 @@ class stack_cas_casstring {
 
         $this->check_stars($security, $syntax, $insertstars);
 
-        $this->check_security($security);
+        $this->check_security($security, $allowwords);
 
         $this->key_val_split();
         return $this->valid;
@@ -750,7 +750,21 @@ class stack_cas_casstring {
      *
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
-    private function check_security($security) {
+    private function check_security($security, $allowwords) {
+
+        // Sort out any allowwords
+        $allow = array();
+        if (trim($allowwords) != '') {
+            $allowwords = explode(',', $allowwords);
+            foreach($allowwords as $kw) {
+                $kw = trim(strtolower($kw));
+                if (!in_array($kw, self::$globalforbid)) { 
+                    $allow[] = $kw;
+                } else {
+                    throw new stack_exception('stack_cas_casstring: check_security: attempt made to allow gloabally forbidden keyword: '.$kw);
+                }
+            }
+        }
 
         // Note, we do not strip out strings here.  This would be a potential secuity risk.
         // Teachers are trusted with any name already, and we would never permit a:"system('rm *')" as a string!
@@ -759,7 +773,6 @@ class stack_cas_casstring {
         $strin_keywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
-
         // Filter out some of these matches.
         foreach ($out[0] as $key) {
             // Do we have only numbers, or only 2 characters?
@@ -790,7 +803,7 @@ class stack_cas_casstring {
                     }
                 } else {
                     // Only allow the student to use set commands.
-                    if (!in_array($key, self::$studentallow)) {
+                    if (!in_array($key, self::$studentallow) and !in_array($key, $allow)) {
                         $this->add_error(stack_string('stackCas_unknownFunction',
                             array('forbid'=>stack_maxima_format_casstring($key))));
                         $this->answernote[] = 'unknownFunction';
@@ -1073,9 +1086,9 @@ class stack_cas_casstring {
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null) {
+    public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null, $allowwords='') {
         if (null===$this->valid) {
-            $this->validate();
+            $this->validate('s', true, false, $allowwords);
         }
         if (false === $this->valid) {
             return false;

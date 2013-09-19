@@ -193,4 +193,19 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('-3*x^2-4', $state->contentsmodified);
         $this->assertEquals('\[ -3\cdot x^2-4 \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_allowwords_false() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
+        $state = $el->validate_student_response(array('sans1' => 'unknownfunction(x^2+1)+3*x'), $options, '2*x', array('ta'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+    }
+
+    public function test_validate_student_response_allowwords_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
+        $el->set_parameter('allowWords', 'pop, funney1, unknownfunction');
+        $state = $el->validate_student_response(array('sans1' => 'unknownfunction(x^2+1)+3*x'), $options, '2*x', array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+    }
 }

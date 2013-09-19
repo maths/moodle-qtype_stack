@@ -39,5 +39,6 @@ Basic reports now work.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
 * *done* Review the list of forbidden keywords.
+* *done* Add input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
 
 ## Other changes since STACK 3.1

@@ -45,6 +45,7 @@ abstract class stack_input {
         'insertStars',
         'syntaxHint',
         'forbidWords',
+        'allowWords',
         'forbidFloats',
         'lowestTerms',
         'sameType');
@@ -286,7 +287,7 @@ abstract class stack_input {
             }
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $teacheranswer);
+                    $teacheranswer, $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
             $session = new stack_cas_session(array($answer), $localoptions, 0);
@@ -359,9 +360,10 @@ abstract class stack_input {
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
+        $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
-            $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
+            $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {

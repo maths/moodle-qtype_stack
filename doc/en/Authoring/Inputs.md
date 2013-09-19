@@ -147,6 +147,10 @@ There are groups of common keywords which you can forbid simply as
 
 These lists are in the casstring class. If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.
 
+### Allowed words ### {#Allowed_Words}
+
+By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student's answer.
+
 ### Forbid Floats ### {#Forbid_Floats}
 
 If set to `yes`, then any answer of the student which has a floating point number

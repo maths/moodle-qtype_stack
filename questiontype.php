@@ -141,6 +141,7 @@ class qtype_stack extends question_type {
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
             $input->forbidwords        = $fromform->{$inputname . 'forbidwords'};
+            $input->allowwords         = $fromform->{$inputname . 'allowwords'};
             $input->forbidfloat        = $fromform->{$inputname . 'forbidfloat'};
             $input->requirelowestterms = $fromform->{$inputname . 'requirelowestterms'};
             $input->checkanswertype    = $fromform->{$inputname . 'checkanswertype'};
@@ -341,7 +342,7 @@ class qtype_stack extends question_type {
         $question->inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
-                'syntaxhint, forbidwords, forbidfloat, requirelowestterms, ' .
+                'syntaxhint, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
                 'checkanswertype, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
@@ -396,6 +397,7 @@ class qtype_stack extends question_type {
                 'insertStars'  => (bool) $inputdata->insertstars,
                 'syntaxHint'   =>        $inputdata->syntaxhint,
                 'forbidWords'  =>        $inputdata->forbidwords,
+                'allowWords'   =>        $inputdata->allowwords,
                 'forbidFloats' => (bool) $inputdata->forbidfloat,
                 'lowestTerms'  => (bool) $inputdata->requirelowestterms,
                 'sameType'     => (bool) $inputdata->checkanswertype,
@@ -967,6 +969,7 @@ class qtype_stack extends question_type {
             $output .= "      <insertstars>{$input->insertstars}</insertstars>\n";
             $output .= "      <syntaxhint>{$format->xml_escape($input->syntaxhint)}</syntaxhint>\n";
             $output .= "      <forbidwords>{$format->xml_escape($input->forbidwords)}</forbidwords>\n";
+            $output .= "      <allowwords>{$format->xml_escape($input->allowwords)}</allowwords>\n";
             $output .= "      <forbidfloat>{$input->forbidfloat}</forbidfloat>\n";
             $output .= "      <requirelowestterms>{$input->requirelowestterms}</requirelowestterms>\n";
             $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
@@ -1141,6 +1144,7 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', 'insertstars', 0, '#'), 0);
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
         $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
+        $fromform->{$name . 'allowwords'}         = $format->getpath($xml, array('#', 'allowwords', 0, '#'), '');
         $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
         $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
         $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);

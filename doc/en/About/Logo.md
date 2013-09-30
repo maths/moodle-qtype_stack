@@ -8,6 +8,8 @@ The answer is that there is no limit to how far it can lean!  A physical model i
 
 ![A model of the STACK logo](%CONTENT/logoJB.jpg)
 
+Model made by Dr John Bryant.
+
 ## The mathematics of this problem
 
 To see why the STACK of blocks doesn't fall over assume that the width of each domino is \(2\) "units".

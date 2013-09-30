@@ -16,3 +16,6 @@ Please look at the ideas we have for our [development track](../Developer/Develo
 
 Submit a pull request https://github.com/maths/moodle-qtype_stack, or one of the other plugins. If you are not yet familiar with git, please talk to us about your changes, and we will help. Actually, it is probably a good idea to talk to us about proposed changes before you make them in any case.
 
+## How do I share my experiences using STACK?
+
+Please do research and publish your experiences of using STACK with students.  A list of [publications](Publications.md) is available.

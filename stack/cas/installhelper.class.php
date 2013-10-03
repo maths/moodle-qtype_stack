@@ -104,6 +104,7 @@ class stack_cas_configuration {
         $plotcommands = array();
         $plotcommands[] = $maxima_location. '/gnuplot/wgnuplot.exe';
         $plotcommands[] = $maxima_location. '/bin/wgnuplot.exe';
+        $plotcommands[] = $maxima_location. '/gnuplot/bin/wgnuplot.exe';
 
         foreach ($plotcommands as $plotcommand) {
             if (file_exists($plotcommand)) {
@@ -131,6 +132,10 @@ class stack_cas_configuration {
         if ('5.28.0' == $this->settings->maximaversion) {
             $locations[] = 'C:/Program Files/Maxima-5.28.0-2/';
             $locations[] = 'C:/Program Files (x86)/Maxima-5.28.0-2/';
+        }
+        if ('5.31.1' == $this->settings->maximaversion) {
+            $locations[] = 'C:/Program Files/Maxima-5.31.1-1/';
+            $locations[] = 'C:/Program Files (x86)/Maxima-5.31.1-1/';
         }
         $locations[] = 'C:/Program Files/Maxima/';
         $locations[] = 'C:/Program Files (x86)/Maxima/';

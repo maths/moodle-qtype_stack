@@ -2,14 +2,14 @@
 
 STACK 3.0 is being used live at a number of institutions, including the University of Birmingham in the UK.  The core code is still under development and active testing.
 
-## 1. Set up moodle.
+## 1. Set up Moodle.
 
-* Please ensure you have [installed moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use moodle 2.3.2 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
+* Please ensure you have [installed Moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use Moodle 2.3.2 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](../Developer/Mathjax.md).
 
 ## 2. Install GNUPlot and Maxima
 
-Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.30.0 are supported.  Please contact the developers to request support for other versions.
+Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.31.1 are supported.  Please contact the developers to request support for other versions.
 
 Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained
 installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and
@@ -26,7 +26,7 @@ STACK requries these.
 
 ## 4. Add the STACK question type
 
-STACK is a question type for the moodle quiz.
+STACK is a question type for the Moodle quiz.
 
 1. Obtain the code. Either [download the zip file](https://github.com/maths/moodle-qtype_stack/zipball/master), unzip it, and place it in the directory `moodle\question\type\stack`. (You will need to rename the directory `moodle-qtype_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/maths/moodle-qtype_stack.git question/type/stack`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
@@ -35,7 +35,7 @@ STACK is a question type for the moodle quiz.
 
 You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK. You might want to try [optimising Maxima](../CAS/Optimising_Maxima.md) access times.
 
-You should now have a question type available to the moodle quiz.
+You should now have a question type available to the Moodle quiz.
 
 ## 5. Add the STACK quiz report {#Report}
 

@@ -526,6 +526,8 @@ class stack_answertest_test_data {
         array('GT', '1', '2.1', 0, '', ''),
         array('GT', 'pi', '3', 1, '', ''),
         array('GT', 'pi+2', '5', 1, '', ''),
+        array('GT', '-inf', '0', 0, '', 'Infinity'),
+        array('GT', 'inf', '0', 0, '', ''),
 
         array('GTE', '1/0', '1', -1, '', ''),
         array('GTE', '1', '1/0', -1, '', ''),
@@ -545,6 +547,7 @@ class stack_answertest_test_data {
         array('NumRelative', '1.05', '1', 1, '0.1', 'Options passed'),
         array('NumRelative', '1.05', '3', 0, '0.1', ''),
         array('NumRelative', '3.14', 'pi', 1, '0.001', ''),
+        array('NumRelative', 'inf', '0', 0, '', 'Infinity'),
 
 
         array('NumAbsolute', '1/0', '0', -1, '', 'Basic tests'),

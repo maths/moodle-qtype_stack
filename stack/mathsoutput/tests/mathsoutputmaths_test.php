@@ -53,18 +53,29 @@ class stack_maths_maths_test extends advanced_testcase {
         set_config('englishservice', FILTER_MATHS_TEST_SERVICE_URL_BASE . 'english',  'filter_maths');
         stack_utils::clear_config_cache();
 
+        // Test language string.
         $this->assertRegExp('~^Your answer needs to be a single fraction of the form <a .*alt="a over b".*</a>\. $~',
                 stack_string('ATSingleFrac_part'));
 
+        // Test docs - make sure maths inside <code> is not rendered.
         $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x squared".*</a>\.</p>\n$~',
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).', ''));
 
+        // Test docs - make sure maths inside <textarea> is not rendered.
+        $this->assertRegExp('~^<p><textarea readonly="readonly" rows="3" cols="50">\n' .
+                        'Differentiate \\\\\[x\^2 \+ y\^2\\\\\] with respect to \\\\\(x\\\\\).</textarea></p>\n$~',
+                stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
+                        'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>', ''));
+
+        // Test CAS text with inline maths.
         $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt;?',
                 stack_maths::process_display_castext('What is \(x^2\)?'));
 
+        // Test CAS text with display maths.
         $this->assertEquals('What is <span class="displayequation">&lt;tex mode="display"&gt;x^2&lt;/tex&gt;</span>?',
                 stack_maths::process_display_castext('What is \[x^2\]?'));
 
+        // Test with replacedollars.
         set_config('replacedollars', '1', 'qtype_stack');
         stack_utils::clear_config_cache();
         $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt; or ' .

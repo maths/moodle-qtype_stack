@@ -1,38 +1,44 @@
 # Question blocks
 
-_This is an outline for a feature currently under development for STACK 3.0._
+_This feature is currently under development for STACK 3.2._  We envisage expansion of these features in future developments.
 
 ## Introduction ##
 
-Question blocks are a feature that have been strongly requested to add flexibility to STACK
-questions by adding functional structures, i.e. conditional inclusion
-<http://stack.bham.ac.uk/live/mod/forum/discuss.php?d=153>.
+Question blocks add flexibility to STACK questions by adding functional structures.
 
-More maximum flexibility, blocks can be nested and conditionally evaluated.
+For maximum flexibility, blocks can be nested and conditionally evaluated.
 A body of CAStext is then repeatedly processed until all blocks have been interpreted into CAStext.
 This is should be applied to all CAStext parts of the question.
+
+Note:  The parameters to blocks may **NOT** depend on the student's answers.  This means that you cannot reveal a block based on student input.
 
 ## General Syntax ##
 
 To avoid issues with the rich text editors used in Moodle we use a simple syntax not too 
 different from the syntax used in input and output components:
 
-    [[ block_type param1='value1' param2="value2" ... paramN="valueN" ]]
-    some content
+    [[ block_type param1="value1" param2="value2" ... paramN="valueN" ]]
+    Some content.
     [[/ block_type ]]
 
 The syntax is quite similar to XML and includes [[ emptyblocks /]].
 
 ## Conditional blocks ##
 
-The common **if** statement would be written:
+The common **if** statement is be written:
 
-    [[ if test='some_CAS_expression_evaluating_to_true_or_false' ]]
-    The expression seems to be true
+    [[ if test="some_CAS_expression_evaluating_to_true_or_false" ]]
+    The expression seems to be true.
     [[/ if ]]
 
-There is no else or else-if functionality as they would make the syntax rather difficult to evaluate.
+For example,
 
+    [[ if test="oddp(rand(5))" ]]
+    This is an odd block!
+    [[/ if]]
+
+There is no else or else-if functionality as they would make the syntax rather difficult to evaluate.
+    
 ## Foreach loop ##
 
 Foreach blocks iterate over lists or sets and repeat their content redefining variables for each repetition.
@@ -62,7 +68,7 @@ conversion.
 
 ### Block development ###
 
-A block will be given access to the castext in form of a tree not unlike a DOM-tree. The block may parse parameters 
+A block will be given access to the castext in the form of a tree not unlike a DOM-tree. The block may parse parameters 
 from that tree and add them to the CASsession to be evaluated. The block may forbid the evaluation of its contents
 at this pass of the CAStext evaluation.
 

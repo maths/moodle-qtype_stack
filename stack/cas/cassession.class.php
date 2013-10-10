@@ -268,7 +268,7 @@ class stack_cas_session {
 
             $this->instantiated = null;
             $this->errors       = null;
-            $this->session[]    = clone $var; // Yes, we reall need new versions of the variables.
+            $this->session[]    = clone $var; // Yes, we really need new versions of the variables.
         }
     }
 

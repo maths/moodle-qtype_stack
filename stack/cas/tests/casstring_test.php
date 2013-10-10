@@ -81,6 +81,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
 
+    public function test_validation_error_global_forbid() {
+        $casstring = new stack_cas_casstring('system(rm)');
+        $this->assertFalse($casstring->validate('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+                $casstring->get_errors());
+        $this->assertEquals('forbiddenWord', $casstring->get_answernote());
+    }
+
     public function test_spurious_operators() {
         $casstring = new stack_cas_casstring('2/*x');
         $casstring->validate('s');

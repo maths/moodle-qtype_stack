@@ -72,6 +72,33 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     }
 
+    public function test_various_delimiters() {
+
+        $cs2 = new stack_cas_session(array(), null, 0);
+        $at1 = new stack_cas_text('Inline \({@1+1@}\)', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+        $session = $at1->get_session();
+        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        $this->assertEquals('Inline \({2}\)', $at1->get_display_castext());
+
+        $cs2 = new stack_cas_session(array(), null, 0);
+        $at1 = new stack_cas_text('Display \[{@1+1@}\]', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+        $session = $at1->get_session();
+        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        $this->assertEquals('Display \[{2}\]', $at1->get_display_castext());
+
+        $cs2 = new stack_cas_session(array(), null, 0);
+        $at1 = new stack_cas_text('Implicit inline {@1+1@}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+        $session = $at1->get_session();
+        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        $this->assertEquals('Implicit inline \({2}\)', $at1->get_display_castext());
+    }
+
     public function test_if_block() {
         $a1 = array('a:true', 'b:is(1>2)');
 
@@ -251,7 +278,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
 
         // Note, since we have spaces in the string we currently need to validate this as the teacher....
-        $at1 = new stack_cas_text('This is some text @plot(p, [x,-2,3], [alt,"Hello World!"])@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('This is some text {@plot(p, [x,-2,3], [alt,"Hello World!"])@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
@@ -272,7 +299,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
 
         // Alt tags must be a string.
-        $at1 = new stack_cas_text('This is some text @plot(p,[x,-2,3],[alt,x])@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('This is some text {@plot(p,[x,-2,3],[alt,x])@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
@@ -286,7 +313,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session(array(), null, 0);
 
         // Alt tags must be a string.
-        $at1 = new stack_cas_text('This is some text @plot(x^2,[x,-2,3],[notoption,""])@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('This is some text {@plot(x^2,[x,-2,3],[notoption,""])@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
@@ -296,6 +323,46 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 "Plot error: STACK does not currently support the following plot2d options:")));
     }
 
+    public function test_multiplication_options() {
+
+        $options = new stack_options();
+        // dot
+        $options->set_option('multiplicationsign', 'dot');
+        $cs2 = new stack_cas_session(array(), $options, 0);
+
+        $at1 = new stack_cas_text('Some text \({@a*sin(2*x)@}\)', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        $this->assertEquals('Some text \({a\cdot \sin \left( 2\cdot x \right)}\)', $at1->get_display_castext());
+
+        // cross
+        $options->set_option('multiplicationsign', 'cross');
+        $cs2 = new stack_cas_session(array(), $options, 0);
+
+        $at1 = new stack_cas_text('Some text \({@a*sin(2*x)@}\)', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        $this->assertEquals('Some text \({a\times \sin \left( 2\times x \right)}\)', $at1->get_display_castext());
+
+        // none
+        $options->set_option('multiplicationsign', 'none');
+        $cs2 = new stack_cas_session(array(), $options, 0);
+
+        $at1 = new stack_cas_text('Some text \({@a*sin(2*x)@}\)', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $session = $at1->get_session();
+        $this->assertEquals(array('caschat0'), $session->get_all_keys());
+        $this->assertEquals('Some text \({a\,\sin \left( 2\,x \right)}\)', $at1->get_display_castext());
+    }
+
     public function test_currency_1() {
 
         $at1 = new stack_cas_text('This is system cost \$100,000 to create.', null, 0, 't');
@@ -303,8 +370,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_forbidden_words() {
-
-        $at1 = new stack_cas_text('This is system cost @system(rm*)@ to create.', null, 0, 't');
+        $at1 = new stack_cas_text('This is system cost \({@system(rm*)@}\) to create.', null, 0, 't');
         $this->assertFalse($at1->get_valid());
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid. ' .
                 '</br>The expression <span class="stacksyntaxexample">system</span> is forbidden.');

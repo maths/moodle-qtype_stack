@@ -116,8 +116,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
     }
 
-
-
     public function test_not_confused_by_pluginfile() {
         $ct = new stack_cas_text('Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input', null, 0);
         $this->assertTrue($ct->get_valid());

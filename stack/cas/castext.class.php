@@ -220,17 +220,15 @@ class stack_cas_text {
             }
         }
 
-        // Now extract and perform validation on the CAS variables.
-        // This does alot more than strictly "validate" the castext, but is makes sense to do all these things at once...
-        $this->extract_cas_commands();
+        // Perform block and casstring validation
+        $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+        $array_form = $parser->match_castext();
+        $array_form = stack_cas_castext_castextparser::normalize($array_form);
+        $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
+        $validation_parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
 
-        // Validate session again for the extracted ones
-        if (null!=$this->session) {
-            if (!$this->session->get_valid()) {
-                $this->valid = false;
-                $this->errors .= $this->session->get_errors();
-            }
-        }
+        $this->valid = $this->valid && $this->validation_recursion($validation_parse_tree_root);
+
 
         if (false === $this->valid) {
             $this->errors = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$this->errors;
@@ -239,25 +237,52 @@ class stack_cas_text {
     }
 
 
-    /**
-     * Extract the CAS commands from the string
-     *
-     * @access public
-     * @return bool false if no commands to extract, true if succeeds.
-     */
-    private function extract_cas_commands() {
-        if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
-            if ($this->session == null) {
-                $this->session = new stack_cas_session(array(), null, $this->seed);
-            }
-            $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
-            $array_form = $parser->match_castext();
-            $array_form = stack_cas_castext_castextparser::normalize($array_form);
-            $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
-            $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
-
-            $this->first_pass_recursion($this->parse_tree_root,array());
+    private function validation_recursion($node) {
+        $valid = true;
+        switch ($node->type) {
+            case 'castext':
+                $iter = $node->first_child;
+                while ($iter !== null) {
+                    $valid = $valid && $this->validation_recursion($iter);
+                    $iter = $iter->next_sibling;
+                }
+                break;
+            case 'block':
+                $block = NULL;
+                switch ($node->get_content()) {
+                    case 'if':
+                        $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'define':
+                        $block = new stack_cas_castext_define($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'foreach':
+                        $block = new stack_cas_castext_foreach($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'external':
+                        $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    default:
+                        // TODO EXCEPTION
+                        $echo = "UNKNOWN NODE ".$node->get_content();
+                }
+                $block->validate($this->errors);
+                $iter = $node->first_child;
+                while ($iter !== null) {
+                    $valid = $valid && $this->validation_recursion($iter);
+                    $iter = $iter->next_sibling;
+                }
+                break;
+            case 'rawcasblock':
+                $block = new stack_cas_castext_raw($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block->validate($this->errors);
+                break;
+            case 'texcasblock':
+                $block = new stack_cas_castext_latex($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block->validate($this->errors);
+                break;
         }
+        return $valid;
     }
 
 

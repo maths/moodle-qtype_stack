@@ -97,7 +97,7 @@ abstract class stack_cas_castext_block {
     abstract public function validate_extract_attributes();
 
     /**
-     * Handles basic validation of the castrings feel free to extend to include block attribute related
+     * Handles basic validation of the casstrings feel free to extend to include block attribute related
      * validations e.g. comments on mandatory attributes.
      */
     public function validate(&$errors=""){

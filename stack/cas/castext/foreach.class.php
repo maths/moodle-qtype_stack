@@ -114,7 +114,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     public function validate_extract_attributes() {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = new stack_cas_castring($value);
+            $cs = new stack_cas_casstring($value);
             $cs->set_key($key,true);
             $r[] = $cs;
         }

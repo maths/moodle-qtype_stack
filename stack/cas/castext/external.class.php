@@ -135,6 +135,10 @@ class stack_cas_castext_external extends stack_cas_castext_block {
         return false;
     }
 
+    public function validate_extract_attributes() {
+        //// TODO this must do something as well as the validation step checking all parameters, expand handler...
+        return array();
+    }
 }
 
 abstract class stack_cas_castext_external_handler {

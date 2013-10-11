@@ -225,9 +225,7 @@ class stack_cas_session {
                     $new_errors .= ' '.stack_string("stackCas_CASErrorCaused") .
                             ' ' . $result['error'] . ' ';
                 }
-            } else 
-
-            if (!$gotvalue) {
+            } else if (!$gotvalue) {
                 $errstr = stack_string("stackCas_failedReturn").' '.stack_maxima_format_casstring($cs->get_raw_casstring());
                 $cs->add_errors($errstr);
                 $cs->set_answernote('CASFailedReturn');
@@ -270,7 +268,7 @@ class stack_cas_session {
 
             $this->instantiated = null;
             $this->errors       = null;
-            $this->session[]    = clone $var; // Yes, we reall need new versions of the variables.
+            $this->session[]    = clone $var; // Yes, we really need new versions of the variables.
         }
     }
 

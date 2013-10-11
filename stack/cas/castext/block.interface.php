@@ -87,8 +87,36 @@ abstract class stack_cas_castext_block {
      * Have left in the tree for multiple pass processing. This is specially meant for the define block.
      */
     public function clear() {
-        // Does nothing in most cases 
+        // Does nothing in most cases
     }
+
+    /**
+     * Called without conditional evaluation to extract CAS-commands for validation. Must return
+     * all the same casstrings that extract_attributes() would add to the cassession.
+     */
+    abstract public function validate_extract_attributes();
+
+    /**
+     * Handles basic validation of the castrings feel free to extend to include block attribute related
+     * validations e.g. comments on mandatory attributes.
+     */
+    public function validate(&$errors=""){
+        $valid = true;
+        $err = "";
+        foreach ($this->validate_extract_attributes() as $casstring) {
+            $casstring->validate($this->security, $this->insertstars, $this->syntax);
+            if (!$casstring->get_valid()) {
+                $valid = false;
+                $err .= $casstring->get_errors();
+            }
+        }
+        if ($err != "") {
+            $errors .= stack_string('stackCas_invalidCommand').'</br>'.$err;
+        }
+
+        return $valid;
+    }
+
 }
 
 

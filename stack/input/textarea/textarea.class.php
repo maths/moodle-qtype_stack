@@ -139,6 +139,7 @@ class stack_textarea_input extends stack_input {
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',
+            'allowWords'     => '',
             'forbidFloats'   => true,
             'lowestTerms'    => true,
             'sameType'       => true);

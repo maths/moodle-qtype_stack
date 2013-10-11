@@ -261,59 +261,59 @@ class stack_cas_text {
     }
 
 
-    private function first_pass_recursion(&$node,$condition_stack) {
+    private function first_pass_recursion(&$node, $condition_stack) {
         $block_child_evaluation = false;
         switch ($node->type) {
-            case "castext":
+            case 'castext':
                 $iter = $node->first_child;
-                while ($iter !== NULL) {
-                    $this->first_pass_recursion($iter,$condition_stack);
+                while ($iter !== null) {
+                    $this->first_pass_recursion($iter, $condition_stack);
                     $iter = $iter->next_sibling;
                 }
                 break;
-            case "block":
+            case 'block':
                 $block = NULL;
                 switch ($node->get_content()) {
                     case 'if':
-                        $block = new stack_cas_castext_if($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'define':
-                        $block = new stack_cas_castext_define($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        $block = new stack_cas_castext_define($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'foreach':
-                        $block = new stack_cas_castext_foreach($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        $block = new stack_cas_castext_foreach($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'external':
-                        $block = new stack_cas_castext_external($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
+                        $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     default:
                         // TODO EXCEPTION
                         $echo = "UNKNOWN NODE ".$node->get_content();
                 }
-                $block->extract_attributes($this->session,$condition_stack);
+                $block->extract_attributes($this->session, $condition_stack);
                 $this->blocks[] = $block;
                 $new_stack = $block->content_evaluation_context($condition_stack);
-                if ($new_stack === FALSE) {
+                if ($new_stack === false) {
                     $block_child_evaluation = true;
                 } else {
                     $condition_stack = $new_stack;
                 }
                 if (!$block_child_evaluation) {
                     $iter = $node->first_child;
-                    while ($iter !== NULL) {
-                        $this->first_pass_recursion($iter,$condition_stack);
+                    while ($iter !== null) {
+                        $this->first_pass_recursion($iter, $condition_stack);
                         $iter = $iter->next_sibling;
                     }
                 }
                 break;
-            case "rawcasblock":
-                $block = new stack_cas_castext_raw($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
-                $block->extract_attributes($this->session,$condition_stack);
+            case 'rawcasblock':
+                $block = new stack_cas_castext_raw($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block->extract_attributes($this->session, $condition_stack);
                 $this->blocks[] = $block;
                 break;
-            case "texcasblock":
-                $block = new stack_cas_castext_latex($node,$this->session,$this->seed,$this->security,$this->syntax,$this->insertstars);
-                $block->extract_attributes($this->session,$condition_stack);
+            case 'texcasblock':
+                $block = new stack_cas_castext_latex($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block->extract_attributes($this->session, $condition_stack);
                 $this->blocks[] = $block;
                 break;
         }

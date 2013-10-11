@@ -40,7 +40,17 @@ abstract class stack_maths_output {
     public function pre_process_docs_page($docs) {
         // Double all the \ characters, since Markdown uses it as an escape char,
         // but we use it for maths.
-        return str_replace('\\', '\\\\', $docs);
+        $docs = str_replace('\\', '\\\\', $docs);
+
+        // Re-double \ characters inside text areas, because we don't want maths
+        // renderered there.
+        return preg_replace_callback('~(<textarea[^>]*>)(.*?)(</textarea>)~s',
+                function ($match) {
+                    return $match[1] . str_replace('\\', '\\\\', $match[2]) . $match[3];
+                }, $docs);
+        $docs = str_replace('\\', '\\\\', $docs);
+
+        return $docs;
     }
 
     /**
@@ -50,11 +60,11 @@ abstract class stack_maths_output {
      * @return string rendered version of the documentation page with equations inserted.
      */
     public function post_process_docs_page($html) {
-        // Now, undo the doubling of the \\ characters inside <code> regions.
-        return preg_replace_callback('~<code>(.*?)</code>~s',
+        // Now, undo the doubling of the \\ characters inside <code> and <textarea> regions.
+        return preg_replace_callback('~(<code>|<textarea[^>]*>)(.*?)(</code>|</textarea>)~s',
                 function ($match) {
-                    return '<code>' . str_replace('\\\\', '\\', $match[1]) . '</code>';
-                } , $html);
+                    return $match[1] . str_replace('\\\\', '\\', $match[2]) . $match[3];
+                }, $html);
 
         return $html;
     }

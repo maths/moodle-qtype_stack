@@ -148,7 +148,7 @@ class stack_inputvalidation_test_data {
         array('(1+i)+x', 'php_true', '(1+i)+x', 'cas_true', ""),
         array('y^3-2*y^2-8*y', 'php_true', 'y^3-2*y^2-8*y', 'cas_true', ""),
         array('y^2-2*y-8', 'php_true', 'y^2-2*y-8', 'cas_true', ""),
-        array('y^2-2*y-0.5', 'php_true', 'y^2-2*y-0.5', 'cas_false', ""),
+        array('y^2-2*y-0.5', 'php_true', 'y^2-2*y-0.5', 'cas_true', ""),
         array('(x)', 'php_true', '(x)', 'cas_true', "Brackets"),
         array('((x))', 'php_true', '((x))', 'cas_true', ""),
         array('(()x)', 'php_false', '(()*x)', 'cas_false', ""),

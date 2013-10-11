@@ -52,4 +52,15 @@ class stack_cas_castext_define extends stack_cas_castext_block {
         $this->get_node()->destroy_node();
     }
 
+    public function validate_extract_attributes() {
+        $r = array();
+        foreach ($this->get_node()->get_parameters() as $key => $value) {
+            $cs = new stack_cas_castring($value);
+            $cs->set_key($key,true);
+            $r[] = $cs;
+        }
+        return $r;
+    }
+
+
 }

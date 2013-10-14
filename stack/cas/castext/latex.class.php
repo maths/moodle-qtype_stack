@@ -64,7 +64,11 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         if (strpos($evaluated,"<html")!==FALSE) {
             $this->get_node()->convert_to_text($evaluated);
         } else {
-            $this->get_node()->convert_to_text("{".$evaluated."}");
+            if ($this->get_node()->get_mathmode() == true) {
+                $this->get_node()->convert_to_text("{".$evaluated."}");
+            } else {
+                $this->get_node()->convert_to_text("\\({".$evaluated."}\\)");
+            }
         }
 
         return false;

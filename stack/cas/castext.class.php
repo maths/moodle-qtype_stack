@@ -349,6 +349,25 @@ class stack_cas_text {
      * This function actually evaluates the castext.
      */
     private function instantiate() {
+        // Initial pass
+        if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
+            if ($this->session == null) {
+                $this->session = new stack_cas_session(array(), null, $this->seed);
+            }
+            $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+            $array_form = $parser->match_castext();
+            $array_form = stack_cas_castext_castextparser::normalize($array_form);
+            $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
+            $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
+            $this->first_pass_recursion($this->parse_tree_root,array());
+        }
+
+        if (null!=$this->session) {
+            if (!$this->session->get_valid()) {
+                $this->valid = false;
+                $this->errors .= $this->session->get_errors();
+            }
+        }
 
         if (!$this->valid) {
             return false;

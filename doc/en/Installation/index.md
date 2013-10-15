@@ -4,7 +4,7 @@ STACK 3.0 is being used live at a number of institutions, including the Universi
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/23/en/Installing_Moodle).  You must use Moodle 2.3.2 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
+* Please ensure you have [installed Moodle](http://docs.moodle.org/25/en/Main_page).  You must use Moodle 2.3.2 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](../Developer/Mathjax.md).
 
 ## 2. Install GNUPlot and Maxima

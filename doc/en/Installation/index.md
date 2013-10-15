@@ -11,9 +11,7 @@ STACK 3.0 is being used live at a number of institutions, including the Universi
 
 Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.31.1 are supported.  Please contact the developers to request support for other versions.
 
-Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained
-installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and
-GNUPlot will install themselves in suitable directories.
+Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and GNUPlot will install themselves in suitable directories.
 
 ## 3. Add some additional question behaviours
 

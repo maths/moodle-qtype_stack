@@ -336,10 +336,10 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = 'stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ x^2 , {\color{red}{x^2}} , x^4 \right] \]!quot! );';
+        $fb = 'stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
-        $fbt = 'The entries in red below are those that are incorrect. \[\left[ x^2 , {\color{red}{x^2}} , x^4 \right] \]';
+        $fbt = 'The entries underlined in red below are those that are incorrect. \[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]';
         $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 
@@ -351,11 +351,11 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
 
         $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
-                '!quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{2}} & 4 \\\\  \end{array}\right]\]!quot! );';
+                '!quot!\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4  \\\\ \end{array}\right]\]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
-        $fbt = 'The entries in red below are those that are incorrect. ' .
-                '\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{2}} & 4 \\\\  \end{array}\right]\]';
+        $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+                '\[\left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4  \\\\ \end{array}\right]\]';
         $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 }

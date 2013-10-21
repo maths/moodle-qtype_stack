@@ -10,7 +10,7 @@ These three mechanisms aim to provide comprehensive testing of STACK.  The last 
 
 # PHP Unit tests
 
-Moodle 2.3 uses PHPunit for its unit tests. Setting this up and getting it working
+Moodle 2.5 uses PHPunit for its unit tests. Setting this up and getting it working
 is a bit of a pain, but you only have to follow the instructions in
 [the Moodle PHPUnit documentation](http://docs.moodle.org/dev/PHPUnit) once to get it working.
 
@@ -24,12 +24,13 @@ you need to edit the config.php file to add the following configuration
 information near the end, but before the require_once(dirname(__FILE__) . '/lib/setup.php');:
 
     define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'win');
-    define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.30.0');
+    define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.31.1');
     define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '1');
-    define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   '');
     define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
     define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
+
+    define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
 
 You should probably copy the settings from Admin -> Plugins -> Question types -> STACK.
 however, you can use the flexibility to have different configurations of STACK
@@ -64,7 +65,9 @@ To make sure this keeps working, please annotate all test classes with
 The tests will be very slow, because the Moodle PHPUnit integration keeps resetting
 the database state between each test, so you get no benefit from the cache. To
 get round that problem, you an use the option to connect to a different database
-server for the cache. Put something like this near the end of your config.php file:
+server for the cache. Modify the following to suit your system and put this near the end of your config.php file:
+
+Note you need to make sure the `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` variable is only defined once.
 
     define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE',   'otherdb');
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE',    $CFG->dbtype);

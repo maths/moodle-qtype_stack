@@ -579,10 +579,10 @@ $string['ATLowestTerms_entries']        = 'The following terms in your answer ar
 
 
 $string['ATList_wronglen']          = 'Your list should have {$a->m0} elements, but it actually has {$a->m1}. ';
-$string['ATList_wrongentries']      = 'The entries in red below are those that are incorrect. {$a->m0} ';
+$string['ATList_wrongentries']      = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATMatrix_wrongsz']         = 'Your matrix should be {$a->m0} by {$a->m1}, but it is actually {$a->m2} by {$a->m3}. ';
-$string['ATMatrix_wrongentries']    = 'The entries in red below are those that are incorrect. {$a->m0} ';
+$string['ATMatrix_wrongentries']    = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATSet_wrongsz']            = 'Your set should have {$a->m0} different elements, but it is actually has {$a->m1}. ';
 $string['ATSet_wrongentries']       = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';
@@ -649,7 +649,7 @@ $string['ATSysEquiv_SB_not_poly_eq_list']       = 'The Teacher\'s answer should 
 $string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or more variables!';
 $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
 $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
-$string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are those that are incorrect. {$a->m0} ';
+$string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
 

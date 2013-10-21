@@ -76,9 +76,9 @@
       ((front (append '("{\\color{")
                       (list (stripdollar (cadr x)))
                       '("}")))
-       (back (append '("{")
+       (back (append '("{\\underline{")
                      (tex (caddr x) nil nil 'mparen 'mparen)
-                     '("}}"))))
+                     '("}}}"))))
     (append l front back r)))
 
 (defprop $texcolor tex-texcolor tex)

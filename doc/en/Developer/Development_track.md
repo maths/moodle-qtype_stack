@@ -1,3 +1,5 @@
+
+
 # Development track for STACK 3.2
 
 This page describes the major tasks we still need to complete in order to be
@@ -15,14 +17,6 @@ Basic reports now work.
 * Really ensure "attempts" list those with meaningful histories.  I.e. if possible filter out navigation to and from the page etc.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
-
-## Expanding CAStext features
-
-* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.
-* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
-* Hints.  Currently code is in the "hints" branch.
- * Make sure the syntax is updated to [hint:...] in line with the new format.
- * Provide a list of hints, and an interface through the docs.
 
 ## Expanding CAS features
 
@@ -42,3 +36,14 @@ Basic reports now work.
 * *done* Add input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
 
 ## Other changes since STACK 3.1
+
+
+# Development track for STACK 3.3
+
+## Expanding CAStext features
+
+* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.
+* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
+* Hints.  Currently code is in the "hints" branch.
+ * Make sure the syntax is updated to [hint:...] in line with the new format.
+ * Provide a list of hints, and an interface through the docs.

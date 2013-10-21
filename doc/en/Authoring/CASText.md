@@ -16,15 +16,17 @@ The following things to remember about CASText:
 * Anything enclosed between matching `\[` and `\]` is treated as a _displayed equation_, in the centre of a new line. Again, this is the case with LaTeX.
 * We strongly discourage the use of dollar symbols such as `$...$` and `$$...$$` for denoting LaTeX mathematics environments.  See the notes on [currency](CASText.md#currency) below and also the page on [mathjax](../Developer/MathJax.md#delimiters) for more information.
 * Don't use LaTeX text formatting features such as `\\`, instead use the HTML versions.
-* Anything enclosed between `@` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
- * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\(@ stuff @\)`, and that `@ stuff @` is sufficient.
- * To get a displayed equation centred on a line of its own, you must use `\[@ stuff @\]`, as in LaTeX.
+* Anything enclosed between `{@..@}` symbols is evaluated by the CAS and replaced by the LaTeX representing the result.  Some notes.
+ * By default this is displayed as an _inline equation_.  This is analogous to using LaTeX symbols. Note however, that you don't need to use `\(@ stuff @\)`, and that `{@ stuff @}` is sufficient.
+ * To get a displayed equation centred on a line of its own, you must use `\[{@ stuff @}\]`, as in LaTeX.
 * Multiple CAS expressions may appear in a single LaTeX equation, as needed.  For example `\[  \frac{@p@}{@q@} \]`.  Note that many problems are _best solved_ at the level of the CAS, e.g. by defining a variable `p/q` in the CAS, not at the level of display.  This is a design decision which needs experience to resolve efficiently in each case.  For an example of this, see the example [showing working](../CAS/Matrix.md#Showing_working).
+* Anything enclosed between `{#..#}` symbols is evaluated by the CAS and replaced by the Maxima string representation of the result.  
 
 Here is an example
 
-    The derivative of @ x^4/(1+x^4) @ is
-    \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @ \]
+    The derivative of {@ x^4/(1+x^4) @} is
+    \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @} \]
+    You can type this in as <tt>{# diff(x^4/(1+x^4),x) #}</tt>
 
 
 ## Variables ##   {#Variables}
@@ -40,8 +42,8 @@ The question text what the student actually sees.  This was called "question tex
 
 It is a slightly modified form of CAS text.  To allow a student to answer a question you must include an [inputs](Inputs.md) in the question text. For example, students need a box into which their answer will be put.
 
-To place an [inputs](Inputs.md) into the question enclose the
-name of the [Maxima](../CAS/Maxima.md) variable to which the student's answer is assigned between hash symbols, e.g. `#ans1#`
+To place an [input](Inputs.md) into the question, mark up the
+name of the [Maxima](../CAS/Maxima.md) variable to which the student's answer is assigned, e.g. `ans1`, as `[[input:ans1]]`
 
 When the question is created this is replaced with the appropriate [inputs](Inputs.md).
 When the student answers, this variable name is available to each [potential response trees](Potential_response_trees.md).
@@ -49,9 +51,9 @@ When the student answers, this variable name is available to each [potential res
 Feedback can be included anywhere within the question text.
 
 * When you create an [inputs](Inputs.md) STACK automatically adds
-  a string such as the following.  `<IEfeedback>ans1</IEfeedback>`
+  a string such as the following.  `[[validation:ans1]]`
 * When you create a [potential response trees](Potential_response_trees.md) STACK automatically adds
-  a string such as the following `<PRTfeedback>1</PRTfeedback>`
+  a string such as the following `[[feedback:prt1]]`
 
 These strings are replaced by appropriate feedback as necessary.
 They can be moved anywhere within the question text.

@@ -109,9 +109,9 @@ __Question text__
 This text should be input directly in HTML mode.
 
 <textarea readonly="readonly" rows="5" cols="120">
-<p>Find the equation of the line tangent to @p@ at the point \(x=@pt@\).</p>
-<p>1. Differentiate @p@ with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
-<p>2. Evaluate your derivative at \(x=@pt@\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+<p>Find the equation of the line tangent to {@p@} at the point \(x={@pt@}\).</p>
+<p>1. Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p>2. Evaluate your derivative at \(x={@pt@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
 <p>3. Hence, find the equation of the tangent line. \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
 </textarea>
 
@@ -191,7 +191,7 @@ Next we can add a randomly generated polynomial to the question.  Because we use
 
 You will need to add a non-empty question note to enable grouping of random versions.  E.g. the following string will suffice.
 
-    @p@
+    {@p@}
 
 We now need to update the question tests to reflect this.  In the first test, you are free to use `ta1` etc to specify the correct answers.
 

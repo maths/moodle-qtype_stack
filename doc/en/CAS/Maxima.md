@@ -184,7 +184,7 @@ For example, a piecewise function can be defined by either of these two commands
 
 You can then plot this using
 
-    @plot(f(x),[x,-1,1])@
+    {@plot(f(x),[x,-1,1])@}
 
 # Maxima "gocha"s! #
 

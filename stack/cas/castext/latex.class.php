@@ -64,10 +64,19 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         if (strpos($evaluated,"<html")!==FALSE) {
             $this->get_node()->convert_to_text($evaluated);
         } else {
-            $this->get_node()->convert_to_text("{".$evaluated."}");
+            if ($this->get_node()->get_mathmode() == true) {
+                $this->get_node()->convert_to_text("{".$evaluated."}");
+            } else {
+                $this->get_node()->convert_to_text("\\({".$evaluated."}\\)");
+            }
         }
 
         return false;
     }
 
+    public function validate_extract_attributes() {
+        $r = array(new stack_cas_casstring(trim($this->get_node()->get_content())));
+        $r[0]->set_key("testkey");
+        return $r;
+    }
 }

@@ -513,6 +513,12 @@ $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
+// Used in blocks
+$string['stackBlock_ifNeedsCondition']      = 'If-block needs a test attribute. ';
+$string['stackBlock_unknownBlock']          = 'The following block is unknown: ';
+$string['stackBlock_missmatch']             = 'has no match. ';
+
+
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';

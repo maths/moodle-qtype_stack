@@ -66,4 +66,9 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
         return false;
     }
 
+    public function validate_extract_attributes() {
+        $r = array(new stack_cas_casstring(trim($this->get_node()->get_content())));
+        $r[0]->set_key("testkey");
+        return $r;
+    }
 }

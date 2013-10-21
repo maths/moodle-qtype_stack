@@ -36,3 +36,4 @@ I. Wild.  [Moodle 1.9 Math](http://www.packtpub.com/moodle-1-9-math/book), Packt
 * C. J. Sangwin. [Assessing mathematics automatically using computer algebra and the internet](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/tma03.pdf). Teaching Mathematics and its Applications, 23(1), pages 1--14 (2004).
 * C. J. Sangwin. [Assessing higher mathematical skills using computer algebra marking through AIM](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/Emac03.pdf). In Proceedings of the Engineering Mathematics and Applications Conference (EMAC03, Sydney, Australia), pages 229--234, 2003.
 * C. J. Sangwin. [Assessing higher skills with computer algebra marking](http://www.jisc.ac.uk/techwatch/). JISC Technology and Standards Watch, TSW 02--04, September 2002.
+

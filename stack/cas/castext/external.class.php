@@ -101,7 +101,7 @@ class stack_cas_castext_external extends stack_cas_castext_block {
                     $ok_extension = true;
                     for ($j = 0; $j<strlen($possible_file_extension); $j++) {
                         $c = substr($possible_file_extension,$j,1);
-                        if ($c == '.' ||Â ctype_alnum($c)) {
+                        if ($c == '.' || ctype_alnum($c)) {
 
                         } else {
                             $ok_extension = false;
@@ -135,6 +135,10 @@ class stack_cas_castext_external extends stack_cas_castext_block {
         return false;
     }
 
+    public function validate_extract_attributes() {
+        //// TODO this must do something as well as the validation step checking all parameters, expand handler...
+        return array();
+    }
 }
 
 abstract class stack_cas_castext_external_handler {
@@ -158,4 +162,3 @@ abstract class stack_cas_castext_external_handler {
 
     public abstract function get_replacement_text();
 }
-

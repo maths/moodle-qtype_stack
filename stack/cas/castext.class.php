@@ -120,7 +120,7 @@ class stack_cas_text {
     private function validate() {
         $this->errors = '';
         if (strlen(trim($this->rawcastext)) > 64000) {
-            // Limit to just less than 64kb. Maximum practical size of a post. (about 14pages).
+            // Limit to just less than 64kb. Maximum practical size of a post. (About 14 pages).
             $this->errors = stack_string("stackCas_tooLong");
             $this->valid = false;
             return false;
@@ -231,7 +231,7 @@ class stack_cas_text {
 
         $this->valid = $this->valid && $this->validation_recursion($validation_parse_tree_root);
 
-        if (array_key_exists('errors',$array_form)) {
+        if (array_key_exists('errors', $array_form)) {
             $this->valid = false;
             $this->errors .= '<br/>' . $array_form['errors'];
         }
@@ -322,8 +322,7 @@ class stack_cas_text {
                         $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     default:
-                        // TODO EXCEPTION
-                        $echo = "UNKNOWN NODE ".$node->get_content();
+                        throw new stack_exception('stack_cas_text: UNKNOWN NODE '.$node->get_content());
                 }
                 $block->extract_attributes($this->session, $condition_stack);
                 $this->blocks[] = $block;

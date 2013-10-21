@@ -68,6 +68,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertEquals($cs, $at1->get_all_raw_casstrings());
+
         $this->assertEquals('x^2', $at1->get_display_key('a'));
         $this->assertEquals('\frac{1}{1+x^2}', $at1->get_display_key('b'));
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));

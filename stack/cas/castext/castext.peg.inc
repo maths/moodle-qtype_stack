@@ -234,7 +234,8 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                         }
                     }
                     if ($i > 0 && $end_blocks[$i-1] > $closest_start_candidate) {
-                        // There is a missmatch of open-close-tags
+                        // There is a missmatch of open-close tags, 
+                        // generic error handling handles that
                         $i++;
                         break;
                     }
@@ -277,8 +278,44 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                 }
             }
         }
+   
+        $err = stack_cas_castext_castextparser::extract_block_missmatch($parse_tree);
+        if (count($err) > 0) {
+            if (array_key_exists('errors',$parse_tree)) {
+                $parse_tree['errors'] .= '<br/>' . implode('<br/>',$err);
+            } else {
+                $parse_tree['errors'] = implode('<br/>',$err);
+            }
+        }
+
         return $parse_tree;
     }
+
+    private static function extract_block_missmatch($parse_tree) {
+        $err = array();
+        switch ($parse_tree['_matchrule']) {
+            case "castext":
+            case "block":
+                if (array_key_exists('_matchrule',$parse_tree['item'])) {
+                    $err = stack_cas_castext_castextparser::extract_block_missmatch($parse_tree['item']);
+                } else {
+                    $err = array();
+                    foreach ($parse_tree['item'] as $sub_tree) {
+                        $err = array_merge($err,stack_cas_castext_castextparser::extract_block_missmatch($sub_tree));
+                    }
+                }
+                break;
+            case "blockopen":
+                $err[] = "'[[ " . $parse_tree['name'][1]['text'] . " ]]' " . stack_string('stackBlock_missmatch');
+                break;
+            case "blockclose":
+                $err[] = "'[[/ " . $parse_tree['name'][1]['text'] . " ]]' " . stack_string('stackBlock_missmatch');
+                break;
+        }
+
+        return $err;
+    }
+
 
     /*!*
     texcasblock: "{@" cascontent:/[^@]+/ "@}"

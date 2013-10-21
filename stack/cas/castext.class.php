@@ -118,6 +118,7 @@ class stack_cas_text {
      * @return bool
      */
     private function validate() {
+        $this->errors = '';
         if (strlen(trim($this->rawcastext)) > 64000) {
             // Limit to just less than 64kb. Maximum practical size of a post. (about 14pages).
             $this->errors = stack_string("stackCas_tooLong");
@@ -225,9 +226,15 @@ class stack_cas_text {
         $array_form = $parser->match_castext();
         $array_form = stack_cas_castext_castextparser::normalize($array_form);
         $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
+
         $validation_parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
 
         $this->valid = $this->valid && $this->validation_recursion($validation_parse_tree_root);
+
+        if (array_key_exists('errors',$array_form)) {
+            $this->valid = false;
+            $this->errors .= '<br/>' . $array_form['errors'];
+        }
 
 
         if (false === $this->valid) {
@@ -263,14 +270,17 @@ class stack_cas_text {
                         $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     default:
-                        // TODO EXCEPTION
-                        $echo = "UNKNOWN NODE ".$node->get_content();
+                        $this->errors .= '<br/>' . stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
+                        $valid = false;
+                        break;
                 }
-                $block->validate($this->errors);
-                $iter = $node->first_child;
-                while ($iter !== null) {
-                    $valid = $valid && $this->validation_recursion($iter);
-                    $iter = $iter->next_sibling;
+                if ($valid) {
+                    $block->validate($this->errors);
+                    $iter = $node->first_child;
+                    while ($iter !== null) {
+                        $valid = $valid && $this->validation_recursion($iter);
+                        $iter = $iter->next_sibling;
+                    }
                 }
                 break;
             case 'rawcasblock':

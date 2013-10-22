@@ -525,6 +525,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
 
+        $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), array('size' => 20));
+        $mform->setType($inputname . 'allowwords', PARAM_RAW);
+        $mform->setDefault($inputname . 'allowwords', '');
+        $mform->addHelpButton($inputname . 'allowwords', 'allowwords', 'qtype_stack');
+
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
         $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
@@ -752,6 +757,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
             $question->{$inputname . 'forbidwords'}        = $input->forbidwords;
+            $question->{$inputname . 'allowwords'}         = $input->allowwords;
             $question->{$inputname . 'forbidfloat'}        = $input->forbidfloat;
             $question->{$inputname . 'requirelowestterms'} = $input->requirelowestterms;
             $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;

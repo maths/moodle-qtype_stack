@@ -102,7 +102,10 @@ $string['forbidfloat_help'] = 'If set to yes, then any answer of the student whi
 $string['forbidfloat_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Forbid_Floats';
 $string['forbidwords'] = 'Forbidden words ';
 $string['forbidwords_help'] = 'This is a comma separated list of text strings which are forbidden in a student\'s answer.';
-$string['forbidwords_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#Forbidden_Words';
+$string['forbidwords_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Forbidden_Words';
+$string['allowwords'] = 'Allowed words ';
+$string['allowwords_help'] = 'By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student\'s answer.';
+$string['allowwords_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Allow_Words';
 $string['generalfeedback'] = 'General feedback';
 $string['generalfeedback_help'] = 'General feedback is CASText. General feedback, also known as a "worked solution", is shown to the student after they have attempted the question. Unlike feedback, which depends on what response the student gave, the same general feedback text is shown to all students.  It may depend on the question variables used in the version of the question.';
 $string['generalfeedback_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#general_feedback';
@@ -412,11 +415,11 @@ $string['healthchecklatexmathjax'] = 'One way to get equation rendering to work 
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
-$string['healthcheckplots'] = 'Graph plotting';
-$string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
 $string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]';
 $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
+$string['healthcheckplots'] = 'Graph plotting';
+$string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
 $string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@}';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
@@ -445,6 +448,7 @@ $string['testsuitecolerror'] = 'CAS errors';
 $string['testsuitecolrawmark'] = 'Raw mark';
 $string['testsuitecolexpectedscore'] = 'Expected mark';
 $string['testsuitepass'] = 'Pass';
+$string['testsuiteknownfail'] = 'Expected failure';
 $string['testsuitefail'] = 'Fail';
 $string['testsuitenotests']       = 'Number of tests: {$a->no}. ';
 $string['testsuiteteststook']     = 'Tests took {$a->time} seconds. ';
@@ -562,6 +566,7 @@ $string['ATAlgEquiv_SA_not_set']        = 'Your answer should be a set, but is n
 $string['ATAlgEquiv_SA_not_equation']   = 'Your answer should be an equation, but is not. ';
 $string['ATAlgEquiv_TA_not_equation']   = 'You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1". ';
 $string['ATAlgEquiv_SA_not_inequality'] = 'Your answer should be an inequality, but is not. ';
+$string['ATAlgEquiv_SA_not_function']   = 'Your answer should be a function, defined using the operator <tt>:=</tt>, but is not. ';
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 
 
@@ -574,10 +579,10 @@ $string['ATLowestTerms_entries']        = 'The following terms in your answer ar
 
 
 $string['ATList_wronglen']          = 'Your list should have {$a->m0} elements, but it actually has {$a->m1}. ';
-$string['ATList_wrongentries']      = 'The entries in red below are those that are incorrect. {$a->m0} ';
+$string['ATList_wrongentries']      = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATMatrix_wrongsz']         = 'Your matrix should be {$a->m0} by {$a->m1}, but it is actually {$a->m2} by {$a->m3}. ';
-$string['ATMatrix_wrongentries']    = 'The entries in red below are those that are incorrect. {$a->m0} ';
+$string['ATMatrix_wrongentries']    = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATSet_wrongsz']            = 'Your set should have {$a->m0} different elements, but it is actually has {$a->m1}. ';
 $string['ATSet_wrongentries']       = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';
@@ -644,7 +649,7 @@ $string['ATSysEquiv_SB_not_poly_eq_list']       = 'The Teacher\'s answer should 
 $string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or more variables!';
 $string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
 $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
-$string['ATSysEquiv_SA_system_overdetermined']  = 'The entries in red below are those that are incorrect. {$a->m0} ';
+$string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
 

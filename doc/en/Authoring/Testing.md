@@ -56,7 +56,7 @@ You can set global [simplification](../CAS/Simplification.md) flags in two place
 1. Globally in the question.
 2. In each potential response tree.
 
-Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is "what is \(@a@+@b@\)?" where @a@ and @b@ are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
+Regardless of what settings you use here the expressions you enter for inputs in question tests are _not_ simplified.  This is necessary.  For example, if your question is "what is \({@a@}+{@b@}\)?" where {@a@} and {@b@} are randomly generated.  You will need to set the question level option `simplify:false` to prevent the student typing in the sum itself as an answer.  Then you will probably need separate tests for the expressions `a+b` and `ev(a+b,simp)` to make sure the student hasn't typed in the sum instead of the value of the sum.  For this reason, to enable "unsimplified" expressions to be included as question tests we do not simplify test inputs regardless of the options used in the question.
 
 If you have set `simplify:true` everywhere in your question, and you are only establishing algebraic equivalence of your answers anyway, "unsimplified" expressions as inputs to the tests will not matter.
 

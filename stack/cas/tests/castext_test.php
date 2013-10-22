@@ -51,15 +51,16 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('', null, true, ''),
                 array('Hello world', null, true, 'Hello world'),
                 array('$x^2$', null, true, '$x^2$'),
-                array('$${@x^2@}$$', null, true, '$${x^2}$$'),
-                array('\(x^2\)', null, true, '\(x^2\)'),
-                array('{@x*x^2@}', null, true, '{x^3}'),
-                array('{@1+2@}', null, true, '{3}'),
                 array('\[{@x^2@}\]', null, true, '\[{x^2}\]'),
+                array('\(x^2\)', null, true, '\(x^2\)'),
+                array('{@x*x^2@}', null, true, '\({x^3}\)'),
+                array('{@1+2@}', null, true, '\({3}\)'),
+                array('\[{@x^2@}\]', null, true, '\[{x^2}\]'),
+                array('\[{@a@}+\sin(x)\]', $a1, true, '\[{x^2}+\sin(x)\]'),
                 array('\[{@a@}\]', $a1, true, '\[{x^2}\]'),
-                array('{@a@}', $a1, true, '{x^2}'),
-                array('{@sin(x)@}', $a1, true, '{\sin \left( x \right)}'),
-                array('\[{@a*b@}\]', $a1, true, '\[{x^2\,\left(x+1\right)^2}\]'),
+        		array('{@a@}', $a1, true, '\({x^2}\)'),
+                array('{@sin(x)@}', $a1, true, '\({\sin \left( x \right)}\)'),
+                array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot \left(x+1\right)^2}\]'),
                 array('@', null, true, '@'),
                 array('{#1+2#}', null, true, "3"),
                 array('{#sin(x)#}', null, true, "sin(x)"),
@@ -143,18 +144,18 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_get_all_raw_casstrings() {
+    	$raw = 'Take {@x^2+2*x@} and then {@sin(z^2)@}.';
+    	$at1 = new stack_cas_text($raw, null, 0);
+    	$val = array('x^2+2*x', 'sin(z^2)');
+    	$this->assertEquals($val, $at1->get_all_raw_casstrings());
+    }
+
     public function test_not_confused_by_pluginfile() {
         $ct = new stack_cas_text('Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input', null, 0);
         $this->assertTrue($ct->get_valid());
         $this->assertEquals(array('x', 'x + 1'), $ct->get_all_raw_casstrings());
         $this->assertEquals('Here {x} is some @@PLUGINFILE@@ {x+1} some input', $ct->get_display_castext());
-    }
-
-    public function test_get_all_raw_casstrings() {
-        $raw = 'Take {@x^2+2*x@} and then {@sin(z^2)@}.';
-        $at1 = new stack_cas_text($raw, null, 0);
-        $val = array('x^2+2*x', 'sin(z^2)');
-        $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
 
     public function test_get_all_raw_casstrings_empty() {

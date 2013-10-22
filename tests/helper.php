@@ -146,7 +146,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]'));
+                        'algebraic', 'ans1', 'ta+c',
+                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo'));
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
@@ -334,7 +335,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
@@ -346,7 +347,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
@@ -359,7 +360,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node0->add_branch(0, '=', 0, $q->penalty, 1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
         $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', FORMAT_HTML, 'oddeven-0-1');
 
         $sans = new stack_cas_casstring('sa2');
@@ -368,7 +369,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node1->add_branch(0, '+', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
         $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'EVEN');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
@@ -937,6 +938,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1054,6 +1056,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1073,6 +1076,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1092,6 +1096,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1111,6 +1116,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;

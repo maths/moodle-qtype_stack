@@ -275,7 +275,7 @@ class stack_cas_text {
                         break;
                 }
                 if ($valid) {
-                    $block->validate($this->errors);
+                    $valid = $valid && $block->validate($this->errors);
                     $iter = $node->first_child;
                     while ($iter !== null) {
                         $valid = $valid && $this->validation_recursion($iter);
@@ -285,11 +285,11 @@ class stack_cas_text {
                 break;
             case 'rawcasblock':
                 $block = new stack_cas_castext_raw($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                $block->validate($this->errors);
+                $valid = $valid && $block->validate($this->errors);
                 break;
             case 'texcasblock':
                 $block = new stack_cas_castext_latex($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                $block->validate($this->errors);
+                $valid = $valid && $block->validate($this->errors);
                 break;
         }
         return $valid;
@@ -322,8 +322,7 @@ class stack_cas_text {
                         $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     default:
-                        // TODO EXCEPTION
-                        $echo = "UNKNOWN NODE ".$node->get_content();
+                        $this->errors .= '<br/>' . stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
                 }
                 $block->extract_attributes($this->session, $condition_stack);
                 $this->blocks[] = $block;
@@ -359,6 +358,10 @@ class stack_cas_text {
      * This function actually evaluates the castext.
      */
     private function instantiate() {
+        if (!$this->get_valid()) {
+            return false;
+        }
+
         // Initial pass
         if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
             if ($this->session == null) {
@@ -384,7 +387,7 @@ class stack_cas_text {
         }
 
         // Deal with castext without any CAS variables.
-        if (null !== $this->session && count($this->session->get_session()) > 0) {
+        if (null !== $this->session && count($this->session->get_session()) > 0 && $this->valid) {
             $this->session->instantiate();
             $this->errors .= $this->session->get_errors();
         }

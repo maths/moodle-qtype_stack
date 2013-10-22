@@ -108,7 +108,6 @@ Note also that images can be included as HTML.  It is easiest to place your imag
 
 ## Google charts  {#google}
 
-__NOT YET REINSTATED IN STACK 3.__
 
 In particular, you can dynamically generate a URL for
 [Google charts](http://code.google.com/apis/chart/) and in this way include randomly generated diagrams.
@@ -124,11 +123,11 @@ This includes the code in the question variables to create [random objects](Rand
     anb : 5 + rand(20);
     aub : a+b-anb;
 
-Then, in the question stem we have the HTML which uses this.  Note the way valus of variables are inserted here.
+Then, in the question stem we have the HTML which uses this.  Note the way valus of variables are inserted here using the _value_ tags, `{#...#}`.
 
-    <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:@a@,@b@,0,@anb@,0,0&chdl=A|B">
-
-This should look like the following, with in this case \(a=33\), \(b=65\), \(a\cap b=18\).
+    <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:{#a#},{#b#},0,{#anb#},0,0&chdl=A|B">
+    
+For example, with \(a=33\), \(b=65\), \(a\cap b=18\) the chart should look like the following.
 
 <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:33,65,0,18,0,0&chdl=A|B">
 

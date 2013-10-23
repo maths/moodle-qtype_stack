@@ -120,6 +120,8 @@ class stack_cas_castext_external extends stack_cas_castext_block {
         }
 
         foreach (array_keys($files) as $key) {
+            // so apparently some versions of the editor add mac-line changes... and some software fails with them
+            $files[$key] = str_replace("\r","\n",$files[$key]);
             file_put_contents($label_map[$key],$files[$key]);
         }
 

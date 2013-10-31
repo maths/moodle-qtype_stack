@@ -166,7 +166,7 @@ class stack_question_test_result {
      */
     protected function test_answer_note($expected, $actual) {
         $lastactual = array_pop($actual);
-        if ('NULL' == $expected) {
+        if ('null' == $expected) {
             return '' == trim($lastactual);
         }
         return trim($lastactual) == trim($expected);

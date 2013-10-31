@@ -25,17 +25,17 @@ require_once('external/latex.class.php');
 
 class stack_cas_castext_external extends stack_cas_castext_block {
 
-    private $handler = NULL;
+    private $handler = null;
 
-    public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
-        $type = $this->get_node()->get_parameter('type',NULL);
+    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+        $type = $this->get_node()->get_parameter('type', null);
         switch ($type) {
             case 'latex':
                 $this->handler = new stack_cas_castext_external_latex();
                 break;
         }
-        if ($this->handler !== NULL) {
-            $this->handler->extract_attributes($this->get_node(),$tobeevaluatedcassession,$conditionstack);
+        if ($this->handler !== null) {
+            $this->handler->extract_attributes($this->get_node(), $tobeevaluatedcassession, $conditionstack);
         }
     }
 
@@ -43,19 +43,19 @@ class stack_cas_castext_external extends stack_cas_castext_block {
         return $conditionstack;
     }
 
-    public function process_content($evaluatedcassession,$conditionstack = NULL) {
+    public function process_content($evaluatedcassession, $conditionstack = null) {
         global $CFG;
 
         // Check if the contents have been fully evaluated
         $this->get_node()->normalize();
-        if ($this->get_node()->first_child->next_sibling !== NULL) {
+        if ($this->get_node()->first_child->next_sibling !== null) {
             return true;
         }
 
         $full_content = $this->get_node()->first_child->to_string();
         $name = md5($full_content);
 
-        if ($this->handler === NULL) {
+        if ($this->handler === null) {
             $this->get_node()->convert_to_text("<pre>UNKNOWN EXTERNAL-TYPE\n".$this->handler->get_replacement_text()."</pre>");
             return false;
         }
@@ -77,12 +77,12 @@ class stack_cas_castext_external extends stack_cas_castext_block {
         }
 
         $files = array();
-        foreach (explode('### FILE: ',$full_content) as $split) {
+        foreach (explode('### FILE: ', $full_content) as $split) {
             if (count($files) == 0) {
                 $files['__SOURCE_CODE__'] = $split;
             } else {
-                $key = trim(substr($split,0,strpos($split,'###')));
-                $files[$key] = substr($split,strpos($split,'###')+3);
+                $key = trim(substr($split, 0, strpos($split, '###')));
+                $files[$key] = substr($split, strpos($split, '###')+3);
             }
         }
 
@@ -96,13 +96,12 @@ class stack_cas_castext_external extends stack_cas_castext_block {
                 $label = $name.$this->handler->get_source_file_extension();
             } else {
                 $label = $name.'-'.$i;
-                if (strpos($key,'.') !== FALSE) {
-                    $possible_file_extension = substr($key,strpos($key,'.'));
+                if (strpos($key, '.') !== false) {
+                    $possible_file_extension = substr($key, strpos($key, '.'));
                     $ok_extension = true;
                     for ($j = 0; $j<strlen($possible_file_extension); $j++) {
-                        $c = substr($possible_file_extension,$j,1);
+                        $c = substr($possible_file_extension, $j, 1);
                         if ($c == '.' || ctype_alnum($c)) {
-
                         } else {
                             $ok_extension = false;
                         }
@@ -115,12 +114,12 @@ class stack_cas_castext_external extends stack_cas_castext_block {
             $label = "$temp_dir/". $label;
             $label_map[$key] = $label;
             foreach (array_keys($files) as $k) {
-                $files[$k] = str_replace($key,$label,$files[$k]);
+                $files[$k] = str_replace($key, $label, $files[$k]);
             }
         }
 
         foreach (array_keys($files) as $key) {
-            file_put_contents($label_map[$key],$files[$key]);
+            file_put_contents($label_map[$key], $files[$key]);
         }
 
         $this->handler->process($label_map);
@@ -129,7 +128,6 @@ class stack_cas_castext_external extends stack_cas_castext_block {
             unlink($file);
         }
         rmdir($temp_dir);
-
 
         $this->get_node()->convert_to_text($this->handler->get_replacement_text());
         return false;
@@ -144,7 +142,7 @@ class stack_cas_castext_external extends stack_cas_castext_block {
 abstract class stack_cas_castext_external_handler {
     public $name;
 
-    public abstract function extract_attributes($node,&$tobeevaluatedcassession,$conditionstack);
+    public abstract function extract_attributes($node, &$tobeevaluatedcassession, $conditionstack);
 
     public function set_name($name) {
         $this->name = $name;

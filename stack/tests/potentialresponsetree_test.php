@@ -65,7 +65,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals(1, count($result->feedback));
         $this->assertEquals('Yeah!', $result->feedback[0]->feedback);
         $this->assertEquals(array('ATInt_true.', '1-0-1'), $result->answernotes);
-        $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'), $tree->get_all_answer_notes());
+        $this->assertEquals(array('null' => 'null', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'), $tree->get_all_answer_notes());
     }
 
     public function test_do_test_2() {
@@ -121,7 +121,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals('Yeah!', $result->feedback[1]->feedback);
 
         $this->assertEquals(array('ATDiff_true.', '1-0-1', 'ATFacForm_true.', '1-1-1'), $result->answernotes);
-        $this->assertEquals(array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+        $this->assertEquals(array('null' => 'null', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
                 '1-1-1' => '1-1-1', '1-1-0' => '1-1-0'), $tree->get_all_answer_notes());
     }
 

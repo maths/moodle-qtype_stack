@@ -757,9 +757,9 @@ class stack_cas_casstring {
         $allow = array();
         if (trim($allowwords) != '') {
             $allowwords = explode(',', $allowwords);
-            foreach($allowwords as $kw) {
+            foreach ($allowwords as $kw) {
                 $kw = trim(strtolower($kw));
-                if (!in_array($kw, self::$globalforbid)) { 
+                if (!in_array($kw, self::$globalforbid)) {
                     $allow[] = $kw;
                 } else {
                     throw new stack_exception('stack_cas_casstring: check_security: attempt made to allow gloabally forbidden keyword: '.$kw);
@@ -1086,7 +1086,7 @@ class stack_cas_casstring {
     }
 
     // If we "CAS validate" this string, then we need to set various options.
-    // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
+    // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null, $allowwords='') {
         if (null===$this->valid) {
             $this->validate('s', true, false, $allowwords);

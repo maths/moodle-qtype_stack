@@ -38,8 +38,8 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
 
     private $error = false;
 
-    public function extract_attributes($node,&$tobeevaluatedcassession,$conditionstack) {
-        $this->template = $node->get_parameter("template",false);
+    public function extract_attributes($node, &$tobeevaluatedcassession, $conditionstack) {
+        $this->template = $node->get_parameter("template", false);
         if ($this->template !== false && !$this->templates[$this->template]) {
             $this->template = false;
             echo "bad template";
@@ -64,8 +64,8 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
         global $CFG;
         if ($this->template !== false) {
             $code = file_get_contents(dirname(__FILE__) . '/'.$this->templates[$this->template]);
-            $code = str_replace("__TEMPLATE__",file_get_contents($label_map["__SOURCE_CODE__"]),$code);
-            file_put_contents($label_map["__SOURCE_CODE__"],$code);
+            $code = str_replace("__TEMPLATE__", file_get_contents($label_map["__SOURCE_CODE__"]), $code);
+            file_put_contents($label_map["__SOURCE_CODE__"], $code);
         }
         $cwd = dirname($label_map["__SOURCE_CODE__"]);
         $pipes = array();
@@ -74,7 +74,7 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
             1 => array('pipe', 'w'),
             2 => array('pipe', 'w'));
 
-        $latex_process = proc_open($this->latex_command. " " .$label_map["__SOURCE_CODE__"],$descriptors,$pipes,$cwd);
+        $latex_process = proc_open($this->latex_command. " " .$label_map["__SOURCE_CODE__"], $descriptors, $pipes, $cwd);
 
         if (!is_resource($latex_process)) {
             throw new stack_exception('stack_cas_castext_external_latex_connection: could not open a LaTeX process');
@@ -84,7 +84,7 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
         $continue = true;
 
         if (!stream_set_blocking($pipes[1], false)) {
-            $this->debug->log('', 'Warning: could not stream_set_blocking to be FALSE on the LaTeX process.');
+            $this->debug->log('', 'Warning: could not stream_set_blocking to be false on the LaTeX process.');
         }
 
         $ret = "";
@@ -110,19 +110,19 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
         fclose($pipes[1]);
         fclose($pipes[2]);
 
-        if (file_exists(str_replace(".tex",".pdf",$label_map["__SOURCE_CODE__"]))) {
+        if (file_exists(str_replace(".tex", ".pdf", $label_map["__SOURCE_CODE__"]))) {
             $image = new Imagick();
-            $image->setResolution(150,150);
-            $image->readImage(str_replace(".tex",".pdf",$label_map["__SOURCE_CODE__"]));
+            $image->setResolution(150, 150);
+            $image->readImage(str_replace(".tex", ".pdf", $label_map["__SOURCE_CODE__"]));
 
             $image->trimImage(0);
 
             $image->writeImage($CFG->dataroot . "/stack/plots/latex-" . $this->name . ".png");
 
             // Clean up
-            unlink(str_replace(".tex",".pdf",$label_map["__SOURCE_CODE__"]));
-            unlink(str_replace(".tex",".aux",$label_map["__SOURCE_CODE__"]));
-            unlink(str_replace(".tex",".log",$label_map["__SOURCE_CODE__"]));
+            unlink(str_replace(".tex", ".pdf", $label_map["__SOURCE_CODE__"]));
+            unlink(str_replace(".tex", ".aux", $label_map["__SOURCE_CODE__"]));
+            unlink(str_replace(".tex", ".log", $label_map["__SOURCE_CODE__"]));
         } else {
             // Something went wrong...
             $this->error = $ret;

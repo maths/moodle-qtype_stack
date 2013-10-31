@@ -66,7 +66,7 @@ class stack_cas_text {
     private $syntax;
 
     /** @var stack_cas_castext_parsetreenode the root of the parse tree */
-    private $parse_tree_root = NULL;
+    private $parse_tree_root = null;
 
     /** @var array holds block-handlers for various parse_tree nodes */
     private $blocks = array();
@@ -250,7 +250,7 @@ class stack_cas_text {
                 }
                 break;
             case 'block':
-                $block = NULL;
+                $block = null;
                 switch ($node->get_content()) {
                     case 'if':
                         $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
@@ -308,7 +308,7 @@ class stack_cas_text {
                 }
                 break;
             case 'block':
-                $block = NULL;
+                $block = null;
                 switch ($node->get_content()) {
                     case 'if':
                         $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
@@ -369,7 +369,7 @@ class stack_cas_text {
             $array_form = stack_cas_castext_castextparser::normalize($array_form);
             $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
             $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
-            $this->first_pass_recursion($this->parse_tree_root,array());
+            $this->first_pass_recursion($this->parse_tree_root, array());
         }
 
         if (null!=$this->session) {
@@ -415,10 +415,9 @@ class stack_cas_text {
             $block->clear();
         }
 
-        if (trim($this->trimmedcastext) !== '' && $this->parse_tree_root !== NULL) {
+        if (trim($this->trimmedcastext) !== '' && $this->parse_tree_root !== null) {
             $this->trimmedcastext = $this->parse_tree_root->to_string();
         }
-
 
         // Replaces the old "hints" filter from STACK 2.0.
         // These strings are now part of the regular language files.
@@ -491,7 +490,7 @@ class stack_cas_text {
         }
 
         // 31/10/2013 
-        // This function is only used by the unit tests.  It is essential to 
+        // This function is only used by the unit tests.  It is essential to
         // look *inside* the session to make sure all variables are grabbed from the
         // text.  However, there is no harm in instantiating it to get the full session.
         $this->instantiate();

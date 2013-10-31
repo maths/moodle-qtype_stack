@@ -75,7 +75,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         $continue   = true;
 
         if (!stream_set_blocking($pipes[1], false)) {
-            $this->debug->log('', 'Warning: could not stream_set_blocking to be FALSE on the CAS process.');
+            $this->debug->log('', 'Warning: could not stream_set_blocking to be false on the CAS process.');
         }
 
         while ($continue and !feof($pipes[1])) {

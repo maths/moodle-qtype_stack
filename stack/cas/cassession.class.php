@@ -473,20 +473,21 @@ class stack_cas_session {
 
             $csnames   .= ", $cleanlabel";
             // Special handling for the conditionally evaluated strings
-            if(is_a($cs, 'stack_cas_conditionalcasstring') && count($cs->get_conditions()) > 0) {
-                 $conditions = array();
-                 foreach($cs->get_conditions() as $cond) {
-                     // No need to evaluate again if it is already evaluated
-                     if (array_search($cond,$this->session) !== false && array_search($cond,$this->session) < array_search($cs,$this->session)) {
-                         $conditions[] = str_replace('?', 'QMCHAR', $cond->get_key());
-                     } else {
-                         $conditions[] = str_replace('?', 'QMCHAR', $cond->get_casstring());
-                     }
-                 }
+            if (is_a($cs, 'stack_cas_conditionalcasstring') && count($cs->get_conditions()) > 0) {
+                $conditions = array();
+                foreach($cs->get_conditions() as $cond) {
+                    // No need to evaluate again if it is already evaluated
+                    if (array_search($cond, $this->session) !== false
+                            && array_search($cond, $this->session) < array_search($cs, $this->session)) {
+                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_key());
+                    } else {
+                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_casstring());
+                    }
+                }
 
-                 $condition = implode(" and ",$conditions);
+                $condition = implode(" and ", $conditions);
 
-                 $cascommands .= ", print(\"$i=[ error= [\"), if $condition then cte(\"$label\",errcatch($label:$cmd)) else cte(\"$label\",errcatch($label:false)) ";
+                $cascommands .= ", print(\"$i=[ error= [\"), if $condition then cte(\"$label\",errcatch($label:$cmd)) else cte(\"$label\",errcatch($label:false)) ";
             } else {
                  $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
             }

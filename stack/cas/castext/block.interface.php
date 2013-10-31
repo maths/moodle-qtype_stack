@@ -46,7 +46,7 @@ abstract class stack_cas_castext_block {
     /**
      * The functions here are listed in the order they will be called from the castext-processor.
      */
-    public function __construct(&$node,&$session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct(&$node, &$session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
         $this->node = $node;
 
         // These are for creating a new castext-parser if need be.
@@ -67,7 +67,7 @@ abstract class stack_cas_castext_block {
     abstract public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null);
 
     /**
-     * Returns FALSE if the contents of this block should not be processed by the castext-processor
+     * Returns false if the contents of this block should not be processed by the castext-processor
      * calling this function. Otherwise returns a new condition stack including whatever conditions are
      * needed for safe evaluatin of the contents of this block.
      */
@@ -100,7 +100,7 @@ abstract class stack_cas_castext_block {
      * Handles basic validation of the casstrings feel free to extend to include block attribute related
      * validations e.g. comments on mandatory attributes.
      */
-    public function validate(&$errors=''){
+    public function validate(&$errors='') {
         $valid = true;
         $err = '';
         foreach ($this->validate_extract_attributes() as $casstring) {

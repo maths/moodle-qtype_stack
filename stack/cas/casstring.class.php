@@ -427,10 +427,9 @@ class stack_cas_casstring {
     private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
 
     public function __construct($rawstring) {
-        $this->rawcasstring   = $rawstring;
-        $this->answernote = array();
-
-        $this->valid          =  null;  // If NULL then the validate command has not yet been run....
+        $this->rawcasstring = $rawstring;
+        $this->valid        = null;  // If null then the validate command has not yet been run....
+        $this->answernote   = array();
 
         if (!is_string($this->rawcasstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
@@ -572,10 +571,12 @@ class stack_cas_casstring {
             }
         }
 
-        if (!stack_utils::check_nested_bookends($cmd)) {
-            $this->valid = false;
-            $this->add_error(stack_string('stackCas_bracketsdontmatch',
-                     array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+        if ($this->valid) {
+            if (!stack_utils::check_nested_bookends($cmd)) {
+                $this->valid = false;
+                $this->add_error(stack_string('stackCas_bracketsdontmatch',
+                    array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+            }
         }
 
         if ($security == 's') {
@@ -1077,10 +1078,10 @@ class stack_cas_casstring {
     }
 
     public function add_errors($err) {
-        if (''==trim($err)) {
+        if ('' == trim($err)) {
             return false;
         } else {
-            return $this->errors.=$err;
+            return $this->errors .= $err;
         }
     }
 

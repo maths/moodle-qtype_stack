@@ -115,6 +115,21 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_if_block_error() {
+        $a = array('a:true', 'b:is(1>2)');
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = new stack_cas_casstring($var);
+        }
+        $session = new stack_cas_session($cs, null, 0);
+
+        $c = '[[ if test="a" ]][[ if ]]ok[[/ if ]][[/ if ]]';
+        $ct = new stack_cas_text($c, $session);
+        $ct->get_display_castext();
+        $this->assertFalse($ct->get_valid());
+        $this->assertEquals('<span class="error">CASText failed validation. </span>If-block needs a test attribute.', $ct->get_errors(false));
+    }
+
     public function test_define_block() {
         $a1 = array('a:2');
 
@@ -155,7 +170,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $ct = new stack_cas_text('Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input', null, 0);
         $this->assertTrue($ct->get_valid());
         $this->assertEquals(array('x', 'x + 1'), $ct->get_all_raw_casstrings());
-        $this->assertEquals('Here {x} is some @@PLUGINFILE@@ {x+1} some input', $ct->get_display_castext());
+        $this->assertEquals('Here \({x}\) is some @@PLUGINFILE@@ \({x+1}\) some input', $ct->get_display_castext());
     }
 
     public function test_get_all_raw_casstrings_empty() {
@@ -192,6 +207,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
 
         $at1 = new stack_cas_text($ct, $cs2, 0);
+        $at1->get_display_castext();
         $this->assertEquals($val, $at1->check_external_forbidden_words($words));
 
     }
@@ -301,9 +317,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         // Alt tags must be a string.
         $at1 = new stack_cas_text('This is some text {@plot(p,[x,-2,3],[alt,x])@}', $cs2, 0, 't');
-        $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
+        $this->assertTrue($at1->get_valid());
         $session = $at1->get_session();
         $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
         $this->assertTrue(is_int(strpos($at1->get_errors(), "Plot error: the alt tag definition must be a string, but is not.")));
@@ -315,8 +331,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         // Alt tags must be a string.
         $at1 = new stack_cas_text('This is some text {@plot(x^2,[x,-2,3],[notoption,""])@}', $cs2, 0, 't');
-        $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
+        $this->assertTrue($at1->get_valid());
 
         $session = $at1->get_session();
         $this->assertEquals(array('caschat0'), $session->get_all_keys());
@@ -372,16 +388,18 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_global_forbidden_words() {
         $at1 = new stack_cas_text('This is system cost \({@system(rm*)@}\) to create.', null, 0, 't');
+        $at1->get_display_castext();
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid. ' .
-                '</br>The expression <span class="stacksyntaxexample">system</span> is forbidden.');
+        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .
+                'The expression <span class="stacksyntaxexample">system</span> is forbidden.');
     }
 
     public function test_invalid_casstrings() {
         $at1 = new stack_cas_text('This is invalid \({@2*@}\).', null, 0, 't');
+        $at1->get_display_castext();
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid. ' .
-                    '</br>The expression <span class="stacksyntaxexample">system</span> is forbidden.');
+        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .
+                    '\'*\' is an invalid final character in <span class="stacksyntaxexample">2*</span>');
     }
 
     public function test_exception_1() {

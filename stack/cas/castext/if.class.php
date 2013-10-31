@@ -78,16 +78,16 @@ class stack_cas_castext_if extends stack_cas_castext_block {
 
 
     public function validate_extract_attributes() {
-        $condition = $this->get_node()->get_parameter("test","false");
+        $condition = $this->get_node()->get_parameter('test', 'false');
         $r = array(new stack_cas_casstring($condition));
-	$r[0]->set_key("testkey");
+        $r[0]->set_key("testkey");
         return $r;
     }
 
-    public function validate(&$errors=""){
+    public function validate(&$errors=''){
         $valid = parent::validate($errors);
 
-        if (!$this->get_node()->parameter_exists("test")) {
+        if (!$this->get_node()->parameter_exists('test')) {
             $valid = false;
             $errors .= stack_string('stackBlock_ifNeedsCondition');
         }

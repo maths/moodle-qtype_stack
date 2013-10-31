@@ -116,16 +116,16 @@ class stack_cas_castext_castextparser extends Parser\Basic {
      */
     public static function normalize($parse_tree) {
         // start by paintting the mathmode if not paintted elsewhere
-        if (!array_key_exists('mathmode',$parse_tree)) {
+        if (!array_key_exists('mathmode', $parse_tree)) {
             $mathmode = FALSE;
             $parse_tree['mathmode'] = FALSE;
-            if (array_key_exists('item',$parse_tree) && is_array($parse_tree['item']) && count($parse_tree['item']) > 1 && !array_key_exists('_matchrule',$parse_tree['item'])) {
+            if (array_key_exists('item', $parse_tree) && is_array($parse_tree['item']) && count($parse_tree['item']) > 1 && !array_key_exists('_matchrule',$parse_tree['item'])) {
                 foreach ($parse_tree['item'] as $key => $value) {
                     if ($value['_matchrule'] == 'mathmodeclose') {
                         $mathmode = FALSE;
                     } else if ($value['_matchrule'] == 'mathmodeopen') {
                         $mathmode = TRUE;
-                    }        
+                    }
                     $parse_tree['item'][$key]['mathmode'] = $mathmode;
                 }
             }

@@ -59,7 +59,7 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
         return $conditionstack;
     }
 
-    public function process_content($evaluatedcassession,$conditionstack = NULL) {
+    public function process_content($evaluatedcassession, $conditionstack = NULL) {
         $thenewone = $evaluatedcassession->get_value_key("caschat".$this->number);
         $this->get_node()->convert_to_text($thenewone);
 

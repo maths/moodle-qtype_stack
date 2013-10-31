@@ -145,4 +145,15 @@ if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);
 }
 
+if ($ct->get_valid()) {
+    echo "VALID";
+} else {
+    echo "INVALID";
+}
+
+echo "<pre>";
+print_r($ct->get_session());
+echo "</pre>";
+
+
 echo $OUTPUT->footer();

@@ -64,7 +64,7 @@ abstract class stack_cas_castext_block {
      * Meant for extracting CAS-commands that have not been encased in "raw"- or "latex"-blocks. As well
      * as things not present in code.
      */
-    abstract public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL);
+    abstract public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null);
 
     /**
      * Returns FALSE if the contents of this block should not be processed by the castext-processor
@@ -80,7 +80,7 @@ abstract class stack_cas_castext_block {
      * Returns true if the DOM should be searched again fro new blocks to be evaluated and false if this
      * block caused nothing to be hidden from evaluation nor created new things to be evaluated.
      */
-    abstract public function process_content($evaluatedcassession,$conditionstack = NULL);
+    abstract public function process_content($evaluatedcassession, $conditionstack = null);
 
     /**
      * Called for the last set of blocks in the evaluation process so that they may clear out anything they
@@ -100,17 +100,16 @@ abstract class stack_cas_castext_block {
      * Handles basic validation of the casstrings feel free to extend to include block attribute related
      * validations e.g. comments on mandatory attributes.
      */
-    public function validate(&$errors=""){
+    public function validate(&$errors=''){
         $valid = true;
-        $err = "";
+        $err = '';
         foreach ($this->validate_extract_attributes() as $casstring) {
             $casstring->validate($this->security, $this->insertstars, $this->syntax);
             if (!$casstring->get_valid()) {
                 $valid = false;
-                $err .= $casstring->get_errors();
             }
         }
-        if ($err != "") {
+        if ($err != '') {
             $errors .= stack_string('stackCas_invalidCommand').'</br>'.$err;
         }
 

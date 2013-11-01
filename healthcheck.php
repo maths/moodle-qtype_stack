@@ -107,6 +107,13 @@ if (stack_cas_configuration::maxima_bat_is_missing()) {
     echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $CFG->dataroot));
 }
 
+// Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
+echo $OUTPUT->heading(stack_string('healthuncached'), 3);
+echo html_writer::tag('p', stack_string('healthuncachedintro'));
+list($message, $debug) = stack_connection_helper::stackmaxima_genuine_connect();
+echo html_writer::tag('p', $message);
+echo output_debug(stack_string('debuginfo'), $debug);
+
 // Test Maxima connection.
 // Intentionally use get_string for the sample CAS and plots, so we don't render
 // the maths too soon.

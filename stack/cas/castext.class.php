@@ -53,7 +53,7 @@ class stack_cas_text {
     /** @var bool whether this been sent to the CAS yet? Stops re-sending to the CAS. */
     private $instantiated = null;
 
-    /** @var string any error messages to display to the user. */
+    /** @var array any error messages to display to the user. */
     private $errors;
 
     /** @var string security level, 's' or 't'. */
@@ -66,7 +66,7 @@ class stack_cas_text {
     private $syntax;
 
     /** @var stack_cas_castext_parsetreenode the root of the parse tree */
-    private $parse_tree_root = NULL;
+    private $parse_tree_root = null;
 
     /** @var array holds block-handlers for various parse_tree nodes */
     private $blocks = array();
@@ -118,10 +118,10 @@ class stack_cas_text {
      * @return bool
      */
     private function validate() {
-        $this->errors = '';
+        $this->errors = array();
         if (strlen(trim($this->rawcastext)) > 64000) {
             // Limit to just less than 64kb. Maximum practical size of a post. (About 14 pages).
-            $this->errors = stack_string("stackCas_tooLong");
+            $this->errors[] = stack_string("stackCas_tooLong");
             $this->valid = false;
             return false;
         }
@@ -141,9 +141,9 @@ class stack_cas_text {
         $amps = stack_utils::check_bookends($this->trimmedcastext, '{@', '@}');
         if ($amps !== true) {
             if ($amps == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenTeXCAS');
+                $this->errors[] = stack_string('stackCas_MissingOpenTeXCAS');
             } else {
-                $this->errors .= stack_string('stackCas_MissingClosingTeXCAS');
+                $this->errors[] = stack_string('stackCas_MissingClosingTeXCAS');
             }
             $this->valid = false;
         }
@@ -152,9 +152,9 @@ class stack_cas_text {
         $amps = stack_utils::check_bookends($this->trimmedcastext, '{#', '#}');
         if ($amps !== true) {
             if ($amps == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenRawCAS');
+                $this->errors[] = stack_string('stackCas_MissingOpenRawCAS');
             } else {
-                $this->errors .= stack_string('stackCas_MissingClosingRawCAS');
+                $this->errors[] = stack_string('stackCas_MissingClosingRawCAS');
             }
             $this->valid = false;
         }
@@ -163,7 +163,7 @@ class stack_cas_text {
         $protected = str_replace('\$', '', $this->trimmedcastext);
         $dollar = stack_utils::check_matching_pairs($protected, '$');
         if ($dollar == false) {
-            $this->errors .= stack_string('stackCas_MissingDollar');
+            $this->errors[] = stack_string('stackCas_MissingDollar');
             $this->valid = false;
         }
 
@@ -172,9 +172,9 @@ class stack_cas_text {
             // The method check_bookends does not return false.
             $this->valid = false;
             if ($hints == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenHint');
+                $this->errors[] = stack_string('stackCas_MissingOpenHint');
             } else {
-                $this->errors .= stack_string('stackCas_MissingClosingHint');
+                $this->errors[] = stack_string('stackCas_MissingClosingHint');
             }
         }
 
@@ -184,9 +184,9 @@ class stack_cas_text {
 
             $this->valid = false;
             if ($html == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenHTML');
+                $this->errors[] = stack_string('stackCas_MissingOpenHTML');
             } else {
-                $this->errors .= stack_string('stackCas_MissingCloseHTML');
+                $this->errors[] = stack_string('stackCas_MissingCloseHTML');
             }
         }
 
@@ -196,9 +196,9 @@ class stack_cas_text {
 
             $this->valid = false;
             if ($inline == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenDisplay');
+                $this->errors[] = stack_string('stackCas_MissingOpenDisplay');
             } else {
-                $this->errors .= stack_string('stackCas_MissingCloseDisplay');
+                $this->errors[] = stack_string('stackCas_MissingCloseDisplay');
             }
         }
 
@@ -207,17 +207,16 @@ class stack_cas_text {
             // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenInline');
+                $this->errors[] = stack_string('stackCas_MissingOpenInline');
             } else {
-                $this->errors .= stack_string('stackCas_MissingCloseInline');
+                $this->errors[] = stack_string('stackCas_MissingCloseInline');
             }
         }
 
         // Perform validation on the existing session.
-        if (null!=$this->session) {
+        if (null != $this->session) {
             if (!$this->session->get_valid()) {
                 $this->valid = false;
-                $this->errors .= $this->session->get_errors();
             }
         }
 
@@ -233,13 +232,9 @@ class stack_cas_text {
 
         if (array_key_exists('errors', $array_form)) {
             $this->valid = false;
-            $this->errors .= '<br/>' . $array_form['errors'];
+            $this->errors[] = 'ARRAY-FROM'. $array_form['errors'];
         }
 
-
-        if (false === $this->valid) {
-            $this->errors = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$this->errors;
-        }
         return $this->valid;
     }
 
@@ -255,7 +250,7 @@ class stack_cas_text {
                 }
                 break;
             case 'block':
-                $block = NULL;
+                $block = null;
                 switch ($node->get_content()) {
                     case 'if':
                         $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
@@ -270,16 +265,22 @@ class stack_cas_text {
                         $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     default:
-                        $this->errors .= '<br/>' . stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
+                        $this->errors[] = stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
                         $valid = false;
                         break;
                 }
                 if ($valid) {
-                    $block->validate($this->errors);
-                    $iter = $node->first_child;
-                    while ($iter !== null) {
-                        $valid = $valid && $this->validation_recursion($iter);
-                        $iter = $iter->next_sibling;
+                    $err = '';
+                    $block->validate($err);
+                    if ($err != '') {
+                        $this->valid = false;
+                        $this->errors[] = $err;
+                    } else {
+                        $iter = $node->first_child;
+                        while ($iter !== null) {
+                            $valid = $valid && $this->validation_recursion($iter);
+                            $iter = $iter->next_sibling;
+                        }
                     }
                 }
                 break;
@@ -307,7 +308,7 @@ class stack_cas_text {
                 }
                 break;
             case 'block':
-                $block = NULL;
+                $block = null;
                 switch ($node->get_content()) {
                     case 'if':
                         $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
@@ -368,13 +369,12 @@ class stack_cas_text {
             $array_form = stack_cas_castext_castextparser::normalize($array_form);
             $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
             $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
-            $this->first_pass_recursion($this->parse_tree_root,array());
+            $this->first_pass_recursion($this->parse_tree_root, array());
         }
 
         if (null!=$this->session) {
             if (!$this->session->get_valid()) {
                 $this->valid = false;
-                $this->errors .= $this->session->get_errors();
             }
         }
 
@@ -385,7 +385,6 @@ class stack_cas_text {
         // Deal with castext without any CAS variables.
         if (null !== $this->session && count($this->session->get_session()) > 0) {
             $this->session->instantiate();
-            $this->errors .= $this->session->get_errors();
         }
 
         // Handle blocks
@@ -404,9 +403,8 @@ class stack_cas_text {
             $array_form = stack_cas_castext_castextparser::normalize($array_form);
             $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
             $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
-            $this->first_pass_recursion($this->parse_tree_root,array());
+            $this->first_pass_recursion($this->parse_tree_root, array());
             $this->session->instantiate();
-            $this->errors .= $this->session->get_errors();
             $requires_rerun = false;
             foreach (array_reverse($this->blocks) as $block) {
                 $requires_rerun = $block->process_content($this->session) || $requires_rerun;
@@ -417,10 +415,9 @@ class stack_cas_text {
             $block->clear();
         }
 
-        if (trim($this->trimmedcastext) !== '' && $this->parse_tree_root !== NULL) {
+        if (trim($this->trimmedcastext) !== '' && $this->parse_tree_root !== null) {
             $this->trimmedcastext = $this->parse_tree_root->to_string();
         }
-
 
         // Replaces the old "hints" filter from STACK 2.0.
         // These strings are now part of the regular language files.
@@ -468,10 +465,23 @@ class stack_cas_text {
         if (null===$this->valid) {
             $this->validate();
         }
-        if ($casdebug) {
-            return $this->errors.$this->session->get_debuginfo();
+
+        $errmsg = '';
+        if ($this->errors != array()) {
+            $errmsg .= implode($this->errors, ' ');
         }
-        return $this->errors;
+
+        $errmsg .= $this->session->get_errors();
+
+        if ('' != trim($errmsg)) {
+            $errmsg = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$errmsg;
+        }
+
+        if ($casdebug) {
+            $errmsg .= $this->session->get_debuginfo();
+        }
+
+        return $errmsg;
     }
 
     public function get_all_raw_casstrings() {
@@ -479,6 +489,11 @@ class stack_cas_text {
             $this->validate();
         }
 
+        // 31/10/2013 
+        // This function is only used by the unit tests.  It is essential to
+        // look *inside* the session to make sure all variables are grabbed from the
+        // text.  However, there is no harm in instantiating it to get the full session.
+        $this->instantiate();
         if (null !== $this->session) {
             return $this->session->get_all_raw_casstrings();
         } else {

@@ -273,7 +273,7 @@ class stack_potentialresponse_tree {
         foreach ($this->nodes as $node) {
             $nodenotes = array_merge($nodenotes, $node->get_answer_notes());
         }
-        $notes = array('NULL' => 'NULL');
+        $notes = array('null' => 'null');
         foreach ($nodenotes as $note) {
             $notes[$note] = $note;
         }

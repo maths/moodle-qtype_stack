@@ -462,7 +462,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('select', 'inversetrig',
                 stack_string('inversetrig'), array(
-                    'cos-1' => 'cosâ�»Â¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+                    'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 

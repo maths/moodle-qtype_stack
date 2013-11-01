@@ -93,7 +93,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * Connect directly to the CAS, and return the raw string result.
      *
      * @param string $command The string of CAS commands to be processed.
-     * @return string|boolean The converted HTML string or FALSE if there was an error.
+     * @return string|boolean The converted HTML string or false if there was an error.
      */
     protected abstract function call_maxima($command);
 

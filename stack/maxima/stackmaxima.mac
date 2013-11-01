@@ -1027,9 +1027,9 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark,FeedBack,AnswerNote,SAA,SA
 	
 	/* Turn on simplification and error catch */
     SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATLowestTerms_STACKERROR_SAns"),""]),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATSysEquiv_STACKERROR_SAns"),""]),
     SAB:errcatch(ev(SB,simp,fullratsimp,nouns)),
-    if (is(SAB=[STACKERROR]) or is(SAB=[])) then return([false,false,StackAddNote("","ATLowestTerms_STACKERROR_TAns"),""]),
+    if (is(SAB=[STACKERROR]) or is(SAB=[])) then return([false,false,StackAddNote("","ATSysEquiv_STACKERROR_TAns"),""]),
 	
 	/* Are both answers lists? */
 	if not listp(SA) then
@@ -1052,8 +1052,14 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark,FeedBack,AnswerNote,SAA,SA
 	/* Turn our equations into expressions */
 	S1: ev(maplist(stack_eqnprepare,stack_eval_assignments(SA)),simp),
 	S2: ev(maplist(stack_eqnprepare,stack_eval_assignments(SB)),simp),
-	kill(SB),
 
+    /* Is S1 is empty?  This means we only had assignments in the answer, 
+       i.e. the answer was in a "solved" form, e.g. x=1. */
+    if emptyp(S1) and ev(equal(setify(maplist(stack_eqnprepare, SA)), setify(maplist(stack_eqnprepare, flatten(solve(S2,listofvars(S2)))))),simp) then
+		    return([true,true,StackAddNote("","ATSysEquiv_SA_Completely_solved"),""]),
+    if emptyp(S1) then 
+		    return([true,false,StackAddNote("","ATSysEquiv_SA_Not_completely_solved"),""]),
+           
 	/* Is each expression a polynomial? */
 	if not all_listp(polynomialpsimp, S1) then
 		return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_poly_eq_list")),
@@ -1959,5 +1965,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013101400$
-print("[ STACK-Maxima started, library version 2013101400 ]")$
+stackmaximaversion:2013102300$
+print("[ STACK-Maxima started, library version 2013102300 ]")$

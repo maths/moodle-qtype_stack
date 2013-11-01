@@ -1,3 +1,0 @@
-[submodule "lib/php-peg"]
-	path = lib/php-peg
-	url = git://github.com/hafriedlander/php-peg.git

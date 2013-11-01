@@ -28,7 +28,7 @@ class stack_cas_conditionalcasstring extends stack_cas_casstring{
     /** @var array of boolean valued CAS strings. */
     private $conditions;
 
-    public function __construct($rawstring,$conditionstack) {
+    public function __construct($rawstring, $conditionstack) {
         parent::__construct($rawstring);
         $this->conditions = $conditionstack;
     }

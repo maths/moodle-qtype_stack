@@ -298,12 +298,12 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
     // SB:x^6/6;
     // SAd:diff(SA,v);
     // SBd:diff(SB,v);
-    // StackAddFeedback("","ATInt_generic",StackDISP(SBd,"d"),StackDISP(v,"i"),StackDISP(SAd,"d"));
+    // StackAddFeedback("", "ATInt_generic",StackDISP(SBd, "d"),StackDISP(v, "i"),StackDISP(SAd, "d"));
     //
     // There is a lot more going on in the real answer test (such as stripping
     // of constants of integration) but this is enough for now.....
     //
-    // StackDISP(SBd,"d") creates a *string* of the displayed/inline form of
+    // StackDISP(SBd, "d") creates a *string* of the displayed/inline form of
     // variable SBd etc.
     //
     // This generates a string

@@ -27,15 +27,15 @@ require_once(dirname(__FILE__) . '/../casstring.class.php');
 
 class stack_cas_castext_define extends stack_cas_castext_block {
 
-    public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
+    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = NULL;
-            if ($conditionstack === NULL || count($conditionstack) === 0) {
+            $cs = null;
+            if ($conditionstack === null || count($conditionstack) === 0) {
                 $cs = new stack_cas_casstring($value);
             } else {
-                $cs = new stack_cas_conditionalcasstring($value,$conditionstack);
+                $cs = new stack_cas_conditionalcasstring($value, $conditionstack);
             }
-            $cs->set_key($key,true);
+            $cs->set_key($key, true);
             $tobeevaluatedcassession->add_vars(array($cs));
         }
     }
@@ -44,7 +44,7 @@ class stack_cas_castext_define extends stack_cas_castext_block {
         return $conditionstack;
     }
 
-    public function process_content($evaluatedcassession,$conditionstack = NULL) {
+    public function process_content($evaluatedcassession, $conditionstack = null) {
         return false;
     }
 
@@ -56,7 +56,7 @@ class stack_cas_castext_define extends stack_cas_castext_block {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             $cs = new stack_cas_casstring($value);
-            $cs->set_key($key,true);
+            $cs->set_key($key, true);
             $r[] = $cs;
         }
         return $r;

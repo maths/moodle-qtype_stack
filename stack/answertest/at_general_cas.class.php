@@ -124,7 +124,7 @@ class stack_answertest_general_cas extends stack_anstest {
                 }
             }
             $atopt = $this->atoption;
-            $ta   = "[$this->tanskey,$atopt]";
+            $ta   = "[$this->tanskey, $atopt]";
         } else {
             $ta = $this->tanskey;
         }

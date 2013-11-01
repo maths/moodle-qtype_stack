@@ -33,14 +33,14 @@ class stack_cas_castext_if extends stack_cas_castext_block {
 
     private $condition;
 
-    public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
-        $condition = $this->get_node()->get_parameter("test","false");
+    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+        $condition = $this->get_node()->get_parameter("test", "false");
 
-        $cs = NULL;
-        if ($conditionstack === NULL || count($conditionstack) === 0) {
+        $cs = null;
+        if ($conditionstack === null || count($conditionstack) === 0) {
             $cs = new stack_cas_casstring($condition);
         } else {
-            $cs = new stack_cas_conditionalcasstring($condition,$conditionstack);
+            $cs = new stack_cas_conditionalcasstring($condition, $conditionstack);
         }
 
         $this->condition = $cs;
@@ -53,7 +53,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         } while (in_array($key, $session_keys));
         $this->number = $i-1;
 
-        $cs->set_key($key,true);
+        $cs->set_key($key, true);
 
         $tobeevaluatedcassession->add_vars(array($cs));
     }
@@ -63,7 +63,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         return $conditionstack;
     }
 
-    public function process_content($evaluatedcassession,$conditionstack = NULL) {
+    public function process_content($evaluatedcassession, $conditionstack = null) {
         $evaluated = $evaluatedcassession->get_value_key("caschat".$this->number);
 
         // If so then move childs up
@@ -78,16 +78,16 @@ class stack_cas_castext_if extends stack_cas_castext_block {
 
 
     public function validate_extract_attributes() {
-        $condition = $this->get_node()->get_parameter("test","false");
+        $condition = $this->get_node()->get_parameter('test', 'false');
         $r = array(new stack_cas_casstring($condition));
-	$r[0]->set_key("testkey");
+        $r[0]->set_key("testkey");
         return $r;
     }
 
-    public function validate(&$errors=""){
+    public function validate(&$errors='') {
         $valid = parent::validate($errors);
 
-        if (!$this->get_node()->parameter_exists("test")) {
+        if (!$this->get_node()->parameter_exists('test')) {
             $valid = false;
             $errors .= stack_string('stackBlock_ifNeedsCondition');
         }

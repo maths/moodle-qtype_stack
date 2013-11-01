@@ -138,7 +138,7 @@ class stack_matrix_input extends stack_input {
         // Turn the student's answer into a PHP array.
         $t = trim($in);
         if ('matrix(' == substr($t, 0, 7)) {
-            $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // E.g. array("[a,b]","[c,d]").
+            $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // E.g. array("[a,b]", "[c,d]").
             for ($i=0; $i < count($rows); $i++) {
                 $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
                 $tc[$i] = $row;
@@ -323,12 +323,12 @@ class stack_matrix_input extends stack_input {
      * while at the same time making sure that the braces stay balanced
      *
      * _tokenizer("[1,2]") => array("[1,2]")
-     * _tokenizer("1,2") = > array("1","2")
-     * _tokenizer("1,1/sum([1,3]),matrix([1],[2])") => array("1","1/sum([1,3])","matrix([1],[2])")
+     * _tokenizer("1,2") = > array("1", "2")
+     * _tokenizer("1,1/sum([1,3]),matrix([1],[2])") => array("1", "1/sum([1,3])", "matrix([1],[2])")
      *
      * $t = trim("matrix([a,b],[c,d])");
-     * $rows = _tokenizer(substr($t, 7, -1));  // array("[a,b]","[c,d]");
-     * $firstRow = _tokenizer(substr($rows[0],1,-1)); // array("a","b");
+     * $rows = _tokenizer(substr($t, 7, -1));  // array("[a,b]", "[c,d]");
+     * $firstRow = _tokenizer(substr($rows[0],1,-1)); // array("a", "b");
      *
      * @author Matti Harjula
      *

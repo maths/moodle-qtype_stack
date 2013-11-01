@@ -33,12 +33,12 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
      */
     private $number;
 
-    public function extract_attributes(&$tobeevaluatedcassession,$conditionstack = NULL) {
-        $cs = NULL;
-        if ($conditionstack === NULL || count($conditionstack) === 0) {
+    public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+        $cs = null;
+        if ($conditionstack === null || count($conditionstack) === 0) {
             $cs = new stack_cas_casstring(trim($this->get_node()->get_content()));
         } else {
-            $cs = new stack_cas_conditionalcasstring(trim($this->get_node()->get_content()),$conditionstack);
+            $cs = new stack_cas_conditionalcasstring(trim($this->get_node()->get_content()), $conditionstack);
         }
 
         $session_keys = $tobeevaluatedcassession->get_all_keys();
@@ -49,7 +49,7 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         } while (in_array($key, $session_keys));
         $this->number = $i-1;
 
-        $cs->set_key($key,true);
+        $cs->set_key($key, true);
 
         $tobeevaluatedcassession->add_vars(array($cs));
     }
@@ -59,9 +59,9 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         return $conditionstack;
     }
 
-    public function process_content($evaluatedcassession,$conditionstack = NULL) {
+    public function process_content($evaluatedcassession, $conditionstack = null) {
         $evaluated = $evaluatedcassession->get_display_key("caschat".$this->number);
-        if (strpos($evaluated,"<html")!==FALSE) {
+        if (strpos($evaluated, "<html")!==false) {
             $this->get_node()->convert_to_text($evaluated);
         } else {
             if ($this->get_node()->get_mathmode() == true) {

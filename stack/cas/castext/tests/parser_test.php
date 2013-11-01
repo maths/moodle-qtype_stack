@@ -49,9 +49,9 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         switch ($parse_tree['_matchrule']) {
             case "castext":
             case "block":
-                if (array_key_exists('_matchrule',$parse_tree['item'])) {
+                if (array_key_exists('_matchrule', $parse_tree['item'])) {
                     foreach ($this->count_nodes($parse_tree['item']) as $key => $value) {
-                        if (array_key_exists($key,$R)) {
+                        if (array_key_exists($key, $R)) {
                             $R[$key] = $R[$key] + $value;
                         } else {
                             $R[$key] = $value;
@@ -60,7 +60,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
                 } else {
                     foreach ($parse_tree['item'] as $sub_tree) {
                         foreach ($this->count_nodes($sub_tree) as $key => $value) {
-                            if (array_key_exists($key,$R)) {
+                            if (array_key_exists($key, $R)) {
                                 $R[$key] = $R[$key] + $value;
                             } else {
                                 $R[$key] = $value;
@@ -70,7 +70,7 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
                 }
                 break;
         }
-        if (array_key_exists($parse_tree['_matchrule'],$R)) {
+        if (array_key_exists($parse_tree['_matchrule'], $R)) {
             $R[$parse_tree['_matchrule']] = $R[$parse_tree['_matchrule']] +1;
         } else {
             $R[$parse_tree['_matchrule']] = 1;
@@ -87,11 +87,11 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         // As this tree has no ambiguous quotes or whitespace in blocks the to_string function should produce the same string
         $this->assertEquals($raw, $parsed['to_string']);
         // The tree should contain these nodes
-        $this->assertEquals(1,$parsed['counts']['text']);
-        $this->assertEquals(1,$parsed['counts']['rawcasblock']);
-        $this->assertEquals(1,$parsed['counts']['castext']);
+        $this->assertEquals(1, $parsed['counts']['text']);
+        $this->assertEquals(1, $parsed['counts']['rawcasblock']);
+        $this->assertEquals(1, $parsed['counts']['castext']);
         // The contents of the cas-block should be here
-        $this->assertEquals("sin(x/y)",$parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
+        $this->assertEquals("sin(x/y)", $parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
     }
 
     /**
@@ -103,11 +103,11 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         // As this tree has no ambiguous quotes or whitespace in blocks the to_string function should produce the same string
         $this->assertEquals($raw, $parsed['to_string']);
         // The tree should contain these nodes
-        $this->assertEquals(1,$parsed['counts']['text']);
-        $this->assertEquals(1,$parsed['counts']['texcasblock']);
-        $this->assertEquals(1,$parsed['counts']['castext']);
+        $this->assertEquals(1, $parsed['counts']['text']);
+        $this->assertEquals(1, $parsed['counts']['texcasblock']);
+        $this->assertEquals(1, $parsed['counts']['castext']);
         // The contents of the cas-block should be here
-        $this->assertEquals("sin(x/y)",$parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
+        $this->assertEquals("sin(x/y)", $parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
     }
 
     /**
@@ -119,15 +119,15 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         // As this tree has no ambiguous quotes or whitespace in blocks the to_string function should produce the same string
         $this->assertEquals($raw, $parsed['to_string']);
         // The tree should contain these nodes
-        $this->assertEquals(2,$parsed['counts']['text']);
-        $this->assertEquals(1,$parsed['counts']['texcasblock']);
-        $this->assertEquals(1,$parsed['counts']['rawcasblock']);
-        $this->assertEquals(1,$parsed['counts']['castext']);
+        $this->assertEquals(2, $parsed['counts']['text']);
+        $this->assertEquals(1, $parsed['counts']['texcasblock']);
+        $this->assertEquals(1, $parsed['counts']['rawcasblock']);
+        $this->assertEquals(1, $parsed['counts']['castext']);
         // The contents of the cas-block should be here
-        $this->assertEquals("sin(x/y)",$parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
-        $this->assertEquals("cos(x/y)",$parsed['usable_parse_tree']['item'][3]['cascontent']['text']);
+        $this->assertEquals("sin(x/y)", $parsed['usable_parse_tree']['item'][1]['cascontent']['text']);
+        $this->assertEquals("cos(x/y)", $parsed['usable_parse_tree']['item'][3]['cascontent']['text']);
         // Check the random text node
-        $this->assertEquals(" and another ",$parsed['usable_parse_tree']['item'][2]['text']);
+        $this->assertEquals(" and another ", $parsed['usable_parse_tree']['item'][2]['text']);
     }
 
     /**
@@ -137,13 +137,13 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $raw = 'Test string with an block [[ block ]] test content [[/block]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // The tree should contain these nodes
-        $this->assertEquals(2,$parsed['counts']['text']);
-        $this->assertEquals(1,$parsed['counts']['block']);
-        $this->assertEquals(1,$parsed['counts']['castext']);
+        $this->assertEquals(2, $parsed['counts']['text']);
+        $this->assertEquals(1, $parsed['counts']['block']);
+        $this->assertEquals(1, $parsed['counts']['castext']);
         // The block has a name
-        $this->assertEquals("block",$parsed['usable_parse_tree']['item'][1]['name']);
+        $this->assertEquals("block", $parsed['usable_parse_tree']['item'][1]['name']);
         // And the content text is
-        $this->assertEquals(" test content ",$parsed['usable_parse_tree']['item'][1]['item'][0]['text']);
+        $this->assertEquals(" test content ", $parsed['usable_parse_tree']['item'][1]['item'][0]['text']);
     }
 
     /**
@@ -153,16 +153,16 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $raw = 'Test string with an block [[ block ]] test content [[/block]][[ if test="false" ]][[/ if ]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // The tree should contain these nodes
-        $this->assertEquals(2,$parsed['counts']['text']);
-        $this->assertEquals(2,$parsed['counts']['block']);
-        $this->assertEquals(1,$parsed['counts']['castext']);
+        $this->assertEquals(2, $parsed['counts']['text']);
+        $this->assertEquals(2, $parsed['counts']['block']);
+        $this->assertEquals(1, $parsed['counts']['castext']);
         // The blocks have names, note that the indeitifiers for the blocks in the 'item'-array are a bit confusing subject
-        $this->assertEquals("block",$parsed['usable_parse_tree']['item'][1]['name']);
-        $this->assertEquals("if",$parsed['usable_parse_tree']['item'][4]['name']);
+        $this->assertEquals("block", $parsed['usable_parse_tree']['item'][1]['name']);
+        $this->assertEquals("if", $parsed['usable_parse_tree']['item'][4]['name']);
         // And the content text is
-        $this->assertEquals(" test content ",$parsed['usable_parse_tree']['item'][1]['item'][0]['text']);
+        $this->assertEquals(" test content ", $parsed['usable_parse_tree']['item'][1]['item'][0]['text']);
         // A parameter is present
-        $this->assertEquals("false",$parsed['usable_parse_tree']['item'][4]['params']['test']);
+        $this->assertEquals("false", $parsed['usable_parse_tree']['item'][4]['params']['test']);
     }
 
     /**
@@ -172,16 +172,16 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $raw = 'Test string with an block [[ block ]] test content [[ if test="false" ]][[/ if ]][[/block]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // The tree should contain these nodes
-        $this->assertEquals(2,$parsed['counts']['text']);
-        $this->assertEquals(2,$parsed['counts']['block']);
-        $this->assertEquals(1,$parsed['counts']['castext']);
+        $this->assertEquals(2, $parsed['counts']['text']);
+        $this->assertEquals(2, $parsed['counts']['block']);
+        $this->assertEquals(1, $parsed['counts']['castext']);
         // The blocks have names, note that the indeitifiers for the blocks in the 'item'-array are a bit confusing subject
-        $this->assertEquals("block",$parsed['usable_parse_tree']['item'][1]['name']);
-        $this->assertEquals("if",$parsed['usable_parse_tree']['item'][1]['item'][1]['name']);
+        $this->assertEquals("block", $parsed['usable_parse_tree']['item'][1]['name']);
+        $this->assertEquals("if", $parsed['usable_parse_tree']['item'][1]['item'][1]['name']);
         // And the content text is
-        $this->assertEquals(" test content ",$parsed['usable_parse_tree']['item'][1]['item'][0]['text']);
+        $this->assertEquals(" test content ", $parsed['usable_parse_tree']['item'][1]['item'][0]['text']);
         // A parameter is present
-        $this->assertEquals("false",$parsed['usable_parse_tree']['item'][1]['item'][1]['params']['test']);
+        $this->assertEquals("false", $parsed['usable_parse_tree']['item'][1]['item'][1]['params']['test']);
     }
 
     /**
@@ -193,19 +193,19 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $raw = 'Test string with invalid blocks [[ block ]] [[ empty /]] test content [[ if test="false" ]][[/ block ]][[/ if ]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // The tree should contain these nodes
-        $this->assertEquals(3,$parsed['counts']['text']);
-        $this->assertEquals(1,$parsed['counts']['block']);
-        $this->assertEquals(2,$parsed['counts']['blockopen']);
-        $this->assertEquals(2,$parsed['counts']['blockclose']);
-        $this->assertEquals(1,$parsed['counts']['castext']);
+        $this->assertEquals(3, $parsed['counts']['text']);
+        $this->assertEquals(1, $parsed['counts']['block']);
+        $this->assertEquals(2, $parsed['counts']['blockopen']);
+        $this->assertEquals(2, $parsed['counts']['blockclose']);
+        $this->assertEquals(1, $parsed['counts']['castext']);
         // The blocks have names, note that the indeitifiers for the blocks in the 'item'-array are a bit confusing subject
-        $this->assertEquals("empty",$parsed['usable_parse_tree']['item'][3]['name']);
+        $this->assertEquals("empty", $parsed['usable_parse_tree']['item'][3]['name']);
         // Check the tree form
-        $this->assertEquals('text',$parsed['tree_form']->first_child->type);
-        $this->assertEquals('block',$parsed['tree_form']->first_child->next_sibling->type);
-        $this->assertEquals('empty',$parsed['tree_form']->first_child->next_sibling->get_content());
-        $this->assertEquals('Test string with invalid blocks [[ block ]] ',$parsed['tree_form']->first_child->get_content());
-        $this->assertEquals(' test content [[ if test="false" ]][[/ block ]][[/ if ]]',$parsed['tree_form']->first_child->next_sibling->next_sibling->get_content());
+        $this->assertEquals('text', $parsed['tree_form']->first_child->type);
+        $this->assertEquals('block', $parsed['tree_form']->first_child->next_sibling->type);
+        $this->assertEquals('empty', $parsed['tree_form']->first_child->next_sibling->get_content());
+        $this->assertEquals('Test string with invalid blocks [[ block ]] ', $parsed['tree_form']->first_child->get_content());
+        $this->assertEquals(' test content [[ if test="false" ]][[/ block ]][[/ if ]]', $parsed['tree_form']->first_child->next_sibling->next_sibling->get_content());
     }
 
     /**
@@ -215,54 +215,54 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $raw = 'Test string {#sin(x)#} is {@sin(x)@}';
         $parsed = $this->basic_parse_and_actions($raw);
         // Type check
-        $this->assertEquals('text',$parsed['tree_form']->first_child->type);
-        $this->assertEquals('rawcasblock',$parsed['tree_form']->first_child->next_sibling->type);
-        $this->assertEquals('text',$parsed['tree_form']->first_child->next_sibling->next_sibling->type);
-        $this->assertEquals('texcasblock',$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->type);
+        $this->assertEquals('rawcasblock', $parsed['tree_form']->first_child->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->next_sibling->next_sibling->type);
+        $this->assertEquals('texcasblock', $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->type);
         // null operation
-        $this->assertEquals($raw,$parsed['tree_form']->to_string());
+        $this->assertEquals($raw, $parsed['tree_form']->to_string());
         // lets mod the tree a bit
         $parsed['tree_form']->first_child->next_sibling->convert_to_text("sin(x)");
         $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->convert_to_text("{\sin(x)}");
         // Check types
-        $this->assertEquals('text',$parsed['tree_form']->first_child->type);
-        $this->assertEquals('text',$parsed['tree_form']->first_child->next_sibling->type);
-        $this->assertEquals('text',$parsed['tree_form']->first_child->next_sibling->next_sibling->type);
-        $this->assertEquals('text',$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->next_sibling->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->type);
         // There should not be more nodes
-        $this->assertEquals(NULL,$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->next_sibling);
+        $this->assertEquals(null, $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->next_sibling);
         // After normalize the text nodes should join together
         $parsed['tree_form']->normalize();
-        $this->assertEquals(NULL,$parsed['tree_form']->first_child->next_sibling);
+        $this->assertEquals(null, $parsed['tree_form']->first_child->next_sibling);
         // Then check the output again
-        $this->assertEquals('Test string sin(x) is {\sin(x)}',$parsed['tree_form']->to_string());
+        $this->assertEquals('Test string sin(x) is {\sin(x)}', $parsed['tree_form']->to_string());
     }
 
     public function test_node_destruction() {
         $raw = 'Test string [[ block ]] {@1/1@} [[ block/]] [[/ block ]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // Type check
-        $this->assertEquals('text',$parsed['tree_form']->first_child->type);
-        $this->assertEquals('block',$parsed['tree_form']->first_child->next_sibling->type);
-        $this->assertEquals('text',$parsed['tree_form']->first_child->next_sibling->first_child->type);
-        $this->assertEquals('texcasblock',$parsed['tree_form']->first_child->next_sibling->first_child->next_sibling->type);
-        $this->assertEquals('text',$parsed['tree_form']->first_child->next_sibling->first_child->next_sibling->next_sibling->type);
-        $this->assertEquals('block',$parsed['tree_form']->first_child->next_sibling->first_child->next_sibling->next_sibling->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->type);
+        $this->assertEquals('block', $parsed['tree_form']->first_child->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->next_sibling->first_child->type);
+        $this->assertEquals('texcasblock', $parsed['tree_form']->first_child->next_sibling->first_child->next_sibling->type);
+        $this->assertEquals('text', $parsed['tree_form']->first_child->next_sibling->first_child->next_sibling->next_sibling->type);
+        $this->assertEquals('block', $parsed['tree_form']->first_child->next_sibling->first_child->next_sibling->next_sibling->next_sibling->type);
         // Destroy inner block
         $parsed['tree_form']->first_child->next_sibling->first_child->next_sibling->next_sibling->next_sibling->destroy_node();
         // Check text
-        $this->assertEquals('Test string [[ block ]] {@1/1@}  [[/ block ]]',$parsed['tree_form']->to_string());
+        $this->assertEquals('Test string [[ block ]] {@1/1@}  [[/ block ]]', $parsed['tree_form']->to_string());
         // Destroy outer block but elevate contents
         $parsed['tree_form']->first_child->next_sibling->destroy_node_promote_children();
         // Check text
-        $this->assertEquals('Test string  {@1/1@}  ',$parsed['tree_form']->to_string());
+        $this->assertEquals('Test string  {@1/1@}  ', $parsed['tree_form']->to_string());
     }
 
     public function test_block_as_first_element() {
         $raw = '[[ if test="false"]]blaah[[/if]]';
         $parsed = $this->basic_parse_and_actions($raw);
         // Type check
-        $this->assertEquals('block',$parsed['tree_form']->first_child->type);
+        $this->assertEquals('block', $parsed['tree_form']->first_child->type);
     }
 
     /**
@@ -271,9 +271,9 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
     public function test_mathmode() {
         $raw = "\\[{@x@}\\] {@x@} \\({@x@}\\)";
         $parsed = $this->basic_parse_and_actions($raw);
-        $this->assertEquals(true,$parsed['tree_form']->first_child->next_sibling->get_mathmode());
-        $this->assertEquals(false,$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->get_mathmode());
-        $this->assertEquals(true,$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->next_sibling->next_sibling->get_mathmode());
+        $this->assertEquals(true, $parsed['tree_form']->first_child->next_sibling->get_mathmode());
+        $this->assertEquals(false, $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->get_mathmode());
+        $this->assertEquals(true, $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->next_sibling->next_sibling->get_mathmode());
     }
 }
 

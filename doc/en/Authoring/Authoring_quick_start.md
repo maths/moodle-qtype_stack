@@ -21,7 +21,9 @@ If you have an input (the default is to have one) the teacher's answer must be n
 
 ## An example question ##
 
-We are now ready to edit an example question.  The question name is compulsory in Moodle, so choose one now, e.g. `Question 1`.
+We are now ready to edit an example question.  To begin with this question is fixed, so contains no STACK variables.  In due course we will revise this to add variables which facilitate randomization.
+
+The question name is compulsory in Moodle, so choose one now, e.g. `Question 1`.
 
 Ensure the question text contains the following information. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
 

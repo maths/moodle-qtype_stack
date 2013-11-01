@@ -195,7 +195,7 @@ class stack_utils {
                 array_push($openstack, $char);
 
             } else if (($closerpos = strpos($rights, $char)) !== false) {
-                $opener = array_pop($openstack); // NULL if array is empty, which works.
+                $opener = array_pop($openstack); // null if array is empty, which works.
                 if ($opener !== $lefts[$closerpos]) {
                     return false;
                 }

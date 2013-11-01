@@ -233,5 +233,5 @@ $settings->add(new admin_setting_configselect('qtype_stack/complexno',
 $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig', 'qtype_stack'),
         get_string('inversetrig_help', 'qtype_stack'), 'cos-1', array(
-            'cos-1' => 'cosâ�»Â¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'
+            'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'
         )));

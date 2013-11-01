@@ -30,10 +30,10 @@ abstract class stack_cas_castext_block {
      */
     private $node;
     private $session;
-    private $seed;
-    private $security;
-    private $syntax;
-    private $insertstars;
+    protected $seed;
+    protected $security;
+    protected $syntax;
+    protected $insertstars;
 
     /**
      * Returns the node this block is supposed to act on
@@ -49,11 +49,23 @@ abstract class stack_cas_castext_block {
     public function __construct(&$node, &$session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
         $this->node = $node;
 
+        if (!('s'===$security || 't'===$security)) {
+            throw new stack_exception('stack_cas_castext_block: security level, must be "s" or "t" only.  Got the following: '.$security);
+        }
+
+        if (!is_bool($syntax)) {
+            throw new stack_exception('stack_cas_castext_block: syntax, must be Boolean.');
+        }
+
+        if (!is_bool($insertstars)) {
+            throw new stack_exception('stack_cas_castext_block: insertstars, must be Boolean.');
+        }
+
         // These are for creating a new castext-parser if need be.
-        $this->session = &$session;
-        $this->seeed = $seed;
-        $this->security = $security;
-        $this->syntax = $syntax;
+        $this->session     = &$session;
+        $this->seeed       = $seed;
+        $this->security    = $security;
+        $this->syntax      = $syntax;
         $this->insertstars = $insertstars;
     }
 

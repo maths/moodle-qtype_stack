@@ -35,6 +35,8 @@ class stack_cas_castext_define extends stack_cas_castext_block {
             } else {
                 $cs = new stack_cas_conditionalcasstring($value, $conditionstack);
             }
+
+            $cs->validate($this->security, $this->syntax, $this->insertstars);
             $cs->set_key($key, true);
             $tobeevaluatedcassession->add_vars(array($cs));
         }
@@ -56,6 +58,7 @@ class stack_cas_castext_define extends stack_cas_castext_block {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             $cs = new stack_cas_casstring($value);
+            $cs->validate($this->security, $this->syntax, $this->insertstars);
             $cs->set_key($key, true);
             $r[] = $cs;
         }

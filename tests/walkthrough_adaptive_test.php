@@ -474,6 +474,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // Process a validate request, with a function name from the allowwords list.
         $this->process_submission(array('ans1' => 'popup(x^2+c)', '-submit' => 1));
 
+        $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->check_prt_score('PotResTree_1', null, null);
         $this->render();

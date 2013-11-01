@@ -198,6 +198,20 @@ class stack_cas_casstring_test extends basic_testcase {
         }
     }
 
+    public function test_check_external_allow_words() {
+        $cases = array(
+            array('popup(ta)', 'popup', true),
+            array('popup(ta)', 'silly, n, popup, flop', true),
+            array('plopup(ta)', 'silly, n, popup, flop', false),
+            array('plopup(ta)', 'popup', false)
+        );
+
+        foreach ($cases as $case) {
+            $cs = new stack_cas_casstring($case[0]);
+            $this->assertEquals($case[2], $cs->validate('s', true, false, $case[1]));
+        }
+    }
+
     public function test_html_1() {
         $s = '</span>n';
         $at1 = new stack_cas_casstring($s);

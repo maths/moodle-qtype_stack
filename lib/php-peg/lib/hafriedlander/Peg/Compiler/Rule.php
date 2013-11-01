@@ -313,7 +313,6 @@ class Rule extends PHPWriter {
 			));
 		}
 
-		// print_r( $match ) ; return '' ;
 		return $match->render(NULL, $indent) . PHP_EOL . PHP_EOL . implode( PHP_EOL, $functions ) ;
 	}
 }

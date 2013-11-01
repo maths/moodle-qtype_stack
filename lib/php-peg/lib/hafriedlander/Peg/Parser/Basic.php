@@ -131,7 +131,7 @@ class Basic {
 		if ( $storetag && !$storecalled ) {
 			if ( !isset( $result[$storetag] ) ) $result[$storetag] = $subres ;
 			else {
-				if ( isset( $result[$storetag]['text'] ) ) $result[$storetag] = array( $result[$storetag] ) ;
+				if ( isset( $result[$storetag]['text'] ) || is_string( $result[$storetag] ) ) $result[$storetag] = array( $result[$storetag] ) ;
 				$result[$storetag][] = $subres ;
 			}
 		}

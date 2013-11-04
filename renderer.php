@@ -260,7 +260,7 @@ class qtype_stack_renderer extends qtype_renderer {
     /**
      * Get the appropriate response to use for generating the feedback to a PRT.
      * @param string $name PRT name
-     * @param array $response the current reponse.
+     * @param array $response the current response.
      * @param question_attempt $qa the question_attempt we are displaying.
      */
     protected function get_applicable_response_for_prt($name, $response, question_attempt $qa) {

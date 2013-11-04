@@ -45,9 +45,18 @@ require_once(dirname(__FILE__) . '/test_base.php');
 class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_answers_to_all_parts_and_stubmit() {
+        // Account for the changes in Moodle 2.6.
+        if (question_cbm::adjust_fraction(1, question_cbm::HIGH) > 2) {
+            // Moodle 2.6+.
+            $outof = 4;
+        } else {
+            // Moodle 2.5-.
+            $outof = 12;
+        }
+
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $this->start_attempt_at_question($q, 'deferredcbm', 12);
+        $this->start_attempt_at_question($q, 'deferredcbm', $outof);
 
         // Check the right behaviour is used.
         $this->assertEquals('dfcbmexplicitvaildate', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
@@ -324,12 +333,21 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
     }
 
     public function test_test0_no_validation_required() {
+        // Account for the changes in Moodle 2.6.
+        if (question_cbm::adjust_fraction(1, question_cbm::HIGH) > 2) {
+            // Moodle 2.6+.
+            $outof = 1;
+        } else {
+            // Moodle 2.5-.
+            $outof = 3;
+        }
+
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
         $q = test_question_maker::make_question('stack', 'test0');
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '2', array('ddl_values' => '1,2'));
-        $this->start_attempt_at_question($q, 'deferredcbm', 3);
+        $this->start_attempt_at_question($q, 'deferredcbm', $outof);
 
         // Check the right behaviour is used.
         $this->assertEquals('deferredcbm', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());

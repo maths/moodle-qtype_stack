@@ -47,6 +47,14 @@ header('Last-Modified: '.gmdate('D, d M Y H:i:s', $filedate).' GMT');
 header('Content-Type: ' . mimeinfo('type', 'x.png'));
 header('Content-Length: ' . filesize($plot));
 
+// Unlock session during file serving.
+if (class_exists('\core\session\manager')) {
+    // Moodle >= 2.6.
+    \core\session\manager::write_close();
+} else {
+    // Moodle < 2.6.
+    session_get_instance()->write_close();
+}
+
 // Output file.
-session_get_instance()->write_close(); // unlock session during file serving.
 readfile($plot);

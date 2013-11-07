@@ -247,7 +247,7 @@ abstract class stack_input {
     /**
      * Validate any attempts at this question.
      *
-     * @param array $response the student reponse to the question.
+     * @param array $response the student response to the question.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @return stack_input_state represents the current state of the input.

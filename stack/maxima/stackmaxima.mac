@@ -209,7 +209,7 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal],
 StackDISP(expr,m) := block([str:""],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
-        if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
+    if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("StackDISP ERROR: illegal delimiter option found: ", m)),
     str:block([expru, expstr, offset, ld, rd],
         ld:"", 
         rd:"",

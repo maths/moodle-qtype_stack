@@ -20,13 +20,13 @@ variables](../Authoring/KeyVals.md) to  provide values.
 
 E.g. we might have :
 
-    n = rand(5)+2;
+    n : rand(5)+2;
 
 in the question variables field.  The question is instantiated,  and then later we need to create some CAS text, e.g. feedback, in which we have :
 
     You were asked to find the integral of \((x+2)^{@n@}\) with respect to \(x\).  In fact ....
 
-Here, we need the CAS text to be able to construct the text, with the previously evaluated value of n.  This need is also why the CAS session returns the *value* of the variables as well as a displayed form.  It is used here.
+Here, we need the CAS text to be able to construct the text, with the previously evaluated value of `n`.  This need is also why the CAS session returns the *value* of the variables as well as a displayed form.  It is used here.
 
 ## CAS session.
 

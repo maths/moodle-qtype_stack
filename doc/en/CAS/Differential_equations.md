@@ -82,9 +82,9 @@ which returns
 
 The following example question variables can be used within STACK.
 
-    ode = x^2*'diff(y,x) + 3*y*x = sin(x)/x
-    sol = stack_strip_percent(ode2(ode,y,x),[k])
-    ta = rhs(ev(sol,nouns))
+    ode : x^2*'diff(y,x) + 3*y*x = sin(x)/x
+    sol : stack_strip_percent(ode2(ode,y,x),[k])
+    ta : rhs(ev(sol,nouns))
 
 Note, you may need to use the Option "assume positive" to get ODE to evaluate the integrals formally and hence "solve correctly".
 

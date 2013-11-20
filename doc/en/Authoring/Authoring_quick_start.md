@@ -212,7 +212,7 @@ and in the inputs change the model answer to
 
     diff(p,x)
 
-Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `$`s, and CAS expressions (including your variables) between `@` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
+Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between `{@..@}` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
 
 Since we have used `{@p@}` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
 

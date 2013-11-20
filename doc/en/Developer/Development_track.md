@@ -42,8 +42,8 @@ Basic reports now work.
 
 ## Expanding CAStext features
 
-* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.
-* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
+* *done* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form. Done using `{#...#}`.
+* *done* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
 * Hints.  Currently code is in the "hints" branch.
  * Make sure the syntax is updated to [hint:...] in line with the new format.
  * Provide a list of hints, and an interface through the docs.

@@ -4,6 +4,22 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 STACK is a direct development of the CABLE project which ran at the University of Birmingham. CABLE was a development of the AiM computer aided assessment system.
 
+## Version 3.2
+
+Not yet released.
+
+**Important changes in STACK version 3.2:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
+
+    Administration -> Site administration -> Question types -> STACK
+    
+Then choose the link to "fix maths delimiters script".
+
+Changes since 3.1:
+
+### Question blocks
+
+This is a major new feature described on the dedicated page about [question blocks](../Authoring/Question_blocks.md).   At the same time CASText now enables us to embed the _value_ of a variable in CASText, not just the displayed form using `{#...#}`.
+
 ## Version 3.1
 
 Released July 2013. This includes all the bugs found and fixed during the first

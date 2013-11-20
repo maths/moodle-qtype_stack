@@ -471,13 +471,15 @@ class stack_cas_text {
             $errmsg .= implode($this->errors, ' ');
         }
 
-        $errmsg .= $this->session->get_errors();
+        if (null !== $this->session) {
+            $errmsg .= $this->session->get_errors();
+        }
 
         if ('' != trim($errmsg)) {
             $errmsg = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$errmsg;
         }
 
-        if ($casdebug) {
+        if ($casdebug && null !== $this->session) {
             $errmsg .= $this->session->get_debuginfo();
         }
 
@@ -537,7 +539,10 @@ class stack_cas_text {
     }
 
     public function get_debuginfo() {
-        return $this->session->get_debuginfo();
+        if (null !== $this->session) {
+            return $this->session->get_debuginfo();
+        }
+        return '';
     }
 
 }

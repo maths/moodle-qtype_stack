@@ -25,6 +25,7 @@
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
 require_once(dirname(__FILE__) . '/docslib.php');
+require_once(dirname(__FILE__) . '/../stack/hints.class.php');
 
 /*
  *  This file serves the contents of a local directory and renders markup to html
@@ -105,6 +106,9 @@ if ('Site_map' == $lastseg) {
 
     if (file_exists($file)) {
         $body = stack_docs_page($links, $file, $docscontent);
+        if ('Hints.md' == $lastseg) {
+            $body .= stack_hints::display_all_hints();
+        }
 
     } else {
         $body = stack_docs_no_found($links);

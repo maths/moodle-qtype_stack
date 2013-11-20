@@ -29,6 +29,7 @@ require_once('castext/if.class.php');
 require_once('castext/define.class.php');
 require_once('castext/foreach.class.php');
 require_once('castext/external.class.php');
+require_once(dirname(__FILE__) . '../../hints.class.php');
 
 class stack_cas_text {
 
@@ -167,7 +168,7 @@ class stack_cas_text {
             $this->valid = false;
         }
 
-        $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
+        $hints = stack_hints::check_bookends($this->trimmedcastext);
         if ($hints !== true) {
             // The method check_bookends does not return false.
             $this->valid = false;
@@ -176,6 +177,11 @@ class stack_cas_text {
             } else {
                 $this->errors[] = stack_string('stackCas_MissingClosingHint');
             }
+        }
+        $unknown_hints = stack_hints::check_hints_exist($this->trimmedcastext);
+        foreach ( $unknown_hints as $hint) {
+            $this->errors[] = stack_string('stack_hint_missing', $hint);
+            $this->valid = false;
         }
 
         $html = stack_utils::check_bookends($this->trimmedcastext, '<html>', '</html>');
@@ -419,17 +425,8 @@ class stack_cas_text {
             $this->trimmedcastext = $this->parse_tree_root->to_string();
         }
 
-        // Replaces the old "hints" filter from STACK 2.0.
-        // These strings are now part of the regular language files.
-        $strin = $this->trimmedcastext;
-        preg_match_all('|<hint>(.*)</hint>|U', $strin, $html_match);
-        foreach ($html_match[1] as $val) {
-            $sr = '<hint>'.$val.'</hint>';
-            $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
-                    stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
-            $strin = str_replace($sr, $rep, $strin);
-        }
-        $this->trimmedcastext = $strin;
+        // Deals with hints.
+        $this->trimmedcastext = stack_hints::replace_hints($this->trimmedcastext);
 
         $this->castext = stack_utils::wrap_around($this->trimmedcastext);
 

@@ -253,7 +253,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_hints() {
         $cs2 = new stack_cas_session(array(), null, 0);
-        $at1 = new stack_cas_text("<hint>calc_diff_linearity_rule</hint>", $cs2, 0);
+        $at1 = new stack_cas_text("[[hint:calc_diff_linearity_rule]]", $cs2, 0);
         $s1 = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                 'The Linearity Rule for Differentiation</h3>' .
                 '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+' .

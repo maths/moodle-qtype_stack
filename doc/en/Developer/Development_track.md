@@ -44,6 +44,9 @@ Basic reports now work.
 
 * *done* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form. Done using `{#...#}`.
 * *done* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
-* Hints.  Currently code is in the "hints" branch.
- * Make sure the syntax is updated to [hint:...] in line with the new format.
- * Provide a list of hints, and an interface through the docs.
+* Hints.  
+ * *done* Reinstate the hints system
+ * *done* Provide a list of hints, and an interface through the docs.
+ * *done* Make sure the syntax is updated to [[hint:...]] in line with the new format for inputs and validation blocks.
+ * Refactor the code to make use of Matti's parser for hints.
+ 

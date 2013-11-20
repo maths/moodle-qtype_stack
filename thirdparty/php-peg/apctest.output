@@ -1,0 +1,84 @@
+
+
+2013-11-06 12:11:08 apctest 3.14.10 (13 September 2011) debian
+Checking configuration ...
+Attached to driver: usb
+sharenet.type = Network & ShareUPS Disabled
+cable.type = USB Cable
+mode.type = USB UPS Driver
+Setting up the port ...
+apctest FATAL ERROR in linux-usb.c at line 609
+Cannot find UPS device --
+For a link to detailed USB trouble shooting information,
+please see <http://www.apcupsd.com/support.html>.
+apctest error termination completed
+
+
+2013-11-06 12:11:28 apctest 3.14.10 (13 September 2011) debian
+Checking configuration ...
+Attached to driver: usb
+sharenet.type = Network & ShareUPS Disabled
+cable.type = USB Cable
+mode.type = USB UPS Driver
+Setting up the port ...
+apctest FATAL ERROR in device.c at line 71
+Unable to create UPS lock file.
+  If apcupsd or apctest is already running,
+  please stop it and run this program again.
+apctest error termination completed
+
+
+2013-11-06 12:11:46 apctest 3.14.10 (13 September 2011) debian
+Checking configuration ...
+Attached to driver: usb
+sharenet.type = Network & ShareUPS Disabled
+cable.type = USB Cable
+mode.type = USB UPS Driver
+Setting up the port ...
+Doing prep_device() ...
+
+You are using a USB cable type, so I'm entering USB test mode
+Hello, this is the apcupsd Cable Test program.
+This part of apctest is for testing USB UPSes.
+
+Getting UPS capabilities...SUCCESS
+
+Please select the function you want to perform.
+
+1)  Test kill UPS power
+2)  Perform self-test
+3)  Read last self-test result
+4)  View/Change battery date
+5)  View manufacturing date
+6)  View/Change alarm behavior
+7)  View/Change sensitivity
+8)  View/Change low transfer voltage
+9)  View/Change high transfer voltage
+10) Perform battery calibration
+11) Test alarm
+12) View/Change self-test interval
+ Q) Quit
+
+Select function number: 4
+
+
+I don't know how to access the battery date on your UPS
+or your UPS does not support the battery date feature.
+
+1)  Test kill UPS power
+2)  Perform self-test
+3)  Read last self-test result
+4)  View/Change battery date
+5)  View manufacturing date
+6)  View/Change alarm behavior
+7)  View/Change sensitivity
+8)  View/Change low transfer voltage
+9)  View/Change high transfer voltage
+10) Perform battery calibration
+11) Test alarm
+12) View/Change self-test interval
+ Q) Quit
+
+Select function number: q
+
+2013-11-06 12:12:03 End apctest.

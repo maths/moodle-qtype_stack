@@ -49,10 +49,4 @@ The only field which is compulsory is in **bold**.
 * Specific adaptations of [Maxima](../CAS/Maxima.md).
 * [Import and Export](ImportExport.md) of STACK questions.
 
-# Future plans
-
-(yet to be completed in STACK 3.0)
-
-* [Question blocks](Question_blocks.md)
-* [Units](Units.md)
 

@@ -275,6 +275,19 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals(false, $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->get_mathmode());
         $this->assertEquals(true, $parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->next_sibling->next_sibling->get_mathmode());
     }
+
+    /**
+     * Does it mark blocks that are inside math-mode?
+     */
+    public function test_mathmode_env() {
+        $raw = "\\begin{blaah} \\[{@x@}\\] \\begin{equation*}{@x@}\\end{equation*} \\end{blaah}";
+        $parsed = $this->basic_parse_and_actions($raw);
+        $this->assertEquals($raw,$parsed['to_string']);
+        $this->assertEquals(true,$parsed['tree_form']->first_child->next_sibling->get_mathmode());
+        $this->assertEquals("{@x@}",$parsed['tree_form']->first_child->next_sibling->to_string());
+        $this->assertEquals("{@x@}",$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->to_string());
+        $this->assertEquals(true,$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->get_mathmode());
+    }
 }
 
 ?>

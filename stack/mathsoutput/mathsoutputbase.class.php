@@ -88,6 +88,8 @@ abstract class stack_maths_output {
     /**
      * Replace dollar delimiters ($...$ and $$...$$) in text with the safer
      * \(...\) and \[...\].
+     * Replace old style CAS text delimiters (@...@) in text with the new delimiters needed 
+     * for the blocks {@...@}.
      * @param string $text the original text.
      * @param bool $markup surround the change with <ins></ins> tags.
      * @return string the text with delimiters replaced.
@@ -98,14 +100,21 @@ abstract class stack_maths_output {
             $displayend   = '<ins>\]</ins>';
             $inlinestart  = '<ins>\(</ins>';
             $inlineend    = '<ins>\)</ins>';
+            $casstart     = '<ins>{@</ins>';
+            $casend       = '<ins>@}</ins>';
         } else {
             $displaystart = '\[';
             $displayend   = '\]';
             $inlinestart  = '\(';
             $inlineend    = '\)';
+            $casstart     = '{@';
+            $casend       = '@}';
         }
         $text = preg_replace('~(?<!\\\\)\$\$(.*?)(?<!\\\\)\$\$~', $displaystart . '$1' . $displayend, $text);
         $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
+        $text = str_replace('{@', '@', $text);
+        $text = str_replace('@}', '@', $text);
+        $text = preg_replace('~(?<!\\\\)\@(.*?)(?<!\\\\)\@~', $casstart . '$1' . $casend, $text);
         return $text;
     }
 }

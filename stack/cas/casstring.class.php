@@ -445,7 +445,7 @@ class stack_cas_casstring {
     public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
 
         if (!('s'===$security || 't'===$security)) {
-            throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
+            throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.  Got the following: '.$security);
         }
 
         if (!is_bool($syntax)) {
@@ -454,6 +454,10 @@ class stack_cas_casstring {
 
         if (!is_bool($insertstars)) {
             throw new stack_exception('stack_cas_casstring: insertstars, must be Boolean.');
+        }
+
+        if (!is_string($allowwords)) {
+            throw new stack_exception('stack_cas_casstring: allowwords, must be a string.');
         }
 
         $this->valid     = true;

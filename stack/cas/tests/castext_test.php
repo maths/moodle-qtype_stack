@@ -127,7 +127,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $ct = new stack_cas_text($c, $session);
         $ct->get_display_castext();
         $this->assertFalse($ct->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span>If-block needs a test attribute.', $ct->get_errors(false));
+        $this->assertEquals('<span class="error">CASText failed validation. </span>If-block needs a test attribute. ', $ct->get_errors(false));
     }
 
     public function test_define_block() {

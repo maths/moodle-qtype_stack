@@ -49,6 +49,7 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
         } while (in_array($key, $session_keys));
         $this->number = $i-1;
 
+        $cs->validate($this->security, $this->syntax, $this->insertstars);
         $cs->set_key($key, true);
 
         $tobeevaluatedcassession->add_vars(array($cs));
@@ -68,6 +69,7 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
 
     public function validate_extract_attributes() {
         $r = array(new stack_cas_casstring(trim($this->get_node()->get_content())));
+        $r[0]->validate($this->security, $this->syntax, $this->insertstars);
         $r[0]->set_key("testkey");
         return $r;
     }

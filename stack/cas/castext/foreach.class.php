@@ -59,6 +59,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
                 $i++;
             } while (in_array($caskey, $session_keys));
             $this->numbers[$key] = $i-1;
+            $cs->validate($this->security, $this->syntax, $this->insertstars);
             $cs->set_key($caskey, true);
             $tobeevaluatedcassession->add_vars(array($cs));
         }
@@ -115,6 +116,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             $cs = new stack_cas_casstring($value);
+            $cs->validate($this->security, $this->syntax, $this->insertstars);
             $cs->set_key($key, true);
             $r[] = $cs;
         }

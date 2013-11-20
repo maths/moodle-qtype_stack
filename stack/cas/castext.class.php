@@ -273,7 +273,7 @@ class stack_cas_text {
                     $err = '';
                     $block->validate($err);
                     if ($err != '') {
-                        $this->valid = false;
+                        $valid = false;
                         $this->errors[] = $err;
                     } else {
                         $iter = $node->first_child;

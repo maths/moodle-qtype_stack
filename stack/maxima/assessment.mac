@@ -1,6 +1,6 @@
 /*  Author Chris Sangwin
     University of Birmingham
-    Copyright (C) 2012 Chris Sangwin
+    Copyright (C) 2013 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -77,13 +77,13 @@ get_ops_helper(ex):=if atom(ex) then [] else append([op(ex)],maplist(get_ops_hel
 /* ********************************** */
 
 /* True if and only if ex is in the list l */
-element_listp(ex,l):= any_listp(lambda([ex2],is(ex2=ex)),l)$
+element_listp(ex,l):= any_listp(lambda([ex2], is(ex2=ex)), l)$
 
 /* all_listp(p,l) true if all elements of l satisfy p */
-all_listp(p,l):= if listp(l) then ret:apply("and",maplist(p,l)) else ret:"fail"$
+all_listp(p,l):= if listp(l) then ret:apply("and", maplist(p,l)) else ret:"fail"$
 
 /* any_listp(p,l) true if all elements of l satisfy p */
-any_listp(p,l):= if listp(l) then ret:apply("or",maplist(p,l)) else ret:"fail"$
+any_listp(p,l):= if listp(l) then ret:apply("or", maplist(p,l)) else ret:"fail"$
 
 /* This function applies the binary function zf to two lists a and b returning a list
 [ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  */
@@ -157,10 +157,10 @@ simp_numberp(ex) := block(
 /* Do we have a real number?*/
 /* Code taken from Stack_Test */
 real_numberp(ex):=
-    block([keepfloat,trigexpand,logexpand],
-    trigexpand:true,              /* see pg 80 */
+    block([keepfloat, trigexpand, logexpand],
+    trigexpand:true,
     logexpand:super,
-    keepfloat:true,               /* see pg 23 */
+    keepfloat:true,
     ex:errcatch(ev(fullratsimp(ex),simp)),
     if ex=[] then return(false),
     ex:ev(float(ex[1]),simp),
@@ -314,14 +314,32 @@ ineqorder_f(ex) := block(
    This is a "bash as hard as possible" function
 
    26/9/12.  Avoid fullratsimp after exponentialize.  This results in a non-terminating process.
+
+   24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
 */
 algebraic_equivalence(SA,SB) :=
-    block([keepfloat,trigexpand,logexpand,ex,vi],
-    trigexpand:true,              /* see pg 80 */
+    block([keepfloat, trigexpand, logexpand, ex, vi],
+    trigexpand:true,
     logexpand:super,
-    keepfloat:true,               /* see pg 23 */
-    ex:errcatch(ev(fullratsimp(SA-SB),simp)),
-    if ex=[] then return(false),
+    keepfloat:true,
+    /* Try not to expand out: pure numbers */
+    ex:errcatch(ev(SA-SB,simp)),
+    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
+    ex:ex[1],
+    if numberp(ex) then
+      if rat(ex)=0 then return(true)
+      else return (false),
+    /* Try not to expand out: factoring */
+    ex:errcatch(ev(factor(SA-SB),simp)),
+    if ex=[] then (print("algebraic_equivalence: factoring the difference of two expressions threw an error."), return(false)),
+    ex:ex[1],
+    /* Try to return a negative result without expanding anything! */
+    if (safe_op(ex)="*" or safe_op(ex)="^") then
+       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),  
+    if ratsimp(ex)=0 then return(true),
+    /* Next we expand out the difference. */
+    ex:errcatch(ev(fullratsimp(SA-SB), simp)),
+    if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
     ex:ex[1],
     if floatnump(ex) then return(false),
     ex:num(ex),  /* after a fullratsimp, we have a ratio.  We should only need to consider the top */
@@ -342,13 +360,13 @@ algebraic_equivalence(SA,SB) :=
    ex1 algebraically equivalent to ex2.
    If such a substitution exists the function returns it in a form so that
 
-   ex2 = ev(ex1, subst_equiv(ex1,ex2))
+   ex2 = ev(ex1, subst_equiv(ex1, ex2))
 
    If no such permutation exists it returns the empty list [].
    If it could not establish this, because there are too many combinations to reasonably consider,
    then the function returns false.
 */
-subst_equiv(ex1,ex2):=block([lv1,lv2,lvi,lvp,lvs,lve,il,perm_size,simp],
+subst_equiv(ex1,ex2):=block([lv1, lv2, lvi, lvp, lvs, lve, il, perm_size, simp],
  simp:true,
  perm_size:4, /* This algorithm is order factorial(perm_size) and so this needs to be small. */
  lv1:listofvars(ex1),
@@ -360,21 +378,21 @@ subst_equiv(ex1,ex2):=block([lv1,lv2,lvi,lvp,lvs,lve,il,perm_size,simp],
  if length(lv1)>perm_size then (
    lv1:setify(lv1),
    lv2:setify(lv2),
-   lvi:intersection(lv1,lv2),
-   lv1:listify(setdifference(lv1,lvi)),
-   lv2:listify(setdifference(lv2,lvi))
+   lvi:intersection(lv1, lv2),
+   lv1:listify(setdifference(lv1, lvi)),
+   lv2:listify(setdifference(lv2, lvi))
   ),
  if length(lv1)>perm_size then return(false),
  /*                                  */
  lvp:listify(permutations(lv2)),
  /* Create a list of subsitutions */
- lvs:map(lambda([ex],zip_with("=",lv1,ex)),lvp),
+ lvs:map(lambda([ex], zip_with("=", lv1, ex)), lvp),
  /* Create list of expressions with which to compare ex1 */
- lve:map(lambda([ex],ev(ex1,ex)),lvs),
- lve:map(lambda([ex],ATAlgEquivfun(ex,ex2)),lve),
+ lve:map(lambda([ex], ev(ex1, ex)), lvs),
+ lve:map(lambda([ex], ATAlgEquivfun(ex, ex2)), lve),
  lve:map(second,lve),
- lve:map(lambda([ex],equal(ex,true)),lve),
- if apply("or",lve) then (il:sublist_indices(lve,identity),lvs[il[1]]) else []
+ lve:map(lambda([ex], equal(ex, true)),lve),
+ if apply("or", lve) then (il:sublist_indices(lve, identity), lvs[il[1]]) else []
 )$
 
 /* ********************************** */
@@ -415,120 +433,148 @@ subst_equiv(ex1,ex2):=block([lv1,lv2,lvi,lvp,lvs,lve,il,perm_size,simp],
 */
 
 /* (1) */
-nary("noun+",100);
-prefix("noun-",100);
-nary("noun*",120);
-infix("noun/",122,123);
-infix("noun^",140,139);
-prefix("UNARY_RECIP",100);
+nary("noun+", 100);
+prefix("noun-", 100);
+nary("noun*", 120);
+infix("noun/", 122, 123);
+infix("noun^", 140, 139);
+prefix("UNARY_RECIP", 100);
 
 /* (2) */
 load("noun_arith.lisp"); 
 
 /* (3) */
 
-declare("noun+",commutative);
-declare("noun+",lassociative);
-declare("noun+",rassociative);
+declare("noun+", commutative);
+declare("noun+", lassociative);
+declare("noun+", rassociative);
 
-declare("noun*",commutative);
-declare("noun*",lassociative);
-declare("noun*",rassociative);
+declare("noun*", commutative);
+declare("noun*", lassociative);
+declare("noun*", rassociative);
 
 /* (4) */
 verb_arith(ex) := block(
- ex:subst("+","noun+",ex), 
- ex:subst("*","noun*",ex), 
- ex:subst("-","noun-",ex), 
- ex:subst(DIV_OP,"noun/",ex), 
- ex:subst("^","noun^",ex), 
- define(UNARY_RECIP a, a^(-1)), 
- ex:ev(ex,UNARY_MINUS=-1),
- remfunction("noun+","noun*","noun/","noun^","noun-"),ex)$
+    ex:subst("+", "noun+", ex), 
+    ex:subst("*", "noun*", ex), 
+    ex:subst("-", "noun-", ex), 
+    ex:subst(DIV_OP, "noun/", ex), 
+    ex:subst("^", "noun^", ex), 
+    define(UNARY_RECIP a, a^(-1)), 
+    ex:ev(ex, UNARY_MINUS=-1),
+    remfunction("noun+", "noun*", "noun/", "noun^", "noun-"), 
+    ex
+)$
 
 /* (5) */
 noun_arith(ex) := block(
- ex:subst("noun+","+",ex), 
- ex:subst("noun*","*",ex), 
- ex:subst(lambda([ex],UNARY_MINUS noun* ex),"-",ex), /* Unary minus really communtes with multiplication*/
- ex:subst(lambda([ex1,ex2], ex1 noun* (UNARY_RECIP ex2)),DIV_OP,ex),  /* Turn 1/x into x^(-1), in a special form */
- ex:subst("noun^","^",ex), 
- ev(ex))$
+    ex:subst("noun+", "+", ex), 
+    ex:subst("noun*", "*", ex), 
+    /* Unary minus really communtes with multiplication. */
+    ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex), 
+    /* Turn 1/x into x^(-1), in a special form */
+    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), DIV_OP, ex),
+    ex:subst("noun^", "^", ex), 
+    ev(ex)
+)$
 
 /* (6) Assumes we are working in the context of noun operators.*/
 gather_reduce(ex) := block(
- ex:subst("+","noun+",ex), 
- ex:subst("*","noun*",ex), 
- ex:subst("-","noun-",ex), 
- ex:ev(ex,simp),
- ex:subst("noun+","+",ex), 
- ex:subst("noun*","*",ex), 
- ex:subst("noun-","-",ex), 
- ex)$
+    ex:subst("+", "noun+", ex), 
+    ex:subst("*", "noun*", ex), 
+    ex:subst("-", "noun-", ex), 
+    ex:ev(ex, simp),
+    ex:subst("noun+", "+", ex), 
+    ex:subst("noun*", "*", ex), 
+    ex:subst("noun-", "-", ex), 
+    ex
+)$
 
 /*  (7)  */
 /* Returns true iff ex1 and ex2 are equal up to commutativity and associativity */
 equals_commute_associate(ex1,ex2) := block([oldsimp,ex1n,ex2n,ret],
-  oldsimp:simp,
-  simp:false,
-  ex1n:noun_arith(ex1),
-  ex2n:noun_arith(ex2),
-  simp:true,
-  if ex1n=ex2n then ret:true else ret:false,
-  simp:oldsimp,
-  ret)$
+    oldsimp:simp,
+    simp:false,
+    ex1n:noun_arith(ex1),
+    ex2n:noun_arith(ex2),
+    simp:true,
+    if ex1n=ex2n then ret:true else ret:false,
+    simp:oldsimp,
+    ret
+)$
 
 /* An answer test in the context of commutative+associative addition and multiplication.*/
 ATEqualComAss(sa,sb) := 
-    block([Validity, RawMark,FeedBack,AnswerNote,ret,SAA,SBB],
+    block([Validity, RawMark, FeedBack, AnswerNote, ret, SAA, SBB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
-    SAA:errcatch(ev(sa,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATEqualComAss_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(sb,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATEqualComAss_STACKERROR_TAns"),""]),
+
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATEqualComAss_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(sb, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false,false,StackAddNote("", "ATEqualComAss_STACKERROR_TAns"), ""]),
+
     /* We need to check things are of the same type */
     ret:ATSameTypefun(sa,sb),
     if ret[2]=false then    
-        (ret[3]:StackAddNote("ATEqualComAss: ",StackTrimNote(ret[3])), return([false,ret[2],ret[3],ret[4]]) ),
-    ret:block([simp:true,ret],ATAlgEquivfun(sa,sb)),
+        (ret[3]:StackAddNote("ATEqualComAss: ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
+    ret:block([simp:true, ret], ATAlgEquivfun(sa, sb)),
     if ret[2]=false then    
-        (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)",StackTrimNote(ret[3])), return([false,ret[2],ret[3],""])),
+        (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)",StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */
     if equals_commute_associate(sa,sb) then 
         (RawMark:true, AnswerNote:"")
     else
         (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
     return([Validity,RawMark,AnswerNote,FeedBack])
-    )$
+)$
 
 
 /* ********************************** */
 /* Algebraic form                     */
 /* ********************************** */
 
-/* expandp(p) is true if p equals its expanded form */
-expandp(p):= block([simp:true], if p=expand(p) then true else false)$
+/* expandp(p) is true if p equals its expanded form.                 */
+/* Use ev with the expand option to limit expansion of large powers .*/
+expandp(p):= block([simp:true], if p=ev(expand(p),expand(1000,1000)) then true else false)$
 
 /* factorp(p) is true if p equals its factored form */
 factorp(p) := block([a],
-  if ev(p=factor(p),simp) then return(true),
-  if atom(p) then return(false),
-  /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
-  if ev(-1*factor(p) = expand(-1*p),simp) then return(true),
-  if op(p)="^" and atom(part(p,1)) then return(true),
-  if op(p)="^" and factorp(part(p,1)) then return(true),
-  if op(p)="*" then return(all_listp(factorp,args(p))),
-  return(false) )$
+    if ev(p=factor(p), simp) then 
+        return(true),
+    if atom(p) then 
+        return(false),
+    /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
+    if ev(-1*factor(p) = expand(-1*p), simp) then 
+        return(true),
+    if op(p)="^" and atom(part(p, 1)) 
+        then return(true),
+    if op(p)="^" and factorp(part(p, 1)) then
+        return(true),
+    if op(p)="*" then 
+        return(all_listp(factorp, args(p))),
+    return(false)
+)$
 
 /*  Write the polynomial in completed square form */
 comp_square(ex,var) := block([vc],
-   if not(atom(var)) or numberp(var) then (print("comp_square: var should be an atom but not a number.  "),return(ex)),
-   ex:ratsimp(expand(ex)),
-   if not(polynomialp(ex,[var])) then (print("comp_square: ex should be a polynomial in var.  "),return(ex)),
-   if hipow(ex,var)#2 then (print("comp_square: ex should be a quadratic.  "),return(ex)),
-   delta:(coeff(ex,var,1)^2-4*coeff(ex,var,2)*coeff(ex,var,0))/(4*coeff(ex,var,2)^2),
-   vc:coeff(ex,var,1)/(2*coeff(ex,var,2)),
-   return(coeff(ex,var,2)*((var+vc)^2-delta))
+    if not(atom(var)) or numberp(var) then (
+        print("comp_square: var should be an atom but not a number.  "),
+        return(ex)
+    ),
+    ex:ratsimp(expand(ex)),
+    if not(polynomialp(ex, [var])) then (
+        print("comp_square: ex should be a polynomial in var.  "),
+        return(ex)
+    ),
+    if hipow(ex, var)#2 then (
+        print("comp_square: ex should be a quadratic.  "),
+        return(ex)
+    ),
+    delta:(coeff(ex, var, 1)^2-4*coeff(ex, var, 2)*coeff(ex, var, 0))/(4*coeff(ex, var, 2)^2),
+    vc:coeff(ex, var, 1)/(2*coeff(ex, var, 2)),
+    return(coeff(ex, var, 2)*((var+vc)^2-delta))
 )$
 
 
@@ -547,39 +593,42 @@ request_rational_matrix(m, pos, fn) :=
     print("Some entries in the matrix are not rational numbers. The result might be wrong.")$
 
 rowswap(m,i,j) := block([n, p, r],
-  require_matrix(m, "first", "rowswap"),
-  require_integer(i, "second", "rowswap"),
-  require_integer(j, "third", "rowswap"),
-  n : length(m),
-  if (i < 1) or (i > n) or (j < 1) or (j > n)
-     then error("Array index out of bounds"),
-  p : copymatrix(m),
-  r : p[i],
-  p[i] : p[j],
-  p[j] : r,
-  p)$
+    require_matrix(m, "first", "rowswap"),
+    require_integer(i, "second", "rowswap"),
+    require_integer(j, "third", "rowswap"),
+    n : length(m),
+    if (i < 1) or (i > n) or (j < 1) or (j > n)
+       then error("Array index out of bounds"),
+    p : copymatrix(m),
+    r : p[i],
+    p[i] : p[j],
+    p[j] : r,
+    p
+)$
 
 addrow(m,i,j,k) := block([n,p],
-  require_matrix(m, "first", "addrow"),
-  require_integer(i, "second", "addrow"),
-  require_integer(j, "third", "addrow"),
-  require_rational(k, "fourth", "addrow"),
-  n : length(m),
-  if (i < 1) or (i > n) or (j < 1) or (j > n)
-      then error("Array index out of bounds"),
-  p : copymatrix(m),
-  p [i] : p[i] + k * p[j],
-  p)$
+    require_matrix(m, "first", "addrow"),
+    require_integer(i, "second", "addrow"),
+    require_integer(j, "third", "addrow"),
+    require_rational(k, "fourth", "addrow"),
+    n : length(m),
+    if (i < 1) or (i > n) or (j < 1) or (j > n)
+        then error("Array index out of bounds"),
+    p : copymatrix(m),
+    p [i] : p[i] + k * p[j],
+    p
+)$
 
 rowmul(m,i,k) := block([n,p],
-  require_matrix(m, "first", "addrow"),
-  require_integer(i, "second", "addrow"),
-  require_rational(k, "fourth", "addrow"),
-  n : length(m),
-  if (i < 1) or (i > n) then error("Array index out of bounds"),
-  p : copymatrix(m),
-  p [i] : k * p[i],
-  p)$
+    require_matrix(m, "first", "addrow"),
+    require_integer(i, "second", "addrow"),
+    require_rational(k, "fourth", "addrow"),
+    n : length(m),
+    if (i < 1) or (i > n) then error("Array index out of bounds"),
+    p : copymatrix(m),
+    p [i] : k * p[i],
+    p
+)$
 
 
 rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
@@ -623,21 +672,21 @@ rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
    ex the expression,
    v  the variable,
    xp the point at which to evaluate. */
-continuousp(ex,v,xp) := block([lp,lm],
- lp: ev(limit(ex,v,xp,minus),simp),
- lm: ev(limit(ex,v,xp,plus),simp),
- /* print(lp), print(lm), */
- if  lp # und
-  and lm # und
-  and lp # ind
-  and lm # ind
-  and lp # inf
-  and lm # inf
-  and lp # minf
-  and lm # minf
-  and lp = lm
- then true else false
- )$
+continuousp(ex, v, xp) := block([lp, lm],
+    lp: ev(limit(ex, v, xp, minus), simp),
+    lm: ev(limit(ex,v,xp,plus),simp),
+    /* print(lp), print(lm), */
+    if  lp # und
+       and lm # und
+       and lp # ind
+       and lm # ind
+       and lp # inf
+       and lm # inf
+       and lp # minf
+       and lm # minf
+       and lp = lm
+        then true else false
+)$
 
 
 /* This determines if an expression is differentiable
@@ -646,12 +695,12 @@ continuousp(ex,v,xp) := block([lp,lm],
    xp the point at which to evaluate,
    n  the number of times it is differentiated (optional).
 */
-diffp(ex,[args]) := block([v,xp,n],
- v:args[1],
- xp:args[2],
- n:1,
- if length(args)=3 then n:args[3],
- return(continuousp(diff(ex,v,n),v,xp))
+diffp(ex,[args]) := block([v, xp, n],
+   v:args[1],
+   xp:args[2],
+   n:1,
+   if length(args)=3 then n:args[3],
+   return(continuousp(diff(ex, v, n), v, xp))
 )$
 
 /* ********************************** */
@@ -661,11 +710,11 @@ diffp(ex,[args]) := block([v,xp,n],
 
 /* (a+b)^n -> a^n+b^n */
 buggy_pow(ex) := block([ex_ex],
-  if atom(ex) then return(ex),
-  if op(ex)="/" and atom(part(ex,2))#true and op(part(ex,2))="+" then return(map(lambda([ex2],part(ex,1)/ex2),part(ex,2))),
-  if atom(part(ex,1)) or op(part(ex,1))#"+" then return(map(buggy_pow,ex)),
-  if op(ex)="^" then return(map(lambda([ex2],ex2^buggy_pow(part(ex,2))),map(buggy_pow,part(ex,1)))),
-  if op(ex)=sqrt then return(map(sqrt,map(buggy_pow,part(ex,1))))
+    if atom(ex) then return(ex),
+    if op(ex)="/" and atom(part(ex, 2))#true and op(part(ex, 2))="+" then return(map(lambda([ex2],part(ex, 1)/ex2), part(ex, 2))),
+    if atom(part(ex, 1)) or op(part(ex, 1))#"+" then return(map(buggy_pow, ex)),
+    if op(ex)="^" then return(map(lambda([ex2], ex2^buggy_pow(part(ex, 2))), map(buggy_pow, part(ex, 1)))),
+    if op(ex)=sqrt then return(map(sqrt, map(buggy_pow, part(ex, 1))))
 )$
 
 /* Naive adding of fractions! But see Farey sequences. */

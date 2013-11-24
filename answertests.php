@@ -121,6 +121,9 @@ foreach ($tests as $test) {
         if (-1 === $test->expectedscore) {
             $class = 'expectedfail';
             $passedcol = stack_string('testsuiteknownfail');
+        } if (-2 === $test->expectedscore) {
+            $class = 'expectedfail';
+            $passedcol = stack_string('testsuiteknownfailmaths');
         } else {
             $passedcol = stack_string('testsuitepass');
         }

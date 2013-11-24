@@ -453,6 +453,7 @@ $string['testsuitecolrawmark'] = 'Raw mark';
 $string['testsuitecolexpectedscore'] = 'Expected mark';
 $string['testsuitepass'] = 'Pass';
 $string['testsuiteknownfail'] = 'Expected failure';
+$string['testsuiteknownfailmaths'] = 'Expected failure (maths)';
 $string['testsuitefail'] = 'Fail';
 $string['testsuitenotests']       = 'Number of tests: {$a->no}. ';
 $string['testsuiteteststook']     = 'Tests took {$a->time} seconds. ';

@@ -130,6 +130,11 @@ class stack_potentialresponse_tree {
             } else {
                 $cs = new stack_cas_casstring($answers[$name]);
             }
+            // Validating as teacher at this stage removes the problem of "allowWords" which
+            // we don't have access to.  This effectively allows any words here.  But the
+            // student's answer has already been through validation.
+            $cs->validate('t');
+            // Setting the key must come after validation.
             $cs->set_key($name);
             $answervars[] = $cs;
         }

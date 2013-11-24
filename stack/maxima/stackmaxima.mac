@@ -556,9 +556,9 @@ set output ",afn),
 ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
-    SAA:errcatch(ev(SA, simp, fullratsimp, nouns)),
+    SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA = [STACKERROR]) or is(SAA = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_SAns"), ""]),
-    SBB:errcatch(ev(SBL, simp, fullratsimp, nouns)),
+    SBB:errcatch(ev(SBL, simp, nouns)),
     if (is(SBB = [STACKERROR]) or is(SBB = [])) then return([false, false, StackAddNote("","ATNumSigFigs_STACKERROR_TAns"), ""]),
 
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
@@ -609,11 +609,11 @@ ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol,
 */
 ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     /* Turn on simplification and error catch */
-    SA:errcatch(ev(SA, simp, fullratsimp, nouns)),
+    SA:errcatch(ev(SA, simp, nouns)),
     if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
     SA:SA[1],
     SAN:copy(SA), /* Need this for when we have lists etc */
-    SB:errcatch(ev(SB, simp, fullratsimp, nouns)),
+    SB:errcatch(ev(SB, simp, nouns, rat)),
     if is(SB = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_TAns"),""]),
     SB:SB[1],
     /* Start recursive process */
@@ -727,7 +727,9 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, k, AnsNotes],
 )$
 
 /* Equations */
-stack_eqnprepare(ex) := block([ret],
+/* Note, this uses exand, which will break large expressions */
+stack_eqnprepare(ex) := block([ret, keepfloat],
+  keepfloat:true,
   ret:fullratsimp(trigexpand(rhs(ex)-lhs(ex))),
   ret:ret*denom(ret),
   return(expand(ret))
@@ -769,19 +771,29 @@ stack_eval_assignments(ex) := block([asl, sl],
 
 /* Two equations are the "same" when they have identical roots
    with identical multiplicities */
-ATEquation(SA, SB) := block([RawMark, SA1, SB1, SB2],
+ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2],
+    keepfloat:false,
     RawMark:false,
+
+    /* First try without expanding out the equations */
+    R1:ev(lhs(factor(SA))-rhs(factor(SA)),simp),
+    R2:ev(lhs(factor(SB))-rhs(factor(SB)),simp),
+    if (R1=0 and R2=0) then
+        return([true, true, "", ""]),
+    if numberp(float(abs(R1/R2))) then 
+        return([true, true, "", ""]),
+    /* Next, expand out the equations */
     SA1:stack_eqnprepare(SA),
     SB1:stack_eqnprepare(SB),
     if SA1#0 then
          /* We need a slight hack to turn %i+1 into a number */
          RawMark:block(
-             SB2:float(abs(fullratsimp((SA1/SB1)))),
+             SB2:float(abs(ev(fullratsimp(SA1/SB1),simp))),
              if numberp(SB2) then true else false
          )
     else
          RawMark:if SB1=0 then true else false,
-    return([true, RawMark, "", ""])
+    return([true, RawMark, "ATEquation_expanded", ""])
     )$
 
 ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
@@ -912,10 +924,10 @@ ATSameType(SA, SB) := block([ret],
 */
 ATSameTypefun(SA, SB) := block([simp:true, ret],
     /* Turn on simplification and error catch */
-    SA:errcatch(ev(SA, simp, fullratsimp, nouns)),
+    SA:errcatch(ev(SA, simp, nouns)),
     if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATSameTypefun_STACKERROR_SAns"), ""]),
     SA:SA[1],
-    SB:errcatch(ev(SB, simp, fullratsimp, nouns)),
+    SB:errcatch(ev(SB, simp, nouns)),
     if is(SB = [STACKERROR]) then return([false, false, StackAddNote("", "ATSameTypefun_STACKERROR_TAns"), ""]),
     SB:SB[1],
     /* Start recursive process */
@@ -931,10 +943,10 @@ ATSameTypefun(SA, SB) := block([simp:true, ret],
    Note, this is identical to ATAlgEquiv with simp:false otherwise */
 ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, AnswerNote, SAA],
     /* Turn on simplification and error catch */
-    SAA:errcatch(ev(SA, simp, fullratsimp, nouns)),
+    SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA = [STACKERROR]) or is(SAA = [])) then 
         return([false, false, StackAddNote("", "ATLowestTerms_STACKERROR_SAns"), ""]),
-    SB:errcatch(ev(SB, simp, fullratsimp, nouns)),
+    SB:errcatch(ev(SB, simp, nouns)),
     if (is(SB = [STACKERROR]) or is(SB = [])) then 
         return([false, false, StackAddNote("", "ATLowestTerms_STACKERROR_TAns"), ""]),
     SB:SB[1],
@@ -960,10 +972,10 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
 
 ATSubstEquiv(SA,SB) := block([simp:true, ret],
     /* Turn on simplification and error catch */
-    SA:errcatch(ev(SA, simp, fullratsimp, nouns)),
+    SA:errcatch(ev(SA, simp, nouns)),
     if is(SA=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_SAns"), ""]),
     SA:SA[1],
-    SB:errcatch(ev(SB, simp, fullratsimp, nouns)),
+    SB:errcatch(ev(SB, simp, nouns)),
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_TAns"), ""]),
     SB:SB[1],
     ret:ATAlgEquivfun(SA, SB),
@@ -1021,19 +1033,21 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret],
 
 /* Edited files: SysEquiv.php, AnsTestcontroller.php, lang/en/stack.php */
 
-ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark,FeedBack,AnswerNote,SAA,SAB,S1,S2,varlist,GA,GB,ret],
+ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA, SAB, S1, S2, varlist, GA, GB, ret],
 	Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
-	keepfloat:true,               /* See pg 23 */
+	keepfloat:true,
 	
 	/* Turn on simplification and error catch */
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATSysEquiv_STACKERROR_SAns"),""]),
-    SAB:errcatch(ev(SB,simp,fullratsimp,nouns)),
-    if (is(SAB=[STACKERROR]) or is(SAB=[])) then return([false,false,StackAddNote("","ATSysEquiv_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATSysEquiv_STACKERROR_SAns"), ""]),
+    SAB:errcatch(ev(SB, simp, nouns)),
+    if (is(SAB=[STACKERROR]) or is(SAB=[])) 
+        then return([false, false, StackAddNote("", "ATSysEquiv_STACKERROR_TAns"), ""]),
 	
 	/* Are both answers lists? */
 	if not listp(SA) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_list")),
+		return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_list")),
 	if not listp(SB) then
 		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_list")),
 
@@ -1044,14 +1058,14 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark,FeedBack,AnswerNote,SAA,SA
 		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
 
 	/* Are all list elements equations? */
-	if ev(not all_listp(equationp,SA),simp) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
-	if ev(not all_listp(equationp,SB),simp) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
+	if ev(not all_listp(equationp, SA), simp) then
+		return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
+	if ev(not all_listp(equationp,SB), simp) then
+		return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
 
 	/* Turn our equations into expressions */
-	S1: ev(maplist(stack_eqnprepare,stack_eval_assignments(SA)),simp),
-	S2: ev(maplist(stack_eqnprepare,stack_eval_assignments(SB)),simp),
+	S1: ev(maplist(stack_eqnprepare, stack_eval_assignments(SA)), simp),
+	S2: ev(maplist(stack_eqnprepare, stack_eval_assignments(SB)), simp),
 
     /* Is S1 is empty?  This means we only had assignments in the answer, 
        i.e. the answer was in a "solved" form, e.g. x=1. */
@@ -1143,11 +1157,11 @@ ATSysEquivGrob(GA,GB,SA,varlist):=block([retl,ret],
 
 /* An answer test based on the Maxima's notion of equals. */
 ATCASEqual(SA,SB) :=
-    block([keepfloat:true,Validity:true,RawMark:false,FeedBack:"",AnswerNote:"",SAA,SBB],
+    block([keepfloat:true, Validity:true, RawMark:false, FeedBack:"", AnswerNote:"", SAA, SBB],
 
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
+    SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATCASEqual_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(SB,simp,fullratsimp,nouns)),
+    SBB:errcatch(ev(SB, simp, nouns)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATCASEqual_STACKERROR_TAns"),""]),
 
     if SA=SB then
@@ -1159,14 +1173,16 @@ ATCASEqual(SA,SB) :=
 
 /* SA>SB? */
 ATGT(SA,SB) :=
-    block([keepfloat,Validity,RawMark,FeedBack,AnswerNote,str,ex],
+    block([keepfloat, Validity, RawMark, FeedBack, AnswerNote, str, ex],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"Not number",
     keepfloat:true,               /* See pg 23 */
 
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATGT_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(SB,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATGT_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATGT_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SB, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATGT_STACKERROR_TAns"), ""]),
 
     ex:ev(float(trigreduce(trigexpand(SA-SB))),simp),
     if numberp(ex) then
@@ -1179,14 +1195,16 @@ ATGT(SA,SB) :=
 
 /* SA>=SB? */
 ATGTE(SA,SB) :=
-    block([keepfloat,Validity,RawMark,FeedBack,AnswerNote,str,ex,SAA,SBB],
+    block([keepfloat, Validity, RawMark, FeedBack, AnswerNote, str, ex, SAA, SBB],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"Not number",
-    keepfloat:true,               /* See pg 23 */
+    keepfloat:true,
 
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATGTE_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(SB,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATGTE_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATGTE_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SB, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATGTE_STACKERROR_TAns"), ""]),
 
     ex:ev(float(trigreduce(trigexpand(SA-SB))),simp),
     if numberp(ex) then
@@ -1288,14 +1306,16 @@ ATFacForm(SA,SBL) := block([negdistrib,RawMark,FeedBack,AnswerNote,ret,str,SB,v,
     /* include facdum:'facdum, as in partfrac? */
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATFacForm_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(SBL,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATFacForm_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATFacForm_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SBL, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATFacForm_STACKERROR_TAns"), ""]),
 
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
     if listp(SBL) then (SB:SBL[1], v:SBL[2])  else
-        return([false,false,StackAddNote("","ATFacForm_STACKERROR_LIST"),StackAddFeedback("","TEST_FAILED")]),
+        return([false, false, StackAddNote("", "ATFacForm_STACKERROR_LIST"), StackAddFeedback("", "TEST_FAILED")]),
 
     /* SA should be only an expression. */
     if expressionp(SA)=false then
@@ -1360,19 +1380,20 @@ FacFormfun(SA,SB,v) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, con
 /* An answer test based expandp(sa). */
 /* Note, the SB is a dummy to allow one mechanism for calling functions */
 ATExpanded(SA,SB) :=
-    block([keepfloat,Validity,RawMark,FeedBack,AnswerNote,SA1],
+    block([keepfloat, Validity, RawMark, FeedBack, AnswerNote, SA1],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"", SA1:[],
-    keepfloat:true,               /* See pg 23 */
+    keepfloat:true,
+
     /* SA should be only an expression. */
-    SA1:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if is(SA1=[STACKERROR]) then return([false,false,StackAddNote("","ATExpanded_STACKERROR_SAns"),""]),
+    SA1:errcatch(ev(SA, simp, nouns)),
+    if is(SA1=[STACKERROR]) then return([false, false, StackAddNote("", "ATExpanded_STACKERROR_SAns"), ""]),
     /*   */
     if expressionp(SA)=false then
-        return([false,false,StackAddNote("","ATExpanded_SA_not_expression"),StackAddFeedback("","ATAlgEquiv_SA_not_expression")]),
+        return([false, false, StackAddNote("", "ATExpanded_SA_not_expression"), StackAddFeedback("", "ATAlgEquiv_SA_not_expression")]),
     if expandp(SA) then
-            return([true,true,StackAddNote("","ATExpanded_TRUE"),""])
+            return([true, true, StackAddNote("", "ATExpanded_TRUE"), ""])
         else
-            return([true,false,StackAddNote("","ATExpanded_FALSE"),""])
+            return([true, false, StackAddNote("", "ATExpanded_FALSE"), ""])
     )$
 
 
@@ -1395,10 +1416,12 @@ ATPartFrac(SA,SBL) := block([negdistrib,Validity,rawmk,fb,ansnote,ret,SB,v,facdu
     facdum:'facdum,
     Validity:true, rawmk:true, fb:StackAddFeedback("",""), ansnote:"",
 
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATPartFrac_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(SBL,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATPartFrac_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATPartFrac_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SBL, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATPartFrac_STACKERROR_TAns"), ""]),
 
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
     if listp(SBL) then (tExpr:SBL[1], wrt:SBL[2])  else
@@ -1513,10 +1536,12 @@ ATSingleFrac(SA, SB):= block(
     negdistrib: false,
     validity:true, rawmk:false, fb:"", ansnote:"",
 
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATSingleFrac_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(SB,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATSingleFrac_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATSingleFrac_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SB, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATSingleFrac_STACKERROR_TAns"), ""]),
 
     /* sExpr should be only an expression. */
     if expressionp(SA)=false then
@@ -1660,24 +1685,26 @@ sameVars(expr1, expr2):=
 
 ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,SAA,SBB,facdum,opa,argsa,deg,cform,ae],
     Validity:true,RawMark:true, FeedBack:"", AnswerNote:"", cform:false,
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATCompSquare_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(SBL,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATCompSquare_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(SA,simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATCompSquare_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SBL,simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATCompSquare_STACKERROR_TAns"), ""]),
 
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
     if listp(SBL) then (SB:SBL[1], wrt:SBL[2])  else
-        return([false,false,StackAddNote("","ATCompSquare_STACKERROR_LIST"),""]),
+        return([false,false,StackAddNote("", "ATCompSquare_STACKERROR_LIST"), ""]),
 
     /* SA should be only an expression. */
     if expressionp(SA)=false then
-        return([false,false,StackAddNote("","ATCompSquare_STACKERROR_LIST"), StackAddFeedback("","ATAlgEquiv_SA_not_expression")]),
+        return([false, false, StackAddNote("", "ATCompSquare_STACKERROR_LIST"), StackAddFeedback("", "ATAlgEquiv_SA_not_expression")]),
 
     /* If we don't have an atom as the teacher's variable, then we need to make a substitution */
-    if atom(wrt)#true then (SA:subst(facdum,wrt,SA),SB:subst(facdum,wrt,SB),wrt:facdum),
+    if atom(wrt)#true then (SA:subst(facdum, wrt, SA), SB:subst(facdum, wrt, SB), wrt:facdum),
 
     if member(wrt,listofvars(SB)) and not(member(wrt,listofvars(SA))) then
-        return([true,false,StackAddNote("","ATCompSquare_SA_not_depend_var"),StackAddFeedback("","ATCompSquare_SA_not_depend_var", StackDISP(SBL[2],"i"))]),
+        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", StackDISP(SBL[2], "i"))]),
 
     opa:safe_op(SA),
 
@@ -1769,104 +1796,107 @@ strip_int_const(ex,v):=block([ex2,fargs],
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
 ATInt(sa,sbl) :=
-    block([old_simp,keepfloat,Validity, RawMark,FeedBack,AnswerNote,var,sb,ret,cont],
+    block([old_simp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, ret, cont],
     old_simp:simp, simp:true, Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
+    keepfloat:true,
 
-    SAA:errcatch(ev(sa,simp,fullratsimp,nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATInt_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(sbl,simp,fullratsimp,nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATInt_STACKERROR_TAns"),""]),
+    SAA:errcatch(ev(sa, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATInt_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(sbl, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATInt_STACKERROR_TAns"), ""]),
 
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
     if listp(sbl) then
         (var:sbl[2], sb:sbl[1], cont:true)
     else
-        (cont:false, FeedBack:StackAddFeedback("","ATInt_STACKERROR_LIST"), AnswerNote:StackAddNote("","ATInt_STACKERROR_LIST")),
+        (cont:false, FeedBack:StackAddFeedback("", "ATInt_STACKERROR_LIST"), AnswerNote:StackAddNote("", "ATInt_STACKERROR_LIST")),
     ret:[true,RawMark,AnswerNote,FeedBack], /* Once this works remove these variables and define ret in the loops */
 
     /* SA should be only an expression. */
     if expressionp(sa)=false then
-        return([false,false,StackAddNote("","ATInt_SA_not_expression"),StackAddFeedback("","ATAlgEquiv_SA_not_expression")])
+        return([false, false, StackAddNote("", "ATInt_SA_not_expression"), StackAddFeedback("", "ATAlgEquiv_SA_not_expression")])
     else block(
-        keepfloat:true,               /* See pg 23 */
+        keepfloat:true,
         if cont then
-            ret:Intfun(sa,sb,var)
+            ret:Intfun(sa, sb, var)
         ),
     simp:old_simp,
     return(ret)
     )$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w */
-listsoverlap(a,b) :=not(emptyp(intersection(setify(a),setify(b))))$
+listsoverlap(a, b) :=not(emptyp(intersection(setify(a), setify(b))))$
 
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
-listscontain(a,b,v) := elementp(v,intersection(setify(a),setify(b)))$
+listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
 
-Intfun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSBv,mSAv,mSBv],
+Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSBv,mSAv,mSBv],
     val:true, rawmk:false, fb:"", ansnote:"",
-    ret:[val,rawmk,ansnote,fb],
+    ret:[val, rawmk, ansnote, fb],
     /* This expands out logarithms for constants, e.g. ln(k*|x|) */
-    SB:ev(SB,logexpand:super), 
+    SB:ev(SB, logexpand:super), 
     /* This strips off any trailing constant of integration from the teacher's answer */
-    SB:strip_int_const(SB,v),
+    SB:strip_int_const(SB, v),
     /* This strips off any trailing constant of integration from the student's answer */
-    SAa:strip_int_const(ev(SA,logexpand:super),v),
+    SAa:strip_int_const(ev(SA, logexpand:super), v),
+    /* Calculate derivatives */
+    SAd:diff(SA,v),
+    SBd:diff(SB,v),
     /* Check for constant of integration - code copied from algebraic_equivalence */
-    ex:errcatch(ev(fullratsimp(SA-SB),simp,trigexpand:true,logexpand:super,keepfloat:true)),
-    if ex=[] then return(false),
+    ex:errcatch(ev(fullratsimp(SA-SB), simp, trigexpand:true, logexpand:super, keepfloat:true)),
+    if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
     ex:ex[1],
     ex:trigsimp(ex),
     ex:trigreduce(ex),
     dd:float(ex),
     dc:numberp(dd) and dd#0.0,
-    /* Calculate derivatives */
-    SAd:diff(SA,v),
-    SBd:diff(SB,v),
     if algebraic_equivalence(SAd,SBd) then
         if ex=0 then
-            (rawmk:false, fb:StackAddFeedback("","ATInt_const"), ansnote:StackAddNote("","ATInt_const"))
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
         else if dc then
-            (rawmk:false, fb:StackAddFeedback("","ATInt_const_int"), ansnote:StackAddNote("","ATInt_const_int"))
-        else if freeof(log,SA) and not(ATIntWeirdConstp(ex)) then
-            (rawmk:true, ansnote:StackAddNote("","ATInt_true"))
-        else if freeof(log,SA) and ATIntWeirdConstp(ex) then
-                (rawmk:false, fb:StackAddFeedback("","ATInt_weirdconst"), ansnote:StackAddNote("","ATInt_weirdconst"))
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_const_int"), ansnote:StackAddNote("", "ATInt_const_int"))
+        else if freeof(log, SA) and not(ATIntWeirdConstp(ex)) then
+            (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
+        else if freeof(log, SA) and ATIntWeirdConstp(ex) then
+                (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
         else if algebraic_equivalence(SA,SB) then
-                (rawmk:false, fb:StackAddFeedback("","ATInt_const"), ansnote:StackAddNote("","ATInt_const"))
+                (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
             else /* Check the student's answer has the correct form */
                ( if algebraic_equivalence(SAa,SB) then
-                    (rawmk:true, ansnote:StackAddNote("","ATInt_true"))
+                    (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
                  else
-                    (rawmk:false, fb:StackAddFeedback("","ATInt_EqFormalDiff"), ansnote:StackAddNote("","ATInt_EqFormalDiff" ))
+                    (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
                )
     else /* Check for the special cases where the buggy rule is true */
-       if algebraic_equivalence(SAa,diff(SBd,v)) and algebraic_equivalence(exp(x),SBd)#true then
-            (rawmk:false, fb:StackAddFeedback("","ATInt_diff"), ansnote:StackAddNote("","ATInt_diff"))
+       if algebraic_equivalence(SAa, diff(SBd, v)) and algebraic_equivalence(exp(x), SBd)#true then
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
        else (
-       rawmk:false, fb:StackAddFeedback("","ATInt_generic",StackDISP(SBd,"d"),StackDISP(v,"i"),StackDISP(SAd,"d")), ansnote:StackAddNote("","ATInt_generic")),
+       rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
     lSAv:listofvars(SA),
     lSBv:listofvars(SB),
-    mSAv:member(v,lSAv),
-    mSBv:member(v,lSBv),
+    mSAv:member(v, lSAv),
+    mSBv:member(v, lSBv),
     if not(mSBv) then (
         if mSAv then
-            ansnote:StackAddNote(ansnote,"ATInt_var_SA_notSB")
-        else if not(listscontain(lSAv,lSBv,v)) and not(listsoverlap(lSAv,lSBv)) then
-            ansnote:StackAddNote(ansnote," ATInt_var_notSASB_SAnceSB") ) /* v not in SA or SB, and no variable common to SA and SB */
+            ansnote:StackAddNote(ansnote, "ATInt_var_SA_notSB")
+        else if not(listscontain(lSAv, lSBv, v)) and not(listsoverlap(lSAv, lSBv)) then
+            ansnote:StackAddNote(ansnote, " ATInt_var_notSASB_SAnceSB") ) /* v not in SA or SB, and no variable common to SA and SB */
     else if not(mSAv) then
         if mSBv then
-            ansnote:StackAddNote(ansnote," ATInt_var_SB_notSA"),
+            ansnote:StackAddNote(ansnote, " ATInt_var_SB_notSA"),
 
-    ret:[val,rawmk,ansnote,fb],
+    ret:[val, rawmk, ansnote, fb],
     return(ret)
-    )$
+)$
 
 /* This function decides if the constant of integration looks "weird".*/
 ATIntWeirdConstp(ex):=block([l],
-  l:listofvars(ex),
-  if length(l)#1 then return(true),
-  if degree(ex,first(l))#1 then return(true)
-  else return(false)
+    l:listofvars(ex),
+    if length(l)#1 then return(true),
+    if degree(ex, first(l))#1 then return(true)
+    else return(false)
 )$
 
 /********************************************************************/
@@ -1875,26 +1905,27 @@ ATIntWeirdConstp(ex):=block([l],
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
 ATDiff(sa,sbl) :=
-    block([old_simp,keepfloat,RawMark,FeedBack,AnswerNote,ret,str,da,db,dd,dc,sb,var,cont,SAA,SBB],
+    block([old_simp, keepfloat, RawMark, FeedBack, AnswerNote, ret, str, da, db, dd, dc, sb, var, cont, SAA, SBB],
     old_simp:simp, simp:true, RawMark:false, FeedBack:"", AnswerNote:"",
+    keepfloat:true,
 
-    SAA:errcatch(ev(sa,simp,fullratsimp,nouns)),
+    SAA:errcatch(ev(sa, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_SAns"),""]),
-    SBB:errcatch(ev(sbl,simp,fullratsimp,nouns)),
+    SBB:errcatch(ev(sbl, simp, nouns)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATDiff_STACKERROR_TAns"),""]),
 
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
     if listp(sbl) then
     (var:sbl[2], sb:sbl[1], cont:true)
     else
-       ( cont:false, FeedBack:StackAddFeedback("","ATDiff_STACKERROR_LIST"), AnswerNote:StackAddNote("","ATDiff_STACKERROR_LIST")),
+       (cont:false, FeedBack:StackAddFeedback("","ATDiff_STACKERROR_LIST"), AnswerNote:StackAddNote("","ATDiff_STACKERROR_LIST")),
     ret:[cont, RawMark, AnswerNote, FeedBack],  /* In case sbl not list */
 
     /* SA should be only an expression. */
     if expressionp(sa)=false then
         return([false,false,StackAddNote("","ATDiff_SA_not_expression"),StackAddFeedback("","ATAlgEquiv_SA_not_expression")])
     else block(
-        keepfloat:true,               /* See pg 23 */
+        keepfloat:true,
         if cont then
         ret:Difffun(sa,sb,var)
         ),
@@ -1938,9 +1969,9 @@ Difffun(SA,SB,v) := block([val,rawmk,ansnote,fb,ret,lSAv,lSBv,mSAv,mSBv],
 
 assess(ex1,ex2):=block([ret],
 
-    SAA:errcatch(ev(SA,simp,fullratsimp,nouns)),
+    SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then return([false,false,"assess_STACKERROR_SAns",""]),
-    SBB:errcatch(ev(SBL,simp,fullratsimp,nouns)),
+    SBB:errcatch(ev(SBL,simp, nouns)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,"assess_STACKERROR_TAns",""]),
 
     ret:ATCASEqual(ex1,ex2),
@@ -1965,5 +1996,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013102300$
-print("[ STACK-Maxima started, library version 2013102300 ]")$
+stackmaximaversion:2013112400$
+print("[ STACK-Maxima started, library version 2013112400 ]")$

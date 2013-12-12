@@ -88,6 +88,11 @@ Running Maxima on a separate server dedicated to the task is more secure. It als
 improves performance because the server can start up Maxima processes in advance
 so they are all ready and waiting to compute some CAS with zero delay.
 
+There are three settings to use
+* MaximaPool and MaximaPool (optimised): Use this if your servers are all on the same machine.
+* Server: handles transfer of the plots generated on possibly remote servlet.  Use this if your Tomcat server is on a different machine to the PHP.
+
+
 ## Optimisation results ##
 
 The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLISP 2.49 (2010-07-07) on a linux server.

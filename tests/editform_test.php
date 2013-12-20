@@ -63,6 +63,11 @@ class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
     public function get_prt_names_from_question() {
         return parent::get_prt_names_from_question();
     }
+
+    // Make this public so we can test it.
+    public function get_sloppy_tags($text) {
+        return parent::get_sloppy_tags($text);
+    }
 }
 
 
@@ -108,6 +113,13 @@ class qtype_stack_edit_form_test extends advanced_testcase {
         $form = $this->get_form('[[input:123]]', '');
 
         $this->assertEquals(array(), $form->get_input_names_from_question_text());
+    }
+
+    public function test_get_input_names_from_question_text_sloppy() {
+        $text = 'What is \(1+1\)?  [[input: ans1]]';
+        $form = $this->get_form($text, '');
+
+        $this->assertEquals(array('[[input: ans1]]'), $form->get_sloppy_tags($text));
     }
 
     public function test_get_prt_names_from_question_default() {

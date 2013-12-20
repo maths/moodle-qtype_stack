@@ -273,6 +273,19 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Tags which have extra whitespace within them. E.g. [[input: ans1]] are forbidden.
+     * @return array of tags.
+     */
+    protected function get_sloppy_tags($text) {
+
+        $sloppy_tags = stack_utils::extract_placeholders_sloppy($text, 'input');
+        $sloppy_tags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'validation'), $sloppy_tags);
+        $sloppy_tags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'prt'), $sloppy_tags);
+
+        return $sloppy_tags;
+    }
+
+    /**
      * Helper method to get the list of inputs required by a PRT, given the current
      * state of the form.
      * @param string $prtname the name of a PRT.
@@ -896,6 +909,13 @@ class qtype_stack_edit_form extends question_edit_form {
         // Question text.
         $errors['questiontext'] = array();
         $errors = $this->validate_cas_text($errors, $fromform['questiontext']['text'], 'questiontext', $fixingdollars);
+
+        // Check for whitespace following placeholders.  
+        $sloppy_tags = $this->get_sloppy_tags($fromform['questiontext']['text']);
+        foreach ($sloppy_tags as $sloppy_tag) {
+            $errors['questiontext'][] = stack_string(
+                        'questiontextplaceholderswhitespace', $sloppy_tag);
+        }
 
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;

@@ -67,8 +67,7 @@ abstract class stack_connection_helper {
                 break;
             case 'tomcat':
             case 'tomcat-optimised':
-                require_once(dirname(__FILE__) . '/connector.tomcat.class.php');
-                $connection = new stack_cas_connection_tomcat(self::$config, $debuglog);
+                throw new stack_exception('stack_connection_helper: "tomcat" and "tomcat-optimised" settings are obsolete.  Please choose "server" setting instead.');
                 break;
 
             default:
@@ -238,7 +237,6 @@ abstract class stack_connection_helper {
 
         switch (self::$config->platform) {
             case 'unix-optimised':
-            case 'tomcat-optimised':
                 $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
                 $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
                 break;
@@ -267,6 +265,7 @@ abstract class stack_connection_helper {
 
         $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
                 'cte("CASresult",errcatch(diff(x^n,x))), print("1=[ error= ["), ' .
+                'cte("CASversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
                 'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
                 "\n";
 
@@ -299,6 +298,7 @@ abstract class stack_connection_helper {
                     if ($result['value'] != '"'.$date.'"') {
                         $success = false;
                     }
+                } else if ('CASversion' === $result['key']) {
                 } else {
                     $success = false;
                 }

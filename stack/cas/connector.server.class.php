@@ -18,9 +18,11 @@
 /**
  * Connection to Maxima running in a tomcat-server using the MaximaPool-servlet.
  * This version handles transfer of the plots generated on possibly remote servlet.
+ * For details of this see https://github.com/maths/stack_util_maximapool/
  *
  * @copyright  2012 The University of Birmingham
  * @copyright  2012 Aalto University - Matti Harjula
+ * @copyright  2014 Loughborough University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_cas_connection_server extends stack_cas_connection_base {

@@ -203,8 +203,21 @@ The second argument is the model answer. The answer test option needs to be the 
 Getting this test to work in a general setting is a very difficult challenge.
 In particular, the test assumes that the constant of integration is expressed in a form similar to +c, although which variable used is not important.
 
-The test cannot cope with the situation in which a teacher uses a constant in a form such as \(\ln(c|x|)\).
-In this case the teacher should develop a test for the question from scratch.
+The issue of \( \int \frac{1}{x} dx = \log(x)+c\) vs  \( \int \frac{1}{x} dx 
+= \log(|x|)+c\) is a particular challenge.  The test is currently defined in 
+such a way that if the teacher uses \( \log(|x|)+c \) in their answer, then 
+they would expect the student to do so.  If they don't use the absolute value 
+function, then they don't expect students to but will accept this in an 
+answer.   It is, after all, not "wrong".  However, in the case of partial 
+fractions where there are more than one term of the form \(\log(x-a)\) then 
+we insist the student is at least consistent.  If the teacher has *any* 
+\(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the 
+teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 
+student must have all or none. 
+
+The test cannot cope with some situations.  Please contact the developers 
+when you find some of these.  This test is already rather overloaded, so 
+please don't expect every request to be accommodated! 
 
 # Other #
 

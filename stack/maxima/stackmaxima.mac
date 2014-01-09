@@ -1832,7 +1832,7 @@ listsoverlap(a, b) :=not(emptyp(intersection(setify(a), setify(b))))$
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
 listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
 
-Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSBv,mSAv,mSBv],
+Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs],
     val:true, rawmk:false, fb:"", ansnote:"",
     ret:[val, rawmk, ansnote, fb],
     /* This expands out logarithms for constants, e.g. ln(k*|x|) */
@@ -1841,6 +1841,13 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
     SB:strip_int_const(SB, v),
     /* This strips off any trailing constant of integration from the student's answer */
     SAa:strip_int_const(ev(SA, logexpand:super), v),
+    /* If the teacher has not used logabs, then strip out any logabs from the student's answer. */
+    /* Student consistency is a different issue. */
+    SAConsistentLogs:ATInt_consistent_logabs_p(SA,v),
+    if freeof(STACKLA, ATInt_logabs_to_STACKLA(SB)) then (
+      SA:subst(STACKLA=log, ATInt_logabs_to_STACKLA(SA)),
+      SAa:subst(STACKLA=log, ATInt_logabs_to_STACKLA(SAa))
+      ),
     /* Calculate derivatives */
     SAd:diff(SA,v),
     SBd:diff(SB,v),
@@ -1860,20 +1867,24 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
         else if freeof(log, SA) and not(ATIntWeirdConstp(ex)) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
         else if freeof(log, SA) and ATIntWeirdConstp(ex) then
-                (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
-        else if algebraic_equivalence(SA,SB) then
-                (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
-            else /* Check the student's answer has the correct form */
-               ( if algebraic_equivalence(SAa,SB) then
-                    (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
-                 else
-                    (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
-               )
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
+        /* From this point onwards we *have logarithms*. */
+        else if algebraic_equivalence(SA, SB) then
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
+        else if algebraic_equivalence(SAa, SB) then
+            (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
+        else if algebraic_equivalence(SAa, subst(STACKLA=log, ATInt_logabs_to_STACKLA(SB))) then
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote("", "ATInt_logabs"))
+        else
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
     else /* Check for the special cases where the buggy rule is true */
        if algebraic_equivalence(SAa, diff(SBd, v)) and algebraic_equivalence(exp(x), SBd)#true then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
-       else (
-       rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
+           (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
+       else 
+           (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
+    /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
+    if not(SAConsistentLogs) then
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
     lSAv:listofvars(SA),
     lSBv:listofvars(SB),
     mSAv:member(v, lSAv),
@@ -1898,6 +1909,36 @@ ATIntWeirdConstp(ex):=block([l],
     if degree(ex, first(l))#1 then return(true)
     else return(false)
 )$
+
+/* Transform log(abs(ex)) to a single dummy function STACKLA(ex)
+   This enables us to check is a student has been consistent in their use of log(abs(ex)) in an answer.
+*/
+ATInt_logabs_to_STACKLA(ex):=block(
+  if atom(ex) then return(ex),
+  if safe_op(ex) = "log" then (
+    if atom(first(args(ex))) then 
+        return(ex)
+    else if safe_op(first(args(ex))) = "abs" then 
+        return(STACKLA(first(args(first(args(ex))))))
+    ),
+  return(apply(op(ex),maplist(ATInt_logabs_to_STACKLA,args(ex))))
+)$
+
+/* Has the student been consistent in using log(abs(ex))?                     */
+/* We need to check for the integration variable, inside logarithm functions. */
+/* We don't want things like log(3) to "look like" a log here.                */
+ATInt_consistent_logabs_p_helper(ex,v):=block(
+  if atom(ex) then return(0),
+  if safe_op(ex) = "log" and member(v, listofvars(args(ex))) then return(STACKLOG),
+  if safe_op(ex) = "STACKLA" and member(v, listofvars(args(ex))) then return(STACKLOGABS),
+  return(apply("+",maplist(lambda([ex1],ATInt_consistent_logabs_p_helper(ex1,v)),args(ex))))
+);
+
+ATInt_consistent_logabs_p(ex,v):=block([helper],
+  helper:ev(ATInt_consistent_logabs_p_helper(ATInt_logabs_to_STACKLA(ex),v),simp),
+  helper:listofvars(helper),
+  if member(STACKLOG, helper) and member(STACKLOGABS, helper) then false else true
+);
 
 /********************************************************************/
 /* An answer test for differentiation questions.                    */
@@ -1996,5 +2037,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2013112400$
-print("[ STACK-Maxima started, library version 2013112400 ]")$
+stackmaximaversion:2014010900$
+print("[ STACK-Maxima started, library version 2014010900 ]")$

@@ -99,6 +99,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),
+        array('AlgEquiv', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''), // Might come up in ATInt
         array('AlgEquiv', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'),
         array('AlgEquiv', 'x', '[1,2,3]', 0, '', 'Lists'),
         array('AlgEquiv', '[1,2]', '[1,2,3]', 0, '', ''),
@@ -535,6 +536,23 @@ class stack_answertest_test_data {
         array('Int', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 0, 'x', 'Other logs'),
         array('Int', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 0, 'x', ''),
         array('Int', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'x', ''),
+        // In these examples there are two logarihtms.  The student should be *consistent*
+        // in their use, or not, of absolute value.
+        array('Int', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', 'Two logs'), 
+        array('Int', 'log(abs(x-3))+log(abs(x+3))+c', 'log(abs(x-3))+log(abs(x+3))', 1, 'x', ''),
+        array('Int', 'log(abs(x-3))+log(abs(x+3))', 'log(x-3)+log(x+3)', 0, 'x', ''),
+        array('Int', 'log(abs(x-3))+log(abs(x+3))+c', 'log(x-3)+log(x+3)', 1, 'x', ''),
+        array('Int', 'log(x-3)+log(x+3)', 'log(x-3)+log(x+3)', 0, 'x', ''),
+        array('Int', 'log(x-3)+log(x+3)+c', 'log(x-3)+log(x+3)', 1, 'x', ''),
+        array('Int', 'log(x-3)+log(x+3)', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', ''),
+        array('Int', 'log(x-3)+log(x+3)+c', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', ''),
+        array('Int', 'log(abs((x-3)*(x+3)))+c', 'log(abs(x-3))+log(abs(x+3))', 1, 'x', ''),
+        array('Int', 'log(abs((x^2-9)))+c', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', ''),
+    // Inconsistent cases. (Teacher doesn't use abs)
+        array('Int', 'log(abs(x-3))+log((x+3))+c', 'log(x-3)+log(x+3)', 0, 'x', 'Inconsistent log(abs())'),
+        array('Int', 'log((x-3))+log(abs(x+3))+c', 'log(x-3)+log(x+3)', 0, 'x', ''),
+        array('Int', 'log((x-3))+log(abs(x+3))', 'log(x-3)+log(x+3)', 0, 'x', ''),
+        // Trig.
         array('Int', '2*sin(x)*cos(x)', 'sin(2*x)+c', 0, 'x', 'Trig'),
         array('Int', '2*sin(x)*cos(x)+k', 'sin(2*x)+c', 1, 'x', ''),
         array('Int', '-2*cos(3*x)/3-3*cos(2*x)/2', '-2*cos(3*x)/3-3*cos(2*x)/2+c', 0, 'x', ''),

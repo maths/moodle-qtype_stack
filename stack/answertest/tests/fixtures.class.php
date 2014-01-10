@@ -548,10 +548,14 @@ class stack_answertest_test_data {
         array('Int', 'log(x-3)+log(x+3)+c', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', ''),
         array('Int', 'log(abs((x-3)*(x+3)))+c', 'log(abs(x-3))+log(abs(x+3))', 1, 'x', ''),
         array('Int', 'log(abs((x^2-9)))+c', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', ''),
-    // Inconsistent cases. (Teacher doesn't use abs)
+        array('Int', '2*log(abs(x-2))-log(abs(x+2))+(x^2+4*x)/2', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', 0, 'x', ''), //int((x^3+2*x^2-3*x-2)/(x^2-4),x);
+        array('Int', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', 1, 'x', ''),
+        array('Int', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', '-log((x+2))+2*log((x-2))+(x^2+4*x)/2', 1, 'x', ''),
+        // Inconsistent cases. (Teacher doesn't use abs)
         array('Int', 'log(abs(x-3))+log((x+3))+c', 'log(x-3)+log(x+3)', 0, 'x', 'Inconsistent log(abs())'),
         array('Int', 'log((x-3))+log(abs(x+3))+c', 'log(x-3)+log(x+3)', 0, 'x', ''),
         array('Int', 'log((x-3))+log(abs(x+3))', 'log(x-3)+log(x+3)', 0, 'x', ''),
+        array('Int', '2*log((x-2))-log(abs(x+2))+(x^2+4*x)/2', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2', 0, 'x', ''),
         // Trig.
         array('Int', '2*sin(x)*cos(x)', 'sin(2*x)+c', 0, 'x', 'Trig'),
         array('Int', '2*sin(x)*cos(x)+k', 'sin(2*x)+c', 1, 'x', ''),

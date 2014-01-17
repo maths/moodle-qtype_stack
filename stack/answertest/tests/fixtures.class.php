@@ -428,6 +428,8 @@ class stack_answertest_test_data {
         array('PartFrac', '1/0', '3*x^2', -1, 'x', ''),
         array('PartFrac', '0', '0', -1, '1/0', ''),
         array('PartFrac', '0', '1/0', -1, 'x', ''),
+        array('PartFrac', '1/n=0', '1/n', 0, 'n', ''),
+        array('PartFrac', '1/n', '{1/n}', 0, 'n', ''),
         array('PartFrac', '1/m', '1/n', 0, 'n', 'Basic tests'),
         array('PartFrac', '1/n', '1/n', 1, 'n', ''),
         array('PartFrac', '1/(n+1)-1/n', '1/(n+1)-1/n', 1, 'n', 'A simple cases, linear factors in denominator'),

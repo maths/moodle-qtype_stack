@@ -1319,10 +1319,10 @@ ATFacForm(SA,SBL) := block([negdistrib,RawMark,FeedBack,AnswerNote,ret,str,SB,v,
 
     /* SA should be only an expression. */
     if expressionp(SA)=false then
-        return([false,false,StackAddNote("","ATFacForm_SA_not_expression"),StackAddFeedback("","ATAlgEquiv_SA_not_expression")]),
+        return([false,false,StackAddNote("","ATFacForm_SA_not_expression"), StackAddFeedback("","ATAlgEquiv_SA_not_expression")]),
 
     /* If we don't have an atom as the teacher's variable, then we need to make a substitution */
-    if atom(v)#true then (SA:subst(facdum,v,SA),SB:subst(facdum,v,SB),v:facdum),
+    if atom(v)#true then (SA:subst(facdum, v, SA),SB:subst(facdum, v, SB), v:facdum),
     ret: FacFormfun(SA,SB,v),
     return(ret)
     )$
@@ -1330,11 +1330,11 @@ ATFacForm(SA,SBL) := block([negdistrib,RawMark,FeedBack,AnswerNote,ret,str,SB,v,
 FacFormfun(SA,SB,v) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, cont],
     val:true, rawmk:true, fb: "", ansnote: "",
     ret:[val,rawmk,ansnote,fb],
-    if errcatch(deg:hipow(expand(SA),v))=[] then block(
+    if errcatch(deg:hipow(expand(SA), v)) = [] then block(
         val: false,
         rawmk: false,
-        ansnote: StackAddNote("","ATFacForm_error_degreeSA"),
-        fb: StackAddFeedback("","ATFacForm_error_degreeSA")
+        ansnote: StackAddNote("", "ATFacForm_error_degreeSA"),
+        fb: StackAddFeedback("", "ATFacForm_error_degreeSA")
         ),
     aequiv:algebraic_equivalence(SA,SB),
     /* An integer answer is always correct. */
@@ -1429,7 +1429,11 @@ ATPartFrac(SA,SBL) := block([negdistrib,Validity,rawmk,fb,ansnote,ret,SB,v,facdu
 
     /* SA should be only an expression. */
     if expressionp(SA)=false then
-        return(StackBasicReturn(false,false,"ATPartFrac_SA_not_expression")),
+        return([false, false, StackAddNote("", "ATPartFrac_SA_not_expression"), StackAddFeedback("", "ATAlgEquiv_SA_not_expression")]),
+
+    /* tExpr should be only an expression. */
+    if expressionp(tExpr)=false then
+        return([false, false, StackAddNote("", "ATPartFrac_TA_not_expression"), StackAddFeedback("", "ATPartFrac_error_list")]),
         
     /* If we don't have an atom as the teacher's variable, then we need to make a substitution */
     if atom(v)#true then (SA:subst(facdum,wrt,SA),tExpr:subst(facdum,wrt,tExpr),wrt:facdum),

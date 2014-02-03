@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
-require_once($CFG->dirroot . '/question/type/stack/edit_stack_form.php');
+require_once(__DIR__ . '/../edit_stack_form.php');
 
 
 /**

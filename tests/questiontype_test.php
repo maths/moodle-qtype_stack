@@ -26,10 +26,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once(dirname(__FILE__) . '/test_base.php');
+require_once(__DIR__ . '/test_base.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
-require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
+require_once(__DIR__ . '/../questiontype.php');
 
 
 /**

@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once(dirname(__FILE__) . '/test_base.php');
+require_once(__DIR__ . '/test_base.php');
 
 
 /**

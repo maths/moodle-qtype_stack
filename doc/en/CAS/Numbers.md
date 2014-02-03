@@ -46,7 +46,11 @@ The following commands which are relevant to manipulation of numbers are defined
 
 ## Rational numbers ##
 
-## Floating point numbers ##
+## Floating point numbers ## {#Floats}
+
+The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.    
+
+If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you must use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  Otherwise STACK will try to insert star characters for you and `3e4` will be interprted as `3*e*4`.
 
 ## Surds ##
 

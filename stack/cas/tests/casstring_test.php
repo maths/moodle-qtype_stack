@@ -233,6 +233,28 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
                 $at1->get_errors());
     }
+
+    public function test_scientific_1() {
+        $s = 'a:3e2';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true));
+    }
+
+    public function test_scientific_2() {
+        $s = 'a:3e2';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', false, false));
+        $this->assertEquals('3e2', $at1->get_casstring());
+        $this->assertEquals('missing_stars', $at1->get_answernote());
+    }
+
+    public function test_scientific_3() {
+        $s = 'a:3e2';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', false, true));
+        $this->assertEquals('3*e*2', $at1->get_casstring());
+        $this->assertEquals('missing_stars', $at1->get_answernote());
+    }
 }
 
 

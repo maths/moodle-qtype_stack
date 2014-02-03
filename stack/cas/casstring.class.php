@@ -442,7 +442,12 @@ class stack_cas_casstring {
     /* Validation functions                                  */
     /*********************************************************/
 
-    // We may need to use this function more than once to validate with different options.
+    /* We may need to use this function more than once to validate with different options.
+     * $secutrity must either be 's' for student, or 't' for teacher.
+     * $syntax is whether we enforce a "strict syntax"
+     * $insertstars is whether we actually put stars into the places we expect them to go
+     * $allowwords enables specific function names (but never those from $globalforbid) 
+     */
     public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
 
         if (!('s'===$security || 't'===$security)) {
@@ -679,10 +684,11 @@ class stack_cas_casstring {
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
         $patterns[] = "|(\))([0-9A-Za-z])|";          // E.g. )a, or )3.
         // We assume f and g are single letter functions.
-        // 'E' is used to denote scientific notation.    E.g. 3E2 = 300.0.
+        // 'E' and 'e' is used to denote scientific notation.    
+        // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
-            $patterns[] = "|([0-9]+)([A-DF-Za-z])|";  // E.g. 3x.
-            $patterns[] = "|([0-9])([A-DF-Za-z]\()|"; // E.g. 3 x (.
+            $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
+            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3 x (.
         } else {
             $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
             $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3 x (.

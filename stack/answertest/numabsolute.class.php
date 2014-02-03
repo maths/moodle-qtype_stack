@@ -36,14 +36,13 @@ class stack_anstest_numabsolute extends stack_anstest {
             $atest_ops = $this->atoption;
         }
 
-        $commands = array($this->sanskey, $this->tanskey, $atest_ops);
-        foreach ($commands as $com) {
+        $commands = array('SANS' => $this->sanskey, 'TANS' => $this->tanskey, 'OPTION' => $atest_ops);
+        foreach ($commands as $key => $com) {
             $cs = new stack_cas_casstring($com);
             if (!$cs->get_valid('t', true, false)) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $cs->get_errors()));
-                $this->atansnote    = 'STACKERROR_OPTION.';
+                $this->atfeedback  .= stack_string('TEST_FAILED', array('errors' => $cs->get_errors()));
+                $this->atansnote    = 'STACKERROR_'.$key.'.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
                 return null;

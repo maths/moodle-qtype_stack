@@ -103,7 +103,9 @@ Some patterns must always be wrong.  For example  `)(` must be missing a star, a
 If set to `no`, this increases the range of things into which stars might be inserted.  In particular when `no` we assume
 
 * The student's expression does not contain any functions, so that `f(x+1)` is looked for, and we expect `f*(x+1)`.
-* The student's expression does not contain any scientific notation, so that `3E2` (which Maxima interprets as `300.0`) is looked for, and expects `3*E*2`.
+* The student's expression does not contain any scientific notation, so that `3E2` or `3e2` (which Maxima interprets as `300.0`) is looked for, and expects `3*E*2` or `3e2`.
+
+Please read the notes on [numbers](../CAS/Numbers.md#Floats).
 
 ### Insert Stars ### {#Insert_Stars}
 

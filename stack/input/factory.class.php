@@ -18,8 +18,8 @@
  * Defined the stack_input_factory class.
  */
 
-require_once(dirname(__FILE__) . '/../options.class.php');
-require_once(dirname(__FILE__) . '/inputbase.class.php');
+require_once(__DIR__ . '/../options.class.php');
+require_once(__DIR__ . '/inputbase.class.php');
 
 
 /**
@@ -61,7 +61,7 @@ class stack_input_factory {
      */
     protected static function class_for_type($type) {
         $typelc = strtolower($type);
-        $file = dirname(__FILE__) . "/{$typelc}/{$typelc}.class.php";
+        $file = __DIR__ . "/{$typelc}/{$typelc}.class.php";
         $class = "stack_{$typelc}_input";
 
         if (!is_readable($file)) {
@@ -84,7 +84,7 @@ class stack_input_factory {
         $types = array();
 
         $types = array();
-        foreach (new DirectoryIterator(dirname(__FILE__)) as $item) {
+        foreach (new DirectoryIterator(__DIR__) as $item) {
             // Skip . and .. and non-dirs.
             if ($item->isDot() or !$item->isDir()) {
                 continue;
@@ -103,7 +103,7 @@ class stack_input_factory {
             }
 
             // Skip folders that don't contain the right file.
-            $file = dirname(__FILE__) . "/{$inputname}/{$inputname}.class.php";
+            $file = __DIR__ . "/{$inputname}/{$inputname}.class.php";
             if (!is_readable($file)) {
                 continue;
             }

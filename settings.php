@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/settingslib.php');
+require_once(__DIR__ . '/settingslib.php');
 
 
 // Useful links.

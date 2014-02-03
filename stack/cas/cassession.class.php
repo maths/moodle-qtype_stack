@@ -24,7 +24,7 @@
  */
 require_once('casstring.class.php');
 require_once('connectorhelper.class.php');
-require_once(dirname(__FILE__) . '/../options.class.php');
+require_once(__DIR__ . '/../options.class.php');
 
 
 /**

@@ -15,9 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once(dirname(__FILE__) . '/connector.interface.php');
-require_once(dirname(__FILE__) . '/connector.class.php');
-require_once(dirname(__FILE__) . '/connector.dbcache.class.php');
+require_once(__DIR__ . '/connector.interface.php');
+require_once(__DIR__ . '/connector.class.php');
+require_once(__DIR__ . '/connector.dbcache.class.php');
 
 
 /**
@@ -53,16 +53,16 @@ abstract class stack_connection_helper {
 
         switch (self::$config->platform) {
             case 'win':
-                require_once(dirname(__FILE__) . '/connector.windows.class.php');
+                require_once(__DIR__ . '/connector.windows.class.php');
                 $connection = new stack_cas_connection_windows(self::$config, $debuglog);
                 break;
             case 'unix':
             case 'unix-optimised':
-                require_once(dirname(__FILE__) . '/connector.unix.class.php');
+                require_once(__DIR__ . '/connector.unix.class.php');
                 $connection = new stack_cas_connection_unix(self::$config, $debuglog);
                 break;
             case 'server':
-                require_once(dirname(__FILE__) . '/connector.server.class.php');
+                require_once(__DIR__ . '/connector.server.class.php');
                 $connection = new stack_cas_connection_server(self::$config, $debuglog);
                 break;
             case 'tomcat':

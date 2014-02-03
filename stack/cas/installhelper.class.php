@@ -18,10 +18,10 @@
  * The file provides helper code for creating the files needed to connect to the CAS.
  */
 
-require_once(dirname(__FILE__).'/../../../../../config.php');
+require_once(__DIR__.'/../../../../../config.php');
 
-require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../utils.class.php');
+require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 
 class stack_cas_configuration {

@@ -1,4 +1,4 @@
-# Testing
+# Testing, debugging and quality control.
 
 Computer aided assessment of mathematics works in the following phases.
 
@@ -48,6 +48,12 @@ In this way, the teacher can record, within the question itself, how they expect
  2. One example of each distinction you wish to make.  I.e. if you have added specific feedback then provide an answer you expect to trigger this.
  3. Some "invalid" responses, especially if these are syntactically valid expressions.  E.g. If the answer is an equation such as \(y=2x+1\), then \(2x+1\) might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this.
  4. Add a totally incorrect answer.
+
+Just above the "Question tests" section of this page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
+
+## STACK-Maxima sandbox  ##
+
+It is very useful to be able to use the desktop Maxima application to test questions.  To do this it is very helpful to load all the STACK libraries.  Details on how to do this are in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) page.
 
 ## Simplification ## {#Simplification}
 

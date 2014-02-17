@@ -34,7 +34,7 @@ require_once($CFG->libdir .'/tablelib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/options.class.php');
 require_once(__DIR__ . '/stack/answertest/controller.class.php');
-require_once(__DIR__ . '/stack/answertest/tests/fixtures.class.php');
+require_once(__DIR__ . '/tests/answertestfixtures.class.php');
 
 
 // Get the parameters from the URL.

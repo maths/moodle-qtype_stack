@@ -665,7 +665,7 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
       else
         return(ATEquation(SA, SB)),
     /* Did the student type in an equation, but the teacher did not? */
-    if equationp(SA) then return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation")),
+    if equationp(SA) then return(StackBasicReturn(false, false, "ATAlgEquiv_TA_not_equation")),
     /* Are we dealing with an inequality? */
     if inequalityp(SB) then
       if inequalityp(SA)#true then
@@ -934,7 +934,7 @@ ATSameTypefun(SA, SB) := block([simp:true, ret],
     ret:ATAlgEquivfun(SA, SB),
     /* Send back result */
     if ret[1] then
-        return([true, true,ret[3], ret[4]])
+        return([true, true, ret[3], ret[4]])
     else
         return([true, false, ret[3], ret[4]])
 )$
@@ -2041,5 +2041,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014010900$
-print("[ STACK-Maxima started, library version 2014010900 ]")$
+stackmaximaversion:2014021700$
+print("[ STACK-Maxima started, library version 2014021700 ]")$

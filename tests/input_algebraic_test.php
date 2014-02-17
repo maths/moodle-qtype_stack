@@ -139,6 +139,36 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unknownFunction', $state->note);
+    }
+
+    public function test_validate_student_response_6() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
+        $el->set_parameter('insertStars', true);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '2*x/(1+x^2)+sillyname(x)'), $options, 'x^2/(1+x^2)', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unknownFunction', $state->note);
+    }
+
+    public function test_validate_student_response_7() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
+        $el->set_parameter('insertStars', false);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars | unknownFunction', $state->note);
+    }
+
+    public function test_validate_student_response_8() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^2+1/3');
+        $el->set_parameter('forbidFloats', true);
+        $state = $el->validate_student_response(array('sans1' => 'x^2+0.33'), $options, 'x^2+1/3', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Illegal_floats', $state->note);
     }
 
     public function test_validate_student_response_insertstars_true_1() {
@@ -157,6 +187,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x', array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_sametype_true_1() {
@@ -165,6 +196,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', false);
         $state = $el->validate_student_response(array('sans1' => '2*x'), $options, 'y=2*x', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_sametype_true_2() {
@@ -173,6 +205,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', false);
         $state = $el->validate_student_response(array('sans1' => '2*x'), $options, 'y=2*x', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_response_sametype_false_1() {
@@ -181,6 +214,34 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('sameType', true);
         $state = $el->validate_student_response(array('sans1' => '2*x'), $options, 'y=2*x', array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('SA_not_equation', $state->note);
+    }
+
+    public function test_validate_student_response_sametype_false_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'm*x+c');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => 'y=m*x+c'), $options, 'm*x+c', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals("CASError: stack_trans('ATAlgEquiv_TA_not_equation');", $state->note);
+    }
+
+    public function test_validate_student_response_sametype_false_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '{1,2}');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '1'), $options, '{1,2}', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('SA_not_set', $state->note);
+    }
+
+    public function test_validate_student_response_sametype_false_4() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '{x}'), $options, 'x', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('SA_not_expression', $state->note);
     }
 
     public function test_validate_student_response_display_1() {

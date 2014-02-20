@@ -19,7 +19,7 @@
  * Language strings for the STACK question type.
  *
  * @package    qtype_stack
- * @copyright  2012 The Open University
+ * @copyright  2013 Nagoya University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

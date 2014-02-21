@@ -14,6 +14,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Geogebra input.
 * Reasoning by equivalence input type.
 * Inputs which enable student to input steps in the working. In particular, variable numbers of input boxes.
+* Add a "scratch working" area in which students can record their thinking etc. alongside the final answer.
 
 ### Improve the editing form ###
 

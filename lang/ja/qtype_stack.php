@@ -1,943 +1,595 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk//
+
+// This file is part of Moodle - http://moodle.org/
 //
-// Stack is free software: you can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Stack is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
-
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Language strings for the STACK question type.
+ * Local language pack from http://3strings.net/ibooks
  *
- * @package    qtype_stack
- * @copyright  2013 Nagoya University
+ * @package    qtype
+ * @subpackage stack
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'STACK';
-$string['pluginname_help'] = 'STACK is an assessment system for mathematics.';
-$string['pluginnameadding'] = 'Adding a STACK question';
-$string['pluginnameediting'] = 'Editing a STACK question';
-$string['pluginnamesummary'] = 'STACK provides mathematical questions for the Moodle quiz.  These use a computer algebra system to establish the mathematical properties of the student\'s responses.';
+defined('MOODLE_INTERNAL') || die();
 
-// General strings.
-$string['errors'] = 'Errors';
-$string['debuginfo'] = 'Debug info';
-$string['exceptionmessage'] = '{$a}';
-
-// Strings used on the editing form.
-$string['addanothernode'] = 'Add another node';
-$string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
-$string['answernote'] = 'Answer note';
-$string['answernote_err'] = 'Answer notes may not contain the character |.  This character is inserted by STACK and is later used to split answer notes automatically.';
-$string['answernote_help'] = 'This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.';
-$string['answernote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Potential_response_trees.md#Answer_note';
+$string['addanothernode'] = '新しいノードを追加する';
+$string['addanothertestcase'] = '新しいテストケースを追加する';
+$string['addatestcase'] = 'テストケースを追加する';
+$string['addingatestcase'] = '問題{$a}にテストケースを追加する';
+$string['alg_indices_fact'] = '以下は指数の法則です。
+\\[a^ma^n = a^{m+n}\\] \\[\\frac{a^m}{a^n} = a^{m-n}\\] \\[(a^m)^n = a^{mn}\\] \\[a^0 = 1\\] \\[a^{-m} = \\frac{1}{a^m}\\] \\[a^{\\frac{1}{n}} = \\sqrt[n]{a}\\] \\[a^{\\frac{m}{n}} = \\left(\\sqrt[n]{a}\\right)^m\\]';
+$string['alg_indices_name'] = '指数の法則';
+$string['alg_inequalities_fact'] = '\\[a>b \\hbox{ means } a \\hbox{ is greater than } b\\] <br /> \\[ a < b \\hbox{ means } a \\hbox{ is less than } b\\] <br /> \\[a\\geq b \\hbox{ means } a \\hbox{ is greater than or equal to } b\\] <br /> \\[a\\leq b \\hbox{ means } a \\hbox{ is less than or equal to } b\\]';
+$string['alg_inequalities_name'] = '不等式';
+$string['alg_logarithms_fact'] = 'For any positive base \\(b\\) (with \\(b \\neq 1\\)): \\[\\log_b(a) = c \\mbox{, means } a = b^c\\] \\[\\log_b(a) + \\log_b(b) = \\log_b(ab)\\] \\[\\log_b(a) - \\log_b(b) = \\log_b\\left(\\frac{a}{b}\\right)\\] \\[n\\log_b(a) = \\log_b\\left(a^n\\right)\\] \\[\\log_b(1) = 0\\] \\[\\log_b(b) = 1\\] The formula for a change of base is: \\[\\log_a(x) = \\frac{\\log_b(x)}{\\log_b(a)}\\] Logarithms to base $e$, denoted $\\log_e$ or alternatively $\\ln$ are called natural logarithms. The letter $e$ represents the exponential constant which is approximately 2.718.';
+$string['alg_logarithms_name'] = '対数の法則';
+$string['alg_partial_fractions_fact'] = 'Proper fractions occur with \\[{\\frac{P(x)}{Q(x)}}\\] when $P$ and $Q$ are polynomials with the degree of $P$ less than the degree of $Q$. This this case, we proceed as follows: write $Q(x)$ in factored form, <ul> <li> a <em>linear factor</em> $ax+b$ in the denominator produces a partial fraction of the form \\[{\\frac{A}{ax+b}}.\\] </li> <li> a <em>repeated linear factors</em> $(ax+b)^2$ in the denominator produce partial fractions of the form \\[{A\\over ax+b}+{B\\over (ax+b)^2}.\\] </li> <li> a <em>quadratic factor</em> $ax^2+bx+c$ in the denominator produces a partial fraction of the form \\[{Ax+B\\over ax^2+bx+c}\\] </li> <li> <em>Improper fractions}</em> require an additional term which is a polynomial of degree $n-d$ where $n$ is the degree of the numerator (i.e. $P(x)$) and $d$ is the degree of the denominator (ie $Q(x)$). </li></ul>';
+$string['alg_partial_fractions_name'] = '部分分数';
+$string['alg_quadratic_formula_fact'] = '二次方程式
+\\[ ax^2 + bx +c =0 \\]
+の解は解の公式により
+\\[ x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}\\]
+となります。';
+$string['alg_quadratic_formula_name'] = '二次方程式の解の公式';
+$string['all'] = 'すべて';
+$string['allnodefeedbackmustusethesameformat'] = 'ポテンシャル・レスポンス・ツリーの全てのノードのフィードバックは同じフォーマットで記述する必要があります。';
+$string['allowwords'] = '許可されたワード';
+$string['allowwords_help'] = 'デフォルトでは，3文字以上の関数名，変数名は許可されていません。これは解答に使用できる関数名，変数名のリストです。';
+$string['answernote'] = '解答記録';
+$string['answernote_err'] = '解答記録に「 | 」が含まれていません。解答記録を分割するために必要です。';
+$string['answernote_help'] = 'これはレポートを目的としたタグで，ポテンシャル・レスポンス・ツリーのパスと各評価関数の出力を記録するように設計されています。これは自動的に生成されますが，目的に応じて変更できます。';
 $string['answernotedefaultfalse'] = '{$a->prtname}-{$a->nodename}-F';
 $string['answernotedefaulttrue'] = '{$a->prtname}-{$a->nodename}-T';
-$string['answernoterequired'] = 'Answer note must not be empty.';
-$string['assumepositive'] = 'Assume positive';
-$string['assumepositive_help'] = 'This option sets the value of Maxima\'s assume_pos variable.';
-$string['assumepositive_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#Assume_Positive';
-$string['autosimplify'] = 'Auto-simplify';
-$string['autosimplify_help'] = 'Sets the variable "simp" within Maxima for this question.  E.g. question variables, question text etc.  The value set in each potential response tree will over ride this for any expressions subsequently defined within the tree.';
-$string['autosimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
-$string['autosimplifyprt'] = 'Auto-simplify';
-$string['autosimplifyprt_help'] = 'Sets the variable "simp" within Maxima for the feedback variables defined in this potential response tree, and while evaluating this PRT.  This will over ride any value set in the question for any expressions defined within the tree..';
-$string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
-$string['boxsize'] = 'Input box size';
-$string['boxsize_help'] = 'Width of the html formfield.';
-$string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
-$string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">run the question tests in bulk script</a> lets you easily run all the STACK questions in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
-$string['checkanswertype'] = 'Check the type of the response';
-$string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
-$string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
-$string['complexno'] = 'Meaning and display of sqrt(-1)';
-$string['complexno_help'] = 'Controls the meaning and display of the symbol i and sqrt(-1)';
-$string['complexno_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#sqrt_minus_one.';
-$string['defaultmarkzeroifnoprts'] = 'The default mark must be 0 if this question has no PRTs.';
-$string['defaultprtcorrectfeedback'] = 'Correct answer, well done.';
-$string['defaultprtincorrectfeedback'] = 'Incorrect answer.';
-$string['defaultprtpartiallycorrectfeedback'] = 'Your answer is partially correct.';
-$string['branchfeedback'] = 'Node branch feedback';
-$string['branchfeedback_help'] = 'This is CASText which may depend on any of the question variables, input elements or the feedback variables. This is evaluated and displayed to the student if they pass down this branch.';
-$string['inputtest'] ='Input test';
-$string['inversetrig'] = 'Inverse trigonometric functions';
-$string['inversetrig_help'] = 'Controls how inverse trigonometric functions are displayed in CAS output.';
-$string['inversetrig_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#inverse_trig';
-$string['falsebranch'] = 'False branch';
-$string['falsebranch_help'] = 'These fields control what happens when the answer test does not pass
-### Mod and score
-How the score is adjusted. = means set the score to a particular values, +/- means add or subtract the given score from the current total.
-
-### Penalty
-In adaptive or interactive mode, accumulate that much penalty.
-
-### Next
-Whether to go to another node, and if so which, or stop.
-
-### Answer note
-This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.
-';
-$string['feedbackfromprtx'] = '[ Feedback from {$a}. ]';
-$string['feedbackvariables'] = 'Feedback variables';
-$string['feedbackvariables_help'] = 'The feedback variables enable you to manipulate any of the inputs, together with the question variables, prior to traversing the tree.  Variables defined here may be used anywhere else in this tree.';
-$string['feedbackvariables_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/KeyVals.md#Feedback_variables';
-$string['fieldshouldnotcontainplaceholder'] = '{$a->field} should not contain any [[{$a->type}:...]] placeholders.';
-$string['firstnodemusthavelowestnumber'] = 'The first node must have the lowest number.';
-$string['fixdollars'] = 'Fix dollars';
-$string['fixdollarslabel'] = 'Replace <code>$...$</code> with <code>\(...\)</code> and <code>$$...$$</code> with <code>\[...\]</code> on save.';
-$string['fixdollars_help'] = 'This option is useful if are copying and pasting (or typing) TeX with <code>$...$</code> and <code>$$...$$</code> delimiters. Those delimiters will be replaced by the recommended delimiters during the save process.';
-$string['forbiddendoubledollars'] = 'Please use the delimiters <code>\(...\)</code> for inline maths and <code>\[...\]</code> for display maths. <code>$...$</code> and <code>$$...$$</code> are not permitted. There is an option at the end of the form to fix this automatically.';
-$string['forbidfloat'] = 'Forbid float';
-$string['forbidfloat_help'] = 'If set to yes, then any answer of the student which has a floating point number will be rejected as invalid.';
-$string['forbidfloat_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Forbid_Floats';
-$string['forbidwords'] = 'Forbidden words ';
-$string['forbidwords_help'] = 'This is a comma separated list of text strings which are forbidden in a student\'s answer.';
-$string['forbidwords_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Forbidden_Words';
-$string['allowwords'] = 'Allowed words ';
-$string['allowwords_help'] = 'By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student\'s answer.';
-$string['allowwords_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Allow_Words';
-$string['generalfeedback'] = 'General feedback';
-$string['generalfeedback_help'] = 'General feedback is CASText. General feedback, also known as a "worked solution", is shown to the student after they have attempted the question. Unlike feedback, which depends on what response the student gave, the same general feedback text is shown to all students.  It may depend on the question variables used in the version of the question.';
-$string['generalfeedback_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#general_feedback';
-$string['showvalidation'] = 'Show the validation';
-$string['showvalidation_help'] = 'Setting this option displays any validation feedback from this input, including echoing back their expression in traditional two dimensional notation.';
-$string['showvalidation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Show_validation';
-$string['htmlfragment'] = 'You appear to have some HTML elements in your expression.';
-$string['illegalcaschars'] = 'The characters @ and $ are not allowed in CAS input.';
-$string['inputextraoptions'] = 'Extra options';
-$string['inputextraoptions_help'] = 'Some input types require extra options in order to work. You can enter them here. This value is a CAS expression.';
-$string['inputextraoptions_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Extra options';
-$string['inputheading'] = 'Input: {$a}';
-$string['inputs'] = 'Inputs';
-$string['inputtype'] = 'Input type';
-$string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
-$string['inputtype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md';
-$string['inputtypealgebraic'] = 'Algebraic input';
-$string['inputtypeboolean'] = 'True/False';
-$string['inputtypedropdown'] = 'Drop down list';
-$string['inputtypesinglechar'] = 'Single character';
-$string['inputtypetextarea'] = 'Text area';
-$string['inputtypematrix'] = 'Matrix';
-$string['insertstars'] = 'Insert stars';
-$string['insertstars_help'] = 'If set to yes then the system will automatically insert *s into any patterns identified by Strict Syntax.  Otherwise, it shows an error.';
-$string['insertstars_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';
-$string['multiplicationsign'] = 'Multiplication sign';
-$string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
-$string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
-$string['multcross'] = 'Cross';
-$string['multdot'] = 'Dot';
-$string['mustverify'] = 'Student must verify';
-$string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them before scoring.';
-$string['mustverify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Student_must_verify';
-$string['namealreadyused'] = 'You have already used this name.';
-$string['newnameforx'] = 'New name for \'{$a}\'';
-$string['next'] = 'Next';
-$string['nextcannotbeself'] = 'A node cannot link to itself as the next node.';
-$string['nodehelp'] = 'Response tree node';
-$string['nodehelp_help'] = '### Answer test
-An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.
-
-### SAns
-This is the first argument to the answer test function.  In asymmetrical tests this is considered to be the "student\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.
-
-### TAns
-This is the second argument to the answer test function.  In asymmetrical tests this is considered to be the "teacher\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.
-
-### Test options
-This field enables answer tests to accept an option, e.g. a variable or a numerical precision.
-
-### Quiet
-When set to yes any feedback automatically generated by the answer tests is suppressed, and not displayed to the student.  The feedback fields in the branches are unaffected by this option.
-
-';
-$string['nodeloopdetected'] = 'This link creates a cycle in this PRT.';
-$string['nodenotused'] = 'No other nodes in the PRT link to this node.';
-$string['nodex'] = 'Node {$a}';
-$string['nodexdelete'] = 'Delete node {$a}';
-$string['nodexfalsefeedback'] = 'Node {$a} false feedback';
-$string['nodextruefeedback'] = 'Node {$a} true feedback';
-$string['nodexwhenfalse'] = 'Node {$a} when false';
-$string['nodexwhentrue'] = 'Node {$a} when true';
-$string['nonempty'] = 'This must not be empty.';
-$string['noprtsifnoinputs'] = 'A question with no inputs cannot have any PRTs.';
-$string['notavalidname'] = 'Not a valid name';
-$string['optionsnotrequired'] = 'This input type does not require any options.';
-$string['penalty'] = 'Penalty';
-$string['penalty_help'] = 'The penalty scheme deducts this value from the result of each PRT for each different and valid attempt which is not completely correct.';
-$string['penalty_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Feedback.md';
-$string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1.';
-$string['penaltyerror2'] = 'The penalty must empty, or be a numeric value between 0 and 1.';
-$string['prtcorrectfeedback'] = 'Standard feedback for correct';
-$string['prtheading'] = 'Potential response tree: {$a}';
-$string['prtmustbesetup'] = 'This PRT must be set up before the question can be saved.';
-$string['prtnodesheading'] = 'Potential response tree nodes ({$a})';
-$string['prtincorrectfeedback'] = 'Standard feedback for incorrect';
-$string['prtpartiallycorrectfeedback'] = 'Standard feedback for partially correct';
-$string['prts'] = 'Potential response trees';
-$string['prtwillbecomeactivewhen'] = 'This potential response tree will become active when the student has answered: {$a}';
-$string['questionnote'] = 'Question note';
-$string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random versions of a question. Two question versions are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
-$string['questionnote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_note.md';
-$string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  The question note is used to distinguish between different random versions of the question.';
-$string['questionsimplify'] = 'Question-level simplify';
-$string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
-$string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
-$string['questiontext'] = 'Question text';
-$string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
-$string['questiontext_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#question_text';
-$string['questiontextnonempty'] = 'The question text must be non-empty.';
-$string['questiontextmustcontain'] = 'The question text must contain the token \'{$a}\'.';
-$string['questiontextonlycontain'] = 'The question text should only contain the token \'{$a}\' once.';
-$string['questiontextplaceholderswhitespace'] = 'Placeholders may not contain whitespace.  This one appears to do so: \'{$a}\'.';
-$string['questiontextfeedbackonlycontain'] = 'The question text combined with the specific feedback should only contain the token \'{$a}\' once.';
-$string['questionvalue'] = 'Question value';
-$string['questionvaluepostive'] = 'Question value must be positive';
-$string['questionvariables'] = 'Question variables';
-$string['questionvariables_help'] = 'This field allows you to define and manipulate CAS variables, e.g. to create random versions.  These are available to all other parts of the question.';
-$string['questionvariables_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/KeyVals.md';
-$string['quiet'] = 'Quiet';
-$string['quiet_help'] = 'When set to yes any feedback automatically generated by the answer tests is suppressed, and not displayed to the student.  The feedback fields in the branches are unaffected by this option.';
-$string['renamequestionparts'] = 'Rename parts of the question';
-$string['requiredfield'] = 'This field is required!';
-$string['requirelowestterms'] = 'Require lowest terms';
-$string['requirelowestterms_help'] = 'When this option is set to yes, any coefficients or other rational numbers in an expression, must be written in lowest terms.  Otherwise the answer is rejected as invalid.';
-$string['requirelowestterms_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Require_lowest_terms';
-$string['sans'] = 'SAns';
-$string['sans_help'] = 'This is the first argument to the answer test function.  In asymmetrical tests this is considered to be the "student\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.';
-$string['sans_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
-$string['sansinvalid'] = 'SAns is invalid: {$a}';
-$string['sansrequired'] = 'SAns must not be empty.';
-$string['stop'] = '[stop]';
-$string['score'] = 'Score';
-$string['scoreerror'] = 'The score must be a numeric value between 0 and 1.';
-$string['scoremode'] = 'Mod';
-$string['specificfeedback'] = 'Specific feedback';
-$string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.  Note, this block is not CASText.';
-$string['specificfeedbacktags'] = 'Specific feedback must not contain the token(s) \'{$a}\'.';
-$string['sqrtsign'] = 'Surd for square root';
-$string['sqrtsign_help'] = 'Controls how surds are displayed.';
-$string['sqrtsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#surd';
-$string['strictsyntax'] = 'Strict syntax';
-$string['strictsyntax_help'] = 'Does the input have to be done using strict Maxima syntax?  If not, this increases the range of patterns which indicate missing *s on input, including any function application and scientific notation.';
-$string['strictsyntax_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Strict_Syntax';
-$string['strlengtherror'] = 'This string may not exceed 255 characters in length.';
-$string['syntaxhint'] = 'Syntax hint';
-$string['syntaxhint_help'] = 'The syntax hint will appear in the answer box whenever this is left blank by the student.';
-$string['syntaxhint_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Syntax_Hint';
-$string['tans'] = 'TAns';
-$string['tans_help'] = 'This is the second argument to the answer test function.  In asymmetrical tests this is considered to be the "teacher\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.';
-$string['tans_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
-$string['tansinvalid'] = 'TAns is invalid: {$a}';
-$string['tansrequired'] = 'TAns must not be empty.';
-$string['teachersanswer'] = 'Model answer';
-$string['teachersanswer_help'] = 'The teacher must specify a model answer for each input.  This must be a valid Maxima string, and may be formed from the question variables.';
-$string['teachersanswer_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#model_answer';
-$string['testoptions'] = 'Test options';
-$string['testoptions_help'] = 'This field enables answer tests to accept an option, e.g. a variable or a numerical precision.';
-$string['testoptions_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
-$string['testoptionsinvalid'] = 'The test options are invalid: {$a}';
-$string['testoptionsrequired'] = 'Test options are required for this test.';
-$string['truebranch'] = 'True branch';
-$string['truebranch_help'] = 'These fields control what happens when the answer test passes
-### Mod and score
-How the score is adjusted. = means set the score to a particular values, +/- means add or subtract the given score from the current total.
-
-### Penalty
-In adaptive or interactive mode, accumulate that much penalty.
-
-### Next
-Whether to go to another node, and if so which, or stop.
-
-### Answer note
-This is a tag which is key for reporting purposes.  It is designed to record the unique path through the tree, and the outcome of each answer test.  This is automatically generated, but can be changed to something meaningful.
-';
-$string['variantsselectionseed'] = 'Random group';
-$string['variantsselectionseed_help'] = 'Normally you can leave this box blank. If, however, you want two different questions in a quiz to use the same random seed, then type the same string in this box for the two questions (and deploy the same set of random seeds, if you are using deployed versions) and the random seeds for the two questions will be synchronised.';
-$string['verifyquestionandupdate'] = 'Verify the question text and update the form';
-
-// Strings used by input elements.
-$string['booleangotunrecognisedvalue'] = 'Invalid input.';
-$string['dropdowngotunrecognisedvalue'] = 'Invalid input.';
-$string['pleaseananswerallparts'] = 'Please answer all parts of the question.';
-$string['pleasecheckyourinputs'] = 'Please verify that what you entered was interpreted as expected.';
-$string['singlechargotmorethanone'] = 'You can only enter a single character here.';
-
-// Admin settings.
-$string['settingajaxvalidation'] = 'Instant validation';
-$string['settingajaxvalidation_desc'] = 'With this setting turned on, the students current input will be validated whenever they pause in their typing. This gives a better user experience, but is likely to increase the server load.';
-$string['settingcasdebugging'] = 'CAS debugging';
-$string['settingcasdebugging_desc'] = 'Whether to store debugging information about the CAS connection.';
-$string['settingcasmaximaversion'] = 'Maxima version';
-$string['settingcasmaximaversion_desc'] = 'The version of Maxima being used.';
-$string['settingcasresultscache'] = 'CAS result caching';
-$string['settingcasresultscache_db'] = 'Cache in the database';
-$string['settingcasresultscache_desc'] = 'This setting determines whether calls the to CAS are cached. This setting should be turned on unless you are doing development that involves changing the Maxima code. The current state of the cache is shown on the healthcheck page.  If you change your settings, e.g. the gnuplot command, you will need to clear the cache before you can see the effects of these changes.';
-$string['settingcasresultscache_none'] = 'Do not cache';
-$string['settingcastimeout'] = 'CAS connection timeout';
-$string['settingcastimeout_desc'] = 'The timout to use when trying to connect to Maxima.';
-$string['settingdefaultinputoptions'] = 'Default input options';
-$string['settingdefaultinputoptions_desc'] = 'Used when creating a new question, or adding a new input to an existing question.';
-$string['settingdefaultquestionoptions'] = 'Default input options';
-$string['settingdefaultquestionoptions_desc'] = 'Used when creating a new question.';
-$string['settingmathsdisplay'] = 'Maths filter';
-$string['settingmathsdisplay_mathjax'] = 'MathJax';
-$string['settingmathsdisplay_tex'] = 'Moodle TeX filter';
-$string['settingmathsdisplay_maths'] = 'OU maths filter';
-$string['settingmathsdisplay_desc'] = 'The method used to display maths. If you select MathJax, then you will need to follow the instructions on the Healthcheck page to set it up. If you select a filter, then you must ensure that filter is enabled on the Manage filters configuration page.';
-$string['settingsmathsdisplayheading'] = 'Maths display options';
-$string['settingsmaximasettings'] = 'Connecting to Maxima';
-$string['settingplatformtype'] = 'Platform type';
-$string['settingplatformtype_desc'] = 'STACK needs to know what sort of operating system it is running on. The Server option give better performance at the cost of having to set up an additional server. The option "Linux (optimised)" is explained on the Optimising Maxima page in the documentation.';
-$string['settingplatformtypeunix'] = 'Linux';
-$string['settingplatformtypeunixoptimised'] = 'Linux (optimised)';
-$string['settingplatformtypewin']  = 'Windows';
-$string['settingplatformtypeserver'] = 'Server';
-$string['settingplatformmaximacommand'] = 'Maxima command';
-$string['settingplatformmaximacommand_desc'] = 'STACK needs to know the shell command to start Maxima.  If this is blank, STACK will make an educated guess.';
-$string['settingplatformplotcommand'] = 'Plot command';
-$string['settingplatformplotcommand_desc'] = 'STACK needs to know the gnuplot command.  If this is blank, STACK will make an educated guess.';
-$string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
-$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to user the \'Fix maths delimiters\' script which is referred to below.';
-$string['settingusefullinks'] = 'Useful links';
-
-// Strings used by replace dollars script.
-$string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
-$string['replacedollarsin'] = 'Fixed maths delimiters in field {$a}';
-$string['replacedollarsindex'] = 'Contexts with STACK questions';
-$string['replacedollarsindexintro'] = 'Clicking on any of the links will take you to a page where you can review the questions for old-style maths delimiters, and automatically fix them.';
-$string['replacedollarsindextitle'] = 'Replace $s in question texts';
-$string['replacedollarsnoproblems'] = 'No problem delimiters found.';
-$string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
-
-// Strings used by the bulk run question tests script.
-$string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
-$string['bulktestindextitle'] = 'Run the question tests in bulk';
-$string['bulktestnotests'] = 'This question does not have any tests.';
-$string['bulktesttitle'] = 'Running all the question tests in {$a}';
-$string['overallresult'] = 'Overall result';
-$string['seedx'] = 'Seed {$a}';
-$string['testpassesandfails'] = '{$a->passes} passes and {$a->fails} failures.';
-
-// Strings used by interaction elements.
-$string['false'] = 'False';
-$string['notanswered'] = 'Not answered';
-$string['true'] = 'True';
-$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
-
-// Strings used by the question test script.
-$string['addanothertestcase'] = 'Add another test case...';
-$string['addatestcase'] = 'Add a test case...';
-$string['addingatestcase'] = 'Adding a test case to question {$a}';
-$string['completetestcase'] = 'Fill in the rest of the form to make a passing test-case';
-$string['createtestcase'] = 'Create test case';
-$string['currentlyselectedvariant'] = 'This is the variant shown below';
-$string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->question}';
-$string['deletetestcaseareyousure'] = 'Are you sure you want to delete test case {$a->no} for question {$a->question}?';
-$string['deletethistestcase'] = 'Delete this test case...';
-$string['deploy'] = 'Deploy';
-$string['deployedvariants'] = 'Deployed variants';
-$string['deployedvariantsn'] = 'Deployed variants ({$a})';
-$string['deploymany'] = 'Attempt to automatically deploy the following number of variants:';
-$string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" variants.';
-$string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
-$string['deploymanynotes'] = 'Note, STACK will give up if there are 3 failed attempts to generate a new question note, or when one question test fails.';
-$string['deploymanysuccess'] = 'Number of new variants successfully created, tested and deployed: {$a->no}.';
-$string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
-$string['editthistestcase'] = 'Edit this test case...';
-$string['expectedanswernote'] = 'Expected answer note';
-$string['expectedoutcomes'] = 'Expected outcomes';
-$string['expectedpenalty'] = 'Expected penalty';
-$string['expectedscore'] = 'Expected score';
-$string['inputdisplayed'] = 'Displayed as';
-$string['inputentered'] = 'Value entered';
-$string['inputexpression'] = 'Test input';
-$string['inputname'] = 'Input name';
-$string['inputstatus'] = 'Status';
-$string['inputstatusname'] = 'Blank';
-$string['inputstatusnameinvalid'] = 'Invalid';
-$string['inputstatusnamevalid'] = 'Valid';
-$string['inputstatusnamescore'] = 'Score';
-$string['notestcasesyet'] = 'No test cases have been added yet.';
-$string['penalty'] = 'Penalty';
-$string['prtname'] = 'PRT name';
-$string['questiondoesnotuserandomisation'] = 'This question does not use randomisation.';
-$string['questionnotdeployedyet'] = 'No variants of this question have been deployed yet.';
-$string['questionpreview'] = 'Question preview';
-$string['questiontests'] = 'Question tests';
-$string['runquestiontests'] = 'Question tests & deployed versions';
-$string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
-$string['alreadydeployed'] = ' A variant matching this Question note is already deployed.';
-$string['switchtovariant'] = 'Switch to arbitrary variant';
-$string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
-$string['testingquestion'] = 'Testing question {$a}';
-$string['testinputs'] = 'Test inputs';
-$string['testinputsimpwarning'] = 'Please note that test inputs are always <em>unsimplified</em> regardless of the question or PRT option setting.  Please use <tt>ev(...,simp)</tt> to simplify part or all of the test input expressions.';
-$string['testthisvariant'] = 'Switch to test this variant';
-$string['tidyquestion'] = 'Tidy question';
-$string['tidyquestionx'] = 'Rename the parts of question {$a}';
-$string['undeploy'] = 'Un-deploy';
-$string['variant'] = 'Variant';
-
-// Support scripts (CAS chat, healthcheck, etc.)
-$string['all'] = 'All';
-$string['chat'] = 'Send to the CAS';
-$string['castext'] = 'CAS text';
-$string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
-$string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
-$string['chattitle'] = 'Test the connection to the CAS';
-$string['clearthecache'] = 'Clear the cache';
-$string['healthcheck'] = 'STACK healthcheck';
-$string['healthcheck_desc'] = 'The <a href="{$a->link}">healthcheck script</a> helps you verify that all aspects of STACK are working properly.';
-$string['healthcheckcache_db'] = 'CAS results are being cached in the database.';
-$string['healthcheckcache_none'] = 'CAS results are not being cached.';
-$string['healthcheckcachestatus'] = 'The cache currently contains {$a} entries.';
-$string['healthcheckconfig'] = 'Maxima configuration file';
-$string['healthcheckconfigintro1'] = 'Found, and using, Maxima in the following directory:';
-$string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima configuration file.';
-$string['healthcheckconnect'] = 'Trying to connect to the CAS';
-$string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
-$string['healthcheckfilters'] = 'Please ensure that the {$a->filter} is enabled on the <a href="{$a->url}">Manage filters</a> page.';
-$string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
-$string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. STACK only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
-$string['healthchecklatexmathjax'] = 'One way to get equation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';
-$string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
-$string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
-$string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
-$string['healthchecksamplecas'] = 'The derivative of @ x^4/(1+x^4) @ is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \]';
-$string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
-$string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
-$string['healthcheckplots'] = 'Graph plotting';
-$string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
-$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
-$string['healthchecksstackmaximaversion'] = 'Maxima version';
-$string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
-$string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
-$string['healthchecksstackmaximaversionfixunknown'] = 'It is not really clear how that happened. You will need to debug this problem yourself.  Start by clearing the CAS cache.';
-$string['healthchecksstackmaximanotupdated'] = 'It seems that STACK has not been properly update. Please visit the <a href="{$a}">System administration -> Notifications page</a>.';
-$string['healthchecksstackmaximatooold'] = 'So old the version is unknown!';
-$string['healthchecksstackmaximaversionmismatch'] = 'The version of the STACK-Maxima libraries being used ({$a->usedversion}) does not match what is expected ({$a->expectedversion}) by this version of the STACK question type. {$a->fix}';
-$string['healthchecksstackmaximaversionok'] = 'Correct and expected STACK-Maxima library version being used ({$a->usedversion}).';
-$string['healthuncached'] = 'Uncached CAS call';
-$string['healthuncachedintro'] = 'This section always sends a genuine call to the CAS, regardless of the currect cache settings.  This is needed to ensure the connection to the CAS is really currently working.';
-$string['healthuncachedstack_CAS_ok'] = 'CAS returned data as expected.  You have a live connection to the CAS.';
-$string['healthuncachedstack_CAS_not'] = 'CAS returned some data as expected, but there were errors.';
-$string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
-$string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
-$string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
-$string['stackInstall_testsuite_intro'] = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';
-$string['stackInstall_testsuite_choose'] = 'Please choose an answer test.';
-$string['stackInstall_testsuite_pass'] = 'All tests passed!';
-$string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
-$string['answertest'] = 'Answer test';
-$string['answertest_help'] = 'An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.';
-$string['answertest_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
-$string['testsuitecolpassed'] = 'Passed?';
-$string['studentanswer'] = 'Student response';
-$string['teacheranswer'] = 'Teacher answer';
-$string['options'] = 'Options';
-$string['testsuitefeedback'] = 'Feedback';
-$string['testsuitecolerror'] = 'CAS errors';
-$string['testsuitecolrawmark'] = 'Raw mark';
-$string['testsuitecolexpectedscore'] = 'Expected mark';
-$string['testsuitepass'] = 'Pass';
-$string['testsuiteknownfail'] = 'Expected failure';
-$string['testsuiteknownfailmaths'] = 'Expected failure (maths)';
-$string['testsuitefail'] = 'Fail';
-$string['testsuitenotests']       = 'Number of tests: {$a->no}. ';
-$string['testsuiteteststook']     = 'Tests took {$a->time} seconds. ';
-$string['testsuiteteststookeach'] = 'Average per test: {$a->time} seconds. ';
-$string['stackInstall_input_title'] = "A test suite for validation of student's input";
-$string['stackInstall_input_title_desc'] = 'The <a href="{$a->link}">input-tests script</a> provides test cases of how STACK interprets mathematical expressions.  They are also useful to learn by example.';
-$string['stackInstall_input_intro'] = "This page allows you to test how STACK interprets various inputs from a student.  This currently only checks with the most liberal settings, trying to adopt an informal syntax and insert stars.  <br />'V' columns record validity as judged by PHP and the CAS.  V1 = PHP valid, V2 = CAS valid.";
-$string['phpvalid'] = 'V1';
-$string['phpcasstring'] = 'PHP output';
-$string['phpsuitecolerror'] = 'PHP errors';
-$string['phpvalidatemismatch'] = '[PHP validate mismatch]';
-$string['casvalidatemismatch'] = '[CAS validate mismatch]';
+$string['answernoterequired'] = '解答記録は空欄のままではいけません';
+$string['answertest'] = '評価関数';
+$string['answertest_help'] = '評価関数は，数式がある条件をみたしているかどうかを判定するために用いられるものです。';
+$string['assumepositive'] = '正の仮定';
+$string['assumepositive_help'] = 'このオプションはMaximaのassume_posオプションの値を設定します。';
+$string['AT_EmptySA'] = '評価対象が空欄のまま評価関数を実行しました。問題作成時にCASの評価で問題が生じます。';
+$string['AT_EmptyTA'] = '評価対象が空欄のまま評価基準を実行しました。問題作成時にCASの評価で問題が生じます。';
+$string['AT_InvalidOptions'] = 'オプションのフィールドが正しくありません。 {$a->errors}';
+$string['AT_MissingOptions'] = '評価関数を実行するために必要なオプションがありません。';
+$string['AT_NOTIMPLEMENTED'] = 'この評価関数はまだ実装されていません。';
+$string['ATAlgEquiv_SA_not_equation'] = '方程式を入力してください。';
+$string['ATAlgEquiv_SA_not_expression'] = '解答は数式で行ってください。方程式，不等式，リスト，集合，また行列などは入力しないでください。';
+$string['ATAlgEquiv_SA_not_function'] = '解答は<tt>:=</tt>の演算子で定義された関数を入力してください。';
+$string['ATAlgEquiv_SA_not_inequality'] = '不等式を入力してください。';
+$string['ATAlgEquiv_SA_not_list'] = 'リストを入力してください。リストは角括弧で囲まれたカンマ区切りの値で入力してください。例：[a, b, c]';
+$string['ATAlgEquiv_SA_not_matrix'] = '行列を入力してください。';
+$string['ATAlgEquiv_SA_not_set'] = '集合を入力してください。集合は波括弧で囲まれたカンマ区切りの値で入力してください。例：{a, b, c}';
+$string['ATAlgEquiv_TA_not_equation'] = 'あなたの解答は方程式になっていますが，この問題は解答に方程式を要求していません。「y=2*x+1」のような解答の場合は「2*x+1」とだけ入力してください。';
+$string['ATCompSquare_false_no_summands'] = '平方完成は$a, b#を定数として$a(\\cdots \\cdots)^2+b$の形式です。あなたの解答では，一つ以上の加数が変数に依存しているようです。';
+$string['ATCompSquare_not_AlgEquiv'] = 'あなたの解答の書式は正しいようですが，正解ではありません。';
+$string['ATCompSquare_SA_not_depend_var'] = '変数{$a->m0}に依存した解答を入力してください。';
+$string['ATDiff_error_list'] = 'この評価関数には不具合が含まれています。サイト管理者に問い合わせてください。';
+$string['ATDiff_int'] = '間違って積分してませんか？';
+$string['ATFacForm_error_degreeSA'] = 'CASはあなたの解答を処理できませんでした。';
+$string['ATFacForm_error_list'] = 'この評価関数には不具合が含まれています。サイト管理者に問い合わせてください。';
+$string['ATFacForm_isfactored'] = 'よくできました。正しく因数分解できています。';
+$string['ATFacForm_notalgequiv'] = 'あなたの解答は正答と代数的に等価ではありません。どこか計算間違いをしていませんか？';
+$string['ATFacForm_notfactored'] = 'あなたの解答は因数分解されていません。';
+$string['ATInequality_backwards'] = '不等式が反対になっていませんか？';
+$string['ATInequality_nonstrict'] = 'この問題の不等号は「＜」か「＞」である必要があります。';
+$string['ATInequality_strict'] = 'この問題の不等号は「≤」か「≥」である必要があります。';
+$string['ATInt_const'] = '積分定数を忘れていませんか？積分定数を追加すれば正解です。';
+$string['ATInt_const_int'] = '積分定数がありません。積分定数は数値ではなく任意の定数である必要があります。';
+$string['ATInt_diff'] = '間違って微分してませんか？';
+$string['ATInt_EqFormalDiff'] = 'あなたの解答を微分すると，問題の非積分関数と確かに一致します。ところが，例えば，積分定数がない，などの意味で正解と異なっています。';
+$string['ATInt_error_list'] = 'この評価関数には不具合が含まれています。サイト管理者に問い合わせてください。';
+$string['ATInt_generic'] = 'あなたの解答を微分したものは，積分すべき数式に一致しなければなりません。あなたの解答を{a->m1}で微分すると{$a->m2}になります。これは{a->m0}に一致しません。';
+$string['ATInt_logabs'] = 'あなたの解答を形式的に微分すると，確かに積分すべき数式に一致します。しかし，あなたの解答は，次の理由で正解ではありません。$\\int \\frac{1}{x}dx=\\log (x) +c$ではなく，$\\int \\frac{1}{x}dx=\\log (|x|) +c$であることに注意してください。詳しくは教師にたずねてください。';
+$string['ATInt_logabs_inconsistent'] = '$\\log ( \\cdos )$と$\\log ( |\\cdos| )$の使い方に間違いがあるようです。詳しくは教師にたずねてください。';
+$string['ATInt_weirdconst'] = 'あなたの解答を形式的に微分すると，確かに積分すべき数式に一致します。しかし，不適切な積分定数が含まれています。詳しくは教師にたずねてください。';
+$string['ATList_wrongentries'] = '赤字で示された部分が不正解です。{$a->m0}';
+$string['ATList_wronglen'] = 'あなたの解のリストは {a->m1} 個の要素が含まれていますが，{a->m0} 個の要素が含まれているべきです。';
+$string['ATLowestTerms_entries'] = '以下の項は約分が十分ではありません。{$a->m0} もう一度よく確認してください。';
+$string['ATLowestTerms_wrong'] = '解答中の分数を約分する必要があります。';
+$string['ATMatrix_wrongentries'] = '赤字で示された部分が不正解です。{$a->m0}';
+$string['ATMatrix_wrongsz'] = 'あなたの入力した行列は{a->m0}×{a->m1}ですが，正しくは{a->m2}×{a->m3}です。';
+$string['ATNumDecPlaces_NoDP'] = '解答は小数点を含む10進数でなければなりません。';
+$string['ATNumDecPlaces_OptNotInt'] = '評価関数「小数部桁数」のオプションは正の整数でなければなりませんが，{$a->opt}になっています。';
+$string['ATNumDecPlaces_Wrong_DPs'] = 'あなたの解答では小数点の位置が間違っています。';
+$string['ATNumSigFigs_error_list'] = 'この評価関数には不具合が含まれています。サイト管理者に問い合わせてください。';
+$string['ATNumSigFigs_Inaccurate'] = 'あなたの解答の精度（桁数）が正しくありません。正しく四捨五入していないか，計算の途中で四捨五入して最終的な答えが間違いとなった可能性があります。';
+$string['ATNumSigFigs_NotDecimal'] = '解答は10進数でなければなりません。';
+$string['ATNumSigFigs_WrongDigits'] = 'あなたの解答の桁数が間違っています。';
+$string['ATPartFrac_denom_ret'] = 'あなたの解答を単一の分数で記述すると分母は{a->m0}になります。正しくは{a->m1}です。';
+$string['ATPartFrac_diff_variables'] = '解答の中の変数は，問題文の中の変数と異なっています。確認してください。';
+$string['ATPartFrac_error_list'] = '評価関数が正常に動作しませんでした。サイト管理者に問い合わせてください。';
+$string['ATPartFrac_ret_expression'] = 'あなたの解答を単一の分数で記述すると{$a->m0}になります。';
+$string['ATPartFrac_single_fraction'] = 'あなたの解答は単一の分数で記述されています。この問題では部分分数の形で記述する必要があります。';
+$string['ATRegEx_missing_option'] = '正規表現が含まれていません。';
+$string['ATSet_wrongentries'] = '入力したものはより簡単な形になりますが，間違っています。';
+$string['ATSet_wrongsz'] = '集合は{$a->m0}個の異なる要素が必要ですが，実際には {$a->m1}個の要素になっています。';
+$string['ATSingleFrac_div'] = 'あなたの解答は分数の中に分数を含んでいます。一つの分数で解答を入力してください。';
+$string['ATSingleFrac_error_list'] = '評価関数が正常に動作しませんでした。サイト管理者に問い合わせてください。';
+$string['ATSingleFrac_part'] = '解答は$\\frac{a}{b}$の形式の一つの分数である必要があります。';
+$string['ATSingleFrac_ret_exp'] = 'あなたの解答は正解と代数的に等しくありません。どこか計算間違いしていませんか？';
+$string['ATSingleFrac_var'] = '解答の中の変数は，問題文の中の変数と異なっています。';
+$string['ATSysEquiv_SA_extra_variables'] = '解答に含まれている変数が多すぎます。';
+$string['ATSysEquiv_SA_missing_variables'] = 'あなたの解答には変数が足りません。';
+$string['ATSysEquiv_SA_not_eq_list'] = '解答は方程式のリストでなければなりません。';
+$string['ATSysEquiv_SA_not_list'] = '解答はリスト形式でなければなりません。';
+$string['ATSysEquiv_SA_not_poly_eq_list'] = '方程式が多項式ではありません。';
+$string['ATSysEquiv_SA_system_overdetermined'] = '赤で表示された要素が間違っているようです。{$a->m0}';
+$string['ATSysEquiv_SA_system_underdetermined'] = '方程式は正しいようですが，それ以外にも必要です。';
+$string['ATSysEquiv_SB_not_eq_list'] = '評価基準は方程式のリストではなければなりません。';
+$string['ATSysEquiv_SB_not_list'] = '評価基準はリストではありません。';
+$string['ATSysEquiv_SB_not_poly_eq_list'] = '評価基準は多項式のリストですが，そうなっていません。';
+$string['autosimplify'] = '自動簡略化';
+$string['autosimplify_help'] = 'この問題に対して，Maximaのsimp変数を設定します。';
+$string['autosimplifyprt'] = '自動簡略化';
+$string['autosimplifyprt_help'] = 'このポテンシャル・レスポンス・ツリーのフィードバック変数に対して，Maximaのsimp変数を設定します。';
+$string['booleangotunrecognisedvalue'] = '入力エラー';
+$string['boxsize'] = '解答欄のサイズ';
+$string['boxsize_help'] = '解答入力欄の大きさを設定します。';
+$string['branchfeedback'] = 'ノード・フィードバック';
+$string['branchfeedback_help'] = '問題変数，入力，フィードバック変数に依存したCASテキストで記述されます。解答がこの分岐を通過する場合，CASテキストが評価され学生に表示されます。';
+$string['bulktestindexintro'] = 'どのリンクをクリックしても，全てのSTACKの問題のテストを実行します。';
+$string['bulktestindexintro_desc'] = '<a href="{$a->link}">内部でテストを実行</a> のリンクをクリックすると全てのSTACKの問題のテストを簡単じ実行することができます。また，CASのキャッシュの再構築のための良い方法でもあります。';
+$string['bulktestindextitle'] = '内部で問題のテストを実行';
+$string['bulktestnotests'] = 'この問題はテストする必要がありません。';
+$string['bulktesttitle'] = '{$a}で問題のテストが実行されています。';
+$string['calc_chain_rule_fact'] = '次のようにして合成関数の微分を行うことができます。関数$f(g(x))$で$u=g(x)$と仮定することにより，$f(g(x))$を$x$で微分すると
+\\[ \\frac{df(g(x))}{dx} = \\frac{dg(x)}{dx} \\cdot \\frac{df(u)}{du} \\]
+となります。あるいは，
+\\[ \\frac{df(g(x))}{dx} = f\'(g(x)) \\cdot g\'(x)\\]
+と書くこともできます。';
+$string['calc_chain_rule_name'] = 'チェーンルール';
+$string['calc_diff_linearity_rule_fact'] = '\\[
+\\frac{d}{dx}(af(x)+bg(x)) = a\\frac{df(x)}{dx} + b\\frac{dg(x)}{dx}
+\\]
+ただし，$a, b$は定数。';
+$string['calc_diff_linearity_rule_name'] = '微分の線形性';
+$string['calc_diff_standard_derivatives_fact'] = '次の表はいくつかの標準的な関数の微分を表示しています。計算にしばしば用いられるので，覚えておくと便利です。 <center> <table> <tr><th>\\(f(x)\\) </th><th> \\(f\'(x)\\)</th></tr> <tr> <td>\\(k\\), constant </td> <td> \\(0\\) </td> </tr> <tr> <td> \\(x^n\\), any constant \\(n\\) </td> <td> \\(nx^{n-1}\\)</td> </tr> <tr> <td> \\(e^x\\) </td> <td> \\(e^x\\)</td> </tr> <tr> <td> \\(\\ln(x)=\\log_{\\rm e}(x)\\) </td> <td> \\(\\frac{1}{x}\\) </td> </tr> <tr> <td> \\(\\sin(x)\\) </td> <td> \\(\\cos(x)\\) </td> </tr> <tr> <td> \\(\\cos(x)\\) </td> <td> \\(-\\sin(x)\\) </td> </tr> <tr> <td> \\(\\tan(x) = \\frac{\\sin(x)}{\\cos(x)}\\) </td> <td> \\(\\sec^2(x)\\) </td> </tr> <tr> <td> \\(cosec(x)=\\frac{1}{\\sin(x)}\\) </td> <td> \\(-cosec(x)\\cot(x)\\) </td> </tr> <tr> <td> \\(\\sec(x)=\\frac{1}{\\cos(x)}\\) </td> <td> \\(\\sec(x)\\tan(x)\\) </td> </tr> <tr> <td> \\(\\cot(x)=\\frac{\\cos(x)}{\\sin(x)}\\) </td> <td> \\(-cosec^2(x)\\) </td> </tr> <tr> <td> \\(\\cosh(x)\\) </td> <td> \\(\\sinh(x)\\) </td> </tr> <tr> <td> \\(\\sinh(x)\\) </td> <td> \\(\\cosh(x)\\) </td> </tr> <tr> <td> \\(\\tanh(x)\\) </td> <td> \\(sech^2(x)\\) </td> </tr> <tr> <td> \\(sech(x)\\) </td> <td> \\(-sech(x)\\tanh(x)\\) </td> </tr> <tr> <td> \\(cosech(x)\\) </td> <td> \\(-cosech(x)\\coth(x)\\) </td> </tr> <tr> <td> \\(coth(x)\\) </td> <td> \\(-cosech^2(x)\\) </td> </tr> </table> </center> \\[ \\frac{d}{dx}\\left(\\sin^{-1}(x)\\right) = \\frac{1}{\\sqrt{1-x^2}}\\] \\[ \\frac{d}{dx}\\left(\\cos^{-1}(x)\\right) = \\frac{-1}{\\sqrt{1-x^2}}\\] \\[ \\frac{d}{dx}\\left(\\tan^{-1}(x)\\right) = \\frac{1}{1+x^2}\\] \\[ \\frac{d}{dx}\\left(\\cosh^{-1}(x)\\right) = \\frac{1}{\\sqrt{x^2-1}}\\] \\[ \\frac{d}{dx}\\left(\\sinh^{-1}(x)\\right) = \\frac{1}{\\sqrt{x^2+1}}\\] \\[ \\frac{d}{dx}\\left(\\tanh^{-1}(x)\\right) = \\frac{1}{1-x^2}\\]';
+$string['calc_diff_standard_derivatives_name'] = '標準的な微分';
+$string['calc_int_linearity_rule_fact'] = '\\[\\int \\left(af(x)+bg(x)\\right){\\rm d}x = a\\int\\!\\!f(x)\\,{\\rm d}x \\,+\\,b\\int \\!\\!g(x)\\,{\\rm d}x, \\quad (a,b \\, \\, {\\rm constant}) \\]';
+$string['calc_int_linearity_rule_name'] = '積分の線形性';
+$string['calc_int_methods_parts_fact'] = '\\[ \\int_a^b u{{\\rm d}v\\over {\\rm d}x}{\\rm d}x=\\left[uv\\right]_a^b- \\int_a^b{{\\rm d}u\\over {\\rm d}x}v\\,{\\rm d}x \\] あるいは \\[\\int_a^bf(x)g(x)\\,{\\rm d}x=\\left[f(x)\\,\\int g(x){\\rm d}x\\right]_a^b -\\int_a^b{{\\rm d}f\\over {\\rm d}x}\\left\\{\\int g(x){\\rm d}x\\right\\}{\\rm d}x \\]';
+$string['calc_int_methods_parts_name'] = '部分積分';
+$string['calc_int_methods_substitution_fact'] = '\\[ \\int f(u){{\\rm d}u\\over {\\rm d}x}{\\rm d}x=\\int f(u){\\rm d}u \\quad\\hbox{および}\\quad \\int_a^bf(u){{\\rm d}u\\over {\\rm d}x}\\,{\\rm d}x = \\int_{u(a)}^{u(b)}f(u){\\rm d}u \\]';
+$string['calc_int_methods_substitution_name'] = '置換積分';
+$string['calc_int_standard_integrals_fact'] = '\\[\\int k\\ dx = kx +c, \\mbox{ ただし}  k \\mbox{は定数}\\] \\[\\int x^n\\ dx = \\frac{x^{n+1}}{n+1}+c, \\quad (n\\ne -1)\\] \\[\\int x^{-1}\\ dx = \\int {\\frac{1}{x}}\\ dx = \\ln(|x|)+c = \\ln(k*|x|) = \\left\\{\\matrix{\\ln(x)+c & x>0\\cr \\ln(-x)+c & x<0\\cr}\\right.\\] <center> <table> <tr><th>\\(f(x)\\)</th><th> \\(\\int f(x)\\ dx\\)</th></tr> <tr><td>\\(e^x\\) </td> <td> \\(e^x+c\\)</td> <td> </td> </tr> <tr><td>\\(\\cos(x)\\) </td> <td> \\(\\sin(x)+c\\) </td> <td> </td> </tr> <tr><td>\\(\\sin(x)\\) </td> <td> \\(-\\cos(x)+c\\) </td> <td> </td> </tr> <tr><td>\\(\\tan(x)\\) </td> <td> \\(\\ln(\\sec(x))+c\\) </td> <td>\\(-\\frac{\\pi}{2} < x < \\frac{\\pi}{2}\\)</td> </tr> <tr><td>\\(\\sec x\\) </td> <td> \\(\\ln (\\sec(x)+\\tan(x))+c\\) </td> <td> \\( -{\\pi\\over 2}< x < {\\pi\\over 2}\\)</td> </tr> <tr><td>cosec\\(\\, x\\) </td> <td> \\(\\ln ($cosec$(x)-\\cot(x))+c\\) </td> <td>\\(0 < x < \\pi\\)</td> </tr> <tr><td>cot\\(\\,x\\) </td> <td> \\(\\ln(\\sin(x))+c\\) </td> <td> \\(0< x< \\pi\\) </td> </tr> <tr><td>\\(\\cosh(x)\\) </td> <td> \\(\\sinh(x)+c\\)</td> <td></td> </tr> <tr><td>\\(\\sinh(x)\\) </td> <td> \\(\\cosh(x) + c\\) </td> <td> </td> </tr> <tr><td>\\(\\tanh(x)\\) </td> <td> \\(\\ln(\\cosh(x))+c\\)</td> <td> </td> </tr> <tr><td>coth\\((x)\\) </td> <td> \\(\\ln(\\sinh(x))+c \\)</td> <td> \\(x>0\\)</td> </tr> <tr><td>\\({1\\over x^2+a^2}\\) </td> <td> \\({1\\over a}\\tan^{-1}{x\\over a}+c\\)</td> <td> \\(a>0\\)</td> </tr> <tr><td>\\({1\\over x^2-a^2}\\) </td> <td> \\({1\\over 2a}\\ln{x-a\\over x+a}+c\\) </td> <td> \\(|x|>a>0\\)</td> </tr> <tr><td>\\({1\\over a^2-x^2}\\) </td> <td> \\({1\\over 2a}\\ln{a+x\\over a-x}+c\\) </td> <td> \\(|x|<a\\)</td> </tr> <tr><td>\\({1\\over \\sqrt{x^2+a^2}}\\) </td> <td> \\(\\sinh^{-1}\\left(\\frac{x}{a}\\right) + c\\) </td> <td> \\(a>0\\) </td> </tr> <tr><td>\\({1\\over \\sqrt{x^2-a^2}}\\) </td> <td> \\(\\cosh^{-1}\\left(\\frac{x}{a}\\right) + c\\) </td> <td \\(x\\geq a > 0\\) </td> </tr> <tr><td>\\({1\\over \\sqrt{x^2+k}}\\) </td> <td> \\(\\ln (x+\\sqrt{x^2+k})+c\\)</td> <td> </td> </tr> <tr><td>\\({1\\over \\sqrt{a^2-x^2}}\\) </td> <td> \\(\\sin^{-1}\\left(\\frac{x}{a}\\right)+c\\)</td> <td> \\(-a\\leq x\\leq a\\) </td> </tr> </table></center>';
+$string['calc_int_standard_integrals_name'] = '標準的な積分';
+$string['calc_product_rule_fact'] = '関数の積の微分の法則を示します。 \\(f(x)g(x)\\) を \\(x\\) で微分する場合次のようになります。 \\[ \\frac{\\mathrm{d}}{\\mathrm{d}{x}} \\big(f(x)g(x)\\big) = f(x) \\cdot \\frac{\\mathrm{d} g(x)}{\\mathrm{d}{x}} + g(x)\\cdot \\frac{\\mathrm{d} f(x)}{\\mathrm{d}{x}},\\] あるいは別の表記で \\[ (f(x)g(x))\' = f\'(x)g(x)+f(x)g\'(x). \\]';
+$string['calc_product_rule_name'] = '積法則';
+$string['calc_quotient_rule_fact'] = '微分可能な関数 \\(f(x)\\) と \\(g(x)\\)に対する微分の商法則は次のとおりです。 \\[\\frac{d}{dx}\\left(\\frac{f(x)}{g(x)}\\right)=\\frac{g(x)\\cdot\\frac{df(x)}{dx}\\ \\ - \\ \\ f(x)\\cdot \\frac{dg(x)}{dx}}{g(x)^2}. \\]';
+$string['calc_quotient_rule_name'] = '商法則';
+$string['calc_rules_fact'] = '<b>微分の積法則</b><br /> \\(f(x)g(x)\\) を \\(x\\) で微分する場合，関数の積の微分の法則は次のようになります。\\[ \\frac{\\mathrm{d}}{\\mathrm{d}{x}} \\big(f(x)g(x)\\big) = f(x) \\cdot \\frac{\\mathrm{d} g(x)}{\\mathrm{d}{x}} + g(x)\\cdot \\frac{\\mathrm{d} f(x)}{\\mathrm{d}{x}},\\] あるいは別の表記で \\[ (f(x)g(x))\' = f\'(x)g(x)+f(x)g\'(x). \\] <b>微分の商法則</b><br />微分可能な関数 \\(f(x)\\) と \\(g(x)\\)に対する微分の商法則は次のとおりです。 \\[\\frac{d}{dx}\\left(\\frac{f(x)}{g(x)}\\right)=\\frac{g(x)\\cdot\\frac{df(x)}{dx}\\ \\ - \\ \\ f(x)\\cdot \\frac{dg(x)}{dx}}{g(x)^2}. \\] <b>チェーンルール</b><br />2つの関数で構成される関数の微分は次のようになります。\\(u=g(x)\\) とおくことにより，関数 \\(f(g(x))\\) の \\(x\\) に関する微分は次のようになります。 \\[\\frac{df(g(x))}{dx} = \\frac{dg(x)}{dx}\\cdot\\frac{df(u)}{du}.\\] あるいは別の表記で \\[\\frac{df(x)}{dx} = f\'(g(x))\\cdot g\'(x).\\]';
+$string['calc_rules_name'] = '計算の法則';
+$string['casdisplay'] = 'CAS表示';
+$string['cassuitecolerrors'] = 'CASエラー';
+$string['castext'] = 'CASテキスト';
 $string['casvalid'] = 'V2';
-$string['casvalue'] = 'CAS value';
-$string['casdisplay'] = 'CAS display';
-$string['cassuitecolerrors'] = 'CAS errors';
-
-$string['texdisplaystyle'] = 'Display-style equation';
-$string['texinlinestyle'] = 'Inline-style equation';
-
-// Used in casstring.class.php.
-$string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';
-$string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
-$string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
-$string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
-$string['stackCas_apostrophe']              = 'Apostrophes are not permitted in responses.';
-$string['stackCas_newline']                 = 'Newline characters are not permitted in responses.';
-$string['stackCas_forbiddenChar']           = 'CAS commands may not contain the following characters: {$a->char}.';
-$string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid final character in {$a->cmd}';
-$string['stackCas_MissingStars']            = 'You seem to be missing * characters. Perhaps you meant to type {$a->cmd}.';
-$string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid}.';
-$string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
-$string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
-$string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nested in the expression: {$a->cmd}.';
-$string['stackCas_spuriousop']              = 'Unknown operator: {$a->cmd}.';
-$string['stackCas_chained_inequalities']    = 'You appear to have "chained inequalities" e.g. \(a &lt b &lt c\).  You need to connect individual inequalities with logical operations such as \(and\) or \(or\).';
-$string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \leq \) or \( \geq \) must be entered as <= or >=.  You have {$a->cmd} in your expression, which is backwards.';
-
-// Used in cassession.class.php.
-$string['stackCas_CASError']                = 'The CAS returned the following error(s):';
-$string['stackCas_allFailed']               = 'CAS failed to return any evaluated expressions.  Please check your connection with the CAS.';
-$string['stackCas_failedReturn']            = 'CAS failed to return any data.';
-
-// Used in castext.class.php.
-$string['stackCas_tooLong']                 = 'CASText statement is too long. ';
-$string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign. ';
-$string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
-$string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';
-$string['stackCas_MissingOpenHint']         = 'Missing opening hint. ';
-$string['stackCas_MissingClosingHint']      = 'Missing closing /hint';
-$string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>. ';
-$string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>. ';
-$string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>. ';
-$string['stackCas_MissingCloseInline']      = 'Missing <code>\)</code>. ';
-$string['stackCas_MissingOpenHTML']         = 'Missing opening html tag. ';
-$string['stackCas_MissingCloseHTML']        = 'Missing closing html tag. ';
-$string['stackCas_failedValidation']        = 'CASText failed validation. ';
-$string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
-$string['stackCas_CASErrorCaused']          = 'caused the following error:';
-
-$string['Maxima_DivisionZero']  = 'Division by zero.';
-$string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
-$string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
-$string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specific value.';
-// TODO add this to STACK...
-// $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
-
-// Answer tests.
-$string['stackOptions_AnsTest_values_AlgEquiv']           =  "AlgEquiv";
-$string['stackOptions_AnsTest_values_EqualComAss']        =  "EqualComAss";
-$string['stackOptions_AnsTest_values_CasEqual']           =  "CasEqual";
-$string['stackOptions_AnsTest_values_SameType']           =  "SameType";
-$string['stackOptions_AnsTest_values_SubstEquiv']         =  "SubstEquiv";
-$string['stackOptions_AnsTest_values_SysEquiv']           =  "SysEquiv";
-$string['stackOptions_AnsTest_values_Expanded']           =  "Expanded";
-$string['stackOptions_AnsTest_values_FacForm']            =  "FacForm";
-$string['stackOptions_AnsTest_values_SingleFrac']         =  "SingleFrac";
-$string['stackOptions_AnsTest_values_PartFrac']           =  "PartFrac";
-$string['stackOptions_AnsTest_values_CompSquare']         =  "CompletedSquare";
-$string['stackOptions_AnsTest_values_NumRelative']        =  "NumRelative";
-$string['stackOptions_AnsTest_values_NumAbsolute']        =  "NumAbsolute";
-$string['stackOptions_AnsTest_values_NumSigFigs']         =  "NumSigFigs";
-$string['stackOptions_AnsTest_values_NumDecPlaces']       =  "NumDecPlaces";
-$string['stackOptions_AnsTest_values_GT']                 =  "Num-GT";
-$string['stackOptions_AnsTest_values_GTE']                =  "Num-GTE";
-$string['stackOptions_AnsTest_values_LowestTerms']        =  "LowestTerms";
-$string['stackOptions_AnsTest_values_Diff']               =  "Diff";
-$string['stackOptions_AnsTest_values_Int']                =  "Int";
-$string['stackOptions_AnsTest_values_String']             =  "String";
-$string['stackOptions_AnsTest_values_StringSloppy']       =  "StringSloppy";
-$string['stackOptions_AnsTest_values_RegExp']             =  "RegExp";
-
-$string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
-$string['TEST_FAILED']              = 'The answer test failed to execute correctly: please alert your teacher. {$a->errors}';
-$string['AT_MissingOptions']        = 'Missing option when executing the test. ';
-$string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
-$string['AT_EmptySA']               = 'Attempted to execute an answer test with an empty student answer, probably a CAS validation problem when authoring the question.';
-$string['AT_EmptyTA']               = 'Attempted to execute an answer test with an empty teacher answer, probably a CAS validation problem when authoring the question.';
-
-
-$string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
-$string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
-$string['ATAlgEquiv_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
-$string['ATAlgEquiv_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
-$string['ATAlgEquiv_SA_not_equation']   = 'Your answer should be an equation, but is not. ';
-$string['ATAlgEquiv_TA_not_equation']   = 'You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1". ';
-$string['ATAlgEquiv_SA_not_inequality'] = 'Your answer should be an inequality, but is not. ';
-$string['ATAlgEquiv_SA_not_function']   = 'Your answer should be a function, defined using the operator <tt>:=</tt>, but is not. ';
-$string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
-
-
-$string['ATInequality_nonstrict']       = 'Your inequality should be strict, but is not! ';
-$string['ATInequality_strict']          = 'Your inequality should not be strict! ';
-$string['ATInequality_backwards']       = 'Your inequality appears to be backwards. ';
-
-$string['ATLowestTerms_wrong']          = 'You need to cancel fractions within your answer. ';
-$string['ATLowestTerms_entries']        = 'The following terms in your answer are not in lowest terms.  {$a->m0} Please try again.  ';
-
-
-$string['ATList_wronglen']          = 'Your list should have {$a->m0} elements, but it actually has {$a->m1}. ';
-$string['ATList_wrongentries']      = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
-
-$string['ATMatrix_wrongsz']         = 'Your matrix should be {$a->m0} by {$a->m1}, but it is actually {$a->m2} by {$a->m3}. ';
-$string['ATMatrix_wrongentries']    = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
-
-$string['ATSet_wrongsz']            = 'Your set should have {$a->m0} different elements, but it is actually has {$a->m1}. ';
-$string['ATSet_wrongentries']       = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';
-
-$string['irred_Q_factored']         = 'The term {$a->m0} should be unfactored, but is not. ';
-$string['irred_Q_commonint']        = 'You need to take out a common factor. ';  // Needs a space at the end.
-$string['irred_Q_optional_fac']     = 'You could do more work, since {$a->m0} can be further factored.  However, you don\'t need to. ';
-
-$string['FacForm_UnPick_morework']  = 'You could still do some more work on the term {$a->m0}. ';
-$string['FacForm_UnPick_intfac']    = 'You need to take out a common factor. ';
-
-$string['ATFacForm_error_list']     = 'The answer test failed.  Please contact your systems administrator';
-$string['ATFacForm_error_degreeSA'] = 'The CAS could not establish the algebraic degree of your answer.';
-$string['ATFacForm_isfactored']     = 'Your answer is factored, well done. ';  // Needs a space at the end.
-$string['ATFacForm_notfactored']    = 'Your answer is not factored. '; // Needs a space at the end.
-$string['ATFacForm_notalgequiv']    = 'Note that your answer is not algebraically equivalent to the correct answer.  You must have done something wrong. '; // needs a space at the end.
-
-$string['ATPartFrac_error_list']        = 'The answer test failed.  Please contact your systems administrator';
-$string['ATPartFrac_true']              = '';
-$string['ATPartFrac_single_fraction']   ='Your answer seems to be a single fraction, it needs to be in a partial fraction form. ';
-$string['ATPartFrac_diff_variables']    ='The variables in your answer are different to those of the question, please check them. ';
-$string['ATPartFrac_denom_ret']         ='If your answer is written as a single fraction then the denominator would be {$a->m0}. In fact, it should be {$a->m1}. ';
-$string['ATPartFrac_ret_expression']    ='Your answer as a single fraction is {$a->m0} ';
-
-$string['ATSingleFrac_error_list']     = 'The answer test failed.  Please contact your systems administrator';
-$string['ATSingleFrac_true']           = '';
-$string['ATSingleFrac_part']           = 'Your answer needs to be a single fraction of the form \( {a}\over{b} \). ';
-$string['ATSingleFrac_var']            = 'The variables in your answer are different to the those of the question, please check them. ';
-$string['ATSingleFrac_ret_exp']        = 'Your answer is not algebraically equivalent to the correct answer. You must have done something wrong. ';
-$string['ATSingleFrac_div']            = 'Your answer contains fractions within fractions.  You need to clear these and write your answer as a single fraction.';
-
-$string['ATCompSquare_true']            = '';
-$string['ATCompSquare_false']           = '';
-$string['ATCompSquare_not_AlgEquiv']    = 'Your answer appears to be in the correct form, but is not equivalent to the correct answer.';
-$string['ATCompSquare_false_no_summands']  = 'The completed square is of the form \( a(\cdots\cdots)^2 + b\) where \(a\) and \(b\) do not depend on your variable.  More than one of your summands appears to depend on the variable in your answer.';
-$string['ATCompSquare_SA_not_depend_var']  = 'Your answer should depend on the variable {$a->m0} but it does not!';
-
-$string['ATInt_error_list']          = 'The answer test failed.  Please contact your systems administrator';
-$string['ATInt_const_int']           = 'You need to add a constant of integration. This should be an arbitrary constant, not a number.';
-$string['ATInt_const']               = 'You need to add a constant of integration, otherwise this appears to be correct.  Well done.';
-$string['ATInt_EqFormalDiff']        = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration.  Please ask your teacher about this.';
-$string['ATInt_logabs']              = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration.  Your teacher may expect you to use the result \(\int\frac{1}{x} dx = \log(|x|)+c\), rather than \(\int\frac{1}{x} dx = \log(x)+c\).  Please ask your teacher about this.';
-$string['ATInt_weirdconst']          = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, you have a strange constant of integration.  Please ask your teacher about this.';
-$string['ATInt_logabs_inconsistent'] = 'There appear to be strange inconsistencies between your use of \(\log(...)\) and \(\log(|...|)\).  Please ask your teacher about this.  ';
-$string['ATInt_diff']                = 'It looks like you have differentiated instead!';
-$string['ATInt_generic']             = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
-
-$string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';
-$string['ATDiff_int']               = 'It looks like you have integrated instead!';
-
-$string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact your systems administrator';
-$string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';
-$string['ATNumSigFigs_Inaccurate']  = 'The accuracy of your answer is not correct.  Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.';
-$string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of significant digits. ';
-
-$string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
-$string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
-$string['ATNumDecPlaces_Wrong_DPs']    = 'Your answer has been given to the wrong number of decimal places.';
-
-$string['ATSysEquiv_SA_not_list']               = 'Your answer should be a list, but it is not!';
-$string['ATSysEquiv_SB_not_list']               = 'The teacher\'s answer is not a list.  Please contact your teacher.';
-$string['ATSysEquiv_SA_not_eq_list']            = 'Your answer should be a list of equations, but it is not!';
-$string['ATSysEquiv_SB_not_eq_list']            = 'The teacher\'s answer is not a list of equations, but should be.';
-$string['ATSysEquiv_SA_not_poly_eq_list']       = 'One or more of your equations is not a polynomial!';
-$string['ATSysEquiv_SB_not_poly_eq_list']       = 'The Teacher\'s answer should be a list of polynomial equations, but is not.  Please contact your teacher.';
-$string['ATSysEquiv_SA_missing_variables']      = 'Your answer is missing one or more variables!';
-$string['ATSysEquiv_SA_extra_variables']        = 'Your answer includes too many variables!';
-$string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
-$string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
-
-$string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
-
-$string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as follows: {$a}';
-$string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';
-$string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
-
-// Documentation strings.
-$string['stackDoc_404']                 = 'Error 404';
-$string['stackDoc_docs']                = 'STACK Documentation';
-$string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation for STACK</a>: a local static wiki.';
-$string['stackDoc_home']                = 'Documentation home';
-$string['stackDoc_index']               = 'Category index';
-$string['stackDoc_parent']              = 'Parent';
-$string['stackDoc_siteMap']             = 'Site map';
-$string['stackDoc_404message']          = 'File not found.';
-$string['stackDoc_directoryStructure']  = 'Directory structure';
-
-
-// Old hints system.
-$string['greek_alphabet_name'] = 'The Greek Alphabet';
-$string['greek_alphabet_fact'] = '
-<center>
-<table>
-<tr><td>
- Upper case, \(\quad\) </td><td>  lower case, \(\quad\) </td><td>  name </td> </tr>   <tr> <td>
- \(A\)  </td><td>  \(\alpha\)  </td><td>  alpha  </td> </tr>   <tr> <td>
- \(B\)  </td><td>  \(\beta\)  </td><td>  beta </td> </tr>   <tr> <td>
- \(\Gamma\)  </td><td>  \(\gamma\)  </td><td>  gamma </td> </tr>   <tr> <td>
- \(\Delta\)  </td><td>  \(\delta\)  </td><td>  delta </td> </tr>   <tr> <td>
- \(E\)  </td><td>  \(\epsilon\)  </td><td>  epsilon </td> </tr>   <tr> <td>
- \(Z\)  </td><td>  \(\zeta\)  </td><td>  zeta </td> </tr>   <tr> <td>
- \(H\)  </td><td>  \(\eta\)  </td><td>  eta </td> </tr>   <tr> <td>
- \(\Theta\)  </td><td>  \(\theta\)  </td><td>  theta </td> </tr>   <tr> <td>
- \(K\)  </td><td>  \(\kappa\)  </td><td>  kappa </td> </tr>   <tr> <td>
- \(M\)  </td><td>  \(\mu\)  </td><td>  mu </td> </tr>   <tr> <td>
- \(N\)  </td><td>  \) u\)  </td><td>  nu </td> </tr>   <tr> <td>
- \(\Xi\)  </td><td>  \(\xi\)  </td><td>  xi </td> </tr>   <tr> <td>
- \(O\)  </td><td>  \(o\)  </td><td>  omicron </td> </tr>   <tr> <td>
- \(\Pi\)  </td><td>  \(\pi\)  </td><td>  pi </td> </tr>   <tr> <td>
- \(I\)  </td><td>  \(\iota\)  </td><td>  iota </td> </tr>   <tr> <td>
- \(P\)  </td><td>  \(\rho\) </td><td>  rho </td> </tr>   <tr> <td>
- \(\Sigma\)  </td><td>  \(\sigma\)  </td><td>  sigma </td> </tr>   <tr> <td>
- \(\Lambda\)  </td><td>  \(\lambda\)  </td><td>  lambda </td> </tr>   <tr> <td>
- \(T\)  </td><td>  \(\tau\)  </td><td>  tau </td> </tr>   <tr> <td>
- \(\Upsilon\)  </td><td>  \(\upsilon\)  </td><td>  upsilon </td> </tr>   <tr> <td>
- \(\Phi\)  </td><td>  \(\phi\)  </td><td>  phi </td> </tr>   <tr> <td>
- \(X\)  </td><td>  \(\chi\)  </td><td>  chi </td> </tr>   <tr> <td>
- \(\Psi\)  </td><td>  \(\psi\)  </td><td> psi </td> </tr>   <tr> <td>
- \(\Omega\)  </td><td>  \(\omega\)  </td><td>  omega </td></tr>
-</table></center>';
-
-$string['alg_inequalities_name'] = 'Inequalities';
-$string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater than } b\]
-<br />
-\[ a < b \hbox{ means } a \hbox{ is less than } b\]
-<br />
-\[a\geq b \hbox{ means } a \hbox{ is greater than or equal to } b\]
-<br />
-\[a\leq b \hbox{ means } a \hbox{ is less than or equal to } b\]';
-
-$string['alg_indices_name'] = 'The Laws of Indices';
-$string['alg_indices_fact'] = 'The following laws govern index manipulation:
-\[a^ma^n = a^{m+n}\]
-\[\frac{a^m}{a^n} = a^{m-n}\]
-\[(a^m)^n = a^{mn}\]
-\[a^0 = 1\]
-\[a^{-m} = \frac{1}{a^m}\]
-\[a^{\frac{1}{n}} = \sqrt[n]{a}\]
-\[a^{\frac{m}{n}} = \left(\sqrt[n]{a}\right)^m\]';
-
-$string['alg_logarithms_name'] = 'The Laws of Logarithms';
-$string['alg_logarithms_fact'] = 'For any positive base \(b\) (with \(b \neq 1\)):
-\[\log_b(a) = c \mbox{, means } a = b^c\]
-\[\log_b(a) + \log_b(b) = \log_b(ab)\]
-\[\log_b(a) - \log_b(b) = \log_b\left(\frac{a}{b}\right)\]
-\[n\log_b(a) = \log_b\left(a^n\right)\]
-\[\log_b(1) = 0\]
-\[\log_b(b) = 1\]
-The formula for a change of base is:
-\[\log_a(x) = \frac{\log_b(x)}{\log_b(a)}\]
-Logarithms to base $e$, denoted $\log_e$ or alternatively $\ln$ are called natural logarithms.  The letter $e$ represents the exponential constant which is approximately 2.718.';
-
-$string['alg_quadratic_formula_name'] = 'The Quadratic Formula';
-$string['alg_quadratic_formula_fact'] = 'If we have a quadratic equation of the form:
-\[ax^2 + bx + c = 0,\]
-then the solution(s) to that equation given by the quadratic formula are:
-\[x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.\]';
-
-
-$string['alg_partial_fractions_name'] = 'Partial Fractions';
-$string['alg_partial_fractions_fact'] = 'Proper fractions occur with \[{\frac{P(x)}{Q(x)}}\]
-when $P$ and $Q$ are polynomials with the degree of $P$ less than the degree of $Q$.  This this case, we proceed
-as follows: write $Q(x)$ in factored form,
-<ul>
-<li>
-a <em>linear factor</em> $ax+b$ in the denominator produces a partial fraction of the form \[{\frac{A}{ax+b}}.\]
-</li>
-<li>
-a <em>repeated linear factors</em> $(ax+b)^2$ in the denominator
-produce partial fractions of the form \[{A\over ax+b}+{B\over (ax+b)^2}.\]
-</li>
-<li>
-a <em>quadratic factor</em> $ax^2+bx+c$
-in the denominator produces a partial fraction of
-the form \[{Ax+B\over ax^2+bx+c}\]
-</li>
-<li>
-<em>Improper fractions}</em> require an additional
-term which is a polynomial of degree $n-d$ where $n$ is
-the degree of the numerator (i.e. $P(x)$) and $d$ is the degree of
-the denominator (ie $Q(x)$).
-</li></ul>';
-
-$string['trig_degrees_radians_name'] = 'Degrees and Radians';
-$string['trig_degrees_radians_fact'] = '\[
-360^\circ= 2\pi \hbox{ radians},\quad
-1^\circ={2\pi\over 360}={\pi\over 180}\hbox{ radians}
-\]
-\[
-1 \hbox{ radian} = {180\over \pi} \hbox{ degrees}
-\approx 57.3^\circ
-\]';
-
-$string['trig_standard_values_name'] = 'Standard Trigonometric Values';
-$string['trig_standard_values_fact'] = '
-\[\sin(45^\circ)={1\over \sqrt{2}}, \qquad \cos(45^\circ) = {1\over \sqrt{2}},\qquad
-\tan( 45^\circ)=1
-\]
-\[
-\sin (30^\circ)={1\over 2}, \qquad \cos (30^\circ)={\sqrt{3}\over 2},\qquad
-\tan (30^\circ)={1\over \sqrt{3}}
-\]
-\[
-\sin (60^\circ)={\sqrt{3}\over 2}, \qquad \cos (60^\circ)={1\over 2},\qquad
-\tan (60^\circ)={ \sqrt{3}}
-\]';
-
-$string['trig_standard_identities_name'] = 'Standard Trigonometric Identities';
-$string['trig_standard_identities_fact'] = '\[\sin(a\pm b)\ = \  \sin(a)\cos(b)\ \pm\  \cos(a)\sin(b)\]
- \[\cos(a\ \pm\ b)\ = \  \cos(a)\cos(b)\ \mp \\sin(a)\sin(b)\]
- \[\tan (a\ \pm\ b)\ = \  {\tan (a)\ \pm\ \tan (b)\over1\ \mp\ \tan (a)\tan (b)}\]
- \[ 2\sin(a)\cos(b)\ = \  \sin(a+b)\ +\ \sin(a-b)\]
- \[ 2\cos(a)\cos(b)\ = \  \cos(a-b)\ +\ \cos(a+b)\]
- \[ 2\sin(a)\sin(b) \ = \  \cos(a-b)\ -\ \cos(a+b)\]
- \[ \sin^2(a)+\cos^2(a)\ = \  1\]
- \[ 1+{\rm cot}^2(a)\ = \  {\rm cosec}^2(a),\quad \tan^2(a) +1 \ = \  \sec^2(a)\]
- \[ \cos(2a)\ = \  \cos^2(a)-\sin^2(a)\ = \  2\cos^2(a)-1\ = \  1-2\sin^2(a)\]
- \[ \sin(2a)\ = \  2\sin(a)\cos(a)\]
- \[ \sin^2(a) \ = \  {1-\cos (2a)\over 2}, \qquad \cos^2(a)\ = \  {1+\cos(2a)\over 2}\]';
-
-$string['hyp_functions_name'] = 'Hyperbolic Functions';
-$string['hyp_functions_fact'] = 'Hyperbolic functions have similar properties to trigonometric functions but can be represented in exponential form as follows:
- \[ \cosh(x)      = \frac{e^x+e^{-x}}{2}, \qquad \sinh(x)=\frac{e^x-e^{-x}}{2} \]
- \[ \tanh(x)      = \frac{\sinh(x)}{\cosh(x)} = \frac{{e^x-e^{-x}}}{e^x+e^{-x}} \]
- \[ {\rm sech}(x) ={1\over \cosh(x)}={2\over {\rm e}^x+{\rm e}^{-x}}, \qquad  {\rm cosech}(x)= {1\over \sinh(x)}={2\over {\rm e}^x-{\rm e}^{-x}} \]
- \[ {\rm coth}(x) ={\cosh(x)\over \sinh(x)} = {1\over {\rm tanh}(x)} ={{\rm e}^x+{\rm e}^{-x}\over {\rm e}^x-{\rm e}^{-x}}\]';
-
-$string['hyp_identities_name'] = 'Hyperbolic Identities';
-$string['hyp_identities_fact'] = 'The similarity between the way hyperbolic and trigonometric functions behave is apparent when observing some basic hyperbolic identities:
-  \[{\rm e}^x=\cosh(x)+\sinh(x), \quad {\rm e}^{-x}=\cosh(x)-\sinh(x)\]
-  \[\cosh^2(x) -\sinh^2(x) = 1\]
-  \[1-{\rm tanh}^2(x)={\rm sech}^2(x)\]
-  \[{\rm coth}^2(x)-1={\rm cosech}^2(x)\]
-  \[\sinh(x\pm y)=\sinh(x)\ \cosh(y)\ \pm\ \cosh(x)\ \sinh(y)\]
-  \[\cosh(x\pm y)=\cosh(x)\ \cosh(y)\ \pm\ \sinh(x)\ \sinh(y)\]
-  \[\sinh(2x)=2\,\sinh(x)\cosh(x)\]
-  \[\cosh(2x)=\cosh^2(x)+\sinh^2(x)\]
-  \[\cosh^2(x)={\cosh(2x)+1\over 2}\]
-  \[\sinh^2(x)={\cosh(2x)-1\over 2}\]';
-
-$string['hyp_inverse_functions_name'] = 'Inverse Hyperbolic Functions';
-$string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}\right) \quad \mbox{ for } x\geq 1\]
- \[\sinh^{-1}(x)=\ln\left(x+\sqrt{x^2+1}\right)\]
- \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \mbox{ for } -1< x < 1\]';
-
-
-$string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
-$string['calc_diff_standard_derivatives_fact'] = 'The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.
-<center>
-<table>
-<tr><th>\(f(x)\)               </th><th> \(f\'(x)\)</th></tr>
-<tr>
-<td>\(k\), constant           </td> <td> \(0\) </td> </tr> <tr> <td>
-\(x^n\), any constant \(n\) </td> <td> \(nx^{n-1}\)</td> </tr> <tr> <td>
-\(e^x\)                   </td> <td> \(e^x\)</td> </tr> <tr> <td>
-\(\ln(x)=\log_{\rm e}(x)\)              </td> <td> \(\frac{1}{x}\)                </td> </tr> <tr> <td>
-\(\sin(x)\)                             </td> <td> \(\cos(x)\)                    </td> </tr> <tr> <td>
-\(\cos(x)\)                             </td> <td> \(-\sin(x)\)                   </td> </tr> <tr> <td>
-\(\tan(x) = \frac{\sin(x)}{\cos(x)}\)   </td> <td>   \(\sec^2(x)\)                </td> </tr> <tr> <td>
-\(cosec(x)=\frac{1}{\sin(x)}\)         </td> <td>   \(-cosec(x)\cot(x)\)        </td> </tr> <tr> <td>
-\(\sec(x)=\frac{1}{\cos(x)}\)           </td> <td>   \(\sec(x)\tan(x)\)           </td> </tr> <tr> <td>
-\(\cot(x)=\frac{\cos(x)}{\sin(x)}\)     </td> <td>   \(-cosec^2(x)\)             </td> </tr> <tr> <td>
-\(\cosh(x)\)                            </td> <td>   \(\sinh(x)\)                 </td> </tr> <tr> <td>
-\(\sinh(x)\)                            </td> <td>   \(\cosh(x)\)                 </td> </tr> <tr> <td>
-\(\tanh(x)\)                            </td> <td>   \(sech^2(x)\)               </td> </tr> <tr> <td>
-\(sech(x)\)                            </td> <td>   \(-sech(x)\tanh(x)\)        </td> </tr> <tr> <td>
-\(cosech(x)\)                          </td> <td>   \(-cosech(x)\coth(x)\)      </td> </tr> <tr> <td>
-\(coth(x)\)                            </td> <td>   \(-cosech^2(x)\)            </td> </tr>
-</table>
-</center>
-
- \[ \frac{d}{dx}\left(\sin^{-1}(x)\right) =  \frac{1}{\sqrt{1-x^2}}\]
- \[ \frac{d}{dx}\left(\cos^{-1}(x)\right) =  \frac{-1}{\sqrt{1-x^2}}\]
- \[ \frac{d}{dx}\left(\tan^{-1}(x)\right) =  \frac{1}{1+x^2}\]
- \[ \frac{d}{dx}\left(\cosh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2-1}}\]
- \[ \frac{d}{dx}\left(\sinh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2+1}}\]
- \[ \frac{d}{dx}\left(\tanh^{-1}(x)\right) =  \frac{1}{1-x^2}\]
-';
-
-
-
-$string['calc_diff_linearity_rule_name'] = 'The Linearity Rule for Differentiation';
-$string['calc_diff_linearity_rule_fact'] = '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant}\]';
-
-$string['calc_product_rule_name'] = 'The Product Rule';
-$string['calc_product_rule_fact'] = 'The following rule allows one to differentiate functions which are
-multiplied together.  Assume that we wish to differentiate \(f(x)g(x)\) with respect to \(x\).
-\[ \frac{\mathrm{d}}{\mathrm{d}{x}} \big(f(x)g(x)\big) = f(x) \cdot \frac{\mathrm{d} g(x)}{\mathrm{d}{x}}  + g(x)\cdot \frac{\mathrm{d} f(x)}{\mathrm{d}{x}},\] or, using alternative notation, \[ (f(x)g(x))\' = f\'(x)g(x)+f(x)g\'(x). \]';
-
-$string['calc_quotient_rule_name'] = 'The Quotient Rule';
-$string['calc_quotient_rule_fact'] = 'The quotient rule for differentiation states that for any two differentiable functions \(f(x)\) and \(g(x)\),
- \[\frac{d}{dx}\left(\frac{f(x)}{g(x)}\right)=\frac{g(x)\cdot\frac{df(x)}{dx}\ \ - \ \ f(x)\cdot \frac{dg(x)}{dx}}{g(x)^2}. \]';
-
-$string['calc_chain_rule_name'] = 'The Chain Rule';
-$string['calc_chain_rule_fact'] = 'The following rule allows one to find the derivative of a composition of two functions.
-Assume we have a function \(f(g(x))\), then defining \(u=g(x)\), the derivative with respect to \(x\) is given by:
-\[\frac{df(g(x))}{dx} = \frac{dg(x)}{dx}\cdot\frac{df(u)}{du}.\]
-Alternatively, we can write:
-\[\frac{df(x)}{dx} = f\'(g(x))\cdot g\'(x).\]
-';
-
-$string['calc_rules_name'] = 'Calculus rules';
-$string['calc_rules_fact']  = '<b>The Product Rule</b><br />The following rule allows one to differentiate functions which are
-multiplied together.  Assume that we wish to differentiate \(f(x)g(x)\) with respect to \(x\).
-\[ \frac{\mathrm{d}}{\mathrm{d}{x}} \big(f(x)g(x)\big) = f(x) \cdot \frac{\mathrm{d} g(x)}{\mathrm{d}{x}}  + g(x)\cdot \frac{\mathrm{d} f(x)}{\mathrm{d}{x}},\] or, using alternative notation, \[ (f(x)g(x))\' = f\'(x)g(x)+f(x)g\'(x). \]
-<b>The Quotient Rule</b><br />The quotient rule for differentiation states that for any two differentiable functions \(f(x)\) and \(g(x)\),
-\[\frac{d}{dx}\left(\frac{f(x)}{g(x)}\right)=\frac{g(x)\cdot\frac{df(x)}{dx}\ \ - \ \ f(x)\cdot \frac{dg(x)}{dx}}{g(x)^2}. \]
-<b>The Chain Rule</b><br />The following rule allows one to find the derivative of a composition of two functions.
-Assume we have a function \(f(g(x))\), then defining \(u=g(x)\), the derivative with respect to \(x\) is given by:
-\[\frac{df(g(x))}{dx} = \frac{dg(x)}{dx}\cdot\frac{df(u)}{du}.\]
-Alternatively, we can write:
-\[\frac{df(x)}{dx} = f\'(g(x))\cdot g\'(x).\]
-';
-
-$string['calc_int_standard_integrals_name'] = 'Standard Integrals';
-$string['calc_int_standard_integrals_fact'] = '
-
-\[\int k\ dx = kx +c, \mbox{ where k is constant.}\]
-\[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
-\[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k*|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
-\ln(-x)+c & x<0\cr}\right.\]
-
-<center>
-<table>
-<tr><th>\(f(x)\)</th><th> \(\int f(x)\ dx\)</th></tr>
-<tr><td>\(e^x\) </td> <td>  \(e^x+c\)</td> <td> </td> </tr>
-<tr><td>\(\cos(x)\) </td> <td>  \(\sin(x)+c\)   </td> <td> </td> </tr>
-<tr><td>\(\sin(x)\) </td> <td>  \(-\cos(x)+c\)  </td> <td> </td> </tr>
-<tr><td>\(\tan(x)\) </td> <td>  \(\ln(\sec(x))+c\) </td> <td>\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)</td> </tr>
-<tr><td>\(\sec x\)  </td> <td>  \(\ln (\sec(x)+\tan(x))+c\) </td> <td> \( -{\pi\over 2}< x < {\pi\over 2}\)</td> </tr>
-<tr><td>cosec\(\, x\) </td> <td>  \(\ln ($cosec$(x)-\cot(x))+c\) </td> <td>\(0 < x < \pi\)</td> </tr>
-<tr><td>cot\(\,x\) </td> <td>  \(\ln(\sin(x))+c\) </td> <td>  \(0< x< \pi\) </td> </tr>
-<tr><td>\(\cosh(x)\) </td> <td>  \(\sinh(x)+c\)</td> <td></td> </tr>
-<tr><td>\(\sinh(x)\) </td> <td>  \(\cosh(x) + c\) </td> <td> </td> </tr>
-<tr><td>\(\tanh(x)\) </td> <td>  \(\ln(\cosh(x))+c\)</td> <td> </td> </tr>
-<tr><td>coth\((x)\) </td> <td>  \(\ln(\sinh(x))+c \)</td> <td>   \(x>0\)</td> </tr>
-<tr><td>\({1\over x^2+a^2}\) </td> <td>  \({1\over a}\tan^{-1}{x\over a}+c\)</td> <td> \(a>0\)</td> </tr>
-<tr><td>\({1\over x^2-a^2}\) </td> <td>  \({1\over 2a}\ln{x-a\over x+a}+c\) </td> <td>  \(|x|>a>0\)</td> </tr>
-<tr><td>\({1\over a^2-x^2}\) </td> <td>  \({1\over 2a}\ln{a+x\over a-x}+c\) </td> <td>   \(|x|<a\)</td> </tr>
-<tr><td>\({1\over \sqrt{x^2+a^2}}\) </td> <td>  \(\sinh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td> \(a>0\) </td> </tr>
-<tr><td>\({1\over \sqrt{x^2-a^2}}\) </td> <td>  \(\cosh^{-1}\left(\frac{x}{a}\right) + c\) </td> <td>  \(x\geq a > 0\) </td> </tr>
-<tr><td>\({1\over \sqrt{x^2+k}}\) </td> <td>  \(\ln (x+\sqrt{x^2+k})+c\)</td> <td> </td> </tr>
-<tr><td>\({1\over \sqrt{a^2-x^2}}\) </td> <td>  \(\sin^{-1}\left(\frac{x}{a}\right)+c\)</td> <td>  \(-a\leq x\leq a\)  </td> </tr>
-</table></center>';
-
-$string['calc_int_linearity_rule_name'] = 'The Linearity Rule for Integration';
-$string['calc_int_linearity_rule_fact'] = '\[\int \left(af(x)+bg(x)\right){\rm d}x = a\int\!\!f(x)\,{\rm d}x
-\,+\,b\int \!\!g(x)\,{\rm d}x, \quad (a,b \, \, {\rm constant})
-\]';
-
-$string['calc_int_methods_substitution_name'] = 'Integration by Substitution';
-$string['calc_int_methods_substitution_fact'] = '\[
-\int f(u){{\rm d}u\over {\rm d}x}{\rm d}x=\int f(u){\rm d}u
-\quad\hbox{and}\quad \int_a^bf(u){{\rm d}u\over {\rm d}x}\,{\rm
-d}x = \int_{u(a)}^{u(b)}f(u){\rm d}u
-\]';
-
-$string['calc_int_methods_parts_name'] = 'Integration by Parts';
-$string['calc_int_methods_parts_fact'] = '\[
-\int_a^b u{{\rm d}v\over {\rm d}x}{\rm d}x=\left[uv\right]_a^b-
-\int_a^b{{\rm d}u\over {\rm d}x}v\,{\rm d}x
-\]
-Or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
-g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
-d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x \]';
+$string['casvalidatemismatch'] = 'CASは不一致と判定しています';
+$string['casvalue'] = 'CASの値';
+$string['chat'] = 'CASに送信する';
+$string['chat_desc'] = '<a href="{$a->link}">CASチャットのスクリプト</a>により，CASとの接続を確認し，Maximaの文法を試すことができます。';
+$string['chatintro'] = 'このページではCASテキストを直接評価することができます。これは，便利な最小限の例であり，CASが動作しているかを確認したり，様々な入力をテストする手軽な方法です。';
+$string['chattitle'] = 'CASへの接続を確認します';
+$string['checkanswertype'] = '解答形式の確認';
+$string['checkanswertype_help'] = 'このオプションをYesにすると，指定された形式と異なる形式の解答が提示された場合，解答が受け付けられません。';
+$string['clearthecache'] = 'キャッシュを削除する';
+$string['completetestcase'] = 'テストケースをパスするために残りのフォームに入力してください。';
+$string['complexno'] = '虚数単位の表記';
+$string['complexno_help'] = '記号iとsqrt(-1)の意味と表記を指定します。';
+$string['createtestcase'] = 'テストケースを作成する';
+$string['currentlyselectedvariant'] = '以下に示すように変形されます';
+$string['ddl_empty'] = 'ドロップダウンリストの選択肢が定義されていません。a, b, c, dのように値を入力してください。';
+$string['debuginfo'] = 'デバッグ情報';
+$string['defaultmarkzeroifnoprts'] = 'ポテンシャル・レスポンス・ツリーが定義されていない場合，デフォルトの採点は0です。';
+$string['defaultprtcorrectfeedback'] = 'よくできました。正解です!';
+$string['defaultprtincorrectfeedback'] = '残念，間違いです。';
+$string['defaultprtpartiallycorrectfeedback'] = '惜しい！部分的に正解です。';
+$string['deletetestcase'] = '問題{$a->question}のテストケース {$a->no}を削除する';
+$string['deletetestcaseareyousure'] = '本当に問題{$a->question}のテストケース {$a->no}を削除しますか？';
+$string['deletethistestcase'] = 'このテストケースを削除する';
+$string['deploy'] = 'デプロイ';
+$string['deployedvariants'] = 'デプロイされた変数';
+$string['deployedvariantsn'] = 'デプロイされた変数 ({$a})';
+$string['deploymany'] = '以下の数の変数を自動的にデプロイします。';
+$string['deploymanyerror'] = '入力が間違っています。変数 "{$a->err}" がデプロイできません。';
+$string['deploymanynonew'] = '問題ノートが大量に生成されました。';
+$string['deploymanynotes'] = '新しい問題ノートの生成に3度失敗するか，問題テストに1度失敗するとSTACKはそれらを中止します。';
+$string['deploymanysuccess'] = '新しい変数が正しく生成，テストされ，デプロイされました。{$a->no}';
+$string['dropdowngotunrecognisedvalue'] = '不正な入力です。';
+$string['editingtestcase'] = '問題{$a->question}のテストケース{$a->no}の編集';
+$string['editthistestcase'] = 'このテストケースを編集する';
+$string['errors'] = 'エラー';
+$string['exceptionmessage'] = '{$a}';
+$string['expectedanswernote'] = '予想される解答記録';
+$string['expectedoutcomes'] = '予想される出力';
+$string['expectedpenalty'] = '予想される減点';
+$string['expectedscore'] = '予想される採点';
+$string['FacForm_UnPick_intfac'] = '共通因子をくくり出す必要があります。';
+$string['FacForm_UnPick_morework'] = '項{$a->m0}に対してさらに計算することができます。';
+$string['false'] = '無効';
+$string['falsebranch'] = '偽の分岐';
+$string['falsebranch_help'] = 'これらのフィールドにより様々な解答の処理が行われます。###「計算」と「点数」により採点します。「=」は特定の点数を与えます。「+ / -」は現在の点から加点・減点を行います。###アダプティブモード，インタラクティブモードでは減点は蓄積されます。###「次のノード」で次にどのノードで評価するか，あるいは終了するかを指定します。###「解答記録」は学生の解答履歴をレポートするためのタグで，ポテンシャル・レスポンス・ツリーのパスと評価関数の出力を記録します。';
+$string['feedbackfromprtx'] = '{$a}からのフィードバック';
+$string['feedbackvariables'] = 'フィードバック変数';
+$string['feedbackvariables_help'] = 'ここで定義されたフィードバック変数と，問題変数とを用いて，入力された解答を処理することができます。フィードバック変数はポテンシャル・レスポンス・ツリーで共通に使うことができます。';
+$string['fieldshouldnotcontainplaceholder'] = '{$a->field} はどの[[{$a->type}:...]] も含みません。';
+$string['firstnodemusthavelowestnumber'] = '最初のノードは最も小さな番号でなければなりません。';
+$string['fixdollars'] = '$の修正';
+$string['fixdollars_help'] = '<code>$...$</code> や <code>$$...$$</code>によるTeXの表記をコピー・ペーストしたり入力したりするときに，このオプションは便利です。保存する際に，適切な記号に置き換えられます。';
+$string['fixdollarslabel'] = '保存する時に，<code>$...$</code> を <code>\\(...\\)</code>に，<code>$$...$$</code> を<code>\\[...\\]</code> に置き換えます。';
+$string['forbiddendoubledollars'] = 'TeXによる数式のインライン表示には<code>\\(...\\)</code>を，ディスプレイ表示には<code>\\[...\\]</code>を使用してください。<code>$...$</code>や<code>$$...$$</code>は許可されていません。これを自動的に修正するためのオプションがあります。';
+$string['forbidfloat'] = '浮動小数点数の禁止';
+$string['forbidfloat_help'] = 'Yesが指定された場合，浮動小数点数（実数）で入力された解答は禁止されます。';
+$string['forbidwords'] = '禁止ワード';
+$string['forbidwords_help'] = '学生が解答を入力時に禁止する文字列を，カンマで区切って指定します。';
+$string['generalfeedback'] = '模範解答';
+$string['generalfeedback_help'] = '全般に対するフィードバックはCASテキストであり，模範解答として学生が解答した後に表示されます。学生の解答に対して与えられるフィードバックとは異なり，全ての学生に対して同じテキストが表示されます。問題変数に応じて表示される場合もあります。';
+$string['greek_alphabet_fact'] = '<center> <table> <tr><td> 大文字 \\(\\quad\\) </td><td> 小文字, \\(\\quad\\) </td><td> 名前 </td> </tr> <tr> <td> \\(A\\) </td><td> \\(\\alpha\\) </td><td> アルファ </td> </tr> <tr> <td> \\(B\\) </td><td> \\(\\beta\\) </td><td> ベータ </td> </tr> <tr> <td> \\(\\Gamma\\) </td><td> \\(\\gamma\\) </td><td> ガンマ </td> </tr> <tr> <td> \\(\\Delta\\) </td><td> \\(\\delta\\) </td><td> デルタ </td> </tr> <tr> <td> \\(E\\) </td><td> \\(\\epsilon\\) </td><td> イプシロン </td> </tr> <tr> <td> \\(Z\\) </td><td> \\(\\zeta\\) </td><td> ゼータ </td> </tr> <tr> <td> \\(H\\) </td><td> \\(\\eta\\) </td><td> イータ </td> </tr> <tr> <td> \\(\\Theta\\) </td><td> \\(\\theta\\) </td><td> シータ </td> </tr> <tr> <td> \\(K\\) </td><td> \\(\\kappa\\) </td><td> カッパ </td> </tr> <tr> <td> \\(M\\) </td><td> \\(\\mu\\) </td><td> ミュー </td> </tr> <tr> <td> \\(N\\) </td><td> \\) u\\) </td><td> ニュー </td> </tr> <tr> <td> \\(\\Xi\\) </td><td> \\(\\xi\\) </td><td> グザイ </td> </tr> <tr> <td> \\(O\\) </td><td> \\(o\\) </td><td> オミクロン </td> </tr> <tr> <td> \\(\\Pi\\) </td><td> \\(\\pi\\) </td><td> パイ </td> </tr> <tr> <td> \\(I\\) </td><td> \\(\\iota\\) </td><td> イオタ </td> </tr> <tr> <td> \\(P\\) </td><td> \\(\\rho\\) </td><td> ロー </td> </tr> <tr> <td> \\(\\Sigma\\) </td><td> \\(\\sigma\\) </td><td> シグマ </td> </tr> <tr> <td> \\(\\Lambda\\) </td><td> \\(\\lambda\\) </td><td> ラムダ </td> </tr> <tr> <td> \\(T\\) </td><td> \\(\\tau\\) </td><td> タウ </td> </tr> <tr> <td> \\(\\Upsilon\\) </td><td> \\(\\upsilon\\) </td><td> ウプシロン </td> </tr> <tr> <td> \\(\\Phi\\) </td><td> \\(\\phi\\) </td><td> ファイ </td> </tr> <tr> <td> \\(X\\) </td><td> \\(\\chi\\) </td><td> カイ </td> </tr> <tr> <td> \\(\\Psi\\) </td><td> \\(\\psi\\) </td><td> プサイ </td> </tr> <tr> <td> \\(\\Omega\\) </td><td> \\(\\omega\\) </td><td> オメガ </td></tr> </table></center>';
+$string['greek_alphabet_name'] = 'ギリシャ文字';
+$string['healthcheck'] = 'STACK動作確認';
+$string['healthcheck_desc'] = '<a href="{$a->link}">動作確認スクリプト</a>により，STACKの全ての機能が正しく動作していることを検証することができます。';
+$string['healthcheckcache_db'] = 'CASの演算結果がデータベースにキャッシュされています。';
+$string['healthcheckcache_none'] = 'CASの演算結果がキャッシされました。';
+$string['healthcheckcachestatus'] = 'キャッシュは {$a} を含んでいます。';
+$string['healthcheckconfig'] = 'Maxima設定ファイル';
+$string['healthcheckconfigintro1'] = '次のディレクトリにMaximaが見つかり，使用されています。';
+$string['healthcheckconfigintro2'] = 'Maximaの設定ファイルを自動生成しています。';
+$string['healthcheckconnect'] = 'CASへ接続しています。';
+$string['healthcheckconnectintro'] = '以下のCASテキストを評価しています。';
+$string['healthcheckfilters'] = '<a href="{$a->url}">フィルターの利用</a>のページで {$a->filter} が利用可能になります。';
+$string['healthchecklatex'] = 'LaTeXが正しく変換されているかチェックしています。';
+$string['healthchecklatexintro'] = 'STACKではLaTeXを解釈するので，教師はLaTeXを使って問題を作成することができます。LaTeXはMoodleのフィルターにより変換されます。LaTeXのデスプレイ表示とインライン表示の例を以下に表示します。あなたのブラウザで正しく表示されているはずです。表示の問題があれば，それはMoodleのフィルター設定の問題であり，STACKの問題ではありません。STACKでは$あるいは$$のみを使用することができますが，問題の作成においては他の表記を使います。';
+$string['healthchecklatexmathjax'] = '式をレンダリングする一つの方法は，次のコードを<a href="{$a}">Additional HTML</a>に設定されている<b>Within HEAD</b>にコピーすることです。';
+$string['healthcheckmathsdisplaymethod'] = '数式の表示方法は{$a}が使われています。';
+$string['healthcheckmaximabat'] = 'maxima.batファイルが見つかりません。';
+$string['healthcheckmaximabatinfo'] = '"C:\\Program files\\Maxima-1.xx.y\\bin"のmaxima.batを"{$a}\\stack"にコピーしようとしましたが，正常に処理できませんでした。このファイルを手動でコピーしてください。';
+$string['healthcheckplots'] = 'グラフ描画';
+$string['healthcheckplotsintro'] = '二つの異なった描画がなければなりません。同一の描画の場合，描画ファイルのネーミングにエラーが生じます。エラーがないにもかかわらずグラフが描画されない場合，次のいずれかが参考になります。(i)テンポラル・ディレクトリの読み出し許可をチェックしてください。(ii)GNUplotのオプションを変更してください。ただし，現在のところオプション変更のためのWebインターフェースはありません。';
+$string['healthchecksamplecas'] = '@ x^4/(1+x^4) @ の微分は \\[ \\frac{d}{dx} \\frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \\]';
+$string['healthchecksampledisplaytex'] = '\\[
+\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6}
+\\]';
+$string['healthchecksampleinlinetex'] = '\\(
+\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6}
+\\)';
+$string['healthchecksampleplots'] = '2つのグラフの例　@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@';
+$string['healthchecksstackmaximanotupdated'] = 'STACKは正常にアップデートされませんでした。<a href="{$a}">System administration -> Notifications page</a>.を確認してください。';
+$string['healthchecksstackmaximatooold'] = 'バージョンが古すぎます。';
+$string['healthchecksstackmaximaversion'] = 'Maximaのバージョン';
+$string['healthchecksstackmaximaversionfixoptimised'] = '<a href="{$a->url}">最適化されたMaxima実行ファイルの再構築</a>を行ってください。';
+$string['healthchecksstackmaximaversionfixserver'] = 'MaximaPoolサーバでMaximaのコードを再構築してください。';
+$string['healthchecksstackmaximaversionfixunknown'] = 'それがどのようにして起こったのか不明です。この問題は自分で解決する必要があるでしょう。CASのキャッシュを消去して始めてください。';
+$string['healthchecksstackmaximaversionmismatch'] = '使用されているSTACK-Maximaライブラリのバージョン ({$a->usedversion}) はSTACK問題タイプで必要とされているバージョン ({$a->expectedversion}) と一致していません。{$a->fix}';
+$string['healthchecksstackmaximaversionok'] = '正しいSTACK-Maximaライブラリのバージョンが使われています。({$a->usedversion})';
+$string['healthuncached'] = 'CASをキャッシュしません';
+$string['healthuncachedintro'] = '現在のキャッシュの設定にかかわらず，このセクションは常にCASに命令を送ります。これは，CASへの接続が本当に現在動作しているかを確認するために必要です。';
+$string['healthuncachedstack_CAS_not'] = 'CASは期待したとおりデータを返しましたが，エラーがありました。';
+$string['healthuncachedstack_CAS_ok'] = 'CASは期待したとおりデータを返しました。現在CASと接続しています。';
+$string['htmlfragment'] = 'HTMLの要素が含まれているようです。';
+$string['hyp_functions_fact'] = '双曲線関数は三角関数と同様の性質を持っていますが，次のように指数関数を使って表すことができます。
+\\[ \\cosh(x) = \\frac{e^x+e^{-x}}{2}, \\qquad \\sinh(x)=\\frac{e^x-e^{-x}}{2} \\] \\[ \\tanh(x) = \\frac{\\sinh(x)}{\\cosh(x)} = \\frac{{e^x-e^{-x}}}{e^x+e^{-x}} \\] \\[ {\\rm sech}(x) ={1\\over \\cosh(x)}={2\\over {\\rm e}^x+{\\rm e}^{-x}}, \\qquad {\\rm cosech}(x)= {1\\over \\sinh(x)}={2\\over {\\rm e}^x-{\\rm e}^{-x}} \\] \\[ {\\rm coth}(x) ={\\cosh(x)\\over \\sinh(x)} = {1\\over {\\rm tanh}(x)} ={{\\rm e}^x+{\\rm e}^{-x}\\over {\\rm e}^x-{\\rm e}^{-x}}\\]';
+$string['hyp_functions_name'] = '双曲線関数';
+$string['hyp_identities_fact'] = '双曲線関数と三角関数の類似性が次の関係式により明らかです。
+\\[{\\rm e}^x=\\cosh(x)+\\sinh(x), \\quad {\\rm e}^{-x}=\\cosh(x)-\\sinh(x)\\] \\[\\cosh^2(x) -\\sinh^2(x) = 1\\] \\[1-{\\rm tanh}^2(x)={\\rm sech}^2(x)\\] \\[{\\rm coth}^2(x)-1={\\rm cosech}^2(x)\\] \\[\\sinh(x\\pm y)=\\sinh(x)\\ \\cosh(y)\\ \\pm\\ \\cosh(x)\\ \\sinh(y)\\] \\[\\cosh(x\\pm y)=\\cosh(x)\\ \\cosh(y)\\ \\pm\\ \\sinh(x)\\ \\sinh(y)\\] \\[\\sinh(2x)=2\\,\\sinh(x)\\cosh(x)\\] \\[\\cosh(2x)=\\cosh^2(x)+\\sinh^2(x)\\] \\[\\cosh^2(x)={\\cosh(2x)+1\\over 2}\\] \\[\\sinh^2(x)={\\cosh(2x)-1\\over 2}\\]';
+$string['hyp_identities_name'] = '双曲線関数の公式';
+$string['hyp_inverse_functions_fact'] = '\\[\\cosh^{-1}(x)=\\ln\\left(x+\\sqrt{x^2-1}\\right) \\quad  x\\geq 1 \\mbox{ のとき }\\] \\[\\sinh^{-1}(x)=\\ln\\left(x+\\sqrt{x^2+1}\\right)\\] \\[\\tanh^{-1}(x) = \\frac{1}{2}\\ln\\left({1+x\\over 1-x}\\right) \\quad  -1< x < 1 \\mbox{ のとき }\\]';
+$string['hyp_inverse_functions_name'] = '逆双曲線関数';
+$string['Illegal_floats'] = 'あなたの解答には小数が含まれています。整数または分数で解答してください。例：0.3333ではなく1/3と入力してください。';
+$string['illegalcaschars'] = 'CASの入力では@と$は使用できません。';
+$string['inputdisplayed'] = '表示';
+$string['inputentered'] = '入力値';
+$string['inputexpression'] = '入力テスト';
+$string['inputextraoptions'] = 'その他のオプション';
+$string['inputextraoptions_help'] = 'いくつかの解答形式では正常に処理されるためにオプションが必要です。CASの表示で入力してください。';
+$string['inputheading'] = '解答欄: {$a}';
+$string['inputname'] = '解答の名前';
+$string['inputs'] = '解答';
+$string['inputstatus'] = '状態';
+$string['inputstatusname'] = '空白';
+$string['inputstatusnameinvalid'] = '無効';
+$string['inputstatusnamescore'] = '採点';
+$string['inputstatusnamevalid'] = '有効';
+$string['inputtest'] = '解答テスト';
+$string['inputtype'] = '解答形式';
+$string['inputtype_help'] = '解答形式を指定します。';
+$string['inputtypealgebraic'] = '数式';
+$string['inputtypeboolean'] = '○/×';
+$string['inputtypedropdown'] = 'ドロップダウンリスト';
+$string['inputtypematrix'] = '行列';
+$string['inputtypesinglechar'] = '単一文字';
+$string['inputtypetextarea'] = 'テキストエリア';
+$string['insertstars'] = '*(積)の自動入力';
+$string['insertstars_help'] = '「Yes」が選択されると，システムによって積と判定される部分に自動的に * を挿入します。それ以外はエラーとなります。';
+$string['inversetrig'] = '逆三角関数';
+$string['inversetrig_help'] = 'CASの出力で逆三角関数をどのように表示するかを指定します。';
+$string['irred_Q_commonint'] = '共通因子をくくり出す必要があります。';
+$string['irred_Q_factored'] = '{$a->m0}の項は因数分解してはいけません。';
+$string['irred_Q_optional_fac'] = '{$a->m0}は因数分解できますが、その必要はありません。';
+$string['Lowest_Terms'] = 'あなたの解答には約分出来ていない箇所があります。もう一度よく見直して入力してください。';
+$string['Maxima_DivisionZero'] = 'あなたの解答には0で割られている箇所があります。もう一度見直して入力してください。';
+$string['multcross'] = 'クロス (×)';
+$string['multdot'] = 'ドット (・)';
+$string['multiplicationsign'] = '積の記号';
+$string['multiplicationsign_help'] = '積の演算子の表記を定義します。';
+$string['mustverify'] = '解答書式の自己確認';
+$string['mustverify_help'] = '学生が入力した解答書式を学生自ら確認するかどうかを指定します。';
+$string['namealreadyused'] = 'すでにこの名前は使用されています。';
+$string['newnameforx'] = '\'{$a}\'に対する新しい名前';
+$string['next'] = '次のノード';
+$string['nextcannotbeself'] = '次のノードに現在のノード自身を指定することはできません。';
+$string['nodehelp'] = 'ポテンシャル・レスポンス・ツリーのノード';
+$string['nodehelp_help'] = '###「評価関数」は2つの数式を比較して，ある数学的な条件を満たしているかどうかを判定します。###「評価対象」は評価関数の最初に引数で，通常は学生の解答ですが，問題変数やフィードバック変数を含む，任意の数式も使用できます。###「評価対象」は評価関数の2番目の引数で，通常は正解ですが，問題変数やフィードバック変数を含む，任意の数式も使用できます。###「オプション」は評価関数に必要な場合に指定します。###「抑制」は評価関数からのフィードバックを表示しないようにするために指定します。フィードバックのフィールドはこのオプションにより影響を受けることはありません。';
+$string['nodeloopdetected'] = 'ポテンシャル・レスポンス・ツリーのループができます。';
+$string['nodenotused'] = 'どのノードからもこのノードにリンクがありません。';
+$string['nodex'] = 'ノード {$a}';
+$string['nodexdelete'] = 'ノード {$a}の削除';
+$string['nodexfalsefeedback'] = 'フィードバック';
+$string['nodextruefeedback'] = 'フィードバック';
+$string['nodexwhenfalse'] = '評価関数：偽';
+$string['nodexwhentrue'] = '評価関数：真';
+$string['nonempty'] = '空白にできません。';
+$string['noprtsifnoinputs'] = '解答を求めない問題はポテンシャル・レスポンス・ツリーを作成することはできません。';
+$string['notanswered'] = '解答なし';
+$string['notavalidname'] = '正しい名前ではありません。';
+$string['notestcasesyet'] = 'テストケースは追加されませんでした。';
+$string['options'] = 'オプション';
+$string['optionsnotrequired'] = 'この解答形式にはオプションは必要ありません';
+$string['overallresult'] = '全体の結果';
+$string['penalty'] = '減点';
+$string['penalty_help'] = '部分点を与える場合，ポテンシャル・レスポンス・ツリーの結果に応じてここで指定した点数を減点していきます。';
+$string['penaltyerror'] = '減点は0から1の間の数値としてください。';
+$string['penaltyerror2'] = '減点は空欄か，0から1の間の数値としてください。';
+$string['phpcasstring'] = 'PHP出力';
+$string['phpsuitecolerror'] = 'PHPエラー';
+$string['phpvalid'] = 'V1';
+$string['phpvalidatemismatch'] = 'PHPは不一致と判定しています';
+$string['pleaseananswerallparts'] = '全ての問題に解答してください。';
+$string['pleasecheckyourinputs'] = 'あなたの入力した数式が期待したものであるか確認してください。';
+$string['pluginname'] = 'STACK';
+$string['pluginname_help'] = 'STACKは数学オンラインテスト・評価システムです。';
+$string['pluginnameadding'] = 'STACK問題の追加';
+$string['pluginnameediting'] = 'STACK問題の編集';
+$string['pluginnamesummary'] = 'STACKはMoodleにおいて数式で解答する形式の問題を可能にします。数式処理システムを用いて，解答の正誤評価や解答に応じた様々なフィードバックの提示を実現します。';
+$string['prtcorrectfeedback'] = '正解の場合のフィードバック';
+$string['prtheading'] = 'ポテンシャル・レスポンス・ツリー: {$a}';
+$string['prtincorrectfeedback'] = '不正解の場合のフィードバック';
+$string['prtmustbesetup'] = '問題を保存する前にポテンシャル・レスポンス・ツリーを設定しなければなりません。';
+$string['prtname'] = 'ポテンシャル・レスポンス・ツリー名';
+$string['prtnodesheading'] = 'ポテンシャル・レスポンス・ツリーのノード ({$a})';
+$string['prtpartiallycorrectfeedback'] = '部分的正解の場合のフィードバック';
+$string['prts'] = 'ポテンシャル・レスポンス・ツリー';
+$string['prtwillbecomeactivewhen'] = '解答が行われたときに，このポテンシャル・レスポンス・ツリー {$a} は有効になります。';
+$string['qm_error'] = 'あなたの解答には ? マークが含まれていますが，それは許可されていません。';
+$string['questiondoesnotuserandomisation'] = 'この問題はランダム化されていません。';
+$string['questionnotdeployedyet'] = 'この問題ではどの変数もデプロイされていません。';
+$string['questionnote'] = '問題メモ';
+$string['questionnote_help'] = '問題メモはCASテキストで記述し，個々のランダムな問題を区別するために用いられます。問題メモが同じ場合，またその時にのみ，ランダム化された問題は同じものとみなされます。後の解析のために意味のある問題メモを残すことが重要です。';
+$string['questionnotempty'] = '問題変数にrand() が用いられている場合，問題メモは空欄にはできません。問題メモは個々のランダムな問題を区別するために用いられます。';
+$string['questionpreview'] = '問題のプレビュー';
+$string['questionsimplify'] = '問題レベルの簡単化';
+$string['questionsimplify_help'] = '全ての問題でMaximaのグローバルなsimp変数を設定します。';
+$string['questiontests'] = '問題のテスト';
+$string['questiontext'] = '問題テキスト';
+$string['questiontext_help'] = '問題テキストは学生が実際に目にするテキストでCASテキストで入力します。解答欄と解答確認欄を入力しなければなりません。入力例：[[input:ans1]] [[validation:ans1]]';
+$string['questiontextfeedbackonlycontain'] = '特定フィードバックをもつ問題テキストに \'{$a}\' を1つだけ含むことができます。';
+$string['questiontextmustcontain'] = '問題テキストには \'{$a}\' が含まれていなければなりません。';
+$string['questiontextnonempty'] = '問題テキストは空白であってはいけません。';
+$string['questiontextonlycontain'] = '問題テキストには \'{$a}\' が含まれていなければなりません。';
+$string['questiontextplaceholderswhitespace'] = '空白文字を含むことができません。\'{$a}\'';
+$string['questionvalue'] = '問題番号';
+$string['questionvaluepostive'] = '問題番号は正でなければなりません。';
+$string['questionvariables'] = '問題変数';
+$string['questionvariables_help'] = '問題テキストの中で使用する変数を定義し，ランダム問題を作成することもできます。ここで定義された変数は，他のフィールドでも使用できます。';
+$string['quiet'] = '抑制';
+$string['quiet_help'] = '「はい」と設定された場合，評価関数によって自動的に生成されるフィードバックは抑制され，学生には表示されません。このオプションは，フィードバックのフィールドには影響を与えません。';
+$string['renamequestionparts'] = '問題の一部の名前を変更します';
+$string['replacedollarscount'] = 'このカテゴリはSTACKの問題{$a}を含みます。';
+$string['replacedollarsin'] = '{$a}の$を修正しました。';
+$string['replacedollarsindex'] = 'STACKの問題を含みます';
+$string['replacedollarsindexintro'] = 'これらのどのリンクをクリックしても$を含む問題をプレビューでき，自動的に修正します。';
+$string['replacedollarsindextitle'] = '問題テキスト内の $ を置き換えます。';
+$string['replacedollarsnoproblems'] = '問題のある$は見つかりませんでした。';
+$string['replacedollarstitle'] = '問題テキスト{$a} 内の $ を置き換えます。';
+$string['requiredfield'] = 'このフィールドは必須です。';
+$string['requirelowestterms'] = '約分を要求する';
+$string['requirelowestterms_help'] = 'このオプションが「Yes」に設定された場合，分数は約分されていなければなりません。もし約分されていなければ解答は受け付けられません。';
+$string['runquestiontests'] = '問題のテストを実行します';
+$string['sans'] = '評価対象';
+$string['sans_help'] = 'これは評価関数の第1引数で，通常，学生の解答ですが，に任意のCASテキストを指定することができ，問題変数，フィードバック変数に依存したものも可能です。';
+$string['sansinvalid'] = '評価対象が正しく指定されていません。{$a}';
+$string['sansrequired'] = '評価対象は空欄とすることはできません。';
+$string['score'] = '点数';
+$string['scoreerror'] = '点数は0から1の間の数値でなければなりません。';
+$string['scoremode'] = '計算';
+$string['seedx'] = '乱数のシード {$a}';
+$string['settingajaxvalidation'] = 'リアルタイム表示';
+$string['settingajaxvalidation_desc'] = 'この設定が「Yes」の場合，学生の解答はリアルタイムに表示され確認されます。学生にとって使い勝手はよいかもしれませんが，サーバに負荷がかかります。';
+$string['settingcasdebugging'] = 'CASのデバッグ';
+$string['settingcasdebugging_desc'] = 'CAS接続についてのデバッグ情報を保存するかどうか';
+$string['settingcasmaximaversion'] = 'Maximaのバージョン';
+$string['settingcasmaximaversion_desc'] = '使用しているMaximaバーション';
+$string['settingcasresultscache'] = 'CASの結果をキャッシュ';
+$string['settingcasresultscache_db'] = 'データベースのキャッシュ';
+$string['settingcasresultscache_desc'] = 'この設定はCASの情報をキャッシュするかどうかを決定し，Maximaのコードを変更するような開発を行うのでなければ有効にしておくべきです。キャッシュの現在の情報は動作確認のページに表示されます。例えばgnuplotコマンドなどの設定を変更する場合，その効果を確かめる前にキャッシュをクリアする必要があります。';
+$string['settingcasresultscache_none'] = 'キャッシュしない';
+$string['settingcastimeout'] = 'CASタイムアウト';
+$string['settingcastimeout_desc'] = 'Maximaへの接続のタイムアウト';
+$string['settingdefaultinputoptions'] = 'デフォルトの解答形式オプション';
+$string['settingdefaultinputoptions_desc'] = '新しい問題を作成したり，既存の問題に新しい解答欄を加えるときに使用します。';
+$string['settingdefaultquestionoptions'] = 'デフォルトの解答形式オプション';
+$string['settingdefaultquestionoptions_desc'] = '新しい問題を作成するときに使用します。';
+$string['settingmathsdisplay'] = 'Mathフィルター';
+$string['settingmathsdisplay_desc'] = '数式を表示するための方法。もしMathJaxを選択した場合，動作確認のページで指示に従わなければなりません。フィルターを選択したら，設定ページでそのフィルターを有効にしなければなりません。';
+$string['settingmathsdisplay_mathjax'] = 'MathJax';
+$string['settingmathsdisplay_maths'] = 'OU Mathフィルター';
+$string['settingmathsdisplay_tex'] = 'Moodle TeXフィルター';
+$string['settingplatformmaximacommand'] = 'Maximaコマンド';
+$string['settingplatformmaximacommand_desc'] = 'STACKはMaximaを実行するためのシェルコマンドを知らなければなりません。もし空欄の場合推測します。';
+$string['settingplatformplotcommand'] = 'プロットコマンド';
+$string['settingplatformplotcommand_desc'] = 'STACKはgnuplotコマンドを知らなければなりません。もし空欄の場合推測します。';
+$string['settingplatformtype'] = 'プラットフォームタイプ';
+$string['settingplatformtype_desc'] = 'STACKはどのOS上で動作しているかを知る必要があります。サーバのオプションを指定することによりパフォーマンスが向上します。Linux（最適化）はドキュメントの「Maxima最適化」の項で解説されています。';
+$string['settingplatformtypeserver'] = 'サーバ';
+$string['settingplatformtypeunix'] = 'Linux';
+$string['settingplatformtypeunixoptimised'] = 'Linux（最適化）';
+$string['settingplatformtypewin'] = 'Windows';
+$string['settingreplacedollars'] = '<code>$</code> と <code>$$</code> を置き換え';
+$string['settingreplacedollars_desc'] = '問題テキストの <code>$</code> と <code>$$</code> を<code>\\[...\\]</code> と <code>\\(...\\)</code> に置き換えます。「数式タグの修正」スクリプトが便利です。';
+$string['settingsmathsdisplayheading'] = '数式表示オプション';
+$string['settingsmaximasettings'] = 'Maximaに接続しています';
+$string['settingusefullinks'] = '便利なリンク';
+$string['showingundeployedvariant'] = 'デプロイされていない変数 {$a} を表示しています';
+$string['showvalidation'] = '解答書式の確認';
+$string['showvalidation_help'] = 'このオプションをYesにすると，入力された解答の書式（文法）が正しいかどうかを確認し，伝統的な2次元表示で数式を表示します。';
+$string['singlechargotmorethanone'] = 'ここには1文字だけ入力できます。';
+$string['specificfeedback'] = '特定フィードバック';
+$string['specificfeedback_help'] = 'デフォルトでは各ポテンシャル・レスポンス・ツリーのフィードバックはこのブロックに表示されます。表示位置を問題テキストに移動が可能ですが，その場合にはMoodleはあまり制御できません。このブロックはCASテキストではありません。';
+$string['specificfeedbacktags'] = '特定フィードバックには\'{$a}\'が含まれてはいけません。';
+$string['sqrtsign'] = '平方根の記号';
+$string['sqrtsign_help'] = '平方根の記号を表示します。';
+$string['stackCas_allFailed'] = 'CASは何も評価された式を返しませんでした。CASとの接続を確認してください。';
+$string['stackCas_apostrophe'] = 'アポストロフィは許可されていません。';
+$string['stackCas_backward_inequalities'] = '不等号≦，≧は<=，=>と入力しなければなりません。あなたの入力した数式には{$a->cmd}が含まれています。';
+$string['stackCas_bracketsdontmatch'] = '数式中の括弧の入れ子が正しくありません。{$a->cmd}';
+$string['stackCas_CASError'] = 'CASは次のエラーを返しました。';
+$string['stackCas_CASErrorCaused'] = 'CASエラーが発生しました。';
+$string['stackCas_chained_inequalities'] = 'あなたの入力した数式には \\(a \\lt b \\lt c \\) のような形式の連結不等式が含まれているようです。個々の不等式を AND や OR の論理演算で結合する必要があります。';
+$string['stackCas_failedReturn'] = 'CASはデータを返しませんでした。';
+$string['stackCas_failedValidation'] = 'CASテキストが正しくありません。';
+$string['stackCas_finalChar'] = '\'{a->char}\'は{a->cmd}の中では無効な終端文字です。';
+$string['stackCas_forbiddenChar'] = 'CASコマンドには文字 {$a->char} を含んではいけません。';
+$string['stackCas_forbiddenWord'] = '{$a->forbid}は禁止されています。';
+$string['stackCas_invalidCommand'] = 'CASコマンドが間違っています。';
+$string['stackCas_MissingAt'] = '<code>@</code>が入力されていません。';
+$string['stackCas_MissingCloseDisplay'] = '<code>\\]</code>が入力されていません。';
+$string['stackCas_MissingCloseHTML'] = 'HTMLタグを閉じ忘れています。';
+$string['stackCas_MissingCloseInline'] = '<code>\\)</code>が入力されていません。';
+$string['stackCas_MissingClosingHint'] = '/hint がありません';
+$string['stackCas_MissingDollar'] = '<code>$</code>が入力されていません。';
+$string['stackCas_missingLeftBracket'] = '左括弧がありません(<span class="stacksyntaxexample">{a->bracket}</span>)：{a->cmd}。';
+$string['stackCas_MissingOpenDisplay'] = '<code>\\[</code>が入力されていません。';
+$string['stackCas_MissingOpenHint'] = 'ヒントが開けません';
+$string['stackCas_MissingOpenHTML'] = 'HTMLの始まりタグを忘れています。';
+$string['stackCas_MissingOpenInline'] = '<code>\\(</code>が入力されていません。';
+$string['stackCas_missingRightBracket'] = '右かっこがありません(<span class="stacksyntaxexample">{a->bracket}</span>)：{a->cmd}。';
+$string['stackCas_MissingStars'] = '*を忘れているようです。 おそらく{$a->cmd}とタイプしたと思われます。';
+$string['stackCas_MissingString'] = '引用符<code>"</code>を忘れています。';
+$string['stackCas_newline'] = '改行文字は許可されていません。';
+$string['stackCas_percent'] = '式の中に%が含まれています: {$a->expr}。';
+$string['stackCas_spaces'] = '式の中に空白が含まれています: {$a->expr}。';
+$string['stackCas_spuriousop'] = '不明な演算子です。{$a->cmd}';
+$string['stackCas_tooLong'] = 'CASテキストの記述が長過ぎます。';
+$string['stackCas_unknownFunction'] = '不明な関数です。{$a->forbid}';
+$string['stackCas_unsupportedKeyword'] = 'サポートされていないキーワードです。 {$a->forbid}';
+$string['stackDoc_404'] = 'エラー 404';
+$string['stackDoc_404message'] = 'ファイルが見つかりません。';
+$string['stackDoc_directoryStructure'] = 'ディレクトリー構成';
+$string['stackDoc_docs'] = 'STACKドキュメント';
+$string['stackDoc_docs_desc'] = '<a href="{$a->link}">STACKドキュメント</a>：STACK wiki';
+$string['stackDoc_home'] = 'ドキュメントホーム';
+$string['stackDoc_index'] = 'カテゴリインデックス';
+$string['stackDoc_parent'] = '親';
+$string['stackDoc_siteMap'] = 'サイトマップ';
+$string['stackInstall_input_intro'] = 'このページでは学生からの入力をSTACKがどのように解釈するのかを確認することができます。<br />\'V\' はPHPとCASによって判定された妥当性を記録しています。V1はPHPの妥当性，V2はCASの妥当性です。';
+$string['stackInstall_input_title'] = '学生の入力をテストするためのツール';
+$string['stackInstall_input_title_desc'] = '<a href="{$a->link}">解答テストのスクリプト</a> は入力した数式をSTACKがどのように解釈するかをテストします。例を参考にするのが便利です。';
+$string['stackInstall_replace_dollars_desc'] = '<a href="{$a->link}">数式タグの修正スクリプト</a> は<code>$...$</code> と<code>$$...$$</code> を <code>\\( ... \\)</code>と<code>\\[ ... \\]</code> に置き換えます。';
+$string['stackInstall_testsuite_choose'] = '評価関数を選んでください。';
+$string['stackInstall_testsuite_fail'] = '問題が発生しました。';
+$string['stackInstall_testsuite_intro'] = 'このページは評価関数などが正しく機能するかを確認します。 Webインターフェースを通してのみチェックされることに注意してください。その他のMaximaのコマンドはunittest.macを確認してコマンドラインからチェックを行ってください。';
+$string['stackInstall_testsuite_pass'] = 'すべてのテストをパスしました。';
+$string['stackInstall_testsuite_title'] = 'STACK評価関数の動作テスト';
+$string['stackInstall_testsuite_title_desc'] = '<a href="{$a->link}">解答テストのスクリプト</a> は評価関数が正しく処理したかを確認します。それぞれの評価関数がどのように使用されるかは，例を参考にするのが便利です。';
+$string['stackOptions_AnsTest_values_AlgEquiv'] = '代数等価';
+$string['stackOptions_AnsTest_values_CasEqual'] = '構文等価';
+$string['stackOptions_AnsTest_values_CompSquare'] = '平方完成';
+$string['stackOptions_AnsTest_values_Diff'] = '微分';
+$string['stackOptions_AnsTest_values_EqualComAss'] = '交換・結合等価';
+$string['stackOptions_AnsTest_values_Expanded'] = '展開';
+$string['stackOptions_AnsTest_values_FacForm'] = '因数分解';
+$string['stackOptions_AnsTest_values_GT'] = '超過';
+$string['stackOptions_AnsTest_values_GTE'] = '以上';
+$string['stackOptions_AnsTest_values_Int'] = '積分';
+$string['stackOptions_AnsTest_values_LowestTerms'] = '既約';
+$string['stackOptions_AnsTest_values_NumAbsolute'] = '絶対精度';
+$string['stackOptions_AnsTest_values_NumDecPlaces'] = '少数部桁数';
+$string['stackOptions_AnsTest_values_NumRelative'] = '相対精度';
+$string['stackOptions_AnsTest_values_NumSigFigs'] = '有効数字';
+$string['stackOptions_AnsTest_values_PartFrac'] = '部分分数';
+$string['stackOptions_AnsTest_values_RegExp'] = '正規表現';
+$string['stackOptions_AnsTest_values_SameType'] = '型等価';
+$string['stackOptions_AnsTest_values_SingleFrac'] = '仮分数';
+$string['stackOptions_AnsTest_values_String'] = '文字列';
+$string['stackOptions_AnsTest_values_StringSloppy'] = 'あいまい文字列';
+$string['stackOptions_AnsTest_values_SubstEquiv'] = '変数等価';
+$string['stackOptions_AnsTest_values_SysEquiv'] = '多項式等価';
+$string['stackQuestion_noQuestionParts'] = '解答すべき問題がありません。';
+$string['stop'] = '終了';
+$string['strictsyntax'] = '厳密な文法';
+$string['strictsyntax_help'] = '解答の入力は厳密なMaximaの書式である必要がありますか？もしそうでなければ，積の * が省かれている場合，入力された文字列が関数などと幅広く解釈されます。';
+$string['strlengtherror'] = '文字列は255文字以下です。';
+$string['studentanswer'] = '評価対象';
+$string['studentValidation_invalidAnswer'] = 'この解答は正しく入力されていません。';
+$string['studentValidation_yourLastAnswer'] = 'あなたの入力した数式は次のとおりです : {$a}';
+$string['Subst'] = '{$a->m0}の変数の代入を行うと，あなたの解答は正しいいでしょう。';
+$string['switchtovariant'] = '任意の変数に変更します';
+$string['syntaxhint'] = '書式のヒント';
+$string['syntaxhint_help'] = '解答入力の書式の例が表示されます。';
+$string['tans'] = '評価基準';
+$string['tans_help'] = 'これは評価関数の第2引数で，通常，正答ですが，任意のCASテキストを指定することができます。また，それは問題変数，フィードバック変数に依存していることも可能です。';
+$string['tansinvalid'] = '評価基準が正しくありません{$a}';
+$string['tansrequired'] = '評価基準は空欄とすることはできません。';
+$string['teacheranswer'] = '評価基準';
+$string['teachersanswer'] = '正解';
+$string['teachersanswer_help'] = '各解答欄に対する正解を指定しなければなりません。この正解は正しいMaximaの書式となっており，問題変数を用いることができます。';
+$string['TEST_FAILED'] = '評価関数が正しく実行されませんでした。{$a->errors}';
+$string['testcasexresult'] = 'テストケース{$a->no} {$a->result}';
+$string['testingquestion'] = '問題の確認 {$a}';
+$string['testinputs'] = '解答の確認';
+$string['testinputsimpwarning'] = '問題やポテンシャル・レスポンス・ツリーのオプションにかかわらず，テスト入力は<em>簡略化されていない形式</em>であることに注意してください。簡略化する場合は<tt>ev(..., simp)</tt>を使ってください。';
+$string['testoptions'] = 'オプション';
+$string['testoptions_help'] = 'このフィールドは評価関数にオプションを可能にします。変数や数値の精度を入力してください。';
+$string['testoptionsinvalid'] = 'オプションが正しくありません。{$a}';
+$string['testoptionsrequired'] = 'この評価関数にはオプションが必要です。';
+$string['testpassesandfails'] = '{$a->passes} はパスし {$a->fails} はエラーが生じました。';
+$string['testsuitecolerror'] = 'CASエラー';
+$string['testsuitecolexpectedscore'] = '予想される採点';
+$string['testsuitecolpassed'] = 'パスしますか？';
+$string['testsuitecolrawmark'] = '素点';
+$string['testsuitefail'] = '失敗';
+$string['testsuitefeedback'] = 'フィードバック';
+$string['testsuiteknownfail'] = '予想される間違い';
+$string['testsuiteknownfailmaths'] = '予想される間違い（数学）';
+$string['testsuitenotests'] = '評価関数の番号{$a->no}';
+$string['testsuitepass'] = 'パス';
+$string['testsuiteteststook'] = '評価に {$a->time} 秒かかりました。';
+$string['testsuiteteststookeach'] = '平均評価時間：{$a->time} 秒';
+$string['testthisvariant'] = 'この変数を評価します';
+$string['texdisplaystyle'] = 'ディスプレイ表示の方程式';
+$string['texinlinestyle'] = 'インライン表示の方程式';
+$string['tidyquestion'] = '小問';
+$string['tidyquestionx'] = '問題 {$a} の一部の名前の変更';
+$string['trig_degrees_radians_fact'] = '\\[ 360^\\circ= 2\\pi \\hbox{ ラジアン},\\quad 1^\\circ={2\\pi\\over 360}={\\pi\\over 180}\\hbox{ ラジアン} \\] \\[ 1 \\hbox{ ラジアン} = {180\\over \\pi} \\hbox{ 度} \\approx 57.3^\\circ \\]';
+$string['trig_degrees_radians_name'] = '度とラジアン';
+$string['trig_standard_identities_fact'] = '\\[\\sin(a\\pm b)\\ = \\ \\sin(a)\\cos(b)\\ \\pm\\ \\cos(a)\\sin(b)\\] \\[\\cos(a\\ \\pm\\ b)\\ = \\ \\cos(a)\\cos(b)\\ \\mp \\sin(a)\\sin(b)\\] \\[\\tan (a\\ \\pm\\ b)\\ = \\ {\\tan (a)\\ \\pm\\ \\tan (b)\\over1\\ \\mp\\ \\tan (a)\\tan (b)}\\] \\[ 2\\sin(a)\\cos(b)\\ = \\ \\sin(a+b)\\ +\\ \\sin(a-b)\\] \\[ 2\\cos(a)\\cos(b)\\ = \\ \\cos(a-b)\\ +\\ \\cos(a+b)\\] \\[ 2\\sin(a)\\sin(b) \\ = \\ \\cos(a-b)\\ -\\ \\cos(a+b)\\] \\[ \\sin^2(a)+\\cos^2(a)\\ = \\ 1\\] \\[ 1+{\\rm cot}^2(a)\\ = \\ {\\rm cosec}^2(a),\\quad \\tan^2(a) +1 \\ = \\ \\sec^2(a)\\] \\[ \\cos(2a)\\ = \\ \\cos^2(a)-\\sin^2(a)\\ = \\ 2\\cos^2(a)-1\\ = \\ 1-2\\sin^2(a)\\] \\[ \\sin(2a)\\ = \\ 2\\sin(a)\\cos(a)\\] \\[ \\sin^2(a) \\ = \\ {1-\\cos (2a)\\over 2}, \\qquad \\cos^2(a)\\ = \\ {1+\\cos(2a)\\over 2}\\]';
+$string['trig_standard_identities_name'] = '標準的な三角関数の公式';
+$string['trig_standard_values_fact'] = '\\[\\sin(45^\\circ)={1\\over \\sqrt{2}}, \\qquad \\cos(45^\\circ) = {1\\over \\sqrt{2}},\\qquad \\tan( 45^\\circ)=1 \\] \\[ \\sin (30^\\circ)={1\\over 2}, \\qquad \\cos (30^\\circ)={\\sqrt{3}\\over 2},\\qquad \\tan (30^\\circ)={1\\over \\sqrt{3}} \\] \\[ \\sin (60^\\circ)={\\sqrt{3}\\over 2}, \\qquad \\cos (60^\\circ)={1\\over 2},\\qquad \\tan (60^\\circ)={ \\sqrt{3}} \\]';
+$string['trig_standard_values_name'] = '標準的な三角関数の値';
+$string['true'] = '真';
+$string['truebranch'] = '真の分岐';
+$string['truebranch_help'] = 'これらのフィールドは評価関数が真の場合の処理です。###「計算」と「点数」により採点します。「=」は特定の点数を与えます。「+ / -」は現在の点から加点・減点を行います。###アダプティブモード，インタラクティブモードでは減点は蓄積されます。###「次のノード」で次にどのノードで評価するか，あるいは終了するかを指定します。###「解答記録」は学生の解答履歴をレポートするためのタグで，ポテンシャル・レスポンス・ツリーのパスと評価関数の出力を記録します。';
+$string['undeploy'] = 'アンデプロイ';
+$string['variant'] = '変数';
+$string['variantsselectionseed'] = 'ランダムグループ';
+$string['variantsselectionseed_help'] = '通常，ここは空欄でかまいません。一つの小テストに含まれる二つの問題において同じ乱数シードを使いたい場合，この欄に二つの問題に対して用いる文字列を入力することにより，二つの問題の乱数シードは同期します。（デプロイされたものを使う場合は，同じ乱数シードをデプロイすること）';
+$string['verifyquestionandupdate'] = '問題テキストのチェックと入力フォームの更新';

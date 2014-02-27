@@ -24,7 +24,8 @@ Currently STACK is released with the following languages.
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
-  * ES: Spanish, by Víctor Hugo Huerta,  
+  * ES: Spanish, by Víctor Hugo Huerta 
+  * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
 
 # User list

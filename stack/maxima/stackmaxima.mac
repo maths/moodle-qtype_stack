@@ -1800,8 +1800,8 @@ strip_int_const(ex,v):=block([ex2,fargs],
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
 ATInt(sa,sbl) :=
-    block([old_simp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, ret, cont],
-    old_simp:simp, simp:true, Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
+    block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, ret, cont],
+    oldsimp:simp, simp:false, Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
 
     SAA:errcatch(ev(sa, simp, nouns)),
@@ -1826,7 +1826,7 @@ ATInt(sa,sbl) :=
         if cont then
             ret:Intfun(sa, sb, var)
         ),
-    simp:old_simp,
+    simp:oldsimp,
     return(ret)
     )$
 
@@ -1836,34 +1836,43 @@ listsoverlap(a, b) :=not(emptyp(intersection(setify(a), setify(b))))$
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
 listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
 
-Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs],
-    val:true, rawmk:false, fb:"", ansnote:"",
+Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
+    val:true, rawmk:false, fb:"", ansnote:"", debug:false,
     ret:[val, rawmk, ansnote, fb],
+    /* Check if the teacher and student used only log abs. 
+       Teacher must be consistent, otherwise the student doesn't have to be!*/
+    SAUsedLogAbs:ATInt_logabs_p(SA,v),
+    SBUsedLogAbs:ATInt_logabs_p(SB,v),
+    if debug then print([SA,SB]),
+    if debug then print([SAUsedLogAbs,SBUsedLogAbs]),
     /* This expands out logarithms for constants, e.g. ln(k*|x|) */
-    SB:ev(SB, logexpand:super), 
+    SB:ev(SB, logexpand:super, simp), 
+    if debug then print([SA,SB]),
     /* This strips off any trailing constant of integration from the teacher's answer */
     SB:strip_int_const(SB, v),
     /* This strips off any trailing constant of integration from the student's answer */
-    SAa:strip_int_const(ev(SA, logexpand:super), v),
+    SAa:strip_int_const(ev(SA, logexpand:super, simp), v),
     /* If the teacher has not used logabs, then strip out any logabs from the student's answer. */
     /* Student consistency is a different issue. */
     SAConsistentLogs:ATInt_consistent_logabs_p(SA,v),
-    if freeof(STACKLA, ATInt_logabs_to_STACKLA(SB)) then (
+    if not(SBUsedLogAbs) then (
       SA:subst(STACKLA=log, ATInt_logabs_to_STACKLA(SA)),
       SAa:subst(STACKLA=log, ATInt_logabs_to_STACKLA(SAa))
       ),
     /* Calculate derivatives */
-    SAd:diff(SA,v),
-    SBd:diff(SB,v),
+    SAd:ev(diff(SA,v),simp),
+    SBd:ev(diff(SB,v),simp),
     /* Check for constant of integration - code copied from algebraic_equivalence */
     ex:errcatch(ev(fullratsimp(SA-SB), simp, trigexpand:true, logexpand:super, keepfloat:true)),
     if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
     ex:ex[1],
-    ex:trigsimp(ex),
-    ex:trigreduce(ex),
-    dd:float(ex),
+    ex:ev(trigsimp(ex), simp),
+    ex:ev(trigreduce(ex), simp),
+    dd:ev(float(ex), simp),
     dc:numberp(dd) and dd#0.0,
-    if algebraic_equivalence(SAd,SBd) then
+    if debug then print([SAa,SBd]),
+    if debug then print(ex),
+    if ev(algebraic_equivalence(SAd,SBd), simp) then
         if ex=0 then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
         else if dc then
@@ -1873,22 +1882,26 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
         else if freeof(log, SA) and ATIntWeirdConstp(ex) then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
         /* From this point onwards we *have logarithms*. */
-        else if algebraic_equivalence(SA, SB) then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
-        else if algebraic_equivalence(SAa, SB) then
-            (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
-        else if algebraic_equivalence(SAa, subst(STACKLA=log, ATInt_logabs_to_STACKLA(SB))) then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote("", "ATInt_logabs"))
+        else if ev(algebraic_equivalence(SA, SB), simp) then
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const_equiv"))
+        else if ev(algebraic_equivalence(SAa, SB), simp) then
+            (rawmk:true, ansnote:StackAddNote("", "ATInt_true_equiv"))            
+        else if freeof(v,ex) and not(ATIntWeirdConstp(ex)) then
+            (rawmk:true, ansnote:StackAddNote("", "ATInt_true_differentconst"))
         else
             (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
     else /* Check for the special cases where the buggy rule is true */
-       if algebraic_equivalence(SAa, diff(SBd, v)) and algebraic_equivalence(exp(x), SBd)#true then
+       if algebraic_equivalence(SAa, ev(diff(SBd, v), simp)) and algebraic_equivalence(exp(x), SBd)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
        else 
            (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
+    /* Has the student used log(x) vs log(abs(x)) in their answer? */
+    if not(SAUsedLogAbs) and SBUsedLogAbs then
+            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
+    lSAv:listofvars(SA),
     lSAv:listofvars(SA),
     lSBv:listofvars(SB),
     mSAv:member(v, lSAv),
@@ -1897,10 +1910,10 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
         if mSAv then
             ansnote:StackAddNote(ansnote, "ATInt_var_SA_notSB")
         else if not(listscontain(lSAv, lSBv, v)) and not(listsoverlap(lSAv, lSBv)) then
-            ansnote:StackAddNote(ansnote, " ATInt_var_notSASB_SAnceSB") ) /* v not in SA or SB, and no variable common to SA and SB */
+            ansnote:StackAddNote(ansnote, "ATInt_var_notSASB_SAnceSB") ) /* v not in SA or SB, and no variable common to SA and SB */
     else if not(mSAv) then
         if mSBv then
-            ansnote:StackAddNote(ansnote, " ATInt_var_SB_notSA"),
+            ansnote:StackAddNote(ansnote, "ATInt_var_SB_notSA"),
 
     ret:[val, rawmk, ansnote, fb],
     return(ret)
@@ -1914,8 +1927,24 @@ ATIntWeirdConstp(ex):=block([l],
     else return(false)
 )$
 
+/* Checks all occurances of v are inside abs, e.g. abs(v) */
+ATInt_var_in_abs_p(ex, v):=block(
+  if ex=v then return(false),  /* v on its own is not inside abs() */
+  if atom(ex) then return(true),
+  if freeof(v,ex) then return(true),
+  if safe_op(ex) = "abs" then return(true),
+  apply("and", maplist(lambda([ex2], ATInt_var_in_abs_p(ex2, v)), args(ex)))
+)$
+
+/* Check if all occurances of the variable v, which are inside a log function, are protected by abs() */
+ATInt_logabs_p(ex, v):=block(
+  if atom(ex) then return(true),
+  if safe_op(ex) = "log" then return(apply("and", maplist(lambda([ex2], ATInt_var_in_abs_p(ex2, v)), args(ex)))),
+  apply("and", maplist(lambda([ex2], ATInt_logabs_p(ex2, v)), args(ex)))
+)$
+
 /* Transform log(abs(ex)) to a single dummy function STACKLA(ex)
-   This enables us to check is a student has been consistent in their use of log(abs(ex)) in an answer.
+   This enables us to strip them out.  This will not catch all cases, e.g. log(k*abs(x)) isn't caught here...
 */
 ATInt_logabs_to_STACKLA(ex):=block(
   if atom(ex) then return(ex),
@@ -1933,13 +1962,13 @@ ATInt_logabs_to_STACKLA(ex):=block(
 /* We don't want things like log(3) to "look like" a log here.                */
 ATInt_consistent_logabs_p_helper(ex,v):=block(
   if atom(ex) then return(0),
+  if safe_op(ex) = "log" and ATInt_var_in_abs_p(ex, v) then return(STACKLOGABS),
   if safe_op(ex) = "log" and member(v, listofvars(args(ex))) then return(STACKLOG),
-  if safe_op(ex) = "STACKLA" and member(v, listofvars(args(ex))) then return(STACKLOGABS),
   return(apply("+",maplist(lambda([ex1],ATInt_consistent_logabs_p_helper(ex1,v)),args(ex))))
 );
 
 ATInt_consistent_logabs_p(ex,v):=block([helper],
-  helper:ev(ATInt_consistent_logabs_p_helper(ATInt_logabs_to_STACKLA(ex),v),simp),
+  helper:ev(ATInt_consistent_logabs_p_helper(ex,v),simp),
   helper:listofvars(helper),
   if member(STACKLOG, helper) and member(STACKLOGABS, helper) then false else true
 );
@@ -2041,5 +2070,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014021700$
-print("[ STACK-Maxima started, library version 2014021700 ]")$
+stackmaximaversion:2014022800$
+print("[ STACK-Maxima started, library version 2014022800 ]")$

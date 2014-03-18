@@ -598,6 +598,45 @@ class stack_cas_casstring {
             }
         }
 
+        if ($security == 's') {
+            // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
+            // asin etc, will be included automatically, so we don't need them explicitly.
+            $triglist = array( 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
+            foreach ($triglist as $fun) {
+                if (strpos($cmd, $fun.'^') !== false) {
+                    $this->add_error(stack_string('stackCas_trigexp',
+                        array('forbid' => stack_maxima_format_casstring($fun.'^'))));
+                    $this->answernote[] = 'trigexp';
+                    $this->valid = false;
+                    break;
+                }
+                if (strpos($cmd, $fun.'[') !== false) {
+                    $this->add_error(stack_string('stackCas_trigparens',
+                        array('forbid' => stack_maxima_format_casstring($fun.'(x)'))));
+                    $this->answernote[] = 'trigparens';
+                    $this->valid = false;
+                    break;
+                }
+                if (strpos($cmd, 'arc'.$fun) !== false) {
+                    $this->add_error(stack_string('stackCas_triginv',
+                        array('badinv' => stack_maxima_format_casstring('arc'.$fun), 'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                    $this->answernote[] = 'triginv';
+                    $this->valid = false;
+                    break;
+                }
+                $opslist = array('*', '+', '-', '/');
+                foreach ($opslist as $op) {
+                    if (strpos($cmd, $fun.$op) !== false) {
+                        $this->add_error(stack_string('stackCas_trigop',
+                            array('trig' => stack_maxima_format_casstring($fun), 'forbid' => stack_maxima_format_casstring($fun.$op))));
+                        $this->answernote[] = 'trigop';
+                        $this->valid = false;
+                        break;
+                    }
+                }
+            }
+        }
+
         // Only permit the following characters to be sent to the CAS.
         $cmd = trim($cmd);
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';

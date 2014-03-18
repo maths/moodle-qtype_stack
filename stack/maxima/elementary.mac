@@ -18,8 +18,6 @@
 /* THIS IS EXPERIMENTAL CODE */
 /* Currently this is under development by CJS and is not connected to the main STACK codebase */
 /* It sits here because the long-term goal is to incorporate it */
-kill(all);
-load("C:/xampp/htdocs/stack/stack-dev/maxima/assessment.mac");
 
 /* http://www.ncl.ac.uk/math/numbas/manual.pdf and
 https://github.com/numbas/Numbas/blob/master/runtime/scripts/jme-display.js#L749
@@ -76,10 +74,10 @@ trans_anyp(ex,rl):=block(
 )$
 
 /* Identify applicable rules at the top level */
-trans_top(ex):=filter(lambda([ex2],trans_topp(ex,ex2)),ALL_TRANS)$
+trans_top(ex):=sublist(ALL_TRANS, lambda([ex2],trans_topp(ex,ex2)))$
 
 /* Identify applicable rules */
-trans_any(ex):=filter(lambda([ex2],trans_anyp(ex,ex2)),ALL_TRANS)$
+trans_any(ex):=sublist(ALL_TRANS, lambda([ex2],trans_anyp(ex,ex2)))$
 
 
 /* Transform recursively accross an expression*/
@@ -126,7 +124,7 @@ step_through2(ex):=block([rls,rl,ex2],
 
 /* Assume some rules are just applied in the background */
 step_through3(ex):=block([rls],
- rls:filter(lambda([ex2],trans_anyp(ex,ex2)),ALG_TRANS),
+ rls:sublist(ALG_TRANS, lambda([ex2],trans_anyp(ex,ex2))),
  if not(emptyp(rls)) then return(step_through3(transr(ex,first(rls)))),
  rls:trans_any(ex),
  if emptyp(rls) then return(ex),
@@ -238,13 +236,13 @@ orderelementaryp(exa,exb):=block(
 
 /* sort(args(ex),orderelementaryp) does not work :-(  */
 elsort(l):=block([l1,l2],
-  l1:filter(lambda([ex],safe_op(ex)#"RECIP"),l),
-  l2:filter(lambda([ex],safe_op(ex)="RECIP"),l),
+  l1:sublist(l, lambda([ex],safe_op(ex)#"RECIP")),
+  l2:sublist(l, lambda([ex],safe_op(ex)="RECIP")),
   append(sort(l1,orderelementaryp),sort(l2,orderelementaryp))  
 )$
 
 /* Sort out the order of elements, i.e. commutativity */
-/* NOTE: sort(args(ex),orderelementaryp)) should work but does not... */
+/* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
 comAddp(ex):= if safe_op(ex)="+" and apply("+",elsort(args(ex)))#ex then true else false$
 comAdd(ex) := if comAddp(ex) then apply("+",elsort(args(ex))) else ex$
 
@@ -313,16 +311,16 @@ negProdB(ex):=block(
 */
 negDefp(ex):=block([a0,a1,a2,a3],
   if safe_op(ex)#"+" then return(false),
-  a1:maplist(first,filter(lambda([ex2],safe_op(ex2)="-"),args(ex))),
-  a2:filter(lambda([ex2],safe_op(ex2)#"-"),args(ex)),
+  a1:maplist(first,sublist(args(ex), lambda([ex2],safe_op(ex2)="-"))),
+  a2:sublist(args(ex), lambda([ex2],safe_op(ex2)#"-")),
   any_listp(lambda([ex2],element_listp(ex2,a2)),a1)
 )$
 
 negDef(ex):=block([a0,a1,a2,a3],
   if negDefp(ex)#true then return(ex),
   a0:args(ex),
-  a1:maplist(first,filter(lambda([ex2],safe_op(ex2)="-"),args(ex))),
-  a2:filter(lambda([ex2],safe_op(ex2)#"-"),args(ex)),
+  a1:maplist(first,sublist(args(ex), lambda([ex2],safe_op(ex2)="-"))),
+  a2:sublist(args(ex), lambda([ex2],safe_op(ex2)#"-")),
   a3:removeoncelist_negDef(a1,a0),  
   if emptyp(a3) then 0 else apply("+",a3)
 )$
@@ -370,14 +368,14 @@ notintegerp(ex):= if atom(ex) then not(integerp(ex)) else true$
 /* Evaluate integer arithmetic */
 intAddp(ex):=block(
   if safe_op(ex)#"+" then return(false),
-  if length(filter(integerp,args(ex)))>1 then return(true) else return(false)
+  if length(sublist(args(ex), integerp))>1 then return(true) else return(false)
 )$
 
 intAdd(ex):=block([a1,a2], 
   if intAddp(ex)=false then return(ex),
-  a1:filter(integerp,args(ex)),
+  a1:sublist(args(ex), integerp),
   a1:ev(apply("+",a1),simp),
-  a2:filter(notintegerp,args(ex)),
+  a2:sublist(args(ex), notintegerp),
   if length(a2)=0 then a1 
   else if length(a2)=1 then a1+first(a2)
   else a1+apply("+",a2)
@@ -385,14 +383,14 @@ intAdd(ex):=block([a1,a2],
 
 intMulp(ex):=block(
   if safe_op(ex)#"*" then return(false),
-  if length(filter(integerp,args(ex)))>1 then return(true) else return(false)
+  if length(sublist(args(ex), integerp))>1 then return(true) else return(false)
 )$
 
 intMul(ex):=block([a1,a2], 
   if intMulp(ex)=false then return(ex),
-  a1:filter(integerp,args(ex)),
+  a1:sublist(args(ex), integerp),
   a1:ev(apply("*",a1),simp),
-  a2:filter(notintegerp,args(ex)),
+  a2:sublist(args(ex), notintegerp),
   if length(a2)=0 then a1 
   else if length(a2)=1 then a1*first(a2)
   else apply("*",append([a1],a2))

@@ -255,6 +255,27 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('3*e*2', $at1->get_casstring());
         $this->assertEquals('missing_stars', $at1->get_answernote());
     }
+
+    public function test_trig_1() {
+        $s = 'a:sin[2*x]';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('trigparens', $at1->get_answernote());
+    }
+
+    public function test_trig_2() {
+        $s = 'a:cot*2*x';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('trigop', $at1->get_answernote());
+    }
+
+    public function test_trig_3() {
+        $s = 'a:tan^-1(x)-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
+    }
 }
 
 

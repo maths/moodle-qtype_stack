@@ -302,6 +302,7 @@ class stack_inputvalidation_test_data {
         array('arcsin(x)', 'php_false', 'arcsin(x)', 'cas_true', "Not the arcsin"),
         array('sin^-1(x)', 'php_true', 'sin^-1(x)', 'cas_true',
         "WARNING: look carefully.  Probably not what the student expects....."),
+        array('sin[2*pi*x]', 'php_true', 'sin[2*pi*x]', 'cas_true', ""),
         array('cosh(x)', 'php_true', 'cosh(x)', 'cas_true', ""),
         array('sinh(x)', 'php_true', 'sinh(x)', 'cas_true', ""),
         array('tanh(x)', 'php_true', 'tanh(x)', 'cas_true', ""),

@@ -518,6 +518,7 @@ class stack_answertest_test_data {
         array('Int', '(x-a)^6001/6001+c', '(x-a)^6001/6001', 1, 'x', ''),
         array('Int', '(x-a)^6001/6001', '(x-a)^6001/6001', 0, 'x', ''),
         array('Int', '6000*(x-a)^5999', '(x-a)^6001/6001', 0, 'x', ''),
+        array('Int', '4*%e^(4*x)/(%e^(4*x)+1)', 'log(%e^(4*x)+1)+c', 0, 'x', ''),
         array('Int', 'x^3/3+c', 'x^3/3+c', 1, 'x', 'The teacher adds a constant'),
         array('Int', 'x^2/2-2*x+2+c', '(x-2)^2/2+k', 1, 'x', ''),
         array('Int', 'exp(x)+c', 'exp(x)', 1, 'x', 'Special case'),

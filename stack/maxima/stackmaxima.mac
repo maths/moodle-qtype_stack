@@ -1892,7 +1892,7 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
         else
             (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
     else /* Check for the special cases where the buggy rule is true */
-       if algebraic_equivalence(SAa, ev(diff(SBd, v), simp)) and algebraic_equivalence(exp(x), SBd)#true then
+       if ev(algebraic_equivalence(SAa, ev(diff(SBd, v), simp)),simp) and ev(algebraic_equivalence(exp(x), SBd),simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
        else 
            (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
@@ -2071,5 +2071,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014022800$
-print("[ STACK-Maxima started, library version 2014022800 ]")$
+stackmaximaversion:2014032600$
+print("[ STACK-Maxima started, library version 2014032600 ]")$

@@ -8,6 +8,7 @@ Changes since 3.2 (in the master branch):
 
  1. Changes to validation of casstrings. We now *allow* syntax such as 3e2 to represent floating point numbers.  The strict syntax settings still flag 3e2 as "missing stars".
  2. Improvements to catching common syntax errors with trig functions, e.g. sin^-1(x) or cos[x]
+ 3. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.
 
 
 ## Version 3.2

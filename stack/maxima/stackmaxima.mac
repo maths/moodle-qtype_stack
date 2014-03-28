@@ -1,6 +1,6 @@
 /*  Author Chris Sangwin
-    University of Birmingham
-    Copyright (C) 2013 Chris Sangwin
+    Loughborough University
+    Copyright (C) 2014 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -553,6 +553,64 @@ set output ",afn),
 /* Numerical operations               */
 /* ********************************** */
 
+ATNumAbsolute(SA, SB) := ATNumerical(SA, SB, "ABSOLUTE")$
+ATNumRelative(SA, SB) := ATNumerical(SA, SB, "RELATIVE")$
+
+
+ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote, ret, SAN, tol],
+    Validity:false, RawMark:false, 
+    FeedBack:StackAddFeedback("", "ATNumerical_FAILED"),
+    AnswerNote:StackAddNote("", "ATNumerical_FAILED"),
+    /* Turn on simplification and error catch */
+    SA:errcatch(ev(float(SA), simp, nouns)),
+    if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
+    SA:SA[1],
+    SAN:copy(SA), /* Need this for when we have lists etc */
+    SB:errcatch(ev(float(SB), simp, nouns, rat)),
+    if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
+    SB:SB[1], 
+    if not(listp(SB)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_not_list"))),
+    if not(is(length(SB)=2)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_wrong_length"))),
+    tol:SB[2],
+    if not(numberp(tol)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_tol"))),
+    if not(elementp(numtype, {"ABSOLUTE", "RELATIVE"})) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_testname_invalid"))),
+    SB:SB[1], 
+    
+    /* Are we dealing with lists? */
+    if listp(SB) then
+      if listp(SAN)#true then
+        return(StackBasicReturn(false, false, "ATNumerical_SA_not_list"))
+      else
+        return(StackBasicReturn(false, false, "ATNumerical_not_implemented!")),
+
+    /* Are we dealing with lists? */
+    if setp(SB) then
+      if setp(SAN)=false then
+        return(StackBasicReturn(false, false, "ATNumerical_SA_not_set"))
+      else
+        return(StackBasicReturn(false, false, "ATNumerical_not_implemented!")),
+
+    /* Are we dealing with numbers? */
+    /*print(ev(abs(float(SA-SB)), simp)),
+    print(ev(abs(tol)+STACK_NUM_TOL, simp)),*/
+    if numberp(SAN) then
+      if numberp(TA) then
+        return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
+      else
+        if numtype = "ABSOLUTE" then
+            return([false, numabsolutep(SA, SB, tol), "", ""])
+        else 
+            return([false, numrelativep(SA, SB, tol), "", ""]),
+
+    ret:[Validity, RawMark, AnswerNote, FeedBack],
+    return(ret)
+)$
+
+/* We have to define our own working precision. */
+STACK_NUM_TOL:10E-10$
+numabsolutep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(tol)+STACK_NUM_TOL, simp)  then true else false;
+numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(ta*tol)+STACK_NUM_TOL, simp) then true else false;
+
 
 ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
@@ -989,6 +1047,29 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret],
     return(ret)
 )$
 
+/* A general, all purpose answer test based maximum simplification.
+   This function is a wrapper for AtAlgEquivfun(SA,SB)
+*/
+ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
+    /* Turn on simplification and error catch */
+    SA:errcatch(ev(SA, simp, nouns)),
+    if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
+    SA:SA[1],
+    SAN:copy(SA), /* Need this for when we have lists etc */
+    SB:errcatch(ev(SB, simp, nouns, rat)),
+    if is(SB = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_TAns"),""]),
+    SB:SB[1],
+    /* Start recursive process */
+    ret:ATAlgEquivfun(SA, SB),
+    /* Can we find a permutation of the variables? */
+    if ret[2]=0 then block([p1],
+        p1:subst_equiv(SAN, SB),
+        /* Actually, at this point 2008/7/7, we don't want to give this feedback.  Just leave an answer note. */
+        /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", StackDISP(p1, "d"))] */
+        if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), ret[4]]
+    ),
+    return(ret)
+)$
 
 
 /**********************************************/
@@ -2071,5 +2152,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014032600$
-print("[ STACK-Maxima started, library version 2014032600 ]")$
+stackmaximaversion:2014032800$
+print("[ STACK-Maxima started, library version 2014032800 ]")$

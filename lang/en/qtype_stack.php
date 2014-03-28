@@ -574,7 +574,6 @@ $string['ATInequality_backwards']       = 'Your inequality appears to be backwar
 $string['ATLowestTerms_wrong']          = 'You need to cancel fractions within your answer. ';
 $string['ATLowestTerms_entries']        = 'The following terms in your answer are not in lowest terms.  {$a->m0} Please try again.  ';
 
-
 $string['ATList_wronglen']          = 'Your list should have {$a->m0} elements, but it actually has {$a->m1}. ';
 $string['ATList_wrongentries']      = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
@@ -629,6 +628,12 @@ $string['ATInt_generic']             = 'The derivative of your answer should be 
 
 $string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';
+
+$string['ATNumerical_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';
+$string['ATNumerical_SA_not_set']        = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
+$string['ATNumerical_SA_not_number']     = 'Your answer should be a floating point number, but is not. ';
+$string['ATNumerical_FAILED']            = 'Your answer should be a floating point number, or a list or set of numbers.  It is not. ';
+$string['ATNumerical_STACKERROR_tol']    = 'The numerical tolerance for ATNumerical should be a floating point number, but is not.  This is an internal error with the test.  Please ask your teacher about this. ';
 
 $string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact your systems administrator';
 $string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';

@@ -35,7 +35,7 @@ Open assessment.mac and add or link to the Maxima code to
 perform the answertest.
 
 The Maxima function must return information in the correct
-[Validity,RawMark,AnswerNote,FeedBack]
+[Validity, RawMark, AnswerNote, FeedBack]
 
 Validity must be true/false
 RawMark must be true/false
@@ -55,7 +55,7 @@ CAStext answer tests are the most complex to create. Here we
 can create a bespoke CAS session with the required commands and
 mix some maxima with some PHP logic.
 
-(See stack_anstest_numabsolute for an example).
+See atdecplaces.class.php for an example.
 
 C) PHP Answertests
 ------------------

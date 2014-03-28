@@ -608,6 +608,8 @@ class stack_answertest_test_data {
         array('NumRelative', '0', '0', -1, '1/0', ''),
         array('NumRelative', '0', '(x', -1, '', ''),
         array('NumRelative', '0', '0', -1, '(x', ''),
+        array('NumRelative', '1.5', '1.5', -1, 'x', ''),
+        array('NumRelative', 'x=1.5', '1.5', 0, '', ''),
         array('NumRelative', '1.1', '1', 0, '', 'No option, so 5%'),
         array('NumRelative', '1.05', '1', 1, '', ''),
         array('NumRelative', '1.05', '1', 1, '0.1', 'Options passed'),

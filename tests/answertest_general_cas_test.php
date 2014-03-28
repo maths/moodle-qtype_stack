@@ -286,6 +286,48 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
                 "<span class=\"stacksyntaxexample\">2<font color=\"red\">*</font>x</span>.", $err);
     }
 
+    public function test_is_true_numabsolute() {
+        $at = new stack_answertest_general_cas('1.05', '1', 'ATNumAbsolute', true, '0.05', null, true, true);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
+
+    public function test_is_false_numabsolute() {
+        $at = new stack_answertest_general_cas('1.0501', '1', 'ATNumAbsolute', true, '0.01', null, true, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+
+    public function test_is_missingopt_numabsolute() {
+        $at = new stack_answertest_general_cas('1.05', '1', 'ATNumAbsolute', true);
+        $this->assertNull($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+
+    public function test_is_true_numrelative() {
+        $at = new stack_answertest_general_cas('1.05', '1', 'ATNumRelative', true, '0.05', null, true, true);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
+    
+    public function test_is_false_numrelative() {
+        $at = new stack_answertest_general_cas('1.0501', '1', 'ATNumRelative', true, '0.01', null, true, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+    
+    public function test_is_missingopt_numrelative() {
+        $at = new stack_answertest_general_cas('1.05', '1', 'ATNumRelative', true);
+        $this->assertNull($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+    
+    public function test_is_invalidopt_numrelative() {
+        $at = new stack_answertest_general_cas('1.05', '1', 'ATNumRelative', true, 'x', null, true, true);
+        $this->assertNull($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
+
     // Goal:  Have maxima generate a string which will work in the moodle
     // translation system. For example, the student has been asked to integrate
     // x^5 wrt x, and has answered x^6, not x^6/6.

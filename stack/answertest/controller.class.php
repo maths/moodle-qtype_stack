@@ -149,13 +149,17 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumAbsolute':
-                require_once(__DIR__ . '/numabsolute.class.php');
-                $this->at = new stack_anstest_numabsolute($sans, $tans, $options, $casoption);
+                if (trim($casoption) == '') {
+                   $casoption = '0.05';
+                }
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumAbsolute', true, $casoption, $options, true, true);
                 break;
 
             case 'NumRelative':
-                require_once(__DIR__ . '/numrelative.class.php');
-                $this->at = new stack_anstest_numrelative($sans, $tans, $options, $casoption);
+                if (trim($casoption) == '') {
+                   $casoption = '0.05';
+                }
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumRelative', true, $casoption, $options, true, true);
                 break;
 
             case 'NumSigFigs':

@@ -33,6 +33,8 @@ The following commands which are relevant to manipulation of numbers are defined
 | `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
 | `coeff_list(ex,v)`              | This function takes an expression ex and returns a list of coefficients of v
 | `coeff_list_nz(ex,v)`           | This function takes an expression ex and returns a list of nonzero coefficients of v
+| `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
+| `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \)  
 
 ## STACK numerical predicates ##
 

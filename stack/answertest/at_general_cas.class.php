@@ -171,17 +171,21 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        if (''!=$session->get_errors_key('result')) {
+        $session_vars = $session->get_session();
+        $result = $session_vars[2];
+
+        if (''!=$result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('result')));
-            $this->atansnote    = $this->casfunction.'_STACKERROR_result.';
+            if (''!=trim($result->get_feedback())) {
+                $this->atfeedback = $result->get_feedback();
+            } else {
+                $this->atfeedback = stack_string('TEST_FAILED', array('errors' => $result->get_errors()));
+            }
+            $this->atansnote    = trim($result->get_answernote());
             $this->atmark       = 0;
             $this->atvalid      = false;
             return null;
         }
-
-        $session = $session->get_session();
-        $result = $session[2];
 
         $this->atansnote  = trim($result->get_answernote());
 

@@ -578,17 +578,17 @@ ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote,
     
     /* Are we dealing with lists? */
     if listp(SB) then
-      if listp(SAN)#true then
+      if listp(SAN)#true then 
         return(StackBasicReturn(false, false, "ATNumerical_SA_not_list"))
-      else
-        return(StackBasicReturn(false, false, "ATNumerical_not_implemented!")),
+      else 
+        return(ATNumerical_list(SA, SB, numtype, tol)),
 
     /* Are we dealing with lists? */
     if setp(SB) then
       if setp(SAN)=false then
         return(StackBasicReturn(false, false, "ATNumerical_SA_not_set"))
       else
-        return(StackBasicReturn(false, false, "ATNumerical_not_implemented!")),
+        return(ATNumerical_set(SA, SB, numtype, tol)),
 
     /* Are we dealing with numbers? */
     /*print(ev(abs(float(SA-SB)), simp)),
@@ -611,6 +611,92 @@ STACK_NUM_TOL:10E-10$
 numabsolutep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(tol)+STACK_NUM_TOL, simp)  then true else false;
 numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(ta*tol)+STACK_NUM_TOL, simp) then true else false;
 
+ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""],
+    SAl:length(SA),
+    SBl:length(SB),
+    if (SAl#SBl) then
+        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATList_wronglen", StackDISP(SBl, "i"), StackDISP(SAl, "i"))]),
+
+    if numtype = "ABSOLUTE" then
+       cl:zip_with(lambda([ex1,ex2], numabsolutep(ex1, ex2, tol)), SA, SB)      
+    else 
+       cl:zip_with(lambda([ex1,ex2], numrelativep(ex1, ex2, tol)), SA, SB),      
+
+    res:apply("and", cl),
+    if not(res) then block([we],
+        fb:zip_with(lambda([ex1,ex2],if ex1 then ex2 else texcolor("red", ex2)), cl, SA),
+        we:maplist(second, sublist(zip_with("[", cl, SA), lambda([ex], not(first(ex))))),
+        an:StackAddNote("", concat("ATNumerical_wrongentries SA/TA=", string(we))),        
+        fb:StackAddFeedback("", "ATList_wrongentries", StackDISP(fb, "d"))
+    ),
+          
+    return([true, res, an, fb])
+)$
+
+ATNumerical_set(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fbl, fb:"", an:""],
+    SAl:length(SA),
+    SBl:length(SB),
+    if (SAl#SBl) then
+        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATSet_wrongsz", StackDISP(SBl, "i"), StackDISP(SAl, "i"))]),
+
+    SA:sort(float(listify(SA))),
+    SB:sort(float(listify(SB))),
+    fbl:num_compare_helper(SA, SB, [], [], tol, numtype),
+    if emptyp(first(fbl)) and emptyp(second(fbl)) then res:true else res:false,
+
+    if not(res) then block(
+        fb:setify(reverse(maplist(lambda([ex], texcolor("red", ex)), second(fbl)))),
+        fb:StackAddFeedback("", "ATList_wrongentries", StackDISP(fb, "d")),
+        an:StackAddNote("", concat("ATNumerical_wrongentries: TA/SA=", string(reverse(first(fbl))), ", SA/TA=", string(reverse(second(fbl)))))        
+    ),
+          
+    return([true, res, an, fb])
+)$
+
+/***************************************************
+Need a function which identifies which elements of the student's set, fall within "tolerance-balls" of elements of the teacher's set.
+
+Takes various arguments
+(1) student's list
+(2) teacher's list
+(3) numbers in the student's list, not within appropriate tolerance of any in the teacher's list
+(4) numbers in the teacher's list, which do not occur (approximated) in the student's
+(5) tolerance - whether this is absolute or relative to the teacher's answer needs to be sorted out internally to the function.
+(6) type - either "ABSOLUTE" or "RELATIVE"
+
+Returns all of the above + a feedback list.
+
+All arguments 1-2 are ordered lists of floats, smallest to largest.
+
+Want sa to lie between
+(ta-tol,ta+tol) or (ta-ta*tol,ta+ta*tol) depending on "ABSOLUTE" or "RELATIVE" (respectively) 
+****************************************************/
+num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1, f2],
+  /* If we've run out of answers */
+  if emptyp(sal) and emptyp(tal) then return([missing, excessive]),
+  if emptyp(sal) then return([append(tal, missing), excessive]),
+  if emptyp(tal) then return([missing, append(sal, excessive)]),
+  /* Otherwise, we take the first element of the list and calculate */
+  /* if sa<ta-tol,  then f1<0.                                      */ 
+  /* if abs(sa-ta)<abs(tol), then f2<0.                             */
+  /* We appear to need to calulate f1 & f2 as variables,            */
+  /* otherwise Maxima's is complains "undefined".  Odd...           */ 
+  sa:first(sal),
+  ta:first(tal),
+  if type="ABSOLUTE" then 
+       (f1:ev(float(sa-ta+tol),simp),
+        f2:ev(float(abs(sa-ta)-abs(tol)), simp)) 
+  else 
+       (f1:ev(float(sa-ta*(1-tol)),simp),
+        f2:ev(float(abs(sa-ta)-abs(ta*tol)), simp)), 
+  /*print([sa,ta,f1,f2]),*/
+  if is(f1<0) then return(num_compare_helper(rest(sal), tal, missing, append([sa], excessive), tol, type)),
+  if is(f2<0)  
+      then return(num_compare_helper(rest(sal), rest(tal), missing, excessive, tol, type)),
+  return(num_compare_helper(sal, rest(tal), append([ta], missing), excessive, tol, type))
+)$
+
+
 
 ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
@@ -623,15 +709,15 @@ ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol,
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
     /* Sort out options */
     if listp(SBL) then (SB:SBL[1], ol:SBL[2]) else 
-        (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_no_option"), StackAddFeedback("", "TEST_FAILED")])),
+        (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_no_option"), StackAddFeedback("", "TEST_FAILED_Q")])),
     if listp(ol) then 
           if length(ol)#2 then 
-             (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_list_wrong_length"), StackAddFeedback("", "TEST_FAILED")]))
+             (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_list_wrong_length"), StackAddFeedback("", "TEST_FAILED_Q")]))
           else 
              (nsf:ol[1], asf:ol[2]) 
        else (nsf:ol, asf:ol),
     if not(integerp(nsf) and integerp(asf)) then
-             (print("TEST_FAILED"),return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_not_integer"), StackAddFeedback("", "TEST_FAILED")])),
+             (print("TEST_FAILED"),return([false, false, StackAddNote("", "ATNumSigFigs_STACKERROR_not_integer"), StackAddFeedback("", "TEST_FAILED_Q")])),
     /* SA should be only a number. */
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),

@@ -187,7 +187,10 @@ These tests deal with the precision of numbers.  Please see the notes on [enteri
 | GT            | "Greater than".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
 | GTE           | "Greater than or equal to". See above.
 
-Decimal places test.  This test is implemented, and the code works, however it cannot be used in STACK.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.
+NumRelative  and NumAbsolute can also accept lists and sets.  Elements are automatically converted to floats and simplified (i.e. `ev(float(ex),simp)`) and are compared to the teacher's answer using the appropriate numerical test and accuracy.  A uniform accuracy must be used.  With lists the order is important, but with sets it is not.  Checking two sets are approximately equal is an interesting mathematical problem....
+
+Decimal places test.  This test is implemented, and the code works, however it cannot be used in STACK because of difficulties with validation.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.
+
 
 # Calculus #
 

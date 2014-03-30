@@ -49,6 +49,7 @@ class stack_answertest_test_data {
         // AlgEquiv Answer tests.
         array('AlgEquiv', '1/0', '1', -1, '', ''),
         array('AlgEquiv', '1', '1/0', -1, '', ''),
+        array('AlgEquiv', 'x-1)^2', '(x-1)^2', -1, '', ''),
         array('AlgEquiv', 'integerp(3)', 'true', 1, '', 'Predicates'),
         array('AlgEquiv', 'integerp(3.1)', 'true', 0, '', ''),
         array('AlgEquiv', 'X', 'x', 0, '', 'Case sensitivity'),
@@ -616,7 +617,14 @@ class stack_answertest_test_data {
         array('NumRelative', '1.05', '3', 0, '0.1', ''),
         array('NumRelative', '3.14', 'pi', 1, '0.001', ''),
         array('NumRelative', 'inf', '0', 0, '', 'Infinity'),
-
+        array('NumRelative', '1', '[1,2]', 0, '', 'Lists'),
+        array('NumRelative', '[1,2]', '[1,2,3]', 0, '', ''),
+        array('NumRelative', '[1,2]', '[1,2]', 1, '', ''),
+        array('NumRelative', '[3.141,1.414]', '[pi,sqrt(2)]', 1, '', ''),
+        array('NumRelative', '[3,1.414]', '[pi,sqrt(2)]', 0, '0.01', ''),
+        array('NumRelative', '[3,1.414]', '{pi,sqrt(2)}', 0, '0.01', ''),
+        array('NumRelative', '{1.414,3.1}', '{pi,sqrt(2)}', 0, '0.01', ''),
+        array('NumRelative', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '0.1', ''),
 
         array('NumAbsolute', '1/0', '0', -1, '', 'Basic tests'),
         array('NumAbsolute', '0', '1/0', -1, '', ''),
@@ -633,6 +641,11 @@ class stack_answertest_test_data {
         array('NumAbsolute', '0.00141', '0.00141', 1, '0.0001', ''),
         array('NumAbsolute', '0.00141', '1.41*10^-3', 1, '0.0001', ''),
         array('NumAbsolute', '1.41*10^-3', '1.41*10^-3', 1, '0.0001', ''),
+        array('NumAbsolute', '[3.141,1.414]', '[pi,sqrt(2)]', 1, '0.01', ''),
+        array('NumAbsolute', '[3,1.414]', '[pi,sqrt(2)]', 0, '0.01', ''),
+        array('NumAbsolute', '[3,1.414]', '{pi,sqrt(2)}', 0, '0.01', ''),
+        array('NumAbsolute', '{1.414,3.1}', '{pi,sqrt(2)}', 0, '0.01', ''),
+        array('NumAbsolute', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '0.1', ''),
 
         array('NumSigFigs', '3.141', '3.1415927', -1, '', 'Basic tests'),
         array('NumSigFigs', '1/0', '3', -1, '0', ''),

@@ -212,12 +212,12 @@ abstract class stack_connection_helper {
         $results = $connection->compute($command);
 
         if (empty($results)) {
-            return array('stackCas_allFailed', array());
+            return array('stackCas_allFailed', array(), false);
         }
 
         if (!isset(self::$config->stackmaximaversion)) {
             $notificationsurl = new moodle_url('/admin/index.php');
-            return array('healthchecksstackmaximanotupdated', array($notificationsurl->out()));
+            return array('healthchecksstackmaximanotupdated', array($notificationsurl->out()), false);
         }
 
         $usedversion = stack_string('healthchecksstackmaximatooold');
@@ -229,7 +229,7 @@ abstract class stack_connection_helper {
             $usedversion = $result['value'];
             if (self::$config->stackmaximaversion == $usedversion) {
                 return array('healthchecksstackmaximaversionok',
-                    array('usedversion' => $usedversion));
+                    array('usedversion' => $usedversion), true);
             } else {
                 break;
             }
@@ -251,7 +251,7 @@ abstract class stack_connection_helper {
 
         return array('healthchecksstackmaximaversionmismatch',
                 array('fix' => $fix, 'usedversion' => $usedversion,
-                    'expectedversion' => self::$config->stackmaximaversion));
+                    'expectedversion' => self::$config->stackmaximaversion), false);
     }
 
     /**
@@ -310,8 +310,7 @@ abstract class stack_connection_helper {
         } else {
             $message .= stack_string('healthuncachedstack_CAS_not');
         }
-        $message = '<span class="error">'.$message.'</span>';
 
-        return array($message, $debug);
+        return array($message, $debug, $success);
     }
 }

@@ -23,9 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/../../../../config.php');
-require_once(dirname(__FILE__) . '/docslib.php');
-require_once(dirname(__FILE__) . '/../stack/hints.class.php');
+require_once(__DIR__ . '/../../../../config.php');
+require_once(__DIR__ . '/docslib.php');
+require_once(__DIR__ . '/../stack/hints.class.php');
 
 /*
  *  This file serves the contents of a local directory and renders markup to html

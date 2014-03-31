@@ -15,9 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once(dirname(__FILE__) . '/connector.interface.php');
-require_once(dirname(__FILE__) . '/connector.class.php');
-require_once(dirname(__FILE__) . '/connector.dbcache.class.php');
+require_once(__DIR__ . '/connector.interface.php');
+require_once(__DIR__ . '/connector.class.php');
+require_once(__DIR__ . '/connector.dbcache.class.php');
 
 
 /**
@@ -53,22 +53,21 @@ abstract class stack_connection_helper {
 
         switch (self::$config->platform) {
             case 'win':
-                require_once(dirname(__FILE__) . '/connector.windows.class.php');
+                require_once(__DIR__ . '/connector.windows.class.php');
                 $connection = new stack_cas_connection_windows(self::$config, $debuglog);
                 break;
             case 'unix':
             case 'unix-optimised':
-                require_once(dirname(__FILE__) . '/connector.unix.class.php');
+                require_once(__DIR__ . '/connector.unix.class.php');
                 $connection = new stack_cas_connection_unix(self::$config, $debuglog);
                 break;
             case 'server':
-                require_once(dirname(__FILE__) . '/connector.server.class.php');
+                require_once(__DIR__ . '/connector.server.class.php');
                 $connection = new stack_cas_connection_server(self::$config, $debuglog);
                 break;
             case 'tomcat':
             case 'tomcat-optimised':
-                require_once(dirname(__FILE__) . '/connector.tomcat.class.php');
-                $connection = new stack_cas_connection_tomcat(self::$config, $debuglog);
+                throw new stack_exception('stack_connection_helper: "tomcat" and "tomcat-optimised" settings are obsolete.  Please choose "server" setting instead.');
                 break;
 
             default:
@@ -213,12 +212,12 @@ abstract class stack_connection_helper {
         $results = $connection->compute($command);
 
         if (empty($results)) {
-            return array('stackCas_allFailed', array());
+            return array('stackCas_allFailed', array(), false);
         }
 
         if (!isset(self::$config->stackmaximaversion)) {
             $notificationsurl = new moodle_url('/admin/index.php');
-            return array('healthchecksstackmaximanotupdated', array($notificationsurl->out()));
+            return array('healthchecksstackmaximanotupdated', array($notificationsurl->out()), false);
         }
 
         $usedversion = stack_string('healthchecksstackmaximatooold');
@@ -230,7 +229,7 @@ abstract class stack_connection_helper {
             $usedversion = $result['value'];
             if (self::$config->stackmaximaversion == $usedversion) {
                 return array('healthchecksstackmaximaversionok',
-                    array('usedversion' => $usedversion));
+                    array('usedversion' => $usedversion), true);
             } else {
                 break;
             }
@@ -238,7 +237,6 @@ abstract class stack_connection_helper {
 
         switch (self::$config->platform) {
             case 'unix-optimised':
-            case 'tomcat-optimised':
                 $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
                 $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
                 break;
@@ -253,7 +251,7 @@ abstract class stack_connection_helper {
 
         return array('healthchecksstackmaximaversionmismatch',
                 array('fix' => $fix, 'usedversion' => $usedversion,
-                    'expectedversion' => self::$config->stackmaximaversion));
+                    'expectedversion' => self::$config->stackmaximaversion), false);
     }
 
     /**
@@ -267,6 +265,7 @@ abstract class stack_connection_helper {
 
         $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
                 'cte("CASresult",errcatch(diff(x^n,x))), print("1=[ error= ["), ' .
+                'cte("CASversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
                 'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
                 "\n";
 
@@ -299,6 +298,7 @@ abstract class stack_connection_helper {
                     if ($result['value'] != '"'.$date.'"') {
                         $success = false;
                     }
+                } else if ('CASversion' === $result['key']) {
                 } else {
                     $success = false;
                 }
@@ -310,8 +310,7 @@ abstract class stack_connection_helper {
         } else {
             $message .= stack_string('healthuncachedstack_CAS_not');
         }
-        $message = '<span class="error">'.$message.'</span>';
 
-        return array($message, $debug);
+        return array($message, $debug, $success);
     }
 }

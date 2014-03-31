@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once(dirname(__FILE__) . '/stack/mathsoutput/mathsoutput.class.php');
+require_once(__DIR__ . '/stack/mathsoutput/mathsoutput.class.php');
 
 
 /**

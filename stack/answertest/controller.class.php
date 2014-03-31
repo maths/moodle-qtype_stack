@@ -20,11 +20,11 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/anstest.class.php');
-require_once(dirname(__FILE__) . '/at_general_cas.class.php');
-require_once(dirname(__FILE__) . '/../cas/connector.class.php');
-require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
-require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
+require_once(__DIR__ . '/anstest.class.php');
+require_once(__DIR__ . '/at_general_cas.class.php');
+require_once(__DIR__ . '/../cas/connector.class.php');
+require_once(__DIR__ . '/../cas/casstring.class.php');
+require_once(__DIR__ . '/../cas/cassession.class.php');
 
 class stack_ans_test_controller {
     protected static $types = array(
@@ -118,17 +118,17 @@ class stack_ans_test_controller {
                 break;
 
             case 'String':
-                require_once(dirname(__FILE__) . '/atstring.class.php');
+                require_once(__DIR__ . '/atstring.class.php');
                 $this->at = new stack_anstest_atstring($sans, $tans, $options, $casoption);
                 break;
 
             case 'StringSloppy':
-                require_once(dirname(__FILE__) . '/stringsloppy.class.php');
+                require_once(__DIR__ . '/stringsloppy.class.php');
                 $this->at = new stack_anstest_stringsloppy($sans, $tans, $options, $casoption);
                 break;
 
             case 'RegExp':
-                require_once(dirname(__FILE__) . '/atregexp.class.php');
+                require_once(__DIR__ . '/atregexp.class.php');
                 $this->at = new stack_anstest_atregexp($sans, $tans, $options, $casoption);
                 break;
 
@@ -149,13 +149,17 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumAbsolute':
-                require_once(dirname(__FILE__) . '/numabsolute.class.php');
-                $this->at = new stack_anstest_numabsolute($sans, $tans, $options, $casoption);
+                if (trim($casoption) == '') {
+                   $casoption = '0.05';
+                }
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumAbsolute', true, $casoption, $options, true, true);
                 break;
 
             case 'NumRelative':
-                require_once(dirname(__FILE__) . '/numrelative.class.php');
-                $this->at = new stack_anstest_numrelative($sans, $tans, $options, $casoption);
+                if (trim($casoption) == '') {
+                   $casoption = '0.05';
+                }
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumRelative', true, $casoption, $options, true, true);
                 break;
 
             case 'NumSigFigs':
@@ -163,7 +167,7 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumDecPlaces':
-                require_once(dirname(__FILE__) . '/atdecplaces.class.php');
+                require_once(__DIR__ . '/atdecplaces.class.php');
                 $this->at = new stack_anstest_atdecplaces($sans, $tans, $options, $casoption);
                 break;
 

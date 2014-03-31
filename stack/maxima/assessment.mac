@@ -334,6 +334,8 @@ algebraic_equivalence(SA,SB) :=
     if ex=[] then (print("algebraic_equivalence: factoring the difference of two expressions threw an error."), return(false)),
     ex:ex[1],
     /* Try to return a negative result without expanding anything! */
+    if safe_op(ex)="-" then
+       ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),  
     if ratsimp(ex)=0 then return(true),

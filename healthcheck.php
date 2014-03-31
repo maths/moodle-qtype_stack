@@ -23,18 +23,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../../config.php');
+require_once(__DIR__.'/../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
 
-require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/stack/utils.class.php');
-require_once(dirname(__FILE__) . '/stack/options.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/casstring.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/connector.dbcache.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/stack/utils.class.php');
+require_once(__DIR__ . '/stack/options.class.php');
+require_once(__DIR__ . '/stack/cas/castext.class.php');
+require_once(__DIR__ . '/stack/cas/casstring.class.php');
+require_once(__DIR__ . '/stack/cas/cassession.class.php');
+require_once(__DIR__ . '/stack/cas/connector.dbcache.class.php');
+require_once(__DIR__ . '/stack/cas/installhelper.class.php');
 
 
 // Check permissions.
@@ -60,6 +60,10 @@ $config = stack_utils::get_config();
 // Start output.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
+
+// Summary
+// This array holds summary info, for a table at the end of the pager.
+$summary = array();
 
 // LaTeX.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
@@ -91,7 +95,9 @@ echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 // Check for location of Maxima.
 $maxima_location = stack_cas_configuration::confirm_maxima_win_location();
 if ('' != $maxima_location) {
-    echo html_writer::tag('p', stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maxima_location));
+    $message = stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maxima_location);
+    echo html_writer::tag('p', $message);
+    $summary[] = array(NULL, $message);
 }
 
 // Try to connect to create maxima local.
@@ -104,13 +110,16 @@ echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_
 // Maxima config.
 if (stack_cas_configuration::maxima_bat_is_missing()) {
     echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
-    echo html_writer::tag('p', stack_string('healthcheckmaximabatinfo', $CFG->dataroot));
+    $message = stack_string('healthcheckmaximabatinfo', $CFG->dataroot);
+    echo html_writer::tag('p', $message);
+    $summary[] = array(false, $message);
 }
 
 // Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
 echo $OUTPUT->heading(stack_string('healthuncached'), 3);
 echo html_writer::tag('p', stack_string('healthuncachedintro'));
-list($message, $debug) = stack_connection_helper::stackmaxima_genuine_connect();
+list($message, $debug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+$summary[] = array($result, $message);
 echo html_writer::tag('p', $message);
 echo output_debug(stack_string('debuginfo'), $debug);
 
@@ -126,7 +135,8 @@ output_cas_text(stack_string('healthcheckconnect'),
 // with the qtype_stack code.
 
 echo $OUTPUT->heading(stack_string('healthchecksstackmaximaversion'), 3);
-list($message, $details) = stack_connection_helper::stackmaxima_version_healthcheck();
+list($message, $details, $result) = stack_connection_helper::stackmaxima_version_healthcheck();
+$summary[] = array($result, stack_string($message, $details));
 echo html_writer::tag('p', stack_string($message, $details));
 
 // Test plots.
@@ -135,7 +145,9 @@ output_cas_text(stack_string('healthcheckplots'),
 
 // State of the cache.
 echo $OUTPUT->heading(stack_string('settingcasresultscache'), 3);
-echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
+$message = stack_string('healthcheckcache_' . $config->casresultscache);
+$summary[] = array(NULL, $message);
+echo html_writer::tag('p', $message);
 if ('db' == $config->casresultscache) {
     echo html_writer::tag('p', stack_string('healthcheckcachestatus',
             stack_cas_connection_db_cache::entries_count($DB)));
@@ -143,6 +155,23 @@ if ('db' == $config->casresultscache) {
             new moodle_url($PAGE->url, array('clearcache' => 1, 'sesskey' => sesskey())),
             stack_string('clearthecache'));
 }
+
+echo '<hr />';
+$tab = '';
+foreach($summary as $line) {
+    $tl   = '';
+    if (true === $line[0]) {
+        $tl  .= html_writer::tag('td', '<span class="ok">OK</span>');
+    } else if (false === $line[0]) {
+        $tl  .= html_writer::tag('td', '<span class="error">FAILED</span>');
+    } else {
+        $tl  .= html_writer::tag('td', ' ');
+
+    }
+    $tl  .= html_writer::tag('td', $line[1]);
+    $tab .= html_writer::tag('tr', $tl)."\n";
+}
+echo html_writer::tag('table', $tab);
 
 echo $OUTPUT->footer();
 

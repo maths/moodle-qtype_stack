@@ -25,16 +25,16 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../../config.php');
+require_once(__DIR__.'/../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->libdir .'/filelib.php');
 require_once($CFG->libdir .'/tablelib.php');
 
-require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/stack/options.class.php');
-require_once(dirname(__FILE__) . '/stack/answertest/controller.class.php');
-require_once(dirname(__FILE__) . '/stack/answertest/tests/fixtures.class.php');
+require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/stack/options.class.php');
+require_once(__DIR__ . '/stack/answertest/controller.class.php');
+require_once(__DIR__ . '/tests/answertestfixtures.class.php');
 
 
 // Get the parameters from the URL.
@@ -121,7 +121,7 @@ foreach ($tests as $test) {
         if (-1 === $test->expectedscore) {
             $class = 'expectedfail';
             $passedcol = stack_string('testsuiteknownfail');
-        } if (-2 === $test->expectedscore) {
+        } else if (-2 === $test->expectedscore) {
             $class = 'expectedfail';
             $passedcol = stack_string('testsuiteknownfailmaths');
         } else {

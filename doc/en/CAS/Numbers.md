@@ -33,6 +33,8 @@ The following commands which are relevant to manipulation of numbers are defined
 | `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
 | `coeff_list(ex,v)`              | This function takes an expression ex and returns a list of coefficients of v
 | `coeff_list_nz(ex,v)`           | This function takes an expression ex and returns a list of nonzero coefficients of v
+| `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
+| `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \)  
 
 ## STACK numerical predicates ##
 
@@ -46,7 +48,11 @@ The following commands which are relevant to manipulation of numbers are defined
 
 ## Rational numbers ##
 
-## Floating point numbers ##
+## Floating point numbers ## {#Floats}
+
+The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.    
+
+If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you must use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  Otherwise STACK will try to insert star characters for you and `3e4` will be interprted as `3*e*4`.
 
 ## Surds ##
 

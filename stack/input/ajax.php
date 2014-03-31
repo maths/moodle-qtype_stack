@@ -20,10 +20,10 @@
 
 define('AJAX_SCRIPT', true);
 
-require_once(dirname(__FILE__) . '/../../../../../config.php');
+require_once(__DIR__ . '/../../../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
-require_once(dirname(__FILE__) . '/../options.class.php');
-require_once(dirname(__FILE__) . '/inputbase.class.php');
+require_once(__DIR__ . '/../options.class.php');
+require_once(__DIR__ . '/inputbase.class.php');
 
 $qaid  = required_param('qaid', PARAM_INT);
 $inputname = required_param('name', PARAM_ALPHANUMEXT);

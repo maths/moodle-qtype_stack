@@ -21,8 +21,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/potentialresponsenode.class.php');
-require_once(dirname(__FILE__) . '/potentialresponsetreestate.class.php');
+require_once(__DIR__ . '/potentialresponsenode.class.php');
+require_once(__DIR__ . '/potentialresponsetreestate.class.php');
 
 /**
  * Deals with whole potential response trees.

@@ -27,8 +27,8 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
-require_once(dirname(__FILE__) . '/../locallib.php');
-require_once(dirname(__FILE__) . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../stack/utils.class.php');
 
 
 /**

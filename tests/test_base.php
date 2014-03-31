@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once($CFG->dirroot . '/question/type/stack/stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 

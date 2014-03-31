@@ -20,8 +20,8 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../utils.class.php');
+require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 class stack_cas_casstring {
 
@@ -441,7 +441,12 @@ class stack_cas_casstring {
     /* Validation functions                                  */
     /*********************************************************/
 
-    // We may need to use this function more than once to validate with different options.
+    /* We may need to use this function more than once to validate with different options.
+     * $secutrity must either be 's' for student, or 't' for teacher.
+     * $syntax is whether we enforce a "strict syntax"
+     * $insertstars is whether we actually put stars into the places we expect them to go
+     * $allowwords enables specific function names (but never those from $globalforbid) 
+     */
     public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
 
         if (!('s'===$security || 't'===$security)) {
@@ -598,6 +603,45 @@ class stack_cas_casstring {
             }
         }
 
+        if ($security == 's') {
+            // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
+            // asin etc, will be included automatically, so we don't need them explicitly.
+            $triglist = array( 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
+            foreach ($triglist as $fun) {
+                if (strpos($cmd, $fun.'^') !== false) {
+                    $this->add_error(stack_string('stackCas_trigexp',
+                        array('forbid' => stack_maxima_format_casstring($fun.'^'))));
+                    $this->answernote[] = 'trigexp';
+                    $this->valid = false;
+                    break;
+                }
+                if (strpos($cmd, $fun.'[') !== false) {
+                    $this->add_error(stack_string('stackCas_trigparens',
+                        array('forbid' => stack_maxima_format_casstring($fun.'(x)'))));
+                    $this->answernote[] = 'trigparens';
+                    $this->valid = false;
+                    break;
+                }
+                if (strpos($cmd, 'arc'.$fun) !== false) {
+                    $this->add_error(stack_string('stackCas_triginv',
+                        array('badinv' => stack_maxima_format_casstring('arc'.$fun), 'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                    $this->answernote[] = 'triginv';
+                    $this->valid = false;
+                    break;
+                }
+                $opslist = array('*', '+', '-', '/');
+                foreach ($opslist as $op) {
+                    if (strpos($cmd, $fun.$op) !== false) {
+                        $this->add_error(stack_string('stackCas_trigop',
+                            array('trig' => stack_maxima_format_casstring($fun), 'forbid' => stack_maxima_format_casstring($fun.$op))));
+                        $this->answernote[] = 'trigop';
+                        $this->valid = false;
+                        break;
+                    }
+                }
+            }
+        }
+
         // Only permit the following characters to be sent to the CAS.
         $cmd = trim($cmd);
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
@@ -684,10 +728,11 @@ class stack_cas_casstring {
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
         $patterns[] = "|(\))([0-9A-Za-z])|";          // E.g. )a, or )3.
         // We assume f and g are single letter functions.
-        // 'E' is used to denote scientific notation.    E.g. 3E2 = 300.0.
+        // 'E' and 'e' is used to denote scientific notation.    
+        // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
-            $patterns[] = "|([0-9]+)([A-DF-Za-z])|";  // E.g. 3x.
-            $patterns[] = "|([0-9])([A-DF-Za-z]\()|"; // E.g. 3 x (.
+            $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
+            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3 x (.
         } else {
             $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
             $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3 x (.

@@ -25,10 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/stack/input/factory.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/keyval.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
-require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
+require_once(__DIR__ . '/stack/input/factory.class.php');
+require_once(__DIR__ . '/stack/cas/keyval.class.php');
+require_once(__DIR__ . '/stack/cas/castext.class.php');
+require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
 
 

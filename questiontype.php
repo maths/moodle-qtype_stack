@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
-require_once(dirname(__FILE__) . '/stack/questiontest.php');
-require_once(dirname(__FILE__) . '/stack/graphlayout/graph.php');
+require_once(__DIR__ . '/stack/questiontest.php');
+require_once(__DIR__ . '/stack/graphlayout/graph.php');
 
 
 /**

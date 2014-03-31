@@ -17,7 +17,7 @@
 
 require_once($CFG->libdir . '/filterlib.php');
 require_once($CFG->dirroot . '/filter/tex/filter.php');
-require_once(dirname(__FILE__) . '/mathsoutputfilterbase.class.php');
+require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 
 
 /**

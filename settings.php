@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/settingslib.php');
+require_once(__DIR__ . '/settingslib.php');
 
 
 // Useful links.
@@ -59,8 +59,6 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
                 'unix'             => get_string('settingplatformtypeunix',                'qtype_stack'),
                 'unix-optimised'   => get_string('settingplatformtypeunixoptimised',       'qtype_stack'),
                 'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),
-                'tomcat'           => get_string('settingplatformtypemaximapool',          'qtype_stack'),
-                'tomcat-optimised' => get_string('settingplatformtypemaximapooloptimised', 'qtype_stack'),
                 'server'           => get_string('settingplatformtypeserver',              'qtype_stack'))));
 
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',

@@ -18,10 +18,10 @@
  * The file provides helper code for creating the files needed to connect to the CAS.
  */
 
-require_once(dirname(__FILE__).'/../../../../../config.php');
+require_once(__DIR__.'/../../../../../config.php');
 
-require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../utils.class.php');
+require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 
 class stack_cas_configuration {
@@ -207,7 +207,7 @@ END;
 
 END;
 
-        if ($this->settings->platform == 'unix-optimised' || $this->settings->platform == 'tomcat-optimised') {
+        if ($this->settings->platform == 'unix-optimised') {
             $contents .= <<<END
 /* We are using an optimised lisp image with maxima and the stack libraries
    pre-loaded. That is why you don't see the familiar load("stackmaxima.mac")$ here. */

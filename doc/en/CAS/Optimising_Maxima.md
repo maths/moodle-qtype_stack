@@ -2,7 +2,7 @@
 
 There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. The optimisations described here have been tested, but not extensively.  They have the potential to greatly speed up STACK.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
 
-The instructions for both CLISP and SBCL have been tested and work in STACK 3, with Maxima version 5.28.0, in October 2012.
+The instructions for both CLISP and SBCL have been tested and work in STACK 3, with Maxima version 5.28.0, in October 2012.  As of January 2014 these suggestions are still working well with Maxima 5.31.1.
 
 ## Compiled Lisp ##
 
@@ -82,11 +82,11 @@ The following web pages have more information for a few types of lisp: <http://s
 
 ## Putting Maxima on other servers ##
 
-See <http://github.com/maths/stack_util_maximapool> for an implementation of this.
-
-Running Maxima on a separate server dedicated to the task is more secure. It also
+Running Maxima on a separate server dedicated to the task is more secure. We believe it also
 improves performance because the server can start up Maxima processes in advance
 so they are all ready and waiting to compute some CAS with zero delay.
+
+See a [Maxima pool](http://github.com/maths/stack_util_maximapool) has been implementated to do this.  See <https://github.com/maths/stack_util_maximapool/blob/master/README.md>
 
 ## Optimisation results ##
 

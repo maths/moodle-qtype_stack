@@ -670,6 +670,31 @@ class stack_utils {
     }
 
     /**
+     * Extract what look like "sloppy" placeholders like [[{$type}:{$name}]] from
+     * a bit of text. We forbit bits of whitespace between the various bits.
+     * Modelled on public static function extract_placeholders($text, $type)
+     *
+     * @param string $text some text. E.g. '[[input:ans1]]'.
+     * @param string $type the type of placeholder to extract. e.g. 'input'.
+     * @return array of placeholdernames.
+     */
+    public static function extract_placeholders_sloppy($text, $type) {
+        preg_match_all('~\[\[' . $type . ':(' . self::VALID_NAME_REGEX . ')\]\]~',
+                $text, $matches1);
+        preg_match_all('~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
+                $text, $matches2);
+
+        $ret=array();
+        foreach($matches2[1] as $key => $name) {
+            if (!in_array(trim($name), $matches1[1])){
+                $ret[] = $matches2[0][$key];
+            }
+        }
+    
+        return($ret);
+    }
+
+    /**
      * @param string $name a potential name for part of a STACK question.
      * @return bool whether that name is allowed.
      */

@@ -544,7 +544,7 @@ set output ",afn),
     sysp:concat(GNUPLOT_CMD, " ", tfn),
     sysr:concat(DEL_CMD, " ", tfn),
     system(sysp),
-    /*system(sysr),*/
+    system(sysr),
     simp:old_simp,
     return(ufn)
 )$

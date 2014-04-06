@@ -40,6 +40,8 @@ stack_reset(rand_seed) := block(
   e:exp(1),
   pi:%pi, Pi:%pi, PI:%pi,
   pi():=%pi,  /* Why does Excel do this?! */
+  /* Display of matrixes */
+  lmxchar:"[",
   /* Sets up randomization, using Maxima's internal random command */
   stack_randseed(10000),
 
@@ -262,6 +264,34 @@ detexdecorate(ex) := block([argsex],
   if op(ex) = "/" then return(detexdecorate(argsex[1])/detexdecorate(argsex[2])),
   map(detexdecorate,ex)
 )$
+
+/* We only display matrices with the following matching pairs of delimiters.  
+   Mismatching pairs ruins the API, so we can't have lmxchar and rmxchar as arbitrary.
+   The list has three arguments, the first is the search string, the second is the left 
+   parentheses, and the third is the right parentheses.
+*/
+stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{", "\\{", "\\}"], ["", "", ""], [".", "", ""], ["|", "|", "|"]] $  
+
+stack_matrix_disp(m):= block([ret, lp, rp, parens],
+  if not(matrixp(m)) then (print("\\mbox{ERROR: argument to stack_matrix_disp must be a matrix.} "), return("")),
+  if not(stringp(lmxchar)) then (print("\\mbox{ERROR: stack_matrix_disp requires lmxchar to be a string. }"), return("")), 
+  parens:sublist(stack_matrix_pairs, lambda([ex],is(first(ex)=lmxchar))),
+  if emptyp(parens) then (print(concat("\\mbox{ERROR: stack_matrix_disp cannot display matrices with parentheses ", string(lmxchar), "}")), return("")),
+  parens:first(parens),
+  lp:second(parens),
+  rp:third(parens), 
+  ret:maplist(lambda([ex], maplist(tex1, args(ex))), args(m)),
+  ret:maplist(lambda([ex], simplode(ex, " & ")), ret),
+  ret:simplode(ret, " \\\\ "),
+  ret:sconcat("\\begin{array}{", simplode(maplist(lambda([ex], "c"), first(args(m)))), "} ", ret, " \\end{array}"),
+  if ""#lp then
+    ret:sconcat("\\left", lp, ret),
+  if ""#rp then
+    ret:sconcat(ret, "\\right", rp),
+  ret
+)$
+
+texput(matrix, stack_matrix_disp)$
 
 /* ********************************** */
 /* Display: Sort out the unary minus  */
@@ -2238,5 +2268,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014032800$
-print("[ STACK-Maxima started, library version 2014032800 ]")$
+stackmaximaversion:2014040600$
+print("[ STACK-Maxima started, library version 2014040600 ]")$

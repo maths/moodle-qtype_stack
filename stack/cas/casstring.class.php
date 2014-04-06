@@ -80,7 +80,7 @@ class stack_cas_casstring {
             'functions', 'fundef', 'funmake', 'grind', 'gnuplot_file_name', 'gnuplot_out_file',
             'gnuplot_preamble', 'gnuplot_ps_term_command', 'gnuplot_term', 'inchar', 'infeval',
             'infolists', 'kill', 'killcontext', 'labels', 'leftjust', 'ldisp', 'ldisplay', 'linechar',
-            'linel', 'linenum', 'linsolvewarn', 'lmxchar', 'load', 'load_pathname', 'loadfile',
+            'linel', 'linenum', 'linsolvewarn', 'load', 'load_pathname', 'loadfile',
             'loadprint', 'macroexpand', 'macroexpand1', 'macroexpansion', 'macros', 'manual_demo',
             'maxima_tempdir', 'maxima_userdir', 'multiplot_mode', 'myoptions', 'newline',
             'nolabels', 'opena', 'opena_binary', 'openr', 'openr_binary', 'openw',

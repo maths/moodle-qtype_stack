@@ -202,7 +202,45 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text("@A@", $at1, 0);
         $at1->get_display_castext();
 
-        $this->assertEquals('\(\left[\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \\\\ \end{array}\right]\)', $at1->get_display_castext());
+        $this->assertEquals('\(\left[\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right]\)', $at1->get_display_castext());
+    }
+
+    public function test_assignmatrixelements_p1() {
+        // Assign a value to matrix entries.
+        $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('matrixparens', '(');
+        $at1 = new stack_cas_session($s1, $options, 0);
+
+        $at1 = new stack_cas_text("@A@", $at1, 0);
+        $at1->get_display_castext();
+
+        $this->assertEquals('\(\left(\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right)\)', $at1->get_display_castext());
+    }
+
+    public function test_assignmatrixelements_p2() {
+        // Assign a value to matrix entries.
+        $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s1[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('matrixparens', '');
+        $at1 = new stack_cas_session($s1, $options, 0);
+
+        $at1 = new stack_cas_text("@A@", $at1, 0);
+        $at1->get_display_castext();
+
+        $this->assertEquals('\(\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\)', $at1->get_display_castext());
     }
 
     public function test_plot() {

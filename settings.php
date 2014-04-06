@@ -233,3 +233,9 @@ $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig_help', 'qtype_stack'), 'cos-1', array(
             'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'
         )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
+        get_string('matrixparens', 'qtype_stack'),
+        get_string('matrixparens_help', 'qtype_stack'), '[', array(
+            '[' => '[', '(' => '(', '' => '', '{' => '{', '|' => '|'
+        )));

@@ -74,3 +74,7 @@ and affects the way they are displayed.
 | symj     | -1               | i^2       | j^2   | j    | _i_   | _j_
 
 Note the use of both Roman and italic symbols in this table.
+
+### Matrix parentheses
+
+See the entry on [matrices](../CAS/Matrix.md#matrixparens).

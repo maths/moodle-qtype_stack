@@ -81,6 +81,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x-1', '(x^2-1)/(x+1)', 1, '', ''),
         array('AlgEquiv', 'a^b*a^c', 'a^(b+c)', 1, '', ''),
         array('AlgEquiv', '(4*sqrt(3)*%i+4)^(1/5)', '6^(1/5)*cos(%pi/15)-6^(1/5)*%i*sin(%pi/15)', 0, '', ''),
+        array('AlgEquiv', '2+2*sqrt(3+x)', '2+sqrt(12+4*x)', 1, '', ''),
 
         array('AlgEquiv', '(x-1)^2', 'x^2-2*x+1', 1, '', 'Polynomials and rational function'),
         array('AlgEquiv', '(x-1)*(x^2+x+1)', 'x^3-1', 1, '', ''),

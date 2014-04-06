@@ -56,7 +56,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         // The servlet will return 416 if the evaluation hits the timelimit.
         if (curl_getinfo($request, CURLINFO_HTTP_CODE) != '200') {
             if (curl_getinfo($request, CURLINFO_HTTP_CODE) != '416') {
-                throw new Exception('stack_cas_connection: MaximaPool error');
+                throw new Exception('stack_cas_connection: MaximaPool error: '.curl_getinfo($request, CURLINFO_HTTP_CODE));
             } else {
                 $timedout = true;
             }

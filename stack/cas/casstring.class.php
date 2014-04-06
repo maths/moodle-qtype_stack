@@ -995,7 +995,7 @@ class stack_cas_casstring {
                 if ('COMMA_TAG' === $val) {
                     $kws[] = ',';
                 } else {
-                    $kws[] = $val;  // This test is case sensitive.
+                    $kws[] = trim($val);  // This test is case sensitive, but ignores surrounding whitespace.
                 }
             }
         }

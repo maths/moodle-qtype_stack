@@ -250,19 +250,19 @@ COLOR_LIST_LENGTH:length(COLOR_LIST)$
 
 /* Decolour function */
 detexcolor(ex) := block([argsex],
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   argsex:args(ex),
   if op(ex) = texcolor then return(detexcolor(argsex[2])),
   if op(ex) = "/" then return(detexcolor(argsex[1])/detexcolor(argsex[2])),
-  map(detexcolor,ex)
+  map(detexcolor, ex)
 )$
 
 detexdecorate(ex) := block([argsex],
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   argsex:args(ex),
   if op(ex) = texdecorate then return(detexdecorate(argsex[2])),
   if op(ex) = "/" then return(detexdecorate(argsex[1])/detexdecorate(argsex[2])),
-  map(detexdecorate,ex)
+  map(detexdecorate, ex)
 )$
 
 /* We only display matrices with the following matching pairs of delimiters.  
@@ -320,7 +320,7 @@ texput(matrix, stack_matrix_disp)$
 /* Although we ultimately need to transform all integers back into "-"(number) for correct display */
 /* this function gives us a definite form for comparison purposes in the interim.*/
 unary_minus_traverse(ex) := block(
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
   apply(op(ex), map(unary_minus_traverse, args(ex)) )
 )$
@@ -330,8 +330,8 @@ unary_minus_traverse(ex) := block(
 /* For example,   -(2*y^2) is ok                                                     */
 /* But            (-3)*7 is not.                                                     */
 unary_minus_pull(ex) := block([ex2],
-  if atom(ex) then return(ex),
-  ex2:apply(op(ex),map(unary_minus_pull,args(ex))),
+  if mapatom(ex) then return(ex),
+  ex2:apply(op(ex), map(unary_minus_pull, args(ex))),
   if op(ex) = "+" then ex2:apply("+", map(unary_minus_pull_helper, args(ex2))),
   if op(ex) = "*" then ex2:unary_minus_pull_helper(ex2),
   return(ex2)
@@ -344,7 +344,7 @@ unary_minus_pull(ex) := block([ex2],
 /* Makes sure any minus sign is the top element  */
 unary_minus_pull_helper(ex) := block([fe],
   if numberp(ex) and is(ex<0) then return(-(ev(-1*ex,simp))),  /* Turns -8 into "-"(8) */
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   fe:first(args(ex)), /* First element of the arguments.  Is this a negative number? */
   if op(ex) = "*" then
      if numberp(fe) and is(fe<0) 
@@ -358,7 +358,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or atom(ex) then return(ex),
+  if simp or mapatom(ex) then return(ex),
   if op(ex) = ":=" then return(ex),
   ex2:unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
@@ -2268,5 +2268,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014040600$
-print("[ STACK-Maxima started, library version 2014040600 ]")$
+stackmaximaversion:2014040800$
+print("[ STACK-Maxima started, library version 2014040800 ]")$

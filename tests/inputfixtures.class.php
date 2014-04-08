@@ -224,6 +224,7 @@ class stack_inputvalidation_test_data {
         array('-pi', 'php_true', '-pi', 'cas_true', ""),
         array('-i', 'php_true', '-i', 'cas_true', ""),
         array('-x', 'php_true', '-x', 'cas_true', ""),
+        array('-x[3]', 'php_true', '-x[3]', 'cas_true', ""),
         array('(-1)', 'php_true', '(-1)', 'cas_true', ""),
         array('[-1,-2]', 'php_true', '[-1,-2]', 'cas_true', ""),
         array('[1,-2]', 'php_true', '[1,-2]', 'cas_true', ""),
@@ -319,12 +320,13 @@ class stack_inputvalidation_test_data {
         array('exp(x)', 'php_true', 'exp(x)', 'cas_true', ""),
         array('log(x)', 'php_true', 'log(x)', 'cas_true', "Natural logarithm."),
         array('ln(x)', 'php_true', 'ln(x)', 'cas_true', "Natural logarithm, STACK alias."),
-        array('log10(x)', 'php_true', 'log10(x)', 'cas_true', "BUG!  Should be logarithm to the base $10$."),
-        array('lg(x)', 'php_true', 'lg(x)', 'cas_true', "Logarithm to the base $10$."),
+        array('log10(x)', 'php_true', 'log10(x)', 'cas_true', "BUG!  Should be logarithm to the base \(10\)."),
+        array('lg(x)', 'php_true', 'lg(x)', 'cas_true', "Logarithm to the base \(10\)."),
         array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true', ""),
         array('a++b', 'php_true', 'a++b', 'cas_true', "The extra plusses or minuses are interpreted as unary operators on b"),
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', ""),
+        array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true', "Subscripts"),
         array('a,b,c', 'php_true', 'a,b,c', 'cas_true', "The following are known to fail.  Some are bugs...."),
         );
 

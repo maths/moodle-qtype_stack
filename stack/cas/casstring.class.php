@@ -601,8 +601,9 @@ class stack_cas_casstring {
         if ($security == 's') {
             // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
             // asin etc, will be included automatically, so we don't need them explicitly.
-            $triglist = array( 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
-            foreach ($triglist as $fun) {
+            $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
+            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs');
+            foreach (array_merge($triglist, $funlist) as $fun) {
                 if (strpos($cmd, $fun.'^') !== false) {
                     $this->add_error(stack_string('stackCas_trigexp',
                         array('forbid' => stack_maxima_format_casstring($fun.'^'))));
@@ -617,13 +618,6 @@ class stack_cas_casstring {
                     $this->valid = false;
                     break;
                 }
-                if (strpos($cmd, 'arc'.$fun) !== false) {
-                    $this->add_error(stack_string('stackCas_triginv',
-                        array('badinv' => stack_maxima_format_casstring('arc'.$fun), 'goodinv' => stack_maxima_format_casstring('a'.$fun))));
-                    $this->answernote[] = 'triginv';
-                    $this->valid = false;
-                    break;
-                }
                 $opslist = array('*', '+', '-', '/');
                 foreach ($opslist as $op) {
                     if (strpos($cmd, $fun.$op) !== false) {
@@ -633,6 +627,15 @@ class stack_cas_casstring {
                         $this->valid = false;
                         break;
                     }
+                }
+            }
+            foreach ($triglist as $fun) {
+                if (strpos($cmd, 'arc'.$fun) !== false) {
+                    $this->add_error(stack_string('stackCas_triginv',
+                        array('badinv' => stack_maxima_format_casstring('arc'.$fun), 'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                    $this->answernote[] = 'triginv';
+                    $this->valid = false;
+                    break;
                 }
             }
         }

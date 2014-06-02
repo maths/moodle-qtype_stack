@@ -109,14 +109,14 @@ Note that in this context you should always use ordinary round bracket (like (a+
 Things to remember:
 
 * STACK uses radians for the angles not degrees!
-* The function \(1/\sin(x)\) must be referred to as `csc(x)` rather than `cosec(x)`
-  (or you can just call it `1/sin(x)` if you prefer).
-  * \(\sin^2x\) should be entered as `sin(x)^2` (which is what it really means, after all).
-    Similarly for \(\tan^2(x)\), \(\sinh^2(x)\) and so on.
-  * Recall that \(\sin^{-1}(x)\) traditionally means the number \(t\) such that \(\sin(t) = x\),
-    which is of course completely different from the number \(\sin(x)^{-1} = 1/\sin(x)\).
-    This traditional notation is really rather unfortunate and is not used by the CAS; instead,
-    \(\sin^{-1}(x)\) should be entered as `asin(x)`. Similarly, \(\tan^{-1}(x)\) should be entered as `atan(x)` and so on.
+* The function \(1/\sin(x)\) should be typed in as `csc(x)` rather than `cosec(x)`.  
+  You can type `cosec(x)` or just call it `1/sin(x)` if you prefer.
+* \(\sin^2x\) must be entered as `sin(x)^2` (which is what it really means, after all).
+  Similarly for \(\tan^2(x)\), \(\sinh^2(x)\) and so on.
+* Recall that \(\sin^{-1}(x)\) traditionally means the number \(t\) such that \(\sin(t) = x\),
+  which is completely different from the number \(\sin(x)^{-1} = 1/\sin(x)\).
+  This traditional notation is really rather unfortunate and is not used by the CAS; instead,
+  \(\sin^{-1}(x)\) should be entered as `asin(x)`. Similarly, \(\tan^{-1}(x)\) should be entered as `atan(x)` and so on.
 
 ### **Exponentials** and **Logarithms** ###
 

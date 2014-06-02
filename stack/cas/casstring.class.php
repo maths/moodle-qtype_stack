@@ -300,7 +300,7 @@ class stack_cas_casstring {
             'charfun', 'charfun2', 'charlist', 'charp', 'charpoly', 'cint', 'clessp',
             'clesspignore', 'coeff', 'coefmatrix', 'col', 'columnop', 'columnspace',
             'columnswap', 'combine', 'compare', 'concat', 'conjugate', 'cons', 'constituent',
-            'copy', 'cos', 'cosh', 'cot', 'coth', 'color', 'covect', 'csc', 'csch', 'cspline', 'cyan',
+            'copy', 'cos', 'cosh', 'cot', 'coth', 'color', 'covect', 'csc', 'csch', 'cspline', 'cyan', 'cosec',
             'ctranspose', 'dblint', 'defint', 'del', 'delete', 'delta', 'denom', 'desolve',
             'determinant', 'detout', 'dgauss_a', 'dgauss_b', 'diag_matrix', 'diagmatrix',
             'diff', 'digitcharp', 'disjoin', 'disjointp', 'disolate', 'divide', 'divisors',

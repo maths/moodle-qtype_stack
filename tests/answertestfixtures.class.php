@@ -67,6 +67,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(4*sqrt(3)*%i+4)^(1/5)', '8^(1/5)*(cos(%pi/15)+%i*sin(%pi/15))', 1, '', ''),
         array('AlgEquiv', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''),
         array('AlgEquiv', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 1, '', ''),
+        array('AlgEquiv', '%i/sqrt(x)', 'sqrt(-1/x)', 1, '', ''),
 
         array('AlgEquiv', 'inf', 'inf', 1, '', 'Infinity'),
         array('AlgEquiv', 'inf', '-inf', 0, '', ''),
@@ -201,7 +202,6 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2, '', 'These currently fail'),
-        array('AlgEquiv', '-%i/sqrt(x)', 'sqrt(-1/x)', -2, '', ''),
         array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', -2, '', ''),
         array('AlgEquiv', 'x^4>=0', 'x^2>=0', -2, '', ''),
         array('AlgEquiv', '-inf', 'minf', -2, '', ''),

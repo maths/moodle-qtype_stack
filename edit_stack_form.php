@@ -893,7 +893,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $inputs = $this->get_input_names_from_question_text();
         $prts = $this->get_prt_names_from_question();
-        $fixingdollars = !empty($fromform->fixdollars);
+        $fixingdollars = array_key_exists('fixdollars', $fromform);
 
         $this->options = new stack_options();
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);

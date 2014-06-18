@@ -72,6 +72,8 @@ class stack_cas_text {
     /** @var array holds block-handlers for various parse_tree nodes */
     private $blocks = array();
 
+    private $settings;
+
 
     public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
 
@@ -110,6 +112,7 @@ class stack_cas_text {
         $this->security    = $security;
         $this->syntax      = $syntax;
         $this->insertstars = $insertstars;
+        $this->settings    = stack_utils::get_config();
     }
 
     /**
@@ -268,7 +271,12 @@ class stack_cas_text {
                         $block = new stack_cas_castext_foreach($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'external':
-                        $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        if ($this->settings->externalblocks == '1') {
+                            $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        } else {
+                            $this->errors[] = stack_string('stackBlock_externalblocksdisabled');
+                            $valid = false;
+                        }
                         break;
                     default:
                         $this->errors[] = stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
@@ -326,7 +334,11 @@ class stack_cas_text {
                         $block = new stack_cas_castext_foreach($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'external':
-                        $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        if ($this->settings->externalblocks == '1') {
+                            $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        } else {
+                            throw new stack_exception('stack_cas_text: EXTERNAL BLOCK WHILE THEY ARE DISABLED');
+                        }
                         break;
                     default:
                         throw new stack_exception('stack_cas_text: UNKNOWN NODE '.$node->get_content());

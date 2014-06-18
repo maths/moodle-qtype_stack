@@ -530,6 +530,7 @@ $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 // Used in blocks
 $string['stackBlock_ifNeedsCondition']      = 'If-block needs a test attribute. ';
 $string['stackBlock_unknownBlock']          = 'The following block is unknown: ';
+$string['stackBlock_externalblocksdisabled']= 'External blocks have not been enabled in this stack installation.';
 $string['stackBlock_missmatch']             = 'has no match. ';
 
 

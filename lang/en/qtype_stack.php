@@ -309,6 +309,13 @@ $string['settingplatformplotcommand_desc'] = 'STACK needs to know the gnuplot co
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
 $string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>.  This script also replaces <code>@...@</code> with <code>{@...@}</code>.  A better option is to user the \'Fix maths delimiters\' script which is referred to above.';
 $string['settingusefullinks'] = 'Useful links';
+$string['settingsexternalblocksheading'] = 'External blocks options';
+$string['settingexternalblocks'] = 'Allow external blocks';
+$string['settingexternalblocks_desc'] = 'Use of external-type blocks is by default forbidden. Should you allow them to be used you need to provide the blocks with the necessary libraries and binaries, and accept the risks related to them.';
+$string['settingexternalblocklatex'] = 'Allow latex-type external block';
+$string['settingexternalblocklatex_desc'] = 'The latex type of the external block uses PDFLaTeX to convert the blocks contents to an image. This may be used to generate graphs using LaTeX-libraries like TikZ. <b>You will need to have a working LaTeX-installation with PDFLaTeX and Imagick-extension for PHP.</b>';
+$string['settingexternalblocklatexcommand'] = 'PDFLaTeX command';
+$string['settingexternalblocklatexcommand_desc'] = 'The full path for the PDFLaTeX command, you will also need to ensure that PHP can call that command.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';

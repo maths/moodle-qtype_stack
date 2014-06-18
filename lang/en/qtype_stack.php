@@ -531,6 +531,8 @@ $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 $string['stackBlock_ifNeedsCondition']      = 'If-block needs a test attribute. ';
 $string['stackBlock_unknownBlock']          = 'The following block is unknown: ';
 $string['stackBlock_externalblocksdisabled']= 'External blocks have not been enabled in this stack installation.';
+$string['stackBlock_eternalLatexNotEnabled']= 'LaTeX-type has not been enabled in this stack installation.';
+$string['stackBlock_eternalMustHaveType']   = 'External blocks must define a type attribute, and that type must have a known and enabled handler.';
 $string['stackBlock_missmatch']             = 'has no match. ';
 
 

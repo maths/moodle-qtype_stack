@@ -134,8 +134,31 @@ class stack_cas_castext_external extends stack_cas_castext_block {
     }
 
     public function validate_extract_attributes() {
-        //// TODO this must do something as well as the validation step checking all parameters, expand handler...
-        return array();
+        $type = $this->get_node()->get_parameter('type', null);
+        switch ($type) {
+            case 'latex':
+                $this->handler = new stack_cas_castext_external_latex();
+                break;
+            default:
+                return array();
+        }
+
+        return $this->handler->validate_extract_attributes();
+    }
+
+    public function validate(&$errors='') {
+        $valid = parent::validate($errors);
+        $config = stack_utils::get_config();
+        if ($this->get_node()->get_parameter('type', null) == 'latex' && $config->externalblocklatex == '0') {
+            $errors .= stack_string('stackBlock_eternalLatexNotEnabled').' ';
+            $valid = false;
+        }
+
+        if ($this->get_node()->get_parameter('type', null) == null || $this->get_node()->get_parameter('type', null) =='' || $this->handler == null) {
+            $errors .= stack_string('stackBlock_eternalMustHaveType').' ';
+        }
+
+        return $valid;
     }
 }
 
@@ -143,6 +166,8 @@ abstract class stack_cas_castext_external_handler {
     public $name;
 
     public abstract function extract_attributes($node, &$tobeevaluatedcassession, $conditionstack);
+
+    public abstract function validate_extract_attributes();
 
     public function set_name($name) {
         $this->name = $name;

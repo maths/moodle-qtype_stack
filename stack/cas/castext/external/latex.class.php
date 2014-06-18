@@ -32,8 +32,6 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
 
     private $templates = array("basic"=>"template/basic.tex");
 
-    private $latex_command = "/usr/bin/pdflatex";
-
     private $timeout = 10;
 
     private $error = false;
@@ -74,7 +72,16 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
             1 => array('pipe', 'w'),
             2 => array('pipe', 'w'));
 
-        $latex_process = proc_open($this->latex_command. " " .$label_map["__SOURCE_CODE__"], $descriptors, $pipes, $cwd);
+        $config = stack_utils::get_config();
+
+        $latex_command = $config->externalblocklatexcommand;
+
+        if (!$latex_command) {
+            throw new stack_exception('stack_cas_castext_external_latex_connection: LaTeX-command undefined');
+        }
+
+
+        $latex_process = proc_open($latex_command. " " .$label_map["__SOURCE_CODE__"], $descriptors, $pipes, $cwd);
 
         if (!is_resource($latex_process)) {
             throw new stack_exception('stack_cas_castext_external_latex_connection: could not open a LaTeX process');
@@ -138,5 +145,11 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
 
         return "<img src='$url'/>";
     }
+
+    public function validate_extract_attributes(){
+        // the attributes of this block contain nothing to validate.
+        return array();
+    }
+
 }
 

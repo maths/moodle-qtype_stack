@@ -30,6 +30,7 @@ require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
+require_once(__DIR__ . '/locallib.php');
 
 
 /**
@@ -364,9 +365,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function format_generalfeedback($qa) {
-        if (empty($this->generalfeedback)) {
-            return '';
+
+        $feedback = '<hr>';
+
+        // We need to make sure the inputs are displayed in the order in which they
+        // occur in the question text. This is not necessarily the order in which they
+        // are listed in the array $this->inputs
+        $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
+        foreach ($inputs as $name) {
+            $input = $this->inputs[$name];
+            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name), $this->session->get_display_key($name)));
         }
+
+        if (empty($this->generalfeedback)) {
+            return $feedback;
+        }
+
+        $feedback .= '<hr/>';
 
         $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, true);
 
@@ -374,7 +389,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             throw new stack_exception('Error rendering the general feedback text: ' . $gftext->get_errors());
         }
 
-        return $this->format_text(stack_maths::process_display_castext($gftext->get_display_castext()),
+        return $this->format_text(stack_maths::process_display_castext($feedback.$gftext->get_display_castext()),
                 $this->generalfeedbackformat, $qa, 'question', 'generalfeedback', $this->id);
     }
 

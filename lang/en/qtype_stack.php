@@ -315,7 +315,7 @@ $string['settingexternalblocks_desc'] = 'Use of external-type blocks is by defau
 $string['settingexternalblocklatex'] = 'Allow latex-type external block';
 $string['settingexternalblocklatex_desc'] = 'The latex type of the external block uses PDFLaTeX to convert the blocks contents to an image. This may be used to generate graphs using LaTeX-libraries like TikZ. <b>You will need to have a working LaTeX-installation with PDFLaTeX and Imagick-extension for PHP.</b>';
 $string['settingexternalblocklatexcommand'] = 'PDFLaTeX command';
-$string['settingexternalblocklatexcommand_desc'] = 'The full path for the PDFLaTeX command, you will also need to ensure that PHP can call that command.';
+$string['settingexternalblocklatexcommand_desc'] = 'The full path for the PDFLaTeX command, you will also need to ensure that PHP can call that command. Typically <code>/usr/bin/pdflatex</code> or similar.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';

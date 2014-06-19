@@ -249,7 +249,7 @@ $settings->add(new admin_setting_configcheckbox('qtype_stack/externalblocklatex'
 
 $settings->add(new admin_setting_configtext('qtype_stack/externalblocklatexcommand',
         get_string('settingexternalblocklatexcommand', 'qtype_stack'),
-        get_string('settingexternalblocklatexcommand_desc', 'qtype_stack'), '/usr/bin/pdflatex'));
+        get_string('settingexternalblocklatexcommand_desc', 'qtype_stack'), ''));
 
 
 

@@ -280,8 +280,8 @@ $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
 $string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
 
-$string['teacheranswershow']      = 'The teacher\'s answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
-$string['teacheranswershow_disp'] = 'The teacher\'s answer is \( {$a->display} \).';
+$string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
+$string['teacheranswershow_disp'] = 'A correct answer is \( {$a->display} \).';
 
 
 // Admin settings.

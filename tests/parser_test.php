@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(__FILE__) . '/../../../../locallib.php');
-require_once(dirname(__FILE__) . '/../../../../tests/test_base.php');
-require_once(dirname(__FILE__) . '/../castextparser.class.php');
+require_once(dirname(__FILE__) . '/../locallib.php');
+require_once(dirname(__FILE__) . '/test_base.php');
+require_once(dirname(__FILE__) . '/../stack/cas/castext/castextparser.class.php');
 
 
 /**
@@ -288,6 +288,20 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals("{@x@}",$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->to_string());
         $this->assertEquals(true,$parsed['tree_form']->first_child->next_sibling->next_sibling->next_sibling->get_mathmode());
     }
+
+    /**
+     * Quotes does it handle them, in attributes?
+     */
+    public function test_quotes_and_attributes() {
+        $raw = '[[ quotes a="a" '."b='b' c='\"c\"'".' ]]blaah[[/quotes]]';
+        $parsed = $this->basic_parse_and_actions($raw);
+        // String check against parser->to_string
+        $this->assertEquals('[[ quotes '."a=\"a\" b=\"b\" c='\"c\"'".' ]]blaah[[/ quotes ]]', $parsed['to_string']);
+        // String check against node->to_string
+        $this->assertEquals('[[ quotes '."a=\"a\" b=\"b\" c='\"c\"'".' ]]blaah[[/ quotes ]]', $parsed['tree_form']->to_string());
+    }
+
+
 }
 
 ?>

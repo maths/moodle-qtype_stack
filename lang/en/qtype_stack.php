@@ -73,6 +73,9 @@ $string['inputtest'] ='Input test';
 $string['inversetrig'] = 'Inverse trigonometric functions';
 $string['inversetrig_help'] = 'Controls how inverse trigonometric functions are displayed in CAS output.';
 $string['inversetrig_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#inverse_trig';
+$string['matrixparens'] = 'Default shape of matrix parentheses';
+$string['matrixparens_help'] = 'Controls the default shape of matrix parentheses when displayed in CAS output.';
+$string['matrixparens_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Matrix.md#matrixparens';
 $string['falsebranch'] = 'False branch';
 $string['falsebranch_help'] = 'These fields control what happens when the answer test does not pass
 ### Mod and score
@@ -272,6 +275,15 @@ $string['pleaseananswerallparts'] = 'Please answer all parts of the question.';
 $string['pleasecheckyourinputs'] = 'Please verify that what you entered was interpreted as expected.';
 $string['singlechargotmorethanone'] = 'You can only enter a single character here.';
 
+$string['false'] = 'False';
+$string['notanswered'] = 'Not answered';
+$string['true'] = 'True';
+$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
+
+$string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
+$string['teacheranswershow_disp'] = 'A correct answer is \( {$a->display} \).';
+
+
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
 $string['settingajaxvalidation_desc'] = 'With this setting turned on, the students current input will be validated whenever they pause in their typing. This gives a better user experience, but is likely to increase the server load.';
@@ -334,12 +346,6 @@ $string['bulktesttitle'] = 'Running all the question tests in {$a}';
 $string['overallresult'] = 'Overall result';
 $string['seedx'] = 'Seed {$a}';
 $string['testpassesandfails'] = '{$a->passes} passes and {$a->fails} failures.';
-
-// Strings used by interaction elements.
-$string['false'] = 'False';
-$string['notanswered'] = 'Not answered';
-$string['true'] = 'True';
-$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
 
 // Strings used by the question test script.
 $string['addanothertestcase'] = 'Add another test case...';
@@ -678,8 +684,8 @@ $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
 
-$string['studentValidation_yourLastAnswer']  = 'Your last answer was interpreted as follows: {$a}';
-$string['studentValidation_invalidAnswer']   = 'This answer is invalid. ';
+$string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
+$string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 
 // Documentation strings.

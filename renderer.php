@@ -430,4 +430,9 @@ class qtype_stack_renderer extends qtype_renderer {
         $result = new stack_potentialresponse_tree_state(1, true, $fraction);
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result);
     }
+
+    public function correct_response(question_attempt $qa) {
+        $question = $qa->get_question();
+        return '<hr />'.$question->format_correct_response($qa);
+    }
 }

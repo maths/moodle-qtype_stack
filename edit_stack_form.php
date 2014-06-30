@@ -479,6 +479,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
+        $mform->addElement('select', 'matrixparens',
+                stack_string('matrixparens'), array(
+                    '[' => "[", '(' => '(', '' => '', '{' => '{', '|' => '|'));
+        $mform->setDefault('matrixparens', $this->stackconfig->matrixparens);
+        $mform->addHelpButton('matrixparens', 'matrixparens', 'qtype_stack');
+
         // Hints.
         $this->add_interactive_settings();
 
@@ -745,6 +751,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
         $question->inversetrig           = $opt->inversetrig;
+        $question->matrixparens          = $opt->matrixparens;
         $question->sqrtsign              = $opt->sqrtsign;
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
@@ -886,12 +893,13 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $inputs = $this->get_input_names_from_question_text();
         $prts = $this->get_prt_names_from_question();
-        $fixingdollars = !empty($fromform->fixdollars);
+        $fixingdollars = array_key_exists('fixdollars', $fromform);
 
         $this->options = new stack_options();
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
         $this->options->set_option('inversetrig',        $fromform['inversetrig']);
+        $this->options->set_option('matrixparens',       $fromform['matrixparens']);
         $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
         $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
         $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);

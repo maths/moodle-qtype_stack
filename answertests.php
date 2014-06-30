@@ -162,6 +162,7 @@ if ($notests>0) {
 
     $config = get_config('qtype_stack');
     echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
+    echo html_writer::tag('p',  stack_string('settingcasmaximaversion').': '.$config->maximaversion);
 }
 
 if ($anstest) {

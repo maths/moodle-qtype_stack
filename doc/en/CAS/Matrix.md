@@ -59,6 +59,26 @@ A similar procedure is needed for showing working when multiplying matrices.   H
 
 Notice we need to simplify the arguments before we take indices of expressions.  This is one problem with `simp:false`.
 
+## Display of matrices ## {#matrixparens}
+
+You can set the type of parentheses used to surround matrices in a number of ways.  Firstly, the admin user should set the site default in the qtype_stack options page.
+
+For an individual question, the teacher can set the variable
+
+    lxmchar:"(";
+    
+in any of the usual places, e.g. in the question variables.
+
+To set the display of an individual matrix, `m` say, in CASText you can use
+
+    @(lxmchar:"|", m)@ 
+
+Since `lxmchar` is a global setting in Maxima, you will have to set it back when you next display a matrix.  Not ideal, but there we are.
+
+Note, STACK only displays matrices with matching parentheses.  If you want something like
+\[ f(x) = \left\{ \begin{array}{cc} 1, & x<0 \\ 0, & x\geq 0 \end{array}\right.\]
+then you will have to display the matrix without parentheses and sort out the mismatching parentheses in the CASText at the level of display.
+
 ## Vectors ##
 
 If you are trying to use the vector notation such as \(3i+4j\) you will probably want to redefine \(i\) to be an abstract symbol, not a complex number.

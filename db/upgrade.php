@@ -629,7 +629,22 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2013091900, 'qtype', 'stack');
     }
-    
+
+    if ($oldversion < 2014040501) {
+
+        // Define field matrixparens to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('matrixparens', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '[', 'inversetrig');
+
+        // Conditionally launch add field matrixparens.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2014040501, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // This block of code is intentionally outside of an if statement. We want

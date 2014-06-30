@@ -79,6 +79,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             $data->inversetrig = 'cos-1';
         }
 
+        if (!property_exists($data, 'matrixparens')) {
+            $data->matrixparens = '[';
+        }
+
         // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 

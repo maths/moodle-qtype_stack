@@ -23,29 +23,6 @@
 ;;(defprop mtimes "\\times " texsym)
 ;;(defprop mtimes "\\cdot " texsym)
 
-;; To use the LaTeX matrix style using the array environment, define tex-matrix as
-;; Chris Sangwin 24/1/2004
-;; This is a hack, sorry.
-
-(defun tex-matrix-col-count (x csym)
-;; Replaces everything with a csym
-  (if (null (cdr (car (cdr x)))) (list csym)  ; Empty rows
-  ; (cdr x)              - a list of rows
-  ; (car (cdr x))        - first row
-  ; (cdr (car (cdr x)))  - first row without (mlist)
-  (mapcon #'(lambda(y) (list csym)) (cdr (car (cdr x)))) ; replace each item with a csym
-  )
-)
-
-(defun tex-matrix (x l r) ;; matrix looks like ((mmatrix)((mlist) a b) ...)
-  (append l `("\\left[\\begin{array}{")
-             (tex-matrix-col-count x "c") ; Replace every column with a "c"
-            `("} ")
-     ; Below is the bit we need - forms the array
-     (mapcan #'(lambda(y) (tex-list (cdr y) nil (list " \\\\ ") " & ")) (cdr x))
-     '("\\end{array}\\right]") r)
-)
-
 
 ;; patch to tex-prefix to make sin(x) always like sin(x), and not the default sin x.
 ;; CJS 24 June 2004

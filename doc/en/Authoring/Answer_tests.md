@@ -46,8 +46,6 @@ The feedback is only shown to a student if the quiet option is set to 'no'.  If 
 
      Home > Site administration > Plugins > Question types > Stack
 
-A [static version is also available](%CONTENT/AnswerTests.html).
-
 # Equality #
 
 A crucial component in the assessment process the ability to decide if two expressions are equal.

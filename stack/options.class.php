@@ -93,6 +93,14 @@ class stack_options {
                 'caskey'     =>  'assume_pos',
                 'castype'    =>  'ex',
             ),
+            'matrixparens'   =>  array(
+                'type'       =>  'list',
+                'value'      =>  '[',
+                'strict'     =>  true,
+                'values'     =>  array('[', '(', '', '{', '|'),
+                'caskey'     =>  'lmxchar',
+                'castype'    =>  'exs',
+            ),
         );
 
         if (!is_array($settings)) {
@@ -115,6 +123,7 @@ class stack_options {
         $this->set_option('multiplicationsign', $stackconfig->multiplicationsign);
         $this->set_option('complexno', $stackconfig->complexno);
         $this->set_option('inversetrig', $stackconfig->inversetrig);
+        $this->set_option('matrixparens', $stackconfig->matrixparens);
         $this->set_option('floats', (bool) $stackconfig->inputforbidfloat);
         $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
         $this->set_option('simplify', (bool) $stackconfig->questionsimplify);
@@ -179,6 +188,10 @@ class stack_options {
                 if ('ex' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
                     $commands   .= ', '.$opt['caskey'].':'.$value;
+                } 
+                else if ('exs' == $opt['castype']) {
+                    $names      .= ', '.$opt['caskey'];
+                    $commands   .= ', '.$opt['caskey'].':"'.$value.'"';
                 } else if ('fun' == $opt['castype']) {
                     // Make sure these options are *strings*, otherwise they clash
                     // with Maxim names, particularly alias.

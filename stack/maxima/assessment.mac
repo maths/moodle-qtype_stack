@@ -42,7 +42,7 @@ if not(?functionp('poly_reduced_grobner)) then load("grobner");
 /* op(ex) is unsafe on atoms: this is a fix. */
 /* This function always returns a string     */
 safe_op(ex) := block(
-  if atom(ex) then return(""),
+  if mapatom(ex) then return(""),
   if stringp(op(ex)) then return(op(ex)) else return(string(op(ex)))
 )$
 
@@ -70,7 +70,7 @@ coeff_list_nz(ex,v):= block([deg,kloop,cl],
 /* Note, this function varies depending on the value of simp! */
 /* E.g. x+x-> 2*x, so is this a product of sum?               */
 get_ops(ex):= setify(flatten(get_ops_helper(ex)))$
-get_ops_helper(ex):=if atom(ex) then [] else append([op(ex)],maplist(get_ops_helper,args(ex)))$
+get_ops_helper(ex):=if mapatom(ex) then [] else append([op(ex)],maplist(get_ops_helper,args(ex)))$
 
 /* ********************************** */
 /* General list and utility functions */
@@ -208,7 +208,7 @@ commonfaclist(l) := block([i,a,ret],
 /* Returns a list of factors of ex without multiplicities */
 factorlist(ex) := block([simp:false,ret:"",ex2],
   ex:ev(factor(ex),simp),
-  if atom(ex) then return([ex]),
+  if mapatom(ex) then return([ex]),
   if op(ex)#"*" then
      ret:[ex]
   else
@@ -227,7 +227,7 @@ lowesttermsp(ex) := block([simp:false,ex1,ex2,ex3],
 
 /* Create a list with all parts for which numberp(ex)=true, or which appear to be rational numbers */
 list_expression_numbers(ex) := block([ex2],
-  if atom(ex) then (if numberp(ex) then return([ex]) else return([]))
+  if mapatom(ex) then (if numberp(ex) then return([ex]) else return([]))
   else (
   if op(ex)=DIV_OP and simp_numberp(num(ex)) and simp_numberp(denom(ex)) then return([ex]),
   ex2:args(ex),
@@ -273,7 +273,7 @@ infix("=<");
 
 /* Reduces an inequality to either ? > 0 or ? >=0, which is monic in its variable. */
 ineqprepare(ex) := block([op2,ex2],
-    if atom(ex) then return(ex),
+    if mapatom(ex) then return(ex),
     if op(ex)="="  then return(make_monic(ev(part(ex,1) - part(ex,2),simp,trigreduce)) = 0),
     if op(ex)=">"  then return(make_monic(ev(part(ex,1) - part(ex,2),simp,trigreduce)) > 0),
     if op(ex)=">=" then return(make_monic(ev(part(ex,1) - part(ex,2),simp,trigreduce)) >= 0),
@@ -286,7 +286,7 @@ ineqprepare(ex) := block([op2,ex2],
 
 /* Turn an single variable polynomial expression into a +1/-1 monic polynomial */
 make_monic(ex):=block(
-    if atom(ex) then return(ex),
+    if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),
     if length(listofvars(ex))>1 then return(ex),
     ex:expand(ex),
@@ -298,7 +298,7 @@ ineqorder(ex) := ineqorder_f(ev(ineqprepare(ex),simp))$
 
 /* This function prepares inequalities, removes duplicates (e.g. x>1 and 1<x end up the same. Finally it orders the result. */
 ineqorder_f(ex) := block(
-    if atom(ex) then return(ex),
+    if mapatom(ex) then return(ex),
     if op(ex)="and" then return(apply("and",sort(listify(setify((map(ineqorder_f,args(ex)))))))),
     if op(ex)="or" then return(apply("or",sort(listify(setify((map(ineqorder_f,args(ex)))))))),
     if op(ex)="not" then return(apply("not",sort(listify(setify((map(ineqorder_f,args(ex)))))))),
@@ -545,12 +545,12 @@ expandp(p):= block([simp:true], if p=ev(expand(p),expand(1000,1000)) then true e
 factorp(p) := block([a],
     if ev(p=factor(p), simp) then 
         return(true),
-    if atom(p) then 
+    if mapatom(p) then 
         return(false),
     /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
     if ev(-1*factor(p) = expand(-1*p), simp) then 
         return(true),
-    if op(p)="^" and atom(part(p, 1)) 
+    if op(p)="^" and mapatom(part(p, 1)) 
         then return(true),
     if op(p)="^" and factorp(part(p, 1)) then
         return(true),
@@ -712,9 +712,9 @@ diffp(ex,[args]) := block([v, xp, n],
 
 /* (a+b)^n -> a^n+b^n */
 buggy_pow(ex) := block([ex_ex],
-    if atom(ex) then return(ex),
+    if mapatom(ex) then return(ex),
     if op(ex)="/" and atom(part(ex, 2))#true and op(part(ex, 2))="+" then return(map(lambda([ex2],part(ex, 1)/ex2), part(ex, 2))),
-    if atom(part(ex, 1)) or op(part(ex, 1))#"+" then return(map(buggy_pow, ex)),
+    if mapatom(part(ex, 1)) or op(part(ex, 1))#"+" then return(map(buggy_pow, ex)),
     if op(ex)="^" then return(map(lambda([ex2], ex2^buggy_pow(part(ex, 2))), map(buggy_pow, part(ex, 1)))),
     if op(ex)=sqrt then return(map(sqrt, map(buggy_pow, part(ex, 1))))
 )$

@@ -194,7 +194,7 @@ An important class of differential equations are the so-called first order exact
 
 Assume that \(h(x,y)=c\) gives an implicit function, which satisfies this equation.  Then
 
-\[ \frac{\mathrm{d}h}{\mathrm{d}x}=\frac{\partial h}{\partial y}\frac{\mathrm{d}y}{\mathrm{d}x}+\frac{\partial h}{\partial x}=0\]
+\[ \frac{\mathrm{d}h}{\mathrm{d}x}=\frac{\partial h}{\partial y}\cdot \frac{\mathrm{d}y}{\mathrm{d}x}+\frac{\partial h}{\partial x}=0\]
 
 and so
 

@@ -171,6 +171,13 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('Illegal_floats', $state->note);
     }
 
+    public function test_validate_student_response_subscripts() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))');
+        $state = $el->validate_student_response(array('sans1' => 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))'), $options, 'x^2+1/3', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+    }
+
     public function test_validate_student_response_insertstars_true_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');

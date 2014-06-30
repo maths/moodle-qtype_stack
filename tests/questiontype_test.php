@@ -190,6 +190,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -299,6 +300,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -397,6 +399,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
         $expectedq->inversetrig           = 'cos-1';
+        $expectedq->matrixparens          = '[';
         $expectedq->variantsselectionseed = '';
 
         $expectedq->ans1type               = 'algebraic';

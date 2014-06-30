@@ -23,8 +23,9 @@
         <FIELD NAME="multiplicationsign" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="dot" SEQUENCE="false" COMMENT="The symbol to use for multiplication." PREVIOUS="prtincorrectformat" NEXT="sqrtsign"/>
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds." PREVIOUS="multiplicationsign" NEXT="complexno"/>
         <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented." PREVIOUS="sqrtsign" NEXT="inversetrig"/>
-        <FIELD NAME="inversetrig" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="How the inverse trigonometric function should be displayed. The valid values are cos-1, acos or arccos." PREVIOUS="complexno" NEXT="variantsselectionseed"/>
-        <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values." PREVIOUS="inversetrig"/>
+        <FIELD NAME="inversetrig" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="How the inverse trigonometric function should be displayed. The valid values are cos-1, acos or arccos." PREVIOUS="complexno" NEXT="matrixparens"/>
+        <FIELD NAME="matrixparens" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="The parentheses used to surround matrices." PREVIOUS="inversetrig" NEXT="variantsselectionseed"/>
+        <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values." PREVIOUS="matrixparens"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>

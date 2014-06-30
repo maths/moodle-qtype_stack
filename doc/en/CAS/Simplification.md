@@ -41,6 +41,16 @@ which pulls "-" out the front in a specific situation: that of a product with a 
 
 Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed. 
 
+## If you really insist on a cludge....
+
+In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  Please avoid doing this!
+
+    a:sin(x^2);
+    b:1+x^2;
+    f:concat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
+
+Then you can put in `@f@` into one of the CASText fields.
+
 ## Further examples
 
 Some further examples are given elsewhere:

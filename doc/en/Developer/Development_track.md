@@ -1,3 +1,4 @@
+# Development track for STACK 3.3
 
 
 # Development track for STACK 3.3
@@ -24,6 +25,10 @@ Basic reports now work.
 * *done* Refactor the Maxima plot command to include options, e.g., xlabel, ylabel, legend, color, style, point_type.
 * *done* Enable a function as an answer type, e.g. improve validation.
 * *done* Refactor answer test unit testing to distinguish "test fail" from "zero".
+* *done* Reject things like sin*(x) and sin^2(x) as invalid
+* *done* Expand the numerical tests
+* *done* Provide a new option on how parentheses are displayed for matrices
+* Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
 
 ## Assorted minor improvements
 

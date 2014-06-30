@@ -40,6 +40,8 @@ stack_reset(rand_seed) := block(
   e:exp(1),
   pi:%pi, Pi:%pi, PI:%pi,
   pi():=%pi,  /* Why does Excel do this?! */
+  /* Display of matrixes */
+  lmxchar:"[",
   /* Sets up randomization, using Maxima's internal random command */
   stack_randseed(10000),
 
@@ -64,7 +66,8 @@ stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 /* Execute this command to ensure values have been set */
 stack_reset(1000);
 
-alias(int,integrate);        /* Allows integrate to be called with int() */
+alias(int,integrate);        /* Allows integrate to be called with int()    */
+alias(cosec,csc);            /* Corresponds to current student expectations */
 
 simplify(ex) := ev(fullratsimp(ex), simp); /* Allows simplify to be something */
 degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
@@ -248,20 +251,48 @@ COLOR_LIST_LENGTH:length(COLOR_LIST)$
 
 /* Decolour function */
 detexcolor(ex) := block([argsex],
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   argsex:args(ex),
   if op(ex) = texcolor then return(detexcolor(argsex[2])),
   if op(ex) = "/" then return(detexcolor(argsex[1])/detexcolor(argsex[2])),
-  map(detexcolor,ex)
+  map(detexcolor, ex)
 )$
 
 detexdecorate(ex) := block([argsex],
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   argsex:args(ex),
   if op(ex) = texdecorate then return(detexdecorate(argsex[2])),
   if op(ex) = "/" then return(detexdecorate(argsex[1])/detexdecorate(argsex[2])),
-  map(detexdecorate,ex)
+  map(detexdecorate, ex)
 )$
+
+/* We only display matrices with the following matching pairs of delimiters.  
+   Mismatching pairs ruins the API, so we can't have lmxchar and rmxchar as arbitrary.
+   The list has three arguments, the first is the search string, the second is the left 
+   parentheses, and the third is the right parentheses.
+*/
+stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{", "\\{", "\\}"], ["", "", ""], [".", "", ""], ["|", "|", "|"]] $  
+
+stack_matrix_disp(m):= block([ret, lp, rp, parens],
+  if not(matrixp(m)) then (print("\\mbox{ERROR: argument to stack_matrix_disp must be a matrix.} "), return("")),
+  if not(stringp(lmxchar)) then (print("\\mbox{ERROR: stack_matrix_disp requires lmxchar to be a string. }"), return("")), 
+  parens:sublist(stack_matrix_pairs, lambda([ex],is(first(ex)=lmxchar))),
+  if emptyp(parens) then (print(concat("\\mbox{ERROR: stack_matrix_disp cannot display matrices with parentheses ", string(lmxchar), "}")), return("")),
+  parens:first(parens),
+  lp:second(parens),
+  rp:third(parens), 
+  ret:maplist(lambda([ex], maplist(tex1, args(ex))), args(m)),
+  ret:maplist(lambda([ex], simplode(ex, " & ")), ret),
+  ret:simplode(ret, " \\\\ "),
+  ret:sconcat("\\begin{array}{", simplode(maplist(lambda([ex], "c"), first(args(m)))), "} ", ret, " \\end{array}"),
+  if ""#lp then
+    ret:sconcat("\\left", lp, ret),
+  if ""#rp then
+    ret:sconcat(ret, "\\right", rp),
+  ret
+)$
+
+texput(matrix, stack_matrix_disp)$
 
 /* ********************************** */
 /* Display: Sort out the unary minus  */
@@ -290,7 +321,7 @@ detexdecorate(ex) := block([argsex],
 /* Although we ultimately need to transform all integers back into "-"(number) for correct display */
 /* this function gives us a definite form for comparison purposes in the interim.*/
 unary_minus_traverse(ex) := block(
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
   apply(op(ex), map(unary_minus_traverse, args(ex)) )
 )$
@@ -300,8 +331,8 @@ unary_minus_traverse(ex) := block(
 /* For example,   -(2*y^2) is ok                                                     */
 /* But            (-3)*7 is not.                                                     */
 unary_minus_pull(ex) := block([ex2],
-  if atom(ex) then return(ex),
-  ex2:apply(op(ex),map(unary_minus_pull,args(ex))),
+  if mapatom(ex) then return(ex),
+  ex2:apply(op(ex), map(unary_minus_pull, args(ex))),
   if op(ex) = "+" then ex2:apply("+", map(unary_minus_pull_helper, args(ex2))),
   if op(ex) = "*" then ex2:unary_minus_pull_helper(ex2),
   return(ex2)
@@ -314,7 +345,7 @@ unary_minus_pull(ex) := block([ex2],
 /* Makes sure any minus sign is the top element  */
 unary_minus_pull_helper(ex) := block([fe],
   if numberp(ex) and is(ex<0) then return(-(ev(-1*ex,simp))),  /* Turns -8 into "-"(8) */
-  if atom(ex) then return(ex),
+  if mapatom(ex) then return(ex),
   fe:first(args(ex)), /* First element of the arguments.  Is this a negative number? */
   if op(ex) = "*" then
      if numberp(fe) and is(fe<0) 
@@ -328,7 +359,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or atom(ex) then return(ex),
+  if simp or mapatom(ex) then return(ex),
   if op(ex) = ":=" then return(ex),
   ex2:unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
@@ -544,7 +575,7 @@ set output ",afn),
     sysp:concat(GNUPLOT_CMD, " ", tfn),
     sysr:concat(DEL_CMD, " ", tfn),
     system(sysp),
-    /*system(sysr),*/
+    system(sysr),
     simp:old_simp,
     return(ufn)
 )$
@@ -2238,5 +2269,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014032800$
-print("[ STACK-Maxima started, library version 2014032800 ]")$
+stackmaximaversion:2014060201$
+print("[ STACK-Maxima started, library version 2014060201 ]")$

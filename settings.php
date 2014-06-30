@@ -253,3 +253,9 @@ $settings->add(new admin_setting_configtext('qtype_stack/externalblocklatexcomma
 
 
 
+
+$settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
+        get_string('matrixparens', 'qtype_stack'),
+        get_string('matrixparens_help', 'qtype_stack'), '[', array(
+            '[' => '[', '(' => '(', '' => '', '{' => '{', '|' => '|'
+        )));

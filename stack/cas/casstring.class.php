@@ -80,7 +80,7 @@ class stack_cas_casstring {
             'functions', 'fundef', 'funmake', 'grind', 'gnuplot_file_name', 'gnuplot_out_file',
             'gnuplot_preamble', 'gnuplot_ps_term_command', 'gnuplot_term', 'inchar', 'infeval',
             'infolists', 'kill', 'killcontext', 'labels', 'leftjust', 'ldisp', 'ldisplay', 'linechar',
-            'linel', 'linenum', 'linsolvewarn', 'lmxchar', 'load', 'load_pathname', 'loadfile',
+            'linel', 'linenum', 'linsolvewarn', 'load', 'load_pathname', 'loadfile',
             'loadprint', 'macroexpand', 'macroexpand1', 'macroexpansion', 'macros', 'manual_demo',
             'maxima_tempdir', 'maxima_userdir', 'multiplot_mode', 'myoptions', 'newline',
             'nolabels', 'opena', 'opena_binary', 'openr', 'openr_binary', 'openw',
@@ -300,7 +300,7 @@ class stack_cas_casstring {
             'charfun', 'charfun2', 'charlist', 'charp', 'charpoly', 'cint', 'clessp',
             'clesspignore', 'coeff', 'coefmatrix', 'col', 'columnop', 'columnspace',
             'columnswap', 'combine', 'compare', 'concat', 'conjugate', 'cons', 'constituent',
-            'copy', 'cos', 'cosh', 'cot', 'coth', 'color', 'covect', 'csc', 'csch', 'cspline', 'cyan',
+            'copy', 'cos', 'cosh', 'cot', 'coth', 'color', 'covect', 'csc', 'csch', 'cspline', 'cyan', 'cosec',
             'ctranspose', 'dblint', 'defint', 'del', 'delete', 'delta', 'denom', 'desolve',
             'determinant', 'detout', 'dgauss_a', 'dgauss_b', 'diag_matrix', 'diagmatrix',
             'diff', 'digitcharp', 'disjoin', 'disjointp', 'disolate', 'divide', 'divisors',
@@ -606,8 +606,9 @@ class stack_cas_casstring {
         if ($security == 's') {
             // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
             // asin etc, will be included automatically, so we don't need them explicitly.
-            $triglist = array( 'sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
-            foreach ($triglist as $fun) {
+            $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
+            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs');
+            foreach (array_merge($triglist, $funlist) as $fun) {
                 if (strpos($cmd, $fun.'^') !== false) {
                     $this->add_error(stack_string('stackCas_trigexp',
                         array('forbid' => stack_maxima_format_casstring($fun.'^'))));
@@ -622,13 +623,6 @@ class stack_cas_casstring {
                     $this->valid = false;
                     break;
                 }
-                if (strpos($cmd, 'arc'.$fun) !== false) {
-                    $this->add_error(stack_string('stackCas_triginv',
-                        array('badinv' => stack_maxima_format_casstring('arc'.$fun), 'goodinv' => stack_maxima_format_casstring('a'.$fun))));
-                    $this->answernote[] = 'triginv';
-                    $this->valid = false;
-                    break;
-                }
                 $opslist = array('*', '+', '-', '/');
                 foreach ($opslist as $op) {
                     if (strpos($cmd, $fun.$op) !== false) {
@@ -638,6 +632,15 @@ class stack_cas_casstring {
                         $this->valid = false;
                         break;
                     }
+                }
+            }
+            foreach ($triglist as $fun) {
+                if (strpos($cmd, 'arc'.$fun) !== false) {
+                    $this->add_error(stack_string('stackCas_triginv',
+                        array('badinv' => stack_maxima_format_casstring('arc'.$fun), 'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                    $this->answernote[] = 'triginv';
+                    $this->valid = false;
+                    break;
                 }
             }
         }
@@ -1000,7 +1003,7 @@ class stack_cas_casstring {
                 if ('COMMA_TAG' === $val) {
                     $kws[] = ',';
                 } else {
-                    $kws[] = $val;  // This test is case sensitive.
+                    $kws[] = trim($val);  // This test is case sensitive, but ignores surrounding whitespace.
                 }
             }
         }

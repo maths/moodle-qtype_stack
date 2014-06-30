@@ -9,34 +9,40 @@ The instructions for both CLISP and SBCL have been tested and work in STACK 3, w
 [Maxima](../CAS/Maxima.md) can be run with a number of different [lisp implementations](http://maxima-project.org/wiki/index.php?title=Lisp_implementations).
 Although CLISP is the most portable - due to being interpreted - other lisps can give faster execution.
 
-[Maxima](../CAS/Maxima.md) can be compiled with one or more of 4 LISP implementations;
-[CLISP](http://en.wikipedia.org/wiki/CLISP) , [CMUCL](http://en.wikipedia.org/wiki/CMU_Common_Lisp),
-[GCL](http://www.gnu.org/software/gcl/) and [SBCL](http://http://www.sbcl.org/). Of the four, CLISP is the most portable, but is also by far the slowest due to its being
-the only LISP interpreter. Using [Maxima](../CAS/Maxima.md) compiled with CMUCL, GCL or SBCL will generally
-give much better performance.
-
 
 ## Preloading ##
 
-Lisp is able to save a snapshot of its current state to a file. This file can
-then be used to re-start Lisp, and hence Maxima, in exactly that state. This
-optimisation involves creating a snap-shot of Lisp with Maxima and all the
-STACK code loaded, which can speed up launch times be an order of magnitude on
-Linux.This [tip was originally provided Niels
-Walet](http://stack.bham.ac.uk/live/mod/forum/discuss.php?d=134).
+Lisp is able to save a snapshot of its current state to a file. This file can then be used to re-start Lisp, and hence Maxima, in exactly that state. This optimisation involves creating a snap-shot of Lisp with Maxima and all the STACK code loaded, which can speed up launch times be an order of magnitude on Linux. This tip was originally provided Niels Walet.
+
+The principle is to save an image of Maxima running with STACK libraries already loaded then run this directly.  It is fairly straightforward with the following steps.
+
+* Check your Maxima Lisp with **maxima --list-avail** to see what Lisps you have to run Maxima.
+* Load Maxima, using switches for a particular version if you need, e.g. `maxima -l CLISP -u 5.19.2`.
+
+### GCL ###
+
+This is the default lisp used by most of the binary distributions, and therefore the lisp which you are most likely to have.
+
+* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this every time you upgrade your version.
+
+~~~~
+    load("<path>/maximalocal.mac");
+    :lisp (si::save-system "/path/to/moodledata/stack/maxima-optimised")  
+    quit();
+~~~~
+
+* Go into the STACK settings and set Platform type to 'Linux (Optimised)'.
+* Set Maxima command to.
+
+    /path/to/moodledata/stack/maxima-optimised  -eval '(cl-user::run)'
+
 
 ### CLISP ###
 
-The principle is to [save an image](http://clisp.cons.org/impnotes/image.html)
-of Maxima running with STACK libraries already loaded then run this directly.  It
-is fairly straightforward with the following steps.
+[Save an image in CLISP](http://clisp.cons.org/impnotes/image.html).
 
-* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this everytime you upgrade your version.
-* Check your Maxima Lisp with **maxima --list-avail** to see what Lisps you have
-to run Maxima.  We assume you have CLISP. Type **locate lisp.run** to find the
-path(s) for the next step. You might need to run the command as root, and if you
-get no results try doing a **sudo updatedb**.
-* Load Maxima, using switches for a particular version if you need, e.g. **maxima -l CLISP -u 5.19.2**.
+* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this every time you upgrade your version.
+* We assume you have CLISP. Type **locate lisp.run** to find the path(s) for the next step. You might need to run the command as root, and if you get no results try doing a **sudo updatedb**.
 * Within Maxima, type the following lines to create an image and exit.
 
 ~~~~
@@ -55,7 +61,6 @@ get no results try doing a **sudo updatedb**.
 * Visit the healthcheck page, and clear the cache (if applicable), to make sure everything is still working.
 
 Access speed increases of between 2 and 9.5 times have been reported over the standard CLISP configurations.
-Applying this to compiled Lisp versions - such as CMUCL - is being investigated.
 
 ### SBCL ###
 
@@ -86,7 +91,7 @@ Running Maxima on a separate server dedicated to the task is more secure. We bel
 improves performance because the server can start up Maxima processes in advance
 so they are all ready and waiting to compute some CAS with zero delay.
 
-See a [Maxima pool](http://github.com/maths/stack_util_maximapool) has been implementated to do this.  See <https://github.com/maths/stack_util_maximapool/blob/master/README.md>
+See a [Maxima pool](http://github.com/maths/stack_util_maximapool) has been implemented to do this.  See <https://github.com/maths/stack_util_maximapool/blob/master/README.md>
 
 ## Optimisation results ##
 

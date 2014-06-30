@@ -263,9 +263,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_bad_variablenames() {
         $cs = new stack_cas_session(array(), null, 0);
-        $rawcastext = '\[\begin{array}{rcl} & =& @Ax2@ + @double_cAx@ + @c2A@ + @Bx2@ + @cBx@ + @Cx@,\\ & =' .
-                '& @ApBx2@ + @xterm@ + @c2A@. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
-                '& @a@\,\\ @double_cA + cB@ + C& =& 0,\\ @Ac2@& =& @b@. \end{array}\]';
+        $rawcastext = '\[\begin{array}{rcl} & =& {@Ax2@} + {@double_cAx@} + {@c2A@} + {@Bx2@} + {@cBx@} + {@Cx@},\\ & =' .
+                '& {@ApBx2@} + {@xterm@} + {@c2A@}. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
+                '& {@a@}\,\\ {@double_cA + cB@} + C& =& 0,\\ {@Ac2@}& =& {@b@}. \end{array}\]';
         $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, true);
 
         $this->assertFalse($at1->get_valid());
@@ -287,10 +287,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $at1 = new stack_cas_session($s1, null, 0);
 
-        $at1 = new stack_cas_text("@A@", $at1, 0);
+        $at1 = new stack_cas_text("{@A@}", $at1, 0);
         $at1->get_display_castext();
 
-        $this->assertEquals('\(\left[\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right]\)', $at1->get_display_castext());
+        $this->assertEquals('\({\left[\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right]}\)', $at1->get_display_castext());
     }
 
     public function test_assignmatrixelements_p1() {
@@ -306,10 +306,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $options->set_option('matrixparens', '(');
         $at1 = new stack_cas_session($s1, $options, 0);
 
-        $at1 = new stack_cas_text("@A@", $at1, 0);
+        $at1 = new stack_cas_text("{@A@}", $at1, 0);
         $at1->get_display_castext();
 
-        $this->assertEquals('\(\left(\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right)\)', $at1->get_display_castext());
+        $this->assertEquals('\({\left(\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right)}\)', $at1->get_display_castext());
     }
 
     public function test_assignmatrixelements_p2() {
@@ -325,10 +325,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $options->set_option('matrixparens', '');
         $at1 = new stack_cas_session($s1, $options, 0);
 
-        $at1 = new stack_cas_text("@A@", $at1, 0);
+        $at1 = new stack_cas_text("{@A@}", $at1, 0);
         $at1->get_display_castext();
 
-        $this->assertEquals('\(\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\)', $at1->get_display_castext());
+        $this->assertEquals('\({\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}}\)', $at1->get_display_castext());
     }
 
     public function test_plot() {

@@ -393,11 +393,11 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
 
         $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
-                '!quot!\[\left[\begin{array}{cc} 1 & 7 \\\\ {\color{red}{\underline{2}}} & 4  \\\\ \end{array}\right]\]!quot! );';
+                '!quot!\[ \left[\begin{array}{cc} 1 & 7 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
         $fbt = 'The entries underlined in red below are those that are incorrect. ' .
-                '\[\left[\begin{array}{cc} 1 & 7 \\\\ {\color{red}{\underline{2}}} & 4  \\\\ \end{array}\right]\]';
+                '\[ \left[\begin{array}{cc} 1 & 7 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
         $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 }

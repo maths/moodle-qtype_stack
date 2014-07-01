@@ -49,7 +49,7 @@ class stack_cas_text {
     private $session;
 
     /** @var bool whether the string is valid. */
-    private $valid;
+    private $valid=null;
 
     /** @var bool whether this been sent to the CAS yet? Stops re-sending to the CAS. */
     private $instantiated = null;
@@ -237,7 +237,7 @@ class stack_cas_text {
 
         $validation_parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
 
-        $this->valid = $this->valid && $this->validation_recursion($validation_parse_tree_root);
+        $this->valid = $this->validation_recursion($validation_parse_tree_root) && $this->valid;
 
         if (array_key_exists('errors', $array_form)) {
             $this->valid = false;
@@ -254,7 +254,7 @@ class stack_cas_text {
             case 'castext':
                 $iter = $node->first_child;
                 while ($iter !== null) {
-                    $valid = $valid && $this->validation_recursion($iter);
+                    $valid = $this->validation_recursion($iter) && $valid;
                     $iter = $iter->next_sibling;
                 }
                 break;
@@ -292,7 +292,7 @@ class stack_cas_text {
                     } else {
                         $iter = $node->first_child;
                         while ($iter !== null) {
-                            $valid = $valid && $this->validation_recursion($iter);
+                            $valid = $this->validation_recursion($iter) && $valid;
                             $iter = $iter->next_sibling;
                         }
                     }
@@ -300,11 +300,11 @@ class stack_cas_text {
                 break;
             case 'rawcasblock':
                 $block = new stack_cas_castext_raw($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                $block->validate($this->errors);
+                $valid = $block->validate($this->errors) && $valid;
                 break;
             case 'texcasblock':
                 $block = new stack_cas_castext_latex($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                $block->validate($this->errors);
+                $valid = $block->validate($this->errors) && $valid;
                 break;
         }
         return $valid;

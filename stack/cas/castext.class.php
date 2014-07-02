@@ -388,6 +388,9 @@ class stack_cas_text {
     }
 
     public function get_debuginfo() {
+        if (null===$this->session) {
+            return "Session is NULL. ";
+        }
         return $this->session->get_debuginfo();
     }
 

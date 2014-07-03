@@ -99,12 +99,12 @@ class stack_cas_configuration {
         }
 
         // This does its best to find your version of Gnuplot...
-        $maxima_location = $this->maxima_win_location();
+        $maximalocation = $this->maxima_win_location();
 
         $plotcommands = array();
-        $plotcommands[] = $maxima_location. '/gnuplot/wgnuplot.exe';
-        $plotcommands[] = $maxima_location. '/bin/wgnuplot.exe';
-        $plotcommands[] = $maxima_location. '/gnuplot/bin/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. '/gnuplot/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. '/bin/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. '/gnuplot/bin/wgnuplot.exe';
 
         foreach ($plotcommands as $plotcommand) {
             if (file_exists($plotcommand)) {

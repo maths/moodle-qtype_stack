@@ -362,7 +362,7 @@ class stack_inputvalidation_test_data {
         // $cs = $el->validate_student_response($test->rawstring);
         // but we want to pull apart the bits to expose where the various errors occur.
 
-        $cs= new stack_cas_casstring($test->rawstring);
+        $cs = new stack_cas_casstring($test->rawstring);
         $cs->validate('s', false, true);
         $cs->set_cas_validation_casstring('sans1', true, true, null);
 
@@ -371,7 +371,7 @@ class stack_inputvalidation_test_data {
             // Trim off stack_validate_typeless([..], true, true).
             $phpcasstring = $cs->get_casstring();
             $phpcasstring = substr($phpcasstring, 25);
-            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring)-12);
+            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 12);
             $outputphpcasstring = $phpcasstring;
         } else {
             $phpcasstring = '';
@@ -411,7 +411,7 @@ class stack_inputvalidation_test_data {
             $cs = $session[0];
             $caserrors = stack_maxima_translate($cs->get_errors());
             $casvalue = stack_maxima_format_casstring($cs->get_value());
-            if ('cas_true'==$test->casvalid) {
+            if ('cas_true' == $test->casvalid) {
                 $casexpected = true;
             } else {
                 $casexpected = false;

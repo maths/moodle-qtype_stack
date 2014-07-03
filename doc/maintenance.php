@@ -43,7 +43,7 @@ function report($d) {
     $webdocs = $wwwroot.'/question/type/stack/doc/en';
     $weburl = $wwwroot.'/question/type/stack/doc/doc.php';
     $a = array();
-    $files_linked_to = array();
+    $fileslinkedto = array();
 
     if (is_dir($d)) {
         if ($dh = opendir($d)) {
@@ -106,7 +106,7 @@ function report($d) {
                                     if (strpos($hs[0], '404') !== false) {
                                         $a[] = array($fpath, 'E', 'Error 404 [' . $found[0][$i] . '] appears to be a dead link');
                                     } else {
-                                        $files_linked_to[$found[0][$i]] = true;
+                                        $fileslinkedto[$found[0][$i]] = true;
                                     }
                                     if ('/' == substr($link, -1)) {
                                         $a[] = array($fpath, 'E', 'Link [' . $found[0][$i] .
@@ -138,7 +138,7 @@ $a = report($docs);
 
 echo "<table>";
 foreach ($a as $data) {
-    if ('F'!=$data[1]) {
+    if ('F' != $data[1]) {
         echo "<tr>";
         echo "<td>".$data[0]."</td>";
         echo "<td>".$data[2]."</td>";

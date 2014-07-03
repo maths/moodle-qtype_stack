@@ -66,7 +66,7 @@ class stack_potentialresponse_tree {
 
         $this->value = $value;
 
-        if (is_a($feedbackvariables, 'stack_cas_session') || null===$feedbackvariables) {
+        if (is_a($feedbackvariables, 'stack_cas_session') || null === $feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
         } else {
             throw new stack_exception('stack_potentialresponse_tree: __construct: ' .

@@ -132,7 +132,7 @@ if (!$question->has_random_variants()) {
 
     foreach ($question->deployedseeds as $key => $deployedseed) {
         if (!is_null($question->seed) && $question->seed == $deployedseed) {
-            $choice= html_writer::tag('b', $deployedseed,
+            $choice = html_writer::tag('b', $deployedseed,
                     array('title' => stack_string('currentlyselectedvariant')));;
             $variantmatched = true;
         } else {
@@ -233,7 +233,7 @@ echo $OUTPUT->heading(stack_string('questionvariables'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 $displayqvs = '';
 foreach ($question->get_all_question_vars() as $key => $value) {
-    $displayqvs.= s($key) . ' : ' . s($value). ";\n";
+    $displayqvs .= s($key) . ' : ' . s($value). ";\n";
 }
 echo  html_writer::tag('pre', $displayqvs);
 echo html_writer::end_tag('div');

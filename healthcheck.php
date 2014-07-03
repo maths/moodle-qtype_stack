@@ -82,7 +82,7 @@ if ($config->mathsdisplay === 'mathjax') {
     echo html_writer::tag('p', stack_string('healthchecklatexmathjax',
             $settingsurl->out()));
     echo html_writer::tag('textarea', s(stack_maths_output_mathjax::get_mathjax_code()),
-            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'12', 'cols'=>'100'));
+            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '12', 'cols' => '100'));
 } else {
     $settingsurl = new moodle_url('/admin/filters.php');
     echo html_writer::tag('p', stack_string('healthcheckfilters',
@@ -93,11 +93,11 @@ if ($config->mathsdisplay === 'mathjax') {
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 
 // Check for location of Maxima.
-$maxima_location = stack_cas_configuration::confirm_maxima_win_location();
-if ('' != $maxima_location) {
-    $message = stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maxima_location);
+$maximalocation = stack_cas_configuration::confirm_maxima_win_location();
+if ('' != $maximalocation) {
+    $message = stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maximalocation);
     echo html_writer::tag('p', $message);
-    $summary[] = array(NULL, $message);
+    $summary[] = array(null, $message);
 }
 
 // Try to connect to create maxima local.
@@ -105,7 +105,7 @@ echo html_writer::tag('p', stack_string('healthcheckconfigintro2'));
 stack_cas_configuration::create_maximalocal();
 
 echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
-        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows'=>'32', 'cols'=>'100'));
+        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
 
 // Maxima config.
 if (stack_cas_configuration::maxima_bat_is_missing()) {
@@ -146,7 +146,7 @@ output_cas_text(stack_string('healthcheckplots'),
 // State of the cache.
 echo $OUTPUT->heading(stack_string('settingcasresultscache'), 3);
 $message = stack_string('healthcheckcache_' . $config->casresultscache);
-$summary[] = array(NULL, $message);
+$summary[] = array(null, $message);
 echo html_writer::tag('p', $message);
 if ('db' == $config->casresultscache) {
     echo html_writer::tag('p', stack_string('healthcheckcachestatus',
@@ -158,7 +158,7 @@ if ('db' == $config->casresultscache) {
 
 echo '<hr />';
 $tab = '';
-foreach($summary as $line) {
+foreach ($summary as $line) {
     $tl   = '';
     if (true === $line[0]) {
         $tl  .= html_writer::tag('td', '<span class="ok">OK</span>');

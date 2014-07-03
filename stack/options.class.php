@@ -29,77 +29,77 @@ class stack_options {
 
         // OptionType can be: boolean, string, html, list.
         $this->options  = array( // Array of public class settings for this class.
-            'display'   =>  array(
-                'type'       =>  'list',
-                'value'      =>  'LaTeX',
-                'strict'     =>  true,
-                'values'     =>  array('LaTeX', 'MathML', 'String'),
-                'caskey'     =>  'OPT_OUTPUT',
-                'castype'    =>  'string',
+            'display'   => array(
+                'type'       => 'list',
+                'value'      => 'LaTeX',
+                'strict'     => true,
+                'values'     => array('LaTeX', 'MathML', 'String'),
+                'caskey'     => 'OPT_OUTPUT',
+                'castype'    => 'string',
              ),
-            'multiplicationsign'   =>  array(
-                'type'       =>  'list',
-                'value'      =>  'dot',
-                'strict'     =>  true,
-                'values'     =>  array('dot', 'cross', 'none'),
-                'caskey'     =>  'make_multsgn',
-                'castype'    =>  'fun',
+            'multiplicationsign'   => array(
+                'type'       => 'list',
+                'value'      => 'dot',
+                'strict'     => true,
+                'values'     => array('dot', 'cross', 'none'),
+                'caskey'     => 'make_multsgn',
+                'castype'    => 'fun',
             ),
-            'complexno'   =>  array(
-                'type'       =>  'list',
-                'value'      =>  'i',
-                'strict'     =>  true,
-                'values'     =>  array('i', 'j', 'symi', 'symj'),
-                'caskey'     =>  'make_complexJ',
-                'castype'    =>  'fun',
+            'complexno'   => array(
+                'type'       => 'list',
+                'value'      => 'i',
+                'strict'     => true,
+                'values'     => array('i', 'j', 'symi', 'symj'),
+                'caskey'     => 'make_complexJ',
+                'castype'    => 'fun',
             ),
-            'inversetrig'   =>  array(
-                'type'       =>  'list',
-                'value'      =>  'cos-1',
-                'strict'     =>  true,
-                'values'     =>  array('cos-1', 'acos', 'arccos'),
-                'caskey'     =>  'make_arccos',
-                'castype'    =>  'fun',
+            'inversetrig'   => array(
+                'type'       => 'list',
+                'value'      => 'cos-1',
+                'strict'     => true,
+                'values'     => array('cos-1', 'acos', 'arccos'),
+                'caskey'     => 'make_arccos',
+                'castype'    => 'fun',
             ),
-            'floats'   =>  array(
-                'type'       =>  'boolean',
-                'value'      =>  1,
-                'strict'     =>  true,
-                'values'     =>  array(),
-                'caskey'     =>  'OPT_NoFloats',
-                'castype'    =>  'ex',
+            'floats'   => array(
+                'type'       => 'boolean',
+                'value'      => 1,
+                'strict'     => true,
+                'values'     => array(),
+                'caskey'     => 'OPT_NoFloats',
+                'castype'    => 'ex',
             ),
-            'sqrtsign'   =>  array(
-                'type'       =>  'boolean',
-                'value'      =>  true,
-                'strict'     =>  true,
-                'values'     =>  array(),
-                'caskey'     =>  'sqrtdispflag',
-                'castype'    =>  'ex',
+            'sqrtsign'   => array(
+                'type'       => 'boolean',
+                'value'      => true,
+                'strict'     => true,
+                'values'     => array(),
+                'caskey'     => 'sqrtdispflag',
+                'castype'    => 'ex',
             ),
-            'simplify'   =>  array(
-                'type'       =>  'boolean',
-                'value'      =>  true,
-                'strict'     =>  true,
-                'values'     =>  array(),
-                'caskey'     =>  'simp',
-                'castype'    =>  'ex',
+            'simplify'   => array(
+                'type'       => 'boolean',
+                'value'      => true,
+                'strict'     => true,
+                'values'     => array(),
+                'caskey'     => 'simp',
+                'castype'    => 'ex',
             ),
-            'assumepos'   =>  array(
-                'type'       =>  'boolean',
-                'value'      =>  false,
-                'strict'     =>  true,
-                'values'     =>  array(),
-                'caskey'     =>  'assume_pos',
-                'castype'    =>  'ex',
+            'assumepos'   => array(
+                'type'       => 'boolean',
+                'value'      => false,
+                'strict'     => true,
+                'values'     => array(),
+                'caskey'     => 'assume_pos',
+                'castype'    => 'ex',
             ),
-            'matrixparens'   =>  array(
-                'type'       =>  'list',
-                'value'      =>  '[',
-                'strict'     =>  true,
-                'values'     =>  array('[', '(', '', '{', '|'),
-                'caskey'     =>  'lmxchar',
-                'castype'    =>  'exs',
+            'matrixparens'   => array(
+                'type'       => 'list',
+                'value'      => '[',
+                'strict'     => true,
+                'values'     => array('[', '(', '', '{', '|'),
+                'caskey'     => 'lmxchar',
+                'castype'    => 'exs',
             ),
         );
 
@@ -174,8 +174,8 @@ class stack_options {
         $commands = '';
 
         foreach ($this->options as $key => $opt) {
-            if (null!=$opt['castype']) {
-                if ('boolean'===$opt['type']) {
+            if (null != $opt['castype']) {
+                if ('boolean' === $opt['type']) {
                     if ($opt['value']) {
                         $value = 'true';
                     } else {
@@ -188,8 +188,7 @@ class stack_options {
                 if ('ex' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
                     $commands   .= ', '.$opt['caskey'].':'.$value;
-                } 
-                else if ('exs' == $opt['castype']) {
+                } else if ('exs' == $opt['castype']) {
                     $names      .= ', '.$opt['caskey'];
                     $commands   .= ', '.$opt['caskey'].':"'.$value.'"';
                 } else if ('fun' == $opt['castype']) {
@@ -199,7 +198,7 @@ class stack_options {
                 }
             }
         }
-        $ret = array('names'=>$names, 'commands'=>$commands);
+        $ret = array('names' => $names, 'commands' => $commands);
         return $ret;
     }
 }

@@ -278,11 +278,11 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function get_sloppy_tags($text) {
 
-        $sloppy_tags = stack_utils::extract_placeholders_sloppy($text, 'input');
-        $sloppy_tags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'validation'), $sloppy_tags);
-        $sloppy_tags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'prt'), $sloppy_tags);
+        $sloppytags = stack_utils::extract_placeholders_sloppy($text, 'input');
+        $sloppytags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'validation'), $sloppytags);
+        $sloppytags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'prt'), $sloppytags);
 
-        return $sloppy_tags;
+        return $sloppytags;
     }
 
     /**
@@ -300,10 +300,10 @@ class qtype_stack_edit_form extends question_edit_form {
             return array();
         }
         $inputs = $this->question->inputs;
-        $input_keys = array();
+        $inputkeys = array();
         if (is_array($inputs)) {
             foreach ($inputs as $input) {
-                $input_keys[] = $input->name;
+                $inputkeys[] = $input->name;
             }
         } else {
             return array();
@@ -321,19 +321,19 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $prt = $this->question->prts[$prtname];
 
-        $prt_nodes = array();
+        $prtnodes = array();
         foreach ($prt->nodes as $name => $node) {
             $sans = new stack_cas_casstring($node->sans);
             $tans = new stack_cas_casstring($node->tans);
-            $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
-            $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
-            $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
-            $prt_nodes[$name] = $prt_node;
+            $prtnode = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
+            $prtnode->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
+            $prtnode->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
+            $prtnodes[$name] = $prtnode;
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
-        $potential_response_tree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prt_nodes, $prt->firstnodename);
-        return $potential_response_tree->get_required_variables($input_keys);
+        $potentialresponsetree = new stack_potentialresponse_tree(
+                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, $prt->firstnodename);
+        return $potentialresponsetree->get_required_variables($inputkeys);
     }
 
     protected function definition() {
@@ -918,11 +918,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors['questiontext'] = array();
         $errors = $this->validate_cas_text($errors, $fromform['questiontext']['text'], 'questiontext', $fixingdollars);
 
-        // Check for whitespace following placeholders.  
-        $sloppy_tags = $this->get_sloppy_tags($fromform['questiontext']['text']);
-        foreach ($sloppy_tags as $sloppy_tag) {
+        // Check for whitespace following placeholders.
+        $sloppytags = $this->get_sloppy_tags($fromform['questiontext']['text']);
+        foreach ($sloppytags as $sloppytag) {
             $errors['questiontext'][] = stack_string(
-                        'questiontextplaceholderswhitespace', $sloppy_tag);
+                        'questiontextplaceholderswhitespace', $sloppytag);
         }
 
         foreach ($inputs as $inputname => $counts) {
@@ -1170,7 +1170,7 @@ class qtype_stack_edit_form extends question_edit_form {
                     if ('' == trim($strin)) {
                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernoterequired');
                     } else if (strstr($strin, '|') !== false) {
-                        $nodename = $key+1;
+                        $nodename = $key + 1;
                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernote_err');
                     }
                 }

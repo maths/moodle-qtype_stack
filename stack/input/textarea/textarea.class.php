@@ -153,11 +153,11 @@ class stack_textarea_input extends stack_input {
         $valid = true;
         switch($parameter) {
             case 'boxWidth':
-                $valid = is_int($value) && $value>0;
+                $valid = is_int($value) && $value > 0;
                 break;
 
             case 'boxHeight':
-                $valid = is_int($value) && $value>0;
+                $valid = is_int($value) && $value > 0;
                 break;
         }
         return $valid;
@@ -173,5 +173,4 @@ class stack_textarea_input extends stack_input {
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
     }
-    
 }

@@ -143,7 +143,7 @@ class stack_cas_session {
 
     /* Check each of the CASStrings for any of the keywords */
     public function check_external_forbidden_words($keywords) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         $found = false;
@@ -155,7 +155,7 @@ class stack_cas_session {
 
     /* This is the function which actually sends the commands off to Maxima. */
     public function instantiate() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if (!$this->valid) {
@@ -163,7 +163,7 @@ class stack_cas_session {
         }
         // Lazy instantiation - only do this once...
         // Empty session.  Nothing to do.
-        if ($this->instantiated || null===$this->session) {
+        if ($this->instantiated || null === $this->session) {
             return true;
         }
 
@@ -172,25 +172,25 @@ class stack_cas_session {
         $this->debuginfo = $connection->get_debuginfo();
 
         // Now put the information back into the correct slots.
-        $session = $this->session;
-        $new_session = array();
-        $new_errors  = '';
-        $all_fail = true;
-        $i=0;
+        $session    = $this->session;
+        $newsession = array();
+        $newerrors  = '';
+        $allfail    = true;
+        $i          = 0;
 
         // We loop over each entry in the session, not over the result.
         // This way we can add an error for missing values.
         foreach ($session as $cs) {
             $gotvalue = false;
 
-            if ('' ==  $cs->get_key()) {
+            if ('' == $cs->get_key()) {
                 $key = 'dumvar'.$i;
             } else {
                 $key = $cs->get_key();
             }
 
             if (array_key_exists($i, $results)) {
-                $all_fail = false; // We at least got one result back from the CAS!
+                $allfail = false; // We at least got one result back from the CAS!
 
                 $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
 
@@ -221,26 +221,26 @@ class stack_cas_session {
                 if ('' != $result['error']) {
                     $cs->add_errors($result['error']);
                     $cs->decode_maxima_errors($result['error']);
-                    $new_errors .= stack_maxima_format_casstring($cs->get_raw_casstring());
-                    $new_errors .= ' '.stack_string("stackCas_CASErrorCaused") .
+                    $newerrors .= stack_maxima_format_casstring($cs->get_raw_casstring());
+                    $newerrors .= ' '.stack_string("stackCas_CASErrorCaused") .
                             ' ' . $result['error'] . ' ';
                 }
             } else if (!$gotvalue) {
                 $errstr = stack_string("stackCas_failedReturn").' '.stack_maxima_format_casstring($cs->get_raw_casstring());
                 $cs->add_errors($errstr);
                 $cs->set_answernote('CASFailedReturn');
-                $new_errors .= $errstr;
+                $newerrors .= $errstr;
             }
 
-            $new_session[]=$cs;
+            $newsession[] = $cs;
             $i++;
         }
-        $this->session = $new_session;
+        $this->session = $newsession;
 
-        if (''!= $new_errors) {
-            $this->errors .= '<span class="error">'.stack_string('stackCas_CASError').'</span>'.$new_errors;
+        if ('' != $newerrors) {
+            $this->errors .= '<span class="error">'.stack_string('stackCas_CASError').'</span>'.$newerrors;
         }
-        if ($all_fail) {
+        if ($allfail) {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
         }
 
@@ -280,7 +280,7 @@ class stack_cas_session {
      * @param stack_cas_session $incoming
      */
     public function merge_session($incoming) {
-        if (null===$incoming) {
+        if (null === $incoming) {
             return true;
         }
         if (is_a($incoming, 'stack_cas_session')) {
@@ -296,14 +296,14 @@ class stack_cas_session {
     /*********************************************************/
 
     public function get_valid() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->valid;
     }
 
     public function get_errors($casdebug=false) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if ($casdebug) {
@@ -323,11 +323,11 @@ class stack_cas_session {
     }
 
     public function get_casstring_key($key) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         foreach (array_reverse($this->session) as $casstr) {
-            if ($casstr->get_key()===$key) {
+            if ($casstr->get_key() === $key) {
                 return $casstr->get_casstring();
             }
         }
@@ -335,15 +335,15 @@ class stack_cas_session {
     }
 
     public function get_value_key($key) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
-        if ($this->valid && null===$this->instantiated) {
+        if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
         // We need to reverse the array to get the last value with this key.
         foreach (array_reverse($this->session) as $casstr) {
-            if ($casstr->get_key()===$key) {
+            if ($casstr->get_key() === $key) {
                 return $casstr->get_value();
             }
         }
@@ -351,14 +351,14 @@ class stack_cas_session {
     }
 
     public function get_display_key($key) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
         foreach (array_reverse($this->session) as $casstr) {
-            if ($casstr->get_key()===$key) {
+            if ($casstr->get_key() === $key) {
                 return $casstr->get_display();
             }
         }
@@ -366,14 +366,14 @@ class stack_cas_session {
     }
 
     public function get_errors_key($key) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if ($this->valid && null === $this->instantiated) {
             $this->instantiate();
         }
         foreach (array_reverse($this->session) as $casstr) {
-            if ($casstr->get_key()===$key) {
+            if ($casstr->get_key() === $key) {
                 return $casstr->get_errors();
             }
         }
@@ -388,12 +388,12 @@ class stack_cas_session {
         if (!is_int($len)) {
             throw new stack_exception('stack_cas_session: prune_session $len must be an integer.');
         }
-        $new_session = array_slice($this->session, 0, $len);
-        $this->session = $new_session;
+        $newsession = array_slice($this->session, 0, $len);
+        $this->session = $newsession;
     }
 
     public function get_all_keys() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -410,7 +410,7 @@ class stack_cas_session {
 
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if ($this->valid && null === $this->instantiated) {
@@ -428,7 +428,7 @@ class stack_cas_session {
 
             $dummy = '@'.$key.'@';
 
-            if (''!==$errors && null!=$errors) {
+            if ('' !== $errors && null != $errors) {
                 $strin = str_replace($dummy, $value, $strin);
             } else if (strstr($strin, $dummy)) {
                 $strin = str_replace($dummy, $disp, $strin);
@@ -445,17 +445,17 @@ class stack_cas_session {
     private function construct_maxima_command() {
         // Ensure that every command has a valid key.
 
-        $cas_options = $this->options->get_cas_commands();
+        $casoptions = $this->options->get_cas_commands();
 
-        $csnames = $cas_options['names'];
-        $csvars  = $cas_options['commands'];
-        $cascommands= '';
+        $csnames = $casoptions['names'];
+        $csvars  = $casoptions['commands'];
+        $cascommands = '';
 
         $cascommands .= ', print("-1=[ error= ["), cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)) ';
 
-        $i=0;
+        $i = 0;
         foreach ($this->session as $cs) {
-            if ('' ==  $cs->get_key()) {
+            if ('' == $cs->get_key()) {
                 $label = 'dumvar'.$i;
             } else {
                 $label = $cs->get_key();
@@ -494,9 +494,9 @@ class stack_cas_session {
             $i++;
         }
 
-        $cass ='cab:block([ RANDOM_SEED';
+        $cass  = 'cab:block([ RANDOM_SEED';
         $cass .= $csnames;
-        $cass .='], stack_randseed(';
+        $cass .= '], stack_randseed(';
         $cass .= $this->seed.')'.$csvars;
         $cass .= ", print(\"[TimeStamp= [ $this->seed ], Locals= [ \") ";
         $cass .= $cascommands;

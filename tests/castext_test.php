@@ -28,7 +28,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function basic_castext_instantiation($strin, $sa, $val, $disp) {
 
         if (is_array($sa)) {
-            $s1=array();
+            $s1 = array();
             foreach ($sa as $s) {
                 $s1[] = new stack_cas_casstring($s);
             }
@@ -199,8 +199,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function check_external_forbidden_words($ct, $val, $words) {
 
-        $a2=array('a:x^2)', 'b:(sin(x)+1)^2');
-        $s2=array();
+        $a2 = array('a:x^2)', 'b:(sin(x)+1)^2');
+        $s2 = array();
         foreach ($a2 as $s) {
             $s2[] = new stack_cas_casstring($s);
         }
@@ -214,8 +214,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_auto_generated_key_names() {
 
-        $a2=array('a:x^2', 'caschat0:x^3');
-        $s2=array();
+        $a2 = array('a:x^2', 'caschat0:x^3');
+        $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->validate('t');
@@ -238,7 +238,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function testcheck_external_forbidden_words() {
-        $cases =  array(
+        $cases = array(
             array('', false, array()),
             array('$\sin(x)$', false, array()),
             array('$\cos(x)$', false, array('cos')),
@@ -333,8 +333,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_plot() {
 
-        $a2=array('p:x^3');
-        $s2=array();
+        $a2 = array('p:x^3');
+        $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->validate('t');
@@ -355,8 +355,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_plot_alttext() {
 
-        $a2=array('p:sin(x)');
-        $s2=array();
+        $a2 = array('p:sin(x)');
+        $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->validate('t');
@@ -376,8 +376,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_plot_alttext_error() {
 
-        $a2=array('p:sin(x)');
-        $s2=array();
+        $a2 = array('p:sin(x)');
+        $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->validate('t');

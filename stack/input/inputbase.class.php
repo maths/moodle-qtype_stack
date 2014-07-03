@@ -91,7 +91,7 @@ abstract class stack_input {
         $class = get_class($this);
         $this->parameters = $class::get_parameters_defaults();
 
-        if (!(null===$parameters || is_array($parameters))) {
+        if (!(null === $parameters || is_array($parameters))) {
             throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, ' .
                     'must be null or an array of parameters.');
         }
@@ -343,13 +343,13 @@ abstract class stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function is_blank_response($contents) {
-        $all_blank = true;
+        $allblank = true;
         foreach ($contents as $val) {
             if (!('' == trim($val))) {
-                $all_blank = false;
+                $allblank = false;
             }
         }
-        return $all_blank;
+        return $allblank;
     }
 
     /**
@@ -372,7 +372,8 @@ abstract class stack_input {
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
-            $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false), $allowwords);
+            $answer->validate('s', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', false), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {

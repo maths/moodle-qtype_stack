@@ -127,7 +127,7 @@ abstract class stack_connection_helper {
     public static function did_cas_timeout($result) {
         foreach ($result as $res) {
             if (array_key_exists('error', $res)) {
-                if (!(false===strpos($res['error'], 'The CAS timed out'))) {
+                if (!(false === strpos($res['error'], 'The CAS timed out'))) {
                     return true;
                 }
             } else {

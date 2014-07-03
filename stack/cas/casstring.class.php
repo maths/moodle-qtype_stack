@@ -430,7 +430,7 @@ class stack_cas_casstring {
         $this->rawcasstring   = $rawstring;
         $this->answernote = array();
 
-        $this->valid          =  null;  // If NULL then the validate command has not yet been run....
+        $this->valid          = null;  // If null then the validate command has not yet been run.
 
         if (!is_string($this->rawcasstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
@@ -446,11 +446,11 @@ class stack_cas_casstring {
      * $secutrity must either be 's' for student, or 't' for teacher.
      * $syntax is whether we enforce a "strict syntax"
      * $insertstars is whether we actually put stars into the places we expect them to go
-     * $allowwords enables specific function names (but never those from $globalforbid) 
+     * $allowwords enables specific function names (but never those from $globalforbid)
      */
     public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
 
-        if (!('s'===$security || 't'===$security)) {
+        if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
         }
 
@@ -513,7 +513,7 @@ class stack_cas_casstring {
             $cmdmod = str_replace('not ', '', $cmdmod);
             if (preg_match($pat, $cmdmod)) {
                 $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
-                $this->add_error(stack_string('stackCas_spaces', array('expr'=>stack_maxima_format_casstring($cmds))));
+                $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
                 $this->answernote[] = 'spaces';
                 $this->valid = false;
             }
@@ -543,11 +543,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                    array('bracket'=>'(', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                    array('bracket'=>')', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '{', '}');
@@ -556,11 +556,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket'=>'{', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket'=>'}', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '[', ']');
@@ -569,11 +569,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket'=>'[', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
         }
 
@@ -622,7 +622,8 @@ class stack_cas_casstring {
                 foreach ($opslist as $op) {
                     if (strpos($cmd, $fun.$op) !== false) {
                         $this->add_error(stack_string('stackCas_trigop',
-                            array('trig' => stack_maxima_format_casstring($fun), 'forbid' => stack_maxima_format_casstring($fun.$op))));
+                            array('trig' => stack_maxima_format_casstring($fun),
+                                    'forbid' => stack_maxima_format_casstring($fun.$op))));
                         $this->answernote[] = 'trigop';
                         $this->valid = false;
                         break;
@@ -632,7 +633,8 @@ class stack_cas_casstring {
             foreach ($triglist as $fun) {
                 if (strpos($cmd, 'arc'.$fun) !== false) {
                     $this->add_error(stack_string('stackCas_triginv',
-                        array('badinv' => stack_maxima_format_casstring('arc'.$fun), 'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                        array('badinv' => stack_maxima_format_casstring('arc'.$fun),
+                                'goodinv' => stack_maxima_format_casstring('a'.$fun))));
                     $this->answernote[] = 'triginv';
                     $this->valid = false;
                     break;
@@ -672,14 +674,14 @@ class stack_cas_casstring {
         // Check for empty parentheses `()`.
         if (strpos($cmd, '()') !== false) {
             $this->valid = false;
-            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
+            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring('()'))));
             $this->answernote[] = 'forbiddenWord';
         }
 
         // Check for spurious operators.
         $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
         foreach ($spuriousops as $op) {
-            if (substr_count($cmd, $op)>0) {
+            if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($op);
@@ -726,7 +728,7 @@ class stack_cas_casstring {
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
         $patterns[] = "|(\))([0-9A-Za-z])|";          // E.g. )a, or )3.
         // We assume f and g are single letter functions.
-        // 'E' and 'e' is used to denote scientific notation.    
+        // 'E' and 'e' is used to denote scientific notation.
         // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
             $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
@@ -800,13 +802,13 @@ class stack_cas_casstring {
      */
     private function check_security($security, $allowwords) {
 
-        // Sort out any allowwords
+        // Sort out any allowwords.
         $allow = array();
         if (trim($allowwords) != '') {
             $allowwords = explode(',', $allowwords);
-            foreach($allowwords as $kw) {
+            foreach ($allowwords as $kw) {
                 $kw = trim(strtolower($kw));
-                if (!in_array($kw, self::$globalforbid)) { 
+                if (!in_array($kw, self::$globalforbid)) {
                     $allow[] = $kw;
                 } else {
                     throw new stack_exception('stack_cas_casstring: check_security: attempt made to allow gloabally forbidden keyword: '.$kw);
@@ -818,7 +820,7 @@ class stack_cas_casstring {
         // Teachers are trusted with any name already, and we would never permit a:"system('rm *')" as a string!
         // The contents of any string which look bad, probably is bad.
         $cmd = $this->casstring;
-        $strin_keywords = array();
+        $strinkeywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
         // Filter out some of these matches.
@@ -827,17 +829,17 @@ class stack_cas_casstring {
             // These strings are fine.
             preg_match("|[0-9]+|", $key, $justnum);
 
-            if (empty($justnum) and strlen($key)>2) {
+            if (empty($justnum) and strlen($key) > 2) {
                 $downkey = strtolower($key);
-                array_push($strin_keywords, $downkey);
+                array_push($strinkeywords, $downkey);
             }
         }
-        $strin_keywords = array_unique($strin_keywords);
+        $strinkeywords = array_unique($strinkeywords);
         // Check for global forbidden words.
-        foreach ($strin_keywords as $key) {
+        foreach ($strinkeywords as $key) {
             if (in_array($key, self::$globalforbid)) {
                 // Very bad!
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
                 $this->answernote[] = 'forbiddenWord';
                 $this->valid = false;
             } else {
@@ -845,7 +847,7 @@ class stack_cas_casstring {
                     if (in_array($key, self::$teachernotallow)) {
                         // If a teacher check against forbidden commands.
                         $this->add_error(stack_string('stackCas_unsupportedKeyword',
-                            array('forbid'=>stack_maxima_format_casstring($key))));
+                            array('forbid' => stack_maxima_format_casstring($key))));
                         $this->answernote[] = 'unsupportedKeyword';
                         $this->valid = false;
                     }
@@ -853,7 +855,7 @@ class stack_cas_casstring {
                     // Only allow the student to use set commands.
                     if (!in_array($key, self::$studentallow) and !in_array($key, $allow)) {
                         $this->add_error(stack_string('stackCas_unknownFunction',
-                            array('forbid'=>stack_maxima_format_casstring($key))));
+                            array('forbid' => stack_maxima_format_casstring($key))));
                         $this->answernote[] = 'unknownFunction';
                         $this->valid = false;
                     }
@@ -871,21 +873,21 @@ class stack_cas_casstring {
      */
     private function check_chained_inequalities($ex) {
 
-        if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+        if (substr_count($ex, '<') + substr_count($ex, '>') < 2) {
             return true;
         }
 
         // Plots, and HTML elements are protected within strings when they come back through the CAS.
         $found = stack_utils::substring_between($ex, '<html>', '</html>');
-        if ($found[1]>0) {
+        if ($found[1] > 0) {
             $ex = str_replace($found[0], '', $ex);
         }
 
         // Separate out lists, sets, etc.
-        $ex_split = explode(',', $ex);
+        $exsplit = explode(',', $ex);
         $bits = array();
         $ok = true;
-        foreach ($ex_split as $bit) {
+        foreach ($exsplit as $bit) {
             $ok = $ok && $this->check_chained_inequalities_ind($bit);
         }
 
@@ -894,7 +896,7 @@ class stack_cas_casstring {
 
     private function check_chained_inequalities_ind($ex) {
 
-        if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+        if (substr_count($ex, '<') + substr_count($ex, '>') < 2) {
             return true;
         }
 
@@ -910,7 +912,7 @@ class stack_cas_casstring {
             $bits = $newbits;
         }
         // Remove first and last entries.
-        unset($bits[count($bits)-1]);
+        unset($bits[count($bits) - 1]);
         unset($bits[0]);
 
         // Now check each "middle bit" has one of the following.
@@ -936,7 +938,7 @@ class stack_cas_casstring {
      * @return bool|string true if an element of array is found in the casstring.
      */
     public function check_external_forbidden_words($keywords) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -953,24 +955,24 @@ class stack_cas_casstring {
         }
 
         $found          = false;
-        $strin_keywords = array();
+        $strinkeywords  = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $this->casstring, $out, PREG_PATTERN_ORDER);
 
         // Filter out some of these matches.
         foreach ($out[0] as $key) {
-            if (strlen($key)>1) {
+            if (strlen($key) > 1) {
                 $upkey = strtolower($key);
-                array_push($strin_keywords, $upkey);
+                array_push($strinkeywords, $upkey);
             }
         }
-        $strin_keywords = array_unique($strin_keywords);
+        $strinkeywords = array_unique($strinkeywords);
 
-        foreach ($strin_keywords as $key) {
+        foreach ($strinkeywords as $key) {
             if (in_array($key, $kws)) {
                 $found = true;
                 $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
             }
         }
         return $found;
@@ -981,7 +983,7 @@ class stack_cas_casstring {
      * @return bool|string true if an element of array is found in the casstring.
      */
     public function check_external_forbidden_words_literal($keywords) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -1008,7 +1010,7 @@ class stack_cas_casstring {
             if (!(false === strpos($this->rawcasstring, $key))) {
                 $found = true;
                 $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
             }
         }
         return $found;
@@ -1027,12 +1029,12 @@ class stack_cas_casstring {
         if (false === $i) {
             $this->key   = '';
         } else {
-            // Need to check we don't have a function definition...
-            if ('='===substr($this->casstring, $i+1, 1)) {
+            // Need to check we don't have a function definition.
+            if ('=' === substr($this->casstring, $i+1, 1)) {
                 $this->key   = '';
             } else {
                 $this->key       = trim(substr($this->casstring, 0, $i));
-                $this->casstring = trim(substr($this->casstring, $i+1));
+                $this->casstring = trim(substr($this->casstring, $i + 1));
             }
         }
     }
@@ -1042,18 +1044,18 @@ class stack_cas_casstring {
     /*********************************************************/
 
     public function get_valid($security='s', $syntax=true, $insertstars=false) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate($security, $syntax, $insertstars);
         }
         return $this->valid;
     }
 
     public function set_valid($val) {
-        $this->valid=$val;
+        $this->valid = $val;
     }
 
     public function get_errors() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->errors;
@@ -1064,14 +1066,14 @@ class stack_cas_casstring {
     }
 
     public function get_casstring() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->casstring;
     }
 
     public function get_key() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->key;
@@ -1085,35 +1087,35 @@ class stack_cas_casstring {
         return $this->display;
     }
 
-    public function set_key($key, $append_key=true) {
-        if (null===$this->valid) {
+    public function set_key($key, $appendkey=true) {
+        if (null === $this->valid) {
             $this->validate();
         }
-        if (''!=$this->key && $append_key) {
+        if ('' != $this->key && $appendkey) {
             $this->casstring = $this->key.':'.$this->casstring;
-            $this->key=$key;
+            $this->key = $key;
         } else {
-            $this->key=$key;
+            $this->key = $key;
         }
     }
 
     public function set_value($val) {
-        $this->value=$val;
+        $this->value = $val;
     }
 
     public function set_display($val) {
-        $this->display=$val;
+        $this->display = $val;
     }
 
     public function get_answernote() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return implode(' | ', $this->answernote);
     }
 
     public function set_answernote($val) {
-        $this->answernote[] =$val;
+        $this->answernote[] = $val;
     }
 
     public function get_feedback() {
@@ -1121,21 +1123,21 @@ class stack_cas_casstring {
     }
 
     public function set_feedback($val) {
-        $this->feedback=$val;
+        $this->feedback = $val;
     }
 
     public function add_errors($err) {
-        if (''==trim($err)) {
+        if ('' == trim($err)) {
             return false;
         } else {
-            return $this->errors.=$err;
+            return $this->errors .= $err;
         }
     }
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null, $allowwords='') {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate('s', true, false, $allowwords);
         }
         if (false === $this->valid) {
@@ -1147,17 +1149,17 @@ class stack_cas_casstring {
 
         // Turn PHP Booleans into Maxima true & false.
         if ($forbidfloats) {
-            $forbidfloats='true';
+            $forbidfloats = 'true';
         } else {
-            $forbidfloats='false';
+            $forbidfloats = 'false';
         }
         if ($lowestterms) {
-            $lowestterms='true';
+            $lowestterms = 'true';
         } else {
-            $lowestterms='false';
+            $lowestterms = 'false';
         }
 
-        if (null===$tans) {
+        if (null === $tans) {
             $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
         } else {
             $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
@@ -1190,16 +1192,16 @@ class stack_cas_casstring {
      *  This function decodes the error generated by Maxima into meaningful notes. 
      *  */
     public function decode_maxima_errors($error) {
-        $search_strings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
+        $searchstrings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
                 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
-        $found_one = false;
-        foreach ($search_strings as $s) {
-            if (!(false===strpos($error, $s))) {
+        $foundone = false;
+        foreach ($searchstrings as $s) {
+            if (!(false === strpos($error, $s))) {
                 $this->set_answernote($s);
-                $found_one = true;
+                $foundone = true;
             }
         }
-        if (!$found_one) {
+        if (!$foundone) {
             $this->set_answernote('CASError: '.$error);
         }
     }

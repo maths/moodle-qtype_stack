@@ -40,24 +40,24 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $cs0 = new stack_cas_session(null, null, 123);
         $cs0->instantiate();
 
-        $a1=array('a:x^2', 'b:(x+1)^2');
-        $s1=array();
+        $a1 = array('a:x^2', 'b:(x+1)^2');
+        $s1 = array();
         foreach ($a1 as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
         $cs1 = new stack_cas_session($s1, null, 123);
         $cs1->instantiate();
 
-        $a2=array('a:x^2)', 'b:(x+1)^2');
-        $s2=array();
+        $a2 = array('a:x^2)', 'b:(x+1)^2');
+        $s2 = array();
         foreach ($a2 as $s) {
             $s2[] = new stack_cas_casstring($s);
         }
         $cs2 = new stack_cas_session($s2, null, 123);
         $cs2->instantiate();
 
-        $a3=array('a:1/0');
-        $s3=array();
+        $a3 = array('a:1/0');
+        $s3 = array();
         foreach ($a3 as $s) {
             $s3[] = new stack_cas_casstring($s);
         }
@@ -97,8 +97,8 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, false);
         $this->assertTrue($at1->get_valid());
 
-        $a3=array('a:1', 'c:3');
-        $s3=array();
+        $a3 = array('a:1', 'c:3');
+        $s3 = array();
         foreach ($a3 as $s) {
             $s3[] = new stack_cas_casstring($s);
         }
@@ -115,8 +115,8 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, false);
         $this->assertTrue($at1->get_valid());
 
-        $a3=array('a:1', 'c:4');
-        $s3=array();
+        $a3 = array('a:1', 'c:4');
+        $s3 = array();
         foreach ($a3 as $s) {
             $s3[] = new stack_cas_casstring($s);
         }

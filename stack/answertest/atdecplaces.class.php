@@ -27,13 +27,10 @@ class stack_anstest_atdecplaces extends stack_anstest {
         $this->atmark = 1;
         $anotes = array();
 
-        // Used for tracking to see exactly what answer is supplied.
-        // $this->atfeedback   = '<pre>'.$this->sanskey.'</pre>';
-
         // Note that in casting to an integer we are lucky here.
         // Non-integer strings get cast to zero, which is invalid anyway....
-        $atest_ops = (int) $this->atoption;
-        if (!is_int($atest_ops) or $atest_ops<=0) {
+        $atestops = (int) $this->atoption;
+        if (!is_int($atestops) or $atestops <= 0) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
             $this->atfeedback  .= stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $this->atoption));
@@ -61,9 +58,9 @@ class stack_anstest_atdecplaces extends stack_anstest {
         // with the right number of decimal places.
         $sans = explode('.', $this->sanskey);
         if (2 === count($sans)) {
-            if ($atest_ops != strlen($sans[1]) ) {
+            if ($atestops != strlen($sans[1]) ) {
                 $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
-                $anotes[]           = 'ATNumDecPlaces_Wrong_DPs ('.strlen($sans[1]).' <> '.$atest_ops.')';
+                $anotes[]           = 'ATNumDecPlaces_Wrong_DPs ('.strlen($sans[1]).' <> '.$atestops.')';
                 $this->atmark       = 0;
             } else {
                 $anotes[]           = 'ATNumDecPlaces_Correct';
@@ -153,8 +150,8 @@ class stack_anstest_atdecplaces extends stack_anstest {
      * @access public
      */
     public function validate_atoptions($opt) {
-        $atest_ops = (int) $opt;
-        if (!is_int($atest_ops) or $atest_ops<=0) {
+        $atestops = (int) $opt;
+        if (!is_int($atestops) or $atestops <= 0) {
             return array(false, stack_string('ATNumDecPlaces_OptNotInt', array('opt' => $opt)));
         }
         return array(true, '');

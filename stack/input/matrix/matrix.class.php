@@ -29,7 +29,7 @@ class stack_matrix_input extends stack_input {
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
-        $cs =  new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
+        $cs = new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
         $cs->validate('t');
         $at1 = new stack_cas_session(array($cs), null, 0);
         $at1->instantiate();
@@ -72,15 +72,15 @@ class stack_matrix_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function is_blank_response($contents) {
-        $all_blank = true;
+        $allblank = true;
         foreach ($contents as $row) {
             foreach ($row as $val) {
                 if (!('' == trim($val) or '?' == $val)) {
-                    $all_blank = false;
+                    $allblank = false;
                 }
             }
         }
-        return $all_blank;
+        return $allblank;
     }
 
     /**
@@ -139,7 +139,7 @@ class stack_matrix_input extends stack_input {
         $t = trim($in);
         if ('matrix(' == substr($t, 0, 7)) {
             $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // E.g. array("[a,b]","[c,d]").
-            for ($i=0; $i < count($rows); $i++) {
+            for ($i = 0; $i < count($rows); $i++) {
                 $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
                 $tc[$i] = $row;
             }
@@ -169,7 +169,8 @@ class stack_matrix_input extends stack_input {
             $modifiedrow = array();
             foreach ($row as $val) {
                 $answer = new stack_cas_casstring($val);
-                $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false),  $this->get_parameter('allowwords', ''));
+                $answer->validate('s', $this->get_parameter('strictSyntax', true),
+                        $this->get_parameter('insertStars', false),  $this->get_parameter('allowwords', ''));
 
                 // Ensure student hasn't used a variable name used by the teacher.
                 if ($forbiddenkeys) {
@@ -214,7 +215,7 @@ class stack_matrix_input extends stack_input {
         // Build the html table to contain these values.
         $xhtml = '<table class="matrixtable" id="' . $fieldname . '_container" style="display:inline; vertical-align: middle;" ' .
                 'border="0" cellpadding="1" cellspacing="0"><tbody>';
-        for ($i=0; $i < $this->height; $i++) {
+        for ($i = 0; $i < $this->height; $i++) {
             $xhtml .= '<tr>';
             if ($i == 0) {
                 $xhtml .= '<td style="border-width: 2px 0px 0px 2px; padding-top: 0.5em">&nbsp;</td>';
@@ -224,7 +225,7 @@ class stack_matrix_input extends stack_input {
                 $xhtml .= '<td style="border-width: 0px 0px 0px 2px;">&nbsp;</td>';
             }
 
-            for ($j=0; $j < $this->width; $j++) {
+            for ($j = 0; $j < $this->width; $j++) {
                 $val = '';
                 if (!$blank) {
                     $val = trim($tc[$i][$j]);
@@ -262,8 +263,8 @@ class stack_matrix_input extends stack_input {
 
         $tc = $this->maxima_to_array($in);
 
-        for ($i=0; $i < $this->height; $i++) {
-            for ($j=0; $j < $this->width; $j++) {
+        for ($i = 0; $i < $this->height; $i++) {
+            for ($j = 0; $j < $this->width; $j++) {
                 $val = trim($tc[$i][$j]);
                 if ('?' == $val) {
                     $val = '';
@@ -312,7 +313,7 @@ class stack_matrix_input extends stack_input {
         $valid = true;
         switch($parameter) {
             case 'boxWidth':
-                $valid = is_int($value) && $value>0;
+                $valid = is_int($value) && $value > 0;
                 break;
         }
         return $valid;

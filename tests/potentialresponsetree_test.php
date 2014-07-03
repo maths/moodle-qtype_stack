@@ -54,7 +54,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         $questionvars = new stack_cas_session(array());
         $options = new stack_options();
-        $answers = array('sans'=>'(x+1)^3/3+c');
+        $answers = array('sans' => '(x+1)^3/3+c');
         $seed = 12345;
         $result = $tree->evaluate_response($questionvars, $options, $answers, $seed);
 
@@ -95,7 +95,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:diff(p,x);', $options, $seed, 't');
         $questionvars->instantiate();
 
-        $answers = array('sans'=>'3*x^2+6*x+3');
+        $answers = array('sans' => '3*x^2+6*x+3');
         $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
         $this->assertTrue($result->valid);
@@ -109,7 +109,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
         // Now have another attempt at the same PRT!
         // Need this test to ensure PRT is "reset" and has no hangover data inside the potential resposnes.
-        $answers = array('sans'=>'3*(x+1)^2');
+        $answers = array('sans' => '3*(x+1)^2');
         $result = $tree->evaluate_response($questionvars->get_session(), $options, $answers, $seed);
 
         $this->assertTrue($result->valid);
@@ -135,11 +135,11 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $questionvars = new stack_cas_keyval('n:3; p:(x+1)^n; ta:p;', $options, $seed, 't');
 
         // Feeback variables.
-        $cstrings=array('sa1:sans', 'sa2:expand(sans)');
+        $cstrings = array('sa1:sans', 'sa2:expand(sans)');
         foreach ($cstrings as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->validate('t');
-            $s1[]=$cs;
+            $s1[] = $cs;
         }
         $feedbackvars = new stack_cas_session($s1, $options, $seed);
         $feedbackvars->get_valid();

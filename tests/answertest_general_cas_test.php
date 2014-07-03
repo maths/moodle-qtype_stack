@@ -309,19 +309,19 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
-    
+
     public function test_is_false_numrelative() {
         $at = new stack_answertest_general_cas('1.0501', '1', 'ATNumRelative', true, '0.01', null, true, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
-    
+
     public function test_is_missingopt_numrelative() {
         $at = new stack_answertest_general_cas('1.05', '1', 'ATNumRelative', true);
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
-    
+
     public function test_is_invalidopt_numrelative() {
         $at = new stack_answertest_general_cas('1.05', '1', 'ATNumRelative', true, 'x', null, true, true);
         $this->assertNull($at->do_test());

@@ -575,11 +575,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     if ($oldversion < 2013030800) {
 
-        // Define field firstnodename to be added to qtype_stack_prts
+        // Define field firstnodename to be added to qtype_stack_prts.
         $table = new xmldb_table('qtype_stack_prts');
         $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, null, null, null, 'feedbackvariables');
 
-        // Conditionally launch add field firstnodename
+        // Conditionally launch add field firstnodename.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -603,11 +603,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     if ($oldversion < 2013030802) {
 
-        // Changing nullability of field firstnodename on table qtype_stack_prts to not null
+        // Changing nullability of field firstnodename on table qtype_stack_prts to not null.
         $table = new xmldb_table('qtype_stack_prts');
         $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, null, 'feedbackvariables');
 
-        // Launch change of nullability for field firstnodename
+        // Launch change of nullability for field firstnodename.
         $dbman->change_field_notnull($table, $field);
 
         // Qtype stack savepoint reached.

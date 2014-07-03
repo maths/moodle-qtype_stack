@@ -95,13 +95,16 @@ Next we should try out our question, by pressing the preview button from the que
 
 Assuming there are no errors, you may now choose the link "preview the question" from the Moodle question bank.
 This takes us to a new form where the teacher can experiment with the question.
+
+The Moodle quiz is very flexible.  Under Attempt options, make sure you have "How questions behave" set to "Adaptive Mode". If necessary "Start again with these options".
+
 Try typing in
 
     3*(x-1)^2
 
 into the answer box.
 
-Press the `[Check]` button.
+The default is for STACK to use "instant validation".  That is, when the student finishes typing the system automatically validates their answer and provides feedback.  If this does not happen automatically press the `[Check]` button.
 
 The system first establishes the syntactical validity of this answer.
 

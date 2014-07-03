@@ -150,14 +150,14 @@ class stack_ans_test_controller {
 
             case 'NumAbsolute':
                 if (trim($casoption) == '') {
-                   $casoption = '0.05';
+                    $casoption = '0.05';
                 }
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumAbsolute', true, $casoption, $options, true, true);
                 break;
 
             case 'NumRelative':
                 if (trim($casoption) == '') {
-                   $casoption = '0.05';
+                    $casoption = '0.05';
                 }
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumRelative', true, $casoption, $options, true, true);
                 break;

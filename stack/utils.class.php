@@ -387,7 +387,7 @@ class stack_utils {
     public static function convert_slash_paths($string) {
         $in = trim($string);
         $length = strlen($in);
-        $lastchar = $in[($length -1)];
+        $lastchar = $in[($length - 1)];
         $trailingslash = false;
         if ($lastchar == '\\') {
             $trailingslash = true;
@@ -478,7 +478,7 @@ class stack_utils {
                 }
             }
         }
-        if ($ender=='') {
+        if ($ender == '') {
             return strlen($text - $start);
             // Math mode to the end.
         } else {
@@ -508,10 +508,10 @@ class stack_utils {
     public static function trim_commands($string) {
         $in = trim($string);
         $length = strlen($in);
-        $lastchar = $in[($length -1)];
+        $lastchar = $in[($length - 1)];
 
         if (($lastchar == '$') || ($lastchar == ';') || ($lastchar == ':')) {
-            $out = substr($in, 0, ($length -1));
+            $out = substr($in, 0, ($length - 1));
             return $out;
         } else {
             return $in;
@@ -528,8 +528,8 @@ class stack_utils {
     public static function remove_comments($string) {
         if (strstr($string, '/*')) {
             $out = $string;
-            preg_match_all('|/\*(.*)\*/|U', $out, $html_match);
-            foreach ($html_match[0] as $val) {
+            preg_match_all('|/\*(.*)\*/|U', $out, $htmlmatch);
+            foreach ($htmlmatch[0] as $val) {
                 $out = str_replace($val, '', $out);
             }
             return $out;
@@ -601,7 +601,7 @@ class stack_utils {
         // Delimited by next comma at same degree of nesting.
         $startdelimiter = "[({";
         $enddelimiter   = "])}";
-        $nesting = array(0=>0, 1=>0, 2=>0); // Stores nesting for delimiters above.
+        $nesting = array(0 => 0, 1 => 0, 2 => 0); // Stores nesting for delimiters above.
         for ($i = 0; $i < strlen($list); $i++) {
             $startchar = strpos($startdelimiter, $list[$i]); // Which start delimiter.
             $endchar = strpos($enddelimiter, $list[$i]); // Which end delimiter (if any).
@@ -631,7 +631,7 @@ class stack_utils {
         $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.
         $e = self::next_element($list);
         while ($e !== null) {
-            if ($e[0]=='[') {
+            if ($e[0] == '[') {
                 if ($rec) {
                     $array[] = self::list_to_array_workhorse($e, $rec);
                 } else {
@@ -640,7 +640,7 @@ class stack_utils {
             } else {
                 $array[] = $e;
             }
-            $list = substr($list, strlen($e)+1);
+            $list = substr($list, strlen($e) + 1);
             $e = self::next_element($list);
         }
         return $array;
@@ -684,13 +684,12 @@ class stack_utils {
         preg_match_all('~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
                 $text, $matches2);
 
-        $ret=array();
-        foreach($matches2[1] as $key => $name) {
-            if (!in_array(trim($name), $matches1[1])){
+        $ret = array();
+        foreach ($matches2[1] as $key => $name) {
+            if (!in_array(trim($name), $matches1[1])) {
                 $ret[] = $matches2[0][$key];
             }
         }
-    
         return($ret);
     }
 

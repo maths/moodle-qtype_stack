@@ -123,19 +123,19 @@ class stack_utils_test extends basic_testcase {
 
     public function test_list_to_array() {
         // Do not recurse over lists.
-        $a=array();
+        $a = array();
         $strin = '';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
-        $a=array();
+        $a = array();
         $strin = '[]';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
-        $a=array('1');
+        $a = array('1');
         $strin = '[1]';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
-        $a=array('1', '2');
+        $a = array('1', '2');
         $strin = '[1,2]';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
@@ -143,11 +143,11 @@ class stack_utils_test extends basic_testcase {
         $a = array('x^2', ' sin(x)');
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
-        $a=array('1', 'x+y');
+        $a = array('1', 'x+y');
         $strin = '[1,x+y]';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
-        $a=array('[1,2]');
+        $a = array('[1,2]');
         $strin = '[[1,2]]';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
@@ -155,7 +155,7 @@ class stack_utils_test extends basic_testcase {
         $a = array('[1,2,3]', ' {x^2,x^3}');
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 
-        $a=array('1', '1/sum([1,3])', 'matrix([1],[2])');
+        $a = array('1', '1/sum([1,3])', 'matrix([1],[2])');
         $strin = '[1,1/sum([1,3]),matrix([1],[2])]';
         $this->assertEquals($a, stack_utils::list_to_array($strin, false));
 

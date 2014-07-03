@@ -224,6 +224,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '1+x+x', '2*x+1', 0, '', ''),
         array('EqualComAss', '(x+y)+z', 'z+x+y', 1, '', ''),
         array('EqualComAss', 'x*x', 'x^2', 0, '', ''),
+        array('EqualComAss', '(x+5)*x', 'x*(5+x)', 1, '', ''),
+        array('EqualComAss', 'x*(x+5)', '5*x+x^2', 0, '', ''),
         array('EqualComAss', '(1-x)^2', '(x-1)^2', 0, '', ''),
         array('EqualComAss', '(a-x)^6000', '(x-a)^6000', 0, '', ''),
         array('EqualComAss', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '', 'Expressions with subscripts'),
@@ -558,7 +560,7 @@ class stack_answertest_test_data {
         array('Int', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'x', ''),
         // In these examples there are two logarihtms.  The student should be *consistent*
         // in their use, or not, of absolute value.
-        array('Int', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', 'Two logs'), 
+        array('Int', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', 'Two logs'),
         array('Int', 'log(abs(x-3))+log(abs(x+3))+c', 'log(abs(x-3))+log(abs(x+3))', 1, 'x', ''),
         array('Int', 'log(abs(x-3))+log(abs(x+3))', 'log(x-3)+log(x+3)', 0, 'x', ''),
         array('Int', 'log(abs(x-3))+log(abs(x+3))+c', 'log(x-3)+log(x+3)', 1, 'x', ''),
@@ -571,12 +573,12 @@ class stack_answertest_test_data {
         array('Int', '2*log(abs(x-2))-log(abs(x+2))+(x^2+4*x)/2', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', 0, 'x', ''), //int((x^3+2*x^2-3*x-2)/(x^2-4),x);
         array('Int', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', 1, 'x', ''),
         array('Int', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2+c', '-log((x+2))+2*log((x-2))+(x^2+4*x)/2', 1, 'x', ''),
-        // Inconsistent cases. (Teacher doesn't use abs)
+        // Inconsistent cases. (Teacher doesn't use abs).
         array('Int', 'log(abs(x-3))+log((x+3))+c', 'log(x-3)+log(x+3)', 0, 'x', 'Inconsistent log(abs())'),
         array('Int', 'log((x-3))+log(abs(x+3))+c', 'log(x-3)+log(x+3)', 0, 'x', ''),
         array('Int', 'log((x-3))+log(abs(x+3))', 'log(x-3)+log(x+3)', 0, 'x', ''),
         array('Int', '2*log((x-2))-log(abs(x+2))+(x^2+4*x)/2', '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2', 0, 'x', ''),
-        // Student uses and ok constant of integration, but this is k+1 or 3*k, 
+        // Student uses and ok constant of integration, but this is k+1 or 3*k.
         array('Int', '2*(sqrt(t)-5)-10*log((sqrt(t)-5))+c', '2*(sqrt(t)-5)-10*log((sqrt(t)-5))+c', 1, 't', 'Significant integration constant differences'),
         array('Int', '2*(sqrt(t))-10*log((sqrt(t)-5))+c', '2*(sqrt(t)-5)-10*log((sqrt(t)-5))+c', 1, 't', ''),
         array('Int', '2*(sqrt(t)-5)-10*log((sqrt(t)-5))+c', '2*(sqrt(t)-5)-10*log(abs(sqrt(t)-5))+c', 0, 't', ''),
@@ -807,7 +809,7 @@ class stack_answertest_test_data {
                 $passed = false;
             }
         }
-        // These tests are all expected to fail, so we make them all pass
+        // These tests are all expected to fail, so we make them all pass.
         if (-2 === $test->expectedscore) {
             $passed = true;
         }

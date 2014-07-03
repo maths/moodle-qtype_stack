@@ -146,7 +146,7 @@ class stack_abstract_graph_svg_renderer {
         $midx = null;
         if (($cx - $px) / ($cy - $py) / $initialdirection < 1) {
             // A bit narrow, use a curve.
-            $midy = $py + 3 * (1 - pow(5/6, $child->depth - $parent->depth)) * self::SCALE;
+            $midy = $py + 3 * (1 - pow(5 / 6, $child->depth - $parent->depth)) * self::SCALE;
             $midx = $px + $initialdirection * ($midy - $py);
 
         } else if ($this->g->edge_hits_another_node($parent, $child)) {

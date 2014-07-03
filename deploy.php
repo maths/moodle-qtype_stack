@@ -70,7 +70,7 @@ $deploytxt = optional_param('deploymany', null, PARAM_TEXT);
 if (!is_null($deploy)) {
 
     if (0 == $deploy) {
-        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err'=>$deploytxt)));
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err' => $deploytxt)));
         redirect($nexturl);
     }
 
@@ -118,7 +118,7 @@ if (!is_null($deploy)) {
                 $testresults[$key] = $testcase->test_question($quba, $question, $seed);
                 if (!$testresults[$key]->passed()) {
                     $nexturl->param('seed', $seed);
-                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no'=>$numberdeployed)));
+                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no' => $numberdeployed)));
                     $nexturl->param('deployfeedbackerr', stack_string('stackInstall_testsuite_fail'));
                     redirect($nexturl);
                 }
@@ -130,7 +130,7 @@ if (!is_null($deploy)) {
         }
     }
 
-    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no'=>$numberdeployed)));
+    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no' => $numberdeployed)));
     $nexturl->param('seed', $seed);
     if ($failedattempts >= $maxfailedattempts) {
         $nexturl->param('deployfeedbackerr', stack_string('deploymanynonew'));

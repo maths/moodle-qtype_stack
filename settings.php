@@ -55,7 +55,8 @@ $settings->add(new admin_setting_heading('maixmasettingsheading',
 
 $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype', 'qtype_stack'),
-        get_string('settingplatformtype_desc', 'qtype_stack'), 'linux', array(
+        // Note, install.php tries to auto-detect Windows installs, and set the default appropriately.M
+        get_string('settingplatformtype_desc', 'qtype_stack'), 'unix', array(
                 'unix'             => get_string('settingplatformtypeunix',                'qtype_stack'),
                 'unix-optimised'   => get_string('settingplatformtypeunixoptimised',       'qtype_stack'),
                 'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),

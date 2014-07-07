@@ -150,6 +150,11 @@ function stack_docs_render_markdown($page, $docscontent) {
 function stack_process_markdown($markdown) {
     global $CFG;
     if (file_exists($CFG->libdir . '/markdown/Markdown.php')) {
+        if (file_exists($CFG->libdir . '/markdown/MarkdownInterface.php')) {
+            // Moodle 2.7 or later.
+            require_once($CFG->libdir . '/markdown/MarkdownInterface.php');
+        }
+
         // Moodle 2.6 or later.
         require_once($CFG->libdir . '/markdown/Markdown.php');
         return \Michelf\Markdown::defaultTransform($markdown);

@@ -263,6 +263,12 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @return string
      */
     protected function tidy_error($errstr) {
+
+        // This case arises when we use a numerical text for algebraic equivalence.
+        if (strpos($errstr, 'STACK: ignore previous error.') !== false) {
+            return '';
+        }
+
         if (strpos($errstr, '0 to a negative exponent') !== false) {
             $errstr = stack_string('Maxima_DivisionZero');
         }

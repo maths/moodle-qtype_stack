@@ -952,8 +952,8 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2],
     RawMark:false,
 
     /* First try without expanding out the equations */
-    R1:ev(lhs(factor(SA))-rhs(factor(SA)),simp),
-    R2:ev(lhs(factor(SB))-rhs(factor(SB)),simp),
+    R1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
+    R2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
     if (R1=0 and R2=0) then
         return([true, true, "", ""]),
     if numberp(float(abs(R1/R2))) then 
@@ -980,19 +980,19 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     if SA = SB then RawMark:true,
     /* Now try to give some basic feedback: potential for more work to recurse over complex expressions... */
     if op(SA) = ">"  and op(SB) =">=" then block(
-        AnswerNote:StackAddNote("","ATInequality_strict"),
-        FeedBack:StackAddFeedback("","ATInequality_strict")
+        AnswerNote:StackAddNote("", "ATInequality_strict"),
+        FeedBack:StackAddFeedback("", "ATInequality_strict")
     ),
     if op(SA) = ">=" and op(SB) =">" then block(
-        AnswerNote:StackAddNote("","ATInequality_nonstrict"),
-        FeedBack:StackAddFeedback("","ATInequality_nonstrict")
+        AnswerNote:StackAddNote("", "ATInequality_nonstrict"),
+        FeedBack:StackAddFeedback("", "ATInequality_nonstrict")
     ),
     if (">" = op(SA) or ">=" = op(SA)) and  (">" = op(SB) or ">=" = op(SB)) then block(
-        SA1:ev(part(SA,1), simp),
-        SB1:ev(part(SB,1), simp),
+        SA1:ev(part(SA, 1), simp),
+        SB1:ev(part(SB, 1), simp),
         if algebraic_equivalence(-1*SA1,SB1) then block(
-            AnswerNote:StackAddNote(AnswerNote,"ATInequality_backwards"),
-            FeedBack:StackAddFeedback(FeedBack,"ATInequality_backwards")
+            AnswerNote:StackAddNote(AnswerNote, "ATInequality_backwards"),
+            FeedBack:StackAddFeedback(FeedBack, "ATInequality_backwards")
         )
     ),
     return([true, RawMark, AnswerNote, FeedBack])

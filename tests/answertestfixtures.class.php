@@ -88,13 +88,16 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(x-1)^2', 'x^2-2*x+1', 1, '', 'Polynomials and rational function'),
         array('AlgEquiv', '(x-1)*(x^2+x+1)', 'x^3-1', 1, '', ''),
         array('AlgEquiv', '(x-1)^(-2)', '1/(x^2-2*x+1)', 1, '', ''),
+        array('AlgEquiv', '1/(4*x-(%pi+sqrt(2)))', '1/(x+1)', 0, '', ''),
         array('AlgEquiv', '(x-a)^6000', '(x-a)^6000', 1, '', ''),
         array('AlgEquiv', '(a-x)^6000', '(x-a)^6000', 1, '', ''),
+        array('AlgEquiv', '(x-a)^6000', '(x-a)^5999', 0, '', ''),
         array('AlgEquiv', '1/n-1/(n+1)', '1/(n*(n+1))', 1, '', ''),
         array('AlgEquiv', '0.5*x^2+3*x-1', 'x^2/2+3*x-1', 1, '', ''),
         array('AlgEquiv', 'cos(x)', 'cos(-x)', 1, '', 'Trig functions'),
         array('AlgEquiv', 'cos(x)^2+sin(x)^2', '1', 1, '', ''),
         array('AlgEquiv', '2*cos(x)^2-1', 'cos(2*x)', 1, '', ''),
+        array('AlgEquiv', 'diff(tan(10*x)^2,x)', 'cos(6*x)', 0, '', ''),
         array('AlgEquiv', 'exp(%i*%pi)', '-1', 1, '', ''),
         array('AlgEquiv', '2*cos(2*x)+x+1', '-sin(x)^2+3*cos(x)^2+x', 1, '', ''),
         array('AlgEquiv', '(2*sec(2*t)^2-2)/2',
@@ -790,11 +793,20 @@ class stack_answertest_test_data {
         $anst = new stack_ans_test_controller($test->name, $test->studentanswer,
                 $test->teacheranswer, new stack_options(), $test->options);
 
-        $result   = $anst->do_test(); // This actually executes the answer test in the CAS.
-        $errors   = $anst->get_at_errors();
-        $rawmark  = $anst->get_at_mark();
-        $feedback = $anst->get_at_feedback();
-        $ansnote  = $anst->get_at_answernote();
+        // The false clause is useful for developers to track down which test case is breaking Maxima.
+        if (true) {
+            $result   = $anst->do_test(); // This actually executes the answer test in the CAS.
+            $errors   = $anst->get_at_errors();
+            $rawmark  = $anst->get_at_mark();
+            $feedback = $anst->get_at_feedback();
+            $ansnote  = $anst->get_at_answernote();
+        } else {
+            $feedback = 'AT'.$test->name.'('.$test->studentanswer.','.$test->teacheranswer.');';
+            $result   = true; // This actually executes the answer test in the CAS.
+            $errors   = '';
+            $rawmark  = 0;
+            $ansnote  = '';
+        }
 
         $passed = false;
         if ($rawmark === $test->expectedscore) {
@@ -814,6 +826,6 @@ class stack_answertest_test_data {
             $passed = true;
         }
 
-            return array($passed, $errors, $rawmark, $feedback, $ansnote);
+        return array($passed, $errors, $rawmark, $feedback, $ansnote);
     }
 }

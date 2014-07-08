@@ -371,7 +371,11 @@ numerical_not_alg_equiv(p1, p2):= block([lv, sz],
   /* Strictly speaking we shouldn't have the internal abs below, but without them
      we have numerical instability as equivalent expressions are always almost zero.  
      The extra abs make the test less accurate (a and -a look the same now), but that is fine. */
-  sz:errcatch(ev(abs(float(abs(p1)-abs(p2))), lv)),
+  p1:errcatch(ev(abs(p1), lv, numer_pbranch:true)),
+  if is(p1 = []) then (print("STACK: ignore previous error."), return(false)),
+  p2:errcatch(ev(abs(p2), lv, numer_pbranch:true)),
+  if is(p2 = []) then (print("STACK: ignore previous error."), return(false)),
+  sz:errcatch(abs(float(first(p1)-first(p2)))),
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
   if first(sz) > 0.0001  then true else false)$
 

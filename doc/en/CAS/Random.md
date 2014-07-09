@@ -61,7 +61,7 @@ Here is an example which generates a random polynomial, of degree 5, with coeffi
 
     apply("+",makelist(rand(7)*x^(k-1),k,6));
 
-## Generating random expressions which need to be "gathered and sorted".
+## Generating random expressions which needs to be "gathered and sorted".
 
 It is relatively common to want to be able to generate random expressions which need to be "gathered and sorted".  For example in \(2y-y+3y+1\) we need to collect together the \(y\) terms.
 

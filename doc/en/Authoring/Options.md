@@ -20,7 +20,7 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Question Penalty ### {#Question_penalty)
+### Question Penalty ### {#Question_penalty}
 
 This is the percentage of the marks deducted from each different and valid attempt which is not
 completely correct, when the penalty mark modification scheme is in use.

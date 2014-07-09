@@ -84,6 +84,21 @@ then you will have to display the matrix without parentheses and sort out the mi
 If you are trying to use the vector notation such as \(3i+4j\) you will probably want to redefine \(i\) to be an abstract symbol, not a complex number.
 More information on this is given under [Numbers](Numbers.md).
 
+Another way to do this is to create matrices as follows:
+
+    ordergreat(i,j,k);
+    p:matrix([-7],[2],[-3]);
+    q:matrix([i],[j],[k]);
+
+Now we can use the dot product to create the vector.  The STACK function `texboldatoms` prints all atomic variable names in bold.  
+
+    v:texboldatoms(dotproduct(p,q))
+
+If you turn the option "Multiplication sign" to none, this should display as
+\[-7\,{\bf{i}}+2\,{\bf{j}}-3\,{\bf{k}}\]
+Notice the use of the function `ordergreat`.  This can only be used once at the beginning of the question.
+
+
 ## See also
 
 [Maxima reference topics](index.md#reference).

@@ -105,6 +105,8 @@ class stack_answertest_test_data {
             1, '', ''),
         array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', 1, '', ''),
         array('AlgEquiv', '1+cosec(3*x)', '1+csc(3*x)', 1, '', ''),
+        array('AlgEquiv', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', 1, '', ''),
+        array('AlgEquiv', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', '4*sec(4*z)^2*sin(6*z)+6*tan(4*z)*cos(6*z)', 0, '', ''),
         array('AlgEquiv', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),

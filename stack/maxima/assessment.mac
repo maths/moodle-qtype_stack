@@ -320,7 +320,8 @@ ineqorder_f(ex) := block(
 algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
-    if numerical_not_alg_equiv(SA, SB) then return(false),
+    /* The code below is actually making the situation worse: needs reconsidering. */
+    /* if numerical_not_alg_equiv(SA, SB) then return(false),  */
     trigexpand:true,
     logexpand:super,
     keepfloat:true,

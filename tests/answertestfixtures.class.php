@@ -103,7 +103,6 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(2*sec(2*t)^2-2)/2',
             '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
             1, '', ''),
-        array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', 1, '', ''),
         array('AlgEquiv', '1+cosec(3*x)', '1+csc(3*x)', 1, '', ''),
         array('AlgEquiv', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', 1, '', ''),
         array('AlgEquiv', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', '4*sec(4*z)^2*sin(6*z)+6*tan(4*z)*cos(6*z)', 0, '', ''),
@@ -199,6 +198,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '2*x^2+x>=6', 'x<=-2 or x>=3/2', 0, '',
                 'Inequalities - not currently considered equivalent, but maybe in the future'),
 
+        array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', 0, '', ''),
+        array('AlgEquiv', 'x^4>=0', 'x^2>=0', 0, '', ''),
         array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
         array('AlgEquiv', '(19601-13860*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 1, '', ''),
@@ -207,8 +208,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2, '', 'These currently fail'),
-        array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', -2, '', ''),
-        array('AlgEquiv', 'x^4>=0', 'x^2>=0', -2, '', ''),
+        array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
         array('AlgEquiv', '-inf', 'minf', -2, '', ''),
         array('AlgEquiv', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''), // Cardano's example!
 

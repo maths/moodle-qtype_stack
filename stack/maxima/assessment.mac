@@ -321,7 +321,7 @@ algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
     /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
     /* The code below is actually making the situation worse: needs reconsidering. */
-    /* if numerical_not_alg_equiv(SA, SB) then return(false),  */
+    if numerical_not_alg_equiv(SA, SB) then return(false),
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
@@ -369,14 +369,12 @@ numerical_not_alg_equiv(p1, p2):= block([lv, sz],
   lv:listify(union(setify(listofvars(p1)), setify(listofvars(p2)))),
   /* Now we evaluate the difference of the expressions at each variable. */
   lv:zip_with("=", lv, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(lv))),
-  /* Strictly speaking we shouldn't have the internal abs below, but without them
-     we have numerical instability as equivalent expressions are always almost zero.  
-     The extra abs make the test less accurate (a and -a look the same now), but that is fine. */
-  p1:errcatch(ev(abs(p1), lv, numer_pbranch:true)),
+  p1:errcatch(ev(float(p1), lv, numer_pbranch:true)),
   if is(p1 = []) then (print("STACK: ignore previous error."), return(false)),
-  p2:errcatch(ev(abs(p2), lv, numer_pbranch:true)),
+  p2:errcatch(ev(float(p2), lv, numer_pbranch:true)),
   if is(p2 = []) then (print("STACK: ignore previous error."), return(false)),
   sz:errcatch(abs(float(first(p1)-first(p2)))),
+  /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
   if first(sz) > 0.0001  then true else false)$
 

@@ -85,6 +85,7 @@ class stack_inputvalidation_test_data {
         array('[]', 'php_true', '[]', 'cas_true', "Lists"),
         array('[1]', 'php_true', '[1]', 'cas_true', ""),
         array('[1,2,3.4]', 'php_true', '[1,2,3.4]', 'cas_true', ""),
+        array('[x, y, z ]', 'php_true', '[x, y, z ]', 'cas_true', ""),
         array('["a"]', 'php_true', '["a"]', 'cas_true', ""),
         array('[1,true,"a"]', 'php_true', '[1,true,"a"]', 'cas_true', ""),
         array('[[1,2],[3,4]]', 'php_true', '[[1,2],[3,4]]', 'cas_true', ""),
@@ -328,8 +329,11 @@ class stack_inputvalidation_test_data {
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', ""),
         array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true', "Subscripts"),
-        array('a,b,c', 'php_true', 'a,b,c', 'cas_true', "The following are known to fail.  Some are bugs...."),
-        );
+        array('a,b,c', 'php_false', 'a,b,c', 'cas_true', "Unencapsulated commas"),
+        array('3,14159', 'php_false', '3,14159', 'cas_true', ""),
+        array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', ""),
+        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', "The following are known to fail.  Some are bugs...."),
+    );
 
     public static function get_raw_test_data() {
         return self::$rawdata;

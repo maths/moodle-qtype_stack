@@ -708,6 +708,17 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
+        // Commas not inside brackets either should be, or indicate a decimal number not
+        // using the decimal point.  In either case this is problematic.
+        // For now, we just look for expressions with a comma, but without brackets.
+        // [TODO]: improve this test to really look for unencapsulated commas.
+        if (!(false === strpos($cmd, ',')) && !(!(false === strpos($cmd, '(')) ||
+                !(false === strpos($cmd, '[')) || !(false === strpos($cmd, '{')) )) {
+            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
+            $this->answernote[] = 'unencpsulated_comma';
+            $this->valid = false;
+        }
+
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security, $allowwords);

@@ -66,6 +66,8 @@ class stack_cas_casstring_test extends basic_testcase {
             // Inequalities.
             array('x>=1', true, true),
             array('x=>1', false, false),
+            // Unencapsulated commas
+            array('a,b', false, false),
         );
 
         foreach ($cases as $case) {
@@ -275,6 +277,13 @@ class stack_cas_casstring_test extends basic_testcase {
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_unencapsulated_commas_1() {
+        $s = 'a,b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unencpsulated_comma', $at1->get_answernote());
     }
 }
 

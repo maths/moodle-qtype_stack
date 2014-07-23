@@ -325,6 +325,10 @@ algebraic_equivalence(SA, SB) :=
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
+    /* In some cases we just go inside the function one level */
+    if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
+      (SA:first(args(SA)),
+       SB:first(args(SB))),
     /* Try not to expand out: pure numbers */
     ex:errcatch(ev(SA-SB,simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),

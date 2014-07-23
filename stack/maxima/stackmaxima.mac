@@ -1006,7 +1006,7 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
 )$
 
 
-/* This (experimental) code decides if two functions are the same.  Strict notion currently */
+/* This (experimental) code decides if two functions are the same.  Strict notion currently. */
 ATFunction(SA, SB) := block([RawMark, FeedBack, AnswerNote, df, SA1, SB1, SAd1, SBd1],
     RawMark:true, FeedBack:"", AnswerNote:"",
     if not(functionp(SA)) then return([false, 0, "ATFunction_SA_not_function", FeedBack]),
@@ -1038,7 +1038,7 @@ ATFunction(SA, SB) := block([RawMark, FeedBack, AnswerNote, df, SA1, SB1, SAd1, 
     return([true, RawMark, AnswerNote, FeedBack])
 )$
 
-/* An answer test based on two matrices for SA and SB */
+/* An answer test based on two matrices for SA and SB. */
 ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SBr, SBc, k, AddFeedBack],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Get sizes of matrices */
@@ -1070,7 +1070,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
     return(ret)
     )$
 
-/* An answer test based on two lists for SA and SB */
+/* An answer test based on two sets for SA and SB. */
 ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Get sizes of matrices */
@@ -1083,6 +1083,14 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     /* Check they are equal */
     SA:map(ineqprepare, map(trigreduce, SA)),
     SB:map(ineqprepare, map(trigreduce, SB)),
+    SA:errcatch(radcan(SA)),
+    if SA=[] then
+      return([false, false, StackAddNote("","TEST_FAILED"), StackAddFeedback("", "TEST_FAILED")]),
+    SB:errcatch(radcan(SB)),
+    if SB=[] then
+      return([false, false, StackAddNote("","TEST_FAILED"), StackAddFeedback("", "TEST_FAILED")]),
+    SA:first(SA),    
+    SB:first(SB),    
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
     /* Can we give feedback on which are wrong */
@@ -1123,7 +1131,7 @@ ATSameTypefun(SA, SB) := block([simp:true, ret],
 )$
 
 /* Tests if the SA equals SB in lowest terms, and gives feedback.
-   Note, this is identical to ATAlgEquiv with simp:false otherwise */
+   Note, this is identical to ATAlgEquiv with simp:false otherwise. */
 ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, AnswerNote, SAA],
     /* Turn on simplification and error catch */
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -2276,5 +2284,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014060201$
-print("[ STACK-Maxima started, library version 2014060201 ]")$
+stackmaximaversion:2014072301$
+print("[ STACK-Maxima started, library version 2014072301 ]")$

@@ -127,6 +127,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=1}', 1, '', ''),
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, '', ''),
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, '', ''),
+        array('AlgEquiv', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', 1, '', ''),
+        array('AlgEquiv', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', 1, '', ''),
 
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'),
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2,3],[2,3,3])', 0, '', ''),
@@ -204,7 +206,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
         array('AlgEquiv', '(19601-13860*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 1, '', ''),
         array('AlgEquiv', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
-        array('AlgEquiv', '(x-a)*(x+a)/sqrt(x^2-a^2)', 'sqrt(x^2-a^2)', 1, '', ''),
+        array('AlgEquiv', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
+        array('AlgEquiv', 'sqrt(2*log(26)+4-2*log(2))', 'sqrt(2*log(13)+4)', 1, '', ''),
         array('AlgEquiv', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2, '', 'These currently fail'),

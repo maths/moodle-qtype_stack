@@ -102,9 +102,17 @@ $allpassed = true;
 $notests = 0;
 $start = microtime(true);
 
+$old_test = '';
 foreach ($tests as $test) {
 
     $notests++;
+
+    if ($old_test != $test->name) {
+        if ('' != $old_test) {
+            $table->add_separator();
+        }
+        $old_test = $test->name;
+    }
 
     if ($test->notes) {
         reset($columns);

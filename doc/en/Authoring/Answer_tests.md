@@ -78,12 +78,22 @@ This is the most commonly used test.  The pseudo code
     else
       false.
 
-This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object)
-of mathematical objects, including lists, sets, equations, inequalities and matrices.
-Exactly what it does depends on what objects are given to it.
+This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
 
 * This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
 * Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../CAS/Predicate_functions.md).
+
+Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
+
+For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.  
+
+Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) are considered to be different.  If you want these to be considered the same you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.
+
+    ev(radcan({-sqrt(2)/sqrt(3)}),simp);
+    ev(radcan({-2/sqrt(6)}),simp);
+
+Why doesn't the test automatically apply `radcan`?  If we always did this, then \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\) would be expanded out, which would break the system.  Since, in a given situation, we know a lot about what a student is likely to answer we can apply an appropriate form.   There isn't one rule which will work here, unfortunately.
+
 
 ### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 

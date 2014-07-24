@@ -1083,14 +1083,6 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     /* Check they are equal */
     SA:map(ineqprepare, map(trigreduce, SA)),
     SB:map(ineqprepare, map(trigreduce, SB)),
-    SA:errcatch(radcan(SA)),
-    if SA=[] then
-      return([false, false, StackAddNote("","TEST_FAILED"), StackAddFeedback("", "TEST_FAILED")]),
-    SB:errcatch(radcan(SB)),
-    if SB=[] then
-      return([false, false, StackAddNote("","TEST_FAILED"), StackAddFeedback("", "TEST_FAILED")]),
-    SA:first(SA),    
-    SB:first(SB),    
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
     /* Can we give feedback on which are wrong */

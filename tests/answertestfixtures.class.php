@@ -127,8 +127,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=1}', 1, '', ''),
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, '', ''),
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, '', ''),
-        array('AlgEquiv', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', 1, '', ''),
-        array('AlgEquiv', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', 1, '', ''),
+        array('AlgEquiv', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -2, '', 'Equivalence for elements of sets is different from expressions: see docs.'),
+        array('AlgEquiv', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -2, '', ''),
+        array('AlgEquiv', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
+        array('AlgEquiv', '{(x-a)^6000}', '{(a-x)^6000}', -2, '', ''),
 
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'),
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2,3],[2,3,3])', 0, '', ''),

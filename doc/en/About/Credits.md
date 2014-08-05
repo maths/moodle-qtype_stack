@@ -24,7 +24,8 @@ Currently STACK is released with the following languages.
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
-  * ES: Spanish, by VÌctor Hugo Huerta,  
+  * ES: Spanish, by VÌctor Hugo Huerta 
+  * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
 
 # User list
@@ -60,3 +61,6 @@ Gymnasium Himmelsth√ºr, Hildesheim, Deutschland
 
 Universidad Michoacana de San Nicolas de Hidalgo
 : Contcat [VÌctor Hugo Huerta](mailto:v2hugo@gmail.com)
+
+e-MAIO project, Coimbra Institute of Engineering, Portugal
+: Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)

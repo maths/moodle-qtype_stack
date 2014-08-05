@@ -44,10 +44,11 @@ $trees = array();
 foreach ($nodes as $node) {
     $questions = $DB->get_records('question', array('id' => $node->questionid), '', 'name');
     $qnames = array();
-    foreach($questions as $q) {
+    foreach ($questions as $q) {
         $qnames[] = $q->name;
     }
-    $trees[implode(', ',$qnames).' ('.$node->questionid . ') ' . $node->prtname][$node->nodename] = array($node->truenextnode, $node->falsenextnode);
+    $trees[implode(', ', $qnames).' ('.$node->questionid . ') ' . $node->prtname][$node->nodename] =
+        array($node->truenextnode, $node->falsenextnode);
 }
 $nodes->close();
 $uniquetrees = array();

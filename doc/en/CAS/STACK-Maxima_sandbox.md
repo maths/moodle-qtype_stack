@@ -1,7 +1,7 @@
 # STACK - Maxima sandbox
 
 It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses [Maxima](Maxima.md).
-That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.
+That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses.
 To do this you will need to load your local settings, and also the libraries of Maxima functions specific to STACK.
 
 For example, many of the functions are defined in
@@ -68,6 +68,76 @@ You can test this out by using, for example, the `rand()` function.
     rand(matrix([5,5],[5,5]));
 
 to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.
+
+### Using the answer tests
+
+Please make sure you read the page on [answer tests](../Authoring/Answer_tests.md) first.  Not all the answer tests can be called directly from Maxima.  For example, the string match uses the PHP functions.
+
+Informally, the answer tests have the following syntax
+
+    [Errors, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, Opt)
+
+actually the results returned in Maxima are
+
+    [Valid, Result, FeedBack, Note] = AnswerTest(StudentAnswer, TeacherAnswer, Opt)
+
+Errors are echoed to the console, and are trapped by another mechanism.  The valid field is used to render an attempt invalid, not wrong.
+
+To call an answertest directly from maxima, you need to use the correct function name.   For example, to call the algebraic equivalence (AlgEquiv) answer test you need to use
+
+    ATAlgEquiv(x^2+2,x*(x+1));
+
+The values returned are actually in the form
+
+    [true,false,"",""]
+
+Feeback is returned in the form of a language tag which is translated later. For example,
+
+    (%i1) ATInt(x^2,[x*(x+1),x]);
+    (%o1) [true,false,"ATInt_generic. ",
+           "stack_trans('ATInt_generic' , !quot!\\[2\\,x+1\\]!quot!  , !quot!\\(x\\)!quot!  , !quot!\\[2\\,x\\]!quot! ); "]
+
+Please note that the options are passed into STACK functions as a *list* containing the answer and the option.  In the above example this is `[x*(x+1),x]`.  (This is legacy behaviour from a point where we needed all answer tests to accept precisely 2 arguments.  It should probably be refactored.)
+
+The chart below shows the answer test, whether it is defined in Maxima or PHP and the options it expects.  Some of the tests are called "hybrid".  These require both significant Maxima and PHP code and cannot be easily reproduced in the sandbox.
+
+| Answer test   | Maxima command name	| Maxima/PHP | Option ?
+| ------------- | --------------------- | ---------- | -------------
+| AlgEquiv      | ATAlgEquiv            | Maxima     |	
+| EqualComAss  	| ATEqualComAss         | Maxima     |	
+| CasEqual     	| ATCasEqual            | Maxima     |	
+| SameType     	| ATSameType            | Maxima     |	
+| SubstEquiv   	| ATSubstEquiv          | Maxima     |	
+| SysEquiv     	| ATSysEquiv            | Maxima     |	
+| Expanded     	| ATExpanded            | Maxima     |	
+| FacForm      	| ATFacForm             | Maxima     |	Variable
+| SingleFrac   	| ATSingleFrac          | Maxima     |	
+| PartFrac     	| ATPartFrac            | Maxima     |	Variable
+| CompSquare   	| ATCompSquare          | Maxima     |	Variable
+| GT           	| ATGT                  | Maxima     |	
+| GTE          	| ATGTE                 | Maxima     |	
+| NumAbsolute  	|                       | Hybrid     |	
+| NumRelative  	|                       | Hybrid     |	
+| NumSigFigs   	| ATNumSigFigs          | Maxima     |	Number sig figs
+| NumDecPlaces 	|                       | Hybrid     |	
+| LowestTerms  	| ATLowestTerms         | Maxima     |	
+| Diff         	| ATDiff                | Maxima     |	Variable
+| Int          	| ATInt                 | Maxima     |	Variable
+| String       	|                       | PHP        |	
+| StringSloppy 	|                       | PHP        |	
+| RegExp       	|                       | PHP        |	
+
+
+### Where is the Maxima code?
+
+All the maxima code is kept in
+   
+    ...\moodle\question\type\stack\stack\maxima
+
+The bulk of the functions are defined in 
+
+    ...\moodle\question\type\stack\stack\maxima\stackmaxima.mac
+    ...\moodle\question\type\stack\stack\maxima\assessment.mac
 
 ### Useful tips
 

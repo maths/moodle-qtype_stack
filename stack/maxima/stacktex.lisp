@@ -19,32 +19,9 @@
     r (tex (caddr x) (list "}{") (append '("}") r) 'mparen 'mparen))
   (append l r))
 
-;; Define an explicit multipliction
+;; Define an explicit multiplication
 ;;(defprop mtimes "\\times " texsym)
 ;;(defprop mtimes "\\cdot " texsym)
-
-;; To use the LaTeX matrix style using the array environment, define tex-matrix as
-;; Chris Sangwin 24/1/2004
-;; This is a hack, sorry.
-
-(defun tex-matrix-col-count (x csym)
-;; Replaces everything with a csym
-  (if (null (cdr (car (cdr x)))) (list csym)  ; Empty rows
-  ; (cdr x)              - a list of rows
-  ; (car (cdr x))        - first row
-  ; (cdr (car (cdr x)))  - first row without (mlist)
-  (mapcon #'(lambda(y) (list csym)) (cdr (car (cdr x)))) ; replace each item with a csym
-  )
-)
-
-(defun tex-matrix (x l r) ;; matrix looks like ((mmatrix)((mlist) a b) ...)
-  (append l `("\\left[\\begin{array}{")
-             (tex-matrix-col-count x "c") ; Replace every column with a "c"
-            `("} ")
-     ; Below is the bit we need - forms the array
-     (mapcan #'(lambda(y) (tex-list (cdr y) nil (list " \\\\ ") " & ")) (cdr x))
-     '("\\end{array}\\right]") r)
-)
 
 
 ;; patch to tex-prefix to make sin(x) always like sin(x), and not the default sin x.
@@ -76,12 +53,13 @@
       ((front (append '("{\\color{")
                       (list (stripdollar (cadr x)))
                       '("}")))
-       (back (append '("{")
+       (back (append '("{\\underline{")
                      (tex (caddr x) nil nil 'mparen 'mparen)
-                     '("}}"))))
+                     '("}}}"))))
     (append l front back r)))
 
 (defprop $texcolor tex-texcolor tex)
+
 
 (defun tex-texdecorate (x l r)
   (let
@@ -166,10 +144,38 @@
 	(t (concatenate 'string "\\mbox{" x "}"))))
 
 
-;; Sort out display on inequalitis
+;; Sort out display on inequalities
 ;; Chris Sangwin, 21/9/2010
 
 (defprop mlessp (" < ") texsym)
 (defprop mgreaterp (" > ") texsym)
 
+;; Change the display of derivatives, at the request of the OU
+;; Chris Sangwin, 18/3/2013
+
+(defprop %derivative tex-derivative tex)
+(defun tex-derivative (x l r)
+  (tex (if $derivabbrev
+	   (tex-dabbrev x)
+	   (tex-d x '"\\mathrm{d}")) l r lop rop ))
+
+(defun tex-d(x dsym)		    ;dsym should be $d or "$\\partial" 
+  ;; format the macsyma derivative form so it looks
+  ;; sort of like a quotient times the deriva-dand.
+  (let*
+      ((arg (cadr x)) ;; the function being differentiated
+       (difflist (cddr x)) ;; list of derivs e.g. (x 1 y 2)
+       (ords (odds difflist 0))	;; e.g. (1 2)
+       (vars (odds difflist 1))	;; e.g. (x y)
+       (numer `((blankmult) ((mexpt) ,dsym ((mplus) ,@ords)) ,arg)) ; d^n numerator
+       (denom (cons '(blankmult)
+		    (mapcan #'(lambda(b e)
+				`(,dsym ,(simplifya `((mexpt) ,b ,e) nil)))
+			    vars ords))))
+    `((mquotient) ,(simplifya numer nil) ,(simplifya denom nil))
+      ))
+
+
+(defprop blankmult tex-infix tex)
+(defprop blankmult ("\\, ") texsym)
 

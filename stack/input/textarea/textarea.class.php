@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(__FILE__) . '/../../utils.class.php');
+require_once(__DIR__ . '/../../utils.class.php');
 
 /**
  *Input that is a text area. Each line input becomes one element of a list.
@@ -61,6 +61,7 @@ class stack_textarea_input extends stack_input {
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
+        $mform->setType($this->name, PARAM_RAW);
     }
 
     /**
@@ -138,6 +139,7 @@ class stack_textarea_input extends stack_input {
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',
+            'allowWords'     => '',
             'forbidFloats'   => true,
             'lowestTerms'    => true,
             'sameType'       => true);
@@ -151,13 +153,24 @@ class stack_textarea_input extends stack_input {
         $valid = true;
         switch($parameter) {
             case 'boxWidth':
-                $valid = is_int($value) && $value>0;
+                $valid = is_int($value) && $value > 0;
                 break;
 
             case 'boxHeight':
-                $valid = is_int($value) && $value>0;
+                $valid = is_int($value) && $value > 0;
                 break;
         }
         return $valid;
+    }
+
+    /**
+     * @return string the teacher's answer, displayed to the student in the general feedback.
+     */
+    public function get_teacher_answer_display($value, $display) {
+        $values = stack_utils::list_to_array($value, false);
+        $values = array_map(function ($ex) { return '<code>'.$ex.'</code>'; }, $values);
+        $value = "<br/>".implode("<br/>", $values);
+
+        return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
     }
 }

@@ -21,8 +21,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/potentialresponsenode.class.php');
-require_once(dirname(__FILE__) . '/potentialresponsetreestate.class.php');
+require_once(__DIR__ . '/potentialresponsenode.class.php');
+require_once(__DIR__ . '/potentialresponsetreestate.class.php');
 
 /**
  * Deals with whole potential response trees.
@@ -66,7 +66,7 @@ class stack_potentialresponse_tree {
 
         $this->value = $value;
 
-        if (is_a($feedbackvariables, 'stack_cas_session') || null===$feedbackvariables) {
+        if (is_a($feedbackvariables, 'stack_cas_session') || null === $feedbackvariables) {
             $this->feedbackvariables = $feedbackvariables;
         } else {
             throw new stack_exception('stack_potentialresponse_tree: __construct: ' .
@@ -130,6 +130,11 @@ class stack_potentialresponse_tree {
             } else {
                 $cs = new stack_cas_casstring($answers[$name]);
             }
+            // Validating as teacher at this stage removes the problem of "allowWords" which
+            // we don't have access to.  This effectively allows any words here.  But the
+            // student's answer has already been through validation.
+            $cs->validate('t');
+            // Setting the key must come after validation.
             $cs->set_key($name);
             $answervars[] = $cs;
         }

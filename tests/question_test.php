@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once(dirname(__FILE__) . '/test_base.php');
+require_once(__DIR__ . '/test_base.php');
 
 
 /**
@@ -188,7 +188,7 @@ class qtype_stack_question_test extends qtype_stack_testcase {
 
         $expected = array(
             'firsttree-0' => new question_classified_response('firsttree-1-F',
-                    'ATEqual_com_ass: (AlgEquiv:false) | firsttree-1-F', 0),
+                    'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F', 0),
         );
         $this->assertEquals($expected, $q->classify_response(array('ans1' => '7')));
 

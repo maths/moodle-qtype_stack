@@ -25,44 +25,29 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../../config.php');
+require_once(__DIR__.'/../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->libdir .'/filelib.php');
 require_once($CFG->libdir .'/tablelib.php');
 
-require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/stack/options.class.php');
-require_once(dirname(__FILE__) . '/stack/answertest/controller.class.php');
-require_once(dirname(__FILE__) . '/stack/answertest/tests/fixtures.class.php');
+require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/stack/options.class.php');
+require_once(__DIR__ . '/stack/answertest/controller.class.php');
+require_once(__DIR__ . '/tests/answertestfixtures.class.php');
 
 
 // Get the parameters from the URL.
 $anstest = optional_param('anstest', '', PARAM_ALPHA);
 $questionid = optional_param('questionid', null, PARAM_INT);
 
-// Authentication.
-if (!$questionid) {
-    require_login();
-    $context = context_system::instance();
-    require_capability('moodle/site:config', $context);
-    $urlparams = array();
-
-} else {
-    // Load the necessary data.
-    $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
-    $question = question_bank::load_question($questionid);
-
-    // Process any other URL parameters, and do require_login.
-    list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
-
-    // Check permissions.
-    question_require_capability_on($questiondata, 'view');
-}
+// Authentication. Because of the cache, it is safe to make this available to any
+// logged in user.
+require_login();
 
 // Set up the page object.
-$PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/answertests.php', $urlparams);
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url('/question/type/stack/answertests.php');
 $title = stack_string('stackInstall_testsuite_title');
 $PAGE->set_pagelayout('report');
 $PAGE->set_title($title);
@@ -117,9 +102,17 @@ $allpassed = true;
 $notests = 0;
 $start = microtime(true);
 
+$old_test = '';
 foreach ($tests as $test) {
 
     $notests++;
+
+    if ($old_test != $test->name) {
+        if ('' != $old_test) {
+            $table->add_separator();
+        }
+        $old_test = $test->name;
+    }
 
     if ($test->notes) {
         reset($columns);
@@ -133,7 +126,15 @@ foreach ($tests as $test) {
 
     if ($passed) {
         $class = 'pass';
-        $passedcol = stack_string('testsuitepass');
+        if (-1 === $test->expectedscore) {
+            $class = 'expectedfail';
+            $passedcol = stack_string('testsuiteknownfail');
+        } else if (-2 === $test->expectedscore) {
+            $class = 'expectedfail';
+            $passedcol = stack_string('testsuiteknownfailmaths');
+        } else {
+            $passedcol = stack_string('testsuitepass');
+        }
     } else {
         $class = 'fail';
         $passedcol = stack_string('testsuitefail');
@@ -155,12 +156,13 @@ foreach ($tests as $test) {
     flush();
 }
 
-// Overall summary.
+$table->finish_output();
 
-if ($notests>0) {
+// Overall summary.
+if ($notests > 0) {
     $took = (microtime(true) - $start);
     $rtook = round($took, 5);
-    $pertest = round($took/$notests, 5);
+    $pertest = round($took / $notests, 5);
     echo '<p>'.stack_string('testsuitenotests', array('no' => $notests));
     echo '<br/>'.stack_string('testsuiteteststook', array('time' => $rtook));
     echo '<br/>'.stack_string('testsuiteteststookeach', array('time' => $pertest));
@@ -168,10 +170,8 @@ if ($notests>0) {
 
     $config = get_config('qtype_stack');
     echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
+    echo html_writer::tag('p',  stack_string('settingcasmaximaversion').': '.$config->maximaversion);
 }
-
-// Print out the table itself.
-$table->finish_output();
 
 if ($anstest) {
     if ($allpassed) {

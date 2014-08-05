@@ -51,7 +51,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         $ret = false;
         $err = '';
         $cwd = null;
-        $env = array('why'=>'itworks');
+        $env = array('why' => 'itworks');
 
         $descriptors = array(
             0 => array('pipe', 'r'),
@@ -71,7 +71,7 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
 
         $ret = '';
         // Read output from stdout.
-        $start_time = microtime(true);
+        $starttime = microtime(true);
         $continue   = true;
 
         if (!stream_set_blocking($pipes[1], false)) {
@@ -82,9 +82,9 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
 
             $now = microtime(true);
 
-            if (($now-$start_time) > $this->timeout) {
-                $proc_array = proc_get_status($casprocess);
-                if ($proc_array['running']) {
+            if (($now - $starttime) > $this->timeout) {
+                $procarray = proc_get_status($casprocess);
+                if ($procarray['running']) {
                     proc_terminate($casprocess);
                 }
                 $continue = false;
@@ -102,13 +102,13 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         if ($continue) {
             fclose($pipes[0]);
             fclose($pipes[1]);
-            $this->debug->log('Timings', "Start: {$start_time}, End: {$now}, Taken = " .
-                    ($now - $start_time));
+            $this->debug->log('Timings', "Start: {$starttime}, End: {$now}, Taken = " .
+                    ($now - $starttime));
 
         } else {
             // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
             // WARNING: the string 'The CAS timed out' is used by the cache to search for a timeout occurrence.
-            $ret .=' The CAS timed out. ] ] ] ]';
+            $ret .= ' The CAS timed out. ] ] ] ]';
         }
 
         return $ret;

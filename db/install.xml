@@ -23,8 +23,9 @@
         <FIELD NAME="multiplicationsign" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="dot" SEQUENCE="false" COMMENT="The symbol to use for multiplication." PREVIOUS="prtincorrectformat" NEXT="sqrtsign"/>
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds." PREVIOUS="multiplicationsign" NEXT="complexno"/>
         <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented." PREVIOUS="sqrtsign" NEXT="inversetrig"/>
-        <FIELD NAME="inversetrig" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="How the inverse trigonometric function should be displayed. The valid values are cos-1, acos or arccos." PREVIOUS="complexno" NEXT="variantsselectionseed"/>
-        <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values." PREVIOUS="inversetrig"/>
+        <FIELD NAME="inversetrig" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="How the inverse trigonometric function should be displayed. The valid values are cos-1, acos or arccos." PREVIOUS="complexno" NEXT="matrixparens"/>
+        <FIELD NAME="matrixparens" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="cos-1" SEQUENCE="false" COMMENT="The parentheses used to surround matrices." PREVIOUS="inversetrig" NEXT="variantsselectionseed"/>
+        <FIELD NAME="variantsselectionseed" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="If set, used to control the random seed in a deterministic way, so different questions in the quiz can use the same random variable values." PREVIOUS="matrixparens"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="questionid"/>
@@ -42,8 +43,9 @@
         <FIELD NAME="strictsyntax" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether this input element should validate the input strictly." PREVIOUS="boxsize" NEXT="insertstars"/>
         <FIELD NAME="insertstars" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether this input should automatically insert *s where there is implicit multiplication." PREVIOUS="strictsyntax" NEXT="syntaxhint"/>
         <FIELD NAME="syntaxhint" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="An optional initial value to display in the input to help the student know what to type." PREVIOUS="insertstars" NEXT="forbidwords"/>
-        <FIELD NAME="forbidwords" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Any additional words (e.g. function names) that the student is not permitted to use in this input." PREVIOUS="syntaxhint" NEXT="forbidfloat"/>
-        <FIELD NAME="forbidfloat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether floating point numbers should be rejected in this input." PREVIOUS="forbidwords" NEXT="requirelowestterms"/>
+        <FIELD NAME="forbidwords" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Any additional words (e.g. function names) that the student is not permitted to use in this input." PREVIOUS="syntaxhint" NEXT="allowwords"/>
+        <FIELD NAME="allowwords" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Any additional words (e.g. function names) that the student is permitted to use in this input." PREVIOUS="forbidwords" NEXT="forbidfloat"/>
+        <FIELD NAME="forbidfloat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether floating point numbers should be rejected in this input." PREVIOUS="allowwords" NEXT="requirelowestterms"/>
         <FIELD NAME="requirelowestterms" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether any fractions in the input must be given in lowest terms." PREVIOUS="forbidfloat" NEXT="checkanswertype"/>
         <FIELD NAME="checkanswertype" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the type of the students answer (expression, list, ...) should be validated to ensure it is the same as tans." PREVIOUS="requirelowestterms" NEXT="mustverify"/>
         <FIELD NAME="mustverify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the interpretation of this input must be verified by the student before it is graded." PREVIOUS="checkanswertype" NEXT="showvalidation"/>

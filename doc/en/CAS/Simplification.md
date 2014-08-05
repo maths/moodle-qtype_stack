@@ -1,4 +1,18 @@
-# Simplification
+# Simplification & odering
+
+## Ordering
+
+Maxima chooses an order in which to write terms in an expression.  By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).  In elementary mathematics this looks a little odd!  One way to overcome this is to use simplification below but another way is to alter the order in which expressions are transformed.
+
+To alter the order in STACK you can use the Maxima commands `orderless` and `ordergreat`.  To have \(a+b\) you can use
+
+    ordergreat(a,b);
+    
+See Maxima's documentation for more details.  
+
+Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  No warnings or errors are issued if more than one is encountered.
+
+## Selective simplification
 
 The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
 
@@ -38,6 +52,18 @@ In the structure of this expression the first negative coefficient is `-(2*y^2)`
     unary_minus_sort(p);
 
 which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.  The result here is the anticipated `y^3-2*y^2-8*y`.
+
+Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed. 
+
+## If you really insist on a cludge....
+
+In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  Please avoid doing this!
+
+    a:sin(x^2);
+    b:1+x^2;
+    f:concat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
+
+Then you can put in `@f@` into one of the CASText fields.
 
 ## Further examples
 

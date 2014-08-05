@@ -33,8 +33,9 @@ The following type predicates are defined by STACK.
 | Function                  | Predicate
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `equationp(ex)`           | Determines if \(ex\) is an equation.
+| `functionp(ex)`           | Determines if \(ex\) is a function definition, using the operator `:=`.
 | `inequalityp(ex)`         | Determines if \(ex\) is an inequality.
-| `expressionp(ex)`         | Determines if \(ex\) is _not_ a matrix, list, set, equation or inequality.
+| `expressionp(ex)`         | Determines if \(ex\) is _not_ a matrix, list, set, equation, function or inequality.
 | `polynomialsimpp(ex)`     | Determines if \(ex\) is a polynomial in its own variables.
 
 

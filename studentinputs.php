@@ -21,42 +21,27 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../../config.php');
+require_once(__DIR__.'/../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->libdir .'/filelib.php');
 require_once($CFG->libdir .'/tablelib.php');
 
-require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/stack/cas/cassession.class.php');
-require_once(dirname(__FILE__) . '/stack/input/factory.class.php');
-require_once(dirname(__FILE__) . '/stack/input/tests/fixtures.class.php');
+require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/stack/cas/cassession.class.php');
+require_once(__DIR__ . '/stack/input/factory.class.php');
+require_once(__DIR__ . '/tests/inputfixtures.class.php');
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);
 
-// Authentication.
-if (!$questionid) {
-    require_login();
-    $context = context_system::instance();
-    require_capability('moodle/site:config', $context);
-    $urlparams = array();
-
-} else {
-    // Load the necessary data.
-    $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
-    $question = question_bank::load_question($questionid);
-
-    // Process any other URL parameters, and do require_login.
-    list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
-
-    // Check permissions.
-    question_require_capability_on($questiondata, 'view');
-}
+// Authentication. Because of the cache, it is safe to make this available to any
+// logged in user.
+require_login();
 
 // Set up the page object.
-$PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/studentinputs.php', $urlparams);
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url('/question/type/stack/studentinputs.php');
 $title = stack_string('stackInstall_input_title');
 $PAGE->set_pagelayout('report');
 $PAGE->set_title($title);
@@ -67,6 +52,7 @@ $columns = array(
     'studentanswer'      => stack_string('studentanswer'),
     'phpvalid'           => stack_string('phpvalid'),
     'phpcasstring'       => stack_string('phpcasstring'),
+    'answernote'         => stack_string('answernote'),
     'error'              => stack_string('phpsuitecolerror'),
     'casvalid'           => stack_string('casvalid'),
     'casvalue'           => stack_string('casvalue'),
@@ -103,7 +89,7 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $phpvalid, $phpcasstring, $error, $casvalid, $caserrors, $casdisplay, $casvalue) =
+    list($passed, $phpvalid, $phpcasstring, $error, $casvalid, $caserrors, $casdisplay, $casvalue, $answernote) =
             stack_inputvalidation_test_data::run_test($test);
     $allpassed = $allpassed && $passed;
 
@@ -124,6 +110,7 @@ foreach ($tests as $test) {
         'studentanswer'      => s($test->rawstring),
         'phpvalid'           => s($phpvalid),
         'phpcasstring'       => s($phpcasstring),
+        'answernote'         => $answernote,
         'error'              => $error,
         'casvalid'           => s($casvalid),
         'casvalue'           => $casvalue,
@@ -135,10 +122,12 @@ foreach ($tests as $test) {
     flush();
 }
 
+$table->finish_output();
+
 // Overall summary.
 $took = (microtime(true) - $start);
 $rtook = round($took, 5);
-$pertest = round($took/$notests, 5);
+$pertest = round($took / $notests, 5);
 echo '<p>'.stack_string('testsuitenotests', array('no' => $notests));
 echo '<br/>'.stack_string('testsuiteteststook', array('time' => $rtook));
 echo '<br/>'.stack_string('testsuiteteststookeach', array('time' => $pertest));
@@ -146,8 +135,6 @@ echo '</p>';
 
 $config = get_config('qtype_stack');
 echo html_writer::tag('p', stack_string('healthcheckcache_' . $config->casresultscache));
-
-$table->finish_output();
 
 // Overall summary.
 if ($allpassed) {

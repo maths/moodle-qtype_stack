@@ -16,8 +16,8 @@ This page explains the process of authoring a question, by working through an ex
 
 Questions are edited through the Moodle quiz.  In Moodle, go to the question bank and ask to create a new STACK question.  Do not be put off by the fact the editing form looks complicated.
 
-There are lots of fields, but the only compulsory fields are the [question text](CASText.md#question_text) and the question name.
-The question text is the string actually displayed to the student, i.e. this is "the question".
+There are lots of fields, but only a few are compulsory.  These are the question name and [question text](CASText.md#question_text). The question text is the string actually displayed to the student, i.e. this is "the question".
+If you have an input (the default is to have one) the teacher's answer must be non-empty.  Nodes in potential response trees have compulsory fields (the default is to provide a tree with one node).
 
 ## An example question ##
 
@@ -25,9 +25,10 @@ We are now ready to edit an example question.  The question name is compulsory i
 
 Ensure the question text contains the following information. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
 
-    Differentiate \((x-1)^3\) with respect to \(x\).
-    [[input:ans1]]
-    [[validation:ans1]]
+<textarea readonly="readonly" rows="3" cols="50">
+Differentiate \((x-1)^3\) with respect to \(x\).
+[[input:ans1]]
+[[validation:ans1]]</textarea>
 
 There are a number of things to notice about this text.
 
@@ -94,20 +95,23 @@ Next we should try out our question, by pressing the preview button from the que
 
 Assuming there are no errors, you may now choose the link "preview the question" from the Moodle question bank.
 This takes us to a new form where the teacher can experiment with the question.
+
+The Moodle quiz is very flexible.  Under Attempt options, make sure you have "How questions behave" set to "Adaptive Mode". If necessary "Start again with these options".
+
 Try typing in
 
     3*(x-1)^2
 
 into the answer box.
 
-Press the `[Check]` button.
+The default is for STACK to use "instant validation".  That is, when the student finishes typing the system automatically validates their answer and provides feedback.  If this does not happen automatically press the `[Check]` button.
 
 The system first establishes the syntactical validity of this answer.
 
 Press the `[Check]` button again.
 
 The system executes the potential response tree and establishes whether your answer is algebraically equivalent
-to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  You will need to submit each answer twice.
+to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  If your server does not have "instant validation" switched on (an administrator/installation option) you will need to submit each answer twice.
 Notice all your responses are stored in an attempts table.
 
 We would really like to add better feedback, so it is time to edit the question again.  Choose EDIT from the link at the top of the page.
@@ -117,7 +121,9 @@ We would really like to add better feedback, so it is time to edit the question 
 What if the outcome of applying the first answer test was false?
 We would like to check that the student has not integrated by mistake, and we achieve this by adding another potential response node.
 
-Close the preview window and edit the question again.  Scroll down to the Potential Response Tree and click `[Add another node]` button.
+Close the preview window and edit the question again.  Scroll down to the
+Potential Response Tree and click `[Add another node]` button at the bottom of
+the list of nodes.
 
 From the false branch of Node 1, change the "Next" field so it is set to  `[Node 2]`.
 If the first test is false, we will then perform the test in Node 2.
@@ -173,12 +179,9 @@ We need to assign outcomes.
 2. On the false branch set the `score=1` (well, you may disagree here, but that is up to you!)
 3. On the false branch set the feedback to something like
 
-~~~~~~~~~~
-        Your answer is unfactored.
-        There is no need to expand out the expression in this question.
-        You can differentiate using the chain rule directly and keep
-        the answer in factored form.
-~~~~~~~~~~
+<textarea readonly="readonly" rows="3" cols="50">
+Your answer is unfactored. There is no need to expand out the expression in this question. You can differentiate using the chain rule directly and keep the answer in factored form.</textarea>
+
 
 This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.
 
@@ -201,9 +204,10 @@ Modify the [question variables](KeyVals.md#Question_variables) from the previous
 
 Then change the [question text](CASText.md#question_text) to
 
-    Differentiate @p@ with respect to \(x\).
-    [[input:ans1]]
-    [[validation:ans1]]
+<textarea readonly="readonly" rows="3" cols="50">
+Differentiate @p@ with respect to \(x\).
+[[input:ans1]]
+[[validation:ans1]]</textarea>
 
 and in the inputs change the model answer to
 
@@ -260,9 +264,10 @@ This contains random numbers, and also examples of variables and expressions sel
 
 Then change the Question text to
 
-    Differentiate @p@ with respect to @v@.
-    [[input:ans1]]
-    [[validation:ans1]]
+<textarea readonly="readonly" rows="3" cols="50">
+Differentiate @p@ with respect to @v@.
+[[input:ans1]]
+[[validation:ans1]]</textarea>
 
 Again, we need to use expressions such as `diff(p,v)` throughout the potential response tree, and even in one place `diff(ans1,v)`.
 

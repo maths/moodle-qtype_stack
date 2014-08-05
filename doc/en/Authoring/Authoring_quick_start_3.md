@@ -42,7 +42,7 @@ In particular, we are going to define the question variables as follows.
     q : a*%e^(b*%i*%pi);
     p : ev(mod(b*n,2),simp);
 
-A userful alternative when many consecutive expressions need to be simplified is to use the following.
+A useful alternative when many consecutive expressions need to be simplified is to use the following.
 
     simp : true;
     a : 2+rand(15);
@@ -76,9 +76,11 @@ This question has two independent parts.  Hence, it probably needs two separate 
 
 The question text might look something like the following:
 
-    Given a complex number \(\displaystyle z=@q@\) determine
-    \( |z^{@n@}|= \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
-    and \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
+<textarea readonly="readonly" rows="5" cols="100">
+Given a complex number \(\displaystyle z=@q@\) determine
+\( |z^{@n@}|= \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
+and \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
+</textarea>
 
 Update the form.  Because there are two inputs and two potential response trees these will be automatically created.
 
@@ -123,12 +125,14 @@ as the two correct answers, and then incorrect answers to ensure these are being
 
 The general feedback (previously known as the worked solution) can show some of the steps in working.  For example,
 
-    It makes sense that the index laws should still apply.  This is called De Moivre's theorem.
-    \[ @q^n@ =@a^n@ e^{@b*n*%i*%pi@}.\]
-    Recall that
-    \[ e^{i\theta} = \cos(\theta)+i\sin(\theta).\]
-    Working with the principle argument \( 0\leq \theta \leq 2\pi \) gives us
-    \[ @q^n@ = @a^n@ e^{@b*n*%i*%pi@} = @a^n@ e^{@ev(b*n,simp)*%i*%pi@} = @a^n@ e^{@p*%i*%pi@}.\]
+<textarea readonly="readonly" rows="5" cols="120">
+It makes sense that the index laws should still apply.  This is called De Moivre's theorem.
+\[ @q^n@ =@a^n@ e^{@b*n*%i*%pi@}.\]
+Recall that
+\[ e^{i\theta} = \cos(\theta)+i\sin(\theta).\]
+Working with the principle argument \( 0\leq \theta \leq 2\pi \) gives us
+\[ @q^n@ = @a^n@ e^{@b*n*%i*%pi@} = @a^n@ e^{@ev(b*n,simp)*%i*%pi@} = @a^n@ e^{@p*%i*%pi@}.\]
+</textarea>
 
 # Next steps #
 

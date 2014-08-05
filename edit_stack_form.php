@@ -273,6 +273,19 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
+     * Tags which have extra whitespace within them. E.g. [[input: ans1]] are forbidden.
+     * @return array of tags.
+     */
+    protected function get_sloppy_tags($text) {
+
+        $sloppytags = stack_utils::extract_placeholders_sloppy($text, 'input');
+        $sloppytags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'validation'), $sloppytags);
+        $sloppytags = array_merge(stack_utils::extract_placeholders_sloppy($text, 'prt'), $sloppytags);
+
+        return $sloppytags;
+    }
+
+    /**
      * Helper method to get the list of inputs required by a PRT, given the current
      * state of the form.
      * @param string $prtname the name of a PRT.
@@ -287,10 +300,10 @@ class qtype_stack_edit_form extends question_edit_form {
             return array();
         }
         $inputs = $this->question->inputs;
-        $input_keys = array();
+        $inputkeys = array();
         if (is_array($inputs)) {
             foreach ($inputs as $input) {
-                $input_keys[] = $input->name;
+                $inputkeys[] = $input->name;
             }
         } else {
             return array();
@@ -299,10 +312,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // TODO fix this. At the moment it only considers the data from the unedited
         // question. We should take into account any changes made since the
         // form was first shown, for example adding or removing nodes, or changing
-        // the things they compare. However, it is not critical, this information
-        // is only used to display the
-        // This potential response tree will become active when the student has answered: ans1 
-        // line.
+        // the things they compare. However, it is not critical.
 
         // If we are creating a new question, or if we add a new prt in the
         // question stem, then the PRT will not yet exist, so return an empty array.
@@ -311,19 +321,19 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $prt = $this->question->prts[$prtname];
 
-        $prt_nodes = array();
+        $prtnodes = array();
         foreach ($prt->nodes as $name => $node) {
             $sans = new stack_cas_casstring($node->sans);
             $tans = new stack_cas_casstring($node->tans);
-            $prt_node = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
-            $prt_node->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
-            $prt_node->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
-            $prt_nodes[$name] = $prt_node;
+            $prtnode = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
+            $prtnode->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
+            $prtnode->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
+            $prtnodes[$name] = $prtnode;
         }
         $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables, null, 0, 't');
-        $potential_response_tree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prt_nodes, $prt->firstnodename);
-        return $potential_response_tree->get_required_variables($input_keys);
+        $potentialresponsetree = new stack_potentialresponse_tree(
+                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, $prt->firstnodename);
+        return $potentialresponsetree->get_required_variables($inputkeys);
     }
 
     protected function definition() {
@@ -384,6 +394,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $seed = $mform->createElement('text', 'variantsselectionseed',
                 stack_string('variantsselectionseed'), array('size' => 50));
         $mform->insertElementBefore($seed, 'questiontext');
+        $mform->setType('variantsselectionseed', PARAM_RAW);
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
 
         $sf = $mform->createElement('editor', 'specificfeedback',
@@ -464,9 +475,15 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('select', 'inversetrig',
                 stack_string('inversetrig'), array(
-                    'cos-1' => 'cos⁻¹(x)', 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+                    'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
+
+        $mform->addElement('select', 'matrixparens',
+                stack_string('matrixparens'), array(
+                    '[' => "[", '(' => '(', '' => '', '{' => '{', '|' => '|'));
+        $mform->setDefault('matrixparens', $this->stackconfig->matrixparens);
+        $mform->addHelpButton('matrixparens', 'matrixparens', 'qtype_stack');
 
         // Hints.
         $this->add_interactive_settings();
@@ -477,6 +494,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $pen = $mform->createElement('text', 'penalty', stack_string('penalty'), array('size' => 5));
         $mform->insertElementBefore($pen, 'generalfeedback');
+        $mform->setType('penalty', PARAM_FLOAT);
         $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
         $mform->setDefault('penalty', 0.1000000);
         $mform->addRule('penalty', null, 'required', null, 'client');
@@ -496,6 +514,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
+        $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
         // That stops the input sections collapsing by default. Instead, we enforce
@@ -517,11 +536,18 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), array('size' => 20));
+        $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), array('size' => 20));
+        $mform->setType($inputname . 'forbidwords', PARAM_RAW);
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
+
+        $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), array('size' => 20));
+        $mform->setType($inputname . 'allowwords', PARAM_RAW);
+        $mform->setDefault($inputname . 'allowwords', '');
+        $mform->addHelpButton($inputname . 'allowwords', 'allowwords', 'qtype_stack');
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
@@ -549,6 +575,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
+        $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
 
@@ -562,6 +589,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('header', $prtname . 'header', stack_string('prtheading', $prtname));
 
         $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), array('size' => 3));
+        $mform->setType($prtname . 'value', PARAM_FLOAT);
         $mform->setDefault($prtname . 'value', 1);
 
         $mform->addElement('selectyesno', $prtname . 'autosimplify',
@@ -631,6 +659,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 html_writer::tag('b', stack_string('nodex', $name)),
                 null, false);
         $mform->addHelpButton($prtname . 'node[' . $nodekey . ']', 'nodehelp', 'qtype_stack');
+        $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
+        $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
+        $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
 
         // Create the section of the form for each node - the branches.
         foreach (array('true', 'false') as $branch) {
@@ -664,6 +695,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->addGroup($branchgroup, $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']',
                     stack_string('nodexwhen' . $branch, $name), null, false);
             $mform->addHelpButton($prtname . 'nodewhen' . $branch . '[' . $nodekey . ']', $branch . 'branch', 'qtype_stack');
+            $mform->setType($prtname . $branch . 'score[' . $nodekey . ']', PARAM_RAW);
+            $mform->setType($prtname . $branch . 'penalty[' . $nodekey . ']', PARAM_RAW);
+            $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
                     stack_string('nodex' . $branch . 'feedback', $name), array('rows' => 1), $this->editoroptions);
@@ -717,6 +751,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
         $question->inversetrig           = $opt->inversetrig;
+        $question->matrixparens          = $opt->matrixparens;
         $question->sqrtsign              = $opt->sqrtsign;
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
@@ -742,6 +777,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
             $question->{$inputname . 'forbidwords'}        = $input->forbidwords;
+            $question->{$inputname . 'allowwords'}         = $input->allowwords;
             $question->{$inputname . 'forbidfloat'}        = $input->forbidfloat;
             $question->{$inputname . 'requirelowestterms'} = $input->requirelowestterms;
             $question->{$inputname . 'checkanswertype'}    = $input->checkanswertype;
@@ -820,6 +856,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $node->falsefeedbackformat, $node->id, 'prtnodefalsefeedback');
 
         // See comment in the parent method about this hack.
+        unset($this->_form->_defaultValues["{$prtname}truescoremode[$nodename]"]);
+        unset($this->_form->_defaultValues["{$prtname}falsescoremode[$nodename]"]);
         unset($this->_form->_defaultValues["{$prtname}truescore[$nodename]"]);
         unset($this->_form->_defaultValues["{$prtname}falsescore[$nodename]"]);
         unset($this->_form->_defaultValues["{$prtname}trueanswernote[$nodename]"]);
@@ -855,18 +893,19 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $inputs = $this->get_input_names_from_question_text();
         $prts = $this->get_prt_names_from_question();
-        $fixingdollars = !empty($fromform->fixdollars);
+        $fixingdollars = array_key_exists('fixdollars', $fromform);
 
         $this->options = new stack_options();
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
         $this->options->set_option('inversetrig',        $fromform['inversetrig']);
+        $this->options->set_option('matrixparens',       $fromform['matrixparens']);
         $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
         $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
         $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);
 
         // We slightly break the usual conventions of validation, in that rather
-        // then building up $errors as an array of strings, we initially build it
+        // than building up $errors as an array of strings, we initially build it
         // up as an array of arrays, then at the end remove any empty arrays,
         // and implod (' ', ...) any arrays that are non-empty. This makes our
         // rather complex validation easier to implement.
@@ -878,6 +917,13 @@ class qtype_stack_edit_form extends question_edit_form {
         // Question text.
         $errors['questiontext'] = array();
         $errors = $this->validate_cas_text($errors, $fromform['questiontext']['text'], 'questiontext', $fixingdollars);
+
+        // Check for whitespace following placeholders.
+        $sloppytags = $this->get_sloppy_tags($fromform['questiontext']['text']);
+        foreach ($sloppytags as $sloppytag) {
+            $errors['questiontext'][] = stack_string(
+                        'questiontextplaceholderswhitespace', $sloppytag);
+        }
 
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
@@ -1010,7 +1056,10 @@ class qtype_stack_edit_form extends question_edit_form {
 
         if (!array_key_exists($prtname . 'feedbackvariables', $fromform)) {
             // This happens when you edit the question text to add more PRTs.
-            // There is nothing to validate for the new PRTs, so stop now.
+            // The user added a new PRT and did not click "Verify the question
+            // text and update the form". We need to fail validation, so the
+            // form is re-displayed so that this PRT can be configured.
+            $errors[$prtname . 'value'][] = stack_string('prtmustbesetup');
             return $errors;
         }
 
@@ -1121,7 +1170,7 @@ class qtype_stack_edit_form extends question_edit_form {
                     if ('' == trim($strin)) {
                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernoterequired');
                     } else if (strstr($strin, '|') !== false) {
-                        $nodename = $key+1;
+                        $nodename = $key + 1;
                         $interror[$prtname.'nodewhen'.$branch.'['.$key.']'][] = stack_string('answernote_err');
                     }
                 }
@@ -1215,7 +1264,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
-     * Validate all the maxima code in the questions.
+     * Validate all the maxima code in the question.
      *
      * This is done last, and separate from the other validation for two reasons:
      * 1. The rest of the validation is organised to validate the form in order,

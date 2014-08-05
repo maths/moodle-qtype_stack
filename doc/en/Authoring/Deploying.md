@@ -15,9 +15,9 @@ Deploying a question variant chooses and fixes specific values for any random el
 2. The teacher can decide if each deployed version appears to be of equal difficulty.  Experience suggests there are unanticipated consequences of randomly generating questions.  (Really only statistics of use can establish fairness.)
 3. The pre-generation combined with a cache helps minimise server load during the start of a large class which aids robustness of the whole experience.  This helps STACK to optimise its use of the CAS for efficiency and reliability via a [dynamic cache](../Developer/Question_state_caching.md).
 
-Any number of instances can be requested and deployed but only one instance of each [question note](Question_note.md) can be deployed.  The teacher is responsible to ensure question variants are different if and only if the question notes are different.  The deployment management also allows specific variants to be dropped.  You can also return to the question preview window and try a specific deployed variant.
+Any number of instances can be requested and deployed but only one instance of each [question note](Question_note.md) can be deployed.  It is possible to deploy \(n\) variants in one go, but the system will give up if too many duplicate question notes are generated.  The teacher is responsible to ensure question variants are different if and only if the question notes are different.  The deployment management also allows specific variants to be dropped.  You can also return to the question preview window and try a specific deployed variant.
 
-_In STACK 2, it was possible to deploy \(n\) variants in one go.  We have yet to re-implement this feature in STACK 3.  Only one variant may be deployed at a time.  Also, it would be nice to loop to look for variants which have not been deployed yet...._
+Also, it would be nice to loop to look for variants which have not been deployed yet, but this is yet to be implemented....
 
 **If a question uses randomization then it must have at least one deployed instance before it can be presented to a student.**  Questions that don't use randomization cannot be deployed explicitly.  STACK automatically detects randomization.
 

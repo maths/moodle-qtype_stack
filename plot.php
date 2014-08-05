@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir . '/filelib.php');
 
 
@@ -47,6 +47,14 @@ header('Last-Modified: '.gmdate('D, d M Y H:i:s', $filedate).' GMT');
 header('Content-Type: ' . mimeinfo('type', 'x.png'));
 header('Content-Length: ' . filesize($plot));
 
+// Unlock session during file serving.
+if (class_exists('\core\session\manager')) {
+    // Moodle >= 2.6.
+    \core\session\manager::write_close();
+} else {
+    // Moodle < 2.6.
+    session_get_instance()->write_close();
+}
+
 // Output file.
-session_get_instance()->write_close(); // unlock session during file serving.
 readfile($plot);

@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../options.class.php');
-require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
-require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
-require_once(dirname(__FILE__) . '/inputstate.class.php');
+require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../options.class.php');
+require_once(__DIR__ . '/../cas/casstring.class.php');
+require_once(__DIR__ . '/../cas/cassession.class.php');
+require_once(__DIR__ . '/inputstate.class.php');
 
 
 /**
@@ -45,6 +45,7 @@ abstract class stack_input {
         'insertStars',
         'syntaxHint',
         'forbidWords',
+        'allowWords',
         'forbidFloats',
         'lowestTerms',
         'sameType');
@@ -90,7 +91,7 @@ abstract class stack_input {
         $class = get_class($this);
         $this->parameters = $class::get_parameters_defaults();
 
-        if (!(null===$parameters || is_array($parameters))) {
+        if (!(null === $parameters || is_array($parameters))) {
             throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, ' .
                     'must be null or an array of parameters.');
         }
@@ -244,9 +245,17 @@ abstract class stack_input {
     }
 
     /**
+     * @return string the teacher's answer, displayed to the student in the general feedback.
+     */
+    public function get_teacher_answer_display($value, $display) {
+        // By default, we don't show how to "type this in".  This is only done for some, e.g. algebraic and textarea.
+        return stack_string('teacheranswershow_disp', array('display' => $display));
+    }
+
+    /**
      * Validate any attempts at this question.
      *
-     * @param array $response the student reponse to the question.
+     * @param array $response the student response to the question.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
      * @return stack_input_state represents the current state of the input.
@@ -268,7 +277,7 @@ abstract class stack_input {
         $contents = $this->response_to_contents($response);
 
         if (array() == $contents or $this->is_blank_response($contents)) {
-            return new stack_input_state(self::BLANK, array(), '', '', '');
+            return new stack_input_state(self::BLANK, array(), '', '', '', '');
         }
 
         // This method actually validates any CAS strings etc.
@@ -286,11 +295,12 @@ abstract class stack_input {
             }
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $teacheranswer);
+                    $teacheranswer, $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
             $session = new stack_cas_session(array($answer), $localoptions, 0);
             $session->instantiate();
+
             $session = $session->get_session();
             $answer = $session[0];
 
@@ -304,6 +314,8 @@ abstract class stack_input {
                 $display = '\[ ' . $answer->get_display() . ' \]';
             }
         }
+
+        $note = $answer->get_answernote();
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
@@ -319,7 +331,8 @@ abstract class stack_input {
         } else {
             $status = self::SCORE;
         }
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors);
+
+        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note);
     }
 
     /**
@@ -330,13 +343,13 @@ abstract class stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function is_blank_response($contents) {
-        $all_blank = true;
+        $allblank = true;
         foreach ($contents as $val) {
             if (!('' == trim($val))) {
-                $all_blank = false;
+                $allblank = false;
             }
         }
-        return $all_blank;
+        return $allblank;
     }
 
     /**
@@ -356,9 +369,11 @@ abstract class stack_input {
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
+        $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
-            $answer->validate('s', $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', false));
+            $answer->validate('s', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', false), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {
@@ -368,7 +383,7 @@ abstract class stack_input {
             $forbiddenwords = $this->get_parameter('forbidWords', '');
 
             if ($forbiddenwords) {
-                $answer->check_external_forbidden_words(explode(',', $forbiddenwords));
+                $answer->check_external_forbidden_words_literal($forbiddenwords);
             }
 
             $modifiedcontents[] = $answer->get_casstring();

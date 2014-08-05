@@ -260,7 +260,7 @@ class qtype_stack_renderer extends qtype_renderer {
     /**
      * Get the appropriate response to use for generating the feedback to a PRT.
      * @param string $name PRT name
-     * @param array $response the current reponse.
+     * @param array $response the current response.
      * @param question_attempt $qa the question_attempt we are displaying.
      */
     protected function get_applicable_response_for_prt($name, $response, question_attempt $qa) {
@@ -429,5 +429,10 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $result = new stack_potentialresponse_tree_state(1, true, $fraction);
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result);
+    }
+
+    public function correct_response(question_attempt $qa) {
+        $question = $qa->get_question();
+        return '<hr />'.$question->format_correct_response($qa);
     }
 }

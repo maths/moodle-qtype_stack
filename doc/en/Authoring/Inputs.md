@@ -26,6 +26,9 @@ where stuff is the name of the variable. This string is automatically generated 
 does not exist and is placed after the input. This feedback must be given.
 Inputs have a number of options. Specific inputs may have extra options.
 
+To see what sort of vaidation is done, look at the
+[test suite for validation of student's input](../../../studentinputs.php).
+
 ## input options ##
 
 Each input may have a number of options.
@@ -100,7 +103,9 @@ Some patterns must always be wrong.  For example  `)(` must be missing a star, a
 If set to `no`, this increases the range of things into which stars might be inserted.  In particular when `no` we assume
 
 * The student's expression does not contain any functions, so that `f(x+1)` is looked for, and we expect `f*(x+1)`.
-* The student's expression does not contain any scientific notation, so that `3E2` (which Maxima interprets as `300.0`) is looked for, and expects `3*E*2`.
+* The student's expression does not contain any scientific notation, so that `3E2` or `3e2` (which Maxima interprets as `300.0`) is looked for, and expects `3*E*2` or `3e2`.
+
+Please read the notes on [numbers](../CAS/Numbers.md#Floats).
 
 ### Insert Stars ### {#Insert_Stars}
 
@@ -128,11 +133,13 @@ The ? may also be used to give partial credit. Of course it could also be used f
 
 ### Forbidden words ### {#Forbidden_Words}
 
-This is a comma separated list of text strings which are forbidden in a student's answer.
+This is a comma separated list of text strings which are forbidden in a student's answer.  Note, any variable names used in the question variables are automatically forbiden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).
 If one of these strings is present then the student's attempt will be considered invalid,
-and no penalties will be given.
+and no penalties will be given.  This is an unsophisticated string match.
 
-Note that the string `*` is literally taken as `*` and is not a wild card.  Teachers may ask a student to calculate `2*3` and hence need to forbid multiplication.
+Note that the string `*` is literally taken as `*` and is not a wild card.  Teachers may ask a student to calculate `2*3` and hence need to forbid multiplication in an answer.
+
+If you wish to forbid commas, then escape it with a backslash.
 
 There are groups of common keywords which you can forbid simply as
 
@@ -140,7 +147,11 @@ There are groups of common keywords which you can forbid simply as
 * `[[BASIC-CALCULUS]]` common calculus operations such as `int`, `diff`, `taylor` etc.
 * `[[BASIC-MATRIX]]` common matrix operations such as `transpose`, `invert`, `charpoly` etc.
 
-These lists are in the casstring class. If you have suggestions for more lists, or additional operations which should be added to the existing lists please contact the developers.
+These lists are in the casstring class. If you have suggestions for more lists, or additional operations which should be added to the existing lists, please contact the developers.
+
+### Allowed words ### {#Allowed_Words}
+
+By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student's answer.
 
 ### Forbid Floats ### {#Forbid_Floats}
 

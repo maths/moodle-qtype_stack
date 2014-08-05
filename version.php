@@ -17,22 +17,22 @@
 /**
  * Version information for the Stack question type.
  *
- * @package    qtype_stack
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_stack
+ * @copyright 2012 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013030802;
-$plugin->requires  = 2012062503;
+$plugin->version   = 2014072301;
+$plugin->requires  = 2012120300;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->release = 'development version on the way to 3.1 for Moodle 2.3.3+';
+$plugin->maturity  = MATURITY_STABLE;
+$plugin->release   = '3.2 for Moodle 2.4+';
 
 $plugin->dependencies = array(
-    'qbehaviour_adaptivemultipart'     => 2013011100,
-    'qbehaviour_dfexplicitvaildate'    => 2013011100,
-    'qbehaviour_dfcbmexplicitvaildate' => 2013011100,
+    'qbehaviour_adaptivemultipart'     => 2014011500,
+    'qbehaviour_dfexplicitvaildate'    => 2014011500,
+    'qbehaviour_dfcbmexplicitvaildate' => 2014011500,
 );

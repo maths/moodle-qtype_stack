@@ -24,9 +24,9 @@ class stack_anstest_atregexp extends stack_anstest {
 
     public function do_test() {
         if ($this->atoption == null) {
-            $this->aterror = stack_string('ATRegEx_missing_option');
+            $this->aterror = 'TEST_FAILED';
             $this->atfeedback = stack_string('TEST_FAILED', array('errors' => ''));
-            $this->atansnote = 'STACKERROR_OPTION_REGEX';
+            $this->atansnote = 'ATRegEx_STACKERROR_Option.';
             $this->atmark = 0;
             $this->atvalid = false;
             return null;
@@ -35,7 +35,7 @@ class stack_anstest_atregexp extends stack_anstest {
             $this->atvalid = true;
             if (preg_match($this->atoption, $this->sanskey, $pattern)) {
                 $this->atmark = 1;
-                $this->atansnote = ' Pattern matched: '.$pattern[0];
+                $this->atansnote = ' Pattern matched: '.$pattern[0].'.';
                 return true;
             } else {
                 $this->atmark = 0;

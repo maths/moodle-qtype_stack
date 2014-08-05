@@ -17,15 +17,50 @@ To review work in more detail we need to use two important parts of the question
 
 ## Moodle quiz features ##
 
-Most of the day to day reporting is done through the Moodle quiz features.  Details of the statistice available are online at [
+Most of the day to day reporting is done through the Moodle quiz features.  Details of the statistics available are online at [
 http://labspace.open.ac.uk/mod/oucontent/view.php?id=470306&direct=1](
 http://labspace.open.ac.uk/mod/oucontent/view.php?id=470306&direct=1).
 
-## Individual item analysis ##
+## Individual STACK item analysis ##
 
-To access the quiz reports you need to look in the Moodle navigation block. Under the quiz, select Results then STACK response analysis.  The reports do the following
+STACK has a bespoke reporting mechanism for analysing responses to questions, grouped by the [answer note](Potential_response_trees.md#Answer_note).  To make us of this you need to install the [STACK quiz report](../Installation/index.md#Report) module.
 
-* Analysis of each item as a whole.  This combines all the [answer notes](Potential_response_trees.md#Answer_note) from each deployed version and each attempt.  We list by the whole answer note (route through the potential response tree) and list by split answer notes, which give the occurances of each outcome.  The precise details of the question dictate the relative importance of these two sets of data.
-* List of all answers to each version, orderd by frequency and highlighting invalid answers.
+**Please note that the STACK quiz report is still under development.**  If you have specific requests for features, please contact the developers.
 
+To access the quiz reports you need to navigate to the quiz.  Then follow the chain
 
+    Administration -> Quiz administration -> Results -> STACK response analysis.
+    
+This page lists all the STACK questions in a particular quiz.  Click on a link to perform an analysis of attempts at an individual question.
+
+The page contains a number of parts.
+
+* A summary of the question.  This includes the question variables, uninstantiated (i.e. raw) question text, general feedback, uninstantiated question note as a reminder to the teacher what the question is about.
+* Summary tables of the frequencies of answer notes for each potential response tree, and each variant.
+* A detailed summary of all attempts at a particular variant.
+* Maxima code to facilitate off-line analysis.
+
+### Summary tables ###
+
+The first table provides a summary of the frequency of each answer note for each question note, both as a numerical frequency and as a percentage.  Each potential response tree is listed separately.  A second table shows similar data for splits answer notes, to show the frequency each branch of the tree is traversed.  Depending on the form of the trees in the question, each table provides potentially useful comparisons of the frequencies of outcomes of different variants.
+
+### Variants ###
+
+For each question variant we provide a number of tables of data.
+
+* The first table lists all inputs at one question, their frequency, the score generated and each outcome from the potential response trees.
+* Next we produce tables for each input, and count the number of times each expression is entered and its validity.  Where an input is invalid a note records the reason.  Remember, validity is more than syntactic soundness so a syntactically valid expression might be "invalid" for this input. For example, we might forbid floating point numbers.
+
+### Maxima code ###
+
+We create a number of lists in Maxima code which record all the valid inputs.   These can be copied into a desktop version of Maxima for off-line analysis.  This reduces server load, but is also more flexible enabling teachers to manipulate answers without having to update the server.  In order to use the analysis you will need to set up the [STACK - Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
+
+The code generates three maxima lists
+
+* the list `inputs` creates the names of the inputs to the question. These are assumed to be valid maxima variable names, so are maxima objects.  E.g. `inputs:[ans1,ans2,ans3]$`.
+* the list `variants` which is a list of strings which are the question notes used.
+* the list of lists called `stackdata`. This holds all the input data.  The elements of the list show the input data for each variant.  E.g. `stackdata[1]` is the input data for `variant[1]`.  For each variant, the elements are a list of all data for each corresponding input.  E.g. `stackdata[1][2]` is the input data for `variant[1]` and `input[2]`.  
+
+This data is available for off line analysis using functions in the file `stack\stack\maxima\stackreporting.mac`
+
+More work on this functionality is needed.

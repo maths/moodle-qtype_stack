@@ -34,8 +34,10 @@ MathJax.Hub.Config({
     MMLorHTML: { prefer: "HTML" },
     tex2jax: {
         displayMath: [['\\\\[', '\\\\]']],
-        inlineMath:  [['\\\\(', '\\\\)']]
-    }
+        inlineMath:  [['\\\\(', '\\\\)']],
+        processEscapes: true
+    },
+    TeX: { extensions: ['enclose.js'] }
 });
 </script>
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>

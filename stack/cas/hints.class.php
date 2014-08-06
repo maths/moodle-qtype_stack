@@ -26,6 +26,10 @@ class stack_hints {
 
     private $text;
 
+    /* This is the list of allowable hint tags.  Each of these needs to have
+     * two corresponding lines in the language file.
+     * E.g. greek_alphabet_name and greek_alphabet_fact 
+     */
     private static $hints = array('greek_alphabet', 'alg_inequalities',
                     'alg_indices', 'alg_logarithms', 'alg_quadratic_formula', 
                     'alg_partial_fractions', 'trig_degrees_radians', 'trig_standard_values',
@@ -45,27 +49,122 @@ class stack_hints {
         $this->text = $text;
     }
 
+    /* Check each hint tag actually corresponds to a valid hint. */
+    public function validate() {
+        $strin = $this->text;
+        $html_match = $this->get_hint_tags();
+        if ($html_match) {
+           $errors = array();
+           foreach ($html_match as $val) {
+               if (false === array_search($val, self::$hints)) {
+                    $errors[] = $val;
+               }
+           }
+           if (!empty($errors)) {
+               return $errors;
+           }
+        }
+        return true;
+    }
+
+    private function get_hint_tags() {
+        if (preg_match_all('|\[\[hint:(.*)\]\]|U', $this->text, $html_match)) {
+            return $html_match[1];
+        }
+        return false;
+    }
+
+    /* This function repaces tags with they HTML value.  
+     * Note, that at this point we assume we have already validated the text.
+     */
     public function display() {
 
         $strin = $this->text;
-        if (preg_match_all('|\[hint:(.*)\]|U', $strin, $html_match)) {
+        $html_match = $this->get_hint_tags();
+        if ($html_match) {
             global $CFG;
             $stackurl = $CFG->wwwroot . '/question/type/stack/';
     
-            $modal_script= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js?ver=1.4.3'></script><script type='text/javascript' src='".$stackurl."jquery.simplemodal.1.4.3.min.js'></script>";
-            $strin = $modal_script.$strin; // prepend script
-            foreach ($html_match[1] as $val) {
+            //$modal_script= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js?ver=1.4.3'></script><script type='text/javascript' src='".$stackurl."jquery.simplemodal.1.4.3.min.js'></script>";
+            //$strin = $modal_script.$strin; // prepend script
+            foreach ($html_match as $val) {
                 if (false !== array_search($val, self::$hints)) {
-                    $sr = '[hint:'.$val.']';
+                    $sr = '[[hint:'.$val.']]';
+/*
+                    //This uses a popup button to display the hint. 
+                    //Currently not working.
                     $rep = $this->modal_popup(stack_string($val.'_name'),
                             stack_string($val.'_fact'),//body
                             'Hint' //label on button
-                    );
+                           );
+*/
+                    $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
+                       stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
                     $strin = str_replace($sr, $rep, $strin);
+                } else {
+                    throw new stack_exception('stack_hints: the following hint tag does not exist: '.$val);
                 }
             }
         }
         return $strin;
     }
 
+    // Generate a random string (letters and numbers) of length $length
+    private function genRandomString($length) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $string = '';
+        for ($p = 0; $p < $length; $p++) {
+            $string .= $characters[mt_rand(0, strlen($characters)-1)];
+        }
+        return $string;
+    }
+
+    private function modal_popup($header, $body, $buttonlabel) {
+        global $CFG;
+        $stackurl = $CFG->wwwroot . '/question/type/stack/';
+
+        $hint = $this->genRandomString(10);
+        //   <!--<img align="middle" border="0" alt="Hint?" src="'.$stackurl.'pix/help.png" />-->
+        return
+        '<span id="'.$hint.'">
+   <input type="button"  value="'.$buttonlabel.'" class="modal-button"/>
+</span>
+<div id="'.$hint.'2" style="display: none">
+  <div class="secondaryFeedback">
+    <h3 class="secondaryFeedback">'.$header.'</h3>'.
+        $body.'
+  </div>
+</div>
+<div style="display:none">
+   <img src="'.$stackurl.'pix/x.png" alt="X" />
+</div>
+<script>$("#'.$hint.'").click(function(e) {$("#'.$hint.'2").modal(); return false;});</script>';
+    }
+
+    /* This function converts the old style html tags to the new hint
+     * system using square brackets.
+     */
+    public function legacy_convert() {
+        preg_match_all('|<hint>(.*)</hint>|U', $this->text, $html_match);
+        foreach($html_match[1] as $key => $val) {
+            $old = $html_match[0][$key];
+            $new = '[[hint:'.trim($val).']]';
+            $this->text = str_replace($old, $new, $this->text);
+        }
+        return $this->text;
+    }
+
+    /* This function returns the html to insert into the documentaion. 
+     * It ensures that all/only the current tags are included in the docs.
+     * Note, docs are usually in markdown, but we have html here because 
+     * hints are part of castext.
+     */
+    public function gen_docs() {
+        $doc = '';
+        foreach (self::$hints as $tag) {
+            $doc .= '<h4>'.stack_string($tag.'_name').'</h4> [[hint:'.$tag."]]";
+            $doc .= '<p>'.stack_string($tag.'_fact').'</p>';
+        }
+        return $doc;
+    }
 }

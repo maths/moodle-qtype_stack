@@ -97,6 +97,7 @@ class stack_cas_text {
         $this->security    = $security;
         $this->syntax      = $syntax;
         $this->insertstars = $insertstars;
+
     }
 
     /**
@@ -139,17 +140,6 @@ class stack_cas_text {
             $this->valid = false;
         }
 
-        $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
-        if ($hints !== true) {
-            // The method check_bookends does not return false.
-            $this->valid = false;
-            if ($hints == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenHint');
-            } else {
-                $this->errors .= stack_string('stackCas_MissingClosingHint');
-            }
-        }
-
         $html = stack_utils::check_bookends($this->trimmedcastext, '<html>', '</html>');
         if ($html !== true) {
             // The method check_bookends does not return false.
@@ -183,6 +173,19 @@ class stack_cas_text {
             } else {
                 $this->errors .= stack_string('stackCas_MissingCloseInline');
             }
+        }
+
+        $hints = new stack_hints($this->trimmedcastext);
+        $hintsvalidation = $hints->validate();
+        if (true !== $hintsvalidation) {
+            $this->valid = false;
+            $this->errors .= stack_string('stackHint',
+                    array('hints' => implode(', ', $hintsvalidation)));
+        }
+        $found = stack_utils::substring_between($this->trimmedcastext, '<hint>', '</hint>');
+        if ($found[1] > 0) {
+            $this->valid = false;
+            $this->errors .= stack_string('stackHintOld');
         }
 
         // Perform validation on the existing session.
@@ -390,36 +393,4 @@ class stack_cas_text {
         return $this->session->get_debuginfo();
     }
 
-    // Generate a random string (letters and numbers) of length $length
-    private function genRandomString($length) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $string = '';
-        for ($p = 0; $p < $length; $p++) {
-            $string .= $characters[mt_rand(0, strlen($characters)-1)];
-        }
-        return $string;
-    }
-
-    private function modal_popup($header, $body, $buttonlabel) {
-        global $CFG;
-        $stackurl = $CFG->wwwroot . '/question/type/stack/';
-
-        $hint = $this->genRandomString(10);
-        //   <!--<img align="middle" border="0" alt="Hint?" src="'.$stackurl.'pix/help.png" />-->
-        return
-        '<span id="'.$hint.'">
-   <input type="button"  value="'.$buttonlabel.'" class="modal-button"/>
-</span>
-<div id="'.$hint.'2" style="display: none">
-  <div class="secondaryFeedback">
-    <h3 class="secondaryFeedback">'.$header.'</h3>'.
-        $body.'
-  </div>
-</div>
-<div style="display:none">
-   <img src="'.$stackurl.'pix/x.png" alt="X" />
-</div>
-<script>$("#'.$hint.'").click(function(e) {$("#'.$hint.'2").modal(); return false;});</script>';
-    }
-    
 }

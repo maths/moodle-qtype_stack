@@ -29,6 +29,7 @@ global $CFG;
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/cas/hints.class.php');
 
 
 /**
@@ -131,12 +132,16 @@ function stack_docs_page($links, $file, $docscontent) {
  * @return string HTML content.
  */
 function stack_docs_render_markdown($page, $docscontent) {
-    // Put in links to images etc.
 
+    // Put in links to images etc.
     $page = preg_replace('~(?<!\\\\)%CONTENT~', $docscontent, $page);
     $page = str_replace('\%CONTENT', '%CONTENT', $page);
     $page = stack_maths::pre_process_docs_page($page);
     $page = stack_process_markdown($page);
+    if (strpos($page, '[[ALL_HINTS]]')>0) {
+        $hint = new stack_hints('');
+        $page = str_replace('[[ALL_HINTS]]', $hint->gen_docs(), $page);
+    }
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }

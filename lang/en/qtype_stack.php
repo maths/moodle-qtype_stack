@@ -512,7 +512,7 @@ $string['stackCas_MissingAt']               = 'You are missing a <code>@</code> 
 $string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
 $string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';
 $string['stackCas_MissingOpenHint']         = 'Missing opening hint. ';
-$string['stackCas_MissingClosingHint']      = 'Missing closing /hint';
+$string['stackCas_MissingClosingHint']      = 'Missing square bracket to close hint.';
 $string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>. ';
 $string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>. ';
 $string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>. ';
@@ -522,6 +522,9 @@ $string['stackCas_MissingCloseHTML']        = 'Missing closing html tag. ';
 $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
+
+$string['stackHint']                        = 'The following hint tag(s) are not recognized: {$a->hints}.';
+$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[hint:tag]</pre>';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
@@ -698,7 +701,7 @@ $string['greek_alphabet_fact'] = '
  \(\Theta\)  </td><td>  \(\theta\)  </td><td>  theta </td> </tr>   <tr> <td>
  \(K\)  </td><td>  \(\kappa\)  </td><td>  kappa </td> </tr>   <tr> <td>
  \(M\)  </td><td>  \(\mu\)  </td><td>  mu </td> </tr>   <tr> <td>
- \(N\)  </td><td>  \) u\)  </td><td>  nu </td> </tr>   <tr> <td>
+ \(N\)  </td><td>  \( u\)  </td><td>  nu </td> </tr>   <tr> <td>
  \(\Xi\)  </td><td>  \(\xi\)  </td><td>  xi </td> </tr>   <tr> <td>
  \(O\)  </td><td>  \(o\)  </td><td>  omicron </td> </tr>   <tr> <td>
  \(\Pi\)  </td><td>  \(\pi\)  </td><td>  pi </td> </tr>   <tr> <td>
@@ -715,13 +718,10 @@ $string['greek_alphabet_fact'] = '
 </table></center>';
 
 $string['alg_inequalities_name'] = 'Inequalities';
-$string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater than } b\]
-<br />
-\[ a < b \hbox{ means } a \hbox{ is less than } b\]
-<br />
-\[a\geq b \hbox{ means } a \hbox{ is greater than or equal to } b\]
-<br />
-\[a\leq b \hbox{ means } a \hbox{ is less than or equal to } b\]';
+$string['alg_inequalities_fact'] = '\[a>b \hbox{ means } a \hbox{ is greater than } b.\]
+\[ a < b \hbox{ means } a \hbox{ is less than } b.\]
+\[a\geq b \hbox{ means } a \hbox{ is greater than or equal to } b.\]
+\[a\leq b \hbox{ means } a \hbox{ is less than or equal to } b.\]';
 
 $string['alg_indices_name'] = 'The Laws of Indices';
 $string['alg_indices_fact'] = 'The following laws govern index manipulation:
@@ -734,7 +734,7 @@ $string['alg_indices_fact'] = 'The following laws govern index manipulation:
 \[a^{\frac{m}{n}} = \left(\sqrt[n]{a}\right)^m\]';
 
 $string['alg_logarithms_name'] = 'The Laws of Logarithms';
-$string['alg_logarithms_fact'] = 'For any positive base \(b\) (with \(b \neq 1\)):
+$string['alg_logarithms_fact'] = 'For any base \(b>0\) with \(b \neq 1\):
 \[\log_b(a) = c \mbox{, means } a = b^c\]
 \[\log_b(a) + \log_b(b) = \log_b(ab)\]
 \[\log_b(a) - \log_b(b) = \log_b\left(\frac{a}{b}\right)\]
@@ -743,7 +743,7 @@ $string['alg_logarithms_fact'] = 'For any positive base \(b\) (with \(b \neq 1\)
 \[\log_b(b) = 1\]
 The formula for a change of base is:
 \[\log_a(x) = \frac{\log_b(x)}{\log_b(a)}\]
-Logarithms to base $e$, denoted $\log_e$ or alternatively $\ln$ are called natural logarithms.  The letter $e$ represents the exponential constant which is approximately 2.718.';
+Logarithms to base \(e\), denoted \(\log_e\) or alternatively \(\ln\) are called natural logarithms.  The letter \(e\) represents the exponential constant which is approximately \(2.718\).';
 
 $string['alg_quadratic_formula_name'] = 'The Quadratic Formula';
 $string['alg_quadratic_formula_fact'] = 'If we have a quadratic equation of the form:
@@ -754,26 +754,26 @@ then the solution(s) to that equation given by the quadratic formula are:
 
 $string['alg_partial_fractions_name'] = 'Partial Fractions';
 $string['alg_partial_fractions_fact'] = 'Proper fractions occur with \[{\frac{P(x)}{Q(x)}}\]
-when $P$ and $Q$ are polynomials with the degree of $P$ less than the degree of $Q$.  This this case, we proceed
-as follows: write $Q(x)$ in factored form,
+when \(P\) and \(Q\) are polynomials with the degree of \(P\) less than the degree of \(Q\).  This this case, we proceed
+as follows: write \(Q(x)\) in factored form,
 <ul>
 <li>
-a <em>linear factor</em> $ax+b$ in the denominator produces a partial fraction of the form \[{\frac{A}{ax+b}}.\]
+a <em>linear factor</em> \(ax+b\) in the denominator produces a partial fraction of the form \[{\frac{A}{ax+b}}.\]
 </li>
 <li>
-a <em>repeated linear factors</em> $(ax+b)^2$ in the denominator
+a <em>repeated linear factors</em> \((ax+b)^2\) in the denominator
 produce partial fractions of the form \[{A\over ax+b}+{B\over (ax+b)^2}.\]
 </li>
 <li>
-a <em>quadratic factor</em> $ax^2+bx+c$
+a <em>quadratic factor</em> \(ax^2+bx+c\)
 in the denominator produces a partial fraction of
 the form \[{Ax+B\over ax^2+bx+c}\]
 </li>
 <li>
 <em>Improper fractions}</em> require an additional
-term which is a polynomial of degree $n-d$ where $n$ is
-the degree of the numerator (i.e. $P(x)$) and $d$ is the degree of
-the denominator (ie $Q(x)$).
+term which is a polynomial of degree \(n-d\) where \(n\) is
+the degree of the numerator (i.e. \(P(x)\)) and \(d\) is the degree of
+the denominator (i.e. \(Q(x)\)).
 </li></ul>';
 
 $string['trig_degrees_radians_name'] = 'Degrees and Radians';
@@ -875,7 +875,7 @@ $string['calc_diff_standard_derivatives_fact'] = 'The following table displays t
 
 
 $string['calc_diff_linearity_rule_name'] = 'The Linearity Rule for Differentiation';
-$string['calc_diff_linearity_rule_fact'] = '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant}\]';
+$string['calc_diff_linearity_rule_fact'] = '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant.}\]';
 
 $string['calc_product_rule_name'] = 'The Product Rule';
 $string['calc_product_rule_fact'] = 'The following rule allows one to differentiate functions which are
@@ -940,21 +940,21 @@ $string['calc_int_standard_integrals_fact'] = '
 
 $string['calc_int_linearity_rule_name'] = 'The Linearity Rule for Integration';
 $string['calc_int_linearity_rule_fact'] = '\[\int \left(af(x)+bg(x)\right){\rm d}x = a\int\!\!f(x)\,{\rm d}x
-\,+\,b\int \!\!g(x)\,{\rm d}x, \quad (a,b \, \, {\rm constant})
+\,+\,b\int \!\!g(x)\,{\rm d}x, \quad (a,b \, \, {\rm constant.})
 \]';
 
 $string['calc_int_methods_substitution_name'] = 'Integration by Substitution';
 $string['calc_int_methods_substitution_fact'] = '\[
 \int f(u){{\rm d}u\over {\rm d}x}{\rm d}x=\int f(u){\rm d}u
 \quad\hbox{and}\quad \int_a^bf(u){{\rm d}u\over {\rm d}x}\,{\rm
-d}x = \int_{u(a)}^{u(b)}f(u){\rm d}u
+d}x = \int_{u(a)}^{u(b)}f(u){\rm d}u.
 \]';
 
 $string['calc_int_methods_parts_name'] = 'Integration by Parts';
 $string['calc_int_methods_parts_fact'] = '\[
 \int_a^b u{{\rm d}v\over {\rm d}x}{\rm d}x=\left[uv\right]_a^b-
-\int_a^b{{\rm d}u\over {\rm d}x}v\,{\rm d}x
-\]
-Or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
+\int_a^b{{\rm d}u\over {\rm d}x}v\,{\rm d}x\]
+or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
 g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
-d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x \]';
+d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x.\]';
+

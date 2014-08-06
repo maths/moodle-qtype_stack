@@ -72,6 +72,10 @@ It is common to want to use the dollar sign for currency.  However, this conflic
 
 * If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
 
+## Hints ##
+
+STACK has an in-built formula sheet.  Parts of this can be added to castext using [hints](Hints.md)
+
 ## Most useful HTML ##
 
 HTML Paragraphs (don't forget the end tag!)

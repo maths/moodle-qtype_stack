@@ -77,6 +77,22 @@ class qtype_stack extends question_type {
         }
     }
 
+    /**
+     * Replace any <hint> delimiters in the question text from the
+     * form with the recommended delimiters.
+     * @param object $fromform the data from the form.
+     */
+    protected function fix_old_hints_in_question($fromform) {
+        $questionfields = array('questiontext', 'generalfeedback', 'specificfeedback',
+                'prtcorrect', 'prtpartiallycorrect', 'prtincorrect');
+        foreach ($questionfields as $field) {
+            if (strstr($fromform->{$field}['text'], '<hint>')) {
+                $hints = new stack_hints($fromform->{$field}['text']);
+                $fromform->{$field}['text'] = $hints->legacy_convert();
+            }
+        }
+    }
+
     public function save_question_options($fromform) {
         global $DB;
         $context = $fromform->context;

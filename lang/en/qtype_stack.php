@@ -524,7 +524,7 @@ $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
 $string['stackHint']                        = 'The following hint tag(s) are not recognized: {$a->hints}.';
-$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[hint:tag]</pre>';
+$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[hint:tag]]</pre>';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';

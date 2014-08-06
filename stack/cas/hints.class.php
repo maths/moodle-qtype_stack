@@ -84,7 +84,7 @@ class stack_hints {
         if ($html_match) {
             global $CFG;
             $stackurl = $CFG->wwwroot . '/question/type/stack/';
-    
+
             //$modal_script= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js?ver=1.4.3'></script><script type='text/javascript' src='".$stackurl."jquery.simplemodal.1.4.3.min.js'></script>";
             //$strin = $modal_script.$strin; // prepend script
             foreach ($html_match as $val) {

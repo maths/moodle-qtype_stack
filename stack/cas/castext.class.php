@@ -176,16 +176,17 @@ class stack_cas_text {
         }
 
         $hints = new stack_hints($this->trimmedcastext);
+        // Quietly convert old <hint>s without complaining or throwing an error.
+        $found = stack_utils::substring_between($this->trimmedcastext, '<hint>', '</hint>');
+        if ($found[1] > 0) {
+            $this->trimmedcastext = $hints->legacy_convert();
+            $hints = new stack_hints($this->trimmedcastext);
+        }
         $hintsvalidation = $hints->validate();
         if (true !== $hintsvalidation) {
             $this->valid = false;
             $this->errors .= stack_string('stackHint',
                     array('hints' => implode(', ', $hintsvalidation)));
-        }
-        $found = stack_utils::substring_between($this->trimmedcastext, '<hint>', '</hint>');
-        if ($found[1] > 0) {
-            $this->valid = false;
-            $this->errors .= stack_string('stackHintOld');
         }
 
         // Perform validation on the existing session.

@@ -82,6 +82,41 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var stack_options the CAS options using during validation. */
     protected $options;
 
+
+    /** Patch up data from the database before a user edits it in the form. */
+    public function set_data($question) {
+        $question->questiontext     = $this->hint_legacy_convert($question->questiontext);
+        $question->generalfeedback  = $this->hint_legacy_convert($question->generalfeedback);
+        $question->specificfeedback = $this->hint_legacy_convert($question->specificfeedback);
+
+        if (is_array($question->prts)) {
+            foreach($question->prts as $prtname => $prt) {
+                if (is_array($prt->nodes)) {
+                    foreach($prt->nodes as $nodename => $node) {
+                        $node->truefeedback  = $this->hint_legacy_convert($node->truefeedback);
+                        $node->falsefeedback = $this->hint_legacy_convert($node->falsefeedback);
+                    }
+                }
+            }
+        }
+
+        parent::set_data($question);
+    }
+
+    /**
+    * Replace any <hint> delimiters in the question text from the
+    * form with the recommended delimiters.
+    * @param string $text Input to convert.
+    */
+    private function hint_legacy_convert($text) {
+        $text = htmlspecialchars_decode($text);
+        if (strstr($text, '<hint>')) {
+            $hints = new stack_hints($text);
+            $text = $hints->legacy_convert();
+        }
+        return $text;
+    }
+
     /**
      * @return string the current value of the question text, given the state the form is in.
      */

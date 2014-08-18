@@ -1,4 +1,18 @@
-# Simplification
+# Simplification & odering
+
+## Ordering
+
+Maxima chooses an order in which to write terms in an expression.  By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).  In elementary mathematics this looks a little odd!  One way to overcome this is to use simplification below but another way is to alter the order in which expressions are transformed.
+
+To alter the order in STACK you can use the Maxima commands `orderless` and `ordergreat`.  To have \(a+b\) you can use
+
+    ordergreat(a,b);
+    
+See Maxima's documentation for more details.  
+
+Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  No warnings or errors are issued if more than one is encountered.
+
+## Selective simplification
 
 The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
 

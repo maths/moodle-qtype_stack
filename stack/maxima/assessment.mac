@@ -317,11 +317,18 @@ ineqorder_f(ex) := block(
 
    24/11/13.  Avoid fullratsimp.  This expands out exprsssions such as (x+a)^6000, which results in an overflow.
 */
-algebraic_equivalence(SA,SB) :=
+algebraic_equivalence(SA, SB) :=
     block([keepfloat, trigexpand, logexpand, ex, vi],
+    /* Reject obviously different expressions.  These can be very time consuming in the tests below. */
+    /* The code below is actually making the situation worse: needs reconsidering. */
+    if numerical_not_alg_equiv(SA, SB) then return(false),
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
+    /* In some cases we just go inside the function one level */
+    if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
+      (SA:first(args(SA)),
+       SB:first(args(SB))),
     /* Try not to expand out: pure numbers */
     ex:errcatch(ev(SA-SB,simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
@@ -356,6 +363,24 @@ algebraic_equivalence(SA,SB) :=
     for vi:1 while ex#sqrtdenest(ex) do ex:sqrtdenest(ex),
     if ratsimp(ex)=0 then return(true) else return(false)
     )$
+
+
+/* This test establishes if two expressions appear NOT to be equivalent. 
+   It does do by evaluating the expressions numerically.        */
+numerical_not_alg_equiv(p1, p2):= block([lv, sz],
+  /* We take the *union* of the two lists of variables, this way we
+     hedge against comparing (x+a)+(x-a) with 2*x, which are the same. */
+  lv:listify(union(setify(listofvars(p1)), setify(listofvars(p2)))),
+  /* Now we evaluate the difference of the expressions at each variable. */
+  lv:zip_with("=", lv, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(lv))),
+  p1:errcatch(ev(float(p1), lv, numer_pbranch:true)),
+  if is(p1 = []) then (print("STACK: ignore previous error."), return(false)),
+  p2:errcatch(ev(float(p2), lv, numer_pbranch:true)),
+  if is(p2 = []) then (print("STACK: ignore previous error."), return(false)),
+  sz:errcatch(abs(float(first(p1)-first(p2)))),
+  /* print([p1,p2,sz]), */
+  if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
+  if first(sz) > 0.0001  then true else false)$
 
 /* This function takes two expressions.
    It establishes if there exists a substitution of the variables of ex2 into ex1 which renders

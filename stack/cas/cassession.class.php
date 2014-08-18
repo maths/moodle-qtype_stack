@@ -450,6 +450,7 @@ class stack_cas_session {
         $csnames = $casoptions['names'];
         $csvars  = $casoptions['commands'];
         $cascommands = '';
+        $caspreamble = '';
 
         $cascommands .= ', print("-1=[ error= ["), cte("__stackmaximaversion",errcatch(__stackmaximaversion:stackmaximaversion)) ';
 
@@ -469,6 +470,13 @@ class stack_cas_session {
                 $cleanlabel = $label;
             } else {
                 $cleanlabel = substr($label, 0, strpos($label, '['));
+            }
+
+            // Now we do special things if we have a command to re-order expressions.
+            if (false !== strpos($cmd, 'ordergreat') || false !== strpos($cmd, 'orderless')) {
+                // These commands must be in a separate block, and must only appear once.
+                $caspreamble = $cmd."$\n";
+                $cmd = '0';
             }
 
             $csnames   .= ", $cleanlabel";
@@ -492,9 +500,11 @@ class stack_cas_session {
                  $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
             }
             $i++;
+
         }
 
-        $cass  = 'cab:block([ RANDOM_SEED';
+        $cass  = $caspreamble;
+        $cass .= 'cab:block([ RANDOM_SEED';
         $cass .= $csnames;
         $cass .= '], stack_randseed(';
         $cass .= $this->seed.')'.$csvars;

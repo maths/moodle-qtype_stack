@@ -108,7 +108,10 @@ body#page-question-type-stack-healthcheck div.box h3 {
 body#page-question-type-stack-healthcheck div.box pre {
     margin-bottom: 0;
 }
-
+body.path-question-type-stack table.stacktestsuite .notes td,
+body.path-question-type-stack p.notes {
+    font-weight: bold;
+}
 body.path-question-type-stack table.stacktestsuite .pass td,
 body.path-question-type-stack p.pass {
     background-color: #dfd;

@@ -60,6 +60,7 @@
 
 (defprop $texcolor tex-texcolor tex)
 
+
 (defun tex-texdecorate (x l r)
   (let
       ((front (append '("{")

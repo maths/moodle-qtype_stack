@@ -13,6 +13,7 @@ Changes since 3.2:
  1. Changes to validation of casstrings. We now *allow* syntax such as 3e2 to represent floating point numbers.  The strict syntax settings still flag 3e2 as "missing stars".
  2. Improvements to catching common syntax errors with trig functions, e.g. sin^-1(x) or cos[x]
  3. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.   They also accept lists and sets of numbers.
+ 4. Allow the use of the Maxima orderless and ordergreat in cassessions.  This helps with display, without turning off simplification.
 
 **Important changes in STACK version 3.3:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
 
@@ -23,8 +24,6 @@ Then choose the link to "fix maths delimiters script".
 ### Question blocks
 
 This is a major new feature described on the dedicated page about [question blocks](../Authoring/Question_blocks.md).   At the same time CASText now enables us to embed the _value_ of a variable in CASText, not just the displayed form using `{#...#}`.
-
-
 
 ## Version 3.2
 

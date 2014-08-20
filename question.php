@@ -25,11 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__) . '/stack/input/factory.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/keyval.class.php');
-require_once(dirname(__FILE__) . '/stack/cas/castext.class.php');
-require_once(dirname(__FILE__) . '/stack/potentialresponsetree.class.php');
+require_once(__DIR__ . '/stack/input/factory.class.php');
+require_once(__DIR__ . '/stack/cas/keyval.class.php');
+require_once(__DIR__ . '/stack/cas/castext.class.php');
+require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
+require_once(__DIR__ . '/locallib.php');
 
 
 /**
@@ -276,7 +277,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $response[$name] = $cs;
         }
         $session->add_vars($response);
-        $session_length = count($session->get_session());
+        $sessionlength = count($session->get_session());
 
         // 3. CAS bits inside the question text.
         $questiontext = $this->prepare_cas_text($this->questiontext, $session);
@@ -309,7 +310,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $this->prtcorrectinstantiated          = $prtcorrect->get_display_castext();
         $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect->get_display_castext();
         $this->prtincorrectinstantiated        = $prtincorrect->get_display_castext();
-        $session->prune_session($session_length);
+        $session->prune_session($sessionlength);
         $this->session = $session;
 
         // Allow inputs to update themselves based on the model answers.
@@ -376,6 +377,21 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         return $this->format_text(stack_maths::process_display_castext($gftext->get_display_castext()),
                 $this->generalfeedbackformat, $qa, 'question', 'generalfeedback', $this->id);
+    }
+
+    /* We need to make sure the inputs are displayed in the order in which they
+       occur in the question text. This is not necessarily the order in which they
+       are listed in the array $this->inputs.
+    */
+    public function format_correct_response($qa) {
+        $feedback = '';
+        $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
+        foreach ($inputs as $name) {
+            $input = $this->inputs[$name];
+            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name),
+                    $this->session->get_display_key($name)));
+        }
+        return $feedback;
     }
 
     public function get_expected_data() {
@@ -661,9 +677,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         foreach ($prt->get_required_variables(array_keys($this->inputs)) as $name) {
             $status = $this->get_input_state($name, $response)->status;
-            if (stack_input::SCORE == $status || ($acceptvalid && stack_input::VALID == $status)) {
-                // This input is in an OK state.
-            } else {
+            if (!(stack_input::SCORE == $status || ($acceptvalid && stack_input::VALID == $status))) {
                 return false;
             }
         }

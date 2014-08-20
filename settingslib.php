@@ -41,7 +41,12 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
 
         $this->choices = array('mathjax' => get_string('settingmathsdisplay_mathjax', 'qtype_stack'));
 
-        $filters = get_plugin_list_with_file('filter', 'filter.php');
+        // Remove this if statement once we no longer need to support Moodle 2.5.x.
+        if (class_exists('core_component') && method_exists('core_component', 'get_plugin_list_with_file')) {
+            $filters = core_component::get_plugin_list_with_file('filter', 'filter.php');
+        } else {
+            $filters = get_plugin_list_with_file('filter', 'filter.php');
+        }
 
         if (array_key_exists('tex', $filters)) {
             $this->choices['tex'] = get_string('settingmathsdisplay_tex', 'qtype_stack');

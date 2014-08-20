@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once(dirname(__FILE__) . '/stack/mathsoutput/mathsoutput.class.php');
+require_once(__DIR__ . '/stack/mathsoutput/mathsoutput.class.php');
 
 
 /**
@@ -58,13 +58,13 @@ function stack_string($key, $a = null) {
 function stack_trans() {
     $nargs = func_num_args();
 
-    if ($nargs>0) {
-        $arg_list = func_get_args();
+    if ($nargs > 0) {
+        $arglist = func_get_args();
         $identifier = func_get_arg(0);
         $a = array();
-        if ($nargs>1) {
-            for ($i=1; $i<$nargs; $i++) {
-                $index=$i-1;
+        if ($nargs > 1) {
+            for ($i = 1; $i < $nargs; $i++) {
+                $index = $i - 1;
                 $a["m{$index}"] = func_get_arg($i);
             }
         }

@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/questionlib.php');
-require_once(dirname(__FILE__) . '/stack/questiontest.php');
-require_once(dirname(__FILE__) . '/stack/graphlayout/graph.php');
+require_once(__DIR__ . '/stack/questiontest.php');
+require_once(__DIR__ . '/stack/graphlayout/graph.php');
 
 
 /**
@@ -115,6 +115,7 @@ class qtype_stack extends question_type {
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
         $options->inversetrig               = $fromform->inversetrig;
+        $options->matrixparens              = $fromform->matrixparens;
         $options->variantsselectionseed     = $fromform->variantsselectionseed;
         $DB->update_record('qtype_stack_options', $options);
 
@@ -141,6 +142,7 @@ class qtype_stack extends question_type {
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
             $input->forbidwords        = $fromform->{$inputname . 'forbidwords'};
+            $input->allowwords         = $fromform->{$inputname . 'allowwords'};
             $input->forbidfloat        = $fromform->{$inputname . 'forbidfloat'};
             $input->requirelowestterms = $fromform->{$inputname . 'requirelowestterms'};
             $input->checkanswertype    = $fromform->{$inputname . 'checkanswertype'};
@@ -341,7 +343,7 @@ class qtype_stack extends question_type {
         $question->inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
-                'syntaxhint, forbidwords, forbidfloat, requirelowestterms, ' .
+                'syntaxhint, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
                 'checkanswertype, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
@@ -384,6 +386,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
         $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
+        $question->options->set_option('matrixparens',       $questiondata->options->matrixparens);
         $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
         $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
         $question->options->set_option('assumepos',   (bool) $questiondata->options->assumepositive);
@@ -396,6 +399,7 @@ class qtype_stack extends question_type {
                 'insertStars'  => (bool) $inputdata->insertstars,
                 'syntaxHint'   =>        $inputdata->syntaxhint,
                 'forbidWords'  =>        $inputdata->forbidwords,
+                'allowWords'   =>        $inputdata->allowwords,
                 'forbidFloats' => (bool) $inputdata->forbidfloat,
                 'lowestTerms'  => (bool) $inputdata->requirelowestterms,
                 'sameType'     => (bool) $inputdata->checkanswertype,
@@ -955,6 +959,7 @@ class qtype_stack extends question_type {
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
         $output .= "    <inversetrig>{$options->inversetrig}</inversetrig>\n";
+        $output .= "    <matrixparens>{$options->matrixparens}</matrixparens>\n";
         $output .= "    <variantsselectionseed>{$format->xml_escape($options->variantsselectionseed)}</variantsselectionseed>\n";
 
         foreach ($questiondata->inputs as $input) {
@@ -967,6 +972,7 @@ class qtype_stack extends question_type {
             $output .= "      <insertstars>{$input->insertstars}</insertstars>\n";
             $output .= "      <syntaxhint>{$format->xml_escape($input->syntaxhint)}</syntaxhint>\n";
             $output .= "      <forbidwords>{$format->xml_escape($input->forbidwords)}</forbidwords>\n";
+            $output .= "      <allowwords>{$format->xml_escape($input->allowwords)}</allowwords>\n";
             $output .= "      <forbidfloat>{$input->forbidfloat}</forbidfloat>\n";
             $output .= "      <requirelowestterms>{$input->requirelowestterms}</requirelowestterms>\n";
             $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
@@ -1066,6 +1072,7 @@ class qtype_stack extends question_type {
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
         $fromform->inversetrig           = $format->getpath($xml, array('#', 'inversetrig', 0, '#'), 'cos-1');
+        $fromform->matrixparens          = $format->getpath($xml, array('#', 'matrixparens', 0, '#'), '[');
         $fromform->variantsselectionseed = $format->getpath($xml, array('#', 'variantsselectionseed', 0, '#'), 'i');
 
         if (isset($xml['#']['input'])) {
@@ -1141,6 +1148,7 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', 'insertstars', 0, '#'), 0);
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
         $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
+        $fromform->{$name . 'allowwords'}         = $format->getpath($xml, array('#', 'allowwords', 0, '#'), '');
         $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
         $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
         $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);

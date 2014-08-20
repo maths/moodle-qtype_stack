@@ -18,7 +18,7 @@
  * Public API for other parts of STACK to call in order to process equations.
  */
 
-require_once(dirname(__FILE__) . '/mathsoutputbase.class.php');
+require_once(__DIR__ . '/mathsoutputbase.class.php');
 
 
 /**
@@ -123,7 +123,7 @@ class stack_maths {
      */
     protected static function class_for_type($type) {
         global $CFG;
-        $file = dirname(__FILE__) . "/mathsoutput{$type}.class.php";
+        $file = __DIR__ . "/mathsoutput{$type}.class.php";
         $class = "stack_maths_output_{$type}";
 
         if (!is_readable($file)) {

@@ -18,9 +18,6 @@
 /**
  * Input that accepts a single character.
  *
- * TODO add extra validation to really make sure the user can never enter more than
- * one character, or that setDefault cannot be called with a longer string.
- *
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -51,7 +48,7 @@ class stack_singlechar_input extends stack_input {
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => 1, 'maxlength' => 1));
+        $mform->addElement('text', $this->name, $this->name);
         $mform->setType($this->name, PARAM_RAW);
     }
 

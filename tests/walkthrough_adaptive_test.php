@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
-require_once(dirname(__FILE__) . '/test_base.php');
+require_once(__DIR__ . '/test_base.php');
 
 
 /**
@@ -447,6 +447,53 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_output(
                 new question_pattern_expectation('/is forbidden/')
         );
+
+    }
+
+    public function test_test1_valid_student_uses_allowed_words() {
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test1');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Find/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Process a validate request, with a function name from the allowwords list.
+        $this->process_submission(array('ans1' => 'popup(x^2+c)', '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('PotResTree_1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'popup(x^2+c)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => 'popup(x^2+c)', 'ans1_val' => 'popup(x^2+c)', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('PotResTree_1', 0, 0.25);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'popup(x^2+c)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
 
     }
 
@@ -1488,5 +1535,66 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+    }
+
+    public function test_test0_adaptive_nopenalties_wrong_then_right_then_regrade() {
+
+        // Create the stack question 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $this->start_attempt_at_question($q, 'adaptivenopenalty', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/What is/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Submit a wrong answer with valdiation.
+        $this->process_submission(array('ans1' => '1', 'ans1_val' => '1', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.3);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Submit the right answer with validation.
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '2', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Now regrade.
+        $this->quba->regrade_all_questions();
+
+        // Verify.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
     }
 }

@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once(dirname(__FILE__) . '/../cas/connector.interface.php');
+require_once(__DIR__ . '/../cas/connector.interface.php');
 
 
 /**
@@ -223,7 +223,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     protected function unpack_helper($rawresultfragment) {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;
-        $rawresultfragment_len = strlen($rawresultfragment);
+        $rawresultfragmentlen = strlen($rawresultfragment);
         $unparsed = '';
         $errors = '';
 
@@ -231,10 +231,10 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             // Check there are ='s.
             do {
                 $gb = stack_utils::substring_between($rawresultfragment, '[', ']', $eqpos);
-                $val = substr($gb[0], 1, strlen($gb[0])-2);
+                $val = substr($gb[0], 1, strlen($gb[0]) - 2);
                 $val = trim($val);
 
-                if (preg_match('/[-A-Za-z0-9].*/', substr($rawresultfragment, $offset, $eqpos-$offset), $regs)) {
+                if (preg_match('/[-A-Za-z0-9].*/', substr($rawresultfragment, $offset, $eqpos - $offset), $regs)) {
                     $var = trim($regs[0]);
                 } else {
                     $var = 'errors';
@@ -243,7 +243,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
                 $unparsed[$var] = $val;
                 $offset = $gb[2];
-            } while (($eqpos = strpos($rawresultfragment, '=', $offset)) && ($offset < $rawresultfragment_len));
+            } while (($eqpos = strpos($rawresultfragment, '=', $offset)) && ($offset < $rawresultfragmentlen));
 
         } else {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";
@@ -263,6 +263,12 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @return string
      */
     protected function tidy_error($errstr) {
+
+        // This case arises when we use a numerical text for algebraic equivalence.
+        if (strpos($errstr, 'STACK: ignore previous error.') !== false) {
+            return '';
+        }
+
         if (strpos($errstr, '0 to a negative exponent') !== false) {
             $errstr = stack_string('Maxima_DivisionZero');
         }

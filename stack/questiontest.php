@@ -22,8 +22,8 @@
  */
 
 
-require_once(dirname(__FILE__) . '/questiontestresult.php');
-require_once(dirname(__FILE__) . '/potentialresponsetree.class.php');
+require_once(__DIR__ . '/questiontestresult.php');
+require_once(__DIR__ . '/potentialresponsetree.class.php');
 
 
 /**

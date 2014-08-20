@@ -575,11 +575,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     if ($oldversion < 2013030800) {
 
-        // Define field firstnodename to be added to qtype_stack_prts
+        // Define field firstnodename to be added to qtype_stack_prts.
         $table = new xmldb_table('qtype_stack_prts');
         $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, null, null, null, 'feedbackvariables');
 
-        // Conditionally launch add field firstnodename
+        // Conditionally launch add field firstnodename.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -603,15 +603,46 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     if ($oldversion < 2013030802) {
 
-        // Changing nullability of field firstnodename on table qtype_stack_prts to not null
+        // Changing nullability of field firstnodename on table qtype_stack_prts to not null.
         $table = new xmldb_table('qtype_stack_prts');
         $field = new xmldb_field('firstnodename', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, null, 'feedbackvariables');
 
-        // Launch change of nullability for field firstnodename
+        // Launch change of nullability for field firstnodename.
         $dbman->change_field_notnull($table, $field);
 
         // Qtype stack savepoint reached.
         upgrade_plugin_savepoint(true, 2013030802, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2013091900) {
+
+        // Define table qtype_stack_inputs to be created.
+        $table = new xmldb_table('qtype_stack_inputs');
+
+        $field = new xmldb_field('allowwords', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'forbidwords');
+
+        // Conditionally launch add field forbidwords.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2013091900, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2014040501) {
+
+        // Define field matrixparens to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('matrixparens', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '[', 'inversetrig');
+
+        // Conditionally launch add field matrixparens.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2014040501, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.

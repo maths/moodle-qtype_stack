@@ -26,10 +26,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once(dirname(__FILE__) . '/test_base.php');
+require_once(__DIR__ . '/test_base.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
-require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
+require_once(__DIR__ . '/../questiontype.php');
 
 
 /**
@@ -190,6 +190,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -200,6 +201,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -298,6 +300,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -308,6 +311,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>0</requirelowestterms>
       <checkanswertype>0</checkanswertype>
@@ -395,6 +399,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
         $expectedq->inversetrig           = 'cos-1';
+        $expectedq->matrixparens          = '[';
         $expectedq->variantsselectionseed = '';
 
         $expectedq->ans1type               = 'algebraic';
@@ -404,6 +409,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->ans1insertstars        = 0;
         $expectedq->ans1syntaxhint         = '';
         $expectedq->ans1forbidwords        = '';
+        $expectedq->ans1allowwords         = '';
         $expectedq->ans1forbidfloat        = 1;
         $expectedq->ans1requirelowestterms = 0;
         $expectedq->ans1checkanswertype    = 0;

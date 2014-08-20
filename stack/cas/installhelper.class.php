@@ -18,10 +18,10 @@
  * The file provides helper code for creating the files needed to connect to the CAS.
  */
 
-require_once(dirname(__FILE__).'/../../../../../config.php');
+require_once(__DIR__.'/../../../../../config.php');
 
-require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../utils.class.php');
+require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 
 class stack_cas_configuration {
@@ -99,11 +99,12 @@ class stack_cas_configuration {
         }
 
         // This does its best to find your version of Gnuplot...
-        $maxima_location = $this->maxima_win_location();
+        $maximalocation = $this->maxima_win_location();
 
         $plotcommands = array();
-        $plotcommands[] = $maxima_location. '/gnuplot/wgnuplot.exe';
-        $plotcommands[] = $maxima_location. '/bin/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. '/gnuplot/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. '/bin/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. '/gnuplot/bin/wgnuplot.exe';
 
         foreach ($plotcommands as $plotcommand) {
             if (file_exists($plotcommand)) {
@@ -131,6 +132,10 @@ class stack_cas_configuration {
         if ('5.28.0' == $this->settings->maximaversion) {
             $locations[] = 'C:/Program Files/Maxima-5.28.0-2/';
             $locations[] = 'C:/Program Files (x86)/Maxima-5.28.0-2/';
+        }
+        if ('5.31.1' == $this->settings->maximaversion) {
+            $locations[] = 'C:/Program Files/Maxima-5.31.1-1/';
+            $locations[] = 'C:/Program Files (x86)/Maxima-5.31.1-1/';
         }
         $locations[] = 'C:/Program Files/Maxima/';
         $locations[] = 'C:/Program Files (x86)/Maxima/';
@@ -202,7 +207,7 @@ END;
 
 END;
 
-        if ($this->settings->platform == 'unix-optimised' || $this->settings->platform == 'tomcat-optimised') {
+        if ($this->settings->platform == 'unix-optimised') {
             $contents .= <<<END
 /* We are using an optimised lisp image with maxima and the stack libraries
    pre-loaded. That is why you don't see the familiar load("stackmaxima.mac")$ here. */

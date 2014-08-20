@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../options.class.php');
-require_once(dirname(__FILE__) . '/../cas/casstring.class.php');
-require_once(dirname(__FILE__) . '/../cas/cassession.class.php');
+require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../options.class.php');
+require_once(__DIR__ . '/../cas/casstring.class.php');
+require_once(__DIR__ . '/../cas/cassession.class.php');
 
 /**
  * This class represents the current state of an input.

@@ -46,8 +46,6 @@ The feedback is only shown to a student if the quiet option is set to 'no'.  If 
 
      Home > Site administration > Plugins > Question types > Stack
 
-A [static version is also available](%CONTENT/AnswerTests.html).
-
 # Equality #
 
 A crucial component in the assessment process the ability to decide if two expressions are equal.
@@ -80,12 +78,22 @@ This is the most commonly used test.  The pseudo code
     else
       false.
 
-This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object)
-of mathematical objects, including lists, sets, equations, inequalities and matrices.
-Exactly what it does depends on what objects are given to it.
+This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
 
 * This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
 * Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../CAS/Predicate_functions.md).
+
+Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
+
+For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.  
+
+Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) are considered to be different.  If you want these to be considered the same you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.
+
+    ev(radcan({-sqrt(2)/sqrt(3)}),simp);
+    ev(radcan({-2/sqrt(6)}),simp);
+
+Why doesn't the test automatically apply `radcan`?  If we always did this, then \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\) would be expanded out, which would break the system.  Since, in a given situation, we know a lot about what a student is likely to answer we can apply an appropriate form.   There isn't one rule which will work here, unfortunately.
+
 
 ### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 
@@ -176,7 +184,7 @@ which this test will cope with.
 
 # Precision {#Precision}
 
-These tests deal with the precision of numbers.
+These tests deal with the precision of numbers.  Please see the notes on [entering numbers](../CAS/Numbers.md).  
 
 | Expression    | Description
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -187,7 +195,10 @@ These tests deal with the precision of numbers.
 | GT            | "Greater than".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
 | GTE           | "Greater than or equal to". See above.
 
-Decimal places test.  This test is implemented, and the code works, however it cannot be used in STACK.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.
+NumRelative  and NumAbsolute can also accept lists and sets.  Elements are automatically converted to floats and simplified (i.e. `ev(float(ex),simp)`) and are compared to the teacher's answer using the appropriate numerical test and accuracy.  A uniform accuracy must be used.  With lists the order is important, but with sets it is not.  Checking two sets are approximately equal is an interesting mathematical problem....
+
+Decimal places test.  This test is implemented, and the code works, however it cannot be used in STACK because of difficulties with validation.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.
+
 
 # Calculus #
 
@@ -203,8 +214,21 @@ The second argument is the model answer. The answer test option needs to be the 
 Getting this test to work in a general setting is a very difficult challenge.
 In particular, the test assumes that the constant of integration is expressed in a form similar to +c, although which variable used is not important.
 
-The test cannot cope with the situation in which a teacher uses a constant in a form such as \(\ln(c|x|)\).
-In this case the teacher should develop a test for the question from scratch.
+The issue of \( \int \frac{1}{x} dx = \log(x)+c\) vs  \( \int \frac{1}{x} dx 
+= \log(|x|)+c\) is a particular challenge.  The test is currently defined in 
+such a way that if the teacher uses \( \log(|x|)+c \) in their answer, then 
+they would expect the student to do so.  If they don't use the absolute value 
+function, then they don't expect students to but will accept this in an 
+answer.   It is, after all, not "wrong".  However, in the case of partial 
+fractions where there are more than one term of the form \(\log(x-a)\) then 
+we insist the student is at least consistent.  If the teacher has *any* 
+\(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the 
+teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 
+student must have all or none. 
+
+The test cannot cope with some situations.  Please contact the developers 
+when you find some of these.  This test is already rather overloaded, so 
+please don't expect every request to be accommodated! 
 
 # Other #
 

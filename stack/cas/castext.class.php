@@ -67,7 +67,7 @@ class stack_cas_text {
             $this->rawcastext   = $rawcastext;
         }
 
-        if (is_a($session, 'stack_cas_session') || null===$session) {
+        if (is_a($session, 'stack_cas_session') || null === $session) {
             $this->session      = $session;
         } else {
             throw new stack_exception('stack_cas_text constructor expects $session to be a stack_cas_session.');
@@ -81,7 +81,7 @@ class stack_cas_text {
             throw new stack_exception('stack_cas_text: $seed must be a number (or null).');
         }
 
-        if (!('s'===$security || 't'===$security)) {
+        if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_text: 4th argument, security level, must be "s" or "t" only.');
         }
 
@@ -185,7 +185,7 @@ class stack_cas_text {
         }
 
         // Perform validation on the existing session.
-        if (null!=$this->session) {
+        if (null != $this->session) {
             if (!$this->session->get_valid()) {
                 $this->valid = false;
                 $this->errors .= $this->session->get_errors();
@@ -227,9 +227,9 @@ class stack_cas_text {
             $cmdarray = array();
             $labels   = array();
 
-            $session_keys = array();
+            $sessionkeys = array();
             if (is_a($this->session, 'stack_cas_session')) {
-                $session_keys = $this->session->get_all_keys();
+                $sessionkeys = $this->session->get_all_keys();
             }
             foreach ($temp as $cmd) {
                 // Trim of surrounding white space and CAS commands.
@@ -241,8 +241,8 @@ class stack_cas_text {
                 do { // ... make sure names are not already in use.
                     $key = 'caschat'.$i;
                     $i++;
-                } while (in_array($key, $session_keys));
-                $sesion_keys[] = $key;
+                } while (in_array($key, $sessionkeys));
+                $sesionkeys[] = $key;
                 $labels[] = $key;
                 $cs->set_key($key, true);
                 $cmdarray[] = $cs;
@@ -257,13 +257,13 @@ class stack_cas_text {
             }
 
             if (!empty($cmdarray)) {
-                $new_session   = $this->session;
-                if (null===$new_session) {
-                    $new_session = new stack_cas_session($cmdarray, null, $this->seed);
+                $newsession   = $this->session;
+                if (null === $newsession) {
+                    $newsession = new stack_cas_session($cmdarray, null, $this->seed);
                 } else {
-                    $new_session->add_vars($cmdarray);
+                    $newsession->add_vars($cmdarray);
                 }
-                $this->session = $new_session;
+                $this->session = $newsession;
 
                 // Now replace the commannds with their labels in the text.
                 $this->trimmedcastext = stack_utils::replace_between($this->trimmedcastext, '@', '@', $labels, true);
@@ -289,8 +289,8 @@ class stack_cas_text {
         // Replaces the old "hints" filter from STACK 2.0.
         // These strings are now part of the regular language files.
         $strin = $this->trimmedcastext;
-        preg_match_all('|<hint>(.*)</hint>|U', $strin, $html_match);
-        foreach ($html_match[1] as $val) {
+        preg_match_all('|<hint>(.*)</hint>|U', $strin, $htmlmatch);
+        foreach ($htmlmatch[1] as $val) {
             $sr = '<hint>'.$val.'</hint>';
             $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                     stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
@@ -324,14 +324,14 @@ class stack_cas_text {
     }
 
     public function get_valid() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->valid;
     }
 
     public function get_errors($casdebug=false) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if ($casdebug) {
@@ -341,7 +341,7 @@ class stack_cas_text {
     }
 
     public function get_all_raw_casstrings() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -353,10 +353,10 @@ class stack_cas_text {
     }
 
     public function get_display_castext() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
-        if (null===$this->instantiated) {
+        if (null === $this->instantiated) {
             $this->instantiate();
         } else if (false === $this->instantiated) {
             return false;
@@ -365,10 +365,10 @@ class stack_cas_text {
     }
 
     public function get_session() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
-        if (null===$this->instantiated) {
+        if (null === $this->instantiated) {
             $this->instantiate();
         } else if (false === $this->instantiated) {
             return false;
@@ -378,7 +378,7 @@ class stack_cas_text {
 
     /* Simply passes the keywords through to session.*/
     public function check_external_forbidden_words($keywords) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if (!is_a($this->session, 'stack_cas_session')) {
@@ -388,6 +388,9 @@ class stack_cas_text {
     }
 
     public function get_debuginfo() {
+        if (null === $this->session) {
+            return "Session is NULL. ";
+        }
         return $this->session->get_debuginfo();
     }
 

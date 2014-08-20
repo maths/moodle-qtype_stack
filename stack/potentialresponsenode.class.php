@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/answertest/controller.class.php');
+require_once(__DIR__ . '/answertest/controller.class.php');
 
 /**
  * A node in a potential response tree.

@@ -58,7 +58,7 @@ class stack_cas_keyval {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
         }
 
-        if (!('s'===$security || 't'===$security)) {
+        if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_keyval: 2nd argument, security level, must be "s" or "t" only.');
         }
 
@@ -86,13 +86,13 @@ class stack_cas_keyval {
 
         $str = stack_utils::remove_comments(str_replace("\n", '; ', $this->raw));
         $str = str_replace(';', "\n", $str);
-        $kv_array = explode("\n", $str);
+        $kvarray = explode("\n", $str);
 
         // 23/4/12 - significant changes to the way keyvals are interpreted.  Use Maxima assignmentsm i.e. x:2.
         $errors  = '';
         $valid   = true;
         $vars = array();
-        foreach ($kv_array as $kvs) {
+        foreach ($kvarray as $kvs) {
             $kvs = trim($kvs);
             if ('' != $kvs) {
                 $cs = new stack_cas_casstring($kvs);
@@ -107,14 +107,14 @@ class stack_cas_keyval {
     }
 
     public function get_valid() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->valid;
     }
 
     public function get_errors($casdebug=false) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if ($casdebug) {
@@ -124,7 +124,7 @@ class stack_cas_keyval {
     }
 
     public function instantiate() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if (!$this->valid) {
@@ -135,7 +135,7 @@ class stack_cas_keyval {
     }
 
     public function get_session() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->session;

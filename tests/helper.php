@@ -146,7 +146,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta+c', array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]'));
+                        'algebraic', 'ans1', 'ta+c',
+                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo'));
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
@@ -924,6 +925,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
         $qdata->options->inversetrig               = 'cos-1';
+        $qdata->options->matrixparens              = '[';
         $qdata->options->variantsselectionseed     = '';
 
         $input = new stdClass();
@@ -937,6 +939,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1041,6 +1044,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
         $qdata->options->inversetrig               = 'cos-1';
+        $qdata->options->matrixparens              = '[';
         $qdata->options->variantsselectionseed     = '';
 
         $input = new stdClass();
@@ -1054,6 +1058,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1073,6 +1078,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1092,6 +1098,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;
@@ -1111,6 +1118,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
         $input->forbidwords        = '';
+        $input->allowwords         = '';
         $input->forbidfloat        = 1;
         $input->requirelowestterms = 0;
         $input->checkanswertype    = 0;

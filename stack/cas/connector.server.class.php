@@ -18,9 +18,11 @@
 /**
  * Connection to Maxima running in a tomcat-server using the MaximaPool-servlet.
  * This version handles transfer of the plots generated on possibly remote servlet.
+ * For details of this see https://github.com/maths/stack_util_maximapool/
  *
  * @copyright  2012 The University of Birmingham
  * @copyright  2012 Aalto University - Matti Harjula
+ * @copyright  2014 Loughborough University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_cas_connection_server extends stack_cas_connection_base {
@@ -35,12 +37,12 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         global $CFG;
         $err = '';
 
-        $start_time = microtime(true);
+        $starttime = microtime(true);
 
         $request = curl_init($this->command);
 
         $postdata = 'input=' . urlencode($command) .
-                '&timeout=' . ($this->timeout*1000) .
+                '&timeout=' . ($this->timeout * 1000) .
                 '&ploturlbase=!ploturl!' .
                 '&version=' . stack_connection_helper::get_required_stackmaxima_version();
 
@@ -54,7 +56,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         // The servlet will return 416 if the evaluation hits the timelimit.
         if (curl_getinfo($request, CURLINFO_HTTP_CODE) != '200') {
             if (curl_getinfo($request, CURLINFO_HTTP_CODE) != '416') {
-                throw new Exception('stack_cas_connection: MaximaPool error');
+                throw new Exception('stack_cas_connection: MaximaPool error: '.curl_getinfo($request, CURLINFO_HTTP_CODE));
             } else {
                 $timedout = true;
             }
@@ -103,12 +105,12 @@ class stack_cas_connection_server extends stack_cas_connection_base {
 
         $now = microtime(true);
 
-        $this->debug->log('Timings', "Start: {$start_time}, End: {$now}, Taken = ".($now - $start_time));
+        $this->debug->log('Timings', "Start: {$starttime}, End: {$now}, Taken = ".($now - $starttime));
 
         // Add sufficient closing ]'s to allow something to be un-parsed from the CAS.
         // WARNING: the string 'The CAS timed out' is used by the cache to serach for a timout occurance.
         if ($timedout) {
-            $ret .=' The CAS timed out. ] ] ] ]';
+            $ret .= ' The CAS timed out. ] ] ] ]';
         }
 
         return $ret;

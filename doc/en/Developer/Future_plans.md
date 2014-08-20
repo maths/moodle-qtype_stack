@@ -14,6 +14,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Geogebra input.
 * Reasoning by equivalence input type.
 * Inputs which enable student to input steps in the working. In particular, variable numbers of input boxes.
+* Add a "scratch working" area in which students can record their thinking etc. alongside the final answer.
 
 ### Improve the editing form ###
 
@@ -23,10 +24,10 @@ The following features are in approximate priority order.  How to report bugs an
 
 ### Other ideas ###
 
-* Implement "CommaError" checking for CAS strings.
+* Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
-* Better options for automatically generated plots.  (Aalto use of tikzpicture?)
+* Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
 * Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
@@ -50,3 +51,4 @@ The following features are in approximate priority order.  How to report bugs an
  * Package for scientific [units](../Authoring/Units.md), and a science answer test.
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
+* Add support for qtype_stack in Moodle's lesson module.

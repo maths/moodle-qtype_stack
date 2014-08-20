@@ -63,6 +63,7 @@ class stack_algebraic_input extends stack_input {
             'insertStars'    => false,
             'syntaxHint'     => '',
             'forbidWords'    => '',
+            'allowWords'     => '',
             'forbidFloats'   => true,
             'lowestTerms'    => true,
             'sameType'       => true);
@@ -76,9 +77,17 @@ class stack_algebraic_input extends stack_input {
         $valid = true;
         switch($parameter) {
             case 'boxWidth':
-                $valid = is_int($value) && $value>0;
+                $valid = is_int($value) && $value > 0;
                 break;
         }
         return $valid;
     }
+
+    /**
+     * @return string the teacher's answer, displayed to the student in the general feedback.
+     */
+    public function get_teacher_answer_display($value, $display) {
+        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+    }
+
 }

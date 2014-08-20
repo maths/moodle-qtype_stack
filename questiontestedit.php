@@ -21,12 +21,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../../config.php');
+require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
-require_once(dirname(__FILE__) . '/locallib.php');
-require_once(dirname(__FILE__) . '/questiontestform.php');
-require_once(dirname(__FILE__) . '/stack/questiontest.php');
+require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/questiontestform.php');
+require_once(__DIR__ . '/stack/questiontest.php');
 
 
 // Get the parameters from the URL.

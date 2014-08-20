@@ -20,8 +20,8 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../../locallib.php');
-require_once(dirname(__FILE__) . '/../utils.class.php');
+require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 class stack_cas_casstring {
 
@@ -68,31 +68,32 @@ class stack_cas_casstring {
     /** @var array blacklist of globally forbidden CAS keywords. */
     private static $globalforbid    = array('%th', 'adapth_depth', 'alias', 'aliases',
             'alphabetic', 'appendfile', 'apropos', 'assume_external_byte_order', 'backtrace',
-            'batch', 'batchload', 'box', 'boxchar', 'break', 'bug_report', 'build_info',
+            'batch', 'batchload', 'boxchar', 'break', 'bug_report', 'build_info',
             'catch', 'close', 'closefile', 'compfile', 'compile', 'compile_file',
             'current_let_rule_package', 'data_file_name', 'deactivate', 'debugmode',
             'define', 'define_variable', 'demo', 'dependencies', 'describe', 'dimacs_export',
             'dimacs_import', 'entermatrix', 'errcatch', 'error', 'error_size', 'error_syms', 'errormsg',
             'eval_string', 'example', 'feature', 'featurep', 'features', 'file_name',
             'file_output_append', 'file_search', 'file_search_demo', 'file_search_lisp',
-            'file_search_maxima', 'file_type', 'filename_merge', 'flength', 'fortindent',
-            'fortran', 'fortspaces', 'fposition', 'freshline', 'functions', 'fundef',
-            'funmake', 'gnuplot_file_name', 'gnuplot_out_file', 'gnuplot_preamble',
-            'gnuplot_ps_term_command', 'gnuplot_term', 'inchar', 'infeval', 'infolists',
-            'kill', 'killcontext', 'labels', 'ldisp', 'ldisplay', 'linechar', 'linel',
-            'linenum', 'linsolvewarn', 'lmxchar', 'load', 'loadfile', 'loadprint',
-            'macroexpand', 'macroexpand1', 'macroexpansion', 'macros', 'manual_demo',
+            'file_search_maxima', 'file_search_tests', 'file_search_usage', 'file_type',
+            'filename_merge', 'flength', 'fortindent', 'fortran', 'fortspaces', 'fposition', 'freshline',
+            'functions', 'fundef', 'funmake', 'grind', 'gnuplot_file_name', 'gnuplot_out_file',
+            'gnuplot_preamble', 'gnuplot_ps_term_command', 'gnuplot_term', 'inchar', 'infeval',
+            'infolists', 'kill', 'killcontext', 'labels', 'leftjust', 'ldisp', 'ldisplay', 'linechar',
+            'linel', 'linenum', 'linsolvewarn', 'load', 'load_pathname', 'loadfile',
+            'loadprint', 'macroexpand', 'macroexpand1', 'macroexpansion', 'macros', 'manual_demo',
             'maxima_tempdir', 'maxima_userdir', 'multiplot_mode', 'myoptions', 'newline',
             'nolabels', 'opena', 'opena_binary', 'openr', 'openr_binary', 'openw',
-            'openw_binary', 'outchar', 'packagefile', 'parse_string', 'pickapart', 'piece',
-            'playback', 'plotdf', 'print_graph', 'printf', 'printfile', 'prompt', 'psfile',
+            'openw_binary', 'outchar', 'packagefile', 'parse_string', 'pathname_directory', 'pathname_name',
+            'pathname_type', 'pickapart', 'piece',
+            'playback', 'plotdf', 'print', 'print_graph', 'printf', 'printfile', 'prompt', 'psfile',
             'quit', 'read', 'read_array', 'read_binary_array', 'read_binary_list',
             'read_binary_matrix', 'read_hashed_array', 'read_list', 'read_matrix',
-            'read_nested_list', 'read_xpm', 'readline', 'readonly', 'refcheck', 'rembox',
+            'read_nested_list', 'read_xpm', 'readline', 'readonly', 'refcheck', 'rembox', 'remvalue',
             'remfunction', 'reset', 'rmxchar', 'room', 'run_testsuite', 'run_viewer', 'save',
-            'savedef', 'set_plot_option', 'setcheck', 'setcheckbreak', 'setval', 'showtime',
+            'savedef', 'set_plot_option', 'setup_autoload', 'setcheck', 'setcheckbreak', 'setval', 'showtime',
             'sparse6_export', 'sparse6_import', 'splice', 'sprint', 'status', 'stringout',
-            'supcontext', 'system', 'tcl_output', 'terminal', 'testsuite_files', 'throw',
+            'supcontext', 'system', 'tcl_output', 'terminal', 'tex', 'testsuite_files', 'throw',
             'time', 'timer', 'timer_devalue', 'timer_info', 'to_lisp', 'trace', 'trace_options',
             'transcompile', 'translate', 'translate_file', 'transrun', 'ttyoff', 'untimer',
             'untrace', 'user_preamble', 'values', 'with_stdout', 'write_binary_data',
@@ -100,12 +101,12 @@ class stack_cas_casstring {
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
     // Note we allow RANDOM_PERMUTATION.
-    private static $teachernotallow = array('%unitexpand', 'abasep', 'absboxchar', 'activate',
+    private static $teachernotallow = array('%unitexpand', 'abasep', 'absboxchar', 'absolute_real_time', 'activate',
             'activecontexts', 'additive', 'adim', 'af', 'aform', 'agd', 'alg_type',
             'all_dotsimp_denoms', 'allsym', 'antid', 'antidiff', 'antidifference', 'antisymmetric',
             'arithmetic', 'arithsum', 'array', 'arrayapply', 'arrayinfo', 'arraymake', 'arrays',
             'assoc_legendre_p', 'assoc_legendre_q', 'asymbol', 'atensimp', 'atomgrad', 'atrig1',
-            'atvalue', 'augmented_lagrangian_method', 'av', 'axes', 'axis_3d', 'axis_bottom',
+            'atvalue', 'augmented_lagrangian_method', 'av', 'axis_3d', 'axis_bottom',
             'axis_left', 'axis_right', 'axis_top', 'azimut', 'backsubst', 'bars', 'barsplot',
             'bashindices', 'bdvac', 'berlefact', 'bfpsi', 'bfpsi0', 'bimetric', 'bode_gain',
             'bode_phase', 'border', 'boundaries_array', 'boxplot', 'canform', 'canten', 'cbffac',
@@ -117,7 +118,7 @@ class stack_cas_casstring {
             'cdf_rayleigh', 'cdf_signed_rank', 'cdf_student_t', 'cdf_weibull', 'cdisplay',
             'central_moment', 'cframe_flag', 'cgeodesic', 'changename', 'chaosgame', 'chebyshev_t',
             'chebyshev_u', 'check_overlaps', 'checkdiv', 'christof', 'clear_rules', 'cmetric',
-            'cnonmet_flag', 'cograd', 'collapse', 'color', 'colorbox', 'columns', 'combination',
+            'cnonmet_flag', 'cograd', 'collapse', 'colorbox', 'columns', 'combination',
             'comp2pui', 'components', 'concan', 'conmetderiv', 'constvalue', 'cont2part', 'context',
             'contexts', 'continuous_freq', 'contortion', 'contour', 'contour_levels', 'contour_plot',
             'contract_edge', 'contragrad', 'contrib_ode', 'convert', 'coord', 'copy_graph', 'cor',
@@ -153,7 +154,7 @@ class stack_cas_casstring {
             'ic_convert', 'icc1', 'icc2', 'ichr1', 'ichr2', 'icounter', 'icurvature', 'idiff',
             'idim', 'idummy', 'idummyx', 'ieqn', 'ieqnprint', 'ifb', 'ifc1', 'ifc2', 'ifg', 'ifgi',
             'ifr', 'iframe_bracket_form', 'iframes', 'ifri', 'ifs', 'igeodesic_coords',
-            'igeowedge_flag', 'ikt1', 'ikt2', 'image', 'imetric', 'implicit', 'implicit_derivative',
+            'igeowedge_flag', 'ikt1', 'ikt2', 'image', 'imetric', 'implicit', 'implicit_plot', 'implicit_derivative',
             'indexed_tensor', 'indices', 'inference_result', 'inferencep', 'infix', 'init_atensor',
             'init_ctensor', 'inm', 'inmc1', 'inmc2', 'inprod', 'intervalp', 'intopois', 'invariant1',
             'invariant2', 'invert_by_lu', 'ip_grid', 'ip_grid_in', 'ishow', 'isolate',
@@ -167,11 +168,11 @@ class stack_cas_casstring {
             'kurtosis_pareto', 'kurtosis_poisson', 'kurtosis_rayleigh', 'kurtosis_student_t',
             'kurtosis_weibull', 'label', 'label_alignment', 'label_orientation', 'laguerre',
             'lassociative', 'lbfgs', 'lbfgs_ncorrections', 'lbfgs_nfeval_max', 'lc2kdt', 'lc_l',
-            'lc_u', 'lcharp', 'legend', 'legendre_p', 'legendre_q', 'leinstein', 'let',
+            'lc_u', 'lcharp', 'legendre_p', 'legendre_q', 'leinstein', 'let',
             'let_rule_packages', 'letrat', 'letrules', 'letsimp', 'levi_civita', 'lfg', 'lg',
             'lgtreillis', 'li', 'liediff', 'lindstedt', 'line_type', 'line_width', 'linear',
             'linear_program', 'linear_solver', 'lispdisp', 'list_correlations', 'list_nc_monomials',
-            'listarray', 'listoftens', 'logand', 'logcb', 'logor', 'logx', 'logxor', 'logy', 'logz',
+            'listarray', 'listoftens', 'logand', 'logcb', 'logor', 'logxor', 'logz',
             'lorentz_gauge', 'lpart', 'lriem', 'lriemann', 'lsquares_estimates',
             'lsquares_estimates_approximate', 'lsquares_estimates_exact', 'lsquares_mse',
             'lsquares_residual_mse', 'lsquares_residuals', 'ltreillis', 'm1pbranch', 'mainvar',
@@ -193,10 +194,10 @@ class stack_cas_casstring {
             'multinomial', 'multsym', 'natural_unit', 'nc_degree', 'negative_picture', 'newcontext',
             'newton', 'newtonepsilon', 'newtonmaxiter', 'nextlayerfactor', 'niceindices',
             'niceindicespref', 'nm', 'nmc', 'noncentral_moment', 'nonegative_lp', 'nonmetricity',
-            'nonzeroandfreeof', 'noundisp', 'np', 'npi', 'nptetrad', 'ntermst', 'nticks', 'ntrig',
+            'nonzeroandfreeof', 'noundisp', 'np', 'npi', 'nptetrad', 'ntermst', 'ntrig',
             'numbered_boundaries', 'ode2', 'ode_check', 'odelin', 'optimize', 'optimprefix',
             'optionset', 'orbit', 'orbits', 'orthopoly_recur', 'orthopoly_returns_intervals',
-            'orthopoly_weight', 'outofpois', 'palette', 'parametric', 'parametric_surface',
+            'orthopoly_weight', 'outofpois', 'palette', 'parametric_surface',
             'pargosper', 'partpol', 'pdf_bernoulli', 'pdf_beta', 'pdf_binomial', 'pdf_cauchy',
             'pdf_chi2', 'pdf_continuous_uniform', 'pdf_discrete_uniform', 'pdf_exp', 'pdf_f',
             'pdf_gamma', 'pdf_geometric', 'pdf_gumbel', 'pdf_height', 'pdf_hypergeometric',
@@ -205,8 +206,8 @@ class stack_cas_casstring {
             'pdf_poisson', 'pdf_rank_sum', 'pdf_rayleigh', 'pdf_signed_rank', 'pdf_student_t',
             'pdf_weibull', 'pdf_width', 'pearson_skewness', 'permut', 'permutation', 'petrov',
             'pic_height', 'pic_width', 'picture_equalp', 'picturep', 'piechart', 'plot2d',
-            'plot3d', 'plot_format', 'plot_options', 'plot_real_part', 'plsquares', 'pochhammer',
-            'pochhammer_max_index', 'point_size', 'point_type', 'points', 'points_joined',
+            'plot3d', 'ploteq', 'plot_format', 'plot_options', 'plot_real_part', 'plsquares', 'pochhammer',
+            'pochhammer_max_index', 'points_joined',
             'polar', 'polar_to_xy', 'polygon', 'prederror', 'primep_number_of_tests', 'printprops',
             'prodrac', 'product', 'product_use_gamma', 'programmode', 'proportional_axes', 'props',
             'propvars', 'psexpand', 'psi', 'pui', 'pui2comp', 'pui2ele', 'pui2polynome',
@@ -256,12 +257,12 @@ class stack_cas_casstring {
             'std_hypergeometric', 'std_laplace', 'std_logistic', 'std_lognormal',
             'std_negative_binomial', 'std_noncentral_chi2', 'std_noncentral_student_t',
             'std_normal', 'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t',
-            'std_weibull', 'stirling', 'stirling1', 'stirling2', 'stringdisp', 'style',
+            'std_weibull', 'stirling', 'stirling1', 'stirling2', 'stringdisp',
             'subsample', 'summand_to_rec', 'surface_hide', 'symmetricp', 'tab', 'take_channel',
             'take_inference', 'tcontract', 'tensorkill', 'tentex', 'test_mean',
             'test_means_difference', 'test_normality', 'test_proportion',
             'test_proportions_difference', 'test_rank_sum', 'test_sign', 'test_signed_rank',
-            'test_variance', 'test_variance_ratio', 'texput', 'title', 'totaldisrep', 'totient',
+            'test_variance', 'test_variance_ratio', 'texput', 'timedate', 'title', 'totaldisrep', 'totient',
             'tpartpol', 'tr', 'tr_array_as_ref', 'tr_bound_function_applyp', 'tr_file_tty_messagesp',
             'tr_float_can_branch_complex', 'tr_function_call_default', 'tr_numer',
             'tr_optimize_max_loop', 'tr_semicompile', 'tr_state_vars', 'tr_warn_bad_function_calls',
@@ -278,10 +279,10 @@ class stack_cas_casstring {
             'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson', 'var_rayleigh',
             'var_student_t', 'var_weibull', 'vector', 'verbose', 'vers', 'warnings', 'weyl',
             'wronskian', 'x_voxel', 'xaxis', 'xaxis_color', 'xaxis_secondary', 'xaxis_type',
-            'xaxis_width', 'xlabel', 'xrange', 'xrange_secondary', 'xtics', 'xtics_axis',
+            'xaxis_width', 'xrange', 'xrange_secondary', 'xtics', 'xtics_axis',
             'xtics_rotate', 'xtics_rotate_secondary', 'xtics_secondary', 'xtics_secondary_axis',
             'xu_grid', 'xy_file', 'xyplane', 'y_voxel', 'yaxis', 'yaxis_color', 'yaxis_secondary',
-            'yaxis_type', 'yaxis_width', 'ylabel', 'yrange', 'yrange_secondary', 'ytics',
+            'yaxis_type', 'yaxis_width', 'yrange', 'yrange_secondary', 'ytics',
             'ytics_axis', 'ytics_rotate', 'ytics_rotate_secondary', 'ytics_secondary',
             'ytics_secondary_axis', 'yv_grid', 'z_voxel', 'zaxis', 'zaxis_color', 'zaxis_type',
             'zaxis_width', 'zeilberger', 'zeroa', 'zerob', 'zlabel', 'zlange', 'zrange', 'ztics',
@@ -291,15 +292,15 @@ class stack_cas_casstring {
     private static $studentallow    = array('%c', '%e', '%gamma', '%i', '%k1', '%k2',
             '%phi', '%pi', 'abs', 'absint', 'acos', 'acosh', 'acot', 'acoth', 'acsc', 'acsch',
             'addmatrices', 'adjoin', 'and', 'ascii', 'asec', 'asech', 'asin', 'asinh', 'atan',
-            'atan2', 'atanh', 'augcoefmatrix', 'belln', 'bessel_i', 'bessel_j', 'bessel_k',
+            'atan2', 'atanh', 'augcoefmatrix', 'axes', 'belln', 'bessel_i', 'bessel_j', 'bessel_k',
             'bessel_y', 'besselexpand', 'beta', 'bezout', 'bffac', 'bfhzeta', 'bfloat',
-            'bfloatp', 'binomial', 'blockmatrixp', 'burn', 'cabs', 'cardinality', 'carg',
+            'bfloatp', 'binomial', 'black', 'blockmatrixp', 'blue', 'box', 'burn', 'cabs', 'cardinality', 'carg',
             'cartan', 'cartesian_product', 'ceiling', 'cequal', 'cequalignore', 'cf',
             'cfdisrep', 'cfexpand', 'cflength', 'cgreaterp', 'cgreaterpignore', 'charat',
             'charfun', 'charfun2', 'charlist', 'charp', 'charpoly', 'cint', 'clessp',
             'clesspignore', 'coeff', 'coefmatrix', 'col', 'columnop', 'columnspace',
             'columnswap', 'combine', 'compare', 'concat', 'conjugate', 'cons', 'constituent',
-            'copy', 'cos', 'cosh', 'cot', 'coth', 'covect', 'csc', 'csch', 'cspline',
+            'copy', 'cos', 'cosh', 'cot', 'coth', 'color', 'covect', 'csc', 'csch', 'cspline', 'cyan', 'cosec',
             'ctranspose', 'dblint', 'defint', 'del', 'delete', 'delta', 'denom', 'desolve',
             'determinant', 'detout', 'dgauss_a', 'dgauss_b', 'diag_matrix', 'diagmatrix',
             'diff', 'digitcharp', 'disjoin', 'disjointp', 'disolate', 'divide', 'divisors',
@@ -318,7 +319,7 @@ class stack_cas_casstring {
             'fullratsubst', 'fullsetify', 'funcsolve', 'funp', 'gamma', 'gamma_incomplete',
             'gamma_incomplete_generalized', 'gamma_incomplete_regularized', 'gauss_a',
             'gauss_b', 'gcd', 'gcdex', 'gcfactor', 'genmatrix', 'get_lu_factors', 'gfactor',
-            'gfactorsum', 'gramschmidt', 'hankel', 'hessian', 'hgfred', 'hilbert_matrix',
+            'gfactorsum', 'gramschmidt', 'green', 'hankel', 'hessian', 'hgfred', 'hilbert_matrix',
             'hipow', 'horner', 'hypergeometric', 'hypergeometric_representation', 'ident',
             'identfor', 'identity', 'ifactors', 'imagpart', 'ind', 'inf', 'infinity',
             'innerproduct', 'inrt', 'integer_partitions', 'integrate', 'intersect',
@@ -329,24 +330,25 @@ class stack_cas_casstring {
             'jacobi_cn', 'jacobi_cs', 'jacobi_dc', 'jacobi_dn', 'jacobi_ds', 'jacobi_nc',
             'jacobi_nd', 'jacobi_ns', 'jacobi_sc', 'jacobi_sd', 'jacobi_sn', 'jacobian', 'join',
             'kron_delta', 'kronecker_product', 'kummer_m', 'kummer_u', 'lagrange', 'lambda',
-            'lambert_w', 'laplace', 'last', 'lcm', 'ldefint', 'length', 'lhs', 'limit',
+            'lambert_w', 'laplace', 'last', 'lcm', 'ldefint', 'legend', 'length', 'lhs', 'limit',
             'linearinterpol', 'linsolve', 'linsolve_params', 'listify', 'lmax', 'lmin',
-            'locate_matrix_entry', 'log', 'log10', 'log_gamma', 'logabs', 'logarc',
-            'logcontract', 'logexpand', 'lognegint', 'lognumer', 'logsimp', 'lopow',
-            'lowercasep', 'lratsubst', 'lreduce', 'lsum', 'lu_backsub', 'lu_factor',
+            'locate_matrix_entry', 'log', 'logy', 'logx', 'log10', 'log_gamma', 'logabs', 'logarc',
+            'logcontract', 'logexpand', 'lognegint', 'lognumer', 'logy', 'logsimp', 'lopow',
+            'lowercasep', 'lratsubst', 'lreduce', 'lsum', 'lu_backsub', 'lu_factor', 'magenta',
             'make_transform', 'makefact', 'makegamma', 'makelist', 'makeset', 'map',
             'mapatom', 'maplist', 'mat_cond', 'mat_fullunblocker', 'mat_norm', 'mat_trace',
             'mat_unblocker', 'matrix', 'matrix_element_add', 'matrix_element_mult',
             'matrix_element_transpose', 'matrix_size', 'matrixmap', 'matrixp', 'mattrace',
             'max', 'member', 'min', 'minf', 'minfactorial', 'mod', 'moebius',
             'multinomial_coeff', 'multthru', 'ncexpt', 'ncharpoly', 'newdet', 'ninth',
-            'noeval', 'nonnegintegerp', 'not', 'notequal', 'nroots', 'nterms', 'nthroot',
+            'noeval', 'nonnegintegerp', 'not', 'notequal', 'nroots', 'nterms', 'nthroot', 'nticks',
             'nullity', 'nullspace', 'num', 'num_distinct_partitions', 'num_partitions',
             'numberp', 'numer', 'numerval', 'numfactor', 'nusum', 'nzeta', 'nzetai', 'nzetar',
             'oddp', 'op', 'operatorp', 'or', 'ordergreat', 'ordergreatp', 'orderless',
             'orderlessp', 'orthogonal_complement', 'outermap', 'pade', 'parabolic_cylinder_d',
             'part', 'part2cont', 'partfrac', 'partition', 'partition_set', 'permanent',
-            'permutations', 'plog', 'poisdiff', 'poisexpt', 'poisint', 'poislim', 'poismap',
+            'permutations', 'plog', 'plot_realpart', 'point_type', 'point_size', 'points',
+            'poisdiff', 'poisexpt', 'poisint', 'poislim', 'poismap',
             'poisplus', 'poissimp', 'poisson', 'poissubst', 'poistimes', 'poistrim',
             'polarform', 'polartorect', 'polymod', 'polynome2ele', 'polynomialp',
             'polytocompanion', 'posfun', 'potential', 'power_mod', 'powerdisp', 'powers',
@@ -356,7 +358,7 @@ class stack_cas_casstring {
             'ratalgdenom', 'ratcoef', 'ratdenom', 'ratdenomdivide', 'ratdiff', 'ratdisrep',
             'ratepsilon', 'ratexpand', 'ratfac', 'rationalize', 'ratmx', 'ratnumer', 'ratnump',
             'ratp', 'ratsimp', 'ratsimpexpons', 'ratsubst', 'ratvars', 'ratweight',
-            'ratweights', 'realonly', 'realpart', 'realroots', 'rectform', 'recttopolar',
+            'ratweights', 'realonly', 'realpart', 'realroots', 'rectform', 'recttopolar', 'red',
             'remainder', 'remfun', 'residue', 'rest', 'resultant', 'reverse', 'rhs', 'risch',
             'rncombine', 'romberg', 'rombergabs', 'rombergit', 'rombergmin', 'rombergtol',
             'rootsconmode', 'rootscontract', 'rootsepsilon', 'round', 'row', 'rowop', 'rowswap',
@@ -369,7 +371,7 @@ class stack_cas_casstring {
             'solveexplicit', 'solvefactors', 'solvenullwarn', 'solveradcan', 'solvetrigwarn',
             'some', 'sort', 'space', 'sparse', 'specint', 'sposition', 'sqfr', 'sqrt',
             'sqrtdispflag', 'sremove', 'sremovefirst', 'sreverse', 'ssearch', 'ssort', 'ssubst',
-            'ssubstfirst', 'strim', 'striml', 'strimr', 'stringp', 'struve_h', 'struve_l',
+            'ssubstfirst', 'strim', 'striml', 'strimr', 'stringp', 'struve_h', 'struve_l', 'style',
             'sublis', 'sublis_apply_lambda', 'sublist', 'sublist_indices', 'submatrix',
             'subset', 'subsetp', 'subst', 'substinpart', 'substpart', 'substring', 'subvarp',
             'sum', 'sumcontract', 'sumexpand', 'supcase', 'symbolp', 'symmdifference', 'tan',
@@ -387,7 +389,7 @@ class stack_cas_casstring {
             'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
             'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
             'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega');
+            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel');
 
     /**
      * These lists are used by question authors for groups of words.
@@ -428,7 +430,7 @@ class stack_cas_casstring {
         $this->rawcasstring   = $rawstring;
         $this->answernote = array();
 
-        $this->valid          =  null;  // If NULL then the validate command has not yet been run....
+        $this->valid          = null;  // If null then the validate command has not yet been run.
 
         if (!is_string($this->rawcasstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
@@ -440,10 +442,15 @@ class stack_cas_casstring {
     /* Validation functions                                  */
     /*********************************************************/
 
-    // We may need to use this function more than once to validate with different options.
-    public function validate($security='s', $syntax=true, $insertstars=false) {
+    /* We may need to use this function more than once to validate with different options.
+     * $secutrity must either be 's' for student, or 't' for teacher.
+     * $syntax is whether we enforce a "strict syntax"
+     * $insertstars is whether we actually put stars into the places we expect them to go
+     * $allowwords enables specific function names (but never those from $globalforbid)
+     */
+    public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
 
-        if (!('s'===$security || 't'===$security)) {
+        if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
         }
 
@@ -506,7 +513,7 @@ class stack_cas_casstring {
             $cmdmod = str_replace('not ', '', $cmdmod);
             if (preg_match($pat, $cmdmod)) {
                 $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
-                $this->add_error(stack_string('stackCas_spaces', array('expr'=>stack_maxima_format_casstring($cmds))));
+                $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
                 $this->answernote[] = 'spaces';
                 $this->valid = false;
             }
@@ -536,11 +543,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                    array('bracket'=>'(', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                    array('bracket'=>')', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '{', '}');
@@ -549,11 +556,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket'=>'{', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket'=>'}', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '[', ']');
@@ -562,11 +569,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket'=>'[', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket'=>']', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
             }
         }
 
@@ -588,6 +595,50 @@ class stack_cas_casstring {
                 $this->add_error(stack_string('stackCas_newline'));
                 $this->answernote[] = 'newline';
                 $this->valid = false;
+            }
+        }
+
+        if ($security == 's') {
+            // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
+            // asin etc, will be included automatically, so we don't need them explicitly.
+            $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
+            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs');
+            foreach (array_merge($triglist, $funlist) as $fun) {
+                if (strpos($cmd, $fun.'^') !== false) {
+                    $this->add_error(stack_string('stackCas_trigexp',
+                        array('forbid' => stack_maxima_format_casstring($fun.'^'))));
+                    $this->answernote[] = 'trigexp';
+                    $this->valid = false;
+                    break;
+                }
+                if (strpos($cmd, $fun.'[') !== false) {
+                    $this->add_error(stack_string('stackCas_trigparens',
+                        array('forbid' => stack_maxima_format_casstring($fun.'(x)'))));
+                    $this->answernote[] = 'trigparens';
+                    $this->valid = false;
+                    break;
+                }
+                $opslist = array('*', '+', '-', '/');
+                foreach ($opslist as $op) {
+                    if (strpos($cmd, $fun.$op) !== false) {
+                        $this->add_error(stack_string('stackCas_trigop',
+                            array('trig' => stack_maxima_format_casstring($fun),
+                                    'forbid' => stack_maxima_format_casstring($fun.$op))));
+                        $this->answernote[] = 'trigop';
+                        $this->valid = false;
+                        break;
+                    }
+                }
+            }
+            foreach ($triglist as $fun) {
+                if (strpos($cmd, 'arc'.$fun) !== false) {
+                    $this->add_error(stack_string('stackCas_triginv',
+                        array('badinv' => stack_maxima_format_casstring('arc'.$fun),
+                                'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                    $this->answernote[] = 'triginv';
+                    $this->valid = false;
+                    break;
+                }
             }
         }
 
@@ -623,14 +674,14 @@ class stack_cas_casstring {
         // Check for empty parentheses `()`.
         if (strpos($cmd, '()') !== false) {
             $this->valid = false;
-            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring('()'))));
+            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring('()'))));
             $this->answernote[] = 'forbiddenWord';
         }
 
         // Check for spurious operators.
         $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
         foreach ($spuriousops as $op) {
-            if (substr_count($cmd, $op)>0) {
+            if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($op);
@@ -639,7 +690,9 @@ class stack_cas_casstring {
             }
         }
 
-        // CAS strings may not contain @ or $.
+        // CAS strings may not contain
+        // * reversed inequalities, i.e =< is not permitted in place of <=.
+        // * chained inequalities 1<x<=3.
         if (strpos($cmd, '=<') !== false || strpos($cmd, '=>') !== false) {
             if (strpos($cmd, '=<') !== false) {
                 $a['cmd'] = stack_maxima_format_casstring('=<');
@@ -655,9 +708,20 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
+        // Commas not inside brackets either should be, or indicate a decimal number not
+        // using the decimal point.  In either case this is problematic.
+        // For now, we just look for expressions with a comma, but without brackets.
+        // [TODO]: improve this test to really look for unencapsulated commas.
+        if (!(false === strpos($cmd, ',')) && !(!(false === strpos($cmd, '(')) ||
+                !(false === strpos($cmd, '[')) || !(false === strpos($cmd, '{')) )) {
+            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
+            $this->answernote[] = 'unencpsulated_comma';
+            $this->valid = false;
+        }
+
         $this->check_stars($security, $syntax, $insertstars);
 
-        $this->check_security($security);
+        $this->check_security($security, $allowwords);
 
         $this->key_val_split();
         return $this->valid;
@@ -675,10 +739,11 @@ class stack_cas_casstring {
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
         $patterns[] = "|(\))([0-9A-Za-z])|";          // E.g. )a, or )3.
         // We assume f and g are single letter functions.
-        // 'E' is used to denote scientific notation.    E.g. 3E2 = 300.0.
+        // 'E' and 'e' is used to denote scientific notation.
+        // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
-            $patterns[] = "|([0-9]+)([A-DF-Za-z])|";  // E.g. 3x.
-            $patterns[] = "|([0-9])([A-DF-Za-z]\()|"; // E.g. 3 x (.
+            $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
+            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3 x (.
         } else {
             $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
             $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3 x (.
@@ -746,33 +811,46 @@ class stack_cas_casstring {
      *
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
-    private function check_security($security) {
+    private function check_security($security, $allowwords) {
+
+        // Sort out any allowwords.
+        $allow = array();
+        if (trim($allowwords) != '') {
+            $allowwords = explode(',', $allowwords);
+            foreach ($allowwords as $kw) {
+                $kw = trim(strtolower($kw));
+                if (!in_array($kw, self::$globalforbid)) {
+                    $allow[] = $kw;
+                } else {
+                    throw new stack_exception('stack_cas_casstring: check_security: attempt made to allow gloabally forbidden keyword: '.$kw);
+                }
+            }
+        }
 
         // Note, we do not strip out strings here.  This would be a potential secuity risk.
         // Teachers are trusted with any name already, and we would never permit a:"system('rm *')" as a string!
         // The contents of any string which look bad, probably is bad.
         $cmd = $this->casstring;
-        $strin_keywords = array();
+        $strinkeywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
-
         // Filter out some of these matches.
         foreach ($out[0] as $key) {
             // Do we have only numbers, or only 2 characters?
             // These strings are fine.
             preg_match("|[0-9]+|", $key, $justnum);
 
-            if (empty($justnum) and strlen($key)>2) {
+            if (empty($justnum) and strlen($key) > 2) {
                 $downkey = strtolower($key);
-                array_push($strin_keywords, $downkey);
+                array_push($strinkeywords, $downkey);
             }
         }
-        $strin_keywords = array_unique($strin_keywords);
+        $strinkeywords = array_unique($strinkeywords);
         // Check for global forbidden words.
-        foreach ($strin_keywords as $key) {
+        foreach ($strinkeywords as $key) {
             if (in_array($key, self::$globalforbid)) {
                 // Very bad!
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
                 $this->answernote[] = 'forbiddenWord';
                 $this->valid = false;
             } else {
@@ -780,15 +858,15 @@ class stack_cas_casstring {
                     if (in_array($key, self::$teachernotallow)) {
                         // If a teacher check against forbidden commands.
                         $this->add_error(stack_string('stackCas_unsupportedKeyword',
-                            array('forbid'=>stack_maxima_format_casstring($key))));
+                            array('forbid' => stack_maxima_format_casstring($key))));
                         $this->answernote[] = 'unsupportedKeyword';
                         $this->valid = false;
                     }
                 } else {
                     // Only allow the student to use set commands.
-                    if (!in_array($key, self::$studentallow)) {
+                    if (!in_array($key, self::$studentallow) and !in_array($key, $allow)) {
                         $this->add_error(stack_string('stackCas_unknownFunction',
-                            array('forbid'=>stack_maxima_format_casstring($key))));
+                            array('forbid' => stack_maxima_format_casstring($key))));
                         $this->answernote[] = 'unknownFunction';
                         $this->valid = false;
                     }
@@ -806,21 +884,21 @@ class stack_cas_casstring {
      */
     private function check_chained_inequalities($ex) {
 
-        if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+        if (substr_count($ex, '<') + substr_count($ex, '>') < 2) {
             return true;
         }
 
         // Plots, and HTML elements are protected within strings when they come back through the CAS.
         $found = stack_utils::substring_between($ex, '<html>', '</html>');
-        if ($found[1]>0) {
+        if ($found[1] > 0) {
             $ex = str_replace($found[0], '', $ex);
         }
 
         // Separate out lists, sets, etc.
-        $ex_split = explode(',', $ex);
+        $exsplit = explode(',', $ex);
         $bits = array();
         $ok = true;
-        foreach ($ex_split as $bit) {
+        foreach ($exsplit as $bit) {
             $ok = $ok && $this->check_chained_inequalities_ind($bit);
         }
 
@@ -829,7 +907,7 @@ class stack_cas_casstring {
 
     private function check_chained_inequalities_ind($ex) {
 
-        if (substr_count($ex, '<') + substr_count($ex, '>')<2) {
+        if (substr_count($ex, '<') + substr_count($ex, '>') < 2) {
             return true;
         }
 
@@ -845,7 +923,7 @@ class stack_cas_casstring {
             $bits = $newbits;
         }
         // Remove first and last entries.
-        unset($bits[count($bits)-1]);
+        unset($bits[count($bits) - 1]);
         unset($bits[0]);
 
         // Now check each "middle bit" has one of the following.
@@ -871,7 +949,7 @@ class stack_cas_casstring {
      * @return bool|string true if an element of array is found in the casstring.
      */
     public function check_external_forbidden_words($keywords) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -888,24 +966,24 @@ class stack_cas_casstring {
         }
 
         $found          = false;
-        $strin_keywords = array();
+        $strinkeywords  = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $this->casstring, $out, PREG_PATTERN_ORDER);
 
         // Filter out some of these matches.
         foreach ($out[0] as $key) {
-            if (strlen($key)>1) {
+            if (strlen($key) > 1) {
                 $upkey = strtolower($key);
-                array_push($strin_keywords, $upkey);
+                array_push($strinkeywords, $upkey);
             }
         }
-        $strin_keywords = array_unique($strin_keywords);
+        $strinkeywords = array_unique($strinkeywords);
 
-        foreach ($strin_keywords as $key) {
+        foreach ($strinkeywords as $key) {
             if (in_array($key, $kws)) {
                 $found = true;
                 $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
             }
         }
         return $found;
@@ -916,7 +994,7 @@ class stack_cas_casstring {
      * @return bool|string true if an element of array is found in the casstring.
      */
     public function check_external_forbidden_words_literal($keywords) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -933,7 +1011,7 @@ class stack_cas_casstring {
                 if ('COMMA_TAG' === $val) {
                     $kws[] = ',';
                 } else {
-                    $kws[] = $val;  // This test is case sensitive.
+                    $kws[] = trim($val);  // This test is case sensitive, but ignores surrounding whitespace.
                 }
             }
         }
@@ -943,7 +1021,7 @@ class stack_cas_casstring {
             if (!(false === strpos($this->rawcasstring, $key))) {
                 $found = true;
                 $this->valid = false;
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid'=>stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
             }
         }
         return $found;
@@ -962,12 +1040,12 @@ class stack_cas_casstring {
         if (false === $i) {
             $this->key   = '';
         } else {
-            // Need to check we don't have a function definition...
-            if ('='===substr($this->casstring, $i+1, 1)) {
+            // Need to check we don't have a function definition.
+            if ('=' === substr($this->casstring, $i+1, 1)) {
                 $this->key   = '';
             } else {
                 $this->key       = trim(substr($this->casstring, 0, $i));
-                $this->casstring = trim(substr($this->casstring, $i+1));
+                $this->casstring = trim(substr($this->casstring, $i + 1));
             }
         }
     }
@@ -977,18 +1055,18 @@ class stack_cas_casstring {
     /*********************************************************/
 
     public function get_valid($security='s', $syntax=true, $insertstars=false) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate($security, $syntax, $insertstars);
         }
         return $this->valid;
     }
 
     public function set_valid($val) {
-        $this->valid=$val;
+        $this->valid = $val;
     }
 
     public function get_errors() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->errors;
@@ -999,14 +1077,14 @@ class stack_cas_casstring {
     }
 
     public function get_casstring() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->casstring;
     }
 
     public function get_key() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->key;
@@ -1020,35 +1098,35 @@ class stack_cas_casstring {
         return $this->display;
     }
 
-    public function set_key($key, $append_key=true) {
-        if (null===$this->valid) {
+    public function set_key($key, $appendkey=true) {
+        if (null === $this->valid) {
             $this->validate();
         }
-        if (''!=$this->key && $append_key) {
+        if ('' != $this->key && $appendkey) {
             $this->casstring = $this->key.':'.$this->casstring;
-            $this->key=$key;
+            $this->key = $key;
         } else {
-            $this->key=$key;
+            $this->key = $key;
         }
     }
 
     public function set_value($val) {
-        $this->value=$val;
+        $this->value = $val;
     }
 
     public function set_display($val) {
-        $this->display=$val;
+        $this->display = $val;
     }
 
     public function get_answernote() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return implode(' | ', $this->answernote);
     }
 
     public function set_answernote($val) {
-        $this->answernote[] =$val;
+        $this->answernote[] = $val;
     }
 
     public function get_feedback() {
@@ -1056,22 +1134,22 @@ class stack_cas_casstring {
     }
 
     public function set_feedback($val) {
-        $this->feedback=$val;
+        $this->feedback = $val;
     }
 
     public function add_errors($err) {
-        if (''==trim($err)) {
+        if ('' == trim($err)) {
             return false;
         } else {
-            return $this->errors.=$err;
+            return $this->errors .= $err;
         }
     }
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null) {
-        if (null===$this->valid) {
-            $this->validate();
+    public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null, $allowwords='') {
+        if (null === $this->valid) {
+            $this->validate('s', true, false, $allowwords);
         }
         if (false === $this->valid) {
             return false;
@@ -1082,17 +1160,17 @@ class stack_cas_casstring {
 
         // Turn PHP Booleans into Maxima true & false.
         if ($forbidfloats) {
-            $forbidfloats='true';
+            $forbidfloats = 'true';
         } else {
-            $forbidfloats='false';
+            $forbidfloats = 'false';
         }
         if ($lowestterms) {
-            $lowestterms='true';
+            $lowestterms = 'true';
         } else {
-            $lowestterms='false';
+            $lowestterms = 'false';
         }
 
-        if (null===$tans) {
+        if (null === $tans) {
             $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
         } else {
             $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
@@ -1125,15 +1203,16 @@ class stack_cas_casstring {
      *  This function decodes the error generated by Maxima into meaningful notes. 
      *  */
     public function decode_maxima_errors($error) {
-        $search_strings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix', 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
-        $found_one = false;
-        foreach($search_strings as $s) {
-            if (!(false===strpos($error, $s))) {
+        $searchstrings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
+                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
+        $foundone = false;
+        foreach ($searchstrings as $s) {
+            if (!(false === strpos($error, $s))) {
                 $this->set_answernote($s);
-                $found_one = true;
+                $foundone = true;
             }
         }
-        if (!$found_one) {
+        if (!$foundone) {
             $this->set_answernote('CASError: '.$error);
         }
     }

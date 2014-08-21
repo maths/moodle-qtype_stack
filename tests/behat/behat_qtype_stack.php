@@ -46,8 +46,7 @@ class behat_qtype_stack extends behat_base {
      *
      * @When /^I set up STACK using the PHPUnit configuration$/
      */
-    public function iSetUpStackUsingThePhpunitConfiguration()
-    {
+    public function iSetUpStackUsingThePhpunitConfiguration() {
         // The require_once is here, this file may be required by behat before including /config.php.
         require_once(__DIR__ . '/../test_maxima_configuration.php');
 

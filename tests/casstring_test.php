@@ -66,7 +66,7 @@ class stack_cas_casstring_test extends basic_testcase {
             // Inequalities.
             array('x>=1', true, true),
             array('x=>1', false, false),
-            // Unencapsulated commas
+            // Unencapsulated commas.
             array('a,b', false, false),
         );
 

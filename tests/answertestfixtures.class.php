@@ -109,7 +109,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),
-        array('AlgEquiv', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''), // Might come up in ATInt
+        array('AlgEquiv', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''), // Might come up in ATInt.
         array('AlgEquiv', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'),
         array('AlgEquiv', 'x', '[1,2,3]', 0, '', 'Lists'),
         array('AlgEquiv', '[1,2]', '[1,2,3]', 0, '', ''),

@@ -359,7 +359,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('[1-sqrt(66),sqrt(66)+1,-2]', $at1->get_value_key('E'));
         $this->assertEquals('130', $at1->get_value_key('dt'));
-        $this->assertEquals('\left(\begin{array}{ccc} 7 & 1 & 3 \\\\ 5 & -3 & 4 \\\\ 5 & 3 & -4 \end{array}\right)', $at1->get_display_key('A'));
+        $this->assertEquals('\left(\begin{array}{ccc} 7 & 1 & 3 \\\\ 5 & -3 & 4 \\\\ 5 & 3 & -4 \end{array}\right)',
+                $at1->get_display_key('A'));
 
     }
 

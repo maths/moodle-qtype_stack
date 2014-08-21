@@ -67,7 +67,9 @@ abstract class stack_connection_helper {
                 break;
             case 'tomcat':
             case 'tomcat-optimised':
-                throw new stack_exception('stack_connection_helper: "tomcat" and "tomcat-optimised" settings are obsolete.  Please choose "server" setting instead.');
+                throw new stack_exception('stack_connection_helper: ' .
+                    '"tomcat" and "tomcat-optimised" settings are obsolete. ' .
+                    ' Please choose "server" setting instead.');
                 break;
 
             default:
@@ -298,8 +300,7 @@ abstract class stack_connection_helper {
                     if ($result['value'] != '"'.$date.'"') {
                         $success = false;
                     }
-                } else if ('CASversion' === $result['key']) {
-                } else {
+                } else if ('CASversion' !== $result['key']) {
                     $success = false;
                 }
             }

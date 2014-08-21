@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/test_maxima_configuration.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 
@@ -53,46 +53,12 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     public static function setup_test_maxima_connection($testcase) {
         global $CFG;
 
-        if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')) {
+        if (!qtype_stack_test_config::is_test_config_available()) {
             $testcase->markTestSkipped(
                     'To run the STACK unit tests, you must set up the Maxima configuration in phpunit.xml.');
         }
 
-        if (!defined('QTYPE_STACK_EXPECTED_VERSION')) {
-            if (!preg_match('~\[ STACK-Maxima started, library version (\d{10}) \]~',
-                    file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
-                throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
-            }
-            define('QTYPE_STACK_EXPECTED_VERSION', $matches[1]);
-        }
-
-        set_config('platform',        QTYPE_STACK_TEST_CONFIG_PLATFORM,        'qtype_stack');
-        set_config('maximaversion',   QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION,   'qtype_stack');
-        set_config('castimeout',      QTYPE_STACK_TEST_CONFIG_CASTIMEOUT,      'qtype_stack');
-        set_config('casresultscache', QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE, 'qtype_stack');
-        set_config('maximacommand',   QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,   'qtype_stack');
-        set_config('plotcommand',     QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND,     'qtype_stack');
-        set_config('casdebugging',    QTYPE_STACK_TEST_CONFIG_CASDEBUGGING,    'qtype_stack');
-        set_config('mathsdisplay',    'mathjax',                               'qtype_stack');
-        set_config('replacedollars',  0,                                       'qtype_stack');
-        set_config('stackmaximaversion', QTYPE_STACK_EXPECTED_VERSION,         'qtype_stack');
-
-        if (QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE == 'otherdb') {
-            set_config('cascachedbtype',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBTYPE,    'qtype_stack');
-            set_config('cascachedblibrary', QTYPE_STACK_TEST_CONFIG_CASCACHEDBLIBRARY, 'qtype_stack');
-            set_config('cascachedbhost',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBHOST,    'qtype_stack');
-            set_config('cascachedbname',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBNAME,    'qtype_stack');
-            set_config('cascachedbuser',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER,    'qtype_stack');
-            set_config('cascachedbpass',    QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS,    'qtype_stack');
-            set_config('cascachedbprefix',  QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX,  'qtype_stack');
-            if (defined('QTYPE_STACK_TEST_CONFIG_CASCACHEDBSOCKET')) {
-                set_config('cascachedbsocket',  QTYPE_STACK_TEST_CONFIG_CASCACHEDBSOCKET,  'qtype_stack');
-            }
-        }
-
-        if (stack_cas_configuration::maxima_bat_is_missing()) {
-            stack_cas_configuration::create_maximalocal();
-        }
+        qtype_stack_test_config::setup_test_maxima_connection($testcase);
     }
 }
 

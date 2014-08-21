@@ -767,6 +767,10 @@ class qtype_stack extends question_type {
         $DB->set_field('qtype_stack_prt_nodes', 'falsenextnode', $to,
                 array('questionid' => $questionid, 'prtname' => $prtname, 'falsenextnode' => $from));
 
+        // PRT first node link.
+        $DB->set_field('qtype_stack_prts', 'firstnodename', $to,
+                array('questionid' => $questionid, 'name' => $prtname, 'firstnodename' => $from));
+
         $transaction->allow_commit();
         $this->notify_question_edited($questionid);
     }

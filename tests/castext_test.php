@@ -169,7 +169,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s1 = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                 'The Linearity Rule for Differentiation</h3>' .
                 '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+' .
-                'b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant}\]</div>';
+                'b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant.}\]</div>';
         $this->assertEquals($s1, $at1->get_display_castext());
     }
 

@@ -6,7 +6,7 @@ Hints can be included in any [castext](CASText.md).
 
 To include a hint, use the syntax
 
-    [hint:tag]
+    [[hint:tag]]
     
 The "tag" is chosen from the list below.
 

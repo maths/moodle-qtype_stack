@@ -168,7 +168,9 @@ class stack_textarea_input extends stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         $values = stack_utils::list_to_array($value, false);
-        $values = array_map(function ($ex) { return '<code>'.$ex.'</code>'; }, $values);
+        $values = array_map(function ($ex) {
+                return '<code>'.$ex.'</code>';
+            }, $values);
         $value = "<br/>".implode("<br/>", $values);
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));

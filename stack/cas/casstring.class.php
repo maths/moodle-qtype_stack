@@ -822,7 +822,8 @@ class stack_cas_casstring {
                 if (!in_array($kw, self::$globalforbid)) {
                     $allow[] = $kw;
                 } else {
-                    throw new stack_exception('stack_cas_casstring: check_security: attempt made to allow gloabally forbidden keyword: '.$kw);
+                    throw new stack_exception('stack_cas_casstring: check_security: ' .
+                            'attempt made to allow gloabally forbidden keyword: ' . $kw);
                 }
             }
         }
@@ -1041,7 +1042,7 @@ class stack_cas_casstring {
             $this->key   = '';
         } else {
             // Need to check we don't have a function definition.
-            if ('=' === substr($this->casstring, $i+1, 1)) {
+            if ('=' === substr($this->casstring, $i + 1, 1)) {
                 $this->key   = '';
             } else {
                 $this->key       = trim(substr($this->casstring, 0, $i));

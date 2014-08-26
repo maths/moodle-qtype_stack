@@ -36,7 +36,7 @@ abstract class stack_input {
     const INVALID = 'invalid';
     const SCORE = 'score';
 
-    protected static $perameterstack_inputsavailable = array(
+    protected static $allparameternames = array(
         'mustVerify',
         'hideFeedback',
         'boxWidth',
@@ -211,7 +211,7 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function get_parameters_available() {
-        return $this->perameterstack_inputsavailable;
+        return $this->allparameternames;
     }
 
     /**

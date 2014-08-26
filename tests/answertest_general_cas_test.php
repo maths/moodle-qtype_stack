@@ -381,7 +381,8 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $fb = 'stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
-        $fbt = 'The entries underlined in red below are those that are incorrect. \[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]';
+        $fbt = 'The entries underlined in red below are those that are incorrect. ' .
+                '\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]';
         $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 

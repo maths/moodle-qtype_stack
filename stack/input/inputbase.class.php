@@ -293,9 +293,15 @@ abstract class stack_input {
             if (!$this->get_parameter('sameType')) {
                 $teacheranswer = null;
             }
+
+            $singlevarchars = false;
+            if (2==$this->get_parameter('insertStars', 0)) {
+                $singlevarchars = true;
+            }
+
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    false,
+                    $singlevarchars,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 

@@ -2289,5 +2289,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014072301$
-print("[ STACK-Maxima started, library version 2014072301 ]")$
+stackmaximaversion:2014083000$
+print("[ STACK-Maxima started, library version 2014083000 ]")$

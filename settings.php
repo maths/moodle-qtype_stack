@@ -135,7 +135,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputinsertstars',
         get_string('insertstars_help', 'qtype_stack'), '0', array(
             '0' => get_string('no'),
             '1' => get_string('yes'),
-            '2' => get_string('singlecharvars'),
+            '2' => get_string('singlecharvars', 'qtype_stack'),
 )));
 
 $settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',

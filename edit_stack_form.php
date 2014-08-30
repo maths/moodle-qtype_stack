@@ -565,8 +565,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
         $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
 
-        $mform->addElement('selectyesno', $inputname . 'insertstars',
-                stack_string('insertstars'));
+        $insertstar_choices = array(0=>stack_string('No'), 1=>stack_string('Yes'), 2=>stack_string('singlecharvars'));
+        $mform->addElement('select', $inputname . 'insertstars',
+                stack_string('insertstars'), $insertstar_choices);
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 

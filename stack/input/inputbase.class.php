@@ -295,6 +295,7 @@ abstract class stack_input {
             }
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
+                    false,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
@@ -303,6 +304,7 @@ abstract class stack_input {
 
             $session = $session->get_session();
             $answer = $session[0];
+            $interpretedanswer = $answer->get_casstring();
 
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {

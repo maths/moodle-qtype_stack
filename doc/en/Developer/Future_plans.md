@@ -15,6 +15,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Reasoning by equivalence input type.
 * Inputs which enable student to input steps in the working. In particular, variable numbers of input boxes.
 * Add a "scratch working" area in which students can record their thinking etc. alongside the final answer.
+* Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 
 ### Improve the editing form ###
 

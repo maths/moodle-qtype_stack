@@ -28,10 +28,10 @@ class stack_hints {
 
     /* This is the list of allowable hint tags.  Each of these needs to have
      * two corresponding lines in the language file.
-     * E.g. greek_alphabet_name and greek_alphabet_fact 
+     * E.g. greek_alphabet_name and greek_alphabet_fact
      */
     private static $hints = array('greek_alphabet', 'alg_inequalities',
-                    'alg_indices', 'alg_logarithms', 'alg_quadratic_formula', 
+                    'alg_indices', 'alg_logarithms', 'alg_quadratic_formula',
                     'alg_partial_fractions', 'trig_degrees_radians', 'trig_standard_values',
                     'trig_standard_identities', 'hyp_functions', 'hyp_identities',
                     'hyp_inverse_functions', 'calc_diff_standard_derivatives',
@@ -54,15 +54,15 @@ class stack_hints {
         $strin = $this->text;
         $html_match = $this->get_hint_tags();
         if ($html_match) {
-           $errors = array();
-           foreach ($html_match as $val) {
-               if (false === array_search($val, self::$hints)) {
+            $errors = array();
+            foreach ($html_match as $val) {
+                if (false === array_search($val, self::$hints)) {
                     $errors[] = $val;
-               }
-           }
-           if (!empty($errors)) {
-               return $errors;
-           }
+                }
+            }
+            if (!empty($errors)) {
+                return $errors;
+            }
         }
         return true;
     }
@@ -74,7 +74,7 @@ class stack_hints {
         return false;
     }
 
-    /* This function repaces tags with they HTML value.  
+    /* This function repaces tags with they HTML value.
      * Note, that at this point we assume we have already validated the text.
      */
     public function display() {
@@ -90,14 +90,14 @@ class stack_hints {
             foreach ($html_match as $val) {
                 if (false !== array_search($val, self::$hints)) {
                     $sr = '[[hint:'.$val.']]';
-/*
+                    /*
                     //This uses a popup button to display the hint. 
                     //Currently not working.
                     $rep = $this->modal_popup(stack_string($val.'_name'),
                             stack_string($val.'_fact'),//body
                             'Hint' //label on button
                            );
-*/
+                    */
                     $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                        stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
                     $strin = str_replace($sr, $rep, $strin);

@@ -32,13 +32,13 @@ class stack_hints_test extends qtype_stack_testcase {
 
     public function test_trap_bad_hint_names() {
         $hint = new stack_hints("This is some CAStext with a [[hint:bad_hint]] and yet another [[hint:badder_hint]]");
-        $this->assertEquals(array(0 => 'bad_hint', 1 => 'badder_hint'), 
+        $this->assertEquals(array(0 => 'bad_hint', 1 => 'badder_hint'),
                 $hint->validate());
     }
 
     public function test_legacy_convert() {
         $hint = new stack_hints("An <hint>old_hint</hint> and <hint>older_hint</hint>.");
-        $this->assertEquals("An [[hint:old_hint]] and [[hint:older_hint]].", 
+        $this->assertEquals("An [[hint:old_hint]] and [[hint:older_hint]].",
                 $hint->legacy_convert());
     }
 }

@@ -228,7 +228,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $k=0;
         $session_vars = array();
-        foreach($test_cases as $test => $result) {
+        foreach ($test_cases as $test => $result) {
             $cs = new stack_cas_casstring($test);
             $cs->validate('t', false, 2);
             $key = 'v'.$k;
@@ -245,7 +245,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $k=0;
         $session_vars = array();
-        foreach($test_cases as $test => $result) {
+        foreach ($test_cases as $test => $result) {
             $this->assertEquals($at1->get_value_key('v'.$k), $result);
             $k++;
         }

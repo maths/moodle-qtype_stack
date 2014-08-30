@@ -304,7 +304,6 @@ abstract class stack_input {
 
             $session = $session->get_session();
             $answer = $session[0];
-            $interpretedanswer = $answer->get_casstring();
 
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {
@@ -314,6 +313,7 @@ abstract class stack_input {
                 $valid = false;
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
+                $interpretedanswer = $answer->get_value();
             }
         }
 

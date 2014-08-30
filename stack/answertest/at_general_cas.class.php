@@ -113,7 +113,7 @@ class stack_answertest_general_cas extends stack_anstest {
                 // Validate with teacher privileges, strict syntax & no automatically adding stars.
                 $ct  = new stack_cas_casstring($this->atoption);
 
-                if (!$ct->get_valid('t', true, true)) {
+                if (!$ct->get_valid('t', true, 1)) {
                     $this->aterror      = 'TEST_FAILED';
                     $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
                     $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $ct->get_errors()));
@@ -145,7 +145,7 @@ class stack_answertest_general_cas extends stack_anstest {
         $cts = array();
         foreach ($cascommands as $com) {
             $cs    = new stack_cas_casstring($com);
-            $cs->validate('t', true, false);
+            $cs->validate('t', true, 0);
             $cts[] = $cs;
         }
 

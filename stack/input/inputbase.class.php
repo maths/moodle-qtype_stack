@@ -177,7 +177,7 @@ abstract class stack_input {
                 break;
 
             case 'insertStars':
-                $valid = is_bool($value);
+                $valid = is_numeric($value);
                 break;
 
             case 'forbidFloats':
@@ -375,7 +375,7 @@ abstract class stack_input {
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
             $answer->validate('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', false), $allowwords);
+                    $this->get_parameter('insertStars', 0), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {

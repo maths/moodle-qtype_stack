@@ -178,7 +178,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $rawcastext = '\[\begin{array}{rcl} & =& @Ax2@ + @double_cAx@ + @c2A@ + @Bx2@ + @cBx@ + @Cx@,\\ & =' .
                 '& @ApBx2@ + @xterm@ + @c2A@. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
                 '& @a@\,\\ @double_cA + cB@ + C& =& 0,\\ @Ac2@& =& @b@. \end{array}\]';
-        $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, true);
+        $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, 0);
 
         $this->assertFalse($at1->get_valid());
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .

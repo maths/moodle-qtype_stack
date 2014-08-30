@@ -8,7 +8,7 @@ For example, it might be a form box into which the student enters their answer.
   statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
 * Inputs can be positioned anywhere within the
-  [question text](CASText.md#question_text).  If JSMath is used for display this includes within equations.  MathJax does not currently support this feature.
+  [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
 
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 
@@ -56,7 +56,7 @@ Simple drop down. A Boolean value is assigned to the variable name.
 
 #### Single Character ####
 
-A single letter can be entered.  This is useful for creating multiple choice questions.
+A single letter can be entered.  This is useful for creating multiple choice questions, but is not used regularly.
 
 #### Text area ####
 
@@ -193,32 +193,6 @@ Feedback to students is in two forms.
 
 Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.
 
-### Options ### {#Options}
-
-Different types of inputs have various options.   These are described under the IE type.
-
-### List {#List}
-
-This allows the following kinds of interactions to be included in STACK questions.
-
-* Radio buttons.
-* Dropdown lists.
-* Check boxes.
-
-The teacher can choose to construct an input which displays a random selection,
-in a random order, from a list of potential "distractors".  The top element, named "Correct answer",
-is always included, although this isn't really needed for the checkbox type.
-
-You have to enter a content form ([maxima](../CAS/Maxima.md) format) and displayed form
-(i.e. [CASText](CASText.md)) for each of these.  Both may depend on the question variables.
-
-STACK will automatically add space to ensure you have at least two blank distractors when
-you update the question. In the case of the radio button or dropdown list a single expression will be returned.
-In the case of the check boxes, we return a list of expressions.  Note,
-
-* The model answer in the input needs to be a list of objects, even if only one is correct.
-* The order of elements in this list is not certain, because we display them in a random order to students.
-  It will be necessary to `setify()` this to compare with a set of answers without order becoming a problem.
 
 ## Future plans ##
 
@@ -228,5 +202,6 @@ Adding new inputs should be a straightforward job for the developers.  We have p
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.
 | GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.
+| MCQs      | Add in check boxes and radio boxes as an input type to enable randomly generated multiple choice questions.
 
 The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

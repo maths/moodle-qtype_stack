@@ -60,7 +60,7 @@ class stack_cas_text {
     /** @var bool whether to do strict syntax checks. */
     private $syntax;
 
-    public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
 
         if (!is_string($rawcastext)) {
             throw new stack_exception('stack_cas_text: raw_castext must be a STRING.');
@@ -90,8 +90,8 @@ class stack_cas_text {
             throw new stack_exception('stack_cas_text: 5th argument, stringSyntax, must be Boolean.');
         }
 
-        if (!is_bool($insertstars)) {
-            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be Boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be an integer.');
         }
 
         $this->security    = $security;
@@ -241,7 +241,7 @@ class stack_cas_text {
                 $cmd = stack_utils::trim_commands($cmd);
 
                 $cs = new stack_cas_casstring($cmd);
-                $cs->validate($this->security, $this->insertstars, $this->syntax);
+                $cs->validate($this->security, $this->syntax, $this->insertstars);
 
                 do { // ... make sure names are not already in use.
                     $key = 'caschat'.$i;

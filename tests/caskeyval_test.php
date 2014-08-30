@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function get_valid($s, $val, $session) {
-        $kv = new stack_cas_keyval($s, null, 123, 's', true, false);
+        $kv = new stack_cas_keyval($s, null, 123, 's', true, 0);
         $kv->instantiate();
         $this->assertEquals($val, $kv->get_valid());
 
@@ -81,12 +81,12 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_empty_case_1() {
-        $at1 = new stack_cas_keyval('', null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval('', null, 123, 's', true, 0);
         $this->assertTrue($at1->get_valid());
     }
 
     public function test_equations_1() {
-        $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1', null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval('ta1 : x=1; ta2 : x^2-2*x=1', null, 123, 's', true, 0);
         $at1->instantiate();
         $s = $at1->get_session();
         $this->assertEquals($s->get_value_key('ta1'), 'x = 1');
@@ -94,7 +94,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_remove_comment() {
-        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, 0);
         $this->assertTrue($at1->get_valid());
 
         $a3 = array('a:1', 'c:3');
@@ -112,7 +112,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_remove_comment_fail() {
-        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval("a:1\n /* This is a comment \n b:2\n */\n c:3", null, 123, 's', true, 0);
         $this->assertTrue($at1->get_valid());
 
         $a3 = array('a:1', 'c:4');
@@ -131,7 +131,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function test_keyval_session_keyval_0() {
         $kvin = "";
-        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, 0);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
         $this->assertEquals($kvin, $kvout);
@@ -139,7 +139,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function test_keyval_session_keyval_1() {
         $kvin = "a:1; c:3;";
-        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, 0);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
         $this->assertEquals($kvin, $kvout);
@@ -148,7 +148,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     public function test_keyval_session_keyval_2() {
         // Equation and function.
         $kvin = "ans1:x^2-2*x=1; f(x):=x^2; sin(x^3);";
-        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, false);
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, 0);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
         $this->assertEquals($kvin, $kvout);
@@ -158,7 +158,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         // Inserting stars.
         $kvin  = "a:2x; b:(x+1)(x-1); b:f(x);";
         $kvins = "a:2*x; b:(x+1)*(x-1); b:f(x);";
-        $at1 = new stack_cas_keyval($kvin, null, 123, 's', false, true);
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', false, 1);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
 
@@ -174,36 +174,36 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 class stack_cas_keyval_exception_test extends basic_testcase {
     public function test_exception_1() {
         $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_keyval(array(), false, false, false);
+        $at1 = new stack_cas_keyval(array(), false, false, 0);
     }
 
     public function test_exception_2() {
         $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_keyval(1, false, false, false);
+        $at1 = new stack_cas_keyval(1, false, false, 0);
     }
 
     public function test_exception_3() {
         $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_keyval('x=1', false, false, false);
+        $at1 = new stack_cas_keyval('x=1', false, false, 0);
     }
 
     public function test_exception_4() {
         $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_keyval('x=1', null, false, false);
+        $at1 = new stack_cas_keyval('x=1', null, false, 0);
     }
 
     public function test_exception_5() {
         $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_keyval('x=1', 'z', false, false);
+        $at1 = new stack_cas_keyval('x=1', 'z', false, 0);
     }
 
     public function test_exception_6() {
         $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_keyval('x=1', 't', 1, false);
+        $at1 = new stack_cas_keyval('x=1', 't', 1, 0);
     }
 
     public function test_exception_7() {
         $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_keyval('x=1', 't', false, 1);
+        $at1 = new stack_cas_keyval('x=1', 't', false, true);
     }
 }

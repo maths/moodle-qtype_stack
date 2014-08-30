@@ -1149,7 +1149,7 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'modelans'}           = $format->getpath($xml, array('#', 'tans', 0, '#'), '');
         $fromform->{$name . 'boxsize'}            = $format->getpath($xml, array('#', 'boxsize', 0, '#'), 15);
         $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, array('#', 'strictsyntax', 0, '#'), 1);
-        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', '', 0, '#'), 0);
+        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', 'insertstars', 0, '#'), 0);
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
         $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
         $fromform->{$name . 'allowwords'}         = $format->getpath($xml, array('#', 'allowwords', 0, '#'), '');

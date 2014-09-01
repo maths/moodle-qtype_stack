@@ -84,5 +84,11 @@ abstract class qtype_stack_test_config {
         if (stack_cas_configuration::maxima_bat_is_missing()) {
             stack_cas_configuration::create_maximalocal();
         }
+
+        // Create the required directories inside moodledata.
+        make_upload_directory('stack');
+        make_upload_directory('stack/logs');
+        make_upload_directory('stack/plots');
+        make_upload_directory('stack/tmp');
     }
 }

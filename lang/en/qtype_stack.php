@@ -33,8 +33,6 @@ $string['pluginnamesummary'] = 'STACK provides mathematical questions for the Mo
 $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';
 $string['exceptionmessage'] = '{$a}';
-$string['No'] = 'No';
-$string['Yes'] = 'Yes';
 
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
@@ -136,7 +134,9 @@ $string['inputtypematrix'] = 'Matrix';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to false then no stars will be inseted.  If set to yes then the system will automatically insert stars into any patterns identified by Strict Syntax.  If set to "single char vars" then we assume the answer has variable names consisting only of single letter variable names.  Other variable names will have stars inserted between the letters, e.g. ab->a*b';
 $string['insertstars_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';
-$string['singlecharvars'] = 'Single char vars';
+$string['insertstarsno'] = 'Don\'t insert stars ';
+$string['insertstarsyes'] = 'Insert stars for implied mulitplication';
+$string['insertstarsassumesinglechar'] = 'Insert stars assuming single-characer variable names';
 $string['multiplicationsign'] = 'Multiplication sign';
 $string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
 $string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';

@@ -90,9 +90,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->specificfeedback = $this->hint_legacy_convert($question->specificfeedback);
 
         if (is_array($question->prts)) {
-            foreach($question->prts as $prtname => $prt) {
+            foreach ($question->prts as $prtname => $prt) {
                 if (is_array($prt->nodes)) {
-                    foreach($prt->nodes as $nodename => $node) {
+                    foreach ($prt->nodes as $nodename => $node) {
                         $node->truefeedback  = $this->hint_legacy_convert($node->truefeedback);
                         $node->falsefeedback = $this->hint_legacy_convert($node->falsefeedback);
                     }
@@ -104,10 +104,10 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
-    * Replace any <hint> delimiters in the question text from the
-    * form with the recommended delimiters.
-    * @param string $text Input to convert.
-    */
+     * Replace any <hint> delimiters in the question text from the
+     * form with the recommended delimiters.
+     * @param string $text Input to convert.
+     */
     private function hint_legacy_convert($text) {
         $text = htmlspecialchars_decode($text);
         if (strstr($text, '<hint>')) {
@@ -490,10 +490,7 @@ class qtype_stack_edit_form extends question_edit_form {
                         'text' => $this->stackconfig->prtincorrect));
 
         $mform->addElement('select', 'multiplicationsign',
-                stack_string('multiplicationsign'), array(
-                    'dot'   => stack_string('multdot'),
-                    'cross' => stack_string('multcross'),
-                    'none'  => get_string('none')));
+                stack_string('multiplicationsign'), stack_options::get_multiplication_sign_options());
         $mform->setDefault('multiplicationsign', $this->stackconfig->multiplicationsign);
         $mform->addHelpButton('multiplicationsign', 'multiplicationsign', 'qtype_stack');
 
@@ -503,20 +500,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('sqrtsign', 'sqrtsign', 'qtype_stack');
 
         $mform->addElement('select', 'complexno',
-                stack_string('complexno'), array(
-                    'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
+                stack_string('complexno'), stack_options::get_complex_no_options());
         $mform->setDefault('complexno', $this->stackconfig->complexno);
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
 
         $mform->addElement('select', 'inversetrig',
-                stack_string('inversetrig'), array(
-                    'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+                stack_string('inversetrig'), stack_options::get_inverse_trig_options());
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
         $mform->addElement('select', 'matrixparens',
-                stack_string('matrixparens'), array(
-                    '[' => "[", '(' => '(', '' => '', '{' => '{', '|' => '|'));
+                stack_string('matrixparens'), stack_options::get_matrix_parens_options());
         $mform->setDefault('matrixparens', $this->stackconfig->matrixparens);
         $mform->addHelpButton('matrixparens', 'matrixparens', 'qtype_stack');
 
@@ -565,9 +559,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
         $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
 
-        $insertstar_choices = array(0=>stack_string('No'), 1=>stack_string('Yes'), 2=>stack_string('singlecharvars'));
         $mform->addElement('select', $inputname . 'insertstars',
-                stack_string('insertstars'), $insertstar_choices);
+                stack_string('insertstars'), stack_options::get_insert_star_options());
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 

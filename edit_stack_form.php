@@ -85,13 +85,19 @@ class qtype_stack_edit_form extends question_edit_form {
 
     /** Patch up data from the database before a user edits it in the form. */
     public function set_data($question) {
-        $question->questiontext     = $this->hint_legacy_convert($question->questiontext);
-        $question->generalfeedback  = $this->hint_legacy_convert($question->generalfeedback);
-        $question->specificfeedback = $this->hint_legacy_convert($question->specificfeedback);
+        if (!empty($question->questiontext)) {
+            $question->questiontext = $this->hint_legacy_convert($question->questiontext);
+        }
+        if (!empty($question->generalfeedback)) {
+            $question->generalfeedback = $this->hint_legacy_convert($question->generalfeedback);
+        }
+        if (!empty($question->specificfeedback)) {
+            $question->specificfeedback = $this->hint_legacy_convert($question->specificfeedback);
+        }
 
-        if (is_array($question->prts)) {
+        if (!empty($question->prts)) {
             foreach ($question->prts as $prtname => $prt) {
-                if (is_array($prt->nodes)) {
+                if (!empty($prt->nodes)) {
                     foreach ($prt->nodes as $nodename => $node) {
                         $node->truefeedback  = $this->hint_legacy_convert($node->truefeedback);
                         $node->falsefeedback = $this->hint_legacy_convert($node->falsefeedback);

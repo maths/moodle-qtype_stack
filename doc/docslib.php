@@ -138,7 +138,7 @@ function stack_docs_render_markdown($page, $docscontent) {
     $page = str_replace('\%CONTENT', '%CONTENT', $page);
     $page = stack_maths::pre_process_docs_page($page);
     $page = stack_process_markdown($page);
-    if (strpos($page, '[[ALL_HINTS]]')>0) {
+    if (strpos($page, '[[ALL_HINTS]]') > 0) {
         $hint = new stack_hints('');
         $page = str_replace('[[ALL_HINTS]]', $hint->gen_docs(), $page);
     }

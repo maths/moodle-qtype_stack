@@ -895,24 +895,24 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-    * @return qtype_stack_question a very elementary question.
-    */
+     * @return qtype_stack_question a very elementary question.
+     */
     public static function make_stack_question_single_char_vars() {
         $q = self::make_a_stack_question();
-    
+
         $q->name = 'single_char_vars';
         $q->questionvariables = 'a:sin(x*y);';
         $q->questiontext = 'What is @a@? [[input:ans1]]
                                [[validation:ans1]]';
-    
+
         $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.3; // Non-zero and not the default.
-    
+
         $q->inputs['ans1'] = stack_input_factory::make(
                     'algebraic', 'ans1', '2', array('boxWidth' => 5, 'insertStars' => 2, 'strictSyntax' => false));
-    
+
         $q->options->questionsimplify = 0;
-    
+
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('sin(x*y)');
@@ -921,7 +921,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
-    
+
         return $q;
     }
 

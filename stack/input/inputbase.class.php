@@ -295,7 +295,7 @@ abstract class stack_input {
             }
 
             $singlevarchars = false;
-            if (2==$this->get_parameter('insertStars', 0)) {
+            if (2 == $this->get_parameter('insertStars', 0)) {
                 $singlevarchars = true;
             }
 

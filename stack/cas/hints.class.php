@@ -52,10 +52,10 @@ class stack_hints {
     /* Check each hint tag actually corresponds to a valid hint. */
     public function validate() {
         $strin = $this->text;
-        $html_match = $this->get_hint_tags();
-        if ($html_match) {
+        $htmlmatch = $this->get_hint_tags();
+        if ($htmlmatch) {
             $errors = array();
-            foreach ($html_match as $val) {
+            foreach ($htmlmatch as $val) {
                 if (false === array_search($val, self::$hints)) {
                     $errors[] = $val;
                 }
@@ -68,36 +68,27 @@ class stack_hints {
     }
 
     private function get_hint_tags() {
-        if (preg_match_all('|\[\[hint:(.*)\]\]|U', $this->text, $html_match)) {
-            return $html_match[1];
+        if (preg_match_all('|\[\[hint:(.*)\]\]|U', $this->text, $htmlmatch)) {
+            return $htmlmatch[1];
         }
         return false;
     }
 
-    /* This function repaces tags with they HTML value.
+    /**
+     * This function repaces tags with they HTML value.
      * Note, that at this point we assume we have already validated the text.
      */
     public function display() {
 
         $strin = $this->text;
-        $html_match = $this->get_hint_tags();
-        if ($html_match) {
+        $htmlmatch = $this->get_hint_tags();
+        if ($htmlmatch) {
             global $CFG;
             $stackurl = $CFG->wwwroot . '/question/type/stack/';
 
-            //$modal_script= "<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js?ver=1.4.3'></script><script type='text/javascript' src='".$stackurl."jquery.simplemodal.1.4.3.min.js'></script>";
-            //$strin = $modal_script.$strin; // prepend script
-            foreach ($html_match as $val) {
+            foreach ($htmlmatch as $val) {
                 if (false !== array_search($val, self::$hints)) {
                     $sr = '[[hint:'.$val.']]';
-                    /*
-                    //This uses a popup button to display the hint. 
-                    //Currently not working.
-                    $rep = $this->modal_popup(stack_string($val.'_name'),
-                            stack_string($val.'_fact'),//body
-                            'Hint' //label on button
-                           );
-                    */
                     $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                        stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
                     $strin = str_replace($sr, $rep, $strin);
@@ -109,22 +100,11 @@ class stack_hints {
         return $strin;
     }
 
-    // Generate a random string (letters and numbers) of length $length
-    private function genRandomString($length) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $string = '';
-        for ($p = 0; $p < $length; $p++) {
-            $string .= $characters[mt_rand(0, strlen($characters)-1)];
-        }
-        return $string;
-    }
-
     private function modal_popup($header, $body, $buttonlabel) {
         global $CFG;
         $stackurl = $CFG->wwwroot . '/question/type/stack/';
 
-        $hint = $this->genRandomString(10);
-        //   <!--<img align="middle" border="0" alt="Hint?" src="'.$stackurl.'pix/help.png" />-->
+        $hint = random_string(10);
         return
         '<span id="'.$hint.'">
    <input type="button"  value="'.$buttonlabel.'" class="modal-button"/>
@@ -141,22 +121,24 @@ class stack_hints {
 <script>$("#'.$hint.'").click(function(e) {$("#'.$hint.'2").modal(); return false;});</script>';
     }
 
-    /* This function converts the old style html tags to the new hint
+    /**
+     * This function converts the old style html tags to the new hint
      * system using square brackets.
      */
     public function legacy_convert() {
-        preg_match_all('|<hint>(.*)</hint>|U', $this->text, $html_match);
-        foreach($html_match[1] as $key => $val) {
-            $old = $html_match[0][$key];
+        preg_match_all('|<hint>(.*)</hint>|U', $this->text, $htmlmatch);
+        foreach ($htmlmatch[1] as $key => $val) {
+            $old = $htmlmatch[0][$key];
             $new = '[[hint:'.trim($val).']]';
             $this->text = str_replace($old, $new, $this->text);
         }
         return $this->text;
     }
 
-    /* This function returns the html to insert into the documentaion. 
+    /**
+     * This function returns the html to insert into the documentaion.
      * It ensures that all/only the current tags are included in the docs.
-     * Note, docs are usually in markdown, but we have html here because 
+     * Note, docs are usually in markdown, but we have html here because
      * hints are part of castext.
      */
     public function gen_docs() {

@@ -76,13 +76,6 @@ $simp   = optional_param('simp', '', PARAM_RAW);
 // Very useful for converting existing text for use elswhere in Moodle, such as in pages of text.
 $string = stack_maths::replace_dollars($string);
 
-/* Convert any old hints tags into the new format. */
-$found = stack_utils::substring_between($string, '<hint>', '</hint>');
-if ($found[1] >= 0) {
-    $hints = new stack_hints($string);
-    $string = $hints->legacy_convert();
-}
-
 // Sort out simplification.
 if ('on' == $simp) {
     $simp = true;

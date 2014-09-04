@@ -86,21 +86,21 @@ class qtype_stack_edit_form extends question_edit_form {
     /** Patch up data from the database before a user edits it in the form. */
     public function set_data($question) {
         if (!empty($question->questiontext)) {
-            $question->questiontext = $this->hint_legacy_convert($question->questiontext);
+            $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
         }
         if (!empty($question->generalfeedback)) {
-            $question->generalfeedback = $this->hint_legacy_convert($question->generalfeedback);
+            $question->generalfeedback = $this->convert_legacy_fact_sheets($question->generalfeedback);
         }
         if (!empty($question->specificfeedback)) {
-            $question->specificfeedback = $this->hint_legacy_convert($question->specificfeedback);
+            $question->specificfeedback = $this->convert_legacy_fact_sheets($question->specificfeedback);
         }
 
         if (!empty($question->prts)) {
             foreach ($question->prts as $prtname => $prt) {
                 if (!empty($prt->nodes)) {
                     foreach ($prt->nodes as $nodename => $node) {
-                        $node->truefeedback  = $this->hint_legacy_convert($node->truefeedback);
-                        $node->falsefeedback = $this->hint_legacy_convert($node->falsefeedback);
+                        $node->truefeedback  = $this->convert_legacy_fact_sheets($node->truefeedback);
+                        $node->falsefeedback = $this->convert_legacy_fact_sheets($node->falsefeedback);
                     }
                 }
             }
@@ -110,17 +110,12 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
-     * Replace any <hint> delimiters in the question text from the
+     * Replace any <hint> delimiters in the given text from the
      * form with the recommended delimiters.
-     * @param string $text Input to convert.
+     * @param string $text input to convert.
      */
-    private function hint_legacy_convert($text) {
-        $text = htmlspecialchars_decode($text);
-        if (strstr($text, '<hint>')) {
-            $hints = new stack_hints($text);
-            $text = $hints->legacy_convert();
-        }
-        return $text;
+    protected function convert_legacy_fact_sheets($text) {
+        return stack_fact_sheets::convert_legacy_tags($text);
     }
 
     /**
@@ -1266,6 +1261,15 @@ class qtype_stack_edit_form extends question_edit_form {
             $errors[$fieldname][] = $castext->get_errors();
             return $errors;
         }
+
+        // Validate any [[facts:...]] tags.
+        $unrecognisedtags = stack_fact_sheets::get_unrecognised_tags($value);
+        if ($unrecognisedtags) {
+            $errors[$fieldname][] = stack_string('unrecognisedfactstags',
+                    array('tags' => implode(', ', $unrecognisedtags)));
+            return $errors;
+        }
+
         if ($session) {
             $display = $castext->get_display_castext();
             if ($castext->get_errors()) {

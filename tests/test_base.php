@@ -58,7 +58,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
                     'To run the STACK unit tests, you must set up the Maxima configuration in phpunit.xml.');
         }
 
-        qtype_stack_test_config::setup_test_maxima_connection($testcase);
+        qtype_stack_test_config::setup_test_maxima_connection();
     }
 }
 

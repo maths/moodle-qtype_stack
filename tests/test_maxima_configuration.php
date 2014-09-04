@@ -41,7 +41,7 @@ abstract class qtype_stack_test_config {
      * Helper that sets up the maxima configuration. This allows maxima to be used
      * from test classes that cannot subclass this one, for whatever reason.
      */
-    public static function setup_test_maxima_connection($testcase) {
+    public static function setup_test_maxima_connection() {
         global $CFG;
 
         if (!self::is_test_config_available()) {

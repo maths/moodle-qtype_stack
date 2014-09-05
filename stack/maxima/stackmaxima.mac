@@ -535,7 +535,7 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs],
+    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake],
     /* Arguments to plot must be lists */
     ral:sublist(ra, listp), /* The actual arguments used by plot */
     /* Check expressions to be plotted has/have only one variable. */
@@ -590,8 +590,8 @@ set output ",afn),
     set_plot_option([gnuplot_preamble, preamble]),
     /* Create and execute the actual plot commands */
     pltargs:append([ex], ral),
-    p:funmake(plot2d, pltargs),
-    ev(p),
+    plotfunmake:funmake(plot2d, pltargs),
+    ev(plotfunmake),
     sysp:concat(GNUPLOT_CMD, " ", tfn),
     sysr:concat(DEL_CMD, " ", tfn),
     system(sysp),

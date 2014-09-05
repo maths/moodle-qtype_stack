@@ -15,6 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
+require_once(__DIR__ . '/fact_sheets.class.php');
+
+
 /**
  * The base class for STACK maths output methods.
  *
@@ -74,14 +77,19 @@ abstract class stack_maths_output {
      * the question text or general feedback. The result of calling this method is
      * then passed to Moodle's {@link format_text()} function.
      * @param string $text the content to process.
+     * @param qtype_stack_renderer $renderer (options) the STACK renderer, if you have one.
      * @return string the content ready to pass to format_text.
      */
-    public function process_display_castext($text, $replacedollars) {
+    public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null) {
         if ($replacedollars) {
             $text = $this->replace_dollars($text);
         }
+
         $text = str_replace('!ploturl!',
                 moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $text);
+
+        $text = stack_fact_sheets::display($text, $renderer);
+
         return $text;
     }
 

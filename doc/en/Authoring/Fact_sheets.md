@@ -6,10 +6,10 @@ Hints can be included in any [castext](CASText.md).
 
 To include a hint, use the syntax
 
-    [[hint:tag]]
-    
+    [[facts:tag]]
+
 The "tag" is chosen from the list below.
 
-## All supported hints
+## All supported fact sheets
 
-[[ALL_HINTS]]
+[[ALL_FACTS]]

@@ -20,9 +20,8 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once('cassession.class.php');
-require_once('casstring.class.php');
-require_once('hints.class.php');
+require_once(__DIR__ . '/cassession.class.php');
+require_once(__DIR__ . '/casstring.class.php');
 
 
 class stack_cas_text {
@@ -175,20 +174,6 @@ class stack_cas_text {
             }
         }
 
-        $hints = new stack_hints($this->trimmedcastext);
-        // Quietly convert old <hint>s without complaining or throwing an error.
-        $found = stack_utils::substring_between($this->trimmedcastext, '<hint>', '</hint>');
-        if ($found[1] > 0) {
-            $this->trimmedcastext = $hints->legacy_convert();
-            $hints = new stack_hints($this->trimmedcastext);
-        }
-        $hintsvalidation = $hints->validate();
-        if (true !== $hintsvalidation) {
-            $this->valid = false;
-            $this->errors .= stack_string('stackHint',
-                    array('hints' => implode(', ', $hintsvalidation)));
-        }
-
         // Perform validation on the existing session.
         if (null != $this->session) {
             if (!$this->session->get_valid()) {
@@ -290,13 +275,6 @@ class stack_cas_text {
             $this->session->instantiate();
             $this->errors .= $this->session->get_errors();
         }
-
-        // Replaces the old "hints" filter from STACK 2.0.
-        // These strings are now part of the regular language files.
-        // Code updated by Niels Walet, Feb 2013.
-        $strin = $this->trimmedcastext;
-        $hints = new stack_hints($strin);
-        $this->trimmedcastext = $hints->display();
 
         $this->castext = stack_utils::wrap_around($this->trimmedcastext);
         if (null !== $this->session) {

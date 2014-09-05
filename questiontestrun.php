@@ -220,6 +220,7 @@ if ($question->has_random_variants()) {
 }
 
 // Display the question.
+$renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $quba->render_question($slot, $options);
 
@@ -241,7 +242,7 @@ echo html_writer::end_tag('div');
 // Display the general feedback, aka "Worked solution".
 $qa = new question_attempt($question, 0);
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
-echo html_writer::tag('div', html_writer::tag('div', $question->format_generalfeedback($qa),
+echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback($qa),
         array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
 // Add a link to the cas chat to facilitate editing the general feedback.

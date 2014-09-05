@@ -515,8 +515,6 @@ $string['stackCas_tooLong']                 = 'CASText statement is too long. ';
 $string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign. ';
 $string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
 $string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';
-$string['stackCas_MissingOpenHint']         = 'Missing opening hint. ';
-$string['stackCas_MissingClosingHint']      = 'Missing square bracket to close hint.';
 $string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>. ';
 $string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>. ';
 $string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>. ';
@@ -527,8 +525,8 @@ $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
-$string['stackHint']                        = 'The following hint tag(s) are not recognized: {$a->hints}.';
-$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[hint:tag]]</pre>';
+$string['unrecognisedfactstags']            = 'The following facts tag(s) are not recognized: {$a->tags}.';
+$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
@@ -688,7 +686,7 @@ $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 
 
-// Hints system.
+// Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';
 $string['greek_alphabet_fact'] = '
 <center>

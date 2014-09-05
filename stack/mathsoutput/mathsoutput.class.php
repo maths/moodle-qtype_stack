@@ -47,11 +47,12 @@ class stack_maths {
      * the question text or general feedback. The result of calling this method is
      * then passed to Moodle's {@link format_text()} function.
      * @param string $text the content to process.
+     * @param qtype_stack_renderer $renderer (options) the STACK renderer, if you have one.
      * @return string the content ready to pass to format_text.
      */
-    public static function process_display_castext($text) {
+    public static function process_display_castext($text, qtype_stack_renderer $renderer = null) {
         return self::get_output()->process_display_castext($text,
-                stack_utils::get_config()->replacedollars);
+                stack_utils::get_config()->replacedollars, $renderer);
     }
 
     /**

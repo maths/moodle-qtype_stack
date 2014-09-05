@@ -349,6 +349,8 @@ class stack_answertest_test_data {
         array('Expanded', 'x^2-(a+b)*x+a*b', '0', 0, '', ''),
         array('Expanded', 'x^2-a*x-b*x+a*b', '0', 1, '', ''),
         array('Expanded', 'cos(2*x)', '0', 1, '', ''),
+        array('Expanded', 'p+1', '0', 1, '', ''),
+        array('Expanded', '(p+1)*(p-1)', '0', 0, '', ''),
         array('Expanded', '(a-x)^6000', '0', -2, '', 'This fails, but you are never going to ask students to do this anyway...'),
 
         // Factored form.

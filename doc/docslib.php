@@ -29,7 +29,7 @@ global $CFG;
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
-require_once(__DIR__ . '/../stack/cas/hints.class.php');
+require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
 
 
 /**
@@ -138,9 +138,8 @@ function stack_docs_render_markdown($page, $docscontent) {
     $page = str_replace('\%CONTENT', '%CONTENT', $page);
     $page = stack_maths::pre_process_docs_page($page);
     $page = stack_process_markdown($page);
-    if (strpos($page, '[[ALL_HINTS]]')>0) {
-        $hint = new stack_hints('');
-        $page = str_replace('[[ALL_HINTS]]', $hint->gen_docs(), $page);
+    if (strpos($page, '[[ALL_FACTS]]') > 0) {
+        $page = str_replace('[[ALL_FACTS]]', stack_fact_sheets::generate_docs(), $page);
     }
     $page = stack_maths::post_process_docs_page($page);
     return $page;

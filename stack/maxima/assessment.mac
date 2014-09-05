@@ -1,6 +1,6 @@
 /*  Author Chris Sangwin
-    University of Birmingham
-    Copyright (C) 2013 Chris Sangwin
+    Loughborough University
+    Copyright (C) 2014 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -18,7 +18,7 @@
 /*  An assessment package for Maxima                            */
 /*                                                              */
 /*  Chris Sangwin, <chris@sangwin.com>                          */
-/*  V0.5 January 2012                                           */
+/*  V0.6 September 2014                                           */
 /*                                                              */
 /****************************************************************/
 
@@ -564,23 +564,24 @@ ATEqualComAss(sa,sb) :=
 
 /* expandp(p) is true if p equals its expanded form.                 */
 /* Use ev with the expand option to limit expansion of large powers .*/
-expandp(p):= block([simp:true], if p=ev(expand(p),expand(1000,1000)) then true else false)$
+/* The use of a strange argument to this function is caused by an extra evaluation within the function body.*/
+expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),expand(1000,1000)) then true else false)$
 
 /* factorp(p) is true if p equals its factored form */
-factorp(p) := block([a],
-    if ev(p=factor(p), simp) then 
+factorp(argfac) := block([a],
+    if ev(argfac=factor(argfac), simp) then 
         return(true),
-    if mapatom(p) then 
+    if mapatom(argfac) then 
         return(false),
     /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
-    if ev(-1*factor(p) = expand(-1*p), simp) then 
+    if ev(-1*factor(argfac) = expand(-1*argfac), simp) then 
         return(true),
-    if op(p)="^" and mapatom(part(p, 1)) 
+    if op(argfac)="^" and mapatom(part(argfac, 1)) 
         then return(true),
-    if op(p)="^" and factorp(part(p, 1)) then
+    if op(argfac)="^" and factorp(part(argfac, 1)) then
         return(true),
-    if op(p)="*" then 
-        return(all_listp(factorp, args(p))),
+    if op(argfac)="*" then 
+        return(all_listp(factorp, args(argfac))),
     return(false)
 )$
 

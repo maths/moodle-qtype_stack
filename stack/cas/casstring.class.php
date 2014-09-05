@@ -448,7 +448,7 @@ class stack_cas_casstring {
      * $insertstars is whether we actually put stars into the places we expect them to go
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
-    public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
+    public function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
 
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
@@ -458,8 +458,8 @@ class stack_cas_casstring {
             throw new stack_exception('stack_cas_casstring: syntax, must be Boolean.');
         }
 
-        if (!is_bool($insertstars)) {
-            throw new stack_exception('stack_cas_casstring: insertstars, must be Boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_casstring: insertstars, must be an integer.');
         }
 
         $this->valid     = true;
@@ -1055,7 +1055,7 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security='s', $syntax=true, $insertstars=false) {
+    public function get_valid($security='s', $syntax=true, $insertstars=0) {
         if (null === $this->valid) {
             $this->validate($security, $syntax, $insertstars);
         }
@@ -1148,9 +1148,10 @@ class stack_cas_casstring {
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null, $allowwords='') {
+    public function set_cas_validation_casstring($key, $forbidfloats = true,
+                    $lowestterms = true, $singlecharvars = false, $tans = null, $allowwords = '') {
         if (null === $this->valid) {
-            $this->validate('s', true, false, $allowwords);
+            $this->validate('s', true, 0, $allowwords);
         }
         if (false === $this->valid) {
             return false;
@@ -1169,6 +1170,10 @@ class stack_cas_casstring {
             $lowestterms = 'true';
         } else {
             $lowestterms = 'false';
+        }
+
+        if ($singlecharvars) {
+            $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
         }
 
         if (null === $tans) {

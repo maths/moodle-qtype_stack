@@ -177,7 +177,7 @@ abstract class stack_input {
                 break;
 
             case 'insertStars':
-                $valid = is_bool($value);
+                $valid = is_numeric($value);
                 break;
 
             case 'forbidFloats':
@@ -293,8 +293,15 @@ abstract class stack_input {
             if (!$this->get_parameter('sameType')) {
                 $teacheranswer = null;
             }
+
+            $singlevarchars = false;
+            if (2 == $this->get_parameter('insertStars', 0)) {
+                $singlevarchars = true;
+            }
+
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
+                    $singlevarchars,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
@@ -312,6 +319,7 @@ abstract class stack_input {
                 $valid = false;
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
+                $interpretedanswer = $answer->get_value();
             }
         }
 
@@ -373,7 +381,7 @@ abstract class stack_input {
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
             $answer->validate('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', false), $allowwords);
+                    $this->get_parameter('insertStars', 0), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {

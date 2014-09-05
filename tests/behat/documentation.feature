@@ -12,3 +12,7 @@ Feature: STACK has build in documentation.
     When I navigate to "STACK" node in "Site administration > Plugins > Question types"
     And I follow "Documentation for STACK"
     Then I should see "Welcome to the official user documentation for the STACK project."
+    When I follow "Site map"
+    Then I should see "Directory structure"
+    When I follow "Fact sheets"
+    Then I should see "[[facts:calc_int_methods_parts]]"

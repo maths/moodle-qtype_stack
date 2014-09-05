@@ -33,7 +33,7 @@ Basic reports now work.
 * *done* Reject things like sin*(x) and sin^2(x) as invalid
 * *done* Expand the numerical tests
 * *done* Provide a new option on how parentheses are displayed for matrices
-* Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
+* *done* Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
 
 ## Assorted minor improvements
 

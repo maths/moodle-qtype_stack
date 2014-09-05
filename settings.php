@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/settingslib.php');
+require_once(__DIR__ . '/stack/options.class.php');
 
 
 // Useful links.
@@ -125,17 +126,13 @@ $settings->add(new admin_setting_configtext('qtype_stack/inputboxsize',
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputstrictsyntax',
         get_string('strictsyntax', 'qtype_stack'),
-        get_string('strictsyntax_help', 'qtype_stack'), '1', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('strictsyntax_help', 'qtype_stack'), '1',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputinsertstars',
         get_string('insertstars', 'qtype_stack'),
-        get_string('insertstars_help', 'qtype_stack'), '0', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('insertstars_help', 'qtype_stack'), '0',
+        stack_options::get_insert_star_options()));
 
 $settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',
         get_string('forbidwords', 'qtype_stack'),
@@ -143,38 +140,28 @@ $settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputforbidfloat',
         get_string('forbidfloat', 'qtype_stack'),
-        get_string('forbidfloat_help', 'qtype_stack'), '1', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('forbidfloat_help', 'qtype_stack'), '1',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputrequirelowestterms',
         get_string('requirelowestterms', 'qtype_stack'),
-        get_string('requirelowestterms_help', 'qtype_stack'), '0', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('requirelowestterms_help', 'qtype_stack'), '0',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputcheckanswertype',
         get_string('checkanswertype', 'qtype_stack'),
-        get_string('checkanswertype_help', 'qtype_stack'), '0', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('checkanswertype_help', 'qtype_stack'), '0',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputmustverify',
         get_string('mustverify', 'qtype_stack'),
-        get_string('mustverify_help', 'qtype_stack'), '1', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('mustverify_help', 'qtype_stack'), '1',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inputshowvalidation',
         get_string('showvalidation', 'qtype_stack'),
-        get_string('showvalidation_help', 'qtype_stack'), '1', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('showvalidation_help', 'qtype_stack'), '1',
+        stack_options::get_yes_no_options()));
 
 
 // Options for new questions.
@@ -184,17 +171,13 @@ $settings->add(new admin_setting_heading('questionoptionsheading',
 
 $settings->add(new admin_setting_configselect('qtype_stack/questionsimplify',
         get_string('questionsimplify', 'qtype_stack'),
-        get_string('autosimplify_help', 'qtype_stack'), '1', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('autosimplify_help', 'qtype_stack'), '1',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/assumepositive',
         get_string('assumepositive', 'qtype_stack'),
-        get_string('assumepositive_help', 'qtype_stack'), '0', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('assumepositive_help', 'qtype_stack'), '0',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtcorrect',
         get_string('prtcorrectfeedback', 'qtype_stack'), '',
@@ -210,33 +193,25 @@ $settings->add(new admin_setting_configtextarea('qtype_stack/prtincorrect',
 
 $settings->add(new admin_setting_configselect('qtype_stack/multiplicationsign',
         get_string('multiplicationsign', 'qtype_stack'),
-        get_string('multiplicationsign_help', 'qtype_stack'), 'dot', array(
-            'dot'   => get_string('multdot', 'qtype_stack'),
-            'cross' => get_string('multcross', 'qtype_stack'),
-            'none'  => get_string('none'),
-        )));
+        get_string('multiplicationsign_help', 'qtype_stack'), 'dot',
+        stack_options::get_multiplication_sign_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/sqrtsign',
         get_string('sqrtsign', 'qtype_stack'),
-        get_string('sqrtsign_help', 'qtype_stack'), '1', array(
-            '0' => get_string('no'),
-            '1' => get_string('yes'),
-        )));
+        get_string('sqrtsign_help', 'qtype_stack'), '1',
+        stack_options::get_yes_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/complexno',
         get_string('complexno', 'qtype_stack'),
-        get_string('complexno_help', 'qtype_stack'), 'i', array(
-            'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'
-        )));
+        get_string('complexno_help', 'qtype_stack'), 'i',
+        stack_options::get_complex_no_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig', 'qtype_stack'),
-        get_string('inversetrig_help', 'qtype_stack'), 'cos-1', array(
-            'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'
-        )));
+        get_string('inversetrig_help', 'qtype_stack'), 'cos-1',
+        stack_options::get_inverse_trig_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
         get_string('matrixparens', 'qtype_stack'),
-        get_string('matrixparens_help', 'qtype_stack'), '[', array(
-            '[' => '[', '(' => '(', '' => '', '{' => '{', '|' => '|'
-        )));
+        get_string('matrixparens_help', 'qtype_stack'), '[',
+        stack_options::get_matrix_parens_options()));

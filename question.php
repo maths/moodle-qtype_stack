@@ -324,7 +324,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the CAS text version of $text.
      */
     protected function prepare_cas_text($text, $session) {
-        $castext = new stack_cas_text($text, $session, $this->seed, 't', false, true);
+        $castext = new stack_cas_text($text, $session, $this->seed, 't', false, 1);
         if ($castext->get_errors()) {
             throw new stack_exception('qtype_stack_question : Error part of the question: ' .
                     $castext->get_errors());
@@ -348,41 +348,40 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
     }
 
-    public function format_hint(question_hint $hint, question_attempt $qa) {
-        if (empty($hint->hint)) {
-            return '';
-        }
-
-        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, true);
+    /**
+     * Get the cattext for a hint, instantiated within the question's session.
+     * @param question_hint $hint the hint.
+     * @return stack_cas_text the castext.
+     */
+    public function get_hint_castext(question_hint $hint, question_attempt $qa) {
+        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
 
         if ($hinttext->get_errors()) {
             throw new stack_exception('Error rendering the hint text: ' . $gftext->get_errors());
         }
 
-        return parent::format_hint(new question_hint($hint->id,
-                stack_maths::process_display_castext($hinttext->get_display_castext()),
-                $hint->hintformat), $qa);
+        return $hinttext;
     }
 
-    public function format_generalfeedback($qa) {
-        if (empty($this->generalfeedback)) {
-            return '';
-        }
-
-        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, true);
+    /**
+     * Get the cattext for the general feedback, instantiated within the question's session.
+     * @return stack_cas_text the castext.
+     */
+    public function get_generalfeedback_castext() {
+        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, 1);
 
         if ($gftext->get_errors()) {
             throw new stack_exception('Error rendering the general feedback text: ' . $gftext->get_errors());
         }
 
-        return $this->format_text(stack_maths::process_display_castext($gftext->get_display_castext()),
-                $this->generalfeedbackformat, $qa, 'question', 'generalfeedback', $this->id);
+        return $gftext;
     }
 
-    /* We need to make sure the inputs are displayed in the order in which they
-       occur in the question text. This is not necessarily the order in which they
-       are listed in the array $this->inputs.
-    */
+    /**
+     * We need to make sure the inputs are displayed in the order in which they
+     * occur in the question text. This is not necessarily the order in which they
+     * are listed in the array $this->inputs.
+     */
     public function format_correct_response($qa) {
         $feedback = '';
         $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');

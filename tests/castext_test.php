@@ -163,14 +163,13 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_hints() {
+    public function test_fact_sheets() {
         $cs2 = new stack_cas_session(array(), null, 0);
-        $at1 = new stack_cas_text("[[hint:calc_diff_linearity_rule]]", $cs2, 0);
-        $s1 = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
-                'The Linearity Rule for Differentiation</h3>' .
-                '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+' .
-                'b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant.}\]</div>';
-        $this->assertEquals($s1, $at1->get_display_castext());
+        $at1 = new stack_cas_text("[[facts:calc_diff_linearity_rule]]", $cs2, 0);
+        $output = stack_maths::process_display_castext($at1->get_display_castext());
+
+        $this->assertContains(stack_string('calc_diff_linearity_rule_name'), $output);
+        $this->assertContains(stack_string('calc_diff_linearity_rule_fact'), $output);
     }
 
     public function test_bad_variablenames() {
@@ -178,7 +177,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $rawcastext = '\[\begin{array}{rcl} & =& @Ax2@ + @double_cAx@ + @c2A@ + @Bx2@ + @cBx@ + @Cx@,\\ & =' .
                 '& @ApBx2@ + @xterm@ + @c2A@. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
                 '& @a@\,\\ @double_cA + cB@ + C& =& 0,\\ @Ac2@& =& @b@. \end{array}\]';
-        $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, true);
+        $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, 0);
 
         $this->assertFalse($at1->get_valid());
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .

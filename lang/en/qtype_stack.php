@@ -132,8 +132,11 @@ $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
 $string['inputtypematrix'] = 'Matrix';
 $string['insertstars'] = 'Insert stars';
-$string['insertstars_help'] = 'If set to yes then the system will automatically insert *s into any patterns identified by Strict Syntax.  Otherwise, it shows an error.';
+$string['insertstars_help'] = 'If set to false then no stars will be inseted.  If set to yes then the system will automatically insert stars into any patterns identified by Strict Syntax.  If set to "single char vars" then we assume the answer has variable names consisting only of single letter variable names.  Other variable names will have stars inserted between the letters, e.g. ab->a*b';
 $string['insertstars_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';
+$string['insertstarsno'] = 'Don\'t insert stars ';
+$string['insertstarsyes'] = 'Insert stars for implied mulitplication';
+$string['insertstarsassumesinglechar'] = 'Insert stars assuming single-characer variable names';
 $string['multiplicationsign'] = 'Multiplication sign';
 $string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
 $string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
@@ -517,8 +520,6 @@ $string['stackCas_tooLong']                 = 'CASText statement is too long. ';
 $string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign. ';
 $string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
 $string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';
-$string['stackCas_MissingOpenHint']         = 'Missing opening hint. ';
-$string['stackCas_MissingClosingHint']      = 'Missing square bracket to close hint.';
 $string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>. ';
 $string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>. ';
 $string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>. ';
@@ -529,8 +530,8 @@ $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
-$string['stackHint']                        = 'The following hint tag(s) are not recognized: {$a->hints}.';
-$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[hint:tag]]</pre>';
+$string['unrecognisedfactstags']            = 'The following facts tag(s) are not recognized: {$a->tags}.';
+$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
@@ -690,7 +691,7 @@ $string['stackDoc_404message']          = 'File not found.';
 $string['stackDoc_directoryStructure']  = 'Directory structure';
 
 
-// Hints system.
+// Fact sheets.
 $string['greek_alphabet_name'] = 'The Greek Alphabet';
 $string['greek_alphabet_fact'] = '
 <center>

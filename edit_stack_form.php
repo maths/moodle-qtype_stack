@@ -85,16 +85,22 @@ class qtype_stack_edit_form extends question_edit_form {
 
     /** Patch up data from the database before a user edits it in the form. */
     public function set_data($question) {
-        $question->questiontext     = $this->hint_legacy_convert($question->questiontext);
-        $question->generalfeedback  = $this->hint_legacy_convert($question->generalfeedback);
-        $question->specificfeedback = $this->hint_legacy_convert($question->specificfeedback);
+        if (!empty($question->questiontext)) {
+            $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
+        }
+        if (!empty($question->generalfeedback)) {
+            $question->generalfeedback = $this->convert_legacy_fact_sheets($question->generalfeedback);
+        }
+        if (!empty($question->specificfeedback)) {
+            $question->specificfeedback = $this->convert_legacy_fact_sheets($question->specificfeedback);
+        }
 
-        if (is_array($question->prts)) {
-            foreach($question->prts as $prtname => $prt) {
-                if (is_array($prt->nodes)) {
-                    foreach($prt->nodes as $nodename => $node) {
-                        $node->truefeedback  = $this->hint_legacy_convert($node->truefeedback);
-                        $node->falsefeedback = $this->hint_legacy_convert($node->falsefeedback);
+        if (!empty($question->prts)) {
+            foreach ($question->prts as $prtname => $prt) {
+                if (!empty($prt->nodes)) {
+                    foreach ($prt->nodes as $nodename => $node) {
+                        $node->truefeedback  = $this->convert_legacy_fact_sheets($node->truefeedback);
+                        $node->falsefeedback = $this->convert_legacy_fact_sheets($node->falsefeedback);
                     }
                 }
             }
@@ -104,17 +110,12 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     /**
-    * Replace any <hint> delimiters in the question text from the
-    * form with the recommended delimiters.
-    * @param string $text Input to convert.
-    */
-    private function hint_legacy_convert($text) {
-        $text = htmlspecialchars_decode($text);
-        if (strstr($text, '<hint>')) {
-            $hints = new stack_hints($text);
-            $text = $hints->legacy_convert();
-        }
-        return $text;
+     * Replace any <hint> delimiters in the given text from the
+     * form with the recommended delimiters.
+     * @param string $text input to convert.
+     */
+    protected function convert_legacy_fact_sheets($text) {
+        return stack_fact_sheets::convert_legacy_tags($text);
     }
 
     /**
@@ -490,10 +491,7 @@ class qtype_stack_edit_form extends question_edit_form {
                         'text' => $this->stackconfig->prtincorrect));
 
         $mform->addElement('select', 'multiplicationsign',
-                stack_string('multiplicationsign'), array(
-                    'dot'   => stack_string('multdot'),
-                    'cross' => stack_string('multcross'),
-                    'none'  => get_string('none')));
+                stack_string('multiplicationsign'), stack_options::get_multiplication_sign_options());
         $mform->setDefault('multiplicationsign', $this->stackconfig->multiplicationsign);
         $mform->addHelpButton('multiplicationsign', 'multiplicationsign', 'qtype_stack');
 
@@ -503,20 +501,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('sqrtsign', 'sqrtsign', 'qtype_stack');
 
         $mform->addElement('select', 'complexno',
-                stack_string('complexno'), array(
-                    'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
+                stack_string('complexno'), stack_options::get_complex_no_options());
         $mform->setDefault('complexno', $this->stackconfig->complexno);
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
 
         $mform->addElement('select', 'inversetrig',
-                stack_string('inversetrig'), array(
-                    'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+                stack_string('inversetrig'), stack_options::get_inverse_trig_options());
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
         $mform->addElement('select', 'matrixparens',
-                stack_string('matrixparens'), array(
-                    '[' => "[", '(' => '(', '' => '', '{' => '{', '|' => '|'));
+                stack_string('matrixparens'), stack_options::get_matrix_parens_options());
         $mform->setDefault('matrixparens', $this->stackconfig->matrixparens);
         $mform->addHelpButton('matrixparens', 'matrixparens', 'qtype_stack');
 
@@ -565,8 +560,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
         $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
 
-        $mform->addElement('selectyesno', $inputname . 'insertstars',
-                stack_string('insertstars'));
+        $mform->addElement('select', $inputname . 'insertstars',
+                stack_string('insertstars'), stack_options::get_insert_star_options());
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 
@@ -1266,6 +1261,15 @@ class qtype_stack_edit_form extends question_edit_form {
             $errors[$fieldname][] = $castext->get_errors();
             return $errors;
         }
+
+        // Validate any [[facts:...]] tags.
+        $unrecognisedtags = stack_fact_sheets::get_unrecognised_tags($value);
+        if ($unrecognisedtags) {
+            $errors[$fieldname][] = stack_string('unrecognisedfactstags',
+                    array('tags' => implode(', ', $unrecognisedtags)));
+            return $errors;
+        }
+
         if ($session) {
             $display = $castext->get_display_castext();
             if ($castext->get_errors()) {

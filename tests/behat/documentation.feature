@@ -6,11 +6,11 @@ Feature: STACK has build in documentation.
 
   Background:
     Given I log in as "admin"
+    And I navigate to "STACK" node in "Site administration > Plugins > Question types"
 
   @javascript
   Scenario: Navigate to the documentation
-    When I navigate to "STACK" node in "Site administration > Plugins > Question types"
-    And I follow "Documentation for STACK"
+    When I follow "Documentation for STACK"
     Then I should see "Welcome to the official user documentation for the STACK project."
     When I follow "Site map"
     Then I should see "Directory structure"

@@ -60,7 +60,7 @@ class stack_algebraic_input extends stack_input {
             'hideFeedback'   => false,
             'boxWidth'       => 15,
             'strictSyntax'   => false,
-            'insertStars'    => false,
+            'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',
             'allowWords'     => '',

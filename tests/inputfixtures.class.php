@@ -360,15 +360,15 @@ class stack_inputvalidation_test_data {
     public static function run_test($test) {
         // Note: What we would really like to do is
         // $el = stack_input_factory::make('algebraic', 'sans1', 'x');
-        // $el->set_parameter('insertStars', true);
+        // $el->set_parameter('insertStars', 1);
         // $el->set_parameter('strictSyntax', false);
         // $el->set_parameter('sameType', false);
         // $cs = $el->validate_student_response($test->rawstring);
         // but we want to pull apart the bits to expose where the various errors occur.
 
         $cs = new stack_cas_casstring($test->rawstring);
-        $cs->validate('s', false, true);
-        $cs->set_cas_validation_casstring('sans1', true, true, null);
+        $cs->validate('s', false, 1);
+        $cs->set_cas_validation_casstring('sans1', true, true, false, null);
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {

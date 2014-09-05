@@ -324,7 +324,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the CAS text version of $text.
      */
     protected function prepare_cas_text($text, $session) {
-        $castext = new stack_cas_text($text, $session, $this->seed, 't', false, true);
+        $castext = new stack_cas_text($text, $session, $this->seed, 't', false, 1);
         if ($castext->get_errors()) {
             throw new stack_exception('qtype_stack_question : Error part of the question: ' .
                     $castext->get_errors());
@@ -353,7 +353,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return '';
         }
 
-        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, true);
+        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
 
         if ($hinttext->get_errors()) {
             throw new stack_exception('Error rendering the hint text: ' . $gftext->get_errors());
@@ -369,7 +369,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return '';
         }
 
-        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, true);
+        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed, 't', false, 1);
 
         if ($gftext->get_errors()) {
             throw new stack_exception('Error rendering the general feedback text: ' . $gftext->get_errors());

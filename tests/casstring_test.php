@@ -245,7 +245,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_scientific_2() {
         $s = 'a:3e2';
         $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('s', false, false));
+        $this->assertFalse($at1->get_valid('s', false, 0));
         $this->assertEquals('3e2', $at1->get_casstring());
         $this->assertEquals('missing_stars', $at1->get_answernote());
     }
@@ -253,7 +253,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_scientific_3() {
         $s = 'a:3e2';
         $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s', false, true));
+        $this->assertTrue($at1->get_valid('s', false, 1));
         $this->assertEquals('3*e*2', $at1->get_casstring());
         $this->assertEquals('missing_stars', $at1->get_answernote());
     }
@@ -308,13 +308,13 @@ class stack_cas_casstring_exception_test extends basic_testcase {
     public function test_exception_3() {
         $at1 = new stack_cas_casstring("x=1");
         $this->setExpectedException('stack_exception');
-        $at1->get_valid('z', false, false);
+        $at1->get_valid('z', false, 0);
     }
 
     public function test_exception_4() {
         $at1 = new stack_cas_casstring("x=1");
         $this->setExpectedException('stack_exception');
-        $at1->get_valid('t', 'a', false);
+        $at1->get_valid('t', 'a', 0);
     }
 
     public function test_exception_5() {

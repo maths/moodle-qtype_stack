@@ -136,7 +136,7 @@ class stack_textarea_input extends stack_input {
             'hideFeedback'   => false,
             'boxWidth'       => 20,
             'strictSyntax'   => true,
-            'insertStars'    => false,
+            'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',
             'allowWords'     => '',
@@ -170,7 +170,7 @@ class stack_textarea_input extends stack_input {
         $values = stack_utils::list_to_array($value, false);
         $values = array_map(function ($ex) {
                 return '<code>'.$ex.'</code>';
-            }, $values);
+        }, $values);
         $value = "<br/>".implode("<br/>", $values);
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));

@@ -333,7 +333,7 @@ abstract class stack_connection_helper {
         global $CFG;
         self::ensure_config_loaded();
 
-        $image_name = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/maxima_opt_auto');
+        $imagename = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/maxima_opt_auto');
 
         $lisp = '1';
         // Try to guess the lisp version
@@ -346,14 +346,14 @@ abstract class stack_connection_helper {
 
         switch ($lisp) {
             case 'GCL':
-                $maxima_command =  ':lisp (si::save-system "'.$image_name.'")' . "\n";
-                $maxima_command .= 'quit();'."\n";
-                $command_line = stack_utils::convert_slash_paths($image_name . ' -eval \'(cl-user::run)\'');
+                $maximacommand =  ':lisp (si::save-system "'.$imagename.'")' . "\n";
+                $maximacommand .= 'quit();'."\n";
+                $commandline = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
                 break;
 
             case 'SBCL':
-                $maxima_command =  ':lisp (sb-ext:save-lisp-and-die "'.$image_name.'" :toplevel #\'run :executable t)' . "\n";
-                $command_line = stack_utils::convert_slash_paths($image_name);
+                $maximacommand =  ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
+                $commanline = stack_utils::convert_slash_paths($imagename);
                 break;
 
             default:
@@ -364,12 +364,12 @@ abstract class stack_connection_helper {
 
 
         // Really make sure there is no cache.
-        list($results, $debug) = self::stackmaxima_nocache_call($maxima_command);
+        list($results, $debug) = self::stackmaxima_nocache_call($maximacommand);
 
         // Question: should we at this stage try to use the optimised image we have created?
         $success = true;
-        $message = stack_string('healthautomaxopt_ok', array('command' => $command_line));
-        if (!file_exists($image_name)) {
+        $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));
+        if (!file_exists($imagename)) {
             $success = false;
             $message = stack_string('healthautomaxopt_notok');
         }

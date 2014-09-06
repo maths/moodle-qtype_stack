@@ -13,7 +13,7 @@ Hence, on a typical Moodle installation you will find the file at
         /moodle/question/type/stack/stack/maxima/stackmaxima.mac
 ~~~~~~~~~
 
-These instructions work on a Microsoft platform. Instructions for Linux can be found below. Note that having a properly set up STACK - Maxima sandbox is <i>not</i> equivalent to running an optimised Maxima.
+The first part of the instructions work on a Microsoft platform, but instructions for Linux can also be found below. Note that having a properly set up STACK - Maxima sandbox is <i>not</i> equivalent to running an optimised Maxima.
 
 ### Setting Maxima's Path ###
 

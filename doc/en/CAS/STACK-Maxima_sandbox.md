@@ -77,13 +77,13 @@ In a terminal window, execute the following commands, e.g., in your home folder:
      cd stack-maxima
      pico maxima-init.mac
      
-The file maxima-init.mac should contain the following three lines:
+Put the following three lines into maxima-init.mac:
 
     file_search_maxima:append([sconcat("<path to your home folder>/stack-maxima/###.{mac,mc}")],file_search_maxima)$
     file_search_lisp:append([sconcat("<path to your home folder>/stack-maxima/###.{lisp}")],file_search_lisp)$
     load("<path to your moodledata>/stack/maximalocal.mac");
 
-Note that the paths above need to be completed. In order to find the path to maximalocal.mac one can use the following command:
+Note that the paths above need to be completed. The following command is useful for finding the path to maximalocal.mac:
 
     locate maximalocal.mac
 

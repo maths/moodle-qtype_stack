@@ -13,7 +13,7 @@ Hence, on a typical Moodle installation you will find the file at
         /moodle/question/type/stack/stack/maxima/stackmaxima.mac
 ~~~~~~~~~
 
-These instructions work on a Microsoft platform.
+These instructions work on a Microsoft platform. Instructions for linux can be found below. Note that having a properly set up STACK - Maxima sandbox is not equivalent to running an optimised Maxima.
 
 ### Setting Maxima's Path ###
 
@@ -68,6 +68,24 @@ You can test this out by using, for example, the `rand()` function.
     rand(matrix([5,5],[5,5]));
 
 to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.
+
+### Linux instructions ###
+
+In a terminal window, execute the following commands, e.g., in your home folder:
+
+     mkdir stack-maxima
+     cd stack-maxima
+     pico maxima-init.mac
+     
+Into the file maxima-init.mac you put the three lines
+
+    file_search_maxima:append([sconcat("<path to your home folder>/stack-maxima/###.{mac,mc}")],file_search_maxima)$
+    file_search_lisp:append([sconcat("<path to your home folder>/stack-maxima/###.{lisp}")],file_search_lisp)$
+    load("<path to your moodledata>/stack/maximalocal.mac");
+
+Note that you need to adjust the paths above. In order to find the path to maximalocal.mac you can use the following command:
+
+    locate maximalocal.mac
 
 ### Using the answer tests
 

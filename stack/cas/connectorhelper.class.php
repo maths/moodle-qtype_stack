@@ -340,7 +340,7 @@ abstract class stack_connection_helper {
         if (!(false === strpos($genuinedebug, 'GNU Common Lisp (GCL)'))) {
             $lisp = 'GCL';
         }
-        if (!(false === strpos($genuinedebug, 'SBCL'))) {
+        if (!(false === strpos($genuinedebug, 'Lisp SBCL'))) {
             $lisp = 'SBCL';
         }
 
@@ -353,7 +353,7 @@ abstract class stack_connection_helper {
 
             case 'SBCL':
                 $maximacommand =  ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
-                $commanline = stack_utils::convert_slash_paths($imagename);
+                $commandline = stack_utils::convert_slash_paths($imagename);
                 break;
 
             default:

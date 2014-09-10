@@ -136,7 +136,7 @@ class stack_input_factory {
         foreach ($types as $type => $notused) {
             $choices[$type] = stack_string('inputtype' . $type);
         }
-        collatorlib::asort($choices);
+        stack_utils::sort_array($choices);
         return $choices;
     }
 

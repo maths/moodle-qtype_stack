@@ -403,7 +403,7 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($answertests as $test => $string) {
             $this->answertestchoices[$test] = stack_string($string);
         }
-        collatorlib::asort($this->answertestchoices);
+        stack_utils::sort_array($this->answertestchoices);
 
         // Prepare score mode choices.
         $this->scoremodechoices = array(

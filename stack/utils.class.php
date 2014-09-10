@@ -814,7 +814,7 @@ class stack_utils {
      * Locale-aware version of PHP's asort function.
      * @param array $array The array to sort. Sorted in place.
      */
-    public static function sort_array($array) {
+    public static function sort_array(&$array) {
         if (class_exists('core_collator')) {
             core_collator::asort($array);
         } else {
@@ -826,7 +826,7 @@ class stack_utils {
      * Locale-aware version of PHP's ksort function.
      * @param array $array The array to sort. Sorted in place.
      */
-    public static function sort_array_by_key($array) {
+    public static function sort_array_by_key(&$array) {
         if (class_exists('core_collator')) {
             core_collator::ksort($array);
         } else {

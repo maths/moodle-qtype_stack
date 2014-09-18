@@ -366,7 +366,7 @@ algebraic_equivalence(SA, SB) :=
 
 
 /* This test establishes if two expressions appear NOT to be equivalent. 
-   It does do by evaluating the expressions numerically.        */
+   It does so by evaluating the expressions numerically.        */
 numerical_not_alg_equiv(p1, p2):= block([lv, sz],
   /* We take the *union* of the two lists of variables, this way we
      hedge against comparing (x+a)+(x-a) with 2*x, which are the same. */

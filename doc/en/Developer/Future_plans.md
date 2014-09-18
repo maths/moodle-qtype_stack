@@ -31,7 +31,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
-* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations, e.g. engineering, physics, maths.
+* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations and also for applications which appeal to different disciplines, e.g. engineering, physics, maths.
 * Check CAS/maxima literature on -inf=minf.
 * Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting]
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.

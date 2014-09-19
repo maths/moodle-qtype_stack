@@ -743,10 +743,10 @@ class stack_cas_casstring {
         // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
             $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
-            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3 x (.
+            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3x(.
         } else {
             $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
-            $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3 x (.
+            $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3x(.
         }
 
         if ($security == 's') {
@@ -754,6 +754,7 @@ class stack_cas_casstring {
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.
                 $patterns[] = "|(\*[A-Za-z])(\()|";
+                $patterns[] = "|(\-[A-Za-z])(\()|";
                 $patterns[] = "|([A-Za-z])([0-9]+)|"; // E.g. x3.
             }
         }

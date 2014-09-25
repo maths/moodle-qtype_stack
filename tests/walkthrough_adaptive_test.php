@@ -654,7 +654,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
-    public function test_test3_sumbit_and_finish_before_validating() {
+    public function test_test3_submit_and_finish_before_validating() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'adaptive', 4);
@@ -679,6 +679,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertNull($this->quba->get_response_summary($this->slot));
 
         // Save a partially correct, partially complete response.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => ''));
@@ -705,6 +706,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertNull($this->quba->get_response_summary($this->slot));
 
         // Submit all and finish before validating.
         $this->quba->finish_all_questions();
@@ -733,6 +735,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: x [valid]',
+                $this->quba->get_response_summary($this->slot));
     }
 
     public function test_test3_submit_wrong_response_correct_then_stubmit() {
@@ -1006,6 +1010,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertNull($this->quba->get_response_summary($this->slot));
 
         // Step 1.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '', '-submit' => 1));
@@ -1028,6 +1033,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^3 [valid]; ans3: x [valid]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 2.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '',
@@ -1054,6 +1061,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^3 [score]; ans3: x [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 3.
         $this->process_submission(array('ans1' => '(x', 'ans2' => '(x', 'ans3' => 'x+1', 'ans4' => 'false',
@@ -1080,6 +1089,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: (x [invalid]; ans2: (x [invalid]; ans3: x+1 [valid]; ans4: false [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 4.
         $this->process_submission(array('ans1' => 'x)', 'ans2' => 'x^2', 'ans3' => 'x+1', 'ans4' => '',
@@ -1106,6 +1117,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x) [invalid]; ans2: x^2 [valid]; ans3: x+1 [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 5.
         $this->process_submission(array('ans1' => 'x^2', 'ans2' => 'x', 'ans3' => 'x^5', 'ans4' => '',
@@ -1132,6 +1145,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^2 [valid]; ans2: x [valid]; ans3: x^5 [valid]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 6.
         $this->process_submission(array('ans1' => 'x^2', 'ans2' => 'x^2', 'ans3' => 'x^5', 'ans4' => 'true',
@@ -1158,6 +1173,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^2 [score]; ans2: x^2 [valid]; ans3: x^5 [score]; ans4: true [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 7.
         $this->process_submission(array('ans1' => 'x', 'ans2' => 'x^2', 'ans3' => 'x+3', 'ans4' => 'true',
@@ -1184,6 +1201,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x [valid]; ans2: x^2 [score]; ans3: x+3 [valid]; ans4: true [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 8.
         $this->process_submission(array('ans1' => 'x', 'ans2' => '', 'ans3' => 'x+3', 'ans4' => 'true',
@@ -1210,6 +1229,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x [score]; ans3: x+3 [score]; ans4: true [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 9.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
@@ -1236,6 +1257,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^3 [valid]; ans2: x^2 [valid]; ans3: 0 [valid]; ans4: true [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Step 10.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
@@ -1262,6 +1285,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]',
+                $this->quba->get_response_summary($this->slot));
 
         // Submit all and finish - should update state from complete to gradedright.
         $this->quba->finish_all_questions();
@@ -1286,6 +1311,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+        $this->assertEquals('ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]',
+                $this->quba->get_response_summary($this->slot));
     }
 
     public function test_divide_by_0() {

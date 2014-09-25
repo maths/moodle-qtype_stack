@@ -68,7 +68,7 @@ function stack_docs_index($dir, $relpath = '') {
         return '';
     }
 
-    collatorlib::ksort($items);
+    stack_utils::sort_array_by_key($items);
     return '<ul class="dir">' . implode('', $items) . '</ul>';
 }
 

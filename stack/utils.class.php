@@ -809,4 +809,28 @@ class stack_utils {
         }
         return $suggestedname;
     }
+
+    /**
+     * Locale-aware version of PHP's asort function.
+     * @param array $array The array to sort. Sorted in place.
+     */
+    public static function sort_array(&$array) {
+        if (class_exists('core_collator')) {
+            core_collator::asort($array);
+        } else {
+            collatorlib::asort($array);
+        }
+    }
+
+    /**
+     * Locale-aware version of PHP's ksort function.
+     * @param array $array The array to sort. Sorted in place.
+     */
+    public static function sort_array_by_key(&$array) {
+        if (class_exists('core_collator')) {
+            core_collator::ksort($array);
+        } else {
+            collatorlib::ksort($array);
+        }
+    }
 }

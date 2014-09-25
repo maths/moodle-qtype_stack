@@ -50,6 +50,12 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         curl_setopt($request, CURLOPT_POSTFIELDS, $postdata);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($request, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        if (!empty($this->serveruserpass)) {
+            curl_setopt($request, CURLOPT_USERPWD, $this->serveruserpass);
+        }
+var_dump($this);
+var_dump($request);
+
         $ret = curl_exec($request);
 
         $timedout = false;

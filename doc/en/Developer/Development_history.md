@@ -12,6 +12,8 @@ Changes since 3.3 (in the master branch):
  2. Improvements to catching common syntax errors with trig functions, e.g. sin^-1(x) or cos[x]
  3. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.
  4. Allow the use of the Maxima orderless and ordergreat in cassessions.  This helps with display, without turning off simplification.
+ 5. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authenication
+    (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
 
 ## Version 3.2
 

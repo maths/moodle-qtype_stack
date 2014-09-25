@@ -1,10 +1,10 @@
 # Installation instructions.
 
-STACK 3.0 is being used live at a number of institutions, including the University of Birmingham in the UK.  The core code is still under development and active testing.
+STACK is being used live at a number of institutions, including the UK Open University, Loughborough University, and the University of Birmingham in the UK.  
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/25/en/Main_page).  You must use Moodle 2.4.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
+* Please ensure you have [installed Moodle](http://docs.moodle.org/25/en/Main_page).  You must use Moodle 2.6.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](../Developer/Mathjax.md).
 
 ## 2. Install GNUPlot and Maxima
@@ -37,15 +37,14 @@ You should now have a question type available to the Moodle quiz.
 
 ## 5. Add the STACK quiz report {#Report}
 
-If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  
-This is distributed as `quiz_stack`.  The reports are still in a beta development stage.
+The reports are still in a beta development stage and you can skip this step.   If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  This is distributed as `quiz_stack`.  
 
 1. Obtain the code. Either [download the zip file](https://github.com/maths/quiz_stack/zipball/master), unzip it, and place it in the directory `moodle\mod\quiz\report\stack`. (You will need to rename the directory `quiz_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/maths/quiz_stack.git mod/quiz/report/stack`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 ## 6. Add the STACK question format
 
-If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
+This is for legacy questions from Version 2 of STACK.  You can probably skip this step. If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
 
 1. Obtain the code. Either [download the zip file](https://github.com/maths/moodle-qformat_stack/zipball/master), unzip it, and place it in the directory `moodle\question\format\stack`. (You will need to rename the directory `moodle-qformat_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/maths/moodle-qformat_stack.git question/format/stack`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.

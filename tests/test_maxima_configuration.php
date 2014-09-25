@@ -81,6 +81,10 @@ abstract class qtype_stack_test_config {
             }
         }
 
+        if (defined('QTYPE_STACK_TEST_CONFIG_SERVERUSERPASS')) {
+            set_config('serveruserpass',    QTYPE_STACK_TEST_CONFIG_SERVERUSERPASS,    'qtype_stack');
+        }
+
         if (stack_cas_configuration::maxima_bat_is_missing()) {
             stack_cas_configuration::create_maximalocal();
         }

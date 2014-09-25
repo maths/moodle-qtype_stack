@@ -2,7 +2,6 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-
 ## Version 3.3
 
 Released September 2014. 
@@ -15,14 +14,16 @@ This contains numerous minor bug fixes and improvements.
  4. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.
  5. Allow the use of the Maxima orderless and ordergreat in cassessions.  This helps with display, without turning off simplification.
  6. Expanding CAStext features.
-  *  Enable a function as an answer type, e.g. improve validation.
-  *  Refactor answer test unit testing to distinguish "test fail" from "zero".
-  *  Reject things like sin*(x) and sin^2(x) as invalid
-  *  Provide a new option on how parentheses are displayed for matrices
-  *  Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
- 7. Add the input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
- 8. Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Fact_sheets.md) documentation.  
- 9. Better install (auto OS detection), healtcheck and testing.
+   *  Enable a function as an answer type, e.g. improve validation.
+   *  Refactor answer test unit testing to distinguish "test fail" from "zero".
+   *  Reject things like sin*(x) and sin^2(x) as invalid
+   *  Provide a new option on how parentheses are displayed for matrices
+   *  Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
+ 7.  Add the input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
+ 8.  Reinstate the STACK 2 feature called "Hints".  This has been done as a "Fact sheet" to avoid ambiguity with other Moodle features.  See [Fact sheet](../Authoring/Fact_sheets.md) documentation.  
+ 9.  Better install (auto OS detection), healtcheck and testing.
+ 10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authenication
+    (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
  
 
 ## Version 3.2
@@ -266,4 +267,3 @@ Released, 2005.  Developed by Chris Sangwin at the University of Birmingham.
 ### Pre-history
 
 STACK is a direct development of the CABLE project which ran at the University of Birmingham. CABLE was a development of the design of the AiM computer aided assessment system.
-

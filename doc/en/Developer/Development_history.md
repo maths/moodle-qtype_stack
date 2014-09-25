@@ -4,13 +4,14 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 STACK is a direct development of the CABLE project which ran at the University of Birmingham. CABLE was a development of the AiM computer aided assessment system.
 
-Changes since 3.2 (in the master branch):
+Changes since 3.3 (in the master branch):
+
+## Version 3.3
 
  1. Changes to validation of casstrings. We now *allow* syntax such as 3e2 to represent floating point numbers.  The strict syntax settings still flag 3e2 as "missing stars".
  2. Improvements to catching common syntax errors with trig functions, e.g. sin^-1(x) or cos[x]
  3. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.
  4. Allow the use of the Maxima orderless and ordergreat in cassessions.  This helps with display, without turning off simplification.
-
 
 ## Version 3.2
 

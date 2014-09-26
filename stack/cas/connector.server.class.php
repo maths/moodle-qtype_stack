@@ -53,8 +53,6 @@ class stack_cas_connection_server extends stack_cas_connection_base {
         if (!empty($this->serveruserpass)) {
             curl_setopt($request, CURLOPT_USERPWD, $this->serveruserpass);
         }
-var_dump($this);
-var_dump($request);
 
         $ret = curl_exec($request);
 

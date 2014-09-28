@@ -51,7 +51,7 @@ class behat_qtype_stack extends behat_base {
         require_once(__DIR__ . '/../test_maxima_configuration.php');
 
         if (!qtype_stack_test_config::is_test_config_available()) {
-            throw new SkipException('To run the STACK tests, ' .
+            throw new SkippedException('To run the STACK tests, ' .
                     ' you must define a Maxima configuration in config.php.');
         }
 

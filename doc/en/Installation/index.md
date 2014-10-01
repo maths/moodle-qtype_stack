@@ -5,11 +5,11 @@ STACK is being used live at a number of institutions, including the UK Open Univ
 ## 1. Set up Moodle.
 
 * Please ensure you have [installed Moodle](http://docs.moodle.org/25/en/Main_page).  You must use Moodle 2.6.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
-* Please ensure LaTeX can be displayed.  We currently support [MathJax](../Developer/Mathjax.md).
+* Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md).
 
 ## 2. Install GNUPlot and Maxima
 
-Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.31.3 are supported.  Please contact the developers to request support for other versions.
+Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1,to 5.31.3 are supported.  Please contact the developers to request support for other versions.
 
 Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and GNUPlot will install themselves in suitable directories.
 

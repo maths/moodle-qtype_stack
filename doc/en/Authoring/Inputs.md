@@ -122,7 +122,7 @@ The above two conditions are in conflict: we can't have it both ways.  What woul
 1. as \( (x\cdot e)^x\) if we assume single caracter variable names, and
 2. as \( xe^x\) if we just "Insert `*`s for implied multiplication".  The absence of the dot here is key.
 
-### Syntax Hint ### {#Syntax_Hint}
+### Syntax Hint {#Syntax_Hint}
 
 A syntax hint allows the teacher to give the student a pro-forma in the input box.
 This can include '?' characters.

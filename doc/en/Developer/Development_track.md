@@ -7,6 +7,10 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
+## Changes already implemented since the release of STACK 3.3
+
+* Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
+
 ## STACK custom reports
 
 Basic reports now work.

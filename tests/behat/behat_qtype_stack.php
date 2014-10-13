@@ -27,7 +27,7 @@
 
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
-use Moodle\BehatExtension\Exception\SkippedException as SkippedException;
+use Moodle\BehatExtension\Exception\SkippedException;
 
 /**
  * Steps definitions related with the question bank management.

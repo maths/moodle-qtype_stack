@@ -44,6 +44,7 @@ $questionid = optional_param('questionid', null, PARAM_INT);
 // Authentication. Because of the cache, it is safe to make this available to any
 // logged in user.
 require_login();
+require_capability('qtype/stack:usediagnostictools', context_system::instance());
 
 // Set up the page object.
 $PAGE->set_context(context_system::instance());

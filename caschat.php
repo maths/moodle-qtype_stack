@@ -41,7 +41,7 @@ $questionid = optional_param('questionid', null, PARAM_INT);
 if (!$questionid) {
     require_login();
     $context = context_system::instance();
-    require_capability('moodle/site:config', $context);
+    require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = array();
 
 } else {
@@ -57,7 +57,6 @@ if (!$questionid) {
 }
 
 $context = context_system::instance();
-require_capability('moodle/site:config', $context);
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/caschat.php', $urlparams);
 $title = stack_string('chattitle');

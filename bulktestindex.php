@@ -31,7 +31,7 @@ require_once(__DIR__ . '/stack/utils.class.php');
 // Login and check permissions.
 $context = context_system::instance();
 require_login();
-require_capability('moodle/site:config', $context);
+require_capability('qtype/stack:usediagnostictools', $context);
 $PAGE->set_url('/question/type/stack/bulktestindex.php');
 $PAGE->set_context($context);
 $PAGE->set_title(stack_string('bulktestindextitle'));

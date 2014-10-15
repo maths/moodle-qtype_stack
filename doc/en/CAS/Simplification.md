@@ -1,4 +1,4 @@
-# Simplification & odering
+# Simplification & ordering
 
 ## Ordering
 

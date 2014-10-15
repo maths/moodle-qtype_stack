@@ -1383,11 +1383,25 @@ ATCASEqual(SA,SB) :=
     SBB:errcatch(ev(SB, simp, nouns)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATCASEqual_STACKERROR_TAns"),""]),
 
-    if SA=SB then
-       (RawMark:true, AnswerNote:"ATCASEqual_true")
+    /* Now actually apply this test */
+    if equals_commute_associate(sa,sb) then 
+        (RawMark:true, AnswerNote:"")
     else
-       AnswerNote:"ATCASEqual_false",
-    return([Validity,RawMark,StackAddNote("",AnswerNote),FeedBack])
+        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
+
+    if SA=SB then
+       return([Validity, true, StackAddNote("","ATCASEqual_true"), FeedBack]),
+
+    /* We need to check things are of the same type */
+    ret:ATSameTypefun(SA,SB),
+    if ret[2]=false then    
+        return([true, false, StackAddNote("ATCASEqual: ", StackTrimNote(ret[3])), ret[4]]),
+    ret:block([simp:true, ret], ATAlgEquivfun(SA, SB)),
+    if ret[2]=true then    
+        return([true, false, StackAddNote("ATCASEqual: (AlgEquiv:true)", StackTrimNote(ret[3])), ""]),
+
+    AnswerNote:"ATCASEqual_false",
+    return([Validity, RawMark, StackAddNote("",AnswerNote),FeedBack])
     )$
 
 /* SA>SB? */
@@ -2289,5 +2303,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014083000$
-print("[ STACK-Maxima started, library version 2014083000 ]")$
+stackmaximaversion:2014100900$
+print("[ STACK-Maxima started, library version 2014100900 ]")$

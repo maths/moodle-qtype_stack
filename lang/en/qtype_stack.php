@@ -34,6 +34,9 @@ $string['errors'] = 'Errors';
 $string['debuginfo'] = 'Debug info';
 $string['exceptionmessage'] = '{$a}';
 
+// Capability names.
+$string['stack:usediagnostictools'] = 'Use the STACK tools';
+
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';

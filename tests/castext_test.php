@@ -334,6 +334,40 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid. ' .
                 '</br>The expression <span class="stacksyntaxexample">system</span> is forbidden.');
     }
+
+    public function test_mathdelimiters1() {
+        $a2 = array('a:2');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('\begin{align*} x & = @a@+1 \\ & = @a+1@ \end{align*}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\begin{align*} x & = 2+1 \ & = 3 \end{align*}');
+    }
+
+    public function test_mathdelimiters2() {
+        $a2 = array('a:x^2/(1+x^2)^3', 'p:diff(a,x)');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('\begin{multline*} @a@ \\\\ @p@ \end{multline*}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ \frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
+    }
 }
 
 /**

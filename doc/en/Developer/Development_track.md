@@ -10,6 +10,7 @@ How to report bugs and make suggestions is described on the [community](../About
 ## Changes already implemented since the release of STACK 3.3
 
 * Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
+* Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
 
 ## STACK custom reports
 

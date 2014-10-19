@@ -198,7 +198,7 @@ abstract class stack_connection_helper {
     }
 
     /**
-     * Exectue a CAS command just so we can get the version number of the
+     * Execute a CAS command just so we can get the version number of the
      * remote libraries being used, then check that version against what it should be.
      * @return array with two elements, a string like healthchecksstackmaximaversionok
      * or healthchecksstackmaximanotupdated which can be used as the first argument to,
@@ -257,6 +257,27 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * Exectue a CAS command, without any caching.
+     */
+    private static function stackmaxima_nocache_call($command) {
+        self::ensure_config_loaded();
+
+        $configcache = self::$config->casresultscache;
+        $casdebugging = self::$config->casdebugging;
+        self::$config->casresultscache = 'none';
+        self::$config->casdebugging = true;
+
+        $connection = self::make();
+        $results = $connection->compute($command);
+
+        self::$config->casresultscache = $configcache;
+        self::$config->casdebugging = $casdebugging;
+
+        $debug = $connection->get_debuginfo();
+        return array($results, $debug);
+    }
+
+    /**
      * Really exectue a CAS command, regardless of the cache settings.
      */
     public static function stackmaxima_genuine_connect() {
@@ -272,18 +293,7 @@ abstract class stack_connection_helper {
                 "\n";
 
         // Really make sure there is no cache.
-        $configcache = self::$config->casresultscache;
-        $casdebugging = self::$config->casdebugging;
-        self::$config->casresultscache = 'none';
-        self::$config->casdebugging = true;
-
-        $connection = self::make();
-        $results = $connection->compute($command);
-
-        self::$config->casresultscache = $configcache;
-        self::$config->casdebugging = $casdebugging;
-
-        $debug = $connection->get_debuginfo();
+        list($results, $debug) = self::stackmaxima_nocache_call($command);
 
         $success = true;
         $message = '';
@@ -310,6 +320,58 @@ abstract class stack_connection_helper {
             $message = stack_string('healthuncachedstack_CAS_ok');
         } else {
             $message .= stack_string('healthuncachedstack_CAS_not');
+        }
+
+        return array($message, $debug, $success);
+    }
+
+    /*
+     * This function is in this class, rather than installhelper.class.php, to
+     * ensure the lowest level connection to the CAS, without caching.
+     */
+    public static function stackmaxima_auto_maxima_optimise($genuinedebug) {
+        global $CFG;
+        self::ensure_config_loaded();
+
+        $imagename = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/maxima_opt_auto');
+
+        $lisp = '1';
+        // Try to guess the lisp version
+        if (!(false === strpos($genuinedebug, 'GNU Common Lisp (GCL)'))) {
+            $lisp = 'GCL';
+        }
+        if (!(false === strpos($genuinedebug, 'Lisp SBCL'))) {
+            $lisp = 'SBCL';
+        }
+
+        switch ($lisp) {
+            case 'GCL':
+                $maximacommand =  ':lisp (si::save-system "'.$imagename.'")' . "\n";
+                $maximacommand .= 'quit();'."\n";
+                $commandline = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
+                break;
+
+            case 'SBCL':
+                $maximacommand =  ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
+                $commandline = stack_utils::convert_slash_paths($imagename);
+                break;
+
+            default:
+                $success = false;
+                $message = stack_string('healthautomaxopt_nolisp');
+                return array($message, '', $success);
+        }
+
+
+        // Really make sure there is no cache.
+        list($results, $debug) = self::stackmaxima_nocache_call($maximacommand);
+
+        // Question: should we at this stage try to use the optimised image we have created?
+        $success = true;
+        $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));
+        if (!file_exists($imagename)) {
+            $success = false;
+            $message = stack_string('healthautomaxopt_notok');
         }
 
         return array($message, $debug, $success);

@@ -446,6 +446,11 @@ $string['healthuncached'] = 'Uncached CAS call';
 $string['healthuncachedintro'] = 'This section always sends a genuine call to the CAS, regardless of the currect cache settings.  This is needed to ensure the connection to the CAS is really currently working.';
 $string['healthuncachedstack_CAS_ok'] = 'CAS returned data as expected.  You have a live connection to the CAS.';
 $string['healthuncachedstack_CAS_not'] = 'CAS returned some data as expected, but there were errors.';
+$string['healthautomaxopt'] = 'Automatically create an optimised Maxima image';
+$string['healthautomaxoptintro'] = 'For best performance we need to optimize maxima on a linux machine.  See the <a href="doc/doc.php/CAS/Optimising_Maxima.md">documentation</a> on this issue.';
+$string['healthautomaxopt_ok'] = 'Maxima image created at: <tt>{$a->command}</tt>';
+$string['healthautomaxopt_notok'] = 'Maxima image not created automatically.';
+$string['healthautomaxopt_nolisp'] = 'Unable to determine LISP version, so Maxima image not created automatically.';
 $string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
@@ -964,4 +969,3 @@ $string['calc_int_methods_parts_fact'] = '\[
 or alternatively: \[\int_a^bf(x)g(x)\,{\rm d}x=\left[f(x)\,\int
 g(x){\rm d}x\right]_a^b -\int_a^b{{\rm d}f\over {\rm
 d}x}\left\{\int g(x){\rm d}x\right\}{\rm d}x.\]';
-

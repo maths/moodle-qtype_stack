@@ -369,31 +369,3 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at1->get_display_castext(), '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ \frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
     }
 }
-
-/**
- * Unit tests for {@link stack_cas_text}.
- * @group qtype_stack
- */
-class stack_cas_text_exception_test extends basic_testcase {
-
-    public function test_exception_1() {
-        $session = new stack_cas_session(null);
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_text(array(), null, null);
-        $at1->get_valid();
-    }
-
-    public function test_exception_2() {
-        $session = new stack_cas_session(null);
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_text("Hello world", array(1), null);
-        $at1->get_valid();
-    }
-
-    public function test_exception_3() {
-        $session = new stack_cas_session(null);
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_text("Hello world", $session, "abc");
-        $at1->get_valid();
-    }
-}

@@ -79,6 +79,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('Here \(x\) is some @@PLUGINFILE@@ \(x+1\) some input', $ct->get_display_castext());
     }
 
+    public function test_not_confused_by_pluginfile_real_example() {
+        $realexample = '<p><img style="display: block; margin-left: auto; margin-right: auto;" ' .
+                'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>';
+        $ct = new stack_cas_text($realexample);
+        $this->assertTrue($ct->get_valid());
+        $this->assertEquals(array(), $ct->get_all_raw_casstrings());
+        $this->assertEquals($realexample, $ct->get_display_castext());
+    }
+
     public function test_get_all_raw_casstrings() {
         $raw = 'Take @x^2+2*x@ and then @sin(z^2)@.';
         $at1 = new stack_cas_text($raw, null, 0);

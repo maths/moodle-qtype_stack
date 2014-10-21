@@ -54,34 +54,3 @@ class stack_singlechar_input_test extends basic_testcase {
                         'question__stack1', true));
     }
 }
-
-
-/**
- * Unit tests for stack_boolean_input_test.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
-class stack_singlechar_input_validation_test extends qtype_stack_testcase {
-    public function test_validate_student_response_true() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'x'), $options, 'true', null);
-        $this->assertEquals(stack_input::SCORE, $state->status);
-    }
-
-    public function test_validate_student_response_false() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => ''), $options, 'true', null);
-        $this->assertEquals(stack_input::BLANK, $state->status);
-    }
-
-    public function test_validate_student_response_na() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('singlechar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'xx'), $options, 'true', null);
-        $this->assertEquals(stack_input::INVALID, $state->status);
-    }
-}

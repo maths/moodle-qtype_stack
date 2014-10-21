@@ -414,38 +414,3 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('-7*i+2*j-3*k', $at1->get_value_key('v'));
     }
 }
-
-
-/**
- * Unit tests for {@link stack_cas_session}.
- * @group qtype_stack
- */
-class stack_cas_session_exception_test extends qtype_stack_testcase {
-
-    public function test_exception_1() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session("x=1", false, false);
-    }
-
-    public function test_exception_2() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(array(), null, false);
-        $at1->get_valid();
-    }
-
-    public function test_exception_3() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(array(1, 2, 3), null, false);
-    }
-
-    public function test_exception_4() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(null, 123, false);
-    }
-
-    public function test_exception_5() {
-        $pref = new stack_options();
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(null, $pref, 'abc');
-    }
-}

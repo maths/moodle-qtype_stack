@@ -401,7 +401,9 @@ class stack_cas_session {
             return array();
         }
         foreach ($this->session as $cs) {
-            $keys[$cs->get_key()] = true;
+            if ('' != $cs->get_key()) {
+                $keys[$cs->get_key()] = true;
+            }
         }
         $keys = array_keys($keys);
         return $keys;

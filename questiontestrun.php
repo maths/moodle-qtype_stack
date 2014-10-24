@@ -230,7 +230,7 @@ echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()
         array('class' => 'questionnote'));
 
 // Display the question variables.
-echo $OUTPUT->heading(stack_string('questionvariables'), 3);
+echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 $displayqvs = '';
 foreach ($question->get_all_question_vars() as $key => $value) {
@@ -251,10 +251,19 @@ if ($question->options->get_option('simplify')) {
 } else {
     $simp = '';
 }
+
+$questionvarsinputs = $question->questionvariables;
+foreach($question->get_correct_response() as $key =>$val) {
+    if (substr($key, -4, 4) !== '_val') {
+        $questionvarsinputs .= "\n{$key}:{$val};";
+    }
+}
 $chatparams = $urlparams;
-$chatparams['vars'] = $displayqvs;
+$chatparams['vars'] = $questionvarsinputs;
 $chatparams['simp'] = $simp;
 $chatparams['cas'] = $question->generalfeedback;
+// We've chosen not to send a specific seed since it is helpful
+// to test the general feedback in a random context.
 echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
 
 // Display the controls to add another question test.

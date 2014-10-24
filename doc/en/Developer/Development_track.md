@@ -11,6 +11,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 * Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
 * Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
+* STACK tried to automatically write an optimised image for linux.  This should help installs where unix access is difficult.
 
 ## STACK custom reports
 

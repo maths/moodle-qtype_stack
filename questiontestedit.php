@@ -143,7 +143,7 @@ echo $OUTPUT->heading($title);
 echo $quba->render_question($slot, $options);
 
 // Display the question variables.
-echo $OUTPUT->heading(stack_string('questionvariables'), 3);
+echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 foreach ($question->get_all_question_vars() as $key => $value) {
     echo  html_writer::tag('p', s($key) . ' = ' . s($value));

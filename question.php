@@ -867,7 +867,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         return $this->has_question_capability('edit');
     }
 
-    public function get_all_question_vars() {
+    /* Get the values of all variables which have a key.  So, function definitions
+     * and assignments are ignored by this method.  Used to display the values of
+     * variables used in a question version.  Beware that some functions have side
+     * effects in Maxima, e.g. orderless.  If you use these values you may not get 
+     * the same results as if you recreate the whole session from $this->questionvariables.
+     */
+    public function get_question_var_values() {
         $vars = array();
         foreach ($this->session->get_all_keys() as $key) {
             $vars[$key] = $this->session->get_value_key($key);

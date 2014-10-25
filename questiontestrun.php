@@ -233,7 +233,7 @@ echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()
 echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 $displayqvs = '';
-foreach ($question->get_all_question_vars() as $key => $value) {
+foreach ($question->get_question_var_values() as $key => $value) {
     $displayqvs .= s($key) . ' : ' . s($value). ";\n";
 }
 echo  html_writer::tag('pre', $displayqvs);

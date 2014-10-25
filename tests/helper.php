@@ -169,6 +169,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-2';
+        $q->questionvariables = 'orderless(y,x); a:3; f(x):=x^2; b:f(a); ta:y+x';
         $q->questiontext = 'Expand
                             \[ (x-2)(x-3) = x^2-[[input:ans1]] x+[[input:ans2]]. \]
                             [[validation:ans1</IEfeedback>

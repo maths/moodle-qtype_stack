@@ -11,7 +11,11 @@ STACK is being used live at a number of institutions, including the UK Open Univ
 
 Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1,to 5.31.3 are supported.  Please contact the developers to request support for other versions.
 
-Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and GNUPlot will install themselves in suitable directories.
+Please note, there are problems with older versions of Maxima.  In particular, Maxima 5.23.2 has some differences which result in \(1/\sqrt{x} \neq \sqrt{1/x}\), and similar problems.  This means that we have an inconsistency between questions between versions of maxima.   Of course, we can argue about which values of \(x\) make \(1/\sqrt{x} = \sqrt{1/x}\), but currently the unit tests and assumption is that these expressions should be considered to be algebraically equivalent!   So, older versions of Maxima are not supported for a reason.  Please test thoroughly if you try to use an older version, and expect some errors in the mathematical parts of the code.
+
+Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and GNUPlot will install themselves in suitable directories.  
+
+Instructions for installing a more recent version of Maxima on Centos 6 are available on the [moodle forum](https://moodle.org/mod/forum/discuss.php?d=270956)  (Oct 2014).
 
 ## 3. Add some additional question behaviours
 

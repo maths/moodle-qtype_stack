@@ -341,10 +341,10 @@ class stack_cas_castext_castextparser extends Parser\Basic {
     /* texcasblock: "{@" cascontent:/[^@]+/ "@}" */
     protected $match_texcasblock_typestack = array('texcasblock');
     function match_texcasblock ($stack = array()) {
-    	$matchrule = "texcasblock"; $result = $this->construct($matchrule, $matchrule, null);
-    	$_3 = NULL;
-    	do {
-    		if (( $subres = $this->literal( '{@' ) ) !== FALSE) { $result["text"] .= $subres; }
+        $matchrule = "texcasblock"; $result = $this->construct($matchrule, $matchrule, null);
+        $_3 = NULL;
+        do {
+            if (( $subres = $this->literal( '{@' ) ) !== FALSE) { $result["text"] .= $subres; }
     		else { $_3 = FALSE; break; }
     		$stack[] = $result; $result = $this->construct( $matchrule, "cascontent" ); 
     		if (( $subres = $this->rx( '/[^@]+/' ) ) !== FALSE) {

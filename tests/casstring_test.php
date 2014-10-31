@@ -210,7 +210,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
         foreach ($cases as $case) {
             $cs = new stack_cas_casstring($case[0]);
-            $this->assertEquals($case[2], $cs->validate('s', true, false, $case[1]));
+            $this->assertEquals($case[2], $cs->validate('s', true, 0, $case[1]));
         }
     }
 

@@ -159,13 +159,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_get_all_raw_casstrings() {
-    	$raw = 'Take {@x^2+2*x@} and then {@sin(z^2)@}.';
-    	$at1 = new stack_cas_text($raw, null, 0);
-    	$val = array('x^2+2*x', 'sin(z^2)');
-    	$this->assertEquals($val, $at1->get_all_raw_casstrings());
-    }
-
     public function test_not_confused_by_pluginfile() {
         $ct = new stack_cas_text('Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input', null, 0);
         $this->assertTrue($ct->get_valid());
@@ -497,11 +490,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('\begin{align*} x & = @a@+1 \\ & = @a+1@ \end{align*}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('\begin{align*} x & = {@a@}+1 \\ & = {@a+1@} \end{align*}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\begin{align*} x & = 2+1 \ & = 3 \end{align*}');
+        $this->assertEquals($at1->get_display_castext(), '\begin{align*} x & = {2}+1 \ & = {3} \end{align*}');
     }
 
     public function test_mathdelimiters2() {
@@ -514,10 +507,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('\begin{multline*} @a@ \\\\ @p@ \end{multline*}', $cs2, 0, 't');
+        $at1 = new stack_cas_text('\begin{multline*} {@a@} \\\\ {@p@} \end{multline*}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ \frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
+        $this->assertEquals($at1->get_display_castext(), '\begin{multline*} {\frac{x^2}{\left(x^2+1\right)^3}} \\\\ {\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4}} \end{multline*}');
     }
 }

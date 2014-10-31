@@ -41,7 +41,7 @@ $questionid = optional_param('questionid', null, PARAM_INT);
 if (!$questionid) {
     require_login();
     $context = context_system::instance();
-    require_capability('moodle/site:config', $context);
+    require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = array();
 
 } else {
@@ -57,7 +57,6 @@ if (!$questionid) {
 }
 
 $context = context_system::instance();
-require_capability('moodle/site:config', $context);
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/caschat.php', $urlparams);
 $title = stack_string('chattitle');
@@ -110,6 +109,12 @@ if ($string) {
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 echo html_writer::tag('p', stack_string('chatintro'));
+
+// If we are editing the General Feedback from a question it is very helpful to see the question text.
+if ($questionid) {
+    echo $OUTPUT->heading(stack_string('questiontext'), 3);
+    echo html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
+}
 
 if (!$varerrs) {
     if ($string) {

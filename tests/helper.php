@@ -54,6 +54,7 @@ class qtype_stack_test_helper extends question_test_helper {
             '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
             'information',  // Neither inputs nor PRTs.
             'survey',       // Inputs, but no PRTs.
+            'single_char_vars' // Tests the insertion of * symbols between letter names.
         );
     }
 
@@ -168,6 +169,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-2';
+        $q->questionvariables = 'orderless(y,x); a:3; f(x):=x^2; b:f(a); ta:y+x';
         $q->questiontext = 'Expand
                             \[ (x-2)(x-3) = x^2-[[input:ans1]] x+[[input:ans2]]. \]
                             [[validation:ans1</IEfeedback>
@@ -894,6 +896,37 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a very elementary question.
+     */
+    public static function make_stack_question_single_char_vars() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'single_char_vars';
+        $q->questionvariables = 'a:sin(x*y);';
+        $q->questiontext = 'What is @a@? [[input:ans1]]
+                               [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                    'algebraic', 'ans1', '2', array('boxWidth' => 5, 'insertStars' => 2, 'strictSyntax' => false));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('sin(x*y)');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question the question from the test0.xml file.
      */
     public static function get_stack_question_data_test0() {
@@ -1307,5 +1340,4 @@ class qtype_stack_test_helper extends question_test_helper {
 
         return $qdata;
     }
-
 }

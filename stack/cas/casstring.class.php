@@ -447,7 +447,7 @@ class stack_cas_casstring {
      * $insertstars is whether we actually put stars into the places we expect them to go
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
-    public function validate($security='s', $syntax=true, $insertstars=false, $allowwords='') {
+    public function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
 
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.  Got the following: '.$security);
@@ -457,8 +457,8 @@ class stack_cas_casstring {
             throw new stack_exception('stack_cas_casstring: syntax, must be Boolean.');
         }
 
-        if (!is_bool($insertstars)) {
-            throw new stack_exception('stack_cas_casstring: insertstars, must be Boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_casstring: insertstars, must be an integer.');
         }
 
         if (!is_string($allowwords)) {
@@ -713,6 +713,17 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
+        // Commas not inside brackets either should be, or indicate a decimal number not
+        // using the decimal point.  In either case this is problematic.
+        // For now, we just look for expressions with a comma, but without brackets.
+        // [TODO]: improve this test to really look for unencapsulated commas.
+        if (!(false === strpos($cmd, ',')) && !(!(false === strpos($cmd, '(')) ||
+                !(false === strpos($cmd, '[')) || !(false === strpos($cmd, '{')) )) {
+            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
+            $this->answernote[] = 'unencpsulated_comma';
+            $this->valid = false;
+        }
+
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security, $allowwords);
@@ -737,10 +748,10 @@ class stack_cas_casstring {
         // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
             $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
-            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3 x (.
+            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3x(.
         } else {
             $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
-            $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3 x (.
+            $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3x(.
         }
 
         if ($security == 's') {
@@ -748,6 +759,7 @@ class stack_cas_casstring {
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.
                 $patterns[] = "|(\*[A-Za-z])(\()|";
+                $patterns[] = "|(\-[A-Za-z])(\()|";
                 $patterns[] = "|([A-Za-z])([0-9]+)|"; // E.g. x3.
             }
         }
@@ -816,7 +828,8 @@ class stack_cas_casstring {
                 if (!in_array($kw, self::$globalforbid)) {
                     $allow[] = $kw;
                 } else {
-                    throw new stack_exception('stack_cas_casstring: check_security: attempt made to allow gloabally forbidden keyword: '.$kw);
+                    throw new stack_exception('stack_cas_casstring: check_security: ' .
+                            'attempt made to allow gloabally forbidden keyword: ' . $kw);
                 }
             }
         }
@@ -1035,7 +1048,7 @@ class stack_cas_casstring {
             $this->key   = '';
         } else {
             // Need to check we don't have a function definition.
-            if ('=' === substr($this->casstring, $i+1, 1)) {
+            if ('=' === substr($this->casstring, $i + 1, 1)) {
                 $this->key   = '';
             } else {
                 $this->key       = trim(substr($this->casstring, 0, $i));
@@ -1048,7 +1061,7 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security='s', $syntax=true, $insertstars=false) {
+    public function get_valid($security='s', $syntax=true, $insertstars=0) {
         if (null === $this->valid) {
             $this->validate($security, $syntax, $insertstars);
         }
@@ -1140,10 +1153,16 @@ class stack_cas_casstring {
     }
 
     // If we "CAS validate" this string, then we need to set various options.
+<<<<<<< HEAD
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats=true, $lowestterms=true, $tans=null, $allowwords='') {
+=======
+    // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
+    public function set_cas_validation_casstring($key, $forbidfloats = true,
+                    $lowestterms = true, $singlecharvars = false, $tans = null, $allowwords = '') {
+>>>>>>> master
         if (null === $this->valid) {
-            $this->validate('s', true, false, $allowwords);
+            $this->validate('s', true, 0, $allowwords);
         }
         if (false === $this->valid) {
             return false;
@@ -1162,6 +1181,10 @@ class stack_cas_casstring {
             $lowestterms = 'true';
         } else {
             $lowestterms = 'false';
+        }
+
+        if ($singlecharvars) {
+            $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
         }
 
         if (null === $tans) {

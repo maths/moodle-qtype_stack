@@ -114,6 +114,9 @@ class stack_utils {
     /** @var object the STACK config data, so we only ever have to load it from the DB once. */
     protected static $config = null;
 
+    /** @var A list of mathematics environments we search for, from AMSmath package 2.0. */
+    protected static $mathdelimiters = array('equation', 'align', 'gather', 'flalign', 'multline', 'alignat', 'split');
+
     /**
      * @var string fragment of regular expression that matches valid PRT and
      * input names.
@@ -410,7 +413,7 @@ class stack_utils {
 
 
     /**
-     * Replaces @blah@ with $@blah@$ if the castext is not otherwise enclosed by $'s.
+     * Replaces @blah@ with \(@blah@\) if the castext is not otherwise enclosed by mathematics environments.
      * @param string
      * @return string
      */
@@ -442,6 +445,10 @@ class stack_utils {
      */
     public static function math_start($text, $offset = 0) {
         $delimiters = array('$', '$$', '\(', '\[');
+        foreach(self::$mathdelimiters as $delim) {
+            $delimiters[] = '\begin{'.$delim.'}';
+            $delimiters[] = '\begin{'.$delim.'*}';
+        }
         $at = false; // Not yet found.
         foreach ($delimiters as $d) {
             $pos = strpos($text, $d, $offset);
@@ -460,6 +467,10 @@ class stack_utils {
      */
     public static function math_length($text, $start) {
         $delimiters = array('$', '$$', '\)', '\]');
+        foreach(self::$mathdelimiters as $delim) {
+            $delimiters[] = '\end{'.$delim.'}';
+            $delimiters[] = '\end{'.$delim.'*}';
+        }
         $at = false;
         $ender = '';
         $len = strlen($text);
@@ -808,5 +819,29 @@ class stack_utils {
             $suggestedname++;
         }
         return $suggestedname;
+    }
+
+    /**
+     * Locale-aware version of PHP's asort function.
+     * @param array $array The array to sort. Sorted in place.
+     */
+    public static function sort_array(&$array) {
+        if (class_exists('core_collator')) {
+            core_collator::asort($array);
+        } else {
+            collatorlib::asort($array);
+        }
+    }
+
+    /**
+     * Locale-aware version of PHP's ksort function.
+     * @param array $array The array to sort. Sorted in place.
+     */
+    public static function sort_array_by_key(&$array) {
+        if (class_exists('core_collator')) {
+            core_collator::ksort($array);
+        } else {
+            collatorlib::ksort($array);
+        }
     }
 }

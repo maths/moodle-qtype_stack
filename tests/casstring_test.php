@@ -66,6 +66,8 @@ class stack_cas_casstring_test extends basic_testcase {
             // Inequalities.
             array('x>=1', true, true),
             array('x=>1', false, false),
+            // Unencapsulated commas.
+            array('a,b', false, false),
         );
 
         foreach ($cases as $case) {
@@ -265,7 +267,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_scientific_2() {
         $s = 'a:3e2';
         $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('s', false, false));
+        $this->assertFalse($at1->get_valid('s', false, 0));
         $this->assertEquals('3e2', $at1->get_casstring());
         $this->assertEquals('missing_stars', $at1->get_answernote());
     }
@@ -273,7 +275,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_scientific_3() {
         $s = 'a:3e2';
         $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s', false, true));
+        $this->assertTrue($at1->get_valid('s', false, 1));
         $this->assertEquals('3*e*2', $at1->get_casstring());
         $this->assertEquals('missing_stars', $at1->get_answernote());
     }
@@ -298,41 +300,11 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
     }
-}
 
-
-/**
- * Unit tests for {@link stack_cas_casstring}.
- * @group qtype_stack
- */
-class stack_cas_casstring_exception_test extends basic_testcase {
-
-    public function test_exception_1() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_casstring(array());
-    }
-
-    public function test_exception_2() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid(false, false, false);
-    }
-
-    public function test_exception_3() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid('z', false, false);
-    }
-
-    public function test_exception_4() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid('t', 'a', false);
-    }
-
-    public function test_exception_5() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid('t', true, 'a');
+    public function test_unencapsulated_commas_1() {
+        $s = 'a,b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unencpsulated_comma', $at1->get_answernote());
     }
 }

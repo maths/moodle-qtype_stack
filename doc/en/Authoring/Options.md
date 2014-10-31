@@ -20,7 +20,7 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Question Penalty ### {#Question_penalty)
+### Question Penalty ### {#Question_penalty}
 
 This is the percentage of the marks deducted from each different and valid attempt which is not
 completely correct, when the penalty mark modification scheme is in use.
@@ -35,6 +35,10 @@ The following options affect how mathematics is displayed.
 * (none), e.g. \(x(x+1)\)
 * Dot, e.g. \(x\cdot(x+1)\)
 * Cross, e.g. \(x\times (x+1)\)
+
+In practice it is very helpful to have some kind of multiplication sign displayed to the student.  The difference between
+\[ xe^x \mbox{ and } x\,e^x\]
+is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\dot e^x\) neatly solves this problem.
 
 ### Surd for Square Root ### {#surd}
 

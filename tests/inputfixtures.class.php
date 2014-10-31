@@ -85,6 +85,7 @@ class stack_inputvalidation_test_data {
         array('[]', 'php_true', '[]', 'cas_true', "Lists"),
         array('[1]', 'php_true', '[1]', 'cas_true', ""),
         array('[1,2,3.4]', 'php_true', '[1,2,3.4]', 'cas_true', ""),
+        array('[x, y, z ]', 'php_true', '[x, y, z ]', 'cas_true', ""),
         array('["a"]', 'php_true', '["a"]', 'cas_true', ""),
         array('[1,true,"a"]', 'php_true', '[1,true,"a"]', 'cas_true', ""),
         array('[[1,2],[3,4]]', 'php_true', '[[1,2],[3,4]]', 'cas_true', ""),
@@ -201,8 +202,19 @@ class stack_inputvalidation_test_data {
         array('(x+2)3', 'php_true', '(x+2)*3', 'cas_true', "Implicit multiplication"),
         array('(x+2)y', 'php_true', '(x+2)*y', 'cas_true', ""),
         array('3(x+1)', 'php_true', '3*(x+1)', 'cas_true', ""),
+        array('-3(x+1)', 'php_true', '-3*(x+1)', 'cas_true', ""),
+        array('2+3(x+1)', 'php_true', '2+3*(x+1)', 'cas_true', ""),
         array('x(2+1)', 'php_true', 'x*(2+1)', 'cas_true', ""),
+        array('7x(2+1)', 'php_true', '7*x*(2+1)', 'cas_true', ""),
         array('(x+2)(x+3)', 'php_true', '(x+2)*(x+3)', 'cas_true', ""),
+        array('cos(2x)(x+1)', 'php_true', 'cos(2*x)*(x+1)', 'cas_true', ""),
+        array('b(b+1)', 'php_true', 'b*(b+1)', 'cas_true', ""),
+        array('-b(5-b)', 'php_true', '-b*(5-b)', 'cas_true', ""),
+        array('-x(1+x)', 'php_true', '-x*(1+x)', 'cas_true', ""),
+        array('1-x(1+x)', 'php_true', '1-x*(1+x)', 'cas_true', ""),
+        array('-3x(1+x)', 'php_true', '-3*x*(1+x)', 'cas_true', ""),
+        array('i(1+i)', 'php_true', 'i*(1+i)', 'cas_true', ""),
+        array('i(4)', 'php_true', 'i*(4)', 'cas_true', ""),
         array('f(x)(2)', 'php_true', 'f*(x)*(2)', 'cas_true', ""),
         array('xsin(1)', 'php_false', '', '',
         "single-letter variable name followed by known function is an implicit multiplication"),
@@ -328,8 +340,11 @@ class stack_inputvalidation_test_data {
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', ""),
         array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true', "Subscripts"),
-        array('a,b,c', 'php_true', 'a,b,c', 'cas_true', "The following are known to fail.  Some are bugs...."),
-        );
+        array('a,b,c', 'php_false', 'a,b,c', 'cas_true', "Unencapsulated commas"),
+        array('3,14159', 'php_false', '3,14159', 'cas_true', ""),
+        array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', ""),
+        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', "The following are known to fail.  Some are bugs...."),
+    );
 
     public static function get_raw_test_data() {
         return self::$rawdata;
@@ -356,15 +371,15 @@ class stack_inputvalidation_test_data {
     public static function run_test($test) {
         // Note: What we would really like to do is
         // $el = stack_input_factory::make('algebraic', 'sans1', 'x');
-        // $el->set_parameter('insertStars', true);
+        // $el->set_parameter('insertStars', 1);
         // $el->set_parameter('strictSyntax', false);
         // $el->set_parameter('sameType', false);
         // $cs = $el->validate_student_response($test->rawstring);
         // but we want to pull apart the bits to expose where the various errors occur.
 
         $cs = new stack_cas_casstring($test->rawstring);
-        $cs->validate('s', false, true);
-        $cs->set_cas_validation_casstring('sans1', true, true, null);
+        $cs->validate('s', false, 1);
+        $cs->set_cas_validation_casstring('sans1', true, true, false, null);
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {

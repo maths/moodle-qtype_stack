@@ -305,7 +305,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
                 } else {
                     $err = 'broken cycles: '.implode('.', $graph->get_broken_cycles());
                 }
-                throw new coding_exception('The PRT named "' . $prt->name . '" is malformed in question id '.$prt->questionid.', question named "'.implode(', ', $qnames).'".  Error reported: '.$err);
+                throw new coding_exception('The PRT named "' . $prt->name .
+                        '" is malformed in question id ' . $prt->questionid .
+                        ', question named "' . implode(', ', $qnames) .
+                        '".  Error reported: ' . $err);
             }
             reset($roots);
             $firstnode = key($roots) - 1;

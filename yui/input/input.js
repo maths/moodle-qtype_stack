@@ -192,7 +192,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         this.validationdiv.setContent(html);
 
         // Run script commands.
-        for (var i=0; i<scriptcommands.length; i++) {
+        for (var i = 0; i < scriptcommands.length; i++) {
             eval(scriptcommands[i]);
         }
 

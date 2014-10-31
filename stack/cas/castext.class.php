@@ -20,8 +20,8 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once('cassession.class.php');
-require_once('casstring.class.php');
+require_once(__DIR__ . '/cassession.class.php');
+require_once(__DIR__ . '/casstring.class.php');
 require_once('castext/castextparser.class.php');
 require_once('castext/raw.class.php');
 require_once('castext/latex.class.php');
@@ -105,8 +105,8 @@ class stack_cas_text {
             throw new stack_exception('stack_cas_text: 5th argument, stringSyntax, must be Boolean.');
         }
 
-        if (!is_bool($insertstars)) {
-            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be Boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be an integer.');
         }
 
         $this->security    = $security;
@@ -311,43 +311,46 @@ class stack_cas_text {
     }
 
 
-    private function first_pass_recursion(&$node, $condition_stack) {
-        $block_child_evaluation = false;
-        switch ($node->type) {
-            case 'castext':
-                $iter = $node->first_child;
-                while ($iter !== null) {
-                    $this->first_pass_recursion($iter, $condition_stack);
-                    $iter = $iter->next_sibling;
-                }
-                break;
-            case 'block':
-                $block = null;
-                switch ($node->get_content()) {
-                    case 'if':
-                        $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                        break;
-                    case 'define':
-                        $block = new stack_cas_castext_define($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                        break;
-                    case 'foreach':
-                        $block = new stack_cas_castext_foreach($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                        break;
-                    case 'external':
-                        if ($this->settings->externalblocks == '1') {
-                            $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
-                        } else {
-                            throw new stack_exception('stack_cas_text: EXTERNAL BLOCK WHILE THEY ARE DISABLED');
-                        }
-                        break;
-                    default:
-                        throw new stack_exception('stack_cas_text: UNKNOWN NODE '.$node->get_content());
-                }
-                $block->extract_attributes($this->session, $condition_stack);
-                $this->blocks[] = $block;
-                $new_stack = $block->content_evaluation_context($condition_stack);
-                if ($new_stack === false) {
-                    $block_child_evaluation = true;
+            // Create array of commands matching with their labels.
+            $i = 0;
+            $valid = true;
+            $errors = '';
+            $cmdarray = array();
+            $labels   = array();
+
+            $sessionkeys = array();
+            if (is_a($this->session, 'stack_cas_session')) {
+                $sessionkeys = $this->session->get_all_keys();
+            }
+            foreach ($temp as $cmd) {
+                // Trim of surrounding white space and CAS commands.
+                $cmd = stack_utils::trim_commands($cmd);
+
+                $cs = new stack_cas_casstring($cmd);
+                $cs->validate($this->security, $this->syntax, $this->insertstars);
+
+                do { // ... make sure names are not already in use.
+                    $key = 'caschat'.$i;
+                    $i++;
+                } while (in_array($key, $sessionkeys));
+                $sesionkeys[] = $key;
+                $labels[] = $key;
+                $cs->set_key($key, true);
+                $cmdarray[] = $cs;
+
+                $valid = $valid && $cs->get_valid();
+                $errors .= $cs->get_errors();
+            }
+
+            if (!$valid) {
+                $this->valid = false;
+                $this->errors .= stack_string('stackCas_invalidCommand').'</br>'.$errors;
+            }
+
+            if (!empty($cmdarray)) {
+                $newsession   = $this->session;
+                if (null === $newsession) {
+                    $newsession = new stack_cas_session($cmdarray, null, $this->seed);
                 } else {
                     $condition_stack = $new_stack;
                 }

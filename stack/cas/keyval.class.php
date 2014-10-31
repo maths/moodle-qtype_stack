@@ -46,11 +46,11 @@ class stack_cas_keyval {
     /** @var bool if true, apply strict syntax checks. */
     private $syntax;
 
-    public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $stars=false) {
+    public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
         $this->raw          = $raw;
         $this->security     = $security;
-        $this->insertstars  = $stars;
         $this->syntax       = $syntax;
+        $this->insertstars  = $insertstars;
 
         $this->session      = new stack_cas_session(null, $options, $seed);
 
@@ -63,11 +63,11 @@ class stack_cas_keyval {
         }
 
         if (!is_bool($syntax)) {
-            throw new stack_exception('stack_cas_keyval: 3 argument, syntax, must be boolean.');
+            throw new stack_exception('stack_cas_keyval: 5th argument, syntax, must be boolean.');
         }
 
-        if (!is_bool($stars)) {
-            throw new stack_exception('stack_cas_keyval: 6th argument, stars, must be boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_keyval: 6th argument, stars, must be an integer.');
         }
     }
 

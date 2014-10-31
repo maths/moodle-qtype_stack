@@ -59,7 +59,7 @@ Hence, we need quite a number of different answer tests to establish equality in
 
 | Test                                              | Description
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| CasEqual                                          | Are the parse trees of the two expressions equal?
+| CasEqual                                          | Are the parse trees of the two expressions equal?  
 | [EqualComAss](Answer_tests.md#EqualComAss)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? For example \[a+b=b+a\mbox{,}\] but \[x+x\neq 2x\mbox{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
 | [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
@@ -78,12 +78,22 @@ This is the most commonly used test.  The pseudo code
     else
       false.
 
-This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object)
-of mathematical objects, including lists, sets, equations, inequalities and matrices.
-Exactly what it does depends on what objects are given to it.
+This test will work with a variety of [types of object](../CAS/Maxima.md#Types_of_object) of mathematical objects, including lists, sets, equations, inequalities and matrices.
 
 * This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it always fully simplifies all its arguments.
 * Use `AlgEquiv(predicate(ex),true)` with [predicate functions](../CAS/Predicate_functions.md).
+
+Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
+
+For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.  
+
+Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) are considered to be different.  If you want these to be considered the same you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.
+
+    ev(radcan({-sqrt(2)/sqrt(3)}),simp);
+    ev(radcan({-2/sqrt(6)}),simp);
+
+Why doesn't the test automatically apply `radcan`?  If we always did this, then \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\) would be expanded out, which would break the system.  Since, in a given situation, we know a lot about what a student is likely to answer we can apply an appropriate form.   There isn't one rule which will work here, unfortunately.
+
 
 ### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 
@@ -100,8 +110,10 @@ The CAS returns the result of the simple Maxima command
     if StudentAnswer=TeacherAnswer then true else false.
 
 There is no explicit simplification here (unlike AlgEquiv).
-This test works in different ways depending on whether [simplification](../CAS/Simplification.md) is on.
-When simplification is off this test effectively tests whether the parse trees are identical.
+This test always assumes [simplification](../CAS/Simplification.md) is off, i.e. `simp:false`, regardless of any question settings.  If this is too strict, use `ev(ex,simp)` in the arguments to simplify them explicitly first.
+When simplification is off this test effectively tests whether the parse trees are identical. 
+
+Please note, the behaviour of this test relies on the internal representation of expressions by Maxima, rather than an explicit mathematical property such as "equivalence".  Explicit properties should be tested in preference to using this test!
 
 ### SysEquiv ###
 

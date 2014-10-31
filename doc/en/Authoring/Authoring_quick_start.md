@@ -35,7 +35,7 @@ Differentiate \((x-1)^3\) with respect to \(x\).
 There are a number of things to notice about this text.
 
 * The text contains LaTeX mathematics environments.
-* The tag `[[input:ans1]]` will be replaced by an [input](Inputs.md) labelled `ans1`, i.e this scores the position of the box into which the student puts their answer.
+* The tag `[[input:ans1]]` will be replaced by an [input](Inputs.md) labelled `ans1`, i.e this denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`.
 
 By default, a new question automatically has one [input](Inputs.md), and one algorithm to assess the answer.
@@ -116,7 +116,7 @@ The system executes the potential response tree and establishes whether your ans
 to the model answer `3*(x-1)^2`.  Next, try getting the question wrong.  If your server does not have "instant validation" switched on (an administrator/installation option) you will need to submit each answer twice.
 Notice all your responses are stored in an attempts table.
 
-We would really like to add better feedback, so it is time to edit the question again.  Choose EDIT from the link at the top of the page.
+We would really like to add better feedback, so it is time to edit the question again.  Return to the question bank page and click on the link to edit the question.
 
 ## Better feedback ##
 
@@ -188,7 +188,7 @@ Your answer is unfactored. There is no need to expand out the expression in this
 This new feedback can be tested by typing in an expanded answer, i.e. `3*x^2-6*x+3`.
 
 You can continue to add more potential response nodes as the need arises. These can test for more subtle errors
-based upon the common mistakes student's make. In each case an [answer tests](Answer_tests.md) can be used to
+based upon the common mistakes students make. In each case an [answer tests](Answer_tests.md) can be used to
 make a different kind of distinction between answers.
 
 ## Random questions ##
@@ -196,7 +196,7 @@ make a different kind of distinction between answers.
 At this point you might consider saving as a new question.
 
 It is common to want to use random numbers in questions. This is straightforward to do, and we
-make use of the optional [question variables](KeyVals.md#Question_variables) field
+make use of the optional [question variables](KeyVals.md#Question_variables) field.
 
 STACK 3 uses Maxima's syntax for assignment, which is unusual.  In particular the colon `:` is used to assign a value to a variable.  So to assign the value of `5` to `n` we use the syntax `n:5`.
 
@@ -285,7 +285,7 @@ You will also need to update the question note to be
 
 Testing questions is time consuming and tedious, but important to ensure questions work.  To help with this process STACK enables teachers to define "question tests".  These are the same principle as "unit tests" in software engineering.
 
-From the question preview window, click on `Run the question tests...` link in the top right of the page.
+From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
 
 Please read the page on [testing](Testing.md).
 

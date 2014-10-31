@@ -106,11 +106,11 @@ sqrtdenest(a) :=
   subst("^" = lambda([a, b],
      block([discr, max, min],
        if evenp(denom(b)) and not atom(a) and inpart(a, 0) = "+"
-			  and (max:max(first(a), rest(a)),
-			       min:a-max,
-			       numberp(discr:sqrt(1-(min/max)^2)))
-	  then (sqrt(max*(1+discr)/2)+signum(min)*sqrt(max*(1-discr)/2))^(2*b)
-	  else a^b)),
+           and (max:max(first(a), rest(a)),
+                   min:a-max,
+                   numberp(discr:sqrt(1-(min/max)^2)))
+      then (sqrt(max*(1+discr)/2)+signum(min)*sqrt(max*(1-discr)/2))^(2*b)
+      else a^b)),
       a
 )$
 
@@ -264,6 +264,13 @@ detexdecorate(ex) := block([argsex],
   if op(ex) = texdecorate then return(detexdecorate(argsex[2])),
   if op(ex) = "/" then return(detexdecorate(argsex[1])/detexdecorate(argsex[2])),
   map(detexdecorate, ex)
+)$
+
+/* Assume all non-numeric atoms are to be displayed in bold. */
+texboldatoms(ex) := block(
+  if numberp(ex) then return(ex),
+  if atom(ex) then return(texdecorate("\\bf", ex)),
+  apply(op(ex), maplist(texboldatoms, args(ex)))
 )$
 
 /* We only display matrices with the following matching pairs of delimiters.  
@@ -503,6 +510,19 @@ stack_strip_percent(ex,var) := block([lv1, lv2, subcount, indx,exs],
     return(exs)
 )$
 
+/* These functions convert all variables in an expression to products of single letter variable names. */
+stack_singlevar_make_helper(ex) := block([s],
+  s:maplist(eval_string, charlist(string(ex))),
+  apply("*", s)
+)$
+
+stack_singlevar_make(ex) := block([vars, subs],
+  vars:sublist(listofvars(ex), lambda([ex], if slength(string(ex))>1 then true else false)),
+  if emptyp(vars) then return(ex),
+  vars:maplist(lambda([ex], ex=stack_singlevar_make_helper(ex)), vars),
+  sublis(vars, ex)
+)$
+
 
 /* *************************************/
 /* Output graphics,                    */
@@ -515,7 +535,7 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs],
+    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake],
     /* Arguments to plot must be lists */
     ral:sublist(ra, listp), /* The actual arguments used by plot */
     /* Check expressions to be plotted has/have only one variable. */
@@ -570,8 +590,8 @@ set output ",afn),
     set_plot_option([gnuplot_preamble, preamble]),
     /* Create and execute the actual plot commands */
     pltargs:append([ex], ral),
-    p:funmake(plot2d, pltargs),
-    ev(p),
+    plotfunmake:funmake(plot2d, pltargs),
+    ev(plotfunmake),
     sysp:concat(GNUPLOT_CMD, " ", tfn),
     sysr:concat(DEL_CMD, " ", tfn),
     system(sysp),
@@ -952,8 +972,8 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2],
     RawMark:false,
 
     /* First try without expanding out the equations */
-    R1:ev(lhs(factor(SA))-rhs(factor(SA)),simp),
-    R2:ev(lhs(factor(SB))-rhs(factor(SB)),simp),
+    R1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
+    R2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
     if (R1=0 and R2=0) then
         return([true, true, "", ""]),
     if numberp(float(abs(R1/R2))) then 
@@ -980,26 +1000,26 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     if SA = SB then RawMark:true,
     /* Now try to give some basic feedback: potential for more work to recurse over complex expressions... */
     if op(SA) = ">"  and op(SB) =">=" then block(
-        AnswerNote:StackAddNote("","ATInequality_strict"),
-        FeedBack:StackAddFeedback("","ATInequality_strict")
+        AnswerNote:StackAddNote("", "ATInequality_strict"),
+        FeedBack:StackAddFeedback("", "ATInequality_strict")
     ),
     if op(SA) = ">=" and op(SB) =">" then block(
-        AnswerNote:StackAddNote("","ATInequality_nonstrict"),
-        FeedBack:StackAddFeedback("","ATInequality_nonstrict")
+        AnswerNote:StackAddNote("", "ATInequality_nonstrict"),
+        FeedBack:StackAddFeedback("", "ATInequality_nonstrict")
     ),
     if (">" = op(SA) or ">=" = op(SA)) and  (">" = op(SB) or ">=" = op(SB)) then block(
-        SA1:ev(part(SA,1), simp),
-        SB1:ev(part(SB,1), simp),
+        SA1:ev(part(SA, 1), simp),
+        SB1:ev(part(SB, 1), simp),
         if algebraic_equivalence(-1*SA1,SB1) then block(
-            AnswerNote:StackAddNote(AnswerNote,"ATInequality_backwards"),
-            FeedBack:StackAddFeedback(FeedBack,"ATInequality_backwards")
+            AnswerNote:StackAddNote(AnswerNote, "ATInequality_backwards"),
+            FeedBack:StackAddFeedback(FeedBack, "ATInequality_backwards")
         )
     ),
     return([true, RawMark, AnswerNote, FeedBack])
 )$
 
 
-/* This (experimental) code decides if two functions are the same.  Strict notion currently */
+/* This (experimental) code decides if two functions are the same.  Strict notion currently. */
 ATFunction(SA, SB) := block([RawMark, FeedBack, AnswerNote, df, SA1, SB1, SAd1, SBd1],
     RawMark:true, FeedBack:"", AnswerNote:"",
     if not(functionp(SA)) then return([false, 0, "ATFunction_SA_not_function", FeedBack]),
@@ -1031,7 +1051,7 @@ ATFunction(SA, SB) := block([RawMark, FeedBack, AnswerNote, df, SA1, SB1, SAd1, 
     return([true, RawMark, AnswerNote, FeedBack])
 )$
 
-/* An answer test based on two matrices for SA and SB */
+/* An answer test based on two matrices for SA and SB. */
 ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SBr, SBc, k, AddFeedBack],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Get sizes of matrices */
@@ -1063,7 +1083,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
     return(ret)
     )$
 
-/* An answer test based on two lists for SA and SB */
+/* An answer test based on two sets for SA and SB. */
 ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Get sizes of matrices */
@@ -1116,7 +1136,7 @@ ATSameTypefun(SA, SB) := block([simp:true, ret],
 )$
 
 /* Tests if the SA equals SB in lowest terms, and gives feedback.
-   Note, this is identical to ATAlgEquiv with simp:false otherwise */
+   Note, this is identical to ATAlgEquiv with simp:false otherwise. */
 ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, AnswerNote, SAA],
     /* Turn on simplification and error catch */
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -1363,11 +1383,25 @@ ATCASEqual(SA,SB) :=
     SBB:errcatch(ev(SB, simp, nouns)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATCASEqual_STACKERROR_TAns"),""]),
 
-    if SA=SB then
-       (RawMark:true, AnswerNote:"ATCASEqual_true")
+    /* Now actually apply this test */
+    if equals_commute_associate(sa,sb) then 
+        (RawMark:true, AnswerNote:"")
     else
-       AnswerNote:"ATCASEqual_false",
-    return([Validity,RawMark,StackAddNote("",AnswerNote),FeedBack])
+        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
+
+    if SA=SB then
+       return([Validity, true, StackAddNote("","ATCASEqual_true"), FeedBack]),
+
+    /* We need to check things are of the same type */
+    ret:ATSameTypefun(SA,SB),
+    if ret[2]=false then    
+        return([true, false, StackAddNote("ATCASEqual: ", StackTrimNote(ret[3])), ret[4]]),
+    ret:block([simp:true, ret], ATAlgEquivfun(SA, SB)),
+    if ret[2]=true then    
+        return([true, false, StackAddNote("ATCASEqual: (AlgEquiv:true)", StackTrimNote(ret[3])), ""]),
+
+    AnswerNote:"ATCASEqual_false",
+    return([Validity, RawMark, StackAddNote("",AnswerNote),FeedBack])
     )$
 
 /* SA>SB? */
@@ -2269,5 +2303,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014060201$
-print("[ STACK-Maxima started, library version 2014060201 ]")$
+stackmaximaversion:2014100900$
+print("[ STACK-Maxima started, library version 2014100900 ]")$

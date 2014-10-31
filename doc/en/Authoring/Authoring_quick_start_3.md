@@ -28,7 +28,7 @@ Of course, we don't want Maxima to _actually calculate the power_ just to _repre
     simp:false;
     (3*%e^(%i*%pi/2))^4;
 
-Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll towards the bottom of the form and set `Question-level simplify` to be `false`.
+Solving problems at the level of the CAS, not at the level of the display, is often better.    To tell STACK to set `simp:false` throughout the question scroll towards the bottom of the form and under `Options` set `Question-level simplify` to be `No`.
 
 This does have some drawbacks.  Having switched off all simplification, we now need to turn it back on selectively! To do this, we use Maxima commands such as the following.
 
@@ -82,9 +82,11 @@ Given a complex number \(\displaystyle z={@q@}\) determine
 and \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
 </textarea>
 
+Remove the tag `[[feedback:prt1]]` from the Specific feedback field.  It is placed there by default, but can only occur once.
+
 Update the form.  Because there are two inputs and two potential response trees these will be automatically created.
 
-We need to supply _correct_ answers for each part.  In terms of our question variables,
+We need to supply model answers for each part.  In terms of our question variables,
 
     ans1 : a^n
     ans2 : p*%pi
@@ -95,18 +97,18 @@ It is unlikely that the purpose of this question is to decide if the student can
 
 Hence, for `prt1` fill in the following information
 
-    sans:ans1
-    tans:a^n
+    SAns:ans1
+    TAns:a^n
     answertest:AlgEquiv
 
 If you really want to test for the integer, you need to calculate `ev(a^n,simp)` and then use the `EqualComAss` test to establish the student has the right integer.
 
 For `prt2` we need to establish the student has the right argument.  Since this is modulo \(2\pi\) we can use the trigonometrical functions.  Fill in the following information
 
-    sans:[cos(ans2),sin(ans2)]
-    tans:[cos(n*b*%pi),sin(n*b*%pi)]
+    SAns:[cos(ans2),sin(ans2)]
+    TAns:[cos(n*b*%pi),sin(n*b*%pi)]
     answertest:AlgEquiv
-    quite:yes
+    quiet:yes
 
 The `AlgEquiv` test is happy to compare lists, but it makes no sense to tell the student which list element is "incorrect". Indeed, to do so would be confusing so we have selected the `quiet` option to suppress the automatically generated answer test feedback.
 
@@ -116,10 +118,10 @@ Again, if you want to enforce a test for the principle argument you will need to
 
 Please create some question tests!  This will save time in the long term, by enabling you to automatically test your question for each random version you wish to deploy.  You should create one test case for each outcome you expect. Here, we need
 
-    ans1:a^b
+    ans1:a^n
     ans2:n*b*%pi
 
-as the two correct answers, and then incorrect answers to ensure these are being trapped.  If you have enforced the _form_ of the answer, i.e. _integer representation_ for `ans1` and _principle argument_ for `ans2`, you need to add tests to distinguish between these.  For the first part \(a^n\) and the integer it represents, i.e. `ev(a^n,simp)`.  For the second part between \(b\times n\) and the variable `q`.
+as the two correct answers, and then incorrect answers to ensure these are being trapped.  If you have enforced the _form_ of the answer, i.e. _integer representation_ for `ans1` and _principal argument_ for `ans2`, you need to add tests to distinguish between these.  For the first part \(a^n\) and the integer it represents, i.e. `ev(a^n,simp)`.  For the second part between \(b\times n\) and the variable `q`.
 
 ## General feedback ##
 

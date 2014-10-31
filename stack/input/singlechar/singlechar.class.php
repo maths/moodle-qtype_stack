@@ -28,6 +28,7 @@ class stack_singlechar_input extends stack_input {
         $attributes = array(
             'type'      => 'text',
             'name'      => $fieldname,
+            'id'        => $fieldname,
             'size'      => 1,
             'maxlength' => 1,
             'value'     => $this->contents_to_maxima($state->contents),

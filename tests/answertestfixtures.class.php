@@ -88,24 +88,28 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(x-1)^2', 'x^2-2*x+1', 1, '', 'Polynomials and rational function'),
         array('AlgEquiv', '(x-1)*(x^2+x+1)', 'x^3-1', 1, '', ''),
         array('AlgEquiv', '(x-1)^(-2)', '1/(x^2-2*x+1)', 1, '', ''),
+        array('AlgEquiv', '1/(4*x-(%pi+sqrt(2)))', '1/(x+1)', 0, '', ''),
         array('AlgEquiv', '(x-a)^6000', '(x-a)^6000', 1, '', ''),
         array('AlgEquiv', '(a-x)^6000', '(x-a)^6000', 1, '', ''),
+        array('AlgEquiv', '(x-a)^6000', '(x-a)^5999', 0, '', ''),
         array('AlgEquiv', '1/n-1/(n+1)', '1/(n*(n+1))', 1, '', ''),
         array('AlgEquiv', '0.5*x^2+3*x-1', 'x^2/2+3*x-1', 1, '', ''),
         array('AlgEquiv', 'cos(x)', 'cos(-x)', 1, '', 'Trig functions'),
         array('AlgEquiv', 'cos(x)^2+sin(x)^2', '1', 1, '', ''),
         array('AlgEquiv', '2*cos(x)^2-1', 'cos(2*x)', 1, '', ''),
+        array('AlgEquiv', 'diff(tan(10*x)^2,x)', 'cos(6*x)', 0, '', ''),
         array('AlgEquiv', 'exp(%i*%pi)', '-1', 1, '', ''),
         array('AlgEquiv', '2*cos(2*x)+x+1', '-sin(x)^2+3*cos(x)^2+x', 1, '', ''),
         array('AlgEquiv', '(2*sec(2*t)^2-2)/2',
             '-(sin(4*t)^2-2*sin(4*t)+cos(4*t)^2-1)*(sin(4*t)^2+2*sin(4*t)+cos(4*t)^2-1)/(sin(4*t)^2+cos(4*t)^2+2*cos(4*t)+1)^2',
             1, '', ''),
-        array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', 1, '', ''),
         array('AlgEquiv', '1+cosec(3*x)', '1+csc(3*x)', 1, '', ''),
+        array('AlgEquiv', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', 1, '', ''),
+        array('AlgEquiv', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)', '4*sec(4*z)^2*sin(6*z)+6*tan(4*z)*cos(6*z)', 0, '', ''),
         array('AlgEquiv', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),
-        array('AlgEquiv', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''), // Might come up in ATInt
+        array('AlgEquiv', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''), // Might come up in ATInt.
         array('AlgEquiv', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'),
         array('AlgEquiv', 'x', '[1,2,3]', 0, '', 'Lists'),
         array('AlgEquiv', '[1,2]', '[1,2,3]', 0, '', ''),
@@ -123,6 +127,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=1}', 1, '', ''),
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<5,x=2}', 0, '', ''),
         array('AlgEquiv', '{x-1=0,x>1 and 5>x}', '{x>1 and x<3,x=1}', 0, '', ''),
+        array('AlgEquiv', '{-sqrt(2)/sqrt(3)}', '{-2/sqrt(6)}', -2, '', 'Equivalence for elements of sets is different from expressions: see docs.'),
+        array('AlgEquiv', '{[-sqrt(2)/sqrt(3),0],[2/sqrt(6),0]}', '{[2/sqrt(6),0],[-2/sqrt(6),0]}', -2, '', ''),
+        array('AlgEquiv', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
+        array('AlgEquiv', '{(x-a)^6000}', '{(a-x)^6000}', -2, '', ''),
 
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'),
         array('AlgEquiv', 'matrix([1,2],[2,3])', 'matrix([1,2,3],[2,3,3])', 0, '', ''),
@@ -194,16 +202,18 @@ class stack_answertest_test_data {
         array('AlgEquiv', '2*x^2+x>=6', 'x<=-2 or x>=3/2', 0, '',
                 'Inequalities - not currently considered equivalent, but maybe in the future'),
 
+        array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', 0, '', ''),
+        array('AlgEquiv', 'x^4>=0', 'x^2>=0', 0, '', ''),
         array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
         array('AlgEquiv', '(19601-13860*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 1, '', ''),
         array('AlgEquiv', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
-        array('AlgEquiv', '(x-a)*(x+a)/sqrt(x^2-a^2)', 'sqrt(x^2-a^2)', 1, '', ''),
+        array('AlgEquiv', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
+        array('AlgEquiv', 'sqrt(2*log(26)+4-2*log(2))', 'sqrt(2*log(13)+4)', 1, '', ''),
         array('AlgEquiv', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2, '', 'These currently fail'),
-        array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', -2, '', ''),
-        array('AlgEquiv', 'x^4>=0', 'x^2>=0', -2, '', ''),
+        array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
         array('AlgEquiv', '-inf', 'minf', -2, '', ''),
         array('AlgEquiv', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''), // Cardano's example!
 
@@ -219,6 +229,12 @@ class stack_answertest_test_data {
 
         array('EqualComAss', '1/0', '0', -1, '', ''),
         array('EqualComAss', '0', '1/0', -1, '', ''),
+        array('EqualComAss', '2/4', '1/2', 0, '', 'Numbers'),
+        array('EqualComAss', '3^2', '8', 0, '', ''),
+        array('EqualComAss', '3^2', '9', 0, '', ''),
+        array('EqualComAss', '4^(1/2)', '2', 0, '', ''),
+        array('EqualComAss', '1/sqrt(2)', '2^(1/2)/2', 0, '', ''),
+        array('EqualComAss', 'a^2/b^3', 'a^2*b^(-3)', 0, '', 'Powers'),
         array('EqualComAss', '1+2*x', 'x*2+1', 1, '', 'Simple polynomials'),
         array('EqualComAss', '1+x', '2*x+1', 0, '', ''),
         array('EqualComAss', '1+x+x', '2*x+1', 0, '', ''),
@@ -267,20 +283,29 @@ class stack_answertest_test_data {
 
         array('CasEqual', '1/0', 'x^2-2*x+1', -1, '', ''),
         array('CasEqual', 'x', '1/0', -1, '', ''),
+        array('CasEqual', 'x=1', '1', 0, '', ''),
         array('CasEqual', 'a', 'A', 0, '', 'Case sensitivity'),
-        array('CasEqual', '4^(-1/2)', '1/2', 1, '', 'Numbers'),
+        array('CasEqual', '4^(-1/2)', '1/2', 0, '', 'Numbers'),
+        array('CasEqual', 'ev(4^(-1/2),simp)', 'ev(1/2,simp)', 1, '', ''),
+        array('CasEqual', '2^2', '4', 0, '', ''),
+        array('CasEqual', 'a^2/b^3', 'a^2*b^(-3)', 0, '', 'Powers'),
         array('CasEqual', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '', 'Expressions with subscripts'),
         array('CasEqual', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0, '', ''),
         array('CasEqual', '0.5', '1/2', 0, '', 'Mix of floats and rational numbers'),
-        array('CasEqual', 'x^(1/2)', 'sqrt(x)', 1, '', ''),
-        array('CasEqual', 'abs(x)', 'sqrt(x^2)', 1, '', ''),
+        array('CasEqual', 'x^(1/2)', 'sqrt(x)', 0, '', ''),
+        array('CasEqual', 'ev(x^(1/2),simp)', 'ev(sqrt(x),simp)', 1, '', ''),
+        array('CasEqual', 'abs(x)', 'sqrt(x^2)', 0, '', ''),
+        array('CasEqual', 'ev(abs(x),simp)', 'ev(sqrt(x^2),simp)', 1, '', ''),
         array('CasEqual', 'x-1', '(x^2-1)/(x+1)', 0, '', ''),
-        array('CasEqual', 'x+x', '2*x', 1, '', 'Polynomials and rational function'),
-        array('CasEqual', 'x+x^2', 'x^2+x', 1, '', ''),
+        array('CasEqual', 'x+x', '2*x', 0, '', 'Polynomials and rational function'),
+        array('CasEqual', 'ev(x+x,simp)', 'ev(2*x,simp)', 1, '', ''),
+        array('CasEqual', 'x+x^2', 'x^2+x', 0, '', ''),
+        array('CasEqual', 'ev(x+x^2,simp)', 'ev(x^2+x,simp)', 1, '', ''),
         array('CasEqual', '(x-1)^2', 'x^2-2*x+1', 0, '', ''),
         array('CasEqual', '(x-1)^(-2)', '1/(x^2-2*x+1)', 0, '', ''),
         array('CasEqual', '1/n-1/(n+1)', '1/(n*(n+1))', 0, 'x', ''),
-        array('CasEqual', 'cos(x)', 'cos(-x)', 1, '', 'Trig functions'),
+        array('CasEqual', 'cos(x)', 'cos(-x)', 0, '', 'Trig functions'),
+        array('CasEqual', 'ev(cos(x),simp)', 'ev(cos(-x),simp)', 1, '', ''),
         array('CasEqual', 'cos(x)^2+sin(x)^2', '1', 0, '', ''),
         array('CasEqual', '2*cos(x)^2-1', 'cos(2*x)', 0, '', ''),
 
@@ -339,6 +364,8 @@ class stack_answertest_test_data {
         array('Expanded', 'x^2-(a+b)*x+a*b', '0', 0, '', ''),
         array('Expanded', 'x^2-a*x-b*x+a*b', '0', 1, '', ''),
         array('Expanded', 'cos(2*x)', '0', 1, '', ''),
+        array('Expanded', 'p+1', '0', 1, '', ''),
+        array('Expanded', '(p+1)*(p-1)', '0', 0, '', ''),
         array('Expanded', '(a-x)^6000', '0', -2, '', 'This fails, but you are never going to ask students to do this anyway...'),
 
         // Factored form.
@@ -790,11 +817,20 @@ class stack_answertest_test_data {
         $anst = new stack_ans_test_controller($test->name, $test->studentanswer,
                 $test->teacheranswer, new stack_options(), $test->options);
 
-        $result   = $anst->do_test(); // This actually executes the answer test in the CAS.
-        $errors   = $anst->get_at_errors();
-        $rawmark  = $anst->get_at_mark();
-        $feedback = $anst->get_at_feedback();
-        $ansnote  = $anst->get_at_answernote();
+        // The false clause is useful for developers to track down which test case is breaking Maxima.
+        if (true) {
+            $result   = $anst->do_test(); // This actually executes the answer test in the CAS.
+            $errors   = $anst->get_at_errors();
+            $rawmark  = $anst->get_at_mark();
+            $feedback = $anst->get_at_feedback();
+            $ansnote  = $anst->get_at_answernote();
+        } else {
+            $feedback = 'AT'.$test->name.'('.$test->studentanswer.','.$test->teacheranswer.');';
+            $result   = true; // This actually executes the answer test in the CAS.
+            $errors   = '';
+            $rawmark  = 0;
+            $ansnote  = '';
+        }
 
         $passed = false;
         if ($rawmark === $test->expectedscore) {
@@ -814,6 +850,6 @@ class stack_answertest_test_data {
             $passed = true;
         }
 
-            return array($passed, $errors, $rawmark, $feedback, $ansnote);
+        return array($passed, $errors, $rawmark, $feedback, $ansnote);
     }
 }

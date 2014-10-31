@@ -210,4 +210,12 @@ class qtype_stack_question_test extends qtype_stack_testcase {
 
         $this->assertTrue(true);
     }
+
+    public function test_get_question_var_values0() {
+        $q = test_question_maker::make_question('stack', 'test2');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $expected = array('a' => '3', 'b' => '9', 'ta' => 'x+y', 'ans1' => '5', 'ans2' => '6');
+        $this->assertEquals($expected, $q->get_question_var_values());
+    }
 }

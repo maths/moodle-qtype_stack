@@ -118,16 +118,29 @@ if (stack_cas_configuration::maxima_bat_is_missing()) {
 // Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
 echo $OUTPUT->heading(stack_string('healthuncached'), 3);
 echo html_writer::tag('p', stack_string('healthuncachedintro'));
-list($message, $debug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
 $summary[] = array($result, $message);
 echo html_writer::tag('p', $message);
-echo output_debug(stack_string('debuginfo'), $debug);
+echo output_debug(stack_string('debuginfo'), $genuinedebug);
+$genuine_cascall = $result;
 
 // Test Maxima connection.
 // Intentionally use get_string for the sample CAS and plots, so we don't render
 // the maths too soon.
 output_cas_text(stack_string('healthcheckconnect'),
         stack_string('healthcheckconnectintro'), get_string('healthchecksamplecas', 'qtype_stack'));
+
+// If we have a linux machine, and we are testing the raw connection then we should
+// attempt to automatically create an optimized maxima image on the system.
+if ($config->platform === 'unix' and $genuine_cascall) {
+    echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
+    echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
+    list($message, $debug, $result) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
+    $summary[] = array($result, $message);
+    echo html_writer::tag('p', $message);
+    echo output_debug(stack_string('debuginfo'), $debug);
+}
+
 
 // Test the version of the STACK libraries that Maxima is using.
 // When Maxima is being run pre-compiled (maxima-optimise) or on a server,

@@ -63,8 +63,8 @@ class qtype_stack_question_test_form extends moodleform {
                     stack_string('answernote'), $prt->get_all_answer_notes()),
             );
             $mform->addGroup($elements, $prtname . 'group', $prtname, ' ', false);
-            $mform->setType($prtname . 'score', PARAM_FLOAT);
-            $mform->setType($prtname . 'penalty', PARAM_FLOAT);
+            $mform->setType($prtname . 'score', PARAM_RAW);
+            $mform->setType($prtname . 'penalty', PARAM_RAW);
             $mform->setType($prtname . 'answernote', PARAM_RAW);
         }
 
@@ -92,10 +92,11 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
+            $answernotes = $result->answernotes;
             $mform->getElement($prtname . 'group')->setValue(array(
                     $prtname . 'score'      => $result->score,
                     $prtname . 'penalty'    => $result->penalty,
-                    $prtname . 'answernote' => $result->answernotes));
+                    $prtname . 'answernote' => end($answernotes)));
         }
     }
 

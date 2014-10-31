@@ -396,7 +396,7 @@ class qtype_stack extends question_type {
             $allparameters = array(
                 'boxWidth'     =>        $inputdata->boxsize,
                 'strictSyntax' => (bool) $inputdata->strictsyntax,
-                'insertStars'  => (bool) $inputdata->insertstars,
+                'insertStars'  => (int)  $inputdata->insertstars,
                 'syntaxHint'   =>        $inputdata->syntaxhint,
                 'forbidWords'  =>        $inputdata->forbidwords,
                 'allowWords'   =>        $inputdata->allowwords,
@@ -598,14 +598,14 @@ class qtype_stack extends question_type {
             $expected->testcase           = $testcase;
             $expected->prtname            = $prtname;
             if ($expectedresults->score === '' || $expectedresults->score === null) {
-                $expected->expectedscore  = null;
+                $expected->expectedscore = null;
             } else {
-                $expected->expectedscore  = $expectedresults->score;
+                $expected->expectedscore = (float) $expectedresults->score;
             }
             if ($expectedresults->penalty === '' || $expectedresults->penalty === null) {
-                $expected->expectedpenalty  = null;
+                $expected->expectedpenalty = null;
             } else {
-                $expected->expectedpenalty  = $expectedresults->penalty;
+                $expected->expectedpenalty = (float) $expectedresults->penalty;
             }
             $expected->expectedanswernote = $expectedresults->answernotes[0];
             $DB->insert_record('qtype_stack_qtest_expected', $expected);
@@ -766,6 +766,10 @@ class qtype_stack extends question_type {
         // False next node links.
         $DB->set_field('qtype_stack_prt_nodes', 'falsenextnode', $to,
                 array('questionid' => $questionid, 'prtname' => $prtname, 'falsenextnode' => $from));
+
+        // PRT first node link.
+        $DB->set_field('qtype_stack_prts', 'firstnodename', $to,
+                array('questionid' => $questionid, 'name' => $prtname, 'firstnodename' => $from));
 
         $transaction->allow_commit();
         $this->notify_question_edited($questionid);

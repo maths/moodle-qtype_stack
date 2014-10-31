@@ -80,6 +80,10 @@ It is common to want to use the dollar sign for currency.  However, this conflic
 
 * If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
 
+## Facts ##
+
+STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to castext using the [fact sheet](Fact_sheets.md)
+
 ## Most useful HTML ##
 
 HTML Paragraphs (don't forget the end tag!)

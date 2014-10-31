@@ -36,7 +36,7 @@ $confirm = optional_param('confirm', false, PARAM_BOOL);
 // Login and check permissions.
 $context = context::instance_by_id($contextid);
 require_login();
-require_capability('moodle/site:config', $context);
+require_capability('qtype/stack:usediagnostictools', $context);
 $PAGE->set_url('/question/type/stack/bulktest.php', array('contextid' => $context->id));
 $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());

@@ -109,7 +109,7 @@ abstract class stack_fact_sheets {
         }
 
         preg_match_all('|<hint>(.*)</hint>|U', $text, $matches);
-        foreach($matches[1] as $key => $val) {
+        foreach ($matches[1] as $key => $val) {
             $old = $matches[0][$key];
             $new = '[[facts:' . trim($val) . ']]';
             $text = str_replace($old, $new, $text);

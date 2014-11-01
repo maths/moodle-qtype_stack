@@ -1,14 +1,12 @@
 # Question blocks
 
-_This feature is currently under development for STACK 3.2._  We envisage expansion of these features in future developments.
-
 ## Introduction ##
 
 Question blocks add flexibility to STACK questions by adding functional structures.
 
 For maximum flexibility, blocks can be nested and conditionally evaluated.
 A body of CAStext is then repeatedly processed until all blocks have been interpreted into CAStext.
-This is should be applied to all CAStext parts of the question.
+This is a core part of CAStext and so applied to all appropriate parts of the question.
 
 Note:  The parameters to blocks in the question body may **NOT** depend on the student's answers. This means that 
 you cannot reveal an input block based on student input. But you may still adapt PRT-feedback as much as you want.

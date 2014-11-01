@@ -1,6 +1,6 @@
 # CASText
 
-**Important changes in STACK version 3.2:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
+**Important changes in STACK between version 3.3 and 3.4:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
 
     Administration -> Site administration -> Question types -> STACK
     

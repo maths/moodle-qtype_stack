@@ -336,7 +336,7 @@ abstract class stack_connection_helper {
         $imagename = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/maxima_opt_auto');
 
         $lisp = '1';
-        // Try to guess the lisp version
+        // Try to guess the lisp version.
         if (!(false === strpos($genuinedebug, 'GNU Common Lisp (GCL)'))) {
             $lisp = 'GCL';
         }
@@ -346,13 +346,13 @@ abstract class stack_connection_helper {
 
         switch ($lisp) {
             case 'GCL':
-                $maximacommand =  ':lisp (si::save-system "'.$imagename.'")' . "\n";
+                $maximacommand = ':lisp (si::save-system "'.$imagename.'")' . "\n";
                 $maximacommand .= 'quit();'."\n";
                 $commandline = stack_utils::convert_slash_paths($imagename . ' -eval \'(cl-user::run)\'');
                 break;
 
             case 'SBCL':
-                $maximacommand =  ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
+                $maximacommand = ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
                 $commandline = stack_utils::convert_slash_paths($imagename);
                 break;
 
@@ -361,7 +361,6 @@ abstract class stack_connection_helper {
                 $message = stack_string('healthautomaxopt_nolisp');
                 return array($message, '', $success);
         }
-
 
         // Really make sure there is no cache.
         list($results, $debug) = self::stackmaxima_nocache_call($maximacommand);

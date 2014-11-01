@@ -122,7 +122,7 @@ list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_ge
 $summary[] = array($result, $message);
 echo html_writer::tag('p', $message);
 echo output_debug(stack_string('debuginfo'), $genuinedebug);
-$genuine_cascall = $result;
+$genuinecascall = $result;
 
 // Test Maxima connection.
 // Intentionally use get_string for the sample CAS and plots, so we don't render
@@ -132,7 +132,7 @@ output_cas_text(stack_string('healthcheckconnect'),
 
 // If we have a linux machine, and we are testing the raw connection then we should
 // attempt to automatically create an optimized maxima image on the system.
-if ($config->platform === 'unix' and $genuine_cascall) {
+if ($config->platform === 'unix' and $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
     list($message, $debug, $result) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);

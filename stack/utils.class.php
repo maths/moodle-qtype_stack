@@ -445,7 +445,7 @@ class stack_utils {
      */
     public static function math_start($text, $offset = 0) {
         $delimiters = array('$', '$$', '\(', '\[');
-        foreach(self::$mathdelimiters as $delim) {
+        foreach (self::$mathdelimiters as $delim) {
             $delimiters[] = '\begin{'.$delim.'}';
             $delimiters[] = '\begin{'.$delim.'*}';
         }
@@ -467,7 +467,7 @@ class stack_utils {
      */
     public static function math_length($text, $start) {
         $delimiters = array('$', '$$', '\)', '\]');
-        foreach(self::$mathdelimiters as $delim) {
+        foreach (self::$mathdelimiters as $delim) {
             $delimiters[] = '\end{'.$delim.'}';
             $delimiters[] = '\end{'.$delim.'*}';
         }

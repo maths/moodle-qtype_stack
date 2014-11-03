@@ -1013,6 +1013,9 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Question note.
         $errors['questionnote'] = array();
+        if (strlen($fromform['questionnote'])>255) {
+            $errors['questionnote'][] = stack_string('questionnote_toolong');
+        }
         if ('' == $fromform['questionnote']) {
             if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
                 $errors['questionnote'][] = stack_string('questionnotempty');
@@ -1021,9 +1024,9 @@ class qtype_stack_edit_form extends question_edit_form {
             // Note, the 'questionnote' does not have an editor field and hence no 'text' sub-clause.
             $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote', $fixingdollars);
         }
-
         $errors['questionnote'] += $this->check_no_placeholders(
                     stack_string('questionnote'), $fromform['questionnote']);
+
 
         // 2) Validate all inputs.
         foreach ($inputs as $inputname => $notused) {

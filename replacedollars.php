@@ -51,6 +51,7 @@ $qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect
 $prtnodefields = array('truefeedback', 'falsefeedback');
 $qafields = array('questionsummary', 'rightanswer', 'responsesummary');
 $anychanges = false;
+$errors = array();
 
 // Display.
 echo $OUTPUT->header();
@@ -70,7 +71,11 @@ foreach ($categories as $key => $category) {
         // Fields in the question table.
         $changes = false;
         foreach ($questionfields as $field) {
-            $changes = $fixer->fix_question_field($question, $field) || $changes;
+            list($change, $err) = $fixer->fix_question_field($question, $field);
+            $changes = $change || $changes;
+            if ($err) {
+                $errors[$question->name][] = $err;
+            }
         }
         if ($changes && $confirm) {
             $DB->update_record('question', $question);
@@ -81,7 +86,11 @@ foreach ($categories as $key => $category) {
         $stackoptions = $DB->get_record('qtype_stack_options', array('questionid' => $question->id), '*', MUST_EXIST);
         $changes = false;
         foreach ($qtypestackfields as $field) {
-            $changes = $fixer->fix_question_field($stackoptions, $field) || $changes;
+            list($change, $err) = $fixer->fix_question_field($stackoptions, $field);
+            $changes = $change || $changes;
+            if ($err) {
+                $errors[$question->name][] = $err;
+            }
         }
         if ($changes && $confirm) {
             $DB->update_record('qtype_stack_options', $stackoptions);
@@ -93,7 +102,11 @@ foreach ($categories as $key => $category) {
         foreach ($prtnodes as $node) {
             $changes = false;
             foreach ($prtnodefields as $field) {
-                $changes = $fixer->fix_question_field($node, $field) || $changes;
+                list($change, $err) = $fixer->fix_question_field($node, $field);
+                $changes = $change || $changes;
+                if ($err) {
+                    $errors[$question->name][] = $err;
+                }
             }
             if ($changes && $confirm) {
                 $DB->update_record('qtype_stack_prt_nodes', $node);
@@ -126,6 +139,16 @@ foreach ($categories as $key => $category) {
                 $DB->update_record('question_attempts', $qa);
             }
             $anychanges = $anychanges || $changes;
+        }
+    }
+}
+
+if ($errors != array()) {
+    echo $OUTPUT->heading(stack_string('replacedollarserrors'), 3);
+    foreach ($errors as $name => $errs) {
+        echo $OUTPUT->heading(format_string($name), 4);
+        foreach ($errs as $error) {
+            echo html_writer::tag('p', $error);
         }
     }
 }
@@ -178,12 +201,12 @@ class qtype_stack_dollar_fixer {
      * and after HTML for review.
      * @param stdClass $question an object.
      * @param field $field the name of one of its fields.
-     * @return boolean whether any change was made to the field.
+     * @return array(boolean, string) (i) whether any change was made to the field, (ii) any errors.
      */
     public function fix_question_field($question, $field) {
         $newtext = stack_maths::replace_dollars($question->{$field});
         if ($newtext == $question->{$field}) {
-            return false;
+            return array(false, false);
         }
 
         $markedup = stack_maths::replace_dollars($question->{$field}, '<ins>', '</ins>');
@@ -192,7 +215,13 @@ class qtype_stack_dollar_fixer {
                 s($markedup)), array('class' => 'questiontext'));
         echo html_writer::tag('div', stack_ouput_castext($newtext), array('class' => 'questiontext'));
 
+        if ($field === 'questionnote' && strlen($newtext)>255) {
+            echo html_writer::tag('p', stack_string('questionnote_toolong'),
+                array('class' => 'error'));
+            return array(false, stack_string('questionnote_toolong'));
+        }
+
         $question->{$field} = $newtext;
-        return true;
+        return array(true, false);
     }
 }

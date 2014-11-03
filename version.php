@@ -29,7 +29,7 @@ $plugin->requires  = 2013101800;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '3.3.1+ for Moodle 2.6+';
+$plugin->release   = '3.3.2 for Moodle 2.6+';
 
 $plugin->dependencies = array(
     'qbehaviour_adaptivemultipart'     => 2014092500,

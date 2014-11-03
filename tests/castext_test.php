@@ -176,9 +176,24 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_get_all_raw_casstrings() {
-        $raw = 'Take @x^2+2*x@ and then @sin(z^2)@.';
+        $raw = 'Take {@x^2+2*x@} and then {@sin(z^2)@}.';
         $at1 = new stack_cas_text($raw, null, 0);
         $val = array('x^2+2*x', 'sin(z^2)');
+        $this->assertEquals($val, $at1->get_all_raw_casstrings());
+    }
+
+    public function test_get_all_raw_casstrings_if() {
+        $raw = 'Take {@x^2+2*x@} and then [[ if test="true"]]{@sin(z^2)@}[[/if]].';
+        $at1 = new stack_cas_text($raw, null, 0);
+        $val = array('x^2+2*x', 'true', 'sin(z^2)');
+        $this->assertEquals($val, $at1->get_all_raw_casstrings());
+    }
+
+    public function test_get_all_raw_casstrings_foreach() {
+        $raw = 'Take {@x^2+2*x@} and then [[ foreach t="[1,2,3]"]]{@t@}[[/foreach]].';
+        $at1 = new stack_cas_text($raw, null, 0);
+        // here the list is iterated over and the t-variable appears multiple times.
+        $val = array('x^2+2*x', '[1,2,3]', '1','t','2','t','3','t');
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
 

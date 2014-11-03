@@ -117,7 +117,11 @@ foreach ($categories as $key => $category) {
         // Fields in the question_hints table.
         $hints = $DB->get_records('question_hints', array('questionid' => $question->id), 'id');
         foreach ($hints as $hint) {
-            $changes = $fixer->fix_question_field($hint, 'hint');
+            list($change, $err) = $fixer->fix_question_field($hint, 'hint');
+            $changes = $change || $changes;
+            if ($err) {
+                $errors[$question->name][] = $err;
+            }
             if ($changes && $confirm) {
                 $DB->update_record('question_hints', $hint);
             }
@@ -133,7 +137,11 @@ foreach ($categories as $key => $category) {
         foreach ($attemptdata as $qa) {
             $changes = false;
             foreach ($qafields as $field) {
-                $changes = $fixer->fix_question_field($qa, $field) || $changes;
+                list($change, $err) = $fixer->fix_question_field($qa, $field);
+                $changes = $change || $changes;
+                if ($err) {
+                    $errors[$question->name][] = $err;
+                }
             }
             if ($changes && $confirm) {
                 $DB->update_record('question_attempts', $qa);

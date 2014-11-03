@@ -85,7 +85,7 @@ in any of the usual places, e.g. in the question variables.
 
 To set the display of an individual matrix, `m` say, in CASText you can use
 
-    @(lxmchar:"|", m)@ 
+    {@(lxmchar:"|", m)@} 
 
 Since `lxmchar` is a global setting in Maxima, you will have to set it back when you next display a matrix.  Not ideal, but there we are.
 

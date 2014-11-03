@@ -28,6 +28,7 @@ stack_reset(rand_seed) := block(
   simpsum:true,
   negdistrib:true,  /* When negdistrib is true, -1 distributes over an expression. E.g., -(x + y) becomes - y - x. */
   display2d:false,
+  linel:200,
   nolabels:true,
   logabs:true,
   exptdispflag:true,

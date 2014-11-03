@@ -8,7 +8,7 @@ For example, it might be a form box into which the student enters their answer.
   statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
 * Inputs can be positioned anywhere within the
-  [question text](CASText.md#question_text).  If JSMath is used for display this includes within equations.  MathJax does not currently support this feature.
+  [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
 
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 
@@ -56,7 +56,7 @@ Simple drop down. A Boolean value is assigned to the variable name.
 
 #### Single Character ####
 
-A single letter can be entered.  This is useful for creating multiple choice questions.
+A single letter can be entered.  This is useful for creating multiple choice questions, but is not used regularly.
 
 #### Text area ####
 
@@ -109,10 +109,20 @@ Please read the notes on [numbers](../CAS/Numbers.md#Floats).
 
 ### Insert Stars ### {#Insert_Stars}
 
-If set to `yes`  then the system will automatically insert *s into any patterns identified by Strict Syntax as needing them and will not throw a validation error.
-So, for example \(2(1-4x)\) will be changed to `2*(1-4*x)` on validation.
+There are three options.
 
-### Syntax Hint ### {#Syntax_Hint}
+* Don't insert stars:  This does not insert `*` characters automatically into any patterns identified by Strict Syntax as needing them.  Strict Syntax is true and there are any pattern identified the result will be an invalid expression.
+* Insert `*`s for implied multiplication.  If any patterns identified by Strict Syntax as needing `*`s then they will automatically be inserted into the expression quietly.
+* Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the students answer made up of more than one character then replace these with the product of the letters.
+  * Note, the student's formula is interpreted and variables identified, so \(\sin(ax\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
+  * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
+
+The above two conditions are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representaiton of multiplication, e.g. as a dot, so the studnet can see at the validation that `xe^x` is interpreted 
+
+1. as \( (x\cdot e)^x\) if we assume single caracter variable names, and
+2. as \( xe^x\) if we just "Insert `*`s for implied multiplication".  The absence of the dot here is key.
+
+### Syntax Hint {#Syntax_Hint}
 
 A syntax hint allows the teacher to give the student a pro-forma in the input box.
 This can include '?' characters.
@@ -193,32 +203,6 @@ Feedback to students is in two forms.
 
 Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.
 
-### Options ### {#Options}
-
-Different types of inputs have various options.   These are described under the IE type.
-
-### List {#List}
-
-This allows the following kinds of interactions to be included in STACK questions.
-
-* Radio buttons.
-* Dropdown lists.
-* Check boxes.
-
-The teacher can choose to construct an input which displays a random selection,
-in a random order, from a list of potential "distractors".  The top element, named "Correct answer",
-is always included, although this isn't really needed for the checkbox type.
-
-You have to enter a content form ([maxima](../CAS/Maxima.md) format) and displayed form
-(i.e. [CASText](CASText.md)) for each of these.  Both may depend on the question variables.
-
-STACK will automatically add space to ensure you have at least two blank distractors when
-you update the question. In the case of the radio button or dropdown list a single expression will be returned.
-In the case of the check boxes, we return a list of expressions.  Note,
-
-* The model answer in the input needs to be a list of objects, even if only one is correct.
-* The order of elements in this list is not certain, because we display them in a random order to students.
-  It will be necessary to `setify()` this to compare with a set of answers without order becoming a problem.
 
 ## Future plans ##
 
@@ -228,5 +212,6 @@ Adding new inputs should be a straightforward job for the developers.  We have p
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.
 | GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.
+| MCQs      | Add in check boxes and radio boxes as an input type to enable randomly generated multiple choice questions.
 
 The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

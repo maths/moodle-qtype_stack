@@ -117,7 +117,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_3() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        $el->set_parameter('insertStars', true);
+        $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x', 'sans1_val' => '2x'), $options, 'x^2/(1+x^2)', array());
         $this->assertEquals(stack_input::SCORE, $state->status);
@@ -126,7 +126,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_4() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        $el->set_parameter('insertStars', true);
+        $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)'), $options, 'x^2/(1+x^2)', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -135,7 +135,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_5() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        $el->set_parameter('insertStars', true);
+        $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -145,9 +145,10 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_6() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        $el->set_parameter('insertStars', true);
+        $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response(array('sans1' => '2*x/(1+x^2)+sillyname(x)'), $options, 'x^2/(1+x^2)', array('tans'));
+        $state = $el->validate_student_response(array('sans1' => '2*x/(1+x^2)+sillyname(x)'),
+                $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unknownFunction', $state->note);
     }
@@ -155,7 +156,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_7() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
-        $el->set_parameter('insertStars', false);
+        $el->set_parameter('insertStars', 0);
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -174,14 +175,15 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_subscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))');
-        $state = $el->validate_student_response(array('sans1' => 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))'), $options, 'x^2+1/3', array('tans'));
+        $state = $el->validate_student_response(array('sans1' => 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))'),
+                $options, 'x^2+1/3', array('tans'));
         $this->assertEquals(stack_input::VALID, $state->status);
     }
 
     public function test_validate_student_response_insertstars_true_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
-        $el->set_parameter('insertStars', true);
+        $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -190,7 +192,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_insertstars_false_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');
-        $el->set_parameter('insertStars', false);
+        $el->set_parameter('insertStars', 0);
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x', array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -254,12 +256,23 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_display_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '-3*x^2-4');
-        $el->set_parameter('insertStars', true);
+        $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '-3x^2-4'), $options, '-3*x^2-4', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('-3*x^2-4', $state->contentsmodified);
+        $this->assertEquals('(-3)*x^2-4', $state->contentsmodified);
         $this->assertEquals('\[ -3\cdot x^2-4 \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_display_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '(3*x+1)*(x+ab)');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(3*x+1)*(x+ab)', $state->contentsmodified);
+        $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+{\it ab}\right) \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_allowwords_false() {

@@ -10,7 +10,7 @@ These three mechanisms aim to provide comprehensive testing of STACK.  The last 
 
 # PHP Unit tests
 
-Moodle 2.5 uses PHPunit for its unit tests. Setting this up and getting it working
+Moodle uses PHPunit for its unit tests. Setting this up and getting it working
 is a bit of a pain, but you only have to follow the instructions in
 [the Moodle PHPUnit documentation](http://docs.moodle.org/dev/PHPUnit) once to get it working.
 

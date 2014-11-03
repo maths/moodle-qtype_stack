@@ -402,7 +402,9 @@ class stack_cas_session {
             return array();
         }
         foreach ($this->session as $cs) {
-            $keys[$cs->get_key()] = true;
+            if ('' != $cs->get_key()) {
+                $keys[$cs->get_key()] = true;
+            }
         }
         $keys = array_keys($keys);
         return $keys;
@@ -422,6 +424,11 @@ class stack_cas_session {
 
         foreach ($this->session as $casstr) {
             $key    = $casstr->get_key();
+            if ($key === '') {
+                // This is something like a function definition, or an equality.
+                // It is not something that can be replaced in the CAS text.
+                continue;
+            }
             $errors = $casstr->get_errors();
             $disp   = $casstr->get_display();
             $value  = $casstr->get_casstring();

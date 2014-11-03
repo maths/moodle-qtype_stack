@@ -217,6 +217,43 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('x+\\left(-5+y\\right)', $at1->get_display_key('p5'));
     }
 
+    public function test_single_char_vars() {
+
+        $testcases = array('ab' => 'a*b',
+            'abc' => 'a*b*c',
+            'sin(xy)' => 'sin(x*y)',
+            'xe^x' => '(x*%e)^x',
+            'pix' => 'p*%i*x',
+            '2pi+nk' => '2*%pi+n*k',
+            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)'
+        );
+
+        $k = 0;
+        $sessionvars = array();
+        foreach ($testcases as $test => $result) {
+            $cs = new stack_cas_casstring($test);
+            $cs->validate('t', false, 2);
+            $key = 'v'.$k;
+            $cs->set_cas_validation_casstring($key, true, false, true, $result, '');
+            $sessionvars[] = $cs;
+            $k++;
+            $this->assertTrue($cs->get_valid());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($sessionvars, $options, 0);
+        $at1->instantiate();
+
+        $k = 0;
+        $sessionvars = array();
+        foreach ($testcases as $test => $result) {
+            $this->assertEquals($at1->get_value_key('v'.$k), $result);
+            $k++;
+        }
+
+    }
+
     public function test_string1() {
 
         $cs = array('s:"This is a string"');
@@ -361,7 +398,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals('[1-sqrt(66),sqrt(66)+1,-2]', $at1->get_value_key('E'));
         $this->assertEquals('130', $at1->get_value_key('dt'));
-        $this->assertEquals('\left(\begin{array}{ccc} 7 & 1 & 3 \\\\ 5 & -3 & 4 \\\\ 5 & 3 & -4 \end{array}\right)', $at1->get_display_key('A'));
+        $this->assertEquals('\left(\begin{array}{ccc} 7 & 1 & 3 \\\\ 5 & -3 & 4 \\\\ 5 & 3 & -4 \end{array}\right)',
+                $at1->get_display_key('A'));
 
     }
 
@@ -376,40 +414,5 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('-7*i+2*j-3*k', $at1->get_value_key('v'));
-    }
-}
-
-
-/**
- * Unit tests for {@link stack_cas_session}.
- * @group qtype_stack
- */
-class stack_cas_session_exception_test extends qtype_stack_testcase {
-
-    public function test_exception_1() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session("x=1", false, false);
-    }
-
-    public function test_exception_2() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(array(), null, false);
-        $at1->get_valid();
-    }
-
-    public function test_exception_3() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(array(1, 2, 3), null, false);
-    }
-
-    public function test_exception_4() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(null, 123, false);
-    }
-
-    public function test_exception_5() {
-        $pref = new stack_options();
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_session(null, $pref, 'abc');
     }
 }

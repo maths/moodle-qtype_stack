@@ -46,7 +46,7 @@ abstract class stack_cas_castext_block {
     /**
      * The functions here are listed in the order they will be called from the castext-processor.
      */
-    public function __construct(&$node, &$session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct(&$node, &$session=null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
         $this->node = $node;
 
         if (!('s'===$security || 't'===$security)) {
@@ -57,8 +57,8 @@ abstract class stack_cas_castext_block {
             throw new stack_exception('stack_cas_castext_block: syntax, must be Boolean.');
         }
 
-        if (!is_bool($insertstars)) {
-            throw new stack_exception('stack_cas_castext_block: insertstars, must be Boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_castext_block: insertstars, must be an integer.');
         }
 
         // These are for creating a new castext-parser if need be.
@@ -116,7 +116,7 @@ abstract class stack_cas_castext_block {
         $valid = true;
         $err = '';
         foreach ($this->validate_extract_attributes() as $casstring) {
-            $casstring->validate($this->security, $this->insertstars, $this->syntax);
+            $casstring->validate($this->security, $this->syntax,$this->insertstars);
             if (!$casstring->get_valid()) {
                 $valid = false;
             }

@@ -1,4 +1,4 @@
-# STACK 3.2
+# STACK 3.3
 
 [STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md)
 is an open-source system for computer-aided assessment in Mathematics and related
@@ -11,7 +11,7 @@ the Loughborough University, and includes the work of
 
 ## Current state of development
 
-Stack 3.2 is a point release containing a number of recent bug fixes an minor
+Stack 3.3 is a point release containing a number of recent bug fixes an minor
 new features and improvements, based on continuing use at Loughborough
 University, the Open University and the University of Birmingham.
 

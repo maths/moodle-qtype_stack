@@ -60,7 +60,7 @@ class stack_cas_text {
     /** @var string security level, 's' or 't'. */
     private $security;
 
-    /** @var bool whether to insert stars. */
+    /** @var int whether to insert stars. */
     private $insertstars;
 
     /** @var bool whether to do strict syntax checks. */
@@ -75,7 +75,7 @@ class stack_cas_text {
     private $settings;
 
 
-    public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
 
         if (!is_string($rawcastext)) {
             throw new stack_exception('stack_cas_text: raw_castext must be a STRING.');
@@ -83,7 +83,7 @@ class stack_cas_text {
             $this->rawcastext   = $rawcastext;
         }
 
-        if (is_a($session, 'stack_cas_session') || null===$session) {
+        if (is_a($session, 'stack_cas_session') || null === $session) {
             $this->session      = $session;
         } else {
             throw new stack_exception('stack_cas_text constructor expects $session to be a stack_cas_session.');
@@ -97,7 +97,7 @@ class stack_cas_text {
             throw new stack_exception('stack_cas_text: $seed must be a number (or null).');
         }
 
-        if (!('s'===$security || 't'===$security)) {
+        if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_text: 4th argument, security level, must be "s" or "t" only.');
         }
 
@@ -105,8 +105,8 @@ class stack_cas_text {
             throw new stack_exception('stack_cas_text: 5th argument, stringSyntax, must be Boolean.');
         }
 
-        if (!is_bool($insertstars)) {
-            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be Boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be an integer.');
         }
 
         $this->security    = $security;
@@ -464,14 +464,14 @@ class stack_cas_text {
     }
 
     public function get_valid() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         return $this->valid;
     }
 
     public function get_errors($casdebug=false) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -496,7 +496,7 @@ class stack_cas_text {
     }
 
     public function get_all_raw_casstrings() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
 
@@ -513,7 +513,7 @@ class stack_cas_text {
     }
 
     public function get_display_castext() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if (null === $this->instantiated) {
@@ -525,7 +525,7 @@ class stack_cas_text {
     }
 
     public function get_session() {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if (null===$this->instantiated) {
@@ -538,7 +538,7 @@ class stack_cas_text {
 
     /* Simply passes the keywords through to session.*/
     public function check_external_forbidden_words($keywords) {
-        if (null===$this->valid) {
+        if (null === $this->valid) {
             $this->validate();
         }
         if (!is_a($this->session, 'stack_cas_session')) {
@@ -548,10 +548,10 @@ class stack_cas_text {
     }
 
     public function get_debuginfo() {
-        if (null !== $this->session) {
-            return $this->session->get_debuginfo();
+        if (null === $this->session) {
+            return "Session is NULL. ";
         }
-        return '';
+            return $this->session->get_debuginfo();
     }
 
 }

@@ -45,7 +45,8 @@ class stack_textarea_input_test extends basic_testcase {
         $el = stack_input_factory::make('textArea', 'test', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" rows="5" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])</textarea>",
-                $el->render(new stack_input_state(stack_input::VALID, array("1", "1/sum([1,3])", "matrix([1],[2])"), '', '', '', ''),
+                $el->render(new stack_input_state(
+                        stack_input::VALID, array("1", "1/sum([1,3])", "matrix([1],[2])"), '', '', '', ''),
                         'st_ans1', false));
     }
 

@@ -550,4 +550,27 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
                 $this->get_no_hint_visible_expectation()
         );
     }
+
+    public function test_rendering_question_with_image() {
+        global $CFG;
+
+        // Create a stack question - we use test0, then change the question text
+        // to show a particular bug.
+        $q = test_question_maker::make_question('stack', 'test0');
+
+        // Comment out the following line, and the test passes.
+        $q->questionvariables = 'PrintVect(v):= concat("\\,\\!",ssubst("\\mathbf{j}","YY",   ssubst("\\mathbf{i}","XX", ssubst(" ","*",StackDISP(subst(XX, ii, subst(YY, jj,v )  ),"")))))';
+
+        $q->questiontext = '<p><img style="display: block; margin-left: auto; margin-right: auto;" ' .
+                'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>' .
+                '<p>' . $q->questiontext . '</p>';
+        $this->start_attempt_at_question($q, 'deferredfeedback', 1);
+
+        // Check how the image is rendered.
+        $this->render();
+        $this->assertNotRegExp('~PLUGINFILE~', $this->currentoutput,
+                'Embedded image not displayed correctly in ' . $this->currentoutput);
+        $this->assertRegExp('~' . preg_quote($CFG->wwwroot) . '/pluginfile.php/~', $this->currentoutput,
+                'Embedded image not displayed correctly in ' . $this->currentoutput);
+    }
 }

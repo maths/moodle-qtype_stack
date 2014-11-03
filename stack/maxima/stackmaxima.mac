@@ -510,6 +510,19 @@ stack_strip_percent(ex,var) := block([lv1, lv2, subcount, indx,exs],
     return(exs)
 )$
 
+/* These functions convert all variables in an expression to products of single letter variable names. */
+stack_singlevar_make_helper(ex) := block([s],
+  s:maplist(eval_string, charlist(string(ex))),
+  apply("*", s)
+)$
+
+stack_singlevar_make(ex) := block([vars, subs],
+  vars:sublist(listofvars(ex), lambda([ex], if slength(string(ex))>1 then true else false)),
+  if emptyp(vars) then return(ex),
+  vars:maplist(lambda([ex], ex=stack_singlevar_make_helper(ex)), vars),
+  sublis(vars, ex)
+)$
+
 
 /* *************************************/
 /* Output graphics,                    */
@@ -522,7 +535,7 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs],
+    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake],
     /* Arguments to plot must be lists */
     ral:sublist(ra, listp), /* The actual arguments used by plot */
     /* Check expressions to be plotted has/have only one variable. */
@@ -577,8 +590,8 @@ set output ",afn),
     set_plot_option([gnuplot_preamble, preamble]),
     /* Create and execute the actual plot commands */
     pltargs:append([ex], ral),
-    p:funmake(plot2d, pltargs),
-    ev(p),
+    plotfunmake:funmake(plot2d, pltargs),
+    ev(plotfunmake),
     sysp:concat(GNUPLOT_CMD, " ", tfn),
     sysr:concat(DEL_CMD, " ", tfn),
     system(sysp),
@@ -1370,11 +1383,25 @@ ATCASEqual(SA,SB) :=
     SBB:errcatch(ev(SB, simp, nouns)),
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then return([false,false,StackAddNote("","ATCASEqual_STACKERROR_TAns"),""]),
 
-    if SA=SB then
-       (RawMark:true, AnswerNote:"ATCASEqual_true")
+    /* Now actually apply this test */
+    if equals_commute_associate(sa,sb) then 
+        (RawMark:true, AnswerNote:"")
     else
-       AnswerNote:"ATCASEqual_false",
-    return([Validity,RawMark,StackAddNote("",AnswerNote),FeedBack])
+        (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
+
+    if SA=SB then
+       return([Validity, true, StackAddNote("","ATCASEqual_true"), FeedBack]),
+
+    /* We need to check things are of the same type */
+    ret:ATSameTypefun(SA,SB),
+    if ret[2]=false then    
+        return([true, false, StackAddNote("ATCASEqual: ", StackTrimNote(ret[3])), ret[4]]),
+    ret:block([simp:true, ret], ATAlgEquivfun(SA, SB)),
+    if ret[2]=true then    
+        return([true, false, StackAddNote("ATCASEqual: (AlgEquiv:true)", StackTrimNote(ret[3])), ""]),
+
+    AnswerNote:"ATCASEqual_false",
+    return([Validity, RawMark, StackAddNote("",AnswerNote),FeedBack])
     )$
 
 /* SA>SB? */
@@ -2276,5 +2303,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014072301$
-print("[ STACK-Maxima started, library version 2014072301 ]")$
+stackmaximaversion:2014100900$
+print("[ STACK-Maxima started, library version 2014100900 ]")$

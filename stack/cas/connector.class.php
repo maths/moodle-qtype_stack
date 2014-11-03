@@ -31,6 +31,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string the name of the maxima executable, to use of command-lines. */
     protected $command;
 
+    /** @var string the username:passpassword to use when connecting to the MaximaPool server, if required. */
+    protected $serveruserpass = '';
+
     /** @var string the opening command to send to maxima. */
     protected $initcommand;
 
@@ -117,11 +120,12 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $cmd = $this->guess_maxima_command($path);
         }
 
-        $this->logs        = $path;
-        $this->command     = $cmd;
-        $this->initcommand = $initcommand;
-        $this->timeout     = $settings->castimeout;
-        $this->debug       = $debuglog;
+        $this->logs           = $path;
+        $this->command        = $cmd;
+        $this->initcommand    = $initcommand;
+        $this->timeout        = $settings->castimeout;
+        $this->serveruserpass = $settings->serveruserpass;
+        $this->debug          = $debuglog;
         if (strpos($CFG->wwwroot, '_') !== false) {
             $this->wwwroothasunderscores = true;
             $this->wwwrootfixupfind = str_replace('_', '\_', $CFG->wwwroot);

@@ -170,7 +170,7 @@ class stack_matrix_input extends stack_input {
             foreach ($row as $val) {
                 $answer = new stack_cas_casstring($val);
                 $answer->validate('s', $this->get_parameter('strictSyntax', true),
-                        $this->get_parameter('insertStars', false),  $this->get_parameter('allowwords', ''));
+                        $this->get_parameter('insertStars', 0),  $this->get_parameter('allowwords', ''));
 
                 // Ensure student hasn't used a variable name used by the teacher.
                 if ($forbiddenkeys) {
@@ -296,7 +296,7 @@ class stack_matrix_input extends stack_input {
             'hideFeedback'   => false,
             'boxWidth'       => 5,
             'strictSyntax'   => false,
-            'insertStars'    => false,
+            'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',
             'allowWords'     => '',

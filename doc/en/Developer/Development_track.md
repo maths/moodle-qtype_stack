@@ -1,14 +1,28 @@
-# Development track for STACK 3.3
+# Development track for STACK 3.4
 
+* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.
+* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
 
-# Development track for STACK 3.3
+**Important changes in STACK version 3.4:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
+
+    Administration -> Site administration -> Question types -> STACK
+    
+Then choose the link to "fix maths delimiters script".
+
+# Development track for STACK 3.4
 
 This page describes the major tasks we still need to complete in order to be
-able to release the next version: STACK 3.3. Plans looking
-further into the future are described on [Future plans](Future_plans.md). The
-past development history is documented on [Development history](Development_history.md).
+able to release the next version: STACK 3.4. Plans looking further into the future are described 
+on [Future plans](Future_plans.md). 
+The past development history is documented on [Development history](Development_history.md).
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
+
+## Changes already implemented since the release of STACK 3.3
+
+* Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
+* Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
+* STACK tried to automatically write an optimised image for linux.  This should help installs where unix access is difficult.
 
 ## STACK custom reports
 
@@ -19,16 +33,6 @@ Basic reports now work.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 
-## Expanding CAS features
-
-* *done* Refactor the Maxima plot command to include "discrete" and "parametric plots"
-* *done* Refactor the Maxima plot command to include options, e.g., xlabel, ylabel, legend, color, style, point_type.
-* *done* Enable a function as an answer type, e.g. improve validation.
-* *done* Refactor answer test unit testing to distinguish "test fail" from "zero".
-* *done* Reject things like sin*(x) and sin^2(x) as invalid
-* *done* Expand the numerical tests
-* *done* Provide a new option on how parentheses are displayed for matrices
-* Provide an extra syntax checking option to enable stars to be inserted between single characters, e.g. xy -> x*y.
 
 ## Assorted minor improvements
 
@@ -37,8 +41,6 @@ Basic reports now work.
  2. Remove many versions at once.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
-* *done* Review the list of forbidden keywords.
-* *done* Add input parameter `allowwords` to enable the teacher to specify some permitted words of more than 2 symbols length.
 
 ## Expanding CAStext features
 

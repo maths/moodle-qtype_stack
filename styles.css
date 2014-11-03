@@ -240,3 +240,14 @@ body.ie .stack_abstract_graph {
 .stack_abstract_graph circle.node {
     fill: #00f;
 }
+
+/* this should all be inherited in some way from the theme settings */
+#basic-modal-content {display:none;}
+
+/* Overlay */
+#simplemodal-overlay {background-color:#000; cursor:wait;}
+
+/* Container */
+#simplemodal-container {height:360px; width:600px; border:4px solid #444; padding:12px;background-color:inherit;}
+#simplemodal-container .simplemodal-data {padding:8px;}
+#simplemodal-container a.modalCloseImg {background:url(./x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}

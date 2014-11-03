@@ -118,7 +118,7 @@ This text should be input directly in HTML mode.
 Fill in the answer for `ans1` (which exists by default) and remove the `feedback` tag from the "specific feedback" section.  We choose to embed feedback within parts of this question.
 Notice there is one potential response tree for each "part".
 
-Update the form and then ensure the Teacher's Answers are filled in as `ta1`, `ta2` and `ta3`.
+Update the form and then ensure the Model Answers are filled in as `ta1`, `ta2` and `ta3`.
 
 STACK has created the three potential response trees by detecting the feedback tags automatically.  Next we need to edit potential response trees.  These will establish the properties of the student's answers.
 
@@ -154,7 +154,7 @@ Your answer to this part is correct, however you have got part 1 wrong!  Please 
 
 ###Stage 3: adding question tests###
 
-It is probably sensible to add question tests.  From the question preview window, click on `Run the question tests...` link in the top right of the page.
+It is probably sensible to add question tests.  From the question preview window, click on `Question tests & deployed versions` link in the top right of the page.
 
 Add a test to your question which contains the correct answers, as follows.
 

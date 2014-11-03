@@ -36,6 +36,10 @@ The following options affect how mathematics is displayed.
 * Dot, e.g. \(x\cdot(x+1)\)
 * Cross, e.g. \(x\times (x+1)\)
 
+In practice it is very helpful to have some kind of multiplication sign displayed to the student.  The difference between
+\[ xe^x \mbox{ and } x\,e^x\]
+is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\dot e^x\) neatly solves this problem.
+
 ### Surd for Square Root ### {#surd}
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s

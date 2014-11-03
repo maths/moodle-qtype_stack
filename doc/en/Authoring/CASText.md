@@ -1,6 +1,6 @@
 # CASText
 
-**Important changes in STACK version 3.2:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
+**Important changes in STACK between version 3.3 and 3.4:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
 
     Administration -> Site administration -> Question types -> STACK
     
@@ -79,6 +79,10 @@ problem which can be written before a question is deployed.
 It is common to want to use the dollar sign for currency.  However, this conflicts with the use of the dollar sign for delimiters for mathematics.  For this reason we discourage the use of dollars to delimit mathematics in STACK.
 
 * If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
+
+## Facts ##
+
+STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to castext using the [fact sheet](Fact_sheets.md)
 
 ## Most useful HTML ##
 

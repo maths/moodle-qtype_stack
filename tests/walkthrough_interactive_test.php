@@ -38,7 +38,7 @@ require_once(__DIR__ . '/test_base.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
+class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_partially_right_the_right() {
         // Create a stack question.
@@ -488,5 +488,84 @@ class qtype_stack_walkthrough_interactive_test extends qtype_stack_walkthrough_t
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
+    }
+
+    public function test_test3_submit_and_finish_incomplete() {
+        // Create a stack question.
+        $q = test_question_maker::make_question('stack', 'test3');
+        $q->hints = array(null, null);
+        $this->start_attempt_at_question($q, 'interactive', 4);
+
+        // Check the right behaviour is used.
+        $this->assertEquals('interactivecountback', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_contains_text_input('ans3');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Save a response with three parts incorrect and one part not answereds.
+        $this->process_submission(array('ans1' => 'x+1', 'ans1_val' => 'x+1',
+                'ans2' => 'x+1', 'ans2_val' => 'x+1', 'ans3' => 'x+1', 'ans3_val' => 'x+1', 'ans4' => ''));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x+1');
+        $this->check_output_contains_text_input('ans2', 'x+1');
+        $this->check_output_contains_text_input('ans3', 'x+1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_input_validation('ans4');
+        $this->check_output_contains_lang_string('pleaseananswerallparts', 'qtype_stack');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', true),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Resubmit after validation.
+        $this->finish();
+
+        $this->check_current_state(question_state::$gradedwrong);
+        $this->check_current_mark(0);
+        $this->check_prt_score('odd', 0, 0.4, 1);
+        $this->check_prt_score('even', 0, 0.4, 1);
+        $this->check_prt_score('oddeven', 0, 0.4, 1);
+        $this->check_prt_score('unique', null, null, 1);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x+1', false);
+        $this->check_output_contains_text_input('ans2', 'x+1', false);
+        $this->check_output_contains_text_input('ans3', 'x+1', false);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_input_validation('ans3');
+        $this->check_output_does_not_contain_input_validation('ans4');
+        $this->check_output_contains_prt_feedback('odd');
+        $this->check_output_contains_prt_feedback('even');
+        $this->check_output_contains_prt_feedback('oddeven');
+        $this->check_output_does_not_contain_prt_feedback('unique');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), '', false),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
     }
 }

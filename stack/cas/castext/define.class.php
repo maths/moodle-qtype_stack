@@ -22,20 +22,13 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../conditionalcasstring.class.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 
 class stack_cas_castext_define extends stack_cas_castext_block {
 
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = null;
-            if ($conditionstack === null || count($conditionstack) === 0) {
-                $cs = new stack_cas_casstring($value);
-            } else {
-                $cs = new stack_cas_conditionalcasstring($value, $conditionstack);
-            }
-
+            $cs = new stack_cas_casstring($value, $conditionstack);
             $cs->validate($this->security, $this->syntax, $this->insertstars);
             $cs->set_key($key, true);
             $tobeevaluatedcassession->add_vars(array($cs));

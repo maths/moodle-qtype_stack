@@ -46,6 +46,12 @@ class stack_cas_casstring {
      */
     private $value;
 
+    /** 
+     * @array of additional CAS strings which are conditions when the main expression can
+     * be evaluated.  I.e. this encapsulates restrictions on the domain of the main value.
+     */
+    private $conditions;
+
     /**
      * @var string how to display the CAS string, e.g. LaTeX. Only gets set
      *             after the casstring has been processed by the CAS.
@@ -426,15 +432,21 @@ class stack_cas_casstring {
      */
     private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
 
-    public function __construct($rawstring) {
-        $this->rawcasstring = $rawstring;
-        $this->answernote   = array();
-        $this->valid        = null;  // If null then the validate command has not yet been run.
-
-        if (!is_string($this->rawcasstring)) {
+    public function __construct($rawstring, $conditions = null) {
+        if (!is_string($rawstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
+        $this->rawcasstring = $rawstring;
 
+        if (!($conditions === null || is_array($conditions))) {
+            throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
+        } 
+        if (count($conditions) != 0) {
+            $this->conditions   = $conditions;
+        }
+
+        $this->answernote   = array();
+        $this->valid        = null;  // If null then the validate command has not yet been run.
     }
 
     /*********************************************************/
@@ -1142,6 +1154,10 @@ class stack_cas_casstring {
 
     public function set_feedback($val) {
         $this->feedback = $val;
+    }
+
+    public function get_conditions() {
+        return $this->conditions;
     }
 
     public function add_errors($err) {

@@ -17,8 +17,6 @@
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/test_base.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
-require_once(__DIR__ . '/../stack/cas/conditionalcasstring.class.php');
-
 
 /**
  * Unit tests for {@link stack_cas_session}.
@@ -427,16 +425,16 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $s1[] = $cs;
         }
 
-        $cs = new stack_cas_conditionalcasstring('c:1/(a-5)',array(new stack_cas_casstring('a#5')));
+        $cs = new stack_cas_casstring('c:1/(a-5)',array(new stack_cas_casstring('a#5')));
         $cs->validate('t');
         $s1[] = $cs;
-        $cs = new stack_cas_conditionalcasstring('d:1/(b-5)',array(new stack_cas_casstring('b#5')));
+        $cs = new stack_cas_casstring('d:1/(b-5)',array(new stack_cas_casstring('b#5')));
         $cs->validate('t');
         $s1[] = $cs;
-        $cs = new stack_cas_conditionalcasstring('e:1/(a-b)',array(new stack_cas_casstring('b#a'),new stack_cas_casstring('a#0')));
+        $cs = new stack_cas_casstring('e:1/(a-b)',array(new stack_cas_casstring('b#a'),new stack_cas_casstring('a#0')));
         $cs->validate('t');
         $s1[] = $cs;
-        $cs = new stack_cas_conditionalcasstring('f:1/(a-a)',array(new stack_cas_casstring('b#a'),new stack_cas_casstring('a#a')));
+        $cs = new stack_cas_casstring('f:1/(a-a)',array(new stack_cas_casstring('b#a'),new stack_cas_casstring('a#a')));
         $cs->validate('t');
         $s1[] = $cs;
 

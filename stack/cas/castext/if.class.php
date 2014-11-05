@@ -21,7 +21,6 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../conditionalcasstring.class.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 
 class stack_cas_castext_if extends stack_cas_castext_block {
@@ -37,11 +36,7 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         $condition = $this->get_node()->get_parameter("test", "false");
 
         $cs = null;
-        if ($conditionstack === null || count($conditionstack) === 0) {
-            $cs = new stack_cas_casstring($condition);
-        } else {
-            $cs = new stack_cas_conditionalcasstring($condition, $conditionstack);
-        }
+        $cs = new stack_cas_casstring($condition, $conditionstack);
 
         $this->condition = $cs;
 

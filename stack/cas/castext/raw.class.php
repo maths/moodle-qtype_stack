@@ -22,7 +22,6 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../conditionalcasstring.class.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 require_once("block.interface.php");
 
@@ -34,13 +33,7 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
     private $number;
 
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
-        $cs = null;
-        if ($conditionstack === null || count($conditionstack) === 0) {
-            $cs = new stack_cas_casstring(trim($this->get_node()->get_content()));
-        } else {
-            $cs = new stack_cas_conditionalcasstring(trim($this->get_node()->get_content()), $conditionstack);
-        }
-
+        $cs = new stack_cas_casstring(trim($this->get_node()->get_content()), $conditionstack);
         $session_keys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
         do { // ... make sure names are not already in use.

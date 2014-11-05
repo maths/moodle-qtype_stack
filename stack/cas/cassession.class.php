@@ -488,7 +488,7 @@ class stack_cas_session {
 
             $csnames   .= ", $cleanlabel";
             // Special handling for the conditionally evaluated strings
-            if (is_a($cs, 'stack_cas_conditionalcasstring') && count($cs->get_conditions()) > 0) {
+            if (count($cs->get_conditions()) > 0) {
                 $conditions = array();
                 foreach($cs->get_conditions() as $cond) {
                     // No need to evaluate again if it is already evaluated

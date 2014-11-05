@@ -33,7 +33,6 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../conditionalcasstring.class.php');
 require_once(dirname(__FILE__) . '/../casstring.class.php');
 
 class stack_cas_castext_foreach extends stack_cas_castext_block {
@@ -48,11 +47,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
         $i = 0;
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             $cs = null;
-            if ($conditionstack === null || count($conditionstack) === 0) {
-                $cs = new stack_cas_casstring($value);
-            } else {
-                $cs = new stack_cas_conditionalcasstring($value, $conditionstack);
-            }
+            $cs = new stack_cas_casstring($value, $conditionstack);
             $caskey='';
             do { // ... make sure names are not already in use.
                 $caskey = 'caschat'.$i;

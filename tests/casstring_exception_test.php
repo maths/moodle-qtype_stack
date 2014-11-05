@@ -58,4 +58,9 @@ class stack_cas_casstring_exception_test extends basic_testcase {
         $this->setExpectedException('stack_exception');
         $at1->get_valid('t', true, 'a');
     }
+
+    public function test_exception_6() {
+        $this->setExpectedException('stack_exception');
+        $at1 = new stack_cas_casstring("x=1", "a#5");
+    }
 }

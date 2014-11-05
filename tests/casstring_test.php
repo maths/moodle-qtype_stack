@@ -307,4 +307,13 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('unencpsulated_comma', $at1->get_answernote());
     }
+
+    public function test_conditionals_1() {
+        $s = 'x#a';
+        $c1 = new stack_cas_casstring($s);
+        $s = '1/(x-a)';
+        $at1 = new stack_cas_casstring($s, array($c1));
+        $this->assertTrue($at1->get_valid('s'));
+        $this->assertEquals(array($c1), $at1->get_conditions());
+    }
 }

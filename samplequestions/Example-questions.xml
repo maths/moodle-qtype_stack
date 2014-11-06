@@ -1,0 +1,5213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions</text>
+
+    </category>
+  </question>
+
+<!-- question: 531  -->
+  <question type="description">
+    <name>
+      <text>Cart speed analysis info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Live data capture</h2>
+<p>STACK can be used in conjunction with live data capture in science labs.  For example, here is a sample question which confirms if students have calculated a speed correctly from their own data.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 515  -->
+  <question type="description">
+    <name>
+      <text>Continuous non-differentiable function_info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Multiple properties</h2>
+<p>In this question STACK establishes multiple separate properties.  Here they are</p>
+<ol>
+<li><span style="font-size: 1em; line-height: 1.4;">Continuous at </span><em style="font-size: 1em; line-height: 1.4;">x=0</em></li>
+<li><span style="font-size: 1em; line-height: 1.4;">Differentiable at </span><em style="font-size: 1em; line-height: 1.4;">x=0</em></li>
+<li>Gradient is zero at <em>x=2.</em></li>
+</ol>
+<p>Typically, the answer to a mathematical question will need a number of separate things, e.g. equivalent to the correct answer, appropriate written form.  The teacher has to decide what these properties are, and design feedback if some, or all, are not satisfied.</p>
+<p>The teacher can also choose to test for properties which arise as a result of common misconceptions.</p>
+<p>Try <span style="font-family: 'courier new', courier, monospace; color: #0000ff;">(x-2)^2+1</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 516  -->
+  <question type="description">
+    <name>
+      <text>Cubic spline_info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Specific feedback</h2>
+<p>In this, more advanced, question the student is required to find a cubic polynomial which matches up with the given function <em>f(x)</em>.  In particular it should <em>connect smoothly</em> with both given ends.</p>
+<p>There are are <em>five separate properties</em> that characterize a correct answer</p>
+<ol>
+<li><em style="font-size: 1em; line-height: 1.4;">p(x)</em><span style="font-size: 1em; line-height: 1.4;"> is a cubic (the highest power of </span><em style="font-size: 1em; line-height: 1.4;">x</em><span style="font-size: 1em; line-height: 1.4;"> is 3).</span></li>
+<li><em style="font-size: 1em; line-height: 1.4;">p(-2)=1</em><span style="font-size: 1em; line-height: 1.4;"> (connects at the left)</span></li>
+<li><em style="font-size: 1em; line-height: 1.4;">p(0)=0</em><span style="font-size: 1em; line-height: 1.4;"> (connects at the right)</span></li>
+<li><em style="font-size: 1em; line-height: 1.4;">p'(-2)=0</em><span style="font-size: 1em; line-height: 1.4;"> (slope is correct at the left)</span></li>
+<li><em style="font-size: 1em; line-height: 1.4;">p'(0)=1</em><span style="font-size: 1em; line-height: 1.4;"> (slope is correct at the right)</span></li>
+</ol>
+<p>In this case there is, up to algebraic equivalence, only one correct answer.  In fact, it is more helpful to students to check each property separately and give more specific feedback.  </p>
+<p>Try <span><span style="font-family: 'courier new', courier, monospace; color: #0000ff;">x^2*(x+3)/4</span> which is only partially correct.</span></p>
+<p>(The correct answer is <span style="color: #0000ff; font-family: 'courier new', courier, monospace; font-size: 12px; line-height: 16.8px;"><span>x^3/2+7*x^2/4+x</span></span><span style="font-size: 1em; line-height: 1.4;">) </span></p>
+<p> </p>
+<p> </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 517  -->
+  <question type="description">
+    <name>
+      <text>I01 Description: STACK introduction</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Entering mathematical expressions into STACK</h2>
+<p>When you are answering the following questions please enter mathematical expressions in the form that you would enter them into a spreadsheet.</p>
+<p>For example what you might write as 5x<sup>2</sup> you should type as <span style="font-family: 'courier new', courier, monospace; color: #0000ff;" data-mce-mark="1">5*x^2</span>. You will find that the computer will interpret what you have typed and reflect it back to you in mathematical format.</p>
+<p>In practice, students need to learn how to type in their answers, and after a relatively short period the majority are able to do so.</p>
+<p>Please try the "syntax quiz" before attempting at this.  The purpose of the syntax quiz is to teach the syntax!</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 518  -->
+  <question type="description">
+    <name>
+      <text>Odd and even functions_info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Establishing mathematical <em>properties</em></h2>
+<p>STACK uses a computer algebra system to establish the mathematical properties of student's answers.  In some cases this is <em>equivalence </em>(as was the case with the railways question previously).  A much wider range of properties can be established, and in many cases there will be a whole range of acceptable answers which satisfy them.</p>
+<p>A function <em>f(x)</em> is <em>even</em> if <em>f(x)=f(-x)</em> for all values of <em>x</em>.  For example, x<sup>2</sup>, 3cos(x) and x sin(x) are all even.  Try getting these questions wrong!</p>
+<p><span style="font-size: 1em; line-height: 1.4;">The teacher always has to specify what properties are relevant to the question.</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 519  -->
+  <question type="description">
+    <name>
+      <text>Railways_info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Modelling</h2>
+<p>In this question the student is asked to write down a system of equations which represent the situation described.  There are many equivalent ways to do this.  STACK uses <em>computer algebra</em> to check if the student's answer is equivalent to the correct system.  </p>
+<p>E.g. try one of the following</p>
+<p><span style="font-size: 1em; line-height: 1.4; font-family: 'courier new', courier, monospace; color: #0000ff;">v*t=90</span><br /><span style="font-family: 'courier new', courier, monospace; color: #0000ff;">(v+5)*(t-1/4)=90</span><br /><br /></p>
+<p><span style="font-family: 'courier new', courier, monospace; color: #0000ff;">d=90</span><br /><span style="font-family: 'courier new', courier, monospace; color: #0000ff;">v*t=d</span><br /><span style="font-family: 'courier new', courier, monospace; color: #0000ff;">(v+5)*(t-1/4)=v*t</span></p>
+<p>The system can also check common mistakes (where the teacher knows about them in advance, which is commonly the case).  E.g. forgetting about <em>units of time</em> is relatively common.  Try using <em>15 minuites </em>instead of 1/4 hour.</p>
+<p><span style="font-family: 'courier new', courier, monospace; color: #0000ff;">v*t=90</span><br /><span style="font-size: 1em; line-height: 1.4; font-family: 'courier new', courier, monospace; color: #0000ff;">(v+5)*(t-15)=v*t</span></p>
+<p> </p>
+<p> </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 520  -->
+  <question type="description">
+    <name>
+      <text>tangent to a random polynomial at a point_info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Randomly generated versions</h2>
+<p>STACK generates random question versions for each attempt at the quiz.  This is done in a sophisticated mathematical way, not by just putting random numbers into boxes which might lead to impossible questions.  </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 521  -->
+  <question type="description">
+    <name>
+      <text>test_1_integration_info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Practice of methods and feedback</h2>
+<p>This symbolic integration question is typical of many mathematical methods. </p>
+<p>In this case get the question <em>wrong</em>.  E.g. by typing in something like <span style="font-family: 'courier new', courier, monospace; color: #0000ff;">(3*x^2+1)^3+c</span> as an answer.</p>
+<p>Feedback is given to students which includes a calculation of the student's answer.  This is designed to help students check their own work, and hence improve on this task. </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 522  -->
+  <question type="description">
+    <name>
+      <text>test_2_rectangle_info</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h2>Multi-part questions</h2>
+<p>Sometimes, particularly when first learning a topic, it is helpful to students to break a complex question down into parts.  STACK can implement follow-through marking, taking an incorrect answer from the student in the first part and using it in the second.</p>
+<p>For example, try typing in the following answers to the first two parts</p>
+<ol>
+<li><span style="font-size: 1em; line-height: 1.4; font-family: 'courier new', courier, monospace; color: #0000ff;">x+10=56</span></li>
+<li><span style="font-size: 1em; line-height: 1.4; font-family: 'courier new', courier, monospace; color: #0000ff;">{46}</span></li>
+</ol>
+<p>(The answer in part (2) needs to be a <em>set</em> which is entered using curly brackets and commas as <span style="font-family: 'courier new', courier, monospace; color: #0000ff;">{ ?, ?, ?, ...}</span>.  Here there is one element in the set.).  The system is able to establish that the second answer is correct, given the first one, even though the first answer is incorrect.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+  </question>
+
+<!-- question: 530  -->
+  <question type="stack">
+    <name>
+      <text>Cart speed analysis</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In this question use the data captured from your moving cart in the speed lab.  </p>
+<p>How far did the cart go? [[input:d]] meters.  <span id="yui_3_7_3_2_1397928834932_987" class="error" data-mce-mark="1">[[validation:d]]</span></p>
+<p>How long did it take? [[input:t]] seconds. <span id="yui_3_7_3_2_1397928834932_987" class="error">[[validation:t]]</span></p>
+<p>So what is the speed? [[input:ans1]] m/s. <span id="yui_3_7_3_2_1397928834932_987" class="error">[[validation:ans1]]</span></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Remember that \[ d=st\].  So if you have a distance of \(d\) meters, in a time of \(s\) seconds, then the speed will be \(s/d\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>d/t</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords>/</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>d</name>
+      <type>algebraic</type>
+      <tans>1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>t</name>
+      <type>algebraic</type>
+      <tans>1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>0</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>NumAbsolute</answertest>
+        <sans>ans1</sans>
+        <tans>d/t</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Well done, your speed is correct.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>The speed you entered is not consistent with the data you entered for the first two parts.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>floatnump(ans1)</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should simply be a number, representing the final answer.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>NumAbsolute</answertest>
+        <sans>ev(float(ans1),simp)</sans>
+        <tans>t/d</tans>
+        <testoptions>0.01</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Think carefully about how you calculate your ratio!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>2.5</value>
+      </testinput>
+      <testinput>
+        <name>d</name>
+        <value>5.0</value>
+      </testinput>
+      <testinput>
+        <name>t</name>
+        <value>2.0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>0.392</value>
+      </testinput>
+      <testinput>
+        <name>d</name>
+        <value>5.1</value>
+      </testinput>
+      <testinput>
+        <name>t</name>
+        <value>2.0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions/Create Examples</text>
+
+    </category>
+  </question>
+
+<!-- question: 779  -->
+  <question type="stack">
+    <name>
+      <text>ce_evenf</text>
+    </name>
+    <questiontext format="html">
+      <text>Give an example of an even function.
+
+[[input:ans1]] [[validation:ans1]]
+</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>Remember, a function \(f(x)\) is said to be {\em even} if
+\[ f(x) = f(-x) \]
+for all values of \(x\).  Hence, there are many examples which 
+satisfy this definition, \(\cos(x)\), \(3*x^4\), and even \(f(x)=c\) for any constant.</text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>.</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect>Incorrect answer.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>3*x^4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p:ans1-subst(-x,x,ans1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^3</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 780  -->
+  <question type="stack">
+    <name>
+      <text>ce_functional_relation</text>
+    </name>
+    <questiontext format="html">
+      <text>Find a function of \(f(x)\) which satisfies 
+\[ f(a+b)=f(a)+f(b)\]
+for all values of \(a\) and \(b\).
+
+[[input:ans1]] [[validation:ans1]]
+</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>.</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect>Incorrect answer.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>x</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p1:subst(a,x,ans1);
+p2:subst(b,x,ans1);
+p3:subst(a+b,x,ans1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p1+p2</sans>
+        <tans>p3</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 781  -->
+  <question type="stack">
+    <name>
+      <text>ce_non-diff</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[Give an example of a function \(f(x)\) with a stationary point at \(x={@n@}\) and which is continuous but not differentiable at \(x=0\).
+<br />
+<br />
+\(f(x)=\) [[input:ans1]]
+[[validation:ans1]]
+]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>n:2+rand(4);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@n@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect>Incorrect answer.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>abs(x)*(x-2*n)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords>diff</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p:subst(n,x,diff(ans1,x));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.3400000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>No stationary point.</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer does not have a stationary point at 
+\(x={@n@}\) but should do.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>continuousp(ans1,x,0)</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Not continuous</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer is not continuous at \(x=0\), but needs to be.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>diffp(ans1,x,0)</sans>
+        <tans>false</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[Your answer is differentiable at \(x=0\) but should not be.  Consider using \(|x|\), which is entered
+as <tt>abs(x)</tt>, somewhere in your answer.]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>abs(x)*(x-2*n)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x*(x-2*n)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.6700000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>(x-2*n)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.3300000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 782  -->
+  <question type="stack">
+    <name>
+      <text>ce_oddf</text>
+    </name>
+    <questiontext format="html">
+      <text>Give an example of an odd function.
+
+[[input:ans1]] [[validation:ans1]]
+</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>Remember, a function \(f(x)\) is said to be {\em odd} if
+\[ f(x) = -f(-x) \]
+for all values of \(x\).  Hence, there are many examples which 
+satisfy this definition, \(\sin(x)\), \(4*x^5\), and even \(f(x)=0\).</text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>.</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect>Incorrect answer.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>4*x^3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p:ans1+subst(-x,x,ans1);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text>Your function should have a symmetry in the \(y\) axis, but does not.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^3</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 783  -->
+  <question type="stack">
+    <name>
+      <text>ce_quad</text>
+    </name>
+    <questiontext format="html">
+      <text>Give an example of a quadratic with roots at \(x={@n@}\) and \(x={@m@}\).
+
+[[input:ans1]] [[validation:ans1]]
+</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>n:rand(3)+1;
+m:n+2*(rand(3)+1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>\({@(x-n)*(x-m)@}={@expand((x-n)*(x-m))@}\)</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect>Incorrect answer.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>(x-n)*(x-m)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>pn:subst(n,x,ans1);
+pm:subst(m,x,ans1);
+d:degree(ans1,x);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>d</sans>
+        <tans>2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3400000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Not quad.</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer should be a quadratic but is not.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>pn</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>No first root.</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer should have a root at \(x={@n@}\) but does not.</text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>pm</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>No second root.</falseanswernote>
+        <falsefeedback format="html">
+          <text>Your answer should have a root at \(x={@m@}\) but does not.</text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>(x-n)*(x-m)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>(x-n)*(x-m-1)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.6700000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>No second root.</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^3</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>No second root.</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 784  -->
+  <question type="stack">
+    <name>
+      <text>ce_quadrootscoeffs</text>
+    </name>
+    <questiontext format="html">
+      <text>Find a quadratic,
+\[ x^2 +bx +c, \]
+other than \(x^2\), which has roots equal to \(b\) and \(c\).
+
+[[input:ans1]] [[validation:ans1]]
+</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text>Since \(b\) and \(c\) are the roots, we have 
+\[ (x-b)(x-c) =0. \]
+Expanding this, and comparing coefficients, we have that
+\[ \left.
+\begin{array}{rcl} 
+b+c  =   -b \\
+bc  =  c
+\end{array}
+\right\}
+\]
+From the second of these equations, either \(b=1\) or \(c=0\).
+
+If \(c=0\), the first gives \(b=0\), resulting in \(x^2\).
+
+If \(b=1\), then \(c=-2\), giving only one other solution
+\[ (x+2)(x-1) = x^2 +x -2.\]
+(By Teiji Nakazawa, Mathematical Gazette, No. 358, pg 315, 1962)
+</text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>.</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect>Incorrect answer.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>(x+2)*(x-1)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>x^2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>x^2</trueanswernote>
+        <truefeedback format="html">
+          <text>Yes, \(x^2\) is correct, but you need to give another answer!</text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>(x+2)*(x-1)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>(x+2)*(x-1)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>(x+2)^2</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-1-F </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 785  -->
+  <question type="stack">
+    <name>
+      <text>ce_stationarypoints</text>
+    </name>
+    <questiontext format="html">
+      <text>Give an example of a function \(f(x)\) with a stationary point at \(x={@n@}\).
+
+[[input:ans1]] [[validation:ans1]]
+</text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[In this question you are asked to find a function with the property that there is a stationary point at \(x={@n@}\).  That is to say that the gradient here will be zero.  There are two main ways to go about this
+<ul> 
+<li>  Take a known function and graph shift it to put the stationary point in the correct place.
+<li>  Take a function with a zero in the correct place an integrate it.
+</ul> 
+There are many different examples.]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>n:2+rand(4);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@n@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Correct answer, well done.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Your answer is partially correct.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect>Incorrect answer.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>(x-n)^4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords>diff</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p:subst(n,x,diff(ans1,x));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Result-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Result-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>(x-n)^4</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Result-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^4</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Result-0-F </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions</text>
+
+    </category>
+  </question>
+
+<!-- question: 523  -->
+  <question type="stack">
+    <name>
+      <text>Continuous non-differentiable function</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Give an example of a function \(f(x)\) with a stationary point at \(x={@n@}\) and which is continuous but not differentiable at \(x=0\).</p>
+<p>\(f(x)=\)[[input:ans1]]</p>
+<div>[[validation:ans1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>One way to construct such a function is to start with a continuous curve (the first property) with a stationary point at \(x={@n@}\) and then to "bend" the curve at the point at which we need differentiability to fail.  This can be done using the absolute value function \(|x|\).</p>
+<p>We start with a quadratic with roots at \(x=0\) and \(x=2\times {@n@}\) which has a stationary point at the required \(x={@n@}\).  For example \(x(x-{@2*n@})\).  Now we can "bend" it with the absolute value function as follows:</p>
+<p>\[ {@abs(x)*(x-2*n)@}\]</p>
+<p>This is plotted below. {@plot(abs(x)*(x-2*n),[x,-2,2*(n+1)])@}</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>3.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>n:2</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>Point = {@n@}.  Answer is {@abs(x)*(x-2*n)@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>abs(x)*(x-2*n)</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>subst(x=n,diff(ans1,x))</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3400000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not have a stationary point at \(x={@n@}\) but should do.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>continuousp(ans1,x,0)</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer fails to be continuous at \(x=0\) but should be.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>diffp(ans1,x,0)</sans>
+        <tans>false</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.3300000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is differentiable at \(x=0\) but should not be!  You were asked for a non-differentiable function at \(x=0\).  Consider using \(|x|\), which is entered as <span style="font-family: 'courier new', courier, monospace;">abs(x)</span> somewhere in your answer.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>47</deployedseed>
+    <deployedseed>1210578137</deployedseed>
+    <deployedseed>2053256376</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>abs(x)*(2*n-x)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x*(x-2*n)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.6700000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2-n*x</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.3300000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>abs(x)/x*(x*(x-2*n)+2)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.3400000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-2-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 524  -->
+  <question type="stack">
+    <name>
+      <text>Cubic spline</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider the real function</p>
+<p>\[ f(x) :=\left\{ \begin{array}{ll} {@f0@} &amp; \mbox{for } x\leq {@x0@}, \\ p(x) &amp; \mbox{for } {@x0@} &lt; x &lt; {@x1@}, \\ {@f1@} &amp; \mbox{for } {@x1@}\leq x.\end{array} \right. \]</p>
+<p>{@plot(pg,[x,(x0-2),(x1+5)],[y,-3,3])@}</p>
+<p>Find the cubic polynomial \(p(x)\) which makes \(f(x)\) continuously differentiable. </p>
+<p>\(p(x)=\)[[input:ans1]]</p>
+<div>[[validation:ans1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>First we need to find the information which \(p(x)\) needs to satisfy.  This is</p>
+<p>\[ p({@x0@})={@subst(x=x0,f0)@}.\]</p>
+<p>\[ p({@x1@})={@subst(x=x1,f1)@}.\]</p>
+<p>\[ p'({@x0@})={@subst(x=x0,diff(f0,x))@}.\]</p>
+<p>\[ p'({@x1@})={@subst(x=x1,diff(f1,x))@}.\]</p>
+<p>If we define \(p(x)\) to be the cubic </p>
+<p>\[ p(x) = a_3 x^3 + a_2 x^2 + a_1 x + a_0,\]</p>
+<p>We then set up the matrix equation</p>
+<p>\[ {@CS@} {@CV@} = {@CT@} \]</p>
+<p>Solving this gives the coefficients, from which we get the polynomial.</p>
+<p>{@ta@}.</p>
+<p>We can view this as {@plot([pg,tapt],[x,(x0-3),(x1+3)],[y,-3,3])@}</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text><![CDATA[x0 : -2;
+f0 : 1;
+x1 : 0;
+f1 : sin(x)
+/* Note, we should really use inf instead of 1000 here, but Maxima gives up plotting with the options used by STACK */
+pg:if x<x0 then f0 else if x<x1 then 1000 else f1;
+CS:matrix([1,x0,x0^2,x0^3],[0,1,2*x0,3*x0^2],[1,x1,x1^2,x1^3],[0,1,2*x1,3*x1^2]);
+CT:transpose(matrix([ev(f0,x=x0),subst(x=x0,diff(f0,x)),ev(f1,x=x1),subst(x=x1,diff(f1,x))]));
+CV:transpose(matrix([a0,a1,a2,a3]));
+CS2:invert(CS).CT;
+ta : matrix([1,x,x^2,x^3]).CS2;
+tapt : if (x>x0 and x<x1) then ta else 1000;]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@ta@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>30</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text><![CDATA[anspt : if (x>x0 and x<x1) then ans1 else 1000;]]></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>subst(x=x0,ans1)</sans>
+        <tans>subst(x=x0,f0)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not satisfy \({@p(x0)=subst(x=x0,f0)@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>subst(x=x1,ans1)</sans>
+        <tans>subst(x=x1,f1)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt1-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>prt1-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not satisfy \({@p(x1)=subst(x=x1,f1)@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>subst(x=x0,diff(ans1,x))</sans>
+        <tans>subst(x=x0,diff(f0,x))</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>prt1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>3</falsenextnode>
+        <falseanswernote>prt1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not satisfy \(p'({@x0@})={@subst(x=x0,diff(f0,x))@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>subst(x=x1,diff(ans1,x))</sans>
+        <tans>subst(x=x1,diff(f1,x))</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.2500000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>4</truenextnode>
+        <trueanswernote>prt1-4-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>4</falsenextnode>
+        <falseanswernote>prt1-4-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer does not satisfy \(p'({@x1@})={@subst(x=x1,diff(f1,x))@}\).</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>4</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>degree(ans1,x)</sans>
+        <tans>3</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>5</truenextnode>
+        <trueanswernote>prt1-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>5</falsenextnode>
+        <falseanswernote>prt1-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is not a cubic!</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>5</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-6-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your answer is plotted below.</p>
+<p>{@plot([pg,anspt],[x,(x0-3),(x1+3)],[y,-3,3])@}</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-6-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is plotted below, although part of your graph might appear out of range of the plot!</p>
+<p>{@plot([pg,anspt],[x,(x0-2),(x1+5)],[y,-3,3])@}</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-6-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.2500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-6-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2*(x+3)/4</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-6-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions/Matrices</text>
+
+    </category>
+  </question>
+
+<!-- question: 791  -->
+  <question type="stack">
+    <name>
+      <text>examples_matrix_parameter</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>For what value of \(k\) is \[ {@A@} {@B@}={@B@} {@A@},\] i.e. \(AB=BA\)?</p>
+<p>\(k=\)[[input:ans]] [[validation:ans]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>The product <br />\[ AB = {@A@} {@B@} = {@A.B@}\]<br />The product <br />\[ BA = {@B@} {@A@} = {@B.A@}\]<br />From this we see that<br />\[ {@AB[2,1]@} = {@BA[2,1]@}\]<br />and<br />\[ {@AB[1,2]@} = {@BA[1,2]@}.\]<br />Fortunately, when solved these give the same solution \(k={@d@}\).</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>a:rand(4);
+b:a+1+rand(4);
+c:b+1+rand(4);
+d:c+1+rand(4);
+A:matrix([a,b],[c,d]);
+B:matrix([a,b],[c,k]);
+ta:d;
+AB:A.B;
+BA:B.A;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:k]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@d@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>k</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans</sans>
+        <tans>ta</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>k-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>k-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>For your value of \(k={@ans@}\) you have \[ {@A@}{@matrix([a,b],[c,ans])@} = {@A.matrix([a,b],[c,ans])@} \] \[ {@matrix([a,b],[c,ans])@}{@A@} = {@matrix([a,b],[c,ans]).A@} \]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>k</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>k-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans</name>
+        <value>ta+1</value>
+      </testinput>
+      <expected>
+        <name>k</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>k-0-F </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions/GeoGebra</text>
+
+    </category>
+  </question>
+
+<!-- question: 933  -->
+  <question type="stack">
+    <name>
+      <text>Find the expression of the tangent line</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Consider the function 
+\({\displaystyle f(x) = {@g(x) + d1@}\) whose graph is displayed below.</p>
+
+<p>The tangent line through the point \(({@x0@}, {@y0@})\) is also a function. Determine its expression.</p>
+
+<p>You can use the GeoGebra applet below to move the secant line into a tangent line by moving the points A and B. There are other ways to solve this problem.</p>
+
+<p>What is the slope of the tangent line at the pont \(({@x0@}, {@y0@})\)?<br/>
+By slope we mean the ratio of the \(y\)- and \(x\)-coordinate changes of the line.<br/>
+Answer: [[input:ans1]] [[validation:ans1]][[feedback:ans1]]</p>
+
+<p>At which point does the tangent line cross the \(y\)-axis?<br/>
+Give only the value of the \(y\)-coordinate.<br/>
+Answer: [[input:ans2]] [[validation:ans2]][[feedback:ans2]]</p>
+
+<p>Formulate the expression of the tangent line by using the formula \(g(x) = kx + b\), where \(k\) is the slope and \(b\) is the point where the line crosses the \(y\)-axis.<br/>
+Answer: Tangent line's function is \(g(x)\) = [[input:ans3]] [[validation:ans3]][[feedback:ans3]].</p>
+
+
+<applet name="ggbApplet" code="geogebra.GeoGebraApplet" archive="geogebra.jar"
+	codebase="http://www.geogebra.org/webstart/3.2/unsigned/"
+	width="585" height="508">
+	<param name="ggbBase64" value="UEsDBBQACAAIAFV0OT8AAAAAAAAAAAAAAAAMAAAAZ2VvZ2VicmEueG1s5VjbbttGEH1uvmLBp6Sppd3lHRAdyMmLAact4DQPLVJgRa7IrXlRyaUt+Q/6Ff23fklnL6QoGXbcuAUC92mp2eFczswZ7mrxZluV6Jq3nWjqxCEz7CBep00m6jxxerk+iZw3py8WOW9yvmoZWjdtxWTiuDPqKHkvTl98s+iK5gaxUqt8FPwmcdas7LiDuk3LWdYVnMsDOeu3ohSs3f2w+o2nsttvGCPn9aYHL7LtQZZW2YXohp9z7XBTCvlOXIuMt6hs0sQJfAgdnj7yVoqUlYnjYSOhiUOPNkHkqt2iacVtU0ulvjdeshUvAYBLuSs5Qtdq1zVba1BGqBO3HMCiSraYawwWvE9LkQlWqzx1iKCE0I3IZJE4fuSDNy7yAtLwcWCspU3TZpe7TvIKbX/mbQORRsEsjiIvgAfi05i6DtrZrTCYua7v4zjGfuDSGOCFXCASz5vhgBLXj7wwxFGg3rl3S3vm15dcSsixQ2zLuwHpvBXZ9Pm8O2vKbCzOphG1fMs2sm91f7hWpIFKHAC0VRku67zkVkagfAVPr1bN9tKg5hrTH3Yb/YoOZ5W/bcqmRa0qFSCV23VlVq2j4hy1sNbBWsPaUEbHfRJTraHXlVlNbUVtQrN5kyFpggc3okNKAMZVWw9w6KZIHAf1tZAXww/opqt9pkr/+75aAZ2G15TCO2heVqfc8OvQC/nvvCzmRz25uOJtzUvTeTVUv2/6zrS3KbAOLeOpqOCn2bCwMVXSnyAmI8143nKrbxlrQNW7eNrdR+LFfAhCxdBB+KmE0QMZSJWemgwSWKmeMiaVRHGr5BUH4kndM3Vf8VakI1ipo7yBi946GlHWY6nRE2bsYfvSJGFQuKevYBptCgZPMzJMhh3Mm2mS2tz7JhtcD3ABhDov4PbGGIBZyHlmZ6y03Y82YFJzaQwIymbS/Wziq+PET/4vmbM7mdPnk/kWvpmd+h6PcYMhkKqHl9tXKEEMfYu2v76EnF+h12ilfsEK8MzvILfua00wZ2LscA7KAoZHDR4V2ccg/2Us8SOxxMdT+t7oppClTVWxOkM1q2D7vJYwnlip8xTqIIEYtuDZiHs5SHNjy1r4PHz580PvYaplx1R7zkwrLNEKw7NcLa9R9ihiFV/YGQcf/q+qMQ5p9aM66R1xqrjDp+XDfNLHxTHbpfMwGvsj+RQMQs0JUa/2hPjFkDyll+wRp0Nb/en1ieuFbkj8KPRJ5HtwCFc2Ap96mMbEi6OQBGD9dnJCMcdndVPY3zKeWoKzf1KCs+dTAjxzIx+TMAhd4ocYe16oS0BnNKSRB+jDiiP6pBKcr4/wX6K//vgTnUH6JHE+wDkZ3vpl+R1SI+QTSOGqeQG0U6KzT3dqxR+ulSLsWAr+9Q+YCR/wLKBQAj+Mw9B1Az8OLR+iOPJi4kYxdimJdS1O4JIaBgQTQqgL11tKHj2v4Cr7e210OnNDEtWmFKmQx3WcT+8b+t5u/9M4/RtQSwcIZy1ZK1gEAAAFEQAAUEsBAhQAFAAIAAgAVXQ5P2ctWStYBAAABREAAAwAAAAAAAAAAAAAAAAAAAAAAGdlb2dlYnJhLnhtbFBLBQYAAAAAAQABADoAAACSBAAAAAA="/>
+	<param name="image" value="http://www.geogebra.org/webstart/loading.gif"  />
+	<param name="boxborder" value="false"  />
+	<param name="centerimage" value="true"  />
+	<param name="java_arguments" value="-Xmx512m -Djnlp.packEnabled=true" />
+	<param name="cache_archive" value="geogebra.jar, geogebra_main.jar, geogebra_gui.jar, geogebra_cas.jar, geogebra_export.jar, geogebra_properties.jar" />
+	<param name="cache_version" value="3.2.47.0, 3.2.47.0, 3.2.47.0, 3.2.47.0, 3.2.47.0, 3.2.47.0" />
+	<param name="framePossible" value="false" />
+	<param name="showResetIcon" value="false" />
+	<param name="showAnimationButton" value="true" />
+	<param name="enableRightClick" value="false" />
+	<param name="errorDialogsActive" value="true" />
+	<param name="enableLabelDrags" value="false" />
+	<param name="showMenuBar" value="false" />
+	<param name="showToolBar" value="false" />
+	<param name="showToolBarHelp" value="false" />
+	<param name="showAlgebraInput" value="false" />
+	<param name="allowRescaling" value="true" />
+This is a Java Applet created using GeoGebra from www.geogebra.org - it looks like you don't have Java installed, please go to www.java.com
+</applet>
+
+<script type="text/javascript">
+<!--
+var a0 = new String("{@a0@}");
+a0 = a0.replace(/\$/g,''); //\(\$ \)
+var b0 = new String("{@b1@}");
+b0 = b0.replace(/\$/g,''); //\(\$ \)
+var c0 = new String("{@c0@}");
+c0 = c0.replace(/\$/g,''); //\(\$ \)
+var d0 = new String("{@d0@}");
+d0 = d0.replace(/\$/g,''); //\(\$ \)
+
+// remove dollars from CAS output and pass the variables to GeoGebra
+
+applet = document.ggbApplet;
+applet.evalCommand("a="+a0);
+applet.evalCommand("b="+b0);
+applet.evalCommand("c="+c0);
+applet.evalCommand("d="+d0);
+//-->
+</script>
+
+<p><em>This web page requires Java and it does not work in Google Chrome browser (version 13).</em></p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[Reading from the applet we see that the slope of the tangent line is {@slope@}.<br/>
+The tangent line crosses the \(y\)-axis at the point {@y2@}.<br/>
+Hence, its function on \(x\) is \(g(x) = {@slopefn@}\).]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>slope:rand([1, 2, 3, 1/2]);
+x0:rand_with_step(1, 3, 1);
+y0:rand_with_step(1, 3, 1);
+a0:rand_with_step(-3, -1, 1);
+c0:rand_with_step(1, 3, 1);
+b0:(slope-a0*x0^2-c0)/x0;
+b1:decimalplaces(b0, 3);
+dumvar74:f(x) := a0*x^2+b0*x+c0;
+dumvar75:g(x) := int(f(x), x);
+g3:simplify(g(x));
+g2:subst(x0, x, g(x));
+d1:y0-g2;
+d0:decimalplaces(d1, 3);
+slopeeqn:y - y0 = slope*(x-x0);
+y2:-x0*slope+y0;
+slopeeqn2:y = slope*x+y2;
+slopefn:slope*x+y2;</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text><![CDATA[Reading from the applet we see that the slope of the tangent line is {@slope@}.<br/>
+The tangent line crosses the \(y\)-axis at the point {@y2@}.<br/>
+Hence, its function on \(x\) is \(f(x) = {@slopefn@}\).]]></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<span class='correct'>Vastauksesi on oikein.</span>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<span class='partially'>Vastauksesi on osittain oikein.</span>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<span class='incorrect'>Vastauksesi on väärin.</span>]]></text>
+    </prtincorrect>
+    <multiplicationsign>none</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>slope</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>y2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>slopefn</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>ans1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>slope</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ans1-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ans1-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>ans2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>y2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ans2-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ans2-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>ans3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>slopefn</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>ans3-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>ans3-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>slope</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>y2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>slopefn</value>
+      </testinput>
+      <expected>
+        <name>ans1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ans1-0-T </expectedanswernote>
+      </expected>
+      <expected>
+        <name>ans2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ans2-0-T </expectedanswernote>
+      </expected>
+      <expected>
+        <name>ans3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>ans3-0-T </expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions</text>
+
+    </category>
+  </question>
+
+<!-- question: 513  -->
+  <question type="stack">
+    <name>
+      <text>Inputs_matrix</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Calculate \[ {@A@}.{@B@}\]</p>
+<p> [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>To multiply matrices \(A\) and \(B\) we need to remember that the \((i,j)\)th entry is the scalar product of the \(i\)th row of \(A\) with the \(j\)th column of \(B\).</p>
+<p>\[ {@A@}.{@B@} = {@C@} = {@D@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text><![CDATA[A:ev(rand(matrix([5,5],[5,5]))+matrix([2,2],[2,2]),simp);
+ B:ev(rand(matrix([5,5],[5,5]))+matrix([2,2],[2,2]),simp);
+ TA:ev(A.B,simp);
+ TB:ev(A*B,simp);
+ BT:transpose(B);
+ C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)));
+ S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]));
+ D:ev(C,simp);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>\({@A@}.{@B@}={@TA@}\)</text>
+    </questionnote>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>matrix</type>
+      <tans>TA</tans>
+      <boxsize>3</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>TA</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>TB</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Remember, you don't multiply matrices by multiplying the corresponding entries! A quite different process is needed.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>1-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>A+B</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Please multiply the matrices. It looks like you have added them instead!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>1-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>86</deployedseed>
+    <deployedseed>219862533</deployedseed>
+    <deployedseed>1167893775</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>TA</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T </expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>TB</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ev(A+B,simp)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>1-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>A</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>1-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 514  -->
+  <question type="stack">
+    <name>
+      <text>Integration - fun integral</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Write the following in partial fractions. \[{@p@}\]</p>
+<p>[[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p>Integrate your expression with respect to \(x\).</p>
+<p>[[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+<p>Find</p>
+<p>\[ \int_{0}^{1} {@p@} \mathrm{d}x.\]</p>
+<p>[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>
+<p> </p>
+<p> </p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Writing {@p@} in partial fractions we have<br />\[ {@p1@}\]<br />Integrating this with respect to \(x\) gives<br />\[ {@p2@}+c\]<br />so that<br />\[ \int_{0}^{1} {@p@}, \mathrm{d}x = {@p3@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>p:x^4*(1-x)^4/(1+x^2);
+p1:partfrac(p,x);
+p2:int(p1,x);
+p3:expand(int(p,x,0,1));
+</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text>\[ \int_{0}^{1} {@p@}, \mathrm{d}x = {@p3@}.\]
+</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>p1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords>partfrac</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>p2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords>int</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>p3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords>int</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>PartFrac</answertest>
+        <sans>ans1</sans>
+        <tans>p1</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>Int</answertest>
+        <sans>ans2</sans>
+        <tans>p2</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>Int</answertest>
+        <sans>ans2</sans>
+        <tans>p2</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty>0.0000000</falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You must complete part 2 before trying this part.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>p3</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>prt3-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>EqualComAss</answertest>
+        <sans>ans3</sans>
+        <tans>p3</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-3-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-3-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is correct.  Please fully simplify your answer and write it in traditional form.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>p1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>p2+c</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>22/7-pi</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>p</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>int(p,x)+c</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 525  -->
+  <question type="stack">
+    <name>
+      <text>Odd and even functions</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>1. Give an example of an odd function by typing an expression which represents it. \(f_1(x)=\) [[input:ans1]]. [[validation:ans1]] [[feedback:odd]]</p>
+<p>2. Give an example of an even function. \(f_2(x)=\) [[input:ans2]]. [[validation:ans2]] [[feedback:even]]</p>
+<p>3. Give an example of a function which is odd and even. \(f_3(x)=\) [[input:ans3]]. [[validation:ans3]] [[feedback:oddeven]]</p>
+<p>4. Is the answer to 3. unique? [[input:ans4]] (Or are there many different possibilities.) [[validation:ans4]] [[feedback:unique]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>5.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="partially">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>x^3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>x^4</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>0</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans4</name>
+      <type>boolean</type>
+      <tans>true</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>even</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>sa:ans2-subst(x=-x,ans2);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>even-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>even-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>odd</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>sa:subst(x=-x,ans1)+ans1;</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>odd-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>odd-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>oddeven</name>
+      <value>2.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>sa1:subst(x=-x,ans3)+ans3;
+ sa2:ans3-subst(x=-x,ans3);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa1</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>ODD</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>oddeven-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>sa2</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.5000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>EVEN</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>+</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>oddeven-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>unique</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans4</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>unique-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>unique-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^3</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>cos(x)</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>0</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>true</value>
+      </testinput>
+      <expected>
+        <name>even</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>even-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>odd</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>odd-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>oddeven</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>EVEN</expectedanswernote>
+      </expected>
+      <expected>
+        <name>unique</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>unique-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x^2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>x^3</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>x^3</value>
+      </testinput>
+      <testinput>
+        <name>ans4</name>
+        <value>false</value>
+      </testinput>
+      <expected>
+        <name>even</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.3333333</expectedpenalty>
+        <expectedanswernote>even-0-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>odd</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.3333333</expectedpenalty>
+        <expectedanswernote>odd-0-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>oddeven</name>
+        <expectedscore>0.5000000</expectedscore>
+        <expectedpenalty>0.3333333</expectedpenalty>
+        <expectedanswernote>oddeven-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>unique</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.3333333</expectedpenalty>
+        <expectedanswernote>unique-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions/2nd order ODEs</text>
+
+    </category>
+  </question>
+
+<!-- question: 786  -->
+  <question type="stack">
+    <name>
+      <text>ODE_2nd_order_linear_1</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the general solution to \[ {@q@} =0 \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>l1:1+(-1)^rand(1)*rand(6);
+ l2:l1+(-1)^rand(1)*(1+rand(4));
+ c1:-1*(l1+l2);
+ c2:l1*l2;
+ q:'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t);
+ ta:A*%e^(l1*t)+B*%e^(l2*t);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@ta@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="'incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p:ev(q,y(t)=ans1,nouns,fullratsimp);
+ l:setify(listofvars(ans1));
+ l:setdifference(l,set(t));
+ l:listify(l);
+ lv:length(l);
+ b1:ev(ans1,t=0,fullratsimp);
+ b2:ev(ans1,t=1,fullratsimp);
+ m:if not(b2=0) then fullratsimp(b1/b2) else 0;
+ m:float(m);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>satisfies DE</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Fails to satisfy DE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[{@p@}\] which is not zero, so you must have done something wrong.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>lv</sans>
+        <tans>2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>2 variables in answer</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.7500000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Insufficient constants</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You should have a general solution, which includes unknown constants. Your answer satisfies the differential equation, but does not have the correct number of unknown constants.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>numberp(m)</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Not two lin ind parts</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your general solution should be a sum of two linearly independent components, but is not.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>1.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Correct</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>198668670</deployedseed>
+    <deployedseed>983140332</deployedseed>
+    <deployedseed>780349439</deployedseed>
+    <deployedseed>554904963</deployedseed>
+    <deployedseed>1195982393</deployedseed>
+    <deployedseed>281365137</deployedseed>
+    <deployedseed>1068666603</deployedseed>
+    <deployedseed>1065984863</deployedseed>
+    <deployedseed>1107409162</deployedseed>
+    <deployedseed>511077327</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Correct</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>%e^(l1*t)+%e^(l2*t)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Insufficient constants</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>sin(t)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Fails to satisfy DE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>A*B*%e^(l1*t)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Not two lin ind parts</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 787  -->
+  <question type="stack">
+    <name>
+      <text>ODE_2nd_order_linear_2</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the general solution to \[ {@q@} =0 \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>l1:(-1)^rand(1)*rand(6);
+ l2:l1;
+ c1:-1*(l1+l2);
+ c2:l1*l2;
+ q:'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t);
+ ta:(A*t+B)*%e^(l1*t);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@ta@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="'incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p:ev(q,y(t)=ans1,nouns,fullratsimp);
+ l:setify(listofvars(ans1));
+ l:setdifference(l,set(t));
+ l:listify(l);
+ lv:length(l);
+ b1:ev(ans1,t=0,fullratsimp);
+ b2:ev(ans1,t=1,fullratsimp);
+ m:if not(b2=0) then fullratsimp(b1/b2) else 0;
+ m:float(m);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Satisfies DE</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Fails to satisfy DE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[{@p@}\] which is not zero, so you must have done something wrong.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>lv</sans>
+        <tans>2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>Has constants</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.7500000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Insufficient constants</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>You should have a general solution, which includes unknown constants. Your answer satisfies the differential equation, but does not have the correct number of unknown constants.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>numberp(m)</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>Not two lin ind parts</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your general solution should be a sum of two linearly independent components, but is not.</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>1.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Correct</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>2028889985</deployedseed>
+    <deployedseed>1504847886</deployedseed>
+    <deployedseed>1061777393</deployedseed>
+    <deployedseed>1251813826</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>Correct</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>sin(t)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Fails to satisfy DE</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>%e^(l1*t)*(A+B)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Not two lin ind parts</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>%e^(l1*t)*(A+t)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.7500000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Insufficient constants</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 788  -->
+  <question type="stack">
+    <name>
+      <text>ODE_2nd_order_linear_3</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the solution to \[ {@q@} =0 \] subject to \[ y(0) = {@y0@} \] and \[ y'(0) = {@y1@} \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>l1:-1-rand(6);
+ l2:1+rand(6);
+ c1:-1*(l1+l2);
+ c2:l1*l2;
+ q:'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t);
+ A:1+rand(3);
+ B:2+rand(3);
+ ta:A*%e^(l1*t)+B*%e^(l2*t);
+ da:diff(ta,t);
+ y0:ev(ta,t=0);
+ y1:ev(da,t=0);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@ta@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="'incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>Result</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>p:ev(q,y(t)=ans1,nouns,fullratsimp);
+ b0:ev(ans1,t=0,fullratsimp);
+ dsa:diff(ans1,t);
+ b1:ev(dsa,t=0,fullratsimp);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>p</sans>
+        <tans>0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>Satisfies DE</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>Fails to satisfy DE</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[{@p@}\] which is not zero, so you must have done something wrong.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>b0</sans>
+        <tans>y0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>2</truenextnode>
+        <trueanswernote>$y(0)$ correct.</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.2000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>$y(0)$ wrong.</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy \[ y(0) = {@y0@} \] but does not. When we substitute \(t=0\) in your answer we get {@b0@} instead.</p>]]></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>b1</sans>
+        <tans>y1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>+</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>$y'(0)$ correct.</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.2000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>$y'(0)$ wrong.</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer should satisfy \[ y'(0) = {@y1@} \] but does not. When we substitute \(t=0\) into the derivative of your answer we get {@b1@} instead.</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1467243605</deployedseed>
+    <deployedseed>616927929</deployedseed>
+    <deployedseed>1331744627</deployedseed>
+    <deployedseed>1098365960</deployedseed>
+    <deployedseed>1582026978</deployedseed>
+    <deployedseed>1281982085</deployedseed>
+    <deployedseed>1075194323</deployedseed>
+    <deployedseed>1560571482</deployedseed>
+    <deployedseed>1952087641</deployedseed>
+    <deployedseed>1686356601</deployedseed>
+    <deployedseed>965950204</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>$y'(0)$ correct.</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>da</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.6000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>$y'(0)$ wrong.</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>sin(t)</value>
+      </testinput>
+      <expected>
+        <name>Result</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>Fails to satisfy DE</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>Example_questions</text>
+
+    </category>
+  </question>
+
+<!-- question: 526  -->
+  <question type="stack">
+    <name>
+      <text>Railways</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>In a railway journey of \(90km\) an increase of \(5\) kilometers per hour in the speed decreases the time taken by \(15\) minutes.</p>
+<p>Write a system of equations (one equation per line) to represent this situation using \(v\) as the speed of the train and \(t\) as the time. <br />[[input:asys]] [[validation:asys]] [[feedback:prt1]]</p>
+<p>Eliminate \(t\) from your equations, writing a single equation only in \(v\) which represents this situation. <br />[[input:veqn]] [[validation:veqn]] [[feedback:prt2]]</p>
+<p>What is the velocity? [[input:ansv]] [[validation:ansv]] [[feedback:prt3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>Let \(v\) be thespeed of the train, \(d\) the distance travelled and \(t\) time. If \(t\) is the time (in hours) then \(15\) minutes is \(1/4\) hour.</p>
+<p>We need to use the equation \(d=v\times t\) twice.</p>
+<p>For the original journey we have \[ 90 = v\times t.\] For the faster journey we have \[ 90 = (v+5)(t-1/4).\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>ta:[v*t=90 , (v+5)*(t-15/60)=90];
+ tsys:maplist(stack_eqnprepare,ta);
+ tsys1:maplist(stack_eqnprepare,[v*t=90 , (v+5)*(t-15)=90]);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="partially">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ansv</name>
+      <type>algebraic</type>
+      <tans>40</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>asys</name>
+      <type>textarea</type>
+      <tans>ta</tans>
+      <boxsize>30</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>veqn</name>
+      <type>algebraic</type>
+      <tans>v^2+5*v-1800=0</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>S0:stack_eval_assignments(exdowncase(asys));
+ S0:maplist(stack_eqnprepare,S0);
+ res:stack_eqncompare(S0,tsys,[v,t]);</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>res</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-0-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>1-0-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>stack_eqncompare(S0,tsys1,[v,t])</sans>
+        <tans>true</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Please check your time units very carefully!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>1-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>veqn</sans>
+        <tans>v^2+5*v-1800=0</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>2-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>2-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ansv</sans>
+        <tans>40</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>3-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>3-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>GT</answertest>
+        <sans>0</sans>
+        <tans>ansv</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>0.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>3-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>Your velocity should be positive!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>3-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ansv</name>
+        <value>40</value>
+      </testinput>
+      <testinput>
+        <name>asys</name>
+        <value>tsys</value>
+      </testinput>
+      <testinput>
+        <name>veqn</name>
+        <value>v^2+5*v-1800=0</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>2-0-T </expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>3-0-T </expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ansv</name>
+        <value>-45</value>
+      </testinput>
+      <testinput>
+        <name>asys</name>
+        <value>[v=90/t , (v+5)*(t-0.25)-v*t=0]</value>
+      </testinput>
+      <testinput>
+        <name>veqn</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.3333333</expectedpenalty>
+        <expectedanswernote>3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ansv</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>asys</name>
+        <value>[v*t=80 , 4*v*t+20*t-v=365]</value>
+      </testinput>
+      <testinput>
+        <name>veqn</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.3333333</expectedpenalty>
+        <expectedanswernote>1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ansv</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>asys</name>
+        <value>[V*T=90 , (v+5)*(t-15)=90]</value>
+      </testinput>
+      <testinput>
+        <name>veqn</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.3333333</expectedpenalty>
+        <expectedanswernote>1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>5</testcase>
+      <testinput>
+        <name>ansv</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>asys</name>
+        <value>[d=90,d=v*t,d=(v+5)*(t-0.25)]</value>
+      </testinput>
+      <testinput>
+        <name>veqn</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 527  -->
+  <question type="stack">
+    <name>
+      <text>tangent to a random polynomial at a point</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find the equation of the line tangent to \(p(x):=\){@p@} at the point \(x={@pt@}\).</p>
+<p>1. Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
+<p>2. Evaluate your derivative at \(x={@pt@}\). [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]</p>
+<p>3. Hence, find the equation of the tangent line to \(p\) at \(x={@pt@}\). \(y=\)[[input:ans3]] [[validation:ans3]] [[feedback:prt3]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>1. The derivative of {@p@} with respect to \(x\) is \[ {@ta1@}.\]</p>
+<p>2. If we subsitiute \(x={@pt@}\) into \(p'(x)\) we have \(p'({@pt@})={@ta2@}\).</p>
+<p>3. The tangent line is given by the equation</p>
+<p>\[ y = m(x-a)+c\]</p>
+<p>where \(m\) is the gradient of the line, \(a\) is the point at which the tangent line is being contructed and \(c:=p(a)\).  In our case we have \(a={@pt@}\), \(m={@ta2@}\) and \(c=p({@pt@})={@c@}\).  Combining these we have</p>
+<p>\[ y={@ta2*(x-pt)+c@} = {@ta3@}.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>p : (2+rand(3))*x^3+(3+rand(3))*x^2+(2+rand(3))*x
+ pt:2
+ c:subst(x=pt,p)
+ ta1:diff(p,x)
+ ta2:subst(x=pt,diff(p,x))
+ ta3:remainder(p,(x-pt)^2)</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@p@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p>Correct answer, well done.</p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p>Your answer is partially correct.</p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p>Incorrect answer.</p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>ta2</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>ta3</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt2</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>subst(x=pt,ans1)</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>1</truenextnode>
+        <trueanswernote>prt2-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt2-2-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt2-2-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[<p>Your answer to this part is correct, however you have got part 1 wrong! Please try both parts again!</p>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>prt3</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>ta3</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt3-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt3-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>56</deployedseed>
+    <deployedseed>93</deployedseed>
+    <deployedseed>564445142</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>ta3</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt2-2-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt3-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>3*x^2+4*x+1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>21</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>y=21*x+1</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt2-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>prt3-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 528  -->
+  <question type="stack">
+    <name>
+      <text>test_1_integration</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>n:rand(5)+3;
+ a:rand(5)+3;
+ v:x
+ p:(v-a)^n;
+ ta:(v-a)^(n+1)/(n+1);</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+    </specificfeedback>
+    <questionnote>
+      <text>\(\int {@p@} d{@v@} = {@ta@}\)</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta+c</tans>
+      <boxsize>20</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords>int</forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>Int</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions>v</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>1-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>1-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>1001758021</deployedseed>
+    <deployedseed>165520961</deployedseed>
+    <deployedseed>1575780430</deployedseed>
+    <deployedseed>1893097548</deployedseed>
+    <deployedseed>196914510</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta+c</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>1-0-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>n*(v-a)^(n-1)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>4</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>(v-a)^(n+1)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>1-0-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 529  -->
+  <question type="stack">
+    <name>
+      <text>test_2_rectangle</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>A rectangle has length {@sg@}cm greater than its width. If it has an area of \({@abs(ar)@}cm^2\), find the dimensions of the rectangle.</p>
+ <p>1. Write down an equation which relates the side lengths to the area of the rectangle. <br />[[input:ans1]] [[validation:ans1]] [[feedback:eq]]</p>
+ <p>2. Solve your equation. Enter your answer as a set of numbers. <br /> [[input:ans2]] [[validation:ans2]] [[feedback:sol]]</p>
+ <p>3. Hence, find the length of the shorter side. <br />[[input:ans3]] cm [[validation:ans3]] [[feedback:short]]</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text><![CDATA[<p>If \(x\)cm is the width then \((x+{@sg@})\) is the length. Now the area is \({@abs(ar)@}cm^2\) and so \[ {@x*(x+sg)=-ar@}.\] \[ {@x^2+sg*x+ar@}=0\] \[ {@(x+rp)*(x+rn)=0@} \] So that \(x={@-rp@}\) or \(x={@-rn@}\). Since lengths are positive quantities \(x&gt;0\) and we discard the negative root. Hence the length of the shorter side is \(x={@-rn@}\)cm.</p>]]></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text>rn:-1*(rand(4)+2);
+ rp:9+rand(6);
+ ar:rn*rp;
+ sg:rn+rp;
+ ta1:x*(x+sg)=-ar;
+ ta2:x*(x-sg)=-ar;
+ tas:setify(map(rhs,solve(ta1,x)));</text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@ta1@}, {@rp@}.</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <prtcorrect format="html">
+      <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta1</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>algebraic</type>
+      <tans>tas</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans3</name>
+      <type>algebraic</type>
+      <tans>rp</tans>
+      <boxsize>5</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>1</insertstars>
+      <syntaxhint></syntaxhint>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>1</requirelowestterms>
+      <checkanswertype>1</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>1</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>eq</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>eq-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>eq-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta2</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>eq-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>eq-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>short</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans3</sans>
+        <tans>-rn</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>short-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>short-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <prt>
+      <name>sol</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text>v1:first(listofvars(ans1));
+ ftm:setify(map(rhs,solve(ans1,v1)));</text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta1</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>sol-0-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>1</falsenextnode>
+        <falseanswernote>sol-0-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>1</name>
+        <answertest>SubstEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta2</tans>
+        <testoptions></testoptions>
+        <quiet>1</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>3</truenextnode>
+        <trueanswernote>sol-1-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>2</falsenextnode>
+        <falseanswernote>sol-1-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>2</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>ftm</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>sol-2-T </trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[<p>You have correctly solved the equation you have entered in part 1. Please try both parts again!</p>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>sol-2-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+      <node>
+        <name>3</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>tas</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>sol-3-T </trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>sol-3-F </falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <deployedseed>92</deployedseed>
+    <deployedseed>1621764605</deployedseed>
+    <deployedseed>79313047</deployedseed>
+    <deployedseed>1740562616</deployedseed>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta1</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>{-rp,-rn}</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>-rn</value>
+      </testinput>
+      <expected>
+        <name>eq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>eq-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>short</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>short-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>sol</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>sol-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>ta2</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>{-rp,-rn}</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>-rn</value>
+      </testinput>
+      <expected>
+        <name>eq</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>eq-1-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>short</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>short-0-T</expectedanswernote>
+      </expected>
+      <expected>
+        <name>sol</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>sol-3-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>3</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>x+sg=-ar</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value>{-ar-sg}</value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>eq</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedanswernote>eq-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>short</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>sol</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>sol-2-T</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+</quiz>

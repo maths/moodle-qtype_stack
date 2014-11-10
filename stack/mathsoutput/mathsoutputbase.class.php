@@ -120,9 +120,37 @@ abstract class stack_maths_output {
         }
         $text = preg_replace('~(?<!\\\\)\$\$(.*?)(?<!\\\\)\$\$~', $displaystart . '$1' . $displayend, $text);
         $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
-        $text = str_replace('{@', '@', $text);
-        $text = str_replace('@}', '@', $text);
-        $text = preg_replace('~(?<!\\\\)\@(.*?)(?<!\\\\)\@~', $casstart . '$1' . $casend, $text);
+
+        $count = preg_match_all('~(?<!@)@(?!@)~', $text, $notused);
+        if($count>0){
+            $i = 0;
+            $targets = stack_utils::all_substring_between($text, '@', '@', true, false);
+            foreach($targets as $target){
+                $ti = strpos($text, '@'.$target.'@', $i);
+                if ($ti === false) {
+                    $text = $text ."WARNING in stack_maths_output::replace_dollars:  could not find string \"{$target}\". ";
+                }
+                $tlen = strlen($target);
+                $pre = false;
+                $post = false;
+                if($ti>0 && substr($text, $ti-1, 1) === '{') {
+                    $pre = true;
+                }
+                if($ti+$tlen+2<strlen($text) && substr($text, $ti+$tlen+2, 1) === '}') {
+                    $post = true;
+                }
+                $i = $ti+$tlen;
+                if($post!=$pre || !($post&&$pre)) {
+                    if ($markup) {
+                        $text = substr($text, 0, $ti) . "<ins>{@</ins>" . $target . "<ins>@}</ins>" . substr($text, $ti+$tlen+2);
+                        $i += 13;
+                    } else {
+                        $text = substr($text, 0, $ti) . "{@" . $target . "@}" . substr($text, $ti+$tlen+2);
+                        $i += 2;
+                    }
+                }
+            }
+        }
         return $text;
     }
 }

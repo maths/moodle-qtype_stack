@@ -27,3 +27,5 @@ The following examples are adapted from [http://maths.dur.ac.uk/stats/courses/AM
 | \( \bar{a}_{\overline{x:\enclose{actuarial}{n}}} \)   |  `\bar{a}_{\overline{x:\enclose{actuarial}{n}}}`      | 
 | \( {}^{2}\bar{a}_{x:\enclose{actuarial}{n}} \)        |  `{}^{2}\bar{a}_{x:\enclose{actuarial}{n}}`           | 
 | \( {}^{2}\ddot{a}_{xy:\enclose{actuarial}{n}} \)      |  `{}^{2}\ddot{a}_{xy:\enclose{actuarial}{n}}`         | 
+
+STACK provides some support for statistical functions via optional maxima packages.  See specific pages on [statistics](../CAS/Statistics.md).

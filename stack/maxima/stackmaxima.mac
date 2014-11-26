@@ -91,6 +91,10 @@ box(ex):=ex;
 /* Load contributed packages          */
 /* ********************************** */
 
+/* Stats support */
+load("distrib");
+load (descriptive);
+
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
 matchfix("|", "|");
@@ -2304,5 +2308,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014110300$
-print("[ STACK-Maxima started, library version 2014110300 ]")$
+stackmaximaversion:2014112600$
+print("[ STACK-Maxima started, library version 2014112600 ]")$

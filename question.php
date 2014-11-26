@@ -641,6 +641,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $accumulatedpenalty = 0;
             $lastinput = array();
             $penaltytoapply = null;
+            $results = new stdClass();
+            $results->fraction = 0;
 
             foreach ($responses as $response) {
                 $prtinput = $this->get_prt_input($index, $response, true);
@@ -650,14 +652,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $lastinput = $prtinput;
                 }
 
-                $results = $this->prts[$index]->evaluate_response($this->session,
-                        $this->options, $prtinput, $this->seed);
-                // We can assume no errors here, because the PRT was previously
-                // evaluated with these inputs while the student was working
-                // through the question.
+                if ($this->can_execute_prt($this->prts[$index], $response, true)) {
+                    $results = $this->prts[$index]->evaluate_response($this->session,
+                            $this->options, $prtinput, $this->seed);
 
-                $accumulatedpenalty += $results->fractionalpenalty;
+                    $accumulatedpenalty += $results->fractionalpenalty;
+                }
             }
+
             $fraction += max($results->fraction - $penaltytoapply, 0);
         }
 

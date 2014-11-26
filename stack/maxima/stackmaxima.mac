@@ -90,6 +90,10 @@ box(ex):=ex;
 /* Load contributed packages          */
 /* ********************************** */
 
+/* Stats support */
+load("distrib");
+load (descriptive);
+
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
 matchfix("|", "|");

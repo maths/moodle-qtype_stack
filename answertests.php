@@ -150,7 +150,7 @@ foreach ($tests as $test) {
         'error'         => $error,
         'rawmark'       => $rawmark,
         'expectedscore' => $test->expectedscore,
-        'feedback'      => $feedback,
+        'feedback'      => format_text($feedback),
         'answernote'    => $ansnote,
     );
     $table->add_data_keyed($row, $class);

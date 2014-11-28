@@ -137,37 +137,11 @@ function stack_docs_render_markdown($page, $docscontent) {
     $page = preg_replace('~(?<!\\\\)%CONTENT~', $docscontent, $page);
     $page = str_replace('\%CONTENT', '%CONTENT', $page);
     $page = stack_maths::pre_process_docs_page($page);
-    $page = stack_process_markdown($page);
     if (strpos($page, '[[ALL_FACTS]]') > 0) {
         $page = str_replace('[[ALL_FACTS]]', stack_fact_sheets::generate_docs(), $page);
     }
+    $page = format_text($page, $format = FORMAT_MARKDOWN);
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }
 
-/**
- * Render markdown content to HTML. This function exists to hide the
- * differences between Moodle 2.5- and 2.6+.
- * @param string $markdown content to transform.
- * @return string the corresponding HTML.
- */
-function stack_process_markdown($markdown) {
-    global $CFG;
-    if (file_exists($CFG->libdir . '/markdown/Markdown.php')) {
-        if (file_exists($CFG->libdir . '/markdown/MarkdownInterface.php')) {
-            // Moodle 2.7 or later.
-            require_once($CFG->libdir . '/markdown/MarkdownInterface.php');
-        }
-
-        // Moodle 2.6 or later.
-        require_once($CFG->libdir . '/markdown/Markdown.php');
-        return \Michelf\Markdown::defaultTransform($markdown);
-
-    } else if (file_exists($CFG->libdir . '/markdown.php')) {
-        require_once($CFG->libdir . '/markdown.php');
-        return markdown($markdown);
-
-    } else {
-        throw new coding_exception('Cannot find the Markdown libraries.');
-    }
-}

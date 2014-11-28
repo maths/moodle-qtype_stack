@@ -72,10 +72,10 @@ echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
 echo html_writer::tag('dt', stack_string('texdisplaystyle'));
-echo html_writer::tag('dd', stack_string('healthchecksampledisplaytex'));
+echo html_writer::tag('dd', format_text(stack_string('healthchecksampledisplaytex')));
 
 echo html_writer::tag('dt', stack_string('texinlinestyle'));
-echo html_writer::tag('dd', stack_string('healthchecksampleinlinetex'));
+echo html_writer::tag('dd', format_text(stack_string('healthchecksampleinlinetex')));
 
 if ($config->mathsdisplay === 'mathjax') {
     $settingsurl = new moodle_url('/admin/settings.php', array('section' => 'additionalhtml'));
@@ -197,7 +197,7 @@ function output_cas_text($title, $intro, $castext) {
 
     $ct = new stack_cas_text($castext, null, 0, 't');
 
-    echo html_writer::tag('p', stack_ouput_castext($ct->get_display_castext()));
+    echo html_writer::tag('p', format_text(stack_ouput_castext($ct->get_display_castext())));
     echo output_debug(stack_string('errors'), $ct->get_errors());
     echo output_debug(stack_string('debuginfo'), $ct->get_debuginfo());
 }

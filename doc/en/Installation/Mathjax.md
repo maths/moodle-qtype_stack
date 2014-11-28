@@ -13,6 +13,20 @@ How to install MathJax depends on which version of Moodle you have.
 1. For Moodle 2.7 or later, MathJax is distributed as a filter.  Please use this.
 2. For earlier versions (e.g. 2.6 and before) you will need to link to MathJax yourself as below.
 
+
+## Using the MathJax filter
+
+These are notes on configuring the MathJax filter options for use with STACK.
+
+
+1. Do not use "TeX filter compatibility" unless you want all equations to appear inline!
+2. To add suppport for [actuarial notation](../Authoring/Actuarial.md) you need to add the option 'enclose.js' to the extensions.  I.e. within the "MathJax configuration" text we need the the following.   
+
+    TeX: { extensions: ['enclose.js'] }
+
+
+## Adding MathJax to additional HTML
+
 If the MathJax filter is not available then you can include it in the head of every page by adding additional HTML to every page.
 
 ### Option 1: link to external MathJax setup. ###

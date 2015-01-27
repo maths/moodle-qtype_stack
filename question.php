@@ -353,7 +353,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param question_hint $hint the hint.
      * @return stack_cas_text the castext.
      */
-    public function get_hint_castext(question_hint $hint, question_attempt $qa) {
+    public function get_hint_castext(question_hint $hint) {
         $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed, 't', false, 1);
 
         if ($hinttext->get_errors()) {

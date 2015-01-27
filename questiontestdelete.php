@@ -60,9 +60,9 @@ if (data_submitted() && confirm_sesskey()) {
 
 // Display the confirmation.
 $PAGE->set_title($title);
-$PAGE->set_pagelayout('admin');
+$PAGE->set_heading($title);
+$PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
 
 echo $OUTPUT->confirm(stack_string('deletetestcaseareyousure',
         array('no' => $testcase, 'question' => format_string($question->name))),

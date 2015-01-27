@@ -63,8 +63,8 @@ if (!is_null($testcase)) {
 }
 $PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
 $PAGE->set_title($title);
-$PAGE->set_heading($COURSE->fullname);
-$PAGE->set_pagelayout('admin');
+$PAGE->set_heading($title);
+$PAGE->set_pagelayout('popup');
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
@@ -137,7 +137,6 @@ $options->suppressruntestslink = true;
 
 // Display the page.
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
 
 // Show the question read-only.
 echo $quba->render_question($slot, $options);

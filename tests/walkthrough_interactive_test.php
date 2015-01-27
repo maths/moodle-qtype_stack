@@ -43,7 +43,11 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
     public function test_test3_partially_right_the_right() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(null, null);
+        $q->hints = array(
+            new question_hint(1, 'This is the first hint.', FORMAT_HTML),
+            new question_hint(2, 'This is the second hint.', FORMAT_HTML),
+        );
+
         $this->start_attempt_at_question($q, 'interactive', 4);
 
         // Check the right behaviour is used.
@@ -110,9 +114,8 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+                $this->get_contains_hint_expectation('This is the first hint.')
         );
 
         // Try again.
@@ -192,7 +195,11 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
     public function test_test3_partially_right_three_times_no_validation() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(null, null);
+        $q->hints = array(
+            new question_hint(1, 'This is the first hint.', FORMAT_HTML),
+            new question_hint(2, 'This is the second hint.', FORMAT_HTML),
+        );
+
         // Change input options so validation is not required.
         $q->inputs['ans1']->set_parameter('mustVerify', false);
         $q->inputs['ans2']->set_parameter('mustVerify', false);
@@ -237,9 +244,8 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+                $this->get_contains_hint_expectation('This is the first hint.')
         );
 
         // Try again.
@@ -285,9 +291,8 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
-                $this->get_no_hint_visible_expectation()
+                $this->get_contains_hint_expectation('This is the second hint.')
         );
 
         // Try again.
@@ -352,7 +357,11 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
     public function test_test3_sumbit_and_finish_before_validating() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(null, null);
+        $q->hints = array(
+            new question_hint(1, 'This is the first hint.', FORMAT_HTML),
+            new question_hint(2, 'This is the second hint.', FORMAT_HTML),
+        );
+
         $this->start_attempt_at_question($q, 'interactive', 4);
 
         // Check the initial state.
@@ -493,7 +502,11 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
     public function test_test3_submit_and_finish_incomplete() {
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(null, null);
+        $q->hints = array(
+            new question_hint(1, 'This is the first hint.', FORMAT_HTML),
+            new question_hint(2, 'This is the second hint.', FORMAT_HTML),
+        );
+
         $this->start_attempt_at_question($q, 'interactive', 4);
 
         // Check the right behaviour is used.

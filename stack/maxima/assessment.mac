@@ -380,7 +380,7 @@ numerical_not_alg_equiv(p1, p2):= block([lv, sz],
   sz:errcatch(abs(float(first(p1)-first(p2)))),
   /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
-  if first(sz) > 0.0001  then true else false)$
+  if first(sz) > 0.0001 then true else false)$
 
 /* This function takes two expressions.
    It establishes if there exists a substitution of the variables of ex2 into ex1 which renders

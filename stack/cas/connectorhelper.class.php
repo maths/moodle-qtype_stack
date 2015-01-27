@@ -343,6 +343,9 @@ abstract class stack_connection_helper {
         if (!(false === strpos($genuinedebug, 'Lisp SBCL'))) {
             $lisp = 'SBCL';
         }
+        if (!(false === strpos($genuinedebug, 'Lisp CLISP'))) {
+            $lisp = 'CLISP';
+        }
 
         switch ($lisp) {
             case 'GCL':
@@ -354,6 +357,20 @@ abstract class stack_connection_helper {
             case 'SBCL':
                 $maximacommand = ':lisp (sb-ext:save-lisp-and-die "'.$imagename.'" :toplevel #\'run :executable t)' . "\n";
                 $commandline = stack_utils::convert_slash_paths($imagename);
+                break;
+
+            case 'CLISP':
+                $imagename .= '.mem';
+                $maximacommand = ':lisp (ext:saveinitmem "'.$imagename.'" :init-function #\'user::run)' . "\n";
+                $maximacommand .= 'quit();'."\n";
+                $lisprun = shell_exec('locate lisp.run');
+                if (trim($lisprun) == '') {
+                    $success = false;
+                    $message = stack_string('healthautomaxopt_nolisprun');
+                    return array($message, '', $success);
+                }
+                $lisprun = explode("\n", $lisprun);
+                $commandline = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
                 break;
 
             default:

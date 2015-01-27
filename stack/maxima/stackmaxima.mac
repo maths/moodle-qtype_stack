@@ -928,7 +928,7 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, k, AnsNotes],
 )$
 
 /* Equations */
-/* Note, this uses exand, which will break large expressions */
+/* Note, this uses expand, which will break large expressions. */
 stack_eqnprepare(ex) := block([ret, keepfloat],
   keepfloat:true,
   ret:fullratsimp(trigexpand(rhs(ex)-lhs(ex))),
@@ -971,30 +971,26 @@ stack_eval_assignments(ex) := block([asl, sl],
 )$
 
 /* Two equations are the "same" when they have identical roots
-   with identical multiplicities */
-ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2],
+   with identical multiplicities. */
+ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
     keepfloat:false,
     RawMark:false,
 
     /* First try without expanding out the equations */
     R1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
     R2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
-    if (R1=0 and R2=0) then
-        return([true, true, "", ""]),
-    if numberp(float(abs(R1/R2))) then 
-        return([true, true, "", ""]),
-    /* Next, expand out the equations */
-    SA1:stack_eqnprepare(SA),
-    SB1:stack_eqnprepare(SB),
-    if SA1#0 then
-         /* We need a slight hack to turn %i+1 into a number */
-         RawMark:block(
-             SB2:float(abs(ev(fullratsimp(SA1/SB1),simp))),
-             if numberp(SB2) then true else false
-         )
-    else
-         RawMark:if SB1=0 then true else false,
-    return([true, RawMark, "ATEquation_expanded", ""])
+    if algebraic_equivalence(R2, 0) then
+        if algebraic_equivalence(R1, 0) then
+             return([true, true, "ATEquation_zero", ""]) 
+        else return([true, false, "ATEquation_zero", ""]),
+    R1:num(ratsimp(R1)),
+    R2:num(ratsimp(R2)),
+    if algebraic_equivalence(abs(R1/R2), 1) then 
+        return([true, true, "ATEquation_ratio", ""]),
+    R:ratsimp(R1/R2),
+    if numberp(float(abs(R))) then 
+        return([true, true, "ATEquation_num", ""]),
+    return([true, false, "ATEquation_default", ""])
     )$
 
 ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
@@ -2024,7 +2020,7 @@ subst_int_const(ex,v):=block([lv,li,ls],
   )$
 
 /* This function strips off any trailing constant of integration from an expression, which is not a number */
-strip_int_const(ex,v):=block([ex2,fargs],
+strip_int_const(ex, v) := block([ex2,fargs],
     ex2:ex,
     if atom(ex) then return(ex), 
     if op(ex)="+" then
@@ -2037,9 +2033,11 @@ strip_int_const(ex,v):=block([ex2,fargs],
 /* sa is the students' answer,                                      */
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
-ATInt(sa,sbl) :=
-    block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, ret, cont],
-    oldsimp:simp, simp:false, Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
+ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, ret, cont],
+    oldsimp:simp,
+    simp:false,
+    Validity:true, RawMark:false,
+    FeedBack:"", AnswerNote:"",
     keepfloat:true,
 
     SAA:errcatch(ev(sa, simp, nouns)),
@@ -2308,5 +2306,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2014112600$
-print("[ STACK-Maxima started, library version 2014112600 ]")$
+stackmaximaversion:2015011600$
+print("[ STACK-Maxima started, library version 2015011600 ]")$

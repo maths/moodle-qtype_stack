@@ -2066,7 +2066,7 @@ ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Answer
     )$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w */
-listsoverlap(a, b) :=not(emptyp(intersection(setify(a), setify(b))))$
+listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
 
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
 listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
@@ -2078,15 +2078,16 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
        Teacher must be consistent, otherwise the student doesn't have to be!*/
     SAUsedLogAbs:ATInt_logabs_p(SA,v),
     SBUsedLogAbs:ATInt_logabs_p(SB,v),
-    if debug then print([SA,SB]),
-    if debug then print([SAUsedLogAbs,SBUsedLogAbs]),
+    if debug then print(["Original expressions: ", SA, SB]),
+    if debug then print(["Used Logabs?: ", SAUsedLogAbs, SBUsedLogAbs]),
     /* This expands out logarithms for constants, e.g. ln(k*|x|) */
     SB:ev(SB, logexpand:super, simp), 
-    if debug then print([SA,SB]),
+    if debug then print(["Expanded any log constants in the teacher's answer? ", SA, SB]),
     /* This strips off any trailing constant of integration from the teacher's answer */
     SB:strip_int_const(SB, v),
     /* This strips off any trailing constant of integration from the student's answer */
     SAa:strip_int_const(ev(SA, logexpand:super, simp), v),
+    if debug then print(["Striped off  constants of integration: ", SA, SB]),
     /* If the teacher has not used logabs, then strip out any logabs from the student's answer. */
     /* Student consistency is a different issue. */
     SAConsistentLogs:ATInt_consistent_logabs_p(SA,v),
@@ -2106,7 +2107,7 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
     dd:ev(float(ex), simp),
     dc:numberp(dd) and dd#0.0,
     if debug then print([SAa,SBd]),
-    if debug then print(ex),
+    if debug then print(["Simplified difference: ", ex),
     if ev(algebraic_equivalence(SAd,SBd), simp) then
         if ex=0 then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))

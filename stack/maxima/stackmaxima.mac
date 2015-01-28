@@ -976,6 +976,17 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
     keepfloat:false,
     RawMark:false,
 
+    /* That said in lots of situations students will be asked to enter an equation.  */
+    /* First we try the obvious of checking equivalence of each side!                */
+    /* This catches lots of otherwise problematic cases.                             */
+    if algebraic_equivalence(lhs(SA), lhs(SB)) then 
+        if algebraic_equivalence(rhs(SA), rhs(SB)) then
+             return([true, true, "ATEquation_sides", ""]) 
+        else return([true, false, "ATEquation_lhs_notrhs", ""]),
+    if algebraic_equivalence(lhs(SA), rhs(SB)) then 
+        if algebraic_equivalence(lhs(SA), rhs(SB)) then
+             return([true, true, "ATEquation_sides_op", ""]) 
+        else return([true, false, "ATEquation_lhs_notrhs_op", ""]),
     /* First try without expanding out the equations */
     R1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
     R2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
@@ -983,7 +994,8 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
         if algebraic_equivalence(R1, 0) then
              return([true, true, "ATEquation_zero", ""]) 
         else return([true, false, "ATEquation_zero", ""]),
-    R1:num(ratsimp(R1)),
+    if numberp(float(abs(R1/R2))) then 
+-        return([true, true, "", ""]),    R1:num(ratsimp(R1)),
     R2:num(ratsimp(R2)),
     if algebraic_equivalence(abs(R1/R2), 1) then 
         return([true, true, "ATEquation_ratio", ""]),
@@ -2067,7 +2079,7 @@ ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Answer
     )$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w */
-listsoverlap(a, b) :=not(emptyp(intersection(setify(a), setify(b))))$
+listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
 
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
 listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
@@ -2079,15 +2091,16 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
        Teacher must be consistent, otherwise the student doesn't have to be!*/
     SAUsedLogAbs:ATInt_logabs_p(SA,v),
     SBUsedLogAbs:ATInt_logabs_p(SB,v),
-    if debug then print([SA,SB]),
-    if debug then print([SAUsedLogAbs,SBUsedLogAbs]),
+    if debug then print(["Original expressions: ", SA, SB]),
+    if debug then print(["Used Logabs?: ", SAUsedLogAbs, SBUsedLogAbs]),
     /* This expands out logarithms for constants, e.g. ln(k*|x|) */
     SB:ev(SB, logexpand:super, simp), 
-    if debug then print([SA,SB]),
+    if debug then print(["Expanded any log constants in the teacher's answer? ", SA, SB]),
     /* This strips off any trailing constant of integration from the teacher's answer */
     SB:strip_int_const(SB, v),
     /* This strips off any trailing constant of integration from the student's answer */
     SAa:strip_int_const(ev(SA, logexpand:super, simp), v),
+    if debug then print(["Striped off  constants of integration: ", SA, SB]),
     /* If the teacher has not used logabs, then strip out any logabs from the student's answer. */
     /* Student consistency is a different issue. */
     SAConsistentLogs:ATInt_consistent_logabs_p(SA,v),
@@ -2106,8 +2119,8 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
     ex:ev(trigreduce(ex), simp),
     dd:ev(float(ex), simp),
     dc:numberp(dd) and dd#0.0,
-    if debug then print([SAa,SBd]),
-    if debug then print(ex),
+    if debug then print([SAa, SBd]),
+    if debug then print(["Simplified difference: ", ex]),
     if ev(algebraic_equivalence(SAd,SBd), simp) then
         if ex=0 then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
@@ -2306,5 +2319,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015011600$
-print("[ STACK-Maxima started, library version 2015011600 ]")$
+stackmaximaversion:2015012800$
+print("[ STACK-Maxima started, library version 2015012800 ]")$

@@ -100,6 +100,7 @@ echo $OUTPUT->single_select($PAGE->url, 'anstest', $availabletests, $anstest);
 
 // Run the tests.
 $allpassed = true;
+$failedtable = array();
 $notests = 0;
 $start = microtime(true);
 
@@ -153,6 +154,10 @@ foreach ($tests as $test) {
         'feedback'      => format_text($feedback),
         'answernote'    => $ansnote,
     );
+    if (!$passed) {
+        $failedtable[] = $row;
+    }
+
     $table->add_data_keyed($row, $class);
     flush();
 }
@@ -179,6 +184,20 @@ if ($anstest) {
         echo $OUTPUT->heading(stack_string('stackInstall_testsuite_pass'), 2, 'pass');
     } else {
         echo $OUTPUT->heading(stack_string('stackInstall_testsuite_fail'), 2, 'fail');
+        // Print a copy of the failing rows in a separate table.
+        $tablef = new flexible_table('stack_answertests');
+        $tablef->define_columns(array_keys($columns));
+        $tablef->define_headers(array_values($columns));
+        $tablef->set_attribute('class', 'generaltable generalbox stacktestsuite');
+        $tablef->define_baseurl($PAGE->url);
+        $tablef->setup();
+
+        $class = 'fail';
+        foreach ($failedtable as $row) {
+            $tablef->add_data_keyed($row, $class);
+            flush();
+        }
+        $table->finish_output();
     }
 }
 

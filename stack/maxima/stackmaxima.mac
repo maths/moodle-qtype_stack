@@ -2106,8 +2106,8 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
     ex:ev(trigreduce(ex), simp),
     dd:ev(float(ex), simp),
     dc:numberp(dd) and dd#0.0,
-    if debug then print([SAa,SBd]),
-    if debug then print(["Simplified difference: ", ex),
+    if debug then print([SAa, SBd]),
+    if debug then print(["Simplified difference: ", ex]),
     if ev(algebraic_equivalence(SAd,SBd), simp) then
         if ex=0 then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))

@@ -36,11 +36,13 @@ require_once(__DIR__ . '/../doc/docslib.php');
 class stack_maths_mathjax_test extends advanced_testcase {
 
     public function test_maths_output_mathsjax() {
+        filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
+
         // MathJax output is the default.
         $this->assertEquals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
                 stack_string('ATSingleFrac_part'));
 
-        $this->assertEquals("<p><code>\(x^2\)</code> gives &#92;(x^2&#92;).</p>\n",
+        $this->assertEquals("<p><code>\(x^2\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', ''));
 
         $this->assertEquals('What is \(x^2\)?', stack_maths::process_display_castext('What is \(x^2\)?'));

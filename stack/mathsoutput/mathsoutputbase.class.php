@@ -96,6 +96,8 @@ abstract class stack_maths_output {
     /**
      * Replace dollar delimiters ($...$ and $$...$$) in text with the safer
      * \(...\) and \[...\].
+     * Replace old style CAS text delimiters (@...@) in text with the new delimiters needed 
+     * for the blocks {@...@}.
      * @param string $text the original text.
      * @param bool $markup surround the change with <ins></ins> tags.
      * @return string the text with delimiters replaced.
@@ -106,14 +108,51 @@ abstract class stack_maths_output {
             $displayend   = '<ins>\]</ins>';
             $inlinestart  = '<ins>\(</ins>';
             $inlineend    = '<ins>\)</ins>';
+            $casstart     = '<ins>{@</ins>';
+            $casend       = '<ins>@}</ins>';
         } else {
             $displaystart = '\[';
             $displayend   = '\]';
             $inlinestart  = '\(';
             $inlineend    = '\)';
+            $casstart     = '{@';
+            $casend       = '@}';
         }
         $text = preg_replace('~(?<!\\\\)\$\$(.*?)(?<!\\\\)\$\$~', $displaystart . '$1' . $displayend, $text);
         $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
+
+        $count = preg_match_all('~(?<!@)@(?!@)~', $text, $notused);
+        if($count>0){
+            $i = 0;
+            $targets = stack_utils::all_substring_between($text, '@', '@', true, false, false);
+            foreach($targets as $target){
+                $ti = strpos($text, '@'.$target.'@', $i);
+                if ($ti === false) {
+                    $text = $text ."WARNING in stack_maths_output::replace_dollars:  could not find string \"{$target}\". ";
+                }
+                $tlen = strlen($target);
+                $pre = false;
+                $post = false;
+                if($ti>0 && substr($text, $ti-1, 1) === '{') {
+                    $pre = true;
+                }
+                if($ti+$tlen+2<strlen($text) && substr($text, $ti+$tlen+2, 1) === '}') {
+                    $post = true;
+                }
+                $i = $ti+$tlen;
+                if($post!=$pre || !($post&&$pre)) {
+                    if ($markup) {
+                        $text = substr($text, 0, $ti) . "<ins>{@</ins>" . trim($target) . "<ins>@}</ins>" . substr($text, $ti+$tlen+2);
+                        $i += 13;
+                    } else {
+                        $text = substr($text, 0, $ti) . "{@" . trim($target) . "@}" . substr($text, $ti+$tlen+2);
+                        $i += 2;
+                    }
+                    // If we trim the target there will be slight shift in the place
+                    $i -= $tlen-strlen(trim($target));
+                }
+            }
+        }
         return $text;
     }
 }

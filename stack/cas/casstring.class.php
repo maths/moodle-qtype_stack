@@ -46,6 +46,12 @@ class stack_cas_casstring {
      */
     private $value;
 
+    /** 
+     * @array of additional CAS strings which are conditions when the main expression can
+     * be evaluated.  I.e. this encapsulates restrictions on the domain of the main value.
+     */
+    private $conditions;
+
     /**
      * @var string how to display the CAS string, e.g. LaTeX. Only gets set
      *             after the casstring has been processed by the CAS.
@@ -411,16 +417,21 @@ class stack_cas_casstring {
      */
     private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
 
-    public function __construct($rawstring) {
-        $this->rawcasstring   = $rawstring;
-        $this->answernote = array();
-
-        $this->valid          = null;  // If null then the validate command has not yet been run.
-
-        if (!is_string($this->rawcasstring)) {
+    public function __construct($rawstring, $conditions = null) {
+        if (!is_string($rawstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
+        $this->rawcasstring = $rawstring;
 
+        if (!($conditions === null || is_array($conditions))) {
+            throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
+        }
+        if (count($conditions) != 0) {
+            $this->conditions   = $conditions;
+        }
+
+        $this->answernote   = array();
+        $this->valid        = null;  // If null then the validate command has not yet been run.
     }
 
     /*********************************************************/
@@ -434,9 +445,8 @@ class stack_cas_casstring {
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
     public function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
-
         if (!('s' === $security || 't' === $security)) {
-            throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
+            throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.  Got the following: '.$security);
         }
 
         if (!is_bool($syntax)) {
@@ -445,6 +455,10 @@ class stack_cas_casstring {
 
         if (!is_int($insertstars)) {
             throw new stack_exception('stack_cas_casstring: insertstars, must be an integer.');
+        }
+
+        if (!is_string($allowwords)) {
+            throw new stack_exception('stack_cas_casstring: allowwords, must be a string.');
         }
 
         $this->valid     = true;
@@ -562,10 +576,12 @@ class stack_cas_casstring {
             }
         }
 
-        if (!stack_utils::check_nested_bookends($cmd)) {
-            $this->valid = false;
-            $this->add_error(stack_string('stackCas_bracketsdontmatch',
-                     array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+        if ($this->valid) {
+            if (!stack_utils::check_nested_bookends($cmd)) {
+                $this->valid = false;
+                $this->add_error(stack_string('stackCas_bracketsdontmatch',
+                    array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+            }
         }
 
         if ($security == 's') {
@@ -664,7 +680,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', ').(');
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
@@ -1122,6 +1138,10 @@ class stack_cas_casstring {
 
     public function set_feedback($val) {
         $this->feedback = $val;
+    }
+
+    public function get_conditions() {
+        return $this->conditions;
     }
 
     public function add_errors($err) {

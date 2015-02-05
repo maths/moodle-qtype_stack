@@ -263,9 +263,10 @@ class stack_utils {
      * @param string $left the opening delimiter.
      * @param string $right the closing delimiter. If omitted, uses $left.
      * @param bool $skipempty whether to leave out any empty substrings.
+     * @param bool $trimcontent whether to trim the content.
      * @return array of matches without $left or $right pre/suffixes
      */
-    public static function all_substring_between($string, $left, $right = null, $skipempty = false) {
+    public static function all_substring_between($string, $left, $right = null, $skipempty = false, $trimcontent = true) {
         if ($right == null) {
             $right = $left;
         }
@@ -291,7 +292,9 @@ class stack_utils {
                     $found .= $char[$i];
                     $found = str_replace($left, '', $found);
                     $found = str_replace($right, '', $found);
-                    $found = trim($found);
+                    if ($trimcontent) {
+                        $found = trim($found);
+                    }
                     if (!$skipempty || $found) {
                         $var[$j] = $found;
                     }

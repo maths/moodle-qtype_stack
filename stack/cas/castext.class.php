@@ -20,9 +20,15 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(__DIR__ . '/cassession.class.php');
-require_once(__DIR__ . '/casstring.class.php');
-
+require_once('cassession.class.php');
+require_once('casstring.class.php');
+require_once('castext/castextparser.class.php');
+require_once('castext/raw.class.php');
+require_once('castext/latex.class.php');
+require_once('castext/if.class.php');
+require_once('castext/define.class.php');
+require_once('castext/foreach.class.php');
+require_once('castext/external.class.php');
 
 class stack_cas_text {
 
@@ -42,22 +48,31 @@ class stack_cas_text {
     private $session;
 
     /** @var bool whether the string is valid. */
-    private $valid;
+    private $valid=null;
 
     /** @var bool whether this been sent to the CAS yet? Stops re-sending to the CAS. */
-    private $instantiated;
+    private $instantiated = null;
 
-    /** @var string any error messages to display to the user. */
+    /** @var array any error messages to display to the user. */
     private $errors;
 
     /** @var string security level, 's' or 't'. */
     private $security;
 
-    /** @var bool whether to insert stars. */
+    /** @var int whether to insert stars. */
     private $insertstars;
 
     /** @var bool whether to do strict syntax checks. */
     private $syntax;
+
+    /** @var stack_cas_castext_parsetreenode the root of the parse tree */
+    private $parse_tree_root = null;
+
+    /** @var array holds block-handlers for various parse_tree nodes */
+    private $blocks = array();
+
+    private $settings;
+
 
     public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
 
@@ -96,7 +111,7 @@ class stack_cas_text {
         $this->security    = $security;
         $this->syntax      = $syntax;
         $this->insertstars = $insertstars;
-
+        $this->settings    = stack_utils::get_config();
     }
 
     /**
@@ -106,9 +121,10 @@ class stack_cas_text {
      * @return bool
      */
     private function validate() {
+        $this->errors = array();
         if (strlen(trim($this->rawcastext)) > 64000) {
-            // Limit to just less than 64kb. Maximum practical size of a post. (about 14pages).
-            $this->errors = stack_string("stackCas_tooLong");
+            // Limit to just less than 64kb. Maximum practical size of a post. (About 14 pages).
+            $this->errors[] = stack_string("stackCas_tooLong");
             $this->valid = false;
             return false;
         }
@@ -124,10 +140,25 @@ class stack_cas_text {
         // Find reasons to invalidate the text...
         $this->valid = true;
 
-        // Check @'s match.
-        $amps = stack_utils::check_matching_pairs($this->trimmedcastext, '@');
-        if ($amps == false) {
-            $this->errors .= stack_string('stackCas_MissingAt');
+        // Check {@...@}'s match.
+        $amps = stack_utils::check_bookends($this->trimmedcastext, '{@', '@}');
+        if ($amps !== true) {
+            if ($amps == 'left') {
+                $this->errors[] = stack_string('stackCas_MissingOpenTeXCAS');
+            } else {
+                $this->errors[] = stack_string('stackCas_MissingClosingTeXCAS');
+            }
+            $this->valid = false;
+        }
+
+        // Check {#...#}'s match.
+        $amps = stack_utils::check_bookends($this->trimmedcastext, '{#', '#}');
+        if ($amps !== true) {
+            if ($amps == 'left') {
+                $this->errors[] = stack_string('stackCas_MissingOpenRawCAS');
+            } else {
+                $this->errors[] = stack_string('stackCas_MissingClosingRawCAS');
+            }
             $this->valid = false;
         }
 
@@ -135,7 +166,7 @@ class stack_cas_text {
         $protected = str_replace('\$', '', $this->trimmedcastext);
         $dollar = stack_utils::check_matching_pairs($protected, '$');
         if ($dollar == false) {
-            $this->errors .= stack_string('stackCas_MissingDollar');
+            $this->errors[] = stack_string('stackCas_MissingDollar');
             $this->valid = false;
         }
 
@@ -145,9 +176,9 @@ class stack_cas_text {
 
             $this->valid = false;
             if ($html == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenHTML');
+                $this->errors[] = stack_string('stackCas_MissingOpenHTML');
             } else {
-                $this->errors .= stack_string('stackCas_MissingCloseHTML');
+                $this->errors[] = stack_string('stackCas_MissingCloseHTML');
             }
         }
 
@@ -157,9 +188,9 @@ class stack_cas_text {
 
             $this->valid = false;
             if ($inline == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenDisplay');
+                $this->errors[] = stack_string('stackCas_MissingOpenDisplay');
             } else {
-                $this->errors .= stack_string('stackCas_MissingCloseDisplay');
+                $this->errors[] = stack_string('stackCas_MissingCloseDisplay');
             }
         }
 
@@ -168,9 +199,9 @@ class stack_cas_text {
             // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenInline');
+                $this->errors[] = stack_string('stackCas_MissingOpenInline');
             } else {
-                $this->errors .= stack_string('stackCas_MissingCloseInline');
+                $this->errors[] = stack_string('stackCas_MissingCloseInline');
             }
         }
 
@@ -178,108 +209,215 @@ class stack_cas_text {
         if (null != $this->session) {
             if (!$this->session->get_valid()) {
                 $this->valid = false;
-                $this->errors .= $this->session->get_errors();
             }
         }
 
-        // Now extract and perform validation on the CAS variables.
-        // This does alot more than strictly "validate" the castext, but is makes sense to do all these things at once...
-        $this->extract_cas_commands();
+        // Perform block and casstring validation
+        $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+        $validation_session = new stack_cas_session(array(), null, $this->seed);
+        $array_form = $parser->match_castext();
+        $array_form = stack_cas_castext_castextparser::normalize($array_form);
+        $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
 
-        if (false === $this->valid) {
-            $this->errors = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$this->errors;
+        $validation_parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
+
+        $this->valid = $this->validation_recursion($validation_parse_tree_root,$validation_session) && $this->valid;
+
+        if (array_key_exists('errors', $array_form)) {
+            $this->valid = false;
+            $this->errors[] = 'PARSE ERROR: '. $array_form['errors'];
         }
+
         return $this->valid;
     }
 
 
-    /**
-     * Extract the CAS commands from the string
-     *
-     * @access public
-     * @return bool false if no commands to extract, true if succeeds.
-     */
-    private function extract_cas_commands() {
-        // First check contains @s.
-        $count = preg_match_all('~(?<!@)@(?!@)~', $this->trimmedcastext, $notused);
-
-        if ($count == 0) {
-            // Nothing to do.
-            return null;
-        } else {
-            // Extract the CAS commands.
-            $temp = stack_utils::all_substring_between($this->trimmedcastext, '@', '@', true);
-
-            // Create array of commands matching with their labels.
-            $i = 0;
-            $valid = true;
-            $errors = '';
-            $cmdarray = array();
-            $labels   = array();
-
-            $sessionkeys = array();
-            if (is_a($this->session, 'stack_cas_session')) {
-                $sessionkeys = $this->session->get_all_keys();
-            }
-            foreach ($temp as $cmd) {
-                // Trim of surrounding white space and CAS commands.
-                $cmd = stack_utils::trim_commands($cmd);
-
-                $cs = new stack_cas_casstring($cmd);
-                $cs->validate($this->security, $this->syntax, $this->insertstars);
-
-                do { // ... make sure names are not already in use.
-                    $key = 'caschat'.$i;
-                    $i++;
-                } while (in_array($key, $sessionkeys));
-                $sesionkeys[] = $key;
-                $labels[] = $key;
-                $cs->set_key($key, true);
-                $cmdarray[] = $cs;
-
-                $valid = $valid && $cs->get_valid();
-                $errors .= $cs->get_errors();
-            }
-
-            if (!$valid) {
-                $this->valid = false;
-                $this->errors .= stack_string('stackCas_invalidCommand').'</br>'.$errors;
-            }
-
-            if (!empty($cmdarray)) {
-                $newsession   = $this->session;
-                if (null === $newsession) {
-                    $newsession = new stack_cas_session($cmdarray, null, $this->seed);
-                } else {
-                    $newsession->add_vars($cmdarray);
+    private function validation_recursion($node,$session) {
+        $valid = true;
+        switch ($node->type) {
+            case 'castext':
+                $iter = $node->first_child;
+                while ($iter !== null) {
+                    $valid = $this->validation_recursion($iter,$session) && $valid;
+                    $iter = $iter->next_sibling;
                 }
-                $this->session = $newsession;
+                break;
+            case 'block':
+                $block = null;
+                switch ($node->get_content()) {
+                    case 'if':
+                        $block = new stack_cas_castext_if($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'define':
+                        $block = new stack_cas_castext_define($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'foreach':
+                        $block = new stack_cas_castext_foreach($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'external':
+                        if ($this->settings->externalblocks == '1') {
+                            $block = new stack_cas_castext_external($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        } else {
+                            $this->errors[] = stack_string('stackBlock_externalblocksdisabled');
+                            $valid = false;
+                        }
+                        break;
+                    default:
+                        $this->errors[] = stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
+                        $valid = false;
+                        break;
+                }
+                if ($block != null) {
+                    $valid = $block->validate($this->errors) && $valid;
+                    $iter = $node->first_child;
+                    while ($iter !== null) {
+                         $valid = $this->validation_recursion($iter,$session) && $valid;
+                         $iter = $iter->next_sibling;
+                    }
+                }
+                break;
+            case 'rawcasblock':
+                $block = new stack_cas_castext_raw($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $valid = $block->validate($this->errors) && $valid;
+                break;
+            case 'texcasblock':
+                $block = new stack_cas_castext_latex($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $valid = $block->validate($this->errors) && $valid;
+                break;
+        }
+        return $valid;
+    }
 
-                // Now replace the commannds with their labels in the text.
-                $this->trimmedcastext = stack_utils::replace_between($this->trimmedcastext, '@', '@', $labels, true);
-            }
+
+    private function first_pass_recursion(&$node, $condition_stack) {
+        $block_child_evaluation = false;
+        switch ($node->type) {
+            case 'castext':
+                $iter = $node->first_child;
+                while ($iter !== null) {
+                    $this->first_pass_recursion($iter, $condition_stack);
+                    $iter = $iter->next_sibling;
+                }
+                break;
+            case 'block':
+                $block = null;
+                switch ($node->get_content()) {
+                    case 'if':
+                        $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'define':
+                        $block = new stack_cas_castext_define($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'foreach':
+                        $block = new stack_cas_castext_foreach($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        break;
+                    case 'external':
+                        if ($this->settings->externalblocks == '1') {
+                            $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        } else {
+                            throw new stack_exception('stack_cas_text: EXTERNAL BLOCK WHILE THEY ARE DISABLED');
+                        }
+                        break;
+                    default:
+                        throw new stack_exception('stack_cas_text: UNKNOWN NODE '.$node->get_content());
+                }
+                $block->extract_attributes($this->session, $condition_stack);
+                $this->blocks[] = $block;
+                $new_stack = $block->content_evaluation_context($condition_stack);
+                if ($new_stack === false) {
+                    $block_child_evaluation = true;
+                } else {
+                    $condition_stack = $new_stack;
+                }
+                if (!$block_child_evaluation) {
+                    $iter = $node->first_child;
+                    while ($iter !== null) {
+                        $this->first_pass_recursion($iter, $condition_stack);
+                        $iter = $iter->next_sibling;
+                    }
+                }
+                break;
+            case 'rawcasblock':
+                $block = new stack_cas_castext_raw($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block->extract_attributes($this->session, $condition_stack);
+                $this->blocks[] = $block;
+                break;
+            case 'texcasblock':
+                $block = new stack_cas_castext_latex($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block->extract_attributes($this->session, $condition_stack);
+                $this->blocks[] = $block;
+                break;
         }
     }
+
 
     /**
      * This function actually evaluates the castext.
      */
     private function instantiate() {
+        // Initial pass
+        if (stack_cas_castext_castextparser::castext_parsing_required($this->trimmedcastext)) {
+            if ($this->session == null) {
+                $this->session = new stack_cas_session(array(), null, $this->seed);
+            }
+            $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+            $array_form = $parser->match_castext();
+            $array_form = stack_cas_castext_castextparser::normalize($array_form);
+            $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
+            $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
+            $this->first_pass_recursion($this->parse_tree_root, array());
+        }
+
+        if (null!=$this->session) {
+            if (!$this->session->get_valid()) {
+                $this->valid = false;
+            }
+        }
 
         if (!$this->valid) {
             return false;
         }
 
         // Deal with castext without any CAS variables.
-        if (null !== $this->session) {
+        if (null !== $this->session && count($this->session->get_session()) > 0) {
             $this->session->instantiate();
-            $this->errors .= $this->session->get_errors();
         }
 
-        $this->castext = stack_utils::wrap_around($this->trimmedcastext);
-        if (null !== $this->session) {
-            $this->castext = $this->session->get_display_castext($this->castext);
+        // Handle blocks
+        $requires_rerun = false;
+        foreach (array_reverse($this->blocks) as $block) {
+            $requires_rerun = $block->process_content($this->session) || $requires_rerun;
         }
+
+        while ($requires_rerun) {
+            $this->blocks = array();
+
+            $this->trimmedcastext = $this->parse_tree_root->to_string();
+
+            $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+            $array_form = $parser->match_castext();
+            $array_form = stack_cas_castext_castextparser::normalize($array_form);
+            $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
+            $this->parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
+            $this->first_pass_recursion($this->parse_tree_root, array());
+            $this->session->instantiate();
+            $requires_rerun = false;
+            foreach (array_reverse($this->blocks) as $block) {
+                $requires_rerun = $block->process_content($this->session) || $requires_rerun;
+            }
+        }
+
+        foreach ($this->blocks as $block) {
+            $block->clear();
+        }
+
+        if (trim($this->trimmedcastext) !== '' && $this->parse_tree_root !== null) {
+            $this->trimmedcastext = $this->parse_tree_root->to_string();
+        }
+
+
+        $this->castext = stack_utils::wrap_around($this->trimmedcastext);
+
         // Another modification. Stops <html> tags from being given $ tags and therefore breaking tth.
         $this->castext = str_replace('\(<html>', '', $this->castext);
         // Bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors.
@@ -312,10 +450,29 @@ class stack_cas_text {
         if (null === $this->valid) {
             $this->validate();
         }
-        if ($casdebug) {
-            return $this->errors.$this->session->get_debuginfo();
+
+        // Just in case there have been errors/warnings from the maxima during possible instantiation
+        if (null != $this->session) {
+            $err = trim($this->session->get_errors());
+            if ($err != '') {
+                $this->errors[] = $err;
+            }
         }
-        return $this->errors;
+
+        $errmsg = '';
+        if ($this->errors != array()) {
+            $errmsg .= implode(array_unique($this->errors), ' ');
+        }
+
+        if ('' != trim($errmsg)) {
+            $errmsg = '<span class="error">'.stack_string("stackCas_failedValidation").'</span>'.$errmsg;
+        }
+
+        if ($casdebug && null !== $this->session) {
+            $errmsg .= $this->session->get_debuginfo();
+        }
+
+        return $errmsg;
     }
 
     public function get_all_raw_casstrings() {
@@ -323,6 +480,11 @@ class stack_cas_text {
             $this->validate();
         }
 
+        // 31/10/2013 
+        // This function is only used by the unit tests.  It is essential to
+        // look *inside* the session to make sure all variables are grabbed from the
+        // text.  However, there is no harm in instantiating it to get the full session.
+        $this->instantiate();
         if (null !== $this->session) {
             return $this->session->get_all_raw_casstrings();
         } else {

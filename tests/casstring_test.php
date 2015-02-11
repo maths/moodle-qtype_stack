@@ -83,6 +83,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
 
+    public function test_validation_error_global_forbid() {
+        $casstring = new stack_cas_casstring('system(rm)');
+        $this->assertFalse($casstring->validate('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+                $casstring->get_errors());
+        $this->assertEquals('forbiddenWord', $casstring->get_answernote());
+    }
+
     public function test_spurious_operators() {
         $casstring = new stack_cas_casstring('2/*x');
         $casstring->validate('s');
@@ -192,6 +200,20 @@ class stack_cas_casstring_test extends basic_testcase {
         }
     }
 
+    public function test_check_external_allow_words() {
+        $cases = array(
+            array('popup(ta)', 'popup', true),
+            array('popup(ta)', 'silly, n, popup, flop', true),
+            array('plopup(ta)', 'silly, n, popup, flop', false),
+            array('plopup(ta)', 'popup', false)
+        );
+
+        foreach ($cases as $case) {
+            $cs = new stack_cas_casstring($case[0]);
+            $this->assertEquals($case[2], $cs->validate('s', true, 0, $case[1]));
+        }
+    }
+
     public function test_html_1() {
         $s = '</span>n';
         $at1 = new stack_cas_casstring($s);
@@ -284,5 +306,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('unencpsulated_comma', $at1->get_answernote());
+    }
+
+    public function test_conditionals_1() {
+        $s = 'x#a';
+        $c1 = new stack_cas_casstring($s);
+        $s = '1/(x-a)';
+        $at1 = new stack_cas_casstring($s, array($c1));
+        $this->assertTrue($at1->get_valid('s'));
+        $this->assertEquals(array($c1), $at1->get_conditions());
     }
 }

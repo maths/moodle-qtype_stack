@@ -217,6 +217,11 @@ $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig_help', 'qtype_stack'), 'cos-1',
         stack_options::get_inverse_trig_options()));
 
+$settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
+        get_string('matrixparens', 'qtype_stack'),
+        get_string('matrixparens_help', 'qtype_stack'), '[',
+        stack_options::get_matrix_parens_options()));
+
 // Options external blocks.
 $settings->add(new admin_setting_heading('externalblocksheading',
         get_string('settingsexternalblocksheading', 'qtype_stack'), ''));
@@ -233,7 +238,3 @@ $settings->add(new admin_setting_configtext('qtype_stack/externalblocklatexcomma
         get_string('settingexternalblocklatexcommand', 'qtype_stack'),
         get_string('settingexternalblocklatexcommand_desc', 'qtype_stack'), ''));
 
-$settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
-        get_string('matrixparens', 'qtype_stack'),
-        get_string('matrixparens_help', 'qtype_stack'), '[',
-        stack_options::get_matrix_parens_options()));

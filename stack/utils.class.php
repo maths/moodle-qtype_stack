@@ -263,10 +263,10 @@ class stack_utils {
      * @param string $left the opening delimiter.
      * @param string $right the closing delimiter. If omitted, uses $left.
      * @param bool $skipempty whether to leave out any empty substrings.
-     * @param bool $trimcontent whether to trim the content.
+     * @param bool $trim whether to trim off any whitespace.
      * @return array of matches without $left or $right pre/suffixes
      */
-    public static function all_substring_between($string, $left, $right = null, $skipempty = false, $trimcontent = true) {
+    public static function all_substring_between($string, $left, $right = null, $skipempty = false, $trim = true) {
         if ($right == null) {
             $right = $left;
         }
@@ -288,7 +288,7 @@ class stack_utils {
             } else {
                 // We have the first @ find ending @.
                 if ($char[$i] == $right) {
-                    // End of cas command found.
+                    // End of CAS command found.
                     $found .= $char[$i];
                     $found = str_replace($left, '', $found);
                     $found = str_replace($right, '', $found);

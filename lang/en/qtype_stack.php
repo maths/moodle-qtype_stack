@@ -558,7 +558,9 @@ $string['stackBlock_eternalLatexNotEnabled']= 'LaTeX-type has not been enabled i
 $string['stackBlock_eternalMustHaveType']   = 'External blocks must define a type attribute, and that type must have a known and enabled handler.';
 $string['stackBlock_missmatch']             = 'has no match. ';
 
+
 $string['unrecognisedfactstags']            = 'The following facts tag(s) are not recognized: {$a->tags}.';
+$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';

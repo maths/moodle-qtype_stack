@@ -25,6 +25,10 @@ This contains numerous minor bug fixes and improvements.
  10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authenication
     (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
  
+### Question blocks
+
+This is a major new feature described on the dedicated page about [question blocks](../Authoring/Question_blocks.md).   At the same time CASText now enables us to embed the _value_ of a variable in CASText, not just the displayed form using `{#...#}`.
+
 
 ## Version 3.2
 

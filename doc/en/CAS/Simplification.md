@@ -63,7 +63,7 @@ In some situations you may find you really do need to work at the display level,
     b:1+x^2;
     f:concat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
 
-Then you can put in `@f@` into one of the CASText fields.
+Then you can put in `{@f@}` into one of the CASText fields.
 
 ## Further examples
 

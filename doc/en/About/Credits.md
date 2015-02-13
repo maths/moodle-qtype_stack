@@ -4,9 +4,10 @@ _This list is currently incomplete_.
 
 More details of our development history is given in the [development track](../Developer/Development_track.md).
 
-* [Chris Sangwin](http://web.mat.bham.ac.uk/C.J.Sangwin/) of the University of Birmingham. STACK is the brainchild of Chris Sangwin.
+* Chris Sangwin of Loughborough University. STACK is the brainchild of Chris Sangwin.
 * [Tim Hunt](http://tjhunt.blogspot.co.uk/) of the Open University.
 * Matti Pauna of the University of Helsinki.
+* Matti Harjula of Aalto University.
 
 Previous developers have included.
 
@@ -32,14 +33,14 @@ Currently STACK is released with the following languages.
 
 The following institutions made use of previous versionf of STACK.  If you are actively using or trialling STACK and would like to be listed below then please contact the developers.
 
-School of Mathematics, The University of Birmingham
-: The home of STACK. Contact [Chris Sangwin](mailto:c.sangwin@bham.ac.uk).
+School of Mathematics, The Loughborough University
+: The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@lboro.ac.uk).
 
 School of Mathematics, The University of Manchester
 : Contact P Bolton
 
-Technical University of Helsinki
-: Contact [Antti Rasila](http://math.tkk.fi/en/research/matta/)
+Aalto University
+: Contact [Antti Rasila](http://matta.math.aalto.fi/)
 
 School of Informatics and Sciences, Nagoya University, Japan
 : Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)

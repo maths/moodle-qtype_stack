@@ -1,62 +1,87 @@
 # Question blocks
 
-_This is an outline for a feature currently under development for STACK 3.0._
-
 ## Introduction ##
 
-Question blocks are a feature that have been strongly requested to add flexibility to STACK
-questions by adding functional structures, i.e. conditional inclusion
-<http://stack.bham.ac.uk/live/mod/forum/discuss.php?d=153>.
+Question blocks add flexibility to STACK questions by adding functional structures.
 
-More maximum flexibility, blocks can be nested and conditionally evaluated.
+For maximum flexibility, blocks can be nested and conditionally evaluated.
 A body of CAStext is then repeatedly processed until all blocks have been interpreted into CAStext.
-This is currently applied to the question text and the worked solution.
+This is a core part of CAStext and so applied to all appropriate parts of the question.
+
+Note:  The parameters to blocks in the question body may **NOT** depend on the student's answers. This means that 
+you cannot reveal an input block based on student input, well not just by using an [[if/]]-block. But you may 
+still adapt PRT-feedback as much as you want.
 
 ## General Syntax ##
 
-In anticipation of unforeseen extensions, we favour a generic format inspired by the Django templating system:
+To avoid issues with the rich text editors used in Moodle we use a simple syntax not too 
+different from the syntax used in input and output components:
 
-    {% block_type var_1 var_2 ... var_n %}
-    some content
-    {% end block_type %}
+    [[ block_type param1="value1" param2='value2' ... paramN="valueN" ]]
+    Some content.
+    [[/ block_type ]]
+
+The syntax is quite similar to XML and includes [[ emptyblocks /]].
 
 ## Conditional blocks ##
 
-The common **if** statement would be written:
+The common **if** statement is written as:
 
-    {% if @some_CAS_expression@ %}
-    The expression seems to be true
-    {% end if %}
+    [[ if test="some_CAS_expression_evaluating_to_true_or_false" ]]
+    The expression seems to be true.
+    [[/ if ]]
 
-An **else** sub-block can optionally be included:
+For example,
 
-    {% if @some_CAS_expression@ %}
-    The expression seems to be true
-    {% else %}
-    not quite true
-    {% end if %}
+    [[ if test='oddp(rand(5))' ]]
+    This is an odd block!
+    [[/ if]]
 
-The **else if** construct is also supported, e.g:
+There is no else or else-if functionality as they would make the syntax rather difficult to evaluate.
+    
+## Foreach loop ##
 
-    {% if @is(x=2)@ %}
-       {% bold %}it is 2{% end bold %}
-    {% else if @is(x=3)@ %}
-       it is 3
-    {% else %}
-       {% if @is(x=4)@ %}
-          {% bold %}is be 4{% end bold%}
-       {% else if @is(x=5)@ %}
-          it is 5
-       {% else %}
-          it is something else
-       {% end if %}
-    {% end if %}
+Foreach blocks iterate over lists or sets and repeat their content redefining variables for each repetition.
 
-## Development ##
+    [[ foreach x="[1,2,3]" ]]{#x#} [[/ foreach ]]
 
-Question block work is being committed to the STACK 2.1 branch
-<http://stack.cvs.sourceforge.net/viewvc/stack/stack-dev/lib/ui/?pathrev=STACK2_1> of CVS. Current focus is on:
+You may have multiple variables and they will be iterated over in sync and the variables may also come from Maxima.
+Should one of the lists or set be shorter/smaller the iteration will stop when the first one ends.
 
-* Minimising number of CAS calls where possible, e.g. by evaluating all blocks at same level in one call.
-* Integrating with CASText and probably lib/filters.
-* Added block handling to potential response feedback.
+    [[ foreach x="[1,2,3]" y="makelist(x^2,x,4)" ]] ({#x#},{#y#}) [[/ foreach ]]
+
+Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks 
+will require one additional cas evaluation for each level of foreach blocks.
+
+## Define block ##
+
+The define block is a core component of the foreach block, but it may also be used elsewhere. Its function
+is to change the value of a cas variable in the middle of castex. For example:
+
+    [[ define x='1' /]] {#x#}, [[ define x='x+1' /]] {#x#}, [[ define x='x+1' /]] {#x#}
+
+should print "1, 2, 3". You may define multiple variables in the same block and the order of define 
+operations is from left to right so "[[ define a='1' b='a+1' c='a+b' /]] {#a#}, {#b#}, {#c#}" should
+generate the same output.
+
+
+## External block ##
+
+The External block is a special block sending its contents to external tools for evaluation, typically, generating
+images. All external blocks must define their type and may define additional parameters. For example the following
+would produce an image of an equation:
+
+    [[ external type="latex" template="basic" ]]\[\frac12\sin{{@f@}}\][[/ external ]]
+
+While working with source-code for various tools you'll probably want to turn of the rich text editor and use 
+plain text instead and make sure that you do not load and save the document in the rich text editor as that will
+reformat it and add various line-breaks and paragraphs in all the wrong places.
+
+Note: For various technical and security reasons external-blocks have been disabled by default. Should you want
+to use them you will need to activate them in the settings on type by type basis and provide all the additional
+software-requirements and configuration parameters they may need.
+
+In general the external block is not quite ready for large scale use and exists only for the most adventurous of
+question authors and stack-developers. If you have any doubts about your understanding of the risks related to it
+you should stay away from it.
+

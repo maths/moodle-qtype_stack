@@ -21,7 +21,9 @@ If you have an input (the default is to have one) the teacher's answer must be n
 
 ## An example question ##
 
-We are now ready to edit an example question.  The question name is compulsory in Moodle, so choose one now, e.g. `Question 1`.
+We are now ready to edit an example question.  To begin with this question is fixed, so contains no STACK variables.  In due course we will revise this to add variables which facilitate randomization.
+
+The question name is compulsory in Moodle, so choose one now, e.g. `Question 1`.
 
 Ensure the question text contains the following information. It should be possible to cut and paste, but make sure you do not copy the HTML pre-formatted tags!
 
@@ -205,7 +207,7 @@ Modify the [question variables](KeyVals.md#Question_variables) from the previous
 Then change the [question text](CASText.md#question_text) to
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate @p@ with respect to \(x\).
+Differentiate {@p@} with respect to \(x\).
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
@@ -213,9 +215,9 @@ and in the inputs change the model answer to
 
     diff(p,x)
 
-Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `$` symbols and `@` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `$`s, and CAS expressions (including your variables) between `@` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
+Notice that now we have defined a local variable `p`, and used the value of this in the Question text.  The difference is between mathematics enclosed between `\(..\)` symbols and `{@..@}` symbols. All the text-based fields in the question, including feedback, are [CAS text](CASText.md).  This is HTML into which mathematics can be inserted.  LaTeX is placed between `\(..\)`s, and CAS expressions (including your variables) between `{@..@}` symbols.  There is more information in the specific documentation.   The CAS expressions are evaluated in the context of the random variables and displayed.
 
-Since we have used `@p@` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
+Since we have used `{@p@}` here, the user will not see a \(p\) on the screen when the question is instantiated, but the _displayed value_ of `p`.
 
 Notice also that in the model answer there is a CAS command to differentiate the value of `p` with respect to `x`.
 It is necessary for the CAS to work out the answer in a random question.
@@ -245,7 +247,7 @@ Hence a random question may not have an empty question note.
 
 Fill this in as
 
-    \[ \frac{d}{d@x@}@p@ = @diff(p,x)@ \]
+    \[ \frac{d}{d{@x@}}{@p@} = {@diff(p,x)@} \]
 
 It is crucial to do this now since questions with `rand()` in the question variables may not have an empty question note.  By enforcing this now we prevent frustration later when it would be otherwise impossible to distinguish between random versions of a question.
 
@@ -265,7 +267,7 @@ This contains random numbers, and also examples of variables and expressions sel
 Then change the Question text to
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate @p@ with respect to @v@.
+Differentiate {@p@} with respect to {@v@}.
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 
@@ -277,7 +279,7 @@ It is often a good idea to use variables in the question at the outset, even if 
 
 You will also need to update the question note to be
 
-    \[ \frac{d}{d@v@}@p@ = @diff(p,v)@ \]
+    \[ \frac{d}{d{@v@}}{@p@} = {@diff(p,v)@} \]
 
 ## Question tests ##
 

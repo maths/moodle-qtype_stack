@@ -10,7 +10,7 @@ In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot
 
 Try, for example, the following in the question stem.
 
-    @plot(x^2,[x,-1,1])@
+    {@plot(x^2,[x,-1,1])@}
 
 You can add a second variable to control the axes.
 
@@ -61,32 +61,32 @@ If you would like an expression as part of this then try
 The following castext gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.
 
     <h3>Basic plot</h3>
-    @plot(x^2,[x,-2,2])@
+    {@plot(x^2,[x,-2,2])@}
     The following plot tests the option to explicitly test the alt-text.
-    @plot(x^3,[x,-3,3], [alt,"What is this function?"])@
+    {@plot(x^3,[x,-3,3], [alt,"What is this function?"])@}
     <h3>Mutiple graphs, clips the \(y\) values</h3>
-    @plot([x^3,exp(x)],[x,-2,2],[y,-4,4])@
+    {@plot([x^3,exp(x)],[x,-2,2],[y,-4,4])@}
     <h3>Discrete plots</h3>
     Basic discrete plot.
-    @plot([discrete,[[0,0],[1,1],[0,2]]])@ 
+    {@plot([discrete,[[0,0],[1,1],[0,2]]])@}
     Combination of discrete plots with normal plots.
-    @plot([x^2, [discrete,[ [0,0], [1,1], [0,2]]]],[x,-2,2])@
+    {@plot([x^2, [discrete,[ [0,0], [1,1], [0,2]]]],[x,-2,2])@}
     Using different point styles.
-    @plot([[discrete, [[10, .6], [20, .9], [30, 1.1],[40, 1.3], [50, 1.4]]],[discrete, [[11, .5], [15, .9], [25, 1.2],[40, 1.3], [50, 1.4]]]],[style, points],[point_type,circle,square],[color,black,green])@
+    {@plot([[discrete, [[10, .6], [20, .9], [30, 1.1],[40, 1.3], [50, 1.4]]],[discrete, [[11, .5], [15, .9], [25, 1.2],[40, 1.3], [50, 1.4]]]],[style, points],[point_type,circle,square],[color,black,green])@}
     <h3>Parametric plots</h3>
-    @plot([parametric, cos(t), sin(3*t), [t,0,2*%pi]], [nticks, 500])@
+    {@plot([parametric, cos(t), sin(3*t), [t,0,2*%pi]], [nticks, 500])@}
     <h3>Setting non-trivial options: labels on the axes and legend</h3>
-    @plot([x^2/(1+x^2),diff(x^2/(1+x^2),x)],[x,-1,2],[legend,true])@
-    @plot(x*sin(1/x),[x,-1,2],[xlabel,"Independent variable"],[ylabel,"Dependent variable"],[legend,"This is a plot"])@
+    {@plot([x^2/(1+x^2),diff(x^2/(1+x^2),x)],[x,-1,2],[legend,true])@}
+    {@plot(x*sin(1/x),[x,-1,2],[xlabel,"Independent variable"],[ylabel,"Dependent variable"],[legend,"This is a plot"])@}
     <h3>Log scale for y-axis, with red colour</h3>
-    @plot(exp(3*s),[s, -2, 2],[logy], [color,red])@
+    {@plot(exp(3*s),[s, -2, 2],[logy], [color,red])@}
     <h3>Turn off the box, grid and the axes</h3>
     Default options
-    @plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000])@
+    {@plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000])@}
     <tt>[axes, false]</tt>
-    @plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000], [axes,false])@
+    {@plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000], [axes,false])@}
     <tt>[box, false]</tt>
-    @plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000], [box,false])@
+    {@plot([parametric, (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*sin(t), (exp(cos(t))-2*cos(4*t)-sin(t/12)^5)*cos(t), [t, -8*%pi, 8*%pi]], [nticks, 2000], [box,false])@}
 
         
 ## implicit_plot()  {#implicit}
@@ -108,7 +108,6 @@ Note also that images can be included as HTML.  It is easiest to place your imag
 
 ## Google charts  {#google}
 
-__NOT YET REINSTATED IN STACK 3.__
 
 In particular, you can dynamically generate a URL for
 [Google charts](http://code.google.com/apis/chart/) and in this way include randomly generated diagrams.
@@ -124,11 +123,11 @@ This includes the code in the question variables to create [random objects](Rand
     anb : 5 + rand(20);
     aub : a+b-anb;
 
-Then, in the question stem we have the HTML which uses this.  Note the way valus of variables are inserted here.
+Then, in the question stem we have the HTML which uses this.  Note the way valus of variables are inserted here using the _value_ tags, `{#...#}`.
 
-    <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:@a@,@b@,0,@anb@,0,0&chdl=A|B">
-
-This should look like the following, with in this case \(a=33\), \(b=65\), \(a\cap b=18\).
+    <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:{#a#},{#b#},0,{#anb#},0,0&chdl=A|B">
+    
+For example, with \(a=33\), \(b=65\), \(a\cap b=18\) the chart should look like the following.
 
 <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:33,65,0,18,0,0&chdl=A|B">
 

@@ -1013,7 +1013,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Question note.
         $errors['questionnote'] = array();
-        if (strlen($fromform['questionnote'])>255) {
+        if (strlen($fromform['questionnote'])>1024) {
             $errors['questionnote'][] = stack_string('questionnote_toolong');
         }
         if ('' == $fromform['questionnote']) {

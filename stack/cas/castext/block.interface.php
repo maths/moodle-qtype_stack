@@ -81,7 +81,7 @@ abstract class stack_cas_castext_block {
     /**
      * Returns false if the contents of this block should not be processed by the castext-processor
      * calling this function. Otherwise returns a new condition stack including whatever conditions are
-     * needed for safe evaluatin of the contents of this block.
+     * needed for safe evaluation of the contents of this block.
      */
     abstract public function content_evaluation_context($conditionstack = array());
 
@@ -89,7 +89,7 @@ abstract class stack_cas_castext_block {
      * Does custom processing of the content. This will be called after content evaluation if it has
      * been done. Content evaluation should modify this XML-node or outright delete it from the parent.
      *
-     * Returns true if the DOM should be searched again fro new blocks to be evaluated and false if this
+     * Returns true if the DOM should be searched again for new blocks to be evaluated and false if this
      * block caused nothing to be hidden from evaluation nor created new things to be evaluated.
      */
     abstract public function process_content($evaluatedcassession, $conditionstack = null);
@@ -112,21 +112,23 @@ abstract class stack_cas_castext_block {
      * Handles basic validation of the casstrings feel free to extend to include block attribute related
      * validations e.g. comments on mandatory attributes.
      */
-    public function validate(&$errors='') {
+    public function validate(&$errors=array()) {
         $valid = true;
-        $err = '';
+        $first = true;
         foreach ($this->validate_extract_attributes() as $casstring) {
-            $casstring->validate($this->security, $this->syntax,$this->insertstars);
-            if (!$casstring->get_valid()) {
+            $v = $casstring->get_valid($this->security,$this->syntax,$this->insertstars);
+            if (!$v) {
+                if ($first) {
+                    $first = false;
+                    $errors[] = stack_string('stackCas_invalidCommand');
+                }
                 $valid = false;
             }
-        }
-        if ($err != '') {
-            $errors .= stack_string('stackCas_invalidCommand').'</br>'.$err;
+            // For some reason we also pass warnings through the error system.
+            $errors[] = $casstring->get_errors();
         }
 
         return $valid;
     }
 
 }
-

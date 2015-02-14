@@ -39,8 +39,8 @@ School of Mathematics, The Loughborough University
 School of Mathematics, The University of Manchester
 : Contact P Bolton
 
-Technical University of Helsinki
-: Contact [Antti Rasila](http://math.tkk.fi/en/research/matta/)
+Aalto University
+: Contact [Antti Rasila](http://matta.math.aalto.fi/)
 
 School of Informatics and Sciences, Nagoya University, Japan
 : Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)

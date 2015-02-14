@@ -231,30 +231,31 @@ class stack_cas_text {
 
         // Perform block and casstring validation
         $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
+        $validation_session = new stack_cas_session(array(), null, $this->seed);
         $array_form = $parser->match_castext();
         $array_form = stack_cas_castext_castextparser::normalize($array_form);
         $array_form = stack_cas_castext_castextparser::block_conversion($array_form);
 
         $validation_parse_tree_root = stack_cas_castext_parsetreenode::build_from_nested($array_form);
 
-        $this->valid = $this->validation_recursion($validation_parse_tree_root) && $this->valid;
+        $this->valid = $this->validation_recursion($validation_parse_tree_root,$validation_session) && $this->valid;
 
         if (array_key_exists('errors', $array_form)) {
             $this->valid = false;
-            $this->errors[] = 'ARRAY-FROM'. $array_form['errors'];
+            $this->errors[] = 'PARSE ERROR: '. $array_form['errors'];
         }
 
         return $this->valid;
     }
 
 
-    private function validation_recursion($node) {
+    private function validation_recursion($node,$session) {
         $valid = true;
         switch ($node->type) {
             case 'castext':
                 $iter = $node->first_child;
                 while ($iter !== null) {
-                    $valid = $this->validation_recursion($iter) && $valid;
+                    $valid = $this->validation_recursion($iter,$session) && $valid;
                     $iter = $iter->next_sibling;
                 }
                 break;
@@ -262,17 +263,17 @@ class stack_cas_text {
                 $block = null;
                 switch ($node->get_content()) {
                     case 'if':
-                        $block = new stack_cas_castext_if($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        $block = new stack_cas_castext_if($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'define':
-                        $block = new stack_cas_castext_define($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        $block = new stack_cas_castext_define($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'foreach':
-                        $block = new stack_cas_castext_foreach($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                        $block = new stack_cas_castext_foreach($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         break;
                     case 'external':
                         if ($this->settings->externalblocks == '1') {
-                            $block = new stack_cas_castext_external($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                            $block = new stack_cas_castext_external($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                         } else {
                             $this->errors[] = stack_string('stackBlock_externalblocksdisabled');
                             $valid = false;
@@ -283,27 +284,21 @@ class stack_cas_text {
                         $valid = false;
                         break;
                 }
-                if ($valid) {
-                    $err = '';
-                    $block->validate($err);
-                    if ($err != '') {
-                        $valid = false;
-                        $this->errors[] = $err;
-                    } else {
-                        $iter = $node->first_child;
-                        while ($iter !== null) {
-                            $valid = $this->validation_recursion($iter) && $valid;
-                            $iter = $iter->next_sibling;
-                        }
+                if ($block != null) {
+                    $valid = $block->validate($this->errors) && $valid;
+                    $iter = $node->first_child;
+                    while ($iter !== null) {
+                         $valid = $this->validation_recursion($iter,$session) && $valid;
+                         $iter = $iter->next_sibling;
                     }
                 }
                 break;
             case 'rawcasblock':
-                $block = new stack_cas_castext_raw($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block = new stack_cas_castext_raw($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                 $valid = $block->validate($this->errors) && $valid;
                 break;
             case 'texcasblock':
-                $block = new stack_cas_castext_latex($node, $this->session, $this->seed, $this->security, $this->syntax, $this->insertstars);
+                $block = new stack_cas_castext_latex($node, $session, $this->seed, $this->security, $this->syntax, $this->insertstars);
                 $valid = $block->validate($this->errors) && $valid;
                 break;
         }
@@ -475,13 +470,17 @@ class stack_cas_text {
             $this->validate();
         }
 
-        $errmsg = '';
-        if ($this->errors != array()) {
-            $errmsg .= implode($this->errors, ' ');
+        // Just in case there have been errors/warnings from the maxima during possible instantiation
+        if (null != $this->session) {
+            $err = trim($this->session->get_errors());
+            if ($err != '') {
+                $this->errors[] = $err;
+            }
         }
 
-        if (null !== $this->session) {
-            $errmsg .= $this->session->get_errors();
+        $errmsg = '';
+        if ($this->errors != array()) {
+            $errmsg .= implode(array_unique($this->errors), ' ');
         }
 
         if ('' != trim($errmsg)) {

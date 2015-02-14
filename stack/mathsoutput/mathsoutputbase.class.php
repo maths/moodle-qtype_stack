@@ -124,7 +124,7 @@ abstract class stack_maths_output {
         $count = preg_match_all('~(?<!@)@(?!@)~', $text, $notused);
         if($count>0){
             $i = 0;
-            $targets = stack_utils::all_substring_between($text, '@', '@', true, false);
+            $targets = stack_utils::all_substring_between($text, '@', '@', true, false, false);
             foreach($targets as $target){
                 $ti = strpos($text, '@'.$target.'@', $i);
                 if ($ti === false) {
@@ -142,12 +142,14 @@ abstract class stack_maths_output {
                 $i = $ti+$tlen;
                 if($post!=$pre || !($post&&$pre)) {
                     if ($markup) {
-                        $text = substr($text, 0, $ti) . "<ins>{@</ins>" . $target . "<ins>@}</ins>" . substr($text, $ti+$tlen+2);
+                        $text = substr($text, 0, $ti) . "<ins>{@</ins>" . trim($target) . "<ins>@}</ins>" . substr($text, $ti+$tlen+2);
                         $i += 13;
                     } else {
-                        $text = substr($text, 0, $ti) . "{@" . $target . "@}" . substr($text, $ti+$tlen+2);
+                        $text = substr($text, 0, $ti) . "{@" . trim($target) . "@}" . substr($text, $ti+$tlen+2);
                         $i += 2;
                     }
+                    // If we trim the target there will be slight shift in the place
+                    $i -= $tlen-strlen(trim($target));
                 }
             }
         }

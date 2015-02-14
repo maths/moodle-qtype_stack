@@ -22,7 +22,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../casstring.class.php');
+require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
 
 class stack_cas_castext_raw extends stack_cas_castext_block {
@@ -62,8 +62,6 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
 
     public function validate_extract_attributes() {
         $r = array(new stack_cas_casstring(trim($this->get_node()->get_content())));
-        $r[0]->validate($this->security, $this->syntax, $this->insertstars);
-        $r[0]->set_key("testkey");
         return $r;
     }
 }

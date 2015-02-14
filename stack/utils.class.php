@@ -263,7 +263,7 @@ class stack_utils {
      * @param string $left the opening delimiter.
      * @param string $right the closing delimiter. If omitted, uses $left.
      * @param bool $skipempty whether to leave out any empty substrings.
-     * @param book $trim whether to trim off any whitespace.
+     * @param bool $trim whether to trim off any whitespace.
      * @return array of matches without $left or $right pre/suffixes
      */
     public static function all_substring_between($string, $left, $right = null, $skipempty = false, $trim = true) {

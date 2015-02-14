@@ -9,7 +9,8 @@ A body of CAStext is then repeatedly processed until all blocks have been interp
 This is a core part of CAStext and so applied to all appropriate parts of the question.
 
 Note:  The parameters to blocks in the question body may **NOT** depend on the student's answers. This means that 
-you cannot reveal an input block based on student input. But you may still adapt PRT-feedback as much as you want.
+you cannot reveal an input block based on student input, well not just by using an [[if/]]-block. But you may 
+still adapt PRT-feedback as much as you want.
 
 ## General Syntax ##
 
@@ -45,7 +46,7 @@ Foreach blocks iterate over lists or sets and repeat their content redefining va
     [[ foreach x="[1,2,3]" ]]{#x#} [[/ foreach ]]
 
 You may have multiple variables and they will be iterated over in sync and the variables may also come from Maxima.
-Should one of the lists or set be shorter/smaller the iteration will stop when the first one reaches end.
+Should one of the lists or set be shorter/smaller the iteration will stop when the first one ends.
 
     [[ foreach x="[1,2,3]" y="makelist(x^2,x,4)" ]] ({#x#},{#y#}) [[/ foreach ]]
 
@@ -80,4 +81,6 @@ Note: For various technical and security reasons external-blocks have been disab
 to use them you will need to activate them in the settings on type by type basis and provide all the additional
 software-requirements and configuration parameters they may need.
 
-
+In general the external block is not quite ready for large scale use and exists only for the most adventurous of
+question authors and stack-developers. If you have any doubts about your understanding of the risks related to it
+you should stay away from it.

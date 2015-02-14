@@ -19,7 +19,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../casstring.class.php');
+require_once(__DIR__ . '/../casstring.class.php');
 require_once('external/latex.class.php');
 
 class stack_cas_castext_external extends stack_cas_castext_block {
@@ -158,12 +158,12 @@ class stack_cas_castext_external extends stack_cas_castext_block {
         $valid = parent::validate($errors);
         $config = stack_utils::get_config();
         if ($this->get_node()->get_parameter('type', null) == 'latex' && $config->externalblocklatex == '0') {
-            $errors .= stack_string('stackBlock_eternalLatexNotEnabled').' ';
+            $errors[] = stack_string('stackBlock_eternalLatexNotEnabled').' ';
             $valid = false;
         }
 
         if ($this->get_node()->get_parameter('type', null) == null || $this->get_node()->get_parameter('type', null) =='' || $this->handler == null) {
-            $errors .= stack_string('stackBlock_eternalMustHaveType').' ';
+            $errors[] = stack_string('stackBlock_eternalMustHaveType').' ';
         }
 
         return $valid;

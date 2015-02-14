@@ -57,5 +57,13 @@ The following features are in approximate priority order.  How to report bugs an
  * Package for scientific [units](../Authoring/Units.md), and a science answer test.
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
- * Add an ephemeral form for floating point numbers for better support for the numerical tests.
+ * Add an ephemeral form for floating point numbers for better support for the numerical tests.  See below.
 * Add support for qtype_stack in Moodle's lesson module.
+
+## Ephemeral forms for numbers.
+
+Currently there are problems with the NumSigfigs tests and the other numerical tests.  
+
+This is due to the fact that the NumSigFigs answer test code uses maxima's `floor()` function, which gives `floor(0.1667*10^4)` as `1666` not `1667` as expected.
+
+To avoid this problem we need an "ephemiral form" for representing numbers at a syntactic level.   This test probably needs to operate at the PHP level on strings, rather then through Maxima.  

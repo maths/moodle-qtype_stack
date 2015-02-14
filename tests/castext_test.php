@@ -127,7 +127,41 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $ct = new stack_cas_text($c, $session);
         $ct->get_display_castext();
         $this->assertFalse($ct->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span>If-block needs a test attribute. ', $ct->get_errors(false));
+        $this->assertEquals('<span class="error">CASText failed validation. </span> If-block needs a test attribute. ', $ct->get_errors(false));
+    }
+
+    public function test_broken_block_error() {
+        $a = array('a:true', 'b:is(1>2)');
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = new stack_cas_casstring($var);
+        }
+        $session = new stack_cas_session($cs, null, 0);
+
+        $c = '[[ if test="a" ]][[ if ]]ok[[/ if ]]';
+        $ct = new stack_cas_text($c, $session);
+        $ct->get_display_castext();
+        $this->assertFalse($ct->get_valid());
+        $this->assertEquals('<span class="error">CASText failed validation. </span> If-block needs a test attribute. '.
+                                                      " PARSE ERROR: '[[ if ]]' has no match. ", $ct->get_errors(false));
+    }
+
+    public function test_broken_block_error2() {
+        $a = array('a:true', 'b:is(1>2)');
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = new stack_cas_casstring($var);
+        }
+        $session = new stack_cas_session($cs, null, 0);
+
+        // None of these should match not even that last bar
+        $c = '[[ foo ]][[/bar]][[bar]][[/foo]][[/bar]]';
+        $ct = new stack_cas_text($c, $session);
+        $ct->get_display_castext();
+        $this->assertFalse($ct->get_valid());
+        $this->assertEquals('<span class="error">CASText failed validation. </span>'.
+                "PARSE ERROR: '[[ foo ]]' has no match. <br/>'[[/ bar ]]' has no match. <br/>'[[ bar ]]' has no match. <br/>".
+                "'[[/ foo ]]' has no match. <br/>'[[/ bar ]]' has no match. ", $ct->get_errors(false));
     }
 
     public function test_define_block() {
@@ -292,10 +326,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, 0);
 
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .
-                        'CAS commands not valid. </br>You seem to be missing * characters. Perhaps you meant to type ' .
-                        '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.' .
-                        'You seem to be missing * characters. Perhaps you meant to type ' .
+        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span> ' .
+                        'CAS commands not valid.  You seem to be missing * characters. Perhaps you meant to type ' .
                         '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.');
     }
 
@@ -484,6 +516,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
         $this->assertFalse($at1->get_valid());
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .
+                                                                             'CAS commands not valid.  ' .
                 'The expression <span class="stacksyntaxexample">system</span> is forbidden.');
     }
 
@@ -492,6 +525,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
         $this->assertFalse($at1->get_valid());
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .
+                                                                             'CAS commands not valid.  ' .
                     '\'*\' is an invalid final character in <span class="stacksyntaxexample">2*</span>');
     }
 

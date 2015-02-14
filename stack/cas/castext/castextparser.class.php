@@ -30,7 +30,7 @@
  ** php ../../../thirdparty/php-peg/cli.php castext.peg.inc > castextparser.class.php
  ** And do remove that PHP ending the question mark greater than thing after generation.
  **/
-require_once(dirname(__FILE__) . '/../../../thirdparty/php-peg/autoloader.php');
+require_once(__DIR__ . '/../../../thirdparty/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;
 /**
  * Defines the text parser for identifying STACK specific parts from CAStext, does not work with XML, 

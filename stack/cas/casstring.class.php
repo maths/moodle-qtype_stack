@@ -174,7 +174,7 @@ class stack_cas_casstring {
             'make_polygon', 'make_random_state', 'make_rgb_picture', 'makebox', 'makeorders',
             'mandelbrot', 'maperror', 'mat_function', 'max_ord', 'maxapplydepth', 'maxapplyheight',
             'maxi', 'maximize_lp', 'maxnegex', 'maxposex', 'maxpsifracdenom', 'maxpsifracnum',
-            'maxpsinegint', 'maxpsiposint', 'maxtayorder', 'maybe', 'mesh', 'mesh_lines_color',
+            'maxpsinegint', 'maxpsiposint', 'maxtayorder', 'mesh', 'mesh_lines_color',
             'metricexpandall', 'mini', 'minimalpoly', 'minimize_lp', 'minor', 'mnewton',
             'mod_big_prime', 'mod_test', 'mod_threshold', 'mode_check_errorp', 'mode_check_warnp',
             'mode_checkp', 'mode_declare', 'mode_identity', 'modematrix', 'modular_linear_solver',
@@ -425,7 +425,7 @@ class stack_cas_casstring {
 
         if (!($conditions === null || is_array($conditions))) {
             throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
-        } 
+        }
         if (count($conditions) != 0) {
             $this->conditions   = $conditions;
         }
@@ -445,7 +445,6 @@ class stack_cas_casstring {
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
     public function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
-
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.  Got the following: '.$security);
         }

@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(__FILE__) . '/../locallib.php');
-require_once(dirname(__FILE__) . '/test_base.php');
-require_once(dirname(__FILE__) . '/../stack/cas/castext/castextparser.class.php');
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/../stack/cas/castext/castextparser.class.php');
 
 
 /**

@@ -24,7 +24,7 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once(dirname(__FILE__) . '/../external.class.php');
+require_once(__DIR__ . '/../external.class.php');
 
 class stack_cas_castext_external_latex extends stack_cas_castext_external_handler {
 
@@ -61,7 +61,7 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
     public function process($label_map) {
         global $CFG;
         if ($this->template !== false) {
-            $code = file_get_contents(dirname(__FILE__) . '/'.$this->templates[$this->template]);
+            $code = file_get_contents(__DIR__ . '/'.$this->templates[$this->template]);
             $code = str_replace("__TEMPLATE__", file_get_contents($label_map["__SOURCE_CODE__"]), $code);
             file_put_contents($label_map["__SOURCE_CODE__"], $code);
         }
@@ -152,4 +152,3 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
     }
 
 }
-

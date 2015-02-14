@@ -724,6 +724,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3.143', '3.1415927', 1, '[4,3]', ''),
         array('NumSigFigs', '3.150', '3.1415927', 0, '[4,3]', ''),
         array('NumSigFigs', '3.1416', '3.1415927', 0, '[4,3]', ''),
+        array('NumSigFigs', '0.1667', '0.1667', -2, '4', 'Maxima problems'),
 
         array('NumDecPlaces', '3.141', '3.1415927', -1, '', 'Basic tests'),
         array('NumDecPlaces', '1/0', '3', -1, '2', ''),

@@ -241,3 +241,20 @@ $settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
         get_string('matrixparens', 'qtype_stack'),
         get_string('matrixparens_help', 'qtype_stack'), '[',
         stack_options::get_matrix_parens_options()));
+
+// Options external blocks.
+$settings->add(new admin_setting_heading('externalblocksheading',
+        get_string('settingsexternalblocksheading', 'qtype_stack'), ''));
+
+$settings->add(new admin_setting_configcheckbox('qtype_stack/externalblocks',
+        get_string('settingexternalblocks', 'qtype_stack'),
+        get_string('settingexternalblocks_desc', 'qtype_stack'), 0));
+
+$settings->add(new admin_setting_configcheckbox('qtype_stack/externalblocklatex',
+        get_string('settingexternalblocklatex', 'qtype_stack'),
+        get_string('settingexternalblocklatex_desc', 'qtype_stack'), 0));
+
+$settings->add(new admin_setting_configtext('qtype_stack/externalblocklatexcommand',
+        get_string('settingexternalblocklatexcommand', 'qtype_stack'),
+        get_string('settingexternalblocklatexcommand_desc', 'qtype_stack'), ''));
+

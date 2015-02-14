@@ -1013,7 +1013,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Question note.
         $errors['questionnote'] = array();
-        if (strlen($fromform['questionnote'])>1024) {
+        if (strlen($fromform['questionnote']) > 1024) {
             $errors['questionnote'][] = stack_string('questionnote_toolong');
         }
         if ('' == $fromform['questionnote']) {
@@ -1026,7 +1026,6 @@ class qtype_stack_edit_form extends question_edit_form {
         }
         $errors['questionnote'] += $this->check_no_placeholders(
                     stack_string('questionnote'), $fromform['questionnote']);
-
 
         // 2) Validate all inputs.
         foreach ($inputs as $inputname => $notused) {
@@ -1117,8 +1116,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 $textformat = $fromform[$prtname . 'truefeedback'][$nodekey]['format'];
             }
             if ($textformat != $fromform[$prtname . 'truefeedback'][$nodekey]['format']) {
-                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] =
-                        stack_string('allnodefeedbackmustusethesameformat');
+                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] = stack_string('allnodefeedbackmustusethesameformat');
             }
         }
 

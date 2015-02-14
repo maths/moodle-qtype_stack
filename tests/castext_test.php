@@ -154,7 +154,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $session = new stack_cas_session($cs, null, 0);
 
-        // None of these should match not even that last bar
+        // None of these should match not even that last bar.
         $c = '[[ foo ]][[/bar]][[bar]][[/foo]][[/bar]]';
         $ct = new stack_cas_text($c, $session);
         $ct->get_display_castext();
@@ -178,10 +178,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_foreach_block() {
-        $a1 = array('a:[1,2,3]','b:{4,5,6,7}');
+        $a1 = array('a:[1,2,3]', 'b:{4,5,6,7}');
 
         $cases = array(
-                // The first one is a tricky one it uses the same variable name
+                // The first one is a tricky one it uses the same variable name.
                 array('{#a#} [[ foreach a="a" ]]{#a#},[[/foreach]]', $a1, true, "[1,2,3] 1,2,3,"),
                 array('[[ foreach a="b" ]]{#a#},[[/foreach]]', $a1, true, "4,5,6,7,"),
                 array('[[ foreach I="a" K="b" ]]{#I#},{#K#},[[/foreach]]', $a1, true, "1,4,2,5,3,6,"),
@@ -227,7 +227,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $raw = 'Take {@x^2+2*x@} and then [[ foreach t="[1,2,3]"]]{@t@}[[/foreach]].';
         $at1 = new stack_cas_text($raw, null, 0);
         // here the list is iterated over and the t-variable appears multiple times.
-        $val = array('x^2+2*x', '[1,2,3]', '1','t','2','t','3','t');
+        $val = array('x^2+2*x', '[1,2,3]', '1', 't', '2', 't', '3', 't');
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
 
@@ -468,7 +468,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_multiplication_options() {
 
         $options = new stack_options();
-        // dot
+        // Dot.
         $options->set_option('multiplicationsign', 'dot');
         $cs2 = new stack_cas_session(array(), $options, 0);
 
@@ -480,7 +480,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals(array('caschat0'), $session->get_all_keys());
         $this->assertEquals('Some text \({a\cdot \sin \left( 2\cdot x \right)}\)', $at1->get_display_castext());
 
-        // cross
+        // Cross.
         $options->set_option('multiplicationsign', 'cross');
         $cs2 = new stack_cas_session(array(), $options, 0);
 
@@ -492,7 +492,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals(array('caschat0'), $session->get_all_keys());
         $this->assertEquals('Some text \({a\times \sin \left( 2\times x \right)}\)', $at1->get_display_castext());
 
-        // none
+        // None.
         $options->set_option('multiplicationsign', 'none');
         $cs2 = new stack_cas_session(array(), $options, 0);
 

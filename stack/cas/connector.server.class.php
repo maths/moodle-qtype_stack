@@ -73,12 +73,12 @@ class stack_cas_connection_server extends stack_cas_connection_base {
             // how come there is no core library solution to this!?
             // create temp file, save zip there.
 
-            // ensure that we have certain directories
+            // Ensure that we have certain directories.
             if (!is_dir($CFG->dataroot . "/stack/tmp")) {
-                mkdir($CFG->dataroot . "/stack/tmp",0770,true);
+                mkdir($CFG->dataroot . "/stack/tmp", 0770, true);
             }
             if (!is_dir($CFG->dataroot . "/stack/plots")) {
-                mkdir($CFG->dataroot . "/stack/plots",0770,true);
+                mkdir($CFG->dataroot . "/stack/plots", 0770, true);
             }
 
             $ziptemp = $CFG->dataroot . "/stack/tmp/";

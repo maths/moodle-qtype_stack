@@ -122,10 +122,10 @@ abstract class stack_maths_output {
         $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
 
         $count = preg_match_all('~(?<!@)@(?!@)~', $text, $notused);
-        if($count>0){
+        if($count > 0){
             $i = 0;
             $targets = stack_utils::all_substring_between($text, '@', '@', true, false, false);
-            foreach($targets as $target){
+            foreach ($targets as $target) {
                 $ti = strpos($text, '@'.$target.'@', $i);
                 if ($ti === false) {
                     $text = $text ."WARNING in stack_maths_output::replace_dollars:  could not find string \"{$target}\". ";
@@ -133,23 +133,24 @@ abstract class stack_maths_output {
                 $tlen = strlen($target);
                 $pre = false;
                 $post = false;
-                if($ti>0 && substr($text, $ti-1, 1) === '{') {
+                if ($ti > 0 && substr($text, $ti - 1, 1) === '{') {
                     $pre = true;
                 }
-                if($ti+$tlen+2<strlen($text) && substr($text, $ti+$tlen+2, 1) === '}') {
+                if ($ti + $tlen + 2 < strlen($text) && substr($text, $ti + $tlen + 2, 1) === '}') {
                     $post = true;
                 }
-                $i = $ti+$tlen;
-                if($post!=$pre || !($post&&$pre)) {
+                $i = $ti + $tlen;
+                if ($post != $pre || !($post&&$pre)) {
                     if ($markup) {
-                        $text = substr($text, 0, $ti) . "<ins>{@</ins>" . trim($target) . "<ins>@}</ins>" . substr($text, $ti+$tlen+2);
+                        $text  = substr($text, 0, $ti) . "<ins>{@</ins>" . trim($target) . "<ins>@}</ins>";
+                        $text .= substr($text, $ti + $tlen + 2);
                         $i += 13;
                     } else {
-                        $text = substr($text, 0, $ti) . "{@" . trim($target) . "@}" . substr($text, $ti+$tlen+2);
+                        $text = substr($text, 0, $ti) . "{@" . trim($target) . "@}" . substr($text, $ti + $tlen + 2);
                         $i += 2;
                     }
-                    // If we trim the target there will be slight shift in the place
-                    $i -= $tlen-strlen(trim($target));
+                    // If we trim the target there will be slight shift in the place.
+                    $i -= $tlen - strlen(trim($target));
                 }
             }
         }

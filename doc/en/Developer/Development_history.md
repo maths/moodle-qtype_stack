@@ -2,6 +2,28 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 3.4
+
+Released February 2015. 
+
+**Important changes in STACK version 3.4:**  CAS commands within CASText are now required to be enclosed as `{@..@}`.  The old syntax `@..@` will not work.  Old questions can be converted with the fix maths delimiters script.  
+
+   Administration -> Site administration -> Question types -> STACK
+
+Then choose the link to "fix maths delimiters script".
+
+Other Changes since 3.3:
+  
+1. Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
+2. Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
+3. STACK tried to automatically write an optimised image for linux.  This should help installs where unix access is difficult.
+4. Changes to the CASText format 
+  * Require matching `{@..@}` for CAS variables. Note the old syntax `@..@` will not work. 
+  * Expand the CASText format to enable us to embed the _value_ of a variable in CASText, with `{#..#}`, not just the displayed form.
+  * Auto update script to change existing questions (part of the fix maths delimiters script).
+5. Conditionals in CASText adaptive blocks. (Aalto) 
+
+
 ## Version 3.3
 
 Released September 2014. 

@@ -551,23 +551,23 @@ $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
-// Used in blocks
-$string['stackBlock_ifNeedsCondition']      = 'If-block needs a test attribute. ';
-$string['stackBlock_unknownBlock']          = 'The following block is unknown: ';
-$string['stackBlock_externalblocksdisabled']= 'External blocks have not been enabled in this stack installation.';
-$string['stackBlock_eternalLatexNotEnabled']= 'LaTeX-type has not been enabled in this stack installation.';
-$string['stackBlock_eternalMustHaveType']   = 'External blocks must define a type attribute, and that type must have a known and enabled handler.';
-$string['stackBlock_missmatch']             = 'has no match. ';
+// Used in blocks.
+$string['stackBlock_ifNeedsCondition']       = 'If-block needs a test attribute. ';
+$string['stackBlock_unknownBlock']           = 'The following block is unknown: ';
+$string['stackBlock_externalblocksdisabled'] = 'External blocks have not been enabled in this stack installation.';
+$string['stackBlock_eternalLatexNotEnabled'] = 'LaTeX-type has not been enabled in this stack installation.';
+$string['stackBlock_eternalMustHaveType']    = 'External blocks must define a type attribute, and that type must have a known and enabled handler.';
+$string['stackBlock_missmatch']              = 'has no match. ';
 
 
-$string['unrecognisedfactstags']            = 'The following facts tag(s) are not recognized: {$a->tags}.';
-$string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
+$string['unrecognisedfactstags']             = 'The following facts tag(s) are not recognized: {$a->tags}.';
+$string['stackHintOld']                      = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
 $string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specific value.';
-// TODO add this to STACK...
+// TODO add this to STACK.
 // $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
 
 // Answer tests.

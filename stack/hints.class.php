@@ -25,7 +25,7 @@ require_once('utils.class.php');
 
 class stack_hints {
 
-    private static $available_hints  = array('greek_alphabet', 'alg_inequalities',
+    private static $availablehints  = array('greek_alphabet', 'alg_inequalities',
             'alg_indices', 'alg_logarithms', 'alg_quadratic_formula',
             'alg_partial_fractions', 'trig_degrees_radians', 'trig_standard_values',
             'trig_standard_identities', 'hyp_functions', 'hyp_identities', 
@@ -49,10 +49,10 @@ class stack_hints {
     }
 
     public static function check_hints_exist($text) {
-        preg_match_all('|\[\[hint:(.*)\]\]|U', $text, $html_match);
+        preg_match_all('|\[\[hint:(.*)\]\]|U', $text, $htmlmatch);
         $unknown = array();
-        foreach ($html_match[1] as $val) {
-            if (!in_array($val, self::$available_hints)) {
+        foreach ($htmlmatch[1] as $val) {
+            if (!in_array($val, self::$availablehints)) {
                 $unknown[] = $val;
             }
         }
@@ -60,10 +60,10 @@ class stack_hints {
     }
 
     public static function replace_hints($text) {
-        preg_match_all('|\[\[hint:(.*)\]\]|U', $text, $html_match);
-        foreach ($html_match[1] as $val) {
+        preg_match_all('|\[\[hint:(.*)\]\]|U', $text, $htmlmatch);
+        foreach ($htmlmatch[1] as $val) {
             $sr = '[[hint:'.$val.']]';
-            if (in_array($val, self::$available_hints)) {
+            if (in_array($val, self::$availablehints)) {
                     $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                             stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
             } else {
@@ -76,8 +76,8 @@ class stack_hints {
 
     public static function display_all_hints() {
         $str = '';
-        foreach (self::$available_hints as $hint) {
-            $str.= '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
+        foreach (self::$availablehints as $hint) {
+            $str .= '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
                     stack_string($hint.'_name') . ' (<tt>'.$hint.'</tt>)</h3>' . stack_string($hint . '_fact') . '</div>';
         }
         return $str;

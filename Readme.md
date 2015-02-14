@@ -1,22 +1,19 @@
-# STACK 3.3
+# STACK 3.4 ALPHA
 
 [STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md)
 is an open-source system for computer-aided assessment in Mathematics and related
 disciplines, with emphasis on formative assessment.
 
-STACK was created by [Chris Sangwin](http://web.mat.bham.ac.uk/C.J.Sangwin/) of
-the Loughborough University, and includes the work of
+STACK was created by Chris Sangwin of Loughborough University, and includes the work of
 [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md).
 
 
 ## Current state of development
 
-Stack 3.3 is a point release containing a number of recent bug fixes an minor
-new features and improvements, based on continuing use at Loughborough
-University, the Open University and the University of Birmingham.
+Stack 3.4 contains some major changes from the previous verions, notably the question blocks from Aalto Finland.
+STACK continues to be used at Loughborough University, the Open University and the University of Birmingham.
 
-Please continue to report any bugs you find at
-https://github.com/maths/moodle-qtype_stack/issues.
+Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 
 The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md)
 is explain more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).

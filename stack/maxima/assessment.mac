@@ -195,6 +195,7 @@ factorlist(ex) := block([simp:false,ret:"",ex2],
 lowesttermsp(ex) := block([simp:false,ex1,ex2,ex3],
   if atom(ex) then return(true),
   if op(ex)#DIV_OP then return(true),
+  if safe_op(num(ex))="-" and safe_op(denom(ex))="-" then return(false),
   if gcd(num(ex),denom(ex))=1 then return(true) else return(false)
 )$
 
@@ -203,6 +204,7 @@ list_expression_numbers(ex) := block([ex2],
   if mapatom(ex) then (if numberp(ex) then return([ex]) else return([]))
   else (
   if op(ex)=DIV_OP and simp_numberp(num(ex)) and simp_numberp(denom(ex)) then return([ex]),
+  if op(ex)="-" then return(maplist(lambda([ex], if safe_op(ex)=DIV_OP then (-num(ex))/denom(ex) else -ex),list_expression_numbers(first(args(ex))))),
   ex2:args(ex),
   flatten(maplist(list_expression_numbers,ex2)))
 )$

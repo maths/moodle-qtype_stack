@@ -377,4 +377,38 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals($at1->get_display_castext(), '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ \frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
     }
+
+    public function test_disp_decimalplaces() {
+        $a2 = array('a:float(%e)', 'b:3.99999');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@dispdp(a,2)@, @dispdp(b,3)@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(2.72\), \(4.000\)');
+    }
+
+    public function test_disp_decimalplaces2() {
+        $a2 = array('a:float(%e)', 'b:-3.99999');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@dispdp(a,0)*x^2@, @dispdp(b,3)@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(3.\cdot x^2\), \(-4.000\)');
+    }
 }

@@ -241,18 +241,18 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
 dispdptex(ex):=block([ss, s2, n, dp],
   [n, dp]:args(ex),
   ss:split(string(decimalplaces(n, dp)), "."),
-  if length(ss)=2 then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
+  if length(ss) = 2 then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
   if slength(s2)<dp then s2:concat(s2, smake(dp-slength(s2),"0")) else s2:substring(s2,1,dp+1),
   concat(first(ss), ".", s2)
 );
 texput(dispdp, dispdptex);
 
 /* Write the number x in n decimal places */
-decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)),simp)$
+decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)), simp)$
 
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
-significantfigures(x,n) := block([fpprec:128,fpprintprec,simp:true,ex,ex2],
+significantfigures(x,n) := block([fpprec:128, fpprintprec, simp:true, ex, ex2],
   if x = 0 then return(0),
   if x = 0.0 then return(0.0),
   sign_of_x : signum(x),
@@ -260,7 +260,7 @@ significantfigures(x,n) := block([fpprec:128,fpprintprec,simp:true,ex,ex2],
   ex:floor(float(log(x)/log(10))),
   ex2:round(float(x/10^(ex-n+1))),
   ex2:float(ex2*10^(ex-n+1)),
-  if floor(ex2)=ratsimp(ex2) then ex2:ratsimp(ex2),
+  if floor(ex2) = ratsimp(ex2) then ex2:ratsimp(ex2),
   return(sign_of_x*ex2)
 );
 

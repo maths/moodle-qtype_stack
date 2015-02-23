@@ -152,7 +152,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'y=(x-a)^6000', 'y=(x-a)^6000', 1, '', ''),
         array('AlgEquiv', 'y=(x-a)^5999', 'y=(x-a)^6000', 0, '', ''),
         array('AlgEquiv', 'y=(a-x)^6000', 'y=(x-a)^6000', 1, '', ''),
-        array('AlgEquiv', 'y=(a-x)^5999', 'y=(x-a)^5999', 0, '', ''),
+        array('AlgEquiv', 'y=(a-x)^59999', 'y=(x-a)^5999', -1, '', ''),
         array('AlgEquiv', 'x+y=i', 'y=i-x', 1, '', ''),
         array('AlgEquiv', '(1+%i)*(x+y)=0', 'y=-x', 1, '', ''),
         array('AlgEquiv', 's^2*%e^(s*t)=0', 's^2=0', 0, '', ''),

@@ -41,7 +41,10 @@ If the MathJax filter is not available then you can include it in the head of ev
 `            inlineMath:  [['\\(', '\\)']],`<br>
 `            processEscapes: true`<br>
 `        },`<br>
-`        TeX: { extensions: ['enclose.js'] }`<br>
+`        TeX: { `<br>
+`           extensions: ['enclose.js'],`<br>
+`           Macros: { pounds: '{\\it\\unicode{xA3}}', euro: '\\unicode{x20AC}' }`<br>
+`             }`<br>
 `      });`<br>
 `</script>`<br>
 `<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>`
@@ -50,7 +53,8 @@ Please note the following.
 
 * These settings enable only the strict LaTeX maths environments, and does not support the use of dollars;
 * The `processEscapes` flag enables you to include a dollar symbol in mathematics environments with `\$`.
-* The line `TeX: { extensions: ['enclose.js'] }` enables support for [actuarial notation](../Authoring/Actuarial.md).
+* The line `extensions: ['enclose.js'],` enables support for [actuarial notation](../Authoring/Actuarial.md).
+* The line `Macros: { pounds: '{\\it\\unicode{xA3}}', euro: '\\unicode{x20AC}' }` enables support for the UK pounds sign and the Euro symbol in LaTeX using `\pounds` and `\euro` macros respectively.  E.g. \(\pounds\) and \(\euro\).
 
 ### Option 2: install MathJax locally. ###
 

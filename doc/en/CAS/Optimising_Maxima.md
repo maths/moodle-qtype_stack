@@ -2,7 +2,22 @@
 
 There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. The optimisations described here have been tested, but not extensively.  They have the potential to greatly speed up STACK.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
 
-The instructions for both CLISP and SBCL have been tested and work in STACK 3, with Maxima version 5.28.0, in October 2012.  As of January 2014 these suggestions are still working well with Maxima 5.31.1.
+The instructions for both CLISP and SBCL have been tested and work in STACK 3, with Maxima version 5.28.0, in October 2012.  As of January 2014 these suggestions are still working well with Maxima 5.31.1.  We now have some code to attempt to automatically generate the LISP images described below.  Beware, however, that when regenerating the image you may have to manually delete the old image which may be write-protected.
+
+## Terminating runaway LISPS ##
+
+It is relatively easy for students to inadvertently generate an answer which takes Maxima a very long time to evaluate.  Typically this arises from where Maxima needs to expand out the brackets by comparing `(x-a)^59999` with a similar expression.  It is very hard to ensure this kind of calculation is impossible so in general this situation will arise from time to time.  The PHP scripts have a timeout, but on linux systems you can also ensure the underlying LISP process is killed off using `timeout` command in linux.  This is particularly valuable for production systems where stability is essential.
+
+1. Check that your linux has the `timeout` command.  Because this is not standard we have not included this mechanism by default.
+2. Make sure STACK is working.
+3. Set the CAS connection timeout variable as normal in the STACK settings.  E.g. you might choose 5 seconds
+4. Use the following Maxima command
+
+    timeout --kill-after=6s 6s maxima
+
+It is important that the timeout time is *longer* than the CAS connection timeout.  That way, PHP gives up first and degrates gracefully.  The OS then kills the process later.  If you choose the timeout to be the same or less, PHP may not have gathered enough data to degrade gracefully.  
+
+The above can be used with either a direct maxima connection, or with the image created as described below.
 
 ## Compiled Lisp ##
 

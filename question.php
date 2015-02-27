@@ -390,7 +390,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name),
                     $this->session->get_display_key($name)));
         }
-        return $feedback;
+        return format_text($feedback);
     }
 
     public function get_expected_data() {

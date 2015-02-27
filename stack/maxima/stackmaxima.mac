@@ -91,6 +91,7 @@ box(ex):=ex;
 /* ********************************** */
 
 /* Stats support */
+
 load("distrib");
 load (descriptive);
 
@@ -132,7 +133,6 @@ alias(arcsin, asin);
 alias(arctan, atan);           
 
 load("mathml.lisp");   /* loads MathML */
-
 
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then 

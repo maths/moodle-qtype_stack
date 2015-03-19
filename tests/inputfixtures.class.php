@@ -311,6 +311,8 @@ class stack_inputvalidation_test_data {
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', ""),
         array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', ""),  /* This is now a Maxima alias */
+        array('Sin(x)', 'php_false', '', '', ""),
+        array('sim(x)', 'php_false', '', '', ""),
         array('asin(x)', 'php_true', 'asin(x)', 'cas_true', "Maxima uses the asin pattern"),
         array('arcsin(x)', 'php_false', 'arcsin(x)', 'cas_true', "Not the arcsin"),
         array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', ""),

@@ -506,6 +506,7 @@ $string['stackCas_forbiddenChar']           = 'CAS commands may not contain the 
 $string['stackCas_finalChar']               = '\'{$a->char}\' is an invalid final character in {$a->cmd}';
 $string['stackCas_MissingStars']            = 'You seem to be missing * characters. Perhaps you meant to type {$a->cmd}.';
 $string['stackCas_unknownFunction']         = 'Unknown function: {$a->forbid}.';
+$string['stackCas_unknownFunctionCase']     = 'Input is case sensitive:  {$a->forbid} is an unknown function.  Did you mean {$a->lower}?';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
 $string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nested in the expression: {$a->cmd}.';

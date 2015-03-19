@@ -148,7 +148,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta+c',
-                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo'));
+                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin'));
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');

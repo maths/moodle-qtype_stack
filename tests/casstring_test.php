@@ -145,6 +145,20 @@ class stack_cas_casstring_test extends basic_testcase {
                 $at2->get_errors());
     }
 
+    public function test_global_forbidden_words_case() {
+
+        $s = 'System(rm *)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+                $at1->get_errors());
+
+        $at2 = new stack_cas_casstring($s);
+        $this->assertFalse($at2->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+                $at2->get_errors());
+    }
+
     public function test_teacher_only_words() {
 
         $s = 'setelmx(2,1,1,C)';
@@ -277,6 +291,20 @@ class stack_cas_casstring_test extends basic_testcase {
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_trig_4() {
+        $s = 'a:Sim(x)-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_trig_5() {
+        $s = 'a:Sin(x)-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unknownFunctionCase', $at1->get_answernote());
     }
 
     public function test_unencapsulated_commas_1() {

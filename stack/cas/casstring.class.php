@@ -267,7 +267,7 @@ class stack_cas_casstring {
             'skewness_student_t', 'skewness_weibull', 'std_bernoulli', 'std_beta', 'std_binomial', 'std_chi2', 'std_continuous_uniform',
             'std_discrete_uniform', 'std_exp', 'std_f', 'std_gamma', 'std_general_finite_discrete', 'std_geometric', 'std_gumbel',
             'std_hypergeometric', 'std_laplace', 'std_logistic', 'std_lognormal', 'std_negative_binomial', 'std_noncentral_chi2',
-            'std_noncentral_student_t', 'std_normal', 'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
+            'std_noncentral_s[,],{,}.tudent_t', 'std_normal', 'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
             'var_beta', 'var_binomial', 'var_chi2', 'var_continuous_uniform', 'var_discrete_uniform', 'var_exp', 'var_f', 'var_gamma',
             'var_general_finite_discrete', 'var_geometric', 'var_gumbel', 'var_hypergeometric', 'var_laplace', 'var_logistic', 'var_lognormal',
             'var_negative_binomial', 'var_noncentral_chi2', 'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson',
@@ -828,16 +828,15 @@ class stack_cas_casstring {
             preg_match("|[0-9]+|", $key, $justnum);
 
             if (empty($justnum) and strlen($key) > 2) {
-                $downkey = strtolower($key);
-                array_push($strinkeywords, $downkey);
+                array_push($strinkeywords, $key);
             }
         }
         $strinkeywords = array_unique($strinkeywords);
         // Check for global forbidden words.
         foreach ($strinkeywords as $key) {
-            if (in_array($key, self::$globalforbid)) {
+            if (in_array(strtolower($key), self::$globalforbid)) {
                 // Very bad!
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
                 $this->answernote[] = 'forbiddenWord';
                 $this->valid = false;
             } else {
@@ -852,9 +851,15 @@ class stack_cas_casstring {
                 } else {
                     // Only allow the student to use set commands.
                     if (!in_array($key, self::$studentallow) and !in_array($key, self::$distrib) and !in_array($key, $allow)) {
-                        $this->add_error(stack_string('stackCas_unknownFunction',
-                            array('forbid' => stack_maxima_format_casstring($key))));
-                        $this->answernote[] = 'unknownFunction';
+                        if (!in_array(strtolower($key), self::$studentallow) and !in_array(strtolower($key), self::$distrib) and !in_array(strtolower($key), $allow)) {
+                            $this->add_error(stack_string('stackCas_unknownFunction',
+                                array('forbid' => stack_maxima_format_casstring($key))));
+                            $this->answernote[] = 'unknownFunction';
+                        } else {
+                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                array('forbid' => stack_maxima_format_casstring($key), 'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                            $this->answernote[] = 'unknownFunctionCase';
+                        }
                         $this->valid = false;
                     }
                     // Else we have not found any security problems with keywords.

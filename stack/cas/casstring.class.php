@@ -267,7 +267,7 @@ class stack_cas_casstring {
             'skewness_student_t', 'skewness_weibull', 'std_bernoulli', 'std_beta', 'std_binomial', 'std_chi2', 'std_continuous_uniform',
             'std_discrete_uniform', 'std_exp', 'std_f', 'std_gamma', 'std_general_finite_discrete', 'std_geometric', 'std_gumbel',
             'std_hypergeometric', 'std_laplace', 'std_logistic', 'std_lognormal', 'std_negative_binomial', 'std_noncentral_chi2',
-            'std_noncentral_s[,],{,}.tudent_t', 'std_normal', 'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
+            'std_noncentral_student_t', 'std_normal', 'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
             'var_beta', 'var_binomial', 'var_chi2', 'var_continuous_uniform', 'var_discrete_uniform', 'var_exp', 'var_f', 'var_gamma',
             'var_general_finite_discrete', 'var_geometric', 'var_gumbel', 'var_hypergeometric', 'var_laplace', 'var_logistic', 'var_lognormal',
             'var_negative_binomial', 'var_noncentral_chi2', 'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson',

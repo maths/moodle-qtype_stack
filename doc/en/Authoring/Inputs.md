@@ -155,7 +155,7 @@ These lists are in the casstring class. If you have suggestions for more lists, 
 
 By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student's answer.
 
-Note the allowed words permit the teacher to override some (but not all) of the strings which are considered to be invalid by default for student input.  For example, `Sin` (capital "S") has specific feedback.  If you need this in a question you have to allow it here.  Similarly `In` ("India echo") is mistakenly used by students for the natural logarithm rather than `ln` ("Lima echo").  Hence by default this triggers specific feedback.  You can allow `In` here.
+Note the allowed words permit the teacher to override some (but not all) of the strings which are considered to be invalid by default for student input.  For example, `Sin` (capital "S") has specific feedback.  If you need this in a question you have to allow it here.  Similarly `In` ("India november") is mistakenly used by students for the natural logarithm rather than `ln` ("Lima november").  Hence by default this triggers specific feedback.  You can allow `In` here.
 
 ### Forbid Floats ### {#Forbid_Floats}
 

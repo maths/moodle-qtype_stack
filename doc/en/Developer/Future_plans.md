@@ -27,6 +27,7 @@ The following features are in approximate priority order.  How to report bugs an
 ### Other ideas ###
 
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
+* Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
 * Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)

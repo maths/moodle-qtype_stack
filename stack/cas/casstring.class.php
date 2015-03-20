@@ -804,9 +804,8 @@ class stack_cas_casstring {
         if (trim($allowwords) != '') {
             $allowwords = explode(',', $allowwords);
             foreach ($allowwords as $kw) {
-                $kw = trim(strtolower($kw));
-                if (!in_array($kw, self::$globalforbid)) {
-                    $allow[] = $kw;
+                if (!in_array(strtolower($kw), self::$globalforbid)) {
+                    $allow[] = trim($kw);
                 } else {
                     throw new stack_exception('stack_cas_casstring: check_security: ' .
                             'attempt made to allow gloabally forbidden keyword: ' . $kw);
@@ -830,7 +829,15 @@ class stack_cas_casstring {
             if (empty($justnum) and strlen($key) > 2) {
                 array_push($strinkeywords, $key);
             }
+            // This is not really a security issue, but it relies on access to the $allowwords.
+            // It is also a two letter string, which are normally permitted.
+            if ($security == 's' and $key == 'In' and !in_array($key, $allow)) {
+                $this->add_error(stack_string('stackCas_badLogIn'));
+                $this->answernote[] = 'stackCas_badLogIn';
+                $this->valid = false;
+            }
         }
+
         $strinkeywords = array_unique($strinkeywords);
         // Check for global forbidden words.
         foreach ($strinkeywords as $key) {

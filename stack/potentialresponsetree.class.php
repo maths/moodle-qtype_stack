@@ -144,6 +144,8 @@ class stack_potentialresponse_tree {
         $cascontext->merge_session($this->feedbackvariables);
 
         // Add all the expressions from all the nodes.
+        // Note this approach does not allow for effective guard clauses in the PRT.
+        // All the inputs to answer tests are evaluated at the start.
         foreach ($this->nodes as $key => $node) {
             $cascontext->add_vars($node->get_context_variables($key));
         }
@@ -174,8 +176,7 @@ class stack_potentialresponse_tree {
 
         $cascontext = $this->create_cas_context_for_evaluation($questionvars, $localoptions, $answers, $seed);
 
-        $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0,
-                                                            $cascontext->get_errors());
+        $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0);
 
         // Traverse the tree.
         $nodekey = $this->firstnode;
@@ -224,7 +225,6 @@ class stack_potentialresponse_tree {
         }
 
         $results->set_cas_context($cascontext, $seed);
-
         return $results;
     }
 

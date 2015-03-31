@@ -194,6 +194,7 @@ $string['prtincorrectfeedback'] = 'Standard feedback for incorrect';
 $string['prtpartiallycorrectfeedback'] = 'Standard feedback for partially correct';
 $string['prts'] = 'Potential response trees';
 $string['prtwillbecomeactivewhen'] = 'This potential response tree will become active when the student has answered: {$a}';
+$string['prtruntimeerror'] = 'Node {$a->node} generated the following runtime error: {$a->error}';
 $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random versions of a question. Two question versions are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
 $string['questionnote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_note.md';

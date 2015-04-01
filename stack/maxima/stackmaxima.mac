@@ -539,7 +539,7 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake],
+    block([simp:true, tfn, tfnp, tfnps, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake],
     /* Arguments to plot must be lists */
     ral:sublist(ra, listp), /* The actual arguments used by plot */
     /* Check expressions to be plotted has/have only one variable. */
@@ -566,7 +566,11 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     /* Assemble files names and URLs */
     tn:string(absolute_real_time()),
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
-    tfn:concat(TMP_IMAGE_DIR, filename, ".plt"),
+    tfn:concat(filename, ".plt"),
+    tfnp:concat(maxima_tempdir, filename, ".plt"),
+    /* On windows only add slashes to the filename for Gnuplot. */
+    tfnps:tfnp,
+    if MAXIMA_PLATFORM="win" then tfnps:ssubst("\\\\", "\\", tfnp),
     afn:concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
     ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' /></div>"),
     if OPT_OUTPUT#"MathML" then
@@ -596,8 +600,8 @@ set output ",afn),
     pltargs:append([ex], ral),
     plotfunmake:funmake(plot2d, pltargs),
     ev(plotfunmake),
-    sysp:concat(GNUPLOT_CMD, " ", tfn),
-    sysr:concat(DEL_CMD, " ", tfn),
+    sysp:concat(GNUPLOT_CMD, " ", tfnps),
+    sysr:concat(DEL_CMD, " ", tfnp),   
     system(sysp),
     system(sysr),
     simp:old_simp,
@@ -2318,5 +2322,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015033100$
-print("[ STACK-Maxima started, library version 2015033100 ]")$
+stackmaximaversion:2015040100$
+print("[ STACK-Maxima started, library version 2015040100 ]")$

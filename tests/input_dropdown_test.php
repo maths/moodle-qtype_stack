@@ -41,7 +41,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
-    protected function make_dropdown() {
+    protected function make_dropdown() {http://192.168.1.118/
         $el = stack_input_factory::make('dropdown', 'ans1', 'x+1');
         $el->set_parameter('ddl_values', 'x+1,x+2,x+3');
         return $el;
@@ -52,7 +52,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assert(new question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), ''),
                 $el->render(new stack_input_state(
-                        stack_input::BLANK, array(), '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false));
     }
 
     public function test_render_x_plus_1() {
@@ -60,7 +60,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assert(new question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), 'x+1'),
                 $el->render(new stack_input_state(
-                        stack_input::SCORE, array('x+1'), '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('x+1'), '', '', '', '', ''), 'stack1__ans1', false));
     }
 
     public function test_render_x_plus_3() {
@@ -68,7 +68,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assert(new question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), 'x+3'),
                 $el->render(new stack_input_state(
-                        stack_input::SCORE, array('x+3'), '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('x+3'), '', '', '', '', ''), 'stack1__ans1', false));
     }
 
     public function test_render_disabled() {
@@ -76,7 +76,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assert(new question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), '', false),
                 $el->render(new stack_input_state(
-                        stack_input::BLANK, array(), '', '', '', ''), 'stack1__ans1', true));
+                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', true));
     }
 
     public function test_validate_student_response_blank() {

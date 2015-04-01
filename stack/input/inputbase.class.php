@@ -277,7 +277,7 @@ abstract class stack_input {
         $contents = $this->response_to_contents($response);
 
         if (array() == $contents or $this->is_blank_response($contents)) {
-            return new stack_input_state(self::BLANK, array(), '', '', '', '');
+            return new stack_input_state(self::BLANK, array(), '', '', '', '', '');
         }
 
         // This method actually validates any CAS strings etc.
@@ -287,6 +287,7 @@ abstract class stack_input {
         $display = stack_maxima_format_casstring($this->contents_to_maxima($contents));
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
         $answer = new stack_cas_casstring($interpretedanswer);
+        $lvarsdisp = '';
 
         // Send the string to the CAS.
         if ($valid) {
@@ -299,17 +300,23 @@ abstract class stack_input {
                 $singlevarchars = true;
             }
 
+            // Generate an expression from which we extract the list of variables in the student's answer.
+            $lvars = new stack_cas_casstring('ev(listofvars('.$interpretedanswer.'),simp)');
+            $lvars->validate('t', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
+
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
-            $session = new stack_cas_session(array($answer), $localoptions, 0);
+            $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);
             $session->instantiate();
 
             $session = $session->get_session();
             $answer = $session[0];
+            $lvars  = $session[1];
 
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {
@@ -320,6 +327,9 @@ abstract class stack_input {
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
                 $interpretedanswer = $answer->get_value();
+                if (!($lvars->get_value() == '[]')) {
+                    $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
+                }
             }
         }
 
@@ -340,7 +350,7 @@ abstract class stack_input {
             $status = self::SCORE;
         }
 
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note);
+        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp);
     }
 
     /**
@@ -471,6 +481,10 @@ abstract class stack_input {
 
         if ($state->errors) {
             $feedback .= html_writer::tag('p', $state->errors, array('class' => 'stack_errors'));
+        }
+
+        if (!($state->lvars === '' or $state->lvars === '[]')) {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
         }
         return $feedback;
     }

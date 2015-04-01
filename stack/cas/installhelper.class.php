@@ -45,7 +45,6 @@ class stack_cas_configuration {
      */
     public function __construct() {
         global $CFG;
-
         $this->settings = get_config('qtype_stack');
         $this->date = date("F j, Y, g:i a");
 
@@ -57,7 +56,8 @@ class stack_cas_configuration {
         $this->vnum = (float) substr($this->settings->maximaversion, 2);
 
         $this->blocksettings = array();
-        $this->blocksettings['TMP_IMAGE_DIR'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
+        $this->blocksettings['MAXIMA_PLATFORM'] = $this->settings->platform;
+        $this->blocksettings['maxima_tempdir'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
         $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
 
         // These are used by the GNUplot "set terminal" command. Currently no user interface...
@@ -94,6 +94,7 @@ class stack_cas_configuration {
      * @return string the command.
      */
     public function get_plotcommand_win() {
+        global $CFG;
         if ($this->settings->plotcommand && $this->settings->plotcommand != 'gnuplot') {
             return $this->settings->plotcommand;
         }
@@ -102,13 +103,16 @@ class stack_cas_configuration {
         $maximalocation = $this->maxima_win_location();
 
         $plotcommands = array();
-        $plotcommands[] = $maximalocation. '/gnuplot/wgnuplot.exe';
-        $plotcommands[] = $maximalocation. '/bin/wgnuplot.exe';
-        $plotcommands[] = $maximalocation. '/gnuplot/bin/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. 'gnuplot/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. 'bin/wgnuplot.exe';
+        $plotcommands[] = $maximalocation. 'gnuplot/bin/wgnuplot.exe';
 
+        // I'm finally fed up with dealing with spaces in MS filenames.
+        $newplotlocation = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/wgnuplot.exe');
         foreach ($plotcommands as $plotcommand) {
             if (file_exists($plotcommand)) {
-                        return '"' . $plotcommand . '"';
+                        copy($plotcommand, $newplotlocation);
+                        return $newplotlocation;
             }
         }
 

@@ -1745,4 +1745,101 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
     }
+
+    public function test_guard_clause_prt_ok() {
+
+        $q = test_question_maker::make_question('stack', 'runtime_prt_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->render();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '[3*x+1+5]', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('Result', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '[3*x+1+5]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the incorrect answer.
+        $this->process_submission(array('ans1' => '[3*x+1+5]', 'ans1_val' => '[3*x+1+5]', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('Result', 0, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '[3*x+1+5]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('Result');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer and validate.
+        $this->process_submission(array('ans1' => '[3*x+1=5]', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('Result', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '[3*x+1=5]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => '[3*x+1=5]', 'ans1_val' => '[3*x+1=5]', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('Result', 0, 0.1);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '[3*x+1=5]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('Result');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_guard_clause_prt_err() {
+
+        $q = test_question_maker::make_question('stack', 'runtime_prt_err');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->render();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '[2*sin(x)*y=1,x+y=1]', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('Result', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '[2*sin(x)*y=1,x+y=1]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the incorrect answer.
+        $this->process_submission(array('ans1' => '[2*sin(x)*y=1,x+y=1]', 'ans1_val' => '[2*sin(x)*y=1,x+y=1]', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$invalid);
+        $this->check_current_mark(null);
+        $this->check_prt_score('Result', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '[2*sin(x)*y=1,x+y=1]');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('Result');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/algsys: tried and failed to reduce system/'),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+    }
 }

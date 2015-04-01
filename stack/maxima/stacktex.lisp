@@ -140,8 +140,8 @@
 
 (defun tex-string (x)
   (cond ((equal x "") "")
-	((eql (elt x 0) #\\) x)
-	(t (concatenate 'string "\\mbox{" x "}"))))
+    ((eql (elt x 0) #\\) x)
+    (t (concatenate 'string "\\mbox{" x "}"))))
 
 
 ;; Sort out display on inequalities
@@ -156,22 +156,22 @@
 (defprop %derivative tex-derivative tex)
 (defun tex-derivative (x l r)
   (tex (if $derivabbrev
-	   (tex-dabbrev x)
-	   (tex-d x '"\\mathrm{d}")) l r lop rop ))
+       (tex-dabbrev x)
+       (tex-d x '"\\mathrm{d}")) l r lop rop ))
 
-(defun tex-d(x dsym)		    ;dsym should be $d or "$\\partial" 
+(defun tex-d(x dsym)    ;dsym should be $d or "$\\partial" 
   ;; format the macsyma derivative form so it looks
   ;; sort of like a quotient times the deriva-dand.
   (let*
       ((arg (cadr x)) ;; the function being differentiated
        (difflist (cddr x)) ;; list of derivs e.g. (x 1 y 2)
-       (ords (odds difflist 0))	;; e.g. (1 2)
-       (vars (odds difflist 1))	;; e.g. (x y)
+       (ords (odds difflist 0)) ;; e.g. (1 2)
+       (vars (odds difflist 1)) ;; e.g. (x y)
        (numer `((blankmult) ((mexpt) ,dsym ((mplus) ,@ords)) ,arg)) ; d^n numerator
        (denom (cons '(blankmult)
-		    (mapcan #'(lambda(b e)
-				`(,dsym ,(simplifya `((mexpt) ,b ,e) nil)))
-			    vars ords))))
+            (mapcan #'(lambda(b e)
+           `(,dsym ,(simplifya `((mexpt) ,b ,e) nil)))
+                vars ords))))
     `((mquotient) ,(simplifya numer nil) ,(simplifya denom nil))
       ))
 

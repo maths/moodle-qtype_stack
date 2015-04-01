@@ -1097,7 +1097,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
                 $prtname . 'feedbackvariables');
 
-        if ($fromform[$prtname . 'value'] <= 0) {
+        if ($fromform[$prtname . 'value'] < 0) {
             $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');
         }
 

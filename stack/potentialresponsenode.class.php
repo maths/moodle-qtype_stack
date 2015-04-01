@@ -290,7 +290,7 @@ class stack_potentialresponse_node {
 
         if ($this->process_atoptions()) {
             $atopts = new stack_cas_casstring($this->atoptions);
-            $atopts->validate('t', false, 0);
+            $atopts->get_valid('t', false, 0);
             $atopts->set_key('PRATOPT' . $key);
             $variables[] = $atopts;
         }

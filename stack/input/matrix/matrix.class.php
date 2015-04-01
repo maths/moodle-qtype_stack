@@ -30,7 +30,7 @@ class stack_matrix_input extends stack_input {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
         $cs = new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
-        $cs->validate('t');
+        $cs->get_valid('t');
         $at1 = new stack_cas_session(array($cs), null, 0);
         $at1->instantiate();
 
@@ -169,7 +169,7 @@ class stack_matrix_input extends stack_input {
             $modifiedrow = array();
             foreach ($row as $val) {
                 $answer = new stack_cas_casstring($val);
-                $answer->validate('s', $this->get_parameter('strictSyntax', true),
+                $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                         $this->get_parameter('insertStars', 0),  $this->get_parameter('allowwords', ''));
 
                 // Ensure student hasn't used a variable name used by the teacher.

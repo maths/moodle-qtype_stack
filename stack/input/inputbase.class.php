@@ -302,7 +302,7 @@ abstract class stack_input {
 
             // Generate an expression from which we extract the list of variables in the student's answer.
             $lvars = new stack_cas_casstring('ev(listofvars('.$interpretedanswer.'),simp)');
-            $lvars->validate('t', $this->get_parameter('strictSyntax', true),
+            $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
 
             $answer->set_cas_validation_casstring($this->name,
@@ -390,7 +390,7 @@ abstract class stack_input {
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
-            $answer->validate('s', $this->get_parameter('strictSyntax', true),
+            $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.

@@ -381,7 +381,7 @@ class stack_inputvalidation_test_data {
         // but we want to pull apart the bits to expose where the various errors occur.
 
         $cs = new stack_cas_casstring($test->rawstring);
-        $cs->validate('s', false, 1);
+        $cs->get_valid('s', false, 1);
         $cs->set_cas_validation_casstring('sans1', true, true, false, null);
 
         $phpvalid = $cs->get_valid();

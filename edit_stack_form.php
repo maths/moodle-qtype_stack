@@ -1338,12 +1338,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputvalues = array();
         foreach ($inputs as $inputname => $notused) {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $inputvalues[] = $cs;
 
             if ($fromform[$inputname . 'options']) {
                 $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
-                $cs->validate('t');
+                $cs->get_valid('t');
                 $inputvalues[] = $cs;
             }
         }

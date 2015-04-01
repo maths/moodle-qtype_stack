@@ -96,7 +96,7 @@ class stack_cas_keyval {
             $kvs = trim($kvs);
             if ('' != $kvs) {
                 $cs = new stack_cas_casstring($kvs);
-                $cs->validate($this->security, $this->syntax, $this->insertstars);
+                $cs->get_valid($this->security, $this->syntax, $this->insertstars);
                 $vars[] = $cs;
             }
         }

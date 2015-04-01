@@ -226,7 +226,7 @@ class stack_cas_text {
                 $cmd = stack_utils::trim_commands($cmd);
 
                 $cs = new stack_cas_casstring($cmd);
-                $cs->validate($this->security, $this->syntax, $this->insertstars);
+                $cs->get_valid($this->security, $this->syntax, $this->insertstars);
 
                 do { // ... make sure names are not already in use.
                     $key = 'caschat'.$i;

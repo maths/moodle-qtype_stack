@@ -108,7 +108,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $sa = array('p:diff(sans)', 'q=int(tans)');
         foreach ($sa as $s) {
             $cs    = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $cs1 = new stack_cas_session($s1, null, 0);
@@ -140,7 +140,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -203,7 +203,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $at1 = new stack_cas_session($s1, null, 0);
@@ -220,7 +220,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $options = new stack_options();
@@ -239,7 +239,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $options = new stack_options();
@@ -258,7 +258,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -280,7 +280,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -301,7 +301,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -350,7 +350,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -367,7 +367,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -384,7 +384,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -401,7 +401,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -418,7 +418,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -436,7 +436,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -454,7 +454,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);

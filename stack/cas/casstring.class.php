@@ -433,7 +433,7 @@ class stack_cas_casstring {
      * $insertstars is whether we actually put stars into the places we expect them to go
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
-    public function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
+    private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
 
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
@@ -1053,9 +1053,9 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security='s', $syntax=true, $insertstars=0) {
+    public function get_valid($security='s', $syntax=true, $insertstars=0, $allowwords='') {
         if (null === $this->valid) {
-            $this->validate($security, $syntax, $insertstars);
+            $this->validate($security, $syntax, $insertstars, $allowwords);
         }
         return $this->valid;
     }

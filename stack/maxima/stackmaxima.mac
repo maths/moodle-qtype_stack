@@ -149,7 +149,8 @@ make_complexJ(OPT_COMPLEXJ) := block(
 /* Makes multiplication signs look correct */
 make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "cross" then load("multiply_cross.lisp"),
-    if OPT_MULTSGN = "dot" then load("multiply_dot.lisp")
+    if OPT_MULTSGN = "dot" then load("multiply_dot.lisp"),
+    if OPT_MULTSGN = "blank" then load("multiply_blank.lisp")
 );
 
 /* Options for cos^(-1), acos or arccos */
@@ -158,6 +159,9 @@ make_arccos(OPT_ACOS) := block(
     if OPT_ACOS = "arccos" then load("arccos.lisp")
 );
 
+/* This is needed to tweak the display of noun derivatives. */
+nary("blankmult", 0, 0);
+texput("blankmult", " # ", nary);
 
 /* ****************************************************** */
 /* Random numbers                                         */
@@ -2322,5 +2326,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015040100$
-print("[ STACK-Maxima started, library version 2015040100 ]")$
+stackmaximaversion:2015040101$
+print("[ STACK-Maxima started, library version 2015040101 ]")$

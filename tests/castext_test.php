@@ -17,6 +17,7 @@
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/test_base.php');
 require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 
 /**
@@ -410,5 +411,81 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $this->assertEquals($at1->get_display_castext(), '\(3.\cdot x^2\), \(-4.000\)');
+    }
+
+    public function test_disp_mult_blank() {
+        $a2 = array('make_multsgn("blank")', 'b:x*y');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(x\, y\)');
+    }
+
+    public function test_disp_mult_dot() {
+        $a2 = array('make_multsgn("dot")', 'b:x*y');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(x\cdot y\)');
+    }
+
+    public function test_disp_mult_cross() {
+        $a2 = array('make_multsgn("cross")', 'b:x*y');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->validate('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(x\times y\)');
+    }
+
+    public function test_disp_ODE1() {
+        $at1 = new stack_cas_keyval("p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;", null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(), '\[\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0\] \[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0\]');
+    }
+
+    public function test_disp_ODE2() {
+        $at1 = new stack_cas_keyval("derivabbrev:true;p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;", null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(), '\[y_{x  x}+2\cdot y=0\] \[2\cdot y_{x  x  z  z  z}+y_{x  x}=0\]');
     }
 }

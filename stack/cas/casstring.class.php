@@ -716,7 +716,7 @@ class stack_cas_casstring {
      * Checks that there are no *s missing from expressions, eg 2x should be 2*x
      *
      * @return bool|string true if no missing *s, false if missing stars but automatically added
-     * if stack is set to not add stars automatically, a string indicating the missing stars is returned.
+     * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
      */
     private function check_stars($security, $syntax, $insertstars) {
 
@@ -740,6 +740,7 @@ class stack_cas_casstring {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.
                 $patterns[] = "|(\*[A-Za-z])(\()|";
                 $patterns[] = "|(\-[A-Za-z])(\()|";
+                $patterns[] = "|(/[A-Za-z])(\()|";
                 $patterns[] = "|([A-Za-z])([0-9]+)|"; // E.g. x3.
             }
         }

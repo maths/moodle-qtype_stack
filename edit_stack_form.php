@@ -1360,7 +1360,7 @@ class qtype_stack_edit_form extends question_edit_form {
             if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
                 $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
             } else {
-                // TODO: Send the acutal value to to input, and ask it to validate it.
+                // TODO: Send the acutal value to the input, and ask it to validate it.
             }
         }
 

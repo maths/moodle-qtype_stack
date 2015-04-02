@@ -190,7 +190,7 @@ class stack_cas_casstring {
             'pui_direct', 'puireduc', 'qty', 'random', 'ratchristof',
             'rateinstein', 'rational', 'ratprint', 'ratriemann', 'ratweyl', 'ratwtlvl',
             'rearray', 'rectangle', 'rediff', 'redraw', 'reduce_consts', 'reduce_order',
-            'region_boundaries', 'region_boundaries_plus', 'remarray', 'remcomps', 'remcon', 
+            'region_boundaries', 'region_boundaries_plus', 'remarray', 'remcomps', 'remcon',
             'remcoord', 'remlet', 'remove_dimensions', 'remove_fundamental_dimensions',
             'remove_fundamental_units', 'rempart', 'remsym', 'rename', 'resolvante',
             'resolvante_alternee1', 'resolvante_bipartite', 'resolvante_diedrale',
@@ -244,33 +244,39 @@ class stack_cas_casstring {
             'kurtosis_noncentral_student_t', 'kurtosis_normal', 'kurtosis_pareto', 'kurtosis_poisson', 'kurtosis_rayleigh',
             'kurtosis_student_t', 'kurtosis_weibull', 'mean_bernoulli', 'mean_beta', 'mean_binomial', 'mean_chi2',
             'mean_continuous_uniform', 'mean_discrete_uniform', 'mean_exp', 'mean_f', 'mean_gamma', 'mean_general_finite_discrete',
-            'mean_geometric', 'mean_gumbel', 'mean_hypergeometric', 'mean_laplace', 'mean_logistic', 'mean_lognormal', 'mean_negative_binomial',
-            'mean_noncentral_chi2', 'mean_noncentral_student_t', 'mean_normal', 'mean_pareto', 'mean_poisson', 'mean_rayleigh', 'mean_student_t',
-            'mean_weibull', 'pdf_bernoulli', 'pdf_beta', 'pdf_binomial', 'pdf_cauchy', 'pdf_chi2', 'pdf_continuous_uniform',
+            'mean_geometric', 'mean_gumbel', 'mean_hypergeometric', 'mean_laplace', 'mean_logistic', 'mean_lognormal',
+            'mean_negative_binomial', 'mean_noncentral_chi2', 'mean_noncentral_student_t', 'mean_normal', 'mean_pareto',
+            'mean_poisson', 'mean_rayleigh', 'mean_student_t', 'mean_weibull', 'pdf_bernoulli', 'pdf_beta', 'pdf_binomial',
+            'pdf_cauchy', 'pdf_chi2', 'pdf_continuous_uniform',
             'pdf_discrete_uniform', 'pdf_exp', 'pdf_f', 'pdf_gamma', 'pdf_general_finite_discrete', 'pdf_geometric',
             'pdf_gumbel', 'pdf_hypergeometric', 'pdf_laplace', 'pdf_logistic', 'pdf_lognormal', 'pdf_negative_binomial',
             'pdf_noncentral_chi2', 'pdf_noncentral_student_t', 'pdf_normal', 'pdf_pareto', 'pdf_poisson', 'pdf_rayleigh',
             'pdf_student_t', 'pdf_weibull', 'quantile_bernoulli', 'quantile_beta', 'quantile_binomial', 'quantile_cauchy',
             'quantile_chi2', 'quantile_continuous_uniform', 'quantile_discrete_uniform', 'quantile_exp', 'quantile_f',
-            'quantile_gamma', 'quantile_general_finite_discrete', 'quantile_geometric', 'quantile_gumbel', 'quantile_hypergeometric',
-            'quantile_laplace', 'quantile_logistic', 'quantile_lognormal', 'quantile_negative_binomial', 'quantile_noncentral_chi2',
-            'quantile_noncentral_student_t', 'quantile_normal', 'quantile_pareto', 'quantile_poisson', 'quantile_rayleigh',
-            'quantile_student_t', 'quantile_weibull', 'random_bernoulli', 'random_beta', 'random_binomial', 'random_cauchy', 'random_chi2',
-            'random_continuous_uniform', 'random_discrete_uniform', 'random_exp', 'random_f', 'random_gamma',
+            'quantile_gamma', 'quantile_general_finite_discrete', 'quantile_geometric', 'quantile_gumbel',
+            'quantile_hypergeometric', 'quantile_laplace', 'quantile_logistic', 'quantile_lognormal',
+            'quantile_negative_binomial', 'quantile_noncentral_chi2', 'quantile_noncentral_student_t', 'quantile_normal',
+            'quantile_pareto', 'quantile_poisson', 'quantile_rayleigh',
+            'quantile_student_t', 'quantile_weibull', 'random_bernoulli', 'random_beta', 'random_binomial', 'random_cauchy',
+            'random_chi2', 'random_continuous_uniform', 'random_discrete_uniform', 'random_exp', 'random_f', 'random_gamma',
             'random_general_finite_discrete', 'random_geometric', 'random_gumbel', 'random_hypergeometric',
             'random_laplace', 'random_logistic', 'random_lognormal', 'random_negative_binomial', 'random_noncentral_chi2',
-            'random_noncentral_student_t', 'random_normal', 'random_pareto', 'random_poisson', 'random_rayleigh', 'random_student_t',
-            'random_weibull', 'skewness_bernoulli', 'skewness_beta', 'skewness_binomial', 'skewness_chi2', 'skewness_continuous_uniform',
-            'skewness_discrete_uniform', 'skewness_exp', 'skewness_f', 'skewness_gamma', 'skewness_general_finite_discrete', 'skewness_geometric',
-            'skewness_gumbel', 'skewness_hypergeometric', 'skewness_laplace', 'skewness_logistic', 'skewness_lognormal', 'skewness_negative_binomial',
-            'skewness_noncentral_chi2', 'skewness_noncentral_student_t', 'skewness_normal', 'skewness_pareto', 'skewness_poisson', 'skewness_rayleigh',
-            'skewness_student_t', 'skewness_weibull', 'std_bernoulli', 'std_beta', 'std_binomial', 'std_chi2', 'std_continuous_uniform',
-            'std_discrete_uniform', 'std_exp', 'std_f', 'std_gamma', 'std_general_finite_discrete', 'std_geometric', 'std_gumbel',
-            'std_hypergeometric', 'std_laplace', 'std_logistic', 'std_lognormal', 'std_negative_binomial', 'std_noncentral_chi2',
-            'std_noncentral_student_t', 'std_normal', 'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
-            'var_beta', 'var_binomial', 'var_chi2', 'var_continuous_uniform', 'var_discrete_uniform', 'var_exp', 'var_f', 'var_gamma',
-            'var_general_finite_discrete', 'var_geometric', 'var_gumbel', 'var_hypergeometric', 'var_laplace', 'var_logistic', 'var_lognormal',
-            'var_negative_binomial', 'var_noncentral_chi2', 'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson',
+            'random_noncentral_student_t', 'random_normal', 'random_pareto', 'random_poisson', 'random_rayleigh',
+            'random_student_t', 'random_weibull', 'skewness_bernoulli', 'skewness_beta', 'skewness_binomial',
+            'skewness_chi2', 'skewness_continuous_uniform', 'skewness_discrete_uniform', 'skewness_exp',
+            'skewness_f', 'skewness_gamma', 'skewness_general_finite_discrete', 'skewness_geometric',
+            'skewness_gumbel', 'skewness_hypergeometric', 'skewness_laplace', 'skewness_logistic',
+            'skewness_lognormal', 'skewness_negative_binomial', 'skewness_noncentral_chi2', 'skewness_noncentral_student_t',
+            'skewness_normal', 'skewness_pareto', 'skewness_poisson', 'skewness_rayleigh',
+            'skewness_student_t', 'skewness_weibull', 'std_bernoulli', 'std_beta', 'std_binomial', 'std_chi2',
+            'std_continuous_uniform', 'std_discrete_uniform', 'std_exp', 'std_f', 'std_gamma', 'std_general_finite_discrete',
+            'std_geometric', 'std_gumbel', 'std_hypergeometric', 'std_laplace', 'std_logistic',
+            'std_lognormal', 'std_negative_binomial', 'std_noncentral_chi2', 'std_noncentral_student_t', 'std_normal',
+            'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
+            'var_beta', 'var_binomial', 'var_chi2', 'var_continuous_uniform', 'var_discrete_uniform', 'var_exp', 'var_f',
+            'var_gamma', 'var_general_finite_discrete', 'var_geometric', 'var_gumbel', 'var_hypergeometric',
+            'var_laplace', 'var_logistic', 'var_lognormal', 'var_negative_binomial', 'var_noncentral_chi2',
+            'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson',
             'var_rayleigh', 'var_student_t', 'var_weibull');
 
     /** @var array CAS keywords ALLOWED by students. */
@@ -389,7 +395,8 @@ class stack_cas_casstring {
                     'allroots', 'simp', 'setdifference', 'sort', 'subst', 'trigexpand', 'trigexpandplus',
                     'trigexpandtimes', 'triginverses', 'trigrat', 'trigreduce', 'trigsign', 'trigsimp',
                     'truncate', 'decimalplaces', 'simplify'),
-            '[[basic-calculus]]' => array('defint', 'diff', 'int', 'integrate', 'limit', 'partial', 'desolve', 'express', 'taylor'),
+            '[[basic-calculus]]' => array('defint', 'diff', 'int', 'integrate', 'limit', 'partial', 'desolve',
+                    'express', 'taylor'),
             '[[basic-matrix]]' => array('addmatrices', 'adjoin', 'augcoefmatrix', 'blockmatrixp', 'charpoly',
                     'coefmatrix', 'col', 'columnop', 'columnspace', 'columnswap', 'covect', 'ctranspose',
                     'determinant', ' diag_matrix', 'diagmatrix', 'dotproduct', 'echelon', 'eigenvalues',
@@ -844,7 +851,8 @@ class stack_cas_casstring {
         foreach ($strinkeywords as $key) {
             if (in_array(strtolower($key), self::$globalforbid)) {
                 // Very bad!
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
+                $this->add_error(stack_string('stackCas_forbiddenWord',
+                        array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
                 $this->answernote[] = 'forbiddenWord';
                 $this->valid = false;
             } else {
@@ -859,13 +867,15 @@ class stack_cas_casstring {
                 } else {
                     // Only allow the student to use set commands.
                     if (!in_array($key, self::$studentallow) and !in_array($key, self::$distrib) and !in_array($key, $allow)) {
-                        if (!in_array(strtolower($key), self::$studentallow) and !in_array(strtolower($key), self::$distrib) and !in_array(strtolower($key), $allow)) {
+                        if (!in_array(strtolower($key), self::$studentallow) and !in_array(strtolower($key), self::$distrib)
+                                and !in_array(strtolower($key), $allow)) {
                             $this->add_error(stack_string('stackCas_unknownFunction',
                                 array('forbid' => stack_maxima_format_casstring($key))));
                             $this->answernote[] = 'unknownFunction';
                         } else {
                             $this->add_error(stack_string('stackCas_unknownFunctionCase',
-                                array('forbid' => stack_maxima_format_casstring($key), 'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                                array('forbid' => stack_maxima_format_casstring($key),
+                                        'lower' => stack_maxima_format_casstring(strtolower($key)))));
                             $this->answernote[] = 'unknownFunctionCase';
                         }
                         $this->valid = false;

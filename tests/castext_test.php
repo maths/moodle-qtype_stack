@@ -376,7 +376,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ \frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
+        $this->assertEquals($at1->get_display_castext(),
+                '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ ' .
+                '\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
     }
 
     public function test_disp_decimalplaces() {
@@ -467,25 +469,31 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at1->get_display_castext(), '\(x\times y\)');
     }
 
-    public function test_disp_ODE1() {
-        $at1 = new stack_cas_keyval("p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;", null, 123, 't', true, 0);
+    public function test_disp_ode1() {
+        $at1 = new stack_cas_keyval("p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;",
+                null, 123, 't', true, 0);
         $this->assertTrue($at1->get_valid());
 
         $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(), '\[\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0\] \[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0\]');
+        $this->assertEquals($at2->get_display_castext(),
+                '\[\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0\] ' .
+                '\[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)' .
+                '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0\]');
     }
 
-    public function test_disp_ODE2() {
-        $at1 = new stack_cas_keyval("derivabbrev:true;p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;", null, 123, 't', true, 0);
+    public function test_disp_ode2() {
+        $vars = "derivabbrev:true;p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;";
+        $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
         $this->assertTrue($at1->get_valid());
 
         $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(), '\[y_{x  x}+2\cdot y=0\] \[2\cdot y_{x  x  z  z  z}+y_{x  x}=0\]');
+        $this->assertEquals($at2->get_display_castext(),
+                '\[y_{x  x}+2\cdot y=0\] \[2\cdot y_{x  x  z  z  z}+y_{x  x}=0\]');
     }
 }

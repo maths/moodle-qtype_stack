@@ -940,8 +940,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '[x+y=1,x-y=1]', array('boxWidth' => 25));
-    
-        //$feedbackvars = new stack_cas_keyval('vs:listofvars(ans1);sa1:solve(ans1,vs)', null, 0, 't');
+
         $feedbackvars = new stack_cas_keyval('', null, 0, 't');
 
         $sans = new stack_cas_casstring('all_listp(equationp,ans1)');

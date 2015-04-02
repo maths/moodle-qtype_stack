@@ -341,10 +341,12 @@ class stack_inputvalidation_test_data {
         array('log10(x)', 'php_true', 'log10(x)', 'cas_true', "BUG!  Should be logarithm to the base \(10\)."),
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', "Logarithm to the base \(10\)."),
         array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true', ""),
-        array('a++b', 'php_true', 'a++b', 'cas_true', "The extra plusses or minuses are interpreted as unary operators on b"),
+        array('a++b', 'php_true', 'a++b', 'cas_true',
+                "The extra plusses or minuses are interpreted as unary operators on b"),
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', ""),
-        array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'cas_true', "Subscripts"),
+        array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))',
+                'cas_true', "Subscripts"),
         array('a,b,c', 'php_false', 'a,b,c', 'cas_true', "Unencapsulated commas"),
         array('3,14159', 'php_false', '3,14159', 'cas_true', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', ""),
@@ -374,13 +376,13 @@ class stack_inputvalidation_test_data {
     }
 
     public static function run_test($test) {
-        // Note: What we would really like to do is
+        // Note: What we would really like to do is the following.
         // $el = stack_input_factory::make('algebraic', 'sans1', 'x');
         // $el->set_parameter('insertStars', 1);
         // $el->set_parameter('strictSyntax', false);
         // $el->set_parameter('sameType', false);
         // $cs = $el->validate_student_response($test->rawstring);
-        // but we want to pull apart the bits to expose where the various errors occur.
+        // However, we want to pull apart the bits to expose where the various errors occur.
 
         $cs = new stack_cas_casstring($test->rawstring);
         $cs->get_valid('s', false, 1);

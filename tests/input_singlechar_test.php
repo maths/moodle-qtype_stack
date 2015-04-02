@@ -49,7 +49,9 @@ class stack_singlechar_input_test extends basic_testcase {
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('singleChar', 'input', null);
-        $this->assertEquals('<input type="text" name="question__stack1" id="question__stack1" size="1" maxlength="1" value="a" readonly="readonly" />',
+        $expected = '<input type="text" name="question__stack1" id="question__stack1" size="1" maxlength="1" ' .
+            'value="a" readonly="readonly" />';
+        $this->assertEquals($expected,
                 $el->render(new stack_input_state(stack_input::VALID, array('a'), '', '', '', '', ''),
                         'question__stack1', true));
     }

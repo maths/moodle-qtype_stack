@@ -313,14 +313,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
-    public function test_In_1() {
+    public function test_in_1() {
         $s = 'a:1+In(x)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('stackCas_badLogIn', $at1->get_answernote());
     }
 
-    public function test_In_2() {
+    public function test_in_2() {
         $s = 'a:1+In(x)';
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('t'));

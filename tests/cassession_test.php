@@ -215,7 +215,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('x+\\left(-5+y\\right)', $at1->get_display_key('p5'));
     }
 
-    public function test_single_char_vars() {
+    public function test_single_char_vars_teacher() {
 
         $testcases = array('ab' => 'a*b',
             'abc' => 'a*b*c',
@@ -223,7 +223,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
             'xe^x' => '(x*%e)^x',
             'pix' => 'p*%i*x',
             '2pi+nk' => '2*%pi+n*k',
-            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)'
+            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
+            'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
         );
 
         $k = 0;
@@ -231,6 +232,43 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($testcases as $test => $result) {
             $cs = new stack_cas_casstring($test);
             $cs->get_valid('t', false, 2);
+            $key = 'v'.$k;
+            $cs->set_cas_validation_casstring($key, true, false, true, $result, '');
+            $sessionvars[] = $cs;
+            $k++;
+            $this->assertTrue($cs->get_valid());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($sessionvars, $options, 0);
+        $at1->instantiate();
+
+        $k = 0;
+        $sessionvars = array();
+        foreach ($testcases as $test => $result) {
+            $this->assertEquals($at1->get_value_key('v'.$k), $result);
+            $k++;
+        }
+
+    }
+
+    public function test_single_char_vars_student() {
+
+        $testcases = array('ab' => 'a*b',
+                'ab*c' => 'a*b*c',
+                'sin(xy)' => 'sin(x*y)',
+                'xe^x' => '(x*%e)^x',
+                '2pi+nk' => '2*%pi+n*k',
+                '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
+                'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
+        );
+
+        $k = 0;
+        $sessionvars = array();
+        foreach ($testcases as $test => $result) {
+            $cs = new stack_cas_casstring($test);
+            $cs->get_valid('s', false, 2);
             $key = 'v'.$k;
             $cs->set_cas_validation_casstring($key, true, false, true, $result, '');
             $sessionvars[] = $cs;

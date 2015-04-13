@@ -332,4 +332,27 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('unencpsulated_comma', $at1->get_answernote());
     }
+
+    public function test_implied_complex_mult1() {
+        $s = 'sa:-(1/512)+i(sqrt(3)/512)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', false, 1));
+        $this->assertEquals('-(1/512)+i*(sqrt(3)/512)',
+                $at1->get_casstring());
+    }
+
+    public function test_implied_complex_mult2() {
+        $s = 'sa:-(1/512)+i(sqrt(3)/512)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+    }
+
+    public function test_implied_complex_mult3() {
+        // This function name ends in an "i", so we need to check *s are not being inserted too many times here.
+        $s = 'sa:cdf_bernoulli(x,p)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', false, 1));
+        $this->assertEquals('cdf_bernoulli(x,p)',
+                $at1->get_casstring());
+    }
 }

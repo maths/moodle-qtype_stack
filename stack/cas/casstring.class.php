@@ -436,8 +436,11 @@ class stack_cas_casstring {
 
     /* We may need to use this function more than once to validate with different options.
      * $secutrity must either be 's' for student, or 't' for teacher.
-     * $syntax is whether we enforce a "strict syntax"
-     * $insertstars is whether we actually put stars into the places we expect them to go
+     * $syntax is whether we enforce a "strict syntax".
+     * $insertstars is whether we actually put stars into the places we expect them to go.
+     *              0 - don't insert stars
+     *              1 - insert stars
+     *              2 - assume single letter variables only. 
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
     private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
@@ -743,6 +746,7 @@ class stack_cas_casstring {
 
         if ($security == 's') {
             $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212 (.
+            $patterns[] = "|(\Wi)(\()|";    // I.e. i( , the single pattern of i with a bracket, which is always wrong for students.
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.
                 $patterns[] = "|(\*[A-Za-z])(\()|";
@@ -751,6 +755,12 @@ class stack_cas_casstring {
                 $patterns[] = "|([A-Za-z])([0-9]+)|"; // E.g. x3.
             }
         }
+
+        /* Note to self: the "Assume single character variable names" option is actually
+           carried out in Maxima, not using the regular expressions here.  This ensures that
+           legitimate function names are not converted into lists of variables.  E.g. we want
+           sin(nx)->sin(n*x) and NOT s*i*n*(n*x).  For this code see stackmaxima.mac. 
+        */
 
         // Loop over every CAS command checking for missing stars.
         $missingstar     = false;

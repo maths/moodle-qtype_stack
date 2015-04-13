@@ -64,6 +64,7 @@ class stack_inputvalidation_test_data {
         array('3-i', 'php_true', '3-i', 'cas_true', ""),
         array('-3+i', 'php_true', '-3+i', 'cas_true', ""),
         array('1+2i', 'php_true', '1+2*i', 'cas_true', ""),
+        array('-(1/512) + i(sqrt(3)/512)', 'php_true', '-(1/512) + i*(sqrt(3)/512)', 'cas_true', ""),
         array('true', 'php_true', 'true', 'cas_true', "Booleans"),
         array('false', 'php_true', 'false', 'cas_true', ""),
         array('"1+1"', 'php_true', '"1+1"', 'cas_true',

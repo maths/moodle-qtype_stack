@@ -221,6 +221,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
         array('AlgEquiv', '-inf', 'minf', -2, '', ''),
         array('AlgEquiv', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''), // Cardano's example!
+        array('AlgEquiv', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
 
         // SubstEquiv Answer tests.
         array('SubstEquiv', '1/0', 'x^2-2*x+1', -1, '', ''),

@@ -351,6 +351,7 @@ class stack_inputvalidation_test_data {
         array('a,b,c', 'php_false', 'a,b,c', 'cas_true', "Unencapsulated commas"),
         array('3,14159', 'php_false', '3,14159', 'cas_true', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', ""),
+        array('\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_true', "Student uses LaTeX"),
         array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', "The following are known to fail.  Some are bugs...."),
     );
 

@@ -597,7 +597,7 @@ class stack_cas_casstring {
             // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
             // asin etc, will be included automatically, so we don't need them explicitly.
             $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
-            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs');
+            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs', 'sqrt');
             foreach (array_merge($triglist, $funlist) as $fun) {
                 if (strpos($cmd, $fun.'^') !== false) {
                     $this->add_error(stack_string('stackCas_trigexp',
@@ -674,7 +674,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', "\\");
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;

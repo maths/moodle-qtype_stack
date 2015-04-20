@@ -172,6 +172,25 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('Illegal_floats', $state->note);
     }
 
+    public function test_validate_student_lowest_terms_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '12/4');
+        $el->set_parameter('lowestTerms', true);
+        $state = $el->validate_student_response(array('sans1' => '12/4'), $options, '3', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Lowest_Terms', $state->note);
+    }
+
+    public function test_validate_student_lowest_terms_2() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '-10/-1');
+        $el->set_parameter('lowestTerms', true);
+        $state = $el->validate_student_response(array('sans1' => '-10/-1'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Lowest_Terms', $state->note);
+    }
+
     public function test_validate_student_response_subscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))');

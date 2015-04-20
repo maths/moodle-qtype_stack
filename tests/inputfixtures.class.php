@@ -46,6 +46,7 @@ class stack_inputvalidation_test_data {
         array('.1', 'php_true', '.1', 'cas_true', "This is an option."),
         array('1/2', 'php_true', '1/2', 'cas_true', ""),
         array('2/4', 'php_true', '2/4', 'cas_true', "Rejecting this as 'invalid' not 'wrong' is a question option."),
+        array('-10/-1', 'php_true', '-10/-1', 'cas_true', ""),
         array('1/0', 'php_true', '1/0', 'cas_true', ""),
         array('pi', 'php_true', 'pi', 'cas_true', ""),
         array('e', 'php_true', 'e', 'cas_true', "Cannot easily make \(e\) a variable name."),

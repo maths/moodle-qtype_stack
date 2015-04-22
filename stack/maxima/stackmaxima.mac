@@ -543,7 +543,7 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp, tfnps, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug],
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug],
     plotdebug:false,
     /* Arguments to plot must be lists */
     ral:sublist(ra, listp), /* The actual arguments used by plot */
@@ -568,14 +568,10 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     if not(emptyp(ralforbid)) then 
         (print(concat("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)")), 
          return("<center>[Empty plot]</center>")),
-    /* Assemble files names and URLs */
+    /* Create a unique identifier for the plot. */
     tn:string(absolute_real_time()),
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
-    tfn:concat(filename, ".plt"),
-    tfnp:concat(maxima_tempdir, filename, ".plt"),
-    /* On windows only add slashes to the filename for Gnuplot. */
-    tfnps:tfnp,
-    if MAXIMA_PLATFORM="win" then tfnps:ssubst("\\\\", "\\", tfnp),
+    /* Sort out the name of the image file and its url. */
     afn:concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
     ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' /></div>"),
     if OPT_OUTPUT#"MathML" then
@@ -597,18 +593,33 @@ set grid
 "
         ),
     /* Note, the axes option in Maxima doesn't seem to work.... */
-    preamble:concat(preamble, "set terminal ",PLOT_TERMINAL,"  ",PLOT_TERM_OPT,"
-set output ",afn), 
-    set_plot_option([gnuplot_out_file, tfnps]),
+    preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
+set output ", afn), 
     set_plot_option([gnuplot_preamble, preamble]),
+    /* Sort out the name and location of temporary Gnuplot files. */
+    tfn:concat(filename, ".plt"),
+    /* Temporary file is referred to three times.            */
+    /* 1. when Maxima writes it.                             */
+    /* 2. when Gnuplot receives its location as an argument. */
+    /* 3. when we delete it.                                 */
+    /* On linux these are the same: the full path.           */
+    tfnp1:concat(maxima_tempdir, filename, ".plt"),
+    tfnp2:tfnp1, 
+    tfnp3:tfnp1,
+    /* On Windows, for more recent versions of Maxima, add slashes to the filename for Gnuplot. */
+    if MAXIMA_PLATFORM="win" and MAXIMA_VERSION_NUM>35 then block(
+        tfnp1:concat(filename, ".plt"),
+        tfnp2:ssubst("\\\\", "\\", tfnp2)
+        ),
+    set_plot_option([gnuplot_out_file, tfnp1]),
     if plotdebug then print(plot_options),
-    /* Create and execute the actual plot commands */
+    /* Create and execute the actual plot commands. */
     pltargs:append([ex], ral),
     if plotdebug then print(pltargs),
     plotfunmake:funmake(plot2d, pltargs),
     ev(plotfunmake),
-    sysp:concat(GNUPLOT_CMD, " ", tfnps),
-    sysr:concat(DEL_CMD, " ", tfnp),
+    sysp:concat(GNUPLOT_CMD, " ", tfnp2),
+    sysr:concat(DEL_CMD, " ", tfnp3),
     if plotdebug then print([sysp,sysr]),   
     system(sysp),
     if not(plotdebug) then system(sysr),

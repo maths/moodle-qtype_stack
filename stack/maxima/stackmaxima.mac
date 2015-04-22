@@ -543,7 +543,8 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp, tfnps, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake],
+    block([simp:true, tfn, tfnp, tfnps, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug],
+    plotdebug:false,
     /* Arguments to plot must be lists */
     ral:sublist(ra, listp), /* The actual arguments used by plot */
     /* Check expressions to be plotted has/have only one variable. */
@@ -598,16 +599,19 @@ set grid
     /* Note, the axes option in Maxima doesn't seem to work.... */
     preamble:concat(preamble, "set terminal ",PLOT_TERMINAL,"  ",PLOT_TERM_OPT,"
 set output ",afn), 
-    set_plot_option([gnuplot_out_file, tfn]),
+    set_plot_option([gnuplot_out_file, tfnps]),
     set_plot_option([gnuplot_preamble, preamble]),
+    if plotdebug then print(plot_options),
     /* Create and execute the actual plot commands */
     pltargs:append([ex], ral),
+    if plotdebug then print(pltargs),
     plotfunmake:funmake(plot2d, pltargs),
     ev(plotfunmake),
     sysp:concat(GNUPLOT_CMD, " ", tfnps),
-    sysr:concat(DEL_CMD, " ", tfnp),   
+    sysr:concat(DEL_CMD, " ", tfnp),
+    if plotdebug then print([sysp,sysr]),   
     system(sysp),
-    system(sysr),
+    if not(plotdebug) then system(sysr),
     simp:old_simp,
     return(ufn)
 )$
@@ -2326,5 +2330,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015040102$
-print("[ STACK-Maxima started, library version 2015040102 ]")$
+stackmaximaversion:2015042200$
+print("[ STACK-Maxima started, library version 2015042200 ]")$

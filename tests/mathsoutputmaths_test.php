@@ -52,6 +52,7 @@ class stack_maths_maths_test extends advanced_testcase {
         set_config('imageservice',   FILTER_MATHS_TEST_SERVICE_URL_BASE . 'imagetex', 'filter_maths');
         set_config('englishservice', FILTER_MATHS_TEST_SERVICE_URL_BASE . 'english',  'filter_maths');
         stack_utils::clear_config_cache();
+        filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
 
         // Test language string.
         $this->assertRegExp('~^Your answer needs to be a single fraction of the form <a .*alt="a over b".*</a>\. $~',
@@ -62,8 +63,8 @@ class stack_maths_maths_test extends advanced_testcase {
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).', ''));
 
         // Test docs - make sure maths inside <textarea> is not rendered.
-        $this->assertRegExp('~^<p><textarea readonly="readonly" rows="3" cols="50">\n' .
-                        'Differentiate \\\\\[x\^2 \+ y\^2\\\\\] with respect to \\\\\(x\\\\\).</textarea></p>\n$~',
+        $this->assertRegExp('~^<p>\n' .
+                        'Differentiate \\\\\\\\\[x\^2 \+ y\^2\\\\\\\\\] with respect to \\\\\\\\\(x\\\\\\\\\).</p>\n$~',
                 stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
                         'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>', ''));
 

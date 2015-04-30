@@ -28,3 +28,14 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I should see "Give an example of an odd function by typing"
     And I press "Continue"
     And I should see "Odd and even functions"
+
+    # Now export again.
+    And I navigate to "Export" node in "Course administration > Question bank"
+    And I set the field "id_format_xml" to "1"
+    And I press "Export questions to file"
+    And following "click here" should download between "11500" and "12500" bytes
+    # If the download step is the last in the scenario then we can sometimes run
+    # into the situation where the download page causes a http redirect but behat
+    # has already conducted its reset (generating an error). By putting a logout
+    # step we avoid behat doing the reset until we are off that page.
+    And I log out

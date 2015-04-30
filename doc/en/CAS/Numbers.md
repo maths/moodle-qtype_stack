@@ -54,6 +54,8 @@ The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflic
 
 If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you must use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  Otherwise STACK will try to insert star characters for you and `3e4` will be interprted as `3*e*4`.
 
+Please note that floating point numbers are an area of difficulty in Maxima.  In Maxima `floor(0.1667*10^4)` gives `1666` not `1667` as expected.  This causes unexpected results.  See the [future plans](../Developer/Future_plans.md) for proposals of how to avoid this with an ephemeral form for the answer tests.
+
 ## Surds ##
 
 The option [Surd for Square Root](../Authoring/Options.md#surd) enables the question author to alter the way surds are displayed in STACK.

@@ -43,60 +43,60 @@ class stack_algebra_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('algebraic', 'ans1', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="15" value="" />',
-                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" value="" />',
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false));
     }
 
     public function test_render_zero() {
         $el = stack_input_factory::make('algebraic', 'ans1', '0');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="15" value="0" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" value="0" />',
+                $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false));
     }
 
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="15" value="x+y" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" style="width: 13.6em" value="x+y" />',
+                $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', '', ''),
                         'stack1__test', false));
     }
 
     public function test_render_pre_filled_nasty_input() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="15" value="x&lt;y" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('x<y'), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" style="width: 13.6em" value="x&lt;y" />',
+                $el->render(new stack_input_state(stack_input::VALID, array('x<y'), '', '', '', '', ''),
                         'stack1__test', false));
     }
 
     public function test_render_max_length() {
         $el = stack_input_factory::make('algebraic', 'test', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="15" value="x+y" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" style="width: 13.6em" value="x+y" />',
+                $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', '', ''),
                         'stack1__test', false));
     }
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $this->assertEquals(
-                '<input type="text" name="stack1__input" id="stack1__input" size="15" value="x+1" readonly="readonly" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', ''),
+                '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" value="x+1" readonly="readonly" />',
+                $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', '', ''),
                         'stack1__input', true));
     }
 
     public function test_render_different_size() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $el->set_parameter('boxWidth', 30);
-        $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" size="30" value="x+1" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" size="33" style="width: 27.1em" value="x+1" />',
+                $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', '', ''),
                         'stack1__input', false));
     }
 
     public function test_render_syntaxhint() {
         $el = stack_input_factory::make('algebraic', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', '[?, ?, ?]');
-        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="15" value="[?, ?, ?]" />',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" value="[?, ?, ?]" />',
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__sans1', false));
     }
 
@@ -170,6 +170,25 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x^2+0.33'), $options, 'x^2+1/3', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Illegal_floats', $state->note);
+    }
+
+    public function test_validate_student_lowest_terms_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '12/4');
+        $el->set_parameter('lowestTerms', true);
+        $state = $el->validate_student_response(array('sans1' => '12/4'), $options, '3', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Lowest_Terms', $state->note);
+    }
+
+    public function test_validate_student_lowest_terms_2() {
+        // This test checks the unary minus is *not* in lowest terms.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '-10/-1');
+        $el->set_parameter('lowestTerms', true);
+        $state = $el->validate_student_response(array('sans1' => '-10/-1'), $options, '10', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Lowest_Terms', $state->note);
     }
 
     public function test_validate_student_response_subscripts() {

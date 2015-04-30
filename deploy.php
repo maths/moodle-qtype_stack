@@ -74,6 +74,11 @@ if (!is_null($deploy)) {
         redirect($nexturl);
     }
 
+    if ($deploy > 100) {
+        $nexturl->param('deployfeedbackerr', stack_string('deploytoomanyerror'));
+        redirect($nexturl);
+    }
+
     $maxfailedattempts = 3;
     $failedattempts = 0;
     $numberdeployed = 0;

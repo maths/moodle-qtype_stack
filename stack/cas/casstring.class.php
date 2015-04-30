@@ -156,10 +156,10 @@ class stack_cas_casstring {
             'idim', 'idummy', 'idummyx', 'ieqn', 'ieqnprint', 'ifb', 'ifc1', 'ifc2', 'ifg', 'ifgi',
             'ifr', 'iframe_bracket_form', 'iframes', 'ifri', 'ifs', 'igeodesic_coords',
             'igeowedge_flag', 'ikt1', 'ikt2', 'image', 'imetric', 'implicit', 'implicit_plot', 'implicit_derivative',
-            'indexed_tensor', 'indices', 'inference_result', 'inferencep', 'infix', 'init_atensor',
+            'indexed_tensor', 'indices', 'infix', 'init_atensor',
             'init_ctensor', 'inm', 'inmc1', 'inmc2', 'inprod', 'intervalp', 'intopois', 'invariant1',
             'invariant2', 'invert_by_lu', 'ip_grid', 'ip_grid_in', 'ishow', 'isolate',
-            'isolate_wrt_times', 'items_inference', 'itr', 'jacobi_p', 'jf', 'jordan', 'julia',
+            'isolate_wrt_times', 'itr', 'jacobi_p', 'jf', 'jordan', 'julia',
             'kdels', 'kdelta', 'key', 'kinvariant', 'kostka', 'kt', 'label', 'label_alignment', 'label_orientation', 'laguerre',
             'lassociative', 'lbfgs', 'lbfgs_ncorrections', 'lbfgs_nfeval_max', 'lc2kdt', 'lc_l',
             'lc_u', 'lcharp', 'legendre_p', 'legendre_q', 'leinstein', 'let',
@@ -196,7 +196,7 @@ class stack_cas_casstring {
             'pui_direct', 'puireduc', 'qty', 'random', 'ratchristof',
             'rateinstein', 'rational', 'ratprint', 'ratriemann', 'ratweyl', 'ratwtlvl',
             'rearray', 'rectangle', 'rediff', 'redraw', 'reduce_consts', 'reduce_order',
-            'region_boundaries', 'region_boundaries_plus', 'remarray', 'remcomps', 'remcon', 
+            'region_boundaries', 'region_boundaries_plus', 'remarray', 'remcomps', 'remcon',
             'remcoord', 'remlet', 'remove_dimensions', 'remove_fundamental_dimensions',
             'remove_fundamental_units', 'rempart', 'remsym', 'rename', 'resolvante',
             'resolvante_alternee1', 'resolvante_bipartite', 'resolvante_diedrale',
@@ -206,17 +206,14 @@ class stack_cas_casstring {
             'rot_vertical', 'savefactors', 'scurvature', 'set_draw_defaults',
             'set_random_state', 'set_tex_environment', 'set_tex_environment_default',
             'set_up_dot_simplifications', 'setunits', 'setup_autoload', 'sf', 'showcomps',
-            'similaritytransform', 'simple_linear_regression', 'simplified_output',
+            'similaritytransform', 'simplified_output',
             'simplify_products', 'simplify_sum', 'simplode', 'simpmetderiv', 'simtran',
             'solve_rec', 'solve_rec_rat', 'somrac', 'sparse6_decode', 'sparse6_encode', 'spherical_bessel_j',
             'spherical_bessel_y', 'spherical_hankel1', 'spherical_hankel2', 'spherical_harmonic',
-            'split', 'sqrtdenest', 'sstatus', 'staircase', 'stardisp', 'stats_numer',
+            'split', 'sqrtdenest', 'sstatus', 'staircase', 'stardisp',
             'stirling', 'stirling1', 'stirling2', 'stringdisp',
             'summand_to_rec', 'surface_hide', 'symmetricp', 'tab', 'take_channel',
-            'take_inference', 'tcontract', 'tensorkill', 'tentex', 'test_mean',
-            'test_means_difference', 'test_normality', 'test_proportion',
-            'test_proportions_difference', 'test_rank_sum', 'test_sign', 'test_signed_rank',
-            'test_variance', 'test_variance_ratio', 'texput', 'timedate', 'title', 'totaldisrep', 'totient',
+            'tcontract', 'tensorkill', 'tentex', 'texput', 'timedate', 'title', 'totaldisrep', 'totient',
             'tpartpol', 'tr', 'tr_array_as_ref', 'tr_bound_function_applyp', 'tr_file_tty_messagesp',
             'tr_float_can_branch_complex', 'tr_function_call_default', 'tr_numer',
             'tr_optimize_max_loop', 'tr_semicompile', 'tr_state_vars', 'tr_warn_bad_function_calls',
@@ -250,33 +247,39 @@ class stack_cas_casstring {
             'kurtosis_noncentral_student_t', 'kurtosis_normal', 'kurtosis_pareto', 'kurtosis_poisson', 'kurtosis_rayleigh',
             'kurtosis_student_t', 'kurtosis_weibull', 'mean_bernoulli', 'mean_beta', 'mean_binomial', 'mean_chi2',
             'mean_continuous_uniform', 'mean_discrete_uniform', 'mean_exp', 'mean_f', 'mean_gamma', 'mean_general_finite_discrete',
-            'mean_geometric', 'mean_gumbel', 'mean_hypergeometric', 'mean_laplace', 'mean_logistic', 'mean_lognormal', 'mean_negative_binomial',
-            'mean_noncentral_chi2', 'mean_noncentral_student_t', 'mean_normal', 'mean_pareto', 'mean_poisson', 'mean_rayleigh', 'mean_student_t',
-            'mean_weibull', 'pdf_bernoulli', 'pdf_beta', 'pdf_binomial', 'pdf_cauchy', 'pdf_chi2', 'pdf_continuous_uniform',
+            'mean_geometric', 'mean_gumbel', 'mean_hypergeometric', 'mean_laplace', 'mean_logistic', 'mean_lognormal',
+            'mean_negative_binomial', 'mean_noncentral_chi2', 'mean_noncentral_student_t', 'mean_normal', 'mean_pareto',
+            'mean_poisson', 'mean_rayleigh', 'mean_student_t', 'mean_weibull', 'pdf_bernoulli', 'pdf_beta', 'pdf_binomial',
+            'pdf_cauchy', 'pdf_chi2', 'pdf_continuous_uniform',
             'pdf_discrete_uniform', 'pdf_exp', 'pdf_f', 'pdf_gamma', 'pdf_general_finite_discrete', 'pdf_geometric',
             'pdf_gumbel', 'pdf_hypergeometric', 'pdf_laplace', 'pdf_logistic', 'pdf_lognormal', 'pdf_negative_binomial',
             'pdf_noncentral_chi2', 'pdf_noncentral_student_t', 'pdf_normal', 'pdf_pareto', 'pdf_poisson', 'pdf_rayleigh',
             'pdf_student_t', 'pdf_weibull', 'quantile_bernoulli', 'quantile_beta', 'quantile_binomial', 'quantile_cauchy',
             'quantile_chi2', 'quantile_continuous_uniform', 'quantile_discrete_uniform', 'quantile_exp', 'quantile_f',
-            'quantile_gamma', 'quantile_general_finite_discrete', 'quantile_geometric', 'quantile_gumbel', 'quantile_hypergeometric',
-            'quantile_laplace', 'quantile_logistic', 'quantile_lognormal', 'quantile_negative_binomial', 'quantile_noncentral_chi2',
-            'quantile_noncentral_student_t', 'quantile_normal', 'quantile_pareto', 'quantile_poisson', 'quantile_rayleigh',
-            'quantile_student_t', 'quantile_weibull', 'random_bernoulli', 'random_beta', 'random_binomial', 'random_cauchy', 'random_chi2',
-            'random_continuous_uniform', 'random_discrete_uniform', 'random_exp', 'random_f', 'random_gamma',
+            'quantile_gamma', 'quantile_general_finite_discrete', 'quantile_geometric', 'quantile_gumbel',
+            'quantile_hypergeometric', 'quantile_laplace', 'quantile_logistic', 'quantile_lognormal',
+            'quantile_negative_binomial', 'quantile_noncentral_chi2', 'quantile_noncentral_student_t', 'quantile_normal',
+            'quantile_pareto', 'quantile_poisson', 'quantile_rayleigh',
+            'quantile_student_t', 'quantile_weibull', 'random_bernoulli', 'random_beta', 'random_binomial', 'random_cauchy',
+            'random_chi2', 'random_continuous_uniform', 'random_discrete_uniform', 'random_exp', 'random_f', 'random_gamma',
             'random_general_finite_discrete', 'random_geometric', 'random_gumbel', 'random_hypergeometric',
             'random_laplace', 'random_logistic', 'random_lognormal', 'random_negative_binomial', 'random_noncentral_chi2',
-            'random_noncentral_student_t', 'random_normal', 'random_pareto', 'random_poisson', 'random_rayleigh', 'random_student_t',
-            'random_weibull', 'skewness_bernoulli', 'skewness_beta', 'skewness_binomial', 'skewness_chi2', 'skewness_continuous_uniform',
-            'skewness_discrete_uniform', 'skewness_exp', 'skewness_f', 'skewness_gamma', 'skewness_general_finite_discrete', 'skewness_geometric',
-            'skewness_gumbel', 'skewness_hypergeometric', 'skewness_laplace', 'skewness_logistic', 'skewness_lognormal', 'skewness_negative_binomial',
-            'skewness_noncentral_chi2', 'skewness_noncentral_student_t', 'skewness_normal', 'skewness_pareto', 'skewness_poisson', 'skewness_rayleigh',
-            'skewness_student_t', 'skewness_weibull', 'std_bernoulli', 'std_beta', 'std_binomial', 'std_chi2', 'std_continuous_uniform',
-            'std_discrete_uniform', 'std_exp', 'std_f', 'std_gamma', 'std_general_finite_discrete', 'std_geometric', 'std_gumbel',
-            'std_hypergeometric', 'std_laplace', 'std_logistic', 'std_lognormal', 'std_negative_binomial', 'std_noncentral_chi2',
-            'std_noncentral_student_t', 'std_normal', 'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
-            'var_beta', 'var_binomial', 'var_chi2', 'var_continuous_uniform', 'var_discrete_uniform', 'var_exp', 'var_f', 'var_gamma',
-            'var_general_finite_discrete', 'var_geometric', 'var_gumbel', 'var_hypergeometric', 'var_laplace', 'var_logistic', 'var_lognormal',
-            'var_negative_binomial', 'var_noncentral_chi2', 'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson',
+            'random_noncentral_student_t', 'random_normal', 'random_pareto', 'random_poisson', 'random_rayleigh',
+            'random_student_t', 'random_weibull', 'skewness_bernoulli', 'skewness_beta', 'skewness_binomial',
+            'skewness_chi2', 'skewness_continuous_uniform', 'skewness_discrete_uniform', 'skewness_exp',
+            'skewness_f', 'skewness_gamma', 'skewness_general_finite_discrete', 'skewness_geometric',
+            'skewness_gumbel', 'skewness_hypergeometric', 'skewness_laplace', 'skewness_logistic',
+            'skewness_lognormal', 'skewness_negative_binomial', 'skewness_noncentral_chi2', 'skewness_noncentral_student_t',
+            'skewness_normal', 'skewness_pareto', 'skewness_poisson', 'skewness_rayleigh',
+            'skewness_student_t', 'skewness_weibull', 'std_bernoulli', 'std_beta', 'std_binomial', 'std_chi2',
+            'std_continuous_uniform', 'std_discrete_uniform', 'std_exp', 'std_f', 'std_gamma', 'std_general_finite_discrete',
+            'std_geometric', 'std_gumbel', 'std_hypergeometric', 'std_laplace', 'std_logistic',
+            'std_lognormal', 'std_negative_binomial', 'std_noncentral_chi2', 'std_noncentral_student_t', 'std_normal',
+            'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
+            'var_beta', 'var_binomial', 'var_chi2', 'var_continuous_uniform', 'var_discrete_uniform', 'var_exp', 'var_f',
+            'var_gamma', 'var_general_finite_discrete', 'var_geometric', 'var_gumbel', 'var_hypergeometric',
+            'var_laplace', 'var_logistic', 'var_lognormal', 'var_negative_binomial', 'var_noncentral_chi2',
+            'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson',
             'var_rayleigh', 'var_student_t', 'var_weibull');
 
     /** @var array CAS keywords ALLOWED by students. */
@@ -395,7 +398,8 @@ class stack_cas_casstring {
                     'allroots', 'simp', 'setdifference', 'sort', 'subst', 'trigexpand', 'trigexpandplus',
                     'trigexpandtimes', 'triginverses', 'trigrat', 'trigreduce', 'trigsign', 'trigsimp',
                     'truncate', 'decimalplaces', 'simplify'),
-            '[[basic-calculus]]' => array('defint', 'diff', 'int', 'integrate', 'limit', 'partial', 'desolve', 'express', 'taylor'),
+            '[[basic-calculus]]' => array('defint', 'diff', 'int', 'integrate', 'limit', 'partial', 'desolve',
+                    'express', 'taylor'),
             '[[basic-matrix]]' => array('addmatrices', 'adjoin', 'augcoefmatrix', 'blockmatrixp', 'charpoly',
                     'coefmatrix', 'col', 'columnop', 'columnspace', 'columnswap', 'covect', 'ctranspose',
                     'determinant', ' diag_matrix', 'diagmatrix', 'dotproduct', 'echelon', 'eigenvalues',
@@ -440,11 +444,14 @@ class stack_cas_casstring {
 
     /* We may need to use this function more than once to validate with different options.
      * $secutrity must either be 's' for student, or 't' for teacher.
-     * $syntax is whether we enforce a "strict syntax"
-     * $insertstars is whether we actually put stars into the places we expect them to go
+     * $syntax is whether we enforce a "strict syntax".
+     * $insertstars is whether we actually put stars into the places we expect them to go.
+     *              0 - don't insert stars
+     *              1 - insert stars
+     *              2 - assume single letter variables only. 
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
-    public function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
+    private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
         if (!('s' === $security || 't' === $security)) {
             throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.  Got the following: '.$security);
         }
@@ -603,7 +610,7 @@ class stack_cas_casstring {
             // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
             // asin etc, will be included automatically, so we don't need them explicitly.
             $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
-            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs');
+            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs', 'sqrt');
             foreach (array_merge($triglist, $funlist) as $fun) {
                 if (strpos($cmd, $fun.'^') !== false) {
                     $this->add_error(stack_string('stackCas_trigexp',
@@ -680,7 +687,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', ').(');
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', "\\", ').(');
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
@@ -732,7 +739,7 @@ class stack_cas_casstring {
      * Checks that there are no *s missing from expressions, eg 2x should be 2*x
      *
      * @return bool|string true if no missing *s, false if missing stars but automatically added
-     * if stack is set to not add stars automatically, a string indicating the missing stars is returned.
+     * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
      */
     private function check_stars($security, $syntax, $insertstars) {
 
@@ -752,13 +759,21 @@ class stack_cas_casstring {
 
         if ($security == 's') {
             $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212 (.
+            $patterns[] = "|(\Wi)(\()|";    // I.e. i( , the single pattern of i with a bracket, which is always wrong for students.
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.
                 $patterns[] = "|(\*[A-Za-z])(\()|";
                 $patterns[] = "|(\-[A-Za-z])(\()|";
+                $patterns[] = "|(/[A-Za-z])(\()|";
                 $patterns[] = "|([A-Za-z])([0-9]+)|"; // E.g. x3.
             }
         }
+
+        /* Note to self: the "Assume single character variable names" option is actually
+           carried out in Maxima, not using the regular expressions here.  This ensures that
+           legitimate function names are not converted into lists of variables.  E.g. we want
+           sin(nx)->sin(n*x) and NOT s*i*n*(n*x).  For this code see stackmaxima.mac. 
+        */
 
         // Loop over every CAS command checking for missing stars.
         $missingstar     = false;
@@ -820,9 +835,8 @@ class stack_cas_casstring {
         if (trim($allowwords) != '') {
             $allowwords = explode(',', $allowwords);
             foreach ($allowwords as $kw) {
-                $kw = trim(strtolower($kw));
-                if (!in_array($kw, self::$globalforbid)) {
-                    $allow[] = $kw;
+                if (!in_array(strtolower($kw), self::$globalforbid)) {
+                    $allow[] = trim($kw);
                 } else {
                     throw new stack_exception('stack_cas_casstring: check_security: ' .
                             'attempt made to allow gloabally forbidden keyword: ' . $kw);
@@ -844,16 +858,24 @@ class stack_cas_casstring {
             preg_match("|[0-9]+|", $key, $justnum);
 
             if (empty($justnum) and strlen($key) > 2) {
-                $downkey = strtolower($key);
-                array_push($strinkeywords, $downkey);
+                array_push($strinkeywords, $key);
+            }
+            // This is not really a security issue, but it relies on access to the $allowwords.
+            // It is also a two letter string, which are normally permitted.
+            if ($security == 's' and $key == 'In' and !in_array($key, $allow)) {
+                $this->add_error(stack_string('stackCas_badLogIn'));
+                $this->answernote[] = 'stackCas_badLogIn';
+                $this->valid = false;
             }
         }
+
         $strinkeywords = array_unique($strinkeywords);
         // Check for global forbidden words.
         foreach ($strinkeywords as $key) {
-            if (in_array($key, self::$globalforbid)) {
+            if (in_array(strtolower($key), self::$globalforbid)) {
                 // Very bad!
-                $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring($key))));
+                $this->add_error(stack_string('stackCas_forbiddenWord',
+                        array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
                 $this->answernote[] = 'forbiddenWord';
                 $this->valid = false;
             } else {
@@ -868,9 +890,17 @@ class stack_cas_casstring {
                 } else {
                     // Only allow the student to use set commands.
                     if (!in_array($key, self::$studentallow) and !in_array($key, self::$distrib) and !in_array($key, $allow)) {
-                        $this->add_error(stack_string('stackCas_unknownFunction',
-                            array('forbid' => stack_maxima_format_casstring($key))));
-                        $this->answernote[] = 'unknownFunction';
+                        if (!in_array(strtolower($key), self::$studentallow) and !in_array(strtolower($key), self::$distrib)
+                                and !in_array(strtolower($key), $allow)) {
+                            $this->add_error(stack_string('stackCas_unknownFunction',
+                                array('forbid' => stack_maxima_format_casstring($key))));
+                            $this->answernote[] = 'unknownFunction';
+                        } else {
+                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                array('forbid' => stack_maxima_format_casstring($key),
+                                        'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                            $this->answernote[] = 'unknownFunctionCase';
+                        }
                         $this->valid = false;
                     }
                     // Else we have not found any security problems with keywords.
@@ -1057,9 +1087,9 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security='s', $syntax=true, $insertstars=0) {
+    public function get_valid($security='s', $syntax=true, $insertstars=0, $allowwords='') {
         if (null === $this->valid) {
-            $this->validate($security, $syntax, $insertstars);
+            $this->validate($security, $syntax, $insertstars, $allowwords);
         }
         return $this->valid;
     }

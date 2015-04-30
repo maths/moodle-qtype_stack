@@ -9,11 +9,21 @@ In a Maxima session (rather than STACK question variables) we can represent an O
 
     ODE: x^2*'diff(y,x) + 3*y*x = sin(x)/x;
 
-Notice the use of the `'` character in front of the `diff` function to [prevent evaluation](http://maxima.sourceforge.net/docs/manual/en/maxima_4.html#SEC10).
-Applied to a function call, such as `diff`, the single quote prevents evaluation of the function call, although the arguments of the function are still evaluated (if evaluation is not otherwise prevented).
-The result is the noun form of the function call.
+Notice the use of the `'` character in front of the `diff` function to [prevent evaluation](http://maxima.sourceforge.net/docs/manual/en/maxima_4.html#SEC10). Applied to a function call, such as `diff`, the single quote prevents evaluation of the function call, although the arguments of the function are still evaluated (if evaluation is not otherwise prevented). The result is the noun form of the function call.
 
-The single quote does not prevent simplification, so you may also need to turn simplification off in STACK, see [simplification](Simplification.md).
+## Displaying ODEs
+
+Maxima has two notaions to display ODEs.  
+
+
+If `derivabbrev:false` then`'diff(y,x)` is displayed in STACK as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).   Note this differs from Maxima's normal notation of \( \frac{\mathrm{d}}{\mathrm{d}x}y\).
+
+If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y_x \).  
+
+* Extra brackets are sometime produces around the differential.
+* You must have `simp:true` otherwise the display routines will not work.
+
+## Manipulating ODEs in Maxima
 
 This can be solved with Maxima's `ode2` command and initial conditions specified.  Below is an example of Maxima's output.
 

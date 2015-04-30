@@ -29,11 +29,11 @@ Inputs have a number of options. Specific inputs may have extra options.
 To see what sort of vaidation is done, look at the
 [test suite for validation of student's input](../../../studentinputs.php).
 
-## input options ##
+## Input options ##
 
 Each input may have a number of options.
 
-## Student's Answer Key ##  {#Answer_Key}
+### Student's Answer Key ###  {#Answer_Key}
 
 The maxima variable to which the student's answer is assigned.
 This is set in the Question text using the following syntax, where `ans1` is the variable name to which the student's answer is assigned.
@@ -62,10 +62,6 @@ A single letter can be entered.  This is useful for creating multiple choice que
 
 Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
 
-#### Drop down list ####
-
-(_Not currently re-implemented in STACK 3.0_)  Use the Input Type Options field to indicate a comma separated list of possible values.
-
 #### Matrix ####
 
 The size of the matrix is inferred from the model answer.
@@ -74,16 +70,12 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
-#### Slider ####
-
-(_Not currently re-implemented in STACK 3.0_)  Dragable slider bar resulting in a numerical value.
-
 ### Model answer ###  {#model_answer}
 
 **This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.
 This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...)
 
-### Box Size ### {#Box_Size}
+### Input Box Size ### {#Box_Size}
 
 The width of the input box.
 
@@ -163,6 +155,8 @@ These lists are in the casstring class. If you have suggestions for more lists, 
 
 By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student's answer.
 
+Note the allowed words permit the teacher to override some (but not all) of the strings which are considered to be invalid by default for student input.  For example, `Sin` (capital "S") has specific feedback.  If you need this in a question you have to allow it here.  Similarly `In` ("India november") is mistakenly used by students for the natural logarithm rather than `ln` ("Lima november").  Hence by default this triggers specific feedback.  You can allow `In` here.
+
 ### Forbid Floats ### {#Forbid_Floats}
 
 If set to `yes`, then any answer of the student which has a floating point number
@@ -173,7 +167,8 @@ they should use fractions. This option prevents problems with approximations bei
 
 When this option is set to `yes`, any coefficients or other rational numbers in an
 expression, must be written in lowest terms.  Otherwise the answer is rejected as "invalid".
-This enables the teacher to reject answers, and not consider them further.
+This enables the teacher to reject answers, and not consider them further.  Note that at most one number
+can have a minus sign and two unary minus signs are considered to be something which should be cancelled.
 
 ### Check Students answer's type ### {#Check_Type}
 
@@ -202,7 +197,6 @@ Feedback to students is in two forms.
 * feedback tied to each potential response tree.
 
 Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.
-
 
 ## Future plans ##
 

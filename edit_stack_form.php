@@ -1099,7 +1099,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
                 $prtname . 'feedbackvariables');
 
-        if ($fromform[$prtname . 'value'] <= 0) {
+        if ($fromform[$prtname . 'value'] < 0) {
             $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');
         }
 
@@ -1339,12 +1339,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputvalues = array();
         foreach ($inputs as $inputname => $notused) {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $inputvalues[] = $cs;
 
             if ($fromform[$inputname . 'options']) {
                 $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
-                $cs->validate('t');
+                $cs->get_valid('t');
                 $inputvalues[] = $cs;
             }
         }
@@ -1361,7 +1361,7 @@ class qtype_stack_edit_form extends question_edit_form {
             if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
                 $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
             } else {
-                // TODO: Send the acutal value to to input, and ask it to validate it.
+                // TODO: Send the acutal value to the input, and ask it to validate it.
             }
         }
 

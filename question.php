@@ -272,7 +272,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $response = array();
         foreach ($this->inputs as $name => $input) {
             $cs = new stack_cas_casstring($input->get_teacher_answer());
-            $cs->validate('t');
+            $cs->get_valid('t');
             $cs->set_key($name);
             $response[$name] = $cs;
         }
@@ -390,7 +390,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name),
                     $this->session->get_display_key($name)));
         }
-        return $feedback;
+        return stack_ouput_castext($feedback);
     }
 
     public function get_expected_data() {

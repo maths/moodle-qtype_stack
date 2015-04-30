@@ -68,7 +68,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_session($s1, $options, 0);
         $this->assertEquals($cs, $at1->get_all_raw_casstrings());
-
         $this->assertEquals('x^2', $at1->get_display_key('a'));
         $this->assertEquals('\frac{1}{1+x^2}', $at1->get_display_key('b'));
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
@@ -459,21 +458,21 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
 
         $cs = new stack_cas_casstring('c:1/(a-5)', array(new stack_cas_casstring('a#5')));
-        $cs->validate('t');
+        $cs->get_valid('t');
         $s1[] = $cs;
         $cs = new stack_cas_casstring('d:1/(b-5)', array(new stack_cas_casstring('b#5')));
-        $cs->validate('t');
+        $cs->get_valid('t');
         $s1[] = $cs;
         $cs = new stack_cas_casstring('e:1/(a-b)', array(new stack_cas_casstring('b#a'), new stack_cas_casstring('a#0')));
-        $cs->validate('t');
+        $cs->get_valid('t');
         $s1[] = $cs;
         $cs = new stack_cas_casstring('f:1/(a-a)', array(new stack_cas_casstring('b#a'), new stack_cas_casstring('a#a')));
-        $cs->validate('t');
+        $cs->get_valid('t');
         $s1[] = $cs;
 
         $at1 = new stack_cas_session($s1, null, 0);

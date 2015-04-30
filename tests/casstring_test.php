@@ -85,7 +85,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_validation_error_global_forbid() {
         $casstring = new stack_cas_casstring('system(rm)');
-        $this->assertFalse($casstring->validate('t'));
+        $this->assertFalse($casstring->get_valid('t'));
         $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
                 $casstring->get_errors());
         $this->assertEquals('forbiddenWord', $casstring->get_answernote());
@@ -224,7 +224,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
         foreach ($cases as $case) {
             $cs = new stack_cas_casstring($case[0]);
-            $this->assertEquals($case[2], $cs->validate('s', true, 0, $case[1]));
+            $this->assertEquals($case[2], $cs->get_valid('s', true, 0, $case[1]));
         }
     }
 

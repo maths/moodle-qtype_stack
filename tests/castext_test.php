@@ -562,8 +562,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1->get_display_castext();
 
         $this->assertEquals($at1->get_display_castext(),
-                '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ ' .
-                '\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
+                '\begin{multline*} {\frac{x^2}{\left(x^2+1\right)^3}} \\\\ ' .
+                '{\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4}} \end{multline*}');
     }
 
     public function test_disp_decimalplaces() {
@@ -576,11 +576,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('@dispdp(a,2)@, @dispdp(b,3)@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@dispdp(a,2)@}, {@dispdp(b,3)@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\(2.72\), \(4.000\)');
+        $this->assertEquals($at1->get_display_castext(), '\({2.72}\), \({4.000}\)');
     }
 
     public function test_disp_decimalplaces2() {
@@ -593,11 +593,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('@dispdp(a,0)*x^2@, @dispdp(b,3)@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@dispdp(a,0)*x^2@}, {@dispdp(b,3)@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\(3.\cdot x^2\), \(-4.000\)');
+        $this->assertEquals($at1->get_display_castext(), '\({3.\cdot x^2}\), \({-4.000}\)');
     }
 
     public function test_disp_mult_blank() {
@@ -611,11 +611,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
         $this->assertTrue($cs2->get_valid());
 
-        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@b@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\(x\, y\)');
+        $this->assertEquals($at1->get_display_castext(), '\({x\, y}\)');
     }
 
     public function test_disp_mult_dot() {
@@ -629,11 +629,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
         $this->assertTrue($cs2->get_valid());
 
-        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@b@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\(x\cdot y\)');
+        $this->assertEquals($at1->get_display_castext(), '\({x\cdot y}\)');
     }
 
     public function test_disp_mult_cross() {
@@ -647,11 +647,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
         $this->assertTrue($cs2->get_valid());
 
-        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('{@b@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\(x\times y\)');
+        $this->assertEquals($at1->get_display_castext(), '\({x\times y}\)');
     }
 
     public function test_disp_ode1() {
@@ -659,14 +659,14 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 null, 123, 't', true, 0);
         $this->assertTrue($at1->get_valid());
 
-        $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
+        $at2 = new stack_cas_text('\[{@p1@}\] \[{@p2@}\]', $at1->get_session(), 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
         $this->assertEquals($at2->get_display_castext(),
-                '\[\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0\] ' .
-                '\[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)' .
-                '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0\]');
+                '\[{\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0}\] ' .
+                '\[{2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)' .
+                '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0}\]');
     }
 
     public function test_disp_ode2() {
@@ -674,11 +674,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
         $this->assertTrue($at1->get_valid());
 
-        $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
+        $at2 = new stack_cas_text('\[{@p1@}\] \[{@p2@}\]', $at1->get_session(), 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
         $this->assertEquals($at2->get_display_castext(),
-                '\[y_{x  x}+2\cdot y=0\] \[2\cdot y_{x  x  z  z  z}+y_{x  x}=0\]');
+                '\[{y_{x  x}+2\cdot y=0}\] \[{2\cdot y_{x  x  z  z  z}+y_{x  x}=0}\]');
     }
 }

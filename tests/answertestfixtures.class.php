@@ -188,8 +188,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'g(x):=x^2', 'f(x):=x^2', 0, '', ''),
         array('AlgEquiv', 'f(y):=y^2', 'f(x):=x^2', 1, '', ''),
         array('AlgEquiv', 'f(a,b):=a^2+b^2', 'f(x,y):=x^2+y^2', 1, '', ''),
-
-        array('AlgEquiv', '1', 'x>1', 0, '', 'Inequalities'),
+        array('AlgEquiv', '1', 'x>1', 0, '', 'Inequalities and logical statements'),
         array('AlgEquiv', 'x=1', 'x>1 and x<5', 0, '', ''),
         array('AlgEquiv', 'x<1', 'x>1', 0, '', ''),
         array('AlgEquiv', 'x>1', 'x<=1', 0, '', ''),
@@ -199,6 +198,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x>=1', 'x>=1', 1, '', ''),
         array('AlgEquiv', 'x>2', 'x>1', 0, '', ''),
         array('AlgEquiv', '1<x', 'x>1', 1, '', ''),
+        array('AlgEquiv', '{2,-2}', 'x>2 or -2>x', 0, '', ''),
         array('AlgEquiv', '2*x>=x^2', 'x^2<=2*x', 1, '', ''),
         array('AlgEquiv', 'x^2+x+4<(3*x-1)*(2*x+1)', 'x^2-1>0', 1, '', ''),
         array('AlgEquiv', 'x>1 and x<5', 'x>1 and x<5', 1, '', ''),
@@ -213,7 +213,7 @@ class stack_answertest_test_data {
 
         array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', 0, '', ''),
         array('AlgEquiv', 'x^4>=0', 'x^2>=0', 0, '', ''),
-        array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
+            array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
         array('AlgEquiv', '(19601-13860*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 1, '', ''),
         array('AlgEquiv', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
@@ -227,7 +227,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '-inf', 'minf', -2, '', ''),
         array('AlgEquiv', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''), // Cardano's example!
         array('AlgEquiv', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
-
+*/
         // SubstEquiv Answer tests.
         array('SubstEquiv', '1/0', 'x^2-2*x+1', -1, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^2+1', 1, '', ''),

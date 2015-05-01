@@ -309,14 +309,21 @@ abstract class stack_input {
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
+
+            // Generate an extra expression from which we derive a special displayed version.
+            $dvars = $this->special_display($interpretedanswer);
+            $dvars->get_valid('t', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
+
             $localoptions->set_option('simplify', false);
 
-            $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);
+            $session = new stack_cas_session(array($answer, $lvars, $dvars), $localoptions, 0);
             $session->instantiate();
 
             $session = $session->get_session();
             $answer = $session[0];
             $lvars  = $session[1];
+            $dvars  = $session[2];
 
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {
@@ -325,7 +332,7 @@ abstract class stack_input {
             if ('' == $answer->get_value()) {
                 $valid = false;
             } else {
-                $display = '\[ ' . $answer->get_display() . ' \]';
+                $display = '\[ ' . $dvars->get_display() . ' \]';
                 $interpretedanswer = $answer->get_value();
                 if (!($lvars->get_value() == '[]')) {
                     $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
@@ -354,6 +361,18 @@ abstract class stack_input {
     }
 
     /**
+     * This generates a variable from which a displayed form of the answer only is used.  
+     * Currently, only the equiv input modifies this.
+     * 
+     * @param unknown_type $interpretedanswer
+     * @return unknown
+     */
+    protected function special_display($interpretedanswer) {
+        return new stack_cas_casstring($interpretedanswer);
+    }
+
+
+        /**
      * Decide if the contents of this attempt is blank.
      *
      * @param array $contents a non-empty array of the student's input as a split array of raw strings.

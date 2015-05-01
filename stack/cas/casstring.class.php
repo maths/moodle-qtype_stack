@@ -377,7 +377,7 @@ class stack_cas_casstring {
             'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
             'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
             'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel');
+            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel', 'nounor', 'nounand');
 
     /**
      * These lists are used by question authors for groups of words.
@@ -483,6 +483,9 @@ class stack_cas_casstring {
         // Now remove any strings from the $cmd.
         list($cmd, $strings) = $this->strings_remove($cmd);
 
+        // Now turn logical connectives into noun versions.
+        $this->logic_nouns_sort(true);
+
         // Search for HTML fragments.  This is hard to do because < is an infix operator!
         // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
         // we pass back strings with HTML in when we have already evaluated plots!
@@ -502,6 +505,8 @@ class stack_cas_casstring {
             // Special case - allow students to type in expressions such as "x>1 and x<4".
             $cmdmod = str_replace(' or ', '', $cmd);
             $cmdmod = str_replace(' and ', '', $cmdmod);
+            $cmdmod = str_replace(' nounand ', '', $cmdmod);
+            $cmdmod = str_replace(' nounor ', '', $cmdmod);
             $cmdmod = str_replace('not ', '', $cmdmod);
             if (preg_match($pat, $cmdmod)) {
                 $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
@@ -957,6 +962,28 @@ class stack_cas_casstring {
             $ok = $ok && $onefound;
         }
         return $ok;
+    }
+
+    /* The purpose of this function is to make all occurances of of the logical 
+     * operators "and" and "or" into their noun equivalen versions.  The support
+     * for these opertators in Maxima relies on the underlying lisp version and hence
+     * it is impossible to turn this off and make them inert.  In particular expressions
+     * such as x=1 or x=2 immediately evaluate to false in Maxima, which is awkward.
+     * 
+     * If the parameter is true we put in noun versions, and if false we remove them.
+     */
+    public function logic_nouns_sort($dir) {
+        $connectives = array();
+        $connectives[] = array(' and', ' nounand');
+        $connectives[] = array(' or', ' nounor');
+        foreach ($connectives as $con) {
+            if ($dir) { 
+                $this->casstring = str_replace($con[0], $con[1], $this->casstring);
+            } else {
+                $this->value = str_replace($con[1], $con[0], $this->value);
+            }
+        }
+        return true;
     }
 
     /**

@@ -197,6 +197,7 @@ class stack_cas_session {
                 if (array_key_exists('value', $result)) {
                     $val = str_replace('QMCHAR', '?', $result['value']);
                     $cs->set_value($val);
+                    $cs->logic_nouns_sort(false);
                     $gotvalue = true;
                 }
 
@@ -243,7 +244,6 @@ class stack_cas_session {
         if ($allfail) {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
         }
-
         $this->instantiated = true;
     }
 

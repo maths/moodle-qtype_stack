@@ -26,7 +26,8 @@ an equality sign;
   4. lists, for example, \([1,2,3]\).   In Maxima ordered lists are entered using square brackets, for example as `p:[1,1,2,x^2]`.
     An element is accessed using the syntax `p[1]`.
   5. [matrices](Matrix.md).  The basic syntax for a matrix is `p:matrix([1,2],[3,4])`.  Each row is a list. Elements are accessed as `p[1,2]`, etc.
-  6. expressions.
+  6. logical expression.  This is a tree of other expressions connected by the logical `and` and `or`.  This is useful for expressing solutions to equations, such as `x=1 or x=2`.  Note, the support for these expressions is unique to STACK.
+  7. expressions.
 
 Expressions come last, since they are just counted as being
 _not_ the others! STACK defines [predicate functions](Predicate_functions.md) to test for each of these

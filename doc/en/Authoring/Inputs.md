@@ -167,7 +167,8 @@ they should use fractions. This option prevents problems with approximations bei
 
 When this option is set to `yes`, any coefficients or other rational numbers in an
 expression, must be written in lowest terms.  Otherwise the answer is rejected as "invalid".
-This enables the teacher to reject answers, and not consider them further.
+This enables the teacher to reject answers, and not consider them further.  Note that at most one number
+can have a minus sign and two unary minus signs are considered to be something which should be cancelled.
 
 ### Check Students answer's type ### {#Check_Type}
 

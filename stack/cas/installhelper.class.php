@@ -129,6 +129,8 @@ class stack_cas_configuration {
         $locations = array();
         $locations[] = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/Program Files (x86)/Maxima-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/Program Files/Maxima-sbcl-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/Program Files (x86)/Maxima-sbcl-' . $this->settings->maximaversion . '/';
         if ('5.25.1' == $this->settings->maximaversion) {
             $locations[] = 'C:/Program Files/Maxima-5.25.1-gcl/';
             $locations[] = 'C:/Program Files (x86)/Maxima-5.25.1-gcl/';
@@ -140,10 +142,6 @@ class stack_cas_configuration {
         if ('5.31.1' == $this->settings->maximaversion) {
             $locations[] = 'C:/Program Files/Maxima-5.31.1-1/';
             $locations[] = 'C:/Program Files (x86)/Maxima-5.31.1-1/';
-        }
-        if ('5.35.1.2' == $this->settings->maximaversion) {
-            $locations[] = 'C:/Program Files/Maxima-sbcl-5.35.1.2/';
-            $locations[] = 'C:/Program Files (x86)/Maxima-sbcl-5.35.1.2/';
         }
         $locations[] = 'C:/Program Files/Maxima/';
         $locations[] = 'C:/Program Files (x86)/Maxima/';

@@ -490,6 +490,7 @@ $string['phpcasstring'] = 'PHP output';
 $string['phpsuitecolerror'] = 'PHP errors';
 $string['phpvalidatemismatch'] = '[PHP validate mismatch]';
 $string['casvalidatemismatch'] = '[CAS validate mismatch]';
+$string['ansnotemismatch']     = '[Answernote mismatch]';
 $string['casvalid'] = 'V2';
 $string['casvalue'] = 'CAS value';
 $string['casdisplay'] = 'CAS display';

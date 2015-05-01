@@ -130,18 +130,18 @@ ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv],
   apply(op(ex),append(exn,exl))
   )$
 
-/* Take a list of linear inequalities the same single variable, and an list of operators, min/max.  
+/* Take a list of linear inequalities the same single variable, and a list of operators, min/max.  
    Returns the equivalent inequalities.
 */
-single_linear_ineq_reduce(ex,exo):=block([exg,exl],
+single_linear_ineq_reduce(ex, exo):=block([exg,exl],
   ex:maplist(ineqprepare,ex),
   /* Separate out into x>?, x>=? and x<?, x<=?. */
-  exg:sublist(ex,lambda([ex2],is(coeff(lhs(ex2),first(listofvars(ex2)))=1))),
-  exl:sublist(ex,lambda([ex2],is(coeff(lhs(ex2),first(listofvars(ex2)))=-1))),
+  exg:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = 1))),
+  exl:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = -1))),
   /* Separate into solution and operator */
-  exg:single_linear_ineq_reduce_h(exg,first(exo),true),
-  exl:single_linear_ineq_reduce_h(exl,second(exo),false),
-  append(exg,exl)
+  exg:single_linear_ineq_reduce_h(exg, first(exo), true),
+  exl:single_linear_ineq_reduce_h(exl, second(exo), false),
+  append(exg, exl)
 )$
 
 /* Take a list of linear inequalities of the same sign, in a single variable, and an operator, min/max.  

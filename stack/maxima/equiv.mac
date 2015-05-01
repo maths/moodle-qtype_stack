@@ -1,0 +1,179 @@
+/*  Author Chris Sangwin
+    Loughborough University
+    Copyright (C) 2015 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+
+/* THIS IS EXPERIMENTAL CODE */
+/* Currently this is under development by CJS and is not connected to the main STACK codebase. */
+/* It sits here because the long-term goal is to incorporate it. */
+
+
+/*
+
+a1:[x^2=1,x^2-1=0,(x-1)*(x+1)=0,x-1=0 nounor x+1=0, x=1 nounor x=-1];
+S1:stack_eval_arg(a1)
+a2:[x^2=1,x^2-1=0,(x-1)*(x+1)=0];
+S2:stack_eval_arg(a2)
+a3:[abs(x)>5,x>5 nounor x<-5];
+S3:stack_eval_arg(a3)
+p4:x^2-3*x=-2
+a4:[p4, x^2-3*x+2=0, (x-2)*(x-1)=0, x=2 nounor x=1];
+S4:stack_eval_arg(a4)
+
+
+\[ @first(S1)@ \quad @second(S1)@\]
+<hr>
+\[ @first(S2)@ \quad @second(S2)@\]
+<hr>
+\[ @first(S3)@ \quad @second(S3)@\]
+<hr>
+Solve @p4@.
+\[ @first(S4)@ \quad @second(S4)@\]
+
+*/
+
+
+/****************************************************************/
+/*  Functions to evaluate "reasoning by equivalence".           */
+/*                                                              */
+/*  Chris Sangwin, <chris@sangwin.com>                          */
+/*  V0.1 May 2015                                               */
+/*                                                              */
+/****************************************************************/
+
+load("to_poly_solve");
+
+/****************************************************************/
+/*  Define noun versions of logical "and" and "or".             */
+/****************************************************************/
+
+nary("nounand", 70);
+nary("nounor", 70);
+
+declare("nounand", commutative);
+declare("nounand", lassociative);
+declare("nounand", rassociative);
+
+declare("nounor", commutative);
+declare("nounor", lassociative);
+declare("nounor", rassociative);
+
+
+"nounand"(x=1,"nounor"(x=2,x=3));
+"nounor"(x=1,"nounand"(x=2,x=3));
+
+load("noun_equiv.lisp");
+
+/* A predicate to decide if we have a logical expression. */
+logicp(ex) := block(
+  if safe_op(ex) = "nounand" then return(true),
+  if safe_op(ex) = "nounor" then return(true),
+  if safe_op(ex) = "and" then return(true),
+  if safe_op(ex) = "or" then return(true),
+  if safe_op(ex) = "not" then return(true),
+  return(false)
+)$
+
+/*  An argument is a list of expressions. E.g.                             */
+/*  a1:[x^2=1,x^2-1=0,(x-1)*(x+1)=0,x-1=0 nounor x+1=0, x=1 nounor x=-1];  */      
+
+/* Use nounand/noun or with the output of solve.                */
+noun_solve_output(ex) := block([S],
+   S:ev(solve(ex, listofvars(ex)), simp),
+   /* Check the trivial cases. */
+   if S=[] then return([]),
+   if S=[ex] then return(ex),
+   if listp(first(args(S))) then
+      apply("nounor", map(lambda([ex], apply("nounand", args(ex))), args(S)))
+   else         
+      apply("nounor", args(S))         
+)$
+
+makenounandlist(ex):=block(
+   if not(listp(ex)) then return(ex),
+   if length(ex)=1 then return(first(ex)),
+   apply("nounand", args(ex))
+)$
+
+/* Use nounand/noun or with the output of solve.                */
+noun_to_poly_solve_output(ex) := block([S],
+   S:ev(to_poly_solve(ex, listofvars(ex)), simp),
+   /* Check the trivial cases. */
+   if S=[] then return([]),
+   if S=[ex] then return(ex),
+   if atom(S) then return(S),
+   if not(is(op(S)=%union)) then return(S),
+   if length(args(S))=1 then 
+          return(makenounandlist(first(args(S)))),
+   apply("nounor", maplist(makenounandlist, args(S)))
+)$
+
+
+ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
+    RawMark:false, FeedBack:"", AnswerNote:"",
+    /* Write the statements in canonical form then compare. */
+    if equationp(SA) or inequalityp(SA) then SA:noun_to_poly_solve_output(SA),
+    if equationp(SB) or inequalityp(SB) then SB:noun_to_poly_solve_output(SB),
+    SA:ineqorder(SA),
+    SB:ineqorder(SB),
+    if SA = SB then (
+        RawMark:true,
+        AnswerNote:"ATLogic"
+    ),
+    return([true, RawMark, AnswerNote, FeedBack])
+)$
+
+
+/***********************************************************************/
+/* Establish an argument and display it together with equivalences.    */
+/***********************************************************************/
+
+texput(EMPTYCHAR, "\\ ");
+texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
+texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
+
+stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument],
+  if not(listp(ex)) then (print("stack_disp_arg expects to receive a list"), return(false)),
+  /* Switch off matrix brackets. */
+  lmxchar:"",
+  /* Set up empty rows to hold the answer. */
+  eqoutcome:makelist(QMCHAR, length(ex)), 
+  eqoutnote:makelist("", length(ex)), 
+  eqoutcome[1]:EMPTYCHAR,
+  truthargument:true,
+  /* Loop and check adjacent expressions for equivalence. */
+  id:1,
+  for id:2 thru length(ex) step 1 do block([ATres,SA,SB],
+      SA:ex[ev(id-1, simp)],
+      SB:ex[ev(id, simp)],
+      if expressionp(SA) then SA:SA=0,
+      if expressionp(SB) then SB:SB=0,
+      ATres:ATAlgEquiv(SA, SB),
+      if second(ATres) then block(
+          eqoutcome[ev(id, simp)]:EQUIVCHAR,
+          eqoutnote[ev(id, simp)]:third(ATres)
+          )
+      else block(
+          ATres:ATLogic(SA, SB),
+          truthargument:truthargument and second(ATres),
+          if second(ATres) then block(
+              eqoutcome[ev(id, simp)]:EQUIVCHAR,
+              eqoutnote[ev(id, simp)]:third(ATres)
+              )
+          )
+      ),
+  /* Output the results. */
+  ex:maplist(lambda([ex2], if expressionp(ex2) then ex2=EQUIVZERO else ex2), ex),
+  res:[truthargument, transpose(matrix(eqoutcome, ex, eqoutnote))]
+);

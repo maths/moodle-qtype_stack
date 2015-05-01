@@ -52,6 +52,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x-1)^2', '(x-1)^2', -1, '', ''),
         array('AlgEquiv', 'integerp(3)', 'true', 1, '', 'Predicates'),
         array('AlgEquiv', 'integerp(3.1)', 'true', 0, '', ''),
+        array('AlgEquiv', 'lowesttermsp(x^2/x)', 'true', 0, '', ''),
+        array('AlgEquiv', 'lowesttermsp(-y/-x)', 'true', 0, '', ''),
+        array('AlgEquiv', 'lowesttermsp((x^2-1)/(x-1))', 'true', 0, '', ''),
+        array('AlgEquiv', 'lowesttermsp((x^2-1)/(x+2))', 'true', 1, '', ''),
         array('AlgEquiv', 'X', 'x', 0, '', 'Case sensitivity'),
         array('AlgEquiv', 'Y=1+X', 'y=1+x', 0, '', 'Permutations of variables (To do: a dedicated answer test with feedback)'),
         array('AlgEquiv', 'v+w+x+y+z', 'a+b+c+A+B', 0, '', ''),
@@ -217,6 +221,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'sqrt(2*log(26)+4-2*log(2))', 'sqrt(2*log(13)+4)', 1, '', ''),
         array('AlgEquiv', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', 'n/n!', '1/(n-1)!', 1, '', ''),
+        array('AlgEquiv', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
         array('AlgEquiv', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2, '', 'These currently fail'),
         array('AlgEquiv', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
         array('AlgEquiv', '-inf', 'minf', -2, '', ''),
@@ -791,6 +796,9 @@ class stack_answertest_test_data {
 
         array('LowestTerms', 'x=1/2', '0', 1, '', 'Equations'),
         array('LowestTerms', '3/9=x', '0', 0, '', ''),
+        array('LowestTerms', 'x^2/x', '0', 1, '', 'Use predicate lowesttermsp'),
+        array('LowestTerms', '(2*x)/(4*t)', '0', 1, '', ''),
+        array('LowestTerms', '(2/4)*(x^2/t)', '0', 0, '', ''),
     );
 
     public static function get_raw_test_data() {

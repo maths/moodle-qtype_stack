@@ -945,7 +945,7 @@ class stack_cas_casstring {
 
         // Now check each "middle bit" has one of the following.
         // Note the space before, but not afterwards....
-        $connectives = array(' and', ' or', ' else', ' then', ' do');
+        $connectives = array(' and', ' or', ' else', ' then', ' do', ' nounand', ' nounor');
         $ok = true;
         foreach ($bits as $bit) {
             $onefound = false;

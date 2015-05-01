@@ -134,6 +134,7 @@ $string['inputtypedropdown'] = 'Drop down list';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
 $string['inputtypematrix'] = 'Matrix';
+$string['inputtypenotes'] = 'Notes';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to false then no stars will be inserted.  If set to yes then the system will automatically insert stars into any patterns identified by Strict Syntax.  If set to "single char vars" then we assume the answer has variable names consisting only of single letter variable names.  Other variable names will have stars inserted between the letters, e.g. ab->a*b';
 $string['insertstars_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';
@@ -290,6 +291,7 @@ $string['ddl_empty'] = 'No choices were provided for this drop-down. Please inpu
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
 $string['teacheranswershow_disp'] = 'A correct answer is \( {$a->display} \).';
+$string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 
 
 // Admin settings.

@@ -8,6 +8,7 @@ Reasoning by Equivalence is a particularly important activity in elementary alge
 The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
 This input type enables us to capture and evaluate student's line by line reasoning, i.e. their steps in working, during this kind of activity.
 
+
 ## How do students use this input?
 
 In traditional practice students work line by line rewriting an equation until it is solved.  This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.
@@ -59,7 +60,7 @@ The following are examples of algebraic reasoning which this input type is desig
     x-p = (q+p^2) or x-p = -(q+p^2)
     x = p+(q+p^2) or x=p-(q+p^2)
 
-    A1:[x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-(q+p^2),x-p=(q+p^2) or x-p=-(q+p^2),x=p+(q+p^2) or x=p-(q+p^2)];
+    [x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-(q+p^2),x-p=(q+p^2) or x-p=-(q+p^2),x=p+(q+p^2) or x=p-(q+p^2)];
 
 ### Solving rational expressions (erroneous argument)
 
@@ -69,7 +70,7 @@ The following are examples of algebraic reasoning which this input type is desig
     7-x= 13-x
     7= 13.
 
-    A1:[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), (4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x,7= 13]
+    [(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), (4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x,7= 13]
 
 ### Solving inequalities with the absolute value function
 
@@ -86,7 +87,7 @@ The following are examples of algebraic reasoning which this input type is desig
     (x-7)*(x+1) = 0
     x=7 or x=-1
 
-    A1:[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1]
+    [sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1]
 
 
 ### Example of absolute value function (involves removal of redundant inequalities)
@@ -97,7 +98,7 @@ The following are examples of algebraic reasoning which this input type is desig
     (x >= 1 and x<-1 ) or (x<1 and 3*x<1)
     x<1/3 
 
-    A1:[2*x/abs(x-1) < 1,2*x < abs(x-1),(x >=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x >= 1 and x<-1 ) or (x<1 and 3*x<1),x<1/3]
+    [2*x/abs(x-1) < 1,2*x < abs(x-1),(x >=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x >= 1 and x<-1 ) or (x<1 and 3*x<1),x<1/3]
 
 ### Simultaneous equations (must use `and` to join them).
 
@@ -108,7 +109,7 @@ The following are examples of algebraic reasoning which this input type is desig
     (x=2 and y=x) or (x=-2 and y=x)
     (x=2 and y=2) or (x=-2 and y=-2)
 
-    A1:[   x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, (x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)];
+    [x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, (x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)];
 
 ## TODO
 

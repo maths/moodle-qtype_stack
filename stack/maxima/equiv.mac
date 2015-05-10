@@ -54,10 +54,7 @@ Solve @p4@.
 
 
 
-/*  An argument is a list of expressions. E.g.                             */
-/*  a1:[x^2=1,x^2-1=0,(x-1)*(x+1)=0,x-1=0 nounor x+1=0, x=1 nounor x=-1];  */      
-
-/* Use nounand/noun or with the output of solve.                */
+/* Use nounand/nounor with the output of solve.                */
 noun_solve_output(ex) := block([S],
    S:ev(solve(ex, listofvars(ex)), simp),
    /* Check the trivial cases. */

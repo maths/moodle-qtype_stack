@@ -1,6 +1,6 @@
 /*  Author Chris Sangwin
-    University of Birmingham
-    Copyright (C) 2013 Chris Sangwin
+    Lougborough University
+    Copyright (C) 2015 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -28,7 +28,7 @@ rand_recurse(ex) := block(
     if (integerp(ex) or floatnump(ex) or matrixp(ex) or listp(ex)) then return(rand(ex)),
     if atom(ex) then return(ex),
     if op(ex)=protect then return(first(args(ex))),
-    apply(op(ex),maplist(rand_recurse,args(ex)))
+    apply(op(ex), maplist(rand_recurse, args(ex)))
     );
 
 /* Truncates a polynomial to only terms of degree "d" or less - always expands out */

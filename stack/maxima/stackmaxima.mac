@@ -1256,12 +1256,16 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
 ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
     RawMark:false, FeedBack:"", AnswerNote:"ATLogic_False",
     /* Write the statements in canonical form then compare. */
+    SA:logical_normal(SA),
+    SB:logical_normal(SB),
     SA:ineqorder(SA),
     SB:ineqorder(SB),
-    if SA = SB then (
-        RawMark:true,
-        AnswerNote:"ATLogic_True"
-    ),
+    if SA = SB then 
+        return([true, true, "ATLogic_True", FeedBack]),
+    if count_op(ex,"+-")>1 then 
+        return([true, false, "ATLogic_False_TooManyPM", FeedBack]),
+    if ineqorder(pm_replace(SA)) = ineqorder(pm_replace(SB)) then 
+        return([true, true, "ATLogic_True_PM", FeedBack]),
     return([true, RawMark, AnswerNote, FeedBack])
 )$
 

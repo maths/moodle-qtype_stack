@@ -70,6 +70,14 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
+#### Notes input ####
+
+This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns `true` to the CAS and the contents are never validated.
+
+#### Equivalence reasoning input ####
+
+The purpose of this input type is to enable students to "reason by equivalence.  See the specific documentation for more information:  [Equivalence reasoning](../CAS/Equivalence_reasoning.md).
+
 ### Model answer ###  {#model_answer}
 
 **This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.

@@ -66,11 +66,20 @@ coeff_list_nz(ex,v):= block([deg,kloop,cl],
    cl
 )$
 
-/* Return the set of operations which occur in the expression */
-/* Note, this function varies depending on the value of simp! */
-/* E.g. x+x-> 2*x, so is this a product of sum?               */
+/* Return the set of operations which occur in the expression. */
+/* Note, this function varies depending on the value of simp!  */
+/* E.g. x+x-> 2*x, so is this a product of sum?                */
 get_ops(ex):= setify(flatten(get_ops_helper(ex)))$
 get_ops_helper(ex):=if mapatom(ex) then [] else append([op(ex)],maplist(get_ops_helper,args(ex)))$
+
+
+/* Predicate to test if an operator is used in an expression. */
+op_usedp(ex, opused) := block(
+   if atom(ex) then return(false),
+   if op(ex)=opused then return(true),
+   apply("or", maplist(lambda([ex2], op_usedp(ex2, opused)), args(ex)))   
+)$
+
 
 /* ********************************** */
 /* General list and utility functions */
@@ -483,6 +492,7 @@ subst_equiv(ex1,ex2):=block([lv1, lv2, lvi, lvp, lvs, lve, il, perm_size, simp],
 */
 
 /* (1) */
+nary("noun=", 150);
 nary("noun+", 100);
 prefix("noun-", 100);
 nary("noun*", 120);
@@ -495,6 +505,10 @@ load("noun_arith.lisp");
 
 /* (3) */
 
+declare("noun=", commutative);
+declare("noun=", lassociative);
+declare("noun=", rassociative);
+
 declare("noun+", commutative);
 declare("noun+", lassociative);
 declare("noun+", rassociative);
@@ -505,6 +519,7 @@ declare("noun*", rassociative);
 
 /* (4) */
 verb_arith(ex) := block(
+    ex:subst("=", "noun=", ex), 
     ex:subst("+", "noun+", ex), 
     ex:subst("*", "noun*", ex), 
     ex:subst("-", "noun-", ex), 
@@ -518,6 +533,7 @@ verb_arith(ex) := block(
 
 /* (5) */
 noun_arith(ex) := block(
+    ex:subst("noun=", "=", ex), 
     ex:subst("noun+", "+", ex), 
     ex:subst("noun*", "*", ex), 
     /* Unary minus really communtes with multiplication. */
@@ -530,10 +546,12 @@ noun_arith(ex) := block(
 
 /* (6) Assumes we are working in the context of noun operators.*/
 gather_reduce(ex) := block(
+    ex:subst("=", "noun=", ex), 
     ex:subst("+", "noun+", ex), 
     ex:subst("*", "noun*", ex), 
     ex:subst("-", "noun-", ex), 
     ex:ev(ex, simp),
+    ex:subst("noun=", "=", ex), 
     ex:subst("noun+", "+", ex), 
     ex:subst("noun*", "*", ex), 
     ex:subst("noun-", "-", ex), 
@@ -595,10 +613,6 @@ declare("nounor", commutative);
 declare("nounor", lassociative);
 declare("nounor", rassociative);
 
-
-"nounand"(x=1,"nounor"(x=2,x=3));
-"nounor"(x=1,"nounand"(x=2,x=3));
-
 /* A predicate to decide if we have a logical expression. */
 logicp(ex) := block(
   if safe_op(ex) = "nounand" then return(true),
@@ -606,10 +620,11 @@ logicp(ex) := block(
   if safe_op(ex) = "and" then return(true),
   if safe_op(ex) = "or" then return(true),
   if safe_op(ex) = "not" then return(true),
+  if op_usedp(ex, "+-") then return(true),
   return(false)
 )$
 
-makenounandlist(ex):=block(
+makenounandlist(ex) := block(
    if not(listp(ex)) then return(ex),
    if length(ex)=1 then return(first(ex)),
    apply("nounand", args(ex))
@@ -617,16 +632,73 @@ makenounandlist(ex):=block(
 
 /* Use nounand/noun or with the output of to_poly_solve.          */
 noun_to_poly_solve_output(ex) := block([S],
-   S:ev(to_poly_solve(ex, listofvars(ex)), simp),
+   S:ev(to_poly_solve(ex, listofvars(s)), simp),
    /* Check the trivial cases. */
    if S=[] then return([]),
    if S=[ex] then return(ex),
    if atom(S) then return(S),
-   if not(is(op(S)=%union)) then return(S),
+   if not(is(op(S)='%union)) then return(S),
    if length(args(S))=1 then 
           return(makenounandlist(first(args(S)))),
    apply("nounor", maplist(makenounandlist, args(S)))
 )$
+
+/* DeMorgan's laws:  
+    %not(A %and B) -> %not(A) %or %not(B)
+    %not(A %or B) -> %not(A) %and %not(B)  */
+de_morgan(ex):=block(
+   if mapatom(ex) then return(ex),
+   if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="?%and") then 
+            return(apply(?%or, maplist(lambda([ex2], de_morgan(%not(ex2))), args(first(args(ex)))))),
+   if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="?%or") then 
+            return(apply(?%and, maplist(lambda([ex2], de_morgan(%not(ex2))), args(first(args(ex)))))),
+   return(apply(op(ex), maplist(de_morgan, args(ex))))
+)$
+
+/* Distribute %and over %or, i.e. A and (B or C) -> (A and B) or (A and C). */
+distrib_and(ex):=block([orlisti, orlist1, orlist2],
+   if mapatom(ex) then return(ex),
+   if not(is(safe_op(ex)="?%and")) then return(apply(op(ex), maplist(distrib_and, args(ex)))),
+   orlisti:sublist_indices(args(ex), lambda([ex2], is(safe_op(ex2)="?%or"))),
+   if emptyp(orlisti) then return(apply(op(ex), maplist(distrib_and, args(ex)))),   
+   orlist1:args(ex)[first(orlisti)],   
+   orlist2:rempart(args(ex), first(orlisti)),
+   distrib_and(apply(?%and, append([apply(?%or, maplist(lambda([ex2], first(orlist2) %and ex2), args(orlist1)))],rest(orlist2))))
+)$
+
+/* Normal form for logical expressions. */
+logical_normal(ex):=block(
+    ex:subst("%and", "nounand", ex), 
+    ex:subst("%or", "nounor", ex), 
+    ex:subst("not", "%not", ex), 
+    return(distrib_and(de_morgan(ex)))
+)$
+
+/* ********************************** */
+/* Add in a +- operator               */
+/* ********************************** */
+
+prefix("+-");
+texput("+-", "{\\pm}");
+
+
+/* Count the occurance of an operator. */
+count_op(ex, ops):= block([count],
+    if atom(ex) then return(0),
+    count:ev(apply("+", maplist(lambda([ex2], count_op(ex2, ops)), args(ex))),simp),
+    if op(ex)=ops then return(1+count),
+    return(count)
+)$
+
+/* Replace +- with an explicit "or" version. 
+   If +- occurs more than once this is fundamentally ambiguous.
+   Do we mean both + then both -, or all 4 combinations?
+*/
+pm_replace(ex):= block(
+  if count_op(ex, "+-")#1 then return(ex),
+  opsubst("+", "+-", ex) nounor opsubst("-", "+-", ex)
+)$
+
 
 /* ********************************** */
 /* Algebraic form                     */
@@ -847,14 +919,16 @@ stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument],
           eqoutcome[ev(id, simp)]:EQUIVCHAR,
           eqoutnote[ev(id, simp)]:third(ATres)
       ) else (
-         /* Normally the ATAlgEquiv test doesn't force everything to logic.  But here we do. */
-         if equationp(SA) or inequalityp(SA) then SA:noun_to_poly_solve_output(SA),
-         if equationp(SB) or inequalityp(SB) then SB:noun_to_poly_solve_output(SB),
+         /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
+         /* But here we do when able to do so safely.                        */
+         if (equationp(SA) or inequalityp(SA)) and not(logicp(SA)) then SA:noun_to_poly_solve_output(SA),
+         if (equationp(SB) or inequalityp(SB)) and not(logicp(SB)) then SB:noun_to_poly_solve_output(SB),
+         /* eqoutnote[ev(id, simp)]:sconcat("Trying logic: [",string(SA)," | ",string(SB),"]"), */
          ATres:ATLogic(SA, SB),
          truthargument:truthargument and second(ATres),
          if second(ATres) then block(
              eqoutcome[ev(id, simp)]:EQUIVCHAR,
-             eqoutnote[ev(id, simp)]:third(ATres)
+             eqoutnote[ev(id, simp)]:sconcat("USED solver: ", third(ATres))
          )
       )
   ),

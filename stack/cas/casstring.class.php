@@ -976,6 +976,8 @@ class stack_cas_casstring {
         $connectives = array();
         $connectives[] = array(' and', ' nounand');
         $connectives[] = array(' or', ' nounor');
+        $connectives[] = array(')and', ' nounand');
+        $connectives[] = array(')or', ' nounor');
         foreach ($connectives as $con) {
             if ($dir) { 
                 $this->casstring = str_replace($con[0], $con[1], $this->casstring);

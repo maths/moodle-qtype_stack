@@ -188,6 +188,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'g(x):=x^2', 'f(x):=x^2', 0, '', ''),
         array('AlgEquiv', 'f(y):=y^2', 'f(x):=x^2', 1, '', ''),
         array('AlgEquiv', 'f(a,b):=a^2+b^2', 'f(x,y):=x^2+y^2', 1, '', ''),
+
         array('AlgEquiv', '1', 'x>1', 0, '', 'Inequalities and logical statements'),
         array('AlgEquiv', 'x=1', 'x>1 and x<5', 0, '', ''),
         array('AlgEquiv', 'x<1', 'x>1', 0, '', ''),
@@ -207,13 +208,20 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'x>=1 or 1<=x', 'x>=1', 1, '', ''),
         array('AlgEquiv', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)', '(x>-5 and x<-4) or (x>4 and x<5)', 1, '', ''),
         array('AlgEquiv', '(x>4 and x<5) or (x<-4 and x>-5) or (x+5>0 and x<-4)', '(x>-5 and x<-4) or (x>8 and x<5)', 0, '', ''),
-
         array('AlgEquiv', '2*x^2+x>=6', 'x<=-2 or x>=3/2', 0, '',
-                'Inequalities - not currently considered equivalent, but maybe in the future'),
-
+                    'Inequalities - not currently considered equivalent, but maybe in the future'),
         array('AlgEquiv', 'x^2>4', 'x>2 and x<-2', 0, '', ''),
         array('AlgEquiv', 'x^4>=0', 'x^2>=0', 0, '', ''),
-            array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
+
+        array('AlgEquiv', 'A and B', 'B and A', 1, '', 'Logical expressions'),
+        array('AlgEquiv', 'A and B', 'C and A', 0, '', ''),
+        array('AlgEquiv', 'A and B=C', 'C=B and A', 1, '', ''),
+        array('AlgEquiv', 'A and (B and C)', 'A and B and C', 1, '', ''),
+        array('AlgEquiv', 'A and (B or C)', 'A and (B or C)', 1, '', ''),
+        array('AlgEquiv', '(A and B) or (A and C)', 'A and (B or C)', 1, '', ''),
+        array('AlgEquiv', 'x=-b+-c^2', 'x=c^2-b or x=x^2+b', 1, '', ''),
+
+        array('AlgEquiv', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),
         array('AlgEquiv', '(19601-13860*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 1, '', ''),
         array('AlgEquiv', '(19601-13861*sqrt(2))^(7/4)', '(5*sqrt(2)-7)^7', 0, '', ''),
@@ -227,7 +235,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '-inf', 'minf', -2, '', ''),
         array('AlgEquiv', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''), // Cardano's example!
         array('AlgEquiv', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
-*/
+
         // SubstEquiv Answer tests.
         array('SubstEquiv', '1/0', 'x^2-2*x+1', -1, '', ''),
         array('SubstEquiv', 'x^2+1', 'x^2+1', 1, '', ''),
@@ -285,8 +293,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '(4*sqrt(3)*%i+4)^(1/5)', '8^(1/5)*(cos(%pi/15)+%i*sin(%pi/15))', 0, '', ''),
         array('EqualComAss', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 0, '', ''),
 
-        array('EqualComAss', 'y=x', 'x=y', 0, '', 'Equality is not included as commutative....'),
-        array('EqualComAss', 'x+1', 'y=2*x+1', 0, '', 'Equations'),
+        array('EqualComAss', 'y=x', 'x=y', 1, '', 'Equations'),
+        array('EqualComAss', 'x+1', 'y=2*x+1', 0, '', ''),
         array('EqualComAss', 'y=1+2*x', 'y=2*x+1', 1, '', ''),
         array('EqualComAss', 'y=x+x+1', 'y=1+2*x', 0, '', ''),
         array('EqualComAss', '{2*x+1,2}', '{2, 1+x*2}', 1, '', 'Sets'),

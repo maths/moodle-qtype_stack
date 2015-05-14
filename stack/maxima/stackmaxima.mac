@@ -2068,7 +2068,7 @@ strip_int_const(ex, v) := block([ex2,fargs],
 /* sa is the students' answer,                                      */
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
-ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, ret, cont],
+ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, sbdisp, ret, cont],
     oldsimp:simp,
     simp:false,
     Validity:true, RawMark:false,
@@ -2087,7 +2087,22 @@ ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Answer
         (var:sbl[2], sb:sbl[1], cont:true)
     else
         (cont:false, FeedBack:StackAddFeedback("", "ATInt_STACKERROR_LIST"), AnswerNote:StackAddNote("", "ATInt_STACKERROR_LIST")),
-    ret:[true,RawMark,AnswerNote,FeedBack], /* Once this works remove these variables and define ret in the loops */
+
+    /* Is the variable still a list at this stage?
+       If so, the teacher has provided the original expression for feedback purposes. 
+    */
+    if listp(var) then block(
+        if is(length(var)=2) then block(
+            sbdisp:second(var),
+            var:first(var)
+        ) else block(
+            print("TEST_FAILED"),
+            cont:false, Validity:false, FeedBack:StackAddFeedback("", "ATInt_STACKERROR_OptList"), AnswerNote:StackAddNote("", "ATInt_STACKERROR_OptList")
+        )
+    ) else 
+        sbdisp:ev(diff(sb, var), simp),
+
+    ret:[true, RawMark, AnswerNote, FeedBack], 
 
     /* SA should be only an expression. */
     if expressionp(sa)=false then
@@ -2095,19 +2110,13 @@ ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Answer
     else block(
         keepfloat:true,
         if cont then
-            ret:Intfun(sa, sb, var)
+            ret:Intfun(sa, sb, sbdisp, var)
         ),
     simp:oldsimp,
     return(ret)
     )$
 
-/* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w */
-listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
-
-/* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
-listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
-
-Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
+Intfun(SA, SB, SBdisp, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
     val:true, rawmk:false, fb:"", ansnote:"", debug:false,
     ret:[val, rawmk, ansnote, fb],
     /* Check if the teacher and student used only log abs. 
@@ -2136,7 +2145,7 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
     SBd:ev(diff(SB,v),simp),
     /* Check for constant of integration - code copied from algebraic_equivalence */
     ex:errcatch(ev(fullratsimp(SA-SB), simp, trigexpand:true, logexpand:super, keepfloat:true)),
-    if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
+    if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
     ex:ex[1],
     ex:ev(trigsimp(ex), simp),
     ex:ev(trigreduce(ex), simp),
@@ -2166,7 +2175,7 @@ Intfun(SA, SB, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,saa,dd,dc,lSAv,l
        if ev(algebraic_equivalence(SAa, ev(diff(SBd, v), simp)),simp) and ev(algebraic_equivalence(exp(x), SBd),simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
        else 
-           (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBd, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
+           (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
     /* Has the student used log(x) vs log(abs(x)) in their answer? */
     if not(SAUsedLogAbs) and SBUsedLogAbs then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
@@ -2342,5 +2351,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015042900$
-print("[ STACK-Maxima started, library version 2015042900 ]")$
+stackmaximaversion:2015051400$
+print("[ STACK-Maxima started, library version 2015051400 ]")$

@@ -654,6 +654,7 @@ $string['ATInt_weirdconst']          = 'The formal derivative of your answer doe
 $string['ATInt_logabs_inconsistent'] = 'There appear to be strange inconsistencies between your use of \(\log(...)\) and \(\log(|...|)\).  Please ask your teacher about this.  ';
 $string['ATInt_diff']                = 'It looks like you have differentiated instead!';
 $string['ATInt_generic']             = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
+$string['ATInt_STACKERROR_OptList']  = 'The answer test failed to execute correctly: please alert your teacher. When the option to ATInt is a list it must have exactly two elements, but does not.';
 
 $string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';

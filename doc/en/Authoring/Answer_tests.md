@@ -233,6 +233,15 @@ we insist the student is at least consistent.  If the teacher has *any*
 teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 
 student must have all or none. 
 
+The automatically generated feedback from this test is of the following form.
+
+The answer test archtecture only passes in the *answer* to the test.  The question is not available at that point, however, the answer test has to infer exactly which expression, including the algebraic form, the teacher has set in the question. This includes stripping off constants of integration and constants of integration may occur in a number of ways, e.g. in logarithms.
+In many cases simply differentiating the teacher's answer is fine, in which case the question author need not worry.  Where this does not work, the question author will need to supply the option in the form of a list `[var, integrand]`.
+
+    [x, x*exp(5*x+7)]
+    
+The first argument of this list must be the variable.  The second argument is the integrand.
+
 The test cannot cope with some situations.  Please contact the developers 
 when you find some of these.  This test is already rather overloaded, so 
 please don't expect every request to be accommodated! 

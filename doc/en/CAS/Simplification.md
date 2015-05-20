@@ -1,6 +1,6 @@
 # Simplification & ordering
 
-## Ordering
+## Ordering terms
 
 Maxima chooses an order in which to write terms in an expression.  By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).  In elementary mathematics this looks a little odd!  One way to overcome this is to use simplification below but another way is to alter the order in which expressions are transformed.
 

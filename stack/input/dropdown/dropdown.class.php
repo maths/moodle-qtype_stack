@@ -80,9 +80,9 @@ class stack_dropdown_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'   => false,
-            'hideFeedback' => true,
-            'ddl_values'   => '',
+            'mustVerify'     => false,
+            'showValidation' => 0,
+            'ddl_values'     => '',
         );
     }
 }

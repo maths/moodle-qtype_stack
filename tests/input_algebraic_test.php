@@ -39,6 +39,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertFalse($el->validate_parameter('boxWidth', "30"));
         $this->assertFalse($el->validate_parameter('boxWidth', ''));
         $this->assertFalse($el->validate_parameter('boxWidth', null));
+        $this->assertTrue($el->validate_parameter('showValidation', 1));
+        $this->assertFalse($el->validate_parameter('showValidation', true));
+        $this->assertFalse($el->validate_parameter('showValidation', 5));
     }
 
     public function test_render_blank() {

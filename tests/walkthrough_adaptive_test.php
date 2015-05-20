@@ -71,6 +71,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->render();
         $this->check_output_contains_text_input('ans1', '2');
         $this->check_output_contains_input_validation('ans1');
+        // Since the answer is a number there are no variables.
+        $this->check_output_does_not_contain_lang_string('studentValidation_listofvariables', 'qtype_stack', '\( \left[ x \right]\)');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
@@ -102,6 +104,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
+
         $this->render();
         $this->check_output_contains_text_input('ans1', '3');
         $this->check_output_contains_input_validation('ans1');
@@ -129,6 +132,19 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
+
+        // Process a validate request containing a variable.
+        $this->process_submission(array('ans1' => 'sin(x)', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'sin(x)');
+        $this->check_output_contains_lang_string('studentValidation_listofvariables', 'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a validate request.
         $this->process_submission(array('ans1' => '1+1', '-submit' => 1));
@@ -1418,7 +1434,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
+        $this->check_output_contains_lang_string('TEST_FAILED', 'qtype_stack', array('errors' => 'Division by zero.'));
 
         // Validate the response 1/2 (correct).
         $this->process_submission(array('ans1' => '1/2', 'ans1_val' => '0', '-submit' => 1));
@@ -1443,7 +1459,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
+        $this->check_output_does_not_contain_lang_string('TEST_FAILED', 'qtype_stack', array('errors' => 'Division by zero.'));
     }
 
     public function test_numsigfigs_validate_then_submit_right_first_time() {

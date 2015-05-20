@@ -194,19 +194,19 @@ class stack_potentialresponse_node {
         $errorfree = true;
         if ($cascontext->get_errors_key('PRSANS' . $key)) {
             $results->_errors .= $cascontext->get_errors_key('PRSANS' . $key);
-            $results->add_feedback(stack_string('prtruntimeerror',
+            $results->add_feedback(' '.stack_string('prtruntimeerror',
                     array('node' => 'PRSANS'.($key + 1), 'error' => $cascontext->get_errors_key('PRSANS' . $key))));
             $errorfree = false;
         }
         if ($cascontext->get_errors_key('PRTANS' . $key)) {
             $results->_errors .= $cascontext->get_errors_key('PRTANS' . $key);
-            $results->add_feedback(stack_string('prtruntimeerror',
+            $results->add_feedback(' '.stack_string('prtruntimeerror',
                     array('node' => 'PRTANS'.($key + 1), 'error' => $cascontext->get_errors_key('PRTANS' . $key))));
             $errorfree = false;
         }
         if ($cascontext->get_errors_key('PRATOPT' . $key)) {
             $results->_errors .= $cascontext->get_errors_key('PRATOPT' . $key);
-            $results->add_feedback(stack_string('prtruntimeerror',
+            $results->add_feedback(' '.stack_string('prtruntimeerror',
                     array('node' => 'PRATOPT'.($key + 1), 'error' => $cascontext->get_errors_key('PRATOPT' . $key))));
             $errorfree = false;
         }

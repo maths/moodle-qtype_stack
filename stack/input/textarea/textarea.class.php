@@ -133,7 +133,7 @@ class stack_textarea_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
             'mustVerify'     => true,
-            'hideFeedback'   => false,
+            'showValidation' => 0,
             'boxWidth'       => 20,
             'strictSyntax'   => true,
             'insertStars'    => 0,

@@ -64,7 +64,6 @@ $PAGE->set_title($title);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
-echo html_writer::tag('p', stack_string('chatintro'));
 
 /* This page is not intended to every be incoprporated into STACK as
  * part of the main codebase.  It is here to test the features of the
@@ -75,26 +74,48 @@ echo html_writer::tag('p', stack_string('chatintro'));
 $samplearguments = array();
 
 $newarg = array();
+$newarg['title']     = "Solving quadratic equations 1";
+$newarg['casstring'] = "[x^2-x=30,x^2-x-30=0,(x-6)*(x+5)=0,x-6=0 or x+5=0,x=6 or x=-5]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving quadratic equations 2";
+$newarg['casstring'] = "[x^2=2,x^2-2=0,(x-sqrt(2))*(x+sqrt(2))=0,x=sqrt(2) or x=-sqrt(2)]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving quadratic equations 3";
+$newarg['casstring'] = "[x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-sqrt(q+p^2),x-p=sqrt(q+p^2) or x-p=-sqrt(q+p^2),x=p+sqrt(q+p^2) or x=p-sqrt(q+p^2)]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving a quadratic inequality";
 $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x - 6>= 0, (2*x-3)*(x+2) >= 0,((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0),(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['casstring'] = "[x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-(q+p^2),x-p=(q+p^2) or x-p=-(q+p^2),x=p+(q+p^2) or x=p-(q+p^2)]";
+$newarg['title']     = "Solving an inequality";
+$newarg['casstring'] = "[x^2>=9 and x>3, x^2-9>=0 and x>3, (x>=3 or x<=-3) and x>3, x>3]";
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving rational expressions (erroneous argument)";
 $newarg['casstring'] = "[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), (4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x,7= 13]";
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving equations with surds (erroneous argument)";
 $newarg['casstring'] = "[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1]";
 $samplearguments[] = $newarg;
 
+// [2*x/abs(x-1) < 1,2*x < abs(x-1), x >= 1 nounand 2*x < x-1 nounor (x < 1 nounand 2*x < 1-x), x < -1 nounand x >= 1 nounor (x < 1 nounand 3*x < 1),x < 1/3];
 $newarg = array();
+$newarg['title']     = "Solving inequalities with the absolute value function";
 $newarg['casstring'] = "[2*x/abs(x-1)<1, 2*x<abs(x-1),(x>=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x>=1 and x<-1) or (x<1 and 3*x<1),x<1/3]";
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Simultaneous equations (must use and to join them)";
 $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, (x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";
 $samplearguments[] = $newarg;
 
@@ -113,7 +134,7 @@ foreach($samplearguments as $argument) {
     $errs         = $ct->get_errors();
     $debuginfo    = $ct->get_debuginfo();
 
-    echo html_writer::tag('h2', 'New argument') .
+    echo html_writer::tag('h2', $argument['title']) .
          html_writer::tag('pre', $argument['casstring']).
          html_writer::tag('p', $errs) .
          html_writer::tag('p', stack_ouput_castext($displaytext));

@@ -337,6 +337,145 @@ ineqorder_g(a, ex) := block([S],
 )$
 
 
+/* This removes redundant linear inequalities such as x>1 or x>0 -> x>0 */
+ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv],
+  if atom(ex) then return(ex),
+  if not(op(ex)="nounand" or op(ex)="nounor") then return(ex),
+  /* Recurse over the expression */
+  ex:apply(op(ex), maplist(ineq_rem_redundant, args(ex))),
+  if op(ex)="nounand" then exo:[max,min] else exo:[min,max],
+  exn:sublist(args(ex), lambda([ex2], not(linear_inequalityp(ex2)))),  
+  exl:sublist(args(ex), linear_inequalityp),
+  /* Separate out different variables */
+  exv:listofvars(exl),
+  exl:maplist(lambda([ex],sublist(exl,lambda([ex2], is(listofvars(ex2)=[ex])))), exv),
+  /* At this point we have linear inequalities, in a single variable, separated out into lists for each individual variable. */
+  exl:maplist(lambda([ex],single_linear_ineq_reduce(ex,exo)),exl),
+  exl:flatten(exl),
+  exl:append(exn,exl),
+  if is(length(exl)=1) then first(exl) else apply(op(ex), exl)
+  )$
+
+
+/* Reverses the inequality: purely syntactic. */
+rev_ineq(ex):=block(
+  if safe_op(ex)="<" then return(rhs(ex)>lhs(ex)),
+  if safe_op(ex)="<=" then return(rhs(ex)>=lhs(ex)),
+  if safe_op(ex)=">" then return(rhs(ex)<lhs(ex)),
+  if safe_op(ex)=">=" then return(rhs(ex)<=lhs(ex)),
+  return(ex)
+)$
+
+
+/* Negates the inequality */
+neg_ineq(ex):=block(
+  if safe_op(ex)="<" then return(lhs(ex)>rhs(ex)),
+  if safe_op(ex)="<=" then return(lhs(ex)>=rhs(ex)),
+  if safe_op(ex)=">" then return(lhs(ex)<rhs(ex)),
+  if safe_op(ex)=">=" then return(lhs(ex)<=rhs(ex)),
+  return(ex)
+)$
+
+/* This function takes a list of inequalities, ex and a list of index numbers l, and negates each inequality as indexed by l */
+neg_ineq_list(ex,l):=block([k],
+  if emptyp(l) then return(ex),
+  for k: 1 thru length(l) do ex[l[k]]:neg_ineq(ex[l[k]]),
+  ex
+)$
+
+
+/* Determines if we have a linear inequality in one variable */
+linear_inequalityp(ex) := block([ex2],
+   if atom(ex) then return(false),
+   if not(">"= op(ex) or "<"= op(ex) or ">="= op(ex) or "<="= op(ex)) then return(false),
+   ex2:ineqprepare(ex),
+   if not(is(length(listofvars(ex2))=1)) then return(false),
+   if not(polynomialp(lhs(ex2), listofvars(ex2))) then return(false),
+   if is(degree(lhs(ex2), first(listofvars(ex2)))=1) then return(true),
+   return(false)
+)$
+
+
+
+/* Reformat an inequality in an easier to read form, namely a<x or x<a: a syntactic transformation. */
+inequality_disp(ex):=block([ex2,v],
+  if not(linear_inequalityp(ex)) then return(ex),
+  ex2:ineqprepare(ex),
+  v:first(listofvars(ex2)),
+  if equal(coeff(lhs(ex2),v),1) then return(rev_ineq(subst(op(ex2),"=",first(solve(lhs(ex2),v))))),
+  if equal(coeff(lhs(ex2),v),-1) then return(neg_ineq(subst(op(ex2),"=",first(solve(lhs(ex2),v))))),
+  return(ex)
+)$
+
+/* Does the expression define a *single* interval, by means of an inequality?   */
+/* E.g. 1<x and x<7                                                             */
+/* We only accept linear inequalities in one variable, combined by "and"        */
+/* We don't expect this to be the *simplest* form, that is later.               */ 
+/* A single inequality is a half open interval.                                 */
+/* true is the whole real line, false is the empty set.                         */
+interval_inequalityp(ex):= block(
+   /* Emptyset and real line. */
+   if equal(ex, true) then return(true),
+   if equal(ex, false) then return(true),
+   if atom(ex) then return(false),
+   /* Half open intervals */
+   if linear_inequalityp(ex) then return(true),
+   if not(op(ex)="nounand") then return(false),
+   if is(length(listofvars(ex))>1) then return(false),
+   return(all_listp(linear_inequalityp, args(ex)))
+)$
+
+/* Takes a real interval and returns the canonical form for this inequality  */
+/* a<x and x<b                                                               */
+/* or, true, false, or a single inequality                                   */
+interval_simplify(ex):=block([ex2,v,a,b],
+   if not(interval_inequalityp(ex)) then return(ex),
+   /* We know we have an interval inequality. */
+   if equal(ex, true) then return(true),
+   if equal(ex, false) then return(false),
+   /* Remove redundant inequalities: might leave us with a single one. */
+   ex:ineq_rem_redundant(ex),
+   if linear_inequalityp(ex) then return(inequality_disp(ex)),
+   /* Now we are in business.  We have a single interval, of two inequalities. */
+   ex:map(inequality_disp, ex),
+   v:listofvars(ex),
+   if equal(v,lhs(first(ex))) then ex:second(args(ex)) and first(args(ex)),
+   /* This should now be in the right form. */
+   /* Check for an empty set (2 possibilities) */
+   if (lhs(first(args(ex))))>(rhs(second(args(ex)))) then return(false),
+   if (lhs(first(args(ex))))=(rhs(second(args(ex)))) and not(safe_op(first(args(ex)))="<=" and safe_op(second(args(ex)))="<=") then return(false), 
+   ex
+)$
+
+/* Take a list of linear inequalities the same single variable, and a list of operators, min/max.  
+   Returns the equivalent inequalities.
+*/
+single_linear_ineq_reduce(ex, exo):=block([exg,exl],
+  ex:maplist(ineqprepare,ex),
+  /* Separate out into x>?, x>=? and x<?, x<=?. */
+  exg:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = 1))),
+  exl:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = -1))),
+  /* Separate into solution and operator */
+  exg:single_linear_ineq_reduce_h(exg, first(exo), true),
+  exl:single_linear_ineq_reduce_h(exl, second(exo), false),
+  append(exg, exl)
+)$
+
+/* Take a list of linear inequalities of the same sign, in a single variable, and an operator, min/max.  
+   Return the single equivalent inequality.
+*/
+single_linear_ineq_reduce_h(exl, exo, odr):=block([m1,m2,m3,exg],
+  if exl=[] then return([]),
+  if not(is(exo=max) or is(exo=min)) then print("ERROR: single_linear_ineq_reduce_h expects second argument to be max or min."),
+  exg:maplist(lambda([ex2],[rhs(first(solve(lhs(ex2)))),op(ex2)]),exl),
+  m1:apply(exo, maplist(first,exg)),
+  m2:sublist(exg,lambda([ex2],is(m1=first(ex2)))),
+  m3:sort(listify(setify(maplist(second,m2)))), /* get list of operators.  Used to sort out >, >= etc. */
+  if (not(odr) and is(exo=max)) or (odr and is(exo=min)) then m3:reverse(m3),
+  [apply(first(m3),if odr then [first(listofvars(exl)),m1] else [m1,first(listofvars(exl))])]
+)$  
+
+
 /* ********************************** */
 /* Equivalence                        */
 /* ********************************** */
@@ -624,25 +763,6 @@ logicp(ex) := block(
   return(false)
 )$
 
-makenounandlist(ex) := block(
-   if not(listp(ex)) then return(ex),
-   if length(ex)=1 then return(first(ex)),
-   apply("nounand", args(ex))
-)$
-
-/* Use nounand/noun or with the output of to_poly_solve.          */
-noun_to_poly_solve_output(ex) := block([S],
-   S:ev(to_poly_solve(ex, listofvars(s)), simp),
-   /* Check the trivial cases. */
-   if S=[] then return([]),
-   if S=[ex] then return(ex),
-   if atom(S) then return(S),
-   if not(is(op(S)='%union)) then return(S),
-   if length(args(S))=1 then 
-          return(makenounandlist(first(args(S)))),
-   apply("nounor", maplist(makenounandlist, args(S)))
-)$
-
 /* DeMorgan's laws:  
     %not(A %and B) -> %not(A) %or %not(B)
     %not(A %or B) -> %not(A) %and %not(B)  */
@@ -668,10 +788,65 @@ distrib_and(ex):=block([orlisti, orlist1, orlist2],
 
 /* Normal form for logical expressions. */
 logical_normal(ex):=block(
+    /* Change the noun logical operators into assciative indenpotent ones. */
     ex:subst("%and", "nounand", ex), 
     ex:subst("%or", "nounor", ex), 
     ex:subst("not", "%not", ex), 
-    return(distrib_and(de_morgan(ex)))
+    ex:distrib_and(de_morgan(ex)),
+    ex:ineqprepare(ex),
+    ex:logical_normal_rem_redundant(ex),
+    return(ex)
+)$
+
+logical_normal_rem_redundant(ex):=block(
+   if mapatom(ex) then return(ex),
+   if not(is(safe_op(ex)="?%and")) then return(apply(op(ex), maplist(logical_normal_rem_redundant, args(ex)))),
+   ex:ineq_rem_redundant(apply("nounand", args(ex))),
+   subst("%and", "nounand", ex),
+   ex:ineqprepare(ex)
+)$
+
+noun_solve_logic(ex):=block([ex2,ex3,exop,m,fl,p],
+    if atom(ex) then return(ex),
+    /* Solve an equation by factoring and joining each factor with =0 */
+    if equationp(ex) then return(noun_solve_logic_equation(ex)),
+
+    /* Recurse over a logical expression. */
+    if logicp(ex) then return(apply(op(ex), maplist(noun_solve_logic, args(ex)))),
+
+    /* Solve a single inequality in a single variable by factoring, 
+       where possible expressing the result as irreducible inequalities. */
+    if not(inequalityp(ex)) then return(ex),
+    if length(listofvars(ex))#1 then return(ex),
+    ex2:ineqprepare(ex),
+    exop:op(ex2), /* This is for >, >= */
+    ex2:factor(lhs(ex2)),
+    if atom(ex2) then return(ex),
+    /* Create a list of factors */
+    if is(op(ex2)="-") then m:true else m:false,
+    if is(op(ex2)=DIV_OP) then ex2:num(ex2),
+    if m then fl:first(args(ex2)) else fl:ex2, 
+    if safe_op(fl)="*" then fl:args(fl) else fl:[fl],
+    /* Turn each inequality back into a list */
+    ex2:maplist(lambda([ex],apply(exop,[ex,0])),fl),
+    if m then ex2[1]:neg_ineq(ex2[1]),
+    /* Create a list of all even permutations, from which we negate those in the list */
+    p:sublist(maplist(listify, listify(powerset(setify(makelist(n, n, length(ex2)))))), lambda([ex], evenp(length(ex)))),
+    ex3:maplist(lambda([l], neg_ineq_list(copylist(ex2), l)), p),
+    /* Tidy up the list */
+    ex3:maplist(lambda([ex], ineq_rem_redundant(apply("nounand", ex))), ex3),
+    ex3:maplist(interval_simplify, ex3),
+    ex3:reverse(sort(ex3)),
+    if is(length(ex3)=1) then first(ex3) else apply("nounor", ex3)
+)$
+
+/* Solve the equation using factor, as students would do. */
+noun_solve_logic_equation(ex):=block([factorargs],
+  factorargs:ev(factor(lhs(ex)-rhs(ex))),
+  if atom(factorargs) then return(ex),
+  if safe_op(factorargs)="*" then ex:maplist(lambda([ex2], ex2=0), factorargs)
+  else return(ex),
+  if is(length(ex)=1) then first(ex) else apply("nounor", ex)
 )$
 
 /* ********************************** */
@@ -898,7 +1073,7 @@ texput(EMPTYCHAR, "\\ ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 
-stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument],
+stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument, tempnote],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list"), return(false)),
   /* Switch off matrix brackets. */
   lmxchar:"",
@@ -910,10 +1085,25 @@ stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument],
   /* Loop and check adjacent expressions for equivalence. */
   id:1,
   for id:2 thru length(ex) step 1 do block([ATres,SA,SB],
+      tempnote:"",
       SA:ex[ev(id-1, simp)],
       SB:ex[ev(id, simp)],
       if expressionp(SA) then SA:SA=0,
       if expressionp(SB) then SB:SB=0,
+      /* Sort out +- operator here.  This needs to be done at the top level. */
+      if count_op(SA,"+-")>1 then 
+           tempnote:sconcat(tempnote, "SA_too_many+-: "),
+      if count_op(SA,"+-")=1 then block(
+           tempnote:sconcat(tempnote, "SA_+-: "),
+           SA:pm_replace(SA)
+      ),
+      if count_op(SB,"+-")>1 then 
+           tempnote:sconcat(tempnote, "SB_too_many+-: "),
+      if count_op(SB,"+-")=1 then block(
+           tempnote:sconcat(tempnote, "SB_+-: "),
+           SB:pm_replace(SB)
+      ),
+      /* Now check for equivalences. */
       ATres:ATAlgEquiv(SA, SB),
       if second(ATres) then block(
           eqoutcome[ev(id, simp)]:EQUIVCHAR,
@@ -921,15 +1111,21 @@ stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument],
       ) else (
          /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
          /* But here we do when able to do so safely.                        */
-         if (equationp(SA) or inequalityp(SA)) and not(logicp(SA)) then SA:noun_to_poly_solve_output(SA),
-         if (equationp(SB) or inequalityp(SB)) and not(logicp(SB)) then SB:noun_to_poly_solve_output(SB),
-         /* eqoutnote[ev(id, simp)]:sconcat("Trying logic: [",string(SA)," | ",string(SB),"]"), */
+         if (equationp(SA) or inequalityp(SA) or logicp(SA)) then block(
+             SA:noun_solve_logic(SA),
+             tempnote:sconcat(tempnote, "SA_solved: ")
+            ),
+         if (equationp(SB) or inequalityp(SB) or logicp(SB)) then block(
+             SB:noun_solve_logic(SB),
+             tempnote:sconcat(tempnote, "SB_solved: ")
+            ),
+         /* tempnote:sconcat(tempnote, "Trying logic: [",string(SA)," | ",string(SB),"]"),*/
          ATres:ATLogic(SA, SB),
          truthargument:truthargument and second(ATres),
          if second(ATres) then block(
-             eqoutcome[ev(id, simp)]:EQUIVCHAR,
-             eqoutnote[ev(id, simp)]:sconcat("USED solver: ", third(ATres))
-         )
+             eqoutcome[ev(id, simp)]:EQUIVCHAR
+         ),
+         eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
       )
   ),
   /* Output the results. */

@@ -1258,14 +1258,9 @@ ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
     /* Write the statements in canonical form then compare. */
     SA:logical_normal(SA),
     SB:logical_normal(SB),
-    SA:ineqorder(SA),
-    SB:ineqorder(SB),
+    AnswerNote:concat("[", string(SA), " | ", string(SB), "]"),
     if SA = SB then 
         return([true, true, "ATLogic_True", FeedBack]),
-    if count_op(ex,"+-")>1 then 
-        return([true, false, "ATLogic_False_TooManyPM", FeedBack]),
-    if ineqorder(pm_replace(SA)) = ineqorder(pm_replace(SB)) then 
-        return([true, true, "ATLogic_True_PM", FeedBack]),
     return([true, RawMark, AnswerNote, FeedBack])
 )$
 
@@ -2367,5 +2362,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015042900$
-print("[ STACK-Maxima started, library version 2015042900 ]")$
+stackmaximaversion:2015050900$
+print("[ STACK-Maxima started, library version 2015050900 ]")$

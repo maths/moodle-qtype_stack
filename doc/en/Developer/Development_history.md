@@ -2,6 +2,16 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## For Version 3.4
+
+These features have been added in the master branch for inclusion in future versions.
+
+1. Expand the capability of ATInt options to accept the integrand to improve feedback.
+2. When validating a student's expression, add the option to show a list of variables alongside the displayed expression.
+3. The install process now attempts to auto-generate a maxima image.
+4. Support for the stats package added.
+
+
 ## Version 3.3
 
 Released September 2014. 

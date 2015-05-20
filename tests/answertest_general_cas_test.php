@@ -401,4 +401,40 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
                 '\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
         $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
+
+    public function test_stack_maxima_int_feedback_1() {
+        $at = new stack_answertest_general_cas('((5*%e^7*x-%e^7)*%e^(5*x))',
+                '((5*%e^7*x-%e^7)*%e^(5*x))/25+c', 'ATInt', true, 'x', null, true, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+
+        $fbt = 'stack_trans(\'ATInt_generic\' , !quot!\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) '.
+               '\cdot e^{5\cdot x}}{5}\]!quot!  , !quot!\(x\)!quot!  , '.
+               '!quot!\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\]!quot! );';
+        $this->assertEquals($fbt, $at->get_at_feedback());
+
+        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
+               '\[\frac{e^{5\cdot x+7}}{5}+\frac{\left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}}{5}\]  '.
+               'In fact, the derivative of your answer, with respect to \(x\) is: '.
+               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
+               'so you must have done something wrong!';
+        $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+    }
+
+    public function test_stack_maxima_int_feedback_2() {
+        $at = new stack_answertest_general_cas('((5*%e^7*x-%e^7)*%e^(5*x))',
+                '((5*%e^7*x-%e^7)*%e^(5*x))/25+c', 'ATInt', true, '[x,x*%e^(5*x+7)]', null, true, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+
+        $fbt = 'stack_trans(\'ATInt_generic\' , !quot!\[x\cdot e^{5\cdot x+7}\]!quot!  , !quot!\(x\)!quot!  , '.
+               '!quot!\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\]!quot! );';
+        $this->assertEquals($fbt, $at->get_at_feedback());
+
+        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: '.
+               '\[x\cdot e^{5\cdot x+7}\]  In fact, the derivative of your answer, with respect to \(x\) is: '.
+               '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
+               'so you must have done something wrong!';
+        $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+    }
 }

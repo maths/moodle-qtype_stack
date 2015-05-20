@@ -471,7 +471,6 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
 
         // Validate the response 1/2 (correct).
         $this->process_submission(array('ans1' => '1/2', 'ans1_val' => '0', '-submit' => 1));
@@ -496,7 +495,6 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
     }
 
     public function test_test3_submit_and_finish_incomplete() {
@@ -529,7 +527,7 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Save a response with three parts incorrect and one part not answereds.
+        // Save a response with three parts incorrect and one part not answered.
         $this->process_submission(array('ans1' => 'x+1', 'ans1_val' => 'x+1',
                 'ans2' => 'x+1', 'ans2_val' => 'x+1', 'ans3' => 'x+1', 'ans3_val' => 'x+1', 'ans4' => ''));
 
@@ -543,7 +541,6 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
         $this->check_output_contains_input_validation('ans2');
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_input_validation('ans4');
-        $this->check_output_contains_lang_string('pleaseananswerallparts', 'qtype_stack');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(

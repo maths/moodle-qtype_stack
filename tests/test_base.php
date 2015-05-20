@@ -188,13 +188,13 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
 
     protected function check_output_contains_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
-        $this->assertNotContains($string, $this->currentoutput,
+        $this->assertContains($string, $this->currentoutput,
                 'Expected string ' . $string . ' not found in ' . $this->currentoutput);
     }
 
     protected function check_output_does_not_contain_lang_string($identifier, $component = '', $a = null) {
         $string = get_string($identifier, $component, $a);
-        $this->assertContains($string, $this->currentoutput,
+        $this->assertNotContains($string, $this->currentoutput,
                 'The string ' . $string . ' should not be present in ' . $this->currentoutput);
     }
 }

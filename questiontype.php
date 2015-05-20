@@ -394,17 +394,17 @@ class qtype_stack extends question_type {
         $requiredparams = stack_input_factory::get_parameters_used();
         foreach ($questiondata->inputs as $name => $inputdata) {
             $allparameters = array(
-                'boxWidth'     =>        $inputdata->boxsize,
-                'strictSyntax' => (bool) $inputdata->strictsyntax,
-                'insertStars'  => (int)  $inputdata->insertstars,
-                'syntaxHint'   =>        $inputdata->syntaxhint,
-                'forbidWords'  =>        $inputdata->forbidwords,
-                'allowWords'   =>        $inputdata->allowwords,
-                'forbidFloats' => (bool) $inputdata->forbidfloat,
-                'lowestTerms'  => (bool) $inputdata->requirelowestterms,
-                'sameType'     => (bool) $inputdata->checkanswertype,
-                'mustVerify'   => (bool) $inputdata->mustverify,
-                'hideFeedback' =>       !$inputdata->showvalidation,
+                'boxWidth'       =>        $inputdata->boxsize,
+                'strictSyntax'   => (bool) $inputdata->strictsyntax,
+                'insertStars'    => (int)  $inputdata->insertstars,
+                'syntaxHint'     =>        $inputdata->syntaxhint,
+                'forbidWords'    =>        $inputdata->forbidwords,
+                'allowWords'     =>        $inputdata->allowwords,
+                'forbidFloats'   => (bool) $inputdata->forbidfloat,
+                'lowestTerms'    => (bool) $inputdata->requirelowestterms,
+                'sameType'       => (bool) $inputdata->checkanswertype,
+                'mustVerify'     => (bool) $inputdata->mustverify,
+                'showValidation' =>        $inputdata->showvalidation,
             );
             $parameters = array();
             foreach ($requiredparams[$inputdata->type] as $paramname) {

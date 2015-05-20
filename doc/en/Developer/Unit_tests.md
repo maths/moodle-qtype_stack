@@ -39,6 +39,7 @@ for testing in order to test a new release of Maxima, for example.
 If you want to run just the unit tests for STACK, you can use the command
 
     vendor\bin\phpunit --group qtype_stack
+    vendor/bin/phpunit --group qtype_stack
 
 To make sure this keeps working, please annotate all test classes with
 

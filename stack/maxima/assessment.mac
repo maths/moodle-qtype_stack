@@ -94,8 +94,17 @@ all_listp(p,l):= if listp(l) then ret:apply("and", maplist(p,l)) else ret:"fail"
 /* any_listp(p,l) true if all elements of l satisfy p */
 any_listp(p,l):= if listp(l) then ret:apply("or", maplist(p,l)) else ret:"fail"$
 
+/* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w */
+listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
+
+/* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
+listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
+
 /* This function applies the binary function zf to two lists a and b returning a list
-[ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  */
+[ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  
+   Actually, we can achieve some of this with map(zf, a, b) but this does not give up quietly
+   if the arguments are different lengths.
+*/
 zip_with(zf, a, b) := block(
   if not(listp(a)) then return(false),
   if not(listp(b)) then return(false),

@@ -26,7 +26,7 @@ where stuff is the name of the variable. This string is automatically generated 
 does not exist and is placed after the input. This feedback must be given.
 Inputs have a number of options. Specific inputs may have extra options.
 
-To see what sort of vaidation is done, look at the
+To see what sort of validation is done, look at the
 [test suite for validation of student's input](../../../studentinputs.php).
 
 ## Input options ##
@@ -117,9 +117,9 @@ There are three options.
   * Note, the student's formula is interpreted and variables identified, so \(\sin(ax\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
   * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
 
-The above two conditions are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representaiton of multiplication, e.g. as a dot, so the studnet can see at the validation that `xe^x` is interpreted 
+The above two conditions are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted 
 
-1. as \( (x\cdot e)^x\) if we assume single caracter variable names, and
+1. as \( (x\cdot e)^x\) if we assume single character variable names, and
 2. as \( xe^x\) if we just "Insert `*`s for implied multiplication".  The absence of the dot here is key.
 
 ### Syntax Hint {#Syntax_Hint}
@@ -143,7 +143,7 @@ The ? may also be used to give partial credit. Of course it could also be used f
 
 ### Forbidden words ### {#Forbidden_Words}
 
-This is a comma separated list of text strings which are forbidden in a student's answer.  Note, any variable names used in the question variables are automatically forbiden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).
+This is a comma separated list of text strings which are forbidden in a student's answer.  Note, any variable names used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).
 If one of these strings is present then the student's attempt will be considered invalid,
 and no penalties will be given.  This is an unsophisticated string match.
 
@@ -163,7 +163,7 @@ These lists are in the casstring class. If you have suggestions for more lists, 
 
 By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student's answer.
 
-Note the allowed words permit the teacher to override some (but not all) of the strings which are considered to be invalid by default for student input.  For example, `Sin` (capital "S") has specific feedback.  If you need this in a question you have to allow it here.  Similarly `In` ("India november") is mistakenly used by students for the natural logarithm rather than `ln` ("Lima november").  Hence by default this triggers specific feedback.  You can allow `In` here.
+Note the allowed words permit the teacher to override some (but not all) of the strings which are considered to be invalid by default for student input.  For example, `Sin` (capital "S") has specific feedback.  If you need this in a question you have to allow it here.  Similarly `In` ("India November") is mistakenly used by students for the natural logarithm rather than `ln` ("Lima November").  Hence by default this triggers specific feedback.  You can allow `In` here.
 
 ### Forbid Floats ### {#Forbid_Floats}
 
@@ -204,7 +204,7 @@ Feedback to students is in two forms.
 * feedback tied to inputs, in particular if the answer is invalid.
 * feedback tied to each potential response tree.
 
-Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.
+Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
 
 ## Future plans ##
 

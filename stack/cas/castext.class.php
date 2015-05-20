@@ -280,7 +280,7 @@ class stack_cas_text {
         if (null !== $this->session) {
             $this->castext = $this->session->get_display_castext($this->castext);
         }
-        // Another modification. Stops <html> tags from being given $ tags and therefore breaking tth.
+        // Another modification. Stops <html> tags from being given $ tags.
         $this->castext = str_replace('\(<html>', '', $this->castext);
         // Bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors.
         $this->castext = str_replace('</html>\)', '', $this->castext);

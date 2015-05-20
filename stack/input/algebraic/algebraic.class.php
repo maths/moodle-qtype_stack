@@ -59,7 +59,7 @@ class stack_algebraic_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
             'mustVerify'     => true,
-            'hideFeedback'   => false,
+            'showValidation' => 1,
             'boxWidth'       => 15,
             'strictSyntax'   => false,
             'insertStars'    => 0,

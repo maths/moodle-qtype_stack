@@ -219,7 +219,7 @@ class stack_cas_session {
                     $cs->set_feedback($result['feedback']);
                 }
 
-                if ('' != $result['error'] and false === strstr('clipped', $result['error'])) {
+                if ('' != $result['error'] and false === strstr($result['error'], 'clipped')) {
                     $cs->add_errors($result['error']);
                     $cs->decode_maxima_errors($result['error']);
                     $newerrors .= stack_maxima_format_casstring($cs->get_raw_casstring());

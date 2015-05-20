@@ -143,7 +143,7 @@ class stack_equiv_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
             'mustVerify'     => true,
-            'hideFeedback'   => false,
+            'showValidation' => 1,
             'boxWidth'       => 20,
             'strictSyntax'   => true,
             'insertStars'    => 0,

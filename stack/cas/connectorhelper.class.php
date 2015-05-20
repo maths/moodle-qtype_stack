@@ -385,6 +385,7 @@ abstract class stack_connection_helper {
 
         // Question: should we at this stage try to use the optimised image we have created?
         $success = true;
+
         // Add the timeout command to the message.
         $commandline = 'timeout --kill-after=10s 10s '.$commandline;
         $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));

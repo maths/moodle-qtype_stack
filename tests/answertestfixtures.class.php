@@ -607,6 +607,7 @@ class stack_answertest_test_data {
         array('Int', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 0, 'x', 'Other logs'),
         array('Int', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 0, 'x', ''),
         array('Int', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'x', ''),
+        array('Int', 'c-(log(2)-log(x))^2/2', '-1/2*log(2/x)^2', 1, 'x', ''),
         // In these examples there are two logarihtms.  The student should be *consistent*
         // in their use, or not, of absolute value.
         array('Int', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'x', 'Two logs'),

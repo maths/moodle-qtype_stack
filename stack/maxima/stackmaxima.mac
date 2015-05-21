@@ -2212,7 +2212,7 @@ ATIntWeirdConstp(ex):=block([l],
 ATInt_var_in_abs_p(ex, v):=block(
   if ex=v then return(false),  /* v on its own is not inside abs() */
   if atom(ex) then return(true),
-  if freeof(v,ex) then return(true),
+  if freeof(v,ex) then return(false), /* if we don't have v then it is not inside abs() */
   if safe_op(ex) = "abs" then return(true),
   apply("and", maplist(lambda([ex2], ATInt_var_in_abs_p(ex2, v)), args(ex)))
 )$

@@ -191,6 +191,28 @@ class stack_potentialresponse_node {
      */
     public function traverse($results, $key, $cascontext, $options) {
 
+        $errorfree = true;
+        if ($cascontext->get_errors_key('PRSANS' . $key)) {
+            $results->_errors .= $cascontext->get_errors_key('PRSANS' . $key);
+            $results->add_feedback(' '.stack_string('prtruntimeerror',
+                    array('node' => 'PRSANS'.($key + 1), 'error' => $cascontext->get_errors_key('PRSANS' . $key))));
+            $errorfree = false;
+        }
+        if ($cascontext->get_errors_key('PRTANS' . $key)) {
+            $results->_errors .= $cascontext->get_errors_key('PRTANS' . $key);
+            $results->add_feedback(' '.stack_string('prtruntimeerror',
+                    array('node' => 'PRTANS'.($key + 1), 'error' => $cascontext->get_errors_key('PRTANS' . $key))));
+            $errorfree = false;
+        }
+        if ($cascontext->get_errors_key('PRATOPT' . $key)) {
+            $results->_errors .= $cascontext->get_errors_key('PRATOPT' . $key);
+            $results->add_feedback(' '.stack_string('prtruntimeerror',
+                    array('node' => 'PRATOPT'.($key + 1), 'error' => $cascontext->get_errors_key('PRATOPT' . $key))));
+            $errorfree = false;
+        }
+        if (!($errorfree)) {
+            return -1;
+        }
         $sans   = $cascontext->get_value_key('PRSANS' . $key);
         $tans   = $cascontext->get_value_key('PRTANS' . $key);
         $atopts = $cascontext->get_value_key('PRATOPT' . $key);
@@ -268,7 +290,7 @@ class stack_potentialresponse_node {
 
         if ($this->process_atoptions()) {
             $atopts = new stack_cas_casstring($this->atoptions);
-            $atopts->validate('t', false, 0);
+            $atopts->get_valid('t', false, 0);
             $atopts->set_key('PRATOPT' . $key);
             $variables[] = $atopts;
         }

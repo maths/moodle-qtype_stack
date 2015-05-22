@@ -493,7 +493,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
+        $this->check_output_contains_lang_string('TEST_FAILED_Q', 'qtype_stack');
     }
 
     public function test_1input2prts_specific_feedback_handling() {
@@ -559,7 +559,8 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $q = test_question_maker::make_question('stack', 'test0');
 
         // Comment out the following line, and the test passes.
-        $q->questionvariables = 'PrintVect(v):= concat("\\,\\!",ssubst("\\mathbf{j}","YY",   ssubst("\\mathbf{i}","XX", ssubst(" ","*",StackDISP(subst(XX, ii, subst(YY, jj,v )  ),"")))))';
+        $q->questionvariables = 'PrintVect(v):= concat("\\,\\!",ssubst("\\mathbf{j}","YY",   ' .
+            'ssubst("\\mathbf{i}","XX", ssubst(" ","*",StackDISP(subst(XX, ii, subst(YY, jj,v )  ),"")))))';
 
         $q->questiontext = '<p><img style="display: block; margin-left: auto; margin-right: auto;" ' .
                 'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>' .

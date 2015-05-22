@@ -169,7 +169,7 @@ class stack_matrix_input extends stack_input {
             $modifiedrow = array();
             foreach ($row as $val) {
                 $answer = new stack_cas_casstring($val);
-                $answer->validate('s', $this->get_parameter('strictSyntax', true),
+                $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                         $this->get_parameter('insertStars', 0),  $this->get_parameter('allowwords', ''));
 
                 // Ensure student hasn't used a variable name used by the teacher.
@@ -293,7 +293,7 @@ class stack_matrix_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
             'mustVerify'     => true,
-            'hideFeedback'   => false,
+            'showValidation' => 1,
             'boxWidth'       => 5,
             'strictSyntax'   => false,
             'insertStars'    => 0,

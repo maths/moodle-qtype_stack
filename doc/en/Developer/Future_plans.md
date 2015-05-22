@@ -16,6 +16,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Add a "scratch working" area in which students can record their thinking etc. alongside the final answer.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
+* Modify the text area input so that each line is validated separately.
 
 ### Improve the editing form ###
 
@@ -33,6 +34,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Multi-lingual support for questions.  See [languages](Languages.md).  
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * Decimal separator, both input and output.
+* Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
 * Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)

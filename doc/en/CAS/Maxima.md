@@ -8,8 +8,7 @@ and sets, lists, vectors, matrices, and tensors.
 To write more than very simple questions you will need to use
 some Maxima commands. This documentation does not provide a
 detailed tutorial on Maxima. A very good introduction is given
-in [Minimal
-Maxima](http://maxima.sourceforge.net/docs/tutorial/en/minimal-maxima.pdf),
+in [Minimal Maxima](http://maxima.sourceforge.net/docs/tutorial/en/minimal-maxima.pdf),
 which this document assumes you have read.
 
 STACK then modifies Maxima in a number of ways.
@@ -18,19 +17,15 @@ STACK then modifies Maxima in a number of ways.
 
 Maxima is a very weakly typed language.  However, in STACK we need the following "types" of expression:
 
-  1. equations, i.e. an expression in which the top operation is
-an equality sign;
-  2. inequalities, for example
-    \( x<1\mbox{, or }x\leq 1\);
+  1. equations, i.e. an expression in which the top operation is an equality sign;
+  2. inequalities, for example \( x<1\mbox{, or }x\leq 1\);
   3. sets, for example, \(\{1,2,3\}\);
   4. lists, for example, \([1,2,3]\).   In Maxima ordered lists are entered using square brackets, for example as `p:[1,1,2,x^2]`.
     An element is accessed using the syntax `p[1]`.
   5. [matrices](Matrix.md).  The basic syntax for a matrix is `p:matrix([1,2],[3,4])`.  Each row is a list. Elements are accessed as `p[1,2]`, etc.
   6. expressions.
 
-Expressions come last, since they are just counted as being
-_not_ the others! STACK defines [predicate functions](Predicate_functions.md) to test for each of these
-types.
+Expressions come last, since they are just counted as being _not_ the others! STACK defines [predicate functions](Predicate_functions.md) to test for each of these types.
 
 ## Numbers {#Numbers}
 
@@ -48,6 +43,11 @@ The absolute value function in Maxima is entered as `abs()`.  STACK also permits
    |x|
 
 This is an alias for `abs`.  Note that `abs(x)` will be displayed by STACK as \(|x|\).
+
+STACK also redefined a small number of functions
+
+ # The plot command `plot2d` is not used in STACK questions.  Use `plot` instead.  This ensures your image files are available on the server.
+ # The random number command `random` is not used in STACK questions.  Use the command `rand` instead.  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
 
 # Parts of Maxima expressions {#Parts_of_Maxima_expressions}
 
@@ -84,8 +84,7 @@ To do this see [STACK-Maxima sandbox](STACK-Maxima_sandbox.md).
 
 STACK creates a range of additional functions and restricts
 those available, many of which are described within this
-documentaion.  See also [Predicate
-functions](Predicate_functions.md).
+documentaion.  See also [Predicate functions](Predicate_functions.md).
 
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -102,6 +101,8 @@ functions](Predicate_functions.md).
 | `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed sequare form.
 | `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
 | `unary_minus_sort(ex)`          | Tidies up the way unary minus is represented within expressions when `simp:false`.  See also [simplification](Simplification.md).
+| `texboldatoms(ex)`              | Displays all non-numeric atoms in bold.  Useful for vector questions.
+| `exdowncase(ex)`                | This function makes a substitution of all variables for their lower case equivalents.
 
 ## Assignment ## {#assignment}
 

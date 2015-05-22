@@ -145,6 +145,11 @@ The chart below shows the answer test, whether it is defined in Maxima or PHP an
 | StringSloppy 	|                       | PHP        |	
 | RegExp       	|                       | PHP        |	
 
+If you just want to decide if two expressions are considered to be algebraically equivalent, then use
+
+    algebraic_equivalence(ex1,ex2);
+    
+This is the function the answer test `ATAlgEquiv` uses without all the wrapper of a full answer test.
 
 ### Where is the Maxima code?
 

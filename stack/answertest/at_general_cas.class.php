@@ -145,7 +145,7 @@ class stack_answertest_general_cas extends stack_anstest {
         $cts = array();
         foreach ($cascommands as $com) {
             $cs    = new stack_cas_casstring($com);
-            $cs->validate('t', true, 0);
+            $cs->get_valid('t', true, 0);
             $cts[] = $cs;
         }
 

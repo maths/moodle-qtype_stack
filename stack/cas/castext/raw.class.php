@@ -42,7 +42,7 @@ class stack_cas_castext_raw extends stack_cas_castext_block {
         } while (in_array($key, $session_keys));
         $this->number = $i-1;
 
-        $cs->validate($this->security, $this->syntax, $this->insertstars);
+        $cs->get_valid($this->security, $this->syntax, $this->insertstars);
         $cs->set_key($key, true);
 
         $tobeevaluatedcassession->add_vars(array($cs));

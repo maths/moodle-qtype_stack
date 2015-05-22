@@ -30,7 +30,7 @@ class stack_matrix_input extends stack_input {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
         $cs = new stack_cas_casstring('ta:matrix_size(' . $teacheranswer . ')');
-        $cs->validate('t');
+        $cs->get_valid('t');
         $at1 = new stack_cas_session(array($cs), null, 0);
         $at1->instantiate();
 

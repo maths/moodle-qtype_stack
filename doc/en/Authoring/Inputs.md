@@ -114,7 +114,7 @@ There are three options.
 * Don't insert stars:  This does not insert `*` characters automatically into any patterns identified by Strict Syntax as needing them.  Strict Syntax is true and there are any pattern identified the result will be an invalid expression.
 * Insert `*`s for implied multiplication.  If any patterns identified by Strict Syntax as needing `*`s then they will automatically be inserted into the expression quietly.
 * Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the students answer made up of more than one character then replace these with the product of the letters.
-  * Note, the student's formula is interpreted and variables identified, so \(\sin(ax\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
+  * Note, the student's formula is interpreted and variables identified, so \(\sin(ax)\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
   * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
 
 The above two conditions are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representaiton of multiplication, e.g. as a dot, so the studnet can see at the validation that `xe^x` is interpreted 

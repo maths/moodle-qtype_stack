@@ -82,7 +82,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
         $cts = array();
         foreach ($cascommands as $com) {
             $cs    = new stack_cas_casstring($com);
-            $cs->validate('t', true, 0);
+            $cs->get_valid('t', true, 0);
             $cts[] = $cs;
         }
         $session = new stack_cas_session($cts, null, 0);

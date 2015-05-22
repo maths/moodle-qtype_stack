@@ -167,7 +167,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputmustverify',
 $settings->add(new admin_setting_configselect('qtype_stack/inputshowvalidation',
         get_string('showvalidation', 'qtype_stack'),
         get_string('showvalidation_help', 'qtype_stack'), '1',
-        stack_options::get_yes_no_options()));
+        stack_options::get_showvalidation_options()));
 
 
 // Options for new questions.

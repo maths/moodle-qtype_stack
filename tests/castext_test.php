@@ -562,4 +562,5 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals($at1->get_display_castext(), '\begin{multline*} {\frac{x^2}{\left(x^2+1\right)^3}} \\\\ {\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4}} \end{multline*}');
     }
+
 }

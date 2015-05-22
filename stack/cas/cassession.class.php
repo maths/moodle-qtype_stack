@@ -192,7 +192,7 @@ class stack_cas_session {
             if (array_key_exists($i, $results)) {
                 $allfail = false; // We at least got one result back from the CAS!
 
-                $result = $results["$i"]; // GOCHA!  results have string represenations of numbers, not int....
+                $result = $results["$i"]; // GOCHA! Results have string represenations of numbers, not int....
 
                 if (array_key_exists('value', $result)) {
                     $val = str_replace('QMCHAR', '?', $result['value']);

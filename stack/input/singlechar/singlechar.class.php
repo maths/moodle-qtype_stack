@@ -59,7 +59,7 @@ class stack_singlechar_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => false,
-            'hideFeedback'   => true);
+            'mustVerify'      => false,
+            'showValidation'  => 0);
     }
 }

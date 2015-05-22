@@ -288,7 +288,8 @@ abstract class stack_connection_helper {
 
         $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
                 'cte("CASresult",errcatch(diff(x^n,x))), print("1=[ error= ["), ' .
-                'cte("CASversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
+                'cte("STACKversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
+                'cte("MAXIMAversion",errcatch(MAXIMA_VERSION)), print("3=[ error= ["), ' .
                 'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
                 "\n";
 
@@ -310,7 +311,7 @@ abstract class stack_connection_helper {
                     if ($result['value'] != '"'.$date.'"') {
                         $success = false;
                     }
-                } else if ('CASversion' !== $result['key']) {
+                } else if ('STACKversion' !== $result['key'] && 'MAXIMAversion' !== $result['key']) {
                     $success = false;
                 }
             }
@@ -384,6 +385,8 @@ abstract class stack_connection_helper {
 
         // Question: should we at this stage try to use the optimised image we have created?
         $success = true;
+        // Add the timeout command to the message.
+        $commandline = 'timeout --kill-after=10s 10s '.$commandline;
         $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));
         if (!file_exists($imagename)) {
             $success = false;

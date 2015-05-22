@@ -599,8 +599,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
 
-        $mform->addElement('selectyesno', $inputname . 'showvalidation',
-                stack_string('showvalidation'));
+        $mform->addElement('select', $inputname . 'showvalidation',
+                stack_string('showvalidation'), stack_options::get_showvalidation_options());
         $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
 

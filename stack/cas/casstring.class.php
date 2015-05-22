@@ -213,7 +213,7 @@ class stack_cas_casstring {
             'split', 'sqrtdenest', 'sstatus', 'staircase', 'stardisp',
             'stirling', 'stirling1', 'stirling2', 'stringdisp',
             'summand_to_rec', 'surface_hide', 'symmetricp', 'tab', 'take_channel',
-            'tcontract', 'tensorkill', 'tentex', 'texput', 'timedate', 'title', 'totaldisrep', 'totient',
+            'tcontract', 'tensorkill', 'tentex', 'timedate', 'title', 'totaldisrep', 'totient',
             'tpartpol', 'tr', 'tr_array_as_ref', 'tr_bound_function_applyp', 'tr_file_tty_messagesp',
             'tr_float_can_branch_complex', 'tr_function_call_default', 'tr_numer',
             'tr_optimize_max_loop', 'tr_semicompile', 'tr_state_vars', 'tr_warn_bad_function_calls',

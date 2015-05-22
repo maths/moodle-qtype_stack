@@ -293,7 +293,7 @@ class stack_matrix_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
             'mustVerify'     => true,
-            'hideFeedback'   => false,
+            'showValidation' => 1,
             'boxWidth'       => 5,
             'strictSyntax'   => false,
             'insertStars'    => 0,

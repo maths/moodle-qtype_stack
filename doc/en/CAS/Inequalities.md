@@ -10,7 +10,7 @@ You can test if two inequalities are the same using the algebraic equivalence te
 
 Chained inequalities, for example \(1\leq x \leq2\mbox{,}\) are not permitted.  They must be joined by logical connectives, e.g. "\(x>1\) and \(x<7\)". 
 
-Support for inequalities in Maxima (and hence STACK) is currently poor. [This is on our list of possible projects, and help would be welcome]
+Support for inequalities in Maxima (and hence STACK) is currently poor. This is on our list of possible projects, and help would be welcome!
 
 # Functions to support inequalities
 

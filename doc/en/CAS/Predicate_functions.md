@@ -37,6 +37,9 @@ The following type predicates are defined by STACK.
 | `inequalityp(ex)`         | Determines if \(ex\) is an inequality.
 | `expressionp(ex)`         | Determines if \(ex\) is _not_ a matrix, list, set, equation, function or inequality.
 | `polynomialsimpp(ex)`     | Determines if \(ex\) is a polynomial in its own variables.
+| `simp_numberp(ex)`        | Determines if \(ex\) is a number when `simp:false`.
+| `real_numberp(ex)`        | Derermines if \(ex\) is a real number.
+| `lowesttermsp(ex)`        | Derermines if a fraction \(ex\) is in lowest terms.
 
 
 # STACK general predicates #

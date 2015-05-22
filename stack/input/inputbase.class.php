@@ -38,7 +38,7 @@ abstract class stack_input {
 
     protected static $allparameternames = array(
         'mustVerify',
-        'hideFeedback',
+        'showValidation',
         'boxWidth',
         'boxHeight',
         'strictSyntax',
@@ -133,7 +133,7 @@ abstract class stack_input {
                     ' which does not exist for inputs of type ' . get_class($this));
         }
 
-        if ($parameter == 'hideFeedback' && $value && $this->is_parameter_used('mustVerify')) {
+        if ($parameter == 'showValidation' && $value === 0 && $this->is_parameter_used('mustVerify')) {
             $this->set_parameter('mustVerify', false);
         }
 
@@ -168,8 +168,8 @@ abstract class stack_input {
                 $valid = is_bool($value);
                 break;
 
-            case 'hideFeedback':
-                $valid = is_bool($value);
+            case 'showValidation':
+                $valid = is_numeric($value) && $value>=0 && $value <= 2;
                 break;
 
             case 'strictSyntax':
@@ -463,10 +463,9 @@ abstract class stack_input {
             return '';
         }
 
-        if ($this->get_parameter('hideFeedback', false) && self::INVALID != $state->status) {
+        if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {
             return '';
         }
-
         $feedback  = '';
         $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
 
@@ -483,7 +482,7 @@ abstract class stack_input {
             $feedback .= html_writer::tag('p', $state->errors, array('class' => 'stack_errors'));
         }
 
-        if (!($state->lvars === '' or $state->lvars === '[]')) {
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
             $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
         }
         return $feedback;

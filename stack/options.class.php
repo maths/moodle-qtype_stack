@@ -269,4 +269,15 @@ class stack_options {
             '|' => '|',
         );
     }
+
+    /**
+     * @return array of choices for the show validation select menu.
+     */
+    public static function get_showvalidation_options() {
+        return array(
+            '0' => get_string('showvalidationno', 'qtype_stack'),
+            '1' => get_string('showvalidationyes', 'qtype_stack'),
+            '2' => get_string('showvalidationyesnovars', 'qtype_stack'),
+        );
+    }
 }

@@ -118,6 +118,9 @@ $string['generalfeedback_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/A
 $string['showvalidation'] = 'Show the validation';
 $string['showvalidation_help'] = 'Setting this option displays any validation feedback from this input, including echoing back their expression in traditional two dimensional notation.';
 $string['showvalidation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Show_validation';
+$string['showvalidationno'] = 'No';
+$string['showvalidationyes'] = 'Yes, with variable list';
+$string['showvalidationyesnovars'] = 'Yes, without variable list';
 $string['htmlfragment'] = 'You appear to have some HTML elements in your expression.';
 $string['illegalcaschars'] = 'The characters @ and $ are not allowed in CAS input.';
 $string['inputextraoptions'] = 'Extra options';
@@ -324,7 +327,7 @@ $string['settingplatformtypeunixoptimised'] = 'Linux (optimised)';
 $string['settingplatformtypewin']  = 'Windows';
 $string['settingplatformtypeserver'] = 'Server';
 $string['settingplatformmaximacommand'] = 'Maxima command';
-$string['settingplatformmaximacommand_desc'] = 'For Platform type: Server, this is must be set to the URL of the Maxima Pool servlet. For other platform types, if this is blank, STACK will make an educated guess as to where to find Maxima. If that fails, this should be set to the full path of the maxima or maxima-optimised executable.';
+$string['settingplatformmaximacommand_desc'] = 'For Platform type: Server, this is must be set to the URL of the Maxima Pool servlet. For other platform types, if this is blank, STACK will make an educated guess as to where to find Maxima. If that fails, this should be set to the full path of the maxima or maxima-optimised executable.  Consider using the timeout command on unix based systems. E.g. timeout --kill-after=10s 10s maxima';
 $string['settingplatformplotcommand'] = 'Plot command';
 $string['settingplatformplotcommand_desc'] = 'Normally this can be left blank, but if graph plotting is not working, you may need to supply the full path to the gnuplot command here.';
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
@@ -677,6 +680,7 @@ $string['ATInt_weirdconst']          = 'The formal derivative of your answer doe
 $string['ATInt_logabs_inconsistent'] = 'There appear to be strange inconsistencies between your use of \(\log(...)\) and \(\log(|...|)\).  Please ask your teacher about this.  ';
 $string['ATInt_diff']                = 'It looks like you have differentiated instead!';
 $string['ATInt_generic']             = 'The derivative of your answer should be equal to the expression that you were asked to integrate, that was: {$a->m0}  In fact, the derivative of your answer, with respect to {$a->m1} is: {$a->m2} so you must have done something wrong!';
+$string['ATInt_STACKERROR_OptList']  = 'The answer test failed to execute correctly: please alert your teacher. When the option to ATInt is a list it must have exactly two elements, but does not.';
 
 $string['ATDiff_error_list']        = 'The answer test failed.  Please contact your systems administrator';
 $string['ATDiff_int']               = 'It looks like you have integrated instead!';

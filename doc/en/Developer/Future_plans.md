@@ -47,7 +47,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Provide an alternative way to edit PRTs in a form of computer code, rather than lots of form fields. For example using http://zaach.github.com/jison/ or https://github.com/hafriedlander/php-peg. 
 * Read other file formats into STACK.  In particular
   * AIM
-  * WebWork
+  * WebWork, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
   * MapleTA
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.

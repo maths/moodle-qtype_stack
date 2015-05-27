@@ -74,6 +74,11 @@ echo $OUTPUT->heading($title);
 $samplearguments = array();
 
 $newarg = array();
+$newarg['title']     = "Empty argument";
+$newarg['casstring'] = "[]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving quadratic equations 1";
 $newarg['casstring'] = "[x^2-x=30,x^2-x-30=0,(x-6)*(x+5)=0,x-6=0 or x+5=0,x=6 or x=-5]";
 $samplearguments[] = $newarg;
@@ -85,6 +90,11 @@ $samplearguments[] = $newarg;
 
 $newarg = array();
 $newarg['title']     = "Solving quadratic equations 3";
+$newarg['casstring'] = "[(2*x-7)^2=(x+1)^2,(2*x-7)^2 -(x+1)^2= 0,(2*x-7+x+1)*(2*x-7-x-1) =0,(3*x-6)*(x-8)=0,x=2 or x=8]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving quadratic equations 4";
 $newarg['casstring'] = "[x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-sqrt(q+p^2),x-p=sqrt(q+p^2) or x-p=-sqrt(q+p^2),x=p+sqrt(q+p^2) or x=p-sqrt(q+p^2)]";
 $samplearguments[] = $newarg;
 
@@ -104,9 +114,15 @@ $newarg['casstring'] = "[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['title']     = "Solving equations with surds (erroneous argument)";
+$newarg['title']     = "Solving equations with surds (erroneous argument 1)";
 $newarg['casstring'] = "[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1]";
 $samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving equations with surds (erroneous argument 2)";
+$newarg['casstring'] = "[]";
+$samplearguments[] = $newarg;
+
 
 // [2*x/abs(x-1) < 1,2*x < abs(x-1), x >= 1 nounand 2*x < x-1 nounor (x < 1 nounand 2*x < 1-x), x < -1 nounand x >= 1 nounor (x < 1 nounand 3*x < 1),x < 1/3];
 $newarg = array();

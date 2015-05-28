@@ -35,6 +35,12 @@ if MAXIMA_VERSION_NUM>=15.0 then DIV_OP:"/"$
 
 if not(?functionp('poly_reduced_grobner)) then load("grobner");
 
+/* Package dependency: makes use of the %and and %or functions from to_poly_solver
+   for representing and dealing with inequalities.              */
+if not(?functionp('to_poly_solve)) then load("to_poly_solve");
+
+load("inequalities.mac");
+
 /* ********************************** */
 /* Parts of expressions               */
 /* ********************************** */
@@ -124,6 +130,9 @@ exdowncase(ex):=block([lv],
   lv:map(lambda([v],v=parse_string(sdowncase(string(v)))),lv),
   return(subst(lv,ex)))$
 
+/* Maxima does not have its own degree command! */
+/* See notes on hipow.                          */
+degree(ex,v) := ev(hipow(expand(ex), v), simp); 
 
 /* ********************************** */
 /* Type predicates                    */
@@ -596,12 +605,12 @@ de_morgan(ex):=block(
 /* Distribute %and over %or, i.e. A and (B or C) -> (A and B) or (A and C). */
 distrib_and(ex):=block([orlisti, orlist1, orlist2],
    if mapatom(ex) then return(ex),
-   if not(is(safe_op(ex)="?%and")) then return(apply(op(ex), maplist(distrib_and, args(ex)))),
-   orlisti:sublist_indices(args(ex), lambda([ex2], is(safe_op(ex2)="?%or"))),
+   if not(is(safe_op(ex)="%and")) then return(apply(op(ex), maplist(distrib_and, args(ex)))),
+   orlisti:sublist_indices(args(ex), lambda([ex2], is(safe_op(ex2)="%or"))),
    if emptyp(orlisti) then return(apply(op(ex), maplist(distrib_and, args(ex)))),   
    orlist1:args(ex)[first(orlisti)],   
    orlist2:rempart(args(ex), first(orlisti)),
-   distrib_and(apply(?%and, append([apply(?%or, maplist(lambda([ex2], first(orlist2) %and ex2), args(orlist1)))],rest(orlist2))))
+   distrib_and(apply(?%and, append([apply(?%or, maplist(lambda([ex2], first(orlist2) %and ex2), args(orlist1)))], rest(orlist2))))
 )$
 
 /* Normal form for logical expressions. */
@@ -610,8 +619,10 @@ logical_normal(ex):=block(
     ex:subst("%and", "nounand", ex), 
     ex:subst("%or", "nounor", ex), 
     ex:subst("not", "%not", ex), 
-    ex:distrib_and(de_morgan(ex)),
     ex:ineqprepare(ex),
+    ex:noun_solve_logic(ex),
+    ex:de_morgan(ex),
+    ex:distrib_and(ex),
     ex:logical_normal_rem_redundant(ex),
     return(ex)
 )$
@@ -632,7 +643,7 @@ noun_solve_logic(ex):=block([ex2,ex3,exop,m,fl,p],
     if inequalityp(ex) then return(inequality_factor_solve(ex)),
 
     /* Recurse over a logical expression. */
-    if logicp(ex) then return(apply(op(ex), maplist(noun_solve_logic, args(ex)))),
+    if logicp(ex) or safe_op(ex) = "%and" or safe_op(ex) = "%or" then return(apply(op(ex), maplist(noun_solve_logic, args(ex)))),
 
     return(ex)
 )$

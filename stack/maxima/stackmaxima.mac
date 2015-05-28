@@ -126,7 +126,8 @@ sqrtdenest(a) :=
 /* Load stack packages                */
 /* ********************************** */
 
-load("assessment.mac"); /* Currently part of the STACK distribution */
+load("assessment.mac");   /* Currently part of the STACK distribution */
+load("inequalities.mac"); /* Currently part of the STACK distribution */
 
 load("stacktex.lisp"); /* Loads LaTeX changes and preferences */
 texput(QMCHAR, "\\color{red}{?}");
@@ -2371,5 +2372,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015052000$
-print("[ STACK-Maxima started, library version 2015052000 ]")$
+stackmaximaversion:2015052800$
+print("[ STACK-Maxima started, library version 2015052800 ]")$

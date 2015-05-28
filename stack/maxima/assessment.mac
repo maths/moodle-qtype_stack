@@ -349,10 +349,9 @@ ineqorder_g(a, ex) := block([S],
 /* This removes redundant linear inequalities such as x>1 or x>0 -> x>0 */
 ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv],
   if atom(ex) then return(ex),
-  if not(op(ex)="nounand" or op(ex)="nounor") then return(ex),
-  /* Recurse over the expression */
-  ex:apply(op(ex), maplist(ineq_rem_redundant, args(ex))),
-  if op(ex)="nounand" then exo:[max,min] else exo:[min,max],
+  if not(safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="?%and" or safe_op(ex)="?%or") then 
+     return(apply(op(ex), maplist(ineq_rem_redundant, agrs(ex)))),
+  if (safe_op(ex)="nounand" or safe_op(ex)="?%and") then exo:[max,min] else exo:[min,max],
   exn:sublist(args(ex), lambda([ex2], not(linear_inequalityp(ex2)))),  
   exl:sublist(args(ex), linear_inequalityp),
   /* Separate out different variables */
@@ -388,7 +387,7 @@ neg_ineq(ex):=block(
 /* This function takes a list of inequalities, ex and a list of index numbers l, and negates each inequality as indexed by l */
 neg_ineq_list(ex,l):=block([k],
   if emptyp(l) then return(ex),
-  for k: 1 thru length(l) do ex[l[k]]:neg_ineq(ex[l[k]]),
+  for k: 1 thru length(l) do ex[ev(l[k],simp)]:neg_ineq(ex[ev(l[k],simp)]),
   ex
 )$
 
@@ -429,7 +428,7 @@ interval_inequalityp(ex):= block(
    if atom(ex) then return(false),
    /* Half open intervals */
    if linear_inequalityp(ex) then return(true),
-   if not(op(ex)="nounand") then return(false),
+   if not(is(safe_op(ex)="nounand") or is(safe_op(ex)="?%and")) then return(false),
    if is(length(listofvars(ex))>1) then return(false),
    return(all_listp(linear_inequalityp, args(ex)))
 )$
@@ -443,10 +442,10 @@ interval_simplify(ex):=block([ex2,v,a,b],
    if equal(ex, true) then return(true),
    if equal(ex, false) then return(false),
    /* Remove redundant inequalities: might leave us with a single one. */
+   ex:map(inequality_disp, ex),
    ex:ineq_rem_redundant(ex),
    if linear_inequalityp(ex) then return(inequality_disp(ex)),
    /* Now we are in business.  We have a single interval, of two inequalities. */
-   ex:map(inequality_disp, ex),
    v:listofvars(ex),
    if equal(v,lhs(first(ex))) then ex:second(args(ex)) and first(args(ex)),
    /* This should now be in the right form. */
@@ -797,7 +796,7 @@ distrib_and(ex):=block([orlisti, orlist1, orlist2],
 
 /* Normal form for logical expressions. */
 logical_normal(ex):=block(
-    /* Change the noun logical operators into assciative indenpotent ones. */
+    /* Change the noun logical operators into associative indenpotent ones. */
     ex:subst("%and", "nounand", ex), 
     ex:subst("%or", "nounor", ex), 
     ex:subst("not", "%not", ex), 
@@ -810,9 +809,7 @@ logical_normal(ex):=block(
 logical_normal_rem_redundant(ex):=block(
    if mapatom(ex) then return(ex),
    if not(is(safe_op(ex)="?%and")) then return(apply(op(ex), maplist(logical_normal_rem_redundant, args(ex)))),
-   ex:ineq_rem_redundant(apply("nounand", args(ex))),
-   subst("%and", "nounand", ex),
-   ex:ineqprepare(ex)
+   ex:interval_simplify(ex)   
 )$
 
 noun_solve_logic(ex):=block([ex2,ex3,exop,m,fl,p],
@@ -1084,6 +1081,7 @@ texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 
 stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument, tempnote],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list"), return(false)),
+  if length(ex)<2 then return([true,matrix(ex)]),
   /* Switch off matrix brackets. */
   lmxchar:"",
   /* Set up empty rows to hold the answer. */
@@ -1116,20 +1114,20 @@ stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument, tempnote],
       ATres:ATAlgEquiv(SA, SB),
       if second(ATres) then block(
           eqoutcome[ev(id, simp)]:EQUIVCHAR,
-          eqoutnote[ev(id, simp)]:third(ATres)
+          eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
       ) else (
          /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
          /* But here we do when able to do so safely.                        */
          if (equationp(SA) or inequalityp(SA) or logicp(SA)) then block(
-             SA:noun_solve_logic(SA),
+             SA:ev(noun_solve_logic(SA), simp),
              tempnote:sconcat(tempnote, "SA_solved: ")
             ),
          if (equationp(SB) or inequalityp(SB) or logicp(SB)) then block(
-             SB:noun_solve_logic(SB),
+             SB:ev(noun_solve_logic(SB), simp),
              tempnote:sconcat(tempnote, "SB_solved: ")
             ),
-         /* tempnote:sconcat(tempnote, "Trying logic: [",string(SA)," | ",string(SB),"]"),*/
-         ATres:ATLogic(SA, SB),
+         /*tempnote:sconcat(tempnote, "Trying logic: [",string(SA)," | ",string(SB),"]")*/
+         ATres:ev(ATLogic(SA, SB), simp),
          truthargument:truthargument and second(ATres),
          if second(ATres) then block(
              eqoutcome[ev(id, simp)]:EQUIVCHAR

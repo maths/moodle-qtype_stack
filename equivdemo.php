@@ -73,6 +73,7 @@ echo $OUTPUT->heading($title);
 
 $samplearguments = array();
 
+
 $newarg = array();
 $newarg['title']     = "Empty argument";
 $newarg['casstring'] = "[]";
@@ -94,7 +95,12 @@ $newarg['casstring'] = "[(2*x-7)^2=(x+1)^2,(2*x-7)^2 -(x+1)^2= 0,(2*x-7+x+1)*(2*
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['title']     = "Solving quadratic equations 4";
+$newarg['title']     = "Solving quadratic equations 4 (missing root!)";
+$newarg['casstring'] = "[(2*x-7)^2=(x+1)^2,sqrt((2*x-7)^2)=sqrt((x+1)^2),2*x-7=x+1,x=8]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving quadratic equations 5";
 $newarg['casstring'] = "[x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-sqrt(q+p^2),x-p=sqrt(q+p^2) or x-p=-sqrt(q+p^2),x=p+sqrt(q+p^2) or x=p-sqrt(q+p^2)]";
 $samplearguments[] = $newarg;
 
@@ -104,7 +110,7 @@ $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x - 6>= 0, (2*x-3)*(x+2) >= 0,((2*x-3
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['title']     = "Solving an inequality";
+$newarg['title']     = "Solving an inequality (remove redundant inequalities)";
 $newarg['casstring'] = "[x^2>=9 and x>3, x^2-9>=0 and x>3, (x>=3 or x<=-3) and x>3, x>3]";
 $samplearguments[] = $newarg;
 
@@ -118,12 +124,6 @@ $newarg['title']     = "Solving equations with surds (erroneous argument 1)";
 $newarg['casstring'] = "[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1]";
 $samplearguments[] = $newarg;
 
-$newarg = array();
-$newarg['title']     = "Solving equations with surds (erroneous argument 2)";
-$newarg['casstring'] = "[]";
-$samplearguments[] = $newarg;
-
-
 // [2*x/abs(x-1) < 1,2*x < abs(x-1), x >= 1 nounand 2*x < x-1 nounor (x < 1 nounand 2*x < 1-x), x < -1 nounand x >= 1 nounor (x < 1 nounand 3*x < 1),x < 1/3];
 $newarg = array();
 $newarg['title']     = "Solving inequalities with the absolute value function";
@@ -136,6 +136,11 @@ $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +
 $samplearguments[] = $newarg;
 
 /* Loop over each argument, evaluate it and display the results. */
+
+$options = new stack_options();
+$options->set_site_defaults();
+$options->set_option('simplify', false);
+
 foreach($samplearguments as $argument) {
 
     $cs1 = new stack_cas_casstring($argument['casstring']);
@@ -143,15 +148,15 @@ foreach($samplearguments as $argument) {
     $cs2 = new stack_cas_casstring("S1:stack_eval_arg(A1)");
     $cs2->get_valid('t');
 
-    $session      = new stack_cas_session(array($cs1, $cs2));
-    $string       = "\[@first(S1)@ \quad @second(S1)@\]";
+    $session      = new stack_cas_session(array($cs1, $cs2), $options);
+    $string       = "\[@second(S1)@\]  Overall the argument is @first(S1)@.";
     $ct           = new stack_cas_text($string, $session, 0, 't');
     $displaytext  = $ct->get_display_castext();
     $errs         = $ct->get_errors();
     $debuginfo    = $ct->get_debuginfo();
 
     echo html_writer::tag('h2', $argument['title']) .
-         html_writer::tag('pre', $argument['casstring']).
+         html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
          html_writer::tag('p', $errs) .
          html_writer::tag('p', stack_ouput_castext($displaytext));
     echo "\n<hr/>\n\n\n";

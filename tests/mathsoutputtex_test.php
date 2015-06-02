@@ -42,12 +42,14 @@ class stack_maths_tex_test extends advanced_testcase {
         filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
 
         // Test language string.
+        // The <span class="MathJax_Preview"> bit is something that got added in
+        // Moodle 2.8, so match it optionally.
         $this->assertRegExp('~^Your answer needs to be a single fraction of the form ' .
-                '<a .*alt=" \{a\}\\\\over\{b\} ".*</a> \. $~',
+                '(<span class="MathJax_Preview">)?<a .*alt=" \{a\}\\\\over\{b\} ".*</(a|script)> \. ~',
                 stack_string('ATSingleFrac_part'));
 
         // Test docs - make sure maths inside <code> is not rendered.
-        $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x\^2".*</a> \.</p>\n$~',
+        $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives (<span class="MathJax_Preview">)?<a .*alt="x\^2".*</(a|script)> \.</p>\n$~',
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).', ''));
 
         // Test docs - make sure maths inside <textarea> is not rendered.

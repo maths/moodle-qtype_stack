@@ -60,7 +60,9 @@ $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
 // Create the question usage we will use.
-$quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
+// We (ab)use core_question_preview as the component, since such usages are
+// automatically cleaned up by the system after a time, which is what we want.
+$quba = question_engine::make_questions_usage_by_activity('core_question_preview', $context);
 $quba->set_preferred_behaviour('adaptive');
 if (!is_null($seed)) {
     // This is a bit of a hack to force the question to use a particular seed,
@@ -70,6 +72,12 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
+
+// We have to store this in the DB, otherwise any images in the question text
+// will not display.
+$transaction = $DB->start_delegated_transaction();
+question_engine::save_questions_usage_by_activity($quba);
+$transaction->allow_commit();
 
 // Prepare the display options.
 $options = new question_display_options();

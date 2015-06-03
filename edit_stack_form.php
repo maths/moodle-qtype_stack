@@ -399,11 +399,19 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Prepare answer test types.
         $answertests = stack_ans_test_controller::get_available_ans_tests();
+        // Algebraic Equivalence should be the default test, and first on the list.
+        // This does not come first in the alphabet of all languages.
+        $default     = 'AlgEquiv';
+        $default_str = stack_string($answertests[$default]);
+        unset($answertests[$default]);
+
         $this->answertestchoices = array();
         foreach ($answertests as $test => $string) {
             $this->answertestchoices[$test] = stack_string($string);
         }
         stack_utils::sort_array($this->answertestchoices);
+        $this->answertestchoices = array_merge(array($default => $default_str), 
+            $this->answertestchoices);
 
         // Prepare score mode choices.
         $this->scoremodechoices = array(

@@ -107,7 +107,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     public function __construct($settings, stack_debug_log $debuglog) {
         global $CFG;
-
         $path = $CFG->dataroot . '/stack';
 
         $initcommand = 'load("' . $path . '/maximalocal.mac");' . "\n";

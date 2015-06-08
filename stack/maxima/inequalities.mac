@@ -109,20 +109,21 @@ ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv],
     if atom(ex) then return(ex),
     if not(safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="%and" or safe_op(ex)="%or") then 
         return(ex),
-    /* Now recurse over the expression. */
+    /* Recurse over the expression. */
     ex:apply(op(ex), maplist(ineq_rem_redundant, args(ex))),
 
     if (safe_op(ex)="nounand" or safe_op(ex)="%and") then exo:[max, min] else exo:[min, max],
     exn:sublist(args(ex), lambda([ex2], not(linear_inequalityp(ex2)))),  
     exl:sublist(args(ex), linear_inequalityp),
-    /* Separate out different variables. */
+    /* Separate out expressions in a single variable. */
     exv:listofvars(exl),
     exl:maplist(lambda([ex],sublist(exl,lambda([ex2], is(listofvars(ex2)=[ex])))), exv),
     /* At this point we have linear inequalities, in a single variable, separated out into lists for each individual variable. */
     exl:maplist(lambda([ex], single_linear_ineq_reduce(ex, exo)), exl),
     exl:flatten(exl),
     exl:append(exn,exl),
-    if is(length(exl)=1) then first(exl) else apply(op(ex), exl)
+    if is(length(exl)=1) then return(first(exl)),
+    ex:apply(op(ex), exl)
 )$
 
 
@@ -134,7 +135,7 @@ single_linear_ineq_reduce(ex, exo):=block([exg,exl],
     /* Separate out into x>?, x>=? and x<?, x<=?. */
     exg:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = 1))),
     exl:sublist(ex, lambda([ex2], is(coeff(lhs(ex2), first(listofvars(ex2))) = -1))),
-    /* Separate into solution and operator */
+    /* Separate into solution and operator. */
     exg:single_linear_ineq_reduce_h(exg, first(exo), true),
     exl:single_linear_ineq_reduce_h(exl, second(exo), false),
     append(exg, exl)
@@ -149,7 +150,8 @@ single_linear_ineq_reduce_h(exl, exo, odr):=block([m1,m2,m3,exg],
     exg:maplist(lambda([ex2],[rhs(first(solve(lhs(ex2)))), op(ex2)]), exl),
     m1:apply(exo, maplist(first,exg)),
     m2:sublist(exg,lambda([ex2],is(m1=first(ex2)))),
-    m3:sort(listify(setify(maplist(second,m2)))), /* get list of operators.  Used to sort out >, >= etc. */
+    /* Get list of operators.  Used to sort out >, >= etc. */
+    m3:sort(listify(setify(maplist(second, m2)))), 
     if (not(odr) and is(exo=max)) or (odr and is(exo = min)) then m3:reverse(m3),
     [apply(first(m3), if odr then [first(listofvars(exl)), m1] else [m1, first(listofvars(exl))])]
 )$  

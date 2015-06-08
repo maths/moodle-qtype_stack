@@ -39,6 +39,8 @@ if not(?functionp('poly_reduced_grobner)) then load("grobner");
    for representing and dealing with inequalities.              */
 if not(?functionp('to_poly_solve)) then load("to_poly_solve");
 
+if not(?functionp('rempart)) then load(functs);
+
 load("inequalities.mac");
 
 /* ********************************** */
@@ -47,9 +49,14 @@ load("inequalities.mac");
 
 /* op(ex) is unsafe on atoms: this is a fix. */
 /* This function always returns a string     */
-safe_op(ex) := block(
-  if mapatom(ex) then return(""),
-  if stringp(op(ex)) then return(op(ex)) else return(string(op(ex)))
+safe_op(ex) := block([st],
+    if mapatom(ex) then return(""),
+    if stringp(op(ex)) then return(op(ex)), 
+    st:string(op(ex)),
+    /* %and operators are displayed as "?%and" on some systems and "%and" on others.*/
+    if ?subseq(st, 0, 1) = "?" then 
+        st:?subseq(st, 1, ev(?length(st), simp)),
+    return(st)
 )$
 
 /* This function takes an expression ex and returns a list of coefficients of v */
@@ -86,6 +93,12 @@ op_usedp(ex, opused) := block(
    apply("or", maplist(lambda([ex2], op_usedp(ex2, opused)), args(ex)))   
 )$
 
+/* Count the occurances of v in ex. */
+count_occurances(ex, v):=block(
+  if ex=v then return(1),
+  if atom(ex) then return(0),
+  apply("+", map(lambda([ex2], count_occurances(ex2, v)), args(ex))) 
+)$
 
 /* ********************************** */
 /* General list and utility functions */
@@ -595,9 +608,9 @@ logicp(ex) := block(
     %not(A %or B) -> %not(A) %and %not(B)  */
 de_morgan(ex):=block(
    if mapatom(ex) then return(ex),
-   if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="?%and") then 
+   if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="%and") then 
             return(apply(?%or, maplist(lambda([ex2], de_morgan(%not(ex2))), args(first(args(ex)))))),
-   if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="?%or") then 
+   if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="%or") then 
             return(apply(?%and, maplist(lambda([ex2], de_morgan(%not(ex2))), args(first(args(ex)))))),
    return(apply(op(ex), maplist(de_morgan, args(ex))))
 )$
@@ -618,7 +631,7 @@ logical_normal(ex):=block(
     /* Change the noun logical operators into associative indenpotent ones. */
     ex:subst("%and", "nounand", ex), 
     ex:subst("%or", "nounor", ex), 
-    ex:subst("not", "%not", ex), 
+    ex:subst("%not", "not", ex), 
     ex:ineqprepare(ex),
     ex:noun_solve_logic(ex),
     ex:de_morgan(ex),
@@ -629,8 +642,8 @@ logical_normal(ex):=block(
 
 logical_normal_rem_redundant(ex):=block(
    if mapatom(ex) then return(ex),
-   if not(is(safe_op(ex)="?%and")) then return(apply(op(ex), maplist(logical_normal_rem_redundant, args(ex)))),
-   ex:interval_simplify(ex)   
+   if not(is(safe_op(ex)="%and")) then return(apply(op(ex), maplist(logical_normal_rem_redundant, args(ex)))),
+   ex:ineq_rem_redundant(ex)   
 )$
 
 noun_solve_logic(ex):=block([ex2,ex3,exop,m,fl,p],

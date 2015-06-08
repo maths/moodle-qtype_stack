@@ -104,7 +104,6 @@ matchfix("|", "|");
 /* Does not quite work yet ..... */
 /* load("noninteractive.mac"); */
 
-
 /*load("expandfeedback.mac");*/
 
 /*load("sqdnst")*/

@@ -135,14 +135,16 @@ function qtype_stack_test_question($question, $tests, $seed = null) {
         }
     }
 
+    $flag = '';
     $ok = $fails == 0;
     if ($ok) {
         $class = 'pass';
     } else {
         $class = 'fail';
+        $flag = '* ';
     }
 
-    echo html_writer::tag('p', stack_string('testpassesandfails',
+    echo html_writer::tag('p', $flag.stack_string('testpassesandfails',
             array('passes' => $passes, 'fails' => $fails)), array('class' => $class));
 
     flush(); // Force output to prevent timeouts and to make progress clear.

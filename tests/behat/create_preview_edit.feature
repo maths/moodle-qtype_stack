@@ -40,16 +40,16 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I press "Start again with these options"
     Then I should see "Differentiate"
     And the state of "Differentiate" question is shown as "Not complete"
-    When I set the field "q3:1_ans1" to "x-1"
+    When I set the input "ans1" to "x-1" in the STACK question
     And I wait "2" seconds
     Then I should see "Your last answer was interpreted as follows"
     When I press "Check"
     Then I should see "Incorrect answer."
     And the state of "Differentiate" question is shown as "Not complete"
-    When I set the field "q3:1_ans1" to "3(x-1)^2"
+    When I set the input "ans1" to "3(x-1)^2" in the STACK question
     And I wait "2" seconds
     Then I should see "You seem to be missing * characters"
-    When I set the field "q3:1_ans1" to "3*(x-1)^2"
+    When I set the input "ans1" to "3*(x-1)^2" in the STACK question
     And I wait "2" seconds
     And I press "Check"
     Then I should see "Correct answer, well done."
@@ -84,7 +84,6 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I follow "Question tests & deployed version"
     Then I should see "All tests passed!"
     When I follow "Preview"
-    And I press "Close preview"
     And I switch to the main window
 
     # Edit the question, verify the form field contents, then change some.

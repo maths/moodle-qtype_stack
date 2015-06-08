@@ -474,7 +474,8 @@ class stack_cas_casstring {
         }
 
         // Check for matching string delimiters.
-        if (stack_utils::check_matching_pairs($cmd, '"') == false) {
+        $cmdsafe = str_replace('\"', '', $cmd);
+        if (stack_utils::check_matching_pairs($cmdsafe, '"') == false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
@@ -1204,7 +1205,7 @@ class stack_cas_casstring {
      *  Remove contents of strings and replace them with safe tags.
      */
     private function strings_remove($cmd) {
-        $strings = stack_utils::all_substring_between($cmd, '"');
+        $strings = stack_utils::all_substring_strings($cmd);
         foreach ($strings as $key => $string) {
             $cmd = str_replace('"'.$string.'"', '[STR:'.$key.']', $cmd);
         }

@@ -86,7 +86,7 @@ class stack_cas_keyval {
 
         // Subtle one: must protect things inside strings before we explode.
         $str = $this->raw;
-        $strings = stack_utils::all_substring_between($str, '"');
+        $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }

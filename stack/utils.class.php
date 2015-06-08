@@ -550,6 +550,21 @@ class stack_utils {
     }
 
     /**
+     * Removes strings, respecting escaped quotes.
+     *
+     * @access private
+     * @return string
+     */
+    public static function all_substring_strings($string) {
+        $str = str_replace('\"', '[[ESCAPED_STRING]]', $string);
+        $strings = stack_utils::all_substring_between($str, '"');
+        foreach ($strings as $key => $string) {
+            $strings[$key] = str_replace('[[ESCAPED_STRING]]', '\"', $string);
+        }
+        return $strings;
+    }
+
+    /**
      * Converts a CSV string into an array, removing empty entries.
      *
      * @param string in

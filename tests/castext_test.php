@@ -522,4 +522,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at2->get_display_castext(),
                 '\[3\]');
     }
+
+    public function test_strings_in_castext_escaped() {
+        $vars = 'st:"This is a string with escaped \" strings...."';
+        $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@st@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\[\mbox{This is a string with escaped " strings....}\]');
+    }
 }

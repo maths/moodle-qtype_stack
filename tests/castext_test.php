@@ -496,4 +496,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at2->get_display_castext(),
                 '\[y_{x  x}+2\cdot y=0\] \[2\cdot y_{x  x  z  z  z}+y_{x  x}=0\]');
     }
+
+    public function test_disp_int() {
+        $vars = "foo:'int(f(x),x)";
+        $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@foo@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\[\int {f\left(x\right)}{\;\mathrm{d}x}\]');
+    }
 }

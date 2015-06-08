@@ -25,7 +25,7 @@
 
 
 ;; patch to tex-prefix to make sin(x) always like sin(x), and not the default sin x.
-;; CJS 24 June 2004
+;; CJS 24 June 2004.
 
 (defun tex-prefix (x l r)
   (tex (cadr x) (append l (texsym (caar x)) '("\\left( ") )  (append '(" \\right)") r) 'mparen 'mparen))
@@ -39,7 +39,6 @@
 
 (defun tex-prefix-unaryminus (x l r)
   (tex (cadr x) (append l (texsym (caar x))) r (caar x) rop))
-
 
 
 ;; Display question marks correctly
@@ -73,7 +72,7 @@
 
 (defprop $texdecorate tex-texdecorate tex)
 
-;; Changed log to ln, and other things
+;; Changed log to ln, and other things.
 ;; If changes are made here, then we also need to update arccos.lisp
 
 (mapc #'tex-setup
@@ -136,7 +135,7 @@
 
 
 
-;; Remove un-needed {}s from string output
+;; Remove un-needed {}s from string output.
 ;; Chris Sangwin, 28/10/2009
 
 (defun tex-string (x)
@@ -151,8 +150,8 @@
 (defprop mlessp (" < ") texsym)
 (defprop mgreaterp (" > ") texsym)
 
-;; Change the display of derivatives, at the request of the OU
-;; Chris Sangwin, 1/4/2015
+;; Change the display of derivatives, at the request of the OU.
+;; Chris Sangwin, 1/4/2015.
 
 (defprop %derivative tex-derivative tex)
 (defun tex-derivative (x l r)
@@ -196,3 +195,18 @@
      `((($blankmult) ,@(mapcan #'(lambda (var ord)
                    (make-list ord :initial-element var))
                    vars ords)))))))
+
+
+;; Change the display of integrals to be consistent with derivatives.
+;; Chris Sangwin, 8/6/2015.
+(defprop %integrate tex-int tex)
+(defun tex-int (x l r)
+  (let ((s1 (tex (cadr x) nil nil 'mparen 'mparen)) ;;integran, at the request of the OUd delims / & d
+    (var (tex (caddr x) nil nil 'mparen rop))) ;; variable
+    (cond((= (length x) 3)
+      (append l `("\\int {" ,@s1 "}{\\;\\mathrm{d}" ,@var "}") r))
+     (t ;; presumably length 5
+      (let ((low (tex (nth 3 x) nil nil 'mparen 'mparen))
+        ;; 1st item is 0
+        (hi (tex (nth 4 x) nil nil 'mparen 'mparen)))
+        (append l `("\\int_{" ,@low "}^{" ,@hi "}{" ,@s1 "\\;\\mathrm{d}" ,@var "}") r))))))

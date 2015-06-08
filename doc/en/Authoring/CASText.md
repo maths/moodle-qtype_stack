@@ -12,7 +12,7 @@ CASText is CAS-enabled text.  CASText is simply HTML into which LaTeX mathematic
 
 Many of the fields in a STACK question, such as the question text, are of this type.
 
-Information about [Basic HTML](http://www.w3schools.com/html/html_primary.asp) is available elsewhere.
+Information about [Basic HTML](http://www.w3schools.com/html/) is available elsewhere.
 
 Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJAX](http://http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 

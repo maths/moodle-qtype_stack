@@ -671,7 +671,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', "\\");
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
@@ -1229,7 +1229,7 @@ class stack_cas_casstring {
                 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
         $foundone = false;
         foreach ($searchstrings as $s) {
-            if (!(false === strpos($error, $s))) {
+            if (false !== strpos($error, $s)) {
                 $this->set_answernote($s);
                 $foundone = true;
             }

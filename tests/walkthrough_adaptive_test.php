@@ -1434,7 +1434,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('TEST_FAILED', 'qtype_stack', array('errors' => 'Division by zero.'));
+        // The error message on the next line in intentionally truncated, because
+        // different versions of Maxima report this as 'Division by zero.' or
+        // 'Division by 0'. Fortunately this check is good enough.
+        $this->check_output_contains_lang_string('TEST_FAILED', 'qtype_stack', array('errors' => 'Division by '));
 
         // Validate the response 1/2 (correct).
         $this->process_submission(array('ans1' => '1/2', 'ans1_val' => '0', '-submit' => 1));

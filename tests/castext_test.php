@@ -686,12 +686,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
         $this->assertTrue($at1->get_valid());
 
-        $at2 = new stack_cas_text('\[@foo@\]', $at1->get_session(), 0, 't');
+        $at2 = new stack_cas_text('\[{@foo@}\]', $at1->get_session(), 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
         $this->assertEquals($at2->get_display_castext(),
-                '\[\int {f\left(x\right)}{\;\mathrm{d}x}\]');
+                '\[{\int {f\left(x\right)}{\;\mathrm{d}x}}\]');
     }
 
     public function test_strings_in_castext() {
@@ -699,12 +699,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
         $this->assertTrue($at1->get_valid());
 
-        $at2 = new stack_cas_text('\[@a@\]', $at1->get_session(), 0, 't');
+        $at2 = new stack_cas_text('\[{@a@}\]', $at1->get_session(), 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
         $this->assertEquals($at2->get_display_castext(),
-                '\[3\]');
+                '\[{3}\]');
     }
 
     public function test_strings_in_castext_escaped() {
@@ -712,11 +712,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
         $this->assertTrue($at1->get_valid());
 
-        $at2 = new stack_cas_text('\[@st@\]', $at1->get_session(), 0, 't');
+        $at2 = new stack_cas_text('\[{@st@}\]', $at1->get_session(), 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
         $this->assertEquals($at2->get_display_castext(),
-                '\[\mbox{This is a string with escaped " strings....}\]');
+                '\[{\mbox{This is a string with escaped " strings....}}\]');
     }
 }

@@ -127,6 +127,8 @@ $string['inputextraoptions'] = 'Extra options';
 $string['inputextraoptions_help'] = 'Some input types require extra options in order to work. You can enter them here. This value is a CAS expression.';
 $string['inputextraoptions_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Extra options';
 $string['inputheading'] = 'Input: {$a}';
+$string['inputremovedconfirmbelow'] = 'Input \'{$a}\' has been removed. Please confirm this below.';
+$string['inputremovedconfirm'] = 'I confirm that I want to remove this input from this question.';
 $string['inputs'] = 'Inputs';
 $string['inputtype'] = 'Input type';
 $string['inputtype_help'] = 'This determines the type of the input element, e.g. form field, true/false, text area.';
@@ -137,6 +139,7 @@ $string['inputtypedropdown'] = 'Drop down list';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
 $string['inputtypematrix'] = 'Matrix';
+$string['inputwillberemoved'] = 'This input is no longer referred to in the question text. If you save the question now, the data about this input will be lost. Please confirm that you want to do this. Alternatively edit the question text to put back the \'[[input:{$a}]]\' and \'[[validation:{$a}]]\' placeholders.';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to false then no stars will be inserted.  If set to yes then the system will automatically insert stars into any patterns identified by Strict Syntax.  If set to "single char vars" then we assume the answer has variable names consisting only of single letter variable names.  Other variable names will have stars inserted between the letters, e.g. ab->a*b';
 $string['insertstars_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Insert_Stars';
@@ -195,9 +198,12 @@ $string['prtmustbesetup'] = 'This PRT must be set up before the question can be 
 $string['prtnodesheading'] = 'Potential response tree nodes ({$a})';
 $string['prtincorrectfeedback'] = 'Standard feedback for incorrect';
 $string['prtpartiallycorrectfeedback'] = 'Standard feedback for partially correct';
+$string['prtremovedconfirmbelow'] = 'Potential response tree \'{$a}\' has been removed. Please confirm this below.';
+$string['prtremovedconfirm'] = 'I confirm that I want to remove this potential response tree from this question.';
 $string['prts'] = 'Potential response trees';
 $string['prtwillbecomeactivewhen'] = 'This potential response tree will become active when the student has answered: {$a}';
 $string['prtruntimeerror'] = 'Node {$a->node} generated the following runtime error: {$a->error}';
+$string['prtwillberemoved'] = 'This potential response tree is no longer referred to in the question text or specific feedback. If you save the question now, the data about this potential response tree will be lost. Please confirm that you want to do this. Alternatively edit the question text or specific feedback to put back the \'[[feedback:{$a}]]\' placeholder.';
 $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random versions of a question. Two question versions are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
 $string['questionnote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_note.md';
@@ -278,6 +284,7 @@ This is a tag which is key for reporting purposes.  It is designed to record the
 $string['variantsselectionseed'] = 'Random group';
 $string['variantsselectionseed_help'] = 'Normally you can leave this box blank. If, however, you want two different questions in a quiz to use the same random seed, then type the same string in this box for the two questions (and deploy the same set of random seeds, if you are using deployed versions) and the random seeds for the two questions will be synchronised.';
 $string['verifyquestionandupdate'] = 'Verify the question text and update the form';
+$string['youmustconfirm'] = 'You must confirm here.';
 
 // Strings used by input elements.
 $string['booleangotunrecognisedvalue'] = 'Invalid input.';

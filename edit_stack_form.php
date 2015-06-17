@@ -50,7 +50,7 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var int array key into the results of get_input_names_from_question_text for the count of input placeholders. */
     const INPUTS = 0;
     /** @var int array key into the results of get_input_names_from_question_text for the count of validation placeholders. */
-    const VALIDATAIONS = 1;
+    const VALIDATIONS = 1;
 
     /** @var options the STACK configuration settings. */
     protected $stackconfig = null;
@@ -271,8 +271,17 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $inputs = stack_utils::extract_placeholders($questiontext, 'input');
         $validations = stack_utils::extract_placeholders($questiontext, 'validation');
-
         $inputnames = array();
+
+        $data = data_submitted();
+        if ($data) {
+            foreach (get_object_vars($data) as $name => $value) {
+                if (preg_match('~(' . stack_utils::VALID_NAME_REGEX . ')modelans~', $name, $matches)) {
+                    $inputnames[$matches[1]] = array(0, 0);
+                }
+            }
+        }
+
         foreach ($inputs as $inputname) {
             if (!array_key_exists($inputname, $inputnames)) {
                 $inputnames[$inputname] = array(0, 0);
@@ -284,7 +293,7 @@ class qtype_stack_edit_form extends question_edit_form {
             if (!array_key_exists($inputname, $inputnames)) {
                 $inputnames[$inputname] = array(0, 0);
             }
-            $inputnames[$inputname][self::VALIDATAIONS] += 1;
+            $inputnames[$inputname][self::VALIDATIONS] += 1;
         }
 
         return $inputnames;
@@ -299,6 +308,16 @@ class qtype_stack_edit_form extends question_edit_form {
         $specificfeedback = $this->get_current_specific_feedback();
         $prts = stack_utils::extract_placeholders($questiontext . $specificfeedback, 'feedback');
         $prtnames = array();
+
+        $data = data_submitted();
+        if ($data) {
+            foreach (get_object_vars($data) as $name => $value) {
+                if (preg_match('~(' . stack_utils::VALID_NAME_REGEX . ')feedbackvariables~', $name, $matches)) {
+                    $prtnames[$matches[1]] = 0;
+                }
+            }
+        }
+
         foreach ($prts as $name) {
             if (!array_key_exists($name, $prtnames)) {
                 $prtnames[$name] = 0;
@@ -410,8 +429,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $this->answertestchoices[$test] = stack_string($string);
         }
         stack_utils::sort_array($this->answertestchoices);
-        $this->answertestchoices = array_merge(array($default => $default_str), 
-            $this->answertestchoices);
+        $this->answertestchoices = array_merge(array($default => $default_str),
+                $this->answertestchoices);
 
         // Prepare score mode choices.
         $this->scoremodechoices = array(
@@ -458,13 +477,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->registerNoSubmitButton('verify');
 
         // Inputs.
-        foreach ($inputnames as $inputname => $notused) {
-            $this->definition_input($inputname, $mform);
+        foreach ($inputnames as $inputname => $counts) {
+            $this->definition_input($inputname, $mform, $counts);
         }
 
         // PRTs.
-        foreach ($prtnames as $prtname => $notused) {
-            $this->definition_prt($prtname, $mform);
+        foreach ($prtnames as $prtname => $count) {
+            $this->definition_prt($prtname, $mform, $count);
         }
 
         // Options.
@@ -542,10 +561,18 @@ class qtype_stack_edit_form extends question_edit_form {
      * Add the form fields for a given input element to the form.
      * @param string $inputname the input name.
      * @param MoodleQuickForm $mform the form being assembled.
+     * @param int $counts the number of times this input and its validation appears in the questiontext.
      */
-    protected function definition_input($inputname, MoodleQuickForm $mform) {
+    protected function definition_input($inputname, MoodleQuickForm $mform, $counts) {
 
         $mform->addElement('header', $inputname . 'header', stack_string('inputheading', $inputname));
+
+        if ($counts[self::INPUTS] == 0 && $counts[self::VALIDATIONS] == 0) {
+            $mform->addElement('static', $inputname . 'warning', '', stack_string('inputwillberemoved', $inputname));
+            $mform->addElement('advcheckbox', $inputname . 'deleteconfirm', '', stack_string('inputremovedconfirm'));
+            $mform->setDefault($inputname . 'deleteconfirm', 1);
+            $mform->setExpanded($inputname . 'header');
+        }
 
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
@@ -621,10 +648,18 @@ class qtype_stack_edit_form extends question_edit_form {
      * Add the form elements defining one PRT.
      * @param string $prtname the name of the PRT.
      * @param MoodleQuickForm $mform the form being assembled.
+     * @param int $count the number of times this PRT appears in the text of the question.
      */
-    protected function definition_prt($prtname, MoodleQuickForm $mform) {
+    protected function definition_prt($prtname, MoodleQuickForm $mform, $count) {
 
         $mform->addElement('header', $prtname . 'header', stack_string('prtheading', $prtname));
+
+        if ($count == 0) {
+            $mform->addElement('static', $prtname . 'prtwarning', '', stack_string('prtwillberemoved', $prtname));
+            $mform->addElement('advcheckbox', $prtname . 'prtdeleteconfirm', '', stack_string('prtremovedconfirm'));
+            $mform->setDefault($prtname . 'prtdeleteconfirm', 1);
+            $mform->setExpanded($prtname . 'header');
+        }
 
         $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), array('size' => 3));
         $mform->setType($prtname . 'value', PARAM_FLOAT);
@@ -966,6 +1001,11 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
 
+            if ($numinputs == 0 && $numvalidations == 0 && $fromform[$inputname . 'deleteconfirm']) {
+                $errors['questiontext'][] = stack_string('inputremovedconfirmbelow', $inputname);
+                continue;
+            }
+
             if ($numinputs == 0) {
                 $errors['questiontext'][] = stack_string(
                         'questiontextmustcontain', '[[input:' . $inputname . ']]');
@@ -1007,7 +1047,9 @@ class qtype_stack_edit_form extends question_edit_form {
                     array('input', 'validation'));
 
         foreach ($prts as $prtname => $count) {
-            if ($count > 1) {
+            if ($count == 0 && $fromform[$prtname . 'prtdeleteconfirm']) {
+                $errors['specificfeedback'][] = stack_string('prtremovedconfirmbelow', $prtname);
+            } else if ($count > 1) {
                 $errors['specificfeedback'][] = stack_string(
                         'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
             }
@@ -1034,7 +1076,13 @@ class qtype_stack_edit_form extends question_edit_form {
                     stack_string('questionnote'), $fromform['questionnote']);
 
         // 2) Validate all inputs.
-        foreach ($inputs as $inputname => $notused) {
+        foreach ($inputs as $inputname => $counts) {
+            list($numinputs, $numvalidations) = $counts;
+
+            if ($numinputs == 0 && $numvalidations == 0 && !$fromform[$inputname . 'deleteconfirm']) {
+                $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
+            }
+
             $errors = $this->validate_cas_string($errors,
                     $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
 
@@ -1049,7 +1097,11 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // 3) Validate all prts.
-        foreach ($prts as $prtname => $notused) {
+        foreach ($prts as $prtname => $count) {
+            if ($count == 0 && !$fromform[$prtname . 'prtdeleteconfirm']) {
+                $errors[$prtname . 'prtdeleteconfirm'][] = stack_string('youmustconfirm');
+            }
+
             $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars);
         }
 

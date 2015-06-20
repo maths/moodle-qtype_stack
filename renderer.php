@@ -76,6 +76,7 @@ class qtype_stack_renderer extends qtype_renderer {
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
 
+
         // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
         $questiontext = $question->format_text(
                 stack_maths::process_display_castext($questiontext, $this),

@@ -570,7 +570,7 @@ class qtype_stack_edit_form extends question_edit_form {
         if ($counts[self::INPUTS] == 0 && $counts[self::VALIDATIONS] == 0) {
             $mform->addElement('static', $inputname . 'warning', '', stack_string('inputwillberemoved', $inputname));
             $mform->addElement('advcheckbox', $inputname . 'deleteconfirm', '', stack_string('inputremovedconfirm'));
-            $mform->setDefault($inputname . 'deleteconfirm', 1);
+            $mform->setDefault($inputname . 'deleteconfirm', 0);
             $mform->setExpanded($inputname . 'header');
         }
 
@@ -657,7 +657,7 @@ class qtype_stack_edit_form extends question_edit_form {
         if ($count == 0) {
             $mform->addElement('static', $prtname . 'prtwarning', '', stack_string('prtwillberemoved', $prtname));
             $mform->addElement('advcheckbox', $prtname . 'prtdeleteconfirm', '', stack_string('prtremovedconfirm'));
-            $mform->setDefault($prtname . 'prtdeleteconfirm', 1);
+            $mform->setDefault($prtname . 'prtdeleteconfirm', 0);
             $mform->setExpanded($prtname . 'header');
         }
 
@@ -1001,8 +1001,10 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
 
-            if ($numinputs == 0 && $numvalidations == 0 && $fromform[$inputname . 'deleteconfirm']) {
-                $errors['questiontext'][] = stack_string('inputremovedconfirmbelow', $inputname);
+            if ($numinputs == 0 && $numvalidations == 0) {
+                if (!$fromform[$inputname . 'deleteconfirm']) {
+                    $errors['questiontext'][] = stack_string('inputremovedconfirmbelow', $inputname);
+                }
                 continue;
             }
 
@@ -1046,15 +1048,6 @@ class qtype_stack_edit_form extends question_edit_form {
                     stack_string('specificfeedback'), $fromform['specificfeedback']['text'],
                     array('input', 'validation'));
 
-        foreach ($prts as $prtname => $count) {
-            if ($count == 0 && $fromform[$prtname . 'prtdeleteconfirm']) {
-                $errors['specificfeedback'][] = stack_string('prtremovedconfirmbelow', $prtname);
-            } else if ($count > 1) {
-                $errors['specificfeedback'][] = stack_string(
-                        'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
-            }
-        }
-
         // General feedback.
         $errors['generalfeedback'] = array();
         $errors = $this->validate_cas_text($errors, $fromform['generalfeedback']['text'], 'generalfeedback', $fixingdollars);
@@ -1083,23 +1076,31 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
             }
 
-            $errors = $this->validate_cas_string($errors,
-                    $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
-
-            // TODO: find out if this input type acutally requires options, rather than
-            // the hard-coded check here.
-            if (false) {
+            if (array_key_exists($inputname . 'modelans', $fromform)) {
                 $errors = $this->validate_cas_string($errors,
-                        $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
-            } else if ($fromform[$inputname . 'options']) {
-                $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
+                        $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
+
+                // TODO: find out if this input type acutally requires options, rather than
+                // the hard-coded check here.
+                if (false) {
+                    $errors = $this->validate_cas_string($errors,
+                            $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
+                } else if ($fromform[$inputname . 'options']) {
+                    $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
+                }
             }
         }
 
-        // 3) Validate all prts.
+       // 3) Validate all prts.
         foreach ($prts as $prtname => $count) {
-            if ($count == 0 && !$fromform[$prtname . 'prtdeleteconfirm']) {
-                $errors[$prtname . 'prtdeleteconfirm'][] = stack_string('youmustconfirm');
+            if ($count == 0) {
+                if (!$fromform[$prtname . 'prtdeleteconfirm']) {
+                    $errors['specificfeedback'][] = stack_string('prtremovedconfirmbelow', $prtname);
+                    $errors[$prtname . 'prtdeleteconfirm'][] = stack_string('youmustconfirm');
+                }
+            } else if ($count > 1) {
+                $errors['specificfeedback'][] = stack_string(
+                        'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
             }
 
             $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars);

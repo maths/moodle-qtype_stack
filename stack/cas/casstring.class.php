@@ -417,8 +417,7 @@ class stack_cas_casstring {
 
     public function __construct($rawstring) {
         $this->rawcasstring   = $rawstring;
-        $this->answernote = array();
-
+        $this->answernote     = array();
         $this->valid          = null;  // If null then the validate command has not yet been run.
 
         if (!is_string($this->rawcasstring)) {
@@ -657,7 +656,7 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        // Check for disallowed final characters,  / * + - ^ £ # = & ~ |, ? : ;.
+        // Check for disallowed final characters, e.g.  / * + - ^ £ # = & ~ |, ? : ;.
         $disallowedfinalcharsregex = '~[' . preg_quote(self::$disallowedfinalchars, '~') . ']$~u';
         if (preg_match($disallowedfinalcharsregex, $cmd, $match)) {
             $this->valid = false;
@@ -1100,7 +1099,7 @@ class stack_cas_casstring {
     /* Return and modify information                         */
     /*********************************************************/
 
-    public function get_valid($security='s', $syntax=true, $insertstars=0, $allowwords='') {
+    public function get_valid($security = 's', $syntax = true, $insertstars = 0, $allowwords = '') {
         if (null === $this->valid) {
             $this->validate($security, $syntax, $insertstars, $allowwords);
         }

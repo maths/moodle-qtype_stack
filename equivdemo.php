@@ -19,7 +19,7 @@
  * This can be useful for learning about the CAS syntax, and also for testing
  * that maxima is working correctly.
  *
- * @copyright  2012 University of Birmingham
+ * @copyright  2015 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -135,6 +135,12 @@ $newarg['title']     = "Simultaneous equations (must use and to join them)";
 $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, (x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";
 $samplearguments[] = $newarg;
 
+$newarg = array();
+$newarg['title']     = "Differential quotient as the unknown";
+$newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
+//$newarg['casstring'] = "[-12+3*'diff(y,x)+8-8*'diff(y,x)=0,-5*'diff(y,x)=4,'diff(y,x)=-4/5]";
+$samplearguments[] = $newarg;
+
 /* Loop over each argument, evaluate it and display the results. */
 
 $options = new stack_options();
@@ -142,8 +148,10 @@ $options->set_site_defaults();
 $options->set_option('simplify', false);
 
 foreach($samplearguments as $argument) {
+//$argument = end($samplearguments);
 
     $cs1 = new stack_cas_casstring($argument['casstring']);
+    $cs1->get_valid('t');
     $cs1->set_key('A1');
     $cs2 = new stack_cas_casstring("S1:stack_eval_arg(A1)");
     $cs2->get_valid('t');

@@ -7,6 +7,18 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
+## Changes in the current "equiv" branch.
+
+This branch is developing a "reasoning by equivalence" input, and associated input improvements.
+
+* *done* Add a "scratch working" area in which students can record their thinking etc. alongside the final answer.
+* *done* Modify the text area input so that each line is validated separately.
+
+* Reasoning by equivalence input type.
+* Inputs which enable student to input steps in the working. In particular, variable numbers of input boxes.
+
+
+
 ## Changes already implemented since the release of STACK 3.3
 
 * Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.

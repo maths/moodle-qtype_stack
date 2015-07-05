@@ -11,12 +11,8 @@ The following features are in approximate priority order.  How to report bugs an
  2. Dragmath (actually, probably use javascript from NUMBAS instead here).
  3. Sliders.
  4. Geogebra input.
-* Reasoning by equivalence input type.
-* Inputs which enable student to input steps in the working. In particular, variable numbers of input boxes.
-* Add a "scratch working" area in which students can record their thinking etc. alongside the final answer.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
-* Modify the text area input so that each line is validated separately.
 
 ### Improve the editing form ###
 

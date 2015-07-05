@@ -68,7 +68,7 @@ class stack_cas_session {
      */
     private $debuginfo;
 
-    public function __construct($session, $options = null, $seed=null) {
+    public function __construct($session, $options = null, $seed = null) {
 
         if (is_null($session)) {
             $session = array();

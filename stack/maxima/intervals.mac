@@ -1,5 +1,5 @@
 /*  Author Chris Sangwin
-    Loughborough University
+    University of Edinburgh
     Copyright (C) 2015 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
@@ -15,11 +15,11 @@
 
 
 /********************************************************************/
-/*  A package for manipulating intervals in Maxima   .              */
+/*  A package for manipulating intervals in Maxima.                 */
 /*  Based on code by Matthew James Read, 2012.                      */
 /*                                                                  */
 /*  Chris Sangwin, <chris@sangwin.com>                              */
-/*  V0.1 May 2015                                                   */
+/*  V0.1 June 2015                                                  */
 /*                                                                  */
 /********************************************************************/
 

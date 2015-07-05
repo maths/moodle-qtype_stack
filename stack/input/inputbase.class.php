@@ -267,7 +267,7 @@ abstract class stack_input {
         }
         $localoptions = clone $options;
 
-            // The validation field should always come back through as a single RAW Maxima expression for each input.
+        // The validation field should always come back through as a single RAW Maxima expression for each input.
         if (array_key_exists($this->name . '_val', $response)) {
             $validator = $response[$this->name . '_val'];
         } else {
@@ -281,74 +281,88 @@ abstract class stack_input {
         }
 
         // This method actually validates any CAS strings etc.
-        list($valid, $errors, $modifiedcontents) = $this->validate_contents($contents, $forbiddenkeys);
-
-        // If we can't get a "displayed value" back from the CAS, show the student their original expression.
-        $display = stack_maxima_format_casstring($this->contents_to_maxima($contents));
+        // Modified contents is already an array of things which become individually validated CAS statements.
+        // AT this sage, $valid records the PHP validation or other non-CAS issues.
+        list($valid, $errors, $modifiedcontents, $caslines) = $this->validate_contents($contents, $forbiddenkeys);
+      
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
-        $answer = new stack_cas_casstring($interpretedanswer);
         $lvarsdisp = '';
+        $display   = stack_maxima_format_casstring($interpretedanswer);
+        $note      = '';
+        
+        // Send as much of the string to the CAS as possible.
+        if (!$this->get_parameter('sameType')) {
+            $teacheranswer = null;
+        }
 
-        // Send the string to the CAS.
-        if ($valid) {
-            if (!$this->get_parameter('sameType')) {
-                $teacheranswer = null;
-            }
+        $singlevarchars = false;
+        if (2 == $this->get_parameter('insertStars', 0)) {
+            $singlevarchars = true;
+        }
 
-            $singlevarchars = false;
-            if (2 == $this->get_parameter('insertStars', 0)) {
-                $singlevarchars = true;
-            }
+        // Generate an expression from which we extract the list of variables in the student's answer.
+        $lvars = new stack_cas_casstring('ev(listofvars('.$interpretedanswer.'),simp)');
+        $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
+                $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
 
-            // Generate an expression from which we extract the list of variables in the student's answer.
-            $lvars = new stack_cas_casstring('ev(listofvars('.$interpretedanswer.'),simp)');
-            $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
+        // Build up an array with all the parts which need to be validated separately.
+        if ($lvars->get_valid()) {
+            $sessionvars = array($lvars);
+        } else {
+            $sessionvars = array();
+        }
 
-            $answer->set_cas_validation_casstring($this->name,
+        // Ensure we have an element in the session which is the whole answer.
+        // This results in a duplication for many, but textareas create a single list here representing the whole answer.
+        foreach($caslines as $index => $cs) {
+            // Assume we have no errors from previous validation.
+            if ('' == $errors[$index]) {
+                $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
-
-            // Generate an extra expression from which we derive a special displayed version.
-            $dvars = $this->special_display($interpretedanswer);
-            $dvars->get_valid('t', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
-
-            $localoptions->set_option('simplify', false);
-
-            $session = new stack_cas_session(array($answer, $lvars, $dvars), $localoptions, 0);
-            $session->instantiate();
-
-            $session = $session->get_session();
-            $answer = $session[0];
-            $lvars  = $session[1];
-            $dvars  = $session[2];
-
-            $errors = stack_maxima_translate($answer->get_errors());
-            if ('' != $errors) {
-                $valid = false;
-            }
-            if ('' == $answer->get_value()) {
-                $valid = false;
-            } else {
-                $display = '\[ ' . $dvars->get_display() . ' \]';
-                $interpretedanswer = $answer->get_value();
-                if (!($lvars->get_value() == '[]')) {
-                    $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
-                }
+                $sessionvars[$index+1] = $cs;
             }
         }
+        // Ensure we have an element in the session which is the whole answer.
+        // This results in a duplication for many, but textareas create a single list here representing the whole answer.
+        $answer = new stack_cas_casstring($interpretedanswer);
+        $answer->set_cas_validation_casstring($this->name,
+            $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
+            $singlevarchars,
+            $teacheranswer, $this->get_parameter('allowWords', ''));
+        if ($answer->get_valid()) {
+            $sessionvars[] = $answer;
+        }
 
-        $note = $answer->get_answernote();
-
+        $localoptions->set_option('simplify', false);
+        $session = new stack_cas_session($sessionvars, $localoptions, 0);
+        $session->instantiate();
+        
+        //  Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
+        //  so we don't need to extract updated values from the instantated $session explicitly.
+        list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $valid, $errors);
+        
+        if ('' == $answer->get_value()) {
+            $valid = false;
+        } else {
+            $interpretedanswer = $answer->get_value();
+            if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
+                $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
+            }
+        }
+        
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;
-            $errors .= stack_string('qm_error');
+            $errors[]= stack_string('qm_error');
         }
 
+        $note = $answer->get_answernote();
+         
+        $errors = implode(' ', $errors);
+        
         if (!$valid) {
             $status = self::INVALID;
         } else if ($this->get_parameter('mustVerify', true) && $validator != $this->contents_to_maxima($contents)) {
@@ -361,18 +375,6 @@ abstract class stack_input {
     }
 
     /**
-     * This generates a variable from which a displayed form of the answer only is used.  
-     * Currently, only the equiv input modifies this.
-     * 
-     * @param unknown_type $interpretedanswer
-     * @return unknown
-     */
-    protected function special_display($interpretedanswer) {
-        return new stack_cas_casstring($interpretedanswer);
-    }
-
-
-        /**
      * Decide if the contents of this attempt is blank.
      *
      * @param array $contents a non-empty array of the student's input as a split array of raw strings.
@@ -406,6 +408,8 @@ abstract class stack_input {
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
+        $caslines = array();
+        $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
@@ -424,11 +428,12 @@ abstract class stack_input {
             }
 
             $modifiedcontents[] = $answer->get_casstring();
+            $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
-            $errors .= $answer->get_errors();
+            $errors[] = $answer->get_errors();
         }
 
-        return array($valid, $errors, $modifiedcontents);
+        return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
     /**
@@ -446,6 +451,34 @@ abstract class stack_input {
         return '';
     }
 
+    /**
+     * This function constructs any the display variable for validation.
+     * For many input types this is simply the complete answer.
+     * For text areas and equivalence reasoning this is a more complex arrangement of lines.
+     *
+     * @param stack_casstring $answer, the complete answer.
+     * @return string any error messages describing validation failures. An empty
+     *      string if the input is valid - at least according to this test.
+     */
+    protected function validation_display($answer, $caslines, $valid, $errors) {
+
+        if (!$valid) {
+            $display = stack_maxima_format_casstring($answer->get_raw_casstring());
+            return array($valid, $errors, $display);
+        }
+        
+        if ('' != $answer->get_errors()  || '' == $answer->get_value()) {
+            $valid = false;
+            $errors = array(stack_maxima_translate($answer->get_errors()));
+            $display = stack_maxima_format_casstring($answer->get_raw_casstring());
+        } else {
+            $display = '\[ ' . $answer->get_display() . ' \]';
+        }
+
+        return array($valid, $errors, $display);
+    }
+
+    
     public function requires_validation() {
         return $this->get_parameter('mustVerify', true);
     }
@@ -525,7 +558,7 @@ abstract class stack_input {
 
     /**
      * Transforms the contents array into a maxima expression.
-     * Most simply take the first element of the contents array raw.
+     * Most simply take the casstring from the first element of the contents array.
      *
      * @param array|string $in
      * @return string

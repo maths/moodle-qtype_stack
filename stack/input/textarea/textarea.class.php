@@ -85,7 +85,6 @@ class stack_textarea_input extends stack_input {
                 }
             }
         }
-
         return $contents;
     }
 
@@ -108,6 +107,7 @@ class stack_textarea_input extends stack_input {
     private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
         return implode("\n", $values);
+        
     }
 
     /**
@@ -123,6 +123,41 @@ class stack_textarea_input extends stack_input {
             $response[$this->name . '_val'] = $in;
         }
         return $response;
+    }
+
+    /**
+     * This function constructs any the display variable for validation.
+     * For many input types this is simply the complete answer.
+     * For text areas and equivalence reasoning this is a more complex arrangement of lines.
+     *
+     * @param stack_casstring $answer, the complete answer.
+     * @return string any error messages describing validation failures. An empty
+     *      string if the input is valid - at least according to this test.
+     */
+    protected function validation_display($answer, $caslines, $valid, $errors) {
+
+        if (!$valid) {
+            $display = stack_maxima_format_casstring($answer->get_raw_casstring());
+            return array($valid, $errors, $display);
+        }
+
+        $display = '<center><table style="vertical-align: middle;" ' .
+                   'border="0" cellpadding="0" cellspacing="0"><tbody>'; 
+        foreach($caslines as $index => $cs) {
+            $display .= '<tr>';
+            if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
+                $valid = false;
+                $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
+                $display .= '<td>'. stack_maxima_format_casstring($cs->get_raw_casstring()). '</td>';
+                $display .= '<td>&nbsp'. stack_maxima_translate($errors[$index]). '</td></tr>';
+            } else {
+                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+            }
+            $display .= '</tr>';
+        }
+        $display .= '</tbody></table></center>';
+
+        return array($valid, $errors, $display);
     }
 
     /**

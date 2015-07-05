@@ -89,17 +89,6 @@ class stack_equiv_input extends stack_input {
     }
 
     /**
-     * This generates a variable from which a displayed form of the answer only is used.
-     * Currently, only the equiv input modifies this.
-     *
-     * @param unknown_type $interpretedanswer
-     * @return unknown
-     */
-    protected function special_display($interpretedanswer) {
-        return new stack_cas_casstring('disp_stack_eval_arg('.$interpretedanswer.')');
-    }
-
-    /**
      * Transforms the contents array into a maxima expression.
      *
      * @param array|string $in

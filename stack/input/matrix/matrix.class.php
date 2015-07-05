@@ -160,7 +160,7 @@ class stack_matrix_input extends stack_input {
      */
     protected function validate_contents($contents, $forbiddenkeys) {
 
-        $errors = $this->extra_validation($contents);
+        $errors = array($this->extra_validation($contents));
         $valid = !$errors;
 
         // Now validate the input as CAS code.
@@ -184,12 +184,13 @@ class stack_matrix_input extends stack_input {
 
                 $modifiedrow[] = $answer->get_casstring();
                 $valid = $valid && $answer->get_valid();
-                $errors .= $answer->get_errors();
+                $errors[] = $answer->get_errors();
             }
             $modifiedcontents[] = $modifiedrow;
         }
 
-        return array($valid, $errors, $modifiedcontents);
+        $caslines = array();
+        return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly) {

@@ -697,6 +697,7 @@ $string['ATRegEx_missing_option']               = 'Missing regular expression in
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
 $string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
+$string['studentValidation_notes']              = 'This input is not assessed automatically by STACK.  You can use it to record working, or comments for the teacher.';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 
 // Documentation strings.

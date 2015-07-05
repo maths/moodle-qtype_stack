@@ -355,4 +355,11 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('cdf_bernoulli(x,p)',
                 $at1->get_casstring());
     }
+
+    public function test_semicolon() {
+        $s = 'a:3;b:4';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('forbiddenChar', $at1->get_answernote());
+    }
 }

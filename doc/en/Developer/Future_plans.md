@@ -36,6 +36,7 @@ The following features are in approximate priority order.  How to report bugs an
 * Refactor answer tests.
  1. They should be like inputs. We should return an answer test object, not a controller object.
  2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
+* Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
 
 ## Features that might be attempted in the future - possible self contained projects ##
 

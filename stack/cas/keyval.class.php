@@ -84,9 +84,22 @@ class stack_cas_keyval {
             return false;
         }
 
-        $str = stack_utils::remove_comments(str_replace("\n", '; ', $this->raw));
+        // Subtle one: must protect things inside strings before we explode.
+        $str = $this->raw;
+        $strings = stack_utils::all_substring_strings($str);
+        foreach ($strings as $key => $string) {
+            $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
+        }
+        $str = str_replace("\n", ';', $str);
+        $str = stack_utils::remove_comments($str);
         $str = str_replace(';', "\n", $str);
+
         $kvarray = explode("\n", $str);
+        foreach ($strings as $key => $string) {
+            foreach ($kvarray as $kkey => $kstr) {
+                $kvarray[$kkey] = str_replace('[STR:'.$key.']', '"'.$string.'"', $kstr);
+            }
+        }
 
         // 23/4/12 - significant changes to the way keyvals are interpreted.  Use Maxima assignmentsm i.e. x:2.
         $errors  = '';

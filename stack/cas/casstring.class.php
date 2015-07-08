@@ -473,7 +473,8 @@ class stack_cas_casstring {
         }
 
         // Check for matching string delimiters.
-        if (stack_utils::check_matching_pairs($cmd, '"') == false) {
+        $cmdsafe = str_replace('\"', '', $cmd);
+        if (stack_utils::check_matching_pairs($cmdsafe, '"') == false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
@@ -675,7 +676,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', "\\");
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
@@ -1232,7 +1233,7 @@ class stack_cas_casstring {
      *  Remove contents of strings and replace them with safe tags.
      */
     private function strings_remove($cmd) {
-        $strings = stack_utils::all_substring_between($cmd, '"');
+        $strings = stack_utils::all_substring_strings($cmd);
         foreach ($strings as $key => $string) {
             $cmd = str_replace('"'.$string.'"', '[STR:'.$key.']', $cmd);
         }
@@ -1257,7 +1258,7 @@ class stack_cas_casstring {
                 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
         $foundone = false;
         foreach ($searchstrings as $s) {
-            if (!(false === strpos($error, $s))) {
+            if (false !== strpos($error, $s)) {
                 $this->set_answernote($s);
                 $foundone = true;
             }

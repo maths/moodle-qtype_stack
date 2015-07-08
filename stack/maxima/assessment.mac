@@ -79,6 +79,18 @@ coeff_list_nz(ex,v):= block([deg,kloop,cl],
    cl
 )$
 
+/* Equate coefficients of two polynomials. */
+poly_equate_coeffs(p1,p2,v) := block([deg,kloop,cl],
+   /* Based on the code for coeff_list, but we need to run over the end. */
+   cl:[],
+   p1:ev(expand(p1),simp),
+   p2:ev(expand(p2),simp),
+   deg:max(hipow(p1,v), hipow(p1,v)),
+   ev(for kloop:0 thru deg do
+     cl:append(cl,[coeff(p1,v,kloop)=coeff(p2,v,kloop)]),simp),
+   cl
+);
+
 /* Return the set of operations which occur in the expression. */
 /* Note, this function varies depending on the value of simp!  */
 /* E.g. x+x-> 2*x, so is this a product of sum?                */

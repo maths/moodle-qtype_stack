@@ -124,6 +124,87 @@ class stack_equiv_input extends stack_input {
         return $response;
     }
 
+
+   /**
+     * This is the basic validation of the student's "answer".
+     * This method is only called if the input is not blank.
+     * @param array $contents the content array of the student's input.
+     * @return array of the validity, errors strings and modified contents.
+     */
+    protected function validate_contents($contents, $forbiddenkeys) {
+
+        $errors = $this->extra_validation($contents);
+        $valid = !$errors;
+
+        // Now validate the input as CAS code.
+        $modifiedcontents = array();
+        $caslines = array();
+        $errors = array();
+        $allowwords = $this->get_parameter('allowWords', '');
+        foreach ($contents as $index => $val) {
+            $answer = new stack_cas_casstring($val);
+            $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', 0), $allowwords);
+
+            // Ensure student hasn't used a variable name used by the teacher.
+            if ($forbiddenkeys) {
+                $answer->check_external_forbidden_words($forbiddenkeys);
+            }
+
+            $forbiddenwords = $this->get_parameter('forbidWords', '');
+
+            if ($forbiddenwords) {
+                $answer->check_external_forbidden_words_literal($forbiddenwords);
+            }
+            
+            $caslines[] = $answer;
+            $modifiedcontents[] = $answer->get_casstring();
+            $valid = $valid && $answer->get_valid();
+            $errors[] = $answer->get_errors();
+        }
+
+        // Add in a CAS line which will display the complete argument.
+        $completeargument = 'disp_stack_eval_arg('.$this->contents_to_maxima($contents).')';
+        $carg = new stack_cas_casstring($completeargument);
+        $carg->get_valid('t', $this->get_parameter('strictSyntax', true),
+                 $this->get_parameter('insertStars', 0), $allowwords);
+        $carg->set_key('comparg');
+        $caslines[] = $carg;
+        
+        return array($valid, $errors, $modifiedcontents, $caslines);
+    }
+
+    /**
+     * This function constructs any the display variable for validation.
+     * For many input types this is simply the complete answer.
+     * For text areas and equivalence reasoning this is a more complex arrangement of lines.
+     *
+     * @param stack_casstring $answer, the complete answer.
+     * @return string any error messages describing validation failures. An empty
+     *      string if the input is valid - at least according to this test.
+     */
+    protected function validation_display($answer, $caslines, $valid, $errors) {
+      
+        $display = '<center><table style="vertical-align: middle;" ' .
+                   'border="0" cellpadding="0" cellspacing="0"><tbody>'; 
+        foreach($caslines as $index => $cs) {
+            $display .= '<tr>';
+            if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
+                $valid = false;
+                $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
+                $display .= '<td>'. stack_maxima_format_casstring($cs->get_raw_casstring()). '</td>';
+                $display .= '<td>&nbsp'. stack_maxima_translate($errors[$index]). '</td></tr>';
+            } else {
+                $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
+            }
+            $display .= '</tr>';
+        }
+        $display .= '</tbody></table></center>';
+
+        return array($valid, $errors, $display);
+    }
+
+    
     /**
      * Return the default values for the options. Using this is optional, in this
      * base class implementation, no default options are set.

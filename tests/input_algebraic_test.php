@@ -297,6 +297,32 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+{\it ab}\right) \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_single_var_chars_on() {
+        // Check the single variable character option is tested.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '(3*x+1)*(x+ab)');
+        $el->set_parameter('insertStars', 2);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(3*x+1)*(x+a*b)', $state->contentsmodified);
+        $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+a\cdot b\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
+    }
+
+     public function test_validate_student_response_single_var_chars_off() {
+        // Check the single variable character option is tested.
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '(3x+1)*(x+ab)');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('(3*x+1)*(x+ab)', $state->contentsmodified);
+        $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+{\it ab}\right) \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
+    }
+
     public function test_validate_student_response_allowwords_false() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');

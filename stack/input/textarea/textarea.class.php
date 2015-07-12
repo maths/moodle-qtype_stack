@@ -126,9 +126,7 @@ class stack_textarea_input extends stack_input {
     }
 
     /**
-     * This function constructs any the display variable for validation.
-     * For many input types this is simply the complete answer.
-     * For text areas and equivalence reasoning this is a more complex arrangement of lines.
+     * This function constructs the display variable for validation.
      *
      * @param stack_casstring $answer, the complete answer.
      * @return string any error messages describing validation failures. An empty
@@ -136,20 +134,15 @@ class stack_textarea_input extends stack_input {
      */
     protected function validation_display($answer, $caslines, $valid, $errors) {
 
-        if (!$valid) {
-            $display = stack_maxima_format_casstring($answer->get_raw_casstring());
-            return array($valid, $errors, $display);
-        }
-
         $display = '<center><table style="vertical-align: middle;" ' .
-                   'border="0" cellpadding="0" cellspacing="0"><tbody>'; 
+                   'border="0" cellpadding="4" cellspacing="0"><tbody>'; 
         foreach($caslines as $index => $cs) {
             $display .= '<tr>';
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
-                $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
+                $errors[$index] = ' ' . stack_maxima_translate($cs->get_errors());
                 $display .= '<td>'. stack_maxima_format_casstring($cs->get_raw_casstring()). '</td>';
-                $display .= '<td>&nbsp'. stack_maxima_translate($errors[$index]). '</td></tr>';
+                $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
             }
@@ -209,5 +202,39 @@ class stack_textarea_input extends stack_input {
         $value = "<br/>".implode("<br/>", $values);
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
+    }
+    
+    /**
+     * Generate the HTML that gives the results of validating the student's input.
+     * This differs from the default in that errors are now given line by line.
+     *
+     * @param stack_input_state $state represents the results of the validation.
+     * @param string $fieldname the field name to use in the HTML for this input.
+     * @return string HTML for the validation results for this input.
+     */
+    public function render_validation(stack_input_state $state, $fieldname) {
+        if (self::BLANK == $state->status) {
+            return '';
+        }
+
+        if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {
+            return '';
+        }
+        $feedback  = '';
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
+
+        if ($this->requires_validation() && '' !== $state->contents) {
+            $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
+                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)));
+        }
+
+        if (self::INVALID == $state->status) {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
+        }
+
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
+        }
+        return $feedback;
     }
 }

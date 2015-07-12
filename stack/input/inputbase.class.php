@@ -56,7 +56,7 @@ abstract class stack_input {
      *  (1) it is the name of thename of the POST variable that the input from this
      *  element will be submitted as.
      *  (2) it is the name of the CAS variable to which the student's answer is assigned.
-     *  Note, that during authoring, the teacher simply types #name# in the question stem to
+     *  Note, that during authoring, the teacher simply types [[input:name]] in the question stem to
      *  create these inputs.
      */
     protected $name;
@@ -280,50 +280,38 @@ abstract class stack_input {
             return new stack_input_state(self::BLANK, array(), '', '', '', '', '');
         }
 
+        $singlevarchars = false;
+        if (2 == $this->get_parameter('insertStars', 0)) {
+            $singlevarchars = true;
+        }
+
+        // Send as much of the string to the CAS as possible.
+        if (!$this->get_parameter('sameType')) {
+            $teacheranswer = null;
+        }
+
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // AT this sage, $valid records the PHP validation or other non-CAS issues.
         list($valid, $errors, $modifiedcontents, $caslines) = $this->validate_contents($contents, $forbiddenkeys);
       
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
-        $lvarsdisp = '';
-        $display   = stack_maxima_format_casstring($interpretedanswer);
-        $note      = '';
-        
-        // Send as much of the string to the CAS as possible.
-        if (!$this->get_parameter('sameType')) {
-            $teacheranswer = null;
-        }
-
-        $singlevarchars = false;
-        if (2 == $this->get_parameter('insertStars', 0)) {
-            $singlevarchars = true;
-        }
-
-        // Generate an expression from which we extract the list of variables in the student's answer.
-        $lvars = new stack_cas_casstring('ev(listofvars('.$interpretedanswer.'),simp)');
-        $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
-                $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
-
-        // Build up an array with all the parts which need to be validated separately.
-        if ($lvars->get_valid()) {
-            $sessionvars = array($lvars);
-        } else {
-            $sessionvars = array();
-        }
+        $lvarsdisp   = '';
+        $note        = '';
+        $sessionvars = array();
 
         // Ensure we have an element in the session which is the whole answer.
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
         foreach($caslines as $index => $cs) {
-            // Assume we have no errors from previous validation.
-            if ('' == $errors[$index]) {
+            if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
-                $sessionvars[$index+1] = $cs;
+                $sessionvars[] = $cs;
             }
         }
+
         // Ensure we have an element in the session which is the whole answer.
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
         $answer = new stack_cas_casstring($interpretedanswer);
@@ -335,18 +323,29 @@ abstract class stack_input {
             $sessionvars[] = $answer;
         }
 
+        // Generate an expression from which we extract the list of variables in the student's answer.
+        // We do this from the *answer* once interprted, so stars are inserted if insertStars=2.
+        $lvars = new stack_cas_casstring('ev(sort(listofvars('.$this->name.')),simp)');
+        $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
+                $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
+        if ($lvars->get_valid()) {
+            $sessionvars[] = $lvars;
+        }
+        
         $localoptions->set_option('simplify', false);
         $session = new stack_cas_session($sessionvars, $localoptions, 0);
         $session->instantiate();
-        
+
         //  Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
-        //  so we don't need to extract updated values from the instantated $session explicitly.
+        //  we don't need to extract updated values from the instantated $session explicitly.
         list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $valid, $errors);
-        
+
+       
         if ('' == $answer->get_value()) {
             $valid = false;
         } else {
-            $interpretedanswer = $answer->get_value();
+            // We need the value which has passed through the CAS as singlevarchars changes the value of the answer.
+            $interpretedanswer = $answer->get_value(); 
             if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }
@@ -360,7 +359,6 @@ abstract class stack_input {
         }
 
         $note = $answer->get_answernote();
-         
         $errors = implode(' ', $errors);
         
         if (!$valid) {
@@ -411,7 +409,7 @@ abstract class stack_input {
         $caslines = array();
         $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
-        foreach ($contents as $val) {
+        foreach ($contents as $index => $val) {
             $answer = new stack_cas_casstring($val);
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $allowwords);
@@ -427,8 +425,8 @@ abstract class stack_input {
                 $answer->check_external_forbidden_words_literal($forbiddenwords);
             }
 
-            $modifiedcontents[] = $answer->get_casstring();
             $caslines[] = $answer;
+            $modifiedcontents[] = $answer->get_casstring();
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
         }
@@ -466,7 +464,6 @@ abstract class stack_input {
             $display = stack_maxima_format_casstring($answer->get_raw_casstring());
             return array($valid, $errors, $display);
         }
-        
         if ('' != $answer->get_errors()  || '' == $answer->get_value()) {
             $valid = false;
             $errors = array(stack_maxima_translate($answer->get_errors()));

@@ -160,8 +160,8 @@ class stack_matrix_input extends stack_input {
      */
     protected function validate_contents($contents, $forbiddenkeys) {
 
-        $errors = array($this->extra_validation($contents));
-        $valid = !$errors;
+        $errors = array();
+        $valid = true;
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();

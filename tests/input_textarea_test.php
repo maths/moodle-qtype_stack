@@ -65,6 +65,11 @@ class stack_textarea_input_test extends basic_testcase {
                         'st_ans1', true));
     }
 
+    public function test_maxima_to_response_array_1() {
+        $el = stack_input_factory::make('textArea', 'input', '[x=1,x=2]');
+        $this->assertEquals($el->maxima_to_response_array('[x=1,x=2]'),
+            array('input' => "x=1\nx=2", 'input_val' => '[x=1,x=2]'));
+    }
 }
 
 

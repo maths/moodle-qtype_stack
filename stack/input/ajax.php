@@ -43,10 +43,12 @@ $question = $qa->get_question();
 $input = $question->inputs[$inputname];
 $state = $question->get_input_state($inputname, $input->maxima_to_response_array($inputvalue));
 
+$debug = var_export($inputvalue, true);
+
 $result = array(
     'input'   => $inputvalue,
     'status'  => $state->status,
-    'message' => $input->render_validation($state, $qa->get_qt_field_name($inputname)),
+    'message' => '<tt>'.$debug.'</tt>'.$input->render_validation($state, $qa->get_qt_field_name($inputname)),
 );
 
 header('Content-type: application/json; charset=utf-8');

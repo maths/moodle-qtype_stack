@@ -22,7 +22,7 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 * Expand this to be an implication reasoning engine as well.  E.g. differentiating both sides.
 * Auto identify what the student has done in a particular step?
 
-* Fix the instant validation. Change the Javascript in yui/input/inputs.js around stack_textarea_input.prototype.get_value = function() to not return a Maxima list.  We need the raw input, line breaks and all, to get a proper validation of the student's answer.  This need us to change ajax.php as well.
+* *done* Fix the instant validation. Change the Javascript in yui/input/inputs.js around stack_textarea_input.prototype.get_value = function() to not return a Maxima list.  We need the raw input, line breaks and all, to get a proper validation of the student's answer.  This need us to change ajax.php as well.
 
 ### Interface features
 

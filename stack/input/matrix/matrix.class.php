@@ -321,6 +321,20 @@ class stack_matrix_input extends stack_input {
     }
 
     /**
+     * The AJAX instant validation method mostly returns a Maxima expression.
+     * Mostly, we need an array, labelled with the input name.
+     *
+     * The matrix type is different.  The javascript creates a single Maxima expression,
+     * and we need to split this up into an array of individual elements.
+     *
+     * @param string $in
+     * @return array
+     */
+    protected function ajax_to_response_array($in) {
+        return  $this->maxima_to_response_array($in);
+    }
+
+    /**
      * Takes comma separated list of elements and returns them as an array
      * while at the same time making sure that the braces stay balanced
      *

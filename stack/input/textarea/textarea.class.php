@@ -132,7 +132,7 @@ class stack_textarea_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $caslines, $valid, $errors) {
+    protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
 
         $display = '<center><table style="vertical-align: middle;" ' .
                    'border="0" cellpadding="4" cellspacing="0"><tbody>'; 

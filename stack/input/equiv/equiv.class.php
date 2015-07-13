@@ -162,14 +162,6 @@ class stack_equiv_input extends stack_input {
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
         }
-
-        // Add in a CAS line which will display the complete argument.
-        $completeargument = 'disp_stack_eval_arg('.$this->contents_to_maxima($contents).')';
-        $carg = new stack_cas_casstring($completeargument);
-        $carg->get_valid('t', $this->get_parameter('strictSyntax', true),
-                 $this->get_parameter('insertStars', 0), $allowwords);
-        $carg->set_key('comparg');
-        $caslines[] = $carg;
         
         return array($valid, $errors, $modifiedcontents, $caslines);
     }
@@ -183,28 +175,44 @@ class stack_equiv_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $caslines, $valid, $errors) {
+    protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
       
         $display = '<center><table style="vertical-align: middle;" ' .
-                   'border="0" cellpadding="0" cellspacing="0"><tbody>'; 
+                   'border="0" cellpadding="4" cellspacing="0"><tbody>'; 
         foreach($caslines as $index => $cs) {
             $display .= '<tr>';
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
                 $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
                 $display .= '<td>'. stack_maxima_format_casstring($cs->get_raw_casstring()). '</td>';
-                $display .= '<td>&nbsp'. stack_maxima_translate($errors[$index]). '</td></tr>';
+                $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
             }
             $display .= '</tr>';
         }
         $display .= '</tbody></table></center>';
+        
+        if ($valid) {
+            $equiv = $additionalvars[0];
+            $display = '\[ ' . $equiv->get_display() . ' \]';
+        }
 
         return array($valid, $errors, $display);
     }
 
-    
+    /** This function creates additional session variables.  
+     *  Currently only used by the equiv class
+     */
+    protected function additional_session_variables() {
+        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.')');
+        $an->get_valid('t', $this->get_parameter('strictSyntax', true),
+                 $this->get_parameter('insertStars', 0));
+        $an->set_key('equiv'.$this->name);
+
+        return array($an);
+    }
+   
     /**
      * Return the default values for the options. Using this is optional, in this
      * base class implementation, no default options are set.
@@ -222,7 +230,7 @@ class stack_equiv_input extends stack_input {
             'allowWords'     => '',
             'forbidFloats'   => true,
             'lowestTerms'    => true,
-            'sameType'       => true);
+            'sameType'       => false);
     }
 
     /**
@@ -255,4 +263,39 @@ class stack_equiv_input extends stack_input {
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
     }
+
+    /**
+     * Generate the HTML that gives the results of validating the student's input.
+     * This differs from the default in that errors are now given line by line.
+     *
+     * @param stack_input_state $state represents the results of the validation.
+     * @param string $fieldname the field name to use in the HTML for this input.
+     * @return string HTML for the validation results for this input.
+     */
+    public function render_validation(stack_input_state $state, $fieldname) {
+        if (self::BLANK == $state->status) {
+            return '';
+        }
+
+        if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {
+            return '';
+        }
+        $feedback  = '';
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
+
+        if ($this->requires_validation() && '' !== $state->contents) {
+            $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
+                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)));
+        }
+
+        if (self::INVALID == $state->status) {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
+        }
+
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
+        }
+        return $feedback;
+    }
+
 }

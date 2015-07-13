@@ -294,8 +294,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
      * @return string.
      */
     stack_textarea_input.prototype.get_value = function() {
-        var raw = this.textarea.get('value').replace(/^\s+|\s+$/g, '');
-        return '[' + raw.split(/\s*[\r\n]\s*/).join(',') + ']';
+        return this.textarea.get('value').replace(/^\s+|\s+$/g, '');
     };
 
     /**

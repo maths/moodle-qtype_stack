@@ -459,10 +459,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     /**
      * Get the results of validating one of the input elements.
      * @param string $name the name of one of the input elements.
-     * @param array $response the response.
+     * @param array $response the response, in Maxima format.
+     * @param bool $rawinput the response in raw form. Needs converting to Maxima format by the input.
      * @return stack_input_state the result of calling validate_student_response() on the input.
      */
-    public function get_input_state($name, $response) {
+    public function get_input_state($name, $response, $rawinput=false) {
         $this->validate_cache($response, null);
 
         if (array_key_exists($name, $this->inputstates)) {
@@ -478,7 +479,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $teacheranswer = $this->session->get_value_key($name);
         if (array_key_exists($name, $this->inputs)) {
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
-                $response, $this->options, $teacheranswer, $forbiddenkeys);
+                $response, $this->options, $teacheranswer, $forbiddenkeys, $rawinput);
             return $this->inputstates[$name];
         }
         return '';

@@ -8,6 +8,7 @@ Reasoning by Equivalence is a particularly important activity in elementary alge
 The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
 This input type enables us to capture and evaluate student's line by line reasoning, i.e. their steps in working, during this kind of activity.
 
+Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
 
 ## How do students use this input?
 

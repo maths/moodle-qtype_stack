@@ -61,6 +61,7 @@ A single letter can be entered.  This is useful for creating multiple choice que
 #### Text area ####
 
 Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
+Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
 
 #### Matrix ####
 
@@ -78,6 +79,8 @@ Note that any potential response tree which relies on this input will never get 
 #### Equivalence reasoning input ####
 
 The purpose of this input type is to enable students to "reason by equivalence.  See the specific documentation for more information:  [Equivalence reasoning](../CAS/Equivalence_reasoning.md).
+Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
+
 
 ### Model answer ###  {#model_answer}
 

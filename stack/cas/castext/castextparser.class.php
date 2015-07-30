@@ -1311,13 +1311,13 @@ class stack_cas_castext_parsetreenode {
             if ($iter->next_sibling !== null) {
                 $iter->next_sibling->previous_sibling = $this;
             }
-            while ($iter->next_sibling !== null && $iter->next_sibling->type != 'text' && $iter->type != 'text') {
+            while ($iter->next_sibling !== null && !($iter->next_sibling->type == 'text' && $iter->type == 'text')) {
                 $iter = $iter->next_sibling;
                 if ($iter->is_container() && $iter->first_child !== null) {
                     $iter->first_child->normalize();
                 }
             }
-        }        
+        }
     }
 
     /**

@@ -33,7 +33,7 @@
 require_once(__DIR__ . '/../../../thirdparty/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;
 /**
- * Defines the text parser for identifying STACK specific parts from CAStext, does not work with XML, 
+ * Defines the text parser for identifying STACK specific parts from CAStext, does not work with XML,
  * intended to parse text-fragments and attribute values.
  * Pointless to use if your text does not include the following strings "{@" or "{#"
  */
@@ -53,9 +53,9 @@ class stack_cas_castext_castextparser extends Parser\Basic {
     }
 
     /**
-     * Takes a parse tree and concatenates the text-elements of its leafs. 
-     * Intentionally skips the text-element of the root as modifications made 
-     * to the leafs might not have been done there. 
+     * Takes a parse tree and concatenates the text-elements of its leafs.
+     * Intentionally skips the text-element of the root as modifications made
+     * to the leafs might not have been done there.
      */
     public static function to_string($parse_tree) {
         $r = "";
@@ -136,7 +136,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                     } else if ($value['_matchrule'] == 'endtexenv' && array_search($value['value']['text'],self::$math_mode_envs)!==FALSE) {
                         $mathmode = false;
                     }
-                    
+
                     $parse_tree['item'][$key]['mathmode'] = $mathmode;
                 }
             }
@@ -190,7 +190,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
     }
 
     /**
-     * This function searches a flat tree for matching block-ends and converts them to a better structure. 
+     * This function searches a flat tree for matching block-ends and converts them to a better structure.
      * It will also remap any parameters to a simpler form. And paint the mathmode bit on the blocks.
      * returns an array that has been remapped in that way.
      */
@@ -299,7 +299,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
                 }
             }
         }
-   
+
         $err = stack_cas_castext_castextparser::extract_block_missmatch($parse_tree);
         if (count($err) > 0) {
             if (array_key_exists('errors', $parse_tree)) {
@@ -345,11 +345,11 @@ class stack_cas_castext_castextparser extends Parser\Basic {
     mathmodeclose: ( '\)' | '\]' )
     begintexenv: "\begin{" value:/[a-zA-Z0-9\*]+/ "}"
     endtexenv: "\end{" value:/[a-zA-Z0-9\*]+/ "}"
-    blockid: /[a-zA-Z0-9\-_]+/ 
+    blockid: /[a-zA-Z0-9\-_]+/
     ws: (' ' | /[\n\t\r]/ )+
-    misc:  /[^\{\[\\]+/ 
+    misc:  /[^\{\[\\]+/
     breaks:  ( '{' | '[' | '\\' )
-    param: ws key:blockid '=' q:/["']/ value:/[^$q]+/ "$q" 
+    param: ws key:blockid '=' q:/["']/ value:/[^$q]+/ "$q"
     ioblock: '[[' ws? channel:blockid ws? ':' ws? var:blockid ws? ']]'
     blockempty: '[[' ws? name:blockid (params:param)* ws? '/]]'
     blockopen: '[[' ws? name:blockid (params:param)* ws? ']]'
@@ -425,22 +425,26 @@ class stack_cas_castext_parsetreenode {
     /**
      * Combines adjacent text-nodes.
      */
-    public function normalize() {
-        while ($this->type == 'text' && $this->next_sibling !== null && $this->next_sibling->type == 'text') {
-            $extra = $this->next_sibling;
-            $this->content .= $extra->content;
-            $this->next_sibling = $extra->next_sibling;
-            if ($this->next_sibling !== null) {
-                $this->next_sibling->previous_sibling = $this;
-            }
-        }
-        if ($this->next_sibling !== null) {
-            $this->next_sibling->normalize();
-        }
-        if ($this->is_container() && $this->first_child !== null) {
-            $this->first_child->normalize();
-        }
-    }
+     public function normalize() {
+         if ($this->is_container() && $this->first_child !== null) {
+             $this->first_child->normalize();
+         }
+         $iter = $this;
+         while ($iter->type == 'text' && $iter->next_sibling !== null && $iter->next_sibling->type == 'text') {
+             $extra = $iter->next_sibling;
+             $iter->content .= $extra->content;
+             $iter->next_sibling = $extra->next_sibling;
+             if ($iter->next_sibling !== null) {
+                 $iter->next_sibling->previous_sibling = $this;
+             }
+             while ($iter->next_sibling !== null && !($iter->next_sibling->type == 'text' && $iter->type == 'text')) {
+                 $iter = $iter->next_sibling;
+                 if ($iter->is_container() && $iter->first_child !== null) {
+                     $iter->first_child->normalize();
+                 }
+             }
+         }
+     }
 
     /**
      * Returns true if there could be somekind of a substructure.
@@ -593,7 +597,7 @@ class stack_cas_castext_parsetreenode {
                     $r .= $iterator->to_string();
                     $iterator = $iterator->next_sibling;
                 }
-                break;  
+                break;
             case "text":
                 return $this->content;
             case "texcasblock":

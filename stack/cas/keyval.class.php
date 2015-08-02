@@ -77,19 +77,20 @@ class stack_cas_keyval {
             return true;
         }
 
-        // CAS keyval may not contain @ or $.
-        if (strpos($this->raw, '@') !== false || strpos($this->raw, '$') !== false) {
-            $this->errors = stack_string('illegalcaschars');
-            $this->valid = false;
-            return false;
-        }
-
         // Subtle one: must protect things inside strings before we explode.
         $str = $this->raw;
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }
+
+        // CAS keyval may not contain @ or $. but strings sure can
+        if (strpos($tr, '@') !== false || strpos($str, '$') !== false) {
+            $this->errors = stack_string('illegalcaschars');
+            $this->valid = false;
+            return false;
+        }
+
         $str = str_replace("\n", ';', $str);
         $str = stack_utils::remove_comments($str);
         $str = str_replace(';', "\n", $str);

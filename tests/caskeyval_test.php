@@ -73,6 +73,9 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
                 array('a:x^2); b:(x+1)^2', false, $cs2),
                 array('@', false, $cs4),
                 array('$', false, $cs4),
+                array('dumvar:system(rm);', false, $cs4),
+                array('dumvar:"system(rm)";', false, $cs4),
+                array('dumvar:"a:x^2); b:(x+1)^2;$;@;";', true, $cs4),
         );
 
         foreach ($cases as $case) {

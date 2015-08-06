@@ -1076,6 +1076,10 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
             }
 
+            if (strlen($inputname) > 18 && !isset($fromform[$inputname . 'deleteconfirm'])) {
+                $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
+            }
+
             if (array_key_exists($inputname . 'modelans', $fromform)) {
                 $errors = $this->validate_cas_string($errors,
                         $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
@@ -1091,7 +1095,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-       // 3) Validate all prts.
+        // 3) Validate all prts.
         foreach ($prts as $prtname => $count) {
             if ($count == 0) {
                 if (!$fromform[$prtname . 'prtdeleteconfirm']) {
@@ -1144,6 +1148,10 @@ class qtype_stack_edit_form extends question_edit_form {
      * @return array the update $errors array.
      */
     protected function validate_prt($errors, $fromform, $prtname, $fixingdollars) {
+
+        if (strlen($prtname) > 18 && !isset($fromform[$prtname . 'prtdeleteconfirm'])) {
+            $errors['specificfeedback'][] = stack_string('prtnamelength', $prtname);
+        }
 
         if (!array_key_exists($prtname . 'feedbackvariables', $fromform)) {
             // This happens when you edit the question text to add more PRTs.

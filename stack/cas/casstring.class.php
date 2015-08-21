@@ -406,8 +406,7 @@ class stack_cas_casstring {
      * @var all the characters permitted in responses.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
-    private static $allowedchars =
-            '0123456789,./\%&{}[]()$£@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
+    private static $allowedchars = '0123456789,./\%&{}[]()$£@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
 
     /**
      * @var all the permitted which are not allowed to be the final character.
@@ -436,7 +435,7 @@ class stack_cas_casstring {
      * $insertstars is whether we actually put stars into the places we expect them to go.
      *              0 - don't insert stars
      *              1 - insert stars
-     *              2 - assume single letter variables only. 
+     *              2 - assume single letter variables only.
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
     private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
@@ -761,7 +760,7 @@ class stack_cas_casstring {
         /* Note to self: the "Assume single character variable names" option is actually
            carried out in Maxima, not using the regular expressions here.  This ensures that
            legitimate function names are not converted into lists of variables.  E.g. we want
-           sin(nx)->sin(n*x) and NOT s*i*n*(n*x).  For this code see stackmaxima.mac. 
+           sin(nx)->sin(n*x) and NOT s*i*n*(n*x).  For this code see stackmaxima.mac.
         */
 
         // Loop over every CAS command checking for missing stars.
@@ -964,12 +963,12 @@ class stack_cas_casstring {
         return $ok;
     }
 
-    /* The purpose of this function is to make all occurances of of the logical 
+    /* The purpose of this function is to make all occurances of of the logical
      * operators "and" and "or" into their noun equivalen versions.  The support
      * for these opertators in Maxima relies on the underlying lisp version and hence
      * it is impossible to turn this off and make them inert.  In particular expressions
      * such as x=1 or x=2 immediately evaluate to false in Maxima, which is awkward.
-     * 
+     *
      * If the parameter is true we put in noun versions, and if false we remove them.
      */
     public function logic_nouns_sort($dir) {
@@ -979,7 +978,7 @@ class stack_cas_casstring {
         $connectives[] = array(')and', ' nounand');
         $connectives[] = array(')or', ' nounor');
         foreach ($connectives as $con) {
-            if ($dir) { 
+            if ($dir) {
                 $this->casstring = str_replace($con[0], $con[1], $this->casstring);
             } else {
                 $this->value = str_replace($con[1], $con[0], $this->value);

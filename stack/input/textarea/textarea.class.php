@@ -107,7 +107,6 @@ class stack_textarea_input extends stack_input {
     private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
         return implode("\n", $values);
-        
     }
 
     /**
@@ -135,8 +134,8 @@ class stack_textarea_input extends stack_input {
     protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
 
         $display = '<center><table style="vertical-align: middle;" ' .
-                   'border="0" cellpadding="4" cellspacing="0"><tbody>'; 
-        foreach($caslines as $index => $cs) {
+                   'border="0" cellpadding="4" cellspacing="0"><tbody>';
+        foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
@@ -203,7 +202,7 @@ class stack_textarea_input extends stack_input {
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
     }
-    
+
     /**
      * Generate the HTML that gives the results of validating the student's input.
      * This differs from the default in that errors are now given line by line.

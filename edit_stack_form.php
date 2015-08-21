@@ -421,7 +421,7 @@ class qtype_stack_edit_form extends question_edit_form {
         // Algebraic Equivalence should be the default test, and first on the list.
         // This does not come first in the alphabet of all languages.
         $default     = 'AlgEquiv';
-        $default_str = stack_string($answertests[$default]);
+        $defaultstr  = stack_string($answertests[$default]);
         unset($answertests[$default]);
 
         $this->answertestchoices = array();
@@ -429,7 +429,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $this->answertestchoices[$test] = stack_string($string);
         }
         stack_utils::sort_array($this->answertestchoices);
-        $this->answertestchoices = array_merge(array($default => $default_str),
+        $this->answertestchoices = array_merge(array($default => $defaultstr),
                 $this->answertestchoices);
 
         // Prepare score mode choices.
@@ -1091,7 +1091,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
         }
 
-       // 3) Validate all prts.
+        // 3) Validate all prts.
         foreach ($prts as $prtname => $count) {
             if ($count == 0) {
                 if (!$fromform[$prtname . 'prtdeleteconfirm']) {

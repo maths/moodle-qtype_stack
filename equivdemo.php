@@ -147,7 +147,7 @@ $options = new stack_options();
 $options->set_site_defaults();
 $options->set_option('simplify', false);
 
-foreach($samplearguments as $argument) {
+foreach ($samplearguments as $argument) {
 //$argument = end($samplearguments);
 
     $cs1 = new stack_cas_casstring($argument['casstring']);

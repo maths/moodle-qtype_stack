@@ -38,7 +38,8 @@ class stack_inputvalidation_test_data {
         array('x+1', 'php_true', 'x+1', 'cas_true', '', ""),
         array('x+ 1', 'php_true', 'x+ 1', 'cas_true', '', ""),
         array('x + 1', 'php_true', 'x + 1', 'cas_true', '', "Ok to have some spaces between these operators."),
-        array('sin x', 'php_false', '', '', 'spaces', "We don't allow spaces to denote function application. A Maxima restriction."),
+        array('sin x', 'php_false', '', '', 'spaces',
+            "We don't allow spaces to denote function application. A Maxima restriction."),
         array('x y', 'php_false', '', '', 'spaces', "We don't allow spaces to denote implicit multiplication."),
         array('1 x', 'php_false', '', '', 'spaces', ""),
         array('1x', 'php_true', '1*x', 'cas_true', 'missing_stars', ""),
@@ -46,7 +47,8 @@ class stack_inputvalidation_test_data {
         array('1', 'php_true', '1', 'cas_true', '', "Numbers"),
         array('.1', 'php_true', '.1', 'cas_true', 'Illegal_floats', "This is an option."),
         array('1/2', 'php_true', '1/2', 'cas_true', '', ""),
-        array('2/4', 'php_true', '2/4', 'cas_true', 'Lowest_Terms', "Rejecting this as 'invalid' not 'wrong' is a question option."),
+        array('2/4', 'php_true', '2/4', 'cas_true', 'Lowest_Terms',
+            "Rejecting this as 'invalid' not 'wrong' is a question option."),
         array('-10/-1', 'php_true', '-10/-1', 'cas_true', 'Lowest_Terms', ""),
         array('1/0', 'php_true', '1/0', 'cas_true', 'CASError: Division by zero.', ""),
         array('pi', 'php_true', 'pi', 'cas_true', '', ""),
@@ -58,7 +60,8 @@ class stack_inputvalidation_test_data {
         array('%e', 'php_true', '%e', 'cas_true', '', ""),
         array('%i', 'php_true', '%i', 'cas_true', '', ""),
         array('inf', 'php_true', 'inf', 'cas_true', '', ""),
-        array('1E+3', 'php_true', '1*E+3', 'cas_true', 'missing_stars', "Scientific notation - does not work when strict syntax is false."),
+        array('1E+3', 'php_true', '1*E+3', 'cas_true', 'missing_stars',
+            "Scientific notation - does not work when strict syntax is false."),
         array('3E2', 'php_true', '3*E*2', 'cas_true', 'missing_stars', ""),
         array('3e2', 'php_true', '3*e*2', 'cas_true', 'missing_stars', ""),
         array('3e-2', 'php_true', '3*e-2', 'cas_true', 'missing_stars', ""),
@@ -70,7 +73,7 @@ class stack_inputvalidation_test_data {
         array('true', 'php_true', 'true', 'cas_true', '', "Booleans"),
         array('false', 'php_true', 'false', 'cas_true', '', ""),
         array('"1+1"', 'php_true', '"1+1"', 'cas_true', '',
-        "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
+            "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
         array('"Hello world"', 'php_false', '', '', 'unknownFunction | unknownFunction',
         "Currently strings must pass the security checks.   We could disable this,
         but since strings are not encouraged we keep it for now."),
@@ -301,7 +304,8 @@ class stack_inputvalidation_test_data {
         array('floor(x)', 'php_true', 'floor(x)', 'cas_true', '', ""),
         array('int(x,y)', 'php_true', 'int(x,y)', 'cas_true', '', ""),
         array('diff(x,y)', 'php_true', 'diff(x,y)', 'cas_true', '', ""),
-        array("'int(x,y)", 'php_false', '', 'cas_true', 'apostrophe', "Note the use of the apostrophe here to make an inert function."),
+        array("'int(x,y)", 'php_false', '', 'cas_true', 'apostrophe',
+            "Note the use of the apostrophe here to make an inert function."),
         array("'diff(x,y)", 'php_false', '', 'cas_true', 'apostrophe', "Not ideal...arises because we don't 'simplify'."),
         array('partialdiff(x,y,1)', 'php_false', '', '', 'unknownFunction', ""),
         array('limit(y,x,3)', 'php_true', 'limit(y,x,3)', 'cas_true', '', ""),
@@ -348,13 +352,15 @@ class stack_inputvalidation_test_data {
                 "The extra plusses or minuses are interpreted as unary operators on b"),
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', '', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', '', ""),
-        array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 
+        array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))',
                 'cas_true', '', "Subscripts"),
         array('a,b,c', 'php_false', 'a,b,c', 'cas_true', 'unencpsulated_comma', "Unencapsulated commas"),
         array('3,14159', 'php_false', '3,14159', 'cas_true', 'unencpsulated_comma', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', 'unencpsulated_comma', ""),
         array('\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_true', 'spuriousop', "Student uses LaTeX"),
-        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', 'CASError: concat: argument must be an atom; found [sin(x),cos(y)]', "The following are known to fail.  Some are bugs...."),
+        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true',
+            'CASError: concat: argument must be an atom; found [sin(x),cos(y)]',
+            "The following are known to fail.  Some are bugs...."),
     );
 
     public static function get_raw_test_data() {
@@ -362,9 +368,9 @@ class stack_inputvalidation_test_data {
     }
 
     public static function test_from_raw($data) {
-if (!array_key_exists(5,$data)) {
-    print_r($data[0]); die();
-}
+        if (!array_key_exists(5, $data)) {
+            print_r($data[0]); die();
+        }
         $test = new stdClass();
         $test->rawstring     = $data[self::RAWSTRING];
         $test->phpvalid      = $data[self::PHPVALID];

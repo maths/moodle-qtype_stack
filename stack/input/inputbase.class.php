@@ -169,7 +169,7 @@ abstract class stack_input {
                 break;
 
             case 'showValidation':
-                $valid = is_numeric($value) && $value>=0 && $value <= 2;
+                $valid = is_numeric($value) && $value >= 0 && $value <= 2;
                 break;
 
             case 'strictSyntax':
@@ -266,10 +266,10 @@ abstract class stack_input {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
         $localoptions = clone $options;
-        
+
         if ($ajaxinput) {
             $response = $this->ajax_to_response_array($response);
-        } 
+        }
         $contents = $this->response_to_contents($response);
 
         // The validation field should always come back through as a single RAW Maxima expression for each input.
@@ -278,7 +278,7 @@ abstract class stack_input {
         } else {
             $validator = '';
         }
-        
+
         if (array() == $contents or $this->is_blank_response($contents)) {
             return new stack_input_state(self::BLANK, array(), '', '', '', '', '');
         }
@@ -287,7 +287,6 @@ abstract class stack_input {
         if (2 == $this->get_parameter('insertStars', 0)) {
             $singlevarchars = true;
         }
-
 
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
@@ -304,12 +303,12 @@ abstract class stack_input {
             $tcaslines = array();
         }
         $tvalidator = array();
-        foreach($caslines as $index => $cs) {
-             $tvalidator[$index] = null;
-             if ($this->get_parameter('sameType') && array_key_exists($index, $tcaslines)) {
-                 $ta = $tcaslines[$index];
-                 $tvalidator[$index] = $ta->get_casstring();
-             } 
+        foreach ($caslines as $index => $cs) {
+            $tvalidator[$index] = null;
+            if ($this->get_parameter('sameType') && array_key_exists($index, $tcaslines)) {
+                $ta = $tcaslines[$index];
+                $tvalidator[$index] = $ta->get_casstring();
+            }
         }
 
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
@@ -319,7 +318,7 @@ abstract class stack_input {
 
         // Ensure we have an element in the session which is the whole answer.
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
-        foreach($caslines as $index => $cs) {
+        foreach ($caslines as $index => $cs) {
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
@@ -328,10 +327,10 @@ abstract class stack_input {
                 $sessionvars[] = $cs;
             }
         }
-        
+
         // Ensure we have an element in the session which is the whole answer.
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
-        if (!($this->get_parameter('sameType'))) { 
+        if (!($this->get_parameter('sameType'))) {
             $teacheranswer = null;
         }
         $answer = new stack_cas_casstring($interpretedanswer);
@@ -354,7 +353,7 @@ abstract class stack_input {
 
         $additionalvars = $this->additional_session_variables();
         $sessionvars = array_merge($sessionvars, $additionalvars);
-        
+
         $localoptions->set_option('simplify', false);
         $session = new stack_cas_session($sessionvars, $localoptions, 0);
         $session->instantiate();
@@ -363,27 +362,26 @@ abstract class stack_input {
         //  we don't need to extract updated values from the instantated $session explicitly.
         list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $additionalvars, $valid, $errors);
 
-       
         if ('' == $answer->get_value()) {
             $valid = false;
         } else {
             // We need the value which has passed through the CAS as singlevarchars changes the value of the answer.
-            $interpretedanswer = $answer->get_value(); 
+            $interpretedanswer = $answer->get_value();
             if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }
         }
-        
+
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
         if (!(strpos($interpretedanswer, '?') === false)) {
             $valid = false;
-            $errors[]= stack_string('qm_error');
+            $errors[] = stack_string('qm_error');
         }
 
         $note = $answer->get_answernote();
         $errors = implode(' ', $errors);
-        
+
         if (!$valid) {
             $status = self::INVALID;
         } else if ($this->get_parameter('mustVerify', true) && $validator != $this->contents_to_maxima($contents)) {
@@ -478,7 +476,7 @@ abstract class stack_input {
     protected function additional_session_variables() {
         return array();
     }
-     
+
     /**
      * This function constructs any the display variable for validation.
      * For many input types this is simply the complete answer.
@@ -505,7 +503,6 @@ abstract class stack_input {
         return array($valid, $errors, $display);
     }
 
-    
     public function requires_validation() {
         return $this->get_parameter('mustVerify', true);
     }

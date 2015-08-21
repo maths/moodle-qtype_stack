@@ -310,7 +310,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
     }
 
-     public function test_validate_student_response_single_var_chars_off() {
+    public function test_validate_student_response_single_var_chars_off() {
         // Check the single variable character option is tested.
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '(3x+1)*(x+ab)');

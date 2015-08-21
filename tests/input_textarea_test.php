@@ -70,7 +70,7 @@ class stack_textarea_input_test extends basic_testcase {
         $this->assertEquals($el->maxima_to_response_array('[x=1,x=2]'),
             array('input' => "x=1\nx=2", 'input_val' => '[x=1,x=2]'));
     }
-   
+
     public function test_validate_student_response_single_var_chars_on() {
         // Check the single variable character option is tested.
         $options = new stack_options();
@@ -105,7 +105,7 @@ class stack_textarea_input_test extends basic_testcase {
         $this->assertEquals('[x^2 = (-7)*x,ab = 2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
     }
-    
+
     public function test_validate_student_response_single_var_chars_raw_invalid() {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,[a=1,b=2]]');

@@ -125,7 +125,7 @@ class stack_equiv_input extends stack_input {
     }
 
 
-   /**
+    /**
      * This is the basic validation of the student's "answer".
      * This method is only called if the input is not blank.
      * @param array $contents the content array of the student's input.
@@ -156,13 +156,13 @@ class stack_equiv_input extends stack_input {
             if ($forbiddenwords) {
                 $answer->check_external_forbidden_words_literal($forbiddenwords);
             }
-            
+
             $caslines[] = $answer;
             $modifiedcontents[] = $answer->get_casstring();
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
         }
-        
+
         return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
@@ -176,10 +176,10 @@ class stack_equiv_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
-      
+
         $display = '<center><table style="vertical-align: middle;" ' .
-                   'border="0" cellpadding="4" cellspacing="0"><tbody>'; 
-        foreach($caslines as $index => $cs) {
+                   'border="0" cellpadding="4" cellspacing="0"><tbody>';
+        foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
@@ -192,7 +192,7 @@ class stack_equiv_input extends stack_input {
             $display .= '</tr>';
         }
         $display .= '</tbody></table></center>';
-        
+
         if ($valid) {
             $equiv = $additionalvars[0];
             $display = '\[ ' . $equiv->get_display() . ' \]';
@@ -212,7 +212,7 @@ class stack_equiv_input extends stack_input {
 
         return array($an);
     }
-   
+
     /**
      * Return the default values for the options. Using this is optional, in this
      * base class implementation, no default options are set.

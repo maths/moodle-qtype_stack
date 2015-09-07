@@ -219,5 +219,37 @@ unary_minus_add_distrib(ex) := block(
   apply(op(ex), map(unary_minus_add_distrib, args(ex)) )
 )$
 
+/****************************************************************/
+/*  Square root functions for STACK                             */
+/*                                                              */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
+/*  V0.1 August 2015                                            */
+/*                                                              */
+/****************************************************************/
 
+/* With simp:false */
+
+/* Some examples:  
+p1: (2 + sqrt (2)) * sqrt (2);
+p2:distrib(p1);
+p3:sqrt(a)*sqrt(b)*sqrt(b)*sqrt(b)*sqrt(a)*1*sqrt(b)+1;
+*/
+
+naivesqrt(ex):=block([al],
+  if atom(ex) then return(ex),
+  al:args(ex),
+  if safe_op(ex)="*" then block([alp,alq],
+    alp:sort(sublist(args(ex), lambda([ex2],equal(safe_op(ex2),"sqrt")))),
+    alq:sublist(args(ex), lambda([ex2],not(equal(safe_op(ex2),"sqrt")))),
+    al:append(naivesqrthelper(alp),alq)
+    ),
+  if safe_op(ex)="*" and length(al)=1 then return(naivesqrt(first(al))),
+  apply(op(ex), map(naivesqrt, al))
+);
+
+naivesqrthelper(ex):=block(
+  if length(ex)<2 then return(ex),
+  if equal(first(ex), second(ex)) then return(append([first(args(first(ex)))], naivesqrthelper(rest(rest(ex))))),
+  append([first(ex)], naivesqrthelper(rest(ex)))
+);
 

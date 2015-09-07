@@ -1108,6 +1108,7 @@ class qtype_stack_edit_form extends question_edit_form {
             }
 
             $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars);
+
         }
 
         // 4) Validate all hints.
@@ -1162,12 +1163,19 @@ class qtype_stack_edit_form extends question_edit_form {
             return $errors;
         }
 
-        // Check the fields the belong to the PRT as a whole.
+        // Check the fields that belong to the PRT as a whole.
         $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
                 $prtname . 'feedbackvariables');
 
         if ($fromform[$prtname . 'value'] < 0) {
             $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');
+        }
+
+        // Check that answernotes are not duplicated.
+        $answernotes = array_merge($fromform[$prtname . 'trueanswernote'], $fromform[$prtname . 'falseanswernote']);
+        if(count(array_unique($answernotes))<count($answernotes)) {
+            // Strictly speaking this should not be in the feedback variables.  But there is no general place to put this error.
+            $errors[$prtname . 'feedbackvariables'][] = stack_string('answernoteunique');
         }
 
         // Check the nodes.
@@ -1192,7 +1200,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $roots = $graph->get_roots();
 
         // There should only be a single root. If there is more than one, then we
-        // we assume that the first one is the intended root, and flat the others as unused.
+        // assume that the first one is the intended root, and flat the others as unused.
         array_shift($roots);
         foreach ($roots as $node) {
             $errors[$prtname . 'node[' . ($node->name - 1) . ']'][] = stack_string('nodenotused');

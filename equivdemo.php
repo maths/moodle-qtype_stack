@@ -136,6 +136,23 @@ $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Substitution";
+$newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Substitution: Needs fixing....";
+$newarg['casstring'] = "[a^2=b and x=1, b=a^2 and x=1]";
+$samplearguments[] = $newarg;
+
+
+$newarg = array();
+$newarg['title']     = "Find two distict numbers which are the square of each other (needs substitution, not equals)";
+$newarg['casstring'] = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
+$samplearguments[] = $newarg;
+
+
+$newarg = array();
 $newarg['title']     = "Differential quotient as the unknown";
 $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
 //$newarg['casstring'] = "[-12+3*'diff(y,x)+8-8*'diff(y,x)=0,-5*'diff(y,x)=4,'diff(y,x)=-4/5]";

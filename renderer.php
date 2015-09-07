@@ -64,7 +64,7 @@ class qtype_stack_renderer extends qtype_renderer {
             $feedback = '';
             if ($options->feedback) {
                 $feedback = $this->prt_feedback($index, $response, $qa, $options, true);
-        
+
             } else if (in_array($qa->get_behaviour_name(), array('interactivecountback', 'adaptivemulipart'))) {
                 // The behaviour name test here is a hack. The trouble is that interactive
                 // behaviour or adaptivemulipart does not show feedback if the input

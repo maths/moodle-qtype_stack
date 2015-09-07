@@ -16,6 +16,7 @@ The position of an input in the [question text](CASText.md#question_text) is den
 
 Here `ans1` denotes the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
 This must only be letters (optionally) followed by numbers, as in this example. No special characters are permitted.
+The input name cannot be more than 18 characters long.
 
 Feedback as to the syntactic validity of a response is by default inserted just after
 the input. Feedback is positioned using tags such as

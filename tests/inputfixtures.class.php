@@ -368,9 +368,7 @@ class stack_inputvalidation_test_data {
     }
 
     public static function test_from_raw($data) {
-        if (!array_key_exists(5, $data)) {
-            print_r($data[0]); die();
-        }
+
         $test = new stdClass();
         $test->rawstring     = $data[self::RAWSTRING];
         $test->phpvalid      = $data[self::PHPVALID];

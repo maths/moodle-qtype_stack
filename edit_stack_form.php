@@ -420,8 +420,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $answertests = stack_ans_test_controller::get_available_ans_tests();
         // Algebraic Equivalence should be the default test, and first on the list.
         // This does not come first in the alphabet of all languages.
-        $default     = 'AlgEquiv';
-        $default_str = stack_string($answertests[$default]);
+        $default    = 'AlgEquiv';
+        $defaultstr = stack_string($answertests[$default]);
         unset($answertests[$default]);
 
         $this->answertestchoices = array();
@@ -429,7 +429,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $this->answertestchoices[$test] = stack_string($string);
         }
         stack_utils::sort_array($this->answertestchoices);
-        $this->answertestchoices = array_merge(array($default => $default_str),
+        $this->answertestchoices = array_merge(array($default => $defaultstr),
                 $this->answertestchoices);
 
         // Prepare score mode choices.
@@ -1173,7 +1173,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Check that answernotes are not duplicated.
         $answernotes = array_merge($fromform[$prtname . 'trueanswernote'], $fromform[$prtname . 'falseanswernote']);
-        if(count(array_unique($answernotes))<count($answernotes)) {
+        if (count(array_unique($answernotes)) < count($answernotes)) {
             // Strictly speaking this should not be in the feedback variables.  But there is no general place to put this error.
             $errors[$prtname . 'feedbackvariables'][] = stack_string('answernoteunique');
         }

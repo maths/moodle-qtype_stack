@@ -591,7 +591,7 @@ class stack_utils {
      */
     public static function array_to_cvs($array) {
         if (!empty($array)) {
-            $string = "";
+            $string = '';
             $i = 0;
             foreach ($array as $element) {
                 if ($i > 0) {

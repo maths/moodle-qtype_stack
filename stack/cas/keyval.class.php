@@ -90,6 +90,7 @@ class stack_cas_keyval {
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }
+
         $str = str_replace("\n", ';', $str);
         $str = stack_utils::remove_comments($str);
         $str = str_replace(';', "\n", $str);

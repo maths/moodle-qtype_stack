@@ -348,13 +348,14 @@ class stack_inputvalidation_test_data {
                 "The extra plusses or minuses are interpreted as unary operators on b"),
         array('a +++ b', 'php_true', 'a +++ b', 'cas_true', '', ""),
         array('a --- b', 'php_true', 'a --- b', 'cas_true', '', ""),
-        array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 
+        array('rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'php_true', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))',
                 'cas_true', '', "Subscripts"),
         array('a,b,c', 'php_false', 'a,b,c', 'cas_true', 'unencpsulated_comma', "Unencapsulated commas"),
         array('3,14159', 'php_false', '3,14159', 'cas_true', 'unencpsulated_comma', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', 'unencpsulated_comma', ""),
         array('\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_true', 'spuriousop', "Student uses LaTeX"),
-        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', 'CASError: concat: argument must be an atom; found [sin(x),cos(y)]', "The following are known to fail.  Some are bugs...."),
+        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', 'CASError: concat: argument must be an atom; found [sin(x),cos(y)]',
+                "The following are known to fail.  Some are bugs...."),
     );
 
     public static function get_raw_test_data() {
@@ -362,9 +363,7 @@ class stack_inputvalidation_test_data {
     }
 
     public static function test_from_raw($data) {
-if (!array_key_exists(5,$data)) {
-    print_r($data[0]); die();
-}
+
         $test = new stdClass();
         $test->rawstring     = $data[self::RAWSTRING];
         $test->phpvalid      = $data[self::PHPVALID];

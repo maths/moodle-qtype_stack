@@ -169,7 +169,7 @@ abstract class stack_input {
                 break;
 
             case 'showValidation':
-                $valid = is_numeric($value) && $value>=0 && $value <= 2;
+                $valid = is_numeric($value) && $value >= 0 && $value <= 2;
                 break;
 
             case 'strictSyntax':

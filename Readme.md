@@ -4,9 +4,9 @@
 is an open-source system for computer-aided assessment in Mathematics and related
 disciplines, with emphasis on formative assessment.
 
-STACK was created by Chris Sangwin of Lteh University of Edinburgh, and includes the work of
+STACK was created by Chris Sangwin of The University of Edinburgh, and includes the work of
 [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md).
-Notably, this branch contains significant contributions by Matt Harulja of Aalto, Finland.
+Notably, this branch contains significant contributions by Matti Harjula of Aalto, Finland.
 
 ## Current state of development
 

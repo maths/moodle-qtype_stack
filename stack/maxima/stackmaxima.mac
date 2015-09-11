@@ -53,9 +53,6 @@ stack_reset(rand_seed) := block(
 
   /*      */
   OPT_OUTPUT:"LaTeX",
-  /*      */
-  DIV_OP:"//",
-  if MAXIMA_VERSION_NUM>=15.0 then DIV_OP:"/",
 
   true
 )$
@@ -1729,7 +1726,7 @@ PartFracfun(sExpr,tExpr,wrt) := block([val, rawmk, ansnote, fb],
                                               topOp: op(sExpr),
                                               list: args(sExpr)
                                               ),
-                    if topOp = DIV_OP then list:[sExpr] else list: args( sExpr ),
+                    if topOp = "/" then list:[sExpr] else list: args( sExpr ),
                     block([sargs,sdenoms],
                                     val:true,
                                     rawmk: true,
@@ -1804,8 +1801,8 @@ PartFracfun(sExpr,tExpr,wrt) := block([val, rawmk, ansnote, fb],
 /*              False if different Variables are used                   */
 /*              True(0) otherwise                                       */
 /* ******************************************************************** */
-ATSingleFrac(SA, SB):= block(
-    [simp:false,negdistrib, validity, rawmk, fb, fbn, ansnote, ret,SAA,SBB],
+ATSingleFrac(SA, SB) := block(
+    [simp:false,negdistrib, validity, rawmk, fb, fbn, ansnote, ret, SAA, SBB],
     negdistrib: false,
     validity:true, rawmk:false, fb:"", ansnote:"",
 
@@ -1828,8 +1825,8 @@ ATSingleFrac(SA, SB):= block(
 
     /* Check for single fraction */
     fbn:"",
-    if op(SA) = DIV_OP then block(
-        if (freeof(DIV_OP,num(SA)) and freeof(DIV_OP,denom(SA))) then block(
+    if op(SA) = "/" then block(
+        if (freeof("/", num(SA)) and freeof("/", denom(SA))) then block(
             rawmk:true,
             ansnote:"ATSingleFrac_true")
         else block(
@@ -1856,13 +1853,13 @@ ATSingleFrac(SA, SB):= block(
 /* Useful function for Partial Fractions                         */
 /*****************************************************************/
 
-divthru(q):=
-       if (not atom(q) and part(q,0)=DIV_OP)
+divthru(q) :=
+       if (not atom(q) and part(q,0)="/")
        then
-         block([num,den,div,quo,rem],
-           num:part(q,1),
-           den:part(q,2),
-           div:divide(num,den) ,
+         block([num, den, div, quo, rem],
+           num:part(q, 1),
+           den:part(q, 2),
+           div:divide(num, den) ,
            quo:div[1],
            rem:div[2],
            quo+rem/ den )
@@ -1999,7 +1996,7 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
     ),
 
     /* case: (x-1)^2/k */
-    if opa=DIV_OP and elementp(wrt,setify(listofvars(denom(SA))))#true and atom(num(SA))#true and op(num(SA))="^" and part(num(SA),2)=2 then cform:true,
+    if opa="/" and elementp(wrt,setify(listofvars(denom(SA))))#true and atom(num(SA))#true and op(num(SA))="^" and part(num(SA),2)=2 then cform:true,
 
     /* The sum of somthing */
     if opa="+" then block(
@@ -2351,5 +2348,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015090900$
-print("[ STACK-Maxima started, library version 2015090900 ]")$
+stackmaximaversion:2015091100$
+print("[ STACK-Maxima started, library version 2015091100 ]")$

@@ -41,8 +41,13 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             return '/Applications/Maxima.app/Contents/Resources/maxima.sh';
         }
 
-        // Default guess on Linux.
-        return 'maxima';
+        // Default guess on Linux, making explicit use of the chosen version number.
+        $maximaversion = stack_connection_helper::get_maximaversion();
+        $maximacommand = 'maxima';
+        if ('default' != $maximaversion) {
+            $maximacommand = 'maxima --use-version='.$maximaversion;
+        }
+        return $maximacommand;
     }
 
     /* @see stack_cas_connection_base::call_maxima() */

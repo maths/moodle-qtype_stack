@@ -84,6 +84,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $this->debug->get_log();
     }
 
+    /* On a Unix system list the versions of maxima available for use. */
+    public function get_maxima_available() {
+        if ('unix' != stack_connection_helper::get_platform()) {
+            return stack_string('healthunabletolistavail');
+        }
+        $this->command = 'maxima --list-avail';
+        $rawresult = $this->call_maxima('');
+        return $rawresult;
+    }
+
     /**
      * Try to determine the name of the Maxima executable to use in command-lines,
      * if it is not specified in the configuration.

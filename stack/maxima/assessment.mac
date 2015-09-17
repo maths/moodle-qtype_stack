@@ -440,6 +440,22 @@ subst_equiv(ex1,ex2):=block([lv1, lv2, lvi, lvp, lvs, lve, il, perm_size, simp],
  if apply("or", lve) then (il:sublist_indices(lve, identity), lvs[il[1]]) else []
 )$
 
+
+/* ********************************** */
+/* Simplification control             */
+/* ********************************** */
+
+/* This function recursively applys associativity to operators listed in oplist. */
+/* It probably only makes sense for oplist to be ["+", "*"] or one of these two. */
+STACK_assoc(ex, oplist) := block(
+  if atom(ex) then return(ex),
+  if member(op(ex), oplist) then return(block([ex2],
+                   ex2:flatten(ex),
+                   apply(op(ex2), map(lambda([ex3], STACK_assoc(ex3, oplist)), args(ex2)))
+                   )),
+  apply(op(ex), map(lambda([ex3], STACK_assoc(ex3, oplist)), args(ex)))
+)$
+
 /* ********************************** */
 /* Noun arithmetic                    */
 /* ********************************** */

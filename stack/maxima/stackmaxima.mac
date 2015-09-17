@@ -527,7 +527,8 @@ stack_singlevar_make(ex) := block([vars, subs],
   vars:sublist(listofvars(ex), lambda([ex], if slength(string(ex))>1 then true else false)),
   if emptyp(vars) then return(ex),
   vars:maplist(lambda([ex], ex=stack_singlevar_make_helper(ex)), vars),
-  sublis(vars, ex)
+  /* We only need to use associtativity of "*", not "+", but we have to do it over the whole expression. */
+  STACK_assoc(sublis(vars, ex), ["*"])
 )$
 
 
@@ -2349,5 +2350,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015091700$
-print("[ STACK-Maxima started, library version 2015091700 ]")$
+stackmaximaversion:2015091701$
+print("[ STACK-Maxima started, library version 2015091701 ]")$

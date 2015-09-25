@@ -346,16 +346,6 @@ abstract class stack_connection_helper {
         return array($message, $debug, $success);
     }
 
-    /* On a Unix system list the versions of maxima available for use. */
-    public static function get_maxima_available() {
-        if ('unix' != stack_connection_helper::get_platform()) {
-            return stack_string('healthunabletolistavail');
-        }
-        $this->command = 'maxima --list-avail';
-        $rawresult = $this->call_maxima('');
-        return $rawresult;
-    }
-
     /*
      * This function is in this class, rather than installhelper.class.php, to
      * ensure the lowest level connection to the CAS, without caching.

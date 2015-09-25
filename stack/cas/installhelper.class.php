@@ -304,4 +304,5 @@ END;
     public static function confirm_maxima_win_location() {
         return self::get_instance()->maxima_win_location();
     }
+
 }

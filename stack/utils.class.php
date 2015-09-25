@@ -557,7 +557,7 @@ class stack_utils {
      */
     public static function all_substring_strings($string) {
         $str = str_replace('\"', '[[ESCAPED_STRING]]', $string);
-        $strings = stack_utils::all_substring_between($str, '"');
+        $strings = self::all_substring_between($str, '"');
         foreach ($strings as $key => $string) {
             $strings[$key] = str_replace('[[ESCAPED_STRING]]', '\"', $string);
         }

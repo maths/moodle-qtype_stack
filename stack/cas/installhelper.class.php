@@ -85,7 +85,7 @@ class stack_cas_configuration {
             }
         }
 
-        $this->blocksettings['MAXIMA_VERSION'] = $this->settings->maximaversion;
+        $this->blocksettings['MAXIMA_VERSION_EXPECTED'] = $this->settings->maximaversion;
         $this->blocksettings['URL_BASE']       = '!ploturl!';
     }
 
@@ -199,7 +199,7 @@ file_search_maxima:append( [sconcat("{$this->logpath}/###.{mac,mc}")] , file_sea
 file_search_lisp:append( [sconcat("{$this->logpath}/###.{lisp}")] , file_search_lisp)$
 
 STACK_SETUP(ex):=block(
-    MAXIMA_VERSION_NUM:{$this->vnum},
+    MAXIMA_VERSION_NUM_EXPECTED:{$this->vnum},
 
 END;
         foreach ($this->blocksettings as $name => $value) {

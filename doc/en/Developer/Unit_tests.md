@@ -65,6 +65,8 @@ Note you need to make sure the `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` variabl
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS',    $CFG->dbpass);
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX',  $CFG->prefix);
 
+To make sure the CAS cache is cleared after each unit test rever back to the `db` settings for `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` as described above.  This will be slow...
+
 # Other configuration issues
 
 Moodle overrides the PHP debug message settings.  To see errors and warnings, go to

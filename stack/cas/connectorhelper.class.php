@@ -124,6 +124,14 @@ abstract class stack_connection_helper {
     }
 
     /**
+     * @return the configured version number.
+     */
+    public static function get_maximaversion() {
+        self::ensure_config_loaded();
+        return self::$config->maximaversion;
+    }
+
+    /**
      * @return bool whether the CAS timed out.
      */
     public static function did_cas_timeout($result) {
@@ -283,13 +291,15 @@ abstract class stack_connection_helper {
     public static function stackmaxima_genuine_connect() {
         self::ensure_config_loaded();
 
+        $maximaversion = self::get_maximaversion();
+
         // Put something non-trivial in the call.
         $date = date("Y-m-d H:i:s");
 
         $command = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), ' .
                 'cte("CASresult",errcatch(diff(x^n,x))), print("1=[ error= ["), ' .
                 'cte("STACKversion",errcatch(stackmaximaversion)), print("2=[ error= ["), ' .
-                'cte("MAXIMAversion",errcatch(MAXIMA_VERSION)), print("3=[ error= ["), ' .
+                'cte("MAXIMAversion",errcatch(MAXIMA_VERSION_STR)), print("3=[ error= ["), ' .
                 'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
                 "\n";
 
@@ -297,31 +307,41 @@ abstract class stack_connection_helper {
         list($results, $debug) = self::stackmaxima_nocache_call($command);
 
         $success = true;
-        $message = '';
+        $message = array();
         if (empty($results)) {
-            $message = stack_string('stackCas_allFailed');
+            $message[] = stack_string('stackCas_allFailed');
             $success = false;
         } else {
             foreach ($results as $result) {
                 if ('CASresult' === $result['key']) {
                     if ($result['value'] != 'n*x^(n-1)') {
+                        $message[] = stack_string('healthuncachedstack_CAS_calculation', array('expected' => "n*x^(n-1)", 'actual' => $result['value']));
                         $success = false;
                     }
                 } else if ('CAStime' === $result['key']) {
                     if ($result['value'] != '"'.$date.'"') {
                         $success = false;
                     }
-                } else if ('STACKversion' !== $result['key'] && 'MAXIMAversion' !== $result['key']) {
+                } else if ('MAXIMAversion' === $result['key']) {
+                    if ('default' == $maximaversion) {
+                        $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked', array('actual' => $result['value']));
+                    } else if ($result['value'] != '"'.$maximaversion.'"') {
+                        $message[] = stack_string('healthuncachedstack_CAS_version', array('expected' => $maximaversion, 'actual' => $result['value']));
+                        $success = false;
+                    }
+                } else if ('STACKversion' !== $result['key']) {
                     $success = false;
                 }
             }
         }
 
         if ($success) {
-            $message = stack_string('healthuncachedstack_CAS_ok');
+            $message[] = stack_string('healthuncachedstack_CAS_ok');
         } else {
-            $message .= stack_string('healthuncachedstack_CAS_not');
+            $message[] = stack_string('healthuncachedstack_CAS_not');
         }
+
+        $message = implode(" ", $message);
 
         return array($message, $debug, $success);
     }

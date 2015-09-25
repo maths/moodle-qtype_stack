@@ -1855,8 +1855,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('Result');
         $this->check_output_does_not_contain_stray_placeholders();
+        /* Note from version 5.37.0 of Maxima the precise form of the error message changed. */
         $this->check_current_output(
-                new question_pattern_expectation('/algsys: tried and failed to reduce system/'),
+                new question_pattern_expectation('/following error: algsys: /'),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );

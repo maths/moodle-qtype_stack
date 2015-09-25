@@ -282,7 +282,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '-3x^2-4'), $options, '-3*x^2-4', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('(-3)*x^2-4', $state->contentsmodified);
+        // Hack to accomodate Maxima version 5.37.0 onwards.
+        $content = $state->contentsmodified;
+        if ($content === '(-3)*x^2-4') {
+            $content = '(-3*x^2)-4';
+        }
+        $this->assertEquals('(-3*x^2)-4', $content);
         $this->assertEquals('\[ -3\cdot x^2-4 \]', $state->contentsdisplayed);
     }
 

@@ -219,6 +219,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $testcases = array('ab' => 'a*b',
             'abc' => 'a*b*c',
+            'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
             'sin(xy)' => 'sin(x*y)',
             'xe^x' => '(x*%e)^x',
             'pix' => 'p*%i*x',
@@ -257,6 +258,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $testcases = array('ab' => 'a*b',
                 'ab*c' => 'a*b*c',
+                'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
                 'sin(xy)' => 'sin(x*y)',
                 'xe^x' => '(x*%e)^x',
                 '2pi+nk' => '2*%pi+n*k',
@@ -449,6 +451,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
-        $this->assertEquals('-7*i+2*j-3*k', $at1->get_value_key('v'));
+        // There has been a subtle change to associativity in Maxima 5.37.0.
+        $this->assertEquals('-7\cdot i+2\cdot j-3\cdot k', $at1->get_display_key('v'));
     }
 }

@@ -803,15 +803,15 @@ ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol,
     if (not(floatnump(SA)) and not(integerp(SA))) then
         return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
     /* Puts Teacher's answer between 0 & 1 */
-    c0:-floor(log(abs(float(SB)))/log(10)+1),
-    c1:SA*10^(c0+floor(nsf)),
+    c0:-floor(log(abs(float(rat(SB))))/log(10)+1),
+    c1:rat(SA)*10^(c0+floor(nsf)),
     if is(float(c1-floor(c1))=0.0)=false then block(
         Validity:true, 
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"), 
         AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits")
     ), 
-    c2:abs(abs(SA*10^(c0+floor(asf)))-abs(SB*10^(c0+floor(asf)))),
+    c2:abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf)))),
     if not(is(c2<0.5)) then block(
         Validity:true, 
         RawMark:false, 
@@ -2368,5 +2368,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015091701$
-print("[ STACK-Maxima started, library version 2015091701 ]")$
+stackmaximaversion:2015092500$
+print("[ STACK-Maxima started, library version 2015092500 ]")$

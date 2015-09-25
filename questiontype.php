@@ -396,7 +396,7 @@ class qtype_stack extends question_type {
             $allparameters = array(
                 'boxWidth'       => $inputdata->boxsize,
                 'strictSyntax'   => (bool) $inputdata->strictsyntax,
-                'insertStars'    => (int)  $inputdata->insertstars,
+                'insertStars'    => (int) $inputdata->insertstars,
                 'syntaxHint'     => $inputdata->syntaxhint,
                 'forbidWords'    => $inputdata->forbidwords,
                 'allowWords'     => $inputdata->allowwords,

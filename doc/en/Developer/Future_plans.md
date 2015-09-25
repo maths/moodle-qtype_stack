@@ -77,11 +77,10 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ## Ephemeral forms for numbers.
 
-Currently there are problems with the NumSigfigs tests and the other numerical tests.  
+To implement the decinal places test we need an "ephemiral form" for representing numbers at a syntactic level.   This test probably needs to operate at the PHP level on strings, rather then through Maxima.  
 
-This is due to the fact that the NumSigFigs answer test code uses maxima's `floor()` function, which gives `floor(0.1667*10^4)` as `1666` not `1667` as expected.
+Note that in Maxima the `floor()` function gives `floor(0.1667*10^4)` as `1666` not `1667` as expected.  So use `floor(0.1667*10^4)` instead.
 
-To avoid this problem we need an "ephemiral form" for representing numbers at a syntactic level.   This test probably needs to operate at the PHP level on strings, rather then through Maxima.  
 
 ## STACK custom reports
 

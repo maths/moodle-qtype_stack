@@ -94,8 +94,8 @@ if ($config->mathsdisplay === 'mathjax') {
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 
 // Try to list available versions of Maxima (linux only).
-$connection = stack_connection_helper::make();
-echo html_writer::tag('pre', $connection-> get_maxima_available());
+$connection = stack_connection_helper::get_maxima_available();
+echo html_writer::tag('pre', $connection);
 
 // Check for location of Maxima.
 $maximalocation = stack_cas_configuration::confirm_maxima_win_location();

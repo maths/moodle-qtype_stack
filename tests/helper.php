@@ -54,6 +54,8 @@ class qtype_stack_test_helper extends question_test_helper {
             '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
             'information',  // Neither inputs nor PRTs.
             'survey',       // Inputs, but no PRTs.
+            'single_char_vars', // Tests the insertion of * symbols between letter names.
+            'runtime_prt_err' // This generates an error in the PRT at runtime.  With and without guard clause.
         );
     }
 
@@ -147,7 +149,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta+c',
-                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo'));
+                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin'));
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
@@ -168,6 +170,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-2';
+        $q->questionvariables = 'orderless(y,x); a:3; f(x):=x^2; b:f(a); ta:y+x';
         $q->questiontext = 'Expand
                             \[ (x-2)(x-3) = x^2-[[input:ans1]] x+[[input:ans2]]. \]
                             [[validation:ans1</IEfeedback>
@@ -894,6 +897,84 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a very elementary question.
+     */
+    public static function make_stack_question_single_char_vars() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'single_char_vars';
+        $q->questionvariables = 'a:sin(x*y);';
+        $q->questiontext = 'What is @a@? [[input:ans1]]
+                               [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                    'algebraic', 'ans1', '2', array('boxWidth' => 5, 'insertStars' => 2, 'strictSyntax' => false));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('sin(x*y)');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+
+        return $q;
+    }
+
+    public static function make_stack_question_runtime_prt_err() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'runtime_prt_err';
+        $q->questionvariables = "";
+        $q->questiontext = '<p>Give an example of a system of equations with a unique solution.</p>' .
+            '<p>[[input:ans1]] [[validation:ans1]]</p>';
+
+        $q->specificfeedback = '[[feedback:Result]]';
+        $q->questionnote = '';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'algebraic', 'ans1', '[x+y=1,x-y=1]', array('boxWidth' => 25));
+
+        $feedbackvars = new stack_cas_keyval('', null, 0, 't');
+
+        $sans = new stack_cas_casstring('all_listp(equationp,ans1)');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('true');
+        $tans->get_valid('t');
+        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
+        $node0->add_branch(0, '=', 0, '', -1, 'Your answer should be a list of equations!', FORMAT_HTML, 'Result-0-F');
+        $node0->add_branch(1, '=', 0, '', 1, 'Your answer is a list of equations.', FORMAT_HTML, 'Result-0-T');
+
+        $sans = new stack_cas_casstring('solve(ans1,listofvars(ans1))');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('[]');
+        $tans->get_valid('t');
+        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
+        $node1->add_branch(0, '=', 0, $q->penalty, -1, 'Your equations have no solution!', FORMAT_HTML, 'Result-1-F');
+        $node1->add_branch(1, '=', 0, $q->penalty, 2, 'You have some solutions!', FORMAT_HTML, 'Result-1-T');
+
+        $sans = new stack_cas_casstring('length(solve(ans1,listofvars(ans1)))');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('1');
+        $tans->get_valid('t');
+        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
+        $node2->add_branch(0, '=', 0, $q->penalty, -1, 'You should have only one solution.', FORMAT_HTML, 'Result-2-F');
+        $node2->add_branch(1, '=', 1, $q->penalty, -1,
+                'Good, you have one solution.', FORMAT_HTML, 'Result-2-T');
+
+        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
+                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), 0);
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question the question from the test0.xml file.
      */
     public static function get_stack_question_data_test0() {
@@ -1307,5 +1388,4 @@ class qtype_stack_test_helper extends question_test_helper {
 
         return $qdata;
     }
-
 }

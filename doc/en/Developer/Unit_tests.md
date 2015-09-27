@@ -10,7 +10,7 @@ These three mechanisms aim to provide comprehensive testing of STACK.  The last 
 
 # PHP Unit tests
 
-Moodle 2.5 uses PHPunit for its unit tests. Setting this up and getting it working
+Moodle uses PHPunit for its unit tests. Setting this up and getting it working
 is a bit of a pain, but you only have to follow the instructions in
 [the Moodle PHPUnit documentation](http://docs.moodle.org/dev/PHPUnit) once to get it working.
 
@@ -39,6 +39,7 @@ for testing in order to test a new release of Maxima, for example.
 If you want to run just the unit tests for STACK, you can use the command
 
     vendor\bin\phpunit --group qtype_stack
+    vendor/bin/phpunit --group qtype_stack
 
 To make sure this keeps working, please annotate all test classes with
 
@@ -63,6 +64,8 @@ Note you need to make sure the `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` variabl
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBUSER',    $CFG->dbuser);
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPASS',    $CFG->dbpass);
     define('QTYPE_STACK_TEST_CONFIG_CASCACHEDBPREFIX',  $CFG->prefix);
+
+To make sure the CAS cache is cleared after each unit test rever back to the `db` settings for `QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE` as described above.  This will be slow...
 
 # Other configuration issues
 

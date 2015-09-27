@@ -20,8 +20,8 @@
  * @copyright  2012 University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once('cassession.class.php');
-require_once('casstring.class.php');
+require_once(__DIR__ . '/cassession.class.php');
+require_once(__DIR__ . '/casstring.class.php');
 
 
 class stack_cas_text {
@@ -59,7 +59,7 @@ class stack_cas_text {
     /** @var bool whether to do strict syntax checks. */
     private $syntax;
 
-    public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=false) {
+    public function __construct($rawcastext, $session=null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
 
         if (!is_string($rawcastext)) {
             throw new stack_exception('stack_cas_text: raw_castext must be a STRING.');
@@ -89,13 +89,14 @@ class stack_cas_text {
             throw new stack_exception('stack_cas_text: 5th argument, stringSyntax, must be Boolean.');
         }
 
-        if (!is_bool($insertstars)) {
-            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be Boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_text: 6th argument, insertStars, must be an integer.');
         }
 
         $this->security    = $security;
         $this->syntax      = $syntax;
         $this->insertstars = $insertstars;
+
     }
 
     /**
@@ -136,17 +137,6 @@ class stack_cas_text {
         if ($dollar == false) {
             $this->errors .= stack_string('stackCas_MissingDollar');
             $this->valid = false;
-        }
-
-        $hints = stack_utils::check_bookends($this->trimmedcastext, '<hint>', '</hint>');
-        if ($hints !== true) {
-            // The method check_bookends does not return false.
-            $this->valid = false;
-            if ($hints == 'left') {
-                $this->errors .= stack_string('stackCas_MissingOpenHint');
-            } else {
-                $this->errors .= stack_string('stackCas_MissingClosingHint');
-            }
         }
 
         $html = stack_utils::check_bookends($this->trimmedcastext, '<html>', '</html>');
@@ -236,7 +226,7 @@ class stack_cas_text {
                 $cmd = stack_utils::trim_commands($cmd);
 
                 $cs = new stack_cas_casstring($cmd);
-                $cs->validate($this->security, $this->insertstars, $this->syntax);
+                $cs->get_valid($this->security, $this->syntax, $this->insertstars);
 
                 do { // ... make sure names are not already in use.
                     $key = 'caschat'.$i;
@@ -286,23 +276,11 @@ class stack_cas_text {
             $this->errors .= $this->session->get_errors();
         }
 
-        // Replaces the old "hints" filter from STACK 2.0.
-        // These strings are now part of the regular language files.
-        $strin = $this->trimmedcastext;
-        preg_match_all('|<hint>(.*)</hint>|U', $strin, $htmlmatch);
-        foreach ($htmlmatch[1] as $val) {
-            $sr = '<hint>'.$val.'</hint>';
-            $rep = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
-                    stack_string($val.'_name') . '</h3>' . stack_string($val . '_fact') . '</div>';
-            $strin = str_replace($sr, $rep, $strin);
-        }
-        $this->trimmedcastext = $strin;
-
         $this->castext = stack_utils::wrap_around($this->trimmedcastext);
         if (null !== $this->session) {
             $this->castext = $this->session->get_display_castext($this->castext);
         }
-        // Another modification. Stops <html> tags from being given $ tags and therefore breaking tth.
+        // Another modification. Stops <html> tags from being given $ tags.
         $this->castext = str_replace('\(<html>', '', $this->castext);
         // Bug occurs when maxima returns <html>tags in output, eg plots or div by 0 errors.
         $this->castext = str_replace('</html>\)', '', $this->castext);

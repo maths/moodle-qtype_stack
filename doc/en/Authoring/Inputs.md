@@ -8,7 +8,7 @@ For example, it might be a form box into which the student enters their answer.
   statement which asks for no response from the student, i.e. a rhetorical question.
 * A question may have as many inputs as needed.
 * Inputs can be positioned anywhere within the
-  [question text](CASText.md#question_text).  If JSMath is used for display this includes within equations.  MathJax does not currently support this feature.
+  [question text](CASText.md#question_text). MathJax does not currently support the inclusion of inputs within equations.
 
 The position of an input in the [question text](CASText.md#question_text) is denoted by
 
@@ -16,6 +16,7 @@ The position of an input in the [question text](CASText.md#question_text) is den
 
 Here `ans1` denotes the name of a [Maxima](../CAS/Maxima.md) variable to which the student's answer is to be assigned.
 This must only be letters (optionally) followed by numbers, as in this example. No special characters are permitted.
+The input name cannot be more than 18 characters long.
 
 Feedback as to the syntactic validity of a response is by default inserted just after
 the input. Feedback is positioned using tags such as
@@ -26,14 +27,14 @@ where stuff is the name of the variable. This string is automatically generated 
 does not exist and is placed after the input. This feedback must be given.
 Inputs have a number of options. Specific inputs may have extra options.
 
-To see what sort of vaidation is done, look at the
+To see what sort of validation is done, look at the
 [test suite for validation of student's input](../../../studentinputs.php).
 
-## input options ##
+## Input options ##
 
 Each input may have a number of options.
 
-## Student's Answer Key ##  {#Answer_Key}
+### Student's Answer Key ###  {#Answer_Key}
 
 The maxima variable to which the student's answer is assigned.
 This is set in the Question text using the following syntax, where `ans1` is the variable name to which the student's answer is assigned.
@@ -56,15 +57,11 @@ Simple drop down. A Boolean value is assigned to the variable name.
 
 #### Single Character ####
 
-A single letter can be entered.  This is useful for creating multiple choice questions.
+A single letter can be entered.  This is useful for creating multiple choice questions, but is not used regularly.
 
 #### Text area ####
 
 Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
-
-#### Drop down list ####
-
-(_Not currently re-implemented in STACK 3.0_)  Use the Input Type Options field to indicate a comma separated list of possible values.
 
 #### Matrix ####
 
@@ -74,16 +71,12 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
-#### Slider ####
-
-(_Not currently re-implemented in STACK 3.0_)  Dragable slider bar resulting in a numerical value.
-
 ### Model answer ###  {#model_answer}
 
 **This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.
 This value will be available as a question variable named `tans`**`n`** (where **`n`** is 1, 2, ...)
 
-### Box Size ### {#Box_Size}
+### Input Box Size ### {#Box_Size}
 
 The width of the input box.
 
@@ -109,10 +102,20 @@ Please read the notes on [numbers](../CAS/Numbers.md#Floats).
 
 ### Insert Stars ### {#Insert_Stars}
 
-If set to `yes`  then the system will automatically insert *s into any patterns identified by Strict Syntax as needing them and will not throw a validation error.
-So, for example \(2(1-4x)\) will be changed to `2*(1-4*x)` on validation.
+There are three options.
 
-### Syntax Hint ### {#Syntax_Hint}
+* Don't insert stars:  This does not insert `*` characters automatically into any patterns identified by Strict Syntax as needing them.  Strict Syntax is true and there are any pattern identified the result will be an invalid expression.
+* Insert `*`s for implied multiplication.  If any patterns identified by Strict Syntax as needing `*`s then they will automatically be inserted into the expression quietly.
+* Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the students answer made up of more than one character then replace these with the product of the letters.
+  * Note, the student's formula is interpreted and variables identified, so \(\sin(ax\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
+  * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
+
+The above two conditions are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted 
+
+1. as \( (x\cdot e)^x\) if we assume single character variable names, and
+2. as \( xe^x\) if we just "Insert `*`s for implied multiplication".  The absence of the dot here is key.
+
+### Syntax Hint {#Syntax_Hint}
 
 A syntax hint allows the teacher to give the student a pro-forma in the input box.
 This can include '?' characters.
@@ -133,7 +136,7 @@ The ? may also be used to give partial credit. Of course it could also be used f
 
 ### Forbidden words ### {#Forbidden_Words}
 
-This is a comma separated list of text strings which are forbidden in a student's answer.  Note, any variable names used in the question variables are automatically forbiden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).
+This is a comma separated list of text strings which are forbidden in a student's answer.  Note, any variable names used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).
 If one of these strings is present then the student's attempt will be considered invalid,
 and no penalties will be given.  This is an unsophisticated string match.
 
@@ -153,6 +156,8 @@ These lists are in the casstring class. If you have suggestions for more lists, 
 
 By default, arbitrary function or variable names of more than two characters in length are not permitted.  This is a comma separated list of function or variable names which are permitted in a student's answer.
 
+Note the allowed words permit the teacher to override some (but not all) of the strings which are considered to be invalid by default for student input.  For example, `Sin` (capital "S") has specific feedback.  If you need this in a question you have to allow it here.  Similarly `In` ("India November") is mistakenly used by students for the natural logarithm rather than `ln` ("Lima November").  Hence by default this triggers specific feedback.  You can allow `In` here.
+
 ### Forbid Floats ### {#Forbid_Floats}
 
 If set to `yes`, then any answer of the student which has a floating point number
@@ -163,7 +168,8 @@ they should use fractions. This option prevents problems with approximations bei
 
 When this option is set to `yes`, any coefficients or other rational numbers in an
 expression, must be written in lowest terms.  Otherwise the answer is rejected as "invalid".
-This enables the teacher to reject answers, and not consider them further.
+This enables the teacher to reject answers, and not consider them further.  Note that at most one number
+can have a minus sign and two unary minus signs are considered to be something which should be cancelled.
 
 ### Check Students answer's type ### {#Check_Type}
 
@@ -191,34 +197,7 @@ Feedback to students is in two forms.
 * feedback tied to inputs, in particular if the answer is invalid.
 * feedback tied to each potential response tree.
 
-Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.
-
-### Options ### {#Options}
-
-Different types of inputs have various options.   These are described under the IE type.
-
-### List {#List}
-
-This allows the following kinds of interactions to be included in STACK questions.
-
-* Radio buttons.
-* Dropdown lists.
-* Check boxes.
-
-The teacher can choose to construct an input which displays a random selection,
-in a random order, from a list of potential "distractors".  The top element, named "Correct answer",
-is always included, although this isn't really needed for the checkbox type.
-
-You have to enter a content form ([maxima](../CAS/Maxima.md) format) and displayed form
-(i.e. [CASText](CASText.md)) for each of these.  Both may depend on the question variables.
-
-STACK will automatically add space to ensure you have at least two blank distractors when
-you update the question. In the case of the radio button or dropdown list a single expression will be returned.
-In the case of the check boxes, we return a list of expressions.  Note,
-
-* The model answer in the input needs to be a list of objects, even if only one is correct.
-* The order of elements in this list is not certain, because we display them in a random order to students.
-  It will be necessary to `setify()` this to compare with a set of answers without order becoming a problem.
+Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
 
 ## Future plans ##
 
@@ -228,5 +207,6 @@ Adding new inputs should be a straightforward job for the developers.  We have p
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.
 | GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.
+| MCQs      | Add in check boxes and radio boxes as an input type to enable randomly generated multiple choice questions.
 
 The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

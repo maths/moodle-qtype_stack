@@ -17,6 +17,7 @@
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/test_base.php');
 require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 
 /**
@@ -79,6 +80,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('Here \(x\) is some @@PLUGINFILE@@ \(x+1\) some input', $ct->get_display_castext());
     }
 
+    public function test_not_confused_by_pluginfile_real_example() {
+        $realexample = '<p><img style="display: block; margin-left: auto; margin-right: auto;" ' .
+                'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>';
+        $ct = new stack_cas_text($realexample);
+        $this->assertTrue($ct->get_valid());
+        $this->assertEquals(array(), $ct->get_all_raw_casstrings());
+        $this->assertEquals($realexample, $ct->get_display_castext());
+    }
+
     public function test_get_all_raw_casstrings() {
         $raw = 'Take @x^2+2*x@ and then @sin(z^2)@.';
         $at1 = new stack_cas_text($raw, null, 0);
@@ -98,7 +108,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $sa = array('p:diff(sans)', 'q=int(tans)');
         foreach ($sa as $s) {
             $cs    = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $cs1 = new stack_cas_session($s1, null, 0);
@@ -130,7 +140,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -163,14 +173,13 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_hints() {
+    public function test_fact_sheets() {
         $cs2 = new stack_cas_session(array(), null, 0);
-        $at1 = new stack_cas_text("<hint>calc_diff_linearity_rule</hint>", $cs2, 0);
-        $s1 = '<div class="secondaryFeedback"><h3 class="secondaryFeedback">' .
-                'The Linearity Rule for Differentiation</h3>' .
-                '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+' .
-                'b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant}\]</div>';
-        $this->assertEquals($s1, $at1->get_display_castext());
+        $at1 = new stack_cas_text("[[facts:calc_diff_linearity_rule]]", $cs2, 0);
+        $output = stack_maths::process_display_castext($at1->get_display_castext());
+
+        $this->assertContains(stack_string('calc_diff_linearity_rule_name'), $output);
+        $this->assertContains(stack_string('calc_diff_linearity_rule_fact'), $output);
     }
 
     public function test_bad_variablenames() {
@@ -178,7 +187,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $rawcastext = '\[\begin{array}{rcl} & =& @Ax2@ + @double_cAx@ + @c2A@ + @Bx2@ + @cBx@ + @Cx@,\\ & =' .
                 '& @ApBx2@ + @xterm@ + @c2A@. \end{array}\] Matching coefficients \[\begin{array}{rcl} A + B& =' .
                 '& @a@\,\\ @double_cA + cB@ + C& =& 0,\\ @Ac2@& =& @b@. \end{array}\]';
-        $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, true);
+        $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, 0);
 
         $this->assertFalse($at1->get_valid());
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>' .
@@ -194,7 +203,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $at1 = new stack_cas_session($s1, null, 0);
@@ -211,7 +220,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $options = new stack_options();
@@ -230,7 +239,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s1[] = $cs;
         }
         $options = new stack_options();
@@ -249,7 +258,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -271,7 +280,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -292,7 +301,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
@@ -335,32 +344,206 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid. ' .
                 '</br>The expression <span class="stacksyntaxexample">system</span> is forbidden.');
     }
-}
 
-/**
- * Unit tests for {@link stack_cas_text}.
- * @group qtype_stack
- */
-class stack_cas_text_exception_test extends basic_testcase {
+    public function test_mathdelimiters1() {
+        $a2 = array('a:2');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
 
-    public function test_exception_1() {
-        $session = new stack_cas_session(null);
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_text(array(), null, null);
-        $at1->get_valid();
+        $at1 = new stack_cas_text('\begin{align*} x & = @a@+1 \\ & = @a+1@ \end{align*}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\begin{align*} x & = 2+1 \ & = 3 \end{align*}');
     }
 
-    public function test_exception_2() {
-        $session = new stack_cas_session(null);
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_text("Hello world", array(1), null);
-        $at1->get_valid();
+    public function test_mathdelimiters2() {
+        $a2 = array('a:x^2/(1+x^2)^3', 'p:diff(a,x)');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('\begin{multline*} @a@ \\\\ @p@ \end{multline*}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(),
+                '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ ' .
+                '\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}');
     }
 
-    public function test_exception_3() {
-        $session = new stack_cas_session(null);
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_text("Hello world", $session, "abc");
-        $at1->get_valid();
+    public function test_disp_decimalplaces() {
+        $a2 = array('a:float(%e)', 'b:3.99999');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@dispdp(a,2)@, @dispdp(b,3)@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(2.72\), \(4.000\)');
+    }
+
+    public function test_disp_decimalplaces2() {
+        $a2 = array('a:float(%e)', 'b:-3.99999');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@dispdp(a,0)*x^2@, @dispdp(b,3)@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(3.\cdot x^2\), \(-4.000\)');
+    }
+
+    public function test_disp_mult_blank() {
+        $a2 = array('make_multsgn("blank")', 'b:x*y');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(x\, y\)');
+    }
+
+    public function test_disp_mult_dot() {
+        $a2 = array('make_multsgn("dot")', 'b:x*y');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(x\cdot y\)');
+    }
+
+    public function test_disp_mult_cross() {
+        $a2 = array('make_multsgn("cross")', 'b:x*y');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+        $this->assertTrue($cs2->get_valid());
+
+        $at1 = new stack_cas_text('@b@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(x\times y\)');
+    }
+
+    public function test_disp_ode1() {
+        $at1 = new stack_cas_keyval("p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;",
+                null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\[\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0\] ' .
+                '\[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)' .
+                '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0\]');
+    }
+
+    public function test_disp_ode2() {
+        $vars = "derivabbrev:true;p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;";
+        $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@p1@\] \[@p2@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\[y_{x  x}+2\cdot y=0\] \[2\cdot y_{x  x  z  z  z}+y_{x  x}=0\]');
+    }
+
+    public function test_disp_int() {
+        $vars = "foo:'int(f(x),x)";
+        $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@foo@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\[\int {f\left(x\right)}{\;\mathrm{d}x}\]');
+    }
+
+    public function test_strings_in_castext() {
+        $vars = "st1:[\"\;\sin(x^2)\",\"\;\cos(x^2)\"]\n/* And a comment: with LaTeX \;\sin(x) */\n a:3;";
+        $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@a@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\[3\]');
+    }
+
+    public function test_strings_in_castext_escaped() {
+        $vars = 'st:"This is a string with escaped \" strings...."';
+        $at1 = new stack_cas_keyval($vars, null, 123, 't', true, 0);
+        $this->assertTrue($at1->get_valid());
+
+        $at2 = new stack_cas_text('\[@st@\]', $at1->get_session(), 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\[\mbox{This is a string with escaped " strings....}\]');
+    }
+
+    public function test_empty_strings() {
+        $s = '@"This is a string"@ whereas this is empty @""@.';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\(\mbox{This is a string}\) whereas this is empty \(\mbox{ }\).');
     }
 }

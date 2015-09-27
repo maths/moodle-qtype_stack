@@ -119,16 +119,6 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $this->assertTrue($q->is_gradable_response(array('ans1' => '2', 'ans1_val' => '2')));
     }
 
-    public function test_is_complete_response_test3() {
-        $q = $this->get_test_stack_question('test3');
-        $q->start_attempt(new question_attempt_step(), 1);
-
-        $this->assertFalse($q->is_complete_response(array()));
-        $this->assertFalse($q->is_complete_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false')));
-        $this->assertTrue($q->is_complete_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x',
-                'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', 'ans4' => 'false')));
-    }
-
     public function test_is_gradable_response_test3() {
         $q = $this->get_test_stack_question('test3');
         $q->start_attempt(new question_attempt_step(), 1);
@@ -136,6 +126,18 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $this->assertFalse($q->is_gradable_response(array()));
         $this->assertTrue($q->is_gradable_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false')));
         $this->assertTrue($q->is_gradable_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x',
+                'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', 'ans4' => 'false')));
+    }
+
+    public function test_is_complete_response_test3() {
+        $q = $this->get_test_stack_question('test3');
+        $q->start_attempt(new question_attempt_step(), 1);
+
+        $this->assertFalse($q->is_complete_response(array()));
+        $this->assertFalse($q->is_complete_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false')));
+        $this->assertFalse($q->is_complete_response(array('ans1' => 'x+1', 'ans1_val' => 'x+1',
+                'ans2' => 'x+1', 'ans2_val' => 'x+1', 'ans3' => 'x+1', 'ans3_val' => 'x+1', 'ans4' => '')));
+        $this->assertTrue($q->is_complete_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x',
                 'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', 'ans4' => 'false')));
     }
 
@@ -154,6 +156,15 @@ class qtype_stack_question_test extends qtype_stack_testcase {
 
         $this->assertEquals(array(2.5 / 4, question_state::$gradedpartial),
                 $q->grade_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false')));
+    }
+
+    public function test_grade_response_test3_incomplete() {
+        $q = $this->get_test_stack_question('test3');
+        $q->start_attempt(new question_attempt_step(), 1);
+
+        // Response that has three parts wrong, and one not completed.
+        $this->assertEquals(array(0 / 4, question_state::$gradedwrong),
+                $q->grade_response(array('ans1' => '1 + x', 'ans2' => '1 + x', 'ans3' => '1 + x', 'ans4' => '')));
     }
 
     public function test_grade_response_divide() {
@@ -209,5 +220,13 @@ class qtype_stack_question_test extends qtype_stack_testcase {
         $q->start_attempt(new question_attempt_step(), 4);
 
         $this->assertTrue(true);
+    }
+
+    public function test_get_question_var_values0() {
+        $q = test_question_maker::make_question('stack', 'test2');
+        $q->start_attempt(new question_attempt_step(), 4);
+
+        $expected = array('a' => '3', 'b' => '9', 'ta' => 'x+y', 'ans1' => '5', 'ans2' => '6');
+        $this->assertEquals($expected, $q->get_question_var_values());
     }
 }

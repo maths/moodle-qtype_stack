@@ -219,6 +219,7 @@ if ($question->has_random_variants()) {
 }
 
 // Display the question.
+$renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $quba->render_question($slot, $options);
 
@@ -228,10 +229,10 @@ echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()
         array('class' => 'questionnote'));
 
 // Display the question variables.
-echo $OUTPUT->heading(stack_string('questionvariables'), 3);
+echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 $displayqvs = '';
-foreach ($question->get_all_question_vars() as $key => $value) {
+foreach ($question->get_question_var_values() as $key => $value) {
     $displayqvs .= s($key) . ' : ' . s($value). ";\n";
 }
 echo  html_writer::tag('pre', $displayqvs);
@@ -240,7 +241,7 @@ echo html_writer::end_tag('div');
 // Display the general feedback, aka "Worked solution".
 $qa = new question_attempt($question, 0);
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
-echo html_writer::tag('div', html_writer::tag('div', $question->format_generalfeedback($qa),
+echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback($qa),
         array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
 // Add a link to the cas chat to facilitate editing the general feedback.
@@ -249,10 +250,19 @@ if ($question->options->get_option('simplify')) {
 } else {
     $simp = '';
 }
+
+$questionvarsinputs = $question->questionvariables;
+foreach ($question->get_correct_response() as $key => $val) {
+    if (substr($key, -4, 4) !== '_val') {
+        $questionvarsinputs .= "\n{$key}:{$val};";
+    }
+}
 $chatparams = $urlparams;
-$chatparams['vars'] = $displayqvs;
+$chatparams['vars'] = $questionvarsinputs;
 $chatparams['simp'] = $simp;
 $chatparams['cas'] = $question->generalfeedback;
+// We've chosen not to send a specific seed since it is helpful
+// to test the general feedback in a random context.
 echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
 
 // Display the controls to add another question test.

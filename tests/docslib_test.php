@@ -32,7 +32,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_docslib_test extends basic_testcase {
+class stack_docslib_test extends advanced_testcase {
 
     public function test_stack_docs_title_from_filename() {
         $this->assertEquals('About', stack_docs_title_from_filename('About'));
@@ -45,6 +45,8 @@ class stack_docslib_test extends basic_testcase {
         global $CFG;
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
+                '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/Mathjax.md">' .
+                        'Mathjax</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/testing_installation.md">' .
                         'testing installation</a></li></ul>'),
                 stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',
@@ -60,6 +62,9 @@ class stack_docslib_test extends basic_testcase {
     }
 
     public function test_stack_docs_render_markdown() {
+        $this->resetAfterTest();
+        filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
+
         $this->assertEquals("<p>Test</p>\n",
                 stack_docs_render_markdown('Test', '.../doc/content'));
 
@@ -69,7 +74,7 @@ class stack_docslib_test extends basic_testcase {
         $this->assertEquals("<p>Literal %CONTENT</p>\n",
                 stack_docs_render_markdown('Literal \%CONTENT', '.../doc/content'));
 
-        $this->assertEquals("<p><code>\(x^2\)</code> gives &#92;(x^2&#92;).</p>\n",
+        $this->assertEquals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
     }
 }

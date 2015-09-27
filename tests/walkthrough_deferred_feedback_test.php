@@ -493,7 +493,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->check_output_contains_lang_string('stackCas_CASError', 'qtype_stack');
+        $this->check_output_contains_lang_string('TEST_FAILED_Q', 'qtype_stack');
     }
 
     public function test_1input2prts_specific_feedback_handling() {
@@ -549,5 +549,29 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
+    }
+
+    public function test_rendering_question_with_image() {
+        global $CFG;
+
+        // Create a stack question - we use test0, then change the question text
+        // to show a particular bug.
+        $q = test_question_maker::make_question('stack', 'test0');
+
+        // Comment out the following line, and the test passes.
+        $q->questionvariables = 'PrintVect(v):= concat("\\,\\!",ssubst("\\mathbf{j}","YY",   ' .
+            'ssubst("\\mathbf{i}","XX", ssubst(" ","*",StackDISP(subst(XX, ii, subst(YY, jj,v )  ),"")))))';
+
+        $q->questiontext = '<p><img style="display: block; margin-left: auto; margin-right: auto;" ' .
+                'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>' .
+                '<p>' . $q->questiontext . '</p>';
+        $this->start_attempt_at_question($q, 'deferredfeedback', 1);
+
+        // Check how the image is rendered.
+        $this->render();
+        $this->assertNotRegExp('~PLUGINFILE~', $this->currentoutput,
+                'Embedded image not displayed correctly in ' . $this->currentoutput);
+        $this->assertRegExp('~' . preg_quote($CFG->wwwroot) . '/pluginfile.php/~', $this->currentoutput,
+                'Embedded image not displayed correctly in ' . $this->currentoutput);
     }
 }

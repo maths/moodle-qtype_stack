@@ -1,6 +1,6 @@
-# Simplification & odering
+# Simplification & ordering
 
-## Ordering
+## Ordering terms
 
 Maxima chooses an order in which to write terms in an expression.  By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).  In elementary mathematics this looks a little odd!  One way to overcome this is to use simplification below but another way is to alter the order in which expressions are transformed.
 
@@ -64,6 +64,22 @@ In some situations you may find you really do need to work at the display level,
     f:concat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
 
 Then you can put in `@f@` into one of the CASText fields.
+
+## Tips for manipulating expressions
+
+How do we do the followin in Maxima?
+\[ (1-x)^a \times (x-1) \rightarrow  -(1-x)^{a+1}.\]
+Try
+
+    q:(1-x)^a*(x-1); 
+    q:ratsubst(z,1-x,q);
+    q:subst(z=1-x ,q);
+
+
+How do we do the followin in Maxima?
+\[ (x-1)(k(x-1))^a \rightarrow  (x-1)^{a+1}k^a.\]
+
+     factor(radcan((x-1)*(k*(x-1))^a)) 
 
 ## Further examples
 

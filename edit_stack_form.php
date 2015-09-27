@@ -50,7 +50,7 @@ class qtype_stack_edit_form extends question_edit_form {
     /** @var int array key into the results of get_input_names_from_question_text for the count of input placeholders. */
     const INPUTS = 0;
     /** @var int array key into the results of get_input_names_from_question_text for the count of validation placeholders. */
-    const VALIDATAIONS = 1;
+    const VALIDATIONS = 1;
 
     /** @var options the STACK configuration settings. */
     protected $stackconfig = null;
@@ -81,6 +81,42 @@ class qtype_stack_edit_form extends question_edit_form {
 
     /** @var stack_options the CAS options using during validation. */
     protected $options;
+
+
+    /** Patch up data from the database before a user edits it in the form. */
+    public function set_data($question) {
+        if (!empty($question->questiontext)) {
+            $question->questiontext = $this->convert_legacy_fact_sheets($question->questiontext);
+        }
+        if (!empty($question->generalfeedback)) {
+            $question->generalfeedback = $this->convert_legacy_fact_sheets($question->generalfeedback);
+        }
+        if (!empty($question->specificfeedback)) {
+            $question->specificfeedback = $this->convert_legacy_fact_sheets($question->specificfeedback);
+        }
+
+        if (!empty($question->prts)) {
+            foreach ($question->prts as $prtname => $prt) {
+                if (!empty($prt->nodes)) {
+                    foreach ($prt->nodes as $nodename => $node) {
+                        $node->truefeedback  = $this->convert_legacy_fact_sheets($node->truefeedback);
+                        $node->falsefeedback = $this->convert_legacy_fact_sheets($node->falsefeedback);
+                    }
+                }
+            }
+        }
+
+        parent::set_data($question);
+    }
+
+    /**
+     * Replace any <hint> delimiters in the given text from the
+     * form with the recommended delimiters.
+     * @param string $text input to convert.
+     */
+    protected function convert_legacy_fact_sheets($text) {
+        return stack_fact_sheets::convert_legacy_tags($text);
+    }
 
     /**
      * @return string the current value of the question text, given the state the form is in.
@@ -235,8 +271,17 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $inputs = stack_utils::extract_placeholders($questiontext, 'input');
         $validations = stack_utils::extract_placeholders($questiontext, 'validation');
-
         $inputnames = array();
+
+        $data = data_submitted();
+        if ($data) {
+            foreach (get_object_vars($data) as $name => $value) {
+                if (preg_match('~(' . stack_utils::VALID_NAME_REGEX . ')modelans~', $name, $matches)) {
+                    $inputnames[$matches[1]] = array(0, 0);
+                }
+            }
+        }
+
         foreach ($inputs as $inputname) {
             if (!array_key_exists($inputname, $inputnames)) {
                 $inputnames[$inputname] = array(0, 0);
@@ -248,7 +293,7 @@ class qtype_stack_edit_form extends question_edit_form {
             if (!array_key_exists($inputname, $inputnames)) {
                 $inputnames[$inputname] = array(0, 0);
             }
-            $inputnames[$inputname][self::VALIDATAIONS] += 1;
+            $inputnames[$inputname][self::VALIDATIONS] += 1;
         }
 
         return $inputnames;
@@ -263,6 +308,16 @@ class qtype_stack_edit_form extends question_edit_form {
         $specificfeedback = $this->get_current_specific_feedback();
         $prts = stack_utils::extract_placeholders($questiontext . $specificfeedback, 'feedback');
         $prtnames = array();
+
+        $data = data_submitted();
+        if ($data) {
+            foreach (get_object_vars($data) as $name => $value) {
+                if (preg_match('~(' . stack_utils::VALID_NAME_REGEX . ')feedbackvariables~', $name, $matches)) {
+                    $prtnames[$matches[1]] = 0;
+                }
+            }
+        }
+
         foreach ($prts as $name) {
             if (!array_key_exists($name, $prtnames)) {
                 $prtnames[$name] = 0;
@@ -363,11 +418,19 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Prepare answer test types.
         $answertests = stack_ans_test_controller::get_available_ans_tests();
+        // Algebraic Equivalence should be the default test, and first on the list.
+        // This does not come first in the alphabet of all languages.
+        $default    = 'AlgEquiv';
+        $defaultstr = stack_string($answertests[$default]);
+        unset($answertests[$default]);
+
         $this->answertestchoices = array();
         foreach ($answertests as $test => $string) {
             $this->answertestchoices[$test] = stack_string($string);
         }
-        collatorlib::asort($this->answertestchoices);
+        stack_utils::sort_array($this->answertestchoices);
+        $this->answertestchoices = array_merge(array($default => $defaultstr),
+                $this->answertestchoices);
 
         // Prepare score mode choices.
         $this->scoremodechoices = array(
@@ -414,13 +477,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->registerNoSubmitButton('verify');
 
         // Inputs.
-        foreach ($inputnames as $inputname => $notused) {
-            $this->definition_input($inputname, $mform);
+        foreach ($inputnames as $inputname => $counts) {
+            $this->definition_input($inputname, $mform, $counts);
         }
 
         // PRTs.
-        foreach ($prtnames as $prtname => $notused) {
-            $this->definition_prt($prtname, $mform);
+        foreach ($prtnames as $prtname => $count) {
+            $this->definition_prt($prtname, $mform, $count);
         }
 
         // Options.
@@ -455,10 +518,7 @@ class qtype_stack_edit_form extends question_edit_form {
                         'text' => $this->stackconfig->prtincorrect));
 
         $mform->addElement('select', 'multiplicationsign',
-                stack_string('multiplicationsign'), array(
-                    'dot'   => stack_string('multdot'),
-                    'cross' => stack_string('multcross'),
-                    'none'  => get_string('none')));
+                stack_string('multiplicationsign'), stack_options::get_multiplication_sign_options());
         $mform->setDefault('multiplicationsign', $this->stackconfig->multiplicationsign);
         $mform->addHelpButton('multiplicationsign', 'multiplicationsign', 'qtype_stack');
 
@@ -468,20 +528,17 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('sqrtsign', 'sqrtsign', 'qtype_stack');
 
         $mform->addElement('select', 'complexno',
-                stack_string('complexno'), array(
-                    'i' => 'i', 'j' => 'j', 'symi' => 'symi', 'symj' => 'symj'));
+                stack_string('complexno'), stack_options::get_complex_no_options());
         $mform->setDefault('complexno', $this->stackconfig->complexno);
         $mform->addHelpButton('complexno', 'complexno', 'qtype_stack');
 
         $mform->addElement('select', 'inversetrig',
-                stack_string('inversetrig'), array(
-                    'cos-1' => "cos\xe2\x81\xbb\xc2\xb9(x)", 'acos' => 'acos(x)', 'arccos' => 'arccos(x)'));
+                stack_string('inversetrig'), stack_options::get_inverse_trig_options());
         $mform->setDefault('inversetrig', $this->stackconfig->inversetrig);
         $mform->addHelpButton('inversetrig', 'inversetrig', 'qtype_stack');
 
         $mform->addElement('select', 'matrixparens',
-                stack_string('matrixparens'), array(
-                    '[' => "[", '(' => '(', '' => '', '{' => '{', '|' => '|'));
+                stack_string('matrixparens'), stack_options::get_matrix_parens_options());
         $mform->setDefault('matrixparens', $this->stackconfig->matrixparens);
         $mform->addHelpButton('matrixparens', 'matrixparens', 'qtype_stack');
 
@@ -504,10 +561,18 @@ class qtype_stack_edit_form extends question_edit_form {
      * Add the form fields for a given input element to the form.
      * @param string $inputname the input name.
      * @param MoodleQuickForm $mform the form being assembled.
+     * @param int $counts the number of times this input and its validation appears in the questiontext.
      */
-    protected function definition_input($inputname, MoodleQuickForm $mform) {
+    protected function definition_input($inputname, MoodleQuickForm $mform, $counts) {
 
         $mform->addElement('header', $inputname . 'header', stack_string('inputheading', $inputname));
+
+        if ($counts[self::INPUTS] == 0 && $counts[self::VALIDATIONS] == 0) {
+            $mform->addElement('static', $inputname . 'warning', '', stack_string('inputwillberemoved', $inputname));
+            $mform->addElement('advcheckbox', $inputname . 'deleteconfirm', '', stack_string('inputremovedconfirm'));
+            $mform->setDefault($inputname . 'deleteconfirm', 0);
+            $mform->setExpanded($inputname . 'header');
+        }
 
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
@@ -530,8 +595,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
         $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
 
-        $mform->addElement('selectyesno', $inputname . 'insertstars',
-                stack_string('insertstars'));
+        $mform->addElement('select', $inputname . 'insertstars',
+                stack_string('insertstars'), stack_options::get_insert_star_options());
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
 
@@ -569,8 +634,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
 
-        $mform->addElement('selectyesno', $inputname . 'showvalidation',
-                stack_string('showvalidation'));
+        $mform->addElement('select', $inputname . 'showvalidation',
+                stack_string('showvalidation'), stack_options::get_showvalidation_options());
         $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
 
@@ -583,10 +648,18 @@ class qtype_stack_edit_form extends question_edit_form {
      * Add the form elements defining one PRT.
      * @param string $prtname the name of the PRT.
      * @param MoodleQuickForm $mform the form being assembled.
+     * @param int $count the number of times this PRT appears in the text of the question.
      */
-    protected function definition_prt($prtname, MoodleQuickForm $mform) {
+    protected function definition_prt($prtname, MoodleQuickForm $mform, $count) {
 
         $mform->addElement('header', $prtname . 'header', stack_string('prtheading', $prtname));
+
+        if ($count == 0) {
+            $mform->addElement('static', $prtname . 'prtwarning', '', stack_string('prtwillberemoved', $prtname));
+            $mform->addElement('advcheckbox', $prtname . 'prtdeleteconfirm', '', stack_string('prtremovedconfirm'));
+            $mform->setDefault($prtname . 'prtdeleteconfirm', 0);
+            $mform->setExpanded($prtname . 'header');
+        }
 
         $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), array('size' => 3));
         $mform->setType($prtname . 'value', PARAM_FLOAT);
@@ -928,6 +1001,13 @@ class qtype_stack_edit_form extends question_edit_form {
         foreach ($inputs as $inputname => $counts) {
             list($numinputs, $numvalidations) = $counts;
 
+            if ($numinputs == 0 && $numvalidations == 0) {
+                if (!$fromform[$inputname . 'deleteconfirm']) {
+                    $errors['questiontext'][] = stack_string('inputremovedconfirmbelow', $inputname);
+                }
+                continue;
+            }
+
             if ($numinputs == 0) {
                 $errors['questiontext'][] = stack_string(
                         'questiontextmustcontain', '[[input:' . $inputname . ']]');
@@ -968,13 +1048,6 @@ class qtype_stack_edit_form extends question_edit_form {
                     stack_string('specificfeedback'), $fromform['specificfeedback']['text'],
                     array('input', 'validation'));
 
-        foreach ($prts as $prtname => $count) {
-            if ($count > 1) {
-                $errors['specificfeedback'][] = stack_string(
-                        'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
-            }
-        }
-
         // General feedback.
         $errors['generalfeedback'] = array();
         $errors = $this->validate_cas_text($errors, $fromform['generalfeedback']['text'], 'generalfeedback', $fixingdollars);
@@ -996,23 +1069,46 @@ class qtype_stack_edit_form extends question_edit_form {
                     stack_string('questionnote'), $fromform['questionnote']);
 
         // 2) Validate all inputs.
-        foreach ($inputs as $inputname => $notused) {
-            $errors = $this->validate_cas_string($errors,
-                    $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
+        foreach ($inputs as $inputname => $counts) {
+            list($numinputs, $numvalidations) = $counts;
 
-            // TODO: find out if this input type acutally requires options, rather than
-            // the hard-coded check here.
-            if (false) {
+            if ($numinputs == 0 && $numvalidations == 0 && !$fromform[$inputname . 'deleteconfirm']) {
+                $errors[$inputname . 'deleteconfirm'][] = stack_string('youmustconfirm');
+            }
+
+            if (strlen($inputname) > 18 && !isset($fromform[$inputname . 'deleteconfirm'])) {
+                $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
+            }
+
+            if (array_key_exists($inputname . 'modelans', $fromform)) {
                 $errors = $this->validate_cas_string($errors,
-                        $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
-            } else if ($fromform[$inputname . 'options']) {
-                $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
+                        $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
+
+                // TODO: find out if this input type acutally requires options, rather than
+                // the hard-coded check here.
+                if (false) {
+                    $errors = $this->validate_cas_string($errors,
+                            $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
+                } else if ($fromform[$inputname . 'options']) {
+                    $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
+                }
             }
         }
 
         // 3) Validate all prts.
-        foreach ($prts as $prtname => $notused) {
+        foreach ($prts as $prtname => $count) {
+            if ($count == 0) {
+                if (!$fromform[$prtname . 'prtdeleteconfirm']) {
+                    $errors['specificfeedback'][] = stack_string('prtremovedconfirmbelow', $prtname);
+                    $errors[$prtname . 'prtdeleteconfirm'][] = stack_string('youmustconfirm');
+                }
+            } else if ($count > 1) {
+                $errors['specificfeedback'][] = stack_string(
+                        'questiontextfeedbackonlycontain', '[[feedback:' . $prtname . ']]');
+            }
+
             $errors = $this->validate_prt($errors, $fromform, $prtname, $fixingdollars);
+
         }
 
         // 4) Validate all hints.
@@ -1054,6 +1150,10 @@ class qtype_stack_edit_form extends question_edit_form {
      */
     protected function validate_prt($errors, $fromform, $prtname, $fixingdollars) {
 
+        if (strlen($prtname) > 18 && !isset($fromform[$prtname . 'prtdeleteconfirm'])) {
+            $errors['specificfeedback'][] = stack_string('prtnamelength', $prtname);
+        }
+
         if (!array_key_exists($prtname . 'feedbackvariables', $fromform)) {
             // This happens when you edit the question text to add more PRTs.
             // The user added a new PRT and did not click "Verify the question
@@ -1063,12 +1163,19 @@ class qtype_stack_edit_form extends question_edit_form {
             return $errors;
         }
 
-        // Check the fields the belong to the PRT as a whole.
+        // Check the fields that belong to the PRT as a whole.
         $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
                 $prtname . 'feedbackvariables');
 
-        if ($fromform[$prtname . 'value'] <= 0) {
+        if ($fromform[$prtname . 'value'] < 0) {
             $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');
+        }
+
+        // Check that answernotes are not duplicated.
+        $answernotes = array_merge($fromform[$prtname . 'trueanswernote'], $fromform[$prtname . 'falseanswernote']);
+        if (count(array_unique($answernotes)) < count($answernotes)) {
+            // Strictly speaking this should not be in the feedback variables.  But there is no general place to put this error.
+            $errors[$prtname . 'feedbackvariables'][] = stack_string('answernoteunique');
         }
 
         // Check the nodes.
@@ -1093,7 +1200,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $roots = $graph->get_roots();
 
         // There should only be a single root. If there is more than one, then we
-        // we assume that the first one is the intended root, and flat the others as unused.
+        // assume that the first one is the intended root, and flat the others as unused.
         array_shift($roots);
         foreach ($roots as $node) {
             $errors[$prtname . 'node[' . ($node->name - 1) . ']'][] = stack_string('nodenotused');
@@ -1231,6 +1338,15 @@ class qtype_stack_edit_form extends question_edit_form {
             $errors[$fieldname][] = $castext->get_errors();
             return $errors;
         }
+
+        // Validate any [[facts:...]] tags.
+        $unrecognisedtags = stack_fact_sheets::get_unrecognised_tags($value);
+        if ($unrecognisedtags) {
+            $errors[$fieldname][] = stack_string('unrecognisedfactstags',
+                    array('tags' => implode(', ', $unrecognisedtags)));
+            return $errors;
+        }
+
         if ($session) {
             $display = $castext->get_display_castext();
             if ($castext->get_errors()) {
@@ -1299,12 +1415,12 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputvalues = array();
         foreach ($inputs as $inputname => $notused) {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
-            $cs->validate('t');
+            $cs->get_valid('t');
             $inputvalues[] = $cs;
 
             if ($fromform[$inputname . 'options']) {
                 $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
-                $cs->validate('t');
+                $cs->get_valid('t');
                 $inputvalues[] = $cs;
             }
         }
@@ -1320,9 +1436,8 @@ class qtype_stack_edit_form extends question_edit_form {
 
             if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
                 $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
-            } else {
-                // TODO: Send the acutal value to to input, and ask it to validate it.
             }
+                // else TODO: Send the acutal value to the input, and ask it to validate it.
         }
 
         // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.

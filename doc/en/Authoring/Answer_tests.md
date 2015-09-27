@@ -59,11 +59,11 @@ Hence, we need quite a number of different answer tests to establish equality in
 
 | Test                                              | Description
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| CasEqual                                          | Are the parse trees of the two expressions equal?
+| CasEqual                                          | Are the parse trees of the two expressions equal?  
 | [EqualComAss](Answer_tests.md#EqualComAss)        | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? For example \[a+b=b+a\mbox{,}\] but \[x+x\neq 2x\mbox{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. Simplification is automatically switched off when this test is applied, otherwise it makes no sense.
 | [AlgEquiv](Answer_tests.md#AlgEquiv)              | Are they _algebraically equivalent_, i.e. does the difference simplify to zero?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?  If you are only interested in ignoring case sensitivity, you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
-| SameType                                          | Are the two expressions of the [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
+| SameType                                          | Are the two expressions of the same [types_of_object](../CAS/Maxima.md#Types_of_object)?  Note that this test works recursively over the entire expression.
 | SysEquiv                                          | Do two systems of polynomial equations have the same solutions? This test determines whether two systems of multivariate polynomials, i.e. polynomials with a number of variables, generate the same ideal, equivalent to checking they have the same solutions.
 
 
@@ -85,7 +85,7 @@ This test will work with a variety of [types of object](../CAS/Maxima.md#Types_o
 
 Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
 
-For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.  
+For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment. 
 
 Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) are considered to be different.  If you want these to be considered the same you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.
 
@@ -94,14 +94,19 @@ Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) ar
 
 Why doesn't the test automatically apply `radcan`?  If we always did this, then \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\) would be expanded out, which would break the system.  Since, in a given situation, we know a lot about what a student is likely to answer we can apply an appropriate form.   There isn't one rule which will work here, unfortunately.
 
+There are also some cases which Maxima can't establish as being equivalent.  For example \[ \sqrt[3]{\sqrt{108}+10}-\sqrt[3]{sqrt{108}-10} = 2.\]  As Maxima code
+
+    (sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)
+
+This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot establish these are equialent.  There are some other examples in the test suite which fail for mathematical reasons.  In cases like this, where you know you have a number, you may need to suppliment the AlgEquiv test with another numerical test.
 
 ### EqualComAss: Equality up to Associativity and Commutativity ### {#EqualComAss}
 
 This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
 
-Notice that this test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  An extra re-write rule could be added to achieve this, which would change the equivalence classes.
+Notice that this test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}\) under this test.  In many situations this notation is taken mean the same thing, but internally in Maxima they are represented by different functions and not converted to a cannonical form by the test.  Extra re-write rules could be added to achieve this, which would change the equivalence classes.
 
-This is a particularly useful test for checking that an answer is the same and simplified.
+This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".
 
 ### CasEqual ###
 
@@ -110,8 +115,10 @@ The CAS returns the result of the simple Maxima command
     if StudentAnswer=TeacherAnswer then true else false.
 
 There is no explicit simplification here (unlike AlgEquiv).
-This test works in different ways depending on whether [simplification](../CAS/Simplification.md) is on.
-When simplification is off this test effectively tests whether the parse trees are identical.
+This test always assumes [simplification](../CAS/Simplification.md) is off, i.e. `simp:false`, regardless of any question settings.  If this is too strict, use `ev(ex,simp)` in the arguments to simplify them explicitly first.
+When simplification is off this test effectively tests whether the parse trees are identical. 
+
+Please note, the behaviour of this test relies on the internal representation of expressions by Maxima, rather than an explicit mathematical property such as "equivalence".  Explicit properties should be tested in preference to using this test!
 
 ### SysEquiv ###
 
@@ -225,6 +232,13 @@ we insist the student is at least consistent.  If the teacher has *any*
 \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the 
 teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 
 student must have all or none. 
+
+The answer test archtecture only passes in the *answer* to the test.  The question is not available at that point, however, the answer test has to infer exactly which expression, including the algebraic form, the teacher has set in the question. This includes stripping off constants of integration and constants of integration may occur in a number of ways, e.g. in logarithms.
+In many cases simply differentiating the teacher's answer is fine, in which case the question author need not worry.  Where this does not work, the question author will need to supply the option in the form of a list `[var, integrand]`.
+
+    [x, x*exp(5*x+7)]
+    
+The first argument of this list must be the variable.  The second argument is the integrand.
 
 The test cannot cope with some situations.  Please contact the developers 
 when you find some of these.  This test is already rather overloaded, so 

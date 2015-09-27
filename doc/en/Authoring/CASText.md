@@ -6,7 +6,7 @@ CASText is CAS-enabled text.  CASText is simply HTML into which LaTeX mathematic
 
 Many of the fields in a STACK question, such as the question text, are of this type.
 
-Information about [Basic HTML](http://www.w3schools.com/html/html_primary.asp) is available elsewhere.
+Information about [Basic HTML](http://www.w3schools.com/html/) is available elsewhere.
 
 Currently STACK does not process the LaTeX itself.  It is displayed on the user's browser in a variety of ways, such as using [MathJAX](http://http://www.mathjax.org/).   If you do not know how to use LaTeX, some simple examples are given in the [author FAQ](Author_FAQ.md).
 
@@ -71,6 +71,10 @@ problem which can be written before a question is deployed.
 It is common to want to use the dollar sign for currency.  However, this conflicts with the use of the dollar sign for delimiters for mathematics.  For this reason we discourage the use of dollars to delimit mathematics in STACK.
 
 * If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
+
+## Facts ##
+
+STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to castext using the [fact sheet](Fact_sheets.md)
 
 ## Most useful HTML ##
 

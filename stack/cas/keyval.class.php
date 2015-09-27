@@ -46,11 +46,11 @@ class stack_cas_keyval {
     /** @var bool if true, apply strict syntax checks. */
     private $syntax;
 
-    public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $stars=false) {
+    public function __construct($raw, $options = null, $seed=null, $security='s', $syntax=true, $insertstars=0) {
         $this->raw          = $raw;
         $this->security     = $security;
-        $this->insertstars  = $stars;
         $this->syntax       = $syntax;
+        $this->insertstars  = $insertstars;
 
         $this->session      = new stack_cas_session(null, $options, $seed);
 
@@ -63,11 +63,11 @@ class stack_cas_keyval {
         }
 
         if (!is_bool($syntax)) {
-            throw new stack_exception('stack_cas_keyval: 3 argument, syntax, must be boolean.');
+            throw new stack_exception('stack_cas_keyval: 5th argument, syntax, must be boolean.');
         }
 
-        if (!is_bool($stars)) {
-            throw new stack_exception('stack_cas_keyval: 6th argument, stars, must be boolean.');
+        if (!is_int($insertstars)) {
+            throw new stack_exception('stack_cas_keyval: 6th argument, stars, must be an integer.');
         }
     }
 
@@ -84,9 +84,23 @@ class stack_cas_keyval {
             return false;
         }
 
-        $str = stack_utils::remove_comments(str_replace("\n", '; ', $this->raw));
+        // Subtle one: must protect things inside strings before we explode.
+        $str = $this->raw;
+        $strings = stack_utils::all_substring_strings($str);
+        foreach ($strings as $key => $string) {
+            $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
+        }
+
+        $str = str_replace("\n", ';', $str);
+        $str = stack_utils::remove_comments($str);
         $str = str_replace(';', "\n", $str);
+
         $kvarray = explode("\n", $str);
+        foreach ($strings as $key => $string) {
+            foreach ($kvarray as $kkey => $kstr) {
+                $kvarray[$kkey] = str_replace('[STR:'.$key.']', '"'.$string.'"', $kstr);
+            }
+        }
 
         // 23/4/12 - significant changes to the way keyvals are interpreted.  Use Maxima assignmentsm i.e. x:2.
         $errors  = '';
@@ -96,7 +110,7 @@ class stack_cas_keyval {
             $kvs = trim($kvs);
             if ('' != $kvs) {
                 $cs = new stack_cas_casstring($kvs);
-                $cs->validate($this->security, $this->syntax, $this->insertstars);
+                $cs->get_valid($this->security, $this->syntax, $this->insertstars);
                 $vars[] = $cs;
             }
         }

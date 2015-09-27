@@ -30,12 +30,14 @@ A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/
 Information on specific mathematical topics are found below
 
 * [Predicate functions](Predicate_functions.md), which are useful to test expressions.
-* [Randomly generated objects](Random.md).
-* [Plots](Plots.md) and graphics.
 * [Numbers](Numbers.md), including floating point and complex numbers.
+* [Simplification](Simplification.md) can be switched on and off in Maxima.
 * [Inequalities](Inequalities.md).
 * [Matrices and vectors](Matrix.md).
 * [Differential equations](Differential_equations.md).
+* [Statistics](Statistics.md).
+* [Randomly generated objects](Random.md).
+* [Plots](Plots.md) and graphics.
 * [Buggy rules](Buggy_rules.md) implenments rules which are not always valid!
 
 

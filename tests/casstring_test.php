@@ -66,7 +66,7 @@ class stack_cas_casstring_test extends basic_testcase {
             // Inequalities.
             array('x>=1', true, true),
             array('x=>1', false, false),
-            // Unencapsulated commas
+            // Unencapsulated commas.
             array('a,b', false, false),
         );
 
@@ -77,7 +77,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_validation_error() {
         $casstring = new stack_cas_casstring('π');
-        $casstring->validate('s');
+        $casstring->get_valid('s');
         $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => 'π')),
                 $casstring->get_errors());
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
@@ -85,7 +85,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_spurious_operators() {
         $casstring = new stack_cas_casstring('2/*x');
-        $casstring->validate('s');
+        $casstring->get_valid('s');
         $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">/*</span>.',
                 $casstring->get_errors());
         $this->assertEquals('spuriousop', $casstring->get_answernote());
@@ -134,6 +134,20 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_global_forbidden_words() {
 
         $s = 'system(rm *)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+                $at1->get_errors());
+
+        $at2 = new stack_cas_casstring($s);
+        $this->assertFalse($at2->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+                $at2->get_errors());
+    }
+
+    public function test_global_forbidden_words_case() {
+
+        $s = 'System(rm *)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
@@ -245,7 +259,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_scientific_2() {
         $s = 'a:3e2';
         $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('s', false, false));
+        $this->assertFalse($at1->get_valid('s', false, 0));
         $this->assertEquals('3e2', $at1->get_casstring());
         $this->assertEquals('missing_stars', $at1->get_answernote());
     }
@@ -253,7 +267,7 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_scientific_3() {
         $s = 'a:3e2';
         $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s', false, true));
+        $this->assertTrue($at1->get_valid('s', false, 1));
         $this->assertEquals('3*e*2', $at1->get_casstring());
         $this->assertEquals('missing_stars', $at1->get_answernote());
     }
@@ -279,47 +293,66 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
     }
 
+    public function test_trig_4() {
+        $s = 'a:Sim(x)-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_trig_5() {
+        $s = 'a:Sin(x)-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unknownFunctionCase', $at1->get_answernote());
+    }
+
+    public function test_trig_6() {
+        $s = 'a:Sin(x)-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t'));
+    }
+
+    public function test_in_1() {
+        $s = 'a:1+In(x)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('stackCas_badLogIn', $at1->get_answernote());
+    }
+
+    public function test_in_2() {
+        $s = 'a:1+In(x)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t'));
+    }
+
     public function test_unencapsulated_commas_1() {
         $s = 'a,b';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('unencpsulated_comma', $at1->get_answernote());
     }
-}
 
-
-/**
- * Unit tests for {@link stack_cas_casstring}.
- * @group qtype_stack
- */
-class stack_cas_casstring_exception_test extends basic_testcase {
-
-    public function test_exception_1() {
-        $this->setExpectedException('stack_exception');
-        $at1 = new stack_cas_casstring(array());
+    public function test_implied_complex_mult1() {
+        $s = 'sa:-(1/512)+i(sqrt(3)/512)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', false, 1));
+        $this->assertEquals('-(1/512)+i*(sqrt(3)/512)',
+                $at1->get_casstring());
     }
 
-    public function test_exception_2() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid(false, false, false);
+    public function test_implied_complex_mult2() {
+        $s = 'sa:-(1/512)+i(sqrt(3)/512)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
     }
 
-    public function test_exception_3() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid('z', false, false);
-    }
-
-    public function test_exception_4() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid('t', 'a', false);
-    }
-
-    public function test_exception_5() {
-        $at1 = new stack_cas_casstring("x=1");
-        $this->setExpectedException('stack_exception');
-        $at1->get_valid('t', true, 'a');
+    public function test_implied_complex_mult3() {
+        // This function name ends in an "i", so we need to check *s are not being inserted too many times here.
+        $s = 'sa:cdf_bernoulli(x,p)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', false, 1));
+        $this->assertEquals('cdf_bernoulli(x,p)',
+                $at1->get_casstring());
     }
 }

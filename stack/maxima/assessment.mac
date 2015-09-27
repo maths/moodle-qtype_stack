@@ -1,6 +1,6 @@
 /*  Author Chris Sangwin
-    University of Birmingham
-    Copyright (C) 2013 Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2015 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -18,16 +18,12 @@
 /*  An assessment package for Maxima                            */
 /*                                                              */
 /*  Chris Sangwin, <chris@sangwin.com>                          */
-/*  V0.5 January 2012                                           */
+/*  V0.7 September 2015                                         */
 /*                                                              */
 /****************************************************************/
 
 MAXIMA_VERSION:map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp))$
 MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+MAXIMA_VERSION[3]/10)$
-
-/* Note how Maxima has changes this.... */
-DIV_OP:"//"$
-if MAXIMA_VERSION_NUM>=15.0 then DIV_OP:"/"$ 
 
 /* ********************************** */
 /* Load contributed packages          */
@@ -40,53 +36,62 @@ if not(?functionp('poly_reduced_grobner)) then load("grobner");
 /* ********************************** */
 
 /* op(ex) is unsafe on atoms: this is a fix. */
-/* This function always returns a string     */
+/* This function always returns a string.    */
 safe_op(ex) := block(
   if mapatom(ex) then return(""),
   if stringp(op(ex)) then return(op(ex)) else return(string(op(ex)))
 )$
 
-/* This function takes an expression ex and returns a list of coefficients of v */
-coeff_list(ex,v):= block([deg,kloop,cl],
-   cl:[],
-   ex:ev(expand(ex),simp),
-   deg:hipow(ex,v),
-   ev(for kloop:0 thru deg do
-     cl:append(cl,[coeff(ex,v,kloop)]),simp),
-   cl
+/* This function takes an expression ex and returns a list of coefficients of v. */
+coeff_list(ex, v) := block([deg, kloop, cl],
+  cl:[],
+  ex:ev(expand(ex), simp),
+  deg:hipow(ex, v),
+  ev(for kloop:0 thru deg do
+    cl:append(cl, [coeff(ex, v, kloop)]), simp),
+  cl
 )$
 
-/* This function takes an expression ex and returns a list of nonzero coefficients of v */
-coeff_list_nz(ex,v):= block([deg,kloop,cl],
-   cl:[],
-   ex:ev(expand(ex),simp),
-   deg:hipow(ex,v),
-   ev(for kloop:0 thru deg do
-     if coeff(ex,v,kloop)#0 then cl:append(cl,[[kloop,coeff(ex,v,kloop)]]),simp),
-   cl
+/* This function takes an expression ex and returns a list of nonzero coefficients of v. */
+coeff_list_nz(ex, v) := block([deg, kloop, cl],
+  cl:[],
+  ex:ev(expand(ex), simp),
+  deg:hipow(ex, v),
+  ev(for kloop:0 thru deg do
+    if coeff(ex, v, kloop)#0 then cl:append(cl, [[kloop, coeff(ex, v, kloop)]]), simp),
+  cl
 )$
 
-/* Return the set of operations which occur in the expression */
-/* Note, this function varies depending on the value of simp! */
-/* E.g. x+x-> 2*x, so is this a product of sum?               */
-get_ops(ex):= setify(flatten(get_ops_helper(ex)))$
-get_ops_helper(ex):=if mapatom(ex) then [] else append([op(ex)],maplist(get_ops_helper,args(ex)))$
+/* Return the set of operations which occur in the expression. */
+/* Note, this function varies depending on the value of simp!  */
+/* E.g. x+x-> 2*x, so is this a product of sum?                */
+get_ops(ex) := setify(flatten(get_ops_helper(ex)))$
+get_ops_helper(ex) := if mapatom(ex) then [] else append([op(ex)], maplist(get_ops_helper, args(ex)))$
 
 /* ********************************** */
 /* General list and utility functions */
 /* ********************************** */
 
-/* True if and only if ex is in the list l */
-element_listp(ex,l):= any_listp(lambda([ex2], is(ex2=ex)), l)$
+/* True if and only if ex is in the list l. */
+element_listp(ex, l) := any_listp(lambda([ex2], is(ex2=ex)), l)$
 
-/* all_listp(p,l) true if all elements of l satisfy p */
-all_listp(p,l):= if listp(l) then ret:apply("and", maplist(p,l)) else ret:"fail"$
+/* all_listp(p,l) true if all elements of l satisfy p. */
+all_listp(p, l) := if listp(l) then ret:apply("and", maplist(p, l)) else ret:"fail"$
 
-/* any_listp(p,l) true if all elements of l satisfy p */
-any_listp(p,l):= if listp(l) then ret:apply("or", maplist(p,l)) else ret:"fail"$
+/* any_listp(p,l) true if all elements of l satisfy p. */
+any_listp(p, l) := if listp(l) then ret:apply("or", maplist(p, l)) else ret:"fail"$
+
+/* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w. */
+listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
+
+/* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
+listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
 
 /* This function applies the binary function zf to two lists a and b returning a list
-[ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  */
+[ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  
+   Actually, we can achieve some of this with map(zf, a, b) but this does not give up quietly
+   if the arguments are different lengths.
+*/
 zip_with(zf, a, b) := block(
   if not(listp(a)) then return(false),
   if not(listp(b)) then return(false),
@@ -103,7 +108,7 @@ zip_with(zf, a, b) := block(
 */
 exdowncase(ex):=block([lv],
   lv:listofvars(ex),
-  lv:map(lambda([v],v=parse_string(sdowncase(string(v)))),lv),
+  lv:map(lambda([v], v=parse_string(sdowncase(string(v)))),lv),
   return(subst(lv,ex)))$
 
 
@@ -168,60 +173,34 @@ real_numberp(ex):=
     if floatnump(ex) then return(true) else return(false)
 )$    
     
-/* Write the number x in n decimal places */
-decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)),simp)$
-
-/* Write numbers in significant figures */
-/* Matti Pauna, Sun, 23 Oct 2011        */
-significantfigures(x,n) := block([fpprec:128,fpprintprec,simp:true,ex,ex2],
-  if x = 0 then return(0),
-  if x = 0.0 then return(0.0),
-  sign_of_x : signum(x),
-  x : abs(x),
-  ex:floor(float(log(x)/log(10))),
-  ex2:round(float(x/10^(ex-n+1))),
-  ex2:float(ex2*10^(ex-n+1)),
-  if floor(ex2)=ratsimp(ex2) then ex2:ratsimp(ex2),
-  return(sign_of_x*ex2)
-);
-
-
-scientific_notation(x) := block([simp:false,fpprintprec,ex,ex2,ex3],
-  if real_numberp(x) and ev(x>0,simp) then (
-      ex:ev(floor(float(log(x)/log(10))),simp),
-      ex2:ev(float(x/10^ex),simp),
-      ex3:ex2*10^ex,
-      return(ex3)
-  ) else return (x)
-);
-
 /* commonfaclist(l) returns the gcd of a list of numbers */
-commonfaclist(l) := block([i,a,ret],
+commonfaclist(l) := block([i, a, ret],
  if listp(l) then
   ret:( a:l[1],
         if length(l)>1 then
-            ev(for i:2 thru length(l) do (a:ev(gcd(a,l[i]),simp)),simp),
+            ev(for i:2 thru length(l) do (a:ev(gcd(a, l[i]), simp)), simp),
         return(a))
   else ret:"fail",
  return(ret) )$
 
 /* Returns a list of factors of ex without multiplicities */
-factorlist(ex) := block([simp:false,ret:"",ex2],
-  ex:ev(factor(ex),simp),
+factorlist(ex) := block([simp:false, ret:"", ex2],
+  ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),
   if op(ex)#"*" then
      ret:[ex]
   else
      ret:args(ex),
   /* now strip off powers */
-  ret:maplist(lambda([ex2],if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2),ret),
+  ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
   return(ret)
 )$
 
 /* Is the fraction in its lowest terms? */
 lowesttermsp(ex) := block([simp:false,ex1,ex2,ex3],
   if atom(ex) then return(true),
-  if op(ex)#DIV_OP then return(true),
+  if op(ex)#"/" then return(true),
+  if safe_op(num(ex))="-" and safe_op(denom(ex))="-" then return(false),
   if gcd(num(ex),denom(ex))=1 then return(true) else return(false)
 )$
 
@@ -229,12 +208,13 @@ lowesttermsp(ex) := block([simp:false,ex1,ex2,ex3],
 list_expression_numbers(ex) := block([ex2],
   if mapatom(ex) then (if numberp(ex) then return([ex]) else return([]))
   else (
-  if op(ex)=DIV_OP and simp_numberp(num(ex)) and simp_numberp(denom(ex)) then return([ex]),
+  if op(ex)="/" and simp_numberp(num(ex)) and simp_numberp(denom(ex)) then return([ex]),
+  if op(ex)="-" then return(maplist(lambda([ex], if safe_op(ex)="/" then (-num(ex))/denom(ex) else -ex), list_expression_numbers(first(args(ex))))),
   ex2:args(ex),
-  flatten(maplist(list_expression_numbers,ex2)))
+  flatten(maplist(list_expression_numbers, ex2)))
 )$
 
-all_lowest_termsex(ex):= block([simp:false,ex2],
+all_lowest_termsex(ex):= block([simp:false, ex2],
   ex2:list_expression_numbers(ex),
   all_listp(lowesttermsp,ex2)
 )$
@@ -243,7 +223,7 @@ all_lowest_termsex(ex):= block([simp:false,ex2],
 anyfloat(l) := block([ret:false],
  if listp(l)=false then ret:"fail",
  ev(l:map('floatnump,l),simp),
- ev(for i:1 thru length(l) do (ret:ret or l[i]),simp),
+ ev(for i:1 thru length(l) do (ret:ret or l[i]), simp),
  return(ret) )$
 
 /* Decides if any floats are in the expression. */
@@ -258,8 +238,46 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
   return(ret)
 )$
 
-/* compare with*/
-/* coefl:map('first,rest(coeffs(SA,x))) */
+/* This function is designed for displaying decimal places. It is also useful for currency. */
+/* dispdp(n, dp) is an inert function.  The tex function converts this to display.          */
+/* n is the number to be displayed                                                          */
+/* dp is the number of decimal places                                                       */
+
+dispdptex(ex):=block([ss, s2, n, dp],
+  [n, dp]:args(ex),
+  ss:split(string(decimalplaces(n, dp)), "."),
+  if length(ss) = 2 then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
+  if slength(s2)<dp then s2:concat(s2, smake(dp-slength(s2),"0")) else s2:substring(s2,1,dp+1),
+  concat(first(ss), ".", s2)
+);
+texput(dispdp, dispdptex);
+
+/* Write the number x in n decimal places */
+decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)), simp)$
+
+/* Write numbers in significant figures */
+/* Matti Pauna, Sun, 23 Oct 2011        */
+significantfigures(x,n) := block([fpprec:128, fpprintprec, simp:true, ex, ex2],
+  if x = 0 then return(0),
+  if x = 0.0 then return(0.0),
+  sign_of_x : signum(x),
+  x : abs(x),
+  ex:floor(float(log(x)/log(10))),
+  ex2:round(float(x/10^(ex-n+1))),
+  ex2:float(ex2*10^(ex-n+1)),
+  if floor(ex2) = ratsimp(ex2) then ex2:ratsimp(ex2),
+  return(sign_of_x*ex2)
+);
+
+
+scientific_notation(x) := block([simp:false,fpprintprec,ex,ex2,ex3],
+  if real_numberp(x) and ev(x>0,simp) then (
+      ex:ev(floor(float(log(x)/log(10))),simp),
+      ex2:ev(float(x/10^ex),simp),
+      ex3:ex2*10^ex,
+      return(ex3)
+  ) else return (x)
+);
 
 /* ********************************** */
 /* Inequalities                       */
@@ -366,7 +384,7 @@ algebraic_equivalence(SA, SB) :=
 
 
 /* This test establishes if two expressions appear NOT to be equivalent. 
-   It does do by evaluating the expressions numerically.        */
+   It does so by evaluating the expressions numerically.        */
 numerical_not_alg_equiv(p1, p2):= block([lv, sz],
   /* We take the *union* of the two lists of variables, this way we
      hedge against comparing (x+a)+(x-a) with 2*x, which are the same. */
@@ -380,7 +398,7 @@ numerical_not_alg_equiv(p1, p2):= block([lv, sz],
   sz:errcatch(abs(float(first(p1)-first(p2)))),
   /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
-  if first(sz) > 0.0001  then true else false)$
+  if first(sz) > 0.0001 then true else false)$
 
 /* This function takes two expressions.
    It establishes if there exists a substitution of the variables of ex2 into ex1 which renders
@@ -420,6 +438,22 @@ subst_equiv(ex1,ex2):=block([lv1, lv2, lvi, lvp, lvs, lve, il, perm_size, simp],
  lve:map(second,lve),
  lve:map(lambda([ex], equal(ex, true)),lve),
  if apply("or", lve) then (il:sublist_indices(lve, identity), lvs[il[1]]) else []
+)$
+
+
+/* ********************************** */
+/* Simplification control             */
+/* ********************************** */
+
+/* This function recursively applys associativity to operators listed in oplist. */
+/* It probably only makes sense for oplist to be ["+", "*"] or one of these two. */
+STACK_assoc(ex, oplist) := block(
+  if atom(ex) then return(ex),
+  if member(op(ex), oplist) then return(block([ex2],
+                   ex2:flatten(ex),
+                   apply(op(ex2), map(lambda([ex3], STACK_assoc(ex3, oplist)), args(ex2)))
+                   )),
+  apply(op(ex), map(lambda([ex3], STACK_assoc(ex3, oplist)), args(ex)))
 )$
 
 /* ********************************** */
@@ -485,7 +519,7 @@ verb_arith(ex) := block(
     ex:subst("+", "noun+", ex), 
     ex:subst("*", "noun*", ex), 
     ex:subst("-", "noun-", ex), 
-    ex:subst(DIV_OP, "noun/", ex), 
+    ex:subst("/", "noun/", ex), 
     ex:subst("^", "noun^", ex), 
     define(UNARY_RECIP a, a^(-1)), 
     ex:ev(ex, UNARY_MINUS=-1),
@@ -500,7 +534,7 @@ noun_arith(ex) := block(
     /* Unary minus really communtes with multiplication. */
     ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex), 
     /* Turn 1/x into x^(-1), in a special form */
-    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), DIV_OP, ex),
+    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),
     ex:subst("noun^", "^", ex), 
     ev(ex)
 )$
@@ -564,23 +598,24 @@ ATEqualComAss(sa,sb) :=
 
 /* expandp(p) is true if p equals its expanded form.                 */
 /* Use ev with the expand option to limit expansion of large powers .*/
-expandp(p):= block([simp:true], if p=ev(expand(p),expand(1000,1000)) then true else false)$
+/* The use of a strange argument to this function is caused by an extra evaluation within the function body.*/
+expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),expand(1000,1000)) then true else false)$
 
 /* factorp(p) is true if p equals its factored form */
-factorp(p) := block([a],
-    if ev(p=factor(p), simp) then 
+factorp(argfac) := block([a],
+    if ev(argfac=factor(argfac), simp) then 
         return(true),
-    if mapatom(p) then 
+    if mapatom(argfac) then 
         return(false),
     /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this, for learning and teaching! */
-    if ev(-1*factor(p) = expand(-1*p), simp) then 
+    if ev(-1*factor(argfac) = expand(-1*argfac), simp) then 
         return(true),
-    if op(p)="^" and mapatom(part(p, 1)) 
+    if op(argfac)="^" and mapatom(part(argfac, 1)) 
         then return(true),
-    if op(p)="^" and factorp(part(p, 1)) then
+    if op(argfac)="^" and factorp(part(argfac, 1)) then
         return(true),
-    if op(p)="*" then 
-        return(all_listp(factorp, args(p))),
+    if op(argfac)="*" then 
+        return(all_listp(factorp, args(argfac))),
     return(false)
 )$
 

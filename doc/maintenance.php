@@ -29,9 +29,9 @@
  */
 
 require_once(__DIR__ . '/../../../../config.php');
-require_once($CFG->libdir . '/markdown.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/docslib.php');
 
 
 require_login();
@@ -70,9 +70,9 @@ function report($d) {
                             }
 
                             // Let's do some link checking, step one: scrape the links off the document's web page.
-                            $links = strip_tags(markdown(file_get_contents($fpath)), "<a>");
+                            $links = stack_process_markdown((file_get_contents($fpath)), "");
                             preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);
-                            // Found[0] will have the full a tags, found[1] contains their href properties.
+                            // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.
                             foreach ($found[1] as $i => $link) {
                                 if (strpos($link, 'mailto:') !== 0
@@ -97,7 +97,7 @@ function report($d) {
                                         }
                                         $link = implode('/', $segs);
 
-                                        // Finally it looks like #--- are getting parsed in the request, let's ommit them.
+                                        // Finally it looks like #--- are getting parsed in the request, let's omit them.
                                         if (strpos($link, '#') !== false) {
                                             $link = substr($link, 0, strpos($link, '#'));
                                         }

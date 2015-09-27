@@ -36,9 +36,9 @@ abstract class stack_input {
     const INVALID = 'invalid';
     const SCORE = 'score';
 
-    protected static $perameterstack_inputsavailable = array(
+    protected static $allparameternames = array(
         'mustVerify',
-        'hideFeedback',
+        'showValidation',
         'boxWidth',
         'boxHeight',
         'strictSyntax',
@@ -133,7 +133,7 @@ abstract class stack_input {
                     ' which does not exist for inputs of type ' . get_class($this));
         }
 
-        if ($parameter == 'hideFeedback' && $value && $this->is_parameter_used('mustVerify')) {
+        if ($parameter == 'showValidation' && $value === 0 && $this->is_parameter_used('mustVerify')) {
             $this->set_parameter('mustVerify', false);
         }
 
@@ -168,8 +168,8 @@ abstract class stack_input {
                 $valid = is_bool($value);
                 break;
 
-            case 'hideFeedback':
-                $valid = is_bool($value);
+            case 'showValidation':
+                $valid = is_numeric($value) && $value >= 0 && $value <= 2;
                 break;
 
             case 'strictSyntax':
@@ -177,7 +177,7 @@ abstract class stack_input {
                 break;
 
             case 'insertStars':
-                $valid = is_bool($value);
+                $valid = is_numeric($value);
                 break;
 
             case 'forbidFloats':
@@ -211,7 +211,7 @@ abstract class stack_input {
      * @return array of parameters names.
      */
     public function get_parameters_available() {
-        return $this->perameterstack_inputsavailable;
+        return $this->allparameternames;
     }
 
     /**
@@ -277,7 +277,7 @@ abstract class stack_input {
         $contents = $this->response_to_contents($response);
 
         if (array() == $contents or $this->is_blank_response($contents)) {
-            return new stack_input_state(self::BLANK, array(), '', '', '', '');
+            return new stack_input_state(self::BLANK, array(), '', '', '', '', '');
         }
 
         // This method actually validates any CAS strings etc.
@@ -287,22 +287,36 @@ abstract class stack_input {
         $display = stack_maxima_format_casstring($this->contents_to_maxima($contents));
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
         $answer = new stack_cas_casstring($interpretedanswer);
+        $lvarsdisp = '';
 
         // Send the string to the CAS.
         if ($valid) {
             if (!$this->get_parameter('sameType')) {
                 $teacheranswer = null;
             }
+
+            $singlevarchars = false;
+            if (2 == $this->get_parameter('insertStars', 0)) {
+                $singlevarchars = true;
+            }
+
+            // Generate an expression from which we extract the list of variables in the student's answer.
+            $lvars = new stack_cas_casstring('ev(listofvars('.$interpretedanswer.'),simp)');
+            $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
+
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
+                    $singlevarchars,
                     $teacheranswer, $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
-            $session = new stack_cas_session(array($answer), $localoptions, 0);
+            $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);
             $session->instantiate();
 
             $session = $session->get_session();
             $answer = $session[0];
+            $lvars  = $session[1];
 
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {
@@ -312,6 +326,10 @@ abstract class stack_input {
                 $valid = false;
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
+                $interpretedanswer = $answer->get_value();
+                if (!($lvars->get_value() == '[]')) {
+                    $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
+                }
             }
         }
 
@@ -332,7 +350,7 @@ abstract class stack_input {
             $status = self::SCORE;
         }
 
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note);
+        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp);
     }
 
     /**
@@ -372,8 +390,8 @@ abstract class stack_input {
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
             $answer = new stack_cas_casstring($val);
-            $answer->validate('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', false), $allowwords);
+            $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
+                    $this->get_parameter('insertStars', 0), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {
@@ -445,10 +463,9 @@ abstract class stack_input {
             return '';
         }
 
-        if ($this->get_parameter('hideFeedback', false) && self::INVALID != $state->status) {
+        if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {
             return '';
         }
-
         $feedback  = '';
         $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
 
@@ -463,6 +480,10 @@ abstract class stack_input {
 
         if ($state->errors) {
             $feedback .= html_writer::tag('p', $state->errors, array('class' => 'stack_errors'));
+        }
+
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
         }
         return $feedback;
     }

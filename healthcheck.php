@@ -72,10 +72,10 @@ echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
 echo html_writer::tag('dt', stack_string('texdisplaystyle'));
-echo html_writer::tag('dd', stack_string('healthchecksampledisplaytex'));
+echo html_writer::tag('dd', format_text(stack_string('healthchecksampledisplaytex')));
 
 echo html_writer::tag('dt', stack_string('texinlinestyle'));
-echo html_writer::tag('dd', stack_string('healthchecksampleinlinetex'));
+echo html_writer::tag('dd', format_text(stack_string('healthchecksampleinlinetex')));
 
 if ($config->mathsdisplay === 'mathjax') {
     $settingsurl = new moodle_url('/admin/settings.php', array('section' => 'additionalhtml'));
@@ -91,6 +91,12 @@ if ($config->mathsdisplay === 'mathjax') {
 
 // Maxima config.
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
+
+// Try to list available versions of Maxima (linux only, without the DB).
+$connection = stack_connection_helper::make();
+if (is_a($connection, 'stack_cas_connection_unix')) {
+    echo html_writer::tag('pre', $connection-> get_maxima_available());
+}
 
 // Check for location of Maxima.
 $maximalocation = stack_cas_configuration::confirm_maxima_win_location();
@@ -118,16 +124,29 @@ if (stack_cas_configuration::maxima_bat_is_missing()) {
 // Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
 echo $OUTPUT->heading(stack_string('healthuncached'), 3);
 echo html_writer::tag('p', stack_string('healthuncachedintro'));
-list($message, $debug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
 $summary[] = array($result, $message);
 echo html_writer::tag('p', $message);
-echo output_debug(stack_string('debuginfo'), $debug);
+echo output_debug(stack_string('debuginfo'), $genuinedebug);
+$genuinecascall = $result;
 
 // Test Maxima connection.
 // Intentionally use get_string for the sample CAS and plots, so we don't render
 // the maths too soon.
 output_cas_text(stack_string('healthcheckconnect'),
         stack_string('healthcheckconnectintro'), get_string('healthchecksamplecas', 'qtype_stack'));
+
+// If we have a linux machine, and we are testing the raw connection then we should
+// attempt to automatically create an optimized maxima image on the system.
+if ($config->platform === 'unix' and $genuinecascall) {
+    echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
+    echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
+    list($message, $debug, $result) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
+    $summary[] = array($result, $message);
+    echo html_writer::tag('p', $message);
+    echo output_debug(stack_string('debuginfo'), $debug);
+}
+
 
 // Test the version of the STACK libraries that Maxima is using.
 // When Maxima is being run pre-compiled (maxima-optimise) or on a server,
@@ -184,7 +203,7 @@ function output_cas_text($title, $intro, $castext) {
 
     $ct = new stack_cas_text($castext, null, 0, 't');
 
-    echo html_writer::tag('p', stack_ouput_castext($ct->get_display_castext()));
+    echo html_writer::tag('p', format_text(stack_ouput_castext($ct->get_display_castext())));
     echo output_debug(stack_string('errors'), $ct->get_errors());
     echo output_debug(stack_string('debuginfo'), $ct->get_debuginfo());
 }

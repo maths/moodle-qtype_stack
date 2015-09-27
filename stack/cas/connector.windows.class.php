@@ -25,6 +25,10 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
 
     /* @see stack_cas_connection_base::guess_maxima_command() */
     protected function guess_maxima_command($path) {
+        if ('default' == stack_connection_helper::get_maximaversion()) {
+            throw new stack_exception("stack_cas_connection: maxima cannot be set to default on Windows platform. ".
+                    "Please choose an explicit version via the administration settings page.");
+        }
         $cmd = $path . '/maxima.bat';
         if (!is_readable($cmd)) {
             throw new stack_exception("stack_cas_connection: maxima launch script {$cmd} does not exist.");

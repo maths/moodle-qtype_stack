@@ -109,7 +109,6 @@ class qtype_stack_walkthrough_immediate_feedback_test extends qtype_stack_walkth
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans4', stack_boolean_input::get_choices(), 'false', false),
-                $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );

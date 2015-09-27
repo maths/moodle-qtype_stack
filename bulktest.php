@@ -36,7 +36,7 @@ $confirm = optional_param('confirm', false, PARAM_BOOL);
 // Login and check permissions.
 $context = context::instance_by_id($contextid);
 require_login();
-require_capability('moodle/site:config', $context);
+require_capability('qtype/stack:usediagnostictools', $context);
 $PAGE->set_url('/question/type/stack/bulktest.php', array('contextid' => $context->id));
 $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());
@@ -135,14 +135,16 @@ function qtype_stack_test_question($question, $tests, $seed = null) {
         }
     }
 
+    $flag = '';
     $ok = $fails == 0;
     if ($ok) {
         $class = 'pass';
     } else {
         $class = 'fail';
+        $flag = '* ';
     }
 
-    echo html_writer::tag('p', stack_string('testpassesandfails',
+    echo html_writer::tag('p', $flag.stack_string('testpassesandfails',
             array('passes' => $passes, 'fails' => $fails)), array('class' => $class));
 
     flush(); // Force output to prevent timeouts and to make progress clear.

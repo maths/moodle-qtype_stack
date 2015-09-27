@@ -35,53 +35,24 @@ class stack_singlechar_input_test extends basic_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('singleChar', 'ans1', null);
-        $this->assertEquals('<input type="text" name="question__ans1" size="1" maxlength="1" value="" />',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+        $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" value="" />',
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', '', ''),
                         'question__ans1', false));
     }
 
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('singleChar', 'test', null);
-        $this->assertEquals('<input type="text" name="question__ans1" size="1" maxlength="1" value="Y" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('Y'), '', '', '', ''),
+        $this->assertEquals('<input type="text" name="question__ans1" id="question__ans1" size="1" maxlength="1" value="Y" />',
+                $el->render(new stack_input_state(stack_input::VALID, array('Y'), '', '', '', '', ''),
                         'question__ans1', false));
     }
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('singleChar', 'input', null);
-        $this->assertEquals('<input type="text" name="question__stack1" size="1" maxlength="1" value="a" readonly="readonly" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('a'), '', '', '', ''),
+        $expected = '<input type="text" name="question__stack1" id="question__stack1" size="1" maxlength="1" ' .
+            'value="a" readonly="readonly" />';
+        $this->assertEquals($expected,
+                $el->render(new stack_input_state(stack_input::VALID, array('a'), '', '', '', '', ''),
                         'question__stack1', true));
-    }
-}
-
-
-/**
- * Unit tests for stack_boolean_input_test.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
-class stack_singlechar_input_validation_test extends qtype_stack_testcase {
-    public function test_validate_student_response_true() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'x'), $options, 'true', null);
-        $this->assertEquals(stack_input::SCORE, $state->status);
-    }
-
-    public function test_validate_student_response_false() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => ''), $options, 'true', null);
-        $this->assertEquals(stack_input::BLANK, $state->status);
-    }
-
-    public function test_validate_student_response_na() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('singlechar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'xx'), $options, 'true', null);
-        $this->assertEquals(stack_input::INVALID, $state->status);
     }
 }

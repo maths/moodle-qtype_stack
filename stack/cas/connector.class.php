@@ -31,6 +31,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string the name of the maxima executable, to use of command-lines. */
     protected $command;
 
+    /** @var string the username:passpassword to use when connecting to the MaximaPool server, if required. */
+    protected $serveruserpass = '';
+
     /** @var string the opening command to send to maxima. */
     protected $initcommand;
 
@@ -81,6 +84,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $this->debug->get_log();
     }
 
+    /* On a Unix system list the versions of maxima available for use. */
+    public function get_maxima_available() {
+        if ('unix' != stack_connection_helper::get_platform()) {
+            return stack_string('healthunabletolistavail');
+        }
+        $this->command = 'maxima --list-avail';
+        $rawresult = $this->call_maxima('');
+        return $rawresult;
+    }
+
     /**
      * Try to determine the name of the Maxima executable to use in command-lines,
      * if it is not specified in the configuration.
@@ -117,11 +130,12 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $cmd = $this->guess_maxima_command($path);
         }
 
-        $this->logs        = $path;
-        $this->command     = $cmd;
-        $this->initcommand = $initcommand;
-        $this->timeout     = $settings->castimeout;
-        $this->debug       = $debuglog;
+        $this->logs           = $path;
+        $this->command        = $cmd;
+        $this->initcommand    = $initcommand;
+        $this->timeout        = $settings->castimeout;
+        $this->serveruserpass = $settings->serveruserpass;
+        $this->debug          = $debuglog;
         if (strpos($CFG->wwwroot, '_') !== false) {
             $this->wwwroothasunderscores = true;
             $this->wwwrootfixupfind = str_replace('_', '\_', $CFG->wwwroot);

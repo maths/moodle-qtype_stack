@@ -38,10 +38,6 @@ class qtype_stack_renderer extends qtype_renderer {
         $response = $qa->get_last_qt_data();
 
         $questiontext = $question->questiontextinstantiated;
-        $questiontext = $question->format_text(
-                stack_maths::process_display_castext($questiontext),
-                $question->questiontextformat,
-                $qa, 'question', 'questiontext', $question->id);
 
         // Replace inputs.
         $inputstovaldiate = array();
@@ -63,12 +59,6 @@ class qtype_stack_renderer extends qtype_renderer {
             }
         }
 
-        // Initialise automatic validation, if enabled.
-        if ($qaid && stack_utils::get_config()->ajaxvalidation) {
-            $this->page->requires->yui_module('moodle-qtype_stack-input',
-                    'M.qtype_stack.init_inputs', array($inputstovaldiate, $qaid, $qa->get_field_prefix()));
-        }
-
         // Replace PRTs.
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
@@ -84,6 +74,18 @@ class qtype_stack_renderer extends qtype_renderer {
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
+        }
+
+        // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
+        $questiontext = $question->format_text(
+                stack_maths::process_display_castext($questiontext, $this),
+                $question->questiontextformat,
+                $qa, 'question', 'questiontext', $question->id);
+
+        // Initialise automatic validation, if enabled.
+        if ($qaid && stack_utils::get_config()->ajaxvalidation) {
+            $this->page->requires->yui_module('moodle-qtype_stack-input',
+                    'M.qtype_stack.init_inputs', array($inputstovaldiate, $qaid, $qa->get_field_prefix()));
         }
 
         $result = '';
@@ -178,7 +180,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        $feedbacktext = stack_maths::process_display_castext($feedbacktext);
+        $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
         $feedbacktext = $question->format_text($feedbacktext, $question->specificfeedbackformat,
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
 
@@ -218,7 +220,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        $feedbacktext = stack_maths::process_display_castext($feedbacktext);
+        $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
         $feedbacktext = $question->format_text($feedbacktext, $question->specificfeedbackformat,
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
 
@@ -235,7 +237,7 @@ class qtype_stack_renderer extends qtype_renderer {
             $feedback = $this->prt_feedback($index, $response, $qa, $options, $individualfeedback);
             $allempty = $allempty && !$feedback;
             $feedbacktext = str_replace("[[feedback:{$index}]]",
-                    stack_maths::process_display_castext($feedback), $feedbacktext);
+                    stack_maths::process_display_castext($feedback, $this), $feedbacktext);
         }
 
         if ($allempty && !$overallfeedback) {
@@ -350,7 +352,7 @@ class qtype_stack_renderer extends qtype_renderer {
             }
 
             $feedback = $result->substitue_variables_in_feedback(implode(' ', $feedback));
-            $feedback = format_text(stack_maths::process_display_castext($feedback),
+            $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
                     $format, array('noclean' => true, 'para' => false));
         }
 
@@ -391,7 +393,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $format = 'prt' . $class . 'format';
         if ($question->$field) {
             return html_writer::tag('div', $question->format_text(
-                    stack_maths::process_display_castext($question->$field),
+                    stack_maths::process_display_castext($question->$field, $this),
                     $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';
@@ -431,8 +433,45 @@ class qtype_stack_renderer extends qtype_renderer {
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result);
     }
 
+    protected function hint(question_attempt $qa, question_hint $hint) {
+        if (empty($hint->hint)) {
+            return '';
+        }
+
+        $hinttext = $qa->get_question()->get_hint_castext($hint);
+
+        $newhint = new question_hint($hint->id,
+                stack_maths::process_display_castext($hinttext->get_display_castext(), $this),
+                $hint->hintformat);
+
+        return html_writer::nonempty_tag('div',
+                $qa->get_question()->format_hint($newhint, $qa), array('class' => 'hint'));
+    }
+
     public function correct_response(question_attempt $qa) {
         $question = $qa->get_question();
         return '<hr />'.$question->format_correct_response($qa);
+    }
+
+    public function general_feedback(question_attempt $qa) {
+        $question = $qa->get_question();
+        if (empty($question->generalfeedback)) {
+            return '';
+        }
+
+        return $qa->get_question()->format_text(stack_maths::process_display_castext(
+                $question->get_generalfeedback_castext()->get_display_castext(), $this),
+                $question->generalfeedbackformat, $qa, 'question', 'generalfeedback', $question->id);
+    }
+
+    /**
+     * Render a fact sheet.
+     * @param string $name the title of the fact sheet.
+     * @param string $fact the contents of the fact sheet.
+     */
+    public function fact_sheet($name, $fact) {
+        static $count = 1;
+        return print_collapsible_region($fact, 'qtype_stack_fact_sheet',
+                'qtype_stack_fact_sheet' . $count++, $name, '', true, true);
     }
 }

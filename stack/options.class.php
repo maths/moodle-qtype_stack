@@ -201,4 +201,83 @@ class stack_options {
         $ret = array('names' => $names, 'commands' => $commands);
         return $ret;
     }
+
+    /**
+     * @return array of choices for a no/yes select menu.
+     */
+    public static function get_yes_no_options() {
+        return array(
+            '0' => get_string('no'),
+            '1' => get_string('yes'),
+        );
+    }
+
+    /**
+     * @return array of choices for the insert stars select menu.
+     */
+    public static function get_insert_star_options() {
+        return array(
+            '0' => get_string('insertstarsno', 'qtype_stack'),
+            '1' => get_string('insertstarsyes', 'qtype_stack'),
+            '2' => get_string('insertstarsassumesinglechar', 'qtype_stack'),
+        );
+    }
+
+    /**
+     * @return array of choices for the multiplication sign select menu.
+     */
+    public static function get_multiplication_sign_options() {
+        return array(
+            'dot'   => get_string('multdot', 'qtype_stack'),
+            'cross' => get_string('multcross', 'qtype_stack'),
+            'none'  => get_string('none'),
+        );
+    }
+
+    /**
+     * @return array of choices for the complex number select menu.
+     */
+    public static function get_complex_no_options() {
+        return array(
+            'i'    => 'i',
+            'j'    => 'j',
+            'symi' => 'symi',
+            'symj' => 'symj',
+        );
+    }
+
+    /**
+     * @return array of choices for the inverse trig select menu.
+     */
+    public static function get_inverse_trig_options() {
+        return array(
+            'cos-1'  => "cos\xe2\x81\xbb\xc2\xb9(x)",
+            'acos'   => 'acos(x)',
+            'arccos' => 'arccos(x)',
+        );
+    }
+
+    /**
+     * @return array of choices for the matrix prenthesis select menu.
+     */
+    public static function get_matrix_parens_options() {
+        return array(
+            '[' => '[',
+            '(' => '(',
+            ''  => '',
+            '{' => '{',
+            '|' => '|',
+        );
+    }
+
+    /**
+     * @return array of choices for the show validation select menu.
+     */
+    public static function get_showvalidation_options() {
+        return array(
+            '0' => get_string('showvalidationno', 'qtype_stack'),
+            '1' => get_string('showvalidationyes', 'qtype_stack'),
+            '2' => get_string('showvalidationyesnovars', 'qtype_stack'),
+        );
+    }
 }

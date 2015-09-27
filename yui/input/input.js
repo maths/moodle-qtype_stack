@@ -192,7 +192,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
         this.validationdiv.setContent(html);
 
         // Run script commands.
-        for (var i=0; i<scriptcommands.length; i++) {
+        for (var i = 0; i < scriptcommands.length; i++) {
             eval(scriptcommands[i]);
         }
 
@@ -261,6 +261,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
      */
     stack_simple_input.prototype.add_event_handers = function(validator) {
         this.input.on('valuechange', validator.value_changing, validator);
+        this.input.on('change', validator.value_changing, validator);
     };
 
     /**
@@ -285,6 +286,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
      */
     stack_textarea_input.prototype.add_event_handers = function(validator) {
         this.textarea.on('valuechange', validator.value_changing, validator);
+        this.textarea.on('change', validator.value_changing, validator);
     };
 
     /**
@@ -327,6 +329,7 @@ YUI.add('moodle-qtype_stack-input', function(Y) {
      */
     stack_matrix_input.prototype.add_event_handers = function(validator) {
         this.container.delegate('valuechange', validator.value_changing, 'input[type=text]', validator);
+        this.container.delegate('change', validator.value_changing, 'input[type=text]', validator);
     };
 
     /**

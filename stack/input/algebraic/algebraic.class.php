@@ -24,11 +24,13 @@
 class stack_algebraic_input extends stack_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
+        $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
         $attributes = array(
-            'type' => 'text',
-            'name' => $fieldname,
-            'id'   => $fieldname,
-            'size' => $this->parameters['boxWidth'],
+            'type'  => 'text',
+            'name'  => $fieldname,
+            'id'    => $fieldname,
+            'size'  => $this->parameters['boxWidth'] * 1.1,
+            'style' => 'width: '.$size.'em'
         );
 
         if ($this->is_blank_response($state->contents)) {
@@ -57,10 +59,10 @@ class stack_algebraic_input extends stack_input {
     public static function get_parameters_defaults() {
         return array(
             'mustVerify'     => true,
-            'hideFeedback'   => false,
+            'showValidation' => 1,
             'boxWidth'       => 15,
             'strictSyntax'   => false,
-            'insertStars'    => false,
+            'insertStars'    => 0,
             'syntaxHint'     => '',
             'forbidWords'    => '',
             'allowWords'     => '',

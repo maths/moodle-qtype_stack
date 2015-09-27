@@ -626,7 +626,7 @@ $string['ATList_wrongentries']          = 'The entries underlined in red below a
 $string['ATMatrix_wrongsz']             = 'Your matrix should be {$a->m0} by {$a->m1}, but it is actually {$a->m2} by {$a->m3}. ';
 $string['ATMatrix_wrongentries']        = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
-$string['ATSet_wrongsz']                = 'Your set should have {$a->m0} different elements, but it is actually has {$a->m1}. ';
+$string['ATSet_wrongsz']                = 'Your set should have {$a->m0} different elements, but it actually has {$a->m1}. ';
 $string['ATSet_wrongentries']           = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';
 
 $string['irred_Q_factored']             = 'The term {$a->m0} should be unfactored, but is not. ';

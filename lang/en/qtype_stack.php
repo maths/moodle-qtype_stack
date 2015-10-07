@@ -543,6 +543,7 @@ $string['stackCas_badLogIn']                = 'You have typed in the expression 
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
 $string['stackCas_allFailed']               = 'CAS failed to return any evaluated expressions.  Please check your connection with the CAS.';
 $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
+$string['stackCas_failedReturnOne']         = 'CAS failed to return some data.';
 
 // Used in castext.class.php.
 $string['stackCas_tooLong']                 = 'CASText statement is too long. ';

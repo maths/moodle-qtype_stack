@@ -918,9 +918,11 @@ texput(EMPTYCHAR, "\\ ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 
-stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument, tempnote],
+stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, equivdebug],
+  /* Prints diagnostic information in the note. */
+  equivdebug:true,
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list"), return(false)),
-  if length(ex)<2 then return([true,matrix(ex)]),
+  if length(ex)<2 then return([true, matrix(ex)]),
   /* Switch off matrix brackets. */
   lmxchar:"",
   /* Set up empty rows to hold the answer. */
@@ -930,7 +932,7 @@ stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument, tempnote],
   truthargument:true,
   /* Loop and check adjacent expressions for equivalence. */
   id:1,
-  for id:2 thru length(ex) step 1 do block([ATres,SA,SB],
+  for id:2 thru length(ex) step 1 do block([ATres, SA, SB],
       tempnote:"",
       SA:ex[ev(id-1, simp)],
       SB:ex[ev(id, simp)],
@@ -953,7 +955,8 @@ stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument, tempnote],
       ATres:ATAlgEquiv(SA, SB),
       if second(ATres) then block(
           eqoutcome[ev(id, simp)]:EQUIVCHAR,
-          eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+          if equivdebug then
+              eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
       ) else (
          /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
          /* But here we do when able to do so safely.                        */
@@ -968,10 +971,11 @@ stack_eval_arg(ex):= block([eqoutcome, res, id, truthargument, tempnote],
          /*tempnote:sconcat(tempnote, "Trying logic: [",string(SA)," | ",string(SB),"]")*/
          ATres:ev(ATLogic(SA, SB), simp),
          truthargument:truthargument and second(ATres),
-         if second(ATres) then block(
+         if (second(ATres)) then block(
              eqoutcome[ev(id, simp)]:EQUIVCHAR
          ),
-         eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+         if equivdebug then 
+             eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
       )
   ),
   /* Output the results. */

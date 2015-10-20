@@ -185,6 +185,8 @@ foreach ($samplearguments as $argument) {
          html_writer::tag('p', $errs) .
          html_writer::tag('p', stack_ouput_castext($displaytext));
     echo "\n<hr/>\n\n\n";
+
+    flush(); // Force output to prevent timeouts and to make progress clear.
 }
 
 

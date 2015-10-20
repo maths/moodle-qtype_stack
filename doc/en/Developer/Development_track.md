@@ -28,6 +28,10 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 * Equating coefficients as a step in reasoning by equivalence. E.g. \( a*x^2+b*x+c=r*x^2+s*x+t \leftrightarrow a=r and b=s and c=t\). See `poly_equate_coeffs` in assessment.mac  
 * Natural domain function.
+* Add a "Not equals" operator.  For example:
 
-
+    nfix("<>");
+    p:x<>y;
+    texput("<>","{\neq}", infix);
+    tex(p);
 

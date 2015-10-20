@@ -186,9 +186,11 @@ Another useful way of avoiding this problem is to put a LaTeX string such as \(y
 
 ### Student must verify ### {#Student_must_verify}
 
-Specifies whether the student's input is presented back to them before scoring.  Useful for complex algebraic expressions but not needed for constrained input like `yes`/`no`.
+Specifies whether the student's input is presented back to them before scoring as part of a two step validation process.  Typically the student's mathematical expression is displayed in traditional form.  This is useful for complex algebraic expressions but not needed for constrained input like `yes`/`no`.
 
-Experience strongly supports the use of verification by "validating" input whenever a student types in an expression.  Errors will always be displayed and rejected as invalid. Potential response trees will not execute with invalid input.
+Experience strongly supports the use of this two step verification process.  Errors will always be displayed and expressions with errors rejected as invalid. Potential response trees will not execute with invalid input.
+
+The next option controls how the validation feedback is displayed. Note, it is not possible to require a two-step validation but not show some validation feedback.
 
 ### Show validation ### {#Show_validation}
 

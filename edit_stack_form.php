@@ -1080,6 +1080,10 @@ class qtype_stack_edit_form extends question_edit_form {
                 $errors['questiontext'][] = stack_string('inputnamelength', $inputname);
             }
 
+            if ($fromform[$inputname . 'mustverify'] and $fromform[$inputname . 'showvalidation'] == 0) {
+                $errors[$inputname . 'mustverify'][] = stack_string('mustverifyshowvalidation');
+            }
+
             if (array_key_exists($inputname . 'modelans', $fromform)) {
                 $errors = $this->validate_cas_string($errors,
                         $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');

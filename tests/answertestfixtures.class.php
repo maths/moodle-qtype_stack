@@ -65,6 +65,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '0.33', '1/3', 0, '', ''),
         array('AlgEquiv', '5.1e-2', '51/1000', 1, '', ''),
         array('AlgEquiv', '0.333333333333333', '1/3', 0, '', ''),
+        array('AlgEquiv', '(0.5+x)*2', '2*x+1', 1, '', ''),
 
         array('AlgEquiv', 'sqrt(-1)', '%i', 1, '', 'Complex numbers'),
         array('AlgEquiv', '%i', 'e^(i*pi/2)', 1, '', ''),
@@ -84,6 +85,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', 'sqrt((x-3)*(x-5))', 'sqrt(x-3)*sqrt(x-5)', 0, '', ''),
         array('AlgEquiv', '1/sqrt(x)', 'sqrt(1/x)', 1, '', ''),
         array('AlgEquiv', 'x-1', '(x^2-1)/(x+1)', 1, '', ''),
+        array('AlgEquiv', '2^((1/5.1)*t)', '2^((1/5.1)*t)', 1, '', ''),
+        array('AlgEquiv', '2^((1/5.1)*t)', '2^(0.196078431373*t)', 0, '', ''),
         array('AlgEquiv', 'a^b*a^c', 'a^(b+c)', 1, '', ''),
         array('AlgEquiv', '(4*sqrt(3)*%i+4)^(1/5)', '6^(1/5)*cos(%pi/15)-6^(1/5)*%i*sin(%pi/15)', 0, '', ''),
         array('AlgEquiv', '2+2*sqrt(3+x)', '2+sqrt(12+4*x)', 1, '', ''),

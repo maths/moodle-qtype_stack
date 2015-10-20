@@ -119,7 +119,7 @@ sqrtdenest(a) :=
 )$
 
 /* ********************************** */
-/* Load stack packages                */
+/* Load STACK packages                */
 /* ********************************** */
 
 load("assessment.mac"); /* Currently part of the STACK distribution */
@@ -379,8 +379,6 @@ unary_minus_sort(ex) := block([ex2],
   return(unary_minus_pull(ex2))
 )$
 
-
-
 /* ****************************************************************** */
 /* Evaluate variables are return errors, display, and content forms   */
 /* ****************************************************************** */
@@ -465,7 +463,7 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
   /* Try to simply the expression to catch CAS errors */
   exs:errcatch(ev(expr, simp)),
   if exs=[] then return(false),
-  if length(expr)#1 then print(StackAddFeedback("", "CommaError",string(expr), string(setify(expr)))),
+  if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr:first(expr),
   /* Check for floats, and if there are any then throw an error */
   if ForbidFloats and anyfloatex(expr) then
@@ -1161,9 +1159,9 @@ ATSameTypefun(SA, SB) := block([simp:true, ret],
     SB:errcatch(ev(SB, simp, nouns)),
     if is(SB = [STACKERROR]) then return([false, false, StackAddNote("", "ATSameTypefun_STACKERROR_TAns"), ""]),
     SB:SB[1],
-    /* Start recursive process */
+    /* Start recursive process. */
     ret:ATAlgEquivfun(SA, SB),
-    /* Send back result */
+    /* Send back result. */
     if ret[1] then
         return([true, true, ret[3], ret[4]])
     else
@@ -1567,11 +1565,10 @@ FacForm_UnPick(p,v) := block([negdistrib,PARTSWITCH,fb,i,irred,res],
 
 
 /* Factored form of a polynomial? */
-/* Assumes all coefficients are integers */
+/* Assumes all coefficients are integers. */
 
-ATFacForm(SA,SBL) := block([negdistrib,RawMark,FeedBack,AnswerNote,ret,str,SB,v,SAA,SBB,coefl,facdum],
+ATFacForm(SA,SBL) := block([negdistrib, RawMark, FeedBack, AnswerNote, ret, str, SB, v, SAA, SBB ,coefl, facdum],
     negdistrib:false,
-    /* include facdum:'facdum, as in partfrac? */
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -1589,7 +1586,7 @@ ATFacForm(SA,SBL) := block([negdistrib,RawMark,FeedBack,AnswerNote,ret,str,SB,v,
     if expressionp(SA)=false then
         return([false,false,StackAddNote("","ATFacForm_SA_not_expression"), StackAddFeedback("","ATAlgEquiv_SA_not_expression")]),
 
-    /* If we don't have an atom as the teacher's variable, then we need to make a substitution */
+    /* If we don't have an atom as the teacher's variable, then we need to make a substitution. */
     if atom(v)#true then (SA:subst(facdum, v, SA),SB:subst(facdum, v, SB), v:facdum),
     ret: FacFormfun(SA,SB,v),
     return(ret)
@@ -1604,7 +1601,7 @@ FacFormfun(SA,SB,v) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, con
         ansnote: StackAddNote("", "ATFacForm_error_degreeSA"),
         fb: StackAddFeedback("", "ATFacForm_error_degreeSA")
         ),
-    aequiv:algebraic_equivalence(SA,SB),
+    aequiv:algebraic_equivalence(SA, SB),
     /* An integer answer is always correct. */
     if (integerp(SA)) then
         if (SA=SB) then
@@ -1646,7 +1643,7 @@ FacFormfun(SA,SB,v) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, con
     )$
 
 /* An answer test based expandp(sa). */
-/* Note, the SB is a dummy to allow one mechanism for calling functions */
+/* Note, the SB is a dummy to allow one mechanism for calling functions. */
 ATExpanded(SA,SB) :=
     block([keepfloat, Validity, RawMark, FeedBack, AnswerNote, SA1],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"", SA1:[],
@@ -2350,5 +2347,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015100700$
-print("[ STACK-Maxima started, library version 2015100700 ]")$
+stackmaximaversion:2015102000$
+print("[ STACK-Maxima started, library version 2015102000 ]")$

@@ -218,6 +218,127 @@ if ($question->has_random_variants()) {
     }
 }
 
+// Display the controls to add another question test.
+echo $OUTPUT->heading(stack_string('questiontests'), 2);
+
+// Display the test results.
+$addlabel = stack_string('addanothertestcase', 'qtype_stack');
+if (empty($testresults)) {
+    echo html_writer::tag('p', stack_string('notestcasesyet'));
+    $addlabel = stack_string('addatestcase', 'qtype_stack');
+} else if ($allpassed) {
+    echo html_writer::tag('p', stack_string('stackInstall_testsuite_pass'), array('class' => 'overallresult pass'));
+} else {
+    echo html_writer::tag('p', stack_string('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
+}
+
+if ($canedit) {
+    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+            $urlparams), $addlabel, 'get');
+}
+
+foreach ($testresults as $key => $result) {
+    if ($result->passed()) {
+        $outcome = html_writer::tag('span', stack_string('testsuitepass'), array('class' => 'pass'));
+    } else {
+        $outcome = html_writer::tag('span', stack_string('testsuitefail'), array('class' => 'fail'));
+    }
+    echo $OUTPUT->heading(stack_string('testcasexresult',
+            array('no' => $key, 'result' => $outcome)), 3);
+
+    // Display the information about the inputs.
+    $inputstable = new html_table();
+    $inputstable->head = array(
+            stack_string('inputname'),
+            stack_string('inputexpression'),
+            stack_string('inputentered'),
+            stack_string('inputdisplayed'),
+            stack_string('inputstatus'),
+            stack_string('errors'),
+    );
+    $inputstable->attributes['class'] = 'generaltable stacktestsuite';
+
+    foreach ($result->get_input_states() as $inputname => $inputstate) {
+        $inputval = s($inputstate->input);
+        if (false === $inputstate->input) {
+            $inputval = '';
+        }
+        $inputstable->data[] = array(
+                s($inputname),
+                s($inputstate->rawinput),
+                $inputval,
+                stack_ouput_castext($inputstate->display),
+                stack_string('inputstatusname' . $inputstate->status),
+                $inputstate->errors,
+        );
+    }
+
+    echo html_writer::table($inputstable);
+
+    // Display the information about the PRTs.
+    $prtstable = new html_table();
+    $prtstable->head = array(
+            stack_string('prtname'),
+            stack_string('score'),
+            stack_string('expectedscore'),
+            stack_string('penalty'),
+            stack_string('expectedpenalty'),
+            stack_string('answernote'),
+            stack_string('expectedanswernote'),
+            get_string('feedback', 'question'),
+            stack_string('testsuitecolpassed'),
+    );
+    $prtstable->attributes['class'] = 'generaltable stacktestsuite';
+
+    foreach ($result->get_prt_states() as $prtname => $state) {
+        if ($state->testoutcome) {
+            $prtstable->rowclasses[] = 'pass';
+            $passedcol = stack_string('testsuitepass');
+        } else {
+            $prtstable->rowclasses[] = 'fail';
+            $passedcol = stack_string('testsuitefail').$state->reason;
+        }
+
+        // Sort out excessive decimal places from the DB.
+        if (is_null($state->expectedscore) || '' === $state->expectedscore) {
+            $expectedscore = '';
+        } else {
+            $expectedscore = $state->expectedscore + 0;
+        }
+        if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
+            $expectedpenalty = '';
+        } else {
+            $expectedpenalty = $state->expectedpenalty + 0;
+        }
+
+        $prtstable->data[] = array(
+                $prtname,
+                $state->score,
+                $expectedscore,
+                $state->penalty,
+                $expectedpenalty,
+                s($state->answernote),
+                s($state->expectedanswernote),
+                $state->feedback,
+                $passedcol,
+        );
+    }
+
+    echo html_writer::table($prtstable);
+
+    if ($canedit) {
+        echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
+        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+                $urlparams + array('testcase' => $key)),
+                stack_string('editthistestcase', 'qtype_stack'), 'get');
+
+        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
+                $urlparams + array('testcase' => $key)),
+                stack_string('deletethistestcase', 'qtype_stack'), 'get');
+        echo html_writer::end_tag('div');
+    }
+}
+
 // Display the question.
 $renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
@@ -264,127 +385,6 @@ $chatparams['cas'] = $question->generalfeedback;
 // We've chosen not to send a specific seed since it is helpful
 // to test the general feedback in a random context.
 echo $OUTPUT->single_button(new moodle_url('/question/type/stack/caschat.php', $chatparams), stack_string('chat'));
-
-// Display the controls to add another question test.
-echo $OUTPUT->heading(stack_string('questiontests'), 2);
-
-// Display the test results.
-$addlabel = stack_string('addanothertestcase', 'qtype_stack');
-if (empty($testresults)) {
-    echo html_writer::tag('p', stack_string('notestcasesyet'));
-    $addlabel = stack_string('addatestcase', 'qtype_stack');
-} else if ($allpassed) {
-    echo html_writer::tag('p', stack_string('stackInstall_testsuite_pass'), array('class' => 'overallresult pass'));
-} else {
-    echo html_writer::tag('p', stack_string('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
-}
-
-if ($canedit) {
-    echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-            $urlparams), $addlabel, 'get');
-}
-
-foreach ($testresults as $key => $result) {
-    if ($result->passed()) {
-        $outcome = html_writer::tag('span', stack_string('testsuitepass'), array('class' => 'pass'));
-    } else {
-        $outcome = html_writer::tag('span', stack_string('testsuitefail'), array('class' => 'fail'));
-    }
-    echo $OUTPUT->heading(stack_string('testcasexresult',
-            array('no' => $key, 'result' => $outcome)), 3);
-
-    // Display the information about the inputs.
-    $inputstable = new html_table();
-    $inputstable->head = array(
-        stack_string('inputname'),
-        stack_string('inputexpression'),
-        stack_string('inputentered'),
-        stack_string('inputdisplayed'),
-        stack_string('inputstatus'),
-        stack_string('errors'),
-    );
-    $inputstable->attributes['class'] = 'generaltable stacktestsuite';
-
-    foreach ($result->get_input_states() as $inputname => $inputstate) {
-        $inputval = s($inputstate->input);
-        if (false === $inputstate->input) {
-            $inputval = '';
-        }
-        $inputstable->data[] = array(
-            s($inputname),
-            s($inputstate->rawinput),
-            $inputval,
-            stack_ouput_castext($inputstate->display),
-            stack_string('inputstatusname' . $inputstate->status),
-            $inputstate->errors,
-        );
-    }
-
-    echo html_writer::table($inputstable);
-
-    // Display the information about the PRTs.
-    $prtstable = new html_table();
-    $prtstable->head = array(
-        stack_string('prtname'),
-        stack_string('score'),
-        stack_string('expectedscore'),
-        stack_string('penalty'),
-        stack_string('expectedpenalty'),
-        stack_string('answernote'),
-        stack_string('expectedanswernote'),
-        get_string('feedback', 'question'),
-        stack_string('testsuitecolpassed'),
-    );
-    $prtstable->attributes['class'] = 'generaltable stacktestsuite';
-
-    foreach ($result->get_prt_states() as $prtname => $state) {
-        if ($state->testoutcome) {
-            $prtstable->rowclasses[] = 'pass';
-            $passedcol = stack_string('testsuitepass');
-        } else {
-            $prtstable->rowclasses[] = 'fail';
-            $passedcol = stack_string('testsuitefail').$state->reason;
-        }
-
-        // Sort out excessive decimal places from the DB.
-        if (is_null($state->expectedscore) || '' === $state->expectedscore) {
-            $expectedscore = '';
-        } else {
-            $expectedscore = $state->expectedscore + 0;
-        }
-        if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
-            $expectedpenalty = '';
-        } else {
-            $expectedpenalty = $state->expectedpenalty + 0;
-        }
-
-        $prtstable->data[] = array(
-            $prtname,
-            $state->score,
-            $expectedscore,
-            $state->penalty,
-            $expectedpenalty,
-            s($state->answernote),
-            s($state->expectedanswernote),
-            $state->feedback,
-            $passedcol,
-        );
-    }
-
-    echo html_writer::table($prtstable);
-
-    if ($canedit) {
-        echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
-        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
-                $urlparams + array('testcase' => $key)),
-                stack_string('editthistestcase', 'qtype_stack'), 'get');
-
-        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
-                $urlparams + array('testcase' => $key)),
-                stack_string('deletethistestcase', 'qtype_stack'), 'get');
-        echo html_writer::end_tag('div');
-    }
-}
 
 // Finish output.
 echo $OUTPUT->footer();

@@ -17,8 +17,9 @@
 /**
  * This script provdies an index for running the question tests in bulk.
  *
- * @copyright  2013 the Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_stack
+ * @copyright 2013 the Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__.'/../../../config.php');
@@ -26,6 +27,7 @@ require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/utils.class.php');
+require_once(__DIR__ . '/stack/bulktester.class.php');
 
 
 // Login and check permissions.
@@ -36,26 +38,24 @@ $PAGE->set_url('/question/type/stack/bulktestindex.php');
 $PAGE->set_context($context);
 $PAGE->set_title(stack_string('bulktestindextitle'));
 
-// Load the necessary data.
-$counts = $DB->get_records_sql_menu("
-            SELECT ctx.id, COUNT(q.id) AS numstackquestions
-              FROM {context} ctx
-              JOIN {question_categories} qc ON qc.contextid = ctx.id
-              JOIN {question} q ON q.category = qc.id
-             WHERE q.qtype = 'stack'
-          GROUP BY ctx.id, ctx.path
-          ORDER BY ctx.path
-        ");
+// Create the helper class.
+$bulktester = new stack_bulk_tester();
 
 // Display.
 echo $OUTPUT->header();
 echo $OUTPUT->heading(stack_string('replacedollarsindex'));
 
 echo html_writer::start_tag('ul');
-foreach ($counts as $contextid => $numstackquestions) {
+foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstackquestions) {
     echo html_writer::tag('li', html_writer::link(
             new moodle_url('/question/type/stack/bulktest.php', array('contextid' => $contextid)),
             context::instance_by_id($contextid)->get_context_name(true, true) . ' (' . $numstackquestions . ')'));
 }
 echo html_writer::end_tag('ul');
+
+if (has_capability('moodle/site:config', context_system::instance())) {
+    echo html_writer::tag('p', html_writer::link(
+            new moodle_url('/question/type/stack/bulktestall.php'), stack_string('bulktestrun')));
+}
+
 echo $OUTPUT->footer();

@@ -154,6 +154,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     protected function unpack_raw_result($rawresult) {
         $result = '';
         $errors = false;
+        // This adds sufficient closing brackets to make sure we have enough to match.
+        $rawresult .= ']]]]';
 
         if ('' == trim($rawresult)) {
             $this->debug->log('Warning, empty result!', 'unpack_raw_result: completely empty result was returned by the CAS.');
@@ -241,7 +243,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $unparsed = '';
         $errors = '';
 
-        if ($eqpos = strpos($rawresultfragment, '=', $offset)) {
+        $eqpos = strpos($rawresultfragment, '=', $offset);
+        if ($eqpos) {
             // Check there are ='s.
             do {
                 $gb = stack_utils::substring_between($rawresultfragment, '[', ']', $eqpos);

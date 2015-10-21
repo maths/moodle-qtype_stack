@@ -344,26 +344,29 @@ algebraic_equivalence(SA, SB) :=
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
-    /* In some cases we just go inside the function one level */
+    /* In some cases we just go inside the function one level. */
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
-    /* Try not to expand out: pure numbers */
-    ex:errcatch(ev(SA-SB,simp)),
+    /* Try not to expand out: pure numbers. */
+    ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
     ex:ex[1],
     if numberp(ex) then
       if rat(ex)=0 then return(true)
       else return (false),
-    /* Try not to expand out: factoring */
-    ex:errcatch(ev(factor(SA-SB),simp)),
+    /* Try not to expand out: factoring, but only if without floats. */
+    if not(anyfloatex(SA-SB)) then 
+       ex:errcatch(ev(factor(SA-SB), simp)) 
+    else
+       ex:[ex],
     if ex=[] then (print("algebraic_equivalence: factoring the difference of two expressions threw an error."), return(false)),
     ex:ex[1],
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
-       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),  
+       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
     if ratsimp(ex)=0 then return(true),
     /* Next we expand out the difference. */
     ex:errcatch(ev(fullratsimp(SA-SB), simp)),

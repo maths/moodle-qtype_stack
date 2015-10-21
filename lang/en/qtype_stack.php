@@ -117,11 +117,12 @@ $string['generalfeedback'] = 'General feedback';
 $string['generalfeedback_help'] = 'General feedback is CASText. General feedback, also known as a "worked solution", is shown to the student after they have attempted the question. Unlike feedback, which depends on what response the student gave, the same general feedback text is shown to all students.  It may depend on the question variables used in the version of the question.';
 $string['generalfeedback_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#general_feedback';
 $string['showvalidation'] = 'Show the validation';
-$string['showvalidation_help'] = 'Setting this option displays any validation feedback from this input, including echoing back their expression in traditional two dimensional notation.';
+$string['showvalidation_help'] = 'Displays any validation feedback from this input, including echoing back their expression in traditional two dimensional notation.   Syntax errors are always reported back.';
 $string['showvalidation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Show_validation';
 $string['showvalidationno'] = 'No';
 $string['showvalidationyes'] = 'Yes, with variable list';
 $string['showvalidationyesnovars'] = 'Yes, without variable list';
+$string['mustverifyshowvalidation'] = 'You cannot choose to require two step validation but not show the results of validation to the student after the first step.  This puts the student in an impossible position.';
 $string['htmlfragment'] = 'You appear to have some HTML elements in your expression.';
 $string['illegalcaschars'] = 'The characters @ and $ are not allowed in CAS input.';
 $string['inputextraoptions'] = 'Extra options';
@@ -155,7 +156,7 @@ $string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.ph
 $string['multcross'] = 'Cross';
 $string['multdot'] = 'Dot';
 $string['mustverify'] = 'Student must verify';
-$string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them before scoring.';
+$string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them as a forced two step process before this input is made available to the scoring mechanism.  Syntax errors are always reported back.';
 $string['mustverify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Student_must_verify';
 $string['namealreadyused'] = 'You have already used this name.';
 $string['newnameforx'] = 'New name for \'{$a}\'';
@@ -545,6 +546,7 @@ $string['stackCas_badLogIn']                = 'You have typed in the expression 
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
 $string['stackCas_allFailed']               = 'CAS failed to return any evaluated expressions.  Please check your connection with the CAS.';
 $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
+$string['stackCas_failedReturnOne']         = 'CAS failed to return some data.';
 
 // Used in castext.class.php.
 $string['stackCas_tooLong']                 = 'CASText statement is too long. ';
@@ -629,7 +631,7 @@ $string['ATList_wrongentries']          = 'The entries underlined in red below a
 $string['ATMatrix_wrongsz']             = 'Your matrix should be {$a->m0} by {$a->m1}, but it is actually {$a->m2} by {$a->m3}. ';
 $string['ATMatrix_wrongentries']        = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
-$string['ATSet_wrongsz']                = 'Your set should have {$a->m0} different elements, but it is actually has {$a->m1}. ';
+$string['ATSet_wrongsz']                = 'Your set should have {$a->m0} different elements, but it actually has {$a->m1}. ';
 $string['ATSet_wrongentries']           = 'The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. {$a->m0} ';
 
 $string['irred_Q_factored']             = 'The term {$a->m0} should be unfactored, but is not. ';

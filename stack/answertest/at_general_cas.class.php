@@ -151,6 +151,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         $session = new stack_cas_session($cts, $this->options, 0);
         $session->instantiate();
+
         $this->debuginfo = $session->get_debuginfo();
         if ('' != $session->get_errors_key('STACKSA')) {
             $this->aterror      = 'TEST_FAILED';

@@ -52,6 +52,7 @@ if ($context->contextlevel == CONTEXT_COURSE) {
     $questiontestsurl->param('cmid', $context->instanceid);
 }
 $allpassed = true;
+$failingtests = array();
 
 // Display.
 echo $OUTPUT->header();
@@ -82,14 +83,29 @@ foreach ($categories as $key => $category) {
         if (empty($question->deployedseeds)) {
             echo $OUTPUT->heading(html_writer::link(new moodle_url($questiontestsurl,
                         array('questionid' => $questionid)), format_string($name)), 4);
-            $allpassed = qtype_stack_test_question($question, $tests) && $allpassed;
+            list ($ok, $failmessage) = qtype_stack_test_question($question, $tests);
+            $allpassed =  $ok && $allpassed;
+            if (!$ok) {
+                $message = html_writer::link(new moodle_url($questiontestsurl,
+                        array('questionid' => $questionid)), format_string($name));
+                $message .= ': '.$failmessage;
+                $failingtests[] = $message;
+            }
 
         } else {
             echo $OUTPUT->heading(format_string($name), 4);
             foreach ($question->deployedseeds as $seed) {
                 echo $OUTPUT->heading(html_writer::link(new moodle_url($questiontestsurl,
                         array('questionid' => $questionid, 'seed' => $seed)), stack_string('seedx', $seed)), 5);
-                $allpassed = qtype_stack_test_question($question, $tests, $seed) && $allpassed;
+                list ($ok, $failmessage) = qtype_stack_test_question($question, $tests);
+                $allpassed =  $ok && $allpassed;
+                if (!$ok) {
+                    $message = format_string($name);
+                    $message .= ' '.html_writer::link(new moodle_url($questiontestsurl,
+                        array('questionid' => $questionid, 'seed' => $seed)), stack_string('seedx', $seed));
+                    $message .= ': '.$failmessage;
+                    $failingtests[] = $message;
+                }
             }
         }
     }
@@ -102,6 +118,9 @@ if ($allpassed) {
 } else {
     echo html_writer::tag('p', stack_string('stackInstall_testsuite_fail'),
             array('class' => 'overallresult fail'));
+    foreach ($failingtests as $message) {
+        echo html_writer::tag('p', $message);
+    }
 }
 echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/bulktestindex.php'),
         get_string('back')));
@@ -144,10 +163,10 @@ function qtype_stack_test_question($question, $tests, $seed = null) {
         $flag = '* ';
     }
 
-    echo html_writer::tag('p', $flag.stack_string('testpassesandfails',
-            array('passes' => $passes, 'fails' => $fails)), array('class' => $class));
+    $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
+    echo html_writer::tag('p', $flag.$message, array('class' => $class));
 
     flush(); // Force output to prevent timeouts and to make progress clear.
 
-    return $ok;
+    return array($ok, $message);
 }

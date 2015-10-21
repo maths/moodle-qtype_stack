@@ -16,10 +16,11 @@
 
 /**
  * This script runs all the quesion tests for all deployed versions of all
- * questions in a given context.
+ * questions in all contexts in the Moodle site. This is intended for regression
+ * testing, before you release a new version of STACK to your site.
  *
  * @package   qtype_stack
- * @copyright 2013 The Open University
+ * @copyright 2015 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -31,31 +32,52 @@ require_once(__DIR__ . '/stack/utils.class.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
 
 
-// Get the parameters from the URL.
-$contextid = required_param('contextid', PARAM_INT);
+// Get the parameters from the URL. This is an option to restart the process
+// in the middle. Useful if it crashes.
+$startfromcontextid = optional_param('startfromcontextid', 0, PARAM_INT);
 
 // Login and check permissions.
-$context = context::instance_by_id($contextid);
+$context = context_system::instance();
 require_login();
-require_capability('qtype/stack:usediagnostictools', $context);
-$PAGE->set_url('/question/type/stack/bulktest.php', array('contextid' => $context->id));
+require_capability('moodle/site:config', $context);
+$PAGE->set_url('/question/type/stack/bulktestall.php',
+        array('startfromcontextid' => $startfromcontextid));
 $PAGE->set_context($context);
 $title = stack_string('bulktesttitle', $context->get_context_name());
 $PAGE->set_title($title);
 
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
+$allpassed = true;
+$allfailingtests = array();
+$skipping = $startfromcontextid != 0;
 
 // Release the session, so the user can do other things while this runs.
 \core\session\manager::write_close();
 
 // Display.
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
+echo $OUTPUT->heading($title, 1);
 
 // Run the tests.
-list($allpassed, $failingtests) = $bulktester->run_all_tests_for_context($context);
+foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstackquestions) {
+    if ($skipping && $contextid != $startfromcontextid) {
+        continue;
+    }
+    $skipping = false;
+
+    $testcontext = context::instance_by_id($contextid);
+    echo $OUTPUT->heading(stack_string('bulktesttitle', $testcontext->get_context_name()));
+    echo html_writer::tag('p', html_writer::link(
+            new moodle_url('/question/type/stack/bulktestall.php',
+                array('startfromcontextid' => $testcontext->id)),
+            stack_string('bulktestcontinuefromhere')));
+
+    list($passed, $failingtests) = $bulktester->run_all_tests_for_context($testcontext);
+    $allpassed = $allpassed && $passed;
+    $allfailingtests += $failingtests;
+}
 
 // Display the final summary.
-$bulktester->print_overall_result($allpassed, $failingtests);
+$bulktester->print_overall_result($allpassed, $allfailingtests);
 echo $OUTPUT->footer();

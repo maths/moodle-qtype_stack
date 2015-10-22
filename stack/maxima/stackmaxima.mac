@@ -560,7 +560,7 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
     /* remove from option list ral any non-permitted options */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics],
+    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics],
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options), 
     ralforbid:sublist(ral, lambda([ex], not(member(first(ex), permitted_options)))),
     if not(emptyp(ralforbid)) then 

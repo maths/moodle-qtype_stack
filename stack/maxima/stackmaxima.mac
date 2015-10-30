@@ -2033,7 +2033,6 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
     )$
 
 
-
 /*********************/
 /* Calculus question */
 /*********************/
@@ -2064,12 +2063,16 @@ strip_int_const(ex, v) := block([ex2,fargs],
 /* sa is the students' answer,                                      */
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
-ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, sbdisp, ret, cont],
+ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sb, sbdisp, ret, cont, constint, atoptions],
     oldsimp:simp,
     simp:false,
     Validity:true, RawMark:false,
     FeedBack:"", AnswerNote:"",
     keepfloat:true,
+    /* Should we be fussy about the constant of integration? */
+    constint:true,
+    /* How to display the teacher's answer? */
+    sbdisp:[],
 
     SAA:errcatch(ev(sa, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
@@ -2085,35 +2088,73 @@ ATInt(sa, sbl) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Answer
         (cont:false, FeedBack:StackAddFeedback("", "ATInt_STACKERROR_LIST"), AnswerNote:StackAddNote("", "ATInt_STACKERROR_LIST")),
 
     /* Is the variable still a list at this stage?
-       If so, the teacher has provided the original expression for feedback purposes. 
+       If so, the teacher has provided options such as
+         (1) the original expression for feedback purposes, 
+         (2) asked for constants of integration to be ignored.
     */
     if listp(var) then block(
-        if is(length(var)=2) then block(
-            sbdisp:second(var),
-            var:first(var)
-        ) else block(
+        atoptions:ATIntOptions(var),
+        if not(equal(first(atoptions), "")) then block(
             print("TEST_FAILED"),
-            cont:false, Validity:false, FeedBack:StackAddFeedback("", "ATInt_STACKERROR_OptList"), AnswerNote:StackAddNote("", "ATInt_STACKERROR_OptList")
-        )
-    ) else 
+            cont:false,
+            RawMark:false,
+            FeedBack:StackAddFeedback("", "ATInt_STACKERROR_OptList"),
+            AnswerNote:StackAddNote("", first(atoptions))
+        ),
+        var:second(atoptions),
+        constint:third(atoptions),
+        sbdisp:fourth(atoptions)
+    ),
+
+    /* If we haven't explicitly got a displayed expression for feedback then generate one. */
+    if equal(sbdisp, []) then
         sbdisp:ev(diff(sb, var), simp),
 
     ret:[true, RawMark, AnswerNote, FeedBack], 
 
+    /*print([sa, sb, sbdisp, constint, var, cont]),*/
     /* SA should be only an expression. */
     if expressionp(sa)=false then
         return([false, false, StackAddNote("", "ATInt_SA_not_expression"), StackAddFeedback("", "ATAlgEquiv_SA_not_expression")])
     else block(
         keepfloat:true,
         if cont then
-            ret:Intfun(sa, sb, sbdisp, var)
+            ret:Intfun(sa, sb, sbdisp, constint, var)
         ),
     simp:oldsimp,
     return(ret)
     )$
 
-Intfun(SA, SB, SBdisp, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
-    val:true, rawmk:false, fb:"", ansnote:"", debug:false,
+/* This function sorts out the possible option combinations for the answer test, checks them and 
+   returns them in a known consistent way. */
+ATIntOptions(opts) := block([note, var, atopts, optdefaults],
+    note:"",
+    /* Add in default values for the options here. See ATIntOptionsHelper for details.*/
+    optdefaults:[true,[]],
+    if emptyp(opts) or not(is(length(opts)<4)) then return(["ATInt_STACKERROR_OptList", x, 0, true]),
+    var:first(opts),
+    atopts:ATIntOptionsHelper(rest(opts), optdefaults),
+    return(append([note, var],atopts))
+)$
+
+/* The second argument to this function is a list of all options in a *known order*.
+   We recurse over the list updating these.  We seed the function with defualt values.
+   Options currenty are as follows:
+   [NOCONST, spdisp]
+   where
+     NOCONST = true or false.  Are we strict in requiring a constant of integration?
+     sbdisp = ?, any expression which the teacher wants to display instead of an auto-generated derivative of the teacher's answer.
+   Other options can be added as needed.
+*/
+ATIntOptionsHelper(in, out) := block(
+  if emptyp(in) then return(out),
+  if is(first(in)=NOCONST) then return(ATIntOptionsHelper(rest(in), append([false], rest(out)))),
+  return(ATIntOptionsHelper(rest(in), [first(out), first(in)]))
+)$
+
+Intfun(SA, SB, SBdisp, constint, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
+    val:true, rawmk:false, fb:"", ansnote:"",
+    debug:false,
     ret:[val, rawmk, ansnote, fb],
     /* Check if the teacher and student used only log abs. 
        Teacher must be consistent, otherwise the student doesn't have to be!*/
@@ -2139,21 +2180,27 @@ Intfun(SA, SB, SBdisp, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,sa
     /* Calculate derivatives */
     SAd:ev(diff(SA,v),simp),
     SBd:ev(diff(SB,v),simp),
-    /* Check for constant of integration - code copied from algebraic_equivalence */
-    ex:errcatch(ev(fullratsimp(SA-SB), simp, trigexpand:true, logexpand:super, keepfloat:true)),
-    if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
-    ex:ex[1],
-    ex:ev(trigsimp(ex), simp),
-    ex:ev(trigreduce(ex), simp),
-    dd:ev(float(ex), simp),
-    dc:numberp(dd) and dd#0.0,
     if debug then print([SAa, SBd]),
     if debug then print(["Simplified difference: ", ex]),
-    if ev(algebraic_equivalence(SAd,SBd), simp) then
+    if ev(algebraic_equivalence(SAd,SBd), simp) then block(
+    /* Check for constant of integration - code copied from algebraic_equivalence */
+        ex:errcatch(ev(fullratsimp(SA-SB), simp, trigexpand:true, logexpand:super, keepfloat:true)),
+        if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
+        ex:ex[1],
+        ex:ev(trigsimp(ex), simp),
+        ex:ev(trigreduce(ex), simp),
+        dd:ev(float(ex), simp),
+        dc:numberp(dd) and dd#0.0,
         if ex=0 then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
+            if constint then 
+                (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))
+            else 
+                (rawmk:true, ansnote:StackAddNote("", "ATInt_const_condone"))
         else if dc then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_const_int"), ansnote:StackAddNote("", "ATInt_const_int"))
+            if constint then 
+                (rawmk:false, fb:StackAddFeedback("", "ATInt_const_int"), ansnote:StackAddNote("", "ATInt_const_int"))
+            else 
+                (rawmk:true, ansnote:StackAddNote("", "ATInt_const_int_condone"))
         else if freeof(log, SA) and not(ATIntWeirdConstp(ex)) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
         else if freeof(log, SA) and ATIntWeirdConstp(ex) then
@@ -2167,7 +2214,7 @@ Intfun(SA, SB, SBdisp, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,sa
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true_differentconst"))
         else
             (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
-    else /* Check for the special cases where the buggy rule is true */
+    ) else /* Check for the special cases where the buggy rule is true */
        if ev(algebraic_equivalence(SAa, ev(diff(SBd, v), simp)),simp) and ev(algebraic_equivalence(exp(x), SBd),simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
        else 
@@ -2347,5 +2394,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015102000$
-print("[ STACK-Maxima started, library version 2015102000 ]")$
+stackmaximaversion:2015103000$
+print("[ STACK-Maxima started, library version 2015103000 ]")$

@@ -240,7 +240,7 @@ The question author must supply these options in the form of a list `[var, opt1,
 If one of the `opt?` is exactly the token `NOCONST` then the test will condone a lack of constant of integration.  That is, if a student has missed off a constant of integration, or the answers differ by a numerical constant, then full marks will be awarded.  Wierd constants (e.g. \(+c^2\)) will still be flagged up.
 
 The answer test archtecture only passes in the *answer* to the test.  The question is not available at that point, however, the answer test has to infer exactly which expression, including the algebraic form, the teacher has set in the question. This includes stripping off constants of integration and constants of integration may occur in a number of ways, e.g. in logarithms.
-In many cases simply differentiating the teacher's answer is fine, in which case the question author need not worry.  Where this does not work, the 
+In many cases simply differentiating the teacher's answer is fine, in which case the question author need not worry.  Where this does not work, the question author will need to supply the expression from the question in the right form as an option to the answer test.  This is done simply by adding it to the list of options.
 
     [x, x*exp(5*x+7)]
 

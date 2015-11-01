@@ -89,10 +89,18 @@ box(ex):=ex;
 /* ********************************** */
 
 /* Statistics support */
+/* REMOVED 2015-11-1
+   These packages are not working on some versions of Maxima.  In particular
+   on the version currently packaged with Debian.
+   This is causing Maxima install to fail for new users, which is unacceptable.
+   If you want these packages, please uncomment below and test your version.
+*/
 
+/*
 load("stats");
 load("distrib");
 load("descriptive");
+*/
 
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */

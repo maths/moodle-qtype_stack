@@ -74,6 +74,23 @@ Now, the output from the first expression will be a random expression in constan
     4*y+5*y+(-2*y)
     4*y+5*y-2*y
 
+## Radom objects with corresponding information.
+
+It is often necessary to generate a random object with a number of separate aspects to it.  For example, if you have scientific data and you need to include this in a question.
+
+    t:rand(5)+3;
+    idx:rand(3)+1;
+    l1:["Mercury","Earth","Mars"];
+    l2[3.61,9.8,3.75];
+    p:l1[idx];
+    ta:t*l2[idx]/(4*%pi^2);
+
+The question text can then be 
+
+    A pendulum is located on @p@. What length should the pendulum have in order to have a period of @t@s?
+
+This indexing with the variable `idx` is quite robust.  Note that indexes in Maxima start at \(1\), whereas `rand(n)` could return zero.
+
 ## See also
 
 [Maxima reference topics](index.md#reference).

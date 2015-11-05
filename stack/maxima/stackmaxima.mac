@@ -569,7 +569,9 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     /* remove from option list ral any non-permitted options */
     kill(y),
     permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics],
-    if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options), 
+    /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted.*/
+    if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
+    else  permitted_options:append([x], permitted_options),
     ralforbid:sublist(ral, lambda([ex], not(member(first(ex), permitted_options)))),
     if not(emptyp(ralforbid)) then 
         (print(concat("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)")), 

@@ -479,4 +479,34 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // There has been a subtle change to associativity in Maxima 5.37.0.
         $this->assertEquals('-7\cdot i+2\cdot j-3\cdot k', $at1->get_display_key('v'));
     }
+
+    public function test_plot_constant_function() {
+
+        $cs = array('a:0', 'p:plot(a*x,[x,-2,2],[y,-2,2])');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('0', $at1->get_value_key('a'));
+        $this->assertTrue(is_numeric(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters')));
+        $this->assertEquals('', trim($at1->get_errors_key('p')));
+    }
+
+    public function test_plot_fail() {
+
+        $cs = array('a:0', 'p:plot(a*x/0,[x,-2,2],[y,-2,2])');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('0', $at1->get_value_key('a'));
+        $this->assertEquals('Division by zero.', trim($at1->get_errors_key('p')));
+        $this->assertFalse(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters'));
+    }
 }

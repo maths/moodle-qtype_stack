@@ -11,7 +11,7 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 * *done* Add a "scratch working" area in which students can record their thinking etc. alongside the final answer.
 * *done* Modify the text area input so that each line is validated separately.
-* Make the syntax hint is CAS text, to depend on the question variables.
+* Make sure the syntax hint is CAS text, to depend on the question variables.  This should be used to see the text area etc.
 
 ## Reasoning by equivalence input type.
 

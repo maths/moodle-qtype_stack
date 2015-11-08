@@ -7,7 +7,7 @@ It is quite common to ask students to solve an algebraic equation.  The student'
 
 The best way to do (1) is *not* to check algebraic equivalence with the list/set of correct answers!  Instead, substitude the student's answer into the equation and see if it works.
 
-We proceed by example.  Imaging the teacher has asked the student to solve the following equtation defined in the "question variables".
+We proceed by example.  Imaging the teacher has asked the student to solve the following equation defined in the "question variables".
 
 
     p:2*x^2+11*x-5/4;

@@ -17,7 +17,7 @@ We proceed by example.  Imaging the teacher has asked the student to solve the f
 
 The student has entered a set or list as their answer.  Probably a set, which is logically more sensible.
 
-If we as the student to enter a set, then the AlgEquiv answer test compares sets and lists, but it does so element-wise.  This makes no sense here!  So, we need to do something different.
+If we ask the student to enter a set, then the AlgEquiv answer test compares sets and lists, but it does so element-wise.  This makes no sense here!  So, we need to do something different.
 
 In the feeback variables we create a new list called "listans" as follows, assuming the student's answer is assigned to `ans1`.
 

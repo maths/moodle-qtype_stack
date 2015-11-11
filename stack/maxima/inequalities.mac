@@ -43,12 +43,11 @@ ineqprepare(ex) := block([op2, ex2],
 
 /* Turn an single variable polynomial expression into a +1/-1 monic polynomial.
    This is used with inequalities and equations. */
-make_monic(ex) := block(
+make_monic(ex) := block([v],
     if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),
-    if length(listofvars(ex))>1 then return(ex),
     ex:expand(ex),
-    ev(expand(ex/abs(coeff(ex, first(listofvars(ex)), degree(ex, first(listofvars(ex)))))), simp)
+    ex:poly_normalize(ex,listofvars(ex))
 )$
 
 

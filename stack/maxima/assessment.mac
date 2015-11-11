@@ -659,11 +659,12 @@ logical_normal(ex):=block(
     ex:subst("%and", "nounand", ex), 
     ex:subst("%or", "nounor", ex), 
     ex:subst("%not", "not", ex), 
-    ex:ineqprepare(ex),
+    ex:ineqprepare(expand(ex)),
     ex:noun_solve_logic(ex),
     ex:de_morgan(ex),
     ex:distrib_and(ex),
     ex:logical_normal_rem_redundant(ex),
+    ex:ineqprepare(expand(ex)),
     return(ex)
 )$
 
@@ -924,7 +925,7 @@ texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, equivdebug],
   /* Prints diagnostic information in the note. */
   equivdebug:true,
-  if not(listp(ex)) then (print("stack_disp_arg expects to receive a list"), return(false)),
+  if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
   if length(ex)<2 then return([true, matrix(ex)]),
   /* Switch off matrix brackets. */
   lmxchar:"",
@@ -939,50 +940,55 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, equivd
       tempnote:"",
       SA:ex[ev(id-1, simp)],
       SB:ex[ev(id, simp)],
-      if expressionp(SA) then SA:SA=0,
-      if expressionp(SB) then SB:SB=0,
-      /* Sort out +- operator here.  This needs to be done at the top level. */
-      if count_op(SA,"+-")>1 then 
-           tempnote:sconcat(tempnote, "SA_too_many+-: "),
-      if count_op(SA,"+-")=1 then block(
-           tempnote:sconcat(tempnote, "SA_+-: "),
-           SA:pm_replace(SA)
-      ),
-      if count_op(SB,"+-")>1 then 
-           tempnote:sconcat(tempnote, "SB_too_many+-: "),
-      if count_op(SB,"+-")=1 then block(
-           tempnote:sconcat(tempnote, "SB_+-: "),
-           SB:pm_replace(SB)
-      ),
-      /* Now check for equivalences. */
-      ATres:ATAlgEquiv(SA, SB),
-      if second(ATres) then block(
-          eqoutcome[ev(id, simp)]:EQUIVCHAR,
-          if equivdebug then
-              eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+      /* Strings break up an argument into independent blocks. */
+      if stringp(SA) or stringp(SB) then block(
+          eqoutcome[ev(id, simp)]:EMPTYCHAR
       ) else (
-         /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
-         /* But here we do when able to do so safely.                        */
-         if (equationp(SA) or inequalityp(SA) or logicp(SA)) then block(
-             SA:ev(noun_solve_logic(SA), simp),
-             tempnote:sconcat(tempnote, "SA_solved: ")
-            ),
-         if (equationp(SB) or inequalityp(SB) or logicp(SB)) then block(
-             SB:ev(noun_solve_logic(SB), simp),
-             tempnote:sconcat(tempnote, "SB_solved: ")
-            ),
-         /*tempnote:sconcat(tempnote, "Trying logic: [",string(SA)," | ",string(SB),"]")*/
-         ATres:ev(ATLogic(SA, SB), simp),
-         truthargument:truthargument and second(ATres),
-         if (second(ATres)) then block(
-             eqoutcome[ev(id, simp)]:EQUIVCHAR
-         ),
-         if equivdebug then 
-             eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+          if expressionp(SA) then SA:SA=0,
+          if expressionp(SB) then SB:SB=0,
+          /* Sort out +- operator here.  This needs to be done at the top level. */
+          if count_op(SA,"+-")>1 then 
+               tempnote:sconcat(tempnote, "SA_too_many+-: "),
+          if count_op(SA,"+-")=1 then block(
+               tempnote:sconcat(tempnote, "SA_+-: "),
+               SA:pm_replace(SA)
+          ),
+          if count_op(SB,"+-")>1 then 
+               tempnote:sconcat(tempnote, "SB_too_many+-: "),
+          if count_op(SB,"+-")=1 then block(
+               tempnote:sconcat(tempnote, "SB_+-: "),
+               SB:pm_replace(SB)
+          ),
+          /* Now check for equivalences. */
+          ATres:ATAlgEquiv(SA, SB),
+          if second(ATres) then block(
+              eqoutcome[ev(id, simp)]:EQUIVCHAR,
+              if equivdebug then
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+          ) else (
+             /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
+             /* But here we do when able to do so safely.                        */
+             if (equationp(SA) or inequalityp(SA) or logicp(SA)) then block(
+                 SA:ev(noun_solve_logic(SA), simp),
+                 tempnote:sconcat(tempnote, "SA_solved: ")
+                ),
+             if (equationp(SB) or inequalityp(SB) or logicp(SB)) then block(
+                 SB:ev(noun_solve_logic(SB), simp),
+                 tempnote:sconcat(tempnote, "SB_solved: ")
+                ),
+             /*tempnote:sconcat(tempnote, "Trying logic: [",string(SA)," | ",string(SB),"]")*/
+             ATres:ev(ATLogic(SA, SB), simp),
+             truthargument:truthargument and second(ATres),
+             if (second(ATres)) then block(
+                 eqoutcome[ev(id, simp)]:EQUIVCHAR
+             ),
+             if equivdebug then 
+                 eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+          )
       )
   ),
   /* Output the results. */
-  ex:maplist(lambda([ex2], if expressionp(ex2) then ex2=EQUIVZERO else ex2), ex),
+  ex:maplist(lambda([ex2], if expressionp(ex2) and not(stringp(ex2)) then ex2=EQUIVZERO else ex2), ex),
   res:[truthargument, transpose(matrix(eqoutcome, ex, eqoutnote))]
 );
 

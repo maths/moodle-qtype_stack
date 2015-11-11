@@ -73,7 +73,6 @@ echo $OUTPUT->heading($title);
 
 $samplearguments = array();
 
-
 $newarg = array();
 $newarg['title']     = "Empty argument";
 $newarg['casstring'] = "[]";
@@ -151,11 +150,15 @@ $newarg['title']     = "Find two distict numbers which are the square of each ot
 $newarg['casstring'] = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
 $samplearguments[] = $newarg;
 
-
 $newarg = array();
 $newarg['title']     = "Differential quotient as the unknown";
 $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
 //$newarg['casstring'] = "[-12+3*'diff(y,x)+8-8*'diff(y,x)=0,-5*'diff(y,x)=4,'diff(y,x)=-4/5]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Find the values of a which satisfy this inequality for all x.";
+$newarg['casstring'] = "[-x^2+a*x+a-3<0, a-3<x^2-a*x, a-3<(x-a/2)^2-a^2/4, a^2/4+a-3<(x-a/2)^2, a^2+4*a-12<4*(x-a/2)^2, (a-2)*(a+6)<4*(x-a/2)^2, \"This is true for all x, so must be true for x=a/2\", (a-2)*(a+6)<0, ((a-2)<0 and (a+6)>0) or ((a-2)>0 and (a+6)<0), (a<2 and a>-6) or (a>2 and a<-6), (-6<a and a<2) or false, (-6<a and a<2)]";
 $samplearguments[] = $newarg;
 
 /* Loop over each argument, evaluate it and display the results. */

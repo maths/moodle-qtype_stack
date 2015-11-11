@@ -833,7 +833,7 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
     SA:SA[1],
-    SAN:copy(SA), /* Need this for when we have lists etc */
+    SAN:copy(SA), /* Need this for when we have lists etc. */
     SB:errcatch(ev(SB, simp, nouns, rat)),
     if is(SB = [STACKERROR]) then return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_TAns"),""]),
     SB:SB[1],
@@ -1272,155 +1272,153 @@ ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
 
 /*
 
-	What these functions do:
-	
-	- Determine whether the student's and teacher's answers are systems of equations
-	- Convert the two systems of equations into two systems of expressions
-	- Determine whether both systems are systems of multivariate polynomials
-	- Compare the variables in student's and teacher's answers, if they're not the same tell the student
-	- Find their Buchberger polynomials of the two systems
-	- Use the Buchberger polynomials to compare the Grobner bases of the two systems
-	- If the Grobner bases are not equal, determine whether the student's is a subset of the teacher's
-	- If student's system has equations which should not be there, tell them which ones.
+    What these functions do:
+
+    - Determine whether the student's and teacher's answers are systems of equations
+    - Convert the two systems of equations into two systems of expressions
+    - Determine whether both systems are systems of multivariate polynomials
+    - Compare the variables in student's and teacher's answers, if they're not the same tell the student
+    - Find their Buchberger polynomials of the two systems
+    - Use the Buchberger polynomials to compare the Grobner bases of the two systems
+    - If the Grobner bases are not equal, determine whether the student's is a subset of the teacher's
+    - If student's system has equations which should not be there, tell them which ones.
 */
 
-
-
 /*
-	Main function of the System Equivalence test
-    
+    Main function of the System Equivalence test
+
     Takes two inputs, checks whether they are
     lists of polynomials and delegates everything
     else to other functions.
 
-	Process:
-	
-	- Is each answer a list?
-	- Is each list element not an atom?
-	- Is each list element an equation?
-	- Is each list element a polynomial?
+    Process:
+
+    - Is each answer a list?
+    - Is each list element not an atom?
+    - Is each list element an equation?
+    - Is each list element a polynomial?
 */
 
 /* Edited files: SysEquiv.php, AnsTestcontroller.php, lang/en/stack.php */
 
 ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA, SAB, S1, S2, varlist, GA, GB, ret],
-	Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
-	keepfloat:true,
-	
-	/* Turn on simplification and error catch */
+    Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
+    keepfloat:true,
+
+    /* Turn on simplification and error catch */
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
         return([false, false, StackAddNote("", "ATSysEquiv_STACKERROR_SAns"), ""]),
     SAB:errcatch(ev(SB, simp, nouns)),
     if (is(SAB=[STACKERROR]) or is(SAB=[])) 
         then return([false, false, StackAddNote("", "ATSysEquiv_STACKERROR_TAns"), ""]),
-	
-	/* Are both answers lists? */
-	if not listp(SA) then
-		return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_list")),
-	if not listp(SB) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_list")),
 
-	/* Are all list elements not atoms? */
-	if ev(all_listp(atom,SA),simp) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
-	if ev(all_listp(atom,SB),simp) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
+    /* Are both answers lists? */
+    if not listp(SA) then
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_list")),
+    if not listp(SB) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_list")),
 
-	/* Are all list elements equations? */
-	if ev(not all_listp(equationp, SA), simp) then
-		return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
-	if ev(not all_listp(equationp,SB), simp) then
-		return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
+    /* Are all list elements not atoms? */
+    if ev(all_listp(atom,SA),simp) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
+    if ev(all_listp(atom,SB),simp) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
 
-	/* Turn our equations into expressions */
-	S1: ev(maplist(stack_eqnprepare, stack_eval_assignments(SA)), simp),
-	S2: ev(maplist(stack_eqnprepare, stack_eval_assignments(SB)), simp),
+    /* Are all list elements equations? */
+    if ev(not all_listp(equationp, SA), simp) then
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
+    if ev(not all_listp(equationp,SB), simp) then
+        return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
+
+    /* Turn our equations into expressions */
+    S1: ev(maplist(stack_eqnprepare, stack_eval_assignments(SA)), simp),
+    S2: ev(maplist(stack_eqnprepare, stack_eval_assignments(SB)), simp),
 
     /* Is S1 is empty?  This means we only had assignments in the answer, 
        i.e. the answer was in a "solved" form, e.g. x=1. */
     if emptyp(S1) and ev(equal(setify(maplist(stack_eqnprepare, SA)), setify(maplist(stack_eqnprepare, flatten(solve(S2,listofvars(S2)))))),simp) then
-		    return([true,true,StackAddNote("","ATSysEquiv_SA_Completely_solved"),""]),
+            return([true,true,StackAddNote("","ATSysEquiv_SA_Completely_solved"),""]),
     if emptyp(S1) then 
-		    return([true,false,StackAddNote("","ATSysEquiv_SA_Not_completely_solved"),""]),
-           
-	/* Is each expression a polynomial? */
-	if not all_listp(polynomialpsimp, S1) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_poly_eq_list")),
-	if not all_listp(polynomialpsimp, S2) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_poly_eq_list")),
+            return([true,false,StackAddNote("","ATSysEquiv_SA_Not_completely_solved"),""]),
 
-	/*
-		At this point have two lists of polynomials. We now check whether the
-		student's and teacher's polynomials have the same variables. If they do,
-		we find their Grobner bases and determine whether the systems of
-		equations have the same solutions
-	*/
+    /* Is each expression a polynomial? */
+    if not all_listp(polynomialpsimp, S1) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_poly_eq_list")),
+    if not all_listp(polynomialpsimp, S2) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_poly_eq_list")),
 
-	varlist: listofvars(S2),
-	if not is(ev(setify(listofvars(S1)),simp)=ev(setify(varlist), simp)) then
-		return(ATSysEquivVars(S1,S2)),
+    /*
+    At this point have two lists of polynomials. We now check whether the
+    student's and teacher's polynomials have the same variables. If they do,
+    we find their Grobner bases and determine whether the systems of
+    equations have the same solutions
+    */
 
-	GA :ev(poly_buchberger(S1,varlist),simp), 
-	GB :ev(poly_buchberger(S2,varlist),simp),
-	kill(S1,S2),
+    varlist: listofvars(S2),
+    if not is(ev(setify(listofvars(S1)),simp)=ev(setify(varlist), simp)) then
+        return(ATSysEquivVars(S1,S2)),
 
-	/* Determine whether our two lists of polynomials have the same Grobner Bases */
-	if poly_grobner_equal(GA, GB, varlist) then
-		return([true,true,"",""]),
+    GA :ev(poly_buchberger(S1,varlist),simp), 
+    GB :ev(poly_buchberger(S2,varlist),simp),
+    kill(S1,S2),
 
-	/* 
-		We now know the student's answer is in the correct form but there is
-		something wrong with it. From here we use the grobner package to
-		determine which, if any, of their equations is correct.
-	*/
+    /* Determine whether our two lists of polynomials have the same Grobner Bases */
+    if poly_grobner_equal(GA, GB, varlist) then
+    return([true,true,"",""]),
 
-	return(ATSysEquivGrob(GA, GB, SA, varlist))
+    /* 
+    We now know the student's answer is in the correct form but there is
+    something wrong with it. From here we use the grobner package to
+    determine which, if any, of their equations is correct.
+    */
+
+    return(ATSysEquivGrob(GA, GB, SA, varlist))
 )$
 
 
 /* Takes two lists of expressions and compares the variables in each */
 
 ATSysEquivVars(S1,S2):=block([XA,XB],
-	XA: setify(listofvars(S1)),
-	XB: setify(listofvars(S2)),
-	if subsetp(XA,XB) then
-		return(StackBasicReturn(true,false,"ATSysEquiv_SA_missing_variables")),
-	if subsetp(XB,XA) then
-		return(StackBasicReturn(true,false,"ATSysEquiv_SA_extra_variables")),
-	return(StackBasicReturn(true,false,"ATSysEquiv_SA_wrong_variables"))
+    XA: setify(listofvars(S1)),
+    XB: setify(listofvars(S2)),
+    if subsetp(XA,XB) then
+        return(StackBasicReturn(true,false,"ATSysEquiv_SA_missing_variables")),
+    if subsetp(XB,XA) then
+        return(StackBasicReturn(true,false,"ATSysEquiv_SA_extra_variables")),
+    return(StackBasicReturn(true,false,"ATSysEquiv_SA_wrong_variables"))
 )$
 
 /*
-	Grobner basis comparison
+    Grobner basis comparison.
 
-	This function takes two Grobner bases and a set of variables and determines
-	whether the student's system is underdetermined or overdetermined. It also
-	takes the student's original system so that if it is overdetermined it can
-	tell them which equations should not be there.
+    This function takes two Grobner bases and a set of variables and determines
+    whether the student's system is underdetermined or overdetermined. It also
+    takes the student's original system so that if it is overdetermined it can
+    tell them which equations should not be there.
 */
 
 ATSysEquivGrob(GA,GB,SA,varlist):=block([retl,ret],
 
-	/* Is the student's system underdetermined? */
+     the student's system underdetermined? */
 
-	if poly_grobner_subsetp(GA,GB,varlist) then
-		return(StackBasicReturn(true,false,"ATSysEquiv_SA_system_underdetermined")),
+    if poly_grobner_subsetp(GA,GB,varlist) then
+        return(StackBasicReturn(true,false,"ATSysEquiv_SA_system_underdetermined")),
 
-	/* 
-		Given that the student's system is neither underdetermined nor equal to
-		the teacher's, we need to find which equations do not belong in the system.
-	*/
-	
-	ret:[],
-	
-	for k:1 thru length(SA) do block([],
-		if ev(poly_grobner_member(stack_eqnprepare(stack_eval_assignments(SA[k])), GB, varlist),simp) then
-			ret:append(ret,[SA[ev(k,simp)]])
-		else
-			ret:append(ret,[texcolor("red", SA[ev(k,simp)])])),
+    /* 
+        Given that the student's system is neither underdetermined nor equal to
+        the teacher's, we need to find which equations do not belong in the system.
+    */
 
-	return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", StackDISP(ret, "d"))])
+    ret:[],
+
+    for k:1 thru length(SA) do block([],
+        if ev(poly_grobner_member(stack_eqnprepare(stack_eval_assignments(SA[k])), GB, varlist),simp) then
+            ret:append(ret,[SA[ev(k,simp)]])
+        else
+            ret:append(ret,[texcolor("red", SA[ev(k,simp)])])),
+
+    return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", StackDISP(ret, "d"))])
 )$
 
 /*****************************************************************/

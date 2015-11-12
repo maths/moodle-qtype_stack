@@ -24,6 +24,11 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 ### Interface features
 
+## Comments.
+
+* Commas in comments break the parsing into lines.  Need much better libraries to remove strings from CASstrings.
+* Improve spacing of comments, e.g. \intertext{...}?
+
 ### CAS features
 
 * Equating coefficients as a step in reasoning by equivalence. E.g. \( a*x^2+b*x+c=r*x^2+s*x+t \leftrightarrow a=r and b=s and c=t\). See `poly_equate_coeffs` in assessment.mac  
@@ -34,4 +39,4 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
     p:x<>y;
     texput("<>","{\neq}", infix);
     tex(p);
-
+* Equational reasoning.  If the next line begins with an = sign.

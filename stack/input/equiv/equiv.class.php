@@ -25,6 +25,12 @@ require_once(__DIR__ . '/../../utils.class.php');
  */
 class stack_equiv_input extends stack_input {
 
+    /**
+     * @var array
+     * This array stores any comments and protects them from going through the CAS.
+     */
+    private $comments = array();
+
     public function render(stack_input_state $state, $fieldname, $readonly) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
@@ -142,7 +148,12 @@ class stack_equiv_input extends stack_input {
         $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $index => $val) {
-            $answer = new stack_cas_casstring($val);
+            if ($this->identify_comments($val)) {
+                $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
+                $this->comments[$index] = $val;
+            } else {
+                $answer = new stack_cas_casstring($val);
+            }
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $allowwords);
 
@@ -201,7 +212,7 @@ class stack_equiv_input extends stack_input {
         return array($valid, $errors, $display);
     }
 
-    /** This function creates additional session variables.  
+    /** This function creates additional session variables.
      *  Currently only used by the equiv class
      */
     protected function additional_session_variables() {
@@ -211,6 +222,19 @@ class stack_equiv_input extends stack_input {
         $an->set_key('equiv'.$this->name);
 
         return array($an);
+    }
+
+    /** This function decides if an expression looks like a comment in a chain of reasoning.
+     */
+    private function identify_comments($ex) {
+        if (substr(trim($ex), 0, 1) === '"') {
+            return true;
+        }
+        return false;
+    }
+
+    private function comment_tag($index) {
+        return 'EQUIVCOMMENT'.$index;
     }
 
     /**
@@ -280,8 +304,16 @@ class stack_equiv_input extends stack_input {
         if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {
             return '';
         }
+        $display = $state->contentsdisplayed;
+
+        foreach ($this->comments as $index => $val) {
+            // Strip off "s from the comment.
+            $val = substr(trim($val), 1, -1);
+            $display = str_replace($this->comment_tag($index), $val, $display);
+        }
+
         $feedback  = '';
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $display));
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',

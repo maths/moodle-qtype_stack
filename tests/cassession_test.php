@@ -423,6 +423,31 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('1385715.257', $at1->get_value_key('a'));
     }
 
+    public function test_rat() {
+
+        $cs = array('a:ratsimp(sqrt(27))', 'b:rat(sqrt(27))', 'm:MAXIMA_VERSION_NUM');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('3^(3/2)', $at1->get_value_key('a'));
+
+        // Warning to developers.   The behaviour of rat is not stable accross versions of Maxima.
+        // In Maxima 5.25.1: rat(sqrt(27)) gives sqrt(3)^3.
+        // In Maxima 5.36.1: rat(sqrt(27)) gives (3^(1/2)^3).
+        // In Maxima 5.37.1: rat(sqrt(27)) gives sqrt(3)^3.
+        $maximaversion = $at1->get_value_key('m');
+        if ($maximaversion == '36.1') {
+            // Developers should add other versions of Maxima here as needed.
+            $this->assertEquals('(3^(1/2))^3', $at1->get_value_key('b'));
+        } else {
+            $this->assertEquals('sqrt(3)^3', $at1->get_value_key('b'));
+        }
+    }
+
     public function test_matrix_eigenvalues() {
 
         $cs = array('A:matrix([7,1,3],[5,-3,4],[5,3,-4])', 'E:first(eigenvalues(A))', 'dt:determinant(A)');
@@ -453,5 +478,35 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         // There has been a subtle change to associativity in Maxima 5.37.0.
         $this->assertEquals('-7\cdot i+2\cdot j-3\cdot k', $at1->get_display_key('v'));
+    }
+
+    public function test_plot_constant_function() {
+
+        $cs = array('a:0', 'p:plot(a*x,[x,-2,2],[y,-2,2])');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('0', $at1->get_value_key('a'));
+        $this->assertTrue(is_numeric(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters')));
+        $this->assertEquals('', trim($at1->get_errors_key('p')));
+    }
+
+    public function test_plot_fail() {
+
+        $cs = array('a:0', 'p:plot(a*x/0,[x,-2,2],[y,-2,2])');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('0', $at1->get_value_key('a'));
+        $this->assertEquals('Division by zero.', trim($at1->get_errors_key('p')));
+        $this->assertFalse(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters'));
     }
 }

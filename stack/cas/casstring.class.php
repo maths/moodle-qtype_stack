@@ -154,7 +154,7 @@ class stack_cas_casstring {
             'init_ctensor', 'inm', 'inmc1', 'inmc2', 'inprod', 'intervalp', 'intopois', 'invariant1',
             'invariant2', 'invert_by_lu', 'ip_grid', 'ip_grid_in', 'ishow', 'isolate',
             'isolate_wrt_times', 'itr', 'jacobi_p', 'jf', 'jordan', 'julia',
-            'kdels', 'kdelta', 'key', 'kinvariant', 'kostka', 'kt', 'label', 'label_alignment', 'label_orientation', 'laguerre',
+            'kdels', 'kdelta', 'key', 'kinvariant', 'kostka', 'kt', 'label_alignment', 'label_orientation', 'laguerre',
             'lassociative', 'lbfgs', 'lbfgs_ncorrections', 'lbfgs_nfeval_max', 'lc2kdt', 'lc_l',
             'lc_u', 'lcharp', 'legendre_p', 'legendre_q', 'leinstein', 'let',
             'let_rule_packages', 'letrat', 'letrules', 'letsimp', 'levi_civita', 'lfg', 'lg',
@@ -377,7 +377,7 @@ class stack_cas_casstring {
             'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
             'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
             'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel', 'nounor', 'nounand');
+            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel', 'nounor', 'nounand', 'label');
 
     /**
      * These lists are used by question authors for groups of words.

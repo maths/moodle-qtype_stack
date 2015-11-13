@@ -2,6 +2,13 @@
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
+## Features we are unlikly to add to STACK! ##
+
+These are some things we are asked for, but which we are unlikley to add in the near future, often because there are other ways to do this.
+
+* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations and also for applications which appeal to different disciplines, e.g. engineering, physics, maths.
+
+
 ## Features to add ##
 
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.  These features are not included in this release.
@@ -35,13 +42,13 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
-* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations and also for applications which appeal to different disciplines, e.g. engineering, physics, maths.
 * Check CAS/maxima literature on -inf=minf.
 * Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting]
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.
 * Refactor answer tests.
  1. They should be like inputs. We should return an answer test object, not a controller object.
  2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
+ 3. Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).
 * Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
 * Refactor the STACK return object as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
 

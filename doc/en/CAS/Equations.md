@@ -5,9 +5,9 @@ It is quite common to ask students to solve an algebraic equation.  The student'
 1. Correct: every element of the list satisfies the equation.
 2. Complete: every solution of the equation is in the list.
 
-The best way to do (1) is *not* to check algebraic equivalence with the list/set of correct answers!  Instead, substitude the student's answer into the equation and see if it works.
+The best way to do (1) is *not* to check algebraic equivalence with the list/set of correct answers!  Instead, substitute the student's answer into the equation and see if it works.
 
-We proceed by example.  Imaging the teacher has asked the student to solve the following equtation defined in the "question variables".
+We proceed by example.  Imaging the teacher has asked the student to solve the following equation defined in the "question variables".
 
 
     p:2*x^2+11*x-5/4;
@@ -17,7 +17,7 @@ We proceed by example.  Imaging the teacher has asked the student to solve the f
 
 The student has entered a set or list as their answer.  Probably a set, which is logically more sensible.
 
-If we as the student to enter a set, then the AlgEquiv answer test compares sets and lists, but it does so element-wise.  This makes no sense here!  So, we need to do something different.
+If we ask the student to enter a set, then the AlgEquiv answer test compares sets and lists, but it does so element-wise.  This makes no sense here!  So, we need to do something different.
 
 In the feeback variables we create a new list called "listans" as follows, assuming the student's answer is assigned to `ans1`.
 
@@ -34,7 +34,8 @@ The values of `listans` are what we get when we substitute in each of the studen
 Now we have a list of numbers.  We need to compare this with something, but the student's list may have a different number of entries than than of the teacher's solution!
 
     /* Generate something to compare this list with. */
-    zl:makelist(0,length(listans));setify(append(first(ta)+1,rest(ta))
+    zl:makelist(0,length(listans));
+    setify(append(first(ta)+1, rest(ta))
 
 In the potential response tree, compare `listans` with `zl` using the AlgEquiv answer test and the `quiet=yes` option to suppress all feedback.
 
@@ -53,6 +54,17 @@ To check (2) you need to make sure that the length of the student's answer is th
 
     length(fullratsimp(sans))
     length(ta)
+
+## Randomly generated variables.
+
+In the above example, we may have created a randomly generated variable.  E.g.
+
+    v:rand([x,y,z,t]);
+    p:a*v^2+b*v+c;
+
+In this case, to make the substitution you need to put in an extra evaluation.
+
+    listans:maplist(lambda([ex],ev(p,ev(v=ex))), listify(ans1));
 
 ## Repeated roots!
 

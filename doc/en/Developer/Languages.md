@@ -47,6 +47,8 @@ Apologies to those people who have translated STACK through AMOS, but who do not
 Colleagues have asked for multilingual materials.  We plan to implement this using Moodle's Multi-language content filter, see
 [http://docs.moodle.org/22/en/Multi-language_content_filter](http://docs.moodle.org/22/en/Multi-language_content_filter).
 
+An alternative filter is given by [https://moodle.org/plugins/view/filter_multilangsecond](https://moodle.org/plugins/view/filter_multilangsecond).
+
 # Documentation
 
 This is currently only available in English.  

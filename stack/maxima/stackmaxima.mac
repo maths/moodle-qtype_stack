@@ -1410,7 +1410,7 @@ ATSysEquivVars(S1,S2):=block([XA,XB],
 
 ATSysEquivGrob(GA,GB,SA,varlist):=block([retl,ret],
 
-     the student's system underdetermined? */
+    /* Is the student's system underdetermined? */
 
     if poly_grobner_subsetp(GA,GB,varlist) then
         return(StackBasicReturn(true,false,"ATSysEquiv_SA_system_underdetermined")),
@@ -2420,5 +2420,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015103000$
-print("[ STACK-Maxima started, library version 2015103000 ]")$
+stackmaximaversion:2015111300$
+print("[ STACK-Maxima started, library version 2015111300 ]")$

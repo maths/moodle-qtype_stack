@@ -930,7 +930,7 @@ texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 
-stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, truthargument, tempnote],
+stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, truthargument, tempnote, exmod],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
   if emptyp(ex) then return([true, matrix(ex)]),
   /* Switch off matrix brackets. */
@@ -942,18 +942,19 @@ stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, trutharg
   eqoutcome[1]:EMPTYCHAR,
   truthargument:true,
   /* Loop and sort out expressions. */
+  exmod:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote],
      tempnote:"",
-     SA:ex[ev(id, simp)],
+     SA:exmod[ev(id, simp)],
      if expressionp(SA) and not(stringp(SA)) then SA:SA=0,
      if count_op(SA,"+-")=1 then SA:pm_replace(SA),
-     ex[ev(id, simp)]:SA
+     exmod[ev(id, simp)]:SA
   ),
   /* Loop and check adjacent expressions for equivalence. */
   for id:2 thru length(ex) step 1 do block([ATres, SA, SB],
       tempnote:"",
-      SA:ex[ev(id-1, simp)],
-      SB:ex[ev(id, simp)],
+      SA:exmod[ev(id-1, simp)],
+      SB:exmod[ev(id, simp)],
       /* Strings break up an argument into independent blocks. */
       if stringp(SA) or stringp(SB) then block(
           eqoutcome[ev(id, simp)]:EMPTYCHAR

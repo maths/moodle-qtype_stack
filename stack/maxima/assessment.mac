@@ -945,7 +945,7 @@ stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, trutharg
   for id:1 thru length(ex) step 1 do block([SA, tempnote],
      tempnote:"",
      SA:ex[ev(id, simp)],
-     if expressionp(SA) then SA:SA=0,
+     if expressionp(SA) and not(stringp(SA)) then SA:SA=0,
      if count_op(SA,"+-")=1 then SA:pm_replace(SA),
      ex[ev(id, simp)]:SA
   ),

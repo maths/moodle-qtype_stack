@@ -48,7 +48,7 @@ class stack_equiv_input extends stack_input {
 
         // Sort out size of text area.
         $rows = stack_utils::list_to_array($current, false);
-        $attributes['rows'] = max(5, count($rows) + 1);
+        $attributes['rows'] = max(2, count($rows) + 1);
 
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
@@ -60,7 +60,26 @@ class stack_equiv_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        return html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+
+        // This class shows the validation next to the input box in a table, and disregards to the position of the
+        // [[validation:name]] tag.
+        $rendervalidation = $this->render_validation($state, $fieldname);
+        $class = "stackinputfeedback";
+        if (!$rendervalidation) {
+            $class .= ' empty';
+        }
+        $rendervalidation = html_writer::tag('div', $rendervalidation, array('class' => $class, 'id' => $fieldname.'_val'));
+
+        $output = html_writer::tag('td', html_writer::tag('textarea', htmlspecialchars($current), $attributes));
+        $output .= html_writer::tag('td', $rendervalidation);
+        $output = html_writer::tag('tr', $output);
+        $output = html_writer::tag('table', $output);
+
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+            $feedback = html_writer::tag('td', stack_string('studentValidation_listofvariables', $state->lvars));
+        }
+
+        return $output;
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -312,8 +331,9 @@ class stack_equiv_input extends stack_input {
             $display = str_replace($this->comment_tag($index), $val, $display);
         }
 
-        $feedback  = '';
-        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $display));
+        //$feedback  = '';
+        //$feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $display));
+        $feedback = $display;
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
@@ -324,10 +344,20 @@ class stack_equiv_input extends stack_input {
             $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
         }
 
-        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
-        }
+        //if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+        //    $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
+        //}
         return $feedback;
     }
 
+    /**
+     * This input type overrides this function to place validation feedback next to the input box.
+     */
+    public function replace_validation_tags($state, $fieldname, $questiontext) {
+
+        $name = $this->name;
+        $response = str_replace("[[validation:{$name}]]", '', $questiontext);
+
+        return $response;
+    }
 }

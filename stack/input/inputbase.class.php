@@ -460,7 +460,7 @@ abstract class stack_input {
      * For example singlechar checks that there is only one charater, and drop
      * down tests that the value is in the list.
      *
-     * This method is only called in the input is not blank, so you can assume that.
+     * This method is only called if the input is not blank, so you can assume that.
      *
      * @param unknown_type $contents the student's input as maxima code.
      * @return string any error messages describing validation failures. An empty
@@ -470,7 +470,7 @@ abstract class stack_input {
         return '';
     }
 
-    /** This function creates additional session variables.  
+    /** This function creates additional session variables.
      *  Currently only used by the equiv class.
      */
     protected function additional_session_variables() {
@@ -613,11 +613,30 @@ abstract class stack_input {
     }
 
     /**
+     * This function is responsible for removing the validation tags from the question stem and replacing
+     * them with the validation feedback.  Only the equiv input type currently does anything different here.
+     */
+    public function replace_validation_tags($state, $fieldname, $questiontext) {
+
+        $name = $this->name;
+        $feedback = $this->render_validation($state, $fieldname);
+
+        $class = "stackinputfeedback";
+        if (!$feedback) {
+            $class .= ' empty';
+        }
+        $feedback = html_writer::tag('div', $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
+        $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
+
+        return $response;
+    }
+
+    /**
      * The AJAX instant validation method mostly returns a Maxima expression.
      * Mostly, we need an array, labelled with the input name.
      *
      * The text areas and equiv input types are not Maxima expressions yet,
-     * as they have newline characters in. 
+     * as they have newline characters in.
      *
      * The matrix type is different.  The javascript creates a single Maxima expression,
      * and we need to split this up into an array of individual elements.

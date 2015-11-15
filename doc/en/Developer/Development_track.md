@@ -24,6 +24,8 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 ### Interface features
 
+* Change the syntax hint so that the *value* of the variables is used.  This enables the first line to be seeded with random parameters.
+
 ## Comments.
 
 * Commas in comments break the parsing into lines.  Need much better libraries to remove strings from CASstrings.
@@ -31,7 +33,8 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 ### CAS features
 
-* Equating coefficients as a step in reasoning by equivalence. E.g. \( a*x^2+b*x+c=r*x^2+s*x+t \leftrightarrow a=r and b=s and c=t\). See `poly_equate_coeffs` in assessment.mac  
+* Equating coefficients as a step in reasoning by equivalence. E.g. \( a*x^2+b*x+c=r*x^2+s*x+t \leftrightarrow a=r and b=s and c=t\). 
+See `poly_equate_coeffs` in assessment.mac  
 * Natural domain function.
 * Add a "Not equals" operator.  For example:
 
@@ -40,3 +43,5 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
     texput("<>","{\neq}", infix);
     tex(p);
 * Equational reasoning.  If the next line begins with an = sign.
+* Function which will display a teacher's answer as a worked solution, just as the input type uses.
+* Answer test which acts on the whole argument.

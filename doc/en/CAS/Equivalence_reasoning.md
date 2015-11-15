@@ -30,6 +30,7 @@ in your potential response tree.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
 * We assume this is working over the real numbers.
 
+
 ## Examples of arguments
 
 The following are examples of algebraic reasoning which this input type is designed to capture.
@@ -123,7 +124,7 @@ The following are examples of algebraic reasoning which this input type is desig
 7. Provide better feedback to students about what goes wrong.
 8. Add a comment character for notes by the student?
 9. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-10. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK versions
+10. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK version.
 
 
 ## Longer term plans

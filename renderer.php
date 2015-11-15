@@ -50,8 +50,7 @@ class qtype_stack_renderer extends qtype_renderer {
                     $input->render($state, $fieldname, $options->readonly),
                     $questiontext);
 
-            $feedback = $this->input_validation($fieldname . '_val', $input->render_validation($state, $fieldname));
-            $questiontext = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
+            $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);
 
             $qaid = $qa->get_database_id();
             if ($input->requires_validation()) {
@@ -245,18 +244,6 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         return $overallfeedback . $feedbacktext;
-    }
-
-    /**
-     * @param string $feedback the raw feedback message from the intput element.
-     * @return string Nicely formatted feedback, for display.
-     */
-    protected function input_validation($id, $feedback) {
-        $class = "stackinputfeedback";
-        if (!$feedback) {
-            $class .= ' empty';
-        }
-        return html_writer::tag('div', $feedback, array('class' => $class, 'id' => $id));
     }
 
     /**

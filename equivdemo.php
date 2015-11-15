@@ -114,6 +114,11 @@ $newarg['casstring'] = "[x^2>=9 and x>3, x^2-9>=0 and x>3, (x>=3 or x<=-3) and x
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Classic nonsense 1.";
+$newarg['casstring'] = "[a=b, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), a-b=b, a=2*b, b=2*b, 1=2]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving rational expressions (erroneous argument)";
 $newarg['casstring'] = "[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), (4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x,7= 13]";
 $samplearguments[] = $newarg;

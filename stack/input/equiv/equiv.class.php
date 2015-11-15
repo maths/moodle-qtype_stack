@@ -48,7 +48,7 @@ class stack_equiv_input extends stack_input {
 
         // Sort out size of text area.
         $rows = stack_utils::list_to_array($current, false);
-        $attributes['rows'] = max(2, count($rows) + 1);
+        $attributes['rows'] = max(3, count($rows) + 1);
 
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
@@ -74,10 +74,6 @@ class stack_equiv_input extends stack_input {
         $output .= html_writer::tag('td', $rendervalidation);
         $output = html_writer::tag('tr', $output);
         $output = html_writer::tag('table', $output);
-
-        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
-            $feedback = html_writer::tag('td', stack_string('studentValidation_listofvariables', $state->lvars));
-        }
 
         return $output;
     }
@@ -232,10 +228,12 @@ class stack_equiv_input extends stack_input {
     }
 
     /** This function creates additional session variables.
-     *  Currently only used by the equiv class
+     *  Currently only used by the equiv class.
      */
     protected function additional_session_variables() {
-        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.')');
+        $equivdebug = 'false';
+        $showlogic = 'true';
+        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.$equivdebug.')');
         $an->get_valid('t', $this->get_parameter('strictSyntax', true),
                  $this->get_parameter('insertStars', 0));
         $an->set_key('equiv'.$this->name);
@@ -265,7 +263,7 @@ class stack_equiv_input extends stack_input {
         return array(
             'mustVerify'     => true,
             'showValidation' => 1,
-            'boxWidth'       => 20,
+            'boxWidth'       => 10,
             'strictSyntax'   => true,
             'insertStars'    => 0,
             'syntaxHint'     => '',
@@ -323,17 +321,13 @@ class stack_equiv_input extends stack_input {
         if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {
             return '';
         }
-        $display = $state->contentsdisplayed;
+        $feedback = $state->contentsdisplayed;
 
         foreach ($this->comments as $index => $val) {
             // Strip off "s from the comment.
             $val = substr(trim($val), 1, -1);
-            $display = str_replace($this->comment_tag($index), $val, $display);
+            $feedback = str_replace($this->comment_tag($index), $val, $feedback);
         }
-
-        //$feedback  = '';
-        //$feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $display));
-        $feedback = $display;
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
@@ -344,9 +338,10 @@ class stack_equiv_input extends stack_input {
             $feedback .= html_writer::tag('p', stack_string('studentValidation_invalidAnswer'));
         }
 
-        //if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
-        //    $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
-        //}
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
+        }
+
         return $feedback;
     }
 

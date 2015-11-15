@@ -473,13 +473,15 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
   if exs=[] then return(false),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr:first(expr),
-  /* Check for floats, and if there are any then throw an error */
+  /* Check for floats, and if there are any then throw an error. */
   if ForbidFloats and anyfloatex(expr) then
     print(StackAddFeedback("", "Illegal_floats")),
-  /* Checks fractions are in lowest terms */
+  /* Checks fractions are in lowest terms. */
   if LowestTerms and all_lowest_termsex(expr)=false then
     print(StackAddFeedback("", "Lowest_Terms")),
-  /* Check if the student's answer is the same type as the Teachers */
+  /* Thr +- operator may only appear once. */
+  if count_op(expr, "+-")>1 then 
+    print(StackAddFeedback("", "Too_many+-")),
   SameType:ATSameTypefun(expr, TAns),
   if SameType[2]#true then print(SameType[4]),
   /* Now display the result */

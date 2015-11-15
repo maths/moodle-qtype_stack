@@ -926,22 +926,30 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 
 texput(EMPTYCHAR, "\\ ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
+texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
+texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 
-stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, equivdebug],
-  /* Prints diagnostic information in the note. */
-  equivdebug:true,
+stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, truthargument, tempnote],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
-  if length(ex)<2 then return([true, matrix(ex)]),
+  if emptyp(ex) then return([true, matrix(ex)]),
   /* Switch off matrix brackets. */
   lmxchar:"",
+  if length(ex)<2 then return([true, matrix(ex)]),
   /* Set up empty rows to hold the answer. */
   eqoutcome:makelist(QMCHAR, length(ex)), 
   eqoutnote:makelist("", length(ex)), 
   eqoutcome[1]:EMPTYCHAR,
   truthargument:true,
+  /* Loop and sort out expressions. */
+  for id:1 thru length(ex) step 1 do block([SA, tempnote],
+     tempnote:"",
+     SA:ex[ev(id, simp)],
+     if expressionp(SA) then SA:SA=0,
+     if count_op(SA,"+-")=1 then SA:pm_replace(SA),
+     ex[ev(id, simp)]:SA
+  ),
   /* Loop and check adjacent expressions for equivalence. */
-  id:1,
   for id:2 thru length(ex) step 1 do block([ATres, SA, SB],
       tempnote:"",
       SA:ex[ev(id-1, simp)],
@@ -950,27 +958,12 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, equivd
       if stringp(SA) or stringp(SB) then block(
           eqoutcome[ev(id, simp)]:EMPTYCHAR
       ) else (
-          if expressionp(SA) then SA:SA=0,
-          if expressionp(SB) then SB:SB=0,
-          /* Sort out +- operator here.  This needs to be done at the top level. */
-          if count_op(SA,"+-")>1 then 
-               tempnote:sconcat(tempnote, "SA_too_many+-: "),
-          if count_op(SA,"+-")=1 then block(
-               tempnote:sconcat(tempnote, "SA_+-: "),
-               SA:pm_replace(SA)
-          ),
-          if count_op(SB,"+-")>1 then 
-               tempnote:sconcat(tempnote, "SB_too_many+-: "),
-          if count_op(SB,"+-")=1 then block(
-               tempnote:sconcat(tempnote, "SB_+-: "),
-               SB:pm_replace(SB)
-          ),
           /* Now check for equivalences. */
           ATres:ATAlgEquiv(SA, SB),
           if second(ATres) then block(
               eqoutcome[ev(id, simp)]:EQUIVCHAR,
               if equivdebug then
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
           ) else (
              /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
              /* But here we do when able to do so safely.                        */
@@ -995,13 +988,14 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, equivd
   ),
   /* Output the results. */
   ex:maplist(lambda([ex2], if expressionp(ex2) and not(stringp(ex2)) then ex2=EQUIVZERO else ex2), ex),
+  /* If we are not showing logical connectives, then suppress them. */
+  if not(showlogic) then eqoutcome:makelist(EMPTYCHAR, length(ex)),
   res:[truthargument, transpose(matrix(eqoutcome, ex, eqoutnote))]
 );
 
-disp_stack_eval_arg(ex):=second(stack_eval_arg(ex))$
+disp_stack_eval_arg(ex, showlogic, equivdebug):=second(stack_eval_arg(ex, showlogic, equivdebug))$
 
-/*
-*/
+
 
 
 /* ********************************** */

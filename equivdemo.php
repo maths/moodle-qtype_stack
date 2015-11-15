@@ -99,7 +99,12 @@ $newarg['casstring'] = "[(2*x-7)^2=(x+1)^2,sqrt((2*x-7)^2)=sqrt((x+1)^2),2*x-7=x
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['title']     = "Solving quadratic equations 5";
+$newarg['title']     = "Solving quadratic equations 5 (specific with pm)";
+$newarg['casstring'] = "[x^2-10*x+9 = 0, (x-5)^2-16 = 0, (x-5)^2 =16, x-5 =+-4, x-5 =4 or x-5=-4, x = 1 or x = 9]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving quadratic equations 6 (general with pm)";
 $newarg['casstring'] = "[x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-sqrt(q+p^2),x-p=sqrt(q+p^2) or x-p=-sqrt(q+p^2),x=p+sqrt(q+p^2) or x=p-sqrt(q+p^2)]";
 $samplearguments[] = $newarg;
 
@@ -178,7 +183,8 @@ foreach ($samplearguments as $argument) {
     $cs1 = new stack_cas_casstring($argument['casstring']);
     $cs1->get_valid('t');
     $cs1->set_key('A1');
-    $cs2 = new stack_cas_casstring("S1:stack_eval_arg(A1)");
+    // Always print debug information and show logical connectives on this page.
+    $cs2 = new stack_cas_casstring("S1:stack_eval_arg(A1, true, true)");
     $cs2->get_valid('t');
 
     $session      = new stack_cas_session(array($cs1, $cs2), $options);

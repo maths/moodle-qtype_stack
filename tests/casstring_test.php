@@ -362,4 +362,12 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertFalse($at1->get_valid('s'));
         $this->assertEquals('forbiddenChar', $at1->get_answernote());
     }
+
+    public function test_logic_noun_sort_1() {
+        $s = 'a:x=1 or x=2';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s'));
+        $at1->logic_nouns_sort(true);
+        $this->assertEquals('x=1 nounor x=2', $at1->get_casstring());
+    }
 }

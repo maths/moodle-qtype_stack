@@ -715,7 +715,8 @@ texput("+-", "{\\pm}");
 /* Count the occurance of an operator. */
 count_op(ex, ops):= block([count],
     if atom(ex) then return(0),
-    count:ev(apply("+", maplist(lambda([ex2], count_op(ex2, ops)), args(ex))),simp),
+    /* Can't do a ev(..., simp) here as it will simplify ex to an atom. */
+    count:apply("+", maplist(lambda([ex2], count_op(ex2, ops)), args(ex))),
     if op(ex)=ops then return(1+count),
     return(count)
 )$

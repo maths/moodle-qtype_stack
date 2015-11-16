@@ -480,7 +480,7 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
   if LowestTerms and all_lowest_termsex(expr)=false then
     print(StackAddFeedback("", "Lowest_Terms")),
   /* The +- operator may only appear once. */
-  if count_op(expr, "+-")>1 then 
+  if ev(count_op(expr, "+-"), simp)>1 then 
     print(StackAddFeedback("", "Too_many+-")),
   SameType:ATSameTypefun(expr, TAns),
   if SameType[2]#true then print(SameType[4]),
@@ -504,6 +504,9 @@ stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv) := block( [simp:
   /* Checks fractions are in lowest terms */
   if LowestTerms and all_lowest_termsex(expr) = false then
     print(StackAddFeedback("", "Lowest_Terms")),
+  /* The +- operator may only appear once. */
+  if ev(count_op(expr, "+-"), simp)>1 then 
+    print(StackAddFeedback("", "Too_many+-")),
   /* Additional tests which restrict the equivalence input type. */
   if Equiv and op_usedp(expr, set) then print(StackAddFeedback("", "Equiv_Illegal_set")),
   if Equiv and op_usedp(expr, "[") then print(StackAddFeedback("", "Equiv_Illegal_list")),
@@ -2425,5 +2428,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015111602$
-print("[ STACK-Maxima started, library version 2015111602 ]")$
+stackmaximaversion:2015111604$
+print("[ STACK-Maxima started, library version 2015111604 ]")$

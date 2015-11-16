@@ -963,11 +963,12 @@ class stack_cas_casstring {
         return $ok;
     }
 
-    /* The purpose of this function is to make all occurances of of the logical
-     * operators "and" and "or" into their noun equivalen versions.  The support
+    /* The purpose of this function is to make all occurances of the logical
+     * operators "and" and "or" into their noun equivalent versions.  The support
      * for these opertators in Maxima relies on the underlying lisp version and hence
-     * it is impossible to turn this off and make them inert.  In particular expressions
-     * such as x=1 or x=2 immediately evaluate to false in Maxima, which is awkward.
+     * it is impossible to turn simplification off and make them inert.  In particular
+     * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
+     * which is awkward.
      *
      * If the parameter is true we put in noun versions, and if false we remove them.
      */
@@ -975,8 +976,9 @@ class stack_cas_casstring {
         $connectives = array();
         $connectives[] = array(' and', ' nounand');
         $connectives[] = array(' or', ' nounor');
-        $connectives[] = array(')and', ' nounand');
-        $connectives[] = array(')or', ' nounor');
+        // Fine in the reverse direction as these patterns will have gone.
+        $connectives[] = array(')and', ') nounand');
+        $connectives[] = array(')or', ') nounor');
         foreach ($connectives as $con) {
             if ($dir) {
                 $this->casstring = str_replace($con[0], $con[1], $this->casstring);

@@ -1193,7 +1193,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $singlecharvars = false, $tans = null, $allowwords = '') {
+                    $lowestterms = true, $singlecharvars = false, $tans = null, $allowwords = '', $equivvalidate = false) {
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
         }
@@ -1215,13 +1215,18 @@ class stack_cas_casstring {
         } else {
             $lowestterms = 'false';
         }
+        if ($equivvalidate) {
+            $equivvalidate = 'true';
+        } else {
+            $equivvalidate = 'false';
+        }
 
         if ($singlecharvars) {
             $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
         }
 
         if (null === $tans) {
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$equivvalidate.')';
         } else {
             $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
         }

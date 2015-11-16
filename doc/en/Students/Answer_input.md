@@ -17,7 +17,6 @@ It might also forgive some errors you make.
 
 ## Basic Notation  ##
 
-
 ### Numbers  ###
 
 You should type in numbers without spaces, and use fractions rather than decimals where possible.
@@ -140,7 +139,6 @@ The function matrix is used to indicate this is a matrix and not a "list of list
 
 ### Equations and Inequalities ###
 
-
 Equations can be entered using the equals sign. For example, to enter the equation \(y=x^2-2x+1\) type `y=x^2-2*x+1`.
 
 Inequalities can be entered using the greater than and less than signs on the keyboard.
@@ -149,6 +147,9 @@ Note there is no space between these symbols, and the equality must come second 
 
 Sometimes you will need to connect inqualities together as `x>1 and x<=5`.  You must use the logical connectives `and` and `or`.  "Chained inequalities" such as \(1<x<5\) are not permitted as input syntax.  You should enter this as `1<x and x<5`.
 
+### Reasoning line by line ###
+
+Sometimes you will be asked to reason line by line.  This is called [reasoning by equivalence](Equivalence_reasoning.md).
 
 ## Other notes  ##
 

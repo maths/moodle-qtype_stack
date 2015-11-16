@@ -79,6 +79,11 @@ $newarg['casstring'] = "[]";
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Difference of two squares";
+$newarg['casstring'] = "[a^2=b^2,a^2-b^2=0,(a-b)*(a+b)=0,a=b or a=-b]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving quadratic equations 1";
 $newarg['casstring'] = "[x^2-x=30,x^2-x-30=0,(x-6)*(x+5)=0,x-6=0 or x+5=0,x=6 or x=-5]";
 $samplearguments[] = $newarg;

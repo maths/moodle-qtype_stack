@@ -553,16 +553,37 @@ class stack_utils {
     }
 
     /**
-     * Removes strings, respecting escaped quotes.
+     * Extracts double quoted strings with \-escapes, extracts only the content
+     * not the quotes.
      *
      * @access private
      * @return string
      */
     public static function all_substring_strings($string) {
-        $str = str_replace('\"', '[[ESCAPED_STRING]]', $string);
-        $strings = self::all_substring_between($str, '"');
-        foreach ($strings as $key => $string) {
-            $strings[$key] = str_replace('[[ESCAPED_STRING]]', '\"', $string);
+        $strings = array();
+        $i = 0;
+        $lastslash = false;
+        $instring = false;
+        $stringentry = -1;
+        while ($i < strlen($string)) {
+            $c = $string[$i];
+            $i++;
+            if ($instring){
+                if ($c == '"' && !$lastslash) {
+                    $instring = false;
+                    // -1 to drop the quote.
+                    $s = substr($string, $stringentry, ($i-$stringentry)-1);
+                    $strings[] = $s;
+                } else if ($c == "\\") {
+                     $lastslash = !$lastslash;
+            } else if ($lastslash) {
+                $lastslash = false;
+            }
+          } else if ($c == '"') {
+              $instring = true;
+              $lastslash = false;
+              $stringentry = $i;
+          }
         }
         return $strings;
     }
@@ -654,7 +675,7 @@ class stack_utils {
         }
     }
 
-    private static function list_to_array_workhorse($list, $rec=true) {
+    private static function list_to_array_workhorse($list, $rec = true) {
         $array = array();
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.

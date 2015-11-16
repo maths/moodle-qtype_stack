@@ -12,7 +12,7 @@ Note, the teacher's answer and any syntax hint must be a list!  If you just pass
 
 ## How do students use this input?
 
-In traditional practice students work line by line rewriting an equation until it is solved.  This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.
+In traditional practice students work line by line rewriting an equation until it is solved.  This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.  Instructions for students are [here](../Students/Equivalence_reasoning.md).
 
 1. Students often use no logical connectives between lines.
 2. Students ignore the natural domain of an expression, e.g. in \(\frac{1}{x}\) the value \(x=0\) is excluded from the domain of definition.
@@ -115,16 +115,16 @@ The following are examples of algebraic reasoning which this input type is desig
 
 ## TODO
 
-1. Reject equations containing trig functions (for the moment) as invalid.
-2. Document only specific types of problems which we support reasoning by equivalence with.
-3. Decide implication direction as well as establishing equivalence.  E.g. if a student squares both sides.
-4. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
+1. Document only specific types of problems which we support reasoning by equivalence with.
+2. Provide better feedback to students about what goes wrong.
+3. Reject equations containing trig functions (for the moment) as invalid.
+4. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK version.
 5. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-6. Calculate the natural domain, and use this information.  Auditing.
-7. Provide better feedback to students about what goes wrong.
-8. Add a comment character for notes by the student?
-9. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-10. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK version.
+5. Define \(x\pm a\) as an infix and prefix operator.  
+6. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
+7. Decide implication direction as well as establishing equivalence.  E.g. if a student squares both sides.
+8. Calculate the natural domain, and use this information.  Auditing.
+10. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
 
 
 ## Longer term plans

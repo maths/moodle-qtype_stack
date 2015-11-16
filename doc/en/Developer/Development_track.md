@@ -28,7 +28,7 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 ## Comments.
 
-* Commas in comments break the parsing into lines.  Need much better libraries to remove strings from CASstrings.
+* *done* Basic comment mechanism.  Any lines which are strings are treated as comments which break the argument.
 * Improve spacing of comments, e.g. \intertext{...}?
 
 ### CAS features

@@ -479,12 +479,12 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
   /* Checks fractions are in lowest terms. */
   if LowestTerms and all_lowest_termsex(expr)=false then
     print(StackAddFeedback("", "Lowest_Terms")),
-  /* Thr +- operator may only appear once. */
+  /* The +- operator may only appear once. */
   if count_op(expr, "+-")>1 then 
     print(StackAddFeedback("", "Too_many+-")),
   SameType:ATSameTypefun(expr, TAns),
   if SameType[2]#true then print(SameType[4]),
-  /* Now display the result */
+  /* Now display the result. */
   simp:false,
   expr:detexcolor(expr),
   expr:detexdecorate(expr),
@@ -492,19 +492,23 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
 )$
 
 /* Validate an expression without type checking. Floats and mathematical errors only. */
-stack_validate_typeless(expr, ForbidFloats, LowestTerms) := block( [simp:false, exs],
+stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv) := block( [simp:false, exs],
   /* Try to simply the expression to catch CAS errors */
   exs:errcatch(ev(expr, simp)),
   if exs = [] then return(false),
-  if length(expr)#1 then print(StackAddFeedback("", "CommaError", expr, setify(expr))),
+  if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr:first(expr),
-  /* Check for floats, and if there are any then throw an error */
+  /* Check for floats, and if there are any then throw an error. */
   if ForbidFloats and anyfloatex(expr) then
     print(StackAddFeedback("", "Illegal_floats")),
   /* Checks fractions are in lowest terms */
   if LowestTerms and all_lowest_termsex(expr) = false then
     print(StackAddFeedback("", "Lowest_Terms")),
-  /* Now display the result */
+  /* Additional tests which restrict the equivalence input type. */
+  if Equiv and op_usedp(expr, set) then print(StackAddFeedback("", "Equiv_Illegal_set")),
+  if Equiv and op_usedp(expr, "[") then print(StackAddFeedback("", "Equiv_Illegal_list")),
+  if Equiv and op_usedp(expr, matrix) then print(StackAddFeedback("", "Equiv_Illegal_matrix")),
+  /* Now display the result. */
   simp:false,
   return(expr)
 )$
@@ -538,7 +542,6 @@ stack_singlevar_make(ex) := block([vars, subs],
   /* We only need to use associtativity of "*", not "+", but we have to do it over the whole expression. */
   STACK_assoc(sublis(vars, ex), ["*"])
 )$
-
 
 /* *************************************/
 /* Output graphics,                    */
@@ -2422,5 +2425,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015111300$
-print("[ STACK-Maxima started, library version 2015111300 ]")$
+stackmaximaversion:2015111602$
+print("[ STACK-Maxima started, library version 2015111602 ]")$

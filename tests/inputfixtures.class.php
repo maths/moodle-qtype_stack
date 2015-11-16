@@ -402,10 +402,10 @@ class stack_inputvalidation_test_data {
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {
-            // Trim off stack_validate_typeless([..], true, true).
+            // Trim off stack_validate_typeless([..], true, true, false).
             $phpcasstring = $cs->get_casstring();
             $phpcasstring = substr($phpcasstring, 25);
-            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 12);
+            $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 18);
             $outputphpcasstring = $phpcasstring;
         } else {
             $phpcasstring = '';

@@ -315,6 +315,10 @@ abstract class stack_input {
         $lvarsdisp   = '';
         $note        = '';
         $sessionvars = array();
+        $equivvalidate = false;
+        if ($this->equiv_validate()) {
+            $equivvalidate = true;
+        }
 
         // Ensure we have an element in the session which is the whole answer.
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
@@ -323,7 +327,7 @@ abstract class stack_input {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars,
-                    $tvalidator[$index], $this->get_parameter('allowWords', ''));
+                    $tvalidator[$index], $this->get_parameter('allowWords', ''), $equivvalidate);
                 $sessionvars[] = $cs;
             }
         }
@@ -475,6 +479,13 @@ abstract class stack_input {
      */
     protected function additional_session_variables() {
         return array();
+    }
+
+    /** This function restricts what functions are considered valid.
+     *  Currently only used by the equiv class.
+     */
+    protected function equiv_validate() {
+        return false;
     }
 
     /**

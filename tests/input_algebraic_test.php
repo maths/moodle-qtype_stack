@@ -302,6 +302,17 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+{\it ab}\right) \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_display_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 's^(24*r)');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => 's^r^24'), $options, 's^(24*r)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('s^r^24', $state->contentsmodified);
+        $this->assertEquals('\[ s^{r^{24}} \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_allowwords_false() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '2*x');

@@ -2,6 +2,17 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 3.4.1
+
+Unreleased in the master branch.
+
+Numerous minor bug fixes and improvements.
+
+1. Added an export mechanism for single stack questions throught a link on the "Question tests & deployed versions" page.
+2. Modify the text area input so that each line is validated separately.
+3. Support for plot2d "label" command.
+4. Add the NOCONST option to the ATInt answertest.
+
 ## Version 3.4
 
 Released September 2015. 

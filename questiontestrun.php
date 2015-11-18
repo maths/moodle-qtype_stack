@@ -59,6 +59,17 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
+// Create some other useful links
+$qbankparams = $urlparams;
+unset($qbankparams['questionid']);
+unset($qbankparams['seed']);
+$qbankparams['qperpage'] = 1000; // Should match MAXIMUM_QUESTIONS_PER_PAGE but that constant is not easily accessible.
+$qbankparams['category'] = $questiondata->category . ',' . $question->contextid;
+$qbankparams['lastchanged'] = $question->id;
+$questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
+$exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
+$exportquestionlink->param('sesskey', sesskey());
+
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('adaptive');
@@ -342,6 +353,16 @@ foreach ($testresults as $key => $result) {
 // Display the question.
 $renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
+
+echo html_writer::tag('p', html_writer::link($questionbanklink,
+        stack_string('seethisquestioninthequestionbank')));
+
+if ($canedit) {
+    echo html_writer::tag('p',
+            html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
+            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
+}
+
 echo $quba->render_question($slot, $options);
 
 // Display the question note.

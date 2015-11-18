@@ -115,7 +115,7 @@ class stack_bulk_tester  {
                         $previewurl->param('seed', $seed);
                         $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
                         echo $OUTPUT->heading($questionnamelink, 4);
-                        list($ok, $message) = $this->qtype_stack_test_question($question, $tests);
+                        list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $seed);
                         if (!$ok) {
                             $allpassed = false;
                             $failingtests[] = $questionname . ' ' . $questionnamelink . ': ' . $message;
@@ -153,7 +153,7 @@ class stack_bulk_tester  {
         $passes = 0;
         $fails = 0;
         foreach ($tests as $key => $testcase) {
-            $testresults[$key] = $testcase->test_question($quba, $question, null);
+            $testresults[$key] = $testcase->test_question($quba, $question, $seed);
             if ($testresults[$key]->passed()) {
                 $passes += 1;
             } else {

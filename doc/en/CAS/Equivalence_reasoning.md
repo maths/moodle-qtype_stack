@@ -1,134 +1,97 @@
 ﻿# Reasoning by equivalence
 
-__NOTE this is experimental code and the features and behaviour are very likely to change significantly in the near future.__
+__NOTE: this is experimental code and the features and behaviour are very likely to change significantly in the near future.__
 
 ##  What is reasoning by equivalence and this input type?
 
-Reasoning by Equivalence is a particularly important activity in elementary algebra.  It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, are replaced by an equivalent until a ``solved" form is reached.
+Reasoning by Equivalence is a particularly important activity in elementary algebra.  It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, are replaced by an equivalent until a "solved" form is reached. 
+An example of solving a quadratic equation is shown below.
+\[\begin{array}{cc} \  & x^2-x=30 & \\ 
+\color{green}{\Leftrightarrow} & x^2-x-30=0 & \\
+\color{green}{\Leftrightarrow} & \left(x-6\right)\cdot \left(x+5\right)=0 \\
+\color{green}{\Leftrightarrow} & x-6=0\lor x+5=0 \\ 
+\color{green}{\Leftrightarrow} & x=6\lor x=-5 
+\end{array}\]
 The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
 This input type enables us to capture and evaluate student's line by line reasoning, i.e. their steps in working, during this kind of activity.
 
-Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
+Reasoning by equivalence is very common in elementary mathematics.  It is either the entire task (such as when solving a quadratic) or it is an important part of a bigger problem.  E.g. proving the inducion step is often achieved by reasoning by equivalence.  
 
 ## How do students use this input?
 
-In traditional practice students work line by line rewriting an equation until it is solved.  This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.  Instructions for students are [here](../Students/Equivalence_reasoning.md).
+[Instructions for students](../Students/Equivalence_reasoning.md).
+
+In traditional practice students work line by line rewriting an equation until it is solved.  This input type is designed to capture this kind of working and evaluate it based on the assumption that each line should be equivalent to the previous one.  Instructions for students are [here](../Students/Equivalence_reasoning.md).  Some common observations about this form of reasoning are
 
 1. Students often use no logical connectives between lines.
 2. Students ignore the natural domain of an expression, e.g. in \(\frac{1}{x}\) the value \(x=0\) is excluded from the domain of definition.
+3. Operations which do not result in equivalence are often used, e.g. squaring both sides of an equation.
 
-This input type mirrors that practice and does not expect students to indicate either logic or domains.  The input type itself will give students feedback on these issues.  Quite how it does this, and the options available to the teacher is what is most likely to change!  In the future students might also be expected to do more.  E.g. they might say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it
+This input type mirrors current common practice and does not expect students to indicate either logic or domains.  The input type itself will give students feedback on these issues.
 
-The input type works very much like the text area input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as 
+Note that students must use correct propositional logic connectives `or` and `and`.  E.g. their answer must be something correct such as `x=1 or x=2`, *not* something sloppy like `x=1 or 2` or `x=1,2`.  It certainly can't be something wrong such as `x=1 and x=2` which is often seen in written answers!
+
+Note that students may not take square roots of both sides of an equation.  This will be rejected because it it not equivalen!  Similarly, students may not cancel terms from both sides which may be zero.  As we require equivalence, students may not *multiply* either.  This will take a bit of geting used to!
+
+But, shouldn't student really use logical connectives?  Yes, I (CJS) believe they should but that to require this from the input type now would be too big a step for students and their teachers.  Students are already being expected to use connectives such as `and` and `or` correctly.  The input type uses these connectives and in the futre options may be added to this input type which require students to be explicit about logical connectives, especially when we add support for implication in addition to equivalence.  As we gain confidence in teaching with equivalence reasoning, so we will add more options to this input type.
+
+__If you have strong views on how this input type should behave, please contact the developers.__
+
+## Validation and correctness
+
+STACK carefully separates out *validation* of a student's answer from the *correctness*.  This idea is encapsulated in the separation of validation feedback via the tags `[[validation]]` which is tied to inputs, from the potential response trees which establish the mathematical properties.
+
+Each line of a student's answer must be a valid expression, just as with the algebraic input type.  However, sets, lists and matrices are not permitted in this input type.  The internal result is a *list* of expressions (equations or inequalities).
+
+## Example use cases for this input type.
+
+1. Reasoning by equivalence is the entire task.  The argument must be correct and the last line is the final answer.
+
+2. In a formative setting, we want immediate feedback on whether the argument consists of equivalent lines.  This feedback can be given
+  1. as the student types line by line, or
+  2. at the end when they press "check".
+  
+The ability to give feedback on the equivalence of adjacent lines as the student types their answer somewhat blurs the distinction between validation and correctness, but in a way which is probably very useful to students.
+
+## Notes for question authors
+
+* The validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feeback is always displayed next to the textarea into which students type their answer.
+* The teach must set an option which controls whether feedback is displayed to the student telling them if lines are considered to be equivalent as the student types.
+* The teacher's answer and any syntax hint must be a list.  If you just pass in an expression strange behaviour may result.
+* The input type works very much like the textarea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as  the following in your potential response tree.
 
     last(ans1)
-
-in your potential response tree.
-
-## Features of this input type
-
+* Mathematically, the code assumes we are working over the real numbers.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
-* We assume this is working over the real numbers.
 
-
-## Examples of arguments
-
-The following are examples of algebraic reasoning which this input type is designed to capture.
-
-### Solving a linear equation
-
-    3*x-7=8
-    3*x=15
-    x=5
-
-### Solving a quadratic inequality
-
-    2*x^2 + x >= 6 
-    2*x^2 + x - 6 >= 0 
-    (2*x-3)*(x+2) >= 0 
-    ((2*x-3)>= 0 and (x+2)>= 0) or ((2*x-3)<= 0 and(x+2)<= 0)
-    (x>= 3/2 and x >= -2 ) or ( x <= 3/2 and x <= -2) 
-    x>= 3/2 or x <= -2
-
-    [2*x^2 + x >= 6,  2*x^2 + x - 6 >= 0, (2*x-3)*(x+2) >= 0,((2*x-3)>= 0 and (x+2)>= 0) or ((2*x-3)<= 0 and (x+2)<= 0),(x>= 3/2 and x >= -2 ) or ( x <= 3/2 and x <= -2), x>= 3/2 or x <= -2];
-
-### Solving quadratic equations
-
-    x^2-2*p*x-q=0
-    x^2-2*p*x=q
-    x^2-2*p*x+p^2=q+p^2
-    (x-p)^2=q+p^2
-    x-p=+-(q+p^2)
-    x-p = (q+p^2) or x-p = -(q+p^2)
-    x = p+(q+p^2) or x=p-(q+p^2)
-
-    [x^2-2*p*x-q=0,x^2-2*p*x=q,x^2-2*p*x+p^2=q+p^2,(x-p)^2=q+p^2,x-p=+-(q+p^2),x-p=(q+p^2) or x-p=-(q+p^2),x=p+(q+p^2) or x=p-(q+p^2)];
-
-### Solving rational expressions (erroneous argument)
-
-    (x+5)/(x-7)-5= (4*x-40)/(13-x)
-    (x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x)
-    (4*x-40)/(7-x)= (4*x-40)/(13-x)
-    7-x= 13-x
-    7= 13.
-
-    [(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), (4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x,7= 13]
-
-### Solving inequalities with the absolute value function
-
-    abs(x)>5
-    x>5 or x<-5
-
-### Solving equations with surds (erroneous argument)
-
-    sqrt(3*x+4) = 2+sqrt(x+2)
-    3*x+4       = 4+4*sqrt(x+2)+(x+2)
-    x-1         = 2*sqrt(x+2)
-    x^2-2*x+1   = 4*x+8
-    x^2-6*x-7   = 0
-    (x-7)*(x+1) = 0
-    x=7 or x=-1
-
-    [sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 or x=-1]
-
-
-### Example of absolute value function (involves removal of redundant inequalities)
-
-    2*x/abs(x-1)  < 1 
-    2*x < abs(x-1)
-    (x >=1 and 2*x<x-1) or (x<1 and 2*x<-x+1) 
-    (x >= 1 and x<-1 ) or (x<1 and 3*x<1)
-    x<1/3 
-
-    [2*x/abs(x-1) < 1,2*x < abs(x-1),(x >=1 and 2*x<x-1) or (x<1 and 2*x<-x+1),(x >= 1 and x<-1 ) or (x<1 and 3*x<1),x<1/3]
-
-### Simultaneous equations (must use `and` to join them).
-
-    x^2+y^2=8 and x=y
-    2*x^2=8 and y=x
-    x^2=4 and y=x
-    x= +-2 and y=x
-    (x=2 and y=x) or (x=-2 and y=x)
-    (x=2 and y=2) or (x=-2 and y=-2)
-
-    [x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, (x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)];
-
+    
 ## TODO
 
-1. Document only specific types of problems which we support reasoning by equivalence with.
-2. Provide better feedback to students about what goes wrong.
-3. Reject equations containing trig functions (for the moment) as invalid.
-4. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK version.
-5. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
+1. Document and enforce only specific types of problems which we support reasoning by equivalence with.
+2. Reject equations containing trig functions (for the moment) as invalid.
+3. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK version.
+4. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
 5. Define \(x\pm a\) as an infix and prefix operator.  
-6. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
-7. Decide implication direction as well as establishing equivalence.  E.g. if a student squares both sides.
-8. Calculate the natural domain, and use this information.  Auditing.
+6. Reject any use of the \(\pm\) operator in normal algebraic input.
+7. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
+8. Decide implication direction as well as establishing equivalence.  E.g. if a student squares both sides.
+9. Calculate the natural domain, and use this information, i.e. auditing.
 10. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-
+11. Mechanism for semi-automatic marking of answer with commnents.
+11. Option to display the equivalence signs, and debugging.  Input options mechanism.
+12. Option to allow or disallow comments.
+13. Write an "Eqivalence" answer test.  This will do more than just check the last lines, and will complement the validation input.
+14. Assume we solve over the real numbers, but if a student used complex numbers correctly it will not be marked as incorrect.
 
 ## Longer term plans
+
+Provide better feedback to students about what what steps they have taken and what goes wrong.
+
+In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change!  
+
+We would like to introduce the idea of a *model answer*.  STACK will then establish the extent to which the student's answer follows this model solution.
 
 The longer term goal is to implement the ideas in the paper 
 
 * Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
+

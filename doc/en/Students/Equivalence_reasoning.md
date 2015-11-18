@@ -1,8 +1,8 @@
 # Reasoning by Equivalence
 
-The reasoning by equivalence allows you to work line by line to solve an equation or inequality.  You must work in such a way that adjacent lines are equivalent to each other.  See below for more information about this.
+The reasoning by equivalence input allows you to work line by line to solve an equation or inequality.  You must work in such a way that adjacent lines are equivalent to each other.  See below for more information about this.
 
-Start by typing in the equation in the question. Then work line by line until you have solved the problem.  Normally some feedback will be available as you type.
+Start by typing in the equation in the question. Then work line by line in the text area until you have solved the problem.  Normally some feedback will be available as you type.  You can copy and paste from one line to the next and modify the line if this helps.
 
 For example, to solve the quadratic equation \( x^2-4x-5=0\) you might reason in the following way.
 
@@ -26,7 +26,7 @@ Two equations are *equivalent* if they have the same solutions with the same mul
 
 Some general advice for solving equations when reasoning by equivalence is
 
-1. Factorise expressions.
+1. Factorise expressions, then use \( AB=0 \color{green}{\Leftrightarrow} A=0 \lor B=0\).  
 2. Use the difference of two squares, \(a^2-b^2=(a-b)(a+b)\).
 3. Complete the square:  e.g. \( (x-a)^2+b=0\).
 
@@ -47,4 +47,11 @@ To avoid this problem use the *difference of two squares* in the following way.
 
 \[ \begin{array}{ccc} \  & a^2=b^2 & \mbox{ } \\ \color{green}{\Leftrightarrow} & a^2-b^2=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & \left(a-b\right)\cdot \left(a+b\right)=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & a=b\lor a=-b & \mbox{ } \end{array} \]
 
+## Avoid the \(\pm\) operator
 
+Try to avoid using the \( \pm \) operator as it can be abiguious, especially when it appears more than once.  The \(\pm\) operator is normally used when taking square roots, to indicate two roots exist.  Instead of using \(\pm\) just write both possibilities explicitly.
+
+For example, do not write \(x-5=\pm 2\).  Instead write \[ x-5=2 \lor x-5=-2\]
+and work from there.  This looks like more writing, but it reduces opportunites for error.
+
+Final answers with the \(\pm\) operator will be rejected as invalid.

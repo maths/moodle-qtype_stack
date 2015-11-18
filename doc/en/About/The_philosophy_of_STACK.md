@@ -42,9 +42,11 @@ In STACK a lot of attention has been paid to allowing teachers to author and man
 
 These broadly correspond to formative, summative and evaluative functions of assessment.  Which of these outcomes is available to the student, and when, is under the control of the teacher.
 
+* Partial credit is possible when an expression only satisfies some of the required properties.
+* Plots can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
 * [Multi-part mathematical questions](../Authoring/Authoring_quick_start_2.md) are possible:
   each question may have any number of inputs and any number of potential response trees.
   There need not be a one-to-one correspondence between these.
-* Partial credit is possible when an expression only satisfies some of the required properties.
-* Plots can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
+* Students can work line by line [reasoning by equivalence](../CAS/Equivalence_reasoning.md) until they have a final answer in the correct form.  STACK can automatically assess this particular form of method.
+
 

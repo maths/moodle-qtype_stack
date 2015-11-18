@@ -84,6 +84,11 @@ $newarg['casstring'] = "[a^2=b^2,a^2-b^2=0,(a-b)*(a+b)=0,a=b or a=-b]";
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Difference of two cubes";
+$newarg['casstring'] = "[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+a*b+b^2)=0,(a-b)=0,a=b]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving quadratic equations 1";
 $newarg['casstring'] = "[x^2-x=30,x^2-x-30=0,(x-6)*(x+5)=0,x-6=0 or x+5=0,x=6 or x=-5]";
 $samplearguments[] = $newarg;
@@ -126,6 +131,16 @@ $samplearguments[] = $newarg;
 $newarg = array();
 $newarg['title']     = "Classic nonsense 1.";
 $newarg['casstring'] = "[a=b, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), a-b=b, a=2*b, b=2*b, 1=2]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Rational expressions 1";
+$newarg['casstring'] = "[(x^2-4)/(x-2)=0,(x-2)*(x+2)/(x-2)=0,x+2=0,x=-2]";
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Rational expressions 2";
+$newarg['casstring'] = "[(x^2-4)/(x-2)=0,(x^2-4)=0,(x-2)*(x+2)=0,x=-2 or x=2]";
 $samplearguments[] = $newarg;
 
 $newarg = array();

@@ -931,21 +931,29 @@ texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 
-stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, truthargument, tempnote, exmod],
+/* This function actually evaluates the correctness of an argument "ex".                       */
+/* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
+/* Display, fitness to a model and other functions are separate, and all rely on this.         */
+/* Each line of the matrix is as follows:                                                      */
+/* [equiv?, symbol, expression, note].                                                         */
+/* Where                                                                                       */
+/* Boolean: equiv is whether this line is equivalent to the **previous** line. Line 1 is true. */
+/* Expr: symbol, is a symbol which may or may not be displayed.                                */
+/* Expr: expression, is the line of the argument.                                              */
+/* String: note is some deugging information.                                                  */
+stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
-  if emptyp(ex) then return([true, matrix(ex)]),
-  /* Switch off matrix brackets. */
-  lmxchar:"",
-  if length(ex)<2 then return([true, matrix(ex)]),
+  if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], ""])),
+  if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), ""])),
   /* Set up empty rows to hold the answer. */
-  eqoutcome:makelist(QMCHAR, length(ex)), 
+  eqoutcome:makelist(false, length(ex)), 
+  eqoutsymb:makelist(QMCHAR, length(ex)), 
   eqoutnote:makelist("", length(ex)), 
-  eqoutcome[1]:EMPTYCHAR,
-  truthargument:true,
+  eqoutcome[1]:null,
+  eqoutsymb[1]:EMPTYCHAR,
   /* Loop and sort out expressions. */
   exmod:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote],
-     tempnote:"",
      SA:exmod[ev(id, simp)],
      if expressionp(SA) and not(stringp(SA)) then SA:SA=0,
      if count_op(SA,"+-")=1 then SA:pm_replace(SA),
@@ -958,14 +966,15 @@ stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, trutharg
       SB:exmod[ev(id, simp)],
       /* Strings break up an argument into independent blocks. */
       if stringp(SA) or stringp(SB) then block(
-          eqoutcome[ev(id, simp)]:EMPTYCHAR
+          eqoutsymb[ev(id, simp)]:EMPTYCHAR,
+          eqoutcome[ev(id, simp)]:unknown
       ) else (
           /* Now check for equivalences. */
           ATres:ATAlgEquiv(SA, SB),
           if second(ATres) then block(
-              eqoutcome[ev(id, simp)]:EQUIVCHAR,
-              if equivdebug then
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
+              eqoutcome[ev(id, simp)]:true,
+              eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+              eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
           ) else (
              /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
              /* But here we do when able to do so safely.                        */
@@ -977,28 +986,43 @@ stack_eval_arg(ex, showlogic, equivdebug) := block([eqoutcome, res, id, trutharg
                  SB:ev(noun_solve_logic(SB), simp),
                  tempnote:sconcat(tempnote, "SB_solved: ")
                 ),
-             /*tempnote:sconcat(tempnote, "Trying logic: [",string(SA)," | ",string(SB),"]")*/
              ATres:ev(ATLogic(SA, SB), simp),
-             truthargument:truthargument and second(ATres),
              if (second(ATres)) then block(
-                 eqoutcome[ev(id, simp)]:EQUIVCHAR
+                 eqoutcome[ev(id, simp)]:true,
+                 eqoutsymb[ev(id, simp)]:EQUIVCHAR
              ),
-             if equivdebug then 
-                 eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+             eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
           )
       )
   ),
-  /* Output the results. */
-  ex:maplist(lambda([ex2], if expressionp(ex2) and not(stringp(ex2)) then ex2=EQUIVZERO else ex2), ex),
-  /* If we are not showing logical connectives, then suppress them. */
-  if not(showlogic) then eqoutcome:makelist(EMPTYCHAR, length(ex)),
-  res:[truthargument, transpose(matrix(eqoutcome, ex, eqoutnote))]
+  res:matrix(eqoutcome, eqoutsymb, ex, eqoutnote),
+  return(transpose(res))
 );
 
-disp_stack_eval_arg(ex, showlogic, equivdebug):=second(stack_eval_arg(ex, showlogic, equivdebug))$
+/* This modifies stack_eval_arg to create something which can be displayed. */
+disp_stack_eval_arg(ex, showlogic, equivdebug) := block([A, ret, exnew], 
+    /* Evaluate the argument.      */
+    A:transpose(stack_eval_arg(ex)),
+    /* Modify input expressions for implied equivalence to zero. */
+    exnew:maplist(lambda([ex2], if expressionp(ex2) and not(stringp(ex2)) then ex2=EQUIVZERO else ex2), A[3]),
+    ret:[exnew],
+    /* If we are not showing logical connectives, then suppress them. */
+    if showlogic then ret:append([A[2]], ret),
+    if equivdebug then ret:append(ret, [A[4]]),
+    /* Switch off matrix brackets. */
+    lmxchar:"",
+    ret:apply(matrix, ret),
+    return(transpose(ret))
+)$
 
-
-
+check_stack_eval_arg(ex) := block([A, ret], 
+    /* Evaluate the argument.      */
+    if length(ex)<2 then return(true),
+    A:transpose(stack_eval_arg(ex)),
+    A:first(A),
+    if elementp(unknown, setify(A)) then return(unknown),
+    return(apply("and", rest(A)))
+)$
 
 /* ********************************** */
 /* Answer tests                       */

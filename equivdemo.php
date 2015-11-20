@@ -251,6 +251,18 @@ $newarg['casstring'] = "[-x^2+a*x+a-3<0, a-3<x^2-a*x, a-3<(x-a/2)^2-a^2/4, a^2/4
 $newarg['outcome']   = 'unknown';
 $samplearguments[] = $newarg;
 
+// Eample of equational reasoning, with many variables.
+// This example comes from proving Heron's formula
+// See http://math.stackexchange.com/questions/255527/show-that-2a2-b2a2c2b2c2-a4b4c4-abc-abca-bcab
+/*
+[2(a^2*b^2+b^2*c^2+c^2*a^2)−(a^4+b^4+c^4),
+4*a^2*b^2−(a^4+b^4+c^4+2*a^2*b^2−2*b^2*c^2−2*c^2*a^2)
+,(2*a*b)^2−(b^2+a^2−c^2)^2
+,(2*a*b+b^2+a^2−c^2)*(2*a*b−b^2−a^2+c^2)
+,((a+b)^2−c^2)*(c^2−(a−b)^2)
+,(a+b+c)*(a+b−c)*(c+a−b)*(c−a+b)];
+*/
+
 /* Loop over each argument, evaluate it and display the results. */
 
 $options = new stack_options();

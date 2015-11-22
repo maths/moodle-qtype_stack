@@ -258,6 +258,7 @@ abstract class stack_input {
      * @param array $response the student response to the question.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
+     * @param array $forbiddenkeys is an array of casstring keys which appears in the question variables.
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys) {
@@ -378,10 +379,10 @@ abstract class stack_input {
      * For example, Matrix types have two dimensional contents arrays to loop over.
      *
      * @param array $contents the content array of the student's input.
+     * @param array $forbiddenkeys is an array of keys of casstings from the question variables which must not appear in the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
     protected function validate_contents($contents, $forbiddenkeys) {
-
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
 

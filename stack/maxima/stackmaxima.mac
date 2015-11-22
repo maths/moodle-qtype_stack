@@ -88,20 +88,6 @@ box(ex):=ex;
 /* Load contributed packages          */
 /* ********************************** */
 
-/* Statistics support */
-/* REMOVED 2015-11-1
-   These packages are not working on some versions of Maxima.  In particular
-   on the version currently packaged with Debian.
-   This is causing Maxima install to fail for new users, which is unacceptable.
-   If you want these packages, please uncomment below and test your version.
-*/
-
-/*
-load("stats");
-load("distrib");
-load("descriptive");
-*/
-
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
 matchfix("|", "|");
@@ -109,9 +95,6 @@ matchfix("|", "|");
 
 /* Does not quite work yet ..... */
 /* load("noninteractive.mac"); */
-
-
-/*load("expandfeedback.mac");*/
 
 /*load("sqdnst")*/
 sqrtdenest(a) :=
@@ -131,11 +114,12 @@ sqrtdenest(a) :=
 /* ********************************** */
 
 load("assessment.mac"); /* Currently part of the STACK distribution */
-
 load("stacktex.lisp"); /* Loads LaTeX changes and preferences */
+/* load("expandfeedback.mac"); */
+
 texput(QMCHAR, "\\color{red}{?}");
 
-alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013 */
+alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013. */
 alias(arcsin, asin);           
 alias(arctan, atan);           
 
@@ -2404,5 +2388,5 @@ assess(ex1,ex2):=block([ret],
 load(linearalgebra);
 
 /* Stack expects some output */
-stackmaximaversion:2015111400$
-print("[ STACK-Maxima started, library version 2015111400 ]")$
+stackmaximaversion:2015111500$
+print("[ STACK-Maxima started, library version 2015111500 ]")$

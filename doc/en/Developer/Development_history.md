@@ -12,6 +12,7 @@ Numerous minor bug fixes and improvements.
 2. Modify the text area input so that each line is validated separately.
 3. Support for plot2d "label" command.
 4. Add the NOCONST option to the ATInt answertest.
+5. Added support for optional Maxima packages throught the config settings.
 
 ## Version 3.4
 

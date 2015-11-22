@@ -231,16 +231,16 @@ END;
 load("stackmaxima.mac")$
 
 END;
-        }
-
-        $maximalib = $this->settings->maximalibraries;
-        $maximalib = explode(',', $maximalib);
-        foreach ($maximalib as $lib) {
-            $lib = trim($lib);
-            // Only include and load supported libraries.
-            if (in_array($lib, self::$maximalibraries)) {
-                $contents .= 'load("'.$lib.'")$'."\n";
+            $maximalib = $this->settings->maximalibraries;
+            $maximalib = explode(',', $maximalib);
+            foreach ($maximalib as $lib) {
+                $lib = trim($lib);
+                // Only include and load supported libraries.
+                if (in_array($lib, self::$maximalibraries)) {
+                    $contents .= 'load("'.$lib.'")$'."\n";
+                }
             }
+        
         }
         
         return $contents;

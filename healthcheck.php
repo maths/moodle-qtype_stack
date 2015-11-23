@@ -107,6 +107,13 @@ if ('' != $maximalocation) {
     $summary[] = array(null, $message);
 }
 
+// Check if the current options for library packaes are permitted (maximalibraries).
+list($valid, $message) = stack_cas_configuration::validate_maximalibraries();
+if (!$valid) {
+    echo html_writer::tag('p', $message);
+    $summary[] = array(false, $message);    
+}
+
 // Try to connect to create maxima local.
 echo html_writer::tag('p', stack_string('healthcheckconfigintro2'));
 stack_cas_configuration::create_maximalocal();

@@ -15,15 +15,15 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Inputs ###
 
-* Add new input types
- 1. (done) "scratch working" area in which students can record their thinking etc. alongside the final answer.
- 2. (done) Modify the text area input so that each line is validated separately.
- 3. Dropdown/Multiple choice input type.
- 4. Dragmath (actually, probably use javascript from NUMBAS instead here).
- 5. Sliders.
- 6. Geogebra input.
+* (done) Modify the text area input so that each line is validated separately.
 * (underway) Reasoning by equivalence input type.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
+* Add new input types
+ 1. (done - in equiv branch) "scratch working" area in which students can record their thinking etc. alongside the final answer.
+ 2. Dropdown/Multiple choice input type.
+ 3. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
+ 4. Sliders.
+ 5. Geogebra input.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
 
 ### Improve the editing form ###
@@ -34,7 +34,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Other ideas ###
 
-* (done) Document ways of using JSXGraph  `http://jsxgraph.org` for better support of graphics.
+* Document ways of using JSXGraph  `http://jsxgraph.org` for better support of graphics.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.

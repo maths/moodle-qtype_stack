@@ -21,7 +21,7 @@ The above can be used with either a direct maxima connection, or with the image 
 
 ## Compiled Lisp ##
 
-[Maxima](../CAS/Maxima.md) can be run with a number of different [lisp implementations](http://maxima-project.org/wiki/index.php?title=Lisp_implementations).
+[Maxima](../CAS/Maxima.md) can be run with a number of different [lisp implementations](http://maxima.sourceforge.net/lisp.html).
 Although CLISP is the most portable - due to being interpreted - other lisps can give faster execution.
 
 

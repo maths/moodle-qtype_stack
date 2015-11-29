@@ -44,6 +44,8 @@ This can be solved with Maxima's `ode2` command and initial conditions specified
 
 Further examples and documentation are given in the [Maxima manual](http://maxima.sourceforge.net/docs/manual/en/maxima_22.html#SEC81)
 
+Note that by default STACK changes the value of Maxima's `logabs` variable.  This changes the way \(1/x\) is integrated.  If you want the default behaviour of Maxima you will need to restore `logabs:false` in the question variables.
+
 ## Randomly generating ODE problems ##
 
 When randomly generating questions we could easily generate an ODE which cannot be solved in closed form, so that in particular using ode2 may be problematic.

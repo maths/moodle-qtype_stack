@@ -60,7 +60,6 @@ class stack_equiv_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-
         // This class shows the validation next to the input box in a table, and disregards to the position of the
         // [[validation:name]] tag.
         $rendervalidation = $this->render_validation($state, $fieldname);

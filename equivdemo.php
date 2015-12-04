@@ -152,6 +152,13 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving quadratic equations 7 (nonsense)";
+$newarg['narative']  = 'This argument is by Bill McCullum: matching up the coefficients.  This argument is false, but leads to the correct solution.';
+$newarg['casstring'] = "[x^2-6*x+9=0,x^2-6*x=-9,x*(x-6)=3*-3,x=3 or x-6=-3,x=3]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving a quadratic inequality";
 $newarg['narative']  = 'Solving quadratic inequalities using reasoning by equivalence.';
 $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0),(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
@@ -169,6 +176,13 @@ $newarg = array();
 $newarg['title']     = "Classic nonsense 1.";
 $newarg['narative']  = 'Here we create a problem by dividing by a term which is actually zero.';
 $newarg['casstring'] = "[a=b, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), a-b=b, a=2*b, b=2*b, 1=2]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Classic nonsense 2.";
+$newarg['narative']  = 'In this argument we "move over" one term, but end up at the right answer.  Actually, the term we "moved over" is zero, which is why we don\'t pick up the problem';
+$newarg['casstring'] = "[6*x-12=3*(x-2),6*x-12+3*(x-2)=0,12*x-24=0,x=2]";
 $newarg['outcome']   = false;
 $samplearguments[] = $newarg;
 

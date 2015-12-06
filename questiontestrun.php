@@ -59,7 +59,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
-// Create some other useful links
+// Create some other useful links.
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);
 unset($qbankparams['seed']);

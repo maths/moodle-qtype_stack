@@ -152,6 +152,13 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving quadratic equations 7 (nonsense)";
+$newarg['narative']  = 'This argument is by Bill McCullum: matching up the coefficients.  This argument is false, but leads to the correct solution.';
+$newarg['casstring'] = "[x^2-6*x+9=0,x^2-6*x=-9,x*(x-6)=3*-3,x=3 or x-6=-3,x=3]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving a quadratic inequality";
 $newarg['narative']  = 'Solving quadratic inequalities using reasoning by equivalence.';
 $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0),(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
@@ -169,6 +176,13 @@ $newarg = array();
 $newarg['title']     = "Classic nonsense 1.";
 $newarg['narative']  = 'Here we create a problem by dividing by a term which is actually zero.';
 $newarg['casstring'] = "[a=b, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), a-b=b, a=2*b, b=2*b, 1=2]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Classic nonsense 2.";
+$newarg['narative']  = 'In this argument we "move over" one term, but end up at the right answer.  Actually, the term we "moved over" is zero, which is why we don\'t pick up the problem';
+$newarg['casstring'] = "[6*x-12=3*(x-2),6*x-12+3*(x-2)=0,12*x-24=0,x=2]";
 $newarg['outcome']   = false;
 $samplearguments[] = $newarg;
 
@@ -270,8 +284,7 @@ $options->set_site_defaults();
 $options->set_option('simplify', false);
 $casstrings = array();
 foreach ($samplearguments as $argument) {
-//$argument = end($samplearguments);{
-	$cs1 = new stack_cas_casstring($argument['casstring']);
+    $cs1 = new stack_cas_casstring($argument['casstring']);
     $cs1->get_valid('t');
     // This step is needed because validate replaces `or` with `nounor` etc.
     $casstrings[] = $cs1->get_casstring();
@@ -281,13 +294,13 @@ foreach ($samplearguments as $argument) {
     $cs2->get_valid('t');
     $cs3 = new stack_cas_casstring("S2:check_stack_eval_arg(A1)");
     $cs3->get_valid('t');
-    
-    $session      = new stack_cas_session(array($cs1, $cs2, $cs3), $options);
-    $expected     = $argument['outcome'];
+
+    $session = new stack_cas_session(array($cs1, $cs2, $cs3), $options);
+    $expected = $argument['outcome'];
     if (true === $argument['outcome']) {
-    	$expected     = 'true';
+        $expected = 'true';
     } else if (false === $argument['outcome']) {
-    	$expected     = 'false';
+        $expected = 'false';
     }
     $string       = "\[@S1@\]";
     $string      .= "Overall the argument is @S2@.  We expected the argument to be {$expected}.";
@@ -312,23 +325,22 @@ $script = stack_cas_configuration::generate_maximalocal_contents();
 $script .="\n";
 $settings = get_config('qtype_stack');
 if ($settings->platform == 'unix-optimised') {
-	$script .='load("stackmaxima.mac")$'."\n";
+    $script .='load("stackmaxima.mac")$'."\n";
 }
 $script .="simp:false;\n";
 echo html_writer::tag('textarea', $script,
-	array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
+    array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
 echo '<hr />';
 // Have a second text area to facilitate pasting the arguments into a separate line in Maxima.
 $script = '';
 $i = 0;
 foreach ($casstrings as $val) {
-	$i++;
-    $script.= 'A'.$i.':'.$val.";\n";
+    $i++;
+    $script .= 'A'.$i.':'.$val.";\n";
 }
 echo html_writer::tag('textarea', $script,
-	array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
+    array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
 echo '<hr />';
-
 
 /* caschat.php script functions. */
 
@@ -392,15 +404,15 @@ $varlen = substr_count($vars, "\n") + 3;
 $stringlen = max(substr_count($string, "\n") + 3, 8);
 
 echo html_writer::tag('form',
-            html_writer::tag('h2', stack_string('questionvariables')) .
+            html_writer::tag('h2', stack_string('questionvariables')).
             html_writer::tag('p', $varerrs) .
             html_writer::tag('p', html_writer::tag('textarea', $vars,
-                    array('cols' => 100, 'rows' => $varlen, 'name' => 'vars'))) .
+                    array('cols' => 100, 'rows' => $varlen, 'name' => 'vars'))).
             html_writer::tag('p', $simp) .
             html_writer::tag('h2', stack_string('castext')) .
             html_writer::tag('p', $errs) .
             html_writer::tag('p', html_writer::tag('textarea', $string,
-                    array('cols' => 100, 'rows' => $stringlen, 'name' => 'cas'))) .
+                    array('cols' => 100, 'rows' => $stringlen, 'name' => 'cas'))).
             html_writer::tag('p', html_writer::empty_tag('input',
                     array('type' => 'submit', 'value' => stack_string('chat')))),
         array('action' => $PAGE->url, 'method' => 'post'));

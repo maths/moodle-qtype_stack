@@ -290,7 +290,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $errstr = stack_string('Maxima_DivisionZero');
         }
 
-            if (strpos($errstr, 'args: argument must be a non-atomic expression;') !== false) {
+        if (strpos($errstr, 'args: argument must be a non-atomic expression;') !== false) {
             $errstr = stack_string('Maxima_Args');
         }
 

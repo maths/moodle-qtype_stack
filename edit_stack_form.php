@@ -1087,15 +1087,6 @@ class qtype_stack_edit_form extends question_edit_form {
             if (array_key_exists($inputname . 'modelans', $fromform)) {
                 $errors = $this->validate_cas_string($errors,
                         $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
-
-                // TODO: find out if this input type acutally requires options, rather than
-                // the hard-coded check here.
-                if (false) {
-                    $errors = $this->validate_cas_string($errors,
-                            $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
-                } else if ($fromform[$inputname . 'options']) {
-                    $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
-                }
             }
         }
 
@@ -1421,12 +1412,6 @@ class qtype_stack_edit_form extends question_edit_form {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
             $cs->get_valid('t');
             $inputvalues[] = $cs;
-
-            if ($fromform[$inputname . 'options']) {
-                $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
-                $cs->get_valid('t');
-                $inputvalues[] = $cs;
-            }
         }
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);
@@ -1441,7 +1426,6 @@ class qtype_stack_edit_form extends question_edit_form {
             if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
                 $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
             }
-                // else TODO: Send the acutal value to the input, and ask it to validate it.
         }
 
         // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.

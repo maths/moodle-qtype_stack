@@ -71,6 +71,24 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
+#### Dropdown ####
+
+The "model answer" must be supplied in a particular form as a list of pairs [value,correct].
+The `value` is the value of the teacher's answer, and `correct` must be either true or false.  If it is not `true` then it will be considered to be `false`!
+
+For example
+
+     ta:[[diff(p,x),true],[p,false],[int(p,x),false]]
+
+The dropdown input type makes use of the Extra options field to pass in options. This must be a comman separated list of values as follows.
+
+* `shuffle` If this option is encoutered, then the question type will randomly shuffle the non-trivial options. The default is not to shuffle the options, but to list them as ordered in the list.
+* `checkbox` Changes the interaction to allow more than one option to be returned via checkboxes.  
+* `radio` Changes the interaction to radio buttons to select one or more from the displayed (LaTex) code for the value.
+* `select` Is the dropdown select.  There should be no need to use this option as it is the default.
+
+These options are not case sensitive.
+
 ### Model answer ###  {#model_answer}
 
 **This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.
@@ -201,14 +219,6 @@ Feedback to students is in two forms.
 
 Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
 
-## Future plans ##
+## Other input types ##
 
-Adding new inputs should be a straightforward job for the developers.  We have plans to add inputs as follows.
-
-| Package   | Functionality
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.
-| GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.
-| MCQs      | Add in check boxes and radio boxes as an input type to enable randomly generated multiple choice questions.
-
-The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.
+Adding new inputs should be a straightforward job for the developers.  The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

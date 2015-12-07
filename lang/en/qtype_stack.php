@@ -300,7 +300,8 @@ $string['singlechargotmorethanone'] = 'You can only enter a single character her
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
-$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
+$string['ddl_empty'] = 'No choices were provided for this drop-down.';
+$string['ddl_nocorrectanswersupplied'] = 'The teacher did not indicate at least one correct answer.';
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
 $string['teacheranswershow_disp'] = 'A correct answer is \( {$a->display} \).';

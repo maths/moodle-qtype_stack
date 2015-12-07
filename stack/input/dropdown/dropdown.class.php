@@ -16,33 +16,142 @@
 
 
 /**
- * Input that is a dropdown list of choices that the teacher
+ * Input that is a dropdown list/multiple choice that the teacher
  * has specified.
  *
- * TODO add extra validation to really make sure that only allowed values are submitted.
- *
- * @copyright  2012 University of Birmingham
+ * @copyright  2015 University of Edinburgh
+ * @author     Chris Sangwin
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_dropdown_input extends stack_input {
 
+    /* 
+     * ddl_values is an array of the types used.
+    */
+    protected $ddl_values = array();
+
+    /* 
+     * ddl_type must be one of 'select', 'checkbox' or 'radio'.
+    */
+    protected $ddl_type = 'select';
+
+    /*
+     * ddl_shuffle is a boolean which decides whether to shuffle the non-trivial options.
+    */ 
+    protected $ddl_shuffle = true;
+    
     protected function get_choices() {
-        if (empty($this->parameters['ddl_values'])) {
+        if (empty($this->ddl_values)) {
             return array();
         }
 
-        $values = stack_utils::list_to_array('[' . trim($this->parameters['ddl_values']) . ']', false);
+        $values = $this->ddl_values;
         if (empty($values)) {
             return array();
         }
 
-        $choices = array('' => stack_string('notanswered'));
+        $choices = array();
         foreach ($values as $value) {
-            $choices[$value] = $value;
+            $choices[$value['value']] = '\('.$value['display'].'\)';
+            // For the "select" type we need to see the typed syntax, not the LaTeX.
+            if ($this->ddl_type == 'select') {
+                $choices[$value['value']] = $value['value'];
+            }
         }
+        
+        if ($this->ddl_shuffle) {
+            shuffle($choices);
+        }
+
+        $choices = array_merge(array('' => stack_string('notanswered')), $choices);
+        
         return $choices;
     }
 
+    /* For the dropdown, each expression must be a list of pairs:
+     * [CAS expression, true/false].
+     * The second Boolean value determines if this should be considered 
+     * correct.  If there is more than one correct answer then checkboxes 
+     * will always be used.
+     */
+    public function adapt_to_model_answer($teacheranswer) {
+
+        // (1) Register the options.
+        $options = $this->get_parameter('options');
+        if (trim($options) != '') {
+            $options = explode(',', $options);
+            foreach ($options as $option) {
+                $option = strtolower(trim($option));
+
+                if ($option === 'shuffle') {
+                    $this->ddl_shuffle = true;
+                }
+
+                if ($option === 'checkbox') {
+                    $this->ddl_type = 'checkbox';
+                }
+                if ($option === 'radio') {
+                    $this->ddl_type = 'radio';
+                }
+                if ($options === 'select') {
+                    $this->ddl_type = 'select';
+                }
+            }
+        }
+        
+        // (2) Sort out the choices.
+        $values = stack_utils::list_to_array($teacheranswer, false);
+ 
+        $csvs = array();
+        foreach ($values as $key => $value) {
+            $csv = new stack_cas_casstring('val'.$key.':first(' . $value . ')');
+            $csv->get_valid('t');
+            $csvs[] = $csv;
+            $csv = new stack_cas_casstring('cor'.$key.':second(' . $value . ')');
+            $csv->get_valid('t');
+            $csvs[] = $csv;
+        }
+
+        $at1 = new stack_cas_session($csvs, null, 0);
+        $at1->instantiate();
+        
+        if ('' != $at1->get_errors()) {
+            $this->errors = $at1->get_errors();
+            return;
+        }
+        
+        /* This sets $this->ddl_values.
+         * Each element must be an array with the keys
+         * value - the CAS value.
+         * display - the LaTeX displayed value.
+         * correct - whether this is considered correct or not.
+         */
+        $ddlvalues = array();
+        $numbercorrect = 0;
+        foreach ($values as $key => $value) {
+            $ddlvalue = array();
+            $ddlvalue['value'] = $at1->get_value_key('val'.$key);
+            $ddlvalue['display'] = $at1->get_display_key('val'.$key);
+            $ddlvalue['correct'] = $at1->get_value_key('cor'.$key);
+            $ddlvalues[] = $ddlvalue;
+            if ('true' == $ddlvalue['correct']) {
+                $numbercorrect += 1;
+            }
+        }
+        
+        $this->ddl_values = $ddlvalues;
+        if ($numbercorrect === 0) {
+            $this->errors = stack_string('ddl_nocorrectanswersupplied');
+            return;
+        }
+        // If the teacher has created more than one correct answer then
+        // we must use checkboxes.
+        if ($numbercorrect > 1) {
+            $this->ddl_type = 'checkbox';
+            return;
+        }
+    }
+    
     protected function extra_validation($contents) {
         if (!array_key_exists($contents[0], $this->get_choices())) {
             return stack_string('dropdowngotunrecognisedvalue');
@@ -62,7 +171,7 @@ class stack_dropdown_input extends stack_input {
         }
 
         return html_writer::select($values, $fieldname, $this->contents_to_maxima($state->contents),
-                array('' => stack_string('notanswered')), $attributes);
+            array('' => stack_string('notanswered')), $attributes);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -79,10 +188,12 @@ class stack_dropdown_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
+        
         return array(
             'mustVerify'     => false,
             'showValidation' => 0,
-            'ddl_values'     => '',
+            'options'        => '',
         );
     }
+
 }

@@ -30,16 +30,15 @@
  * (2) Reinstate the various input types
  *     (2.1) Radio buttons (use LaTeX display)
  *     (2.2) Check boxes
- * (3) Get all this working with thorough unit tests.
- * (4) Add in the optional display field.  [value,correct(,display)]
- *     If it exists then it should be sent to the CAS for evaluation.
+ * (3) Check if the display type is a string. If so, strip off the "s and don't sent it through the CAS.
+ * (4) Get all this working with thorough unit tests.
  * 
  * RELEASE basic working version?
  * 
  * (1) Refactor shuffle to be seeded from the question usage?
  * (2) Add choose N (correct) from M feature (used at Aalto).
  * (3) Have a "none of these" which degrates to an algebraic input
- * (3) Enable better support for text-based strings in the display (e.g. CASTex?!)
+ * (4) Enable better support for text-based strings in the display (e.g. CASTex?!)
  *  
  */
 
@@ -60,6 +59,16 @@ class stack_dropdown_input extends stack_input {
      */
     protected $ddlshuffle = true;
 
+    /*
+     * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
+     * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
+     */
+    protected $ddldisplay = 'casstring';
+    
+    /* This function always returns an array where the key is the CAS "value".
+     * This is needed in various places, e.g. when we check the an answer received is actually
+     * in the list of possible answers.
+     */
     protected function get_choices() {
         if (empty($this->ddlvalues)) {
             return array();
@@ -70,21 +79,20 @@ class stack_dropdown_input extends stack_input {
             return array();
         }
 
+        // We need to shuffle first becuase suffle changes the array keys.
+        // We rely on the array keys to hold the value.
+        if ($this->ddlshuffle) {
+            shuffle($values);
+        }
+        
         $choices = array();
         foreach ($values as $value) {
-            $choices[$value['value']] = '\('.$value['display'].'\)';
-            // For the "select" type we need to see the typed syntax, not the LaTeX.
-            if ($this->ddltype == 'select') {
-                $choices[$value['value']] = $value['value'];
-            }
-        }
-
-        if ($this->ddlshuffle) {
-            shuffle($choices);
+            $choices[$value['value']] = $value['display'];
         }
 
         $choices = array_merge(array('' => stack_string('notanswered')), $choices);
 
+        // TODO.  In this method check all the key and values are unique.
         return $choices;
     }
 
@@ -103,10 +111,23 @@ class stack_dropdown_input extends stack_input {
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
 
+                // Should we shuffle values?
                 if ($option === 'shuffle') {
                     $this->ddlshuffle = true;
                 }
 
+                // Does a student see LaTeX or cassting values?
+                if ($option === 'latex') {
+                    $this->ddldisplay = 'LaTeX';
+                }
+                if ($option === 'latexinline') {
+                    $this->ddldisplay = 'LaTeXinline';
+                }
+                if ($option === 'casstring') {
+                    $this->ddldisplay = 'casstring';
+                }
+                
+                // Radio, checkboxes or dropdown?
                 if ($option === 'checkbox') {
                     $this->ddltype = 'checkbox';
                 }
@@ -116,27 +137,70 @@ class stack_dropdown_input extends stack_input {
                 if ($options === 'select') {
                     $this->ddltype = 'select';
                 }
+                // TODO: throw an error for an unrecognised option.
             }
         }
 
-        // (2) Sort out the choices.
+        /* (2) Sort out the $this->ddlvalues.
+         * Each element must be an array with the keys
+         * value - the CAS value.
+         * display - the LaTeX displayed value.
+         * correct - whether this is considered correct or not.
+        */
         $values = stack_utils::list_to_array($teacheranswer, false);
+        $numbercorrect = 0;
+        $ddlvalues = array();
+        foreach ($values as $distractor) {
+            $value = stack_utils::list_to_array($distractor, false);
+            $ddlvalue = array();
+            if (is_array($value)) {
+                if (count($value) >= 2) {
+                    $ddlvalue['value'] = $value[0];
+                    $ddlvalue['display'] = $value[0];
+                    if (array_key_exists(2, $value)) {
+                        $ddlvalue['display'] = $value[2];
+                    }
+                    $ddlvalue['correct'] = $value[1];
+                    if ('true' == $ddlvalue['correct']) {
+                        $numbercorrect += 1;
+                    }
+                    $ddlvalues[] = $ddlvalue;
+                } else {
+                    // TODO: Add an error message here.
+                }
+            }
+        }
+        // If the teacher has created more than one correct answer then
+        // we must use checkboxes.
+        if ($numbercorrect > 1) {
+            $this->ddltype = 'checkbox';
+        }
+        
+        if ($numbercorrect === 0) {
+            $this->errors = stack_string('ddl_nocorrectanswersupplied');
+            return;
+        }
+        
+        // If we are displaying casstrings then we need to wrap them in <code> tags.
+        if ($this->ddldisplay === 'casstring') {
+            foreach ($ddlvalues as $key => $value) {
+                $ddlvalues[$key]['display'] = '<code>'.$ddlvalues[$key]['display'].'</code>';
+            }
+            $this->ddlvalues = $ddlvalues;
+            
+            return;
+        }
 
+        // (3) If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
         $csvs = array();
-        foreach ($values as $key => $value) {
-            $csv = new stack_cas_casstring('val'.$key.':first(' . $value . ')');
-            $csv->get_valid('t');
-            $csvs[] = $csv;
-            $csv = new stack_cas_casstring('cor'.$key.':second(' . $value . ')');
-            $csv->get_valid('t');
-            $csvs[] = $csv;
-            // Stub for the "lable", but this now throws an error when it is optional.
-            // TODO: refactor to either not throw an error, or ignore this error.
-            $csv = new stack_cas_casstring('dis'.$key.':third(' . $value . ')');
+        foreach ($ddlvalues as $key => $value) {
+            // We use the display term here because it might differ explicitly from the above "value".
+            // So, we send the display form to LaTeX, and then replace it with the LaTeX below.
+            $csv = new stack_cas_casstring('val'.$key.':'.$value['display']);
             $csv->get_valid('t');
             $csvs[] = $csv;
         }
-
+        
         $at1 = new stack_cas_session($csvs, null, 0);
         $at1->instantiate();
 
@@ -145,40 +209,19 @@ class stack_dropdown_input extends stack_input {
             return;
         }
 
-        /* This sets $this->ddlvalues.
-         * Each element must be an array with the keys
-         * value - the CAS value.
-         * display - the LaTeX displayed value.
-         * correct - whether this is considered correct or not.
-        */
-        $ddlvalues = array();
-        $numbercorrect = 0;
-        foreach ($values as $key => $value) {
-            $ddlvalue = array();
-            $ddlvalue['value'] = $at1->get_value_key('val'.$key);
-            $ddlvalue['display'] = $at1->get_display_key('val'.$key);
-            $ddlvalue['correct'] = $at1->get_value_key('cor'.$key);
-            $ddlvalues[] = $ddlvalue;
-            if ('true' == $ddlvalue['correct']) {
-                $numbercorrect += 1;
+        // This sets display form in $this->ddlvalues.
+        foreach ($ddlvalues as $key => $value) {
+            // Note, we've chosen to add LaTeX maths environments here.
+            $disp = $at1->get_display_key('val'.$key);
+            if ($this->ddldisplay === 'LaTeX') {
+                $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+            } else {
+                $ddlvalues[$key]['display'] = '\('.$disp.'\)';
             }
-            // TODO: stub for display option.
-            //if ($at1->get_errors_key('dis'.$key) === '') {
-            //    $ddlvalue['display'] = $at1->get_display_key('dis'.$key);                
-            //}
         }
-
         $this->ddlvalues = $ddlvalues;
-        if ($numbercorrect === 0) {
-            $this->errors = stack_string('ddl_nocorrectanswersupplied');
-            return;
-        }
-        // If the teacher has created more than one correct answer then
-        // we must use checkboxes.
-        if ($numbercorrect > 1) {
-            $this->ddltype = 'checkbox';
-            return;
-        }
+        
+        return;
     }
 
     protected function extra_validation($contents) {
@@ -193,7 +236,7 @@ class stack_dropdown_input extends stack_input {
         if (empty($values)) {
             return stack_string('ddl_empty');
         }
-
+        
         $attributes = array();
         if ($readonly) {
             $attributes['disabled'] = 'disabled';

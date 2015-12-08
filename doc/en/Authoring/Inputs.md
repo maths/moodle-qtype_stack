@@ -73,21 +73,7 @@ _The student may not fill in part of a matrix._  If they do so, the remaining en
 
 #### Dropdown ####
 
-The "model answer" must be supplied in a particular form as a list of pairs [value,correct].
-The `value` is the value of the teacher's answer, and `correct` must be either true or false.  If it is not `true` then it will be considered to be `false`!
-
-For example
-
-     ta:[[diff(p,x),true],[p,false],[int(p,x),false]]
-
-The dropdown input type makes use of the Extra options field to pass in options. This must be a comman separated list of values as follows.
-
-* `shuffle` If this option is encoutered, then the question type will randomly shuffle the non-trivial options. The default is not to shuffle the options, but to list them as ordered in the list.
-* `checkbox` Changes the interaction to allow more than one option to be returned via checkboxes.  
-* `radio` Changes the interaction to radio buttons to select one or more from the displayed (LaTex) code for the value.
-* `select` Is the dropdown select.  There should be no need to use this option as it is the default.
-
-These options are not case sensitive.
+The dropdown input type enables teachers to create [multiple choice](MCQ.md) questions.  See the separate documentation.
 
 ### Model answer ###  {#model_answer}
 

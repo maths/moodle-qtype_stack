@@ -42,8 +42,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     protected function make_dropdown() {
-        $el = stack_input_factory::make('dropdown', 'ans1', 'x+1');
-        $el->set_parameter('ddl_values', 'x+1,x+2,x+3');
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[x+1,true],[x+2,false],[x+3,false]]');
         return $el;
     }
 

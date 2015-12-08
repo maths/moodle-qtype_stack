@@ -394,7 +394,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         // a dropdown, to get a question that does not require validation.
         $q = test_question_maker::make_question('stack', 'test0');
         $q->inputs['ans1'] = stack_input_factory::make(
-                'dropdown', 'ans1', '2', array('ddl_values' => '1,2'));
+                'dropdown', 'ans1', '[[1,false],[2,true]]');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         // Check the right behaviour is used.

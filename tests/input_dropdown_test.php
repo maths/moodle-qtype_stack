@@ -13,6 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+defined('MOODLE_INTERNAL') || die();
+
+global $CFG;
+require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/test_base.php');
+
 
 /**
  * Unit tests for the stack_dropdown_input class.

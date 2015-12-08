@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Input that is a dropdown list/multiple choice that the teacher
  * has specified.
@@ -23,6 +22,7 @@
  * @author     Chris Sangwin
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 class stack_dropdown_input extends stack_input {
 
     /*

@@ -25,27 +25,27 @@
  */
 class stack_dropdown_input extends stack_input {
 
-    /* 
-     * ddl_values is an array of the types used.
-    */
-    protected $ddl_values = array();
-
-    /* 
-     * ddl_type must be one of 'select', 'checkbox' or 'radio'.
-    */
-    protected $ddl_type = 'select';
+    /*
+     * ddlvalues is an array of the types used.
+     */
+    protected $ddlvalues = array();
 
     /*
-     * ddl_shuffle is a boolean which decides whether to shuffle the non-trivial options.
-    */ 
-    protected $ddl_shuffle = true;
-    
+     * ddltype must be one of 'select', 'checkbox' or 'radio'.
+     */
+    protected $ddltype = 'select';
+
+    /*
+     * ddlshuffle is a boolean which decides whether to shuffle the non-trivial options.
+     */
+    protected $ddlshuffle = true;
+
     protected function get_choices() {
-        if (empty($this->ddl_values)) {
+        if (empty($this->ddlvalues)) {
             return array();
         }
 
-        $values = $this->ddl_values;
+        $values = $this->ddlvalues;
         if (empty($values)) {
             return array();
         }
@@ -54,17 +54,17 @@ class stack_dropdown_input extends stack_input {
         foreach ($values as $value) {
             $choices[$value['value']] = '\('.$value['display'].'\)';
             // For the "select" type we need to see the typed syntax, not the LaTeX.
-            if ($this->ddl_type == 'select') {
+            if ($this->ddltype == 'select') {
                 $choices[$value['value']] = $value['value'];
             }
         }
-        
-        if ($this->ddl_shuffle) {
+
+        if ($this->ddlshuffle) {
             shuffle($choices);
         }
 
         $choices = array_merge(array('' => stack_string('notanswered')), $choices);
-        
+
         return $choices;
     }
 
@@ -84,24 +84,24 @@ class stack_dropdown_input extends stack_input {
                 $option = strtolower(trim($option));
 
                 if ($option === 'shuffle') {
-                    $this->ddl_shuffle = true;
+                    $this->ddlshuffle = true;
                 }
 
                 if ($option === 'checkbox') {
-                    $this->ddl_type = 'checkbox';
+                    $this->ddltype = 'checkbox';
                 }
                 if ($option === 'radio') {
-                    $this->ddl_type = 'radio';
+                    $this->ddltype = 'radio';
                 }
                 if ($options === 'select') {
-                    $this->ddl_type = 'select';
+                    $this->ddltype = 'select';
                 }
             }
         }
-        
+
         // (2) Sort out the choices.
         $values = stack_utils::list_to_array($teacheranswer, false);
- 
+
         $csvs = array();
         foreach ($values as $key => $value) {
             $csv = new stack_cas_casstring('val'.$key.':first(' . $value . ')');
@@ -114,18 +114,18 @@ class stack_dropdown_input extends stack_input {
 
         $at1 = new stack_cas_session($csvs, null, 0);
         $at1->instantiate();
-        
+
         if ('' != $at1->get_errors()) {
             $this->errors = $at1->get_errors();
             return;
         }
-        
-        /* This sets $this->ddl_values.
+
+        /* This sets $this->ddlvalues.
          * Each element must be an array with the keys
          * value - the CAS value.
          * display - the LaTeX displayed value.
          * correct - whether this is considered correct or not.
-         */
+        */
         $ddlvalues = array();
         $numbercorrect = 0;
         foreach ($values as $key => $value) {
@@ -138,8 +138,8 @@ class stack_dropdown_input extends stack_input {
                 $numbercorrect += 1;
             }
         }
-        
-        $this->ddl_values = $ddlvalues;
+
+        $this->ddlvalues = $ddlvalues;
         if ($numbercorrect === 0) {
             $this->errors = stack_string('ddl_nocorrectanswersupplied');
             return;
@@ -147,11 +147,11 @@ class stack_dropdown_input extends stack_input {
         // If the teacher has created more than one correct answer then
         // we must use checkboxes.
         if ($numbercorrect > 1) {
-            $this->ddl_type = 'checkbox';
+            $this->ddltype = 'checkbox';
             return;
         }
     }
-    
+
     protected function extra_validation($contents) {
         if (!array_key_exists($contents[0], $this->get_choices())) {
             return stack_string('dropdowngotunrecognisedvalue');
@@ -188,7 +188,7 @@ class stack_dropdown_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        
+
         return array(
             'mustVerify'     => false,
             'showValidation' => 0,

@@ -23,6 +23,26 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/* TODO
+ * (1) Refactor code so the input type always returns a *LIST*.  This is
+ * needed for the checkboxes, so we might as well always have a list, so the
+ * PRTS know what they are up to.
+ * (2) Reinstate the various input types
+ *     (2.1) Radio buttons (use LaTeX display)
+ *     (2.2) Check boxes
+ * (3) Get all this working with thorough unit tests.
+ * (4) Add in the optional display field.  [value,correct(,display)]
+ *     If it exists then it should be sent to the CAS for evaluation.
+ * 
+ * RELEASE basic working version?
+ * 
+ * (1) Refactor shuffle to be seeded from the question usage?
+ * (2) Add choose N (correct) from M feature (used at Aalto).
+ * (3) Have a "none of these" which degrates to an algebraic input
+ * (3) Enable better support for text-based strings in the display (e.g. CASTex?!)
+ *  
+ */
+
 class stack_dropdown_input extends stack_input {
 
     /*
@@ -110,6 +130,11 @@ class stack_dropdown_input extends stack_input {
             $csv = new stack_cas_casstring('cor'.$key.':second(' . $value . ')');
             $csv->get_valid('t');
             $csvs[] = $csv;
+            // Stub for the "lable", but this now throws an error when it is optional.
+            // TODO: refactor to either not throw an error, or ignore this error.
+            $csv = new stack_cas_casstring('dis'.$key.':third(' . $value . ')');
+            $csv->get_valid('t');
+            $csvs[] = $csv;
         }
 
         $at1 = new stack_cas_session($csvs, null, 0);
@@ -137,6 +162,10 @@ class stack_dropdown_input extends stack_input {
             if ('true' == $ddlvalue['correct']) {
                 $numbercorrect += 1;
             }
+            // TODO: stub for display option.
+            //if ($at1->get_errors_key('dis'.$key) === '') {
+            //    $ddlvalue['display'] = $at1->get_display_key('dis'.$key);                
+            //}
         }
 
         $this->ddlvalues = $ddlvalues;

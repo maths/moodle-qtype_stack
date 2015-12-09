@@ -6,17 +6,27 @@ This can also be one input in a multi-part randomly generated question. E.g. you
 
 Please read the section on [inputs](Inputs.md) first.
 
-## model answer ##
+## Model answer ##
 
 The "model answer" must be supplied in a particular form as a list of `[value, correct(, display)]`.
 
 * `value` is the value of the teacher's answer
 * `correct` must be either `true` or `false`.  If it is not `true` then it will be considered to be `false`!
-* (optional) `display` is another cas expression to be displayed in place of `value`.  Be cautious!  This can be a string value here, but it will be passed through the CAS if you choose the LaTeX display option below.
+* (optional) `display` is another cas expression to be displayed in place of `value`.  Be cautious!  This can be a string value here, but it will be passed through the CAS if you choose the LaTeX display option below.  `display` is only used in constructing the question.  The STACK will take `value` as the student's answer internally, regardless of what is set here.
 
 For example
 
      ta:[[diff(p,x),true],[p,false],[int(p,x),false]]
+
+Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...".  A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  Afterall, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  In this example the validation feedback would be confusing, since an integer (which might be suffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer".  Such a change might have other unintended and confusing consequences.* 
+
+## Internals ##
+
+This input type turns the student' answer into a Maxima list.  Hence, if you are expecting a single value (e.g. from a select or radio type) and you want an expression in the potential response tree you need to use the following to take the first element of the list.
+
+    first(ans1)
+
+This design decision ensures there is no abiguity in the type of object returned.  Switching from radio to checkboxes will not break a PRT because of mis-matched types.
 
 ## Extra options ##
 

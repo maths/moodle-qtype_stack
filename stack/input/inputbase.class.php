@@ -249,7 +249,7 @@ abstract class stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         // By default, we don't show how to "type this in".  This is only done for some, e.g. algebraic and textarea.
-        return stack_string('teacheranswershow_disp', array('display' => $display));
+        return stack_string('teacheranswershow_disp', array('display' => '\( '.$display.' \)'));
     }
 
     /**

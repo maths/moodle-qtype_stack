@@ -170,11 +170,6 @@ class stack_dropdown_input extends stack_input {
                 }
             }
         }
-        // If the teacher has created more than one correct answer then
-        // we must use checkboxes.
-        if ($numbercorrect > 1) {
-            $this->ddltype = 'checkbox';
-        }
         
         if ($numbercorrect === 0) {
             $this->errors = stack_string('ddl_nocorrectanswersupplied');

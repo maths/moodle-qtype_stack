@@ -289,8 +289,13 @@ class stack_dropdown_input extends stack_input {
         if ('' != $this->ddlerrors) {
             $ret .= html_writer::tag('p', $this->ddlerrors);
         }
-        
-        $ret .= html_writer::select($values, $fieldname, $this->contents_to_maxima($state->contents),
+
+        // HACK: in preparation for questions with more than one potential input.
+        // Need to loop over the numbers here for each input.
+        $selected = $state->contents;
+        $idx = 0;
+        //$fieldname = $fieldname.'_sub_'.$idx;
+        $ret .= html_writer::select($values, $fieldname, $selected[$idx],
             array('' => stack_string('notanswered')), $attributes);
 
         return $ret;
@@ -317,13 +322,66 @@ class stack_dropdown_input extends stack_input {
             'options'        => '',
         );
     }
+    
+    /**
+     * This is used by the question to get the teacher's correct response.
+     * The dropdown type needs to intercept this to filter the correct answers.
+     * @param unknown_type $in
+     */
+    public function get_correct_response($in) {
+        $this->adapt_to_model_answer($in);
+        return $this->maxima_to_response_array($this->teacheranswer);
+    }
+   
+    /**
+     * Transforms a Maxima expression into an array of raw inputs which are part of a response.
+     * Most inputs are very simple, but textarea and matrix need more here.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    public function maxima_to_response_array($in) {
 
+        $tc = $this->maxima_to_array($in);
+
+        foreach($tc as $key => $val) {
+                $response[$this->name.'_sub_'.$key] = $val;
+        }
+
+        if ($this->requires_validation()) {
+            $response[$this->name . '_val'] = $in;
+        }
+        return $response;
+
+    }
+    
     /**
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        // TODO: make sure we can really ignore the $value and $display inputs here.
-
+        // Can we really ignore the $value and $display inputs here and rely on the internal state?
         return stack_string('teacheranswershow_disp', array('display' => $this->teacheranswerdisplay));
     }
+    
+    /**
+     * Converts the input passed in via many input elements into an array.
+     *
+     * @param string $in
+     * @return string
+     * @access public
+     */
+    public function response_to_contents($response) {
+        // HACK, need to loop over all the possible values.
+        $contents = array();
+        if (array_key_exists($this->name . '_sub_0', $response)) {
+            $contents[] = $response[$this->name . '_sub_0'];
+        }
+        // TODO Delete this!
+        if (array_key_exists($this->name, $response)) {
+            $contents[] = $response[$this->name];
+        }
+        
+        return $contents;
+    }
+    
 }

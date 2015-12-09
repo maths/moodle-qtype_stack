@@ -262,7 +262,7 @@ abstract class stack_input {
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys) {
-
+                
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -521,6 +521,15 @@ abstract class stack_input {
     }
 
     /**
+     * This is used by the question to get the teacher's correct response.
+     * The dropdown type needs to intercept this to filter the correct answers.
+     * @param unknown_type $in
+     */
+    public function get_correct_response($in) {
+        return $this->maxima_to_response_array($in);
+    }
+
+   /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
      * This is used to take a Maxima expression, e.g. a Teacher's answer or a test case, and directly transform

@@ -2387,6 +2387,6 @@ assess(ex1,ex2):=block([ret],
 /* Slight hack to compile these functions and hence suppress warnings. */
 load(linearalgebra);
 
-/* Stack expects some output */
+/* Stack expects some output with the version number the output happens at */
+/* maximalocal.mac after additional library loading */
 stackmaximaversion:2015111500$
-print("[ STACK-Maxima started, library version 2015111500 ]")$

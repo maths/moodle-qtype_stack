@@ -112,6 +112,25 @@ If you turn the option "Multiplication sign" to none, this should display as
 \[-7\,{\bf{i}}+2\,{\bf{j}}-3\,{\bf{k}}\]
 Notice the use of the function `ordergreat`.  This can only be used once at the beginning of the question.
 
+## Student input ##
+
+Students do find typing in matrices very tedious.  Some teachers have asked for a convenient notation such as
+
+    c(1,2,3)
+
+for column vectors and 
+
+    v(1,2,3,4)
+
+For row vectors.  This is not a core part of STACK currently, but in individual questions you can convert such notation easily into mainstream Maxima using code such as the following.
+
+    ta1:c(1,2,3);
+    ta2:v(1,2,3);
+    vec_convert(sa) := if op(sa)=c then transpose(matrix(args(sa))) elseif op(sa)=v then matrix(args(sa));
+    vec_convert(ta1);
+    vec_convert(ta2);
+
+Once converted into Matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.  If there is sufficient demand for this contact the developers.
 
 ## See also
 

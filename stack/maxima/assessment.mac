@@ -1,6 +1,6 @@
 /*  Author Chris Sangwin
-    Loughborough University
-    Copyright (C) 2014 Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2015 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -18,16 +18,12 @@
 /*  An assessment package for Maxima                            */
 /*                                                              */
 /*  Chris Sangwin, <chris@sangwin.com>                          */
-/*  V0.6 September 2014                                           */
+/*  V0.7 September 2015                                         */
 /*                                                              */
 /****************************************************************/
 
 MAXIMA_VERSION:map(parse_string, tokens(?\*autoconf\-version\*, 'digitcharp))$
 MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+MAXIMA_VERSION[3]/10)$
-
-/* Note how Maxima has changes this.... */
-DIV_OP:"//"$
-if MAXIMA_VERSION_NUM>=15.0 then DIV_OP:"/"$ 
 
 /* ********************************** */
 /* Load contributed packages          */
@@ -40,52 +36,52 @@ if not(?functionp('poly_reduced_grobner)) then load("grobner");
 /* ********************************** */
 
 /* op(ex) is unsafe on atoms: this is a fix. */
-/* This function always returns a string     */
+/* This function always returns a string.    */
 safe_op(ex) := block(
   if mapatom(ex) then return(""),
   if stringp(op(ex)) then return(op(ex)) else return(string(op(ex)))
 )$
 
-/* This function takes an expression ex and returns a list of coefficients of v */
-coeff_list(ex,v):= block([deg,kloop,cl],
-   cl:[],
-   ex:ev(expand(ex),simp),
-   deg:hipow(ex,v),
-   ev(for kloop:0 thru deg do
-     cl:append(cl,[coeff(ex,v,kloop)]),simp),
-   cl
+/* This function takes an expression ex and returns a list of coefficients of v. */
+coeff_list(ex, v) := block([deg, kloop, cl],
+  cl:[],
+  ex:ev(expand(ex), simp),
+  deg:hipow(ex, v),
+  ev(for kloop:0 thru deg do
+    cl:append(cl, [coeff(ex, v, kloop)]), simp),
+  cl
 )$
 
-/* This function takes an expression ex and returns a list of nonzero coefficients of v */
-coeff_list_nz(ex,v):= block([deg,kloop,cl],
-   cl:[],
-   ex:ev(expand(ex),simp),
-   deg:hipow(ex,v),
-   ev(for kloop:0 thru deg do
-     if coeff(ex,v,kloop)#0 then cl:append(cl,[[kloop,coeff(ex,v,kloop)]]),simp),
-   cl
+/* This function takes an expression ex and returns a list of nonzero coefficients of v. */
+coeff_list_nz(ex, v) := block([deg, kloop, cl],
+  cl:[],
+  ex:ev(expand(ex), simp),
+  deg:hipow(ex, v),
+  ev(for kloop:0 thru deg do
+    if coeff(ex, v, kloop)#0 then cl:append(cl, [[kloop, coeff(ex, v, kloop)]]), simp),
+  cl
 )$
 
-/* Return the set of operations which occur in the expression */
-/* Note, this function varies depending on the value of simp! */
-/* E.g. x+x-> 2*x, so is this a product of sum?               */
-get_ops(ex):= setify(flatten(get_ops_helper(ex)))$
-get_ops_helper(ex):=if mapatom(ex) then [] else append([op(ex)],maplist(get_ops_helper,args(ex)))$
+/* Return the set of operations which occur in the expression. */
+/* Note, this function varies depending on the value of simp!  */
+/* E.g. x+x-> 2*x, so is this a product of sum?                */
+get_ops(ex) := setify(flatten(get_ops_helper(ex)))$
+get_ops_helper(ex) := if mapatom(ex) then [] else append([op(ex)], maplist(get_ops_helper, args(ex)))$
 
 /* ********************************** */
 /* General list and utility functions */
 /* ********************************** */
 
-/* True if and only if ex is in the list l */
-element_listp(ex,l):= any_listp(lambda([ex2], is(ex2=ex)), l)$
+/* True if and only if ex is in the list l. */
+element_listp(ex, l) := any_listp(lambda([ex2], is(ex2=ex)), l)$
 
-/* all_listp(p,l) true if all elements of l satisfy p */
-all_listp(p,l):= if listp(l) then ret:apply("and", maplist(p,l)) else ret:"fail"$
+/* all_listp(p,l) true if all elements of l satisfy p. */
+all_listp(p, l) := if listp(l) then ret:apply("and", maplist(p, l)) else ret:"fail"$
 
-/* any_listp(p,l) true if all elements of l satisfy p */
-any_listp(p,l):= if listp(l) then ret:apply("or", maplist(p,l)) else ret:"fail"$
+/* any_listp(p,l) true if all elements of l satisfy p. */
+any_listp(p, l) := if listp(l) then ret:apply("or", maplist(p, l)) else ret:"fail"$
 
-/* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w */
+/* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w. */
 listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
 
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
@@ -112,7 +108,7 @@ zip_with(zf, a, b) := block(
 */
 exdowncase(ex):=block([lv],
   lv:listofvars(ex),
-  lv:map(lambda([v],v=parse_string(sdowncase(string(v)))),lv),
+  lv:map(lambda([v], v=parse_string(sdowncase(string(v)))),lv),
   return(subst(lv,ex)))$
 
 
@@ -178,32 +174,32 @@ real_numberp(ex):=
 )$    
     
 /* commonfaclist(l) returns the gcd of a list of numbers */
-commonfaclist(l) := block([i,a,ret],
+commonfaclist(l) := block([i, a, ret],
  if listp(l) then
   ret:( a:l[1],
         if length(l)>1 then
-            ev(for i:2 thru length(l) do (a:ev(gcd(a,l[i]),simp)),simp),
+            ev(for i:2 thru length(l) do (a:ev(gcd(a, l[i]), simp)), simp),
         return(a))
   else ret:"fail",
  return(ret) )$
 
 /* Returns a list of factors of ex without multiplicities */
-factorlist(ex) := block([simp:false,ret:"",ex2],
-  ex:ev(factor(ex),simp),
+factorlist(ex) := block([simp:false, ret:"", ex2],
+  ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),
   if op(ex)#"*" then
      ret:[ex]
   else
      ret:args(ex),
   /* now strip off powers */
-  ret:maplist(lambda([ex2],if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2),ret),
+  ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
   return(ret)
 )$
 
 /* Is the fraction in its lowest terms? */
 lowesttermsp(ex) := block([simp:false,ex1,ex2,ex3],
   if atom(ex) then return(true),
-  if op(ex)#DIV_OP then return(true),
+  if op(ex)#"/" then return(true),
   if safe_op(num(ex))="-" and safe_op(denom(ex))="-" then return(false),
   if gcd(num(ex),denom(ex))=1 then return(true) else return(false)
 )$
@@ -212,13 +208,13 @@ lowesttermsp(ex) := block([simp:false,ex1,ex2,ex3],
 list_expression_numbers(ex) := block([ex2],
   if mapatom(ex) then (if numberp(ex) then return([ex]) else return([]))
   else (
-  if op(ex)=DIV_OP and simp_numberp(num(ex)) and simp_numberp(denom(ex)) then return([ex]),
-  if op(ex)="-" then return(maplist(lambda([ex], if safe_op(ex)=DIV_OP then (-num(ex))/denom(ex) else -ex),list_expression_numbers(first(args(ex))))),
+  if op(ex)="/" and simp_numberp(num(ex)) and simp_numberp(denom(ex)) then return([ex]),
+  if op(ex)="-" then return(maplist(lambda([ex], if safe_op(ex)="/" then (-num(ex))/denom(ex) else -ex), list_expression_numbers(first(args(ex))))),
   ex2:args(ex),
-  flatten(maplist(list_expression_numbers,ex2)))
+  flatten(maplist(list_expression_numbers, ex2)))
 )$
 
-all_lowest_termsex(ex):= block([simp:false,ex2],
+all_lowest_termsex(ex):= block([simp:false, ex2],
   ex2:list_expression_numbers(ex),
   all_listp(lowesttermsp,ex2)
 )$
@@ -227,7 +223,7 @@ all_lowest_termsex(ex):= block([simp:false,ex2],
 anyfloat(l) := block([ret:false],
  if listp(l)=false then ret:"fail",
  ev(l:map('floatnump,l),simp),
- ev(for i:1 thru length(l) do (ret:ret or l[i]),simp),
+ ev(for i:1 thru length(l) do (ret:ret or l[i]), simp),
  return(ret) )$
 
 /* Decides if any floats are in the expression. */
@@ -347,26 +343,29 @@ algebraic_equivalence(SA, SB) :=
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
-    /* In some cases we just go inside the function one level */
+    /* In some cases we just go inside the function one level. */
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
-    /* Try not to expand out: pure numbers */
-    ex:errcatch(ev(SA-SB,simp)),
+    /* Try not to expand out: pure numbers. */
+    ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
     ex:ex[1],
     if numberp(ex) then
       if rat(ex)=0 then return(true)
       else return (false),
-    /* Try not to expand out: factoring */
-    ex:errcatch(ev(factor(SA-SB),simp)),
+    /* Try not to expand out: factoring, but only if without floats. */
+    if not(anyfloatex(SA-SB)) then 
+       ex:errcatch(ev(factor(SA-SB), simp)) 
+    else
+       ex:[ex],
     if ex=[] then (print("algebraic_equivalence: factoring the difference of two expressions threw an error."), return(false)),
     ex:ex[1],
     /* Try to return a negative result without expanding anything! */
     if safe_op(ex)="-" then
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
-       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),  
+       if not(any_listp(lambda([ex2], algebraic_equivalence(ex2, 0)), args(ex))) then return(false),
     if ratsimp(ex)=0 then return(true),
     /* Next we expand out the difference. */
     ex:errcatch(ev(fullratsimp(SA-SB), simp)),
@@ -389,16 +388,22 @@ algebraic_equivalence(SA, SB) :=
 
 /* This test establishes if two expressions appear NOT to be equivalent. 
    It does so by evaluating the expressions numerically.        */
-numerical_not_alg_equiv(p1, p2):= block([lv, sz],
+numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz],
   /* We take the *union* of the two lists of variables, this way we
      hedge against comparing (x+a)+(x-a) with 2*x, which are the same. */
-  lv:listify(union(setify(listofvars(p1)), setify(listofvars(p2)))),
+  pvars:listofvars([p1,p2]),
+  /* Evaluate as integers to start with and avoid floats.  This is safer, and works in many cases.*/
+  lv:zip_with("=", pvars, makelist(k+1, k, length(pvars))),
+  pval:errcatch(ev(p1-p2, lv)),
+  if is(pval = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
+  if abs(first(pval)) > 1/10000 then return(true),
+  /* Evaluate the difference of the expressions at each variable as floats. */
+  lv:zip_with("=", pvars, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(pvars))),
   /* Now we evaluate the difference of the expressions at each variable. */
-  lv:zip_with("=", lv, makelist(float((sqrt(2)^k+k*%pi)/4), k, length(lv))),
   p1:errcatch(ev(float(p1), lv, numer_pbranch:true)),
-  if is(p1 = []) then (print("STACK: ignore previous error."), return(false)),
+  if is(p1 = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
   p2:errcatch(ev(float(p2), lv, numer_pbranch:true)),
-  if is(p2 = []) then (print("STACK: ignore previous error."), return(false)),
+  if is(p2 = []) then (print("STACK: ignore previous error. (p2)"), return(false)),
   sz:errcatch(abs(float(first(p1)-first(p2)))),
   /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
@@ -442,6 +447,22 @@ subst_equiv(ex1,ex2):=block([lv1, lv2, lvi, lvp, lvs, lve, il, perm_size, simp],
  lve:map(second,lve),
  lve:map(lambda([ex], equal(ex, true)),lve),
  if apply("or", lve) then (il:sublist_indices(lve, identity), lvs[il[1]]) else []
+)$
+
+
+/* ********************************** */
+/* Simplification control             */
+/* ********************************** */
+
+/* This function recursively applys associativity to operators listed in oplist. */
+/* It probably only makes sense for oplist to be ["+", "*"] or one of these two. */
+STACK_assoc(ex, oplist) := block(
+  if atom(ex) then return(ex),
+  if member(op(ex), oplist) then return(block([ex2],
+                   ex2:flatten(ex),
+                   apply(op(ex2), map(lambda([ex3], STACK_assoc(ex3, oplist)), args(ex2)))
+                   )),
+  apply(op(ex), map(lambda([ex3], STACK_assoc(ex3, oplist)), args(ex)))
 )$
 
 /* ********************************** */
@@ -507,7 +528,7 @@ verb_arith(ex) := block(
     ex:subst("+", "noun+", ex), 
     ex:subst("*", "noun*", ex), 
     ex:subst("-", "noun-", ex), 
-    ex:subst(DIV_OP, "noun/", ex), 
+    ex:subst("/", "noun/", ex), 
     ex:subst("^", "noun^", ex), 
     define(UNARY_RECIP a, a^(-1)), 
     ex:ev(ex, UNARY_MINUS=-1),
@@ -522,7 +543,7 @@ noun_arith(ex) := block(
     /* Unary minus really communtes with multiplication. */
     ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex), 
     /* Turn 1/x into x^(-1), in a special form */
-    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), DIV_OP, ex),
+    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),
     ex:subst("noun^", "^", ex), 
     ev(ex)
 )$

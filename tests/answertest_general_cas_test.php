@@ -436,4 +436,18 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
                'so you must have done something wrong!';
         $this->assertEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
+
+    public function test_is_true_numsigfigs() {
+        // This example has caused problems in Maxima in the past.
+        $at = new stack_answertest_general_cas('0.1667', '0.1667', 'ATNumSigFigs', true, '4', null, true, true);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+    }
+
+    public function test_is_false_numsigfigs() {
+        // This example has caused problems in Maxima in the past.
+        $at = new stack_answertest_general_cas('0.1660', '0.1667', 'ATNumSigFigs', true, '4', null, true, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+    }
 }

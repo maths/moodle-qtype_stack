@@ -65,13 +65,14 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
 
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
         get_string('settingcasmaximaversion', 'qtype_stack'),
-        get_string('settingcasmaximaversion_desc', 'qtype_stack'), '5.36.0',
+        get_string('settingcasmaximaversion_desc', 'qtype_stack'), 'default',
                 array('5.23.2' => '5.23.2', '5.25.1' => '5.25.1', '5.26.0' => '5.26.0',
                       '5.27.0' => '5.27.0', '5.28.0' => '5.28.0', '5.30.0' => '5.30.0',
                       '5.31.1' => '5.31.1', '5.31.2' => '5.31.2', '5.31.3' => '5.31.3',
                       '5.32.0' => '5.32.0', '5.32.1' => '5.32.1', '5.33.0' => '5.33.0',
                       '5.34.0' => '5.34.0', '5.34.1' => '5.34.1', '5.35.1' => '5.35.1',
-                      '5.35.1.2' => '3.35.1.2', '5.36.0' => '5.36.0')));
+                      '5.35.1.2' => '3.35.1.2', '5.36.0' => '5.36.0', '5.36.1' => '5.36.1',
+                      'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
@@ -95,6 +96,10 @@ $settings->add(new admin_setting_configtext('qtype_stack/serveruserpass',
 $settings->add(new admin_setting_configtext('qtype_stack/plotcommand',
         get_string('settingplatformplotcommand', 'qtype_stack'),
         get_string('settingplatformplotcommand_desc', 'qtype_stack'), ''));
+
+$settings->add(new admin_setting_configtext('qtype_stack/maximalibraries',
+        get_string('settingmaximalibraries', 'qtype_stack'),
+        get_string('settingmaximalibraries_desc', 'qtype_stack'), 'stats, distrib, descriptive'));
 
 $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),
@@ -217,26 +222,6 @@ $settings->add(new admin_setting_configselect('qtype_stack/inversetrig',
         get_string('inversetrig', 'qtype_stack'),
         get_string('inversetrig_help', 'qtype_stack'), 'cos-1',
         stack_options::get_inverse_trig_options()));
-
-
-// Options external blocks.
-$settings->add(new admin_setting_heading('externalblocksheading',
-        get_string('settingsexternalblocksheading', 'qtype_stack'), ''));
-
-$settings->add(new admin_setting_configcheckbox('qtype_stack/externalblocks',
-        get_string('settingexternalblocks', 'qtype_stack'),
-        get_string('settingexternalblocks_desc', 'qtype_stack'), 0));
-
-$settings->add(new admin_setting_configcheckbox('qtype_stack/externalblocklatex',
-        get_string('settingexternalblocklatex', 'qtype_stack'),
-        get_string('settingexternalblocklatex_desc', 'qtype_stack'), 0));
-
-$settings->add(new admin_setting_configtext('qtype_stack/externalblocklatexcommand',
-        get_string('settingexternalblocklatexcommand', 'qtype_stack'),
-        get_string('settingexternalblocklatexcommand_desc', 'qtype_stack'), ''));
-
-
-
 
 $settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
         get_string('matrixparens', 'qtype_stack'),

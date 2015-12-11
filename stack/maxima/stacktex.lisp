@@ -139,7 +139,7 @@
 ;; Chris Sangwin, 28/10/2009
 
 (defun tex-string (x)
-  (cond ((equal x "") "")
+  (cond ((equal x "") (concatenate 'string "\\mbox{ }"))
     ((eql (elt x 0) #\\) x)
     (t (concatenate 'string "\\mbox{" x "}"))))
 

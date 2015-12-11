@@ -230,7 +230,7 @@ class stack_potentialresponse_node {
     }
 
     /*
-     * Does this answer test actually require options,?
+     * Does this answer test actually require options?
      */
     public function process_atoptions() {
         $at = new stack_ans_test_controller($this->answertest, '', '', null, '');

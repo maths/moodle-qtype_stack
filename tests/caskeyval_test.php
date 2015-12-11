@@ -65,7 +65,13 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $cs3->instantiate();
 
         $cs4 = new stack_cas_session(null, null, 123);
-
+        
+        $cs5 = new stack_cas_session(array(new stack_cas_casstring('a:system(rm)')), null, 123);
+        $cs5->instantiate();
+        $cs6 = new stack_cas_session(array(new stack_cas_casstring('a:"system(rm)"')), null, 123);
+        $cs6->instantiate();
+        $cs7 = new stack_cas_session(array(new stack_cas_casstring('a:"a:x^2); b:(x+1)^2;$;@;"')), null, 123);
+        $cs7->instantiate();
         $cases = array(
                 array('', true, $cs0),
                 array("a:x^2 \n b:(x+1)^2", true, $cs1),
@@ -73,9 +79,9 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
                 array('a:x^2); b:(x+1)^2', false, $cs2),
                 array('@', false, $cs4),
                 array('$', false, $cs4),
-                array('dumvar:system(rm);', false, $cs4),
-                array('dumvar:"system(rm)";', false, $cs4),
-                array('dumvar:"a:x^2); b:(x+1)^2;$;@;";', true, $cs4),
+                array('a:system(rm);', false, $cs5),
+                array('a:"system(rm)";', false, $cs6),
+                array('a:"a:x^2); b:(x+1)^2;$;@;";', true, $cs7),
         );
 
         foreach ($cases as $case) {

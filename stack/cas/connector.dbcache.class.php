@@ -57,9 +57,7 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $this->debug->log('Maxima command not found in the cache. Using the raw connection.');
         $result = $this->rawconnection->compute($command);
         // Only add to the cache if we didn't timeout!
-        if (stack_connection_helper::did_cas_timeout($result)) {
-            // Do nothing.
-        } else {
+        if (!stack_connection_helper::did_cas_timeout($result)) {
             $this->add_to_cache($command, $result, $cached->key);
         }
         return $result;

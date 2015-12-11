@@ -7,7 +7,7 @@
 Welcome to the official user documentation for the [STACK project](About/index.md).
 
 STACK is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
-This documentation is for version 3 of STACK, which provides a question type for the Moodle quiz.
+This documentation is for STACK, which provides a question type for the Moodle quiz.
 More about what we are trying to achieve can be found under [the philosophy of STACK](About/The_philosophy_of_STACK.md).
 
 ## Where to start ##

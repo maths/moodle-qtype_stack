@@ -282,7 +282,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '-3x^2-4'), $options, '-3*x^2-4', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('(-3)*x^2-4', $state->contentsmodified);
+        // Hack to accomodate Maxima version 5.37.0 onwards.
+        $content = $state->contentsmodified;
+        if ($content === '(-3)*x^2-4') {
+            $content = '(-3*x^2)-4';
+        }
+        $this->assertEquals('(-3*x^2)-4', $content);
         $this->assertEquals('\[ -3\cdot x^2-4 \]', $state->contentsdisplayed);
     }
 
@@ -295,6 +300,17 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('(3*x+1)*(x+ab)', $state->contentsmodified);
         $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+{\it ab}\right) \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_display_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 's^(24*r)');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => 's^r^24'), $options, 's^(24*r)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('s^r^24', $state->contentsmodified);
+        $this->assertEquals('\[ s^{r^{24}} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_allowwords_false() {

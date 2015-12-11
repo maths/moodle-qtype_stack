@@ -84,6 +84,16 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $this->debug->get_log();
     }
 
+    /* On a Unix system list the versions of maxima available for use. */
+    public function get_maxima_available() {
+        if ('unix' != stack_connection_helper::get_platform()) {
+            return stack_string('healthunabletolistavail');
+        }
+        $this->command = 'maxima --list-avail';
+        $rawresult = $this->call_maxima('');
+        return $rawresult;
+    }
+
     /**
      * Try to determine the name of the Maxima executable to use in command-lines,
      * if it is not specified in the configuration.
@@ -143,6 +153,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     protected function unpack_raw_result($rawresult) {
         $result = '';
         $errors = false;
+        // This adds sufficient closing brackets to make sure we have enough to match.
+        $rawresult .= ']]]]';
 
         if ('' == trim($rawresult)) {
             $this->debug->log('Warning, empty result!', 'unpack_raw_result: completely empty result was returned by the CAS.');
@@ -230,7 +242,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $unparsed = '';
         $errors = '';
 
-        if ($eqpos = strpos($rawresultfragment, '=', $offset)) {
+        $eqpos = strpos($rawresultfragment, '=', $offset);
+        if ($eqpos) {
             // Check there are ='s.
             do {
                 $gb = stack_utils::substring_between($rawresultfragment, '[', ']', $eqpos);

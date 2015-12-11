@@ -719,4 +719,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at2->get_display_castext(),
                 '\[{\mbox{This is a string with escaped " strings....}}\]');
     }
+
+
+    public function test_empty_strings() {
+        $s = '{@"This is a string"@} whereas this is empty {@""@}.';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\({\mbox{This is a string}}\) whereas this is empty \({\mbox{ }}\).');
+    }
 }
+

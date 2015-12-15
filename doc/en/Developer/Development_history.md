@@ -2,14 +2,33 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 3.4.1
+
+Unreleased in the master branch.
+
+Numerous minor bug fixes and improvements.
+
+1. Added an export mechanism for single stack questions throught a link on the "Question tests & deployed versions" page.
+2. Modify the text area input so that each line is validated separately.
+3. Support for plot2d "label" command.
+4. Add the NOCONST option to the ATInt answertest.
+5. Added support for optional Maxima packages throught the config settings.
+
 ## Version 3.4
 
+Released September 2015.
+
+This contains numerous minor bug fixes and improvements.
+
 Other Changes since 3.3:
-  
+
 1. Expand the capability of ATInt options to accept the integrand to improve feedback.
 2. When validating a student's expression, add the option to show a list of variables alongside the displayed expression.
 3. The install process now attempts to auto-generate a maxima image.
 4. Support for the stats package added.
+5. Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
+6. Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
+7. STACK tried to automatically write an optimised image for linux.  This should help installs where unix access is difficult.
 
 Changes in this branch only since 3.3:
 
@@ -21,17 +40,17 @@ Then choose the link to "fix maths delimiters script".
 
 1. Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
 2. Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
-3. Changes to the CASText format 
-  * Require matching `{@..@}` for CAS variables. Note the old syntax `@..@` will not work. 
+3. Changes to the CASText format
+  * Require matching `{@..@}` for CAS variables. Note the old syntax `@..@` will not work.
   * Expand the CASText format to enable us to embed the _value_ of a variable in CASText, with `{#..#}`, not just the displayed form.
   * Auto update script to change existing questions (part of the fix maths delimiters script).
-4. Conditionals in CASText adaptive blocks. (Aalto) 
+4. Conditionals in CASText adaptive blocks. (Aalto)
 
 
 
 ## Version 3.3
 
-Released September 2014. 
+Released September 2014.
 
 Changes since 3.2:
 
@@ -51,7 +70,7 @@ Changes since 3.2:
  9.  Better install (auto OS detection), healtcheck and testing.
  10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authenication
     (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
- 
+
 ### Question blocks
 
 This is a major new feature described on the dedicated page about [question blocks](../Authoring/Question_blocks.md).   At the same time CASText now enables us to embed the _value_ of a variable in CASText, not just the displayed form using `{#...#}`.
@@ -99,7 +118,7 @@ Changes since 3.0:
 ### Other improvements
 
 * Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
-* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of. 
+* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of.
 * New option for how inverse trig functions are displayed.
 * A script to run question tests in bulk.
 * Add a new answer test to deal with decimal places.

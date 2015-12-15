@@ -192,12 +192,22 @@ class stack_cas_session {
             if (array_key_exists($i, $results)) {
                 $allfail = false; // We at least got one result back from the CAS!
 
-                $result = $results["$i"]; // GOCHA! Results have string represenations of numbers, not int....
+                $result = $results["$i"]; // GOCHA!  Results have string represenations of numbers, not int....
+
+                if ('' != $result['error'] and false === strstr($result['error'], 'clipped')) {
+                    $cs->add_errors($result['error']);
+                    $cs->decode_maxima_errors($result['error']);
+                    $newerrors .= stack_maxima_format_casstring($cs->get_raw_casstring());
+                    $newerrors .= ' '.stack_string("stackCas_CASErrorCaused") .
+                            ' ' . $result['error'] . ' ';
+                }
 
                 if (array_key_exists('value', $result)) {
                     $val = str_replace('QMCHAR', '?', $result['value']);
                     $cs->set_value($val);
                     $gotvalue = true;
+                } else {
+                    $cs->add_errors(stack_string("stackCas_failedReturnOne"));
                 }
 
                 if (array_key_exists('display', $result)) {
@@ -218,13 +228,6 @@ class stack_cas_session {
                     $cs->set_feedback($result['feedback']);
                 }
 
-                if ('' != $result['error'] and false === strstr($result['error'], 'clipped')) {
-                    $cs->add_errors($result['error']);
-                    $cs->decode_maxima_errors($result['error']);
-                    $newerrors .= stack_maxima_format_casstring($cs->get_raw_casstring());
-                    $newerrors .= ' '.stack_string("stackCas_CASErrorCaused") .
-                            ' ' . $result['error'] . ' ';
-                }
             } else if (!$gotvalue) {
                 $errstr = stack_string("stackCas_failedReturn").' '.stack_maxima_format_casstring($cs->get_raw_casstring());
                 $cs->add_errors($errstr);

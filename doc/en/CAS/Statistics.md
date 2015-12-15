@@ -1,12 +1,15 @@
 # Statistics support in STACK.
 
-By default STACK loads the following optional packages into Maxima to provide statistics support:
+
+The following optional packages provide statistics support in Maxima:
 
     load("stats");
     load("distrib");
     load("descriptive");
 
 Please see Maxima's documentation for information on the functions these packages contain.
+
+These packages are included by defult. The Debian package manager currently has a release of Maxima (as of Nov 2015) without these packages and attempting to load them renders STACK unusable. For this reason, they may have been disabled by your system administrator and your server may not support inclusion of these packages.
 
 ## Package: descriptive
 

@@ -146,6 +146,18 @@ echo html_writer::tag('form',
                     array('type' => 'submit', 'value' => stack_string('chat')))),
         array('action' => $PAGE->url, 'method' => 'post'));
 
+if ($string) {
+    // Display the question variables.
+    echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
+    echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+    $displayqvs = '';
+    foreach ($session->get_session() as $var) {
+        $displayqvs .= s($var->get_key()) . ' : ' . s($var->get_value()). ";\n";
+    }
+    echo  html_writer::tag('pre', $displayqvs);
+    echo html_writer::end_tag('div');
+}
+
 if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);
 }

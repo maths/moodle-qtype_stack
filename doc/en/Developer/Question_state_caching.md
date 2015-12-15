@@ -9,10 +9,9 @@ generate any random question variables.  Each of these initial instantiations an
 states required a relatively costly call to the CAS.
 
 The current cache is very close indeed to the CAS.  Indeed, it
-is actualy calls to the CAS itself which are cached.  This
+is actually calls to the CAS itself which are cached.  This
 gives a dramatic increase in performance when the result
-already exists.  We need to monitor the database to see how
-this works in practice.
+already exists. 
 
 ## Clearing the cache ##
 

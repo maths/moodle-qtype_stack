@@ -138,10 +138,10 @@ class stack_cas_casstring {
             'ele2pui', 'elem', 'elevation', 'ellipse', 'enhanced3d', 'entermatrix', 'entertensor',
             'entier', 'eps_height', 'eps_width', 'ev_point', 'evflag', 'evfun', 'evolution',
             'evolution2d', 'evundiff', 'explicit', 'explose', 'expon', 'expop', 'expt', 'exsec',
-            'extdiff', 'extract_linear_equations', 'f90', 'fast_central_elements',
+            'extdiff', 'extract_linear_equations', 'f90', 'facts', 'fast_central_elements',
             'fast_linsolve', 'fb', 'file_bgcolor', 'fill_color', 'fill_density', 'fillarray',
             'filled_func', 'findde', 'fix', 'flipflag', 'flush', 'flush1deriv', 'flushd', 'flushnd',
-            'font', 'font_size', 'frame_bracket', 'fundamental_dimensions',
+            'font', 'font_size', 'forget', 'frame_bracket', 'fundamental_dimensions',
             'fundamental_units', 'gaussprob', 'gcdivide', 'gcfac', 'gd', 'gdet', 'gen_laguerre',
             'gensumnum', 'geomap', 'geometric', 'geosum', 'get', 'get_pixel',
             'get_plot_option', 'get_tex_environment', 'get_tex_environment_default', 'ggf',
@@ -160,7 +160,7 @@ class stack_cas_casstring {
             'init_ctensor', 'inm', 'inmc1', 'inmc2', 'inprod', 'intervalp', 'intopois', 'invariant1',
             'invariant2', 'invert_by_lu', 'ip_grid', 'ip_grid_in', 'ishow', 'isolate',
             'isolate_wrt_times', 'itr', 'jacobi_p', 'jf', 'jordan', 'julia',
-            'kdels', 'kdelta', 'key', 'kinvariant', 'kostka', 'kt', 'label', 'label_alignment', 'label_orientation', 'laguerre',
+            'kdels', 'kdelta', 'key', 'kinvariant', 'kostka', 'kt', 'label_alignment', 'label_orientation', 'laguerre',
             'lassociative', 'lbfgs', 'lbfgs_ncorrections', 'lbfgs_nfeval_max', 'lc2kdt', 'lc_l',
             'lc_u', 'lcharp', 'legendre_p', 'legendre_q', 'leinstein', 'let',
             'let_rule_packages', 'letrat', 'letrules', 'letsimp', 'levi_civita', 'lfg', 'lg',
@@ -174,7 +174,7 @@ class stack_cas_casstring {
             'make_polygon', 'make_random_state', 'make_rgb_picture', 'makebox', 'makeorders',
             'mandelbrot', 'maperror', 'mat_function', 'max_ord', 'maxapplydepth', 'maxapplyheight',
             'maxi', 'maximize_lp', 'maxnegex', 'maxposex', 'maxpsifracdenom', 'maxpsifracnum',
-            'maxpsinegint', 'maxpsiposint', 'maxtayorder', 'mesh', 'mesh_lines_color',
+            'maxpsinegint', 'maxpsiposint', 'maxtayorder', 'maybe', 'mesh', 'mesh_lines_color',
             'metricexpandall', 'mini', 'minimalpoly', 'minimize_lp', 'minor', 'mnewton',
             'mod_big_prime', 'mod_test', 'mod_threshold', 'mode_check_errorp', 'mode_check_warnp',
             'mode_checkp', 'mode_declare', 'mode_identity', 'modematrix', 'modular_linear_solver',
@@ -222,16 +222,16 @@ class stack_cas_casstring {
             'transform_xy', 'transparent', 'treillis', 'treinat', 'trivial_solutions', 'tube',
             'tube_extremes', 'tutte_graph', 'ueivects', 'ufg', 'uforget', 'ug', 'ultraspherical',
             'undiff', 'unit_step', 'unit_vectors', 'uniteigenvectors', 'unitp', 'units',
-            'unitvector', 'unorder', 'uric', 'uricci', 'uriem', 'uriemann',
+            'unitvector', 'unknown', 'unorder', 'uric', 'uricci', 'uriem', 'uriemann',
             'use_fast_arrays', 'usersetunits', 'uvect', 'vector', 'verbose', 'vers', 'warnings',
             'weyl', 'wronskian', 'x_voxel', 'xaxis', 'xaxis_color', 'xaxis_secondary', 'xaxis_type',
-            'xaxis_width', 'xrange', 'xrange_secondary', 'xtics', 'xtics_axis',
+            'xaxis_width', 'xrange', 'xrange_secondary', 'xtics_axis',
             'xtics_rotate', 'xtics_rotate_secondary', 'xtics_secondary', 'xtics_secondary_axis',
             'xu_grid', 'xy_file', 'xyplane', 'y_voxel', 'yaxis', 'yaxis_color', 'yaxis_secondary',
-            'yaxis_type', 'yaxis_width', 'yrange', 'yrange_secondary', 'ytics',
+            'yaxis_type', 'yaxis_width', 'yrange', 'yrange_secondary',
             'ytics_axis', 'ytics_rotate', 'ytics_rotate_secondary', 'ytics_secondary',
             'ytics_secondary_axis', 'yv_grid', 'z_voxel', 'zaxis', 'zaxis_color', 'zaxis_type',
-            'zaxis_width', 'zeilberger', 'zeroa', 'zerob', 'zlabel', 'zlange', 'zrange', 'ztics',
+            'zaxis_width', 'zeilberger', 'zeroa', 'zerob', 'zlabel', 'zlange', 'zrange',
             'ztics_axis', 'ztics_rotate' );
 
     /** @var array CAS keywords defined by the distrib package.  These are ALLOWED by students. */
@@ -383,7 +383,7 @@ class stack_cas_casstring {
             'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
             'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
             'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel');
+            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel', 'label');
 
     /**
      * These lists are used by question authors for groups of words.

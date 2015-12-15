@@ -38,10 +38,6 @@ class qtype_stack_renderer extends qtype_renderer {
         $response = $qa->get_last_qt_data();
 
         $questiontext = $question->questiontextinstantiated;
-        $questiontext = $question->format_text(
-                stack_maths::process_display_castext($questiontext, $this),
-                $question->questiontextformat,
-                $qa, 'question', 'questiontext', $question->id);
 
         // Replace inputs.
         $inputstovaldiate = array();
@@ -63,12 +59,6 @@ class qtype_stack_renderer extends qtype_renderer {
             }
         }
 
-        // Initialise automatic validation, if enabled.
-        if ($qaid && stack_utils::get_config()->ajaxvalidation) {
-            $this->page->requires->yui_module('moodle-qtype_stack-input',
-                    'M.qtype_stack.init_inputs', array($inputstovaldiate, $qaid, $qa->get_field_prefix()));
-        }
-
         // Replace PRTs.
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
@@ -84,6 +74,18 @@ class qtype_stack_renderer extends qtype_renderer {
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
+        }
+
+        // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
+        $questiontext = $question->format_text(
+                stack_maths::process_display_castext($questiontext, $this),
+                $question->questiontextformat,
+                $qa, 'question', 'questiontext', $question->id);
+
+        // Initialise automatic validation, if enabled.
+        if ($qaid && stack_utils::get_config()->ajaxvalidation) {
+            $this->page->requires->yui_module('moodle-qtype_stack-input',
+                    'M.qtype_stack.init_inputs', array($inputstovaldiate, $qaid, $qa->get_field_prefix()));
         }
 
         $result = '';

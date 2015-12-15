@@ -662,7 +662,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     // This block of code is intentionally outside of an if statement. We want
     // this bit of code to run every time that qtype_stack is updated.
-    if (!preg_match('~\[ STACK-Maxima started, library version (\d{10}) \]~',
+    if (!preg_match('~stackmaximaversion:(\d{10})~',
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
         throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }

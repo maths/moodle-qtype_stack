@@ -20,7 +20,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/test_base.php');
 
 
-/**
+/*
  * Unit tests for the stack_dropdown_input class.
  *
  * @copyright  2012 The Open University

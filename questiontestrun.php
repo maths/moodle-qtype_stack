@@ -40,6 +40,7 @@ require_once(__DIR__ . '/stack/questiontest.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
+// Summary
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
@@ -59,7 +60,7 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
-// Create some other useful links
+// Create some other useful links.
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);
 unset($qbankparams['seed']);

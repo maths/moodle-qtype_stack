@@ -30,14 +30,14 @@
  *     (1.2) Check boxes
  * (2) Check if the display type is a string. If so, strip off the "s and don't sent it through the CAS.
  * (3) Get all this working with thorough unit tests.
- * 
+ *
  * RELEASE basic working version?
- * 
+ *
  * (1) Refactor shuffle to be seeded from the question usage?
  * (2) Add choose N (correct) from M feature (used at Aalto).
  * (3) Have a "none of these" which degrates to an algebraic input
  * (4) Enable better support for text-based strings in the display (e.g. CASTex?!)
- *  
+ *
  */
 
 class stack_dropdown_input extends stack_input {
@@ -46,7 +46,7 @@ class stack_dropdown_input extends stack_input {
      * Catch and report runtime errors.
      */
     protected $ddlerrors = '';
-    
+
     /*
      * ddlvalues is an array of the types used.
      */
@@ -69,11 +69,11 @@ class stack_dropdown_input extends stack_input {
     protected $ddldisplay = 'casstring';
 
     /*
-     * This holds a displayed form of $this->teacheranswer. We need to generate this from those 
+     * This holds a displayed form of $this->teacheranswer. We need to generate this from those
      * entries which the teacher has indicated are correct.
      */
-    protected $teacheranswerdisplay= '';
-    
+    protected $teacheranswerdisplay = '';
+
     /* This function always returns an array where the key is the CAS "value".
      * This is needed in various places, e.g. when we check the an answer received is actually
      * in the list of possible answers.
@@ -93,7 +93,7 @@ class stack_dropdown_input extends stack_input {
         if ($this->ddlshuffle) {
             shuffle($values);
         }
-        
+
         $choices = array();
         foreach ($values as $value) {
             $choices[$value['value']] = $value['display'];
@@ -107,13 +107,13 @@ class stack_dropdown_input extends stack_input {
 
     /* For the dropdown, each expression must be a list of pairs:
      * [CAS expression, true/false].
-     * The second Boolean value determines if this should be considered 
-     * correct.  If there is more than one correct answer then checkboxes 
+     * The second Boolean value determines if this should be considered
+     * correct.  If there is more than one correct answer then checkboxes
      * will always be used.
      */
     public function adapt_to_model_answer($teacheranswer) {
 
-        // (1) Register the options.
+        // Register the options.
         $options = $this->get_parameter('options');
         if (trim($options) != '') {
             $options = explode(',', $options);
@@ -135,7 +135,7 @@ class stack_dropdown_input extends stack_input {
                 if ($option === 'casstring') {
                     $this->ddldisplay = 'casstring';
                 }
-                
+
                 // Radio, checkboxes or dropdown?
                 if ($option === 'checkbox') {
                     $this->ddltype = 'checkbox';
@@ -150,7 +150,7 @@ class stack_dropdown_input extends stack_input {
             }
         }
 
-        /* (2) Sort out the $this->ddlvalues.
+        /* Sort out the $this->ddlvalues.
          * Each element must be an array with the keys
          * value - the CAS value.
          * display - the LaTeX displayed value.
@@ -187,12 +187,12 @@ class stack_dropdown_input extends stack_input {
                 }
             }
         }
-        
+
         if ($numbercorrect === 0) {
             $this->ddlerrors .= stack_string('ddl_nocorrectanswersupplied');
             return;
         }
-        /* 
+        /*
          * This input is very unusual in that the "teacher's answer" contains a mix
          * of correct and incorrect responses.  The teacher may be happy with a subset
          * of the correct responses.  So, we update $this->teacheranswer to be a Maxima
@@ -206,11 +206,11 @@ class stack_dropdown_input extends stack_input {
                 $ddlvalues[$key]['display'] = '<code>'.$ddlvalues[$key]['display'].'</code>';
             }
             $this->ddlvalues = $ddlvalues;
-            
+
             return;
         }
 
-        // (3) If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
+        // If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
         $csvs = array();
         // Create a displayed form of the teacher's answer.
         $csv = new stack_cas_casstring('teachans:'.'['.implode(',', $correctanswerdisplay).']');
@@ -223,7 +223,7 @@ class stack_dropdown_input extends stack_input {
             $csv->get_valid('t');
             $csvs[] = $csv;
         }
-        
+
         $at1 = new stack_cas_session($csvs, null, 0);
         $at1->instantiate();
 
@@ -244,7 +244,7 @@ class stack_dropdown_input extends stack_input {
             }
         }
         $this->ddlvalues = $ddlvalues;
-        
+
         return;
     }
 
@@ -264,7 +264,7 @@ class stack_dropdown_input extends stack_input {
     public function contents_to_maxima($contents) {
         return '['.implode(',', $contents).']';
     }
-    
+
     /**
      * Takes a Maxima list returns an array of values.
      * @return array
@@ -272,13 +272,13 @@ class stack_dropdown_input extends stack_input {
     private function maxima_to_array($in) {
         return stack_utils::list_to_array($in, false);
     }
-    
+
     public function render(stack_input_state $state, $fieldname, $readonly) {
         $values = $this->get_choices();
         if (empty($values)) {
             return stack_string('ddl_empty');
         }
-        
+
         $attributes = array();
         if ($readonly) {
             $attributes['disabled'] = 'disabled';
@@ -294,8 +294,12 @@ class stack_dropdown_input extends stack_input {
         // Need to loop over the numbers here for each input.
         $selected = $state->contents;
         $idx = 0;
+        $select = '';
+        if (array_key_exists($idx, $selected)) {
+            $select = $selected[$idx];
+        }
         //$fieldname = $fieldname.'_sub_'.$idx;
-        $ret .= html_writer::select($values, $fieldname, $selected[$idx],
+        $ret .= html_writer::select($values, $fieldname, $select,
             array('' => stack_string('notanswered')), $attributes);
 
         return $ret;
@@ -322,7 +326,7 @@ class stack_dropdown_input extends stack_input {
             'options'        => '',
         );
     }
-    
+
     /**
      * This is used by the question to get the teacher's correct response.
      * The dropdown type needs to intercept this to filter the correct answers.
@@ -332,7 +336,7 @@ class stack_dropdown_input extends stack_input {
         $this->adapt_to_model_answer($in);
         return $this->maxima_to_response_array($this->teacheranswer);
     }
-   
+
     /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
@@ -344,7 +348,7 @@ class stack_dropdown_input extends stack_input {
 
         $tc = $this->maxima_to_array($in);
 
-        foreach($tc as $key => $val) {
+        foreach ($tc as $key => $val) {
                 $response[$this->name.'_sub_'.$key] = $val;
         }
 
@@ -354,7 +358,7 @@ class stack_dropdown_input extends stack_input {
         return $response;
 
     }
-    
+
     /**
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
@@ -362,7 +366,7 @@ class stack_dropdown_input extends stack_input {
         // Can we really ignore the $value and $display inputs here and rely on the internal state?
         return stack_string('teacheranswershow_disp', array('display' => $this->teacheranswerdisplay));
     }
-    
+
     /**
      * Converts the input passed in via many input elements into an array.
      *
@@ -380,8 +384,8 @@ class stack_dropdown_input extends stack_input {
         if (array_key_exists($this->name, $response)) {
             $contents[] = $response[$this->name];
         }
-        
+
         return $contents;
     }
-    
+
 }

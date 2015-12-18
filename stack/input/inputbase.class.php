@@ -74,7 +74,7 @@ abstract class stack_input {
     protected $parameters;
 
     /**
-     * Constructor
+     * Constructor(3)
      *
      * @param string $name the name of the input. This is the name of the
      *      POST variable that the input from this element will be submitted as.
@@ -262,7 +262,7 @@ abstract class stack_input {
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys) {
-                
+
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -529,7 +529,7 @@ abstract class stack_input {
         return $this->maxima_to_response_array($in);
     }
 
-   /**
+    /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
      * This is used to take a Maxima expression, e.g. a Teacher's answer or a test case, and directly transform

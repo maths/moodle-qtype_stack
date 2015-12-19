@@ -61,7 +61,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * MapleTA
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
- * Package for scientific [units](../Authoring/Units.md), and a science answer test.
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
  * Add an ephemeral form for floating point numbers for better support for the numerical tests.  See below.

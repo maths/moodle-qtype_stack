@@ -1,9 +1,7 @@
 # Units
 
-_Planned for a future STACK release._
-
 It is quite common in science subjects to need to accept an answer which has _units_,
-for example using \(m/s\).  Fortunately, Maxima already has a units package.
+for example using \(m/s\).
 
 ## The differences between `unit` and `units` packages  ##
 
@@ -15,7 +13,7 @@ Note that in Maxima there are two packages which enable a user to manipulate phy
 The differences between these are discussed in Maxima's
 [online manual](http://maxima.sourceforge.net/docs/manual/en/maxima_76.html#SEC321).
 
-**WE NEED TO USE THE UNIT PACKAGE** not the units package for STACK since it is much more comprehensive.
+**WE DO NOT USE EITHER OF THESE PACKAGES** as they are too slow to load.  Instead we have a lightweight package of our own.
 
 ### Unit package ###
 
@@ -61,11 +59,3 @@ This will provide feedback such as
 
 This answer test will then be similar to Algebraic Equivalence, but will automatically provide built in feedback.
 
-## Current problems/issues  ##
-
-1. 30/7/10 Jarno Ruokokoski reports  `load(unit);` this is very slow (10 seconds) to load.
-Adding "load(unit)" to Maxima automatically under these circumstances would not work...
-2. If we automatically `load` a library every time, then variable names such as \(m\) will
-   acquire a meaning.  Perhaps it might be better to have a global question option "load unit(s)
-   package" which will only load units for questions which make use of them.
-   More complex for question authors, of course, and may not actually speed things up when compiled...

@@ -101,6 +101,15 @@ abstract class stack_input {
                 $this->set_parameter($name, $value);
             }
         }
+
+        $this->internal_contruct();
+    }
+
+    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown
+     * uses this to sort out options.
+     */
+    protected function internal_contruct() {
+        return true;
     }
 
     /**
@@ -379,7 +388,8 @@ abstract class stack_input {
      * For example, Matrix types have two dimensional contents arrays to loop over.
      *
      * @param array $contents the content array of the student's input.
-     * @param array $forbiddenkeys is an array of keys of casstings from the question variables which must not appear in the student's input.
+     * @param array $forbiddenkeys is an array of keys of casstings from the question variables which
+     *                             must not appear in the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
     protected function validate_contents($contents, $forbiddenkeys) {

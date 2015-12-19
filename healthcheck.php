@@ -59,7 +59,7 @@ $config = stack_utils::get_config();
 
 // Start output.
 echo $OUTPUT->header();
-echo $OUTPUT->heading($title);settings.php
+echo $OUTPUT->heading($title);
 
 // This array holds summary info, for a table at the end of the pager.
 $summary = array();
@@ -87,7 +87,7 @@ if ($config->mathsdisplay === 'mathjax') {
     echo html_writer::tag('p', stack_string('healthcheckfilters',
             array('filter' => stack_maths::configured_output_name(), 'url' => $settingsurl->out())));
 }
-settings.php
+
 // Maxima config.
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 

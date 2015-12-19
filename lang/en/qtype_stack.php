@@ -300,8 +300,11 @@ $string['singlechargotmorethanone'] = 'You can only enter a single character her
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
+$string['ddl_runtime'] = 'The input has generated the following runtime error which prevents you from answering. Please contact your teacher.';
 $string['ddl_empty'] = 'No choices were provided for this drop-down.';
-$string['ddl_nocorrectanswersupplied'] = 'The teacher did not indicate at least one correct answer.';
+$string['ddl_nocorrectanswersupplied'] = 'The teacher did not indicate at least one correct answer. ';
+$string['ddl_duplicates'] = 'Duplicate values have been found when generating the input options. ';
+$string['ddl_badanswer'] = 'The model answer field for this input is malformed: <code>{$a}</code>. ';
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
 $string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';

@@ -395,6 +395,17 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $q = test_question_maker::make_question('stack', 'test0');
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '[[1,false],[2,true]]');
+
+        // Dropdowns always return a list, so adapt the PRT to take the first element of ans1.
+        $sans = new stack_cas_casstring('first(ans1)');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('2');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         // Check the right behaviour is used.

@@ -110,7 +110,7 @@ if ('' != $maximalocation) {
 list($valid, $message) = stack_cas_configuration::validate_maximalibraries();
 if (!$valid) {
     echo html_writer::tag('p', $message);
-    $summary[] = array(false, $message);    
+    $summary[] = array(false, $message);
 }
 
 // Try to connect to create maxima local.

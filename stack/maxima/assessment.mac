@@ -116,21 +116,21 @@ exdowncase(ex):=block([lv],
 /* Type predicates                    */
 /* ********************************** */
 
-/* Determines if we are using an equation */
+/* Determines if we are using an equation. */
 equationp(ex) := block(
    if atom(ex) then return(false),
    if "="= op(ex) then return(true),
    return(false)
 )$
 
-/* Determines if we are using a function */
+/* Determines if we are using a function. */
 functionp(ex) := block(
    if atom(ex) then return(false),
    if ":="= op(ex) then return(true),
    return(false)
 )$
 
-/* Determines if we are using an inequality */
+/* Determines if we are using an inequality. */
 inequalityp(ex) := block(
    if atom(ex) then return(false),
    if ">"= op(ex) or "<"= op(ex) or ">="= op(ex) or "<="= op(ex) then return(true),
@@ -144,7 +144,7 @@ expressionp(ex) := block(
  return(true)
 );
 
-/* Checks that an expression is a polynomial */
+/* Checks that an expression is a polynomial. */
 polynomialpsimp(e):= polynomialp(e, listofvars(e))$
 
 /* ********************************** */
@@ -173,7 +173,7 @@ real_numberp(ex):=
     if floatnump(ex) then return(true) else return(false)
 )$    
     
-/* commonfaclist(l) returns the gcd of a list of numbers */
+/* commonfaclist(l) returns the gcd of a list of numbers. */
 commonfaclist(l) := block([i, a, ret],
  if listp(l) then
   ret:( a:l[1],
@@ -183,7 +183,7 @@ commonfaclist(l) := block([i, a, ret],
   else ret:"fail",
  return(ret) )$
 
-/* Returns a list of factors of ex without multiplicities */
+/* Returns a list of factors of ex without multiplicities. */
 factorlist(ex) := block([simp:false, ret:"", ex2],
   ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),
@@ -191,7 +191,7 @@ factorlist(ex) := block([simp:false, ret:"", ex2],
      ret:[ex]
   else
      ret:args(ex),
-  /* now strip off powers */
+  /* Strip off powers. */
   ret:maplist(lambda([ex2], if atom(ex2) then ex2 else if op(ex2)="^" then part(ex2,1) else ex2), ret),
   return(ret)
 )$
@@ -204,7 +204,7 @@ lowesttermsp(ex) := block([simp:false,ex1,ex2,ex3],
   if gcd(num(ex),denom(ex))=1 then return(true) else return(false)
 )$
 
-/* Create a list with all parts for which numberp(ex)=true, or which appear to be rational numbers */
+/* Create a list with all parts for which numberp(ex)=true, or which appear to be rational numbers. */
 list_expression_numbers(ex) := block([ex2],
   if mapatom(ex) then (if numberp(ex) then return([ex]) else return([]))
   else (
@@ -495,7 +495,7 @@ STACK_assoc(ex, oplist) := block(
        with the binding precedences of their namesakes.
    (2) The tex() function is modified to display them exactly as
        their namesakes.  This should work with a *mix* of noun and
-       active operators
+       active operators.
    (3) verb_arith(expr) which will replace noun versions with their
        active counterparts.
    (4) noun_arith(expr) which will replace arithmetic operators with their 
@@ -510,20 +510,13 @@ infix("noun/", 122, 123);
 infix("noun^", 140, 139);
 prefix("UNARY_RECIP", 100);
 
+declare("noun*", commutative);
+declare("noun+", commutative);
+
 /* (2) */
 load("noun_arith.lisp"); 
 
 /* (3) */
-
-declare("noun+", commutative);
-declare("noun+", lassociative);
-declare("noun+", rassociative);
-
-declare("noun*", commutative);
-declare("noun*", lassociative);
-declare("noun*", rassociative);
-
-/* (4) */
 verb_arith(ex) := block(
     ex:subst("+", "noun+", ex), 
     ex:subst("*", "noun*", ex), 
@@ -536,7 +529,7 @@ verb_arith(ex) := block(
     ex
 )$
 
-/* (5) */
+/* (4) */
 noun_arith(ex) := block(
     ex:subst("noun+", "+", ex), 
     ex:subst("noun*", "*", ex), 
@@ -548,33 +541,43 @@ noun_arith(ex) := block(
     ev(ex)
 )$
 
-/* (6) Assumes we are working in the context of noun operators.*/
+/* (5) Assumes we are working in the context of noun operators. */
 gather_reduce(ex) := block(
     ex:subst("+", "noun+", ex), 
     ex:subst("*", "noun*", ex), 
     ex:subst("-", "noun-", ex), 
-    ex:ev(ex, simp),
+    ex:ev(flatten(ex), simp),
     ex:subst("noun+", "+", ex), 
-    ex:subst("noun*", "*", ex), 
+    ex:subst("noun*", "*", ex), --
     ex:subst("noun-", "-", ex), 
     ex
 )$
 
+/* This function recursively applies flatten, i.e. this implements nary simplification. */
+flatten_recurse_nouns(ex) := block(
+    if atom(ex) then return(ex),
+    if op(ex)="noun+" or op(ex)="noun*" then 
+        return(flatten(apply(op(ex), maplist(flatten_recurse_nouns, args(ex))))),
+    apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
+)$
+
 /*  (7)  */
-/* Returns true iff ex1 and ex2 are equal up to commutativity and associativity */
-equals_commute_associate(ex1,ex2) := block([oldsimp,ex1n,ex2n,ret],
+/* Returns true iff ex1 and ex2 are equal up to commutativity and associativity. */
+equals_commute_associate(ex1, ex2) := block([oldsimp, ex1n, ex2n, ret],
     oldsimp:simp,
     simp:false,
     ex1n:noun_arith(ex1),
     ex2n:noun_arith(ex2),
     simp:true,
+    ex1n:ev(flatten_recurse_nouns(ex1n), simp),
+    ex2n:ev(flatten_recurse_nouns(ex2n), simp),
     if ex1n=ex2n then ret:true else ret:false,
     simp:oldsimp,
     ret
 )$
 
-/* An answer test in the context of commutative+associative addition and multiplication.*/
-ATEqualComAss(sa,sb) := 
+/* An answer test in the context of commutative+associative addition and multiplication. */
+ATEqualComAss(sa, sb) := 
     block([Validity, RawMark, FeedBack, AnswerNote, ret, SAA, SBB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
@@ -591,13 +594,13 @@ ATEqualComAss(sa,sb) :=
         (ret[3]:StackAddNote("ATEqualComAss: ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
     ret:block([simp:true, ret], ATAlgEquivfun(sa, sb)),
     if ret[2]=false then    
-        (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)",StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
+        (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */
-    if equals_commute_associate(sa,sb) then 
+    if equals_commute_associate(sa, sb) then 
         (RawMark:true, AnswerNote:"")
     else
         (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
-    return([Validity,RawMark,AnswerNote,FeedBack])
+    return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 
 

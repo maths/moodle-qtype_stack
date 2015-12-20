@@ -33,13 +33,13 @@ stack_reset(rand_seed) := block(
   exptdispflag:true,
   linsolvewarn:false,
   ratprint:false,
-  fpprintprec:12,     /* print only 12 digits */
-  fpprec:20,          /* work with 20 digits */
+  fpprintprec:12,     /* Print only 12 digits. */
+  fpprec:20,          /* Work with 20 digits. */
   %E_TO_NUMLOG:true,  /* "r" some rational number, and "x" some expression, %E^(r*LOG(x)) => x^r .*/
   /* Synonyms to help students */
   e:exp(1),
   pi:%pi, Pi:%pi, PI:%pi,
-  pi():=%pi,  /* Why does Excel do this?! */
+  pi():=%pi,         /* Why does Excel do this?! */
   /* Display of matrixes */
   lmxchar:"[",
   /* Sets up randomization, using Maxima's internal random command */
@@ -82,7 +82,7 @@ texput(lg, "\\mathrm{lg}", prefix);
 load ("functs");
 
 /* We don't want to allow people to put boxes round things. */
-box(ex):=ex;
+box(ex) := ex;
 
 /* ********************************** */
 /* Load contributed packages          */
@@ -114,6 +114,7 @@ sqrtdenest(a) :=
 /* ********************************** */
 
 load("assessment.mac"); /* Currently part of the STACK distribution */
+load("stackunits.mac"); /* Currently part of the STACK distribution */
 load("stacktex.lisp"); /* Loads LaTeX changes and preferences */
 /* load("expandfeedback.mac"); */
 
@@ -123,7 +124,7 @@ alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013. */
 alias(arcsin, asin);           
 alias(arctan, atan);           
 
-load("mathml.lisp");   /* loads MathML */
+load("mathml.lisp");
 
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then 
@@ -137,14 +138,14 @@ make_complexJ(OPT_COMPLEXJ) := block(
   else true
 );
 
-/* Makes multiplication signs look correct */
+/* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "cross" then load("multiply_cross.lisp"),
     if OPT_MULTSGN = "dot" then load("multiply_dot.lisp"),
     if OPT_MULTSGN = "blank" then load("multiply_blank.lisp")
 );
 
-/* Options for cos^(-1), acos or arccos */
+/* Options for cos^(-1), acos or arccos. */
 make_arccos(OPT_ACOS) := block(
     if OPT_ACOS = "cos-1" then load("cos-1.lisp"),
     if OPT_ACOS = "arccos" then load("arccos.lisp")
@@ -768,7 +769,7 @@ num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1
 
 
 
-ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB],
+ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -791,20 +792,28 @@ ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol,
     /* SA should be only a number. */
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
-    SA:SA[1],
+    SA:SAA[1],
     if (not(floatnump(SA)) and not(integerp(SA))) then
         return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
+    /* Check answers have the same algebraic sign. */
+    if not(is(sign(SA)=sign(SB))) then block(
+        RawMark:false, 
+        FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"), 
+        AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongSign")
+    ),
+    SA:ev(abs(SA),simp),
+    SB:ev(abs(SB),simp),
     /* Puts Teacher's answer between 0 & 1 */
-    c0:-floor(log(abs(float(rat(SB))))/log(10)+1),
-    c1:rat(SA)*10^(c0+floor(nsf)),
-    if is(float(c1-floor(c1))=0.0)=false then block(
+    c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp),
+    c1:ev(rat(SA)*10^(c0+floor(nsf)), simp),
+    if is(ev(float(c1-floor(c1)), simp) = 0.0) = false then block(
         Validity:true, 
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"), 
         AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits")
     ), 
-    c2:abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf)))),
-    if not(is(c2<0.5)) then block(
+    ev(c2:abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf)))), simp),
+    if not(ev(is(c2<0.5), simp)) then block(
         Validity:true, 
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_Inaccurate"), 
@@ -1269,134 +1278,134 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     lists of polynomials and delegates everything
     else to other functions.
 
-	Process:
-	
-	- Is each answer a list?
-	- Is each list element not an atom?
-	- Is each list element an equation?
-	- Is each list element a polynomial?
+    Process:
+
+    - Is each answer a list?
+    - Is each list element not an atom?
+    - Is each list element an equation?
+    - Is each list element a polynomial?
 */
 
 /* Edited files: SysEquiv.php, AnsTestcontroller.php, lang/en/stack.php */
 
 ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA, SAB, S1, S2, varlist, GA, GB, ret],
-	Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
-	keepfloat:true,
-	
-	/* Turn on simplification and error catch */
+    Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
+    keepfloat:true,
+
+    /* Turn on simplification and error catch */
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
         return([false, false, StackAddNote("", "ATSysEquiv_STACKERROR_SAns"), ""]),
     SAB:errcatch(ev(SB, simp, nouns)),
     if (is(SAB=[STACKERROR]) or is(SAB=[])) 
         then return([false, false, StackAddNote("", "ATSysEquiv_STACKERROR_TAns"), ""]),
-	
-	/* Are both answers lists? */
-	if not listp(SA) then
-		return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_list")),
-	if not listp(SB) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_list")),
 
-	/* Are all list elements not atoms? */
-	if ev(all_listp(atom,SA),simp) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
-	if ev(all_listp(atom,SB),simp) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
+    /* Are both answers lists? */
+    if not listp(SA) then
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_list")),
+    if not listp(SB) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_list")),
 
-	/* Are all list elements equations? */
-	if ev(not all_listp(equationp, SA), simp) then
-		return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
-	if ev(not all_listp(equationp,SB), simp) then
-		return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
+    /* Are all list elements not atoms? */
+    if ev(all_listp(atom,SA),simp) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_eq_list")),
+    if ev(all_listp(atom,SB),simp) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_eq_list")),
 
-	/* Turn our equations into expressions */
-	S1: ev(maplist(stack_eqnprepare, stack_eval_assignments(SA)), simp),
-	S2: ev(maplist(stack_eqnprepare, stack_eval_assignments(SB)), simp),
+    /* Are all list elements equations? */
+    if ev(not all_listp(equationp, SA), simp) then
+        return(StackBasicReturn(false, false, "ATSysEquiv_SA_not_eq_list")),
+    if ev(not all_listp(equationp,SB), simp) then
+        return(StackBasicReturn(false, false, "ATSysEquiv_SB_not_eq_list")),
+
+    /* Turn our equations into expressions */
+    S1: ev(maplist(stack_eqnprepare, stack_eval_assignments(SA)), simp),
+    S2: ev(maplist(stack_eqnprepare, stack_eval_assignments(SB)), simp),
 
     /* Is S1 is empty?  This means we only had assignments in the answer, 
        i.e. the answer was in a "solved" form, e.g. x=1. */
     if emptyp(S1) and ev(equal(setify(maplist(stack_eqnprepare, SA)), setify(maplist(stack_eqnprepare, flatten(solve(S2,listofvars(S2)))))),simp) then
-		    return([true,true,StackAddNote("","ATSysEquiv_SA_Completely_solved"),""]),
+            return([true,true,StackAddNote("","ATSysEquiv_SA_Completely_solved"),""]),
     if emptyp(S1) then 
-		    return([true,false,StackAddNote("","ATSysEquiv_SA_Not_completely_solved"),""]),
-           
-	/* Is each expression a polynomial? */
-	if not all_listp(polynomialpsimp, S1) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_poly_eq_list")),
-	if not all_listp(polynomialpsimp, S2) then
-		return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_poly_eq_list")),
+            return([true,false,StackAddNote("","ATSysEquiv_SA_Not_completely_solved"),""]),
 
-	/*
-		At this point have two lists of polynomials. We now check whether the
-		student's and teacher's polynomials have the same variables. If they do,
-		we find their Grobner bases and determine whether the systems of
-		equations have the same solutions
-	*/
+    /* Is each expression a polynomial? */
+    if not all_listp(polynomialpsimp, S1) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SA_not_poly_eq_list")),
+    if not all_listp(polynomialpsimp, S2) then
+        return(StackBasicReturn(false,false,"ATSysEquiv_SB_not_poly_eq_list")),
 
-	varlist: listofvars(S2),
-	if not is(ev(setify(listofvars(S1)),simp)=ev(setify(varlist), simp)) then
-		return(ATSysEquivVars(S1,S2)),
+    /*
+       At this point have two lists of polynomials. We now check whether the
+        student's and teacher's polynomials have the same variables. If they do,
+        we find their Grobner bases and determine whether the systems of
+        equations have the same solutions
+    */
 
-	GA :ev(poly_buchberger(S1,varlist),simp), 
-	GB :ev(poly_buchberger(S2,varlist),simp),
-	kill(S1,S2),
+    varlist: listofvars(S2),
+    if not is(ev(setify(listofvars(S1)),simp)=ev(setify(varlist), simp)) then
+        return(ATSysEquivVars(S1,S2)),
 
-	/* Determine whether our two lists of polynomials have the same Grobner Bases */
-	if poly_grobner_equal(GA, GB, varlist) then
-		return([true,true,"",""]),
+    GA :ev(poly_buchberger(S1,varlist),simp), 
+    GB :ev(poly_buchberger(S2,varlist),simp),
+    kill(S1,S2),
 
-	/* 
-		We now know the student's answer is in the correct form but there is
-		something wrong with it. From here we use the grobner package to
-		determine which, if any, of their equations is correct.
-	*/
+    /* Determine whether our two lists of polynomials have the same Grobner Bases */
+    if poly_grobner_equal(GA, GB, varlist) then
+        return([true,true,"",""]),
 
-	return(ATSysEquivGrob(GA, GB, SA, varlist))
+    /* 
+        We now know the student's answer is in the correct form but there is
+        something wrong with it. From here we use the grobner package to
+        determine which, if any, of their equations is correct.
+    */
+
+    return(ATSysEquivGrob(GA, GB, SA, varlist))
 )$
 
 
 /* Takes two lists of expressions and compares the variables in each */
 
 ATSysEquivVars(S1,S2):=block([XA,XB],
-	XA: setify(listofvars(S1)),
-	XB: setify(listofvars(S2)),
-	if subsetp(XA,XB) then
-		return(StackBasicReturn(true,false,"ATSysEquiv_SA_missing_variables")),
-	if subsetp(XB,XA) then
-		return(StackBasicReturn(true,false,"ATSysEquiv_SA_extra_variables")),
-	return(StackBasicReturn(true,false,"ATSysEquiv_SA_wrong_variables"))
+    XA: setify(listofvars(S1)),
+    XB: setify(listofvars(S2)),
+    if subsetp(XA,XB) then
+        return(StackBasicReturn(true,false,"ATSysEquiv_SA_missing_variables")),
+    if subsetp(XB,XA) then
+        return(StackBasicReturn(true,false,"ATSysEquiv_SA_extra_variables")),
+    return(StackBasicReturn(true,false,"ATSysEquiv_SA_wrong_variables"))
 )$
 
 /*
-	Grobner basis comparison
+    Grobner basis comparison
 
-	This function takes two Grobner bases and a set of variables and determines
-	whether the student's system is underdetermined or overdetermined. It also
-	takes the student's original system so that if it is overdetermined it can
-	tell them which equations should not be there.
+    This function takes two Grobner bases and a set of variables and determines
+    whether the student's system is underdetermined or overdetermined. It also
+    takes the student's original system so that if it is overdetermined it can
+    tell them which equations should not be there.
 */
 
 ATSysEquivGrob(GA,GB,SA,varlist):=block([retl,ret],
 
-	/* Is the student's system underdetermined? */
+    /* Is the student's system underdetermined? */
 
-	if poly_grobner_subsetp(GA,GB,varlist) then
-		return(StackBasicReturn(true,false,"ATSysEquiv_SA_system_underdetermined")),
+    if poly_grobner_subsetp(GA,GB,varlist) then
+        return(StackBasicReturn(true,false,"ATSysEquiv_SA_system_underdetermined")),
 
-	/* 
-		Given that the student's system is neither underdetermined nor equal to
-		the teacher's, we need to find which equations do not belong in the system.
-	*/
-	
-	ret:[],
-	
-	for k:1 thru length(SA) do block([],
-		if ev(poly_grobner_member(stack_eqnprepare(stack_eval_assignments(SA[k])), GB, varlist),simp) then
-			ret:append(ret,[SA[ev(k,simp)]])
-		else
-			ret:append(ret,[texcolor("red", SA[ev(k,simp)])])),
+    /* 
+        Given that the student's system is neither underdetermined nor equal to
+        the teacher's, we need to find which equations do not belong in the system.
+    */
 
-	return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", StackDISP(ret, "d"))])
+    ret:[],
+
+    for k:1 thru length(SA) do block([],
+        if ev(poly_grobner_member(stack_eqnprepare(stack_eval_assignments(SA[k])), GB, varlist),simp) then
+            ret:append(ret,[SA[ev(k,simp)]])
+        else
+            ret:append(ret,[texcolor("red", SA[ev(k,simp)])])),
+
+    return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", StackDISP(ret, "d"))])
 )$
 
 /*****************************************************************/
@@ -2389,4 +2398,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2015111500$
+stackmaximaversion:2015122000$

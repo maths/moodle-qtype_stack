@@ -1,0 +1,187 @@
+/*  Author Matti Harjula
+    Aalto University
+    Copyright (C) 2015 Matti Harjula
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+
+/****************************************************************/
+/*  Simplified tools for handling SI-units (+liters)            */
+/*                                                              */
+/*  Matti Harjula <matti.harjula@aalto.fi>                      */
+/*                                                              */
+/*  Answer test added by                                        */
+/*  Chris Sangwin <C.J.Sangwin@ed.ac.uk>                        */
+/*                                                              */
+/*  V0.4 December 2015                                          */
+/****************************************************************/
+
+stack_unit_si_prefix_code:[y,z,a,f,p,n,u,m,c,d,da,h,k,M,G,T,P,E,Z,Y]$
+stack_unit_si_prefix_multiplier:[10^-24,10^-21,10^-18,10^-15,10^-12,10^-9,10^-6,10^-3,10^-2,10^-1,10,10^2,10^3,10^6,10^9,10^12,10^15,10^18,10^21,10^24]$
+stack_unit_si_prefix_tex:["y","z","a","f","p","n","\\mu ","m","c","d","da","h","k","M","G","T","P","E","Z","Y"]$
+stack_unit_si_unit_code:[m,g,s,A,ohm,K,mol,cd,Hz,N,Pa,J,W,C,V,F,S,Wb,T,H,l,Bq,Gy,Sv,lm,lx]$
+stack_unit_si_unit_conversions:[m,kg/1000,s,A,kg*m^2/(s^3*A^2),K,mol,cd,1/s,kg*m/(s^2),kg/(m*s^2),kg*m^2/(s^2),kg*m^2/(s^3),s*A,kg*m^2/(s^3*A),A^2*s^4/(kg*m^2),s^3*A^2/(kg*m^2),kg*m^2/(s^2*A),kg/(s^2*A),kg*m^2/(s^2*A^2),m^3/1000,1/s,m^2/s^2,m^2/s^2,cd,cd/m^2]$
+stack_unit_si_unit_tex:["m","g","s","A","\Omega","K","mol","cd","Hz","N","Pa","J","W","C","V","F","S","Wb","T","H","l","Bq","Gy","Sv","lm","lx"]$
+
+/* Declare SI-units as constants and set \texput rules for them, the mode parameter does nothing */
+/* except skips the syntax validation error... */
+stack_unit_si_declare(mode) := block([pfi,ui,simp],
+ simp:true, /* seriously, if simp:false then "apply: subscript must be an integer; found: 1 + 1" */
+ for ui:1 thru length(stack_unit_si_unit_code) do (
+  for pfi:1 thru length(stack_unit_si_prefix_code) do (
+   apply('texput,[concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]),sconcat("\\mathrm{",stack_unit_si_prefix_tex[pfi],stack_unit_si_unit_tex[ui],"}")]),
+   apply('declare,[concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]),constant])
+  ),
+  apply('texput,[stack_unit_si_unit_code[ui],sconcat("\\mathrm{",stack_unit_si_unit_tex[ui],"}")]),
+  apply('declare,[stack_unit_si_unit_code[ui],constant])
+ )
+)$
+
+/* Converts the whole expression to SI-base units */
+stack_unit_si_to_si_base(expression) := block([ui,pfi,work,simp],
+ simp:true, /* seriously, if simp:false then "apply: subscript must be an integer; found: 1 + 1" */
+ work:expression,
+ for ui:1 thru length(stack_unit_si_unit_code) do (
+  for pfi:1 thru length(stack_unit_si_prefix_code) do (
+   work: subst(stack_unit_si_prefix_multiplier[pfi]*stack_unit_si_unit_code[ui],concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]),work)
+  ),
+  work: subst(stack_unit_si_unit_conversions[ui],stack_unit_si_unit_code[ui],work)
+ ),
+ return(work)
+)$
+
+/* Splits off the units from the end of a product. */
+stack_units_split(ex) := block([oldsimp, exn, exu],
+    /* If we have only a number then return it, with a placeholder for units. */
+    if simp_numberp(ev(float(ex), simp)) then return([ex, NULLUNITS]),
+    /* Atoms should be returned as just units. */
+    if atom(ex) then return([ex, NULLUNITS]),
+    oldsimp:simp,
+    simp:false,
+    exn:flatten_recurse_nouns(noun_arith(float(ex))),
+    /* If we don't have a product we are return what we are given. */
+    if not(is(op(exn)="noun*")) then return([ex, NULLUNITS]),
+    exu:sublist(args(exn), lambda([ex2], not(numberp(ex2) or ex2=UNARY_MINUS))),
+    exn:sublist(args(exn), lambda([ex2], numberp(ex2) or ex2=UNARY_MINUS)),
+    simp:oldsimp,
+    ev(verb_arith([apply("noun*", exn), apply("noun*", exu)]),simp)
+);
+
+/* Units answer test. */
+ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, ol, ret, ret1, ret2],
+    validity:true, rawmk:true, fb:StackAddFeedback("",""), ansnote:"",
+
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
+    SBB:errcatch(ev(SBL, simp, nouns)),
+    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+        return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
+
+    /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
+    /* Sort out options */
+    if listp(SBL) then (SB:SBL[1], ol:SBL[2]) else 
+        (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_STACKERROR_no_option"), StackAddFeedback("", "TEST_FAILED_Q")])),
+
+    /* SA should be only an expression. */
+    if expressionp(SA)=false then
+        return([false, false, StackAddNote("", "ATUnits_SA_not_expression"), StackAddFeedback("", "ATUnits_SA_not_expression")]),
+
+    /* SB should be only an expression. */
+    if expressionp(SB)=false then
+        (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_TA_not_expression"), StackAddFeedback("", "TEST_FAILED_Q")])),
+        
+    /* SA must have some units. */
+    if simp_numberp(SA) then
+        return([false, false, StackAddNote("", "ATUnits_SA_no_units"), StackAddFeedback("", "ATUnits_SA_no_units")]),
+
+    if (debug) then (print(SA), print(SB)),
+    SAU:stack_units_split(SA),
+    SBU:stack_units_split(SB),
+    if (debug) then (print(SAU), print(SBU)),
+
+    /* The teacher must supply some units, otherwise the test will fail. */
+    if second(SBU)=NULLUNITS then
+        (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_SB_no_units"), StackAddFeedback("", "TEST_FAILED_Q")])),
+
+    /* Check if stack_units_split appears to have done something sensible. */ 
+    if not(is(listofvars(first(SAU))=[])) then
+        return([false, false, StackAddNote("", "ATUnits_SA_bad_units"), StackAddFeedback("", "ATUnits_SA_bad_units")]),
+    if second(SAU)=NULLUNITS then
+        return([false, false, StackAddNote("", "ATUnits_SA_no_units"), StackAddFeedback("", "ATUnits_SA_no_units")]),
+
+    /* Strip off units and check the numerical part with ATNumSigFigs. */
+    ret1: ATNumSigFigs(first(SAU), [first(SBU), ol]),
+    if (debug) then print(ret1),
+
+    /* Did we get an error?  If so, then go no further. */
+    if not(ret1[1]) then return(ret1),
+    
+    /* Check units.  If the units match exactly then go no further. 
+       The correctness or otherwise is entirely determined by ATNumSigFigs.  */
+    if algebraic_equivalence(second(SAU), second(SBU)) then
+        return([ret1[1], ret1[2], StackAddNote(ret1[3], "ATUnits_units_match"), ret1[4]]),
+
+    /* Now convert to base units and compare again.  This is for feedback purposes. */
+    if (debug) then print("ATUnits: converting to base units."),
+    SA:stack_unit_si_to_si_base(SA),
+    SB:stack_unit_si_to_si_base(SB),
+    SAU:stack_units_split(SA),
+    SBU:stack_units_split(SB),
+    if (debug) then (print(SAU), print(SBU)),
+
+    /* Check the accuracy again, now we have converted. */
+    ret2: ATNumSigFigs(first(SAU), [first(SBU), ol]),
+    if (debug) then print(ret2),
+
+    /* Did we get an error?  If so, then go no further. */
+    if not(ret2[1]) then 
+        return([ret2[1], ret2[2], StackAddNote(ret2[3], "ATUnits_second_numerial_test_failed"), ret2[4]]),
+
+    /* Check for incompatible units. */
+    if not(algebraic_equivalence(second(SAU), second(SBU))) then block(
+        if (debug) then print("ATUnits_incompatible_units"),
+        rawmk:false,
+        /* What about accuracy?  Only look at their actual answer. There is no point    
+           converting the numerical part to base units here as they don't match the teacher's. */
+        ansnote:StackAddNote(ret1[3], "ATUnits_incompatible_units"),
+        fb:StackAddFeedback(ret1[4], "ATUnits_incompatible_units"),
+        if (ret1[2]) then block(
+            ansnote:StackAddNote(ansnote, "ATUnits_correct_numerical"),    
+            fb:StackAddFeedback(fb, "ATUnits_correct_numerical")
+        ) 
+    ),
+    if not(algebraic_equivalence(second(SAU), second(SBU))) then 
+        return([true, false, ansnote, fb]),
+
+    /* We do have compatible units.  */
+    ansnote:StackAddNote(ret2[3], "ATUnits_compatible_units"),
+    fb:StackAddFeedback(ret2[4], "ATUnits_compatible_units"),
+
+    /* Is the numerical answer correct? */
+    if ret2[2] then
+        return([true, true, ansnote, fb]),            
+
+    rawmk:false,
+
+    /* Despite getting the wrong units, was the original numerical value correct? */
+    if ret1[2] then block(
+        ansnote:StackAddNote("", "ATUnits_compatible_units"),
+        ansnote:StackAddNote(ansnote, "ATUnits_correct_numerical"),
+        fb:StackAddFeedback("", "ATUnits_correct_numerical")
+    ),
+
+    
+    /* Send back the result. */
+    ret:[validity, rawmk, ansnote, fb],
+    return(ret)
+    )$

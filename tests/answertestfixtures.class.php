@@ -152,8 +152,12 @@ class stack_answertest_test_data {
 
         array('AlgEquiv', '1', 'x=1', 0, '', 'Equations'),
         array('AlgEquiv', 'x=1', 'x=1', 1, '', ''),
+        array('AlgEquiv', '1=x', '1=x', 1, '', ''),
         array('AlgEquiv', '1=x', 'x=1', 1, '', ''),
+        array('AlgEquiv', '1=1', '1=x', 0, '', ''),
+        array('AlgEquiv', '1=1', 'x=1', 0, '', ''),
         array('AlgEquiv', 'x=2', 'x=1', 0, '', ''),
+        array('AlgEquiv', '2=x', 'x=1', 0, '', ''),
         array('AlgEquiv', 'x=x', 'y=y', 1, '', ''),
         array('AlgEquiv', 'x+y=1', 'y=1-x', 1, '', ''),
         array('AlgEquiv', '2*x+2*y=1', 'y=0.5-x', 1, '', ''),

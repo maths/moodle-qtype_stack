@@ -78,7 +78,7 @@ stack_units_split(ex) := block([oldsimp, exn, exu],
 
 /* Units answer test. */
 ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, ol, ret, ret1, ret2],
-    validity:true, rawmk:true, fb:StackAddFeedback("",""), ansnote:"",
+    validity:true, rawmk:true, fb:"", ansnote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
@@ -165,7 +165,6 @@ ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, ol, ret, 
 
     /* We do have compatible units.  */
     ansnote:StackAddNote(ret2[3], "ATUnits_compatible_units"),
-    fb:StackAddFeedback(ret2[4], "ATUnits_compatible_units"),
 
     /* Is the numerical answer correct? */
     if ret2[2] then

@@ -812,6 +812,7 @@ class stack_answertest_test_data {
         array('Units', '12.4*m/s', '12.3*m/s', 0, '3', ''),
         array('Units', '12.4*m/s', '12.3*m/s', 1, '[3,2]', ''),
         array('Units', '12.45*m/s', '12.3*m/s', 0, '[3,2]', ''),
+        array('Units', '13.45*m/s', '12.3*m/s', 0, '[3,2]', ''),
         array('Units', '12*m/s', '12.3*m/s', 0, '3', ''),
         array('Units', '-9.81*m/s^2', '-9.81*m/s^2', 1, '3', ''),
         array('Units', '-9.81*m*s^(-2)', '-9.81*m/s^2', 1, '3', ''),
@@ -823,6 +824,7 @@ class stack_answertest_test_data {
         array('Units', '25*g', '0.025*kg', 1, '2', 'Different units'),
         array('Units', '26*g', '0.025*kg', 0, '2', ''),
         array('Units', '0.025*g', '0.025*kg', 0, '2', ''),
+        array('Units', '1*Mg/10^6', '1*N*s^2/(km)', 1, '1', ''),
 
         array('String', 'Hello', 'hello', 0, '', ''),
         array('String', 'hello', 'hello', 1, '', ''),

@@ -208,8 +208,9 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal],
 /*        "i" inline or               */
 /*        "d" for displayed, or       */
 /*        "" for no delimiters.       */
+/* ********************************** */
 
-StackDISP(expr,m) := block([str:""],
+StackDISP(expr, m) := block([str:""],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
@@ -283,7 +284,7 @@ stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{
 stack_matrix_disp(m):= block([ret, lp, rp, parens],
   if not(matrixp(m)) then (print("\\mbox{ERROR: argument to stack_matrix_disp must be a matrix.} "), return("")),
   if not(stringp(lmxchar)) then (print("\\mbox{ERROR: stack_matrix_disp requires lmxchar to be a string. }"), return("")), 
-  parens:sublist(stack_matrix_pairs, lambda([ex],is(first(ex)=lmxchar))),
+  parens:sublist(stack_matrix_pairs, lambda([ex], is(first(ex)=lmxchar))),
   if emptyp(parens) then (print(concat("\\mbox{ERROR: stack_matrix_disp cannot display matrices with parentheses ", string(lmxchar), "}")), return("")),
   parens:first(parens),
   lp:second(parens),
@@ -372,14 +373,14 @@ unary_minus_sort(ex) := block([ex2],
   return(unary_minus_pull(ex2))
 )$
 
-/* ****************************************************************** */
-/* Evaluate variables are return errors, display, and content forms   */
-/* ****************************************************************** */
+/* ********************************************************************* */
+/*  Evaluate variables are return errors, display, and content forms.    */
+/* ********************************************************************* */
 
 /* This function executes ex, which is assumed to be a stack expression  */
 /* which is surrounded by errcatch.  Hence we end up with a list.        */
-cte(var,ex) := block([str],
-    print("], key= ["),
+cte(var, ex) := block([str],
+    print("], key = ["),
     print(var),
     print("]"),
     if ex = [] then block(
@@ -434,8 +435,10 @@ StackBasicReturn(validity, result, note) := [validity, result, StackAddNote("", 
 /* ********************************************************* */
 
 StackReturn(ex) := block([str],
-  if not(listp(ex)) then (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),
-  if length(ex)#4 then (print("StackReturn failed: argument wrong length: "), print(string(ex)), return("")),
+  if not(listp(ex)) then 
+      (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),
+  if length(ex)#4 then 
+      (print("StackReturn failed: argument wrong length: "), print(string(ex)), return("")),
   print(" ], valid = [ "),
   if ex[1] then print(1) else print(0),
   print(" ], answernote = [ "),
@@ -445,8 +448,8 @@ StackReturn(ex) := block([str],
   return(ex[2])
 )$
 
-/* note the extra closing ] here.  The corresponding opening [ is generated in PHP */
-/* This is about the most ugly API ever, but there we go.....                      */
+/* note the extra closing ] here.  The corresponding opening [ is generated in PHP. */
+/* This is about the most ugly API ever, but there we go.....                       */
 
 /* ******************************************* */
 /* Validate an expression                      */
@@ -464,7 +467,7 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
   /* Checks fractions are in lowest terms */
   if LowestTerms and all_lowest_termsex(expr)=false then
     print(StackAddFeedback("", "Lowest_Terms")),
-  /* Check if the student's answer is the same type as the Teachers */
+  /* Check if the student's answer is the same type as the Teacher's. */
   SameType:ATSameTypefun(expr, TAns),
   if SameType[2]#true then print(SameType[4]),
   /* Now display the result */
@@ -548,7 +551,7 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     /* Sort out alt-text */
     kill(alt),
     alttext:concat("STACK auto-generated plot of ", string(ex), " with parameters ", string(ral)),
-    altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex)=alt) else false)),
+    altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = alt) else false)),
     if not(emptyp(altc)) then (ral:delete(first(altc), ral), alttext:second(first(altc))),
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
     /* remove from option list ral any non-permitted options */
@@ -641,7 +644,7 @@ ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote,
     if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
     SB:SB[1], 
     if not(listp(SB)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_not_list"))),
-    if not(is(length(SB)=2)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_wrong_length"))),
+    if not(is(length(SB) = 2)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_wrong_length"))),
     tol:SB[2],
     if not(numberp(tol)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_tol"))),
     if not(elementp(numtype, {"ABSOLUTE", "RELATIVE"})) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_testname_invalid"))),
@@ -799,7 +802,7 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
     if not(is(sign(SA)=sign(SB))) then block(
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"), 
-        AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongSign")
+        AnswerNote:StackAddNote(AnstwerNote, "ATNumSigFigs_WrongSign")
     ),
     SA:ev(abs(SA),simp),
     SB:ev(abs(SB),simp),
@@ -2398,4 +2401,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2015122101$
+stackmaximaversion:2015122203$

@@ -64,27 +64,110 @@ stack_units_split(ex) := block([oldsimp, exn, exu],
     /* If we have only a number then return it, with a placeholder for units. */
     if simp_numberp(ev(float(ex), simp)) then return([ex, NULLUNITS]),
     /* Atoms should be returned as just units. */
-    if atom(ex) then return([ex, NULLUNITS]),
+    if atom(ex) then
+        return([NULLNUM, ex]),
     oldsimp:simp,
     simp:false,
-    exn:flatten_recurse_nouns(noun_arith(float(ex))),
+    exn:flatten_recurse_nouns(noun_arith(ex)),
+    if (debug) then (print("stack_units_split: nounarith expression is"), print(exn)),
     /* If we don't have a product we are return what we are given. */
-    if not(is(op(exn)="noun*")) then return([ex, NULLUNITS]),
-    exu:sublist(args(exn), lambda([ex2], not(numberp(ex2) or ex2=UNARY_MINUS))),
-    exn:sublist(args(exn), lambda([ex2], numberp(ex2) or ex2=UNARY_MINUS)),
+    if not(is_simp(op(exn)="noun*")) then 
+        return([ex, NULLUNITS]),
+    exu:sublist(args(exn), lambda([ex2], not(stack_units_split_p(ex2)))),
+    exn:sublist(args(exn), lambda([ex2], stack_units_split_p(ex2))),
     simp:oldsimp,
-    ev(verb_arith([apply("noun*", exn), apply("noun*", exu)]),simp)
-);
+    if (debug) then (print("stack_units_split:"), print(exn), print(exu)),
+    /* Flag up if we genuinely have no numbers. */
+    if is_simp(emptyp(exn)) then 
+        exn:[NULLNUM],
+    verb_arith([apply("noun*", exn), apply("noun*", exu)])
+)$
+
+/* Predicate function used as a filter in stack_units_split. */
+stack_units_split_p(ex) := block(
+    if simp_numberp(ex) or is_simp(ex=UNARY_MINUS) or is_simp(ex=QMCHAR) then
+        return(true),
+    if emptyp(listofvars(ex)) then
+        return(true),
+    if simp_numberp(ev(float(verb_arith(ex)), simp)) then
+        return(true),
+    return(false)
+)$
+
+/* Validate an expression which is expected to have units.*/
+stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, SBU],
+    /* Try to simply the expression to catch CAS errors */
+    exs:errcatch(ev(expr, simp)),
+    if is_simp(exs = []) then return(false),
+    if length(expr)#1 then 
+        print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
+    expr:first(expr),
+    /* Do not check for floats.  They are always ok here. */
+    /* Checks fractions are in lowest terms */
+    if LowestTerms and not(all_lowest_termsex(expr)) then
+        print(StackAddFeedback("", "Lowest_Terms")),
+    /* SA should be only an expression. */
+    if not(expressionp(expr)) then
+        (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
+
+    /* Check if the student has correctly used units.*/
+    SAU:stack_units_split(expr),
+    SBU:stack_units_split(TAns),
+    if (debug) then (print("stack_validate_units working with: "), print(SAU), print(SBU)),
+
+    /* Check if stack_units_split appears to have done something sensible. */ 
+    /* Student types only units.  This should always be invalid. */ 
+    if is_simp(first(SAU) = NULLNUM) then 
+        print(StackAddFeedback("", "ATUnits_SA_only_units"))
+    else if not(emptyp(listofvars(first(SAU)))) then
+        print(StackAddFeedback("", "ATUnits_SA_bad_units"))
+    else block(
+        /* Student should use units if and only if the teacher uses units. */
+        if is_simp(second(SAU) = NULLUNITS) and not(is_simp(second(SBU) = NULLUNITS)) then
+            print(StackAddFeedback("", "ATUnits_SA_no_units")),
+        if not(is_simp(second(SAU) = NULLUNITS)) and is_simp(second(SBU) = NULLUNITS) then
+            print(StackAddFeedback("", "ATUnits_SA_excess_units"))
+    ),
+
+    /* Now display the result and subtly change the display. */
+    if not(is_simp(first(SAU) = NULLNUM) or is_simp(first(SAU) = 1) or is_simp(second(SAU) = NULLUNITS)) then
+        expr:stack_validate_units_display(SAU),
+    expr:detexcolor(expr),
+    expr:detexdecorate(expr),
+    return(expr)
+)$
+
+/* This function sorts out the display of the final expression.
+   Units should be a product of powers (possibly negative).
+   Numbers should have the division operator used.              */
+stack_validate_units_display(ex) := block([expr],
+  apply("*", maplist(stack_combine_exponents, expr:flatten((first(ex))*(second(ex)))))
+)$
+
+/* This function is used to make the transformation (x^a)^b -> x^(a*b).
+   This is really needed for negative exponents.                         */
+stack_combine_exponents(ex) := block([n,m,ex1],
+    if not(is_simp(safe_op(ex)="^")) then 
+        return(ex),
+    ex1:first(args(ex)),
+    n:second(args(ex)),
+    if not(integerp(ev(n, simp))) then 
+        return(ex),
+    if not(is_simp(safe_op(ex1)="^")) then 
+        return(ex), 
+    m:second(args(ex1)),
+    return(first(args(ex1))^(ev(m*n, simp)))
+)$
 
 /* Units answer test. */
-ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, ol, ret, ret1, ret2],
+ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
     validity:true, rawmk:true, fb:"", ansnote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
-    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+    if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then 
         return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
     SBB:errcatch(ev(SBL, simp, nouns)),
-    if (is(SBB=[STACKERROR]) or is(SBB=[])) then 
+    if (is_simp(SBB = [STACKERROR]) or is_simp(SBB = [])) then 
         return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
 
     /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
@@ -93,11 +176,11 @@ ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, ol, ret, 
         (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_STACKERROR_no_option"), StackAddFeedback("", "TEST_FAILED_Q")])),
 
     /* SA should be only an expression. */
-    if expressionp(SA)=false then
+    if not(expressionp(SA)) then
         return([false, false, StackAddNote("", "ATUnits_SA_not_expression"), StackAddFeedback("", "ATUnits_SA_not_expression")]),
 
     /* SB should be only an expression. */
-    if expressionp(SB)=false then
+    if not(expressionp(SB)) then
         (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_TA_not_expression"), StackAddFeedback("", "TEST_FAILED_Q")])),
         
     /* SA must have some units. */
@@ -110,17 +193,23 @@ ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, ol, ret, 
     if (debug) then (print(SAU), print(SBU)),
 
     /* The teacher must supply some units, otherwise the test will fail. */
-    if second(SBU)=NULLUNITS then
+    if is_simp(second(SBU) = NULLUNITS) then
         (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_SB_no_units"), StackAddFeedback("", "TEST_FAILED_Q")])),
 
+    /* SA must not be only units. */
+    if is_simp(first(SAU) = NULLNUM) then
+        return([false, false, StackAddNote("", "ATUnits_SA_only_units"), StackAddFeedback("", "ATUnits_SA_only_units")]),
+
     /* Check if stack_units_split appears to have done something sensible. */ 
-    if not(is(listofvars(first(SAU))=[])) then
+    if not(emptyp(listofvars(first(SAU)))) then
         return([false, false, StackAddNote("", "ATUnits_SA_bad_units"), StackAddFeedback("", "ATUnits_SA_bad_units")]),
-    if second(SAU)=NULLUNITS then
+    if is_simp(second(SAU) = NULLUNITS) then
         return([false, false, StackAddNote("", "ATUnits_SA_no_units"), StackAddFeedback("", "ATUnits_SA_no_units")]),
 
     /* Strip off units and check the numerical part with ATNumSigFigs. */
-    ret1: ATNumSigFigs(first(SAU), [first(SBU), ol]),
+    SAU1:ev(float(first(SAU)), simp),
+    SBU1:ev(float(first(SBU)), simp),
+    ret1: ATNumSigFigs(SAU1, [SBU1, ol]),
     if (debug) then print(ret1),
 
     /* Did we get an error?  If so, then go no further. */
@@ -140,7 +229,9 @@ ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, ol, ret, 
     if (debug) then (print(SAU), print(SBU)),
 
     /* Check the accuracy again, now we have converted. */
-    ret2: ATNumSigFigs(first(SAU), [first(SBU), ol]),
+    SAU1:ev(float(first(SAU)), simp),
+    SBU1:ev(float(first(SBU)), simp),
+    ret2: ATNumSigFigs(SAU1, [SBU1, ol]),
     if (debug) then print(ret2),
 
     /* Did we get an error?  If so, then go no further. */

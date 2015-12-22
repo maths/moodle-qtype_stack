@@ -3,7 +3,7 @@
 It is quite common in science subjects to need to accept an answer which has _units_,
 for example using \(m/s\).
 
-## The differences between `unit` and `units` packages  ##
+##Maxima packages for the support of scientific units  ##
 
 Note that in Maxima are a number of separate packages which enable a user to manipulate physical units.
 
@@ -27,6 +27,17 @@ Let us assume that the correct answer is `12.1*m/s^2`.
    This function also handles the number coefficients automatically (e.g. `1*km = 1000*m` etc.).
 4. STACK sepaates the number from the units.
 5. Finally STACK compares this number to the respective model answer. In this comparison it uses `NumSigFigs`.
+
+## Input type ##
+
+Stack provides an input type to enable teachers to support students in entering answers with scientific units.
+This input type is build closely on the algebraic input type with the following differences.
+
+1. The input type will check both the teacher's answer and the student's answer for units.  The input will require the student's answer to have units if and only if the teacher's answer also has units.  This normally forces the student to use units.  But, students sometimes add units to dimensionless quantities (such as pH) and this input type will also reject such input as invalid.
+2. This input type *always accepts floating point numbers*, regardless of the option set on the edit form.
+3. The student must type a number of some kind.  Entering units on their own will be invalid.  Note, if you want to ask a student for units, then use the algebraic input type.  Units on their own are a valid expression.
+4. If the teacher shows the validation, "with variable list" this will be displayed as "the units found in your answer are"...
+5. The "insert stars" option is unchanged and it is probably sensible to insert stars here.  You may want the single letter variable names options here, which is why this option has not been changed for this input type.
 
 ## Answer test  ##
 

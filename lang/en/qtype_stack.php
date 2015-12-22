@@ -142,6 +142,7 @@ $string['inputtypedropdown'] = 'Drop down list';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
 $string['inputtypematrix'] = 'Matrix';
+$string['inputtypeunits'] = 'Units';
 $string['inputwillberemoved'] = 'This input is no longer referred to in the question text. If you save the question now, the data about this input will be lost. Please confirm that you want to do this. Alternatively edit the question text to put back the \'[[input:{$a}]]\' and \'[[validation:{$a}]]\' placeholders.';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to false then no stars will be inserted.  If set to yes then the system will automatically insert stars into any patterns identified by Strict Syntax.  If set to "single char vars" then we assume the answer has variable names consisting only of single letter variable names.  Other variable names will have stars inserted between the letters, e.g. ab->a*b';
@@ -703,6 +704,8 @@ $string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of 
 
 $string['ATUnits_SA_not_expression']   = 'Your answer needs to be a number together with units. Do not use sets, lists, equations or matrices. ';
 $string['ATUnits_SA_no_units']         = 'Your answer must have units. ';
+$string['ATUnits_SA_excess_units']     = 'Your answer has used units (or variables), but should not. ';
+$string['ATUnits_SA_only_units']       = 'Your answer needs to be a number together with units. Your answer only has units. ';
 $string['ATUnits_SA_bad_units']        = 'Your answer must have units, and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>. ';
 $string['ATUnits_incompatible_units']  = 'Your units are incompatible with those used by the teacher. ';
 $string['ATUnits_compatible_units']    = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
@@ -727,6 +730,7 @@ $string['ATRegEx_missing_option']               = 'Missing regular expression in
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
+$string['studentValidation_listofunits']        = 'The units found in your answer were: {$a}';
 $string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 

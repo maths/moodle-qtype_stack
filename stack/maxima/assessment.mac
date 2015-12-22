@@ -106,11 +106,13 @@ zip_with(zf, a, b) := block(
  
    Note that exdowncase(X-x)=0, of course! 
 */
-exdowncase(ex):=block([lv],
+exdowncase(ex) := block([lv],
   lv:listofvars(ex),
   lv:map(lambda([v], v=parse_string(sdowncase(string(v)))),lv),
   return(subst(lv,ex)))$
 
+/* is(ex) does not work when simp:false.*/
+is_simp(ex) := ev(is(ex), simp)$
 
 /* ********************************** */
 /* Type predicates                    */
@@ -133,8 +135,8 @@ functionp(ex) := block(
 /* Determines if we are using an inequality. */
 inequalityp(ex) := block(
    if atom(ex) then return(false),
-   if ">"= op(ex) or "<"= op(ex) or ">="= op(ex) or "<="= op(ex) then return(true),
-   if "and"= op(ex) or "or"= op(ex) or "not" then return(true),
+   if ">" = op(ex) or "<" = op(ex) or ">=" = op(ex) or "<=" = op(ex) then return(true),
+   if "and" = op(ex) or "or" = op(ex) or "not" then return(true),
    return(false)
 )$
 

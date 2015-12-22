@@ -39,7 +39,7 @@ The following institutions made use of previous versionf of STACK.  If you are a
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
 
-School of Science, Aalto University, Helskini, Finland
+School of Science, Aalto University, Helsinki, Finland
 : Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
 
 School of Informatics and Sciences, Nagoya University, Japan

@@ -29,7 +29,7 @@ class stack_cas_configuration {
 
     /** @var This variable controls which optional packages are supported by STACK. */
     public static $maximalibraries = array('stats', 'distrib', 'descriptive');
-
+    
     protected $settings;
 
     /** @var string the date when these settings were worked out. */
@@ -240,10 +240,9 @@ END;
                     $contents .= 'load("'.$lib.'")$'."\n";
                 }
             }
-
         }
 
-        $contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
+	$contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
 
         return $contents;
     }
@@ -338,13 +337,13 @@ END;
                 $message .= stack_string('settingmaximalibraries_error', $a);
             }
         }
-       return(array($valid, $message));
-    }
-
+       return(array($valid, $message));               
+    }    
+    
     /**
      * This function checks the current setting match to the supported packages.
      */
     public static function validate_maximalibraries() {
         return self::get_instance()->get_validate_maximalibraries();
-    }
+    }    
 }

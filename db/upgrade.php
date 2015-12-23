@@ -658,6 +658,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015021301, 'qtype', 'stack');
     }
 
+
     // Add new upgrade blocks just above here.
 
     // This block of code is intentionally outside of an if statement. We want

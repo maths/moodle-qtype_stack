@@ -114,6 +114,7 @@ sqrtdenest(a) :=
 /* ********************************** */
 
 load("assessment.mac"); /* Currently part of the STACK distribution */
+load("stackunit.mac"); /* Simplistic prefix handling for SI-units */
 load("stacktex.lisp"); /* Loads LaTeX changes and preferences */
 /* load("expandfeedback.mac"); */
 

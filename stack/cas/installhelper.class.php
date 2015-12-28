@@ -65,7 +65,9 @@ class stack_cas_configuration {
         $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
 
         // These are used by the GNUplot "set terminal" command. Currently no user interface...
-        $this->blocksettings['PLOT_TERMINAL'] = 'png';
+        $this->blocksettings['PLOT_Add a mechanism for teacher supplied units. BUT how *important* is this and will you *regularly* use it?!
+
+        TERMINAL'] = 'png';
         $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
 
         if ($this->settings->platform == 'win') {
@@ -244,9 +246,9 @@ END;
             }
         }
 
-    $contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
+        $contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
 
-    return $contents;
+        return $contents;
     }
 
     /**
@@ -339,7 +341,7 @@ END;
                 $message .= stack_string('settingmaximalibraries_error', $a);
             }
         }
-       return(array($valid, $message));
+        return(array($valid, $message));
     }
 
     /**

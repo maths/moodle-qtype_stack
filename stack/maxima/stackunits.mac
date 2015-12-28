@@ -25,13 +25,18 @@
 /*  V0.4 December 2015                                          */
 /****************************************************************/
 
-stack_unit_si_prefix_code:[y,z,a,f,p,n,u,m,c,d,da,h,k,M,G,T,P,E,Z,Y]$
-stack_unit_si_prefix_multiplier:[10^-24,10^-21,10^-18,10^-15,10^-12,10^-9,10^-6,10^-3,10^-2,10^-1,10,10^2,10^3,10^6,10^9,10^12,10^15,10^18,10^21,10^24]$
-stack_unit_si_prefix_tex:["y","z","a","f","p","n","\\mu ","m","c","d","da","h","k","M","G","T","P","E","Z","Y"]$
-stack_unit_si_unit_code:[m,g,s,A,ohm,K,mol,cd,Hz,N,Pa,J,W,C,V,F,S,Wb,T,H,l,Bq,Gy,Sv,lm,lx]$
-stack_unit_si_unit_conversions:[m,kg/1000,s,A,kg*m^2/(s^3*A^2),K,mol,cd,1/s,kg*m/(s^2),kg/(m*s^2),kg*m^2/(s^2),kg*m^2/(s^3),s*A,kg*m^2/(s^3*A),A^2*s^4/(kg*m^2),s^3*A^2/(kg*m^2),kg*m^2/(s^2*A),kg/(s^2*A),kg*m^2/(s^2*A^2),m^3/1000,1/s,m^2/s^2,m^2/s^2,cd,cd/m^2]$
-stack_unit_si_unit_tex:["m","g","s","A","\Omega","K","mol","cd","Hz","N","Pa","J","W","C","V","F","S","Wb","T","H","l","Bq","Gy","Sv","lm","lx"]$
-
+/* This code is commented out as these lists are now defined in the main code and
+   copied over to maximalocal.mac by the install scripts.  This ensures exactly the
+   same collections of units are available in PHP and this Maxima code.
+   
+   stack_unit_si_prefix_code:[y,z,a,f,p,n,u,m,c,d,da,h,k,M,G,T,P,E,Z,Y]$
+   stack_unit_si_prefix_multiplier:[10^-24,10^-21,10^-18,10^-15,10^-12,10^-9,10^-6,10^-3,10^-2,10^-1,10,10^2,10^3,10^6,10^9,10^12,10^15,10^18,10^21,10^24]$
+   stack_unit_si_prefix_tex:["y","z","a","f","p","n","\\mu ","m","c","d","da","h","k","M","G","T","P","E","Z","Y"]$
+   stack_unit_si_unit_code:[m,g,s,A,ohm,K,mol,cd,Hz,N,Pa,J,W,C,V,F,S,Wb,T,H,l,Bq,Gy,Sv,lm,lx]$
+   stack_unit_si_unit_conversions:[m,kg/1000,s,A,kg*m^2/(s^3*A^2),K,mol,cd,1/s,kg*m/(s^2),kg/(m*s^2),kg*m^2/(s^2),kg*m^2/(s^3),s*A,kg*m^2/(s^3*A),A^2*s^4/(kg*m^2),s^3*A^2/(kg*m^2),kg*m^2/(s^2*A),kg/(s^2*A),kg*m^2/(s^2*A^2),m^3/1000,1/s,m^2/s^2,m^2/s^2,cd,cd/m^2]$
+   stack_unit_si_unit_tex:["m","g","s","A","\Omega","K","mol","cd","Hz","N","Pa","J","W","C","V","F","S","Wb","T","H","l","Bq","Gy","Sv","lm","lx"]$
+*/
+   
 /* Declare SI-units as constants and set \texput rules for them, the mode parameter does nothing */
 /* except skips the syntax validation error... */
 stack_unit_si_declare(mode) := block([pfi,ui,simp],

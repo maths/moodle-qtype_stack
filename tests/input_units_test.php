@@ -165,7 +165,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ \frac{m}{s^2} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \frac{\mathrm{m}}{\mathrm{s}^2} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_only_units_2() {
@@ -177,7 +177,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m', $state->contentsmodified);
-        $this->assertEquals('\[ m \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mathrm{m} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_missing_units() {
@@ -213,7 +213,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_bad_units", $state->note);
         $this->assertEquals('9.81+m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81+\frac{m}{s^2} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81+\frac{\mathrm{m}}{\mathrm{s}^2} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_edgecase() {
@@ -247,7 +247,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_excess_units", $state->note);
         $this->assertEquals('9.81*m*s^-1', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81\cdot m\cdot s^ {- 1 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81\cdot \mathrm{m}\cdot \mathrm{s}^ {- 1 } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_excess_units_2() {
@@ -259,7 +259,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_excess_units", $state->note);
         $this->assertEquals('9.81*s', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81\cdot s \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81\cdot \mathrm{s} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_insertstars_true_1() {
@@ -270,7 +270,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m*s^-2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81\cdot m\cdot s^ {- 2 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81\cdot \mathrm{m}\cdot \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_insertstars_false_1() {
@@ -300,7 +300,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '1/3*m/s^2'), $options, '9.81*m/s^2', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1*3^-1*m*s^-2', $state->contentsmodified);
-        $this->assertEquals('\[ 1\cdot 3^ {- 1 }\cdot m\cdot s^ {- 2 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 1\cdot 3^ {- 1 }\cdot \mathrm{m}\cdot \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_rational_number_2() {
@@ -312,7 +312,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Lowest_Terms', $state->note);
         $this->assertEquals('2*6^-1*m*s^-2', $state->contentsmodified);
-        $this->assertEquals('\[ 2\cdot 6^ {- 1 }\cdot m\cdot s^ {- 2 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 2\cdot 6^ {- 1 }\cdot \mathrm{m}\cdot \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_display_1() {
@@ -323,7 +323,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m*s^-2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81\cdot m\cdot s^ {- 2 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81\cdot \mathrm{m}\cdot \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_display_2() {
@@ -334,7 +334,18 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'm/2'), $options, '9.81*m/s^2', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('2^-1*m', $state->contentsmodified);
-        $this->assertEquals('\[ 2^ {- 1 }\cdot m \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 2^ {- 1 }\cdot \mathrm{m} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_display_ohm() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7.2*uohm');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '7.2*uohm'), $options, '7.2*uohm', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('7.2*uohm', $state->contentsmodified);
+        $this->assertEquals('\[ 7.2\cdot \mu \Omega \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_display_qmchar() {
@@ -345,6 +356,6 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '?*m/s^2'), $options, '9.81*m/s^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('?*m*s^-2', $state->contentsmodified);
-        $this->assertEquals('\[ \color{red}{?}\cdot m\cdot s^ {- 2 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \color{red}{?}\cdot \mathrm{m}\cdot \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 }

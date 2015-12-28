@@ -37,31 +37,36 @@
    stack_unit_si_unit_tex:["m","g","s","A","\Omega","K","mol","cd","Hz","N","Pa","J","W","C","V","F","S","Wb","T","H","l","Bq","Gy","Sv","lm","lx"]$
 */
    
-/* Declare SI-units as constants and set \texput rules for them, the mode parameter does nothing */
+/* Set \texput rules for SI units. The mode parameter does nothing, */
 /* except skips the syntax validation error... */
-stack_unit_si_declare(mode) := block([pfi,ui,simp],
- simp:true, /* seriously, if simp:false then "apply: subscript must be an integer; found: 1 + 1" */
- for ui:1 thru length(stack_unit_si_unit_code) do (
-  for pfi:1 thru length(stack_unit_si_prefix_code) do (
-   apply('texput,[concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]),sconcat("\\mathrm{",stack_unit_si_prefix_tex[pfi],stack_unit_si_unit_tex[ui],"}")]),
-   apply('declare,[concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]),constant])
-  ),
-  apply('texput,[stack_unit_si_unit_code[ui],sconcat("\\mathrm{",stack_unit_si_unit_tex[ui],"}")]),
-  apply('declare,[stack_unit_si_unit_code[ui],constant])
- )
+/* We don't apply('declare, [stack_unit_si_unit_code[ui], constant]) as this breaks stack_units_split(ex). */
+stack_unit_si_declare(mode) := block([pfi, ui, simp],
+    simp:true,
+    for ui:1 thru length(stack_unit_si_unit_code) do (
+        for pfi:1 thru length(stack_unit_si_prefix_code) do (
+            apply('texput, [concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]), sconcat(stack_unit_si_prefix_tex[pfi], stack_unit_si_unit_tex[ui])])
+        ),
+        apply('texput, [stack_unit_si_unit_code[ui], stack_unit_si_unit_tex[ui]])
+    ),
+    for ui:1 thru length(stack_unit_other_unit_code) do (
+        apply('texput, [stack_unit_other_unit_code[ui], stack_unit_other_unit_tex[ui]])
+    )
 )$
 
-/* Converts the whole expression to SI-base units */
-stack_unit_si_to_si_base(expression) := block([ui,pfi,work,simp],
- simp:true, /* seriously, if simp:false then "apply: subscript must be an integer; found: 1 + 1" */
- work:expression,
- for ui:1 thru length(stack_unit_si_unit_code) do (
-  for pfi:1 thru length(stack_unit_si_prefix_code) do (
-   work: subst(stack_unit_si_prefix_multiplier[pfi]*stack_unit_si_unit_code[ui],concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]),work)
-  ),
-  work: subst(stack_unit_si_unit_conversions[ui],stack_unit_si_unit_code[ui],work)
- ),
- return(work)
+/* Converts the whole expression to SI-base units. */
+stack_unit_si_to_si_base(expression) := block([ui, pfi, work, simp],
+    simp:true, 
+    work:expression,
+    for ui:1 thru length(stack_unit_other_unit_code) do (
+        work:subst(stack_unit_other_unit_conversions[ui], stack_unit_other_unit_code[ui], work)
+    ),
+    for ui:1 thru length(stack_unit_si_unit_code) do (
+        for pfi:1 thru length(stack_unit_si_prefix_code) do (
+            work:subst(stack_unit_si_prefix_multiplier[pfi]*stack_unit_si_unit_code[ui], concat(stack_unit_si_prefix_code[pfi], stack_unit_si_unit_code[ui]), work)
+        ),
+        work:subst(stack_unit_si_unit_conversions[ui], stack_unit_si_unit_code[ui], work)
+    ),
+    return(work)
 )$
 
 /* Splits off the units from the end of a product. */
@@ -107,6 +112,8 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
     if length(expr)#1 then 
         print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
     expr:first(expr),
+    /* Declare all units as constants etc. */
+    stack_unit_si_declare(false),
     /* Do not check for floats.  They are always ok here. */
     /* Checks fractions are in lowest terms */
     if LowestTerms and not(all_lowest_termsex(expr)) then

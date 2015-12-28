@@ -22,6 +22,7 @@
  */
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+require_once(__DIR__ . '/casstring.units.class.php');
 
 class stack_cas_casstring {
 
@@ -792,7 +793,7 @@ class stack_cas_casstring {
             // If no missing stars return true.
             return true;
         }
-        // Guard clause above - we have missing stars detected.
+        // Guard clause above - we have missing stars detected.False
         $this->answernote[] = 'missing_stars';
         if ($insertstars) {
             // If we are going to quietly insert them.
@@ -874,19 +875,30 @@ class stack_cas_casstring {
                     }
                 } else {
                     // Only allow the student to use set commands.
-                    if (!in_array($key, self::$studentallow) and !in_array($key, self::$distrib) and !in_array($key, $allow)) {
-                        if (!in_array(strtolower($key), self::$studentallow) and !in_array(strtolower($key), self::$distrib)
-                                and !in_array(strtolower($key), $allow)) {
+                    $permittedcommands = array_merge(self::$studentallow, self::$distrib, $allow);
+                    if (!in_array($key, array_merge($permittedcommands, stack_cas_casstring_units::get_permitted_units(2)))) {
+                        $this->valid = false;
+                        // Check for unit synonyms.
+                        list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
+                        if ($fndsynonym) {
+                            $this->add_error($synonymerr);
+                            $this->answernote[] = $answernote;
+                        } else if (in_array(strtolower($key), $permittedcommands)) {
+                            // We have spotted a case senditivity problem.
+                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                    array('forbid' => stack_maxima_format_casstring($key),
+                                            'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                            $this->answernote[] = 'unknownFunctionCase';
+                        } else if ($err = stack_cas_casstring_units::check_units_case($key)) {
+                            // We have spotted a case senditivity problem in the units.
+                            $this->add_error($err);
+                            $this->answernote[] = 'unknownUnitsCase';
+                        } else {
+                            // We have no idea what they have done.
                             $this->add_error(stack_string('stackCas_unknownFunction',
                                 array('forbid' => stack_maxima_format_casstring($key))));
                             $this->answernote[] = 'unknownFunction';
-                        } else {
-                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
-                                array('forbid' => stack_maxima_format_casstring($key),
-                                        'lower' => stack_maxima_format_casstring(strtolower($key)))));
-                            $this->answernote[] = 'unknownFunctionCase';
                         }
-                        $this->valid = false;
                     }
                     // Else we have not found any security problems with keywords.
                 }

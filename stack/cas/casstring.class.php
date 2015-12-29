@@ -216,7 +216,7 @@ class stack_cas_casstring {
             'tr_warn_undefined_variable', 'tr_warnings_get', 'tr_windy', 'tracematrix',
             'transform_xy', 'transparent', 'treillis', 'treinat', 'trivial_solutions', 'tube',
             'tube_extremes', 'tutte_graph', 'ueivects', 'ufg', 'uforget', 'ug', 'ultraspherical',
-            'undiff', 'unit_step', 'unit_vectors', 'uniteigenvectors', 'unitp', 'units',
+            'undiff', 'unit_step', 'unit_vectors', 'uniteigenvectors',
             'unitvector', 'unknown', 'unorder', 'uric', 'uricci', 'uriem', 'uriemann',
             'use_fast_arrays', 'usersetunits', 'uvect', 'vector', 'verbose', 'vers', 'warnings',
             'weyl', 'wronskian', 'x_voxel', 'xaxis', 'xaxis_color', 'xaxis_secondary', 'xaxis_type',
@@ -875,15 +875,16 @@ class stack_cas_casstring {
                     }
                 } else {
                     // Only allow the student to use set commands.
-                    $permittedcommands = array_merge(self::$studentallow, self::$distrib, $allow);
-                    if (!in_array($key, array_merge($permittedcommands, stack_cas_casstring_units::get_permitted_units(2)))) {
+                    if (!in_array($key, self::$studentallow) & !in_array($key, self::$distrib) & !in_array($key, $allow)
+                            & !in_array($key, stack_cas_casstring_units::get_permitted_units(2))) {
                         $this->valid = false;
                         // Check for unit synonyms.
                         list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
                         if ($fndsynonym) {
                             $this->add_error($synonymerr);
                             $this->answernote[] = $answernote;
-                        } else if (in_array(strtolower($key), $permittedcommands)) {
+                        } else if (in_array(strtolower($key), self::$studentallow)
+                                || in_array(strtolower($key), self::$distrib) || in_array(strtolower($key), $allow)) {
                             // We have spotted a case senditivity problem.
                             $this->add_error(stack_string('stackCas_unknownFunctionCase',
                                     array('forbid' => stack_maxima_format_casstring($key),

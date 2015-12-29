@@ -36,7 +36,14 @@
    stack_unit_si_unit_conversions:[m,kg/1000,s,A,kg*m^2/(s^3*A^2),K,mol,cd,1/s,kg*m/(s^2),kg/(m*s^2),kg*m^2/(s^2),kg*m^2/(s^3),s*A,kg*m^2/(s^3*A),A^2*s^4/(kg*m^2),s^3*A^2/(kg*m^2),kg*m^2/(s^2*A),kg/(s^2*A),kg*m^2/(s^2*A^2),m^3/1000,1/s,m^2/s^2,m^2/s^2,cd,cd/m^2]$
    stack_unit_si_unit_tex:["m","g","s","A","\Omega","K","mol","cd","Hz","N","Pa","J","W","C","V","F","S","Wb","T","H","l","Bq","Gy","Sv","lm","lx"]$
 */
-   
+
+/* Use Maxima's feature system to declare a range of units.  */
+declare(units, feature);
+unitsp(ex) := featurep(ex, units);
+
+/* List all variables *not* considered to be not units.  */
+listofnonunits(ex) := sublist(listofvars(ex), lambda([ex2], not(unitsp(ex2))))$
+
 /* Set \texput rules for SI units. The mode parameter does nothing, */
 /* except skips the syntax validation error... */
 /* We don't apply('declare, [stack_unit_si_unit_code[ui], constant]) as this breaks stack_units_split(ex). */
@@ -44,12 +51,15 @@ stack_unit_si_declare(mode) := block([pfi, ui, simp],
     simp:true,
     for ui:1 thru length(stack_unit_si_unit_code) do (
         for pfi:1 thru length(stack_unit_si_prefix_code) do (
-            apply('texput, [concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]), sconcat(stack_unit_si_prefix_tex[pfi], stack_unit_si_unit_tex[ui])])
+            apply('texput, [concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]), sconcat(stack_unit_si_prefix_tex[pfi], stack_unit_si_unit_tex[ui])]),
+            apply('declare, [concat(stack_unit_si_prefix_code[pfi],stack_unit_si_unit_code[ui]), units])
         ),
-        apply('texput, [stack_unit_si_unit_code[ui], stack_unit_si_unit_tex[ui]])
+        apply('texput, [stack_unit_si_unit_code[ui], stack_unit_si_unit_tex[ui]]),
+        apply('declare, [stack_unit_si_unit_code[ui], units])
     ),
     for ui:1 thru length(stack_unit_other_unit_code) do (
-        apply('texput, [stack_unit_other_unit_code[ui], stack_unit_other_unit_tex[ui]])
+        apply('texput, [stack_unit_other_unit_code[ui], stack_unit_other_unit_tex[ui]]),
+        apply('declare, [stack_unit_other_unit_code[ui], units])
     )
 )$
 
@@ -112,8 +122,9 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
     if length(expr)#1 then 
         print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
     expr:first(expr),
-    /* Declare all units as constants etc. */
+    /* Declare all symobols as "units", and change their TeX display. */
     stack_unit_si_declare(false),
+
     /* Do not check for floats.  They are always ok here. */
     /* Checks fractions are in lowest terms */
     if LowestTerms and not(all_lowest_termsex(expr)) then

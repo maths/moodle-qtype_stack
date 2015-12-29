@@ -39,7 +39,7 @@ This input type is built closely on the algebraic input type with the following 
 3. This input type *always accepts floating point numbers*, regardless of the option set on the edit form.
 4. The student must type a number of some kind.  Entering units on their own will be invalid.  Note, if you want to ask a student for units, then use the algebraic input type.  Units on their own are a valid expression.
 5. If the teacher shows the validation, "with variable list" this will be displayed as "the units found in your answer are"...
-6. The student is not permitted to use variable names in this input type.  
+6. The student is permitted to use variable names in this input type.
 7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` between the numbers and units for implied multiplication.  
 8. You may want the single letter variable names options here, which is why this option has not been changed for this input type.
 
@@ -65,11 +65,30 @@ __Notes__
 1. The student may not include any variables in their answer.  All variables are considered to be units.
 2. The numerical part is compared using the `NumSigFigs` test.  This *requires* various options, i.e. the number of significant figures.  Hence this answer test also requires identical options.
 
-## DIY units  ##
+## Dealing with units in Maxima functions, e.g. PRTs  ##
 
 If the above protocols do not give you the results you want, you are welcome to build a more complex potential response tree of your own.
 
-The function `stack_units_split(ex)` takes the expression `ex` and returns a list of `[numbers, units]`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.
+The function `stack_unit_si_declare(true)` declares symbols as units as far as STACK is concerned.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  
+
+`unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a scientific unit.  The symbols are only declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question.
+
+The function `stack_units_split(ex)` takes the expression `ex` and returns a list of `[numbers, symbols]`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.  Note, sybmbols will include a mix of variables, and symbols which are considered to be units.
+
+## Custom units ##
+
+Currently there is no way to create custom sets of units.  This feature may be added in the future.  The following may be helpful for now/
+
+Add the following to the question variables.
+
+    stack_unit_si_declare(true)
+    declare(diamonds, units)
+    texput(diamonds, "\\diamond")
+
+The symbol `diamonds` will then be treated as units in code such as `unitsp(ex)` and displayed with the TeX \(\diamond\) symbol.
+
+You will need to put `diamonds` in the allow words of the input in the question.  However, the input validation code is independent of the question variables, and hence the student's answer will not be displayed using the TeX \(\diamond\) symbol.  If we add better support for custom units in the future, this may change.  If your units are something like `lb` and you are happy with italic fonts, this might be fine for now.
+
 
 ## Tips for dealing with units in STACK ##
 

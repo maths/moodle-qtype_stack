@@ -189,7 +189,9 @@ class stack_cas_casstring_units {
     public static function get_permitted_units($len) {
         $units = array();
         foreach (self::$nonpreficunits as $unit) {
-            $units[] = $unit[0];
+            if (strlen($unit[0]) > $len) {
+                $units[] = $unit[0];
+            }
         }
         foreach (self::$supportedunits as $unit) {
             $units[] = $unit[0];

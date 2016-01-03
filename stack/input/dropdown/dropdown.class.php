@@ -23,24 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/* TODO
- * (0) Enable the input to deal with multiple submissions, e.g. checkboxes.  See the Matrix type for ideas here.
- * (1) Reinstate the various input types
- *     (1.1) Radio buttons (use LaTeX display)
- *     (1.2) Check boxes
- * (2) Check if the display type is a string. If so, strip off the "s and don't sent it through the CAS.
- * (3) Get all this working with thorough unit tests.
- *
- * RELEASE basic working version?
- *
- * (1) Refactor shuffle to be seeded from the question usage?
- * (2) Add choose N (correct) from M feature (used at Aalto).
- * (3) Have a "none of these" which degrates to an algebraic input
- * (4) Enable better support for text-based strings in the display (e.g. CASTex?!)
- * (5) Refactor to have 3 separate classes from one base class?
- *
- */
-
 class stack_dropdown_input extends stack_input {
 
     /*

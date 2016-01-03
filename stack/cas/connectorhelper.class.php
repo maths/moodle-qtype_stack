@@ -339,13 +339,12 @@ abstract class stack_connection_helper {
             $message[] = stack_string('settingmaximalibraries_failed');
             $success = false;
         }
-        
+
         if ($success) {
             $message[] = stack_string('healthuncachedstack_CAS_ok');
         } else {
             $message[] = stack_string('healthuncachedstack_CAS_not');
         }
-        
 
         $message = implode(" ", $message);
 

@@ -2,7 +2,7 @@
 
 It is quite common in science subjects to need to accept an answer which has _units_, for example using \(m/s\).
 
-Currently STACK only support SI units.   See International Bureau of Weights and Measures (2006), (The International System of Units (SI))[http://www.bipm.org/utils/common/pdf/si_brochure_8_en.pdf] (PDF) (8th ed.), ISBN 92-822-2213-6.
+Currently STACK only support SI units.   See International Bureau of Weights and Measures (2006), (The International System of Units (SI)) [PDF](http://www.bipm.org/utils/common/pdf/si_brochure_8_en.pdf) (8th ed.), ISBN 92-822-2213-6.
 
 ## Maxima packages for the support of scientific units  ##
 
@@ -35,7 +35,7 @@ Stack provides an input type to enable teachers to support students in entering 
 This input type is built closely on the algebraic input type with the following differences.
 
 1. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
-2. The input type will check both the teacher's answer and the student's answer for units.  The input will require the student's answer to have units if and only if the teacher's answer also has units.  This normally forces the student to use units.  But, students sometimes add units to dimensionless quantities (such as pH) and this input type will also reject such input as invalid.
+2. The input type will check both the teacher's answer and the student's answer for units.  The input will require the student's answer to have units if and only if the teacher's answer also has units.  This normally forces the student to use units.  But, students sometimes add units to dimensionless quantities (such as pH) and this input type will also enable a teacher to reject such input as invalid when the teacher does not use units.
 3. This input type *always accepts floating point numbers*, regardless of the option set on the edit form.
 4. The student must type a number of some kind.  Entering units on their own will be invalid.  Note, if you want to ask a student for units, then use the algebraic input type.  Units on their own are a valid expression.
 5. If the teacher shows the validation, "with variable list" this will be displayed as "the units found in your answer are"...
@@ -45,20 +45,22 @@ This input type is built closely on the algebraic input type with the following 
 
 ## Answer tests  ##
 
-A units answer test is provided.  This is designed to accept a single answer with units such as `12.3*m/s`.  This will not work with sets, lists, matrices, equations etc.  Both the teacher and student must answer in this form.
+Two units answer tests are provided.  These are designed to accept a single answer with units such as `12.3*m/s`.  This will not work with sets, lists, matrices, equations etc.  Both the teacher and student must answer in this form.
 
-The answer test splits up the answer into two parts.
+Each answer test splits up the answer into two parts.
   * The numerical part, which is tested with ATNumSigFigs.  Use the appropriate options for this test.
   * The units.  All non-numerical variable names are considered to be units.  Hence, you cannot use other variables with this test.
 
-This answer test provides feedback such as:
+This answer test establishes if the student has
 
-* correct units, wrong number
-* wrong units, but number is equivalent on conversion
+* correct units, wrong number,
+* wrong units, but number is equivalent on conversion,
 * wrong class of units, i.e. Imperial not metric is a different problem from using \(m\) vs \(km\).
 * dimensional problems
 
-See the examples to see how far we have got with the development of this feature. Comments and suggestions are welcome.
+There are two answer tests.
+1. `Units` gives feedback if the student has the wrong units, but number is equivalent on conversion,
+2. `UnitsStrict` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answernotes will record whether the conversion would have worked.
 
 __Notes__
 
@@ -74,10 +76,10 @@ If the above protocols do not give you the results you want, you are welcome to 
 The function `stack_unit_si_declare(true)` declares symbols as units as far as STACK is concerned.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  Note that the symbols are *only* declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question, or feedback variables.
 
 * `unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a scientific unit.  
-* `listofnonunits(ex)` lists all variables in the expression `ex` considered not to be units however they appear.
-* `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear.
+* `listofnonunits(ex)` lists all variables in the expression `ex` considered not to be units however they appear.  Use of this function autoloads `stack_unit_si_declare(true)`.
+* `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear. Use of this function autoloads `stack_unit_si_declare(true)`.
 
-The function `stack_units_split(ex)` takes the expression `ex` and returns a list of `[numbers, symbols]`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.  Note, sybmbols will include a mix of variables, and symbols which are considered to be units.
+The function `stack_units_split(ex)` takes the expression `ex` and returns a list of `[numbers, symbols]`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.  Note, sybmbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
 
 ## Custom units ##
 

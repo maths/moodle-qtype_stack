@@ -842,6 +842,16 @@ class stack_answertest_test_data {
         array('Units', '400*mL', '0.4*l', 1, '2', ''),
         array('Units', '142.8*C', '415.9*K', -2, '4', 'TODO'),
 
+        array('UnitsStrict', '25*g', '0.025*kg', 0, '2', 'Differences from the Units test only'),
+        array('UnitsStrict', '1*Mg/10^6', '1*N*s^2/(km)', 0, '1', ''),
+        array('UnitsStrict', '1*Mg/10^6', '1*kN*ns/(mm*Hz)', 0, '1', ''),
+        array('UnitsStrict', '3.14*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 0, '3', ''),
+        array('UnitsStrict', '400*cc', '0.4*l', 0, '2', ''),
+        array('UnitsStrict', '400*cm^3', '0.4*l', 0, '2', ''),
+        array('UnitsStrict', '400*ml', '0.4*l', 0, '2', ''),
+        array('UnitsStrict', '400*mL', '0.4*l', 0, '2', ''),
+        array('UnitsStrict', '142.8*C', '415.9*K', 0, '4', ''),
+
         array('String', 'Hello', 'hello', 0, '', ''),
         array('String', 'hello', 'hello', 1, '', ''),
         array('String', 'hello', 'heloo', 0, '', ''),

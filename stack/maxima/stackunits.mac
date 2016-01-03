@@ -37,20 +37,30 @@
    stack_unit_si_unit_tex:["m","g","s","A","\Omega","K","mol","cd","Hz","N","Pa","J","W","C","V","F","S","Wb","T","H","l","Bq","Gy","Sv","lm","lx"]$
 */
 
-/* Use Maxima's feature system to declare a range of units.  */
-declare(units, feature);
-unitsp(ex) := featurep(ex, units);
+unitsp(ex) := featurep(ex, units)$
 
 /* List all variables *not* considered to be not units.  */
-listofnonunits(ex) := sublist(listofvars(ex), lambda([ex2], not(unitsp(ex2))))$
+listofnonunits(ex) := block(
+    if not(member(units, features)) then
+        stack_unit_si_declare(true),
+    sublist(listofvars(ex), lambda([ex2], not(unitsp(ex2))))
+)$
 
 /* List all variables considered to be units.  */
-listofunits(ex) := sublist(listofvars(ex), unitsp(ex2)))$
+listofunits(ex) := block(
+    if not(member(units, features)) then
+        stack_unit_si_declare(true),
+    sublist(listofvars(ex), unitsp)
+)$
 
 /* Set \texput rules for SI units. The mode parameter does nothing, */
 /* except skips the syntax validation error... */
 /* We don't apply('declare, [stack_unit_si_unit_code[ui], constant]) as this breaks stack_units_split(ex). */
 stack_unit_si_declare(mode) := block([pfi, ui, simp],
+    /* Use Maxima's feature system to declare a range of units.  */
+    /* Whether units is a feature can be used to check if this function has been called. */
+    /* Check with member(units, features); */
+    declare(units, feature),
     simp:true,
     for ui:1 thru length(stack_unit_si_unit_code) do (
         for pfi:1 thru length(stack_unit_si_prefix_code) do (
@@ -84,6 +94,8 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, work, simp],
 
 /* Splits off the units from the end of a product. */
 stack_units_split(ex) := block([oldsimp, exn, exu],
+    if not(member(units, features)) then
+        stack_unit_si_declare(true),
     /* If we have only a number then return it, with a placeholder for units. */
     if simp_numberp(ev(float(ex), simp)) then return([ex, NULLUNITS]),
     /* Atoms should be returned as just units. */
@@ -185,8 +197,11 @@ stack_combine_exponents(ex) := block([n,m,ex1],
     return(first(args(ex1))^(ev(m*n, simp)))
 )$
 
-/* Units answer test. */
-ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
+/* Units answer tests. */
+ATUnits(SA, SBL) := ATUnitsFun(SA, SBL, false)$
+ATUnitsStrict(SA, SBL) := ATUnitsFun(SA, SBL, true)$
+
+ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
     validity:true, rawmk:true, fb:"", ansnote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -271,10 +286,12 @@ ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU
         /* What about accuracy?  Only look at their actual answer. There is no point    
            converting the numerical part to base units here as they don't match the teacher's. */
         ansnote:StackAddNote(ret1[3], "ATUnits_incompatible_units"),
-        fb:StackAddFeedback(ret1[4], "ATUnits_incompatible_units"),
+        if not(strictp) then
+            fb:StackAddFeedback(ret1[4], "ATUnits_incompatible_units"),
         if (ret1[2]) then block(
             ansnote:StackAddNote(ansnote, "ATUnits_correct_numerical"),    
-            fb:StackAddFeedback(fb, "ATUnits_correct_numerical")
+            if not(strictp) then
+                fb:StackAddFeedback(fb, "ATUnits_correct_numerical")
         ) 
     ),
     if not(algebraic_equivalence(second(SAU), second(SBU))) then 
@@ -285,7 +302,10 @@ ATUnits(SA, SBL) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU
 
     /* Is the numerical answer correct? */
     if ret2[2] then
-        return([true, true, ansnote, fb]),            
+        if not(strictp) then
+            return([true, true, ansnote, fb])
+        else             
+            return([true, false, ansnote, fb]),
 
     rawmk:false,
 

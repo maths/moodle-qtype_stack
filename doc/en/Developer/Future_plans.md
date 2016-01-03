@@ -17,7 +17,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Accept spaces in inputs as implied multiplication?
 * Convestion from Celsius to Kelvin?
 * Support for United States customary units.
-* An answer test which does not check for equivalence with equivalent units.
+* (done) An answer test which does not check for equivalence with equivalent units.
 
 ### Inputs ###
 

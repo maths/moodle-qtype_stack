@@ -492,6 +492,13 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals('ATUnits_compatible_units.', $at->get_at_answernote());
     }
 
+    public function test_is_true_compatibleunits_strict() {
+        $at = new stack_answertest_general_cas('32*g', '0.032*kg', 'ATUnitsStrict', true, '2', null, false, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('ATUnits_compatible_units.', $at->get_at_answernote());
+    }
+
     public function test_is_false_compatibleunits() {
         $at = new stack_answertest_general_cas('0.032*g', '0.032*kg', 'ATUnits', true, '2', null, false, true);
         $this->assertFalse($at->do_test());

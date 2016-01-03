@@ -46,6 +46,7 @@ class stack_ans_test_controller {
               'NumSigFigs'   => 'stackOptions_AnsTest_values_NumSigFigs',
               'NumDecPlaces' => 'stackOptions_AnsTest_values_NumDecPlaces',
               'Units'        => 'stackOptions_AnsTest_values_Units',
+              'UnitsStrict'  => 'stackOptions_AnsTest_values_UnitsStrict',
               'LowestTerms'  => 'stackOptions_AnsTest_values_LowestTerms',
               'Diff'         => 'stackOptions_AnsTest_values_Diff',
               'Int'          => 'stackOptions_AnsTest_values_Int',
@@ -174,6 +175,10 @@ class stack_ans_test_controller {
 
             case 'Units':
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnits', true, $casoption, $options, false, true);
+                break;
+
+            case 'UnitsStrict':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrict', true, $casoption, $options, false, true);
                 break;
 
             case 'LowestTerms':

@@ -600,6 +600,7 @@ $string['stackOptions_AnsTest_values_NumAbsolute']        = "NumAbsolute";
 $string['stackOptions_AnsTest_values_NumSigFigs']         = "NumSigFigs";
 $string['stackOptions_AnsTest_values_NumDecPlaces']       = "NumDecPlaces";
 $string['stackOptions_AnsTest_values_Units']              = "Units";
+$string['stackOptions_AnsTest_values_UnitsStrict']        = "UnitsStrict";
 $string['stackOptions_AnsTest_values_GT']                 = "Num-GT";
 $string['stackOptions_AnsTest_values_GTE']                = "Num-GTE";
 $string['stackOptions_AnsTest_values_LowestTerms']        = "LowestTerms";

@@ -178,7 +178,8 @@ class stack_ans_test_controller {
                 break;
 
             case 'UnitsStrict':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrict', true, $casoption, $options, false, true);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrict',
+                                    true, $casoption, $options, false, true);
                 break;
 
             case 'LowestTerms':

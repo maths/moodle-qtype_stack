@@ -57,8 +57,9 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_simple_dropdown() {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', array());
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1"><option value="">Not answered</option>'
-                .'<option value="1"><code>1</code></option><option selected="selected" value="2"><code>2</code></option></select>';
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+                .'<option value="">Not answered</option><option value="1"><code>1</code></option>'
+                .'<option selected="selected" value="2"><code>2</code></option></select>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
     }
@@ -85,7 +86,8 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options. </p></div>';
+                .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options. </p>'
+                .'</div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
     }
@@ -109,7 +111,8 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     public function test_render_string() {
         $el = $this->make_dropdown();
         $el->adapt_to_model_answer($this->make_ta());
-        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1"><option value="">Not answered</option>'
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+                .'<option value="">Not answered</option>'
                 .'<option value="x+1"><code>x+1</code></option><option value="x+2"><code>x+2</code></option>'
                 .'<option selected="selected" value="sin(pi*n)"><code>sin(pi*n)</code></option></select>';
         $this->assertEquals($expected, $el->render(new stack_input_state(

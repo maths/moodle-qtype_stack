@@ -38,7 +38,8 @@ class stack_units_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('units', 'ans1', 'x^2');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" value="" />',
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
+                .'size="16.5" style="width: 13.6em" value="" />',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false));
     }
@@ -46,14 +47,16 @@ class stack_units_input_test extends qtype_stack_testcase {
     public function test_render_zero() {
         // We must have some units for this input type.
         $el = stack_input_factory::make('units', 'ans1', '0');
-        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" value="0" />',
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
+                .'size="16.5" style="width: 13.6em" value="0" />',
                 $el->render(new stack_input_state(stack_input::INVALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false));
     }
 
     public function test_render_pre_filled() {
         $el = stack_input_factory::make('units', 'test', 'm/s');
-        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" style="width: 13.6em" value="m/s" />',
+        $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
+                .'size="16.5" style="width: 13.6em" value="m/s" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('m/s'), '', '', '', '', ''),
                         'stack1__test', false));
     }
@@ -61,7 +64,8 @@ class stack_units_input_test extends qtype_stack_testcase {
     public function test_render_basic() {
         $el = stack_input_factory::make('units', 'input', '9.81*m/s^2');
         $this->assertEquals(
-                '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" value="9.81*m/s^2" readonly="readonly" />',
+                '<input type="text" name="stack1__input" id="stack1__input" '
+                .'size="16.5" style="width: 13.6em" value="9.81*m/s^2" readonly="readonly" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('9.81*m/s^2'), '', '', '', '', ''),
                         'stack1__input', true));
     }
@@ -69,7 +73,8 @@ class stack_units_input_test extends qtype_stack_testcase {
     public function test_render_different_size() {
         $el = stack_input_factory::make('units', 'input', '-9.81*m/s^2');
         $el->set_parameter('boxWidth', 30);
-        $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" size="33" style="width: 27.1em" value="-9.81*m/s^2" />',
+        $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" '
+                .'size="33" style="width: 27.1em" value="-9.81*m/s^2" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('-9.81*m/s^2'), '', '', '', '', ''),
                         'stack1__input', false));
     }
@@ -77,7 +82,8 @@ class stack_units_input_test extends qtype_stack_testcase {
     public function test_render_syntaxhint() {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('syntaxHint', '?*m/s^2');
-        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" value="?*m/s^2" />',
+        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
+                .'size="16.5" style="width: 13.6em" value="?*m/s^2" />',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__sans1', false));
     }
@@ -102,7 +108,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2', 'sans1_val' => '9.81m/s^2'), $options, '9.81*m/s^2', array());
+        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2', 'sans1_val' => '9.81m/s^2'),
+                $options, '9.81*m/s^2', array());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 

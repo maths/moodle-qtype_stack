@@ -798,7 +798,7 @@ class stack_cas_casstring {
             // If no missing stars return true.
             return true;
         }
-        // Guard clause above - we have missing stars detected.False
+        // Guard clause above - we have missing stars detected.
         $this->answernote[] = 'missing_stars';
         if ($insertstars) {
             // If we are going to quietly insert them.

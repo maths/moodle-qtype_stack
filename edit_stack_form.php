@@ -442,9 +442,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputnames = $this->get_input_names_from_question_text();
         $prtnames = $this->get_prt_names_from_question();
 
-        // Note that for the editor elements, we are using
-        // $mform->getElement('prtincorrect')->setValue(...);
-        // instead of setDefault, because setDefault does not work for editors.
+        // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
+        // of setDefault, because setDefault does not work for editors.
 
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
         $mform->addRule('questiontext', stack_string('questiontextnonempty'), 'required', '', 'client');

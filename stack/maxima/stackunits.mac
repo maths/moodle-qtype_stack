@@ -44,6 +44,9 @@ unitsp(ex) := featurep(ex, units);
 /* List all variables *not* considered to be not units.  */
 listofnonunits(ex) := sublist(listofvars(ex), lambda([ex2], not(unitsp(ex2))))$
 
+/* List all variables considered to be units.  */
+listofunits(ex) := sublist(listofvars(ex), unitsp(ex2)))$
+
 /* Set \texput rules for SI units. The mode parameter does nothing, */
 /* except skips the syntax validation error... */
 /* We don't apply('declare, [stack_unit_si_unit_code[ui], constant]) as this breaks stack_units_split(ex). */

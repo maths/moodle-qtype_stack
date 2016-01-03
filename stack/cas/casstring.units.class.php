@@ -37,7 +37,7 @@ class stack_cas_casstring_units {
         array('p', '10^-12', 'p', 'pico'),
         array('n', '10^-9', 'n', 'nano'),
         array('u', '10^-6', '\mu ', 'micro'),
-        array('m', '10^-3', 'm', 'mili'),
+        array('m', '10^-3', 'm', 'milli'),
         array('c', '10^-2', 'c', 'centi'),
         array('d', '10^-1', 'd', 'deci'),
         array('da', '10', 'da', 'deca'),
@@ -65,13 +65,12 @@ class stack_cas_casstring_units {
         array('m', 'm', 'm', 'meter'),
         array('l', 'm^3/1000', 'l', 'litre'),
         // People have asked for this duplication, and L is in the SI system as legitimate.
-        array('L', 'm^3/1000', 'l', 'litre'),
+        array('L', 'm^3/1000', 'L', 'litre'),
         array('g', 'kg/1000', 'g', 'gram'),
         array('s', 's', 's', 'second'),
         array('h', 's*3600', 'h', 'hour'),
         array('Hz', '1/s', 'Hz', 'Hertz'),
         array('Bq', '1/s', 'Bq', 'Becquerel'),
-        array('K', 'K', '{}^{o}K', 'degree absolute'),
         array('cd', 'cd', 'cd', 'candela'),
         array('N', '(kg*m)/s^2', 'N', 'Newton'),
         array('Pa', 'kg/(m*s^2)', 'Pa', 'Pascals'),
@@ -101,11 +100,15 @@ class stack_cas_casstring_units {
      */
     private static $nonpreficunits = array(
         array('amu', 'amu', 'amu', 'Atomic mass units'),
+        array('u', 'amu', 'u', ''),
         array('mmHg', '133.322387415*Pa', 'mmHg', 'Millimeters of mercury'),
         array('bar', '10^5*Pa', 'bar', 'bar'),
-        array('mbar', '10^2*Pa', 'mbar', 'milibar'),
+        array('cc', 'm^3*10^(-6)', 'cc', 'cubic centimetre'),
+        array('mbar', '10^2*Pa', 'mbar', 'millibar'),
         array('atm', '101325*Pa', 'atm', 'Standard atmosphere'),
-        array('torr', '101325/760*Pa', 'torr', 'Torr')
+        array('Torr', '101325/760*Pa', 'Torr', 'torr'),
+        array('K', 'K', 'K', 'Kelvin'),
+        array('C', 'C', '{}^{o}C', 'Celsius')
     );
 
     /* This array keeps a list of synoymns which students are likely to use.
@@ -115,8 +118,10 @@ class stack_cas_casstring_units {
         'mol' => array('mols', 'moles', 'mole'),
         'kat' => array('kats', 'katal', 'katals'),
         'rad' => array('radian', 'radians'),
-        'torr' => array('tor', 'radians'),
-        'amu' => array('atoms', 'atom')
+        'torr' => array('tor', 'tors', 'torrs'),
+        'amu' => array('amus', 'dalton'),
+        'cc' => array('ccm'),
+        'Hz' => array('hz')
     );
 
     /**
@@ -216,8 +221,8 @@ class stack_cas_casstring_units {
         $synonymerr = '';
         foreach (self::$unitsynonyms as $ckey => $synonyms) {
             foreach ($synonyms as $possibleunit) {
-                // Do a case insensitive check for equality here.
-                if (strtolower($key) == strtolower($possibleunit)) {
+                // Do a case insensitive check for equality here, respecting case sensitivity of the keys.
+                if (strtolower($key) == strtolower($possibleunit) and $ckey != $key) {
                     $fndsynonym = true;
                     $answernote = 'unitssynonym';
                     $synonymerr = stack_string('stackCas_unitssynonym',

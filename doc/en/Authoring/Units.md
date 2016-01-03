@@ -64,14 +64,18 @@ __Notes__
 
 1. The student may not include any variables in their answer.  All variables are considered to be units.
 2. The numerical part is compared using the `NumSigFigs` test.  This *requires* various options, i.e. the number of significant figures.  Hence this answer test also requires identical options.
+3. The units system accepts both `l` and `L` for litres, and the display respects the way they are typed in.
+4. Currently there is no localisation (i.e. language support) for unit names/spellings.
 
 ## Dealing with units in Maxima functions, e.g. PRTs  ##
 
 If the above protocols do not give you the results you want, you are welcome to build a more complex potential response tree of your own.
 
-The function `stack_unit_si_declare(true)` declares symbols as units as far as STACK is concerned.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  
+The function `stack_unit_si_declare(true)` declares symbols as units as far as STACK is concerned.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  Note that the symbols are *only* declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question, or feedback variables.
 
-`unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a scientific unit.  The symbols are only declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question.
+* `unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a scientific unit.  
+* `listofnonunits(ex)` lists all variables in the expression `ex` considered not to be units however they appear.
+* `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear.
 
 The function `stack_units_split(ex)` takes the expression `ex` and returns a list of `[numbers, symbols]`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.  Note, sybmbols will include a mix of variables, and symbols which are considered to be units.
 

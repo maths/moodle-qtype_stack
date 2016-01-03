@@ -384,14 +384,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym', $at1->get_answernote());
+        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
     }
 
     public function test_units_3() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym', $at1->get_answernote());
+        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
     }
 
     public function test_units_allow_moles() {

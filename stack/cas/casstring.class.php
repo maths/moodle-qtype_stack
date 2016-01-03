@@ -879,6 +879,15 @@ class stack_cas_casstring {
                 $this->answernote[] = 'stackCas_badLogIn';
                 $this->valid = false;
             }
+
+            // Check for unit synonyms.
+            list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
+            if ($security == 's' and $fndsynonym and !isset($allow[$key])) {
+                $this->add_error($synonymerr);
+                $this->answernote[] = $answernote;
+                $this->valid = false;
+            }
+
         }
 
         $strinkeywords = array_unique($strinkeywords);
@@ -903,12 +912,7 @@ class stack_cas_casstring {
                     // Only allow the student to use set commands.
                     if (!isset($allow[$key]) && !isset(self::$cache['merged-sallow'][$key])) {
                         $this->valid = false;
-                        // Check for unit synonyms.
-                        list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
-                        if ($fndsynonym) {
-                            $this->add_error($synonymerr);
-                            $this->answernote[] = $answernote;
-                        } else if (isset(self::$cache['studentallow'][strtolower($key)])
+                        if (isset(self::$cache['studentallow'][strtolower($key)])
                                 || isset(self::$cache['distrib'][strtolower($key)]) || isset($allow[strtolower($key)])) {
                             // We have spotted a case senditivity problem.
                             $this->add_error(stack_string('stackCas_unknownFunctionCase',

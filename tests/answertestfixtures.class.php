@@ -836,6 +836,11 @@ class stack_answertest_test_data {
         array('Units', '3.14*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 1, '3', ''),
         array('Units', '3.141*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 0, '3', ''),
         array('Units', '4.141*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 0, '3', ''),
+        array('Units', '400*cc', '0.4*l', 1, '2', ''),
+        array('Units', '400*cm^3', '0.4*l', 1, '2', ''),
+        array('Units', '400*ml', '0.4*l', 1, '2', ''),
+        array('Units', '400*mL', '0.4*l', 1, '2', ''),
+        array('Units', '142.8*C', '415.9*K', -2, '4', 'TODO'),
 
         array('String', 'Hello', 'hello', 0, '', ''),
         array('String', 'hello', 'hello', 1, '', ''),

@@ -337,6 +337,49 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 2^ {- 1 }\cdot \mathrm{m} \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_litre_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7.2*l');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '7.2*l'), $options, '7.2*l', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('7.2*l', $state->contentsmodified);
+        $this->assertEquals('\[ 7.2\cdot \mathrm{l} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_hz_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7.2*Hz');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '7.2*Hz'), $options, '7.2*Hz', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('7.2*Hz', $state->contentsmodified);
+        $this->assertEquals('\[ 7.2\cdot \mathrm{Hz} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_hz_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7.2*Hz');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '7.2*hz'), $options, '7.2*Hz', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+    }
+
+    public function test_validate_student_response_litre_2() {
+        // Respect upper case "L".
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '7.2*l');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '7.2*L'), $options, '7.2*l', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('7.2*L', $state->contentsmodified);
+        $this->assertEquals('\[ 7.2\cdot \mathrm{L} \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_display_ohm() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7.2*uohm');

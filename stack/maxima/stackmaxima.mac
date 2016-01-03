@@ -1010,7 +1010,7 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
              return([true, true, "ATEquation_sides", ""]) 
         else return([true, false, "ATEquation_lhs_notrhs", ""]),
     if algebraic_equivalence(lhs(SA), rhs(SB)) then 
-        if algebraic_equivalence(lhs(SA), rhs(SB)) then
+        if algebraic_equivalence(rhs(SA), lhs(SB)) then
              return([true, true, "ATEquation_sides_op", ""]) 
         else return([true, false, "ATEquation_lhs_notrhs_op", ""]),
     /* First try without expanding out the equations */

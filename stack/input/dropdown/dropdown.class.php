@@ -37,6 +37,7 @@
  * (2) Add choose N (correct) from M feature (used at Aalto).
  * (3) Have a "none of these" which degrates to an algebraic input
  * (4) Enable better support for text-based strings in the display (e.g. CASTex?!)
+ * (5) Refactor to have 3 separate classes from one base class?
  *
  */
 

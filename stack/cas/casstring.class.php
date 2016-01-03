@@ -22,6 +22,7 @@
  */
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+require_once(__DIR__ . '/casstring.units.class.php');
 
 class stack_cas_casstring {
 
@@ -64,6 +65,11 @@ class stack_cas_casstring {
      *              CAS function is an answertest.
      */
     private $feedback;
+
+    /*
+     * @var array For efficient searching we cache the various lists of keywords.
+     */
+    private static $cache = false;
 
     /** @var array blacklist of globally forbidden CAS keywords. */
     private static $globalforbid    = array('%th', 'adapth_depth', 'alias', 'aliases',
@@ -215,7 +221,7 @@ class stack_cas_casstring {
             'tr_warn_undefined_variable', 'tr_warnings_get', 'tr_windy', 'tracematrix',
             'transform_xy', 'transparent', 'treillis', 'treinat', 'trivial_solutions', 'tube',
             'tube_extremes', 'tutte_graph', 'ueivects', 'ufg', 'uforget', 'ug', 'ultraspherical',
-            'undiff', 'unit_step', 'unit_vectors', 'uniteigenvectors', 'unitp', 'units',
+            'undiff', 'unit_step', 'unit_vectors', 'uniteigenvectors',
             'unitvector', 'unknown', 'unorder', 'uric', 'uricci', 'uriem', 'uriemann',
             'use_fast_arrays', 'usersetunits', 'uvect', 'vector', 'verbose', 'vers', 'warnings',
             'weyl', 'wronskian', 'x_voxel', 'xaxis', 'xaxis_color', 'xaxis_secondary', 'xaxis_type',
@@ -792,7 +798,7 @@ class stack_cas_casstring {
             // If no missing stars return true.
             return true;
         }
-        // Guard clause above - we have missing stars detected.
+        // Guard clause above - we have missing stars detected.False
         $this->answernote[] = 'missing_stars';
         if ($insertstars) {
             // If we are going to quietly insert them.
@@ -813,20 +819,41 @@ class stack_cas_casstring {
      *
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
-    private function check_security($security, $allowwords) {
+    private function check_security($security, $rawallowwords) {
 
-        // Sort out any allowwords.
-        $allow = array();
-        if (trim($allowwords) != '') {
-            $allowwords = explode(',', $allowwords);
-            foreach ($allowwords as $kw) {
-                if (!in_array(strtolower($kw), self::$globalforbid)) {
-                    $allow[] = trim($kw);
-                } else {
-                    throw new stack_exception('stack_cas_casstring: check_security: ' .
-                            'attempt made to allow gloabally forbidden keyword: ' . $kw);
+        // Create a minimal cache to store words as keys.
+        // This gives faster searching using the search functionality of that map.
+        if (self::$cache === false) {
+            self::$cache = array(
+                    'allows' => array(),
+                    'merged-sallow' => array_flip(array_merge(self::$studentallow, self::$distrib,
+                            stack_cas_casstring_units::get_permitted_units(2))),
+                    'globalforbid' => array_flip(self::$globalforbid),
+                    'teachernotallow' => array_flip(self::$teachernotallow),
+                    'studentallow' => array_flip(self::$studentallow),
+                    'distrib' => array_flip(self::$distrib)
+            );
+        }
+
+        $allow = null;
+        if (!isset(self::$cache['allows'][$rawallowwords])) {
+            // Sort out any allowwords.
+            $allow = array();
+            if (trim($rawallowwords) != '') {
+                $allowwords = explode(',', $rawallowwords);
+                foreach ($allowwords as $kw) {
+                    if (!isset(self::$cache['globalforbid'][strtolower($kw)])) {
+                        $allow[trim($kw)] = true;
+                    } else {
+                        throw new stack_exception('stack_cas_casstring: check_security: ' .
+                                'attempt made to allow gloabally forbidden keyword: ' . $kw);
+                    }
                 }
             }
+            self::$cache['allows'][$rawallowwords] = $allow;
+        } else {
+            // To lessen the changes to the code and pointless map lookups we read it here to this variable.
+            $allow = self::$cache['allows'][$rawallowwords];
         }
 
         // Note, we do not strip out strings here.  This would be a potential secuity risk.
@@ -847,17 +874,26 @@ class stack_cas_casstring {
             }
             // This is not really a security issue, but it relies on access to the $allowwords.
             // It is also a two letter string, which are normally permitted.
-            if ($security == 's' and $key == 'In' and !in_array($key, $allow)) {
+            if ($security == 's' and $key == 'In' and !isset($allow[$key])) {
                 $this->add_error(stack_string('stackCas_badLogIn'));
                 $this->answernote[] = 'stackCas_badLogIn';
                 $this->valid = false;
             }
+
+            // Check for unit synonyms.
+            list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
+            if ($security == 's' and $fndsynonym and !isset($allow[$key])) {
+                $this->add_error($synonymerr);
+                $this->answernote[] = $answernote;
+                $this->valid = false;
+            }
+
         }
 
         $strinkeywords = array_unique($strinkeywords);
         // Check for global forbidden words.
         foreach ($strinkeywords as $key) {
-            if (in_array(strtolower($key), self::$globalforbid)) {
+            if (isset(self::$cache['globalforbid'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
                         array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
@@ -865,28 +901,34 @@ class stack_cas_casstring {
                 $this->valid = false;
             } else {
                 if ($security == 't') {
-                    if (in_array($key, self::$teachernotallow)) {
+                    if (isset(self::$cache['teachernotallow'][strtolower($key)])) {
                         // If a teacher check against forbidden commands.
                         $this->add_error(stack_string('stackCas_unsupportedKeyword',
-                            array('forbid' => stack_maxima_format_casstring($key))));
+                                array('forbid' => stack_maxima_format_casstring($key))));
                         $this->answernote[] = 'unsupportedKeyword';
                         $this->valid = false;
                     }
                 } else {
                     // Only allow the student to use set commands.
-                    if (!in_array($key, self::$studentallow) and !in_array($key, self::$distrib) and !in_array($key, $allow)) {
-                        if (!in_array(strtolower($key), self::$studentallow) and !in_array(strtolower($key), self::$distrib)
-                                and !in_array(strtolower($key), $allow)) {
-                            $this->add_error(stack_string('stackCas_unknownFunction',
-                                array('forbid' => stack_maxima_format_casstring($key))));
-                            $this->answernote[] = 'unknownFunction';
-                        } else {
-                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
-                                array('forbid' => stack_maxima_format_casstring($key),
-                                        'lower' => stack_maxima_format_casstring(strtolower($key)))));
-                            $this->answernote[] = 'unknownFunctionCase';
-                        }
+                    if (!isset($allow[$key]) && !isset(self::$cache['merged-sallow'][$key])) {
                         $this->valid = false;
+                        if (isset(self::$cache['studentallow'][strtolower($key)])
+                                || isset(self::$cache['distrib'][strtolower($key)]) || isset($allow[strtolower($key)])) {
+                            // We have spotted a case senditivity problem.
+                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                    array('forbid' => stack_maxima_format_casstring($key),
+                                            'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                            $this->answernote[] = 'unknownFunctionCase';
+                        } else if ($err = stack_cas_casstring_units::check_units_case($key)) {
+                            // We have spotted a case sensitivity problem in the units.
+                            $this->add_error($err);
+                                $this->answernote[] = 'unknownUnitsCase';
+                        } else {
+                            // We have no idea what they have done.
+                            $this->add_error(stack_string('stackCas_unknownFunction',
+                                    array('forbid' => stack_maxima_format_casstring($key))));
+                            $this->answernote[] = 'unknownFunction';
+                        }
                     }
                     // Else we have not found any security problems with keywords.
                 }
@@ -1166,7 +1208,12 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $singlecharvars = false, $tans = null, $allowwords = '') {
+                    $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
+
+        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units')) {
+            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless" or "units", ' .
+                    'but received "'.validationmethod.'".');
+        }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
         }
@@ -1193,11 +1240,16 @@ class stack_cas_casstring {
             $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
         }
 
-        if (null === $tans) {
+        $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
+        if ($validationmethod == 'typeless') {
+            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
             $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
-        } else {
-            $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
         }
+        if ($validationmethod == 'units') {
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.')';
+        }
+
         return true;
     }
 
@@ -1226,8 +1278,9 @@ class stack_cas_casstring {
      *  This function decodes the error generated by Maxima into meaningful notes.
      *  */
     public function decode_maxima_errors($error) {
-        $searchstrings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
-                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
+        $searchstrings = array('DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
+                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
+                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units');
         $foundone = false;
         foreach ($searchstrings as $s) {
             if (false !== strpos($error, $s)) {

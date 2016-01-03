@@ -22,6 +22,7 @@ require_once(__DIR__.'/../../../../../config.php');
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+require_once(__DIR__ . '/casstring.units.class.php');
 
 
 class stack_cas_configuration {
@@ -211,6 +212,7 @@ END;
 
 END;
         }
+        $contents .= stack_cas_casstring_units::maximalocal_units();
         $contents .= <<<END
     true)$
 
@@ -227,7 +229,7 @@ END;
 
         } else {
             $contents .= <<<END
-/* Load the main libraries */
+/* Load the main libraries. */
 load("stackmaxima.mac")$
 
 END;
@@ -242,6 +244,8 @@ END;
             }
 
         }
+
+        $contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
 
         return $contents;
     }

@@ -8,10 +8,16 @@ These are some things we are asked for, but which we are unlikley to add in the 
 
 * Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations and also for applications which appeal to different disciplines, e.g. engineering, physics, maths.
 
-
 ## Features to add ##
 
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.  These features are not included in this release.
+
+### Units Inputs ###
+
+* Accept spaces in inputs as implied multiplication?
+* Convestion from Celsius to Kelvin?
+* Support for United States customary units.
+* (done) An answer test which does not check for equivalence with equivalent units.
 
 ### Inputs ###
 
@@ -60,7 +66,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * MapleTA
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
- * Package for scientific [units](../Authoring/Units.md), and a science answer test.
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
  * Add an ephemeral form for floating point numbers for better support for the numerical tests.  See below.

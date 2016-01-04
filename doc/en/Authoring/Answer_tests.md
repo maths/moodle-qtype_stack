@@ -257,6 +257,9 @@ The following tests do not use Maxima, but instead rely on PHP.
 | RegExp         | A regular expression match, with the expression passed via the option. This regular expression match is performed with PHP's `preg_match()` function. For example, if you want to test if a string looks like a floating point number then use the regular expression `{[0-9]*\.[0-9]*}`
 |                | **NOTE:** this rest used to use PHP's `ereg()` function which has now been depricated.
 
+# Scientific units #
+
+A dedicated answer test for scientific units is described on the [units](../Authoring/Units.md) page.
 
 # Developer #
 

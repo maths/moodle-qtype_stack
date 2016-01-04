@@ -234,7 +234,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs = new stack_cas_casstring($test);
             $cs->get_valid('t', false, 2);
             $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, '');
+            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
             $sessionvars[] = $cs;
             $k++;
             $this->assertTrue($cs->get_valid());
@@ -272,7 +272,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs = new stack_cas_casstring($test);
             $cs->get_valid('s', false, 2);
             $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, '');
+            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
             $sessionvars[] = $cs;
             $k++;
             $this->assertTrue($cs->get_valid());

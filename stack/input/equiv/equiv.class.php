@@ -240,11 +240,8 @@ class stack_equiv_input extends stack_input {
         return array($an);
     }
 
-    /** This function restricts what functions are considered valid.
-     *  Currently only used by the equiv class.
-     */
-    protected function equiv_validate() {
-        return true;
+    protected function get_validation_method() {
+        return 'equiv';
     }
 
 

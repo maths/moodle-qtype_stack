@@ -16,12 +16,12 @@
 
 
 /**
- * A basic text-field input.
+ * An input to support scientific units.  Heavily based on algebraic.
  *
- * @copyright  2012 University of Birmingham
+ * @copyright  2015 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_algebraic_input extends stack_input {
+class stack_units_input extends stack_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
@@ -54,7 +54,6 @@ class stack_algebraic_input extends stack_input {
 
     /**
      * Return the default values for the parameters.
-     * Parameters are options a teacher might set.
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
@@ -67,9 +66,13 @@ class stack_algebraic_input extends stack_input {
             'syntaxHint'     => '',
             'forbidWords'    => '',
             'allowWords'     => '',
-            'forbidFloats'   => true,
+            // The forbidFloats option is ignored by this input type.
+            // The Maxima code does not check for floats.
+            'forbidFloats'   => false,
             'lowestTerms'    => true,
-            'sameType'       => true);
+            // The sameType option is ignored by this input type.
+            // The answer is essantially required to be a number and units, other types are rejected.
+            'sameType'       => false);
     }
 
     /**
@@ -91,5 +94,19 @@ class stack_algebraic_input extends stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+    }
+
+    /* Allows individual input types to change the way the list of variables is tagged.
+     * Used by the units input type.
+     */
+    protected function tag_listofvariables($vars) {
+        return html_writer::tag('p', stack_string('studentValidation_listofunits', $vars));
+    }
+
+    /* Allow different input types to change the CAS method used.
+     * In particular, the units test does something different here.
+     */
+    protected function get_validation_method() {
+        return 'units';
     }
 }

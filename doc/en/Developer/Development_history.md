@@ -2,9 +2,9 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## Version 3.4.1
+## Version 3.5
 
-Unreleased in the master branch.
+Unreleased in this branch.
 
 Numerous minor bug fixes and improvements.
 
@@ -13,6 +13,9 @@ Numerous minor bug fixes and improvements.
 3. Support for plot2d "label" command.
 4. Add the NOCONST option to the ATInt answertest.
 5. Added support for optional Maxima packages throught the config settings.
+6. Added the dropdown input type.
+7. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
+
 
 ## Version 3.4
 

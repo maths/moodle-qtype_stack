@@ -21,9 +21,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+global $CFG;
+require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 require_once(__DIR__ . '/../stack/input/textarea/textarea.class.php');
-
+require_once(__DIR__ . '/test_base.php');
 
 /**
  * Unit tests for stack_textarea_input.

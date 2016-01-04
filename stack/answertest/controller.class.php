@@ -45,6 +45,8 @@ class stack_ans_test_controller {
               'NumRelative'  => 'stackOptions_AnsTest_values_NumRelative',
               'NumSigFigs'   => 'stackOptions_AnsTest_values_NumSigFigs',
               'NumDecPlaces' => 'stackOptions_AnsTest_values_NumDecPlaces',
+              'Units'        => 'stackOptions_AnsTest_values_Units',
+              'UnitsStrict'  => 'stackOptions_AnsTest_values_UnitsStrict',
               'LowestTerms'  => 'stackOptions_AnsTest_values_LowestTerms',
               'Diff'         => 'stackOptions_AnsTest_values_Diff',
               'Int'          => 'stackOptions_AnsTest_values_Int',
@@ -169,6 +171,15 @@ class stack_ans_test_controller {
             case 'NumDecPlaces':
                 require_once(__DIR__ . '/atdecplaces.class.php');
                 $this->at = new stack_anstest_atdecplaces($sans, $tans, $options, $casoption);
+                break;
+
+            case 'Units':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnits', true, $casoption, $options, false, true);
+                break;
+
+            case 'UnitsStrict':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrict',
+                                    true, $casoption, $options, false, true);
                 break;
 
             case 'LowestTerms':

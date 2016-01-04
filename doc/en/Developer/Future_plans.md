@@ -11,7 +11,11 @@ Goal: release end of Jan 2016.
 * Accept spaces in inputs as implied multiplication?
 * Convestion from Celsius to Kelvin?  What units to choose for degrees Celsius which don't conflict with Coulomb?
 * Support for United States customary units?
+* Add an option to validation to require compatible units with the teacher's answer, not just some units.
+* Create a mechanism to distinguish between `m/s` and `m*s^-1`, both at validation and answer test levels.
+* Create a mechanism to distinguish between `m/s/s` and `m/s^2`, both at validation and answer test levels.
 * (done) An answer test which does not check for equivalence with equivalent units.
+
 
 ### MCQ Inputs ###
 

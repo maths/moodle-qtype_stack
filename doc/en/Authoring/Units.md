@@ -83,7 +83,7 @@ The function `stack_units_split(ex)` takes the expression `ex` and returns a lis
 
 ## Custom units ##
 
-Currently there is no way to create custom sets of units.  This feature may be added in the future.  The following may be helpful for now/
+Currently there is no way to create custom sets of units.  This feature may be added in the future.  The following may be helpful for now.
 
 Add the following to the question variables.
 

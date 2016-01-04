@@ -9,7 +9,7 @@ Goal: release end of Jan 2016.
 ### Units Inputs ###
 
 * Accept spaces in inputs as implied multiplication?
-* Convestion from Celsius to Kelvin?
+* Convestion from Celsius to Kelvin?  What units to choose for degrees Celsius which don't conflict with Coulomb?
 * Support for United States customary units?
 * (done) An answer test which does not check for equivalence with equivalent units.
 

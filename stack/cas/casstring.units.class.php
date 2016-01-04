@@ -108,7 +108,8 @@ class stack_cas_casstring_units {
         array('atm', '101325*Pa', 'atm', 'Standard atmosphere'),
         array('Torr', '101325/760*Pa', 'Torr', 'torr'),
         array('K', 'K', 'K', 'Kelvin'),
-        array('C', 'C', '{}^{o}C', 'Celsius')
+        // Below conflicts with Coulomb.
+        //array('C', 'C', '{}^{o}C', 'Celsius')
     );
 
     /* This array keeps a list of synoymns which students are likely to use.

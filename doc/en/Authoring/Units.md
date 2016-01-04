@@ -83,9 +83,11 @@ The function `stack_units_split(ex)` takes the expression `ex` and returns a lis
 
 ## Custom units ##
 
-Currently there is no way to create custom sets of units.  This feature may be added in the future.  The following may be helpful for now.
+___ For advanced users and developers only ___
 
-Add the following to the question variables.
+Currently there is no way to create custom sets of units.  This feature may be added in the future.  The following may be helpful for now, but this does not fully work and the mechanism will change in the future when proper support is added for custom units.
+
+Add the following to the question variables and feedback variables.
 
     stack_unit_si_declare(true)
     declare(diamonds, units)
@@ -95,6 +97,7 @@ The symbol `diamonds` will then be treated as units in code such as `unitsp(ex)`
 
 You will need to put `diamonds` in the allow words of the input in the question.  However, the input validation code is independent of the question variables, and hence the student's answer will not be displayed using the TeX \(\diamond\) symbol.  If we add better support for custom units in the future, this may change.  If your units are something like `lb` and you are happy with italic fonts, this might be fine for now.
 
+Note, the feedback created within potential response trees will not respect the above code.
 
 ## Tips for dealing with units in STACK ##
 

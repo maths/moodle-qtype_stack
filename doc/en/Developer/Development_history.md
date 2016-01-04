@@ -4,8 +4,6 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 3.5
 
-Unreleased in this branch.
-
 Numerous minor bug fixes and improvements.
 
 1. Added an export mechanism for single stack questions throught a link on the "Question tests & deployed versions" page.

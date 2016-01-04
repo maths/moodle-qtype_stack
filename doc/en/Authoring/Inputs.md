@@ -75,6 +75,10 @@ _The student may not fill in part of a matrix._  If they do so, the remaining en
 
 The dropdown input type enables teachers to create [multiple choice](MCQ.md) questions.  See the separate documentation.
 
+#### Scientific units ####
+
+The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](Units.md).
+
 ### Model answer ###  {#model_answer}
 
 **This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.

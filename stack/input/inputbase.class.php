@@ -305,6 +305,7 @@ abstract class stack_input {
         }
         $tvalidator = array();
         foreach ($caslines as $index => $cs) {
+            // TODO: refactor this with the method get_validation_method() from the units input class.
             $tvalidator[$index] = null;
             if ($this->get_parameter('sameType') && array_key_exists($index, $tcaslines)) {
                 $ta = $tcaslines[$index];

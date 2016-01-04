@@ -546,15 +546,19 @@ set_plot_option([nticks, 50]);
 set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
-plot(ex,[ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug],
+plot(ex, [ra]) :=  /*stack_web_plot*/
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d],
     plotdebug:false,
-    /* Arguments to plot must be lists */
-    ral:sublist(ra, listp), /* The actual arguments used by plot */
+    /* Check for grid2d  in the plotoptions. */
+    plotgrid2d:false,
+    if member(grid2d, ra) or member(STACKGRID, ra) then
+         plotgrid2d:true,
+    /* Arguments to plot must be lists. */
+    ral:sublist(ra, listp), /* The actual arguments used by plot. */
     /* Check expressions to be plotted has/have only one variable. */
     ex:ev(ex, nouns, simp),
     lvs:listofvars(ex),
-    lvs:sublist(lvs,lambda([ex],not(ex=discrete or ex=parametric))),
+    lvs:sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
     if length(lvs)>1 then
        (print(concat("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)")),
        return("<center>[Empty plot]</center>")),
@@ -564,10 +568,10 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = alt) else false)),
     if not(emptyp(altc)) then (ral:delete(first(altc), ral), alttext:second(first(altc))),
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
-    /* remove from option list ral any non-permitted options */
+    /* Remove from option list ral any non-permitted options. */
     kill(y),
     permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics],
-    /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted.*/
+    /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted. */
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
     else  permitted_options:append([x], permitted_options),
     ralforbid:sublist(ral, lambda([ex], not(member(first(ex), permitted_options)))),
@@ -593,14 +597,13 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
         ) else block(
             ral:append(ral, [[legend, false]])
         ),
-    if not(member(axes, maplist(first, ral))) then block([lv],
-            preamble:"set zeroaxis
-set grid
-"
-        ),
+    /* Add in the command for the grid. */
+    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
+        ral:append(ral, [grid2d]),
     /* Note, the axes option in Maxima doesn't seem to work.... */
     preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
 set output ", afn), 
+    if plotdebug then print(preamble),
     set_plot_option([gnuplot_preamble, preamble]),
     /* Sort out the name and location of temporary Gnuplot files. */
     tfn:concat(filename, ".plt"),
@@ -1288,16 +1291,16 @@ ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
 
 /*
 
-    What these functions do:
-
-    - Determine whether the student's and teacher's answers are systems of equations
-    - Convert the two systems of equations into two systems of expressions
-    - Determine whether both systems are systems of multivariate polynomials
-    - Compare the variables in student's and teacher's answers, if they're not the same tell the student
-    - Find their Buchberger polynomials of the two systems
-    - Use the Buchberger polynomials to compare the Grobner bases of the two systems
-    - If the Grobner bases are not equal, determine whether the student's is a subset of the teacher's
-    - If student's system has equations which should not be there, tell them which ones.
+	What these functions do:
+	
+	- Determine whether the student's and teacher's answers are systems of equations
+	- Convert the two systems of equations into two systems of expressions
+	- Determine whether both systems are systems of multivariate polynomials
+	- Compare the variables in student's and teacher's answers, if they're not the same tell the student
+	- Find their Buchberger polynomials of the two systems
+	- Use the Buchberger polynomials to compare the Grobner bases of the two systems
+	- If the Grobner bases are not equal, determine whether the student's is a subset of the teacher's
+	- If student's system has equations which should not be there, tell them which ones.
 */
 
 /*
@@ -2427,4 +2430,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016010302$
+stackmaximaversion:2016010400$

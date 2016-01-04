@@ -131,7 +131,7 @@ stack_units_split_p(ex) := block(
 
 /* Validate an expression which is expected to have units.*/
 stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, SBU],
-    /* Try to simply the expression to catch CAS errors */
+    /* Try to simply the expression to catch CAS errors. */
     exs:errcatch(ev(expr, simp)),
     if is_simp(exs = []) then return(false),
     if length(expr)#1 then 
@@ -227,6 +227,10 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
     /* SA must have some units. */
     if simp_numberp(SA) then
         return([false, false, StackAddNote("", "ATUnits_SA_no_units"), StackAddFeedback("", "ATUnits_SA_no_units")]),
+
+    /* Load and setup units. */
+    if not(member(units, features)) then
+        stack_unit_si_declare(true),
 
     if (debug) then (print(SA), print(SB)),
     SAU:stack_units_split(SA),

@@ -196,17 +196,17 @@ class stack_cas_casstring_units {
         $units = array();
         foreach (self::$nonpreficunits as $unit) {
             if (strlen($unit[0]) > $len) {
-                $units[] = $unit[0];
+                $units[$unit[0]] = true;
             }
         }
         foreach (self::$supportedunits as $unit) {
-            $units[] = $unit[0];
+            $units[$unit[0]] = true;
             foreach (self::$supportedprefix as $prefix) {
                 $cmd = $prefix[0].$unit[0];
                 // By default, the student is allowed to type in any two letter string.
                 // We have an option to ignore short stings.
                 if (strlen($cmd) > $len) {
-                    $units[] = $cmd;
+                    $units[$cmd] = true;
                 }
             }
         }

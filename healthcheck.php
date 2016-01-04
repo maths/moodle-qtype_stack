@@ -61,7 +61,6 @@ $config = stack_utils::get_config();
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-// Summary
 // This array holds summary info, for a table at the end of the pager.
 $summary = array();
 $summary[] = array('', $config->platform );
@@ -94,9 +93,11 @@ if ($config->mathsdisplay === 'mathjax') {
 echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 
 // Try to list available versions of Maxima (linux only, without the DB).
-$connection = stack_connection_helper::make();
-if (is_a($connection, 'stack_cas_connection_unix')) {
-    echo html_writer::tag('pre', $connection-> get_maxima_available());
+if ($config->platform !== 'win') {
+    $connection = stack_connection_helper::make();
+    if (is_a($connection, 'stack_cas_connection_unix')) {
+        echo html_writer::tag('pre', $connection-> get_maxima_available());
+    }
 }
 
 // Check for location of Maxima.
@@ -105,6 +106,13 @@ if ('' != $maximalocation) {
     $message = stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maximalocation);
     echo html_writer::tag('p', $message);
     $summary[] = array(null, $message);
+}
+
+// Check if the current options for library packages are permitted (maximalibraries).
+list($valid, $message) = stack_cas_configuration::validate_maximalibraries();
+if (!$valid) {
+    echo html_writer::tag('p', $message);
+    $summary[] = array(false, $message);
 }
 
 // Try to connect to create maxima local.

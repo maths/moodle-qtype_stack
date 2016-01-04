@@ -433,7 +433,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
-                    $input->maxima_to_response_array($this->session->get_value_key($name)));
+                    $input->get_correct_response($this->session->get_value_key($name)));
         }
 
         return $teacheranswer;

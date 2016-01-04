@@ -22,10 +22,14 @@ require_once(__DIR__.'/../../../../../config.php');
 
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+require_once(__DIR__ . '/casstring.units.class.php');
 
 
 class stack_cas_configuration {
     protected static $instance = null;
+
+    /** @var This variable controls which optional packages are supported by STACK. */
+    public static $maximalibraries = array('stats', 'distrib', 'descriptive');
 
     protected $settings;
 
@@ -208,6 +212,7 @@ END;
 
 END;
         }
+        $contents .= stack_cas_casstring_units::maximalocal_units();
         $contents .= <<<END
     true)$
 
@@ -224,11 +229,23 @@ END;
 
         } else {
             $contents .= <<<END
-/* Load the main libraries */
+/* Load the main libraries. */
 load("stackmaxima.mac")$
 
 END;
+            $maximalib = $this->settings->maximalibraries;
+            $maximalib = explode(',', $maximalib);
+            foreach ($maximalib as $lib) {
+                $lib = trim($lib);
+                // Only include and load supported libraries.
+                if (in_array($lib, self::$maximalibraries)) {
+                    $contents .= 'load("'.$lib.'")$'."\n";
+                }
+            }
+
         }
+
+        $contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
 
         return $contents;
     }
@@ -305,4 +322,31 @@ END;
         return self::get_instance()->maxima_win_location();
     }
 
+    /**
+     * This function checks the current setting match to the supported packages.
+     */
+    protected function get_validate_maximalibraries() {
+
+        $valid = true;
+        $message = '';
+        $maximalib = $this->settings->maximalibraries;
+        $maximalib = explode(',', $maximalib);
+        foreach ($maximalib as $lib) {
+            $lib = trim($lib);
+            // Only include and load supported libraries.
+            if ($lib !== '' && !in_array($lib, self::$maximalibraries)) {
+                $valid = false;
+                $a = $lib;
+                $message .= stack_string('settingmaximalibraries_error', $a);
+            }
+        }
+        return(array($valid, $message));
+    }
+
+    /**
+     * This function checks the current setting match to the supported packages.
+     */
+    public static function validate_maximalibraries() {
+        return self::get_instance()->get_validate_maximalibraries();
+    }
 }

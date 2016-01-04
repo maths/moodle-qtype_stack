@@ -33,13 +33,13 @@ stack_reset(rand_seed) := block(
   exptdispflag:true,
   linsolvewarn:false,
   ratprint:false,
-  fpprintprec:12,     /* print only 12 digits */
-  fpprec:20,          /* work with 20 digits */
+  fpprintprec:12,     /* Print only 12 digits. */
+  fpprec:20,          /* Work with 20 digits. */
   %E_TO_NUMLOG:true,  /* "r" some rational number, and "x" some expression, %E^(r*LOG(x)) => x^r .*/
   /* Synonyms to help students */
   e:exp(1),
   pi:%pi, Pi:%pi, PI:%pi,
-  pi():=%pi,  /* Why does Excel do this?! */
+  pi():=%pi,         /* Why does Excel do this?! */
   /* Display of matrixes */
   lmxchar:"[",
   /* Sets up randomization, using Maxima's internal random command */
@@ -80,27 +80,11 @@ texput(lg, "\\mathrm{lg}", prefix);
 load ("functs");
 
 /* We don't want to allow people to put boxes round things. */
-box(ex):=ex;
+box(ex) := ex;
 
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
-
-load("to_poly_solve");
-
-/* Statistics support */
-/* REMOVED 2015-11-1
-   These packages are not working on some versions of Maxima.  In particular
-   on the version currently packaged with Debian.
-   This is causing Maxima install to fail for new users, which is unacceptable.
-   If you want these packages, please uncomment below and test your version.
-*/
-
-/*
-load("stats");
-load("distrib");
-load("descriptive");
-*/
 
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
@@ -129,17 +113,19 @@ sqrtdenest(a) :=
 /* Load STACK packages                */
 /* ********************************** */
 
-load("assessment.mac");   /* Currently part of the STACK distribution */
-load("inequalities.mac"); /* Currently part of the STACK distribution */
+load("assessment.mac");   /* Currently part of the STACK distribution. */
+load("inequalities.mac"); /* Currently part of the STACK distribution. */
+load("stackunits.mac");   /* Currently part of the STACK distribution. */
+load("stacktex.lisp");    /* Loads LaTeX changes and preferences.      */
+/* load("expandfeedback.mac"); */
 
-load("stacktex.lisp"); /* Loads LaTeX changes and preferences */
 texput(QMCHAR, "\\color{red}{?}");
 
-alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013 */
+alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013. */
 alias(arcsin, asin);           
 alias(arctan, atan);           
 
-load("mathml.lisp");   /* loads MathML */
+load("mathml.lisp");
 
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then 
@@ -153,14 +139,14 @@ make_complexJ(OPT_COMPLEXJ) := block(
   else true
 );
 
-/* Makes multiplication signs look correct */
+/* Choose the symbol for the multiplication sign. */
 make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "cross" then load("multiply_cross.lisp"),
     if OPT_MULTSGN = "dot" then load("multiply_dot.lisp"),
     if OPT_MULTSGN = "blank" then load("multiply_blank.lisp")
 );
 
-/* Options for cos^(-1), acos or arccos */
+/* Options for cos^(-1), acos or arccos. */
 make_arccos(OPT_ACOS) := block(
     if OPT_ACOS = "cos-1" then load("cos-1.lisp"),
     if OPT_ACOS = "arccos" then load("arccos.lisp")
@@ -223,8 +209,9 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal],
 /*        "i" inline or               */
 /*        "d" for displayed, or       */
 /*        "" for no delimiters.       */
+/* ********************************** */
 
-StackDISP(expr,m) := block([str:""],
+StackDISP(expr, m) := block([str:""],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
@@ -298,7 +285,7 @@ stack_matrix_pairs:[ ["[", "[", "]"], ["(", "(", ")"], ["\{", "\\{", "\\}"], ["{
 stack_matrix_disp(m):= block([ret, lp, rp, parens],
   if not(matrixp(m)) then (print("\\mbox{ERROR: argument to stack_matrix_disp must be a matrix.} "), return("")),
   if not(stringp(lmxchar)) then (print("\\mbox{ERROR: stack_matrix_disp requires lmxchar to be a string. }"), return("")), 
-  parens:sublist(stack_matrix_pairs, lambda([ex],is(first(ex)=lmxchar))),
+  parens:sublist(stack_matrix_pairs, lambda([ex], is(first(ex)=lmxchar))),
   if emptyp(parens) then (print(concat("\\mbox{ERROR: stack_matrix_disp cannot display matrices with parentheses ", string(lmxchar), "}")), return("")),
   parens:first(parens),
   lp:second(parens),
@@ -387,14 +374,14 @@ unary_minus_sort(ex) := block([ex2],
   return(unary_minus_pull(ex2))
 )$
 
-/* ****************************************************************** */
-/* Evaluate variables are return errors, display, and content forms   */
-/* ****************************************************************** */
+/* ********************************************************************* */
+/*  Evaluate variables are return errors, display, and content forms.    */
+/* ********************************************************************* */
 
 /* This function executes ex, which is assumed to be a stack expression  */
 /* which is surrounded by errcatch.  Hence we end up with a list.        */
-cte(var,ex) := block([str],
-    print("], key= ["),
+cte(var, ex) := block([str],
+    print("], key = ["),
     print(var),
     print("]"),
     if ex = [] then block(
@@ -449,8 +436,10 @@ StackBasicReturn(validity, result, note) := [validity, result, StackAddNote("", 
 /* ********************************************************* */
 
 StackReturn(ex) := block([str],
-  if not(listp(ex)) then (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),
-  if length(ex)#4 then (print("StackReturn failed: argument wrong length: "), print(string(ex)), return("")),
+  if not(listp(ex)) then 
+      (print("StackReturn failed: argument not a list: "), print(string(ex)), return("")),
+  if length(ex)#4 then 
+      (print("StackReturn failed: argument wrong length: "), print(string(ex)), return("")),
   print(" ], valid = [ "),
   if ex[1] then print(1) else print(0),
   print(" ], answernote = [ "),
@@ -460,8 +449,8 @@ StackReturn(ex) := block([str],
   return(ex[2])
 )$
 
-/* note the extra closing ] here.  The corresponding opening [ is generated in PHP */
-/* This is about the most ugly API ever, but there we go.....                      */
+/* note the extra closing ] here.  The corresponding opening [ is generated in PHP. */
+/* This is about the most ugly API ever, but there we go.....                       */
 
 /* ******************************************* */
 /* Validate an expression                      */
@@ -482,6 +471,7 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
   /* The +- operator may only appear once. */
   if ev(count_op(expr, "+-"), simp)>1 then 
     print(StackAddFeedback("", "Too_many+-")),
+  /* Check if the student's answer is the same type as the Teacher's. */
   SameType:ATSameTypefun(expr, TAns),
   if SameType[2]#true then print(SameType[4]),
   /* Now display the result. */
@@ -571,7 +561,7 @@ plot(ex,[ra]) :=  /*stack_web_plot*/
     /* Sort out alt-text */
     kill(alt),
     alttext:concat("STACK auto-generated plot of ", string(ex), " with parameters ", string(ral)),
-    altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex)=alt) else false)),
+    altc:sublist(ral, lambda([ex], if listp(ex) then is(first(ex) = alt) else false)),
     if not(emptyp(altc)) then (ral:delete(first(altc), ral), alttext:second(first(altc))),
     if not(stringp(alttext)) then (alttext:"ERROR", print("Plot error: the alt tag definition must be a string, but is not."), return("")),
     /* remove from option list ral any non-permitted options */
@@ -664,7 +654,7 @@ ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote,
     if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
     SB:SB[1], 
     if not(listp(SB)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_not_list"))),
-    if not(is(length(SB)=2)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_wrong_length"))),
+    if not(is(length(SB) = 2)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TA_wrong_length"))),
     tol:SB[2],
     if not(numberp(tol)) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_tol"))),
     if not(elementp(numtype, {"ABSOLUTE", "RELATIVE"})) then (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATNumerical_testname_invalid"))),
@@ -792,7 +782,7 @@ num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1
 
 
 
-ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB],
+ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -815,20 +805,28 @@ ATNumSigFigs(SA,SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol,
     /* SA should be only a number. */
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA = [STACKERROR]) then return([false, false, StackAddNote("", "ATNumSigFigs_Error simplifying SAns"),""]),
-    SA:SA[1],
+    SA:SAA[1],
     if (not(floatnump(SA)) and not(integerp(SA))) then
         return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
+    /* Check answers have the same algebraic sign. */
+    if not(is(sign(SA)=sign(SB))) then block(
+        RawMark:false, 
+        FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"), 
+        AnswerNote:StackAddNote(AnstwerNote, "ATNumSigFigs_WrongSign")
+    ),
+    SA:ev(abs(SA),simp),
+    SB:ev(abs(SB),simp),
     /* Puts Teacher's answer between 0 & 1 */
-    c0:-floor(log(abs(float(rat(SB))))/log(10)+1),
-    c1:rat(SA)*10^(c0+floor(nsf)),
-    if is(float(c1-floor(c1))=0.0)=false then block(
+    c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp),
+    c1:ev(rat(SA)*10^(c0+floor(nsf)), simp),
+    if is(ev(float(c1-floor(c1)), simp) = 0.0) = false then block(
         Validity:true, 
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"), 
         AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits")
     ), 
-    c2:abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf)))),
-    if not(is(c2<0.5)) then block(
+    ev(c2:abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf)))), simp),
+    if not(ev(is(c2<0.5), simp)) then block(
         Validity:true, 
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_Inaccurate"), 
@@ -1028,7 +1026,7 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
              return([true, true, "ATEquation_sides", ""]) 
         else return([true, false, "ATEquation_lhs_notrhs", ""]),
     if algebraic_equivalence(lhs(SA), rhs(SB)) then 
-        if algebraic_equivalence(lhs(SA), rhs(SB)) then
+        if algebraic_equivalence(rhs(SA), lhs(SB)) then
              return([true, true, "ATEquation_sides_op", ""]) 
         else return([true, false, "ATEquation_lhs_notrhs_op", ""]),
     /* First try without expanding out the equations */
@@ -1383,7 +1381,7 @@ ATSysEquiv(SA,SB):=block([keepfloat,Validity, RawMark, FeedBack, AnswerNote, SAA
 
     /* Determine whether our two lists of polynomials have the same Grobner Bases */
     if poly_grobner_equal(GA, GB, varlist) then
-    return([true,true,"",""]),
+        return([true,true,"",""]),
 
     /* 
     We now know the student's answer is in the correct form but there is
@@ -2427,6 +2425,6 @@ assess(ex1,ex2):=block([ret],
 /* Slight hack to compile these functions and hence suppress warnings. */
 load(linearalgebra);
 
-/* Stack expects some output */
-stackmaximaversion:2015111604$
-print("[ STACK-Maxima started, library version 2015111604 ]")$
+/* Stack expects some output with the version number the output happens at */
+/* maximalocal.mac after additional library loading */
+stackmaximaversion:2016010302$

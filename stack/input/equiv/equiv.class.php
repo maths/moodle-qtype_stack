@@ -60,7 +60,6 @@ class stack_equiv_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-
         // This class shows the validation next to the input box in a table, and disregards to the position of the
         // [[validation:name]] tag.
         $rendervalidation = $this->render_validation($state, $fieldname);
@@ -241,11 +240,8 @@ class stack_equiv_input extends stack_input {
         return array($an);
     }
 
-    /** This function restricts what functions are considered valid.
-     *  Currently only used by the equiv class.
-     */
-    protected function equiv_validate() {
-        return true;
+    protected function get_validation_method() {
+        return 'equiv';
     }
 
 

@@ -1,32 +1,22 @@
-# STACK 3.4
+# STACK 3.6
 
-[STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md)
-is an open-source system for computer-aided assessment in Mathematics and related
-disciplines, with emphasis on formative assessment.
+[STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
 
-STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of
-the University of Edinburgh, and includes the work of
-[other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md).
+STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md).
 
 
 ## Current state of development
 
-Stack 3.4 is a point release containing a number of recent bug fixes an minor
-new features and improvements, based on continuing use at Loughborough
-University, the Open University and the University of Birmingham.
+Stack 3.6 is a point release containing new features and improvements, based on continuing use at the University of Edinburgh, Loughborough University, the Open University, the University of Birmingham and others.
 
-Please continue to report any bugs you find at
-https://github.com/maths/moodle-qtype_stack/issues.
+Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 
-The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md)
-is explain more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).
+The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md) is explain more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).
 
 
 ## Documentation
 
-The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md),
-including the
-[installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
+The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md), including the [installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
 
 
 ## License

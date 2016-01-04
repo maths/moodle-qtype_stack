@@ -568,22 +568,22 @@ class stack_utils {
         while ($i < strlen($string)) {
             $c = $string[$i];
             $i++;
-            if ($instring){
+            if ($instring) {
                 if ($c == '"' && !$lastslash) {
                     $instring = false;
-                    // -1 to drop the quote.
-                    $s = substr($string, $stringentry, ($i-$stringentry)-1);
+                    // Need -1 to drop the quote.
+                    $s = substr($string, $stringentry, ($i - $stringentry) - 1);
                     $strings[] = $s;
                 } else if ($c == "\\") {
                      $lastslash = !$lastslash;
-            } else if ($lastslash) {
+                } else if ($lastslash) {
+                    $lastslash = false;
+                }
+            } else if ($c == '"') {
+                $instring = true;
                 $lastslash = false;
+                $stringentry = $i;
             }
-          } else if ($c == '"') {
-              $instring = true;
-              $lastslash = false;
-              $stringentry = $i;
-          }
         }
         return $strings;
     }

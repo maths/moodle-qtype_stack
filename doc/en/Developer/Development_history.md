@@ -2,6 +2,19 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 3.5
+
+Numerous minor bug fixes and improvements.
+
+1. Added an export mechanism for single stack questions throught a link on the "Question tests & deployed versions" page.
+2. Modify the text area input so that each line is validated separately.
+3. Support for plot2d "label" command.
+4. Add the NOCONST option to the ATInt answertest.
+5. Added support for optional Maxima packages throught the config settings.
+6. Added the dropdown input type.
+7. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
+
+
 ## Version 3.4
 
 Released September 2015. 

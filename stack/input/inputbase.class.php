@@ -74,7 +74,7 @@ abstract class stack_input {
     protected $parameters;
 
     /**
-     * Constructor
+     * Constructor(3)
      *
      * @param string $name the name of the input. This is the name of the
      *      POST variable that the input from this element will be submitted as.
@@ -101,6 +101,15 @@ abstract class stack_input {
                 $this->set_parameter($name, $value);
             }
         }
+
+        $this->internal_contruct();
+    }
+
+    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown
+     * uses this to sort out options.
+     */
+    protected function internal_contruct() {
+        return true;
     }
 
     /**
@@ -249,7 +258,7 @@ abstract class stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         // By default, we don't show how to "type this in".  This is only done for some, e.g. algebraic and textarea.
-        return stack_string('teacheranswershow_disp', array('display' => $display));
+        return stack_string('teacheranswershow_disp', array('display' => '\( '.$display.' \)'));
     }
 
     /**
@@ -258,6 +267,7 @@ abstract class stack_input {
      * @param array $response the student response to the question.
      * @param stack_options $options CAS options to use when validating.
      * @param string $teacheranswer the teachers answer as a string representation of the evaluated expression.
+     * @param array $forbiddenkeys is an array of casstring keys which appears in the question variables.
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys, $ajaxinput=false) {
@@ -295,30 +305,27 @@ abstract class stack_input {
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
-        if ($this->get_parameter('sameType')) {
+        $validationmethod = $this->get_validation_method();
+        if ('checktype' == $validationmethod || 'units' == $validationmethod) {
             $tresponse = $this->maxima_to_response_array($teacheranswer);
             $tcontents = $this->response_to_contents($tresponse);
             list($tvalid, $terrors, $tmodifiedcontents, $tcaslines) = $this->validate_contents($tcontents, $forbiddenkeys);
         } else {
             $tcaslines = array();
         }
+
         $tvalidator = array();
         foreach ($caslines as $index => $cs) {
             $tvalidator[$index] = null;
-            if ($this->get_parameter('sameType') && array_key_exists($index, $tcaslines)) {
+            if (array_key_exists($index, $tcaslines)) {
                 $ta = $tcaslines[$index];
                 $tvalidator[$index] = $ta->get_casstring();
             }
         }
-
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
         $lvarsdisp   = '';
         $note        = '';
         $sessionvars = array();
-        $equivvalidate = false;
-        if ($this->equiv_validate()) {
-            $equivvalidate = true;
-        }
 
         // Ensure we have an element in the session which is the whole answer.
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
@@ -327,21 +334,18 @@ abstract class stack_input {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars,
-                    $tvalidator[$index], $this->get_parameter('allowWords', ''), $equivvalidate);
+                    $tvalidator[$index], $validationmethod, $this->get_parameter('allowWords', ''));
                 $sessionvars[] = $cs;
             }
         }
 
         // Ensure we have an element in the session which is the whole answer.
         // This results in a duplication for many, but textareas create a single list here representing the whole answer.
-        if (!($this->get_parameter('sameType'))) {
-            $teacheranswer = null;
-        }
         $answer = new stack_cas_casstring($interpretedanswer);
         $answer->set_cas_validation_casstring($this->name,
             $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
             $singlevarchars,
-            $teacheranswer, $this->get_parameter('allowWords', ''));
+            $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''));
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;
         }
@@ -397,6 +401,17 @@ abstract class stack_input {
         return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp);
     }
 
+    /* Allow different input types to change the CAS method used.
+     * In particular, the units and equiv inputs do something different here.
+     */
+    protected function get_validation_method() {
+        $validationmethod = 'checktype';
+        if (!$this->get_parameter('sameType')) {
+            $validationmethod = 'typeless';
+        }
+        return $validationmethod;
+    }
+
     /**
      * Decide if the contents of this attempt is blank.
      *
@@ -422,10 +437,11 @@ abstract class stack_input {
      * For example, Matrix types have two dimensional contents arrays to loop over.
      *
      * @param array $contents the content array of the student's input.
+     * @param array $forbiddenkeys is an array of keys of casstings from the question
+     *                             variables which must not appear in the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
     protected function validate_contents($contents, $forbiddenkeys) {
-
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
 
@@ -479,13 +495,6 @@ abstract class stack_input {
      */
     protected function additional_session_variables() {
         return array();
-    }
-
-    /** This function restricts what functions are considered valid.
-     *  Currently only used by the equiv class.
-     */
-    protected function equiv_validate() {
-        return false;
     }
 
     /**
@@ -570,9 +579,16 @@ abstract class stack_input {
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
-            $feedback .= html_writer::tag('p', stack_string('studentValidation_listofvariables', $state->lvars));
+            $feedback .= $this->tag_listofvariables($state->lvars);
         }
         return $feedback;
+    }
+
+    /* Allows individual input types to change the way the list of variables is tagged.
+     * Used by the units input type.
+     */
+    protected function tag_listofvariables($vars) {
+        return html_writer::tag('p', stack_string('studentValidation_listofvariables', $vars));
     }
 
     /**
@@ -604,6 +620,15 @@ abstract class stack_input {
         } else {
             return '';
         }
+    }
+
+    /**
+     * This is used by the question to get the teacher's correct response.
+     * The dropdown type needs to intercept this to filter the correct answers.
+     * @param unknown_type $in
+     */
+    public function get_correct_response($in) {
+        return $this->maxima_to_response_array($in);
     }
 
     /**

@@ -59,13 +59,16 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('popup');
 
-// Create some other useful links
+// Create some other useful links.
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);
 unset($qbankparams['seed']);
 $qbankparams['qperpage'] = 1000; // Should match MAXIMUM_QUESTIONS_PER_PAGE but that constant is not easily accessible.
 $qbankparams['category'] = $questiondata->category . ',' . $question->contextid;
 $qbankparams['lastchanged'] = $question->id;
+if ($questiondata->hidden) {
+    $qbankparams['showhidden'] = 1;
+}
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());

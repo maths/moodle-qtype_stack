@@ -315,7 +315,8 @@ abstract class stack_connection_helper {
             foreach ($results as $result) {
                 if ('CASresult' === $result['key']) {
                     if ($result['value'] != 'n*x^(n-1)') {
-                        $message[] = stack_string('healthuncachedstack_CAS_calculation', array('expected' => "n*x^(n-1)", 'actual' => $result['value']));
+                        $message[] = stack_string('healthuncachedstack_CAS_calculation',
+                                array('expected' => "n*x^(n-1)", 'actual' => $result['value']));
                         $success = false;
                     }
                 } else if ('CAStime' === $result['key']) {
@@ -324,15 +325,22 @@ abstract class stack_connection_helper {
                     }
                 } else if ('MAXIMAversion' === $result['key']) {
                     if ('default' == $maximaversion) {
-                        $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked', array('actual' => $result['value']));
+                        $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked',
+                                array('actual' => $result['value']));
                     } else if ($result['value'] != '"'.$maximaversion.'"') {
-                        $message[] = stack_string('healthuncachedstack_CAS_version', array('expected' => $maximaversion, 'actual' => $result['value']));
+                        $message[] = stack_string('healthuncachedstack_CAS_version',
+                                array('expected' => $maximaversion, 'actual' => $result['value']));
                         $success = false;
                     }
                 } else if ('STACKversion' !== $result['key']) {
                     $success = false;
                 }
             }
+        }
+
+        if (strstr($debug, 'failed to load')) {
+            $message[] = stack_string('settingmaximalibraries_failed');
+            $success = false;
         }
 
         if ($success) {

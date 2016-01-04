@@ -405,6 +405,7 @@ class qtype_stack extends question_type {
                 'sameType'       => (bool) $inputdata->checkanswertype,
                 'mustVerify'     => (bool) $inputdata->mustverify,
                 'showValidation' => $inputdata->showvalidation,
+                'options'        => $inputdata->options,
             );
             $parameters = array();
             foreach ($requiredparams[$inputdata->type] as $paramname) {
@@ -413,7 +414,6 @@ class qtype_stack extends question_type {
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
-            // TODO: Do something with $inputdata->options here.
             $question->inputs[$name] = stack_input_factory::make(
                     $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
         }

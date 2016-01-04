@@ -24,6 +24,7 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 ### Interface features
 
+* Add an option to display and/or using language strings not \wedge, \vee.
 * Change the syntax hint so that the *value* of the variables is used.  This enables the first line to be seeded with random parameters.
 
 ## Comments.

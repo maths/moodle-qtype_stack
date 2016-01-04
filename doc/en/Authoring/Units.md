@@ -78,12 +78,13 @@ The function `stack_unit_si_declare(true)` declares symbols as units as far as S
 * `unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a scientific unit.  
 * `listofnonunits(ex)` lists all variables in the expression `ex` considered not to be units however they appear.  Use of this function autoloads `stack_unit_si_declare(true)`.
 * `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear. Use of this function autoloads `stack_unit_si_declare(true)`.
+Also, you will need to use `stack_unit_si_declare(true)` in the feedback text itself.
 
 The function `stack_units_split(ex)` takes the expression `ex` and returns a list of `[numbers, symbols]`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.  Note, sybmbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
 
 ## Custom units ##
 
-___ For advanced users and developers only ___
+___For advanced users and developers only___
 
 Currently there is no way to create custom sets of units.  This feature may be added in the future.  The following may be helpful for now, but this does not fully work and the mechanism will change in the future when proper support is added for custom units.
 

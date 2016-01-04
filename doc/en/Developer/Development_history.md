@@ -15,7 +15,7 @@ Numerous minor bug fixes and improvements.
 5. Added support for optional Maxima packages throught the config settings.
 6. Added the dropdown input type.
 7. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
-
+8. Added support for `grid2d` in newer versions of Maxima only.
 
 ## Version 3.4
 

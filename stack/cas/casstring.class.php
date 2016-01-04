@@ -312,7 +312,7 @@ class stack_cas_casstring {
                 'identfor' => true, 'identity' => true, 'ifactors' => true, 'imagpart' => true, 'ind' => true, 'inf' => true,
                 'infinity' => true, 'innerproduct' => true, 'inrt' => true, 'integer_partitions' => true, 'integrate' => true,
                 'intersect' => true, 'intersection' => true, 'intosum' => true, 'inv_mod' => true, 'inverse_jacobi_cd' => true,
-                'inverse_jacobi_cn' => true, 'inverse_jacobi_cs' => true, 'inverse_jacobi_dc' => true,
+                'inverse_jacobi_cn' => true, 'inverse_jacobi_cs' => true, 'inverse_jacobi_dc' => true, 'grid2d' => true,
                 'inverse_jacobi_dn' => true, 'inverse_jacobi_ds' => true, 'inverse_jacobi_nc' => true,
                 'inverse_jacobi_nd' => true, 'inverse_jacobi_ns' => true, 'inverse_jacobi_sc' => true,
                 'inverse_jacobi_sd' => true, 'inverse_jacobi_sn' => true, 'invert' => true, 'isqrt' => true, 'jacobi' => true,
@@ -851,6 +851,9 @@ class stack_cas_casstring {
 
         // Prevent ? characters calling LISP or the Maxima help file.  Instead, these pass through and are displayed as normal.
         $cmd = str_replace('?', 'QMCHAR', $this->rawcasstring);
+
+        // Provide support for the grid2d command, which otherwise breaks insert stars.
+        $cmd = str_replace('grid2d', 'STACKGRID', $cmd);
 
         // Remove the contents of any strings, so we don't test for missing *s within them.
         list ($cmd, $strings) = $this->strings_remove($cmd);

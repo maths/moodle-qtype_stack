@@ -25,7 +25,7 @@ Currently STACK is released with the following languages.
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
-  * ES: Spanish, by Víctor Hugo Huerta 
+  * ES: Spanish, by Vï¿½ctor Hugo Huerta 
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
 # Other implementations
@@ -39,7 +39,7 @@ The following institutions made use of previous versionf of STACK.  If you are a
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
 
-School of Science, Aalto University, Helskini, Finland
+School of Science, Aalto University, Helsinki, Finland
 : Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
 
 School of Informatics and Sciences, Nagoya University, Japan
@@ -61,7 +61,7 @@ Gymnasium HimmelsthÃ¼r, Hildesheim, Deutschland
 : Contact [Frank SchÃ¼tte](mailto:fschuett@gymnasium-himmelsthuer.de)
 
 Universidad Michoacana de San Nicolas de Hidalgo
-: Contcat [Víctor Hugo Huerta](mailto:v2hugo@gmail.com)
+: Contcat [Vï¿½ctor Hugo Huerta](mailto:v2hugo@gmail.com)
 
 e-MAIO project, Coimbra Institute of Engineering, Portugal
 : Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)

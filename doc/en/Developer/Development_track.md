@@ -1,11 +1,14 @@
-# This branch holds the development track for STACK 3.5
+# Development track for STACK 3.6 and STACK 4.0
 
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-# Changes in the current "equiv" branch.  This is the current TODO list for release of the equiv input type.
+# STACK 3.6
+
+This track is developing more inputs, including a "reasoning by equivalence" input type. This is the current TODO list for release of the equiv input type.
+
 
 This branch is developing a "reasoning by equivalence" input, and associated input improvements.
 
@@ -24,6 +27,7 @@ This branch is developing a "reasoning by equivalence" input, and associated inp
 
 ### Interface features
 
+* Add an option to display and/or using language strings not \wedge, \vee.
 * Change the syntax hint so that the *value* of the variables is used.  This enables the first line to be seeded with random parameters.
 
 ## Comments.
@@ -45,3 +49,12 @@ See `poly_equate_coeffs` in assessment.mac
 * Equational reasoning.  If the next line begins with an = sign.
 * Function which will display a teacher's answer as a worked solution, just as the input type uses.
 * Answer test which acts on the whole argument.
+
+
+# STACK 4.0
+
+This track adds major new features, and changes the interaction model for STACK substantially.  The goal is to develop STACK 3.5 and STACK 4.0 in parallel.  At a point where both are stable we will decide whether to actually release 3.5, or to merge and release all features as one new major change.
+
+* Expand the CASText format to enable us to embed the _value_ of a variable in CASText, not just the displayed form.
+* Conditionals in CASText adaptive blocks. (Aalto) See [question blocks](../Authoring/Question_blocks.md) for our plans.
+* Add state to the question model.

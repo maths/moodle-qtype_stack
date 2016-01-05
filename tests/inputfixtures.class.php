@@ -53,7 +53,8 @@ class stack_inputvalidation_test_data {
         array('1/0', 'php_true', '1/0', 'cas_true', 'CASError: Division by zero.', ""),
         array('pi', 'php_true', 'pi', 'cas_true', '', ""),
         array('e', 'php_true', 'e', 'cas_true', '', "Cannot easily make \(e\) a variable name."),
-        array('i', 'php_true', 'i', 'cas_true', '', "Options to make i a variable, or a vector unit.  Note this is not italic."),
+        array('i', 'php_true', 'i', 'cas_true', '',
+            "Options to make i a variable, or a vector unit.  Note this is not italic."),
         array('j', 'php_true', 'j', 'cas_true', '',
             "Can define \(j^2=-1\) as an option, or a vector unit.  By default a variable, so italic."),
         array('%pi', 'php_true', '%pi', 'cas_true', '', ""),
@@ -398,7 +399,7 @@ class stack_inputvalidation_test_data {
 
         $cs = new stack_cas_casstring($test->rawstring);
         $cs->get_valid('s', false, 1);
-        $cs->set_cas_validation_casstring('sans1', true, true, false, null);
+        $cs->set_cas_validation_casstring('sans1', true, true, false, null, 'typeless');
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {

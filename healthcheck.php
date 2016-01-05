@@ -61,7 +61,6 @@ $config = stack_utils::get_config();
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-// Summary
 // This array holds summary info, for a table at the end of the pager.
 $summary = array();
 $summary[] = array('', $config->platform );

@@ -442,9 +442,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputnames = $this->get_input_names_from_question_text();
         $prtnames = $this->get_prt_names_from_question();
 
-        // Note that for the editor elements, we are using
-        // $mform->getElement('prtincorrect')->setValue(...);
-        // instead of setDefault, because setDefault does not work for editors.
+        // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
+        // of setDefault, because setDefault does not work for editors.
 
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
         $mform->addRule('questiontext', stack_string('questiontextnonempty'), 'required', '', 'client');
@@ -1087,15 +1086,6 @@ class qtype_stack_edit_form extends question_edit_form {
             if (array_key_exists($inputname . 'modelans', $fromform)) {
                 $errors = $this->validate_cas_string($errors,
                         $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
-
-                // TODO: find out if this input type acutally requires options, rather than
-                // the hard-coded check here.
-                if (false) {
-                    $errors = $this->validate_cas_string($errors,
-                            $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
-                } else if ($fromform[$inputname . 'options']) {
-                    $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
-                }
             }
         }
 
@@ -1421,12 +1411,6 @@ class qtype_stack_edit_form extends question_edit_form {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
             $cs->get_valid('t');
             $inputvalues[] = $cs;
-
-            if ($fromform[$inputname . 'options']) {
-                $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
-                $cs->get_valid('t');
-                $inputvalues[] = $cs;
-            }
         }
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);

@@ -6,6 +6,8 @@ This can also be one input in a multi-part randomly generated question. E.g. you
 
 Please read the section on [inputs](Inputs.md) first.
 
+The goal of these input types is to provide *modest* facilities for MCQ.  If these features are extensively used we will consider modifying the functionality.  Please contact the developers with comments.
+
 ## Model answer ##
 
 This input type uses the "model answer" both to input the teacher's answer and the other options. In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.
@@ -22,9 +24,9 @@ For example
 
 At least one of the choices must be considered `correct`.
 
-Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...".  A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  Afterall, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  In this example the validation feedback would be confusing, since an integer (which might be suffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer".  Such a change might have other unintended and confusing consequences.* 
+Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...".  A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  In this example the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer".  Such a change might have other unintended and confusing consequences.* 
 
-Normally we don't permit duplicate values in the values of the teacher's answer.  If they input type receives duplicate values STACK will throw an error.  This probably arises from poor randomisation.  However it may be needed.  If duplicate enties are permitted use the display option to create unique value keys with the same display.
+Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomisation.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
 
 When STACK displays the "teacher's answer", e.g. after a quiz is due", this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  I.e. the "teacher's answer" will be a list of things which the student could actually select.  Whether the student is able to select more than one, or if more than one is actually included.
 
@@ -34,22 +36,39 @@ This input type turns the student' answer into a Maxima list.  Hence, if you are
 
     first(ans1)
 
-This design decision ensures there is no abiguity in the type of object returned.  Switching from radio to checkboxes will not break a PRT because of mis-matched types.
+This design decision ensures there is no ambiguity in the type of object returned.  Switching from radio to checkboxes will not break a PRT because of mis-matched types.
+
+For the select and radio types the first option on the list will always be "Not answered".  This enables a student to retract an answer and return a "blank" response.
+
+For the checkbox type there is a fundamental ambiguity between a blank response and an empty list, which indicates none of the others.  To enable a student to indicate "none of the others", the teacher must add this as a specific option.  Note, this will not return an empty list as the answer as might be expected.
 
 ## Extra options ##
 
-The dropdown input type makes use of the Extra options field to pass in options.  These options are not case sensitive.  This must be a comman separated list of values as follows.
+The dropdown input type makes use of the Extra options field to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows.
 
 We can reorder the values by using shuffle.
 
-* `shuffle` If this option is encoutered, then the question type will randomly shuffle the non-trivial options. The default is not to shuffle the options, but to list them as ordered in the list.
+* `shuffle` NOT YET IMPLEMENTED.  Intention: if this option is encountered, then the question type will randomly shuffle the non-trivial options. The default is not to shuffle the options, but to list them as ordered in the list.
 
 The way the items are displayed can be controlled by the following options. 
 
-* `LaTeX` The defaut option is to use LaTeX to display the options, using an inline maths environment `\(...\)`.  This is probably better for radio and checkboxes.  It sometimes works in dropdowns, but not always and we need to test this in a wider variety of browsers.
+* `LaTeX` The default option is to use LaTeX to display the options, using an inline maths environment `\(...\)`.  This is probably better for radio and checkboxes.  It sometimes works in dropdowns, but not always and we need to test this in a wider variety of browsers.
 * `LaTeXdisplay` use LaTeX to display the options, using the display maths environment `\[...\]`.
 * `LaTeXinline` use LaTeX to display the options, using the inline maths environment `\(...\)`.
-* `casstring` does not use the LaTeX value, but just prints the castring value in `<code>...</code>` tags.
+* `casstring` does not use the LaTeX value, but just prints the casstring value in `<code>...</code>` tags.
 
+## Dealing with strings in MCQ ##
 
+A likely situation is that a teacher wants to include a language string as one of the options for a student's answer in a multiple choice question.
 
+Recall: *A fundamental design principal of STACK is that the student's answer should be a mathematical expression which can be manipulated by the CAS as a valid expression.* Students are very limited in the keywords they are permitted to use in an input type.  It is very likely that strings will contain keywords forbidden in student expressions.
+
+One option to overcome this is to do something like this as one option in the teacher's response:
+
+    [C, false, "(C) None of the other options"]
+
+The optional display part of this input is displayed to the student.  Their answer is the (valid) CAS atom `C` which the PRT will deal with appropriately.  This work-around is unlikely to sit well with the `shuffle` option.  As we said, the current goal is to only provide modest MCQ facilities.
+
+The quotation marks will be removed from strings, and the strings will not be wrapped `<code>...</code>` tags or LaTeX mathematics environments.
+
+Question authors should consider using the Moodle MCQ question type in addition to these facilities for purely text based answers.

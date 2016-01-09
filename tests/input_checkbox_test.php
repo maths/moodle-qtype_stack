@@ -167,4 +167,22 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals(array('1', '2'), $state->contents);
         $this->assertEquals('[x+1,x+2]', $state->contentsmodified);
     }
+
+    public function test_string_value() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+x^2,false],[{},false,"None of these"]]', array());
+        $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
+        $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
+                . '<label><code>1+x</code></label></div><div>'
+                . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" />'
+                . '<label><code>2+x^2</code></label></div><div>'
+                . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
+                . '<label>None of these</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+        $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals('[{}]', $state->contentsmodified);
+    }
 }

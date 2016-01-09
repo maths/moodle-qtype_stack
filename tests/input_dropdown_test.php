@@ -185,4 +185,20 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $state = $el->validate_student_response(array('ans1' => '2'), $options, '2', null);
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
+
+    public function test_string_value() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+x^2,false],[{},false,"None of these"]]', array());
+        $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+                . '<option value="">Not answered</option><option value="1"><code>1+x</code></option>'
+                . '<option selected="selected" value="2"><code>2+x^2</code></option>'
+                . '<option value="3">None of these</option></select>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+        $state = $el->validate_student_response(array('ans1' => '3'), $options, '2', null);
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('3'), $state->contents);
+        $this->assertEquals('[{}]', $state->contentsmodified);
+    }
 }

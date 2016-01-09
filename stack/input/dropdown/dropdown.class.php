@@ -76,12 +76,12 @@ class stack_dropdown_input extends stack_input {
                         $this->ddlshuffle = true;
                         break;
 
-                    case 'none':
-                        $this->ddlnone = true;
-                        break;
-
                     // Does a student see LaTeX or cassting values?
                     case 'latex':
+                        $this->ddldisplay = 'LaTeX';
+                        break;
+
+                    case 'latexinline':
                         $this->ddldisplay = 'LaTeX';
                         break;
 
@@ -186,7 +186,12 @@ class stack_dropdown_input extends stack_input {
         if ($this->ddldisplay === 'casstring') {
             // By default, we wrap displayed values in <code> tags.
             foreach ($ddlvalues as $key => $value) {
-                $ddlvalues[$key]['display'] = '<code>'.$ddlvalues[$key]['display'].'</code>';
+                $display = trim($ddlvalues[$key]['display']);
+                if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
+                    $ddlvalues[$key]['display'] = substr($display, 1, strlen($display)-2);
+                } else {
+                    $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
+                }
             }
             $this->ddlvalues = $this->shuffle($ddlvalues);
             return;
@@ -217,12 +222,18 @@ class stack_dropdown_input extends stack_input {
         // This sets display form in $this->ddlvalues.
         $this->teacheranswerdisplay = '\('.$at1->get_display_key('teachans').'\)';
         foreach ($ddlvalues as $key => $value) {
-            // Note, we've chosen to add LaTeX maths environments here.
-            $disp = $at1->get_display_key('val'.$key);
-            if ($this->ddldisplay === 'LaTeX') {
-                $ddlvalues[$key]['display'] = '\('.$disp.'\)';
+            // Was the original expression a string?  If so, don't use the LaTeX version.
+            $display = trim($ddlvalues[$key]['display']);
+            if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
+                $ddlvalues[$key]['display'] = substr($display, 1, strlen($display)-2);
             } else {
-                $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                // Note, we've chosen to add LaTeX maths environments here.
+                $disp = $at1->get_display_key('val'.$key);
+                if ($this->ddldisplay === 'LaTeX') {
+                    $ddlvalues[$key]['display'] = '\('.$disp.'\)';
+                } else {
+                    $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                }
             }
         }
 

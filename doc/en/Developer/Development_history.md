@@ -13,7 +13,7 @@ Numerous minor bug fixes and improvements.
 3. Support for plot2d "label" command.
 4. Add the NOCONST option to the ATInt answertest.
 5. Added support for optional Maxima packages throught the config settings.
-6. Added the dropdown input type.
+6. Added the dropdown, radio and checkbox input types.
 7. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
 8. Added support for `grid2d` in newer versions of Maxima only.
 

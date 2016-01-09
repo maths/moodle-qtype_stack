@@ -19,15 +19,11 @@ Goal: release end of Jan 2016.
 
 ### MCQ Inputs ###
 
-* Refactor to separate classes for radio and checkboxes.
-* Enable the input to deal with multiple submissions, e.g. checkboxes.  See the Matrix type for ideas here.
-* Correctly render radio
-* Correctly render checkboxes
 * Check if the display type is a string. If so, strip off the "s and don't sent it through the CAS.
 
 For the future?
 
-* Refactor shuffle to be seeded from the question usage?
+* Add shuffle.  Needs to be seeded from the question usage.
 * Add choose N (correct) from M feature (used at Aalto).
 * Have a "none of these" which degrates to an algebraic input
 * Enable better support for text-based strings in the display (e.g. CASTex?!)

@@ -346,12 +346,12 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
         // a dropdown, to get a question that does not require validation.
         $q = test_question_maker::make_question('stack', 'test0');
         $q->inputs['ans1'] = stack_input_factory::make(
-                'dropdown', 'ans1', '[[1,false],[2,true]]');
+                'dropdown', 'ans1', '[[1+x,false],[2+x,true]]');
 
         // Dropdowns always return a list, so adapt the PRT to take the first element of ans1.
         $sans = new stack_cas_casstring('first(ans1)');
         $sans->get_valid('t');
-        $tans = new stack_cas_casstring('2');
+        $tans = new stack_cas_casstring('2+x');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
@@ -372,7 +372,7 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), null, true),
+                        array('' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'), null, true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -389,7 +389,7 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', true),
+                        array('' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'), '2', true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -397,6 +397,7 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
 
         // Submit all and finish.
         $this->quba->finish_all_questions();
+        //print_r($this);
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(2);
         $this->render();
@@ -405,7 +406,7 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', false),
+                        array('' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'), '2', false),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );

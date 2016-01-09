@@ -139,6 +139,8 @@ $string['inputtype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authori
 $string['inputtypealgebraic'] = 'Algebraic input';
 $string['inputtypeboolean'] = 'True/False';
 $string['inputtypedropdown'] = 'Drop down list';
+$string['inputtypecheckbox'] = 'Checkbox';
+$string['inputtyperadio'] = 'Radio';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
 $string['inputtypematrix'] = 'Matrix';
@@ -531,7 +533,7 @@ $string['texdisplaystyle'] = 'Display-style equation';
 $string['texinlinestyle'] = 'Inline-style equation';
 
 // Used in casstring.class.php.
-$string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';
+$string['stackCas_spaces']                  = 'Illegal spaces found in expression {$a->expr}.';
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';

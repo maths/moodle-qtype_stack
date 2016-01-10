@@ -188,7 +188,7 @@ class stack_dropdown_input extends stack_input {
             foreach ($ddlvalues as $key => $value) {
                 $display = trim($ddlvalues[$key]['display']);
                 if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
-                    $ddlvalues[$key]['display'] = substr($display, 1, strlen($display)-2);
+                    $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
                 } else {
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
@@ -225,7 +225,7 @@ class stack_dropdown_input extends stack_input {
             // Was the original expression a string?  If so, don't use the LaTeX version.
             $display = trim($ddlvalues[$key]['display']);
             if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
-                $ddlvalues[$key]['display'] = substr($display, 1, strlen($display)-2);
+                $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
                 $disp = $at1->get_display_key('val'.$key);
@@ -363,23 +363,17 @@ class stack_dropdown_input extends stack_input {
     public function get_expected_data() {
         $expected = array();
         $expected[$this->name] = PARAM_RAW;
+
         if ($this->requires_validation()) {
             $expected[$this->name . '_val'] = PARAM_RAW;
         }
         return $expected;
     }
 
-    /*
-     * We only call this method at the point we really intend to use
-     * the displayed values in the render.
-     */
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $values = $this->get_choices();
-        if (empty($values)) {
-            $mform->addElement('static', $this->name, stack_string('ddl_empty'));
-        } else {
-            $mform->addElement('select', $this->name, $this->name, $values);
-        }
+        $mform->addElement('text', $this->name, $this->name);
+        $mform->setDefault($this->name, '');
+        $mform->setType($this->name, PARAM_RAW);
     }
 
     /**
@@ -412,7 +406,6 @@ class stack_dropdown_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-
         if ('' == $in || '[]' == $in) {
             return array();
         }
@@ -422,11 +415,11 @@ class stack_dropdown_input extends stack_input {
         foreach ($tc as $key => $val) {
             $ddlkey = $this->get_input_ddl_key($val);
             $response[$this->name] = $ddlkey;
-            if ($this->requires_validation()) {
-                $response[$this->name . '_val'] = $ddlkey;
-            }
         }
 
+        if ($this->requires_validation()) {
+            $response[$this->name . '_val'] = $in;
+        }
         return $response;
     }
 

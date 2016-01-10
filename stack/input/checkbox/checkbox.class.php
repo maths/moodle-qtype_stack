@@ -104,10 +104,10 @@ class stack_checkbox_input extends stack_dropdown_input {
         $expected[$this->name] = PARAM_RAW;
         foreach ($this->ddlvalues as $key => $val) {
             $expected[$this->name.'_'.$key] = PARAM_RAW;
-            if ($this->requires_validation()) {
-                $expected[$this->name.'_val'] = PARAM_RAW;
-                $expected[$this->name .'_'.$key.'_val'] = PARAM_RAW;
-            }
+        }
+
+        if ($this->requires_validation()) {
+            $expected[$this->name.'_val'] = PARAM_RAW;
         }
         return $expected;
     }
@@ -119,7 +119,6 @@ class stack_checkbox_input extends stack_dropdown_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-
         if ('' == $in || '[]' == $in) {
             return array();
         }
@@ -128,12 +127,11 @@ class stack_checkbox_input extends stack_dropdown_input {
         $response = array();
         foreach ($tc as $key => $val) {
             $ddlkey = $this->get_input_ddl_key($val);
-            $response[$this->name] = $ddlkey;
-            if ($this->requires_validation()) {
-                $response[$this->name . '_val'] = $ddlkey;
-            }
+            $response[$this->name.'_'.$ddlkey] = $ddlkey;
         }
-
+        if ($this->requires_validation()) {
+            $response[$this->name . '_val'] = $in;
+        }
         return $response;
     }
 

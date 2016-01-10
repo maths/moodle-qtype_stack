@@ -397,7 +397,6 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
 
         // Submit all and finish.
         $this->quba->finish_all_questions();
-        //print_r($this);
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(2);
         $this->render();

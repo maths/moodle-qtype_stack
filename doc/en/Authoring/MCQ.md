@@ -4,13 +4,13 @@ The whole point of STACK is not to use multiple choice questions, but instead to
 
 This can also be one input in a multi-part randomly generated question. E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, (ii) parts, (iii) substitution, (iv) replace with complex exponentials.  (Yes, this is a joke: all these methods can be made to work here!)  Then another algebraic input can then be used for the answer.
 
-Please read the section on [inputs](Inputs.md) first.
+Please read the section on [inputs](Inputs.md) first.  If you are new to STACK please note that in STACK MCQs are *not* the place to start learning how to author questions.  Please look at the [authoring quick-start guide](Authoring_quick_start.md).  Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
-The goal of these input types is to provide *modest* facilities for MCQ.  If these features are extensively used we will consider modifying the functionality.  Please contact the developers with comments.
+The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [castext](CASText.md).  Adopting castext would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider modifying the functionality.  Please contact the developers with comments.
 
 ## Model answer ##
 
-This input type uses the "model answer" both to input the teacher's answer and the other options. In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.
+This input type uses the "model answer" both to input the teacher's answer and the other options. In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.  Constructing a correctly formed model answer is complex, and so this input type should be considered "advanced".  New users are adviced to gain confidence writing questions with algebraic inputs first, and gain experience in using Maxima lists.
 
 The "model answer" must be supplied in a particular form as a list of `[value, correct(, display)]`.
 
@@ -22,13 +22,13 @@ For example
 
      ta:[[diff(p,x),true],[p,false],[int(p,x),false]]
 
-At least one of the choices must be considered `correct`.
+At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".  You must still use a [potential response tree](Potential_response_trees.md) to assess the student's answer as normal. 
 
 Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...".  A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  In this example the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer".  Such a change might have other unintended and confusing consequences.* 
 
 Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomisation.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
 
-When STACK displays the "teacher's answer", e.g. after a quiz is due", this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  I.e. the "teacher's answer" will be a list of things which the student could actually select.  Whether the student is able to select more than one, or if more than one is actually included.
+When STACK displays the "teacher's answer", e.g. after a quiz is due, this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  I.e. the "teacher's answer" will be a list of things which the student could actually select.  Whether the student is able to select more than one, or if more than one is actually included, is not checked.   The teacher must indicate at least one choice as `true`.  Hence, if you need "none of these" you must include this as an explicit option, and not rely on the student not checking any boxes in the checkbox type.
 
 ## Internals ##
 
@@ -40,15 +40,17 @@ This design decision ensures there is no ambiguity in the type of object returne
 
 For the select and radio types the first option on the list will always be "Not answered".  This enables a student to retract an answer and return a "blank" response.
 
-For the checkbox type there is a fundamental ambiguity between a blank response and an empty list, which indicates none of the others.  To enable a student to indicate "none of the others", the teacher must add this as a specific option.  Note, this will not return an empty list as the answer as might be expected.
+For the checkbox type there is a fundamental ambiguity between a blank response and actively not selecting any of the provided choices, which indicates "none of the others".  Internally STACK has a number of "states" for a student's answer, including `BLANK`, `VALID`, `INVALID`, `SCORE` etc.  A student who has not answered will be considered `BLANK`. This is not invalid, and potential response trees which rely on this input type will not activate.  To enable a student to indicate "none of the others", the teacher must add this as an explicit option.  Note, this will not return an empty list as the answer as might be expected: it will be the `value` of that selection.  For the radio and dropdown types STACK always adds a "not answered" option as the first option.  This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, validated and possibly assessed (to their potential detriment).
+
+We did not add support for a special internal "none of the others" because the teacher still needs to indicate wether this is the true or false answer to the question.  To support randomisation, this needs to be done as an option in the teacher's answer list.
 
 ## Extra options ##
 
-The dropdown input type makes use of the Extra options field to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows.
+The dropdown input type makes use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows.
 
 We can reorder the values by using shuffle.
 
-* `shuffle` NOT YET IMPLEMENTED.  Intention: if this option is encountered, then the question type will randomly shuffle the non-trivial options. The default is not to shuffle the options, but to list them as ordered in the list.
+* `shuffle` NOT YET IMPLEMENTED.  Intention: if this option is encountered, then the input will randomly shuffle the entries in the teacher's answer list. The default is not to shuffle the options, but to list them as ordered in the list.
 
 The way the items are displayed can be controlled by the following options. 
 
@@ -72,3 +74,18 @@ The optional display part of this input is displayed to the student.  Their answ
 The quotation marks will be removed from strings, and the strings will not be wrapped `<code>...</code>` tags or LaTeX mathematics environments.
 
 Question authors should consider using the Moodle MCQ question type in addition to these facilities for purely text based answers.
+
+## Writing question tests ##
+
+Quality control of questions is important.  See the notes on [testing](Testing.md) questions.  
+
+When entering test cases the question author must type in the CAS expression they expect to be the `value` of the student's answer (NOT the optional `display` field!).  For example, if the teacher's answer (to a checkbox) question is the following.
+
+     ta:[[x^2-1,true],[x^2+1,false],[(x-1)*(x+1),true],[(x-i)*(x+i),false]]
+
+Then the following test case contains all the "true" answers.
+
+     [x^2-1,(x-1)*(x+1)]
+
+There is currently minimal checking that the string entered by the teacher corresponds to a valid choice in the input type.  If your testcase returns a blank result this is probably the problem.     
+     

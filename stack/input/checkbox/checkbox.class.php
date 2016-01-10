@@ -129,6 +129,9 @@ class stack_checkbox_input extends stack_dropdown_input {
             $ddlkey = $this->get_input_ddl_key($val);
             $response[$this->name.'_'.$ddlkey] = $ddlkey;
         }
+        // The name field is used by the question testing mechanism for the full answer.
+        $response[$this->name] = $in;
+
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }

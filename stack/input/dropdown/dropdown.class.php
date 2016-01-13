@@ -41,11 +41,6 @@ class stack_dropdown_input extends stack_input {
     protected $ddltype = 'select';
 
     /*
-     * ddlshuffle is a boolean which decides whether to shuffle the non-trivial options.
-     */
-    protected $ddlshuffle = false;
-
-    /*
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
      * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
      */
@@ -71,11 +66,6 @@ class stack_dropdown_input extends stack_input {
                 $option = strtolower(trim($option));
 
                 switch($option) {
-                    // Should we shuffle values?
-                    case 'shuffle':
-                        $this->ddlshuffle = true;
-                        break;
-
                     // Does a student see LaTeX or cassting values?
                     case 'latex':
                         $this->ddldisplay = 'LaTeX';
@@ -193,7 +183,7 @@ class stack_dropdown_input extends stack_input {
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
             }
-            $this->ddlvalues = $this->shuffle($ddlvalues);
+            $this->ddlvalues = $this->key_order($ddlvalues);
             return;
         }
 
@@ -237,17 +227,11 @@ class stack_dropdown_input extends stack_input {
             }
         }
 
-        $this->ddlvalues = $this->shuffle($ddlvalues);
+        $this->ddlvalues = $this->key_order($ddlvalues);
         return;
     }
 
-    private function shuffle($values) {
-
-        // We rely on the array keys to hold the value.
-        if ($this->ddlshuffle) {
-            // TODO.  This does not work when the student reloads their quiz.
-            //shuffle($values);
-        }
+    private function key_order($values) {
 
         // Make sure the array keys start at 1.  This avoids
         // potential confusion between keys 0 and ''.
@@ -287,7 +271,7 @@ class stack_dropdown_input extends stack_input {
         foreach ($contents as $key) {
             $vals[] = $this->get_input_ddl_value($key);
         }
-        if (empty($vals) || $vals == array( 0 => '')) {
+        if ($vals == array( 0 => '')) {
             return '';
         }
         return '['.implode(',', $vals).']';
@@ -407,7 +391,7 @@ class stack_dropdown_input extends stack_input {
      */
     public function maxima_to_response_array($in) {
         if ('' == $in || '[]' == $in) {
-            return array();
+            return array($this->name = '');
         }
 
         $tc = stack_utils::list_to_array($in, false);

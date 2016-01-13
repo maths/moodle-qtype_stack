@@ -46,11 +46,7 @@ We did not add support for a special internal "none of the others" because the t
 
 ## Extra options ##
 
-The dropdown input type makes use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows.
-
-We can reorder the values by using shuffle.
-
-* `shuffle` NOT YET IMPLEMENTED.  Intention: if this option is encountered, then the input will randomly shuffle the entries in the teacher's answer list. The default is not to shuffle the options, but to list them as ordered in the list.
+The dropdown input type makes use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows, but currently the only option is to control the display of the options.
 
 The way the items are displayed can be controlled by the following options. 
 
@@ -58,6 +54,31 @@ The way the items are displayed can be controlled by the following options.
 * `LaTeXdisplay` use LaTeX to display the options, using the display maths environment `\[...\]`.
 * `LaTeXinline` use LaTeX to display the options, using the inline maths environment `\(...\)`.
 * `casstring` does not use the LaTeX value, but just prints the casstring value in `<code>...</code>` tags.
+
+## Randomly shuffling the options ##
+
+To randomly shuffle the options create the list in the question variables and use the Maxima command `random_permutation` in the question variables.  Then, 
+
+For example, the question variables might look like the following.
+
+    /* Create a list of potential answers. */
+    p:sin(2*x);
+    ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+    /* The actual correct answer.    */
+    tac:diff(p,x)
+    /* Randomly shuffle the list "ta". */
+    ta:random_permutation(ta);
+    /* Add in a "None of these" to the end of the list.  The Maxima value is the atom null. */
+    tao:[null, false, "None of these"];
+    ta:append(ta,[tao]);
+
+These command ensure (1) the substantive options are in a random order, and (2) that the `None of these` always comes at the end of the list. Note, the value for the `None of these` is the CAS atom `null`.  In Maxima `null` has no special significance but it is a useful atom to use in this situation.
+
+As the Question Note, you might like to consider just takeing the first item from each list, for example:
+
+    @maplist(first,ta)@.  Correct answer is @tac@.
+
+This note stores both the correct answer and the order shown to the student without the clutter of the `true/false` values or the optional display strings.  Remember, random versions of a question are considered to be the same if and only if the question note is t he same, so the random order must be part of the question note if you shuffle the options.
 
 ## Dealing with strings in MCQ ##
 

@@ -120,7 +120,7 @@ class stack_checkbox_input extends stack_dropdown_input {
      */
     public function maxima_to_response_array($in) {
         if ('' == $in || '[]' == $in) {
-            return array();
+            return array($this->name = '');
         }
 
         $tc = stack_utils::list_to_array($in, false);

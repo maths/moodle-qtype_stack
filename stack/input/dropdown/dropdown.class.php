@@ -166,8 +166,13 @@ class stack_dropdown_input extends stack_input {
         if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
             $this->ddlerrors .= stack_string('ddl_nocorrectanswersupplied');
         }
-        $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
-        $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
+        if ($this->ddltype == 'checkbox') {
+            $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
+            $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
+        } else {
+            $this->teacheranswervalue = implode('', $correctanswer);
+            $this->teacheranswerdisplay = '<code>'.implode('', $correctanswerdisplay).'</code>';
+        }
 
         if (empty($ddlvalues)) {
             return;
@@ -267,14 +272,7 @@ class stack_dropdown_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        $vals = array();
-        foreach ($contents as $key) {
-            $vals[] = $this->get_input_ddl_value($key);
-        }
-        if ($vals == array( 0 => '')) {
-            return '';
-        }
-        return '['.implode(',', $vals).']';
+        return $this->get_input_ddl_value($contents[0]);
     }
 
     /* This function always returns an array where the key is the CAS "value".
@@ -390,16 +388,12 @@ class stack_dropdown_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-        if ('' == $in || '[]' == $in) {
+        if ('' == $in) {
             return array($this->name = '');
         }
 
-        $tc = stack_utils::list_to_array($in, false);
-        $response = array();
-        foreach ($tc as $key => $val) {
-            $ddlkey = $this->get_input_ddl_key($val);
-            $response[$this->name] = $ddlkey;
-        }
+        $ddlkey = $this->get_input_ddl_key($in);
+        $response[$this->name] = $ddlkey;
 
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;

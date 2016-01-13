@@ -76,7 +76,7 @@ ta:append(ta,[tao]);]]></text>
       <node>
         <name>0</name>
         <answertest>Diff</answertest>
-        <sans>first(ans1)</sans>
+        <sans>ans1</sans>
         <tans>diff(p,x)</tans>
         <testoptions>x</testoptions>
         <quiet>0</quiet>
@@ -102,7 +102,7 @@ ta:append(ta,[tao]);]]></text>
       <testcase>1</testcase>
       <testinput>
         <name>ans1</name>
-        <value>[2*cos(2*x)]</value>
+        <value>2*cos(2*x)</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -115,7 +115,7 @@ ta:append(ta,[tao]);]]></text>
       <testcase>2</testcase>
       <testinput>
         <name>ans1</name>
-        <value>[cos(2*x)+c]</value>
+        <value>cos(2*x)+c</value>
       </testinput>
       <expected>
         <name>prt1</name>

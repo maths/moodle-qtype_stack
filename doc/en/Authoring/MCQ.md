@@ -32,11 +32,9 @@ When STACK displays the "teacher's answer", e.g. after a quiz is due, this will 
 
 ## Internals ##
 
-This input type turns the student' answer into a Maxima list.  Hence, if you are expecting a single value (e.g. from a select or radio type) and you want an expression in the potential response tree you need to use the following to take the first element of the list.
+The dropdown and radio inputs return the `value`, but the checkbox type returns the student's answer as Maxima list, even if they have only chosen one option.
 
-    first(ans1)
-
-This design decision ensures there is no ambiguity in the type of object returned.  Switching from radio to checkboxes will not break a PRT because of mis-matched types.
+If, when authoring a question, you switching from radio/dropdown to checkboxes or back, you will probably break a PRT because of mis-matched types.
 
 For the select and radio types the first option on the list will always be "Not answered".  This enables a student to retract an answer and return a "blank" response.
 
@@ -76,7 +74,7 @@ These command ensure (1) the substantive options are in a random order, and (2) 
 
 As the Question Note, you might like to consider just takeing the first item from each list, for example:
 
-    @maplist(first,ta)@.  Correct answer is @tac@.
+    @maplist(first,ta)@.  Correnot ct answer is @tac@.
 
 This note stores both the correct answer and the order shown to the student without the clutter of the `true/false` values or the optional display strings.  Remember, random versions of a question are considered to be the same if and only if the question note is t he same, so the random order must be part of the question note if you shuffle the options.
 

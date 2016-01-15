@@ -50,7 +50,7 @@ abstract class qtype_stack_test_config {
         }
 
         if (!defined('QTYPE_STACK_EXPECTED_VERSION')) {
-            if (!preg_match('~\[ STACK-Maxima started, library version (\d{10}) \]~',
+            if (!preg_match('~stackmaximaversion:(\d{10})~',
                     file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
                 throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
             }

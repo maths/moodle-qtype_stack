@@ -240,9 +240,10 @@ END;
                     $contents .= 'load("'.$lib.'")$'."\n";
                 }
             }
-        
         }
-        
+
+	$contents .= 'print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$'."\n";
+
         return $contents;
     }
 

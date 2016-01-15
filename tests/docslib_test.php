@@ -47,8 +47,9 @@ class stack_docslib_test extends advanced_testcase {
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
                 '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
-                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/testing_installation.md">' .
-                        'testing installation</a></li></ul>'),
+                '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Testing_installation.md">' .
+                        'Testing installation</a></li></ul>'),
                 stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',
                 $CFG->wwwroot . '/question/type/stack/doc.php/Installation'));
 

@@ -71,6 +71,14 @@ This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but d
 
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
+#### Dropdown ####
+
+The dropdown input type enables teachers to create [multiple choice](MCQ.md) questions.  See the separate documentation.
+
+#### Scientific units ####
+
+The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](Units.md).
+
 ### Model answer ###  {#model_answer}
 
 **This field is compulsory.** Every input must have an answer, although this answer is not necessarily the unique correct answer.
@@ -201,14 +209,6 @@ Feedback to students is in two forms.
 
 Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
 
-## Future plans ##
+## Other input types ##
 
-Adding new inputs should be a straightforward job for the developers.  We have plans to add inputs as follows.
-
-| Package   | Functionality
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Dragmath  | Adds the [DragMath](http://www.dragmath.bham.ac.uk) applet as an input.  The code is in place, but there are JavaScript bugs, so we have not given authors access to this feature for the time being.
-| GeoGebra  | [GeoGebra](http://www.geogebra.org/) worksheets, for example.
-| MCQs      | Add in check boxes and radio boxes as an input type to enable randomly generated multiple choice questions.
-
-The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.
+Adding new inputs should be a straightforward job for the developers.  The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

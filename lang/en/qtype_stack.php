@@ -139,9 +139,12 @@ $string['inputtype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authori
 $string['inputtypealgebraic'] = 'Algebraic input';
 $string['inputtypeboolean'] = 'True/False';
 $string['inputtypedropdown'] = 'Drop down list';
+$string['inputtypecheckbox'] = 'Checkbox';
+$string['inputtyperadio'] = 'Radio';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
 $string['inputtypematrix'] = 'Matrix';
+$string['inputtypeunits'] = 'Units';
 $string['inputwillberemoved'] = 'This input is no longer referred to in the question text. If you save the question now, the data about this input will be lost. Please confirm that you want to do this. Alternatively edit the question text to put back the \'[[input:{$a}]]\' and \'[[validation:{$a}]]\' placeholders.';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to false then no stars will be inserted.  If set to yes then the system will automatically insert stars into any patterns identified by Strict Syntax.  If set to "single char vars" then we assume the answer has variable names consisting only of single letter variable names.  Other variable names will have stars inserted between the letters, e.g. ab->a*b';
@@ -300,10 +303,14 @@ $string['singlechargotmorethanone'] = 'You can only enter a single character her
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
-$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
+$string['ddl_runtime'] = 'The input has generated the following runtime error which prevents you from answering. Please contact your teacher.';
+$string['ddl_empty'] = 'No choices were provided for this drop-down.';
+$string['ddl_nocorrectanswersupplied'] = 'The teacher did not indicate at least one correct answer. ';
+$string['ddl_duplicates'] = 'Duplicate values have been found when generating the input options. ';
+$string['ddl_badanswer'] = 'The model answer field for this input is malformed: <code>{$a}</code>. ';
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
-$string['teacheranswershow_disp'] = 'A correct answer is \( {$a->display} \).';
+$string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';
 
 
 // Admin settings.
@@ -459,7 +466,7 @@ $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \f
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
-$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3])@.  A third plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3])@';
+$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@  A third plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3])@';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
@@ -526,7 +533,7 @@ $string['texdisplaystyle'] = 'Display-style equation';
 $string['texinlinestyle'] = 'Inline-style equation';
 
 // Used in casstring.class.php.
-$string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';
+$string['stackCas_spaces']                  = 'Illegal spaces found in expression {$a->expr}.';
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
@@ -549,6 +556,8 @@ $string['stackCas_trigexp']                 = 'You cannot take a power of a trig
 $string['stackCas_trigparens']              = 'When you apply a trig function to its arguments you must use round parentheses not square brackets.  E.g {$a->forbid}.';
 $string['stackCas_triginv']                 = 'Inverse trig functions are written {$a->goodinv} not {$a->badinv}.';
 $string['stackCas_badLogIn']                = 'You have typed in the expression <tt>In</tt>.  The natural logarithm is entered as <tt>ln</tt> in lower case.  ("Lima November" not "India November")';
+$string['stackCas_unitssynonym']            = 'You appear to have units {$a->forbid}.  Did you mean {$a->unit}?';
+$string['stackCas_unknownUnitsCase']        = 'Input of units is case sensitive:  {$a->forbid} is an unknown unit. Did you mean one from the following list {$a->unit}?';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
@@ -596,6 +605,8 @@ $string['stackOptions_AnsTest_values_NumRelative']        = "NumRelative";
 $string['stackOptions_AnsTest_values_NumAbsolute']        = "NumAbsolute";
 $string['stackOptions_AnsTest_values_NumSigFigs']         = "NumSigFigs";
 $string['stackOptions_AnsTest_values_NumDecPlaces']       = "NumDecPlaces";
+$string['stackOptions_AnsTest_values_Units']              = "Units";
+$string['stackOptions_AnsTest_values_UnitsStrict']        = "UnitsStrict";
 $string['stackOptions_AnsTest_values_GT']                 = "Num-GT";
 $string['stackOptions_AnsTest_values_GTE']                = "Num-GTE";
 $string['stackOptions_AnsTest_values_LowestTerms']        = "LowestTerms";
@@ -696,8 +707,18 @@ $string['ATNumerical_STACKERROR_tol']    = 'The numerical tolerance for ATNumeri
 
 $string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact your systems administrator';
 $string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';
+$string['ATNumSigFigs_WrongSign']   = 'Your answer has the wrong algebraic sign. ';
 $string['ATNumSigFigs_Inaccurate']  = 'The accuracy of your answer is not correct.  Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.';
 $string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of significant digits. ';
+
+$string['ATUnits_SA_not_expression']   = 'Your answer needs to be a number together with units. Do not use sets, lists, equations or matrices. ';
+$string['ATUnits_SA_no_units']         = 'Your answer must have units. ';
+$string['ATUnits_SA_excess_units']     = 'Your answer has used units (or variables), but should not. ';
+$string['ATUnits_SA_only_units']       = 'Your answer needs to be a number together with units. Your answer only has units. ';
+$string['ATUnits_SA_bad_units']        = 'Your answer must have units, and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>. ';
+$string['ATUnits_incompatible_units']  = 'Your units are incompatible with those used by the teacher. ';
+$string['ATUnits_compatible_units']    = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
+$string['ATUnits_correct_numerical']   = 'Please check your units carefully. ';
 
 $string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
@@ -718,6 +739,7 @@ $string['ATRegEx_missing_option']               = 'Missing regular expression in
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
+$string['studentValidation_listofunits']        = 'The units found in your answer were: {$a}';
 $string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 

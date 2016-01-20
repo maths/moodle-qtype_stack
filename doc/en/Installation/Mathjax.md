@@ -1,33 +1,23 @@
 # Displaying mathematics for STACK in moodle #
 
-STACK generates LaTeX code on the fly and expects to use a moodle filter to convert this into something the user's browser will display.  There are a variety of mathematics filters for moodle.  Currently when installing STACK there is the option to choose which filter mechanism is used.   This enables STACK to fine tune the output.  Support is currently provided for
-
-1. MathJax, <http://www.mathjax.org>, the default and is strongly preferred.
-2. Moodle Tex filter.  This support is now considered legacy and has not been tested for some time.
-
-One reason for adopting MathJax is that it aids [accessibility](../Students/Accessibility.md).
-
-These instructions are adapted from http://moodle.org/mod/forum/discuss.php?d=193064
-
-How to install MathJax depends on which version of Moodle you have.
-1. For Moodle 2.7 or later, MathJax is distributed as a filter.  Please use this.
-2. For earlier versions (e.g. 2.6 and before) you will need to link to MathJax yourself as below.
-
+STACK generates LaTeX code on the fly and expects to use a moodle filter to convert this into something the user's browser will display.  For Moodle 2.7 or later, MathJax is distributed as a filter.  We strongly recommend using the Moodle MathJax filter.  One reason for adopting MathJax is that it aids [accessibility](../Students/Accessibility.md).
 
 ## Using the MathJax filter
 
 These are notes on configuring the MathJax filter options for use with STACK.
-
 
 1. Do not use "TeX filter compatibility" unless you want all equations to appear inline!
 2. To add suppport for [actuarial notation](../Authoring/Actuarial.md) you need to add the option 'enclose.js' to the extensions.  I.e. within the "MathJax configuration" text we need the the following.   
 
     TeX: { extensions: ['enclose.js'] }
 
+## Accessibility ##
+
+The accessibility features supported by MathJax are given detailed [here](http://www.mathjax.org/resources/articles-and-presentations/accessible-pages-with-mathjax/).
 
 ## Adding MathJax to additional HTML
 
-If the MathJax filter is not available then you can include it in the head of every page by adding additional HTML to every page.
+If the MathJax filter is not available then you can include it in the head of every page by adding additional HTML to every page.  We don't recommend you do this, but have retained this information in the documentation for completeness.
 
 ### Option 1: link to external MathJax setup. ###
 
@@ -84,7 +74,4 @@ If you really want to use dollars, MathJax can display them with the code
 
 Before deciding to support the use of dollars for mathematics on your site, please see the notes on the use of dollars for [currency](../Authoring/CASText.md#currency).
 
-## Accessibility ##
-
-The accessibility features supported by MathJax are given detailed [here](http://www.mathjax.org/resources/articles-and-presentations/accessible-pages-with-mathjax/).
 

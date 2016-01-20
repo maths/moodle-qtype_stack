@@ -41,11 +41,6 @@ class stack_dropdown_input extends stack_input {
     protected $ddltype = 'select';
 
     /*
-     * ddlshuffle is a boolean which decides whether to shuffle the non-trivial options.
-     */
-    protected $ddlshuffle = false;
-
-    /*
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
      * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
      */
@@ -63,7 +58,6 @@ class stack_dropdown_input extends stack_input {
      */
     protected $teacheranswerdisplay = '';
 
-
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
         if (trim($options) != '') {
@@ -72,35 +66,21 @@ class stack_dropdown_input extends stack_input {
                 $option = strtolower(trim($option));
 
                 switch($option) {
-                    // Should we shuffle values?
-                    case 'shuffle':
-                        $this->ddlshuffle = true;
-                        break;
-
                     // Does a student see LaTeX or cassting values?
                     case 'latex':
                         $this->ddldisplay = 'LaTeX';
                         break;
 
                     case 'latexinline':
-                        $this->ddldisplay = 'LaTeXinline';
+                        $this->ddldisplay = 'LaTeX';
+                        break;
+
+                    case 'latexdisplay':
+                        $this->ddldisplay = 'LaTeXdisplay';
                         break;
 
                     case 'casstring':
                         $this->ddldisplay = 'casstring';
-                        break;
-
-                    // Radio, checkboxes or dropdown?
-                    case 'checkbox':
-                        $this->ddltype = 'checkbox';
-                        break;
-
-                    case 'radio':
-                        $this->ddltype = 'radio';
-                        break;
-
-                    case 'select':
-                        $this->ddltype = 'select';
                         break;
 
                     default:
@@ -141,14 +121,20 @@ class stack_dropdown_input extends stack_input {
         }
 
         $numbercorrect = 0;
-        $ddlvalues = array();
         $correctanswer = array();
         $correctanswerdisplay = array();
+        $duplicatevalues = array();
         foreach ($values as $distractor) {
             $value = stack_utils::list_to_array($distractor, false);
             $ddlvalue = array();
             if (is_array($value)) {
                 if (count($value) >= 2) {
+                    // Check for duplicates in the teacher's answer.
+                    if (array_key_exists($value[0], $duplicatevalues)) {
+                        $this->ddlerrors = stack_string('ddl_duplicates');
+                    }
+                    $duplicatevalues[$value[0]] = true;
+                    // Store the answers.
                     $ddlvalue['value'] = $value[0];
                     $ddlvalue['display'] = $value[0];
                     if (array_key_exists(2, $value)) {
@@ -177,20 +163,37 @@ class stack_dropdown_input extends stack_input {
          * of the correct responses.  So, we create $this->teacheranswervalue to be a Maxima
          * list of the values of those things the teacher said are correct.
          */
-        $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
-        $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
+        if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
+            $this->ddlerrors .= stack_string('ddl_nocorrectanswersupplied');
+        }
+        if ($this->ddltype == 'checkbox') {
+            $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
+            $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
+        } else {
+            $this->teacheranswervalue = implode('', $correctanswer);
+            $this->teacheranswerdisplay = '<code>'.implode('', $correctanswerdisplay).'</code>';
+        }
+
+        if (empty($ddlvalues)) {
+            return;
+        }
 
         if ($this->ddldisplay === 'casstring') {
             // By default, we wrap displayed values in <code> tags.
             foreach ($ddlvalues as $key => $value) {
-                $ddlvalues[$key]['display'] = '<code>'.$ddlvalues[$key]['display'].'</code>';
+                $display = trim($ddlvalues[$key]['display']);
+                if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
+                    $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
+                } else {
+                    $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
+                }
             }
-            $this->ddlvalues = $ddlvalues;
+            $this->ddlvalues = $this->key_order($ddlvalues);
             return;
         }
 
         // If we are displaying LaTeX we need to connect to the CAS to generate LaTeX from the displayed values.
-        $csvs = array();
+        $csvs = array(0 => new stack_cas_casstring('[]'));
         // Create a displayed form of the teacher's answer.
         $csv = new stack_cas_casstring('teachans:'.$this->teacheranswervalue);
         $csv->get_valid('t');
@@ -214,17 +217,37 @@ class stack_dropdown_input extends stack_input {
         // This sets display form in $this->ddlvalues.
         $this->teacheranswerdisplay = '\('.$at1->get_display_key('teachans').'\)';
         foreach ($ddlvalues as $key => $value) {
-            // Note, we've chosen to add LaTeX maths environments here.
-            $disp = $at1->get_display_key('val'.$key);
-            if ($this->ddldisplay === 'LaTeX') {
-                $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+            // Was the original expression a string?  If so, don't use the LaTeX version.
+            $display = trim($ddlvalues[$key]['display']);
+            if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
+                $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
             } else {
-                $ddlvalues[$key]['display'] = '\('.$disp.'\)';
+                // Note, we've chosen to add LaTeX maths environments here.
+                $disp = $at1->get_display_key('val'.$key);
+                if ($this->ddldisplay === 'LaTeX') {
+                    $ddlvalues[$key]['display'] = '\('.$disp.'\)';
+                } else {
+                    $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                }
             }
         }
-        $this->ddlvalues = $ddlvalues;
 
+        $this->ddlvalues = $this->key_order($ddlvalues);
         return;
+    }
+
+    private function key_order($values) {
+
+        // Make sure the array keys start at 1.  This avoids
+        // potential confusion between keys 0 and ''.
+        $values = array_merge(array('' => array('value' => '',
+            'display' => stack_string('notanswered'), 'correct' => false), 0 => null), $values);
+        unset($values[0]);
+        // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
+        if ('checkbox' == $this->ddltype) {
+            unset($values['']);
+        }
+        return $values;
     }
 
     protected function extra_validation($contents) {
@@ -234,6 +257,14 @@ class stack_dropdown_input extends stack_input {
         return '';
     }
 
+    protected function validate_contents($contents, $forbiddenkeys) {
+        $valid = true;
+        $errors = '';
+        $modifiedcontents = $contents;
+
+        return array($valid, $errors, $modifiedcontents);
+    }
+
     /**
      * Transforms the contents array into a maxima list.
      *
@@ -241,15 +272,7 @@ class stack_dropdown_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        return '['.implode(',', $contents).']';
-    }
-
-    /**
-     * Takes a Maxima list returns an array of values.
-     * @return array
-     */
-    private function maxima_to_array($in) {
-        return stack_utils::list_to_array($in, false);
+        return $this->get_input_ddl_value($contents[0]);
     }
 
     /* This function always returns an array where the key is the CAS "value".
@@ -267,76 +290,72 @@ class stack_dropdown_input extends stack_input {
             return array();
         }
 
-        // We need to shuffle first becuase suffle changes the array keys.
-        // We rely on the array keys to hold the value.
-        if ($this->ddlshuffle) {
-            shuffle($values);
-        }
-
-        $values = array_merge(array(0 => array('value' => '', 'display' => stack_string('notanswered'))), $values);
-
         // We need to do this step after array_merge.
         // If the 'value' is an integer, array_merge may renumber it.
         $choices = array();
-        foreach ($values as $val) {
+        foreach ($values as $key => $val) {
             if (!array_key_exists($val['value'], $choices)) {
-                $choices[$val['value']] = $val['display'];
+                $choices[$key] = $val['display'];
             } else {
                 $this->ddlerrors .= stack_string('ddl_duplicates');
             }
         }
-
         return $choices;
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
 
-        $values = $this->get_choices();
-
-        $attributes = array();
-        if ($readonly) {
-            $attributes['disabled'] = 'disabled';
-        }
-
-        if ($this->ddltype != 'checkbox' && $this->teacheranswervalue == '[]') {
-            $this->ddlerrors .= stack_string('ddl_nocorrectanswersupplied');
-        }
-
-        $ret = '';
+        $result = '';
         // Display runtime errors and bail out.
         if ('' != $this->ddlerrors) {
-            $ret .= html_writer::tag('p', stack_string('ddl_runtime'));
-            $ret .= html_writer::tag('p', $this->ddlerrors);
-            return html_writer::tag('div', $ret, array('class' => 'error'));
+            $result .= html_writer::tag('p', stack_string('ddl_runtime'));
+            $result .= html_writer::tag('p', $this->ddlerrors);
+            return html_writer::tag('div', $result, array('class' => 'error'));
         }
 
-        // HACK: in preparation for questions with more than one potential input.
-        // Need to loop over the numbers here for each input.
+        // Create html.
+        $values = $this->get_choices();
         $selected = $state->contents;
-        $idx = 0;
-        $select = '';
-        if (array_key_exists($idx, $selected)) {
-            $select = $selected[$idx];
-        }
-        //$fieldname = $fieldname.'_sub_'.$idx;
-        $ret .= html_writer::select($values, $fieldname, $select,
-            array('' => stack_string('notanswered')), $attributes);
 
-        return $ret;
+        $select = 0;
+        if (array_key_exists(0, $selected)) {
+            $select = $selected[0];
+        }
+
+        $inputattributes = array();
+        if ($readonly) {
+            $inputattributes['disabled'] = 'disabled';
+        }
+
+        $notanswered = $values[''];
+        if ($this->ddltype == 'select') {
+            unset($values['']);
+        }
+        $result .= html_writer::select($values, $fieldname, $select,
+            $notanswered, $inputattributes);
+
+        return $result;
     }
 
-    /*
-     * We only call this method at the point we really intend to use
-     * the displayed values in the render.
+    /**
+     * Get the input variable that this input expects to process.
+     * All the variable names should start with $this->name.
+     * @return array string input name => PARAM_... type constant.
      */
+    public function get_expected_data() {
+        $expected = array();
+        $expected[$this->name] = PARAM_RAW;
+
+        if ($this->requires_validation()) {
+            $expected[$this->name . '_val'] = PARAM_RAW;
+        }
+        return $expected;
+    }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $values = $this->get_choices();
-        if (empty($values)) {
-            $mform->addElement('static', $this->name, stack_string('ddl_empty'));
-        } else {
-            $mform->addElement('select', $this->name, $this->name, $values);
-        }
+        $mform->addElement('text', $this->name, $this->name);
+        $mform->setDefault($this->name, '');
+        $mform->setType($this->name, PARAM_RAW);
     }
 
     /**
@@ -365,23 +384,21 @@ class stack_dropdown_input extends stack_input {
     /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
-     *
      * @param array|string $in
      * @return string
      */
     public function maxima_to_response_array($in) {
-
-        $tc = $this->maxima_to_array($in);
-
-        foreach ($tc as $key => $val) {
-                $response[$this->name.'_sub_'.$key] = $val;
+        if ('' == $in) {
+            return array($this->name = '');
         }
+
+        $ddlkey = $this->get_input_ddl_key($in);
+        $response[$this->name] = $ddlkey;
 
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }
         return $response;
-
     }
 
     /**
@@ -400,17 +417,56 @@ class stack_dropdown_input extends stack_input {
      * @access public
      */
     public function response_to_contents($response) {
-        // HACK, need to loop over all the possible values.
         $contents = array();
-        if (array_key_exists($this->name . '_sub_0', $response)) {
-            $contents[] = $response[$this->name . '_sub_0'];
-        }
-        // TODO Delete this!
         if (array_key_exists($this->name, $response)) {
-            $contents[] = $response[$this->name];
+            $contents[] = (int) $response[$this->name];
         }
-
         return $contents;
     }
 
+    /**
+     * Decide if the contents of this attempt is blank.
+     *
+     * @param array $contents a non-empty array of the student's input as a split array of raw strings.
+     * @return string any error messages describing validation failures. An empty
+     *      string if the input is valid - at least according to this test.
+     */
+    protected function is_blank_response($contents) {
+        $allblank = true;
+        foreach ($contents as $val) {
+            if (!('' == trim($val)) && !('0' == trim($val))) {
+                $allblank = false;
+            }
+        }
+        return $allblank;
+    }
+
+    /*
+     * In this type we use the array keys in $this->ddlvalues within the HTML interactions,
+     * not the CAS values.  These next two methods map between the keys and the CAS values.
+     */
+    protected function get_input_ddl_value($key) {
+        $val = '';
+        // Resolve confusion over null values in the key.
+        if (0 === $key || '0' === $key) {
+            $key = '';
+        }
+        if (array_key_exists($key, $this->ddlvalues)) {
+            return $this->ddlvalues[$key]['value'];
+        }
+        throw new stack_exception('stack_dropdown_input: could not find a value for key '.$key);
+
+        return false;
+    }
+
+    protected function get_input_ddl_key($value) {
+        foreach ($this->ddlvalues as $key => $val) {
+            if ($val['value'] == $value) {
+                return $key;
+            }
+        }
+        throw new stack_exception('stack_dropdown_input: could not find a key for '.$value);
+
+        return false;
+    }
 }

@@ -2,40 +2,17 @@
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Features to add for STACK 3.5 ##
+Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-Goal: release end of Jan 2016.
+## Features to add for STACK 3.6 or later ##
 
 ### Units Inputs ###
 
-* Accept spaces in inputs as implied multiplication?
 * Convestion from Celsius to Kelvin?  What units to choose for degrees Celsius which don't conflict with Coulomb?
 * Support for United States customary units?
 * Add an option to validation to require compatible units with the teacher's answer, not just some units.
 * Create a mechanism to distinguish between `m/s` and `m*s^-1`, both at validation and answer test levels.
 * Create a mechanism to distinguish between `m/s/s` and `m/s^2`, both at validation and answer test levels.
-* (done) An answer test which does not check for equivalence with equivalent units.
-
-
-### MCQ Inputs ###
-
-* Refactor to separate classes for radio and checkboxes.
-* Enable the input to deal with multiple submissions, e.g. checkboxes.  See the Matrix type for ideas here.
-* Correctly render radio
-* Correctly render checkboxes
-* Check if the display type is a string. If so, strip off the "s and don't sent it through the CAS.
-
-For the future?
-
-* Refactor shuffle to be seeded from the question usage?
-* Add choose N (correct) from M feature (used at Aalto).
-* Have a "none of these" which degrates to an algebraic input
-* Enable better support for text-based strings in the display (e.g. CASTex?!)
-
-
-## Features to add ##
-
-Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
 ### Inputs ###
 
@@ -48,6 +25,10 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
  3. Sliders.
  4. Geogebra input.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
+  This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
+* In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
+* A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input.
+
 
 ### Improve the editing form ###
 

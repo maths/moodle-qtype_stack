@@ -9,11 +9,11 @@ Numerous minor bug fixes and improvements.
 1. Added an export mechanism for single stack questions throught a link on the "Question tests & deployed versions" page.
 2. Modify the text area input so that each line is validated separately.
 3. Support for plot2d "label" command.
-4. Add the NOCONST option to the ATInt answertest.
-5. Added support for optional Maxima packages throught the config settings.
-6. Added the dropdown input type.
-7. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
-8. Added support for `grid2d` in newer versions of Maxima only.
+4. Added support for `grid2d` for plot in newer versions of Maxima only.
+5. Add the `NOCONST` option to the ATInt answertest.
+6. Added support for optional Maxima packages throught the config settings.
+7. Added the dropdown, radio and checkbox input types.
+8. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
 
 ## Version 3.4
 

@@ -39,6 +39,13 @@ class stack_dropdown_input_exception_test extends basic_testcase {
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';
     }
 
+    public function test_validate_student_response_error() {
+        $this->setExpectedException('stack_exception');
+        $options = new stack_options();
+        $el = $this->make_dropdown();
+        $state = $el->validate_student_response(array('ans1' => '4'), $options, '1', null);
+    }
+
     public function test_type_option() {
         $this->setExpectedException('stack_exception');
         $el = $this->make_dropdown(array('options' => 'WHOKNOWS'));

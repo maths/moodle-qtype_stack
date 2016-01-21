@@ -89,6 +89,10 @@ Note that in this context you should always use ordinary round bracket (like (a+
 * `{a+b}` means a set,
 * `[a+b]` means a list.
 
+### Scientific units  ###
+
+You may be asked to answer a question in which the answer has units.  E.g. \( 9.81\mbox{m}\mbox{s}^{-2} \).  To enter units you must use multiplication, so this is entered as either `9.81*m/s^2` or `9.81*m*s^(-2)`.  Don't use a space, or another symbol such as `+`.
+
 ### More examples  ###
 
 * \(2^{a+b}\) should be entered as `2^(a+b)`

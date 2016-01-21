@@ -28,7 +28,8 @@ class stack_cas_connection_base_test extends qtype_stack_testcase {
 
     public function test_compute_true() {
         $connection = stack_connection_helper::make();
-        $strin = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), cte("p",errcatch(diff(x^n,x))), print("] ]"), return(true));';
+        $strin = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), cte("p",errcatch(diff(x^n,x))),'
+                .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
         $expected = array( 0 => array('key' => 'p', 'value' => 'n*x^(n-1)', 'display' => 'n\,x^{n-1}', 'error' => ''));
         $this->assertEquals($return, $expected);

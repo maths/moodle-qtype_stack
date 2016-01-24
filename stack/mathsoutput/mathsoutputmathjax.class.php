@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once($CFG->dirroot .'/filter/mathjaxloader/filter.php');
 
 /**
  * STACK maths output methods for using MathJax.
@@ -23,24 +24,12 @@
  */
 class stack_maths_output_mathjax extends stack_maths_output {
 
-    /**
-     * @return string code that should be pasted into Admin -> Appearance ->
-     * Additional HTML -> Head code to make MathJax work the way STACK expects.
-     */
-    public static function get_mathjax_code() {
-        return <<<END
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    MMLorHTML: { prefer: "HTML" },
-    tex2jax: {
-        displayMath: [['\\\\[', '\\\\]']],
-        inlineMath:  [['\\\\(', '\\\\)']],
-        processEscapes: true
-    },
-    TeX: { extensions: ['enclose.js'] }
-});
-</script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-END;
+    public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null, $forcesomemaths = false) {
+        // When rendering with MathJax the questiontext must always contain some maths.
+        // This is to ensure the javascript is active so that any ajax processing is picked up.
+        if ($forcesomemaths && strpos($text, '\(') === false && strpos($text, '\[') === false) {
+            $text .= '\(\)';
+        }
+        return parent::process_display_castext($text, $replacedollars, $renderer);
     }
 }

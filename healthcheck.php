@@ -77,11 +77,7 @@ echo html_writer::tag('dt', stack_string('texinlinestyle'));
 echo html_writer::tag('dd', format_text(stack_string('healthchecksampleinlinetex')));
 
 if ($config->mathsdisplay === 'mathjax') {
-    $settingsurl = new moodle_url('/admin/settings.php', array('section' => 'additionalhtml'));
-    echo html_writer::tag('p', stack_string('healthchecklatexmathjax',
-            $settingsurl->out()));
-    echo html_writer::tag('textarea', s(stack_maths_output_mathjax::get_mathjax_code()),
-            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '12', 'cols' => '100'));
+    echo html_writer::tag('p', stack_string('healthchecklatexmathjax'));
 } else {
     $settingsurl = new moodle_url('/admin/filters.php');
     echo html_writer::tag('p', stack_string('healthcheckfilters',

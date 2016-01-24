@@ -28,7 +28,7 @@ class stack_maths_output_mathjax extends stack_maths_output {
         // When rendering with MathJax the questiontext must always contain some maths.
         // This is to ensure the javascript is active so that any ajax processing is picked up.
         if ($forcesomemaths && strpos($text, '\(') === false && strpos($text, '\[') === false) {
-            $text .= '\(\)';
+            $text .= '<span style="display:none;">\(\)</span>';
         }
         return parent::process_display_castext($text, $replacedollars, $renderer);
     }

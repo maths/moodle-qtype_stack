@@ -506,7 +506,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('0', $at1->get_value_key('a'));
-        $this->assertEquals('Division by zero.', trim($at1->get_errors_key('p')));
+        $this->assertRegExp('/Division by (zero|0)/', trim($at1->get_errors_key('p')));
         $this->assertFalse(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters'));
     }
 }

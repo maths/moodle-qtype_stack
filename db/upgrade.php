@@ -24,6 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../stack/cas/connectorhelper.class.php');
+require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
+require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
+
 /**
  * Upgrade code for the Stack question type.
  * @param int $oldversion the version we are upgrading from.
@@ -647,13 +651,25 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
     // Add new upgrade blocks just above here.
 
+    // Check the version of the Maxima library code that comes with this version
+    // of STACK. Compare that to the version that was previously in use. If they
+    // are different, automatically clear the CAS cache.
+
     // This block of code is intentionally outside of an if statement. We want
     // this bit of code to run every time that qtype_stack is updated.
     if (!preg_match('~stackmaximaversion:(\d{10})~',
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
         throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }
-    set_config('stackmaximaversion', $matches[1], 'qtype_stack');
+    $latestversion = $matches[1];
+    $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
+
+    if ($latestversion != $currentlyusedversion) {
+        stack_cas_connection_db_cache::clear_cache($DB);
+    }
+
+    // Update the record of the currently used version.
+    set_config('stackmaximaversion', $latestversion, 'qtype_stack');
 
     return true;
 }

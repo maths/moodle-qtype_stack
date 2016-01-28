@@ -27,6 +27,8 @@ require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 class stack_maths_output_mathjax extends stack_maths_output_filter_base {
 
     protected function initialise_delimiters() {
+        $this->displaywrapstart = '';
+        $this->displaywrapend = '';
         $this->displaystart = '\[';
         $this->displayend = '\]';
         $this->inlinestart = '\(';

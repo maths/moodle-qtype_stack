@@ -71,10 +71,10 @@ echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
 echo html_writer::tag('dt', stack_string('texdisplaystyle'));
-echo html_writer::tag('dd', format_text(stack_string('healthchecksampledisplaytex')));
+echo html_writer::tag('dd', stack_string('healthchecksampledisplaytex'));
 
 echo html_writer::tag('dt', stack_string('texinlinestyle'));
-echo html_writer::tag('dd', format_text(stack_string('healthchecksampleinlinetex')));
+echo html_writer::tag('dd', stack_string('healthchecksampleinlinetex'));
 
 if ($config->mathsdisplay === 'mathjax') {
     echo html_writer::tag('p', stack_string('healthchecklatexmathjax'));

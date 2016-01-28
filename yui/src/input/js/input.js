@@ -200,9 +200,7 @@ stack_input.prototype.show_validation_results = function() {
         this.validationdiv.addClass('empty');
     }
 
-    if (typeof MathJax !== 'undefined') {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.validationdiv.getDOMNode()]);
-    }
+    Y.fire(M.core.event.FILTER_CONTENT_UPDATED, {nodes: (new Y.NodeList(this.validationdiv))});
 
     return true;
 };

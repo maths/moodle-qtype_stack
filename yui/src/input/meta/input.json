@@ -3,6 +3,7 @@
     "requires": [
         "node",
         "event-valuechange",
+        "moodle-core-event",
         "io",
         "json-parse"
     ]

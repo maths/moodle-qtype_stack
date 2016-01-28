@@ -14,6 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once($CFG->libdir . '/filterlib.php');
+require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
+
 
 /**
  * STACK maths output methods for using MathJax.
@@ -21,5 +24,21 @@
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_maths_output_mathjax extends stack_maths_output {
+class stack_maths_output_mathjax extends stack_maths_output_filter_base {
+
+    protected function initialise_delimiters() {
+        $this->displaystart = '\[';
+        $this->displayend = '\]';
+        $this->inlinestart = '\(';
+        $this->inlineend = '\)';
+    }
+
+    protected function make_filter() {
+        global $CFG, $PAGE;
+        require_once($CFG->dirroot . '/filter/mathjaxloader/filter.php');
+        $context = context_system::instance();
+        $filter = new filter_mathjaxloader($context, array());
+        $filter->setup($PAGE, $context);
+        return $filter;
+    }
 }

@@ -862,4 +862,28 @@ class stack_utils {
             collatorlib::ksort($array);
         }
     }
+
+    /**
+     * Change fraction marks close to 1/3 or 2/3 to the values exact to 7 decimal places.
+     *
+     * Moodle rounds fractional marks close to 1/3 (0.33 <= x <= 0.34) or 2/3
+     * (0.66 <= x <= 0.67) to exactly 0.3333333 and 0.6666667, for example whe @author tjh238
+     * course is backed up and restored. Some of the fractional marks that STACK
+     * uses are affected by this, and others are not. Thereofore, after a course
+     * is backed up and restored, some question tests start failing.
+     *
+     * Therefore, this fucntion is used to match Moodle's logic.
+     *
+     * @param float $fraction a fractional mark between 0 and 1.
+     * @return float $fraction, except that values close to 1/3 or 2/3 are returned to 7 decimal places.
+     */
+    public static function fix_approximate_thirds($fraction) {
+        if ($fraction>= 0.33 && $fraction <= 0.34) {
+            return 0.3333333;
+        } else if ($fraction >= 0.66 && $fraction <= 0.67) {
+            return 0.6666667;
+        } else {
+            return $fraction;
+        }
+    }
 }

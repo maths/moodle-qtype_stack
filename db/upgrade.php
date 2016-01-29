@@ -649,6 +649,46 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014040501, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2016012900) {
+
+        // Convert approximate thirds for penalties in the question table.
+        $DB->set_field_select('question', 'penalty', '0.3333333',
+                'qtype = ? AND penalty BETWEEN ? AND ?', array('stack', '0.33', '0.34'));
+        $DB->set_field_select('question', 'penalty', '0.6666667',
+                'qtype = ? AND penalty BETWEEN ? AND ?', array('stack', '0.66', '0.67'));
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2016012900, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2016012901) {
+
+        // Convert approximate thirds for penalties in the qtype_stack_prt_nodes table.
+        $DB->set_field_select('qtype_stack_prt_nodes', 'truepenalty', '0.3333333',
+                'truepenalty BETWEEN ? AND ?', array('0.33', '0.34'));
+        $DB->set_field_select('qtype_stack_prt_nodes', 'truepenalty', '0.6666667',
+                'truepenalty BETWEEN ? AND ?', array('0.66', '0.67'));
+        $DB->set_field_select('qtype_stack_prt_nodes', 'falsepenalty', '0.3333333',
+                'falsepenalty BETWEEN ? AND ?', array('0.33', '0.34'));
+        $DB->set_field_select('qtype_stack_prt_nodes', 'falsepenalty', '0.6666667',
+                'falsepenalty BETWEEN ? AND ?', array('0.66', '0.67'));
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2016012901, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2016012902) {
+
+        // Convert approximate thirds for penalties in the qtype_stack_qtest_expected table.
+        $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.3333333',
+                'expectedpenalty BETWEEN ? AND ?', array('0.33', '0.34'));
+        $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.6666667',
+                'expectedpenalty BETWEEN ? AND ?', array('0.66', '0.67'));
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2016012902, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

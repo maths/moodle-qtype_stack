@@ -17,8 +17,7 @@ Optinally, depending on the question settings, you have
     j: %i
 
 Sometimes you need to use \(e\) as an abstract symbol not a number.
-The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function.
-Instead use `stack_reset_vars(true)` in the question variables.
+The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.
 
 This resets all the special constants defined by STACK so the symbols can be redefined in a STACK question.
 
@@ -37,6 +36,8 @@ The following commands which are relevant to manipulation of numbers are defined
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).  
 
+Note, that Maxima's `round(ex)` command rounds `round(0.5)` to \(0\) and not to \(1\).  STACK has defined the fuction `significantfigures(x,n)` to conform to the more usual convention that \(0.5\) should be rounded up.
+
 ## STACK numerical predicates ##
 
 | Function                  | Predicate
@@ -46,8 +47,6 @@ The following commands which are relevant to manipulation of numbers are defined
 | `lowesttermsp(ex)`        | Is the rational expression in its lowest terms?
 | `anyfloatex(ex)`          | Decides if any floats are in the expression.
 
-
-## Rational numbers ##
 
 ## Floating point numbers ## {#Floats}
 

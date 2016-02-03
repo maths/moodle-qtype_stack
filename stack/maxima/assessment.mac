@@ -259,13 +259,18 @@ decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)), simp)$
 
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
-significantfigures(x,n) := block([fpprec:128, fpprintprec, simp:true, ex, ex2],
+significantfigures(x,n) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2],
   if x = 0 then return(0),
   if x = 0.0 then return(0.0),
   sign_of_x : signum(x),
   x : abs(x),
   ex:floor(float(log(x)/log(10))),
-  ex2:round(float(x/10^(ex-n+1))),
+  /* Modification to round 0.5 up to 1, not down as in Maxima's round command. */
+  ex1:float(x/10^(ex-n+1)),
+  if ex1-floor(ex1) = 0.5 then
+      ex2:floor(ex1)+1
+  else 
+      ex2:round(ex1),
   ex2:float(ex2*10^(ex-n+1)),
   if floor(ex2) = ratsimp(ex2) then ex2:ratsimp(ex2),
   return(sign_of_x*ex2)

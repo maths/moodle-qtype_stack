@@ -125,6 +125,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '[1,2,4]', '[1,2,3]', 0, '', ''),
         array('AlgEquiv', '[1,x>2]', '[1,2<x]', 1, '', ''),
         array('AlgEquiv', '[1,2,[2-x<0,{1,2,2,2, 1,3}]]', '[1,2,[2-x<0,{1,2}]]', 0, '', ''),
+        array('AlgEquiv', '[3,3.1,3.14,3.142,3.1416,3.14159,3.141593,3.1415927]', 'makelist(significantfigures(%pi,i),i,8)', 1, '', ''),
 
         array('AlgEquiv', 'x', '{1,2,3}', 0, '', 'Sets'),
         array('AlgEquiv', '{1,2}', '{1,2,3}', 0, '', ''),
@@ -776,6 +777,10 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3.142', '-3.1415927', 0, '4', ''),
         array('NumSigFigs', '-3.142', '3.1415927', 0, '4', ''),
         array('NumSigFigs', '-3.149', '3.1415927', 0, '4', ''),
+        array('NumSigFigs', '0.0499', '0.04985', 1, '3', 'Round teacher answer'),
+        array('NumSigFigs', '0.0499', '0.0499', 1, '3', ''),
+        array('NumSigFigs', '0.0498', '0.04985', 0, '3', ''),
+        array('NumSigFigs', '0.0500', '0.04985', 0, '3', ''),
 
         array('NumDecPlaces', '3.141', '3.1415927', -1, '', 'Basic tests'),
         array('NumDecPlaces', '1/0', '3', -1, '2', ''),
@@ -823,6 +828,8 @@ class stack_answertest_test_data {
         array('Units', '13.45*m/s', '12.3*m/s', 0, '[3,2]', ''),
         array('Units', '12*m/s', '12.3*m/s', 0, '3', ''),
         array('Units', '-9.81*m/s^2', '-9.81*m/s^2', 1, '3', ''),
+        array('Units', '-9.82*m/s^2', '-9.815*m/s^2', 1, '3', ''),
+        array('Units', '-9.81*m/s^2', '-9.815*m/s^2', 0, '3', ''),
         array('Units', '-9.81*m*s^(-2)', '-9.81*m/s^2', 1, '3', ''),
         array('Units', '-9.82*m/s^2', '-9.81*m/s^2', 0, '3', ''),
         array('Units', '-9.81*m*s^(-2)', '-9.81*m/s^2', 1, '3', ''),

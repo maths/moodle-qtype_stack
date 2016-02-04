@@ -668,11 +668,11 @@ distrib_and(ex):=block([orlisti, orlist1, orlist2],
 /* Normal form for logical expressions. */
 logical_normal(ex):=block(
     /* Change the noun logical operators into associative indenpotent ones. */
+    ex:ineqprepare(expand(ex)),
+    ex:noun_solve_logic(ex),
     ex:subst("%and", "nounand", ex), 
     ex:subst("%or", "nounor", ex), 
     ex:subst("%not", "not", ex), 
-    ex:ineqprepare(expand(ex)),
-    ex:noun_solve_logic(ex),
     ex:de_morgan(ex),
     ex:distrib_and(ex),
     ex:logical_normal_rem_redundant(ex),

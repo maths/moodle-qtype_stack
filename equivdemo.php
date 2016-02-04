@@ -159,6 +159,20 @@ $newarg['outcome']   = false;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving quadratic equations 8 (nonsense)";
+$newarg['narative']  = 'Maxwell pg 88.  The wrong method leads to a correct solution.';
+$newarg['casstring'] = "[(x+3)*(2-x)=4,x+3=4 or (2-x)=4,x=1 or x=-2]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving quadratic equations 9 (nonsense)";
+$newarg['narative']  = 'Maxwell pg 89.  A general version of the previous argument.';
+$newarg['casstring'] = "[(x-p)*(x-q)=0,x^2-p*x-q*x+p*q=0,1+q-x-p-p*q+p*x+x+q*x-x^2=1-p+q,(1+q-x)*(1-p+x)=1-p+q,(1+q-x)=1-p+q or (1-p+x)=1-p+q,x=p or x=q]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving a quadratic inequality";
 $newarg['narative']  = 'Solving quadratic inequalities using reasoning by equivalence.';
 $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0),(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";

@@ -125,8 +125,17 @@ class stack_answertest_test_data {
         array('AlgEquiv', '[1,2,4]', '[1,2,3]', 0, '', ''),
         array('AlgEquiv', '[1,x>2]', '[1,2<x]', 1, '', ''),
         array('AlgEquiv', '[1,2,[2-x<0,{1,2,2,2, 1,3}]]', '[1,2,[2-x<0,{1,2}]]', 0, '', ''),
+        /* Note to self: Maxima's round() command uses Bankers' rounding, but significantfigures does not. */
+        array('AlgEquiv', 'round(0.5)', '0.0', 1, '', 'Rounding of floats'),
+        array('AlgEquiv', 'round(1.5)', '2.0', 1, '', ''),
+        array('AlgEquiv', 'round(2.5)', '2.0', 1, '', ''),
+        array('AlgEquiv', 'round(12.5)', '12.0', 1, '', ''),
+        array('AlgEquiv', 'significantfigures(0.5,1)', '0.5', 1, '', ''),
+        array('AlgEquiv', 'significantfigures(1.5,1)', '2.0', 1, '', ''),
+        array('AlgEquiv', 'significantfigures(2.5,1)', '3.0', 1, '', ''),
+        array('AlgEquiv', 'significantfigures(3.5,1)', '4.0', 1, '', ''),
+        array('AlgEquiv', 'significantfigures(11.5,2)', '12.0', 1, '', ''),
         array('AlgEquiv', '[3,3.1,3.14,3.142,3.1416,3.14159,3.141593,3.1415927]', 'makelist(significantfigures(%pi,i),i,8)', 1, '', ''),
-
         array('AlgEquiv', 'x', '{1,2,3}', 0, '', 'Sets'),
         array('AlgEquiv', '{1,2}', '{1,2,3}', 0, '', ''),
         array('AlgEquiv', '{2/4, 1/3}', '{1/2, 1/3}', 1, '', ''),
@@ -777,10 +786,13 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3.142', '-3.1415927', 0, '4', ''),
         array('NumSigFigs', '-3.142', '3.1415927', 0, '4', ''),
         array('NumSigFigs', '-3.149', '3.1415927', 0, '4', ''),
+        /* Maxima's round() command uses Bankers' rounding, but STACK does not.   
+         * We actually round the teacher's answer to the specified number of SFs. */
         array('NumSigFigs', '0.0499', '0.04985', 1, '3', 'Round teacher answer'),
-        array('NumSigFigs', '0.0499', '0.0499', 1, '3', ''),
         array('NumSigFigs', '0.0498', '0.04985', 0, '3', ''),
-        array('NumSigFigs', '0.0500', '0.04985', 0, '3', ''),
+        array('NumSigFigs', '0.0498', '0.04975', 1, '3', ''),
+        array('NumSigFigs', '0.0497', '0.04975', 0, '3', ''),
+        array('NumSigFigs', '0.0499', '0.0498', 0, '3', ''),
 
         array('NumDecPlaces', '3.141', '3.1415927', -1, '', 'Basic tests'),
         array('NumDecPlaces', '1/0', '3', -1, '2', ''),

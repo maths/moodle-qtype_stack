@@ -2170,8 +2170,11 @@ Intfun(SA, SB, SBdisp, constint, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SB
     ret:[val, rawmk, ansnote, fb],
     /* Check if the teacher and student used only log abs. 
        Teacher must be consistent, otherwise the student doesn't have to be!*/
-    SAUsedLogAbs:ATInt_logabs_p(SA,v),
-    SBUsedLogAbs:ATInt_logabs_p(SB,v),
+    SAUsedLogAbs:ATInt_logabs_p(SA, v),
+    SBUsedLogAbs:ATInt_logabs_p(SB, v),
+    /* Did the teacher have any logs?! */
+    if freeof(log, SB) then
+        SBUsedLogAbs:false,
     if debug then print(["Original expressions: ", SA, SB]),
     if debug then print(["Used Logabs?: ", SAUsedLogAbs, SBUsedLogAbs]),
     /* This expands out logarithms for constants, e.g. ln(k*|x|) */
@@ -2184,23 +2187,24 @@ Intfun(SA, SB, SBdisp, constint, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SB
     if debug then print(["Striped off  constants of integration: ", SA, SB]),
     /* If the teacher has not used logabs, then strip out any logabs from the student's answer. */
     /* Student consistency is a different issue. */
-    SAConsistentLogs:ATInt_consistent_logabs_p(SA,v),
+    SAConsistentLogs:ATInt_consistent_logabs_p(SA, v),
     if not(SBUsedLogAbs) then (
       SA:subst(STACKLA=log, ATInt_logabs_to_STACKLA(SA)),
       SAa:subst(STACKLA=log, ATInt_logabs_to_STACKLA(SAa))
       ),
     /* Calculate derivatives */
-    SAd:ev(diff(SA,v),simp),
-    SBd:ev(diff(SB,v),simp),
+    SAd:ev(diff(SA, v), simp),
+    SBd:ev(diff(SB, v), simp),
     if debug then print([SAa, SBd]),
-    if debug then print(["Simplified difference: ", ex]),
+    if debug then print(["Derivatives : ", SAd, SBd]),
     if ev(algebraic_equivalence(SAd,SBd), simp) then block(
-    /* Check for constant of integration - code copied from algebraic_equivalence */
+    /* Check for constant of integration - code copied from algebraic_equivalence. */
         ex:errcatch(ev(fullratsimp(SA-SB), simp, trigexpand:true, logexpand:super, keepfloat:true)),
         if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
         ex:ex[1],
         ex:ev(trigsimp(ex), simp),
         ex:ev(trigreduce(ex), simp),
+        if debug then print(["Simplified difference: ", ex]),
         dd:ev(float(ex), simp),
         dc:numberp(dd) and dd#0.0,
         if ex=0 then
@@ -2213,21 +2217,24 @@ Intfun(SA, SB, SBdisp, constint, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SB
                 (rawmk:false, fb:StackAddFeedback("", "ATInt_const_int"), ansnote:StackAddNote("", "ATInt_const_int"))
             else 
                 (rawmk:true, ansnote:StackAddNote("", "ATInt_const_int_condone"))
-        else if freeof(log, SA) and not(ATIntWeirdConstp(ex)) then
-            (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
-        else if freeof(log, SA) and ATIntWeirdConstp(ex) then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
+        else if freeof(log, SA) or freeof(log, SB) then 
+            if ATIntWeirdConstp(ex, v) then
+                (rawmk:false, fb:StackAddFeedback("", "ATInt_weirdconst"), ansnote:StackAddNote("", "ATInt_weirdconst"))
+            else if constint and listofvars(ex)=[v] then
+                     (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const"))        
+                 else 
+                     (rawmk:true, ansnote:StackAddNote("", "ATInt_true"))
         /* From this point onwards we *have logarithms*. */
         else if ev(algebraic_equivalence(SA, SB), simp) then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_const"), ansnote:StackAddNote("", "ATInt_const_equiv"))
         else if ev(algebraic_equivalence(SAa, SB), simp) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true_equiv"))            
-        else if freeof(v,ex) and not(ATIntWeirdConstp(ex)) then
+        else if freeof(v,ex) and not(ATIntWeirdConstp(ex, v)) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true_differentconst"))
         else
             (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
-    ) else /* Check for the special cases where the buggy rule is true */
-       if ev(algebraic_equivalence(SAa, ev(diff(SBd, v), simp)),simp) and ev(algebraic_equivalence(exp(x), SBd),simp)#true then
+    ) else /* Check for the special cases where the buggy rule is true. */
+       if ev(algebraic_equivalence(SAa, ev(diff(SBd, v), simp)), simp) and ev(algebraic_equivalence(exp(x), SBd),simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
        else 
            (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
@@ -2256,7 +2263,9 @@ Intfun(SA, SB, SBdisp, constint, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SB
 )$
 
 /* This function decides if the constant of integration looks "weird".*/
-ATIntWeirdConstp(ex):=block([l],
+ATIntWeirdConstp(ex, v):=block([l],
+    /* Don't bother looking for a wierd constant if the variable is still there. */
+    if not(freeof(v, ex)) then return(false),
     l:listofvars(ex),
     if length(l)#1 then return(true),
     if degree(ex, first(l))#1 then return(true)
@@ -2407,4 +2416,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016020300$
+stackmaximaversion:2016021200$

@@ -215,7 +215,8 @@ class stack_potentialresponse_tree {
         // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".
         // Why does this correct attempt attract a penalty?  So, this is a unilateral decision:
         // If the score is 1 there is never a penalty.
-        if ($results->_score > 0.99999995) {
+        if ($results->_score > 0.999999) {
+            $results->_score = 1;
             $results->_penalty = 0;
         }
 

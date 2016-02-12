@@ -39,6 +39,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 * Document ways of using JSXGraph  `http://jsxgraph.org` for better support of graphics.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
+* Implement "Banker's rounding" option which applies over a whole question, and for all answer tests.
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
 * Enable individual questions to load Maxima libraries.
@@ -63,6 +64,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * AIM
   * WebWork, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
   * MapleTA
+  * Wiris
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
  * Support for inequalities.  This includes real intervals and sets of real numbers.

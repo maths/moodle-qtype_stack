@@ -31,8 +31,6 @@ class stack_checkbox_input extends stack_dropdown_input {
      */
     protected $ddltype = 'checkbox';
 
-
-
     /**
      * Transforms the contents array into a maxima list.
      *

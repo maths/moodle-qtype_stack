@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/utils.class.php');
 
 
 /**

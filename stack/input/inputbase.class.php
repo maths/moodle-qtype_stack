@@ -439,7 +439,7 @@ abstract class stack_input {
      * @param array $contents the content array of the student's input.
      * @param array $forbiddenkeys is an array of keys of casstings from the question
      *                             variables which must not appear in the student's input.
-     * @return array of the validity, errors strings and modified contents.
+     * @return array of the validity, errors strings, modified contents and caslines.
      */
     protected function validate_contents($contents, $forbiddenkeys) {
         $errors = $this->extra_validation($contents);

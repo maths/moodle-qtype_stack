@@ -142,7 +142,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'sin(x)');
-        $this->check_output_contains_lang_string('studentValidation_listofvariables', 'qtype_stack', '\( \left[ x \right]\)');
+        $this->check_output_contains_lang_string('studentValidation_listofvariables',
+                'qtype_stack', qtype_stack_testcase::prepare_expected_maths('\( \left[ x \right]\)'));
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();

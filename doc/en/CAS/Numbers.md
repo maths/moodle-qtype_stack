@@ -17,8 +17,7 @@ Optinally, depending on the question settings, you have
     j: %i
 
 Sometimes you need to use \(e\) as an abstract symbol not a number.
-The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function.
-Instead use `stack_reset_vars(true)` in the question variables.
+The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.
 
 This resets all the special constants defined by STACK so the symbols can be redefined in a STACK question.
 
@@ -37,6 +36,16 @@ The following commands which are relevant to manipulation of numbers are defined
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).  
 
+## Notes about numerical rounding ##
+
+There are two ways to round numbers ending in a digit \(5\).  
+* Always round up, so that \(0.5\rightarrow 1\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 3\) etc.
+* Another common system is to use ``Bankers' Rounding". Bankers Rounding is an algorithm for rounding quantities to integers, in which numbers which are equidistant from the two nearest integers are rounded to the nearest even integer. \(0.5\rightarrow 0\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 2\) etc.  The supposed advantage to bankers rounding is that in the limit it is unbiased, and so produces better results with some statistical processes that involve rounding.
+
+Maxima's `round(ex)` command rounds multiples of 1/2 to the nearest even integer, i.e. Maxima implements Bankers' Rounding.
+
+STACK has defined the function `significantfigures(x,n)` to conform to convention of rounding up.
+
 ## STACK numerical predicates ##
 
 | Function                  | Predicate
@@ -46,8 +55,6 @@ The following commands which are relevant to manipulation of numbers are defined
 | `lowesttermsp(ex)`        | Is the rational expression in its lowest terms?
 | `anyfloatex(ex)`          | Decides if any floats are in the expression.
 
-
-## Rational numbers ##
 
 ## Floating point numbers ## {#Floats}
 

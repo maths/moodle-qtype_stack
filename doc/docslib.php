@@ -140,7 +140,7 @@ function stack_docs_render_markdown($page, $docscontent) {
     if (strpos($page, '[[ALL_FACTS]]') > 0) {
         $page = str_replace('[[ALL_FACTS]]', stack_fact_sheets::generate_docs(), $page);
     }
-    $page = format_text($page, $format = FORMAT_MARKDOWN);
+    $page = format_text($page, $format = FORMAT_MARKDOWN, array('filter' => false));
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }

@@ -48,12 +48,11 @@ class stack_maths {
      * then passed to Moodle's {@link format_text()} function.
      * @param string $text the content to process.
      * @param qtype_stack_renderer $renderer (options) the STACK renderer, if you have one.
-     * @param bool $forcesomemaths force the text to contain some mathematics.
      * @return string the content ready to pass to format_text.
      */
-    public static function process_display_castext($text, qtype_stack_renderer $renderer = null, $forcesomemaths = false) {
+    public static function process_display_castext($text, qtype_stack_renderer $renderer = null) {
         return self::get_output()->process_display_castext($text,
-                stack_utils::get_config()->replacedollars, $renderer, $forcesomemaths);
+                stack_utils::get_config()->replacedollars, $renderer);
     }
 
     /**

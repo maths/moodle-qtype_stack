@@ -259,10 +259,11 @@ class stack_dropdown_input extends stack_input {
 
     protected function validate_contents($contents, $forbiddenkeys) {
         $valid = true;
-        $errors = '';
+        $errors = array();
         $modifiedcontents = $contents;
+        $caslines = array();
 
-        return array($valid, $errors, $modifiedcontents);
+        return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
     /**

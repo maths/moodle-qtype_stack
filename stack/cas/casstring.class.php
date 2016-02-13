@@ -1173,15 +1173,14 @@ class stack_cas_casstring {
         // Replace lists of keywords with their actual values.
         $kws = array();
         foreach ($keywords as $val) {
-            $kw = trim(strtolower($val));
+            $val = trim($val);
+            $kw = strtolower($val);
             if (array_key_exists($kw, self::$keywordlists)) {
                 $kws = array_merge($kws, self::$keywordlists[$kw]);
-            } else {
-                if ('COMMA_TAG' === $val) {
-                    $kws[] = ',';
-                } else {
-                    $kws[] = trim($val);  // This test is case sensitive, but ignores surrounding whitespace.
-                }
+            } else if ('COMMA_TAG' === $val) {
+                $kws[] = ',';
+            } else if ($val !== '') {
+                $kws[] = $val;
             }
         }
 

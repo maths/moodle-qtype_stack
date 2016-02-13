@@ -359,4 +359,9 @@ class stack_equiv_input extends stack_input {
 
         return $response;
     }
+
+    protected function ajax_to_response_array($in) {
+        $in = $this->maxima_to_raw_input($in);
+        return array($this->name => $in);
+    }
 }

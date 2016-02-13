@@ -14,33 +14,43 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+
+global $CFG;
 require_once($CFG->libdir . '/filterlib.php');
 require_once(__DIR__ . '/mathsoutputfilterbase.class.php');
 
 
 /**
- * STACK maths output methods for using MathJax.
+ * STACK maths output methods for using The OU's maths filter.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stack_maths_output_mathjax extends stack_maths_output_filter_base {
+class stack_maths_output_oumaths extends stack_maths_output_filter_base {
+
+    /**
+     * @return boolean is the OU maths filter installed?
+     */
+    public static function filter_is_installed() {
+        global $CFG;
+        return file_exists($CFG->dirroot . '/filter/maths/filter.php');
+    }
 
     protected function initialise_delimiters() {
-        $this->displaywrapstart = '';
-        $this->displaywrapend = '';
-        $this->displaystart = '\[';
-        $this->displayend = '\]';
-        $this->inlinestart = '\(';
-        $this->inlineend = '\)';
+        $this->displaystart = '&lt;tex mode="display"&gt;';
+        $this->displayend = '&lt;/tex&gt;';
+        $this->inlinestart = '&lt;tex mode="inline"&gt;';
+        $this->inlineend = '&lt;/tex&gt;';
     }
 
     protected function make_filter() {
-        global $CFG, $PAGE;
-        require_once($CFG->dirroot . '/filter/mathjaxloader/filter.php');
-        $context = context_system::instance();
-        $filter = new filter_mathjaxloader($context, array());
-        $filter->setup($PAGE, $context);
-        return $filter;
+        global $CFG;
+
+        if (!self::filter_is_installed()) {
+            throw new coding_exception('The OU maths filter is not installed.');
+        }
+
+        require_once($CFG->dirroot . '/filter/oumaths/filter.php');
+        return new filter_oumaths(context_system::instance(), array());
     }
 }

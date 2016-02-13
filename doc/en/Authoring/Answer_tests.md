@@ -206,6 +206,7 @@ NumRelative  and NumAbsolute can also accept lists and sets.  Elements are autom
 
 Decimal places test.  This test is implemented, and the code works, however it cannot be used in STACK because of difficulties with validation.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.
 
+Please see the [Notes about numerical rounding](../CAS/Numbers.mb) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
 
 # Calculus #
 

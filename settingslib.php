@@ -56,6 +56,10 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
             $this->choices['maths'] = get_string('settingmathsdisplay_maths', 'qtype_stack');
         }
 
+        if (array_key_exists('oumaths', $filters)) {
+            $this->choices['oumaths'] = get_string('settingmathsdisplay_oumaths', 'qtype_stack');
+        }
+
         return true;
     }
 }

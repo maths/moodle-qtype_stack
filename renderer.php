@@ -77,7 +77,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
         $questiontext = $question->format_text(
-                stack_maths::process_display_castext($questiontext, $this),
+                stack_maths::process_display_castext($questiontext, $this, true),
                 $question->questiontextformat,
                 $qa, 'question', 'questiontext', $question->id);
 

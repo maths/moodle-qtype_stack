@@ -158,8 +158,12 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         // If the question is being created, save this input.
         if ($questioncreated) {
             $oldid = $data->id;
+
             $data->questionid = $this->get_new_parentid('question');
             $data->prtname = $this->currentprtname;
+            $data->truepenalty = stack_utils::fix_approximate_thirds($data->truepenalty);
+            $data->falsepenalty = stack_utils::fix_approximate_thirds($data->falsepenalty);
+
             $newitemid = $DB->insert_record('qtype_stack_prt_nodes', $data);
             $this->set_mapping('qtype_stack_prt_nodes', $oldid, $newitemid);
         }
@@ -222,6 +226,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         if ($questioncreated) {
             $data->questionid = $this->get_new_parentid('question');
             $data->testcase = $this->currenttestcase;
+            $data->expectedpenalty = stack_utils::fix_approximate_thirds($data->expectedpenalty);
             $DB->insert_record('qtype_stack_qtest_expected', $data, false);
         }
     }

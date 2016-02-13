@@ -553,37 +553,16 @@ class stack_utils {
     }
 
     /**
-     * Extracts double quoted strings with \-escapes, extracts only the content
-     * not the quotes.
+     * Removes strings, respecting escaped quotes.
      *
      * @access private
      * @return string
      */
     public static function all_substring_strings($string) {
-        $strings = array();
-        $i = 0;
-        $lastslash = false;
-        $instring = false;
-        $stringentry = -1;
-        while ($i < strlen($string)) {
-            $c = $string[$i];
-            $i++;
-            if ($instring) {
-                if ($c == '"' && !$lastslash) {
-                    $instring = false;
-                    // Need -1 to drop the quote.
-                    $s = substr($string, $stringentry, ($i - $stringentry) - 1);
-                    $strings[] = $s;
-                } else if ($c == "\\") {
-                     $lastslash = !$lastslash;
-                } else if ($lastslash) {
-                    $lastslash = false;
-                }
-            } else if ($c == '"') {
-                $instring = true;
-                $lastslash = false;
-                $stringentry = $i;
-            }
+        $str = str_replace('\"', '[[ESCAPED_STRING]]', $string);
+        $strings = self::all_substring_between($str, '"');
+        foreach ($strings as $key => $string) {
+            $strings[$key] = str_replace('[[ESCAPED_STRING]]', '\"', $string);
         }
         return $strings;
     }
@@ -881,6 +860,30 @@ class stack_utils {
             core_collator::ksort($array);
         } else {
             collatorlib::ksort($array);
+        }
+    }
+
+    /**
+     * Change fraction marks close to 1/3 or 2/3 to the values exact to 7 decimal places.
+     *
+     * Moodle rounds fractional marks close to 1/3 (0.33 <= x <= 0.34) or 2/3
+     * (0.66 <= x <= 0.67) to exactly 0.3333333 and 0.6666667, for example whe @author tjh238
+     * course is backed up and restored. Some of the fractional marks that STACK
+     * uses are affected by this, and others are not. Thereofore, after a course
+     * is backed up and restored, some question tests start failing.
+     *
+     * Therefore, this fucntion is used to match Moodle's logic.
+     *
+     * @param float $fraction a fractional mark between 0 and 1.
+     * @return float $fraction, except that values close to 1/3 or 2/3 are returned to 7 decimal places.
+     */
+    public static function fix_approximate_thirds($fraction) {
+        if ($fraction>= 0.33 && $fraction <= 0.34) {
+            return 0.3333333;
+        } else if ($fraction >= 0.66 && $fraction <= 0.67) {
+            return 0.6666667;
+        } else {
+            return $fraction;
         }
     }
 }

@@ -53,8 +53,8 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
         return $html;
     }
 
-    public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null) {
-        $text = parent::process_display_castext($text, $replacedollars, $renderer);
+    public function process_display_castext($text, $replacedollars, qtype_stack_renderer $renderer = null, $forcesomemaths = false) {
+        $text = parent::process_display_castext($text, $replacedollars, $renderer, $forcesomemaths);
         $text = $this->find_equations_and_replace_delimiters($text);
         return $text;
     }

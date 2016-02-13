@@ -26,6 +26,12 @@ This is the percentage of the marks deducted from each different and valid attem
 completely correct, when the penalty mark modification scheme is in use.
 The default is \(10\%\) of the marks available for this question, entered at \(0.1\).
 
+Note that Moodle stores scores to 7 decimal places, so, \(1/3\) should be entered as \(0.3333333\),
+and \(2/3\) as \(0.6666667\). If you input any number close to \(1/3\), but with less precision,
+then the extra digits will automatically be added. The exact range affected is that
+any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and
+any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
+
 ## Output  ##
 
 The following options affect how mathematics is displayed.

@@ -44,6 +44,8 @@ class qtype_stack extends question_type {
             $this->fix_dollars_in_form_data($fromform);
         }
 
+        $fromform->penalty = stack_utils::fix_approximate_thirds($fromform->penalty);
+
         return parent::save_question($question, $fromform);
     }
 
@@ -244,7 +246,8 @@ class qtype_stack extends question_type {
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
-                $node->truepenalty         = $fromform->{$prtname . 'truepenalty'}[$nodename];
+                $node->truepenalty         = stack_utils::fix_approximate_thirds(
+                                $fromform->{$prtname . 'truepenalty'}[$nodename]);
                 $node->truenextnode        = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $node->trueanswernote      = $fromform->{$prtname . 'trueanswernote'}[$nodename];
                 $node->truefeedback        = $this->import_or_save_files(
@@ -253,7 +256,8 @@ class qtype_stack extends question_type {
                 $node->truefeedbackformat  = $fromform->{$prtname . 'truefeedback'}[$nodename]['format'];
                 $node->falsescoremode      = $fromform->{$prtname . 'falsescoremode'}[$nodename];
                 $node->falsescore          = $fromform->{$prtname . 'falsescore'}[$nodename];
-                $node->falsepenalty        = $fromform->{$prtname . 'falsepenalty'}[$nodename];
+                $node->falsepenalty        = stack_utils::fix_approximate_thirds(
+                                $fromform->{$prtname . 'falsepenalty'}[$nodename]);
                 $node->falsenextnode       = $fromform->{$prtname . 'falsenextnode'}[$nodename];
                 $node->falseanswernote     = $fromform->{$prtname . 'falseanswernote'}[$nodename];
                 $node->falsefeedback        = $this->import_or_save_files(
@@ -605,7 +609,8 @@ class qtype_stack extends question_type {
             if ($expectedresults->penalty === '' || $expectedresults->penalty === null) {
                 $expected->expectedpenalty = null;
             } else {
-                $expected->expectedpenalty = (float) $expectedresults->penalty;
+                $expected->expectedpenalty = stack_utils::fix_approximate_thirds(
+                        (float) $expectedresults->penalty);
             }
             $expected->expectedanswernote = $expectedresults->answernotes[0];
             $DB->insert_record('qtype_stack_qtest_expected', $expected);

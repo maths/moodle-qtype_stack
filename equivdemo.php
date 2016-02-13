@@ -152,6 +152,13 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving quadratic equations 7 (Toby's method)";
+$newarg['narative']  = '';
+$newarg['casstring'] = "[a*x^2+b*x+c=0,a^2*x^2+a*b*x+c=0,(a*x)^2+b*(a*x)+c=0,(a*x)^2+b*(a*x)+b^2/4-b^2/4+c=0,(a*x+b/2)^2-b^2/4+c=0,(a*x+b/2)^2=b^2/4-c,x=(-b+sqrt(a^2-4*a*c))/(2*a) or x=(-b+sqrt(a^2-4*a*c))/(2*a)]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving quadratic equations 7 (nonsense)";
 $newarg['narative']  = 'This argument is by Bill McCullum: matching up the coefficients.  This argument is false, but leads to the correct solution.';
 $newarg['casstring'] = "[x^2-6*x+9=0,x^2-6*x=-9,x*(x-6)=3*-3,x=3 or x-6=-3,x=3]";

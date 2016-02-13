@@ -805,7 +805,7 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
     if not(is(sign(SA)=sign(SB))) then block(
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"), 
-        AnswerNote:StackAddNote(AnstwerNote, "ATNumSigFigs_WrongSign")
+        AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongSign")
     ),
     SA:ev(abs(SA),simp),
     SB:ev(abs(SB),simp),

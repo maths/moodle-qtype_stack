@@ -102,6 +102,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(x-a)^6000', '(x-a)^6000', 1, '', ''),
         array('AlgEquiv', '', '(a-x)^6000', '(x-a)^6000', 1, '', ''),
         array('AlgEquiv', '', '(x-a)^6000', '(x-a)^5999', 0, '', ''),
+        array('AlgEquiv', '', '(k+8)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 1, '', ''),
+        array('AlgEquiv', '', '(k+7)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 0, '', ''),
+        array('AlgEquiv', '', '-(2*k+6)/(k^2+4*k-12)', '-(2*k+6)/(k^2+4*k-12)', 1, '', ''),
         array('AlgEquiv', '', '1/n-1/(n+1)', '1/(n*(n+1))', 1, '', ''),
         array('AlgEquiv', '', '0.5*x^2+3*x-1', 'x^2/2+3*x-1', 1, '', ''),
 
@@ -130,6 +133,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '[1,x>2]', '[1,2<x]', 1, '', ''),
         array('AlgEquiv', '', '[1,2,[2-x<0,{1,2,2,2, 1,3}]]', '[1,2,[2-x<0,{1,2}]]', 0,
             '(ATList_wrongentries 3: (ATList_wrongentries 2: ATSet_wrongsz)).', ''),
+        array('AlgEquiv', '', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]',
+            1, '', ''),
+
         /* Note to self: Maxima's round() command uses Bankers' rounding, but significantfigures does not. */
         array('AlgEquiv', '', 'round(0.5)', '0.0', 1, '', 'Rounding of floats'),
         array('AlgEquiv', '', 'round(1.5)', '2.0', 1, '', ''),
@@ -158,6 +164,8 @@ class stack_answertest_test_data {
             'ATSet_wrongentries.', ''),
         array('AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
         array('AlgEquiv', '', '{(x-a)^6000}', '{(a-x)^6000}', -2, 'ATSet_wrongentries.', ''),
+        array('AlgEquiv', '', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}', '{(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)}',
+            1, '', ''),
 
         array('AlgEquiv', '', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'),
         array('AlgEquiv', '', 'matrix([1,2],[2,3])', 'matrix([1,2,3],[2,3,3])', 0, 'ATMatrix_wrongsz_columns.', ''),
@@ -310,6 +318,10 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'x/(-y)', '-(x/y)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '-1/(1-x)', '1/(x-1)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1/2*1/x', '1/(2*x)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', '(k+8)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 1, '', ''),
+        array('EqualComAss', '', '(k+8)/(k^2+4*k-12)', '(k+8)/((k-2)*(k+6))', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', '(k+7)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 0, 'ATEqualComAss: (AlgEquiv:false).', ''),
+        array('EqualComAss', '', '-(2*k+6)/(k^2+4*k-12)', '-(2*k+6)/(k^2+4*k-12)', 1, '', ''),
         array('EqualComAss', '', '%i', 'e^(i*pi/2)', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Complex numbers'),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 0,
             'ATEqualComAss: (AlgEquiv:false).', ''),

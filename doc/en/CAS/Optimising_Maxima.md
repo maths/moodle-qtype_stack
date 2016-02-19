@@ -33,6 +33,8 @@ The principle is to save an image of Maxima running with STACK libraries already
 
 * Check your Maxima Lisp with **maxima --list-avail** to see what Lisps you have to run Maxima.
 * Load Maxima, using switches for a particular version if you need, e.g. `maxima -l CLISP -u 5.19.2`.
+* Load relevant packages, including the stackmaxima.mac package
+* Save image
 
 ### GCL ###
 
@@ -42,6 +44,10 @@ This is the default lisp used by most of the binary distributions, and therefore
 
 ~~~~
     load("<path>/maximalocal.mac");
+    load("<path>/stackmaxima.mac");
+    load(stats);
+    load(distrib);
+    load(descriptive);
     :lisp (si::save-system "/path/to/moodledata/stack/maxima-optimised")  
     quit();
 ~~~~
@@ -62,6 +68,10 @@ This is the default lisp used by most of the binary distributions, and therefore
 
 ~~~~
     load("<path>/maximalocal.mac");
+    load("<path>/stackmaxima.mac");
+    load(stats);
+    load(distrib);
+    load(descriptive);
     :lisp (ext:saveinitmem "/path/to/moodledata/stack/maxima-optimised.mem" :init-function #'user::run)
     quit();
 ~~~~
@@ -87,6 +97,10 @@ use the following to generate a stand alone executable:
 * In Maxima, type the commands:
 ~~~~
     load("maximalocal.mac");
+    load("<path>/stackmaxima.mac");
+    load(stats);
+    load(distrib);
+    load(descriptive);
     :lisp (sb-ext:save-lisp-and-die "maxima-optimised" :toplevel #'run :executable t)
 ~~~~
 

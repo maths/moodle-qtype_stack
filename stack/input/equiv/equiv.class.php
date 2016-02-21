@@ -318,6 +318,7 @@ class stack_equiv_input extends stack_input {
      * @return string HTML for the validation results for this input.
      */
     public function render_validation(stack_input_state $state, $fieldname) {
+
         if (self::BLANK == $state->status) {
             return '';
         }
@@ -325,7 +326,7 @@ class stack_equiv_input extends stack_input {
         if ($this->get_parameter('showValidation', 1) == 0 && self::INVALID != $state->status) {
             return '';
         }
-        $feedback = $state->contentsdisplayed;
+        $feedback = stack_maths::process_lang_string($state->contentsdisplayed);
 
         foreach ($this->comments as $index => $val) {
             // Strip off "s from the comment.

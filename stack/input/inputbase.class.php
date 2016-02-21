@@ -270,7 +270,7 @@ abstract class stack_input {
      * @param array $forbiddenkeys is an array of casstring keys which appears in the question variables.
      * @return stack_input_state represents the current state of the input.
      */
-    public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys, $ajaxinput=false) {
+    public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys, $ajaxinput = false) {
 
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');

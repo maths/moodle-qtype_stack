@@ -89,6 +89,13 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Vacuous linear equation";
+$newarg['narative']  = 'This equation is satisfied by any value of x.';
+$newarg['casstring'] = "[2*(x-3) = 5*x-3*(x+2),2*x-6=2*x-6,0=0]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Difference of two squares";
 $newarg['narative']  = 'This argument is a basic step and should be considered true.';
 $newarg['casstring'] = "[a^2=b^2,a^2-b^2=0,(a-b)*(a+b)=0,a=b or a=-b]";
@@ -265,7 +272,7 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['title']     = "Find two distict numbers which are the square of each other (needs substitution, not equals)";
+$newarg['title']     = "Find two distinct numbers which are the square of each other (needs substitution, not equals)";
 $newarg['narative']  = '';
 $newarg['casstring'] = "[a^2=b and b^2=a, b=a^2 and a^4=a, b=a^2 and a^4-a=0, b=a^2 and a*(a-1)*(a^2+a+1)=0, b=a^2 and (a=0 or a=1 or a^2+a+1=0), (b=0 and a=0) or (b=1 and a=1)]";
 $newarg['outcome']   = true;

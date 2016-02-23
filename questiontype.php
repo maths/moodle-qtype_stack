@@ -674,8 +674,23 @@ class qtype_stack extends question_type {
         $DB->set_field('qtype_stack_inputs', 'name', $to,
                 array('questionid' => $questionid, 'name' => $from));
 
-        // Where the input name appears in expressions in PRTs.
         $regex = '~\b' . preg_quote($from, '~') . '\b~';
+
+        // Place-holders in the general feedback.
+        $generalfeedback = $DB->get_field('question', 'generalfeedback', array('id' => $questionid));
+        $generalfeedback = preg_replace($regex, $to, $generalfeedback, -1, $changes);
+        if ($changes) {
+            $DB->set_field('question', 'generalfeedback', $generalfeedback, array('id' => $questionid));
+        }
+
+        // Place-holders in the question note.
+        $questionnote = $DB->get_field('qtype_stack_options', 'questionnote', array('questionid' => $questionid));
+        $questionnote = preg_replace($regex, $to, $questionnote, -1, $changes);
+        if ($changes) {
+            $DB->set_field('qtype_stack_options', 'questionnote', $questionnote, array('questionid' => $questionid));
+        }
+
+        // Where the input name appears in expressions in PRTs.
         $prts = $DB->get_records('qtype_stack_prts', array('questionid' => $questionid),
                     'id, feedbackvariables');
         foreach ($prts as $prt) {

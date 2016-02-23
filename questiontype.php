@@ -679,7 +679,7 @@ class qtype_stack extends question_type {
         $prts = $DB->get_records('qtype_stack_prts', array('questionid' => $questionid),
                     'id, feedbackvariables');
         foreach ($prts as $prt) {
-            $prt->sans = preg_replace($regex, $to, $prt->feedbackvariables, -1, $changes);
+            $prt->feedbackvariables = preg_replace($regex, $to, $prt->feedbackvariables, -1, $changes);
             if ($changes) {
                 $DB->update_record('qtype_stack_prts', $prt);
             }

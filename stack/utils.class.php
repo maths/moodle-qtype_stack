@@ -863,6 +863,67 @@ class stack_utils {
         }
     }
 
+    /** 
+     * Find a rational approximation to $n
+     * @param float $n
+     * @param int $accuracy Stop when we get within this many decimal places of $n
+     */
+    public static function rational_approximation($n,$accuracy) {
+        $accuracy = pow(10,-$accuracy);
+
+        $i = floor($n);
+        if ($i == $n) { // if n is an integer, its rational representation is obvious
+            return array($n, 1);
+        }
+
+        // take away the integer part of n
+        // from now on, we can assume 0 < n < 1
+        $nint = $i;
+        $n = $n - $i;
+
+        // we'll keep track of our working as (numx*n +numc)/(denx*n+denc)
+        $numx = 0;
+        $numc = 1;
+        $denx = 1;
+        $denc = 0;
+
+        $frac = array(); // continued fraction coefficients
+        $diff = $n - $i; // difference between current approximation and n
+
+        $steps = 0;
+        $onum = 0;
+        $oden = 1;
+        while (abs($diff) > $accuracy && $steps<1000) {
+            $steps = $steps + 1;
+
+            // evaluate current working to a fraction
+            $nume = $numx*$n + $numc;
+            $dene = $denx*$n + $denc;
+            $div = $nume/$dene; // then to a float
+            $i = floor($div); // integer part - this is the next coefficient in the continued fraction
+            if($dene <= $nume) { // if i>=1
+                array_unshift($frac,$i);
+            }
+
+            // reduce the continued fraction
+            $onum = 0;
+            $oden = 1;
+            foreach($frac as $c) {
+                list($oden,$onum) = array($oden*$c + $onum, $oden);
+            }
+            $diff = $n-$onum/$oden;
+
+            // subtract i from our working, and then take its reciprocal
+            list($numx,$numc, $denx, $denc) = array($denx, $denc, $numx-$denx*$i, $numc-$denc*$i);
+        }
+        return array($nint*$oden + $onum, $oden);
+    }
+
+    public static function fix_to_continued_fraction($n,$accuracy) {
+        $frac = stack_utils::rational_approximation($n,$accuracy);
+        return $frac[0]/$frac[1];
+    }
+
     /**
      * Change fraction marks close to 1/3 or 2/3 to the values exact to 7 decimal places.
      *

@@ -38,16 +38,12 @@ STACK defines the following function alias names
     simplify := fullratsimp
     int := integrate
 
-The absolute value function in Maxima is entered as `abs()`.  STACK also permits you to enter using `|` symbols, e.g.
-
-   |x|
-
-This is an alias for `abs`.  Note that `abs(x)` will be displayed by STACK as \(|x|\).
+The absolute value function in Maxima is entered as `abs()`.  STACK also permits you to enter using `|` symbols, i.e.`|x|`.  This is an alias for `abs`.  Note that `abs(x)` will be displayed by STACK as \(|x|\).
 
 STACK also redefined a small number of functions
 
- # The plot command `plot2d` is not used in STACK questions.  Use `plot` instead.  This ensures your image files are available on the server.
- # The random number command `random` is not used in STACK questions.  Use the command `rand` instead.  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
+* The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented [here](Plots.md).  This ensures your image files are available on the server.
+* The random number command `random` is not used in STACK questions.  Use the command `rand` instead, which is documented [here](Random.md).  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
 
 # Parts of Maxima expressions {#Parts_of_Maxima_expressions}
 

@@ -2,7 +2,7 @@
 
 The whole point of STACK is not to use multiple choice questions, but instead to have the student enter an algebraic expression!  That said their are occasions where it is very useful, if not necessary, to use multiple choice questions in their various forms.  STACK's use of a CAS is then very helpful to generate random versions of multiple choice questions based on the mathematical values. 
 
-This can also be one input in a multi-part randomly generated question. E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, (ii) parts, (iii) substitution, (iv) replace with complex exponentials.  (Yes, this is a joke: all these methods can be made to work here!)  Then another algebraic input can then be used for the answer.
+This can also be one input in a multi-part randomly generated question. E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, (ii) parts, (iii) substitution, (iv) replace with complex exponentials.  (Yes, this is a joke: all these methods can be made to work here!)  Another algebraic input can then be used for the answer.
 
 Please read the section on [inputs](Inputs.md) first.  If you are new to STACK please note that in STACK MCQs are *not* the place to start learning how to author questions.  Please look at the [authoring quick-start guide](Authoring_quick_start.md).  Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
@@ -12,7 +12,7 @@ The goal of these input types is to provide *modest* facilities for MCQ.  An ear
 
 This input type uses the "model answer" both to input the teacher's answer and the other options. In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.  Constructing a correctly formed model answer is complex, and so this input type should be considered "advanced".  New users are adviced to gain confidence writing questions with algebraic inputs first, and gain experience in using Maxima lists.
 
-The "model answer" must be supplied in a particular form as a list of `[value, correct(, display)]`.
+The "model answer" must be supplied in a particular form as a list of lists `[[value, correct(, display)], ... ]`.
 
 * `value` is the value of the teacher's answer
 * `correct` must be either `true` or `false`.  If it is not `true` then it will be considered to be `false`!
@@ -28,13 +28,15 @@ Note, that the optional `display` field is *only* used when constructing the cho
 
 Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomisation.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
 
-When STACK displays the "teacher's answer", e.g. after a quiz is due, this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  I.e. the "teacher's answer" will be a list of things which the student could actually select.  Whether the student is able to select more than one, or if more than one is actually included, is not checked.   The teacher must indicate at least one choice as `true`.  Hence, if you need "none of these" you must include this as an explicit option, and not rely on the student not checking any boxes in the checkbox type.
+When STACK displays the "teacher's answer", e.g. after a quiz is due, this will be constructed from the `display` fields corresponding to those elements for which `correct` is `true`.  I.e. the "teacher's answer" will be a list of things which the student could actually select.  Whether the student is able to select more than one, or if more than one is actually included, is not checked.   The teacher must indicate at least one choice as `true`.  
+
+If you need "none of these" you must include this as an explicit option, and not rely on the student not checking any boxes in the checkbox type.  Indeed, it would be impossible to distinguish the active selection of "none of these" from a passive failure to respond to the question.
 
 ## Internals ##
 
 The dropdown and radio inputs return the `value`, but the checkbox type returns the student's answer as Maxima list, even if they have only chosen one option.
 
-If, when authoring a question, you switching from radio/dropdown to checkboxes or back, you will probably break a PRT because of mis-matched types.
+If, when authoring a question, you switch from radio/dropdown to checkboxes or back, you will probably break a PRT because of mis-matched types.
 
 For the select and radio types the first option on the list will always be "Not answered".  This enables a student to retract an answer and return a "blank" response.
 
@@ -44,7 +46,7 @@ We did not add support for a special internal "none of the others" because the t
 
 ## Extra options ##
 
-The dropdown input type makes use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows, but currently the only option is to control the display of the options.
+These input types make use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows, but currently the only option is to control the display of mathematical expressions.
 
 The way the items are displayed can be controlled by the following options. 
 
@@ -55,7 +57,7 @@ The way the items are displayed can be controlled by the following options.
 
 ## Randomly shuffling the options ##
 
-To randomly shuffle the options create the list in the question variables and use the Maxima command `random_permutation` in the question variables.  Then, 
+To randomly shuffle the options create the list in the question variables and use the Maxima command `random_permutation` in the question variables.
 
 For example, the question variables might look like the following.
 
@@ -74,9 +76,9 @@ These command ensure (1) the substantive options are in a random order, and (2) 
 
 As the Question Note, you might like to consider just takeing the first item from each list, for example:
 
-    @maplist(first,ta)@.  Correnot ct answer is @tac@.
+    @maplist(first,ta)@.  The correct answer is @tac@.
 
-This note stores both the correct answer and the order shown to the student without the clutter of the `true/false` values or the optional display strings.  Remember, random versions of a question are considered to be the same if and only if the question note is t he same, so the random order must be part of the question note if you shuffle the options.
+This note stores both the correct answer and the order shown to the student without the clutter of the `true/false` values or the optional display strings.  Remember, random versions of a question are considered to be the same if and only if the question note is the same, so the random order must be part of the question note if you shuffle the options.
 
 ## Dealing with strings in MCQ ##
 

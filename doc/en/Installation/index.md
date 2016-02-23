@@ -4,17 +4,17 @@ STACK is being used live at a number of institutions, including the UK Open Univ
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/25/en/Main_page).  You must use Moodle 2.6.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
+* Please ensure you have [installed Moodle](http://docs.moodle.org/25/en/Main_page).  You must use Moodle 2.7.0 or later, [e.g. here.](https://github.com/moodle/moodle)  We strongly recommend using the latest version from your stable branch.
 * Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md).
 
 ## 2. Install GNUPlot and Maxima
 
-Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1,to 5.36.0 are supported.  Please contact the developers to request support for other versions.  
+Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1,to 5.36.1 are supported.  Please contact the developers to request support for other versions.  
 
 
 Please note 
 
-* Version 5.37.0 onwards is currently not supported.  There appear to be some important changes in Maxima we are working to accommodate in STACK.
+* Version 5.37.0 onwards is currently not supported.  There appear to be some important changes in Maxima we are working to accommodate in STACK.  In particular with `simp:false`, \(s^(-1)\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This cuases all sorts of problems.  Do not use Maxim 5.37.1 to 5.37.3.
 * From version 5.35.1 on Windows, Maxima is very slow in starting, and there is no optimization mechanism.
 * Older versions of Maxima:  in particular, Maxima 5.23.2 has some differences which result in \(1/\sqrt{x} \neq \sqrt{1/x}\), and similar problems.  This means that we have an inconsistency between questions between versions of maxima.   Of course, we can argue about which values of \(x\) make \(1/\sqrt{x} = \sqrt{1/x}\), but currently the unit tests and assumption is that these expressions should be considered to be algebraically equivalent!   So, older versions of Maxima are not supported for a reason.  Please test thoroughly if you try to use an older version, and expect some errors in the mathematical parts of the code.
 

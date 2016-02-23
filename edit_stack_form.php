@@ -1415,16 +1415,25 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);
         $inputsession->instantiate();
+
+        $getdebuginfo = false;
         foreach ($inputs as $inputname => $notused) {
             if ($inputsession->get_errors_key($inputname)) {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
-                // TODO: Send the acutal value to to input, and ask it to validate it.
+                if ('' == $inputsession->get_value_key($inputname)) {
+                    $getdebuginfo = true;
+                }
+                // TODO: Send the acutal value to the input, and ask it to validate it.
                 // For example, the matrix input type could check that the model answer is a matrix.
             }
 
             if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
                 $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
             }
+        }
+
+        if ($getdebuginfo) {
+            $errors['questionvariables'][] = $inputsession -> get_debuginfo();
         }
 
         // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.

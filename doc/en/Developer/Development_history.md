@@ -4,7 +4,7 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 3.5
 
-Unreleased in this branch.
+Released February 2016. 
 
 Numerous minor bug fixes and improvements.
 

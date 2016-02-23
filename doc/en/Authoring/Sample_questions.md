@@ -76,11 +76,6 @@ It is interesting to discuss the extent to which the properties required by this
 
 This file contains three example questions on 2nd order linear ODEs with constant coefficients.  They illustrate the need to establish multiple independent properties, even in cases where the teacher might be tempted to _look_ at the specific answer.
 
-## CR-... files ##
-
-These files contain sample questions from  the [Calculus Refresher](http://www.mathcentre.ac.uk/resources/exercisebooks/mathcentre/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.  Not all these questions have been checked and released for STACK3, but they all exist in STACK 2.
-
-
 # Other sources of questions #
 
 If you have materials you would like to release, please add the details here.

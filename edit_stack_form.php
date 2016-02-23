@@ -43,7 +43,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php')
  */
 class qtype_stack_edit_form extends question_edit_form {
     /** @var string the default question text for a new question. */
-    const DEFAULT_QUESTION_TEXT = '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
+    const DEFAULT_QUESTION_TEXT = '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
 
@@ -1415,16 +1415,25 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);
         $inputsession->instantiate();
+
+        $getdebuginfo = false;
         foreach ($inputs as $inputname => $notused) {
             if ($inputsession->get_errors_key($inputname)) {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
-                // TODO: Send the acutal value to to input, and ask it to validate it.
+                if ('' == $inputsession->get_value_key($inputname)) {
+                    $getdebuginfo = true;
+                }
+                // TODO: Send the acutal value to the input, and ask it to validate it.
                 // For example, the matrix input type could check that the model answer is a matrix.
             }
 
             if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
                 $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
             }
+        }
+
+        if ($getdebuginfo) {
+            $errors['questionvariables'][] = $inputsession -> get_debuginfo();
         }
 
         // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.

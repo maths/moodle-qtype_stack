@@ -219,7 +219,9 @@ $string['questionsimplify'] = 'Question-level simplify';
 $string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
 $string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['questiontext'] = 'Question text';
+// @codingStandardsIgnoreStart
 $string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
+// @codingStandardsIgnoreEnd
 $string['questiontext_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#question_text';
 $string['questiontextnonempty'] = 'The question text must be non-empty.';
 $string['questiontextmustcontain'] = 'The question text must contain the token \'{$a}\'.';
@@ -588,7 +590,9 @@ $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
 $string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specific value.';
+// @codingStandardsIgnoreStart
 // TODO add this to STACK: $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
+// @codingStandardsIgnoreEnd
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']           = "AlgEquiv";

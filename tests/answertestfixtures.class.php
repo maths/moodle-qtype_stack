@@ -274,7 +274,7 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', 'x^2+y/z', 'a^2+c/b', 1, 'ATSubstEquiv_Subst: [x = a,y = c,z = b].', ''),
         array('SubstEquiv', '', 'y=x^2', 'a^2=b', 1, 'ATSubstEquiv_Subst: [y = b,x = a].', ''),
         array('SubstEquiv', '', '{x=1,y=2}', '{x=2,y=1}', 1, 'ATSubstEquiv_Subst: [x = y,y = x].', ''),
- 
+
         array('EqualComAss', '', '1/0', '0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_TAns.', ''),
         array('EqualComAss', '', '2/4', '1/2', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Numbers'),
@@ -493,7 +493,7 @@ class stack_answertest_test_data {
         array('FacForm', 'x', '%i*(x-2)', '(%i*x-2*%i)', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(x-%i)*(x+%i)', 'x^2+1', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(x-1)*(x+(1+sqrt(3)*%i)/2)*(x+(1-sqrt(3)*%i)/2)', 'x^3-1', 1, 'ATFacForm_default_true.', ''),
- 
+
         array('CompSquare', '', '1/0', '0', -1, 'STACKERROR_OPTION.', ''),
         array('CompSquare', 'x', '1/0', '0', -1, 'ATCompSquare_STACKERROR_SAns.', ''),
         array('CompSquare', 'x', '0', '1/0', -1, 'ATCompSquare_STACKERROR_TAns.', ''),

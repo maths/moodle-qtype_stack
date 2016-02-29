@@ -212,7 +212,7 @@ class stack_potentialresponse_tree {
 
         // Take a continued fraction approximation of the score, within 5 decimal places of the original
         // This will round numbers like 0.999999 to exactly 1, 0.33333 to 1/3, etc.
-        $results->_score = stack_utils::fix_to_continued_fraction($results->score,5);
+        $results->_score = stack_utils::fix_to_continued_fraction($results->score, 5);
 
         // From a strictly logical point of view the 'score' and the 'penalty' are independent.
         // Hence, this clause belongs in the question behaviour.

@@ -1433,7 +1433,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         if ($getdebuginfo) {
-            $errors['questionvariables'][] = $inputsession -> get_debuginfo();
+            $errors['questionvariables'][] = $inputsession->get_debuginfo();
         }
 
         // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.

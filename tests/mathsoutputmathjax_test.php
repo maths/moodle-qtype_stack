@@ -42,9 +42,11 @@ class stack_maths_mathjax_test extends qtype_stack_testcase {
         $this->assertContentWithMathsEquals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
                 stack_string('ATSingleFrac_part'));
 
+        // @codingStandardsIgnoreStart
         $this->assertEquals("<p><code>\\(x^2\\)</code> gives " .
                 qtype_stack_testcase::prepare_expected_maths("\\(x^2\\).</p>\n"),
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
+        // @codingStandardsIgnoreEnd
 
         $this->assertEquals('What is \(x^2\)?', stack_maths::process_display_castext('What is \(x^2\)?'));
 

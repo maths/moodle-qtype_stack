@@ -70,7 +70,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $this->debug->log('CAS result', $rawresult);
 
         $unpackedresult = $this->unpack_raw_result($rawresult);
+        // @codingStandardsIgnoreStart
         $this->debug->log('Unpacked result as', print_r($unpackedresult, true));
+        // @codingStandardsIgnoreEnd
 
         if (!stack_connection_helper::check_stackmaxima_version($unpackedresult)) {
             stack_connection_helper::warn_about_version_mismatch($this->debug);

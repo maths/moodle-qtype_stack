@@ -491,14 +491,18 @@ class stack_cas_casstring {
      * @var all the characters permitted in responses.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
+    // @codingStandardsIgnoreStart
     private static $allowedchars =
             '0123456789,./\%&{}[]()$£@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
+    // @codingStandardsIgnoreEnd
 
     /**
      * @var all the permitted which are not allowed to be the final character.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
+    // @codingStandardsIgnoreStart
     private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
+    // @codingStandardsIgnoreEnd
 
     public function __construct($rawstring) {
         $this->rawcasstring   = $rawstring;

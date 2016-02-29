@@ -349,6 +349,7 @@ class stack_utils {
             } else {
                 // Found startchar, looking for end.
                 if ($char[$i] == $right) {
+                    // @codingStandardsIgnoreStart
                     if ($skipempty && $empty) {
                         // Do nothing.
                     } else if (!isset($replacements[$matches])) {
@@ -357,6 +358,7 @@ class stack_utils {
                         $result .= $replacements[$matches];
                         $matches++;
                     }
+                    // @codingStandardsIgnoreEnd
                     $searching = true;
                     $result .= $char[$i];
                 }
@@ -868,60 +870,61 @@ class stack_utils {
      * @param float $n
      * @param int $accuracy Stop when we get within this many decimal places of $n
      */
-    public static function rational_approximation($n,$accuracy) {
-        $accuracy = pow(10,-$accuracy);
+    public static function rational_approximation($n, $accuracy) {
+        $accuracy = pow(10, -$accuracy);
 
         $i = floor($n);
-        if ($i == $n) { // if n is an integer, its rational representation is obvious
+        if ($i == $n) { // If n is an integer, its rational representation is obvious.
             return array($n, 1);
         }
 
-        // take away the integer part of n
-        // from now on, we can assume 0 < n < 1
+        // Take away the integer part of n.
+        // From now on, we can assume 0 < n < 1.
         $nint = $i;
         $n = $n - $i;
 
-        // we'll keep track of our working as (numx*n +numc)/(denx*n+denc)
+        // We'll keep track of our working as (numx*n +numc)/(denx*n+denc).
         $numx = 0;
         $numc = 1;
         $denx = 1;
         $denc = 0;
 
-        $frac = array(); // continued fraction coefficients
-        $diff = $n - $i; // difference between current approximation and n
+        $frac = array(); // Continued fraction coefficients.
+        $diff = $n - $i; // Difference between current approximation and n.
 
         $steps = 0;
         $onum = 0;
         $oden = 1;
-        while (abs($diff) > $accuracy && $steps<1000) {
+        while (abs($diff) > $accuracy && $steps < 1000) {
             $steps = $steps + 1;
 
-            // evaluate current working to a fraction
-            $nume = $numx*$n + $numc;
-            $dene = $denx*$n + $denc;
-            $div = $nume/$dene; // then to a float
-            $i = floor($div); // integer part - this is the next coefficient in the continued fraction
-            if($dene <= $nume) { // if i>=1
-                array_unshift($frac,$i);
+            // Evaluate current working to a fraction.
+            $nume = $numx * $n + $numc;
+            $dene = $denx * $n + $denc;
+            $div = $nume / $dene; // Then to a float.
+            $i = floor($div); // Integer part - this is the next coefficient in the continued fraction.
+            if ($dene <= $nume) {
+                // If i>=1.
+                array_unshift($frac, $i);
             }
 
-            // reduce the continued fraction
+            // Reduce the continued fraction.
             $onum = 0;
             $oden = 1;
-            foreach($frac as $c) {
-                list($oden,$onum) = array($oden*$c + $onum, $oden);
+            foreach ($frac as $c) {
+                list($oden, $onum) = array($oden * $c + $onum, $oden);
             }
-            $diff = $n-$onum/$oden;
+            $diff = $n - $onum / $oden;
 
-            // subtract i from our working, and then take its reciprocal
-            list($numx,$numc, $denx, $denc) = array($denx, $denc, $numx-$denx*$i, $numc-$denc*$i);
+            // Subtract i from our working, and then take its reciprocal.
+            list($numx, $numc, $denx, $denc) = array($denx, $denc, $numx - $denx * $i, $numc - $denc * $i);
         }
-        return array($nint*$oden + $onum, $oden);
+        return array($nint * $oden + $onum, $oden);
     }
 
-    public static function fix_to_continued_fraction($n,$accuracy) {
-        $frac = stack_utils::rational_approximation($n,$accuracy);
-        return $frac[0]/$frac[1];
+    public static function fix_to_continued_fraction($n, $accuracy) {
+        $frac = stack_utils::rational_approximation($n, $accuracy);
+        return $frac[0] / $frac[1];
     }
 
     /**
@@ -939,7 +942,7 @@ class stack_utils {
      * @return float $fraction, except that values close to 1/3 or 2/3 are returned to 7 decimal places.
      */
     public static function fix_approximate_thirds($fraction) {
-        if ($fraction>= 0.33 && $fraction <= 0.34) {
+        if ($fraction >= 0.33 && $fraction <= 0.34) {
             return 0.3333333;
         } else if ($fraction >= 0.66 && $fraction <= 0.67) {
             return 0.6666667;

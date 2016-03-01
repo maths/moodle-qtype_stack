@@ -85,10 +85,12 @@ function stack_maxima_translate($rawfeedback) {
         $rawfeedback = str_replace('\\', '\\\\', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
+        // @codingStandardsIgnoreStart
         ob_start();
         eval($rawfeedback);
         $translated = ob_get_contents();
         ob_end_clean();
+        // @codingStandardsIgnoreEnd
 
         return trim($translated);
     }

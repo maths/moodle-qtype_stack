@@ -56,7 +56,9 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_simple_checkbox() {
+        // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]', array());
+        // @codingStandardsIgnoreEnd
         $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
                 . '<label><code>1+x</code></label></div><div>'
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>'
@@ -76,8 +78,10 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_duplicate_values() {
+        // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
+        // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
                 .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options. </p>'
                 .'</div>';
@@ -86,8 +90,10 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_duplicate_values_ok() {
+        // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', array());
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
+        // @codingStandardsIgnoreStart
         $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
             . '<label><code>1</code></label></div><div>'
             . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" /><label>'

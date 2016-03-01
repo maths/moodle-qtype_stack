@@ -393,8 +393,10 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
         $q = test_question_maker::make_question('stack', 'test0');
+        // @codingStandardsIgnoreStart
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '[[1,false],[2,true]]');
+        // @codingStandardsIgnoreEnd
 
         // Dropdowns always return a list, so adapt the PRT to take the first element of ans1.
         $sans = new stack_cas_casstring('ans1');

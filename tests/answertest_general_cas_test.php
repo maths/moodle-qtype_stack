@@ -328,6 +328,8 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
     }
 
+    // @codingStandardsIgnoreStart
+
     // Goal:  Have maxima generate a string which will work in the moodle
     // translation system. For example, the student has been asked to integrate
     // x^5 wrt x, and has answered x^6, not x^6/6.
@@ -356,6 +358,7 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
     //
     // This needs to be converted into something which can be translated by Moodle.
     // This is the role of stack_maxima_translate in locallib.php.
+    // @codingStandardsIgnoreEND
     public function test_stack_maxima_translate_int() {
         $at = new stack_answertest_general_cas('x^6', 'x^6/6', 'ATInt', true, 'x', null, true, true);
         $this->assertFalse($at->do_test());

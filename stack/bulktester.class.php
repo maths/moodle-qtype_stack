@@ -118,7 +118,8 @@ class stack_bulk_tester  {
                         list($ok, $message) = $this->qtype_stack_test_question($question, $tests, $seed);
                         if (!$ok) {
                             $allpassed = false;
-                            $failingtests[] = $questionname . ' ' . $questionnamelink . ': ' . $message;
+                            $failingtests[] = $context->get_context_name(false, true) .
+                                    ' ' . $questionname . ' ' . $questionnamelink . ': ' . $message;
                         }
                     }
                 }

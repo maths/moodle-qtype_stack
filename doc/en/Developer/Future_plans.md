@@ -2,28 +2,32 @@
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Features we are unlikly to add to STACK! ##
+Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-These are some things we are asked for, but which we are unlikley to add in the near future, often because there are other ways to do this.
+## Features to add for STACK 3.6 or later ##
 
-* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations and also for applications which appeal to different disciplines, e.g. engineering, physics, maths.
+### Units Inputs ###
 
-
-## Features to add ##
-
-Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.  These features are not included in this release.
+* Convestion from Celsius to Kelvin?  What units to choose for degrees Celsius which don't conflict with Coulomb?
+* Support for United States customary units?
+* Add an option to validation to require compatible units with the teacher's answer, not just some units.
+* Create a mechanism to distinguish between `m/s` and `m*s^-1`, both at validation and answer test levels.
+* Create a mechanism to distinguish between `m/s/s` and `m/s^2`, both at validation and answer test levels.
 
 ### Inputs ###
 
-* (underway) Reasoning by equivalence input type.
+* (underway - in equiv branch) Reasoning by equivalence input type.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * Add new input types
  1. (done - in equiv branch) "scratch working" area in which students can record their thinking etc. alongside the final answer.
- 2. Dropdown/Multiple choice input type.
- 3. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
- 4. Sliders.
- 5. Geogebra input.
+ 2. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
+ 3. Sliders.
+ 4. Geogebra input.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
+  This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
+* In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
+* A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input.
+
 
 ### Improve the editing form ###
 
@@ -40,6 +44,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 * Document ways of using JSXGraph  `http://jsxgraph.org` for better support of graphics.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
+* Implement "Banker's rounding" option which applies over a whole question, and for all answer tests.
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * Decimal separator, both input and output.
 * Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
@@ -48,7 +53,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
 * Check CAS/maxima literature on -inf=minf.
-* Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting]
+* Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
 * Facility to import test-cases in-bulk as CSV (or something). Likewise export.
 * Refactor answer tests.
  1. They should be like inputs. We should return an answer test object, not a controller object.
@@ -65,9 +70,9 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * AIM
   * WebWork, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
   * MapleTA
+  * Wiris
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
- * Package for scientific [units](../Authoring/Units.md), and a science answer test.
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
  * Add an ephemeral form for floating point numbers for better support for the numerical tests.  See below.
@@ -94,4 +99,8 @@ Basic reports now work.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 
+## Features we are unlikly to add to STACK! ##
 
+These are some things we are asked for, but which we are unlikley to add in the near future, often because there are other ways to do this.
+
+* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations and also for applications which appeal to different disciplines, e.g. engineering, physics, maths.

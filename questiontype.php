@@ -44,6 +44,8 @@ class qtype_stack extends question_type {
             $this->fix_dollars_in_form_data($fromform);
         }
 
+        $fromform->penalty = stack_utils::fix_approximate_thirds($fromform->penalty);
+
         return parent::save_question($question, $fromform);
     }
 
@@ -244,7 +246,8 @@ class qtype_stack extends question_type {
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
-                $node->truepenalty         = $fromform->{$prtname . 'truepenalty'}[$nodename];
+                $node->truepenalty         = stack_utils::fix_approximate_thirds(
+                                $fromform->{$prtname . 'truepenalty'}[$nodename]);
                 $node->truenextnode        = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $node->trueanswernote      = $fromform->{$prtname . 'trueanswernote'}[$nodename];
                 $node->truefeedback        = $this->import_or_save_files(
@@ -253,7 +256,8 @@ class qtype_stack extends question_type {
                 $node->truefeedbackformat  = $fromform->{$prtname . 'truefeedback'}[$nodename]['format'];
                 $node->falsescoremode      = $fromform->{$prtname . 'falsescoremode'}[$nodename];
                 $node->falsescore          = $fromform->{$prtname . 'falsescore'}[$nodename];
-                $node->falsepenalty        = $fromform->{$prtname . 'falsepenalty'}[$nodename];
+                $node->falsepenalty        = stack_utils::fix_approximate_thirds(
+                                $fromform->{$prtname . 'falsepenalty'}[$nodename]);
                 $node->falsenextnode       = $fromform->{$prtname . 'falsenextnode'}[$nodename];
                 $node->falseanswernote     = $fromform->{$prtname . 'falseanswernote'}[$nodename];
                 $node->falsefeedback        = $this->import_or_save_files(
@@ -405,6 +409,7 @@ class qtype_stack extends question_type {
                 'sameType'       => (bool) $inputdata->checkanswertype,
                 'mustVerify'     => (bool) $inputdata->mustverify,
                 'showValidation' => $inputdata->showvalidation,
+                'options'        => $inputdata->options,
             );
             $parameters = array();
             foreach ($requiredparams[$inputdata->type] as $paramname) {
@@ -413,7 +418,6 @@ class qtype_stack extends question_type {
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
-            // TODO: Do something with $inputdata->options here.
             $question->inputs[$name] = stack_input_factory::make(
                     $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
         }
@@ -605,7 +609,8 @@ class qtype_stack extends question_type {
             if ($expectedresults->penalty === '' || $expectedresults->penalty === null) {
                 $expected->expectedpenalty = null;
             } else {
-                $expected->expectedpenalty = (float) $expectedresults->penalty;
+                $expected->expectedpenalty = stack_utils::fix_approximate_thirds(
+                        (float) $expectedresults->penalty);
             }
             $expected->expectedanswernote = $expectedresults->answernotes[0];
             $DB->insert_record('qtype_stack_qtest_expected', $expected);
@@ -669,12 +674,12 @@ class qtype_stack extends question_type {
         $DB->set_field('qtype_stack_inputs', 'name', $to,
                 array('questionid' => $questionid, 'name' => $from));
 
-        // Where the input name appears in expressions in PRTs.
         $regex = '~\b' . preg_quote($from, '~') . '\b~';
+        // Where the input name appears in expressions in PRTs.
         $prts = $DB->get_records('qtype_stack_prts', array('questionid' => $questionid),
                     'id, feedbackvariables');
         foreach ($prts as $prt) {
-            $prt->sans = preg_replace($regex, $to, $prt->feedbackvariables, -1, $changes);
+            $prt->feedbackvariables = preg_replace($regex, $to, $prt->feedbackvariables, -1, $changes);
             if ($changes) {
                 $DB->update_record('qtype_stack_prts', $prt);
             }

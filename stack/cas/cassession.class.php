@@ -245,6 +245,7 @@ class stack_cas_session {
         }
         if ($allfail) {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
+            $this->errors .= $this->get_debuginfo();
         }
 
         $this->instantiated = true;

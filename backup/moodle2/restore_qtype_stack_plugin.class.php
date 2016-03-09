@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/utils.class.php');
 
 
 /**
@@ -158,8 +159,12 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         // If the question is being created, save this input.
         if ($questioncreated) {
             $oldid = $data->id;
+
             $data->questionid = $this->get_new_parentid('question');
             $data->prtname = $this->currentprtname;
+            $data->truepenalty = stack_utils::fix_approximate_thirds($data->truepenalty);
+            $data->falsepenalty = stack_utils::fix_approximate_thirds($data->falsepenalty);
+
             $newitemid = $DB->insert_record('qtype_stack_prt_nodes', $data);
             $this->set_mapping('qtype_stack_prt_nodes', $oldid, $newitemid);
         }
@@ -222,6 +227,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         if ($questioncreated) {
             $data->questionid = $this->get_new_parentid('question');
             $data->testcase = $this->currenttestcase;
+            $data->expectedpenalty = stack_utils::fix_approximate_thirds($data->expectedpenalty);
             $DB->insert_record('qtype_stack_qtest_expected', $data, false);
         }
     }
@@ -295,20 +301,16 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             $graph->layout();
             $roots = $graph->get_roots();
             if (count($roots) != 1 || $graph->get_broken_cycles()) {
-                $questions = $DB->get_records('question', array('id' => $prt->questionid), '', 'name');
-                $qnames = array();
-                foreach ($questions as $q) {
-                    $qnames[] = $q->name;
-                }
+                $question = $DB->get_record('question', array('id' => $prt->questionid));
                 if (count($roots) != 1) {
                     $err = 'abnormal root count: '.count($roots).'(<>1)';
                 } else {
                     $err = 'broken cycles: '.implode('.', $graph->get_broken_cycles());
                 }
-                throw new coding_exception('The PRT named "' . $prt->name .
+                $this->step->log('The PRT named "' . $prt->name .
                         '" is malformed in question id ' . $prt->questionid .
-                        ', question named "' . implode(', ', $qnames) .
-                        '".  Error reported: ' . $err);
+                        ', question named "' . $question->name .
+                        '".  Error reported: ' . $err, backup::LOG_WARNING);
             }
             reset($roots);
             $firstnode = key($roots) - 1;

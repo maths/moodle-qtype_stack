@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(__DIR__ . '/test_base.php');
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 require_once(__DIR__ . '/../doc/docslib.php');
 
@@ -33,17 +34,19 @@ require_once(__DIR__ . '/../doc/docslib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_maths_mathjax_test extends advanced_testcase {
+class stack_maths_mathjax_test extends qtype_stack_testcase {
 
     public function test_maths_output_mathsjax() {
-        filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
 
         // MathJax output is the default.
-        $this->assertEquals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
+        $this->assertContentWithMathsEquals('Your answer needs to be a single fraction of the form \( {a}\over{b} \). ',
                 stack_string('ATSingleFrac_part'));
 
-        $this->assertEquals("<p><code>\(x^2\)</code> gives \\(x^2\\).</p>\n",
-                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', ''));
+        // @codingStandardsIgnoreStart
+        $this->assertEquals("<p><code>\\(x^2\\)</code> gives " .
+                qtype_stack_testcase::prepare_expected_maths("\\(x^2\\).</p>\n"),
+                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
+        // @codingStandardsIgnoreEnd
 
         $this->assertEquals('What is \(x^2\)?', stack_maths::process_display_castext('What is \(x^2\)?'));
 

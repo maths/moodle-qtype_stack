@@ -61,7 +61,6 @@ $config = stack_utils::get_config();
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-// Summary
 // This array holds summary info, for a table at the end of the pager.
 $summary = array();
 
@@ -72,17 +71,13 @@ echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
 echo html_writer::tag('dt', stack_string('texdisplaystyle'));
-echo html_writer::tag('dd', format_text(stack_string('healthchecksampledisplaytex')));
+echo html_writer::tag('dd', stack_string('healthchecksampledisplaytex'));
 
 echo html_writer::tag('dt', stack_string('texinlinestyle'));
-echo html_writer::tag('dd', format_text(stack_string('healthchecksampleinlinetex')));
+echo html_writer::tag('dd', stack_string('healthchecksampleinlinetex'));
 
 if ($config->mathsdisplay === 'mathjax') {
-    $settingsurl = new moodle_url('/admin/settings.php', array('section' => 'additionalhtml'));
-    echo html_writer::tag('p', stack_string('healthchecklatexmathjax',
-            $settingsurl->out()));
-    echo html_writer::tag('textarea', s(stack_maths_output_mathjax::get_mathjax_code()),
-            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '12', 'cols' => '100'));
+    echo html_writer::tag('p', stack_string('healthchecklatexmathjax'));
 } else {
     $settingsurl = new moodle_url('/admin/filters.php');
     echo html_writer::tag('p', stack_string('healthcheckfilters',
@@ -95,7 +90,7 @@ echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 // Try to list available versions of Maxima (linux only, without the DB).
 $connection = stack_connection_helper::make();
 if (is_a($connection, 'stack_cas_connection_unix')) {
-    echo html_writer::tag('pre', $connection-> get_maxima_available());
+    echo html_writer::tag('pre', $connection->get_maxima_available());
 }
 
 // Check for location of Maxima.
@@ -110,7 +105,7 @@ if ('' != $maximalocation) {
 list($valid, $message) = stack_cas_configuration::validate_maximalibraries();
 if (!$valid) {
     echo html_writer::tag('p', $message);
-    $summary[] = array(false, $message);    
+    $summary[] = array(false, $message);
 }
 
 // Try to connect to create maxima local.

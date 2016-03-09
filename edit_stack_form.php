@@ -43,7 +43,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/graphlayout/graph.php')
  */
 class qtype_stack_edit_form extends question_edit_form {
     /** @var string the default question text for a new question. */
-    const DEFAULT_QUESTION_TEXT = '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
+    const DEFAULT_QUESTION_TEXT = '<p></p><p>[[input:ans1]] [[validation:ans1]]</p>';
     /** @var string the default specific feedback for a new question. */
     const DEFAULT_SPECIFIC_FEEDBACK = '[[feedback:prt1]]';
 
@@ -442,9 +442,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $inputnames = $this->get_input_names_from_question_text();
         $prtnames = $this->get_prt_names_from_question();
 
-        // Note that for the editor elements, we are using
-        // $mform->getElement('prtincorrect')->setValue(...);
-        // instead of setDefault, because setDefault does not work for editors.
+        // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
+        // of setDefault, because setDefault does not work for editors.
 
         $mform->addHelpButton('questiontext', 'questiontext', 'qtype_stack');
         $mform->addRule('questiontext', stack_string('questiontextnonempty'), 'required', '', 'client');
@@ -1089,15 +1088,6 @@ class qtype_stack_edit_form extends question_edit_form {
             if (array_key_exists($inputname . 'modelans', $fromform)) {
                 $errors = $this->validate_cas_string($errors,
                         $fromform[$inputname . 'modelans'], $inputname . 'modelans', $inputname . 'modelans');
-
-                // TODO: find out if this input type acutally requires options, rather than
-                // the hard-coded check here.
-                if (false) {
-                    $errors = $this->validate_cas_string($errors,
-                            $fromform[$inputname . 'options'], $inputname . 'options', $inputname . 'options', false);
-                } else if ($fromform[$inputname . 'options']) {
-                    $errors[$inputname . 'options'][] = stack_string('optionsnotrequired');
-                }
             }
         }
 
@@ -1422,27 +1412,29 @@ class qtype_stack_edit_form extends question_edit_form {
             $cs = new stack_cas_casstring($inputname.':'.$fromform[$inputname . 'modelans']);
             $cs->get_valid('t');
             $inputvalues[] = $cs;
-
-            if ($fromform[$inputname . 'options']) {
-                $cs = new stack_cas_casstring('optionsfor'.$inputname.':'.$fromform[$inputname . 'options']);
-                $cs->get_valid('t');
-                $inputvalues[] = $cs;
-            }
         }
         $inputsession = clone $session;
         $inputsession->add_vars($inputvalues);
         $inputsession->instantiate();
+
+        $getdebuginfo = false;
         foreach ($inputs as $inputname => $notused) {
             if ($inputsession->get_errors_key($inputname)) {
                 $errors[$inputname . 'modelans'][] = $inputsession->get_errors_key($inputname);
-                // TODO: Send the acutal value to to input, and ask it to validate it.
+                if ('' == $inputsession->get_value_key($inputname)) {
+                    $getdebuginfo = true;
+                }
+                // TODO: Send the acutal value to the input, and ask it to validate it.
                 // For example, the matrix input type could check that the model answer is a matrix.
             }
 
             if ($fromform[$inputname . 'options'] && $inputsession->get_errors_key('optionsfor' . $inputname)) {
                 $errors[$inputname . 'options'][] = $inputsession->get_errors_key('optionsfor' . $inputname);
             }
-                // else TODO: Send the acutal value to the input, and ask it to validate it.
+        }
+
+        if ($getdebuginfo) {
+            $errors['questionvariables'][] = $inputsession->get_debuginfo();
         }
 
         // At this point if we have errors, especially with inputs, there is no point in executing any of the PRTs.

@@ -1,9 +1,8 @@
-# abacus branch of STACK (ALPHA)
+# abacus branch of STACK (BETA)
 
+# STACK 3.5
 
-[STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md)
-is an open-source system for computer-aided assessment in Mathematics and related
-disciplines, with emphasis on formative assessment.
+[STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
 
 STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of
 the University of Edinburgh, and includes the work of
@@ -17,15 +16,12 @@ Originally intended as "STACK 3.4", these changes are significant enough for thi
 
 Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 
-The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md)
-is explain more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).
+The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md) is explain more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).
 
 
 ## Documentation
 
-The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md),
-including the
-[installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
+The [documentation is here](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/index.md), including the [installation instructions](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Installation/index.md).
 
 
 ## License

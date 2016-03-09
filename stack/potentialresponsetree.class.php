@@ -210,12 +210,16 @@ class stack_potentialresponse_tree {
         // Restrict score to be between 0 and 1.
         $results->_score = min(max($results->_score, 0), 1);
 
+        // Take a continued fraction approximation of the score, within 5 decimal places of the original
+        // This will round numbers like 0.999999 to exactly 1, 0.33333 to 1/3, etc.
+        $results->_score = stack_utils::fix_to_continued_fraction($results->score, 5);
+
         // From a strictly logical point of view the 'score' and the 'penalty' are independent.
         // Hence, this clause belongs in the question behaviour.
         // From a practical point of view, it is confusing/off-putting when testing to see "score=1, penalty=0.1".
         // Why does this correct attempt attract a penalty?  So, this is a unilateral decision:
         // If the score is 1 there is never a penalty.
-        if ($results->_score > 0.99999995) {
+        if ($results->_score == 1) {
             $results->_penalty = 0;
         }
 

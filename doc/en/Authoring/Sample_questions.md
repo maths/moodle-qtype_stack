@@ -17,7 +17,37 @@ There are two sets of sample materials
 
 # Open Educational Resources #
 
-We would encourage colleagues to release their materials under a creative commons licence.  Please contact the developers.
+In this question a student is asked to find a cubic spline.  This question illustrates the following.
+
+* Separate properties are established, i.e. the answer is a cubic, has the right end point values and correct derivatives at the end points.
+* Plots are incorporated, including a plot of a student's incorrect answer.
+
+### `odd-even.xml` ###
+
+In this question a student is asked to give examples of odd and even functions.
+
+* There are four separate parts.  Separate properties are established by each.
+* For two of the parts there are non-unique correct answers.
+* Feedback based on calculations of students' answers is included.
+
+### `continuous-non-differentiable.xml` ###
+
+In this question a student is asked to give examples of a functionwith a stationary point at x=n and which is continuous but not differentiable at x=0.
+
+* There are three separate properties to be established.
+* There is a randomly generated point.
+
+It is interesting to discuss the extent to which the properties required by this question can be assessed automatically....
+
+### `ODE_2nd_order_linear.xml` ###
+
+This file contains three example questions on 2nd order linear ODEs with constant coefficients.  They illustrate the need to establish multiple independent properties, even in cases where the teacher might be tempted to _look_ at the specific answer.
+
+# Other sources of questions #
+
+If you have materials you would like to release, please add the details here.
+
+### Open Educational Resources ###
 
 The FETLAR project released a large collection of STACK 2 questions in English covering calculus and algebra in April 2010.
 

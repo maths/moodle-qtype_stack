@@ -40,12 +40,14 @@ __STACK 3 now uses Maxima's assignment rules.  This is a change from STACK 2.__ 
 
 ## Question variables {#Question_variables}
 
-The question variables are executed when a version of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
+The question variables are evaluated when a version of a question is created.   The displayed forms are available to all other [CASText](CASText.md) fields and the values to other parts of the question, e.g.
 
 * Teacher's answers in [inputs](Inputs.md) are defined in terms of question variables.
 * [Question note](Question_note.md).
 * All fields in each of the [potential response tree](Potential_response_trees.md).
 * Each input when testing the item.
+
+If the teacher uses a variable name which is two characters or longer, then students will not be able to use this variable name in their input.  Input from students with two charater variable names which appear in the question variables will be rejected as invalid.  Students can always use single letter variable names.  Teachers are therefore advised to avoid single letter variable names.
 
 ## Feedback variables {#Feedback_variables}
 

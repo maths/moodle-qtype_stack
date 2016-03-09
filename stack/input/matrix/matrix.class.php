@@ -56,7 +56,7 @@ class stack_matrix_input extends stack_input {
             }
         }
 
-        // I am assuming that the valdiation will write one CAS string in a
+        // The valdiation will write one CAS string in a
         // hidden input, that is the combination of all the separate inputs.
         if ($this->requires_validation()) {
             $expected[$this->name . '_val'] = PARAM_RAW;
@@ -306,7 +306,7 @@ class stack_matrix_input extends stack_input {
     }
 
     /**
-     * Each actual extension of this base class must decide what parameter values are valid
+     * Each actual extension of this base class must decide what parameter values are valid.
      * @return array of parameters names.
      */
     public function internal_validate_parameter($parameter, $value) {

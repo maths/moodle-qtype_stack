@@ -60,6 +60,46 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         qtype_stack_test_config::setup_test_maxima_connection();
     }
+
+    /**
+     * Verify that some content, containing maths, that is due to be output, is as expected.
+     *
+     * The purpose of this method is to hide the details of what the maths display system does.
+     *
+     * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
+     * @param unknown $actual the actual output, as processed by the default Maths filter that STACK uses.
+     */
+    protected function assertContentWithMathsEquals($expected, $actual) {
+        $this->assertEquals(self::prepare_expected_maths($expected), $actual);
+    }
+
+    /**
+     * Verify that some content, containing maths, that is due to be output, is as expected.
+     *
+     * The purpose of this method is to hide the details of what the maths display system does.
+     *
+     * @param string $expected with plain maths delimiters. E.g. '<p>\(x + 1\)</p>'.
+     * @param unknown $actual the actual output, as processed by the default Maths filter that STACK uses.
+     */
+    protected function assertContentWithMathsContains($expected, $actual) {
+        $this->assertContains(self::prepare_expected_maths($expected), $actual);
+    }
+
+    /**
+     * Prepare some content for comparison with rendered maths.
+     * @param string $content Some content containing unprocessed maths like '<p>\(x + 1\)</p>'.
+     * @return string The equivalent content, as it will look after maths processing.
+     */
+    public static function prepare_expected_maths($content) {
+        $replacements = array(
+                '\(' => '<span class="nolink"><span class="filter_mathjaxloader_equation">\(',
+                '\)' => '\)</span></span>',
+                '\[' => '<span class="nolink"><span class="filter_mathjaxloader_equation">\[',
+                '\]' => '\]</span></span>',
+        );
+
+        return str_replace(array_keys($replacements), array_values($replacements), $content);
+    }
 }
 
 

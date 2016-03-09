@@ -80,6 +80,7 @@ $columns = array(
     'expectedscore' => stack_string('testsuitecolexpectedscore'),
     'feedback'      => stack_string('testsuitefeedback'),
     'answernote'    => stack_string('answernote'),
+    'expectednote'  => '',
 );
 if ($anstest !== 'ALL') {
     array_shift($columns);
@@ -123,7 +124,7 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $error, $rawmark, $feedback, $ansnote) = stack_answertest_test_data::run_test($test);
+    list($passed, $error, $rawmark, $feedback, $ansnote, $expectednote) = stack_answertest_test_data::run_test($test);
     $allpassed = $allpassed && $passed;
 
     if ($passed) {
@@ -153,6 +154,7 @@ foreach ($tests as $test) {
         'expectedscore' => $test->expectedscore,
         'feedback'      => format_text($feedback),
         'answernote'    => $ansnote,
+        'expectednote'  => $expectednote,
     );
     if (!$passed) {
         $failedtable[] = $row;

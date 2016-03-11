@@ -24,7 +24,7 @@
  * @param qaid the question-attempt id.
  * @param input a YUI Node object for the input element for this input.
  */
-stack_input = function(name, qaid, input, validationdiv) {
+var stack_input = function(name, qaid, input, validationdiv) {
     this.input         = input;
     this.validationdiv = validationdiv;
     this.name          = name;
@@ -165,6 +165,7 @@ stack_input.prototype.validation_received = function(rawresponse) {
 stack_input.prototype.extract_scripts = function(html, scriptcommands) {
     var scriptregexp = /<script[^>]*>([\s\S]*?)<\/script>/g;
 
+    var result;
     while ((result = scriptregexp.exec(html)) !== null) {
         scriptcommands.push(result[1]);
     }
@@ -248,7 +249,7 @@ stack_input.prototype.remove_all_classes = function() {
  * Constructor. Represents simple inputs (one input).
  * @param input a YUI Node object for the input element for this input.
  */
-stack_simple_input = function(input) {
+var stack_simple_input = function(input) {
     this.input = input;
 };
 
@@ -273,7 +274,7 @@ stack_simple_input.prototype.get_value = function() {
  * Constructor. Represents textarea input.
  * @param textarea a YUI Node object for the textarea element for this input.
  */
-stack_textarea_input = function(textarea) {
+var stack_textarea_input = function(textarea) {
     this.textarea = textarea;
 };
 
@@ -302,7 +303,7 @@ stack_textarea_input.prototype.get_value = function() {
  * @param qaid the question-attempt id.
  * @param input a YUI Node object for the input element for this input.
  */
-stack_matrix_input = function(idprefix, container) {
+var stack_matrix_input = function(idprefix, container) {
     this.container = container;
     this.idprefix  = idprefix;
 

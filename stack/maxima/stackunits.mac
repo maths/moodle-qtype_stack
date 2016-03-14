@@ -325,3 +325,9 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
     ret:[validity, rawmk, ansnote, fb],
     return(ret)
     )$
+
+
+
+/* An alias for previous Aalto materials, expect this to disappear as the naming of functions progresses */
+backtosibase(expression) := block([simp],return(stack_unit_si_to_si_base(expression)))$
+

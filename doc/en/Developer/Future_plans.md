@@ -84,6 +84,8 @@ To implement the decinal places test we need an "ephemiral form" for representin
 
 Note that in Maxima the `floor()` function gives `floor(0.1667*10^4)` as `1666` not `1667` as expected.  So use `floor(0.1667*10^4)` instead.
 
+Add in support for `printf` to better format numbers.
+
 
 ## STACK custom reports
 

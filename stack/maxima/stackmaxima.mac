@@ -194,7 +194,7 @@ rand_with_step(lower, upper, step_parameter) := block([temprand],
 rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
    currents:ev((makelist(i, i, lower, upper)), simp),
    for kloop:1 thru length(list) do block( 
-       currents:simplify(delete(list[kloop], currents))
+       currents:simplify(delete(list[ev(kloop, simp)], currents))
    ),
    retVal:rand(currents),
    return(retVal)

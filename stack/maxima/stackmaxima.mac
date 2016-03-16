@@ -239,6 +239,15 @@ StackDISP(expr, m) := block([str:""],
     return(str)
 )$
 
+/* Display of numbers. Thanks to Robert Dodier. */
+stackintfmt:"~d";
+stackfltfmt:"~a";
+?texnumformat(x) := if ev(floatnump(x),simp) then 
+    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then 
+    ev(printf(false, stackintfmt, x), simp) else 
+    string(x);
+compile (?texnumformat);
+
 COLOR_LIST:["red", "Blue"  , "YellowOrange", "Bittersweet"  , "BlueViolet" , "Aquamarine", "BrickRed" , 
     "Apricot" , "Brown" , "BurntOrange", "CadetBlue" , "CarnationPink" , "Cerulean" , "CornflowerBlue" , 
     "CyanDandelion" , "DarkOrchid" , "Emerald" , "ForestGreen" , "Fuchsia", "Goldenrod" , "Gray" , 
@@ -2418,4 +2427,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016022900$
+stackmaximaversion:2016031600$

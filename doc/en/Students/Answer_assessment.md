@@ -25,8 +25,7 @@ You will never loose marks for making a syntax error, e.g. missing a closing bra
 
 If you have asked for a worked solution then you may not change any of your answers.
 
-Mathematical expressions are often either [input](Answer_input.md) as a typed linear syntax or built up with
-an equation editor such as dragmath.
+Mathematical expressions are normally entered using a typed linear syntax. For more details, see [input](Answer_input.md).
 
 ## Repeated attempts ##
 

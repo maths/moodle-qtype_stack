@@ -75,7 +75,7 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
 
     list($passed, $failingtests) = $bulktester->run_all_tests_for_context($testcontext);
     $allpassed = $allpassed && $passed;
-    $allfailingtests += $failingtests;
+    $allfailingtests = array_merge($allfailingtests, $failingtests);
 }
 
 // Display the final summary.

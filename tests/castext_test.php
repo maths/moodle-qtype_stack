@@ -102,13 +102,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_if_block() {
-        $a1 = array('a:true', 'b:is(1>2)');
+        $a1 = array('a:true', 'b:is(1>2)', 'c:false');
 
         $cases = array(
                 array('[[ if test="a" ]]ok[[/ if ]]', $a1, true, "ok"),
                 array('[[ if test="b" ]]ok[[/ if ]]', $a1, true, ""),
+                array('[[ if test="b" ]]ok[[else]]OK[[/ if ]]', $a1, true, "OK"),
+                array('[[ if test="b" ]]ok[[elif test="c"]]Ok[[else]]OK[[/ if ]]', $a1, true, "OK"),
+                array('[[ if test="b" ]]ok[[elif test="false"]]oK[[elif test="a"]]Ok[[else]]OK[[/ if ]]', $a1, true, "Ok"),
                 array('[[ if test="a" ]][[ if test="a" ]]ok[[/ if ]][[/ if ]]', $a1, true, "ok"),
                 array('[[ if test="a" ]][[ if test="b" ]]ok[[/ if ]][[/ if ]]', $a1, true, ""),
+                array('[[ if test="a" ]][[ if test="b" ]]ok[[else]]OK[[/ if ]][[/ if ]]', $a1, true, "OK"),
         );
 
         foreach ($cases as $case) {
@@ -128,7 +132,20 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $ct = new stack_cas_text($c, $session);
         $ct->get_display_castext();
         $this->assertFalse($ct->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span> If-block needs a test attribute. ', $ct->get_errors(false));
+        $this->assertEquals('<span class="error">CASText failed validation. </span> If-block needs a test attribute. ',
+                $ct->get_errors(false));
+
+        $c = '[[ if test="a" ]][[else]]a[[elif test="b"]]b[[/ if ]]';
+        $ct = new stack_cas_text($c, $session);
+        $ct->get_display_castext();
+        $this->assertFalse($ct->get_valid());
+        $this->assertEquals('<span class="error">CASText failed validation. </span> PARSE ERROR: "elif" after an "else" in an if block.', $ct->get_errors(false));
+
+        $c = '[[ if test="a" ]][[else]]a[[else]]b[[/ if ]]';
+        $ct = new stack_cas_text($c, $session);
+        $ct->get_display_castext();
+        $this->assertFalse($ct->get_valid());
+        $this->assertEquals('<span class="error">CASText failed validation. </span> PARSE ERROR: Multiple else branches in an if block.', $ct->get_errors(false));
     }
 
     public function test_broken_block_error() {
@@ -220,7 +237,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_get_all_raw_casstrings_if() {
         $raw = 'Take {@x^2+2*x@} and then [[ if test="true"]]{@sin(z^2)@}[[/if]].';
         $at1 = new stack_cas_text($raw, null, 0);
-        $val = array('x^2+2*x', 'true', 'sin(z^2)');
+        $val = array('x^2+2*x', 'sin(z^2)', 'true');
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
 
@@ -228,7 +245,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $raw = 'Take {@x^2+2*x@} and then [[ foreach t="[1,2,3]"]]{@t@}[[/foreach]].';
         $at1 = new stack_cas_text($raw, null, 0);
         // here the list is iterated over and the t-variable appears multiple times.
-        $val = array('x^2+2*x', '[1,2,3]', '1', 't', '2', 't', '3', 't');
+        $val = array('x^2+2*x', 't', 't:[1,2,3]');
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
 
@@ -730,6 +747,71 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals($at2->get_display_castext(),
                 '\({\mbox{This is a string}}\) whereas this is empty \({\mbox{ }}\).');
+    }
+
+    public function test_numerical_display_float_default() {
+        $s = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}, {@0.000001@}.';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({1.0E-4}\), \({1.0E-5}\), \({1.0E-6}\).');
+    }
+
+    public function test_numerical_display_float_decimal() {
+        $st = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}, {@0.000001@}.';
+
+        $a2 = array('stackfltfmt:"~f"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({0.0001}\), \({0.00001}\), \({0.000001}\).');
+    }
+
+    public function test_numerical_display_float_scientific() {
+        $st = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}, {@0.000001@}.';
+
+        $a2 = array('stackfltfmt:"~e"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \({1.0E-1}\), \({1.0E-2}\), \({1.0E-3}\), \({1.0E-4}\), \({1.0E-5}\), \({1.0E-6}\).');
+    }
+
+    public function test_numerical_display_1() {
+        $s = 'The decimal number {@n:73@} is written in base \(2\) as {@(stackintfmt:"~2r",n)@}, in base \(7\) ' .
+            'as {@(stackintfmt:"~7r",n)@}, in scientific notation as {@(stackintfmt:"~e",n)@} ' .
+            'and in rhetoric as {@(stackintfmt:"~r",n)@}.';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
+                'in scientific notation as \({7.3E+1}\) and in rhetoric as \({seventy-three}\).');
     }
 }
 

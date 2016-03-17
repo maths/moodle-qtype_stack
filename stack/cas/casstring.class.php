@@ -22,6 +22,7 @@
  */
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+require_once(__DIR__ . '/casstring.units.class.php');
 
 class stack_cas_casstring {
 
@@ -71,319 +72,403 @@ class stack_cas_casstring {
      */
     private $feedback;
 
+    /*
+     * @var array For efficient searching we cache the various lists of keywords.
+     */
+    private static $cache = false;
+
     /** @var array blacklist of globally forbidden CAS keywords. */
-    private static $globalforbid    = array('%th', 'adapth_depth', 'alias', 'aliases',
-            'alphabetic', 'appendfile', 'apropos', 'assume_external_byte_order', 'backtrace',
-            'batch', 'barsplot', 'batchload', 'boxchar', 'boxplot', 'bug_report', 'build_info',
-            'catch', 'close', 'closefile', 'compfile', 'compile', 'compile_file',
-            'current_let_rule_package', 'data_file_name', 'deactivate', 'debugmode',
-            'define', 'define_variable', 'demo', 'dependencies', 'describe', 'dimacs_export',
-            'dimacs_import', 'entermatrix', 'errcatch', 'error', 'error_size', 'error_syms', 'errormsg',
-            'eval_string', 'example', 'feature', 'featurep', 'features', 'file_name',
-            'file_output_append', 'file_search', 'file_search_demo', 'file_search_lisp',
-            'file_search_maxima', 'file_search_tests', 'file_search_usage', 'file_type',
-            'filename_merge', 'flength', 'fortindent', 'fortran', 'fortspaces', 'fposition', 'freshline',
-            'functions', 'fundef', 'funmake', 'grind', 'gnuplot_file_name', 'gnuplot_out_file',
-            'gnuplot_preamble', 'gnuplot_ps_term_command', 'gnuplot_term', 'inchar', 'infeval',
-            'infolists', 'kill', 'killcontext', 'labels', 'leftjust', 'ldisp', 'ldisplay', 'linechar',
-            'linel', 'linenum', 'linsolvewarn', 'load', 'load_pathname', 'loadfile',
-            'loadprint', 'macroexpand', 'macroexpand1', 'macroexpansion', 'macros', 'manual_demo',
-            'maxima_tempdir', 'maxima_userdir', 'multiplot_mode', 'myoptions', 'newline',
-            'nolabels', 'opena', 'opena_binary', 'openr', 'openr_binary', 'openw',
-            'openw_binary', 'outchar', 'packagefile', 'parse_string', 'pathname_directory', 'pathname_name',
-            'pathname_type', 'pickapart', 'piece', 'playback', 'plotdf', 'print', 'print_graph',
-            'printf', 'printfile', 'prompt', 'psfile', 'quit', 'read', 'read_array',
-            'read_binary_array', 'read_binary_list', 'read_binary_matrix', 'read_hashed_array', 'read_list', 'read_matrix',
-            'read_nested_list', 'read_xpm', 'readline', 'readonly', 'refcheck', 'rembox', 'remvalue',
-            'remfunction', 'reset', 'rmxchar', 'room', 'run_testsuite', 'run_viewer', 'save',
-            'savedef', 'scatterplot', 'starplot', 'stemplot', 'set_plot_option', 'setup_autoload',
-            'setcheck', 'setcheckbreak', 'setval', 'showtime',
-            'sparse6_export', 'sparse6_import', 'splice', 'sprint', 'status', 'stringout',
-            'supcontext', 'system', 'tcl_output', 'terminal', 'tex', 'testsuite_files', 'throw',
-            'time', 'timer', 'timer_devalue', 'timer_info', 'to_lisp', 'trace', 'trace_options',
-            'transcompile', 'translate', 'translate_file', 'transrun', 'ttyoff', 'untimer',
-            'untrace', 'user_preamble', 'values', 'with_stdout', 'write_binary_data',
-            'write_data', 'writefile');
+    private static $globalforbid    = array('%th' => true, 'adapth_depth' => true, 'alias' => true, 'aliases' => true,
+                'alphabetic' => true, 'appendfile' => true, 'apropos' => true, 'assume_external_byte_order' => true,
+                'backtrace' => true, 'batch' => true, 'barsplot' => true, 'batchload' => true, 'boxchar' => true,
+                'boxplot' => true, 'bug_report' => true, 'build_info' => true, 'catch' => true, 'close' => true,
+                'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true,
+                'current_let_rule_package' => true, 'data_file_name' => true, 'deactivate' => true, 'debugmode' => true,
+                'define' => true, 'define_variable' => true, 'demo' => true, 'dependencies' => true, 'describe' => true,
+                'dimacs_export' => true, 'dimacs_import' => true, 'entermatrix' => true, 'errcatch' => true, 'error' => true,
+                'error_size' => true, 'error_syms' => true, 'errormsg' => true, 'eval_string' => true, 'example' => true,
+                'feature' => true, 'featurep' => true, 'features' => true, 'file_name' => true, 'file_output_append' => true,
+                'file_search' => true, 'file_search_demo' => true, 'file_search_lisp' => true, 'file_search_maxima' => true,
+                'file_search_tests' => true, 'file_search_usage' => true, 'file_type' => true, 'filename_merge' => true,
+                'flength' => true, 'fortindent' => true, 'fortran' => true, 'fortspaces' => true, 'fposition' => true,
+                'freshline' => true, 'functions' => true, 'fundef' => true, 'funmake' => true, 'grind' => true,
+                'gnuplot_file_name' => true, 'gnuplot_out_file' => true, 'gnuplot_preamble' => true,
+                'gnuplot_ps_term_command' => true, 'gnuplot_term' => true, 'inchar' => true, 'infeval' => true,
+                'infolists' => true, 'kill' => true, 'killcontext' => true, 'labels' => true, 'leftjust' => true,
+                'ldisp' => true, 'ldisplay' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
+                'linsolvewarn' => true, 'load' => true, 'load_pathname' => true, 'loadfile' => true, 'loadprint' => true,
+                'macroexpand' => true, 'macroexpand1' => true, 'macroexpansion' => true, 'macros' => true,
+                'manual_demo' => true, 'maxima_tempdir' => true, 'maxima_userdir' => true, 'multiplot_mode' => true,
+                'myoptions' => true, 'newline' => true, 'nolabels' => true, 'opena' => true, 'opena_binary' => true,
+                'openr' => true, 'openr_binary' => true, 'openw' => true, 'openw_binary' => true, 'outchar' => true,
+                'packagefile' => true, 'parse_string' => true, 'pathname_directory' => true, 'pathname_name' => true,
+                'pathname_type' => true, 'pickapart' => true, 'piece' => true, 'playback' => true, 'plotdf' => true,
+                'print' => true, 'print_graph' => true, 'printf' => true, 'printfile' => true, 'prompt' => true,
+                'psfile' => true, 'quit' => true, 'read' => true, 'read_array' => true, 'read_binary_array' => true,
+                'read_binary_list' => true, 'read_binary_matrix' => true, 'read_hashed_array' => true, 'read_list' => true,
+                'read_matrix' => true, 'read_nested_list' => true, 'read_xpm' => true, 'readline' => true, 'readonly' => true,
+                'refcheck' => true, 'rembox' => true, 'remvalue' => true, 'remfunction' => true, 'reset' => true,
+                'rmxchar' => true, 'room' => true, 'run_testsuite' => true, 'run_viewer' => true, 'save' => true,
+                'savedef' => true, 'scatterplot' => true, 'starplot' => true, 'stemplot' => true, 'set_plot_option' => true,
+                'setup_autoload' => true, 'setcheck' => true, 'setcheckbreak' => true, 'setval' => true, 'showtime' => true,
+                'sparse6_export' => true, 'sparse6_import' => true, 'splice' => true, 'sprint' => true, 'status' => true,
+                'stringout' => true, 'supcontext' => true, 'system' => true, 'tcl_output' => true, 'terminal' => true,
+                'tex' => true, 'testsuite_files' => true, 'throw' => true, 'time' => true, 'timer' => true,
+                'timer_devalue' => true, 'timer_info' => true, 'to_lisp' => true, 'trace' => true, 'trace_options' => true,
+                'transcompile' => true, 'translate' => true, 'translate_file' => true, 'transrun' => true, 'ttyoff' => true,
+                'untimer' => true, 'untrace' => true, 'user_preamble' => true, 'values' => true, 'with_stdout' => true,
+                'write_binary_data' => true, 'write_data' => true, 'writefile' => true);
 
     /** @var array blacklist of CAS keywords forbidden to teachers. */
     // Note we allow RANDOM_PERMUTATION.
-    private static $teachernotallow = array('%unitexpand', 'abasep', 'absboxchar', 'absolute_real_time', 'activate',
-            'activecontexts', 'additive', 'adim', 'af', 'aform', 'agd', 'alg_type',
-            'all_dotsimp_denoms', 'allsym', 'antid', 'antidiff', 'antidifference', 'antisymmetric',
-            'arithmetic', 'arithsum', 'array', 'arrayapply', 'arrayinfo', 'arraymake', 'arrays',
-            'assoc_legendre_p', 'assoc_legendre_q', 'asymbol', 'atensimp', 'atomgrad', 'atrig1',
-            'atvalue', 'augmented_lagrangian_method', 'av', 'axis_3d', 'axis_bottom',
-            'axis_left', 'axis_right', 'axis_top', 'azimut', 'backsubst', 'bars',
-            'bashindices', 'bdvac', 'berlefact', 'bfpsi', 'bfpsi0', 'bimetric', 'bode_gain',
-            'bode_phase', 'border', 'boundaries_array', 'canform', 'canten', 'cbffac',
-            'cbrange', 'cbtics', 'cdisplay',
-            'cframe_flag', 'cgeodesic', 'changename', 'chaosgame', 'chebyshev_t',
-            'chebyshev_u', 'check_overlaps', 'checkdiv', 'christof', 'clear_rules', 'cmetric',
-            'cnonmet_flag', 'cograd', 'collapse', 'colorbox', 'columns', 'combination',
-            'comp2pui', 'components', 'concan', 'conmetderiv', 'constvalue', 'cont2part', 'context',
-            'contexts', 'contortion', 'contour', 'contour_levels', 'contour_plot',
-            'contract_edge', 'contragrad', 'contrib_ode', 'convert', 'coord', 'copy_graph',
-            'covdiff', 'covers', 'create_list', 'csetup', 'ct_coords', 'ct_coordsys',
-            'ctaylor', 'ctaypov', 'ctaypt', 'ctayswitch', 'ctayvar', 'ctorsion_flag', 'ctransform',
-            'ctrgsimp', 'cunlisp', 'declare_constvalue', 'declare_dimensions',
-            'declare_fundamental_dimensions', 'declare_fundamental_units', 'declare_qty',
-            'declare_translated', 'declare_unit_conversion', 'declare_units', 'declare_weights',
-            'decsym', 'default_let_rule_package', 'defcon', 'defmatch', 'defrule', 'delay', 'deleten',
-            'diag', 'diagmatrixp', 'diagmetric', 'dim', 'dimension', 'dimensionless', 'dimensions',
-            'dimensions_as_list', 'direct', 'disp', 'dispcon', 'dispflag',
-            'dispform', 'dispfun', 'dispjordan', 'display', 'display2d', 'display_format_internal',
-            'disprule', 'dispterms', 'distrib', 'domxexpt', 'domxmxops', 'domxnctimes', 'dotsimp',
-            'draw', 'draw2d', 'draw3d', 'draw_file', 'draw_graph', 'draw_graph_program', 'dscalar',
-            'einstein', 'elapsed_real_time', 'elapsed_run_time', 'ele2comp', 'ele2polynome',
-            'ele2pui', 'elem', 'elevation', 'ellipse', 'enhanced3d', 'entermatrix', 'entertensor',
-            'entier', 'eps_height', 'eps_width', 'ev_point', 'evflag', 'evfun', 'evolution',
-            'evolution2d', 'evundiff', 'explicit', 'explose', 'expon', 'expop', 'expt', 'exsec',
-            'extdiff', 'extract_linear_equations', 'f90', 'facts', 'fast_central_elements',
-            'fast_linsolve', 'fb', 'file_bgcolor', 'fill_color', 'fill_density', 'fillarray',
-            'filled_func', 'findde', 'fix', 'flipflag', 'flush', 'flush1deriv', 'flushd', 'flushnd',
-            'font', 'font_size', 'forget', 'frame_bracket', 'fundamental_dimensions',
-            'fundamental_units', 'gaussprob', 'gcdivide', 'gcfac', 'gd', 'gdet', 'gen_laguerre',
-            'gensumnum', 'geomap', 'geometric', 'geosum', 'get', 'get_pixel',
-            'get_plot_option', 'get_tex_environment', 'get_tex_environment_default', 'ggf',
-            'ggfcfmax', 'ggfinfinity', 'globalsolve', 'gnuplot_close',
-            'gnuplot_curve_styles', 'gnuplot_curve_titles', 'gnuplot_default_term_command',
-            'gnuplot_dumb_term_command', 'gnuplot_pm3d', 'gnuplot_replot', 'gnuplot_reset',
-            'gnuplot_restart', 'gnuplot_start', 'gosper', 'gosper_in_zeilberger', 'gospersum',
-            'gr2d', 'gr3d', 'gradef', 'gradefs', 'graph6_decode', 'graph6_encode', 'graph6_export',
-            'graph6_import', 'grid', 'grobner_basis', 'harmonic', 'hav',
-            'head_angle', 'head_both', 'head_length', 'head_type', 'hermite', 'histogram', 'hodge',
-            'ic_convert', 'icc1', 'icc2', 'ichr1', 'ichr2', 'icounter', 'icurvature', 'idiff',
-            'idim', 'idummy', 'idummyx', 'ieqn', 'ieqnprint', 'ifb', 'ifc1', 'ifc2', 'ifg', 'ifgi',
-            'ifr', 'iframe_bracket_form', 'iframes', 'ifri', 'ifs', 'igeodesic_coords',
-            'igeowedge_flag', 'ikt1', 'ikt2', 'image', 'imetric', 'implicit', 'implicit_plot', 'implicit_derivative',
-            'indexed_tensor', 'indices', 'infix', 'init_atensor',
-            'init_ctensor', 'inm', 'inmc1', 'inmc2', 'inprod', 'intervalp', 'intopois', 'invariant1',
-            'invariant2', 'invert_by_lu', 'ip_grid', 'ip_grid_in', 'ishow', 'isolate',
-            'isolate_wrt_times', 'itr', 'jacobi_p', 'jf', 'jordan', 'julia',
-            'kdels', 'kdelta', 'key', 'kinvariant', 'kostka', 'kt', 'label_alignment', 'label_orientation', 'laguerre',
-            'lassociative', 'lbfgs', 'lbfgs_ncorrections', 'lbfgs_nfeval_max', 'lc2kdt', 'lc_l',
-            'lc_u', 'lcharp', 'legendre_p', 'legendre_q', 'leinstein', 'let',
-            'let_rule_packages', 'letrat', 'letrules', 'letsimp', 'levi_civita', 'lfg', 'lg',
-            'lgtreillis', 'li', 'liediff', 'lindstedt', 'line_type', 'line_width', 'linear',
-            'linear_program', 'linear_solver', 'lispdisp', 'list_nc_monomials',
-            'listarray', 'listoftens', 'logand', 'logcb', 'logor', 'logxor', 'logz',
-            'lorentz_gauge', 'lpart', 'lriem', 'lriemann', 'lsquares_estimates',
-            'lsquares_estimates_approximate', 'lsquares_estimates_exact', 'lsquares_mse',
-            'lsquares_residual_mse', 'lsquares_residuals', 'ltreillis', 'm1pbranch', 'mainvar',
-            'make_array', 'make_level_picture', 'make_poly_continent', 'make_poly_country',
-            'make_polygon', 'make_random_state', 'make_rgb_picture', 'makebox', 'makeorders',
-            'mandelbrot', 'maperror', 'mat_function', 'max_ord', 'maxapplydepth', 'maxapplyheight',
-            'maxi', 'maximize_lp', 'maxnegex', 'maxposex', 'maxpsifracdenom', 'maxpsifracnum',
-            'maxpsinegint', 'maxpsiposint', 'maxtayorder', 'maybe', 'mesh', 'mesh_lines_color',
-            'metricexpandall', 'mini', 'minimalpoly', 'minimize_lp', 'minor', 'mnewton',
-            'mod_big_prime', 'mod_test', 'mod_threshold', 'mode_check_errorp', 'mode_check_warnp',
-            'mode_checkp', 'mode_declare', 'mode_identity', 'modematrix', 'modular_linear_solver',
-            'mon2schur', 'mono', 'monomial_dimensions', 'multi_elem', 'multi_orbit', 'multi_pui',
-            'multinomial', 'multsym', 'natural_unit', 'nc_degree', 'negative_picture', 'newcontext',
-            'newton', 'newtonepsilon', 'newtonmaxiter', 'nextlayerfactor', 'niceindices',
-            'niceindicespref', 'nm', 'nmc', 'nonegative_lp', 'nonmetricity',
-            'nonzeroandfreeof', 'noundisp', 'np', 'npi', 'nptetrad', 'ntermst', 'ntrig',
-            'numbered_boundaries', 'ode2', 'ode_check', 'odelin', 'optimize', 'optimprefix',
-            'optionset', 'orbit', 'orbits', 'orthopoly_recur', 'orthopoly_returns_intervals',
-            'orthopoly_weight', 'outofpois', 'palette', 'parametric_surface',
-            'pargosper', 'partpol', 'pdf_width', 'permut', 'permutation', 'petrov',
-            'pic_height', 'pic_width', 'picture_equalp', 'picturep', 'piechart', 'plot2d',
-            'plot3d', 'ploteq', 'plot_format', 'plot_options', 'plot_real_part', 'plsquares', 'pochhammer',
-            'pochhammer_max_index', 'points_joined',
-            'polar', 'polar_to_xy', 'polygon', 'prederror', 'primep_number_of_tests', 'printprops',
-            'prodrac', 'product', 'product_use_gamma', 'programmode', 'proportional_axes', 'props',
-            'propvars', 'psexpand', 'psi', 'pui', 'pui2comp', 'pui2ele', 'pui2polynome',
-            'pui_direct', 'puireduc', 'qty', 'random', 'ratchristof',
-            'rateinstein', 'rational', 'ratprint', 'ratriemann', 'ratweyl', 'ratwtlvl',
-            'rearray', 'rectangle', 'rediff', 'redraw', 'reduce_consts', 'reduce_order',
-            'region_boundaries', 'region_boundaries_plus', 'remarray', 'remcomps', 'remcon',
-            'remcoord', 'remlet', 'remove_dimensions', 'remove_fundamental_dimensions',
-            'remove_fundamental_units', 'rempart', 'remsym', 'rename', 'resolvante',
-            'resolvante_alternee1', 'resolvante_bipartite', 'resolvante_diedrale',
-            'resolvante_klein', 'resolvante_klein3', 'resolvante_produit_sym',
-            'resolvante_unitaire', 'resolvante_vierer', 'revert', 'revert2', 'rgb2level',
-            'ric', 'ricci', 'riem', 'riemann', 'rinvariant', 'rk', 'rot_horizontal',
-            'rot_vertical', 'savefactors', 'scurvature', 'set_draw_defaults',
-            'set_random_state', 'set_tex_environment', 'set_tex_environment_default',
-            'set_up_dot_simplifications', 'setunits', 'setup_autoload', 'sf', 'showcomps',
-            'similaritytransform', 'simplified_output',
-            'simplify_products', 'simplify_sum', 'simplode', 'simpmetderiv', 'simtran',
-            'solve_rec', 'solve_rec_rat', 'somrac', 'sparse6_decode', 'sparse6_encode', 'spherical_bessel_j',
-            'spherical_bessel_y', 'spherical_hankel1', 'spherical_hankel2', 'spherical_harmonic',
-            'split', 'sqrtdenest', 'sstatus', 'staircase', 'stardisp',
-            'stirling', 'stirling1', 'stirling2', 'stringdisp',
-            'summand_to_rec', 'surface_hide', 'symmetricp', 'tab', 'take_channel',
-            'tcontract', 'tensorkill', 'tentex', 'timedate', 'title', 'totaldisrep', 'totient',
-            'tpartpol', 'tr', 'tr_array_as_ref', 'tr_bound_function_applyp', 'tr_file_tty_messagesp',
-            'tr_float_can_branch_complex', 'tr_function_call_default', 'tr_numer',
-            'tr_optimize_max_loop', 'tr_semicompile', 'tr_state_vars', 'tr_warn_bad_function_calls',
-            'tr_warn_fexpr', 'tr_warn_meval', 'tr_warn_mode', 'tr_warn_undeclared',
-            'tr_warn_undefined_variable', 'tr_warnings_get', 'tr_windy', 'tracematrix',
-            'transform_xy', 'transparent', 'treillis', 'treinat', 'trivial_solutions', 'tube',
-            'tube_extremes', 'tutte_graph', 'ueivects', 'ufg', 'uforget', 'ug', 'ultraspherical',
-            'undiff', 'unit_step', 'unit_vectors', 'uniteigenvectors', 'unitp', 'units',
-            'unitvector', 'unknown', 'unorder', 'uric', 'uricci', 'uriem', 'uriemann',
-            'use_fast_arrays', 'usersetunits', 'uvect', 'vector', 'verbose', 'vers', 'warnings',
-            'weyl', 'wronskian', 'x_voxel', 'xaxis', 'xaxis_color', 'xaxis_secondary', 'xaxis_type',
-            'xaxis_width', 'xrange', 'xrange_secondary', 'xtics_axis',
-            'xtics_rotate', 'xtics_rotate_secondary', 'xtics_secondary', 'xtics_secondary_axis',
-            'xu_grid', 'xy_file', 'xyplane', 'y_voxel', 'yaxis', 'yaxis_color', 'yaxis_secondary',
-            'yaxis_type', 'yaxis_width', 'yrange', 'yrange_secondary',
-            'ytics_axis', 'ytics_rotate', 'ytics_rotate_secondary', 'ytics_secondary',
-            'ytics_secondary_axis', 'yv_grid', 'z_voxel', 'zaxis', 'zaxis_color', 'zaxis_type',
-            'zaxis_width', 'zeilberger', 'zeroa', 'zerob', 'zlabel', 'zlange', 'zrange',
-            'ztics_axis', 'ztics_rotate' );
-
-    /** @var array CAS keywords defined by the distrib package.  These are ALLOWED by students. */
-    private static $distrib    = array('cdf_bernoulli', 'cdf_beta', 'cdf_binomial', 'cdf_cauchy', 'cdf_chi2',
-            'cdf_continuous_uniform', 'cdf_discrete_uniform', 'cdf_exp', 'cdf_f', 'cdf_gamma', 'cdf_general_finite_discrete',
-            'cdf_geometric', 'cdf_gumbel', 'cdf_hypergeometric', 'cdf_laplace', 'cdf_logistic', 'cdf_lognormal',
-            'cdf_negative_binomial', 'cdf_noncentral_chi2', 'cdf_noncentral_student_t', 'cdf_normal', 'cdf_pareto',
-            'cdf_poisson', 'cdf_rayleigh', 'cdf_student_t', 'cdf_weibull', 'kurtosis_bernoulli', 'kurtosis_beta',
-            'kurtosis_binomial', 'kurtosis_chi2', 'kurtosis_continuous_uniform', 'kurtosis_discrete_uniform',
-            'kurtosis_exp', 'kurtosis_f', 'kurtosis_gamma', 'kurtosis_general_finite_discrete', 'kurtosis_geometric',
-            'kurtosis_gumbel', 'kurtosis_gumbel', 'kurtosis_hypergeometric', 'kurtosis_laplace', 'kurtosis_logistic',
-            'kurtosis_lognormal', 'kurtosis_negative_binomial', 'kurtosis_noncentral_chi2',
-            'kurtosis_noncentral_student_t', 'kurtosis_normal', 'kurtosis_pareto', 'kurtosis_poisson', 'kurtosis_rayleigh',
-            'kurtosis_student_t', 'kurtosis_weibull', 'mean_bernoulli', 'mean_beta', 'mean_binomial', 'mean_chi2',
-            'mean_continuous_uniform', 'mean_discrete_uniform', 'mean_exp', 'mean_f', 'mean_gamma', 'mean_general_finite_discrete',
-            'mean_geometric', 'mean_gumbel', 'mean_hypergeometric', 'mean_laplace', 'mean_logistic', 'mean_lognormal',
-            'mean_negative_binomial', 'mean_noncentral_chi2', 'mean_noncentral_student_t', 'mean_normal', 'mean_pareto',
-            'mean_poisson', 'mean_rayleigh', 'mean_student_t', 'mean_weibull', 'pdf_bernoulli', 'pdf_beta', 'pdf_binomial',
-            'pdf_cauchy', 'pdf_chi2', 'pdf_continuous_uniform',
-            'pdf_discrete_uniform', 'pdf_exp', 'pdf_f', 'pdf_gamma', 'pdf_general_finite_discrete', 'pdf_geometric',
-            'pdf_gumbel', 'pdf_hypergeometric', 'pdf_laplace', 'pdf_logistic', 'pdf_lognormal', 'pdf_negative_binomial',
-            'pdf_noncentral_chi2', 'pdf_noncentral_student_t', 'pdf_normal', 'pdf_pareto', 'pdf_poisson', 'pdf_rayleigh',
-            'pdf_student_t', 'pdf_weibull', 'quantile_bernoulli', 'quantile_beta', 'quantile_binomial', 'quantile_cauchy',
-            'quantile_chi2', 'quantile_continuous_uniform', 'quantile_discrete_uniform', 'quantile_exp', 'quantile_f',
-            'quantile_gamma', 'quantile_general_finite_discrete', 'quantile_geometric', 'quantile_gumbel',
-            'quantile_hypergeometric', 'quantile_laplace', 'quantile_logistic', 'quantile_lognormal',
-            'quantile_negative_binomial', 'quantile_noncentral_chi2', 'quantile_noncentral_student_t', 'quantile_normal',
-            'quantile_pareto', 'quantile_poisson', 'quantile_rayleigh',
-            'quantile_student_t', 'quantile_weibull', 'random_bernoulli', 'random_beta', 'random_binomial', 'random_cauchy',
-            'random_chi2', 'random_continuous_uniform', 'random_discrete_uniform', 'random_exp', 'random_f', 'random_gamma',
-            'random_general_finite_discrete', 'random_geometric', 'random_gumbel', 'random_hypergeometric',
-            'random_laplace', 'random_logistic', 'random_lognormal', 'random_negative_binomial', 'random_noncentral_chi2',
-            'random_noncentral_student_t', 'random_normal', 'random_pareto', 'random_poisson', 'random_rayleigh',
-            'random_student_t', 'random_weibull', 'skewness_bernoulli', 'skewness_beta', 'skewness_binomial',
-            'skewness_chi2', 'skewness_continuous_uniform', 'skewness_discrete_uniform', 'skewness_exp',
-            'skewness_f', 'skewness_gamma', 'skewness_general_finite_discrete', 'skewness_geometric',
-            'skewness_gumbel', 'skewness_hypergeometric', 'skewness_laplace', 'skewness_logistic',
-            'skewness_lognormal', 'skewness_negative_binomial', 'skewness_noncentral_chi2', 'skewness_noncentral_student_t',
-            'skewness_normal', 'skewness_pareto', 'skewness_poisson', 'skewness_rayleigh',
-            'skewness_student_t', 'skewness_weibull', 'std_bernoulli', 'std_beta', 'std_binomial', 'std_chi2',
-            'std_continuous_uniform', 'std_discrete_uniform', 'std_exp', 'std_f', 'std_gamma', 'std_general_finite_discrete',
-            'std_geometric', 'std_gumbel', 'std_hypergeometric', 'std_laplace', 'std_logistic',
-            'std_lognormal', 'std_negative_binomial', 'std_noncentral_chi2', 'std_noncentral_student_t', 'std_normal',
-            'std_pareto', 'std_poisson', 'std_rayleigh', 'std_student_t', 'std_weibull', 'var_bernoulli',
-            'var_beta', 'var_binomial', 'var_chi2', 'var_continuous_uniform', 'var_discrete_uniform', 'var_exp', 'var_f',
-            'var_gamma', 'var_general_finite_discrete', 'var_geometric', 'var_gumbel', 'var_hypergeometric',
-            'var_laplace', 'var_logistic', 'var_lognormal', 'var_negative_binomial', 'var_noncentral_chi2',
-            'var_noncentral_student_t', 'var_normal', 'var_pareto', 'var_poisson',
-            'var_rayleigh', 'var_student_t', 'var_weibull');
+    private static $teachernotallow = array('%unitexpand' => true, 'abasep' => true, 'absboxchar' => true,
+                'absolute_real_time' => true, 'activate' => true, 'activecontexts' => true, 'additive' => true, 'adim' => true,
+                'af' => true, 'aform' => true, 'agd' => true, 'alg_type' => true, 'all_dotsimp_denoms' => true,
+                'allsym' => true, 'antid' => true, 'antidiff' => true, 'antidifference' => true, 'antisymmetric' => true,
+                'arithmetic' => true, 'arithsum' => true, 'array' => true, 'arrayapply' => true, 'arrayinfo' => true,
+                'arraymake' => true, 'arrays' => true, 'assoc_legendre_p' => true, 'assoc_legendre_q' => true,
+                'asymbol' => true, 'atensimp' => true, 'atomgrad' => true, 'atrig1' => true, 'atvalue' => true,
+                'augmented_lagrangian_method' => true, 'av' => true, 'axis_3d' => true, 'axis_bottom' => true,
+                'axis_left' => true, 'axis_right' => true, 'axis_top' => true, 'azimut' => true, 'backsubst' => true,
+                'bars' => true, 'bashindices' => true, 'bdvac' => true, 'berlefact' => true, 'bfpsi' => true, 'bfpsi0' => true,
+                'bimetric' => true, 'bode_gain' => true, 'bode_phase' => true, 'border' => true, 'boundaries_array' => true,
+                'canform' => true, 'canten' => true, 'cbffac' => true, 'cbrange' => true, 'cbtics' => true, 'cdisplay' => true,
+                'cframe_flag' => true, 'cgeodesic' => true, 'changename' => true, 'chaosgame' => true, 'chebyshev_t' => true,
+                'chebyshev_u' => true, 'check_overlaps' => true, 'checkdiv' => true, 'christof' => true, 'clear_rules' => true,
+                'cmetric' => true, 'cnonmet_flag' => true, 'cograd' => true, 'collapse' => true, 'colorbox' => true,
+                'columns' => true, 'combination' => true, 'comp2pui' => true, 'components' => true, 'concan' => true,
+                'conmetderiv' => true, 'constvalue' => true, 'cont2part' => true, 'context' => true, 'contexts' => true,
+                'contortion' => true, 'contour' => true, 'contour_levels' => true, 'contour_plot' => true,
+                'contract_edge' => true, 'contragrad' => true, 'contrib_ode' => true, 'convert' => true, 'coord' => true,
+                'copy_graph' => true, 'covdiff' => true, 'covers' => true, 'create_list' => true, 'csetup' => true,
+                'ct_coords' => true, 'ct_coordsys' => true, 'ctaylor' => true, 'ctaypov' => true, 'ctaypt' => true,
+                'ctayswitch' => true, 'ctayvar' => true, 'ctorsion_flag' => true, 'ctransform' => true,
+                'ctrgsimp' => true, 'cunlisp' => true, 'declare_constvalue' => true, 'declare_dimensions' => true,
+                'declare_fundamental_dimensions' => true, 'declare_fundamental_units' => true, 'declare_qty' => true,
+                'declare_translated' => true, 'declare_unit_conversion' => true, 'declare_units' => true,
+                'declare_weights' => true, 'decsym' => true, 'default_let_rule_package' => true, 'defcon' => true,
+                'defmatch' => true, 'defrule' => true, 'delay' => true, 'deleten' => true, 'diag' => true,
+                'diagmatrixp' => true, 'diagmetric' => true, 'dim' => true, 'dimension' => true, 'dimensionless' => true,
+                'dimensions' => true, 'dimensions_as_list' => true, 'direct' => true, 'disp' => true, 'dispcon' => true,
+                'dispflag' => true, 'dispform' => true, 'dispfun' => true, 'dispjordan' => true, 'display' => true,
+                'display2d' => true, 'display_format_internal' => true, 'disprule' => true, 'dispterms' => true,
+                'distrib' => true, 'domxexpt' => true, 'domxmxops' => true, 'domxnctimes' => true, 'dotsimp' => true,
+                'draw' => true, 'draw2d' => true, 'draw3d' => true, 'draw_file' => true, 'draw_graph' => true,
+                'draw_graph_program' => true, 'dscalar' => true, 'einstein' => true, 'elapsed_real_time' => true,
+                'elapsed_run_time' => true, 'ele2comp' => true, 'ele2polynome' => true, 'ele2pui' => true, 'elem' => true,
+                'elevation' => true, 'ellipse' => true, 'enhanced3d' => true, 'entermatrix' => true, 'entertensor' => true,
+                'entier' => true, 'eps_height' => true, 'eps_width' => true, 'ev_point' => true, 'evflag' => true,
+                'evfun' => true, 'evolution' => true, 'evolution2d' => true, 'evundiff' => true, 'explicit' => true,
+                'explose' => true, 'expon' => true, 'expop' => true, 'expt' => true, 'exsec' => true, 'extdiff' => true,
+                'extract_linear_equations' => true, 'f90' => true, 'facts' => true, 'fast_central_elements' => true,
+                'fast_linsolve' => true, 'fb' => true, 'file_bgcolor' => true, 'fill_color' => true, 'fill_density' => true,
+                'fillarray' => true, 'filled_func' => true, 'findde' => true, 'fix' => true, 'flipflag' => true,
+                'flush' => true, 'flush1deriv' => true, 'flushd' => true, 'flushnd' => true, 'font' => true,
+                'font_size' => true, 'forget' => true, 'frame_bracket' => true, 'fundamental_dimensions' => true,
+                'fundamental_units' => true, 'gaussprob' => true, 'gcdivide' => true, 'gcfac' => true, 'gd' => true,
+                'gdet' => true, 'gen_laguerre' => true, 'gensumnum' => true, 'geomap' => true, 'geometric' => true,
+                'geosum' => true, 'get' => true, 'get_pixel' => true, 'get_plot_option' => true, 'get_tex_environment' => true,
+                'get_tex_environment_default' => true, 'ggf' => true, 'ggfcfmax' => true, 'ggfinfinity' => true,
+                'globalsolve' => true, 'gnuplot_close' => true, 'gnuplot_curve_styles' => true, 'gnuplot_curve_titles' => true,
+                'gnuplot_default_term_command' => true, 'gnuplot_dumb_term_command' => true, 'gnuplot_pm3d' => true,
+                'gnuplot_replot' => true, 'gnuplot_reset' => true, 'gnuplot_restart' => true, 'gnuplot_start' => true,
+                'gosper' => true, 'gosper_in_zeilberger' => true, 'gospersum' => true, 'gr2d' => true, 'gr3d' => true,
+                'gradef' => true, 'gradefs' => true, 'graph6_decode' => true, 'graph6_encode' => true, 'graph6_export' => true,
+                'graph6_import' => true, 'grid' => true, 'grobner_basis' => true, 'harmonic' => true, 'hav' => true,
+                'head_angle' => true, 'head_both' => true, 'head_length' => true, 'head_type' => true, 'hermite' => true,
+                'histogram' => true, 'hodge' => true, 'ic_convert' => true, 'icc1' => true, 'icc2' => true, 'ichr1' => true,
+                'ichr2' => true, 'icounter' => true, 'icurvature' => true, 'idiff' => true, 'idim' => true, 'idummy' => true,
+                'idummyx' => true, 'ieqn' => true, 'ieqnprint' => true, 'ifb' => true, 'ifc1' => true, 'ifc2' => true,
+                'ifg' => true, 'ifgi' => true, 'ifr' => true, 'iframe_bracket_form' => true, 'iframes' => true, 'ifri' => true,
+                'ifs' => true, 'igeodesic_coords' => true, 'igeowedge_flag' => true, 'ikt1' => true, 'ikt2' => true,
+                'image' => true, 'imetric' => true, 'implicit' => true, 'implicit_plot' => true, 'implicit_derivative' => true,
+                'indexed_tensor' => true, 'indices' => true, 'infix' => true, 'init_atensor' => true,
+                'init_ctensor' => true, 'inm' => true, 'inmc1' => true, 'inmc2' => true, 'inprod' => true, 'intervalp' => true,
+                'intopois' => true, 'invariant1' => true, 'invariant2' => true, 'invert_by_lu' => true, 'ip_grid' => true,
+                'ip_grid_in' => true, 'ishow' => true, 'isolate' => true, 'isolate_wrt_times' => true, 'itr' => true,
+                'jacobi_p' => true, 'jf' => true, 'jordan' => true, 'julia' => true, 'kdels' => true, 'kdelta' => true,
+                'key' => true, 'kinvariant' => true, 'kostka' => true, 'kt' => true, 'label_alignment' => true,
+                'label_orientation' => true, 'laguerre' => true, 'lassociative' => true, 'lbfgs' => true,
+                'lbfgs_ncorrections' => true, 'lbfgs_nfeval_max' => true, 'lc2kdt' => true, 'lc_l' => true,
+                'lc_u' => true, 'lcharp' => true, 'legendre_p' => true, 'legendre_q' => true, 'leinstein' => true,
+                'let' => true, 'let_rule_packages' => true, 'letrat' => true, 'letrules' => true, 'letsimp' => true,
+                'levi_civita' => true, 'lfg' => true, 'lg' => true, 'lgtreillis' => true, 'li' => true, 'liediff' => true,
+                'lindstedt' => true, 'line_type' => true, 'line_width' => true, 'linear' => true, 'linear_program' => true,
+                'linear_solver' => true, 'lispdisp' => true, 'list_nc_monomials' => true, 'listarray' => true,
+                'listoftens' => true, 'logand' => true, 'logcb' => true, 'logor' => true, 'logxor' => true, 'logz' => true,
+                'lorentz_gauge' => true, 'lpart' => true, 'lriem' => true, 'lriemann' => true, 'lsquares_estimates' => true,
+                'lsquares_estimates_approximate' => true, 'lsquares_estimates_exact' => true, 'lsquares_mse' => true,
+                'lsquares_residual_mse' => true, 'lsquares_residuals' => true, 'ltreillis' => true, 'm1pbranch' => true,
+                'mainvar' => true, 'make_array' => true, 'make_level_picture' => true, 'make_poly_continent' => true,
+                'make_poly_country' => true, 'make_polygon' => true, 'make_random_state' => true, 'make_rgb_picture' => true,
+                'makebox' => true, 'makeorders' => true, 'mandelbrot' => true, 'maperror' => true, 'mat_function' => true,
+                'max_ord' => true, 'maxapplydepth' => true, 'maxapplyheight' => true, 'maxi' => true, 'maximize_lp' => true,
+                'maxnegex' => true, 'maxposex' => true, 'maxpsifracdenom' => true, 'maxpsifracnum' => true,
+                'maxpsinegint' => true, 'maxpsiposint' => true, 'maxtayorder' => true, 'maybe' => true, 'mesh' => true,
+                'mesh_lines_color' => true, 'metricexpandall' => true, 'mini' => true, 'minimalpoly' => true,
+                'minimize_lp' => true, 'minor' => true, 'mnewton' => true, 'mod_big_prime' => true, 'mod_test' => true,
+                'mod_threshold' => true, 'mode_check_errorp' => true, 'mode_check_warnp' => true, 'mode_checkp' => true,
+                'mode_declare' => true, 'mode_identity' => true, 'modematrix' => true, 'modular_linear_solver' => true,
+                'mon2schur' => true, 'mono' => true, 'monomial_dimensions' => true, 'multi_elem' => true, 'multi_orbit' => true,
+                'multi_pui' => true, 'multinomial' => true, 'multsym' => true, 'natural_unit' => true, 'nc_degree' => true,
+                'negative_picture' => true, 'newcontext' => true, 'newton' => true, 'newtonepsilon' => true,
+                'newtonmaxiter' => true, 'nextlayerfactor' => true, 'niceindices' => true, 'niceindicespref' => true,
+                'nm' => true, 'nmc' => true, 'nonegative_lp' => true, 'nonmetricity' => true, 'nonzeroandfreeof' => true,
+                'noundisp' => true, 'np' => true, 'npi' => true, 'nptetrad' => true, 'ntermst' => true, 'ntrig' => true,
+                'numbered_boundaries' => true, 'ode2' => true, 'ode_check' => true, 'odelin' => true, 'optimize' => true,
+                'optimprefix' => true, 'optionset' => true, 'orbit' => true, 'orbits' => true, 'orthopoly_recur' => true,
+                'orthopoly_returns_intervals' => true, 'orthopoly_weight' => true, 'outofpois' => true, 'palette' => true,
+                'parametric_surface' => true, 'pargosper' => true, 'partpol' => true, 'pdf_width' => true, 'permut' => true,
+                'permutation' => true, 'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
+                'picturep' => true, 'piechart' => true, 'plot2d' => true, 'plot3d' => true, 'ploteq' => true,
+                'plot_format' => true, 'plot_options' => true, 'plot_real_part' => true, 'plsquares' => true,
+                'pochhammer' => true, 'pochhammer_max_index' => true, 'points_joined' => true,  'polar' => true,
+                'polar_to_xy' => true, 'polygon' => true, 'prederror' => true, 'primep_number_of_tests' => true,
+                'printprops' => true, 'prodrac' => true, 'product' => true, 'product_use_gamma' => true, 'programmode' => true,
+                'proportional_axes' => true, 'props' => true, 'propvars' => true, 'psexpand' => true, 'psi' => true,
+                'pui' => true, 'pui2comp' => true, 'pui2ele' => true, 'pui2polynome' => true, 'pui_direct' => true,
+                'puireduc' => true, 'qty' => true, 'random' => true, 'ratchristof' => true, 'rateinstein' => true,
+                'rational' => true, 'ratprint' => true, 'ratriemann' => true, 'ratweyl' => true, 'ratwtlvl' => true,
+                'rearray' => true, 'rectangle' => true, 'rediff' => true, 'redraw' => true, 'reduce_consts' => true,
+                'reduce_order' => true, 'region_boundaries' => true, 'region_boundaries_plus' => true, 'remarray' => true,
+                'remcomps' => true, 'remcon' => true, 'remcoord' => true, 'remlet' => true, 'remove_dimensions' => true,
+                'remove_fundamental_dimensions' => true, 'remove_fundamental_units' => true, 'rempart' => true,
+                'remsym' => true, 'rename' => true, 'resolvante' => true, 'resolvante_alternee1' => true,
+                'resolvante_bipartite' => true, 'resolvante_diedrale' => true, 'resolvante_klein' => true,
+                'resolvante_klein3' => true, 'resolvante_produit_sym' => true, 'resolvante_unitaire' => true,
+                'resolvante_vierer' => true, 'revert' => true, 'revert2' => true, 'rgb2level' => true, 'ric' => true,
+                'ricci' => true, 'riem' => true, 'riemann' => true, 'rinvariant' => true, 'rk' => true, 'rot_horizontal' => true,
+                'rot_vertical' => true, 'savefactors' => true, 'scurvature' => true, 'set_draw_defaults' => true,
+                'set_random_state' => true, 'set_tex_environment' => true, 'set_tex_environment_default' => true,
+                'set_up_dot_simplifications' => true, 'setunits' => true, 'setup_autoload' => true, 'sf' => true,
+                'showcomps' => true, 'similaritytransform' => true, 'simplified_output' => true, 'simplify_products' => true,
+                'simplify_sum' => true, 'simplode' => true, 'simpmetderiv' => true, 'simtran' => true, 'solve_rec' => true,
+                'solve_rec_rat' => true, 'somrac' => true, 'sparse6_decode' => true, 'sparse6_encode' => true,
+                'spherical_bessel_j' => true, 'spherical_bessel_y' => true, 'spherical_hankel1' => true,
+                'spherical_hankel2' => true, 'spherical_harmonic' => true, 'split' => true, 'sqrtdenest' => true,
+                'sstatus' => true, 'staircase' => true, 'stardisp' => true, 'stirling' => true, 'stirling1' => true,
+                'stirling2' => true, 'stringdisp' => true, 'summand_to_rec' => true, 'surface_hide' => true,
+                'symmetricp' => true, 'tab' => true, 'take_channel' => true, 'tcontract' => true, 'tensorkill' => true,
+                'tentex' => true, 'timedate' => true, 'title' => true, 'totaldisrep' => true, 'totient' => true,
+                'tpartpol' => true, 'tr' => true, 'tr_array_as_ref' => true, 'tr_bound_function_applyp' => true,
+                'tr_file_tty_messagesp' => true, 'tr_float_can_branch_complex' => true, 'tr_function_call_default' => true,
+                'tr_numer' => true, 'tr_optimize_max_loop' => true, 'tr_semicompile' => true, 'tr_state_vars' => true,
+                'tr_warn_bad_function_calls' => true, 'tr_warn_fexpr' => true, 'tr_warn_meval' => true, 'tr_warn_mode' => true,
+                'tr_warn_undeclared' => true, 'tr_warn_undefined_variable' => true, 'tr_warnings_get' => true,
+                'tr_windy' => true, 'tracematrix' => true, 'transform_xy' => true, 'transparent' => true, 'treillis' => true,
+                'treinat' => true, 'trivial_solutions' => true, 'tube' => true, 'tube_extremes' => true, 'tutte_graph' => true,
+                'ueivects' => true, 'ufg' => true, 'uforget' => true, 'ug' => true, 'ultraspherical' => true, 'undiff' => true,
+                'unit_step' => true, 'unit_vectors' => true, 'uniteigenvectors' => true, 'unitvector' => true,
+                'unknown' => true, 'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
+                'use_fast_arrays' => true, 'usersetunits' => true, 'uvect' => true, 'vector' => true, 'verbose' => true,
+                'vers' => true, 'warnings' => true, 'weyl' => true, 'wronskian' => true, 'x_voxel' => true, 'xaxis' => true,
+                'xaxis_color' => true, 'xaxis_secondary' => true, 'xaxis_type' => true, 'xaxis_width' => true, 'xrange' => true,
+                'xrange_secondary' => true, 'xtics_axis' => true, 'xtics_rotate' => true, 'xtics_rotate_secondary' => true,
+                'xtics_secondary' => true, 'xtics_secondary_axis' => true, 'xu_grid' => true, 'xy_file' => true,
+                'xyplane' => true, 'y_voxel' => true, 'yaxis' => true, 'yaxis_color' => true, 'yaxis_secondary' => true,
+                'yaxis_type' => true, 'yaxis_width' => true, 'yrange' => true, 'yrange_secondary' => true, 'ytics_axis' => true,
+                'ytics_rotate' => true, 'ytics_rotate_secondary' => true, 'ytics_secondary' => true,
+                'ytics_secondary_axis' => true, 'yv_grid' => true, 'z_voxel' => true, 'zaxis' => true, 'zaxis_color' => true,
+                'zaxis_type' => true, 'zaxis_width' => true, 'zeilberger' => true, 'zeroa' => true, 'zerob' => true,
+                'zlabel' => true, 'zlange' => true, 'zrange' => true, 'ztics_axis' => true, 'ztics_rotate' => true);
 
     /** @var array CAS keywords ALLOWED by students. */
-    private static $studentallow    = array('%c', '%e', '%gamma', '%i', '%k1', '%k2',
-            '%phi', '%pi', 'abs', 'absint', 'acos', 'acosh', 'acot', 'acoth', 'acsc', 'acsch',
-            'addmatrices', 'adjoin', 'and', 'ascii', 'asec', 'asech', 'asin', 'asinh', 'atan',
-            'atan2', 'atanh', 'augcoefmatrix', 'axes', 'belln', 'bessel_i', 'bessel_j', 'bessel_k',
-            'bessel_y', 'besselexpand', 'beta', 'bezout', 'bffac', 'bfhzeta', 'bfloat',
-            'bfloatp', 'binomial', 'black', 'blockmatrixp', 'blue', 'box', 'burn', 'cabs', 'cardinality', 'carg',
-            'cartan', 'cartesian_product', 'ceiling', 'cequal', 'cequalignore', 'cf',
-            'cfdisrep', 'cfexpand', 'cflength', 'cgreaterp', 'cgreaterpignore', 'charat',
-            'charfun', 'charfun2', 'charlist', 'charp', 'charpoly', 'cint', 'clessp',
-            'clesspignore', 'coeff', 'coefmatrix', 'col', 'columnop', 'columnspace',
-            'columnswap', 'combine', 'compare', 'concat', 'conjugate', 'cons', 'constituent',
-            'copy', 'cos', 'cosh', 'cot', 'coth', 'color', 'covect', 'csc', 'csch', 'cspline', 'cyan', 'cosec',
-            'ctranspose', 'dblint', 'defint', 'del', 'delete', 'delta', 'denom', 'desolve',
-            'determinant', 'detout', 'dgauss_a', 'dgauss_b', 'diag_matrix', 'diagmatrix',
-            'diff', 'digitcharp', 'disjoin', 'disjointp', 'disolate', 'divide', 'divisors',
-            'divsum', 'dkummer_m', 'dkummer_u', 'dotproduct', 'echelon', 'eigenvalues',
-            'eigenvectors', 'eighth', 'eivals', 'eivects', 'elementp', 'eliminate',
-            'elliptic_e', 'elliptic_ec', 'elliptic_eu', 'elliptic_f', 'elliptic_kc',
-            'elliptic_pi', 'ematrix', 'emptyp', 'endcons', 'epsilon_lp', 'equal', 'equalp',
-            'equiv_classes', 'erf', 'euler', 'ev', 'eval', 'evenp', 'every', 'exp', 'expand',
-            'expandwrt', 'expandwrt_denom', 'expandwrt_factored', 'express', 'extremal_subset',
-            'ezgcd', 'facsum', 'facsum_combine', 'factcomb', 'factlim', 'factor',
-            'factorfacsum', 'factorial', 'factorout', 'factorsum', 'false', 'fasttimes', 'fft',
-            'fib', 'fibtophi', 'fifth', 'find_root', 'find_root_abs', 'find_root_error',
-            'find_root_rel', 'first', 'flatten', 'float', 'float2bf', 'floor', 'fourcos',
-            'fourexpand', 'fourier', 'fourint', 'fourintcos', 'fourintsin', 'foursimp',
-            'foursin', 'fourth', 'freeof', 'full_listify', 'fullmap', 'fullmapl', 'fullratsimp',
-            'fullratsubst', 'fullsetify', 'funcsolve', 'funp', 'gamma', 'gamma_incomplete',
-            'gamma_incomplete_generalized', 'gamma_incomplete_regularized', 'gauss_a',
-            'gauss_b', 'gcd', 'gcdex', 'gcfactor', 'genmatrix', 'get_lu_factors', 'gfactor',
-            'gfactorsum', 'gramschmidt', 'green', 'hankel', 'hessian', 'hgfred', 'hilbert_matrix',
-            'hipow', 'horner', 'hypergeometric', 'hypergeometric_representation', 'ident',
-            'identfor', 'identity', 'ifactors', 'imagpart', 'ind', 'inf', 'infinity',
-            'innerproduct', 'inrt', 'integer_partitions', 'integrate', 'intersect',
-            'intersection', 'intosum', 'inv_mod', 'inverse_jacobi_cd', 'inverse_jacobi_cn',
-            'inverse_jacobi_cs', 'inverse_jacobi_dc', 'inverse_jacobi_dn', 'inverse_jacobi_ds',
-            'inverse_jacobi_nc', 'inverse_jacobi_nd', 'inverse_jacobi_ns', 'inverse_jacobi_sc',
-            'inverse_jacobi_sd', 'inverse_jacobi_sn', 'invert', 'isqrt', 'jacobi', 'jacobi_cd',
-            'jacobi_cn', 'jacobi_cs', 'jacobi_dc', 'jacobi_dn', 'jacobi_ds', 'jacobi_nc',
-            'jacobi_nd', 'jacobi_ns', 'jacobi_sc', 'jacobi_sd', 'jacobi_sn', 'jacobian', 'join',
-            'kron_delta', 'kronecker_product', 'kummer_m', 'kummer_u', 'lagrange', 'lambda',
-            'lambert_w', 'laplace', 'last', 'lcm', 'ldefint', 'legend', 'length', 'lhs', 'limit',
-            'linearinterpol', 'linsolve', 'linsolve_params', 'listify', 'lmax', 'lmin',
-            'locate_matrix_entry', 'log', 'logy', 'logx', 'log10', 'log_gamma', 'logabs', 'logarc',
-            'logcontract', 'logexpand', 'lognegint', 'lognumer', 'logy', 'logsimp', 'lopow',
-            'lowercasep', 'lratsubst', 'lreduce', 'lsum', 'lu_backsub', 'lu_factor', 'magenta',
-            'make_transform', 'makefact', 'makegamma', 'makelist', 'makeset', 'map',
-            'mapatom', 'maplist', 'mat_cond', 'mat_fullunblocker', 'mat_norm', 'mat_trace',
-            'mat_unblocker', 'matrix', 'matrix_element_add', 'matrix_element_mult',
-            'matrix_element_transpose', 'matrix_size', 'matrixmap', 'matrixp', 'mattrace',
-            'max', 'member', 'min', 'minf', 'minfactorial', 'mod', 'moebius',
-            'multinomial_coeff', 'multthru', 'ncexpt', 'ncharpoly', 'newdet', 'ninth',
-            'noeval', 'nonnegintegerp', 'not', 'notequal', 'nroots', 'nterms', 'nthroot', 'nticks',
-            'nullity', 'nullspace', 'num', 'num_distinct_partitions', 'num_partitions',
-            'numberp', 'numer', 'numerval', 'numfactor', 'nusum', 'nzeta', 'nzetai', 'nzetar',
-            'oddp', 'op', 'operatorp', 'or', 'ordergreat', 'ordergreatp', 'orderless',
-            'orderlessp', 'orthogonal_complement', 'outermap', 'pade', 'parabolic_cylinder_d',
-            'part', 'part2cont', 'partfrac', 'partition', 'partition_set', 'permanent',
-            'permutations', 'plog', 'plot_realpart', 'point_type', 'point_size', 'points',
-            'poisdiff', 'poisexpt', 'poisint', 'poislim', 'poismap',
-            'poisplus', 'poissimp', 'poisson', 'poissubst', 'poistimes', 'poistrim',
-            'polarform', 'polartorect', 'polymod', 'polynome2ele', 'polynomialp',
-            'polytocompanion', 'posfun', 'potential', 'power_mod', 'powerdisp', 'powers',
-            'powerseries', 'powerset', 'primep', 'printpois', 'quad_qag', 'quad_qagi',
-            'quad_qags', 'quad_qawc', 'quad_qawf', 'quad_qawo', 'quad_qaws', 'qunit',
-            'quotient', 'radcan', 'radexpand', 'radsubstflag', 'rank', 'rassociative', 'rat',
-            'ratalgdenom', 'ratcoef', 'ratdenom', 'ratdenomdivide', 'ratdiff', 'ratdisrep',
-            'ratepsilon', 'ratexpand', 'ratfac', 'rationalize', 'ratmx', 'ratnumer', 'ratnump',
-            'ratp', 'ratsimp', 'ratsimpexpons', 'ratsubst', 'ratvars', 'ratweight',
-            'ratweights', 'realonly', 'realpart', 'realroots', 'rectform', 'recttopolar', 'red',
-            'remainder', 'remfun', 'residue', 'rest', 'resultant', 'reverse', 'rhs', 'risch',
-            'rncombine', 'romberg', 'rombergabs', 'rombergit', 'rombergmin', 'rombergtol',
-            'rootsconmode', 'rootscontract', 'rootsepsilon', 'round', 'row', 'rowop', 'rowswap',
-            'rreduce', 'scalarmatrixp', 'scalarp', 'scaled_bessel_i', 'scaled_bessel_i0',
-            'scaled_bessel_i1', 'scalefactors', 'scanmap', 'schur2comp', 'sconcat', 'scopy',
-            'scsimp', 'sdowncase', 'sec', 'sech', 'second', 'sequal', 'sequalignore',
-            'set_partitions', 'setdifference', 'setequalp', 'setify', 'setp', 'seventh',
-            'sexplode', 'sign', 'signum', 'simpsum', 'sin', 'sinh', 'sinnpiflag', 'sinsert',
-            'sinvertcase', 'sixth', 'slength', 'smake', 'smismatch', 'solve', 'solvedecomposes',
-            'solveexplicit', 'solvefactors', 'solvenullwarn', 'solveradcan', 'solvetrigwarn',
-            'some', 'sort', 'space', 'sparse', 'specint', 'sposition', 'sqfr', 'sqrt',
-            'sqrtdispflag', 'sremove', 'sremovefirst', 'sreverse', 'ssearch', 'ssort', 'ssubst',
-            'ssubstfirst', 'strim', 'striml', 'strimr', 'stringp', 'struve_h', 'struve_l', 'style',
-            'sublis', 'sublis_apply_lambda', 'sublist', 'sublist_indices', 'submatrix',
-            'subset', 'subsetp', 'subst', 'substinpart', 'substpart', 'substring', 'subvarp',
-            'sum', 'sumcontract', 'sumexpand', 'supcase', 'symbolp', 'symmdifference', 'tan',
-            'tanh', 'taylor', 'taylor_logexpand', 'taylor_order_coefficients',
-            'taylor_simplifier', 'taylor_truncate_polynomials', 'taylordepth', 'taylorinfo',
-            'taylorp', 'taytorat', 'tellsimp', 'tellsimpafter', 'tenth', 'third', 'tlimit',
-            'tlimswitch', 'todd_coxeter', 'toeplitz', 'transpose', 'tree_reduce',
-            'triangularize', 'trigexpand', 'trigexpandplus', 'trigexpandtimes', 'triginverses',
-            'trigrat', 'trigreduce', 'trigsign', 'trigsimp', 'true', 'trunc', 'und', 'union',
-            'unique', 'unsum', 'untellrat', 'uppercasep', 'vandermonde_matrix', 'vect_cross',
-            'vectorpotential', 'vectorsimp', 'xreduce', 'xthru', 'zerobern', 'zeroequiv',
-            'zerofor', 'zeromatrix', 'zeromatrixp', 'zeta', 'zeta%pi', 'pi', 'e', 'i', 'float',
-            'round', 'truncate', 'decimalplaces', 'anyfloat', 'anyfloatex', 'expand', 'expandp',
-            'simplify', 'divthru', 'factor', 'factorp', 'diff', 'int', 'rand', 'plot',
-            'plot_implicit', 'stack_validate_typeless', 'stack_validate', 'alpha', 'nu', 'beta',
-            'xi', 'gamma', 'omicron', 'delta', 'pi', 'epsilon', 'rho', 'zeta', 'sigma', 'eta',
-            'tau', 'theta', 'upsilon', 'iota', 'phi', 'kappa', 'chi', 'lambda', 'psi', 'mu',
-            'omega', 'parametric', 'discrete', 'xlabel', 'ylabel', 'label');
+    private static $studentallow    = array('%c' => true, '%e' => true, '%gamma' => true, '%i' => true, '%k1' => true,
+                '%k2' => true, '%phi' => true, '%pi' => true, 'abs' => true, 'absint' => true, 'acos' => true, 'acosh' => true,
+                'acot' => true, 'acoth' => true, 'acsc' => true, 'acsch' => true, 'addmatrices' => true, 'adjoin' => true,
+                'and' => true, 'ascii' => true, 'asec' => true, 'asech' => true, 'asin' => true, 'asinh' => true,
+                'atan' => true, 'atan2' => true, 'atanh' => true, 'augcoefmatrix' => true, 'axes' => true, 'belln' => true,
+                'bessel_i' => true, 'bessel_j' => true, 'bessel_k' => true, 'bessel_y' => true, 'besselexpand' => true,
+                'beta' => true, 'bezout' => true, 'bffac' => true, 'bfhzeta' => true, 'bfloat' => true, 'bfloatp' => true,
+                'binomial' => true, 'black' => true, 'blockmatrixp' => true, 'blue' => true, 'box' => true, 'burn' => true,
+                'cabs' => true, 'cardinality' => true, 'carg' => true, 'cartan' => true, 'cartesian_product' => true,
+                'ceiling' => true, 'cequal' => true, 'cequalignore' => true, 'cf' => true, 'cfdisrep' => true,
+                'cfexpand' => true, 'cflength' => true, 'cgreaterp' => true, 'cgreaterpignore' => true, 'charat' => true,
+                'charfun' => true, 'charfun2' => true, 'charlist' => true, 'charp' => true, 'charpoly' => true, 'cint' => true,
+                'clessp' => true, 'clesspignore' => true, 'coeff' => true, 'coefmatrix' => true, 'col' => true,
+                'columnop' => true, 'columnspace' => true, 'columnswap' => true, 'combine' => true, 'compare' => true,
+                'concat' => true, 'conjugate' => true, 'cons' => true, 'constituent' => true, 'copy' => true, 'cos' => true,
+                'cosh' => true, 'cot' => true, 'coth' => true, 'color' => true, 'covect' => true, 'csc' => true,
+                'csch' => true, 'cspline' => true, 'cyan' => true, 'cosec' => true, 'ctranspose' => true, 'dblint' => true,
+                'defint' => true, 'del' => true, 'delete' => true, 'delta' => true, 'denom' => true, 'desolve' => true,
+                'determinant' => true, 'detout' => true, 'dgauss_a' => true, 'dgauss_b' => true, 'diag_matrix' => true,
+                'diagmatrix' => true, 'diff' => true, 'digitcharp' => true, 'disjoin' => true, 'disjointp' => true,
+                'disolate' => true, 'divide' => true, 'divisors' => true, 'divsum' => true, 'dkummer_m' => true,
+                'dkummer_u' => true, 'dotproduct' => true, 'echelon' => true, 'eigenvalues' => true, 'eigenvectors' => true,
+                'eighth' => true, 'eivals' => true, 'eivects' => true, 'elementp' => true, 'eliminate' => true,
+                'elliptic_e' => true, 'elliptic_ec' => true, 'elliptic_eu' => true, 'elliptic_f' => true,
+                'elliptic_kc' => true, 'elliptic_pi' => true, 'ematrix' => true, 'emptyp' => true, 'endcons' => true,
+                'epsilon_lp' => true, 'equal' => true, 'equalp' => true, 'equiv_classes' => true, 'erf' => true,
+                'euler' => true, 'ev' => true, 'eval' => true, 'evenp' => true, 'every' => true, 'exp' => true,
+                'expand' => true, 'expandwrt' => true, 'expandwrt_denom' => true, 'expandwrt_factored' => true,
+                'express' => true, 'extremal_subset' => true, 'ezgcd' => true, 'facsum' => true, 'facsum_combine' => true,
+                'factcomb' => true, 'factlim' => true, 'factor' => true, 'factorfacsum' => true, 'factorial' => true,
+                'factorout' => true, 'factorsum' => true, 'false' => true, 'fasttimes' => true, 'fft' => true, 'fib' => true,
+                'fibtophi' => true, 'fifth' => true, 'find_root' => true, 'find_root_abs' => true, 'find_root_error' => true,
+                'find_root_rel' => true, 'first' => true, 'flatten' => true, 'float' => true, 'float2bf' => true,
+                'floor' => true, 'fourcos' => true, 'fourexpand' => true, 'fourier' => true, 'fourint' => true,
+                'fourintcos' => true, 'fourintsin' => true, 'foursimp' => true, 'foursin' => true, 'fourth' => true,
+                'freeof' => true, 'full_listify' => true, 'fullmap' => true, 'fullmapl' => true, 'fullratsimp' => true,
+                'fullratsubst' => true, 'fullsetify' => true, 'funcsolve' => true, 'funp' => true, 'gamma' => true,
+                'gamma_incomplete' => true, 'gamma_incomplete_generalized' => true, 'gamma_incomplete_regularized' => true,
+                'gauss_a' => true, 'gauss_b' => true, 'gcd' => true, 'gcdex' => true, 'gcfactor' => true, 'genmatrix' => true,
+                'get_lu_factors' => true, 'gfactor' => true, 'gfactorsum' => true, 'gramschmidt' => true, 'green' => true,
+                'hankel' => true, 'hessian' => true, 'hgfred' => true, 'hilbert_matrix' => true, 'hipow' => true,
+                'horner' => true, 'hypergeometric' => true, 'hypergeometric_representation' => true, 'ident' => true,
+                'identfor' => true, 'identity' => true, 'ifactors' => true, 'imagpart' => true, 'ind' => true, 'inf' => true,
+                'infinity' => true, 'innerproduct' => true, 'inrt' => true, 'integer_partitions' => true, 'integrate' => true,
+                'intersect' => true, 'intersection' => true, 'intosum' => true, 'inv_mod' => true, 'inverse_jacobi_cd' => true,
+                'inverse_jacobi_cn' => true, 'inverse_jacobi_cs' => true, 'inverse_jacobi_dc' => true, 'grid2d' => true,
+                'inverse_jacobi_dn' => true, 'inverse_jacobi_ds' => true, 'inverse_jacobi_nc' => true,
+                'inverse_jacobi_nd' => true, 'inverse_jacobi_ns' => true, 'inverse_jacobi_sc' => true,
+                'inverse_jacobi_sd' => true, 'inverse_jacobi_sn' => true, 'invert' => true, 'isqrt' => true, 'jacobi' => true,
+                'jacobi_cd' => true, 'jacobi_cn' => true, 'jacobi_cs' => true, 'jacobi_dc' => true, 'jacobi_dn' => true,
+                'jacobi_ds' => true, 'jacobi_nc' => true, 'jacobi_nd' => true, 'jacobi_ns' => true, 'jacobi_sc' => true,
+                'jacobi_sd' => true, 'jacobi_sn' => true, 'jacobian' => true, 'join' => true, 'kron_delta' => true,
+                'kronecker_product' => true, 'kummer_m' => true, 'kummer_u' => true, 'lagrange' => true, 'lambda' => true,
+                'lambert_w' => true, 'laplace' => true, 'last' => true, 'lcm' => true, 'ldefint' => true, 'legend' => true,
+                'length' => true, 'lhs' => true, 'limit' => true, 'linearinterpol' => true, 'linsolve' => true,
+                'linsolve_params' => true, 'listify' => true, 'lmax' => true, 'lmin' => true, 'locate_matrix_entry' => true,
+                'log' => true, 'logy' => true, 'logx' => true, 'log10' => true, 'log_gamma' => true, 'logabs' => true,
+                'logarc' => true, 'logcontract' => true, 'logexpand' => true, 'lognegint' => true, 'lognumer' => true,
+                'logy' => true, 'logsimp' => true, 'lopow' => true, 'lowercasep' => true, 'lratsubst' => true,
+                'lreduce' => true, 'lsum' => true, 'lu_backsub' => true, 'lu_factor' => true, 'magenta' => true,
+                'make_transform' => true, 'makefact' => true, 'makegamma' => true, 'makelist' => true, 'makeset' => true,
+                'map' => true, 'mapatom' => true, 'maplist' => true, 'mat_cond' => true, 'mat_fullunblocker' => true,
+                'mat_norm' => true, 'mat_trace' => true, 'mat_unblocker' => true, 'matrix' => true,
+                'matrix_element_add' => true, 'matrix_element_mult' => true, 'matrix_element_transpose' => true,
+                'matrix_size' => true, 'matrixmap' => true, 'matrixp' => true, 'mattrace' => true, 'max' => true,
+                'member' => true, 'min' => true, 'minf' => true, 'minfactorial' => true, 'mod' => true, 'moebius' => true,
+                'multinomial_coeff' => true, 'multthru' => true, 'ncexpt' => true, 'ncharpoly' => true, 'newdet' => true,
+                'ninth' => true, 'noeval' => true, 'nonnegintegerp' => true, 'not' => true, 'notequal' => true,
+                'nroots' => true, 'nterms' => true, 'nthroot' => true, 'nticks' => true, 'nullity' => true, 'nullspace' => true,
+                'num' => true, 'num_distinct_partitions' => true, 'num_partitions' => true, 'numberp' => true, 'numer' => true,
+                'numerval' => true, 'numfactor' => true, 'nusum' => true, 'nzeta' => true, 'nzetai' => true, 'nzetar' => true,
+                'oddp' => true, 'op' => true, 'operatorp' => true, 'or' => true, 'ordergreat' => true, 'ordergreatp' => true,
+                'orderless' => true, 'orderlessp' => true, 'orthogonal_complement' => true, 'outermap' => true, 'pade' => true,
+                'parabolic_cylinder_d' => true, 'part' => true, 'part2cont' => true, 'partfrac' => true, 'partition' => true,
+                'partition_set' => true, 'permanent' => true, 'permutations' => true, 'plog' => true, 'plot_realpart' => true,
+                'point_type' => true, 'point_size' => true, 'points' => true, 'poisdiff' => true, 'poisexpt' => true,
+                'poisint' => true, 'poislim' => true, 'poismap' => true, 'poisplus' => true, 'poissimp' => true,
+                'poisson' => true, 'poissubst' => true, 'poistimes' => true, 'poistrim' => true, 'polarform' => true,
+                'polartorect' => true, 'polymod' => true, 'polynome2ele' => true, 'polynomialp' => true,
+                'polytocompanion' => true, 'posfun' => true, 'potential' => true, 'power_mod' => true, 'powerdisp' => true,
+                'powers' => true, 'powerseries' => true, 'powerset' => true, 'primep' => true, 'printpois' => true,
+                'quad_qag' => true, 'quad_qagi' => true, 'quad_qags' => true, 'quad_qawc' => true, 'quad_qawf' => true,
+                'quad_qawo' => true, 'quad_qaws' => true, 'qunit' => true, 'quotient' => true, 'radcan' => true,
+                'radexpand' => true, 'radsubstflag' => true, 'rank' => true, 'rassociative' => true, 'rat' => true,
+                'ratalgdenom' => true, 'ratcoef' => true, 'ratdenom' => true, 'ratdenomdivide' => true, 'ratdiff' => true,
+                'ratdisrep' => true, 'ratepsilon' => true, 'ratexpand' => true, 'ratfa => truec' => true, 'rationalize' => true,
+                'ratmx' => true, 'ratnumer' => true, 'ratnump' => true, 'ratp' => true, 'ratsimp' => true,
+                'ratsimpexpons' => true, 'ratsubst' => true, 'ratvars' => true, 'ratweight' => true, 'ratweights' => true,
+                'realonly' => true, 'realpart' => true, 'realroots' => true, 'rectform' => true, 'recttopolar' => true,
+                'red' => true, 'remainder' => true, 'remfun' => true, 'residue' => true, 'rest' => true, 'resultant' => true,
+                'reverse' => true, 'rhs' => true, 'risch' => true, 'rncombine' => true, 'romberg' => true, 'rombergabs' => true,
+                'rombergit' => true, 'rombergmin' => true, 'rombergtol' => true, 'rootsconmode' => true, 'rootscontract' => true,
+                'rootsepsilon' => true, 'round' => true, 'row' => true, 'rowop' => true, 'rowswap' => true, 'rreduce' => true,
+                'scalarmatrixp' => true, 'scalarp' => true, 'scaled_bessel_i' => true, 'scaled_bessel_i0' => true,
+                'scaled_bessel_i1' => true, 'scalefactors' => true, 'scanmap' => true, 'schur2comp' => true, 'sconcat' => true,
+                'scopy' => true, 'scsimp' => true, 'sdowncase' => true, 'sec' => true, 'sech' => true, 'second' => true,
+                'sequal' => true, 'sequalignore' => true, 'set_partitions' => true, 'setdifference' => true, 'setequalp' => true,
+                'setify' => true, 'setp' => true, 'seventh' => true, 'sexplode' => true, 'sign' => true, 'signum' => true,
+                'simpsum' => true, 'sin' => true, 'sinh' => true, 'sinnpiflag' => true, 'sinsert' => true, 'sinvertcase' => true,
+                'sixth' => true, 'slength' => true, 'smake' => true, 'smismatch' => true, 'solve' => true,
+                'solvedecomposes' => true, 'solveexplicit' => true, 'solvefactors' => true, 'solvenullwarn' => true,
+                'solveradcan' => true, 'solvetrigwarn' => true, 'some' => true, 'sort' => true, 'space' => true, 'sparse' => true,
+                'specint' => true, 'sposition' => true, 'sqfr' => true, 'sqrt' => true, 'sqrtdispflag' => true,
+                'sremove' => true, 'sremovefirst' => true, 'sreverse' => true, 'ssearch' => true, 'ssort' => true,
+                'ssubst' => true, 'ssubstfirst' => true, 'strim' => true, 'striml' => true, 'strimr' => true, 'stringp' => true,
+                'struve_h' => true, 'struve_l' => true, 'style' => true, 'sublis' => true, 'sublis_apply_lambda' => true,
+                'sublist' => true, 'sublist_indices' => true, 'submatrix' => true, 'subset' => true, 'subsetp' => true,
+                'subst' => true, 'substinpart' => true, 'substpart' => true, 'substring' => true, 'subvarp' => true,
+                'sum' => true, 'sumcontract' => true, 'sumexpand' => true, 'supcase' => true, 'symbolp' => true,
+                'symmdifference' => true, 'tan' => true, 'tanh' => true, 'taylor' => true, 'taylor_logexpand' => true,
+                'taylor_order_coefficients' => true, 'taylor_simplifier' => true, 'taylor_truncate_polynomials' => true,
+                'taylordepth' => true, 'taylorinfo' => true, 'taylorp' => true, 'taytorat' => true, 'tellsimp' => true,
+                'tellsimpafter' => true, 'tenth' => true, 'third' => true, 'tlimit' => true, 'tlimswitch' => true,
+                'todd_coxeter' => true, 'toeplitz' => true, 'transpose' => true, 'tree_reduce' => true, 'triangularize' => true,
+                'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
+                'trigrat' => true, 'trigreduce' => true, 'trigsign' => true, 'trigsimp' => true, 'true' => true,
+                'trunc' => true, 'und' => true, 'union' => true, 'unique' => true, 'unsum' => true, 'untellrat' => true,
+                'uppercasep' => true, 'vandermonde_matrix' => true, 'vect_cross' => true, 'vectorpotential' => true,
+                'vectorsimp' => true, 'xreduce' => true, 'xthru' => true, 'zerobern' => true, 'zeroequiv' => true,
+                'zerofor' => true, 'zeromatrix' => true, 'zeromatrixp' => true, 'zeta' => true, 'zeta%pi' => true, 'pi' => true,
+                'e' => true, 'i' => true, 'float' => true, 'round' => true, 'truncate' => true, 'decimalplaces' => true,
+                'anyfloat' => true, 'anyfloatex' => true, 'expand' => true, 'expandp' => true, 'simplify' => true,
+                'divthru' => true, 'factor' => true, 'factorp' => true, 'diff' => true, 'int' => true, 'rand' => true,
+                'plot' => true, 'plot_implicit' => true, 'stack_validate_typeless' => true, 'stack_validate' => true,
+                'alpha' => true, 'nu' => true, 'beta' => true, 'xi' => true, 'gamma' => true, 'omicron' => true,
+                'delta' => true, 'pi' => true, 'epsilon' => true, 'rho' => true, 'zeta' => true, 'sigma' => true, 'eta' => true,
+                'tau' => true, 'theta' => true, 'upsilon' => true, 'iota' => true, 'phi' => true, 'kappa' => true,
+                'chi' => true, 'lambda' => true, 'psi' => true, 'mu' => true, 'omega' => true, 'parametric' => true,
+                'discrete' => true, 'xlabel' => true, 'ylabel' => true, 'label' => true, 'cdf_bernoulli' => true,
+                'cdf_beta' => true, 'cdf_binomial' => true, 'cdf_cauchy' => true, 'cdf_chi2' => true,
+                'cdf_continuous_uniform' => true, 'cdf_discrete_uniform' => true, 'cdf_exp' => true, 'cdf_f' => true,
+                'cdf_gamma' => true, 'cdf_general_finite_discrete' => true, 'cdf_geometric' => true, 'cdf_gumbel' => true,
+                'cdf_hypergeometric' => true, 'cdf_laplace' => true, 'cdf_logistic' => true, 'cdf_lognormal' => true,
+                'cdf_negative_binomial' => true, 'cdf_noncentral_chi2' => true, 'cdf_noncentral_student_t' => true,
+                'cdf_normal' => true, 'cdf_pareto' => true, 'cdf_poisson' => true, 'cdf_rayleigh' => true,
+                'cdf_student_t' => true, 'cdf_weibull' => true, 'kurtosis_bernoulli' => true, 'kurtosis_beta' => true,
+                'kurtosis_binomial' => true, 'kurtosis_chi2' => true, 'kurtosis_continuous_uniform' => true,
+                'kurtosis_discrete_uniform' => true, 'kurtosis_exp' => true, 'kurtosis_f' => true, 'kurtosis_gamma' => true,
+                'kurtosis_general_finite_discrete' => true, 'kurtosis_geometric' => true, 'kurtosis_gumbel' => true,
+                'kurtosis_gumbel' => true, 'kurtosis_hypergeometric' => true, 'kurtosis_laplace' => true,
+                'kurtosis_logistic' => true, 'kurtosis_lognormal' => true, 'kurtosis_negative_binomial' => true,
+                'kurtosis_noncentral_chi2' => true, 'kurtosis_noncentral_student_t' => true, 'kurtosis_normal' => true,
+                'kurtosis_pareto' => true, 'kurtosis_poisson' => true, 'kurtosis_rayleigh' => true,
+                'kurtosis_student_t' => true, 'kurtosis_weibull' => true, 'mean_bernoulli' => true, 'mean_beta' => true,
+                'mean_binomial' => true, 'mean_chi2' => true, 'mean_continuous_uniform' => true,
+                'mean_discrete_uniform' => true, 'mean_exp' => true, 'mean_f' => true, 'mean_gamma' => true,
+                'mean_general_finite_discrete' => true, 'mean_geometric' => true, 'mean_gumbel' => true,
+                'mean_hypergeometric' => true, 'mean_laplace' => true, 'mean_logistic' => true, 'mean_lognormal' => true,
+                'mean_negative_binomial' => true, 'mean_noncentral_chi2' => true, 'mean_noncentral_student_t' => true,
+                'mean_normal' => true, 'mean_pareto' => true, 'mean_poisson' => true, 'mean_rayleigh' => true,
+                'mean_student_t' => true, 'mean_weibull' => true, 'pdf_bernoulli' => true, 'pdf_beta' => true,
+                'pdf_binomial' => true, 'pdf_cauchy' => true, 'pdf_chi2' => true, 'pdf_continuous_uniform' => true,
+                'pdf_discrete_uniform' => true, 'pdf_exp' => true, 'pdf_f' => true, 'pdf_gamma' => true,
+                'pdf_general_finite_discrete' => true, 'pdf_geometric' => true, 'pdf_gumbel' => true,
+                'pdf_hypergeometric' => true, 'pdf_laplace' => true, 'pdf_logistic' => true, 'pdf_lognormal' => true,
+                'pdf_negative_binomial' => true, 'pdf_noncentral_chi2' => true, 'pdf_noncentral_student_t' => true,
+                'pdf_normal' => true, 'pdf_pareto' => true, 'pdf_poisson' => true, 'pdf_rayleigh' => true,
+                'pdf_student_t' => true, 'pdf_weibull' => true, 'quantile_bernoulli' => true, 'quantile_beta' => true,
+                'quantile_binomial' => true, 'quantile_cauchy' => true, 'quantile_chi2' => true,
+                'quantile_continuous_uniform' => true, 'quantile_discrete_uniform' => true, 'quantile_exp' => true,
+                'quantile_f' => true, 'quantile_gamma' => true, 'quantile_general_finite_discrete' => true,
+                'quantile_geometric' => true, 'quantile_gumbel' => true, 'quantile_hypergeometric' => true,
+                'quantile_laplace' => true, 'quantile_logistic' => true, 'quantile_lognormal' => true,
+                'quantile_negative_binomial' => true, 'quantile_noncentral_chi2' => true,
+                'quantile_noncentral_student_t' => true, 'quantile_normal' => true,
+                'quantile_pareto' => true, 'quantile_poisson' => true, 'quantile_rayleigh' => true,
+                'quantile_student_t' => true, 'quantile_weibull' => true, 'random_bernoulli' => true, 'random_beta' => true,
+                'random_binomial' => true, 'random_cauchy' => true, 'random_chi2' => true, 'random_continuous_uniform' => true,
+                'random_discrete_uniform' => true, 'random_exp' => true, 'random_f' => true, 'random_gamma' => true,
+                'random_general_finite_discrete' => true, 'random_geometric' => true, 'random_gumbel' => true,
+                'random_hypergeometric' => true, 'random_laplace' => true, 'random_logistic' => true,
+                'random_lognormal' => true, 'random_negative_binomial' => true, 'random_noncentral_chi2' => true,
+                'random_noncentral_student_t' => true, 'random_normal' => true, 'random_pareto' => true,
+                'random_poisson' => true, 'random_rayleigh' => true, 'random_student_t' => true, 'random_weibull' => true,
+                'skewness_bernoulli' => true, 'skewness_beta' => true, 'skewness_binomial' => true, 'skewness_chi2' => true,
+                'skewness_continuous_uniform' => true, 'skewness_discrete_uniform' => true, 'skewness_exp' => true,
+                'skewness_f' => true, 'skewness_gamma' => true, 'skewness_general_finite_discrete' => true,
+                'skewness_geometric' => true, 'skewness_gumbel' => true, 'skewness_hypergeometric' => true,
+                'skewness_laplace' => true, 'skewness_logistic' => true, 'skewness_lognormal' => true,
+                'skewness_negative_binomial' => true, 'skewness_noncentral_chi2' => true,
+                'skewness_noncentral_student_t' => true, 'skewness_normal' => true, 'skewness_pareto' => true,
+                'skewness_poisson' => true, 'skewness_rayleigh' => true, 'skewness_student_t' => true,
+                'skewness_weibull' => true, 'std_bernoulli' => true, 'std_beta' => true, 'std_binomial' => true,
+                'std_chi2' => true, 'std_continuous_uniform' => true, 'std_discrete_uniform' => true, 'std_exp' => true,
+                'std_f' => true, 'std_gamma' => true, 'std_general_finite_discrete' => true, 'std_geometric' => true,
+                'std_gumbel' => true, 'std_hypergeometric' => true, 'std_laplace' => true, 'std_logistic' => true,
+                'std_lognormal' => true, 'std_negative_binomial' => true, 'std_noncentral_chi2' => true,
+                'std_noncentral_student_t' => true, 'std_normal' => true, 'std_pareto' => true, 'std_poisson' => true,
+                'std_rayleigh' => true, 'std_student_t' => true, 'std_weibull' => true, 'var_bernoulli' => true,
+                'var_beta' => true, 'var_binomial' => true, 'var_chi2' => true, 'var_continuous_uniform' => true,
+                'var_discrete_uniform' => true, 'var_exp' => true, 'var_f' => true, 'var_gamma' => true,
+                'var_general_finite_discrete' => true, 'var_geometric' => true, 'var_gumbel' => true,
+                'var_hypergeometric' => true, 'var_laplace' => true, 'var_logistic' => true, 'var_lognormal' => true,
+                'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
+                'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
+                'var_student_t' => true, 'var_weibull' => true, 'null' => true);
 
     /**
      * These lists are used by question authors for groups of words.
@@ -412,28 +497,30 @@ class stack_cas_casstring {
      * @var all the characters permitted in responses.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
+    // @codingStandardsIgnoreStart
     private static $allowedchars =
             '0123456789,./\%&{}[]()$£@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
+    // @codingStandardsIgnoreEnd
 
     /**
      * @var all the permitted which are not allowed to be the final character.
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
+    // @codingStandardsIgnoreStart
     private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
+    // @codingStandardsIgnoreEnd
 
     public function __construct($rawstring, $conditions = null) {
         if (!is_string($rawstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
         $this->rawcasstring = $rawstring;
-
         if (!($conditions === null || is_array($conditions))) {
             throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
         }
         if (count($conditions) != 0) {
             $this->conditions   = $conditions;
         }
-
         $this->answernote   = array();
         $this->valid        = null;  // If null then the validate command has not yet been run.
     }
@@ -452,8 +539,9 @@ class stack_cas_casstring {
      * $allowwords enables specific function names (but never those from $globalforbid)
      */
     private function validate($security='s', $syntax=true, $insertstars=0, $allowwords='') {
+
         if (!('s' === $security || 't' === $security)) {
-            throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.  Got the following: '.$security);
+            throw new stack_exception('stack_cas_casstring: security level, must be "s" or "t" only.');
         }
 
         if (!is_bool($syntax)) {
@@ -462,10 +550,6 @@ class stack_cas_casstring {
 
         if (!is_int($insertstars)) {
             throw new stack_exception('stack_cas_casstring: insertstars, must be an integer.');
-        }
-
-        if (!is_string($allowwords)) {
-            throw new stack_exception('stack_cas_casstring: allowwords, must be a string.');
         }
 
         $this->valid     = true;
@@ -496,6 +580,7 @@ class stack_cas_casstring {
             $this->answernote[] = 'MissingString';
             $this->valid = false;
         }
+
 
         // Search for HTML fragments.  This is hard to do because < is an infix operator!
         // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
@@ -583,12 +668,10 @@ class stack_cas_casstring {
             }
         }
 
-        if ($this->valid) {
-            if (!stack_utils::check_nested_bookends($cmd)) {
-                $this->valid = false;
-                $this->add_error(stack_string('stackCas_bracketsdontmatch',
-                    array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
-            }
+        if (!stack_utils::check_nested_bookends($cmd)) {
+            $this->valid = false;
+            $this->add_error(stack_string('stackCas_bracketsdontmatch',
+                     array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
         }
 
         if ($security == 's') {
@@ -687,7 +770,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', "\\", ').(');
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
@@ -782,6 +865,9 @@ class stack_cas_casstring {
         // Prevent ? characters calling LISP or the Maxima help file.  Instead, these pass through and are displayed as normal.
         $cmd = str_replace('?', 'QMCHAR', $this->rawcasstring);
 
+        // Provide support for the grid2d command, which otherwise breaks insert stars.
+        $cmd = str_replace('grid2d', 'STACKGRID', $cmd);
+
         // Remove the contents of any strings, so we don't test for missing *s within them.
         list ($cmd, $strings) = $this->strings_remove($cmd);
 
@@ -828,20 +914,39 @@ class stack_cas_casstring {
      *
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
-    private function check_security($security, $allowwords) {
+    private function check_security($security, $rawallowwords) {
 
-        // Sort out any allowwords.
-        $allow = array();
-        if (trim($allowwords) != '') {
-            $allowwords = explode(',', $allowwords);
-            foreach ($allowwords as $kw) {
-                if (!in_array(strtolower($kw), self::$globalforbid)) {
-                    $allow[] = trim($kw);
-                } else {
-                    throw new stack_exception('stack_cas_casstring: check_security: ' .
-                            'attempt made to allow gloabally forbidden keyword: ' . $kw);
+        // Create a minimal cache to store words as keys.
+        // This gives faster searching using the search functionality of that map.
+        if (self::$cache === false) {
+            self::$cache = array(
+                    'allows' => array(),
+                    'merged-sallow' => array_merge(self::$studentallow, stack_cas_casstring_units::get_permitted_units(2)),
+                    'globalforbid' => self::$globalforbid,
+                    'teachernotallow' => self::$teachernotallow,
+                    'studentallow' => self::$studentallow,
+            );
+        }
+
+        $allow = null;
+        if (!isset(self::$cache['allows'][$rawallowwords])) {
+            // Sort out any allowwords.
+            $allow = array();
+            if (trim($rawallowwords) != '') {
+                $allowwords = explode(',', $rawallowwords);
+                foreach ($allowwords as $kw) {
+                    if (!isset(self::$cache['globalforbid'][strtolower($kw)])) {
+                        $allow[trim($kw)] = true;
+                    } else {
+                        throw new stack_exception('stack_cas_casstring: check_security: ' .
+                                'attempt made to allow gloabally forbidden keyword: ' . $kw);
+                    }
                 }
             }
+            self::$cache['allows'][$rawallowwords] = $allow;
+        } else {
+            // To lessen the changes to the code and pointless map lookups we read it here to this variable.
+            $allow = self::$cache['allows'][$rawallowwords];
         }
 
         // Note, we do not strip out strings here.  This would be a potential secuity risk.
@@ -862,17 +967,26 @@ class stack_cas_casstring {
             }
             // This is not really a security issue, but it relies on access to the $allowwords.
             // It is also a two letter string, which are normally permitted.
-            if ($security == 's' and $key == 'In' and !in_array($key, $allow)) {
+            if ($security == 's' and $key == 'In' and !isset($allow[$key])) {
                 $this->add_error(stack_string('stackCas_badLogIn'));
                 $this->answernote[] = 'stackCas_badLogIn';
                 $this->valid = false;
             }
+
+            // Check for unit synonyms.
+            list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
+            if ($security == 's' and $fndsynonym and !isset($allow[$key])) {
+                $this->add_error($synonymerr);
+                $this->answernote[] = $answernote;
+                $this->valid = false;
+            }
+
         }
 
         $strinkeywords = array_unique($strinkeywords);
         // Check for global forbidden words.
         foreach ($strinkeywords as $key) {
-            if (in_array(strtolower($key), self::$globalforbid)) {
+            if (isset(self::$cache['globalforbid'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
                         array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
@@ -880,28 +994,33 @@ class stack_cas_casstring {
                 $this->valid = false;
             } else {
                 if ($security == 't') {
-                    if (in_array($key, self::$teachernotallow)) {
+                    if (isset(self::$cache['teachernotallow'][strtolower($key)])) {
                         // If a teacher check against forbidden commands.
                         $this->add_error(stack_string('stackCas_unsupportedKeyword',
-                            array('forbid' => stack_maxima_format_casstring($key))));
+                                array('forbid' => stack_maxima_format_casstring($key))));
                         $this->answernote[] = 'unsupportedKeyword';
                         $this->valid = false;
                     }
                 } else {
                     // Only allow the student to use set commands.
-                    if (!in_array($key, self::$studentallow) and !in_array($key, self::$distrib) and !in_array($key, $allow)) {
-                        if (!in_array(strtolower($key), self::$studentallow) and !in_array(strtolower($key), self::$distrib)
-                                and !in_array(strtolower($key), $allow)) {
-                            $this->add_error(stack_string('stackCas_unknownFunction',
-                                array('forbid' => stack_maxima_format_casstring($key))));
-                            $this->answernote[] = 'unknownFunction';
-                        } else {
-                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
-                                array('forbid' => stack_maxima_format_casstring($key),
-                                        'lower' => stack_maxima_format_casstring(strtolower($key)))));
-                            $this->answernote[] = 'unknownFunctionCase';
-                        }
+                    if (!isset($allow[$key]) && !isset(self::$cache['merged-sallow'][$key])) {
                         $this->valid = false;
+                        if (isset(self::$cache['studentallow'][strtolower($key)]) || isset($allow[strtolower($key)])) {
+                            // We have spotted a case senditivity problem.
+                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                    array('forbid' => stack_maxima_format_casstring($key),
+                                            'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                            $this->answernote[] = 'unknownFunctionCase';
+                        } else if ($err = stack_cas_casstring_units::check_units_case($key)) {
+                            // We have spotted a case sensitivity problem in the units.
+                            $this->add_error($err);
+                                $this->answernote[] = 'unknownUnitsCase';
+                        } else {
+                            // We have no idea what they have done.
+                            $this->add_error(stack_string('stackCas_unknownFunction',
+                                    array('forbid' => stack_maxima_format_casstring($key))));
+                            $this->answernote[] = 'unknownFunction';
+                        }
                     }
                     // Else we have not found any security problems with keywords.
                 }
@@ -1037,15 +1156,14 @@ class stack_cas_casstring {
         // Replace lists of keywords with their actual values.
         $kws = array();
         foreach ($keywords as $val) {
-            $kw = trim(strtolower($val));
+            $val = trim($val);
+            $kw = strtolower($val);
             if (array_key_exists($kw, self::$keywordlists)) {
                 $kws = array_merge($kws, self::$keywordlists[$kw]);
-            } else {
-                if ('COMMA_TAG' === $val) {
-                    $kws[] = ',';
-                } else {
-                    $kws[] = trim($val);  // This test is case sensitive, but ignores surrounding whitespace.
-                }
+            } else if ('COMMA_TAG' === $val) {
+                $kws[] = ',';
+            } else if ($val !== '') {
+                $kws[] = $val;
             }
         }
 
@@ -1185,7 +1303,12 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $singlecharvars = false, $tans = null, $allowwords = '') {
+                    $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
+
+        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units')) {
+            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless" or "units", ' .
+                    'but received "'.validationmethod.'".');
+        }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
         }
@@ -1212,11 +1335,16 @@ class stack_cas_casstring {
             $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
         }
 
-        if (null === $tans) {
+        $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
+        if ($validationmethod == 'typeless') {
+            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
             $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
-        } else {
-            $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
         }
+        if ($validationmethod == 'units') {
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.')';
+        }
+
         return true;
     }
 
@@ -1245,8 +1373,9 @@ class stack_cas_casstring {
      *  This function decodes the error generated by Maxima into meaningful notes.
      *  */
     public function decode_maxima_errors($error) {
-        $searchstrings = array('CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
-                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression', 'DivisionZero');
+        $searchstrings = array('DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
+                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
+                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units');
         $foundone = false;
         foreach ($searchstrings as $s) {
             if (false !== strpos($error, $s)) {

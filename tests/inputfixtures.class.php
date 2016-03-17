@@ -38,7 +38,7 @@ class stack_inputvalidation_test_data {
         array('x+1', 'php_true', 'x+1', 'cas_true', '', ""),
         array('x+ 1', 'php_true', 'x+ 1', 'cas_true', '', ""),
         array('x + 1', 'php_true', 'x + 1', 'cas_true', '', "Ok to have some spaces between these operators."),
-        array('sin x', 'php_false', '', '', 'spaces', "We don't allow spaces to denote function application. A Maxima restriction."),
+        array('sin x', 'php_false', '', '', 'spaces', "Maxima does not allow spaces to denote function application."),
         array('x y', 'php_false', '', '', 'spaces', "We don't allow spaces to denote implicit multiplication."),
         array('1 x', 'php_false', '', '', 'spaces', ""),
         array('1x', 'php_true', '1*x', 'cas_true', 'missing_stars', ""),
@@ -46,19 +46,22 @@ class stack_inputvalidation_test_data {
         array('1', 'php_true', '1', 'cas_true', '', "Numbers"),
         array('.1', 'php_true', '.1', 'cas_true', 'Illegal_floats', "This is an option."),
         array('1/2', 'php_true', '1/2', 'cas_true', '', ""),
-        array('2/4', 'php_true', '2/4', 'cas_true', 'Lowest_Terms', "Rejecting this as 'invalid' not 'wrong' is a question option."),
+        array('2/4', 'php_true', '2/4', 'cas_true', 'Lowest_Terms',
+            "Rejecting this as 'invalid' not 'wrong' is a question option."),
         array('-10/-1', 'php_true', '-10/-1', 'cas_true', 'Lowest_Terms', ""),
         array('1/0', 'php_true', '1/0', 'cas_true', 'CASError: Division by zero.', ""),
         array('pi', 'php_true', 'pi', 'cas_true', '', ""),
         array('e', 'php_true', 'e', 'cas_true', '', "Cannot easily make \(e\) a variable name."),
-        array('i', 'php_true', 'i', 'cas_true', '', "Options to make i a variable, or a vector unit.  Note this is not italic."),
+        array('i', 'php_true', 'i', 'cas_true', '',
+            "Options to make i a variable, or a vector unit.  Note this is not italic."),
         array('j', 'php_true', 'j', 'cas_true', '',
             "Can define \(j^2=-1\) as an option, or a vector unit.  By default a variable, so italic."),
         array('%pi', 'php_true', '%pi', 'cas_true', '', ""),
         array('%e', 'php_true', '%e', 'cas_true', '', ""),
         array('%i', 'php_true', '%i', 'cas_true', '', ""),
         array('inf', 'php_true', 'inf', 'cas_true', '', ""),
-        array('1E+3', 'php_true', '1*E+3', 'cas_true', 'missing_stars', "Scientific notation - does not work when strict syntax is false."),
+        array('1E+3', 'php_true', '1*E+3', 'cas_true', 'missing_stars',
+            "Scientific notation - does not work when strict syntax is false."),
         array('3E2', 'php_true', '3*E*2', 'cas_true', 'missing_stars', ""),
         array('3e2', 'php_true', '3*e*2', 'cas_true', 'missing_stars', ""),
         array('3e-2', 'php_true', '3*e-2', 'cas_true', 'missing_stars', ""),
@@ -301,7 +304,8 @@ class stack_inputvalidation_test_data {
         array('floor(x)', 'php_true', 'floor(x)', 'cas_true', '', ""),
         array('int(x,y)', 'php_true', 'int(x,y)', 'cas_true', '', ""),
         array('diff(x,y)', 'php_true', 'diff(x,y)', 'cas_true', '', ""),
-        array("'int(x,y)", 'php_false', '', 'cas_true', 'apostrophe', "Note the use of the apostrophe here to make an inert function."),
+        array("'int(x,y)", 'php_false', '', 'cas_true', 'apostrophe',
+            "Note the use of the apostrophe here to make an inert function."),
         array("'diff(x,y)", 'php_false', '', 'cas_true', 'apostrophe', "Not ideal...arises because we don't 'simplify'."),
         array('partialdiff(x,y,1)', 'php_false', '', '', 'unknownFunction', ""),
         array('limit(y,x,3)', 'php_true', 'limit(y,x,3)', 'cas_true', '', ""),
@@ -354,7 +358,8 @@ class stack_inputvalidation_test_data {
         array('3,14159', 'php_false', '3,14159', 'cas_true', 'unencpsulated_comma', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', 'unencpsulated_comma', ""),
         array('\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_true', 'spuriousop', "Student uses LaTeX"),
-        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', 'CASError: concat: argument must be an atom; found [sin(x),cos(y)]',
+        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true',
+                'CASError: concat: argument must be an atom; found [sin(x),cos(y)]',
                 "The following are known to fail.  Some are bugs...."),
     );
 
@@ -383,6 +388,8 @@ class stack_inputvalidation_test_data {
     }
 
     public static function run_test($test) {
+        // @codingStandardsIgnoreStart
+
         // Note: What we would really like to do is the following.
         // $el = stack_input_factory::make('algebraic', 'sans1', 'x');
         // $el->set_parameter('insertStars', 1);
@@ -391,9 +398,11 @@ class stack_inputvalidation_test_data {
         // $cs = $el->validate_student_response($test->rawstring);
         // However, we want to pull apart the bits to expose where the various errors occur.
 
+        // @codingStandardsIgnoreEnd
+
         $cs = new stack_cas_casstring($test->rawstring);
         $cs->get_valid('s', false, 1);
-        $cs->set_cas_validation_casstring('sans1', true, true, false, null);
+        $cs->set_cas_validation_casstring('sans1', true, true, false, null, 'typeless');
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {

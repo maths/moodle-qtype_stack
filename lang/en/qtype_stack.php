@@ -139,9 +139,12 @@ $string['inputtype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authori
 $string['inputtypealgebraic'] = 'Algebraic input';
 $string['inputtypeboolean'] = 'True/False';
 $string['inputtypedropdown'] = 'Drop down list';
+$string['inputtypecheckbox'] = 'Checkbox';
+$string['inputtyperadio'] = 'Radio';
 $string['inputtypesinglechar'] = 'Single character';
 $string['inputtypetextarea'] = 'Text area';
 $string['inputtypematrix'] = 'Matrix';
+$string['inputtypeunits'] = 'Units';
 $string['inputwillberemoved'] = 'This input is no longer referred to in the question text. If you save the question now, the data about this input will be lost. Please confirm that you want to do this. Alternatively edit the question text to put back the \'[[input:{$a}]]\' and \'[[validation:{$a}]]\' placeholders.';
 $string['insertstars'] = 'Insert stars';
 $string['insertstars_help'] = 'If set to false then no stars will be inserted.  If set to yes then the system will automatically insert stars into any patterns identified by Strict Syntax.  If set to "single char vars" then we assume the answer has variable names consisting only of single letter variable names.  Other variable names will have stars inserted between the letters, e.g. ab->a*b';
@@ -211,13 +214,15 @@ $string['prtwillberemoved'] = 'This potential response tree is no longer referre
 $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random versions of a question. Two question versions are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
 $string['questionnote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_note.md';
-$string['questionnote_toolong'] = 'ERROR: the question note must not exceed 1024 characters.';
+$string['questionnote_toolong'] = 'ERROR: the question note must not exceed 1300 characters.';
 $string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  The question note is used to distinguish between different random versions of the question.';
 $string['questionsimplify'] = 'Question-level simplify';
 $string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
 $string['questionsimplify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/CAS/Maxima.md#Simplification';
 $string['questiontext'] = 'Question text';
+// @codingStandardsIgnoreStart
 $string['questiontext_help'] = 'The question text is CASText.  This is the "question" which the student actually sees.  You must put input elements, and the validation strings, in this field, and only in this field.  For example, using `[[input:ans1]] [[validation:ans1]]`.';
+// @codingStandardsIgnoreEnd
 $string['questiontext_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/CASText.md#question_text';
 $string['questiontextnonempty'] = 'The question text must be non-empty.';
 $string['questiontextmustcontain'] = 'The question text must contain the token \'{$a}\'.';
@@ -301,10 +306,14 @@ $string['singlechargotmorethanone'] = 'You can only enter a single character her
 $string['false'] = 'False';
 $string['notanswered'] = 'Not answered';
 $string['true'] = 'True';
-$string['ddl_empty'] = 'No choices were provided for this drop-down. Please input a set of values like a,b,c,d';
+$string['ddl_runtime'] = 'The input has generated the following runtime error which prevents you from answering. Please contact your teacher.';
+$string['ddl_empty'] = 'No choices were provided for this drop-down.';
+$string['ddl_nocorrectanswersupplied'] = 'The teacher did not indicate at least one correct answer. ';
+$string['ddl_duplicates'] = 'Duplicate values have been found when generating the input options. ';
+$string['ddl_badanswer'] = 'The model answer field for this input is malformed: <code>{$a}</code>. ';
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
-$string['teacheranswershow_disp'] = 'A correct answer is \( {$a->display} \).';
+$string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';
 
 
 // Admin settings.
@@ -327,7 +336,8 @@ $string['settingdefaultquestionoptions_desc'] = 'Used when creating a new questi
 $string['settingmathsdisplay'] = 'Maths filter';
 $string['settingmathsdisplay_mathjax'] = 'MathJax';
 $string['settingmathsdisplay_tex'] = 'Moodle TeX filter';
-$string['settingmathsdisplay_maths'] = 'OU maths filter';
+$string['settingmathsdisplay_maths'] = 'Old OU maths filter';
+$string['settingmathsdisplay_oumaths'] = 'New OU maths filter';
 $string['settingmathsdisplay_desc'] = 'The method used to display maths. If you select MathJax, then you will need to follow the instructions on the Healthcheck page to set it up. If you select a filter, then you must ensure that filter is enabled on the Manage filters configuration page.';
 $string['settingsmathsdisplayheading'] = 'Maths display options';
 $string['settingsmaximasettings'] = 'Connecting to Maxima';
@@ -354,7 +364,7 @@ $string['settingexternalblocklatex_desc'] = 'The latex type of the external bloc
 $string['settingexternalblocklatexcommand'] = 'PDFLaTeX command';
 $string['settingexternalblocklatexcommand_desc'] = 'The full path for the PDFLaTeX command, you will also need to ensure that PHP can call that command. Typically <code>/usr/bin/pdflatex</code> or similar.';
 $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
-$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: see the documentation for supported library names.';
+$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: see the documentation for supported library names. These libraries will not be loaded if you have saved a maxima image to optimise performance.';
 $string['settingmaximalibraries_error'] = 'The following package is not supported: {$a}';
 $string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.  Please refer to the installation instructions for notes about this error.';
 
@@ -459,7 +469,7 @@ $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CA
 $string['healthcheckfilters'] = 'Please ensure that the {$a->filter} is enabled on the <a href="{$a->url}">Manage filters</a> page.';
 $string['healthchecklatex'] = 'Check LaTeX is being converted correctly';
 $string['healthchecklatexintro'] = 'STACK generates LaTeX on the fly, and enables teachers to write LaTeX in questions. It assumes that LaTeX will be converted by a moodle filter.  Below are samples of displayed and inline expressions in LaTeX which should be appear correctly in your browser.  Problems here indicate incorrect moodle filter settings, not faults with STACK itself. STACK only uses the single and double dollar notation itself, but some question authors may be relying on the other forms.';
-$string['healthchecklatexmathjax'] = 'One way to get equation rendering to work is to copy the following code into the <b>Within HEAD</b> setting on <a href="{$a}">Additional HTML</a>.';
+$string['healthchecklatexmathjax'] = 'STACK relies on the Moodle MathJax filter.  An alternative is to add javascript code to Moodle\'s additional HTML.  See the STACK installation docs for more details of this option.';
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
@@ -536,7 +546,7 @@ $string['texdisplaystyle'] = 'Display-style equation';
 $string['texinlinestyle'] = 'Inline-style equation';
 
 // Used in casstring.class.php.
-$string['stackCas_spaces']                  = 'Spaces found in expression {$a->expr}.';
+$string['stackCas_spaces']                  = 'Illegal spaces found in expression {$a->expr}.';
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
@@ -559,6 +569,8 @@ $string['stackCas_trigexp']                 = 'You cannot take a power of a trig
 $string['stackCas_trigparens']              = 'When you apply a trig function to its arguments you must use round parentheses not square brackets.  E.g {$a->forbid}.';
 $string['stackCas_triginv']                 = 'Inverse trig functions are written {$a->goodinv} not {$a->badinv}.';
 $string['stackCas_badLogIn']                = 'You have typed in the expression <tt>In</tt>.  The natural logarithm is entered as <tt>ln</tt> in lower case.  ("Lima November" not "India November")';
+$string['stackCas_unitssynonym']            = 'You appear to have units {$a->forbid}.  Did you mean {$a->unit}?';
+$string['stackCas_unknownUnitsCase']        = 'Input of units is case sensitive:  {$a->forbid} is an unknown unit. Did you mean one from the following list {$a->unit}?';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
@@ -592,6 +604,10 @@ $string['stackBlock_externalblocksdisabled'] = 'External blocks have not been en
 $string['stackBlock_eternalLatexNotEnabled'] = 'LaTeX-type has not been enabled in this stack installation.';
 $string['stackBlock_eternalMustHaveType']    = 'External blocks must define a type attribute, and that type must have a known and enabled handler.';
 $string['stackBlock_missmatch']              = 'has no match. ';
+$string['stackBlock_else_out_of_an_if']      = '"else" cannot exist outside an if block.';
+$string['stackBlock_elif_out_of_an_if']      = '"elif" cannot exist outside an if block.';
+$string['stackBlock_multiple_else']          = 'Multiple else branches in an if block.';
+$string['stackBlock_elif_after_else']        = '"elif" after an "else" in an if block.';
 
 
 $string['unrecognisedfactstags']             = 'The following facts tag(s) are not recognized: {$a->tags}.';
@@ -601,7 +617,9 @@ $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Lowest_Terms']   = 'Your answer contains fractions that are not written in lowest terms.  Please cancel factors and try again.';
 $string['Illegal_floats'] = 'Your answer contains floating point numbers, that are not allowed in this question.  You need to type in numbers as fractions.  For example, you should type 1/3 not 0.3333, which is after all only an approximation to one third.';
 $string['qm_error'] = 'Your answer contains question mark characters, ?, which are not permitted in answers.  You should replace these with a specific value.';
+// @codingStandardsIgnoreStart
 // TODO add this to STACK: $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{$a[0]}</tt>,</li><li>If you meant to type in a set, please use <tt>{$a[1]}</tt>.</li></ul>';
+// @codingStandardsIgnoreEnd
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']           = "AlgEquiv";
@@ -619,6 +637,8 @@ $string['stackOptions_AnsTest_values_NumRelative']        = "NumRelative";
 $string['stackOptions_AnsTest_values_NumAbsolute']        = "NumAbsolute";
 $string['stackOptions_AnsTest_values_NumSigFigs']         = "NumSigFigs";
 $string['stackOptions_AnsTest_values_NumDecPlaces']       = "NumDecPlaces";
+$string['stackOptions_AnsTest_values_Units']              = "Units";
+$string['stackOptions_AnsTest_values_UnitsStrict']        = "UnitsStrict";
 $string['stackOptions_AnsTest_values_GT']                 = "Num-GT";
 $string['stackOptions_AnsTest_values_GTE']                = "Num-GTE";
 $string['stackOptions_AnsTest_values_LowestTerms']        = "LowestTerms";
@@ -719,8 +739,18 @@ $string['ATNumerical_STACKERROR_tol']    = 'The numerical tolerance for ATNumeri
 
 $string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact your systems administrator';
 $string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';
+$string['ATNumSigFigs_WrongSign']   = 'Your answer has the wrong algebraic sign. ';
 $string['ATNumSigFigs_Inaccurate']  = 'The accuracy of your answer is not correct.  Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.';
 $string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of significant digits. ';
+
+$string['ATUnits_SA_not_expression']   = 'Your answer needs to be a number together with units. Do not use sets, lists, equations or matrices. ';
+$string['ATUnits_SA_no_units']         = 'Your answer must have units. ';
+$string['ATUnits_SA_excess_units']     = 'Your answer has used units (or variables), but should not. ';
+$string['ATUnits_SA_only_units']       = 'Your answer needs to be a number together with units. Your answer only has units. ';
+$string['ATUnits_SA_bad_units']        = 'Your answer must have units, and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>. ';
+$string['ATUnits_incompatible_units']  = 'Your units are incompatible with those used by the teacher. ';
+$string['ATUnits_compatible_units']    = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
+$string['ATUnits_correct_numerical']   = 'Please check your units carefully. ';
 
 $string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';
@@ -741,6 +771,7 @@ $string['ATRegEx_missing_option']               = 'Missing regular expression in
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';
+$string['studentValidation_listofunits']        = 'The units found in your answer were: {$a}';
 $string['studentValidation_invalidAnswer']      = 'This answer is invalid. ';
 $string['stackQuestion_noQuestionParts']        = 'This item has no question parts for you to answer.';
 

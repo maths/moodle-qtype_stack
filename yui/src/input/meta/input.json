@@ -1,0 +1,11 @@
+{
+  "moodle-qtype_stack-input": {
+    "requires": [
+        "node",
+        "event-valuechange",
+        "moodle-core-event",
+        "io",
+        "json-parse"
+    ]
+  }
+}

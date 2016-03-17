@@ -54,6 +54,7 @@ class stack_algebraic_input extends stack_input {
 
     /**
      * Return the default values for the parameters.
+     * Parameters are options a teacher might set.
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
@@ -91,5 +92,4 @@ class stack_algebraic_input extends stack_input {
     public function get_teacher_answer_display($value, $display) {
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
-
 }

@@ -36,13 +36,13 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
         $cs = null;
         $cs = new stack_cas_casstring(trim($this->get_node()->get_content()), $conditionstack);
 
-        $session_keys = $tobeevaluatedcassession->get_all_keys();
+        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
         do { // ... make sure names are not already in use.
             $key = 'caschat'.$i;
             $i++;
-        } while (in_array($key, $session_keys));
-        $this->number = $i-1;
+        } while (in_array($key, $sessionkeys));
+        $this->number = $i - 1;
 
         $cs->get_valid($this->security, $this->syntax, $this->insertstars);
         $cs->set_key($key, true);
@@ -51,13 +51,13 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
     }
 
     public function content_evaluation_context($conditionstack = array()) {
-        // adds nothing to the evaluation context as we have nothing inside
+        // Adds nothing to the evaluation context as we have nothing inside.
         return $conditionstack;
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
         $evaluated = $evaluatedcassession->get_display_key("caschat".$this->number);
-        if (strpos($evaluated, "<html")!==false) {
+        if (strpos($evaluated, "<html") !== false) {
             $this->get_node()->convert_to_text($evaluated);
         } else {
             if ($this->get_node()->get_mathmode() == true) {

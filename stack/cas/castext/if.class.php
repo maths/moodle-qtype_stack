@@ -40,13 +40,13 @@ class stack_cas_castext_if extends stack_cas_castext_block {
 
         $this->condition = $cs;
 
-        $session_keys = $tobeevaluatedcassession->get_all_keys();
+        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
         do { // ... make sure names are not already in use.
             $key = 'caschat'.$i;
             $i++;
-        } while (in_array($key, $session_keys));
-        $this->number = $i-1;
+        } while (in_array($key, $sessionkeys));
+        $this->number = $i - 1;
 
         $cs->get_valid($this->security, $this->syntax, $this->insertstars);
         $cs->set_key($key, true);
@@ -62,10 +62,10 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     public function process_content($evaluatedcassession, $conditionstack = null) {
         $evaluated = $evaluatedcassession->get_value_key("caschat".$this->number);
 
-        // If so then move childs up
+        // If so then move childs up.
         if ($evaluated == 'true') {
             $this->get_node()->destroy_node_promote_children();
-        } else { // otherwise blank
+        } else { // Otherwise blank.
             $this->get_node()->destroy_node();
         }
 

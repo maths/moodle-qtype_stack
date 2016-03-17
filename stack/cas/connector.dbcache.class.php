@@ -47,7 +47,9 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
             $this->debug->log('Maxima command', $command);
+            // @codingStandardsIgnoreStart
             $this->debug->log('Unpacked result found in the DB cache', print_r($cached->result, true));
+            // @codingStandardsIgnoreEnd
             if (!stack_connection_helper::check_stackmaxima_version($cached->result)) {
                 stack_connection_helper::warn_about_version_mismatch($this->debug);
                 // We could consider automatically purging the cache here.

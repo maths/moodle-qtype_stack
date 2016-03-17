@@ -24,6 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../stack/cas/connectorhelper.class.php');
+require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
+require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
+
 /**
  * Upgrade code for the Stack question type.
  * @param int $oldversion the version we are upgrading from.
@@ -645,21 +649,65 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014040501, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2015021301) {
+    if ($oldversion < 2016012900) {
+
+        // Convert approximate thirds for penalties in the question table.
+        $DB->set_field_select('question', 'penalty', '0.3333333',
+                'qtype = ? AND penalty BETWEEN ? AND ?', array('stack', '0.33', '0.34'));
+        $DB->set_field_select('question', 'penalty', '0.6666667',
+                'qtype = ? AND penalty BETWEEN ? AND ?', array('stack', '0.66', '0.67'));
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2016012900, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2016012901) {
+
+        // Convert approximate thirds for penalties in the qtype_stack_prt_nodes table.
+        $DB->set_field_select('qtype_stack_prt_nodes', 'truepenalty', '0.3333333',
+                'truepenalty BETWEEN ? AND ?', array('0.33', '0.34'));
+        $DB->set_field_select('qtype_stack_prt_nodes', 'truepenalty', '0.6666667',
+                'truepenalty BETWEEN ? AND ?', array('0.66', '0.67'));
+        $DB->set_field_select('qtype_stack_prt_nodes', 'falsepenalty', '0.3333333',
+                'falsepenalty BETWEEN ? AND ?', array('0.33', '0.34'));
+        $DB->set_field_select('qtype_stack_prt_nodes', 'falsepenalty', '0.6666667',
+                'falsepenalty BETWEEN ? AND ?', array('0.66', '0.67'));
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2016012901, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2016012902) {
+
+        // Convert approximate thirds for penalties in the qtype_stack_qtest_expected table.
+        $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.3333333',
+                'expectedpenalty BETWEEN ? AND ?', array('0.33', '0.34'));
+        $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.6666667',
+                'expectedpenalty BETWEEN ? AND ?', array('0.66', '0.67'));
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2016012902, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2016031400) {
 
         // Changing precision of field questionnote on table qtype_stack_options to (1024).
         $table = new xmldb_table('qtype_stack_options');
-        $field = new xmldb_field('questionnote', XMLDB_TYPE_CHAR, '1024', null, XMLDB_NOTNULL, null, null, 'specificfeedbackformat');
+        $field = new xmldb_field('questionnote', XMLDB_TYPE_CHAR, '1300', null, XMLDB_NOTNULL, null, null, 'specificfeedbackformat');
 
         // Launch change of precision for field questionnote.
         $dbman->change_field_precision($table, $field);
 
         // Stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2015021301, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2016031400, 'qtype', 'stack');
     }
 
 
     // Add new upgrade blocks just above here.
+
+    // Check the version of the Maxima library code that comes with this version
+    // of STACK. Compare that to the version that was previously in use. If they
+    // are different, automatically clear the CAS cache.
 
     // This block of code is intentionally outside of an if statement. We want
     // this bit of code to run every time that qtype_stack is updated.
@@ -667,7 +715,15 @@ function xmldb_qtype_stack_upgrade($oldversion) {
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
         throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
     }
-    set_config('stackmaximaversion', $matches[1], 'qtype_stack');
+    $latestversion = $matches[1];
+    $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
+
+    if ($latestversion != $currentlyusedversion) {
+        stack_cas_connection_db_cache::clear_cache($DB);
+    }
+
+    // Update the record of the currently used version.
+    set_config('stackmaximaversion', $latestversion, 'qtype_stack');
 
     return true;
 }

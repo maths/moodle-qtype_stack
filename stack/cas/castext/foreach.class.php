@@ -15,8 +15,8 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * foreach blocks do just what one would expect. One gives them a list or 
- * a set and and they will repeat their contents and add a define block 
+ * foreach blocks do just what one would expect. One gives them a list or
+ * a set and and they will repeat their contents and add a define block
  * before each repetition. For example:
  *
  *   [[ foreach I='[1,2,3]' K='{4,5,6}' ]]({#I#},{#K#}) [[/ foreach ]]
@@ -43,17 +43,17 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     private $numbers = array();
 
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
-        $session_keys = $tobeevaluatedcassession->get_all_keys();
+        $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             $cs = null;
             $cs = new stack_cas_casstring($value, $conditionstack);
-            $caskey='';
+            $caskey = '';
             do { // ... make sure names are not already in use.
                 $caskey = 'caschat'.$i;
                 $i++;
-            } while (in_array($caskey, $session_keys));
-            $this->numbers[$key] = $i-1;
+            } while (in_array($caskey, $sessionkeys));
+            $this->numbers[$key] = $i - 1;
             $cs->get_valid($this->security, $this->syntax, $this->insertstars);
             $cs->set_key($caskey, true);
             $tobeevaluatedcassession->add_vars(array($cs));
@@ -61,33 +61,33 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     }
 
     public function content_evaluation_context($conditionstack = array()) {
-        // Foreach blocks contents may not be evaluated before the block has been writen open
+        // Foreach blocks contents may not be evaluated before the block has been writen open.
         return false;
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
-        // extract the lists
+        // Extract the lists.
         $lists = array();
-        $max_length = -1;
+        $maxlength = -1;
         foreach ($this->numbers as $key => $id) {
             $lists[$key] = stack_utils::list_to_array($evaluatedcassession->get_value_key("caschat".$id), false);
-            if ($max_length == -1 || $max_length > count($lists[$key])) {
-                $max_length = count($lists[$key]);
+            if ($maxlength == -1 || $maxlength > count($lists[$key])) {
+                $maxlength = count($lists[$key]);
             }
         }
 
-        // What we are repeating
-        $inner_text = "";
-        $iter = $this->get_node()->first_child;
+        // What we are repeating.
+        $innertext = "";
+        $iter = $this->get_node()->firstchild;
         while ($iter !== null) {
-            $inner_text .= $iter->to_string();
-            $iter = $iter->next_sibling;
+            $innertext .= $iter->to_string();
+            $iter = $iter->nextsibling;
         }
 
         $newtext = "";
 
-        // for each iteration...
-        for ($i = 0; $i < $max_length; $i++) {
+        // For each iteration...
+        for ($i = 0; $i < $maxlength; $i++) {
             $newtext .= "[[ define";
             foreach ($lists as $key => $list) {
                 $newtext .= " $key=";
@@ -98,7 +98,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
                 }
             }
             $newtext .= " /]]";
-            $newtext .= $inner_text;
+            $newtext .= $innertext;
         }
 
         $this->get_node()->convert_to_text($newtext);
@@ -110,9 +110,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
     public function validate_extract_attributes() {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = new stack_cas_casstring($value);
-            $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-            $cs->set_key($key, true);
+            $cs = new stack_cas_casstring($key . ':' . $value);
             $r[] = $cs;
         }
         return $r;

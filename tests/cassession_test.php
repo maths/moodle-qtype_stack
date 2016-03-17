@@ -234,7 +234,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs = new stack_cas_casstring($test);
             $cs->get_valid('t', false, 2);
             $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, '');
+            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
             $sessionvars[] = $cs;
             $k++;
             $this->assertTrue($cs->get_valid());
@@ -272,7 +272,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs = new stack_cas_casstring($test);
             $cs->get_valid('s', false, 2);
             $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, '');
+            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
             $sessionvars[] = $cs;
             $k++;
             $this->assertTrue($cs->get_valid());
@@ -506,7 +506,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('0', $at1->get_value_key('a'));
-        $this->assertEquals('Division by zero.', trim($at1->get_errors_key('p')));
+        $this->assertRegExp('/Division by (zero|0)/', trim($at1->get_errors_key('p')));
         $this->assertFalse(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters'));
     }
 

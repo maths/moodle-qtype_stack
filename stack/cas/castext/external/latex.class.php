@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * A type for the external block handling LaTeX to PNG processing, requires 
+ * A type for the external block handling LaTeX to PNG processing, requires
  * ImageMagick and a LaTeX installation.
  *
  * Allows complete source-code generation or using templates.
@@ -30,7 +30,7 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
 
     private $template = false;
 
-    private $templates = array("basic"=>"template/basic.tex");
+    private $templates = array("basic" => "template/basic.tex");
 
     private $timeout = 10;
 
@@ -45,7 +45,7 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
     }
 
     public function set_attributes($evaluatedcassession) {
-        // Nothing needed
+        // Nothing needed.
     }
 
     public function get_generated_files() {
@@ -58,14 +58,14 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
         return ".tex";
     }
 
-    public function process($label_map) {
+    public function process($labelmap) {
         global $CFG;
         if ($this->template !== false) {
             $code = file_get_contents(__DIR__ . '/'.$this->templates[$this->template]);
-            $code = str_replace("__TEMPLATE__", file_get_contents($label_map["__SOURCE_CODE__"]), $code);
-            file_put_contents($label_map["__SOURCE_CODE__"], $code);
+            $code = str_replace("__TEMPLATE__", file_get_contents($labelmap["__SOURCE_CODE__"]), $code);
+            file_put_contents($labelmap["__SOURCE_CODE__"], $code);
         }
-        $cwd = dirname($label_map["__SOURCE_CODE__"]);
+        $cwd = dirname($labelmap["__SOURCE_CODE__"]);
         $pipes = array();
         $descriptors = array(
             0 => array('pipe', 'r'),
@@ -74,20 +74,19 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
 
         $config = stack_utils::get_config();
 
-        $latex_command = $config->externalblocklatexcommand;
+        $latexcommand = $config->externalblocklatexcommand;
 
-        if (!$latex_command) {
+        if (!$latexcommand) {
             throw new stack_exception('stack_cas_castext_external_latex_connection: LaTeX-command undefined');
         }
 
+        $latexprocess = proc_open($latexcommand. " " .$labelmap["__SOURCE_CODE__"], $descriptors, $pipes, $cwd);
 
-        $latex_process = proc_open($latex_command. " " .$label_map["__SOURCE_CODE__"], $descriptors, $pipes, $cwd);
-
-        if (!is_resource($latex_process)) {
+        if (!is_resource($latexprocess)) {
             throw new stack_exception('stack_cas_castext_external_latex_connection: could not open a LaTeX process');
         }
 
-        $start_time = microtime(true);
+        $starttime = microtime(true);
         $continue = true;
 
         if (!stream_set_blocking($pipes[1], false)) {
@@ -97,10 +96,10 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
         $ret = "";
         while ($continue and !feof($pipes[1])) {
             $now = microtime(true);
-            if (($now-$start_time) > $this->timeout) {
-                $proc_array = proc_get_status($latex_process);
-                if ($proc_array['running']) {
-                    proc_terminate($latex_process);
+            if (($now - $starttime) > $this->timeout) {
+                $procarray = proc_get_status($latexprocess);
+                if ($procarray['running']) {
+                    proc_terminate($latexprocess);
                 }
                 $continue = false;
             } else {
@@ -117,19 +116,19 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
         fclose($pipes[1]);
         fclose($pipes[2]);
 
-        if (file_exists(str_replace(".tex", ".pdf", $label_map["__SOURCE_CODE__"]))) {
+        if (file_exists(str_replace(".tex", ".pdf", $labelmap["__SOURCE_CODE__"]))) {
             $image = new Imagick();
             $image->setResolution(150, 150);
-            $image->readImage(str_replace(".tex", ".pdf", $label_map["__SOURCE_CODE__"]));
+            $image->readImage(str_replace(".tex", ".pdf", $labelmap["__SOURCE_CODE__"]));
 
             $image->trimImage(0);
 
             $image->writeImage($CFG->dataroot . "/stack/plots/latex-" . $this->name . ".png");
 
-            // Clean up
-            unlink(str_replace(".tex", ".pdf", $label_map["__SOURCE_CODE__"]));
-            unlink(str_replace(".tex", ".aux", $label_map["__SOURCE_CODE__"]));
-            unlink(str_replace(".tex", ".log", $label_map["__SOURCE_CODE__"]));
+            // Clean up.
+            unlink(str_replace(".tex", ".pdf", $labelmap["__SOURCE_CODE__"]));
+            unlink(str_replace(".tex", ".aux", $labelmap["__SOURCE_CODE__"]));
+            unlink(str_replace(".tex", ".log", $labelmap["__SOURCE_CODE__"]));
         } else {
             // Something went wrong...
             $this->error = $ret;
@@ -146,8 +145,8 @@ class stack_cas_castext_external_latex extends stack_cas_castext_external_handle
         return "<img src='$url'/>";
     }
 
-    public function validate_extract_attributes(){
-        // the attributes of this block contain nothing to validate.
+    public function validate_extract_attributes() {
+        // The attributes of this block contain nothing to validate.
         return array();
     }
 

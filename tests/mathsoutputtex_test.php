@@ -49,7 +49,8 @@ class stack_maths_tex_test extends advanced_testcase {
                 stack_string('ATSingleFrac_part'));
 
         // Test docs - make sure maths inside <code> is not rendered.
-        $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives (<span class="MathJax_Preview">)?<a .*alt="x\^2".*</(a|script)> \.</p>\n$~',
+        $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives (<span class="MathJax_Preview">)?'
+                .'<a .*alt="x\^2".*</(a|script)> \.</p>\n$~',
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).', ''));
 
         // Test docs - make sure maths inside <textarea> is not rendered.

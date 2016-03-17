@@ -180,6 +180,24 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('', $at2->get_errors());
     }
 
+    public function test_allow_words() {
+        $s = '2*dumvariable+3';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0, 'dumvariable'));
+    }
+
+    public function test_allow_words_fail() {
+        $s = 'sin(2*dumvariable+3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0, 'dvariable'));
+    }
+
+    public function test_allow_words_teacher() {
+        $s = 'sin(2*dumvariable+3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t', true, 0, 'dvariable'));
+    }
+
     public function test_check_external_forbidden_words() {
         // Remember, this function returns true if the literal is found.
         $cases = array(
@@ -386,4 +404,75 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('s'));
         $this->assertEquals(array($c1), $at1->get_conditions());
     }
+
+    public function test_units_1() {
+        $s = 'sa:3.14*mol';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+    }
+
+    public function test_units_2() {
+        $s = 'sa:3.14*moles';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_3() {
+        $s = 'sa:3.14*Moles';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_allow_moles() {
+        $s = 'sa:3.14*moles';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0, 'moles'));
+    }
+
+    public function test_units_4() {
+        $s = '52.3*km';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+    }
+
+    public function test_units_5() {
+        $s = 'sa:52.3*MHz';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+    }
+
+    public function test_units_6() {
+        $s = 'sa:52.3*Mhz';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unknownUnitsCase', $at1->get_answernote());
+        $err = 'Input of units is case sensitive:  <span class="stacksyntaxexample">Mhz</span> is an unknown unit. '
+                   . 'Did you mean one from the following list <span class="stacksyntaxexample">[mHz, MHz]</span>?';
+        $this->assertEquals($err, $at1->get_errors());
+    }
+
+    public function test_units_amu() {
+        $s = '520*amu';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+    }
+
+    public function test_units_mamu() {
+        $s = '520*mamu';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+    }
+
+    public function test_units_mmhg() {
+        $s = '7*mmhg';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unknownUnitsCase', $at1->get_answernote());
+        $err = 'Input of units is case sensitive:  <span class="stacksyntaxexample">mmhg</span> is an unknown unit. '
+                   . 'Did you mean one from the following list <span class="stacksyntaxexample">[mmHg]</span>?';
+        $this->assertEquals($err, $at1->get_errors());
+    }
+
 }

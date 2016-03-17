@@ -7,10 +7,12 @@ Contributions are very welcome.  Please see the [community](../About/Community.m
 ## What is LaTeX? Where can I get help learning LaTeX? ##
 
 LaTeX is a document preparation system. For STACK questions we only need some simple LaTeX, so please do not be put off.
-Details about LaTeX are available from <http://www.latex-project.org/guides/>.
+In particular STACK only really makes use of LaTeX for mathematical markup, and does not use the document structure tags.
 
-Perhaps a better introduction for those totally new to LaTeX is found [here](http://www.andy-roberts.net/misc/latex/index.html)
-with more specific information about [mathematics](http://www.andy-roberts.net/misc/latex//latextutorial9.html) with examples for you to follow.
+* An introduction for those totally new to LaTeX is found [here](http://www.andy-roberts.net/misc/latex/index.html)
+* The mathematics environment is describe [here](http://www.andy-roberts.net/writing/latex/mathematics_1)
+* Details about LaTeX are available from <http://www.latex-project.org/guides/>.
+
 Note that some of the more complex examples will not work on STACK. Just keep things simple.
 
 ## Can I add HTML to CAS-enabled text? ##
@@ -26,8 +28,9 @@ The Simple Venn sample question demonstrates using the [Google charts](http://co
 
 Not all Maxima functions are enabled by STACK, for obvious security reasons.
 It may be that your function belongs to a library which STACK does not load by default.
-Do you need to use Maxima's load command to use it? If so, you will need to ask your system administrator
-or the developers to add a load command so that this library becomes available.
+Do you need to use Maxima's load command to use it? If so, you will need to ask your system administrator or the developers to add a load command so that this library becomes available.
+
+Some libraries are optional and may not be included by your local installation.
 
 You should also be aware that there are also a number of functions defined by STACK which are not standard Maxima functions.
 The command you need may well not be enabled since you should use one STACK provides instead.
@@ -51,17 +54,11 @@ In STACK a very useful test is equivalence up to [associativity and commutativit
 
 ## How can I change which Maxima functions STACK allows? ##
 
-This is a job for a developer.
-
-**It is not enough to just change this file!** You will also need to copy and re-run the install script.
-This should not re-install the databases or wipe data, but at the end of the file will generate a number of temporary files to reflect your new settings.
-The most important of these for this purpose is
+This is a job for a developer.  Details of this are in the code with the casstring class.  [See the latest code on github](https://github.com/maths/moodle-qtype_stack/blob/master/stack/cas/casstring.class.php).  
 
 ## Why doesn't Maxima give `int(1/x,x)=log(abs(x))`?
 
-Because \( \int \frac{1}{x}dx = \log(|x|) \) is OK on either the negative or
-positive real axis, but it is not OK in the complex plane. There is a switch that
-controls this, however.
+Because \( \int \frac{1}{x}dx = \log(|x|) \) is OK on either the negative or positive real axis, but it is not OK in the complex plane. There is a switch that controls this, however.
 
     (%i199) integrate(1/x,x);
     (%o199) log(x)

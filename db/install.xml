@@ -11,7 +11,7 @@
         <FIELD NAME="questionvariables" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Maxima code that is run when the question is started to initialise variables."/>
         <FIELD NAME="specificfeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question."/>
         <FIELD NAME="specificfeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the specific feedback"/>
-        <FIELD NAME="questionnote" TYPE="char" LENGTH="1024" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This should be a short summary of which random variant of the question the student saw."/>
+        <FIELD NAME="questionnote" TYPE="char" LENGTH="1300" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This should be a short summary of which random variant of the question the student saw."/>
         <FIELD NAME="questionsimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to simplify expressions in the question text, question variables, etc."/>
         <FIELD NAME="assumepositive" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to assume that variables are positive."/>
         <FIELD NAME="prtcorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 1."/>

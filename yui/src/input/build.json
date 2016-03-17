@@ -1,0 +1,10 @@
+{
+    "name": "moodle-qtype_stack-input",
+    "builds": {
+        "moodle-qtype_stack-input": {
+            "jsfiles": [
+                "input.js"
+            ]
+        }
+    }
+}

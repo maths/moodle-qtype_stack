@@ -17,8 +17,7 @@ Optinally, depending on the question settings, you have
     j: %i
 
 Sometimes you need to use \(e\) as an abstract symbol not a number.
-The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function.
-Instead use `stack_reset_vars(true)` in the question variables.
+The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.
 
 This resets all the special constants defined by STACK so the symbols can be redefined in a STACK question.
 
@@ -37,6 +36,52 @@ The following commands which are relevant to manipulation of numbers are defined
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).  
 
+## Display of numbers ##
+
+The display of numbers is controlled by Maxima's `texnumformat` command, which STACK modifies.
+
+Stack provides two variables to control the display of integers and floats repectively.  The default values are
+
+    stackintfmt:"~d";
+    stackfltfmt:"~a";
+
+These two variables control the output format of integers (`integerp`) and floats (`floatnump`) respectively.  These variables persist, so you need to define their values each time you expect them to change.
+
+These variables must be assigned a string following Maxima's `printf` format.
+
+These variables can be defined in the question variables, for global effect.  They can also be defined inside a Maxima block to control the display on the fly, and for individual expressions.  For example, consider the following CASText.
+
+    The decimal number @n:73@ is written in base \(2\) as @(stackintfmt:"~2r",n)@, in base \(7\) as @(stackintfmt:"~7r",n)@, in scientific notation as @(stackintfmt:"~e",n)@ and in rhetoric as @(stackintfmt:"~r",n)@.
+
+The result should be "The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\).."
+
+To force all floating point numbers to scientific notation use
+
+    stackfltfmt:"~e";
+
+To force all floating point numbers to decimal floating point numbers use
+
+    stackfltfmt:"~f";
+
+You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.
+
+The number of decimal digits printed is controlled by Maxima's `fpprec` and `fpprintprec` variables.  The default for STACK is
+
+    fpprec:20,          /* Work with 20 digits. */
+    fpprintprec:12,     /* Print only 12 digits. */
+
+For further examples, please see Maxima's documentation on `printf`.
+
+## Notes about numerical rounding ##
+
+There are two ways to round numbers ending in a digit \(5\).  
+* Always round up, so that \(0.5\rightarrow 1\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 3\) etc.
+* Another common system is to use ``Bankers' Rounding". Bankers Rounding is an algorithm for rounding quantities to integers, in which numbers which are equidistant from the two nearest integers are rounded to the nearest even integer. \(0.5\rightarrow 0\), \(1.5 \rightarrow 2\), \(2.5 \rightarrow 2\) etc.  The supposed advantage to bankers rounding is that in the limit it is unbiased, and so produces better results with some statistical processes that involve rounding.
+
+Maxima's `round(ex)` command rounds multiples of 1/2 to the nearest even integer, i.e. Maxima implements Bankers' Rounding.
+
+STACK has defined the function `significantfigures(x,n)` to conform to convention of rounding up.
+
 ## STACK numerical predicates ##
 
 | Function                  | Predicate
@@ -47,8 +92,6 @@ The following commands which are relevant to manipulation of numbers are defined
 | `anyfloatex(ex)`          | Decides if any floats are in the expression.
 
 
-## Rational numbers ##
-
 ## Floating point numbers ## {#Floats}
 
 The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.    
@@ -57,7 +100,7 @@ If you expect students to use scientific notation for numbers, e.g. `3e4` (which
 
 ## Displaying a float with trailing zeros ##
 
-By default in Maxima all trailing zeros are suppressed.  Therefore, you can't display \(3.00\) for scientific work easily.  To overcome this, STACK provides a function `dispdp(x, n)`.  Here `x` is a number, and `n` is the number of decimal digits to display.  This function does perform rounding, and adds trailing digits to the display.  If you want to do further calculationw with the value don't use this funtion, instead round with `decimalplaces(x,n)` and display only at the last moment.
+By default in Maxima all trailing zeros are suppressed.  Therefore, you can't display \(3.00\) for scientific work easily.  To overcome this, STACK provides a function `dispdp(x, n)`.  Here `x` is a number, and `n` is the number of decimal digits to display.  This function does perform rounding, and adds trailing digits to the display.  If you want to do further calculation with the value don't use this funtion, instead round with `decimalplaces(x,n)` and display only at the last moment.
 
 ## Surds ##
 

@@ -68,6 +68,9 @@ class stack_cas_session {
      */
     private $debuginfo;
 
+    /** @var array Global variables. */
+    private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true);
+
     public function __construct($session, $options = null, $seed = null) {
 
         if (is_null($session)) {
@@ -246,6 +249,7 @@ class stack_cas_session {
         }
         if ($allfail) {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
+            $this->errors .= $this->get_debuginfo();
         }
         $this->instantiated = true;
     }
@@ -488,7 +492,11 @@ class stack_cas_session {
                 $cmd = '0';
             }
 
-            $csnames   .= ", $cleanlabel";
+            // The session might, legitimately, attempt to redefine a Maxima global variable,
+            // which would throw a spurious error when the block attempts to define them as local.
+            if (!(array_key_exists($cleanlabel, self::$maximaglobals))) {
+                $csnames   .= ", $cleanlabel";
+            }
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
             $i++;
 

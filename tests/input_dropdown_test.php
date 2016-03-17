@@ -56,7 +56,9 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_simple_dropdown() {
+        // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+y,false]]', array());
+        // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 .'<option value="">Not answered</option><option value="1"><code>1+x</code></option>'
                 .'<option selected="selected" value="2"><code>2+y</code></option></select>';
@@ -65,7 +67,9 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_no_correct_answer() {
+        // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,false],[2,false]]', array());
+        // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
                 .' Please contact your teacher.</p><p>The teacher did not indicate at least one correct answer. </p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
@@ -83,8 +87,10 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_duplicate_values() {
+        // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
+        // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
                 .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options. </p>'
                 .'</div>';
@@ -93,8 +99,10 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_duplicate_values_ok() {
+        // @codingStandardsIgnoreStart
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', array());
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
+        // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 . '<option value="">Not answered</option><option value="1"><code>1</code></option>'
                 . '<option selected="selected" value="2"><code>1</code></option></select>';

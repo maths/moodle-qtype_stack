@@ -50,30 +50,11 @@ function stack_string($key, $a = null) {
     return stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
 }
 
- /**
-  * Translates a string taken as output from Maxima.
-  *
-  * This function takes a variable number of arguments, the first of which is assumed to be the identifier
-  * of the string to be translated.
-  */
-function stack_trans() {
-    $nargs = func_num_args();
-
-    if ($nargs > 0) {
-        $arglist = func_get_args();
-        $identifier = func_get_arg(0);
-        $a = array();
-        if ($nargs > 1) {
-            for ($i = 1; $i < $nargs; $i++) {
-                $index = $i - 1;
-                $a["m{$index}"] = func_get_arg($i);
-            }
-        }
-        $return = stack_string($identifier, $a);
-        echo $return;
-    }
-}
-
+/**
+ * This function takes a feedback string from Maxima and unpacks and translates it.
+ * @param string $rawfeedback
+ * @return string
+ */
 function stack_maxima_translate($rawfeedback) {
 
     if (strpos($rawfeedback, 'stack_trans') === false) {
@@ -82,15 +63,32 @@ function stack_maxima_translate($rawfeedback) {
         $rawfeedback = str_replace('[[', '', $rawfeedback);
         $rawfeedback = str_replace(']]', '', $rawfeedback);
         $rawfeedback = str_replace('\n', '', $rawfeedback);
-        $rawfeedback = str_replace('\\', '\\\\', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
-        ob_start();
-        eval($rawfeedback);
-        $translated = ob_get_contents();
-        ob_end_clean();
+        $translated = array();
 
-        return trim($translated);
+        preg_match_all('/stack_trans\(.*?\);/', $rawfeedback, $matches);
+        $feedback = $matches[0];
+        foreach ($feedback as $key => $fb) {
+            $fb = substr($fb, 12, -2);
+            if (strstr($fb, "' , \"") === false) {
+                // We only have a feedback tag, with no optional arguments.
+                $translated[] = trim(stack_string(substr($fb, 1, -1)));
+            } else {
+                // We have a feedback tag and some optional arguments.
+                $tag = substr($fb, 1, strpos($fb, "' , \"") - 1);
+                $arg = substr($fb, strpos($fb, "' , \"") + 5, -2);
+                $args = explode('"  , "', $arg);
+
+                $a = array();
+                for ($i = 0; $i < count($args); $i++) {
+                    $a["m{$i}"] = $args[$i];
+                }
+                $translated[] = trim(stack_string($tag, $a));
+            }
+        }
+
+        return implode(' ', $translated);
     }
 }
 

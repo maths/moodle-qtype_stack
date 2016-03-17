@@ -195,7 +195,7 @@ rand_with_step(lower, upper, step_parameter) := block([temprand],
 rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
    currents:ev((makelist(i, i, lower, upper)), simp),
    for kloop:1 thru length(list) do block( 
-       currents:simplify(delete(list[kloop], currents))
+       currents:simplify(delete(list[ev(kloop, simp)], currents))
    ),
    retVal:rand(currents),
    return(retVal)
@@ -239,6 +239,15 @@ StackDISP(expr, m) := block([str:""],
     if str = "" then str:string(expr),
     return(str)
 )$
+
+/* Display of numbers. Thanks to Robert Dodier. */
+stackintfmt:"~d";
+stackfltfmt:"~a";
+?texnumformat(x) := if ev(floatnump(x),simp) then 
+    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then 
+    ev(printf(false, stackintfmt, x), simp) else 
+    string(x);
+compile (?texnumformat);
 
 COLOR_LIST:["red", "Blue"  , "YellowOrange", "Bittersweet"  , "BlueViolet" , "Aquamarine", "BrickRed" , 
     "Apricot" , "Brown" , "BurntOrange", "CadetBlue" , "CarnationPink" , "Cerulean" , "CornflowerBlue" , 
@@ -2444,4 +2453,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016022100$
+stackmaximaversion:2016031700$

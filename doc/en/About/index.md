@@ -2,6 +2,8 @@
 
 STACK provides a question type for the Moodle quiz which is specifically designed to enable sophisticated computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
 
+STACK has been ported to the ILIAS learning evironment.  For details of that integration see [here](https://github.com/ilifau/assStackQuestion/).
+
 Conventional on-line assessment systems are often very limited in the type of questions that can be set.  Accepting numeric answers, or providing multiple choice questions is relatively common. In mathematics there are many questions where checking an answer is significantly easier than solving the problem itself.  It is often invalid to use multiple choice questions here because (sensible) students do not solve the problem directly, but merely check each suggested answer.   It is impossible to set many questions as multiple choice items without giving the game away.
 
 However it is exactly this type of question that we use a lot in mathematics and science teaching. Really, the student should provide their answer in the form of a mathematical expression and the system should evaluate its properties.

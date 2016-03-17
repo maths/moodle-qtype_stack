@@ -283,7 +283,7 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', 'x^2+y/z', 'a^2+c/b', 1, 'ATSubstEquiv_Subst: [x = a,y = c,z = b].', ''),
         array('SubstEquiv', '', 'y=x^2', 'a^2=b', 1, 'ATSubstEquiv_Subst: [y = b,x = a].', ''),
         array('SubstEquiv', '', '{x=1,y=2}', '{x=2,y=1}', 1, 'ATSubstEquiv_Subst: [x = y,y = x].', ''),
- 
+
         array('EqualComAss', '', '1/0', '0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_TAns.', ''),
         array('EqualComAss', '', '2/4', '1/2', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Numbers'),
@@ -331,6 +331,10 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '(k+8)/(k^2+4*k-12)', '(k+8)/((k-2)*(k+6))', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '(k+7)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 0, 'ATEqualComAss: (AlgEquiv:false).', ''),
         array('EqualComAss', '', '-(2*k+6)/(k^2+4*k-12)', '-(2*k+6)/(k^2+4*k-12)', 1, '', ''),
+        array('EqualComAss', '', '1*x', 'x', 0, 'ATEqualComAss: (AlgEquiv:true).', 'No simplicifcation here'),
+        array('EqualComAss', '', 'x+0', 'x', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'x^1', 'x', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', '(1/2)*(a+b)', '(a+b)/2', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '%i', 'e^(i*pi/2)', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Complex numbers'),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 0,
             'ATEqualComAss: (AlgEquiv:false).', ''),
@@ -501,7 +505,7 @@ class stack_answertest_test_data {
         array('FacForm', 'x', '%i*(x-2)', '(%i*x-2*%i)', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(x-%i)*(x+%i)', 'x^2+1', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(x-1)*(x+(1+sqrt(3)*%i)/2)*(x+(1-sqrt(3)*%i)/2)', 'x^3-1', 1, 'ATFacForm_default_true.', ''),
- 
+
         array('CompSquare', '', '1/0', '0', -1, 'STACKERROR_OPTION.', ''),
         array('CompSquare', 'x', '1/0', '0', -1, 'ATCompSquare_STACKERROR_SAns.', ''),
         array('CompSquare', 'x', '0', '1/0', -1, 'ATCompSquare_STACKERROR_TAns.', ''),

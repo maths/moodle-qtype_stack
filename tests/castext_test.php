@@ -546,4 +546,90 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at2->get_display_castext(),
                 '\(\mbox{This is a string}\) whereas this is empty \(\mbox{ }\).');
     }
+
+    public function test_numerical_display_float_default() {
+        $s = 'Decimal numbers @0.1@, @0.01@, @0.001@, @0.0001@, @0.00001@, @0.000001@.';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \(0.1\), \(0.01\), \(0.001\), \(1.0E-4\), \(1.0E-5\), \(1.0E-6\).');
+    }
+
+    public function test_numerical_display_float_decimal() {
+        $st = 'Decimal numbers @0.1@, @0.01@, @0.001@, @0.0001@, @0.00001@, @0.000001@.';
+
+        $a2 = array('stackfltfmt:"~f"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \(0.1\), \(0.01\), \(0.001\), \(0.0001\), \(0.00001\), \(0.000001\).');
+    }
+
+    public function test_numerical_display_float_scientific() {
+        $st = 'Decimal numbers @0.1@, @0.01@, @0.001@, @0.0001@, @0.00001@, @0.000001@.';
+
+        $a2 = array('stackfltfmt:"~e"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \(1.0E-1\), \(1.0E-2\), \(1.0E-3\), \(1.0E-4\), \(1.0E-5\), \(1.0E-6\).');
+    }
+
+    public function test_numerical_display_1() {
+        $s = 'The decimal number @n:73@ is written in base \(2\) as @(stackintfmt:"~2r",n)@, in base \(7\) ' .
+            'as @(stackintfmt:"~7r",n)@, in scientific notation as @(stackintfmt:"~e",n)@ ' .
+            'and in rhetoric as @(stackintfmt:"~r",n)@.';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), ' .
+                'in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\).');
+    }
+
+    public function test_numerical_display_binary() {
+        $st = 'The number @73@ is written in base \(2\).';
+
+        $a2 = array('stackintfmt:"~b"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'The number \(1001001\) is written in base \(2\).');
+    }
 }

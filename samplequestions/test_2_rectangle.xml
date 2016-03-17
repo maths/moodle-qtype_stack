@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 155  -->
+<!-- question: 64  -->
   <question type="stack">
     <name>
       <text>test_2_rectangle</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>A rectangle has length @sg@cm greater than its width. If it has an area of $@abs(ar)@cm^2$, find the dimensions of the rectangle.</p>
-<p>1. Write down an equation which relates the side lengths to the area of the rectangle. <br />[[input:ans1]] [[validation:ans1]] [[feedback:eq]]</p>
-<p>2. Solve your equation. Enter your answer as a set of numbers. <br /> [[input:ans2]] [[validation:ans2]] [[feedback:sol]]</p>
-<p>3. Hence, find the length of the shorter side. <br />[[input:ans3]] cm [[validation:ans3]] [[feedback:short]]</p>]]></text>
+      <text><![CDATA[<p>A rectangle has length @sg@cm greater than its width. If it has an area of \(@abs(ar)@cm^2\), find the dimensions of the rectangle.</p>
+ <p>1. Write down an equation which relates the side lengths to the area of the rectangle. <br />[[input:ans1]] [[validation:ans1]] [[feedback:eq]]</p>
+ <p>2. Solve your equation. Enter your answer as a set of numbers. <br /> [[input:ans2]] [[validation:ans2]] [[feedback:sol]]</p>
+ <p>3. Hence, find the length of the shorter side. <br />[[input:ans3]] cm [[validation:ans3]] [[feedback:short]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>If $x$cm is the width then $(x+@sg@)$ is the length. Now the area is $@abs(ar)@cm^2$ and so \[ @x*(x+sg)=-ar@.\] \[ @x^2+sg*x+ar@=0\] \[ @(x+rp)*(x+rn)=0@ \] So that $x=@-rp@$ or $x=@-rn@$. Since lengths are positive quantities $x&gt;0$ and we discard the negative root. Hence the length of the shorter side is $x=@-rn@$cm.</p>]]></text>
+      <text><![CDATA[<p>If \(x\)cm is the width then \((x+@sg@)\) is the length. Now the area is \(@abs(ar)@cm^2\) and so \[ @x*(x+sg)=-ar@.\] \[ @x^2+sg*x+ar@=0\] \[ @(x+rp)*(x+rn)=0@ \] So that \(x=@-rp@\) or \(x=@-rn@\). Since lengths are positive quantities \(x&gt;0\) and we discard the negative root. Hence the length of the shorter side is \(x=@-rn@\)cm.</p>]]></text>
     </generalfeedback>
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>0.1000000</penalty>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
     <hidden>0</hidden>
     <questionvariables>
       <text>rn:-1*(rand(4)+2);
@@ -24,13 +24,14 @@ ar:rn*rp;
 sg:rn+rp;
 ta1:x*(x+sg)=-ar;
 ta2:x*(x-sg)=-ar;
-tas:setify(map(rhs,solve(ta1,x)));</text>
+tas1:setify(map(rhs,solve(ta1,x)));
+tas2:setify(map(rhs,solve(ta2,x)));</text>
     </questionvariables>
     <specificfeedback format="html">
       <text></text>
     </specificfeedback>
     <questionnote>
-      <text>@ta1@, @rp@.</text>
+      <text>@ta1@, @tas1@.</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
@@ -46,6 +47,8 @@ tas:setify(map(rhs,solve(ta1,x)));</text>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -56,26 +59,30 @@ tas:setify(map(rhs,solve(ta1,x)));</text>
       <insertstars>1</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <input>
       <name>ans2</name>
       <type>algebraic</type>
-      <tans>tas</tans>
+      <tans>tas1</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
       <insertstars>1</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <input>
       <name>ans3</name>
@@ -86,11 +93,13 @@ tas:setify(map(rhs,solve(ta1,x)));</text>
       <insertstars>1</insertstars>
       <syntaxhint></syntaxhint>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <prt>
       <name>eq</name>
@@ -186,7 +195,7 @@ tas:setify(map(rhs,solve(ta1,x)));</text>
       <autosimplify>1</autosimplify>
       <feedbackvariables>
         <text>v1:first(listofvars(ans1));
-ftm:setify(map(rhs,solve(ans1,v1)));</text>
+ ftm:setify(map(rhs,solve(ans1,v1)));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -222,7 +231,7 @@ ftm:setify(map(rhs,solve(ans1,v1)));</text>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
         <truepenalty></truepenalty>
-        <truenextnode>3</truenextnode>
+        <truenextnode>4</truenextnode>
         <trueanswernote>sol-1-T </trueanswernote>
         <truefeedback format="html">
           <text></text>
@@ -264,7 +273,7 @@ ftm:setify(map(rhs,solve(ans1,v1)));</text>
         <name>3</name>
         <answertest>AlgEquiv</answertest>
         <sans>ans2</sans>
-        <tans>tas</tans>
+        <tans>tas1</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
@@ -284,7 +293,35 @@ ftm:setify(map(rhs,solve(ans1,v1)));</text>
           <text></text>
         </falsefeedback>
       </node>
+      <node>
+        <name>4</name>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans2</sans>
+        <tans>tas2</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>sol-5-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>-</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>sol-5-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
     </prt>
+    <deployedseed>92</deployedseed>
+    <deployedseed>1621764605</deployedseed>
+    <deployedseed>79313047</deployedseed>
+    <deployedseed>1740562616</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -293,11 +330,11 @@ ftm:setify(map(rhs,solve(ans1,v1)));</text>
       </testinput>
       <testinput>
         <name>ans2</name>
-        <value>{-rp,-rn}</value>
+        <value>ev({-rp,-rn},simp)</value>
       </testinput>
       <testinput>
         <name>ans3</name>
-        <value>-rn</value>
+        <value>ev(-rn,simp)</value>
       </testinput>
       <expected>
         <name>eq</name>
@@ -326,11 +363,11 @@ ftm:setify(map(rhs,solve(ans1,v1)));</text>
       </testinput>
       <testinput>
         <name>ans2</name>
-        <value>{-rp,-rn}</value>
+        <value>ev({rp,rn},simp)</value>
       </testinput>
       <testinput>
         <name>ans3</name>
-        <value>-rn</value>
+        <value>ev(-rn,simp)</value>
       </testinput>
       <expected>
         <name>eq</name>
@@ -348,7 +385,7 @@ ftm:setify(map(rhs,solve(ans1,v1)));</text>
         <name>sol</name>
         <expectedscore>1.0000000</expectedscore>
         <expectedpenalty>0.0000000</expectedpenalty>
-        <expectedanswernote>sol-3-T</expectedanswernote>
+        <expectedanswernote>sol-5-T</expectedanswernote>
       </expected>
     </qtest>
     <qtest>

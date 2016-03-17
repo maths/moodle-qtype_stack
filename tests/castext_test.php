@@ -611,4 +611,25 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 'The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), ' .
                 'in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\).');
     }
+
+    public function test_numerical_display_binary() {
+        $st = 'The number @73@ is written in base \(2\).';
+
+        $a2 = array('stackintfmt:"~b"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                'The number \(1001001\) is written in base \(2\).');
+    }
 }

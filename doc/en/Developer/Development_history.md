@@ -2,6 +2,14 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 3.6
+
+Unreleased, currently in the master branch.
+
+Numerous minor bug fixes and improvements.
+
+1. Expose functionality of `printf` to better control the display of integers and floats.
+
 ## Version 3.5
 
 Released February 2016. 

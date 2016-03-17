@@ -89,9 +89,16 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['title']     = "Vacuous linear equation";
+$newarg['title']     = "Vacuous linear equation (1)";
 $newarg['narative']  = 'This equation is satisfied by any value of x.';
 $newarg['casstring'] = "[2*(x-3) = 5*x-3*(x+2),2*x-6=2*x-6,0=0]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Vacuous linear equation (2)";
+$newarg['narative']  = 'This equation is satisfied by no value of x.';
+$newarg['casstring'] = "[2*(x-3) = 5*x-3*(x+1),2*x-6=2*x-3,0=3,{}]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 

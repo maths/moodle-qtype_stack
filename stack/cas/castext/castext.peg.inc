@@ -28,14 +28,14 @@
 /**
  ** Howto generate the .php file: run the following command, in the directory of this file:
  ** php ../../../thirdparty/php-peg/cli.php castext.peg.inc > castextparser.class.php
- ** And do remove that PHP ending the question mark greater than thing after generation.
+ ** And do remove that PHP ending the question mark greater than thing after generation. If generated.
  **/
 require_once(__DIR__ . '/../../../thirdparty/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;
 /**
  * Defines the text parser for identifying STACK specific parts from CAStext, does not work with XML,
  * intended to parse text-fragments and attribute values.
- * Pointless to use if your text does not include the following strings "{@" or "{#"
+ * Pointless to use if your text does not include the following strings "{@", "{#" or "[["
  */
 class stack_cas_castext_castextparser extends Parser\Basic {
 
@@ -456,6 +456,8 @@ class stack_cas_castext_parsetreenode {
     private $content = "";
     public $mathmode = false;
 
+    private static $reconditioncount = 1;
+
     /**
      * Converts the nested array form tree to parsetreenode-tree.
      */
@@ -512,22 +514,26 @@ class stack_cas_castext_parsetreenode {
      * Rewrites the tree so that we can get rid of the 'else' and 'elif' blocks.
      */
     private function fix_pseudo_blocks() {
-        $iter = $this;
-        while ($iter !== null) {
-            if ($iter->is_container() && $iter->firstchild !== null) {
-                $iter->firstchild->fix_pseudo_blocks();
-            }
-            if ($iter->type == 'block' && $iter->content == 'if') {
-                $condition = $iter->get_parameter('test', 'false');
-                $condition = '(not ('.$condition.'))';
+        $nots = array();
+        $pseudos = $this->find_nodes('type=pseudoblock');
+        $iter = null;
+        $c = 0;
+        if (count($pseudos) > 0) {
+            $iter = $pseudos[$c]->parent;
+        }
 
+        while ($iter !== null) {
+            if ($iter->type == 'block' && $iter->content == 'if') {
+                $reconds = array($iter);
+                $needrecond = false;
                 $i = $iter->firstchild;
                 while ($i !== null) {
                     if ($i->type == 'pseudoblock' && $i->content == 'else') {
+                        $reconds[] = $i;
                         if ($i->previoussibling !== null) {
                             $i->previoussibling->nextsibling = null;
                         }
-                        $i->params["test"] = $condition;
+                        $i->params['test'] = 'else';
                         $i->type = 'block';
                         $i->content = 'if';
                         $i->parent = $iter->parent;
@@ -542,14 +548,13 @@ class stack_cas_castext_parsetreenode {
                             $ii->parent = $i;
                             $ii = $ii->nextsibling;
                         }
+                        $needrecond = true;
                         $i = null;
                     } else if ($i->type == 'pseudoblock' && $i->content == 'elif') {
+                        $reconds[] = $i;
                         if ($i->previoussibling !== null) {
                             $i->previoussibling->nextsibling = null;
                         }
-                        $additionalcondition = $i->get_parameter('test', 'false');
-                        $i->params["test"] = $condition.' and ('.$additionalcondition.')';
-                        $condition = $condition.' and (not ('.$additionalcondition.'))';
                         $i->type = 'block';
                         $i->content = 'if';
                         $i->parent = $iter->parent;
@@ -568,13 +573,79 @@ class stack_cas_castext_parsetreenode {
                             $ii->parent = $i;
                             $ii = $ii->nextsibling;
                         }
+                        $needrecond = true;
                     } else {
                         $i = $i->nextsibling;
                     }
                 }
+                // As we map a if-elif-else to new ifs we need to handle the case where the activating ifs contents would change the
+                // value of the following ifs conditions and therefore allow multiple branches to activate. To do this we need to
+                // evaluate all the conditions for all the branches before entering any active one. To do this we transfer
+                // the conditions to a new define block to be evaluated before the ifs. As this means we need to generate variables
+                // we need to do some tricks on the variable-names, we'll use very long names to ensure that there are no
+                // collisions. This needs to be noted in unit testing as the naming of the vars can/will change.
+                if ($needrecond) {
+                    $newdef = new stack_cas_castext_parsetreenode();
+                    $newdef->type = 'block';
+                    $newdef->content = 'define';
+                    $newdef->parent = $reconds[0]->parent;
+                    $newdef->nextsibling = $reconds[0];
+                    $newdef->previoussibling = $reconds[0]->previoussibling;
+                    if ($newdef->previoussibling !== null) {
+                        $newdef->previoussibling->nextsibling = $newdef;
+                    } else {
+                        $newdef->parent->firstchild = $newdef;
+                    }
+                    $reconds[0]->previoussibling = $newdef;
+                    $newdef->params = array();
+                    $cc = 0;
+                    foreach ($reconds as $n) {
+                        $key = 'stackparsecond' . self::$reconditioncount;
+                        self::$reconditioncount++;
+                        if ($cc == 0) {
+                            $newdef->params[$key] = $n->get_parameter('test', 'false');
+                        } else if ($n->get_parameter('test', 'false') == 'else') {
+                            $newdef->params[$key] = 'not (' . $reconds[$cc - 1]->get_parameter('test', 'false') . ')';
+                        } else {
+                            $newdef->params[$key] = 'not (' . $reconds[$cc - 1]->get_parameter('test', 'false') . ') and (' .
+                                    $n->get_parameter('test', 'false') . ')';
+                        }
+                        $n->params['test'] = $key;
+                        $cc++;
+                    }
+                }
             }
-            $iter = $iter->nextsibling;
+            $c++;
+            $iter = null;
+            while ($c < count($pseudos)) {
+                if ($pseudos[$c]->type == 'pseudoblock') {
+                    $iter = $pseudos[$c]->parent;
+                    break;
+                } else {
+                    $c++;
+                }
+            }
         }
+    }
+
+    /**
+     * A function for searching of something under the tree startting from this node.
+     */
+    private function find_nodes($search) {
+        $r = array();
+        if ($search == 'type=pseudoblock') {
+            $iter = $this->firstchild;
+            while ($iter !== null) {
+                if ($iter->type == 'pseudoblock') {
+                    $r[] = $iter;
+                } else if ($iter->is_container()) {
+                    $tmp = $iter->find_nodes($search);
+                    $r = array_merge($r, $tmp);
+                }
+                $iter = $iter->nextsibling;
+            }
+        }
+        return $r;
     }
 
     /**
@@ -723,58 +794,155 @@ class stack_cas_castext_parsetreenode {
      * Presents the node in string form, might not match perfectly to the original content as quotes and whitespace may have
      * changed.
      */
-    public function to_string() {
+    public function to_string($format = 'normal', $indent = '') {
         $r = "";
-        switch ($this->type) {
-            case "block":
-                $r .= "[[ " . $this->content;
-                if (count($this->params) > 0) {
-                    foreach ($this->params as $key => $value) {
-                        $r .= " $key=";
-                        if (strpos($value, '"') === false) {
-                            $r .= '"' . $value . '"';
-                        } else {
-                            $r .= "'$value'";
+        if ($format == 'normal') {
+            switch ($this->type) {
+                case "block":
+                    $r .= "[[ " . $this->content;
+                    if (count($this->params) > 0) {
+                        foreach ($this->params as $key => $value) {
+                            $r .= " $key=";
+                            if (strpos($value, '"') === false) {
+                                $r .= '"' . $value . '"';
+                            } else {
+                                $r .= "'$value'";
+                            }
                         }
                     }
-                }
-                $r .= " ]]";
+                    if ($this->firstchild !== null) {
+                        $r .= " ]]";
 
-                $iterator = $this->firstchild;
-                while ($iterator !== null) {
-                    $r .= $iterator->to_string();
-                    $iterator = $iterator->nextsibling;
-                }
+                        $iterator = $this->firstchild;
+                        while ($iterator !== null) {
+                            $r .= $iterator->to_string($format);
+                            $iterator = $iterator->nextsibling;
+                        }
 
-                $r .= "[[/ " . $this->content . " ]]";
-                break;
-            case "castext":
-                $iterator = $this->firstchild;
-                while ($iterator !== null) {
-                    $r .= $iterator->to_string();
-                    $iterator = $iterator->nextsibling;
-                }
-                break;
-            case "pseudoblock":
-                $r .= "[[ " . $this->content;
-                if (count($this->params) > 0) {
-                    foreach ($this->params as $key => $value) {
-                        $r .= " $key=";
-                        if (strpos($value, '"') === false) {
-                            $r .= '"' . $value . '"';
-                        } else {
-                            $r .= "'$value'";
+                        $r .= "[[/ " . $this->content . " ]]";
+                    } else {
+                        $r .= " /]]";
+                    }
+                    break;
+                case "castext":
+                    $iterator = $this->firstchild;
+                    while ($iterator !== null) {
+                        $r .= $iterator->to_string($format);
+                        $iterator = $iterator->nextsibling;
+                    }
+                    break;
+                case "pseudoblock": // This branch should newer be called, unless you skip certain steps.
+                    $r .= "[[ " . $this->content;
+                    if (count($this->params) > 0) {
+                        foreach ($this->params as $key => $value) {
+                            $r .= " $key=";
+                            if (strpos($value, '"') === false) {
+                                $r .= '"' . $value . '"';
+                            } else {
+                                $r .= "'$value'";
+                            }
                         }
                     }
-                }
-                $r .= " ]]";
-                break;
-            case "text":
-                return $this->content;
-            case "texcasblock":
-                return "{@" . $this->content . "@}";
-            case "rawcasblock":
-                return "{#" . $this->content . "#}";
+                    $r .= " ]]";
+                    break;
+                case "text":
+                    return $this->content;
+                case "texcasblock":
+                    return "{@" . $this->content . "@}";
+                case "rawcasblock":
+                    return "{#" . $this->content . "#}";
+            }
+        } else if ($format == 'condensed') {
+            switch ($this->type) {
+                case "block":
+                    $r .= "[[" . $this->content;
+                    if ($this->firstchild !== null) {
+                        $r .= "]]";
+
+                        $iterator = $this->firstchild;
+                        while ($iterator !== null) {
+                            $r .= $iterator->to_string($format);
+                            $iterator = $iterator->nextsibling;
+                        }
+
+                        $r .= "[[/" . $this->content . "]]";
+                    } else {
+                        $r .= "/]]";
+                    }
+                    break;
+                case "castext":
+                    $iterator = $this->firstchild;
+                    while ($iterator !== null) {
+                        $r .= $iterator->to_string($format);
+                        $iterator = $iterator->nextsibling;
+                    }
+                    break;
+                case "pseudoblock": // This branch should newer be called, unless you skip certain steps.
+                    $r .= "[[" . $this->content . "]]";
+                    break;
+                case "text":
+                    return $this->content;
+                case "texcasblock":
+                    return "{@" . $this->content . "@}";
+                case "rawcasblock":
+                    return "{#" . $this->content . "#}";
+            }
+        } else if ($format == 'debug') {
+            switch ($this->type) {
+                case "block":
+                    $r .= "\n$indent" . "[[ " . $this->content;
+                    if (count($this->params) > 0) {
+                        foreach ($this->params as $key => $value) {
+                            $r .= " $key=";
+                            if (strpos($value, '"') === false) {
+                                $r .= '"' . $value . '"';
+                            } else {
+                                $r .= "'$value'";
+                            }
+                        }
+                    }
+                    if ($this->firstchild !== null) {
+                        $r .= " ]]";
+
+                        $iterator = $this->firstchild;
+                        while ($iterator !== null) {
+                            $r .= $iterator->to_string($format, $indent . "  ");
+                            $iterator = $iterator->nextsibling;
+                        }
+
+                        $r .= "\n$indent" . "[[/ " . $this->content . " ]]";
+                    } else {
+                        $r .= " /]]";
+                    }
+                    break;
+                case "castext":
+                    $iterator = $this->firstchild;
+                    while ($iterator !== null) {
+                        $r .= $iterator->to_string($format);
+                        $iterator = $iterator->nextsibling;
+                    }
+                    break;
+                case "pseudoblock": // This branch should newer be called, unless you skip certain steps.
+                    $r .= "\n$indent" . "[[ " . $this->content;
+                    if (count($this->params) > 0) {
+                        foreach ($this->params as $key => $value) {
+                            $r .= " $key=";
+                            if (strpos($value, '"') === false) {
+                                $r .= '"' . $value . '"';
+                            } else {
+                                $r .= "'$value'";
+                            }
+                        }
+                    }
+                    $r .= " ]]\n";
+                    break;
+                case "text":
+                    return $this->content;
+                case "texcasblock":
+                    return "{@" . $this->content . "@}";
+                case "rawcasblock":
+                    return "{#" . $this->content . "#}";
+            }
         }
 
         return $r;

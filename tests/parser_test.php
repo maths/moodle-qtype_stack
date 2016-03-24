@@ -314,9 +314,30 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals('[[ if test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ if test="c" ]]3[[else]]4[[/ if ]][[/ if ]]',
                 $parsed['to_string']);
         // String check against node->to_string. The conversion to the tree-form shoudl have rewriten the elses as new ifs.
-        $this->assertEquals('[[ if test="a" ]]1[[/ if ]][[ if test="(not (a)) and (b)" ]]2[[/ if ]][[ if test="(not (a)) and '.
-                '(not (b))" ]][[ if test="c" ]]3[[/ if ]][[ if test="(not (c))" ]]4[[/ if ]][[/ if ]]',
-                $parsed['tree_form']->to_string());
+        // Should generate about this: '[[ define stackparsecond18="a" stackparsecond19="not (stackparsecond18) and (b)"
+        // stackparsecond20="not (stackparsecond19)" /]][[ if test="stackparsecond18" ]]1[[/ if ]][[ if test="stackparsecond19"
+        // ]]2[[/ if ]][[ if test="stackparsecond20" ]][[ define stackparsecond21="c" stackparsecond22="not (stackparsecond21)"
+        // /]][[ if test="stackparsecond21" ]]3[[/ if ]][[ if test="stackparsecond22" ]]4[[/ if ]][[/ if ]]'
+        // Problem is that the numbers in those stackparsecond?? variables can change depending on excecution order. So we do some
+        // Logic checking. Could do a regexp but the amount of escapes...
+
+        $matches = array();
+        preg_match_all('/stackparsecond([0-9]*)/' , $parsed['tree_form']->to_string() , $matches);
+        $this->assertEquals($matches[1][0], $matches[1][2]); // The first cond needs to appear here.
+        $this->assertEquals($matches[1][0], $matches[1][5]);
+        $this->assertEquals($matches[1][0] + 1, $matches[1][1]); // The second needs to be stored to the next and so on.
+        $this->assertEquals($matches[1][1], $matches[1][4]);
+        $this->assertEquals($matches[1][1], $matches[1][6]);
+        $this->assertEquals($matches[1][1] + 1, $matches[1][3]);
+        $this->assertEquals($matches[1][3], $matches[1][7]);
+        $this->assertEquals($matches[1][8], $matches[1][10]);
+        $this->assertEquals($matches[1][8], $matches[1][11]);
+        $this->assertEquals($matches[1][8] + 1, $matches[1][9]);
+        $this->assertEquals($matches[1][9], $matches[1][12]);
+
+        // Test the same equalitys with the full text.
+        $testpattern = '[[ define stackparsecond' . $matches[1][0] . '="a" stackparsecond' . $matches[1][1] . '="not (stackparsecond' . $matches[1][0] . ') and (b)" stackparsecond' . $matches[1][3] . '="not (stackparsecond' . $matches[1][1] . ')" /]][[ if test="stackparsecond' . $matches[1][0] . '" ]]1[[/ if ]][[ if test="stackparsecond' . $matches[1][1] . '" ]]2[[/ if ]][[ if test="stackparsecond' . $matches[1][3] . '" ]][[ define stackparsecond' . $matches[1][8] . '="c" stackparsecond' . $matches[1][9] . '="not (stackparsecond' . $matches[1][8] . ')" /]][[ if test="stackparsecond' . $matches[1][8] . '" ]]3[[/ if ]][[ if test="stackparsecond' . $matches[1][9] . '" ]]4[[/ if ]][[/ if ]]';
+        $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 
     /**
@@ -329,8 +350,17 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals('[[ fi test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ if test="c" ]]3[[else]]4[[/ if ]][[/ fi ]]',
                 $parsed['to_string']);
         // String check against node->to_string. The conversion to the tree-form shoudl have rewriten the elses as new ifs.
-        $this->assertEquals('[[ fi test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ if test="c" ]]3[[/ if ]][[ if'.
-                ' test="(not (c))" ]]4[[/ if ]][[/ fi ]]', $parsed['tree_form']->to_string());
+        // Similar problem with the dynamic numbering.
+
+        $matches = array();
+        preg_match_all('/stackparsecond([0-9]*)/' , $parsed['tree_form']->to_string() , $matches);
+        $this->assertEquals($matches[1][0], $matches[1][2]); // The first cond needs to appear here.
+        $this->assertEquals($matches[1][0], $matches[1][3]);
+        $this->assertEquals($matches[1][0] + 1, $matches[1][1]); // The second needs to be stored to the next and so on.
+        $this->assertEquals($matches[1][1], $matches[1][4]);
+
+        $testpattern = '[[ fi test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ define stackparsecond' . $matches[1][0] . '="c" stackparsecond' . $matches[1][1] . '="not (stackparsecond' . $matches[1][0] . ')" /]][[ if test="stackparsecond' . $matches[1][0] . '" ]]3[[/ if ]][[ if test="stackparsecond' . $matches[1][1] . '" ]]4[[/ if ]][[/ fi ]]';
+        $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 
 

@@ -201,3 +201,17 @@ The following was tested in March 2016 on CENTOS.  It is for compiling a Maxima 
     sudo yum remove maxima
     sudo yum install maxima-runtime-sbcl-5.36.1-2.el6.x86_64.rpm maxima-5.36.1-2.el6.x86_64.rpm
 
+The following was tested in March 2016 on Ubuntu 14.04.4 LTS (GNU/Linux 3.13.0-79-generic x86_64) (Trusty). Install dependencies:
+
+    sudo apt-get -y install clisp texinfo
+
+Then run:
+
+    cd ~
+    wget -O maxima_source.tar.gz http://sourceforge.net/projects/maxima/files/Maxima-source/5.36.1-source/maxima-5.36.1.tar.gz/download
+    tar zxvf maxima_source.tar.gz
+    cd maxima-5.36.1
+    ./configure --with-clisp
+    make --silent
+    sudo make install --silent
+    maxima --list-avail

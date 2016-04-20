@@ -32,11 +32,12 @@ __STACK 3 now uses Maxima's assignment rules.  This is a change from STACK 2.__ 
 * Adding `;` at the end of each statement is optional, but makes it easier to cut and paste into a Maxima session.
 * If you type a string not in the form `key : value`, a variable name such as `dumvar3` will be
     assigned automatically to keep track of the command in the list of question variables.
-* If a student uses a variable which has been assigned a value, the attempt will be rejected as invalid.
+* If a student uses a variable longer than one letter in length which has been assigned a value in the question variables then the attempt will be rejected as invalid.
     Hence, it is a sensible idea to use variable names which are not used as parameters.
     For example if you set an integration question then you should avoid using the variable `c`, otherwise students won't be able to write `+c` in the normal way to indicate a constant of integration.
 * You can include C-style block comments for increased clarity, and these may appear on separate lines
     e.g. `dice : rand(6) + 1 /* roll it! */`
+* Avoid using variable names with a single letter, otherwise a student might type this in and it will not automatically be forbidden.  You can always forbid them explicitly in the input "forbid" options.
 
 ## Question variables {#Question_variables}
 

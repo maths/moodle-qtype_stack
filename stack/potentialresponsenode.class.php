@@ -176,7 +176,8 @@ class stack_potentialresponse_node {
 
         if ($at->get_at_errors()) {
             $results->_errors .= $at->get_at_errors();
-            $cascommand = '<pre>'.$this->answertest . '(' . $nsans . ', ' . $ntans;
+            // This builds a basic representation of the CAS command used.
+            $cascommand = '<pre>AT'.$this->answertest . '(' . $nsans . ', ' . $ntans;
             if ($ncasopts != '') {
             	$cascommand .= ', ' . $ncasopts;
             }

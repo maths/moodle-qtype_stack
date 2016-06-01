@@ -339,13 +339,13 @@ foreach ($testresults as $key => $result) {
                 $passedcol,
         );
         if ($state->debuginfo != '') {
-        	$debuginfo .= "\n<h2>".$prtname."</h2>\n\n";
-        	$debuginfo .= $state->debuginfo;
+            $debuginfo .= "\n<h2>".$prtname."</h2>\n\n";
+            $debuginfo .= $state->debuginfo;
         }
     }
 
     echo html_writer::table($prtstable);
-    
+
     echo $debuginfo;
 
     if ($canedit) {

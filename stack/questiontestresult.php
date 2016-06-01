@@ -51,7 +51,7 @@ class stack_question_test_result {
       * @var array prt name => stack_potentialresponse_tree_state object
       */
      public $actualresults;
-     
+
      /**
       * @var array prt name => debuginfo
       */

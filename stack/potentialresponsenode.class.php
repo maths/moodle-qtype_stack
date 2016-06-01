@@ -52,11 +52,6 @@ class stack_potentialresponse_node {
     private $answertest;
 
     /*
-     * @var string Any options for the answer test
-     */
-    public $atoptions;
-
-    /*
     * @var boolean Suppress any feedback from the answer test itself?
      */
     private $quiet;
@@ -179,9 +174,9 @@ class stack_potentialresponse_node {
             // This builds a basic representation of the CAS command used.
             $cascommand = '<pre>AT'.$this->answertest . '(' . $nsans . ', ' . $ntans;
             if ($ncasopts != '') {
-            	$cascommand .= ', ' . $ncasopts;
+                $cascommand .= ', ' . $ncasopts;
             }
-            $cascommand .= ')</pre>';           
+            $cascommand .= ')</pre>';
             $results->_debuginfo .= $cascommand;
             $results->_debuginfo .= $at->get_debuginfo();
         }

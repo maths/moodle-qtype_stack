@@ -114,8 +114,8 @@ if ('Site_map' == $lastseg) {
 
 /* Add the version number to the front page.  */
 if ($uri == '/') {
-	$settings = get_config('qtype_stack');
-	$body .= '<br/>'.stack_string('stackDoc_version', $settings->version);
+    $settings = get_config('qtype_stack');
+    $body .= '<br/>'.stack_string('stackDoc_version', $settings->version);
 }
 
 

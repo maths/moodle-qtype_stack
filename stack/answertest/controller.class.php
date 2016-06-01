@@ -304,7 +304,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public function get_debuginfo() {
-    	return $this->at->get_debuginfo();
+        return $this->at->get_debuginfo();
     }
 }
 

@@ -112,7 +112,7 @@ class stack_potentialresponse_tree_state {
                 return $this->_answernotes;
             case 'debuginfo':
                 return $this->_debuginfo;
-                default:
+            default:
                 throw new stack_exception('stack_potentialresponse_tree_state: __get().  Unrecognised property name ' . $field);
         }
     }

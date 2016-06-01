@@ -181,7 +181,7 @@ class stack_answertest_general_cas extends stack_anstest {
             $this->atvalid      = false;
             return null;
         }
-        
+
         $this->atansnote  = trim($result->get_answernote());
 
         // Convert the Maxima string 'true' to PHP true.

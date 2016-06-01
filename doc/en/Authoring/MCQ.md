@@ -109,6 +109,18 @@ Recall again the MCQ are limited to legitimate CAS objects.  The `plot` command 
 
 The actual CAS value of the answer returned will be the respective integer selected.  For this reason you will probably want to switch off the validation feedback ``your last answer was...".  The value of the integer can be tested in the PRT for correctness.
 
+## Dealing with external images in MCQ ##
+
+It is also possible to embed the URL of an externally hosted image as the "display" field of an MCQ.  The string is not checked, and is also passed through the CAS.  This feature is fragile and is not recommended.
+
+For example, the question variables could be something like
+
+    i1:"<img src='http://www.maths.ed.ac.uk/~csangwin/Pics/z1.jpg' />"
+    i2:"<img src='http://www.maths.ed.ac.uk/~csangwin/Pics/z2.jpg' />"
+    i3:"<img src='http://www.maths.ed.ac.uk/~csangwin/Pics/z3.jpg' />"
+    ta:[[1,true,i1],[2,false,i2],[3,false,i3]]
+
+
 ## Writing question tests ##
 
 Quality control of questions is important.  See the notes on [testing](Testing.md) questions.  

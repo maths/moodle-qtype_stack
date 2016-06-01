@@ -96,6 +96,19 @@ The quotation marks will be removed from strings, and the strings will not be wr
 
 Question authors should consider using the Moodle MCQ question type in addition to these facilities for purely text based answers.
 
+## Dealing with plots in MCQ ##
+
+It is possible to use plots as the options in a STACK MCQ.  
+
+Recall again the MCQ are limited to legitimate CAS objects.  The `plot` command returns a string which is the URL of the dyanamically generated image on the server.  The "value" of this can't be assessed by the potential response trees.  For this reason you must the display option with plots and must only put the plot command in the display option. (Otherwise STACK will throw an error: this behaviour could be improved).  For example, to create a correct answer consiting of four plots consider the following in the question variables.
+
+    p1:plot(x,[x,-2,2],[y,-3,3])
+    p2:plot(x^2,[x,-2,2],[y,-3,3])
+    p3:plot(x^3,[x,-2,2],[y,-3,3])
+    ta:[[1,true,p1],[2,false,p2],[3,false,p2]]
+
+The actual CAS value of the answer returned will be the respective integer selected.  For this reason you will probably want to switch off the validation feedback ``your last answer was...".  The value of the integer can be tested in the PRT for correctness.
+
 ## Writing question tests ##
 
 Quality control of questions is important.  See the notes on [testing](Testing.md) questions.  

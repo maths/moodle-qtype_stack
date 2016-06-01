@@ -174,7 +174,17 @@ class stack_potentialresponse_node {
             $results->_penalty = $resultbranch['penalty'];
         }
 
-        $results->_errors .= $at->get_at_errors();
+        if ($at->get_at_errors()) {
+            $results->_errors .= $at->get_at_errors();
+            // This builds a basic representation of the CAS command used.
+            $cascommand = '<pre>AT'.$this->answertest . '(' . $nsans . ', ' . $ntans;
+            if ($ncasopts != '') {
+            	$cascommand .= ', ' . $ncasopts;
+            }
+            $cascommand .= ')</pre>';           
+            $results->_debuginfo .= $cascommand;
+            $results->_debuginfo .= $at->get_debuginfo();
+        }
 
         return $resultbranch['nextnode'];
     }

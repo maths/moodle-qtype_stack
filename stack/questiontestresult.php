@@ -51,6 +51,11 @@ class stack_question_test_result {
       * @var array prt name => stack_potentialresponse_tree_state object
       */
      public $actualresults;
+     
+     /**
+      * @var array prt name => debuginfo
+      */
+     public $debuginfo;
 
     /**
      * Constructor
@@ -123,11 +128,13 @@ class stack_question_test_result {
                     $feedback[] = $fb->feedback;
                 }
                 $state->feedback = implode(' ', $feedback);
+                $state->debuginfo = $actualresult->debuginfo;
             } else {
                 $state->score = '';
                 $state->penalty = '';
                 $state->answernote = '';
                 $state->feedback = '';
+                $state->debuginfo = '';
             }
 
             $state->testoutcome = true;

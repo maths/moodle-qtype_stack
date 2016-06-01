@@ -305,6 +305,7 @@ foreach ($testresults as $key => $result) {
     );
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
 
+    $debuginfo = '';
     foreach ($result->get_prt_states() as $prtname => $state) {
         if ($state->testoutcome) {
             $prtstable->rowclasses[] = 'pass';
@@ -337,9 +338,15 @@ foreach ($testresults as $key => $result) {
                 format_text($state->feedback),
                 $passedcol,
         );
+        if ($state->debuginfo != '') {
+        	$debuginfo .= "\n<h2>".$prtname."</h2>\n\n";
+        	$debuginfo .= $state->debuginfo;
+        }
     }
 
     echo html_writer::table($prtstable);
+    
+    echo $debuginfo;
 
     if ($canedit) {
         echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));

@@ -51,7 +51,7 @@ The reports are still in a beta development stage and you can skip this step.   
 1. Obtain the code. Either [download the zip file](https://github.com/maths/quiz_stack/zipball/master), unzip it, and place it in the directory `moodle/mod/quiz/report/stack`. (You will need to rename the directory `quiz_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/maths/quiz_stack.git mod/quiz/report/stack`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-## 6. Add the STACK question format
+## 6. Optional: Add the STACK question format
 
 This is for legacy questions from Version 2 of STACK.  You can probably skip this step. If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
 
@@ -60,7 +60,11 @@ This is for legacy questions from Version 2 of STACK.  You can probably skip thi
 
 There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Authoring/ImportExport.md) before using it.
 
-## 7. Confirming the installation is successful.
+## 7. Optional: Add the LTI provider plugin
+
+This optional step is for people who wish to use STACK through another interface than Moodle (or ILIAS).  Details are in the [LTI](LTI.md) page.
+
+## 8. Confirming the installation is successful.
 
 At this stage it is important to confirm that the PHP scripts are connecting to the CAS.  To facilitate this we have special scripts which provide confirmation and trouble-shooting data.
 Now is the time to [test the installation](testing_installation.md).

@@ -46,6 +46,8 @@ class stack_docslib_test extends qtype_stack_testcase {
         global $CFG;
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
+        		'<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/LTI.md">' .
+                        'LTI</a></li>' .
                 '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
                 '<li><a href="http://www.example.com/moodle/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .

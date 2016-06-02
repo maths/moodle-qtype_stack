@@ -15,14 +15,19 @@ STACK provides a number of options.  To set these you must login as the Moodle s
 
 To confirm if the PHP scripts are connecting to Maxima navigate to the `STACK configuration page`.  Choose the link to the healthcheck script.
 
-This script checks the following. 
+The CAS-debug option in the STACK settings will provide a very verbose output which is indispensable at this stage.  Turn this off for production servers, as it is wasteful of storage, particularly when caching results.
+
+The healthcheck script checks the following. 
 
 * Check LaTeX is being converted correctly?  Check [MathJax](../Developer/Mathjax.md) or other LaTeX converter.
 * Can PHP call external applications?  No, then change PHP settings. 
-* Can PHP call Maxima? No, check the settings in the STACK plugin, and look carefully at the calls being made.  You may need to explicitly set a path to the Maxima executable if PHP can't find it automatically. Do you have permission to run this as the web server?
-* Graph plotting. Are auto-generated plots being created correctly.  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.
+* Can PHP call Maxima? No, then see below.
+* Graph plotting. Are auto-generated plots being created correctly?  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.
 
-The CAS-debug option in the STACK settings will provide a very verbose output which is indispensable at this stage.  Turn this off for production servers, as it is wasteful of storage, particularly when caching results.
+If PHP does not connect to Maxima then this checklist might help.
+
+1. Maxima version.  If you have installed more than one version of Maxima on your machine you will probably need to choose one explicitly.
+2. If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.1/share/draw/draw.lisp` then remove the optional libraries from `Load optional Maxima libraries:`.  Set this to blank and re-try the healthceck.
 
 ## Maxima optional packages
 

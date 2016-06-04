@@ -28,31 +28,35 @@ require_once(__DIR__ . '/../cas/cassession.class.php');
 
 class stack_ans_test_controller {
     protected static $types = array(
-              'AlgEquiv'     => 'stackOptions_AnsTest_values_AlgEquiv',
-              'EqualComAss'  => 'stackOptions_AnsTest_values_EqualComAss',
-              'CasEqual'     => 'stackOptions_AnsTest_values_CasEqual',
-              'SameType'     => 'stackOptions_AnsTest_values_SameType',
-              'SubstEquiv'   => 'stackOptions_AnsTest_values_SubstEquiv',
-              'SysEquiv'     => 'stackOptions_AnsTest_values_SysEquiv',
-              'Expanded'     => 'stackOptions_AnsTest_values_Expanded',
-              'FacForm'      => 'stackOptions_AnsTest_values_FacForm',
-              'SingleFrac'   => 'stackOptions_AnsTest_values_SingleFrac',
-              'PartFrac'     => 'stackOptions_AnsTest_values_PartFrac',
-              'CompSquare'   => 'stackOptions_AnsTest_values_CompSquare',
-              'GT'           => 'stackOptions_AnsTest_values_GT',
-              'GTE'          => 'stackOptions_AnsTest_values_GTE',
-              'NumAbsolute'  => 'stackOptions_AnsTest_values_NumAbsolute',
-              'NumRelative'  => 'stackOptions_AnsTest_values_NumRelative',
-              'NumSigFigs'   => 'stackOptions_AnsTest_values_NumSigFigs',
-              'NumDecPlaces' => 'stackOptions_AnsTest_values_NumDecPlaces',
-              'Units'        => 'stackOptions_AnsTest_values_Units',
-              'UnitsStrict'  => 'stackOptions_AnsTest_values_UnitsStrict',
-              'LowestTerms'  => 'stackOptions_AnsTest_values_LowestTerms',
-              'Diff'         => 'stackOptions_AnsTest_values_Diff',
-              'Int'          => 'stackOptions_AnsTest_values_Int',
-              'String'       => 'stackOptions_AnsTest_values_String',
-              'StringSloppy' => 'stackOptions_AnsTest_values_StringSloppy',
-              'RegExp'       => 'stackOptions_AnsTest_values_RegExp',
+              'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
+              'EqualComAss'          => 'stackOptions_AnsTest_values_EqualComAss',
+              'CasEqual'             => 'stackOptions_AnsTest_values_CasEqual',
+              'SameType'             => 'stackOptions_AnsTest_values_SameType',
+              'SubstEquiv'           => 'stackOptions_AnsTest_values_SubstEquiv',
+              'SysEquiv'             => 'stackOptions_AnsTest_values_SysEquiv',
+              'Expanded'             => 'stackOptions_AnsTest_values_Expanded',
+              'FacForm'              => 'stackOptions_AnsTest_values_FacForm',
+              'SingleFrac'           => 'stackOptions_AnsTest_values_SingleFrac',
+              'PartFrac'             => 'stackOptions_AnsTest_values_PartFrac',
+              'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
+              'GT'                   => 'stackOptions_AnsTest_values_GT',
+              'GTE'                  => 'stackOptions_AnsTest_values_GTE',
+              'NumAbsolute'          => 'stackOptions_AnsTest_values_NumAbsolute',
+              'NumRelative'          => 'stackOptions_AnsTest_values_NumRelative',
+              'NumSigFigs'           => 'stackOptions_AnsTest_values_NumSigFigs',
+              'NumDecPlaces'         => 'stackOptions_AnsTest_values_NumDecPlaces',
+              'Units'                => 'stackOptions_AnsTest_values_UnitsSigFigs',
+              'UnitsStrict'          => 'stackOptions_AnsTest_values_UnitsStrictSigFigs',
+              'UnitsAbsolute'        => 'stackOptions_AnsTest_values_UnitsAbsolute',
+              'UnitsStrictAbsolute'  => 'stackOptions_AnsTest_values_UnitsStrictAbsolute',
+              'UnitsRelative'        => 'stackOptions_AnsTest_values_UnitsRelative',
+              'UnitsStrictRelative'  => 'stackOptions_AnsTest_values_UnitsStrictRelative',
+              'LowestTerms'          => 'stackOptions_AnsTest_values_LowestTerms',
+              'Diff'                 => 'stackOptions_AnsTest_values_Diff',
+              'Int'                  => 'stackOptions_AnsTest_values_Int',
+              'String'               => 'stackOptions_AnsTest_values_String',
+              'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
+              'RegExp'               => 'stackOptions_AnsTest_values_RegExp',
               );
 
     /**
@@ -174,11 +178,32 @@ class stack_ans_test_controller {
                 break;
 
             case 'Units':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnits', true, $casoption, $options, false, true);
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsSigFigs',
+                                    true, $casoption, $options, false, true);
                 break;
 
             case 'UnitsStrict':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrict',
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrictSigFigs',
+                                    true, $casoption, $options, false, true);
+                break;
+
+            case 'UnitsAbsolute':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsAbsolute',
+                                    true, $casoption, $options, false, true);
+                break;
+
+            case 'UnitsStrictAbsolute':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrictAbsolute',
+                                    true, $casoption, $options, false, true);
+                break;
+
+            case 'UnitsRelative':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsRelative',
+                                    true, $casoption, $options, false, true);
+                break;
+
+            case 'UnitsStrictRelative':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrictRelative',
                                     true, $casoption, $options, false, true);
                 break;
 

@@ -45,10 +45,10 @@ This input type is built closely on the algebraic input type with the following 
 
 ## Answer tests  ##
 
-Two units answer tests are provided.  These are designed to accept a single answer with units such as `12.3*m/s`.  This will not work with sets, lists, matrices, equations etc.  Both the teacher and student must answer in this form.
+Six units answer tests are provided.  These are designed to accept a single answer with units such as `12.3*m/s`.  This will not work with sets, lists, matrices, equations etc.  Both the teacher and student must answer in this form.
 
 Each answer test splits up the answer into two parts.
-  * The numerical part, which is tested with ATNumSigFigs.  Use the appropriate options for this test.
+  * The numerical part, which is tested with one of the three numerical tests ATNumSigFigs, ATNumRelative or ATNumAbsolute.  Use the appropriate options for this test.
   * The units.  All non-numerical variable names are considered to be units.  Hence, you cannot use other variables with this test.
 
 This answer test establishes if the student has
@@ -58,17 +58,30 @@ This answer test establishes if the student has
 * wrong class of units, i.e. Imperial not metric is a different problem from using \(m\) vs \(km\).
 * dimensional problems
 
-There are two answer tests.
-1. `Units` gives feedback if the student has the wrong units, but number is equivalent on conversion,
-2. `UnitsStrict` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answernotes will record whether the conversion would have worked.
+There are two families of answer tests.
+1. `Units[...]` gives feedback if the student has the wrong units, but number is equivalent on conversion,
+2. `UnitsStrict[...]` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answernotes will record whether the conversion would have worked.
 
 __Notes__
 
 1. The student may not include any variables in their answer.  All variables are considered to be units.
-2. The numerical part is compared using the `NumSigFigs` test.  This *requires* various options, i.e. the number of significant figures.  Hence this answer test also requires identical options.
+2. The numerical part is compared using the one of the three numerical answer tests.  Each *requires* various options, e.g. the number of significant figures, or the numerical accuracy.  These answer tests uses identical options to the numerical tests.
 3. The units system accepts both `l` and `L` for litres, and the display respects the way they are typed in.
 4. Currently there is no localisation (i.e. language support) for unit names/spellings.
 5. The letter `u` is the prefix for micro, and is displayed as \(\mu\) when the student validates.
+
+## Conversion to base units and numerical accuracy  ##
+
+This only applys to the "non-strict" versions of the tests.  If the units in the student's answer do not match those of the teacher, then both the student's and teacher's answer is converted to base scientific units and the numerical test applied again.  Note, the student's answer is *not* converted to the units used by the teacher.
+
+For example, in order to make a numerical comparison between `1.1*Mg/10^6` and `1.2*kN*ns/(mm*Hz)` both expressions are converted to base units of `kg`. The numerical test is then applied.
+
+For the `NumRelative` test the option gives the required percentage tollarance within which a student's answer should be.  Literally we test the following `|sa-ta| < |ta*tol|`.  Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively.  The same `tol` is used both when the units match and *once they have been converted to base units*.
+
+Similarly, for `NumAbsolute` the option is an absolute difference.  Literally we test
+`|sa-ta| < |tol|`. Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively *once they have been converted to base units*.  Note, where the units are compatible, the same `tol` is used before and after converion to base units.  For this reason, the test `UnitsAbsolute` is likely to give strange behaviour for answers where the units are compatible.  *Suggestions from those teaching science, with examples, of improved behaviour here are very welcome!*
+
+
 
 ## Dealing with units in Maxima functions, e.g. PRTs  ##
 

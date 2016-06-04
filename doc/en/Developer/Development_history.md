@@ -9,6 +9,7 @@ Unreleased, currently in the master branch.
 Numerous minor bug fixes and improvements.
 
 1. Expose functionality of `printf` to better control the display of integers and floats.
+2. Expand the "units" answer test to allow authors to use other numerical answer tests.
 
 ## Version 3.5
 

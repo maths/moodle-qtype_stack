@@ -173,10 +173,18 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
 )$
 
 /* Units answer tests. */
-ATUnits(SA, SBL) := ATUnitsFun(SA, SBL, false)$
-ATUnitsStrict(SA, SBL) := ATUnitsFun(SA, SBL, true)$
+ATUnitsSigFigs(SA, SBL) := ATUnitsFun(SA, SBL, false, "SigFigs")$
+ATUnitsStrictSigFigs(SA, SBL) := ATUnitsFun(SA, SBL, true, "SigFigs")$
+ATUnitsRelative(SA, SBL) := ATUnitsFun(SA, SBL, false, "Relative")$
+ATUnitsStrictRelative(SA, SBL) := ATUnitsFun(SA, SBL, true, "Relative")$
+ATUnitsAbsolute(SA, SBL) := ATUnitsFun(SA, SBL, false, "Absolute")$
+ATUnitsStrictAbsolute(SA, SBL) := ATUnitsFun(SA, SBL, true, "Absolute")$
 
-ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
+/* This function has two options:
+   boolean: strictp determines if the test should be "strict" in requiging exactly the correct units.
+   numtest: string Chooses the numerical test applied to the numerical part.
+*/
+ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
     validity:true, rawmk:true, fb:"", ansnote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -210,7 +218,7 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
     if (debug) then (print(SA), print(SB)),
     SAU:stack_units_split(SA),
     SBU:stack_units_split(SB),
-    if (debug) then (print(SAU), print(SBU)),
+    if (debug) then (print("stack_units_split gives: "), print(SAU), print(SBU)),
 
     /* The teacher must supply some units, otherwise the test will fail. */
     if is_simp(second(SBU) = NULLUNITS) then
@@ -229,12 +237,23 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
     /* Strip off units and check the numerical part with ATNumSigFigs. */
     SAU1:ev(float(first(SAU)), simp),
     SBU1:ev(float(first(SBU)), simp),
-    ret1: ATNumSigFigs(SAU1, [SBU1, ol]),
-    if (debug) then print(ret1),
+    if (debug) then (print("Call to 1st numerical test with data: "), print(SAU1), print([SBU1, ol])),
+    if (numtest = "SigFigs") then
+        ret1: ATNumSigFigs(SAU1, [SBU1, ol])
+    else if (numtest = "Absolute") then
+        ret1: ATNumAbsolute(SAU1, [SBU1, ol])
+    else if (numtest = "Relative") then
+        ret1: ATNumRelative(SAU1, [SBU1, ol])
+    else 
+        block(
+            print(sconcat("Error: ATUnitsFun received the following numtest option which is unknown: ", numtest)),
+            ret1:[false]
+        ),
+    if (debug) then (print("Result of numerical test: "), print(ret1)),
 
     /* Did we get an error?  If so, then go no further. */
     if not(ret1[1]) then return(ret1),
-    
+
     /* Check units.  If the units match exactly then go no further. 
        The correctness or otherwise is entirely determined by ATNumSigFigs.  */
     if algebraic_equivalence(second(SAU), second(SBU)) then
@@ -247,11 +266,17 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
     SAU:stack_units_split(SA),
     SBU:stack_units_split(SB),
     if (debug) then (print(SAU), print(SBU)),
-
     /* Check the accuracy again, now we have converted. */
     SAU1:ev(float(first(SAU)), simp),
     SBU1:ev(float(first(SBU)), simp),
-    ret2: ATNumSigFigs(SAU1, [SBU1, ol]),
+    if (numtest = "SigFigs") then
+        ret2: ATNumSigFigs(SAU1, [SBU1, ol])
+    else if (numtest = "Absolute") then
+        ret2: ATNumAbsolute(SAU1, [SBU1, ol])
+    else if (numtest = "Relative") then
+        ret2: ATNumRelative(SAU1, [SBU1, ol])
+    else 
+        print(sconcat("Error: ATUnitsFun received the following numtest option which is unknown: ", numtest)),
     if (debug) then print(ret2),
 
     /* Did we get an error?  If so, then go no further. */
@@ -277,7 +302,7 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
         return([true, false, ansnote, fb]),
 
     /* We do have compatible units.  */
-    ansnote:StackAddNote(ret2[3], "ATUnits_compatible_units"),
+    ansnote:StackAddNote(ret2[3], sconcat("ATUnits_compatible_units: ", string(ev(second(SBU), simp)))),
 
     /* Is the numerical answer correct? */
     if ret2[2] then
@@ -290,7 +315,7 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
 
     /* Despite getting the wrong units, was the original numerical value correct? */
     if ret1[2] then block(
-        ansnote:StackAddNote("", "ATUnits_compatible_units"),
+        ansnote:StackAddNote("", sconcat("ATUnits_compatible_units: ", string(ev(second(SBU), simp)))),
         ansnote:StackAddNote(ansnote, "ATUnits_correct_numerical"),
         fb:StackAddFeedback("", "ATUnits_correct_numerical")
     ),

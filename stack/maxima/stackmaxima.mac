@@ -645,14 +645,14 @@ ATNumRelative(SA, SB) := ATNumerical(SA, SB, "RELATIVE")$
 
 
 ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote, ret, SAN, tol],
-    Validity:false, RawMark:false, 
+    Validity:true, RawMark:false, 
     FeedBack:StackAddFeedback("", "ATNumerical_FAILED"),
     AnswerNote:StackAddNote("", "ATNumerical_FAILED"),
     /* Turn on simplification and error catch */
     SA:errcatch(ev(float(SA), simp, nouns)),
     if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
     SA:SA[1],
-    SAN:copy(SA), /* Need this for when we have lists etc */
+    SAN:copy(SA), /* Need this for when we have lists etc. */
     SB:errcatch(ev(float(SB), simp, nouns, rat)),
     if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
     SB:SB[1], 
@@ -685,9 +685,9 @@ ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote,
         return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
       else
         if numtype = "ABSOLUTE" then
-            return([false, numabsolutep(SA, SB, tol), "", ""])
+            return([true, numabsolutep(SA, SB, tol), "", ""])
         else 
-            return([false, numrelativep(SA, SB, tol), "", ""]),
+            return([true, numrelativep(SA, SB, tol), "", ""]),
 
     ret:[Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
@@ -2428,4 +2428,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016060100$
+stackmaximaversion:2016060300$

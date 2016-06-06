@@ -68,6 +68,9 @@ class stack_cas_session {
      */
     private $debuginfo;
 
+    /** @var array Global variables. */
+    private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true);
+
     public function __construct($session, $options = null, $seed=null) {
 
         if (is_null($session)) {
@@ -490,7 +493,6 @@ class stack_cas_session {
                 $cmd = '0';
             }
 
-            $csnames   .= ", $cleanlabel";
             // Special handling for the conditionally evaluated strings
             if (count($cs->get_conditions()) > 0) {
                 $conditions = array();
@@ -508,10 +510,15 @@ class stack_cas_session {
 
                 $cascommands .= ", print(\"$i=[ error= [\"), if $condition then cte(\"$label\",errcatch($label:$cmd)) else cte(\"$label\",errcatch($label:false)) ";
             } else {
-                 $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
+                $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
+            }
+
+            // The session might, legitimately, attempt to redefine a Maxima global variable,
+            // which would throw a spurious error when the block attempts to define them as local.
+            if (!(array_key_exists($cleanlabel, self::$maximaglobals))) {
+                $csnames   .= ", $cleanlabel";
             }
             $i++;
-
         }
 
         $cass  = $caspreamble;

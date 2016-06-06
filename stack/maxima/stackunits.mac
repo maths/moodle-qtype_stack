@@ -149,8 +149,8 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
         (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
 
     /* Check if the student has correctly used units.*/
-    SAU:stack_units_split(expr),
-    SBU:stack_units_split(TAns),
+    SAU:ev(stack_units_split(expr), simp),
+    SBU:ev(stack_units_split(TAns), simp),
     if (debug) then (print("stack_validate_units working with: "), print(SAU), print(SBU)),
 
     /* Check if stack_units_split appears to have done something sensible. */ 
@@ -167,34 +167,9 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
             print(StackAddFeedback("", "ATUnits_SA_excess_units"))
     ),
 
-    /* Now display the result and subtly change the display. */
-    if not(is_simp(first(SAU) = NULLNUM) or is_simp(first(SAU) = 1) or is_simp(second(SAU) = NULLUNITS)) then
-        expr:stack_validate_units_display(SAU),
     expr:detexcolor(expr),
     expr:detexdecorate(expr),
     return(expr)
-)$
-
-/* This function sorts out the display of the final expression.
-   Units should be a product of powers (possibly negative).
-   Numbers should have the division operator used.              */
-stack_validate_units_display(ex) := block([expr],
-  apply("*", maplist(stack_combine_exponents, expr:flatten((first(ex))*(second(ex)))))
-)$
-
-/* This function is used to make the transformation (x^a)^b -> x^(a*b).
-   This is really needed for negative exponents.                         */
-stack_combine_exponents(ex) := block([n,m,ex1],
-    if not(is_simp(safe_op(ex)="^")) then 
-        return(ex),
-    ex1:first(args(ex)),
-    n:second(args(ex)),
-    if not(integerp(ev(n, simp))) then 
-        return(ex),
-    if not(is_simp(safe_op(ex1)="^")) then 
-        return(ex), 
-    m:second(args(ex1)),
-    return(first(args(ex1))^(ev(m*n, simp)))
 )$
 
 /* Units answer tests. */

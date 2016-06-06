@@ -296,5 +296,15 @@ class stack_ans_test_controller {
     public function validate_atoptions($opt) {
         return $this->at->validate_atoptions($opt);
     }
+
+    /**
+     * Pass back CAS debug information for testing.
+     *
+     * @return string
+     * @access public
+     */
+    public function get_debuginfo() {
+        return $this->at->get_debuginfo();
+    }
 }
 

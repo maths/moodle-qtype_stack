@@ -69,6 +69,11 @@ class stack_anstest {
     protected $atfeedback;
 
     /**
+     * $var string.  Copies the debug info, e.g. from the CAS session.
+     */
+    protected $debuginfo;
+
+    /**
      * Constructor
      *
      * @param  string $sanskey
@@ -156,5 +161,15 @@ class stack_anstest {
      */
     public function required_atoptions() {
         return false;
+    }
+
+    /**
+     * Returns some sensible debug information for testing questions.
+     *
+     * @return string
+     * @access public
+     */
+    public function get_debuginfo() {
+        return $this->debuginfo;
     }
 }

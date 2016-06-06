@@ -44,11 +44,6 @@ class stack_answertest_general_cas extends stack_anstest {
     private $simp;
 
     /**
-     * $var string.  Copies the debug info from the CAS session.
-     */
-    private $debuginfo;
-
-    /**
      * @param  string $sans
      * @param  string $tans
      * @param  string $casoption

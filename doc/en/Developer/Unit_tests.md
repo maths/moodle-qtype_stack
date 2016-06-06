@@ -21,7 +21,8 @@ Once you have executed
     php admin/tool/phpunit/cli/init.php
 
 you need to edit the config.php file to add the following configuration
-information near the end, but before the require_once(dirname(__FILE__) . '/lib/setup.php');:
+information near the end, but before the `require_once(dirname(__FILE__) . '/lib/setup.php');`.
+Other options for the platform are `unix` and `unix-optimised`.
 
     define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'win');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION',   '5.31.3');
@@ -33,7 +34,7 @@ information near the end, but before the require_once(dirname(__FILE__) . '/lib/
     define('QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE', 'db');
 
 You should probably copy the settings from Admin -> Plugins -> Question types -> STACK.
-however, you can use the flexibility to have different configurations of STACK
+However, you can use the flexibility to have different configurations of STACK
 for testing in order to test a new release of Maxima, for example.
 
 If you want to run just the unit tests for STACK, you can use the command
@@ -77,7 +78,7 @@ and set the Debug messages option.
 
 # Resetting the database
 
-Subvert one of the functions in `C:\xampp\htdocs\moodle\lib\phpunit\classes\util.php` 
+Subvert one of the functions in `[...]/moodle/lib/phpunit/classes/util.php` 
 
     public static function reset_database() {
     public static function reset_all_data() {

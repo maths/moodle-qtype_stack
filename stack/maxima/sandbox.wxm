@@ -11,7 +11,8 @@ See https://github.com/maths/moodle-qtype_stack
 
 1. Download the files from github, either using git or as a zip file.
 2. Place the files somewhere they can be read, and edit the line velow to give the location.
-   E.g. Place the files in C:\files\stack
+   E.g. Place the files in C:\tmp\qtypestack
+   The directory C:\tmp\qtypestack should now contain a file "version.php".
 3. Specify a directory for temporary working files, e.g. C:\tmp    [Directories in 2 & 3 can be the same if you don't mind clutter.]
 
 Note, that plots *will not work* in this sandbox.
@@ -19,7 +20,7 @@ Note, that plots *will not work* in this sandbox.
 
 /* [wxMaxima: input   start ] */
 /* In MS platforms use the forward slash as a directory seperator.  No trailing slash. */
-stacklocation:"C:/tmp/stack"$
+stacklocation:"C:/tmp/qtypestack"$
 stacktmplocation:"C:/tmp"$
 
 /****************************************************

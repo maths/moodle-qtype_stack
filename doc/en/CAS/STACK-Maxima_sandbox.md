@@ -6,11 +6,13 @@ To do this you will need to load your local settings, and also the libraries of 
 
 # STACK - Maxima sandbox (without access to a server)
 
-If you don't have access to a STACK server then you will need to download the files.  This, unfortunately contains lots of .php files as well.  Most of the files you need are in
+If you don't have access to a STACK server then you will need to download the files.   Download all the STACK files from github (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
+
+Unfortunately, there are a lots of .php files as well.  Most of the files you need are in
 
     .../stack/maxima/
 
-Download the STACK files from github (git or as a .zip).   Then edit and use the file `.../stack/maxima/sandbox.wmx`
+Edit and use the file `.../stack/maxima/sandbox.wmx`
 
 # STACK - Maxima sandbox (with access to a server)
 

@@ -74,7 +74,7 @@ class stack_inputvalidation_test_data {
         array('true', 'php_true', 'true', 'cas_true', '', "Booleans"),
         array('false', 'php_true', 'false', 'cas_true', '', ""),
         array('"1+1"', 'php_true', '"1+1"', 'cas_true', '',
-            "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
+            "Strings - generally discouraged in STACK.  This is a string within a mathematical expression, not literally 1+1."),
         array('"Hello world"', 'php_false', '', '', 'unknownFunction | unknownFunction',
         "Currently strings must pass the security checks.   We could disable this,
         but since strings are not encouraged we keep it for now."),

@@ -168,7 +168,7 @@ $samplearguments[] = $newarg;
 $newarg = array();
 $newarg['title']     = "Solving quadratic equations 7 (Toby's method)";
 $newarg['narative']  = '';
-$newarg['casstring'] = "[a*x^2+b*x+c=0,a^2*x^2+a*b*x+c=0,(a*x)^2+b*(a*x)+c=0,(a*x)^2+b*(a*x)+b^2/4-b^2/4+c=0,(a*x+b/2)^2-b^2/4+c=0,(a*x+b/2)^2=b^2/4-c,x=(-b+sqrt(a^2-4*a*c))/(2*a) or x=(-b+sqrt(a^2-4*a*c))/(2*a)]";
+$newarg['casstring'] = "[a*x^2+b*x+c=0 or a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0,(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c,a*x+b/2= +-(b^2/4-a*c),x=(-b+sqrt(a^2-4*a*c))/(2*a) or x=(-b+sqrt(a^2-4*a*c))/(2*a)]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -357,12 +357,12 @@ foreach ($samplearguments as $argument) {
 /* Generate offline testing script to cut and paste into desktop Maxima. */
 echo '<hr />';
 $script = stack_cas_configuration::generate_maximalocal_contents();
-$script .="\n";
+$script .= "\n";
 $settings = get_config('qtype_stack');
 if ($settings->platform == 'unix-optimised') {
-    $script .='load("stackmaxima.mac")$'."\n";
+    $script .= 'load("stackmaxima.mac")$'."\n";
 }
-$script .="simp:false;\n";
+$script .= "simp:false;\n";
 echo html_writer::tag('textarea', $script,
     array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
 echo '<hr />';

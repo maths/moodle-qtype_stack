@@ -68,6 +68,7 @@ __Notes__
 2. The numerical part is compared using the `NumSigFigs` test.  This *requires* various options, i.e. the number of significant figures.  Hence this answer test also requires identical options.
 3. The units system accepts both `l` and `L` for litres, and the display respects the way they are typed in.
 4. Currently there is no localisation (i.e. language support) for unit names/spellings.
+5. The letter `u` is the prefix for micro, and is displayed as \(\mu\) when the student validates.
 
 ## Dealing with units in Maxima functions, e.g. PRTs  ##
 

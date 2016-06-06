@@ -1,6 +1,6 @@
 # Optimising Maxima
 
-There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. The optimisations described here have been tested, but not extensively.  They have the potential to greatly speed up STACK.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
+There are several ways to reduce the access and execution time of this CAS which can prove useful for scaling. They have the potential to greatly speed up STACK, and are widely used.  It is particularly important on a Unix system to compile the Maxima code. Please let us know if you try them.
 
 The instructions for both CLISP and SBCL have been tested and work in STACK 3.  As of November 2015, these are working with Maxima 5.36.1, but some versions of Maxima do have problems.  We now have some code to attempt to automatically generate the LISP images described below.  Beware, however, that when regenerating the image you may have to manually delete the old image which may be write-protected.
 
@@ -186,3 +186,32 @@ With the optimised linux we have reduced the loading time, and the loading overh
 The overhead times for loading maxima might be reduced, and smoothed out by using the maxima pool, see <http://github.com/maths/stack_util_maximapool> for an implementation of this.  The computation times are difficult to reduce.
 
 Memory appears to be modest: the optimised linux takes about 15Mb of memory per process.
+
+# Compiling a Maxima image
+
+The following was tested in March 2016 on CENTOS.  It is for compiling a Maxima image.  Really this is mostly for developers.
+
+    sudo yum install sbcl texinfo rpm-build
+    cd ~
+    wget http://dl.fedoraproject.org/pub/fedora/linux/updates/22/SRPMS/m/maxima-5.36.1-2.fc22.src.rpm
+    rpm -i maxima-5.36.1-2.fc22.src.rpm
+    cd rpmbuild
+    rpmbuild -ba SPECS/maxima.spec
+    cd RPMS/x86_64
+    sudo yum remove maxima
+    sudo yum install maxima-runtime-sbcl-5.36.1-2.el6.x86_64.rpm maxima-5.36.1-2.el6.x86_64.rpm
+
+The following was tested in March 2016 on Ubuntu 14.04.4 LTS (GNU/Linux 3.13.0-79-generic x86_64) (Trusty). Install dependencies:
+
+    sudo apt-get -y install clisp texinfo
+
+Then run:
+
+    cd ~
+    wget -O maxima_source.tar.gz http://sourceforge.net/projects/maxima/files/Maxima-source/5.36.1-source/maxima-5.36.1.tar.gz/download
+    tar zxvf maxima_source.tar.gz
+    cd maxima-5.36.1
+    ./configure --with-clisp
+    make --silent
+    sudo make install --silent
+    maxima --list-avail

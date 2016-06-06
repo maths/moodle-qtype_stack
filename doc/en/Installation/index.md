@@ -11,12 +11,14 @@ STACK is being used live at a number of institutions, including the UK Open Univ
 
 Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1,to 5.36.1 are supported.  Please contact the developers to request support for other versions.  
 
+On linux we currently recommend that you compile maxima 5.36.0 from sourceforge-sources with sbcl enabled.  On linux also ensure you also have maxima-share and texinfo.
 
 Please note 
 
 * Version 5.37.0 onwards is currently not supported.  There appear to be some important changes in Maxima we are working to accommodate in STACK.  In particular with `simp:false`, \(s^(-1)\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This cuases all sorts of problems.  Do not use Maxim 5.37.1 to 5.37.3.
 * From version 5.35.1 on Windows, Maxima is very slow in starting, and there is no optimization mechanism.
 * Older versions of Maxima:  in particular, Maxima 5.23.2 has some differences which result in \(1/\sqrt{x} \neq \sqrt{1/x}\), and similar problems.  This means that we have an inconsistency between questions between versions of maxima.   Of course, we can argue about which values of \(x\) make \(1/\sqrt{x} = \sqrt{1/x}\), but currently the unit tests and assumption is that these expressions should be considered to be algebraically equivalent!   So, older versions of Maxima are not supported for a reason.  Please test thoroughly if you try to use an older version, and expect some errors in the mathematical parts of the code.
+* If you install more than one version of Maxima then you will need to tell STACK which version to use.  Otherwise just use the "default" option.
 
 Maxima can be [downloaded](http://maxima.sourceforge.net/download.html) as a self-contained installer program for Windows, RPMs for Linux or as source for all platforms.  Maxima and GNUPlot will install themselves in suitable directories.  
 
@@ -51,7 +53,11 @@ The reports are still in a beta development stage and you can skip this step.   
 1. Obtain the code. Either [download the zip file](https://github.com/maths/quiz_stack/zipball/master), unzip it, and place it in the directory `moodle/mod/quiz/report/stack`. (You will need to rename the directory `quiz_stack -> stack`.) Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: `git clone git://github.com/maths/quiz_stack.git mod/quiz/report/stack`.
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-## 6. Add the STACK question format
+## 6. Optional: Add the LTI provider plugin
+
+This optional step is for people who wish to use STACK through another interface than Moodle (or ILIAS).  Details are in the [LTI](LTI.md) page.
+
+## 7. Very Optional: Add the STACK question format
 
 This is for legacy questions from Version 2 of STACK.  You can probably skip this step. If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
 
@@ -60,7 +66,7 @@ This is for legacy questions from Version 2 of STACK.  You can probably skip thi
 
 There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Authoring/ImportExport.md) before using it.
 
-## 7. Confirming the installation is successful.
+## 8. Confirming the installation is successful.
 
 At this stage it is important to confirm that the PHP scripts are connecting to the CAS.  To facilitate this we have special scripts which provide confirmation and trouble-shooting data.
 Now is the time to [test the installation](testing_installation.md).

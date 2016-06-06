@@ -1116,7 +1116,7 @@ class stack_cas_casstring {
     }
 
     /**
-     * Check for CAS commands which appear in the $keywords array, which are not just single variables
+     * Check for CAS commands which appear in the $keywords array, which are not just single letter variables.
      * Notes, (i)  this is case insensitive.
      *        (ii) returns true if we find the element of the array.
      * @return bool|string true if an element of array is found in the casstring.

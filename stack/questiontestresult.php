@@ -52,6 +52,11 @@ class stack_question_test_result {
       */
      public $actualresults;
 
+     /**
+      * @var array prt name => debuginfo
+      */
+     public $debuginfo;
+
     /**
      * Constructor
      * @param stack_question_test $testcase the testcase this is the results for.
@@ -123,11 +128,13 @@ class stack_question_test_result {
                     $feedback[] = $fb->feedback;
                 }
                 $state->feedback = implode(' ', $feedback);
+                $state->debuginfo = $actualresult->debuginfo;
             } else {
                 $state->score = '';
                 $state->penalty = '';
                 $state->answernote = '';
                 $state->feedback = '';
+                $state->debuginfo = '';
             }
 
             $state->testoutcome = true;

@@ -247,7 +247,8 @@ stackfltfmt:"~a";
     ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then 
     ev(printf(false, stackintfmt, x), simp) else 
     string(x);
-compile (?texnumformat);
+/* Some systems are throwing an error here, which is spurious. */
+errcatch(compile(?texnumformat));
 
 COLOR_LIST:["red", "Blue"  , "YellowOrange", "Bittersweet"  , "BlueViolet" , "Aquamarine", "BrickRed" , 
     "Apricot" , "Brown" , "BurntOrange", "CadetBlue" , "CarnationPink" , "Cerulean" , "CornflowerBlue" , 
@@ -2453,4 +2454,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016031700$
+stackmaximaversion:2016060600$

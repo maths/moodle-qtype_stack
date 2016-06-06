@@ -540,7 +540,7 @@ verb_arith(ex) := block(
     ex:subst("^", "noun^", ex), 
     define(UNARY_RECIP a, a^(-1)), 
     ex:ev(ex, UNARY_MINUS=-1),
-    remfunction("noun+", "noun*", "noun/", "noun^", "noun-"), 
+    remfunction("noun+", "noun*", "noun/", "noun^", "noun-", "UNARY_RECIP"), 
     ex
 )$
 
@@ -553,7 +553,9 @@ noun_arith(ex) := block(
     ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex), 
     /* Turn 1/x into x^(-1), in a special form */
     ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),
-    ex:subst("noun^", "^", ex), 
+    define(UNARY_RECIP a, a noun^ (-1)), 
+    ex:ev(subst("noun^", "^", ex)), 
+    remfunction("UNARY_RECIP"), 
     ev(ex)
 )$
 

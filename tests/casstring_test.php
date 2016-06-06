@@ -344,6 +344,21 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
+    public function test_forbid_function_single_letter() {
+        $s = 'a:x^2+a+f(x)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s'));
+        // This next test returns false, because the check only looks for keys longer than one character.
+        $this->assertFalse($at1->check_external_forbidden_words(array('f')));
+    }
+
+    public function test_forbid_function_multiple_letter() {
+        $s = 'a:x^2+a+fn(x)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s'));
+        $this->assertTrue($at1->check_external_forbidden_words(array('fn')));
+    }
+
     public function test_unencapsulated_commas_1() {
         $s = 'a,b';
         $at1 = new stack_cas_casstring($s);

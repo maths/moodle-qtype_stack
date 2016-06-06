@@ -79,7 +79,7 @@ class stack_potentialresponse_tree_state {
      * @param array $feedback the current contents of this input.
      */
     public function __construct($weight, $valid = true, $score = null, $penalty = null,
-            $errors = '', $answernotes = array(), $feedback = array()) {
+            $errors = '', $answernotes = array(), $feedback = array(), $debuginfo = null) {
         $this->_weight      = $weight;
         $this->_valid       = $valid;
         $this->_score       = $score;
@@ -87,6 +87,7 @@ class stack_potentialresponse_tree_state {
         $this->_errors      = $errors;
         $this->_answernotes = $answernotes;
         $this->_feedback    = $feedback;
+        $this->_debuginfo   = $debuginfo;
     }
 
     public function __get($field) {
@@ -109,6 +110,8 @@ class stack_potentialresponse_tree_state {
                 return $this->_feedback;
             case 'answernotes':
                 return $this->_answernotes;
+            case 'debuginfo':
+                return $this->_debuginfo;
             default:
                 throw new stack_exception('stack_potentialresponse_tree_state: __get().  Unrecognised property name ' . $field);
         }

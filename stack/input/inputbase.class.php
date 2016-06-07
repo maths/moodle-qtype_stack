@@ -498,7 +498,7 @@ abstract class stack_input {
     }
 
     /**
-     * This function constructs any the display variable for validation.
+     * This function constructs the display of variables during validation.
      * For many input types this is simply the complete answer.
      * For text areas and equivalence reasoning this is a more complex arrangement of lines.
      *
@@ -508,14 +508,13 @@ abstract class stack_input {
      */
     protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
 
-        if (!$valid) {
-            $display = stack_maxima_format_casstring($answer->get_raw_casstring());
-            return array($valid, $errors, $display);
-        }
-        if ('' != $answer->get_errors()  || '' == $answer->get_value()) {
+        $display = stack_maxima_format_casstring($answer->get_raw_casstring());
+        if ('' != $answer->get_errors()) {
             $valid = false;
             $errors = array(stack_maxima_translate($answer->get_errors()));
-            $display = stack_maxima_format_casstring($answer->get_raw_casstring());
+        }
+        if (trim($answer->get_display()) == '') {
+            $valid = false;
         } else {
             $display = '\[ ' . $answer->get_display() . ' \]';
         }

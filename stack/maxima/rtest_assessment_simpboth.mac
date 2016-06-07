@@ -283,7 +283,7 @@ strip_int_const(c+(t-1)^4/4,t);
 (t-1)^4/4$ 
 
 buggy_pow((x+1)^2);
-1^2+x^2$
+x^2+1^2$
 buggy_pow(sin((x+y)^3));
 sin(x^3+y^3)$
 
@@ -294,4 +294,16 @@ degree((x + y)^5, x);
 degree((x + y)^5, x + y);
 0$
 
+list_remove([a,b,c,d], 1);
+[b,c,d]$
+list_remove([a,b,c,d], 2);
+[a,c,d]$
+list_remove([a,b,c,d], 3);
+[a,b,d]$
+list_remove([a,b,c,d], 0);
+[a,b,c,d]$
+list_remove([a,b,c,d], 6);
+[a,b,c,d]$
+list_remove([a,[b],[c,d],d], 2);
+[a,[c,d],d]$
 

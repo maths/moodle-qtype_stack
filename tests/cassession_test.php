@@ -509,4 +509,45 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertRegExp('/Division by (zero|0)/', trim($at1->get_errors_key('p')));
         $this->assertFalse(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters'));
     }
+
+    public function test_rand_selection_err_1() {
+        $cs = array('a:rand_selection(1,1)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[]', $at1->get_value_key('a'));
+        $this->assertEquals('rand_selection error: first argument must be a list.', $at1->get_errors_key('a'));
+        
+    }
+
+    public function test_rand_selection_err_2() {
+        $cs = array('a:rand_selection([a,b,c,d], 7)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[]', $at1->get_value_key('a'));
+        $this->assertEquals('rand_selection error: insuffient elements in the list.', $at1->get_errors_key('a'));
+        
+    }
+
+    public function test_rand_selection() {
+        $cs = array('a:rand_selection([a,b,c,d], 4)', 'b:sort(a)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[a,b,c,d]', $at1->get_value_key('b'));
+        
+    }
 }

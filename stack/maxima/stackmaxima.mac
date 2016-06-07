@@ -200,6 +200,38 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
    return(retVal)
 )$
 
+/* Make a random selection of n different items from the list ex. */
+/* CJS, 7/6/2016                                                  */
+rand_selection(ex, n) := block(
+  if not(listp(ex)) then (
+      print("rand_selection error: first argument must be a list."),
+      return([])
+      ),
+  if not(integerp(n)) then (
+      print("rand_selection error: second argument must be an integer."),
+      return([])
+      ),
+  if is(n>length(ex)) then (
+      print("rand_selection error: insuffient elements in the list."),
+      return([])
+      ),
+  return(rand_selection_fun(ex, n))
+)$
+
+rand_selection_fun(exin, n) := block([k],
+  if is(n=0) then return([]),
+  k:ev(rand(length(exin))+1, simp),
+  cons(exin[k], rand_selection_fun(list_remove(exin, k), ev(n-1, simp)))
+)$
+
+/* Remove the n'th element from the list ex. */
+list_remove(ex, n) := block([k, l],
+    if is(n>length(ex)) or is (n<1) then return(ex),
+    /* Using simplification make a list of indices, then without simplification use them. */
+    l:ev(append(makelist(k, k, 1, n-1), makelist(k, k, n+1, length(ex))), simp),
+    makelist(ex[k], k, l)
+)$
+
 /* ********************************** */
 /* Display                            */
 /* ********************************** */
@@ -2428,4 +2460,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016060701$
+stackmaximaversion:2016060702$

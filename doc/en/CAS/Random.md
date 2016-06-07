@@ -55,6 +55,10 @@ This can be used with matrices, to generate a matrix with non-zero entries for e
 
     matrixmap(lambda([ex],rand_with_prohib(-5,5,[0])),zeromatrix(5,5));
 
+### rand_selection(ex, n) ###
+
+Returns a list containing a random selection of `n` different items from the list `ex`.  If `ex` contains duplicates, then the result may also contain duplicates.
+
 ## Generating random polynomials
 
 Here is an example which generates a random polynomial, of degree 5, with coefficients between 0 and 6.

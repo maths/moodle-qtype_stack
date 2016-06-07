@@ -209,7 +209,6 @@ ATUnitsStrict(SA, SBL) := ATUnitsFun(SA, SBL, true)$
 
 ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
     validity:true, rawmk:true, fb:"", ansnote:"",
-
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then 
         return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
@@ -239,8 +238,12 @@ ATUnitsFun(SA, SBL, strictp) := block([validity, rawmk, sb, ansnote, SB, SAU, SB
         stack_unit_si_declare(true),
 
     if (debug) then (print(SA), print(SB)),
-    SAU:stack_units_split(SA),
-    SBU:stack_units_split(SB),
+    if safe_op(SA)="stackunits" then 
+      SAU:args(SA) else
+      SAU:stack_units_split(SA),
+    if safe_op(SB)="stackunits" then 
+      SBU:args(SB) else
+      SBU:stack_units_split(SB),
     if (debug) then (print(SAU), print(SBU)),
 
     /* The teacher must supply some units, otherwise the test will fail. */

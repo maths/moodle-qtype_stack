@@ -13,7 +13,6 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-
 /* ********************************** */
 /* Global variable options            */
 /* ********************************** */
@@ -180,7 +179,7 @@ rand(ex) := block(
 )$
 
 randlist(ex) := block(
-  if (length(ex) > 0) then return(ev(ex[(1+random(length(ex)))], simp)) else return([]) 
+  if (length(ex) > 0) then return(ex[ev(1+random(length(ex)),simp)]) else return([]) 
 )$
 
 /* Returns a random number from the set {lower, lower+step, lower+2*step, ... , final}. */
@@ -201,6 +200,38 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
    return(retVal)
 )$
 
+/* Make a random selection of n different items from the list ex. */
+/* CJS, 7/6/2016                                                  */
+rand_selection(ex, n) := block(
+  if not(listp(ex)) then (
+      print("rand_selection error: first argument must be a list."),
+      return([])
+      ),
+  if not(integerp(n)) then (
+      print("rand_selection error: second argument must be an integer."),
+      return([])
+      ),
+  if is(n>length(ex)) then (
+      print("rand_selection error: insuffient elements in the list."),
+      return([])
+      ),
+  return(rand_selection_fun(ex, n))
+)$
+
+rand_selection_fun(exin, n) := block([k],
+  if is(n=0) then return([]),
+  k:ev(rand(length(exin))+1, simp),
+  cons(exin[k], rand_selection_fun(list_remove(exin, k), ev(n-1, simp)))
+)$
+
+/* Remove the n'th element from the list ex. */
+list_remove(ex, n) := block([k, l],
+    if is(n>length(ex)) or is (n<1) then return(ex),
+    /* Using simplification make a list of indices, then without simplification use them. */
+    l:ev(append(makelist(k, k, 1, n-1), makelist(k, k, n+1, length(ex))), simp),
+    makelist(ex[k], k, l)
+)$
+
 /* ********************************** */
 /* Display                            */
 /* ********************************** */
@@ -211,33 +242,39 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
 /*        "" for no delimiters.       */
 /* ********************************** */
 
-StackDISP(expr, m) := block([str:""],
+stack_disp(expr, m) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
-    str:block([expru, expstr, offset, ld, rd],
+    /* Fine tune displat, e.g. sort out display of atoms like theta0. */
+    expru:unary_minus_sort(expr),
+    expru:stack_disp_strip_number(expru),
+
+    str:block([expstr, offset, ld, rd],
         ld:"", 
         rd:"",
         if m = "i" then block(ld:"\\(", rd:"\\)"),
         if m = "d" then block(ld:"\\[", rd:"\\]"),
-        expru:unary_minus_sort(expr),   
         expstr:tex(expru, false),
-        /* Remove $$'s from Maxima's TEX command */
-        if ?subseq(expstr, 0, 2) = "$$" then 
-            expstr:concat(ld, ?subseq(expstr, 2, ev(?length(expstr)-3, simp)), rd) 
-            /* Remove \begin{verbatim}'s from Maxima's TEX command */
-        else if ?length(expstr) > 17 and ?subseq(expstr,1,17) = "\\begin{verbatim}" then 
-            expstr:concat(ld, ?subseq(expstr, 18, ev(?length(expstr)-18, simp)), rd), 
-        expstr
+        expstr:concat(ld, stack_disp_strip_dollars(expstr), rd)
     ),
     /* MathML display */
     if OPT_OUTPUT = "MathML" then
         str:mathml(expr, false),
     /* String display */
     if OPT_OUTPUT="String" then str:string(expr),
-    /* If no correct options have been set */
+    /* If no correct options have been set. */
     if str = "" then str:string(expr),
     return(str)
+)$
+
+stack_disp_strip_dollars(ex) := block(
+        if ?subseq(ex, 0, 2) = "$$" then
+            ex:?subseq(ex, 2, ev(?length(ex)-3, simp))
+        /* Remove \begin{verbatim}'s from Maxima's TEX command */
+        else if ?length(ex) > 17 and ?subseq(ex,1,17) = "\\begin{verbatim}" then
+            ex:?subseq(ex, 18, ev(?length(ex)-18, simp)),
+        ex
 )$
 
 /* Display of numbers. Thanks to Robert Dodier. */
@@ -249,6 +286,23 @@ stackfltfmt:"~a";
     string(x);
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
+
+/* A recursive function which strips off numbers at the end of variable names. */
+stack_disp_strip_number(ex) := block([s,v,n],
+  if safe_op(ex) = ":=" then return(ex),
+  if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_strip_number, args(ex)))),
+  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
+  s:string(ex),
+  /* Trim off any numbers on the right hand side. */
+  v:strimr("0123456789", s),
+  n:substring(s, ev(slength(v)+1,simp)),
+  /* Note, we don't parse the n here to avoid stipping off a leading zero. */
+  /*if slength(n)>0 then return(stacktexsubscript(parse_string(v), n)),*/
+  if slength(n)=0 then return(ex),
+  v:parse_string(v),
+  stacktexsubscript(v, n)
+)$
+
 
 COLOR_LIST:["red", "Blue"  , "YellowOrange", "Bittersweet"  , "BlueViolet" , "Aquamarine", "BrickRed" , 
     "Apricot" , "Brown" , "BurntOrange", "CadetBlue" , "CarnationPink" , "Cerulean" , "CornflowerBlue" , 
@@ -402,7 +456,7 @@ cte(var, ex) := block([str],
         print(", value = ["),
         print(string(ex[1])),
         print("], display = ["),
-        print(StackDISP(ex[1], "")),
+        print(stack_disp(ex[1], "")),
         print("]"), 
         ex:ex[1]
     ),
@@ -712,7 +766,7 @@ ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""
     SAl:length(SA),
     SBl:length(SB),
     if (SAl#SBl) then
-        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATList_wronglen", StackDISP(SBl, "i"), StackDISP(SAl, "i"))]),
+        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATList_wronglen", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
 
     if numtype = "ABSOLUTE" then
        cl:zip_with(lambda([ex1,ex2], numabsolutep(ex1, ex2, tol)), SA, SB)      
@@ -724,7 +778,7 @@ ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""
         fb:zip_with(lambda([ex1,ex2],if ex1 then ex2 else texcolor("red", ex2)), cl, SA),
         we:maplist(second, sublist(zip_with("[", cl, SA), lambda([ex], not(first(ex))))),
         an:StackAddNote("", concat("ATNumerical_wrongentries SA/TA=", string(we))),        
-        fb:StackAddFeedback("", "ATList_wrongentries", StackDISP(fb, "d"))
+        fb:StackAddFeedback("", "ATList_wrongentries", stack_disp(fb, "d"))
     ),
           
     return([true, res, an, fb])
@@ -734,7 +788,7 @@ ATNumerical_set(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fbl, fb:"", a
     SAl:length(SA),
     SBl:length(SB),
     if (SAl#SBl) then
-        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATSet_wrongsz", StackDISP(SBl, "i"), StackDISP(SAl, "i"))]),
+        return([true, false, StackAddNote("","ATNumerical_wronglen"), StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
 
     SA:sort(float(listify(SA))),
     SB:sort(float(listify(SB))),
@@ -743,7 +797,7 @@ ATNumerical_set(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fbl, fb:"", a
 
     if not(res) then block(
         fb:setify(reverse(maplist(lambda([ex], texcolor("red", ex)), second(fbl)))),
-        fb:StackAddFeedback("", "ATList_wrongentries", StackDISP(fb, "d")),
+        fb:StackAddFeedback("", "ATList_wrongentries", stack_disp(fb, "d")),
         an:StackAddNote("", concat("ATNumerical_wrongentries: TA/SA=", string(reverse(first(fbl))), ", SA/TA=", string(reverse(second(fbl)))))        
     ),
           
@@ -875,7 +929,7 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     if ret[2]=0 then block([p1],
         p1:subst_equiv(SAN, SB),
         /* Actually, at this point 2008/7/7, we don't want to give this feedback.  Just leave an answer note. */
-        /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", StackDISP(p1, "d"))] */
+        /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", stack_disp(p1, "d"))] */
         if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), ret[4]]
     ),
     return(ret)
@@ -956,7 +1010,7 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, kloop, AnsNotes
     SAl:length(SA),
     SBl:length(SB),
     if (SAl#SBl) then
-        return([true, false, StackAddNote("","ATList_wronglen"), StackAddFeedback("", "ATList_wronglen", StackDISP(SBl, "i"), StackDISP(SAl, "i"))]),
+        return([true, false, StackAddNote("","ATList_wronglen"), StackAddFeedback("", "ATList_wronglen", stack_disp(SBl, "i"), stack_disp(SAl, "i"))]),
 
     /*  Apply ATAlgEquivfun to each element pair */
     ret:[true, true, "", ""],
@@ -982,7 +1036,7 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, kloop, AnsNotes
     ),
     if AddFeedBack = true then block(
         ret[3]:StackAddNote("", concat("(ATList_wrongentries ", simplode(reverse(AnsNotes), ", "), ")") ),
-        ret[4]:concat(StackAddFeedback("", "ATList_wrongentries", StackDISP(SAN, "d")), ret[4])
+        ret[4]:concat(StackAddFeedback("", "ATList_wrongentries", stack_disp(SAN, "d")), ret[4])
     ),
     return(ret)
 )$
@@ -1132,7 +1186,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
     SAc:length(SA[1]),
     SBr:length(SB),
     SBc:length(SB[1]),
-    FeedBack:StackAddFeedback("", "ATMatrix_wrongsz", StackDISP(SBr, "i"), StackDISP(SBc, "i"), StackDISP(SAr, "i"), StackDISP(SAc, "i")),
+    FeedBack:StackAddFeedback("", "ATMatrix_wrongsz", stack_disp(SBr, "i"), stack_disp(SBc, "i"), stack_disp(SAr, "i"), stack_disp(SAc, "i")),
     if (SAr#SBr) then
         return([true, false, StackAddNote("", "ATMatrix_wrongsz_rows"), FeedBack]),
     if (SAc#SBc) then
@@ -1151,7 +1205,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
     if AddFeedBack = true then block(
         /* TODO: better answernotes for matrices */
         ret[3]:StackAddNote("", "ATMatrix_wrongentries"),
-        ret[4]:StackAddFeedback("", "ATMatrix_wrongentries", StackDISP(SA, "d"))
+        ret[4]:StackAddFeedback("", "ATMatrix_wrongentries", stack_disp(SA, "d"))
     ),
     return(ret)
     )$
@@ -1162,7 +1216,7 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     /* Get sizes of matrices */
     SAl:cardinality(SA),
     SBl:cardinality(SB),
-    FeedBack:StackAddFeedback("", "ATSet_wrongsz", StackDISP(SBl, "i"), StackDISP(SAl, "i")),
+    FeedBack:StackAddFeedback("", "ATSet_wrongsz", stack_disp(SBl, "i"), stack_disp(SAl, "i")),
     if (SAl#SBl) then
         return([true, false, StackAddNote("", "ATSet_wrongsz"), FeedBack]),
     FeedBack:"",
@@ -1172,7 +1226,7 @@ ATSet(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, SAl, SBl, ZM],
     if (subsetp(SA, SB) and subsetp(SB, SA)) then
         return([true, true, AnswerNote, FeedBack]),
     /* Can we give feedback on which are wrong */
-    FeedBack:StackAddFeedback("", "ATSet_wrongentries", StackDISP(setdifference(SA, SB), "d")),
+    FeedBack:StackAddFeedback("", "ATSet_wrongentries", stack_disp(setdifference(SA, SB), "d")),
     return([true, false, StackAddNote("","ATSet_wrongentries"), FeedBack])
 )$
 
@@ -1232,7 +1286,7 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
         if badNos=[] then
             FeedBack:StackAddFeedback("", "ATLowestTerms_wrong", "")
         else
-            FeedBack:StackAddFeedback("", "ATLowestTerms_entries", StackDISP(badNos, "d"))
+            FeedBack:StackAddFeedback("", "ATLowestTerms_entries", stack_disp(badNos, "d"))
     ),
     return([validity, mark, AnswerNote, FeedBack])
 )$
@@ -1251,7 +1305,7 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret],
     /* Can we find a permutation of the variables? */
     if ret[2]=false then block([p1],
         p1:subst_equiv(SA, SB),
-        if p1#[] and p1#false then ret:[true, true, StackAddNote("", concat("ATSubstEquiv_Subst: ", string(p1))), StackAddFeedback("", "Subst", StackDISP(p1, "d"))]
+        if p1#[] and p1#false then ret:[true, true, StackAddNote("", concat("ATSubstEquiv_Subst: ", string(p1))), StackAddFeedback("", "Subst", stack_disp(p1, "d"))]
     ),
     /* Send back result */
     return(ret)
@@ -1275,7 +1329,7 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
     if ret[2]=0 then block([p1],
         p1:subst_equiv(SAN, SB),
         /* Actually, at this point 2008/7/7, we don't want to give this feedback.  Just leave an answer note. */
-        /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", StackDISP(p1, "d"))] */
+        /* if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), StackAddFeedback(ret[4], "Subst", stack_disp(p1, "d"))] */
         if p1#[] and p1#false then ret:[ret[1], ret[2], StackAddNote(ret[3], concat("ATAlgEquiv_Subst ", string(p1))), ret[4]]
     ),
     return(ret)
@@ -1452,7 +1506,7 @@ ATSysEquivGrob(GA, GB, SA, varlist) := block([retl, ret, kloop],
         else
             ret:append(ret,[texcolor("red", SA[ev(kloop, simp)])])),
 
-    return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", StackDISP(ret, "d"))])
+    return([true,false,StackAddNote("","ATSysEquiv_SA_system_overdetermined"),StackAddFeedback("","ATSysEquiv_SA_system_overdetermined", stack_disp(ret, "d"))])
 )$
 
 /*****************************************************************/
@@ -1563,7 +1617,7 @@ irred_Q(p,v) := block([ret,deg,cl,ci],
        a:ev(coeff(q,v,2),simp),
        b:ev(coeff(q,v,1),simp),
        c:ev(coeff(q,v,0),simp),
-       if (b=0 and c=0 and a>1 and ratnump(ev(sqrt(a),simp))) then ret:[true,StackAddFeedback("","irred_Q_optional_fac",StackDISP(p,"i")),false]
+       if (b=0 and c=0 and a>1 and ratnump(ev(sqrt(a),simp))) then ret:[true,StackAddFeedback("","irred_Q_optional_fac",stack_disp(p,"i")),false]
        else if (b=0 and c=0) then ret:[true,"",false]
        else if ratnump(ev(sqrt(b^2-4*a*c),simp)) then ret:[false,"",false]
   ),
@@ -1606,7 +1660,7 @@ FacForm_UnPick(p,v) := block([negdistrib, PARTSWITCH, fb, kloop, irred, res],
      ),
      res:res and irred[1],
      if irred[1] = false then block(
-       fb:StackAddFeedback(fb, "FacForm_UnPick_morework",StackDISP(part(p, ev(kloop, simp)), "i")),
+       fb:StackAddFeedback(fb, "FacForm_UnPick_morework",stack_disp(part(p, ev(kloop, simp)), "i")),
        fb:concat(fb, irred[2])
      )
     ),
@@ -1814,7 +1868,7 @@ PartFracfun(sExpr,tExpr,wrt) := block([val, rawmk, ansnote, fb],
                         val:true,
                         rawmk: false,
                         ansnote: StackAddNote("","ATPartFrac_denom_ret"),
-                        fb: StackAddFeedback("","ATPartFrac_denom_ret", StackDISP(denom(factor(sExpr)),"i"), StackDISP(denom(factor(tExpr)),"i")),
+                        fb: StackAddFeedback("","ATPartFrac_denom_ret", stack_disp(denom(factor(sExpr)),"i"), stack_disp(denom(factor(tExpr)),"i")),
                         ret: [val,rawmk,ansnote,fb],
                         return(ret)
                     )
@@ -1823,7 +1877,7 @@ PartFracfun(sExpr,tExpr,wrt) := block([val, rawmk, ansnote, fb],
                         val: true,
                         rawmk: false,
                         ansnote: StackAddNote("","ATPartFrac_ret_expression"),
-                        fb: StackAddFeedback("", "ATPartFrac_ret_expression", StackDISP(factor(sExpr),"i")),
+                        fb: StackAddFeedback("", "ATPartFrac_ret_expression", stack_disp(factor(sExpr),"i")),
                         ret: [val,rawmk,ansnote,fb]
                    )
               )
@@ -2023,7 +2077,7 @@ ATCompSquare(SA,SBL) := block([Validity,RawMark,FeedBack,AnswerNote,ret,wrt,SB,S
     if atom(wrt)#true then (SA:subst(facdum, wrt, SA), SB:subst(facdum, wrt, SB), wrt:facdum),
 
     if member(wrt,listofvars(SB)) and not(member(wrt,listofvars(SA))) then
-        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", StackDISP(SBL[2], "i"))]),
+        return([true, false, StackAddNote("", "ATCompSquare_SA_not_depend_var"), StackAddFeedback("", "ATCompSquare_SA_not_depend_var", stack_disp(SBL[2], "i"))]),
 
     opa:safe_op(SA),
 
@@ -2238,7 +2292,7 @@ Intfun(SA, SB, SBdisp, constint, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SB
     if ev(algebraic_equivalence(SAd,SBd), simp) then block(
     /* Check for constant of integration - code copied from algebraic_equivalence. */
         ex:errcatch(ev(fullratsimp(SA-SB), simp, trigexpand:true, logexpand:super, keepfloat:true)),
-        if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d"))])),
+        if ex=[] then (return([false, false, "ATInt: simplification failed.", StackAddFeedback("", "ATInt_generic", stack_disp(SBdisp, "d"), stack_disp(v, "i"), stack_disp(SAd, "d"))])),
         ex:ex[1],
         ex:ev(trigsimp(ex), simp),
         ex:ev(trigreduce(ex), simp),
@@ -2275,7 +2329,7 @@ Intfun(SA, SB, SBdisp, constint, v) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SB
        if ev(algebraic_equivalence(SAa, ev(diff(SBd, v), simp)), simp) and ev(algebraic_equivalence(exp(x), SBd),simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))
        else 
-           (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", StackDISP(SBdisp, "d"), StackDISP(v, "i"), StackDISP(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
+           (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", stack_disp(SBdisp, "d"), stack_disp(v, "i"), stack_disp(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
     /* Has the student used log(x) vs log(abs(x)) in their answer? */
     if not(SAUsedLogAbs) and SBUsedLogAbs then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
@@ -2454,4 +2508,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016060600$
+stackmaximaversion:2016060705$

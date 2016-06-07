@@ -69,7 +69,7 @@ function stack_maxima_translate($rawfeedback) {
 
         preg_match_all('/stack_trans\(.*?\);/', $rawfeedback, $matches);
         $feedback = $matches[0];
-        foreach ($feedback as $key => $fb) {
+        foreach ($feedback as $fb) {
             $fb = substr($fb, 12, -2);
             if (strstr($fb, "' , \"") === false) {
                 // We only have a feedback tag, with no optional arguments.

@@ -141,7 +141,7 @@ Will display
 
 ### Links
 
-Links are written `[text](documentation.md)` to give [text](documentation.md).
+Links are written `[text](Documentation.md)` to give [text](Documentation.md).
 
 They must end with the `.md` extension.  External links are easily generated using
 

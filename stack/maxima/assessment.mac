@@ -581,6 +581,21 @@ flatten_recurse_nouns(ex) := block(
     apply(op(ex), maplist(flatten_recurse_nouns, args(ex)))
 )$
 
+/* Rule which takes (a^n)^-1 when n is an integer to a^-n */
+flatten_pow_minus_one(ex):= block(
+   if not(safe_op(ex)="noun^") then return(ex),
+   if not(second(args(ex))=-1) then return(ex),
+   if safe_op(first(args(ex)))="noun^" and integerp(second(args(first(args(ex))))) then return("noun^"(first(args(first(args(ex)))),-second(args(first(args(ex)))))),
+   ex
+);
+
+/* Recursive rule which takes UNARY_MINUS noun* n, where n is an integer to -n */
+unary_minus_remove(ex):= block(
+   if atom(ex) then return(ex),
+   if safe_op(ex)="noun*" and is(first(args(ex))=UNARY_MINUS) and integerp(second(args(ex))) then return(-second(args(ex))),
+   apply(op(ex), maplist(unary_minus_remove, args(ex)))
+);
+
 /*  (7)  */
 /* Returns true iff ex1 and ex2 are equal up to commutativity and associativity. */
 equals_commute_associate(ex1, ex2) := block([oldsimp, ex1n, ex2n, ret],

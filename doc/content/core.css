@@ -1,6 +1,6 @@
 html, body#tinymce {background-color:#FAFAFA;}
 body {font-family:Arial, Verdana, Helvetica, sans-serif;padding: 4px;}
-body.lang-vi {font-family:Arial, Verdana, Helvetica, sans-serif !important;}
+body.lang-vi {font-family:Arial, Verdana, Helvetica, sans-serif;}
 
 /**
  * Links
@@ -75,7 +75,7 @@ a:hover.useredit,
 .navigation button {font-size: 80%;}
 
 img.userpicture,
-img.grouppicture {border:0px solid #000}
+img.grouppicture {border:0 solid #000}
 
 table.formtable tbody th {background-color: transparent;background-image: none;}
 
@@ -153,7 +153,7 @@ table.formtable tbody th {background-color: transparent;background-image: none;}
 #notice .buttons {text-align:center}
 #notice .buttons div,
 #notice .buttons form {display:inline;}
-#notice .singlebutton {text-align:center;padding: 5px;margin: 0px;}
+#notice .singlebutton {text-align:center;padding: 5px;margin: 0;}
 .generalbox {border-width:1px;border-style:solid;margin-bottom: 15px;padding:10px;}
 .generalbox#intro {width:70%;margin-left:auto;margin-right:auto;padding-bottom:15px;}
 .errorbox {border-width:1px;border-style:solid;margin: 1em 15%;width: 70%;padding:10px;}
@@ -219,7 +219,7 @@ form.popupform label {margin-right: 0.5em;}
 /**
  * Filters
  */
-.texrender {border:0px;vertical-align:middle;}
+.texrender {border:0;vertical-align:middle;}
 
 /**
  * Groups
@@ -296,21 +296,21 @@ table#tag-management-list {margin: 10px auto;width: 80%;}
  * Tabs
  */
 .tabtree ul {text-align:center;}
-.tabtree .tabrow0 {width:100%;margin:1em 0px;}
+.tabtree .tabrow0 {width:100%;margin:1em 0;}
 .tabtree .tabrow0 li {margin-right:-4px;}
 .tabtree .tabrow0 li.here {font-weight: bold;}
 .tabtree .tabrow0 li.here a {position:relative;z-index:102;}
 .tabtree .tabrow0 li a {background-image:url([[pix:theme|tab/left]]);padding-left:14px;padding-top:10px;background-repeat:no-repeat;padding-bottom:3px;margin-bottom:-1px;}
 .tabtree .tabrow0 li a:hover {background-image:url([[pix:theme|tab/left_hover]]);}
-.tabtree .tabrow0 li a span { background-image:url([[pix:theme|tab/right]]);background-repeat:no-repeat;background-position:100% 0%;padding-right:14px;padding-top:10px;padding-bottom:3px;}
+.tabtree .tabrow0 li a span { background-image:url([[pix:theme|tab/right]]);background-repeat:no-repeat;background-position:100% 0;padding-right:14px;padding-top:10px;padding-bottom:3px;}
 .tabtree .tabrow0 li a:hover span {background-image:url([[pix:theme|tab/right_hover]]);}
 .tabtree .tabrow0 ul,
-.tabtree .tabrow0 div {font-weight: normal;background-image:url([[pix:theme|tab/tabrow1]]);background-position:0% 50%;border-top:1px solid #aaa;padding:0.25em 0px;margin:0px;}
-.tabtree .tabrow0 li.here .empty {display:block;height:1px;overflow:hidden;padding:0px;position:absolute;width:100%;bottom:-4px;}
+.tabtree .tabrow0 div {font-weight: normal;background-image:url([[pix:theme|tab/tabrow1]]);background-position:0 50%;border-top:1px solid #aaa;padding:0.25em 0;margin:0;}
+.tabtree .tabrow0 li.here .empty {display:block;height:1px;overflow:hidden;padding:0;position:absolute;width:100%;bottom:-4px;}
 .tabtree .tabrow1 li a,
 .tabtree .tabrow1 li a:hover,
 .tabtree .tabrow1 li a span,
-.tabtree .tabrow1 li a:hover span {background-image:none !important;}
+.tabtree .tabrow1 li a:hover span {background-image:none;}
 
 .tabtree a.nolink,
 .tabtree .here ul a.nolink,
@@ -446,7 +446,7 @@ table#tag-management-list {margin: 10px auto;width: 80%;}
 #page-admin-registration-hubselector .registration_textfield {width: 400px;}
 
 /* Portfolio */
-.path-portfolio .exportsummary {margin:0px auto 1em auto;}
+.path-portfolio .exportsummary {margin:0 auto 1em auto;}
 .portfolio-add-icon {margin-left:5px;}
 
 /* Messaging options */

@@ -27,10 +27,10 @@ before_install:
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
-  - moodle-plugin-ci install
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+  - moodle-plugin-ci install
 
 script:
   - moodle-plugin-ci phplint

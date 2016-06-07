@@ -1,6 +1,6 @@
 language: php
 
-sudo: false
+sudo: true
 
 cache:
   directories:
@@ -21,7 +21,7 @@ env:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install maxima, maxima-share, texinfo
+  - sudo apt-get install maxima maxima-share texinfo
   - phpenv config-rm xdebug.ini
   - cd ../..
   - composer selfupdate

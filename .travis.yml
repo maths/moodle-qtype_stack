@@ -20,6 +20,8 @@ env:
   - DB=mysqli
 
 before_install:
+  - sudo apt-get update
+  - sudo apt-get install maxima, maxima-share, texinfo
   - phpenv config-rm xdebug.ini
   - cd ../..
   - composer selfupdate

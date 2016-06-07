@@ -307,3 +307,21 @@ list_remove([a,b,c,d], 6);
 list_remove([a,[b],[c,d],d], 2);
 [a,[c,d],d]$
 
+stack_disp(a+1, "i");
+"\\(a+1\\)"$
+stack_disp(1, "i");
+"\\(1\\)"$
+stack_disp(false, "i");
+"\\(\\mathbf{false}\\)"$
+stack_disp(ab0, "i");
+"\\({{\\it ab}}_{0}\\)"$
+stack_disp(epsilon0345, "i");
+"\\({\\varepsilon}_{0345}\\)"$
+stack_disp(a+1/pi3, "i");
+"\\(a+\\frac{1}{{\\pi}_{3}}\\)"$
+stack_disp(gamma7^3, "i");
+"\\({\\gamma}_{7}^3\\)"$
+stack_disp(gamma7^(2*x), "i");
+"\\({\\gamma}_{7}^{2\\,x}\\)"$
+stack_disp(f(x):=2*x^3, "i");
+"\\(f(x):=2*x^3\\)"$

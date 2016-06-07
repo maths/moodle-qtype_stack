@@ -28,6 +28,9 @@ before_install:
 
 install:
   - moodle-plugin-ci install
+  - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
+  - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
+  - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
 
 script:
   - moodle-plugin-ci phplint

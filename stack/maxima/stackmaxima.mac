@@ -179,7 +179,7 @@ rand(ex) := block(
 )$
 
 randlist(ex) := block(
-  if (length(ex) > 0) then return(ev(ex[(1+random(length(ex)))], simp)) else return([]) 
+  if (length(ex) > 0) then return(ex[ev(1+random(length(ex)),simp)]) else return([]) 
 )$
 
 /* Returns a random number from the set {lower, lower+step, lower+2*step, ... , final}. */

@@ -309,7 +309,7 @@ abstract class stack_input {
             }
 
             // Generate an expression from which we extract the list of variables in the student's answer.
-            $lvars = new stack_cas_casstring('ev(listofvars('.$interpretedanswer.'),simp)');
+            $lvars = new stack_cas_casstring('listofvars('.$interpretedanswer.')');
             $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
 

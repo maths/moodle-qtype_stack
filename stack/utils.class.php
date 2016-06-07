@@ -865,7 +865,7 @@ class stack_utils {
         }
     }
 
-    /** 
+    /**
      * Find a rational approximation to $n
      * @param float $n
      * @param int $accuracy Stop when we get within this many decimal places of $n

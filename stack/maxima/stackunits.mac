@@ -94,15 +94,16 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, work, simp],
 
 /* Splits off the units from the end of a product. */
 stack_units_split(ex) := block([oldsimp, exn, exu],
+    if (debug) then (print("stack_units_split: "), print(ex)),
     if not(member(units, features)) then
         stack_unit_si_declare(true),
+    oldsimp:simp,
+    simp:false,
     /* If we have only a number then return it, with a placeholder for units. */
-    if simp_numberp(ev(float(ex), simp)) then return([ex, NULLUNITS]),
+    if simp_numberp(float(ex)) then return([ex, NULLUNITS]),
     /* Atoms should be returned as just units. */
     if atom(ex) then
         return([NULLNUM, ex]),
-    oldsimp:simp,
-    simp:false,
     exn:flatten_recurse_nouns(noun_arith(ex)),
     if (debug) then (print("stack_units_split: nounarith expression is"), print(exn)),
     /* If we don't have a product we are return what we are given. */
@@ -115,7 +116,17 @@ stack_units_split(ex) := block([oldsimp, exn, exu],
     /* Flag up if we genuinely have no numbers. */
     if is_simp(emptyp(exn)) then 
         exn:[NULLNUM],
-    verb_arith([apply("noun*", exn), apply("noun*", exu)])
+    /* Flag up if we genuinely have no units. */
+    if is_simp(emptyp(exu)) then 
+        exu:[NULLUNITS],
+    /* Transform (a^2)^-1 to a^(-2), for the units. */
+    exu:maplist(unary_minus_remove, exu),
+    exu:maplist(flatten_pow_minus_one, exu),
+    exn:maplist(unary_minus_remove, exn),
+    exn:stack_units_rational_number(exn),
+    if length(exn)=1 then exn:first(exn) else exn:apply("noun*", exn),
+    if length(exu)=1 then exu:first(exu) else exu:apply("noun*", exu),
+    verb_arith([exn, exu])
 )$
 
 /* Predicate function used as a filter in stack_units_split. */
@@ -127,6 +138,15 @@ stack_units_split_p(ex) := block(
     if simp_numberp(ev(float(verb_arith(ex)), simp)) then
         return(true),
     return(false)
+)$
+
+/* Does something look like a rational number? */
+stack_units_rational_number(ex) := block(
+  if length(ex)=1 and safe_op(first(ex))="noun^" and is(second(args(first(ex)))=-1) then return([1/first(args(first(ex)))]),
+  if not(length(ex)=2) then return(ex),
+  if not(integerp(first(ex))) or atom(second(ex)) then return(ex),
+  if safe_op(second(ex))="noun^" and is(second(args(second(ex)))=-1) then return([first(ex)/first(args(second(ex)))]),
+  true
 )$
 
 /* Validate an expression which is expected to have units.*/
@@ -149,8 +169,8 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
         (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
 
     /* Check if the student has correctly used units.*/
-    SAU:ev(stack_units_split(expr), simp),
-    SBU:ev(stack_units_split(TAns), simp),
+    SAU:stack_units_split(expr),
+    SBU:stack_units_split(TAns),
     if (debug) then (print("stack_validate_units working with: "), print(SAU), print(SBU)),
 
     /* Check if stack_units_split appears to have done something sensible. */ 
@@ -167,10 +187,21 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
             print(StackAddFeedback("", "ATUnits_SA_excess_units"))
     ),
 
+    expr:stackunits(SAU[1], SAU[2]),
     expr:detexcolor(expr),
     expr:detexdecorate(expr),
     return(expr)
 )$
+
+/* Finer control over display of units, separating out the number from the units. */
+stackunitstex(e) := block ([a, b],
+  [a, b]:args (e),
+  concat(tex1(a),"\\, ",tex1(b))
+)$
+texput(stackunits, stackunitstex);
+texput(NULLUNITS, "");
+texput(NULLNUM, "");
+
 
 /* Units answer tests. */
 ATUnitsSigFigs(SA, SBL) := ATUnitsFun(SA, SBL, false, "SigFigs")$
@@ -186,7 +217,6 @@ ATUnitsStrictAbsolute(SA, SBL) := ATUnitsFun(SA, SBL, true, "Absolute")$
 */
 ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
     validity:true, rawmk:true, fb:"", ansnote:"",
-
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then 
         return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
@@ -216,8 +246,12 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
         stack_unit_si_declare(true),
 
     if (debug) then (print(SA), print(SB)),
-    SAU:stack_units_split(SA),
-    SBU:stack_units_split(SB),
+    if safe_op(SA)="stackunits" then 
+      SAU:args(SA) else
+      SAU:stack_units_split(SA),
+    if safe_op(SB)="stackunits" then 
+      SBU:args(SB) else
+      SBU:stack_units_split(SB),
     if (debug) then (print("stack_units_split gives: "), print(SAU), print(SBU)),
 
     /* The teacher must supply some units, otherwise the test will fail. */

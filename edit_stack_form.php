@@ -96,9 +96,9 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         if (!empty($question->prts)) {
-            foreach ($question->prts as $prtname => $prt) {
+            foreach ($question->prts as $prt) {
                 if (!empty($prt->nodes)) {
-                    foreach ($prt->nodes as $nodename => $node) {
+                    foreach ($prt->nodes as $node) {
                         $node->truefeedback  = $this->convert_legacy_fact_sheets($node->truefeedback);
                         $node->falsefeedback = $this->convert_legacy_fact_sheets($node->falsefeedback);
                     }
@@ -452,6 +452,15 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('questionvariables'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
+
+        if (array_key_exists('id', $this->question)) {
+            $urlparams = array('questionid' => $this->question->id, 'seed' => 0);
+            $qtestlink = html_writer::link(new moodle_url(
+                    '/question/type/stack/questiontestrun.php', $urlparams),
+                    stack_string('runquestiontests'), array('target' => '_blank'));
+            $qtlink = $mform->createElement('static', 'qtestlink', '', $qtestlink);
+            $mform->insertElementBefore($qtlink, 'questionvariables');
+        }
 
         $seed = $mform->createElement('text', 'variantsselectionseed',
                 stack_string('variantsselectionseed'), array('size' => 50));

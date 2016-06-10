@@ -18,6 +18,8 @@ env:
 before_install:
   - sudo apt-get update
   - sudo apt-get install maxima maxima-share texinfo
+  - sudo locale-gen "en_AU.UTF-8"
+  - sudo dpkg-reconfigure locales
   - phpenv config-rm xdebug.ini
   - cd ../..
   - composer selfupdate

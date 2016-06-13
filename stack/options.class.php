@@ -224,6 +224,16 @@ class stack_options {
     }
 
     /**
+     * @return array of choices for the input syntax hint display attribute.
+     */
+    public static function get_syntax_attribute_options() {
+        return array(
+                '0' => get_string('syntaxattributevalue', 'qtype_stack'),
+                '1' => get_string('syntaxattributeplaceholder', 'qtype_stack'),
+        );
+    }
+
+    /**
      * @return array of choices for the multiplication sign select menu.
      */
     public static function get_multiplication_sign_options() {

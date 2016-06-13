@@ -1019,6 +1019,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1138,6 +1139,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1158,6 +1160,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1178,6 +1181,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1198,6 +1202,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;

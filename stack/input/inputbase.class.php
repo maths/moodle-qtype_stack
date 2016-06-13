@@ -44,6 +44,7 @@ abstract class stack_input {
         'strictSyntax',
         'insertStars',
         'syntaxHint',
+        'syntaxAttribute',
         'forbidWords',
         'allowWords',
         'forbidFloats',

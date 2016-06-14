@@ -104,6 +104,8 @@ stack_units_split(ex) := block([oldsimp, exn, exu],
     /* Atoms should be returned as just units. */
     if atom(ex) then
         return([NULLNUM, ex]),
+    if safe_op(ex)="stackunits" then
+        return(args(ex)),
     exn:flatten_recurse_nouns(noun_arith(ex)),
     if (debug) then (print("stack_units_split: nounarith expression is"), print(exn)),
     /* If we don't have a product we are return what we are given. */

@@ -23,6 +23,7 @@ require_once(__DIR__.'/../../../../../config.php');
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
+require_once(__DIR__ . '/connectorhelper.class.php');
 
 
 class stack_cas_configuration {
@@ -348,5 +349,49 @@ END;
      */
     public static function validate_maximalibraries() {
         return self::get_instance()->get_validate_maximalibraries();
+    }
+
+    /*
+     * This function genuinely recreates the maxima image and stores the results in 
+     * the configuration settings.
+     */
+    public static function create_auto_maxima_image() {
+        $config = get_config('qtype_stack');
+            // Do not try to generate the optimised image on MS platforms.
+        if ($config->platform == 'win') {
+            return false;
+        }
+
+        /* 
+         * Revert to the plain unix platform.  This will genuinely call the CAS, and
+         * as a result create a new image.
+         */
+        $old_platform = $config->platform;
+        set_config('platform', 'unix', 'qtype_stack');
+        set_config('maximacommand', '', 'qtype_stack');
+
+        // Try to make a new version of the maxima local file.
+        self::create_maximalocal();
+        // Try to actually connect to Maxima.
+        list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+
+        // Check if the libraries look like they are messing things up.
+        if (strpos($genuinedebug, 'eval_string not found') > 0) {
+            // If so, get rid of the libraries and try again.
+            set_config('maximalibraries', '', 'qtype_stack');
+            list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+        }
+
+        if ($result && ($old_platform == 'unix' || $old_platform == 'unix-optimised')) {
+            // Try to auto make the optimised image.
+            list($message, $genuinedebug, $result, $commandline) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug, true);
+
+            if ($result) {
+                set_config('platform', 'unix-optimised', 'qtype_stack');
+                set_config('maximacommand', $commandline, 'qtype_stack');
+                // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
+                self::create_maximalocal();
+            }
+        }
     }
 }

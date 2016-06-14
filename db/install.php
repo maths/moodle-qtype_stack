@@ -48,7 +48,7 @@ function xmldb_qtype_stack_install() {
 
     // Attempt to create an optimised image at install time.  
     if ($platform == 'unix') {
-        require_once(__DIR__ . '/../settings.php');
-        stack_cas_configuration::create_auto_maxima_image();
+        //require_once(__DIR__ . '/../settings.php');
+        //stack_cas_configuration::create_auto_maxima_image();
     }
 }

@@ -24,6 +24,7 @@ require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');
+require_once(__DIR__ . '/cassession.class.php');
 
 
 class stack_cas_configuration {
@@ -367,6 +368,7 @@ END;
          * as a result create a new image.
          */
         $old_platform = $config->platform;
+        $old_maximacommand = $config->maximacommand;
         set_config('platform', 'unix', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');
 
@@ -382,6 +384,7 @@ END;
             list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
         }
 
+        $revert = false;
         if ($result && ($old_platform == 'unix' || $old_platform == 'unix-optimised')) {
             // Try to auto make the optimised image.
             list($message, $genuinedebug, $result, $commandline) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug, true);
@@ -391,7 +394,25 @@ END;
                 set_config('maximacommand', $commandline, 'qtype_stack');
                 // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
                 self::create_maximalocal();
+
+                // Now we need to check this actually works.
+                $cs = new stack_cas_casstring('a:1+1');
+                $ts = new stack_cas_session(array($cs));
+                $ts->instantiate();
+                if ($ts->get_value_key('a') != '2') {
+                    $revert = true;
+                }
+            } else {
+                $revert = true;
             }
+        } else {
+            $revert = true;
+        }
+
+        if ($revert) {
+            set_config('platform', $old_platform, 'qtype_stack');
+            set_config('maximacommand', $old_maximacommand , 'qtype_stack');
+            self::create_maximalocal();
         }
     }
 }

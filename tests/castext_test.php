@@ -554,8 +554,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
+        if ($this->lisp == 'CLISP') {
+            $this->assertEquals($at2->get_display_castext(),
                 'Decimal numbers \(0.1\), \(0.01\), \(0.001\), \(1.0E-4\), \(1.0E-5\), \(1.0E-6\).');
+        } else if ($this->lisp == 'SBCL') {
+            $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \(0.1\), \(0.01\), \(0.001\), \(1.0e-4\), \(1.0e-5\), \(10.0e-7\).');
+        } else {
+            throw new Exception('Unknown lisp version!');
+        }
     }
 
     public function test_numerical_display_float_decimal() {
@@ -594,8 +601,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                'Decimal numbers \(1.0E-1\), \(1.0E-2\), \(1.0E-3\), \(1.0E-4\), \(1.0E-5\), \(1.0E-6\).');
+        if ($this->lisp == 'CLISP') {
+            $this->assertEquals($at2->get_display_castext(),
+                    'Decimal numbers \(1.0E-1\), \(1.0E-2\), \(1.0E-3\), \(1.0E-4\), \(1.0E-5\), \(1.0E-6\).');
+        } else if ($this->lisp == 'SBCL') {
+            $this->assertEquals($at2->get_display_castext(),
+                    'Decimal numbers \(1.e-1\), \(1.e-2\), \(1.e-3\), \(1.e-4\), \(1.e-5\), \(9.999999999999999e-7\).');
+        } else {
+            throw new Exception('Unknown lisp version!');
+        }
     }
 
     public function test_numerical_display_1() {
@@ -607,9 +621,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
+        if ($this->lisp == 'CLISP') {
+            $this->assertEquals($at2->get_display_castext(),
                 'The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), ' .
                 'in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\).');
+        } else if ($this->lisp == 'SBCL') {
+            $this->assertEquals($at2->get_display_castext(),
+                'The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), ' .
+                'in scientific notation as \(7.3e+1\) and in rhetoric as \(seventy-three\).');
+        } else {
+            throw new Exception('Unknown lisp version!');
+        }
     }
 
     public function test_numerical_display_binary() {

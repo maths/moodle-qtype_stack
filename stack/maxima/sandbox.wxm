@@ -1,0 +1,65 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 15.04.0 ] */
+
+/* [wxMaxima: title   start ]
+STACK Sandbox
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+This document loads the extra files needed for STACK.
+See https://github.com/maths/moodle-qtype_stack
+
+1. Download the files from github, either using git or as a zip file.
+2. Place the files somewhere they can be read, and edit the line velow to give the location.
+   E.g. Place the files in C:\files\stack
+3. Specify a directory for temporary working files, e.g. C:\tmp    [Directories in 2 & 3 can be the same if you don't mind clutter.]
+
+Note, that plots *will not work* in this sandbox.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* In MS platforms use the forward slash as a directory seperator.  No trailing slash. */
+stacklocation:"C:/files/stack"$
+stacktmplocation:"C:/tmp"$
+
+/****************************************************
+   There should be no need to edit below this line.  
+   
+   These commands add the location to Maxima's search path. 
+*/
+file_search_maxima:append( [sconcat(stacklocation, "/question/type/stack/stack/maxima/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacklocation, "/question/type/stack/stack/maxima/###.{lisp}")] , file_search_lisp)$
+file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
+
+STACK_SETUP(ex):=block(
+    MAXIMA_VERSION_NUM_EXPECTED:36.1,
+    MAXIMA_PLATFORM:"win",
+    maxima_tempdir:"",
+    IMAGE_DIR:"",
+    PLOT_TERMINAL:"png",
+    PLOT_TERM_OPT:"large transparent size 450,300",
+    DEL_CMD:" ",
+    GNUPLOT_CMD:" ",
+    URL_BASE:"!ploturl!",
+    /* Define units available in STACK. */
+    stack_unit_si_prefix_code:[y, z, a, f, p, n, u, m, c, d, da, h, k, M, G, T, P, E, Z, Y],
+    stack_unit_si_prefix_multiplier:[10^-24, 10^-21, 10^-18, 10^-15, 10^-12, 10^-9, 10^-6, 10^-3, 10^-2, 10^-1, 10, 10^2, 10^3, 10^6, 10^9, 10^12, 10^15, 10^18, 10^21, 10^24],
+    stack_unit_si_prefix_tex:["\\mathrm{y}", "\\mathrm{z}", "\\mathrm{a}", "\\mathrm{f}", "\\mathrm{p}", "\\mathrm{n}", "\\mu ", "\\mathrm{m}", "\\mathrm{c}", "\\mathrm{d}", "\\mathrm{da}", "\\mathrm{h}", "\\mathrm{k}", "\\mathrm{M}", "\\mathrm{G}", "\\mathrm{T}", "\\mathrm{P}", "\\mathrm{E}", "\\mathrm{Z}", "\\mathrm{Y}"],
+    stack_unit_si_unit_code:[m, l, L, g, s, h, Hz, Bq, cd, N, Pa, J, W, A, ohm, C, V, F, S, Wb, T, H, Gy, Sv, lm, lx, mol, kat, rad],
+    stack_unit_si_unit_conversions:[m, m^3/1000, m^3/1000, kg/1000, s, s*3600, 1/s, 1/s, cd, (kg*m)/s^2, kg/(m*s^2), (kg*m^2)/s^2, (kg*m^2)/s^3, A, (kg*m^2)/(s^3*A^2), s*A, (kg*m^2)/(s^3*A), (s^4*A^2)/(kg*m^2), (s^3*A^2)/(kg*m^2), (kg*m^2)/(s^2*A), kg/(s^2*A), (kg*m^2)/(s^2*A^2), m^2/s^2, m^2/s^2, cd, cd/m^2, mol, mol/s, rad],
+    stack_unit_si_unit_tex:["\\mathrm{m}", "\\mathrm{l}", "\\mathrm{L}", "\\mathrm{g}", "\\mathrm{s}", "\\mathrm{h}", "\\mathrm{Hz}", "\\mathrm{Bq}", "\\mathrm{cd}", "\\mathrm{N}", "\\mathrm{Pa}", "\\mathrm{J}", "\\mathrm{W}", "\\mathrm{A}", "\\Omega", "\\mathrm{C}", "\\mathrm{V}", "\\mathrm{F}", "\\mathrm{S}", "\\mathrm{Wb}", "\\mathrm{T}", "\\mathrm{H}", "\\mathrm{Gy}", "\\mathrm{Sv}", "\\mathrm{lm}", "\\mathrm{lx}", "\\mathrm{mol}", "\\mathrm{kat}", "\\mathrm{rad}"],
+    stack_unit_other_unit_code:[amu, u, mmHg, bar, cc, mbar, atm, Torr, K],
+    stack_unit_other_unit_conversions:[amu, amu, 133.322387415*Pa, 10^5*Pa, m^3*10^(-6), 10^2*Pa, 101325*Pa, 101325/760*Pa, K],
+    stack_unit_other_unit_tex:["\\mathrm{amu}", "\\mathrm{u}", "\\mathrm{mmHg}", "\\mathrm{bar}", "\\mathrm{cc}", "\\mathrm{mbar}", "\\mathrm{atm}", "\\mathrm{Torr}", "\\mathrm{K}"],
+    true)$
+/* Load the main libraries. */
+load("stackmaxima.mac")$
+load("stats")$
+load("distrib")$
+load("descriptive")$
+print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

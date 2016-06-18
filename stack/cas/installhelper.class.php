@@ -68,12 +68,12 @@ class stack_cas_configuration {
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
         $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
 
-        if ($this->settings->platform == 'win') {
-            $this->blocksettings['DEL_CMD']     = 'del';
+        if ($this->settings->platform === 'win') {
+        	$this->blocksettings['DEL_CMD']     = 'del';
             $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
-        } else {
-            $this->blocksettings['DEL_CMD']     = 'rm';
-            if (!empty(trim($this->settings->plotcommand))) {
+        } /*else {
+        	$this->blocksettings['DEL_CMD']     = 'rm';
+        	if (!empty(trim($this->settings->plotcommand))) {
                 $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
             } else if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
                 $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
@@ -81,9 +81,9 @@ class stack_cas_configuration {
                 $this->blocksettings['GNUPLOT_CMD'] = 'gnuplot';
             }
         }
-
+        */
         // Loop over this array to format them correctly...
-        if ($this->settings->platform == 'win') {
+        if ($this->settings->platform === 'win') {
             foreach ($this->blocksettings as $var => $val) {
                 $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
             }
@@ -166,7 +166,6 @@ class stack_cas_configuration {
         if ($this->settings->platform != 'win') {
             return true;
         }
-
         $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
 
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {

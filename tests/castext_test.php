@@ -632,4 +632,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at2->get_display_castext(),
                 'The number \(1001001\) is written in base \(2\).');
     }
+
+    public function test_inline_fractions() {
+        $s = '@(stack_disp_factions("i"), 1/x)@ @(stack_disp_factions("d"), 1/x)@ @(stack_disp_factions("i"), 1/x)@';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals($at2->get_display_castext(),
+                '\({1}/{x}\) \(\frac{1}{x}\) \({1}/{x}\)');
+    }
 }

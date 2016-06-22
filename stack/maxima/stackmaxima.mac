@@ -150,6 +150,24 @@ make_arccos(OPT_ACOS) := block(
     if OPT_ACOS = "arccos" then load("arccos.lisp")
 );
 
+
+/* Fine tune the display of fractions between inline and displayed. */
+stackfactionsinline(e) := block ([a, b],
+  [a, b]:args (e),
+  concat("{", tex1(a), "}/{", tex1(b), "}")
+)$
+stackfactionsdisplay(e) := block ([a, b],
+  [a, b]:args (e),
+  concat("\\frac{", tex1(a), "}{", tex1(b), "}")
+)$
+
+stack_disp_factions(ex) := block(
+  if is(ex="i") then 
+    ev(texput("/", stackfactionsinline),simp)
+  else 
+    ev(texput("/", stackfactionsdisplay),simp)
+)$
+
 /* This is needed to tweak the display of noun derivatives. */
 nary("blankmult", 0, 0);
 texput("blankmult", " # ", nary);
@@ -301,6 +319,7 @@ stack_disp_strip_number(ex) := block([s,v,n],
   v:parse_string(v),
   stacktexsubscript(v, n)
 )$
+
 
 
 COLOR_LIST:["red", "Blue"  , "YellowOrange", "Bittersweet"  , "BlueViolet" , "Aquamarine", "BrickRed" , 
@@ -2482,4 +2501,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016061300$
+stackmaximaversion:2016062200$

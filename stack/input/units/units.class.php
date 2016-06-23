@@ -23,7 +23,7 @@
  */
 class stack_units_input extends stack_input {
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+	public function render(stack_input_state $state, $fieldname, $readonly) {
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
         $attributes = array(
             'type'  => 'text',
@@ -77,7 +77,10 @@ class stack_units_input extends stack_input {
             'lowestTerms'        => true,
             // The sameType option is ignored by this input type.
             // The answer is essantially required to be a number and units, other types are rejected.
-            'sameType'           => false);
+            'sameType'           => false,
+        	// Currently this can only be "negpow".
+        	'options'            => ''
+        );
     }
 
     /**
@@ -112,7 +115,10 @@ class stack_units_input extends stack_input {
      * In particular, the units test does something different here.
      */
     protected function get_validation_method() {
-        $validationmethod = 'units';
+    	$validationmethod = 'units';
+    	if (trim($this->get_parameter('options')) == 'negpow') {
+    		$validationmethod = 'unitsnegpow';
+    	}
         return $validationmethod;
     }
 }

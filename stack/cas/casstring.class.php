@@ -1292,9 +1292,10 @@ class stack_cas_casstring {
     public function set_cas_validation_casstring($key, $forbidfloats = true,
                     $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
 
-        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units')) {
-            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless" or "units", ' .
-                    'but received "'.validationmethod.'".');
+        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' 
+        		|| $validationmethod == 'units' || $validationmethod == 'unitsnegpow')) {
+            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' . 
+            		'"units" or "unitsnegpow", but received "'.validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
@@ -1329,9 +1330,13 @@ class stack_cas_casstring {
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.')';
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "inline")';
         }
-
+        if ($validationmethod == 'unitsnegpow') {
+        	// Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+        	$this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "negpow")';
+        }
+        
         return true;
     }
 

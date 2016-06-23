@@ -106,8 +106,8 @@ abstract class stack_input {
         $this->internal_contruct();
     }
 
-    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown
-     * uses this to sort out options.
+    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
+     * use this to sort out options.
      */
     protected function internal_contruct() {
         return true;
@@ -302,8 +302,6 @@ abstract class stack_input {
 
         // Send the string to the CAS.
         if ($valid) {
-            $validationmethod = $this->get_validation_method();
-
             $singlevarchars = false;
             if (2 == $this->get_parameter('insertStars', 0)) {
                 $singlevarchars = true;
@@ -317,7 +315,7 @@ abstract class stack_input {
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars, $teacheranswer,
-                    $validationmethod, $this->get_parameter('allowWords', ''));
+                    $this->get_validation_method(), $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
             $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);

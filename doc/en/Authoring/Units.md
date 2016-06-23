@@ -42,6 +42,7 @@ This input type is built closely on the algebraic input type with the following 
 6. The student is permitted to use variable names in this input type.
 7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` between the numbers and units for implied multiplication.  
 8. You may want the single letter variable names options here, which is why this option has not been changed for this input type.
+9. Units can be displayed using inline fractions \(m/s\) or negative powers \(m\,s^{-1}\).  Add `negpow` to the Extra Options field to use negative powers.
 
 ## Answer tests  ##
 

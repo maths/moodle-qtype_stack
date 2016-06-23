@@ -152,7 +152,11 @@ stack_units_rational_number(ex) := block(
 )$
 
 /* Validate an expression which is expected to have units.*/
-stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, SBU],
+stack_validate_units(expr, LowestTerms, TAns, fracdisp) := block( [simp:false, exs, SAU, SBU],
+    /* Check the display option. */
+    if not(fracdisp = "inline" or fracdisp = "negpow") then block(
+        print("fracdisp argument to stack_validate_units must be either inline or negpow only.")
+    ),
     /* Try to simply the expression to catch CAS errors. */
     exs:errcatch(ev(expr, simp)),
     if is_simp(exs = []) then return(false),
@@ -189,7 +193,12 @@ stack_validate_units(expr, LowestTerms, TAns) := block( [simp:false, exs, SAU, S
             print(StackAddFeedback("", "ATUnits_SA_excess_units"))
     ),
 
+    /* Add in an option to control the display of the units. */
     expr:stackunits(SAU[1], SAU[2]),
+    if fracdisp = "inline" then block(
+        stack_disp_factions("i"),
+        expr:stackunits(SAU[1], ev(SAU[2],simp))
+    ),
     expr:detexcolor(expr),
     expr:detexdecorate(expr),
     return(expr)

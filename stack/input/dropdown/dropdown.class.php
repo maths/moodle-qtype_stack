@@ -94,7 +94,8 @@ class stack_dropdown_input extends stack_input {
         return true;
     }
 
-    /* For the dropdown, each expression must be a list of pairs:
+    /*
+     * For the dropdown, each expression must be a list of pairs:
      * [CAS expression, true/false].
      * The second Boolean value determines if this should be considered
      * correct.  If there is more than one correct answer then checkboxes
@@ -105,12 +106,13 @@ class stack_dropdown_input extends stack_input {
         // We need to reset the errors here, now we have a new teacher's answer.
         $this->ddlerrors = '';
 
-        /* Sort out the $this->ddlvalues.
-         * Each element must be an array with the keys
-         * value - the CAS value.
-         * display - the LaTeX displayed value.
-         * correct - whether this is considered correct or not.  This is a PHP boolean.
-        */
+        /*
+         * Sort out the $this->ddlvalues.
+         * Each element must be an array with the keys:
+         *   value - the CAS value.
+         *   display - the LaTeX displayed value.
+         *   correct - whether this is considered correct or not.  This is a PHP boolean.
+         */
         // First extract strings as they cause trouble.
         $str = $teacheranswer;
         $strings = stack_utils::all_substring_strings($str);

@@ -505,8 +505,8 @@ class stack_cas_casstring {
     // @codingStandardsIgnoreEnd
 
     /**
-     +     * @var all the permitted patterns in which spaces occur.  Simple find and replace.
-     +     */
+     * @var all the permitted patterns in which spaces occur.  Simple find and replace.
+     */
     private static $spacepatterns = array(
             ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
     );
@@ -804,11 +804,11 @@ class stack_cas_casstring {
     }
 
     /**
-     +     * Checks for spaces in students' expressions.  Is not applied to teachers.
-     +     *
-     +     * @return bool|string true if no missing *s, false if missing stars but automatically added
-     +     * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
-     +     */
+     * Checks for spaces in students' expressions.  Is not applied to teachers.
+     *
+     * @return bool|string true if no missing *s, false if missing stars but automatically added
+     * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
+     */
     private function check_spaces($security, $syntax, $insertstars) {
 
         $cmd = $this->rawcasstring;
@@ -1343,10 +1343,10 @@ class stack_cas_casstring {
     public function set_cas_validation_casstring($key, $forbidfloats = true,
                     $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
 
-        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' 
-        		|| $validationmethod == 'units' || $validationmethod == 'unitsnegpow')) {
-            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' . 
-            		'"units" or "unitsnegpow", but received "'.validationmethod.'".');
+        if (!($validationmethod == 'checktype' || $validationmethod == 'typeless'
+            || $validationmethod == 'units' || $validationmethod == 'unitsnegpow')) {
+            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
+                '"units" or "unitsnegpow", but received "'.validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
@@ -1384,10 +1384,10 @@ class stack_cas_casstring {
             $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "inline")';
         }
         if ($validationmethod == 'unitsnegpow') {
-        	// Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-        	$this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "negpow")';
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "negpow")';
         }
-        
+
         return true;
     }
 

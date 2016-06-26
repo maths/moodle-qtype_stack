@@ -945,7 +945,7 @@ class stack_utils {
     }
 
     public static function fix_to_continued_fraction($n, $accuracy) {
-        $frac = stack_utils::rational_approximation($n, $accuracy);
+        $frac = self::rational_approximation($n, $accuracy);
         return $frac[0] / $frac[1];
     }
 

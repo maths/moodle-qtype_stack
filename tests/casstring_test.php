@@ -92,7 +92,7 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_spurious_operators_2() {
-        $casstring = new stack_cas_casstring('x==2x');
+        $casstring = new stack_cas_casstring('x==2*x');
         $casstring->get_valid('s');
         $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">==</span>.',
                 $casstring->get_errors());

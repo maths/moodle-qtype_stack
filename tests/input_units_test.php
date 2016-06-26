@@ -371,15 +371,15 @@ class stack_units_input_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_rational_number_negpow_1() {
-    	$options = new stack_options();
-    	$el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
-    	$el->set_parameter('insertStars', 1);
-    	$el->set_parameter('strictSyntax', false);
-    	$el->set_parameter('options', 'negpow');
-    	$state = $el->validate_student_response(array('sans1' => '1/3*m/s^2'), $options, '9.81*m/s^2', null);
-    	$this->assertEquals(stack_input::VALID, $state->status);
-    	$this->assertEquals('stackunits(1/3,m*s^-2)', $state->contentsmodified);
-    	$this->assertEquals('\[ \frac{1}{3}\, \mathrm{m}\cdot \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $el->set_parameter('options', 'negpow');
+        $state = $el->validate_student_response(array('sans1' => '1/3*m/s^2'), $options, '9.81*m/s^2', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('stackunits(1/3,m*s^-2)', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{1}{3}\, \mathrm{m}\cdot \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_rational_number_2() {
@@ -399,7 +399,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
-    	$el->set_parameter('options', 'negpow');
+        $el->set_parameter('options', 'negpow');
         $state = $el->validate_student_response(array('sans1' => '2/6*m/s^2'), $options, '9.81*m/s^2', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Lowest_Terms', $state->note);
@@ -565,7 +565,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
-   public function test_validate_student_response_student_bad_spaces() {
+    public function test_validate_student_response_student_bad_spaces() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);

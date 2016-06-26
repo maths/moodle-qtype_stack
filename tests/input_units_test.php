@@ -236,18 +236,6 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 9.81+{\mathrm{m}}/{\mathrm{s}^2}\, \]', $state->contentsdisplayed);
     }
 
-    public function test_validate_student_response_student_bad_spaces() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
-        $el->set_parameter('insertStars', 0);
-        $el->set_parameter('strictSyntax', true);
-        $state = $el->validate_student_response(array('sans1' => '9.81 m/s^2'), $options, '9.81*m/s^2', array('tans'));
-        $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals("spaces", $state->note);
-        $this->assertEquals('9.81 m/s^2', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">9.81 m/s^2</span>', $state->contentsdisplayed);
-    }
-
     public function test_validate_student_response_student_edgecase() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
@@ -577,4 +565,38 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
+   public function test_validate_student_response_student_bad_spaces() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 0);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '9.81 m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals("spaces", $state->note);
+        $this->assertEquals('9.81 m/s^2', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">9.81 m/s^2</span>', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_allow_spaces_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.2*m*s');
+        $el->set_parameter('insertStars', 3);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '3.2 m s', 'sans1_val' => '3.2 m s'),
+                $options, '3.2*m*s', array());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('stackunits(3.2,m*s)', $state->contentsmodified);
+    }
+
+    public function test_validate_student_response_allow_spaces_5() {
+        // Single variable character option.
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.2*m*s');
+        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '3.2 ms', 'sans1_val' => '3.2 ms'),
+                $options, '3.2*m*s', array());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('stackunits(3.2,m*s)', $state->contentsmodified);
+    }
 }

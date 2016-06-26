@@ -10,6 +10,7 @@ Numerous minor bug fixes and improvements.
 
 1. Expose functionality of `printf` to better control the display of integers and floats.
 2. Expand the "units" answer test to allow authors to use other numerical answer tests.
+3. Add a mechanism to allow spaces in inputs.  Trial functionality, which might change.
 
 ## Version 3.5
 

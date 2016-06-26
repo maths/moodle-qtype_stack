@@ -220,6 +220,9 @@ class stack_options {
             '0' => get_string('insertstarsno', 'qtype_stack'),
             '1' => get_string('insertstarsyes', 'qtype_stack'),
             '2' => get_string('insertstarsassumesinglechar', 'qtype_stack'),
+            '3' => get_string('insertspaces', 'qtype_stack'),
+            '4' => get_string('insertstarsspaces', 'qtype_stack'),
+            '5' => get_string('insertstarsspacessinglechar', 'qtype_stack')
         );
     }
 

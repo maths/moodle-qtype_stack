@@ -303,7 +303,7 @@ abstract class stack_input {
         // Send the string to the CAS.
         if ($valid) {
             $singlevarchars = false;
-            if (2 == $this->get_parameter('insertStars', 0)) {
+            if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                 $singlevarchars = true;
             }
 

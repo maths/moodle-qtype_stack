@@ -7,7 +7,7 @@ It is quite common to ask students to solve an algebraic equation.  The student'
 
 The best way to do (1) is *not* to check algebraic equivalence with the list/set of correct answers!  Instead, substitute the student's answer into the equation and see if it works.
 
-We proceed by example.  Imaging the teacher has asked the student to solve the following equation defined in the "question variables".
+We proceed by example.  Imagine the teacher has asked the student to solve the following equation defined in the "question variables".
 
 
     p:2*x^2+11*x-5/4;
@@ -15,9 +15,9 @@ We proceed by example.  Imaging the teacher has asked the student to solve the f
     /* Solve gives a list of equations, we want a set of numbers. */
     ta:setify(maplist(rhs,ta));
 
-The student has entered a set or list as their answer.  Probably a set, which is logically more sensible.
+For solutions we are not interested in order, but we need multiplicity.  Therefore a "bag" is what we need logically.  However, Maxima only has sets and lists.
 
-If we ask the student to enter a set, then the AlgEquiv answer test compares sets and lists, but it does so element-wise.  This makes no sense here!  So, we need to do something different.
+If the student enters a set or list, the AlgEquiv answer test can be used to compare sets and lists, but it does so element-wise.  We need to do something different.
 
 In the feeback variables we create a new list called "listans" as follows, assuming the student's answer is assigned to `ans1`.
 

@@ -100,7 +100,7 @@ Question authors should consider using the Moodle MCQ question type in addition 
 
 It is possible to use plots as the options in a STACK MCQ.  
 
-Recall again the MCQ are limited to legitimate CAS objects.  The `plot` command returns a string which is the URL of the dyanamically generated image on the server.  The "value" of this can't be assessed by the potential response trees.  For this reason you must the display option with plots and must only put the plot command in the display option. (Otherwise STACK will throw an error: this behaviour could be improved).  For example, to create a correct answer consiting of four plots consider the following in the question variables.
+Recall again the MCQ are limited to legitimate CAS objects.  The `plot` command returns a string which is the URL of the dyanamically generated image on the server.  The "value" of this can't be assessed by the potential response trees.  For this reason you must use the display option with plots and must only put the plot command in the display option. (Otherwise STACK will throw an error: this behaviour could be improved).  For example, to create a correct answer consiting of three plots consider the following in the question variables.
 
     p1:plot(x,[x,-2,2],[y,-3,3])
     p2:plot(x^2,[x,-2,2],[y,-3,3])
@@ -111,7 +111,7 @@ The actual CAS value of the answer returned will be the respective integer selec
 
 ## Dealing with external images in MCQ ##
 
-It is also possible to embed the URL of an externally hosted image as the "display" field of an MCQ.  The string is not checked, and is also passed through the CAS.  This feature is fragile and is not recommended.
+It is also possible to embed the URL of an externally hosted image as the "display" field of an MCQ.  The string is not checked, and is also passed through the CAS.  This feature is fragile to being rejected as an invalid CAS object, and so is not recommended.  (This could also be improved...)
 
 For example, the question variables could be something like
 

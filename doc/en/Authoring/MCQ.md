@@ -107,7 +107,11 @@ Recall again the MCQ are limited to legitimate CAS objects.  The `plot` command 
     p3:plot(x^3,[x,-2,2],[y,-3,3])
     ta:[[1,true,p1],[2,false,p2],[3,false,p2]]
 
-The actual CAS value of the answer returned will be the respective integer selected.  For this reason you will probably want to switch off the validation feedback ``your last answer was...".  The value of the integer can be tested in the PRT for correctness.
+The actual CAS value of the answer returned will be the respective integer selected (radio or dropdown) or list of integers (checkbox).  The PRT can then be used to check the value of the integer (or list) as normal.  
+
+For this reason you will probably want to switch off the validation feedback ``your last answer was...".  
+
+Using a PRT is slight overkill, but it maintains the consitent internal design.
 
 ## Dealing with external images in MCQ ##
 

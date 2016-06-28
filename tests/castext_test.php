@@ -283,7 +283,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2 = new stack_cas_session($s2, null, 0);
 
         $at1 = new stack_cas_text($ct, $cs2, 0);
-        $at1->get_display_castext();
         $this->assertEquals($val, $at1->check_external_forbidden_words($words));
 
     }
@@ -547,6 +546,14 @@ class stack_cas_text_test extends qtype_stack_testcase {
                     '\'*\' is an invalid final character in <span class="stacksyntaxexample">2*</span>');
     }
 
+    public function test_forbidden_words() {
+
+        $at1 = new stack_cas_text('This is system cost {@system(rm*)@} to create.', null, 0, 't');
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid.  ' .
+                'The expression <span class="stacksyntaxexample">system</span> is forbidden.');
+    }
+
     public function test_mathdelimiters1() {
         $a2 = array('a:2');
         $s2 = array();
@@ -584,7 +591,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_disp_decimalplaces() {
-        $a2 = array('a:float(%e)', 'b:4.99999');
+        $a2 = array('a:float(%e)', 'b:3.99999');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -596,11 +603,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text('{@dispdp(a,2)@}, {@dispdp(b,3)@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
-        $this->assertEquals($at1->get_display_castext(), '\({2.72}\), \({5.000}\)');
+        $this->assertEquals($at1->get_display_castext(), '\({2.72}\), \({4.000}\)');
     }
 
     public function test_disp_decimalplaces2() {
-        $a2 = array('a:float(%e)', 'b:-4.99999');
+        $a2 = array('a:float(%e)', 'b:-3.99999');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -613,7 +620,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\({3.\cdot x^2}\), \({-5.000}\)');
+        $this->assertEquals($at1->get_display_castext(), '\({3.\cdot x^2}\), \({-4.000}\)');
     }
 
     public function test_disp_mult_blank() {
@@ -754,10 +761,16 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $at2 = new stack_cas_text($s, null, 0, 't');
         $this->assertTrue($at2->get_valid());
-        $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
+        if ($this->lisp == 'CLISP') {
+            $this->assertEquals($at2->get_display_castext(),
                 'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({1.0E-4}\), \({1.0E-5}\), \({1.0E-6}\).');
+        } else if ($this->lisp == 'SBCL') {
+            $this->assertEquals($at2->get_display_castext(),
+                'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({1.0e-4}\), \({1.0e-5}\), \({10.0e-7}\).');
+        } else {
+            throw new Exception('Unknown lisp version!');
+        }
     }
 
     public function test_numerical_display_float_decimal() {
@@ -796,8 +809,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                'Decimal numbers \({1.0E-1}\), \({1.0E-2}\), \({1.0E-3}\), \({1.0E-4}\), \({1.0E-5}\), \({1.0E-6}\).');
+        if ($this->lisp == 'CLISP') {
+            $this->assertEquals($at2->get_display_castext(),
+                    'Decimal numbers \({1.0E-1}\), \({1.0E-2}\), \({1.0E-3}\), \({1.0E-4}\), \({1.0E-5}\), \({1.0E-6}\).');
+        } else if ($this->lisp == 'SBCL') {
+            $this->assertEquals($at2->get_display_castext(),
+                    'Decimal numbers \({1.e-1}\), \({1.e-2}\), \({1.e-3}\), \({1.e-4}\), \({1.e-5}\), \({9.999999999999999e-7}\).');
+        } else {
+            throw new Exception('Unknown lisp version!');
+        }
     }
 
     public function test_numerical_display_1() {
@@ -809,9 +829,17 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
+        if ($this->lisp == 'CLISP') {
+            $this->assertEquals($at2->get_display_castext(),
                 'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
                 'in scientific notation as \({7.3E+1}\) and in rhetoric as \({seventy-three}\).');
+        } else if ($this->lisp == 'SBCL') {
+            $this->assertEquals($at2->get_display_castext(),
+                'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
+                'in scientific notation as \({7.3e+1}\) and in rhetoric as \({seventy-three}\).');
+        } else {
+            throw new Exception('Unknown lisp version!');
+        }
     }
 
     public function test_numerical_display_binary() {
@@ -835,4 +863,3 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 'The number \({1001001}\) is written in base \(2\).');
     }
 }
-

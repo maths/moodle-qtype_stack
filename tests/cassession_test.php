@@ -18,6 +18,7 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/test_base.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
+
 /**
  * Unit tests for {@link stack_cas_session}.
  * @group qtype_stack
@@ -67,7 +68,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
 
         $at1 = new stack_cas_session($s1, $options, 0);
-        $this->assertEquals($cs, $at1->get_all_raw_casstrings());
         $this->assertEquals('x^2', $at1->get_display_key('a'));
         $this->assertEquals('\frac{1}{1+x^2}', $at1->get_display_key('b'));
         $this->assertEquals('e^{\mathrm{i}\cdot \pi}', $at1->get_display_key('c'));
@@ -322,6 +322,36 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([?,1],[1,?])', $at1->get_value_key('A'));
     }
 
+    public function test_subscript_disp() {
+
+        $cs = array('a:pi025', 'b:1+x3', 'c:f(x):=x^3', 'd:gamma7^3', 'a2:pi4^5');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('pi025', $at1->get_value_key('a'));
+        $this->assertEquals('{\pi}_{025}', $at1->get_display_key('a'));
+
+        $this->assertEquals('1+x3', $at1->get_value_key('b'));
+        $this->assertEquals('1+{x}_{3}', $at1->get_display_key('b'));
+
+        $this->assertEquals('f(x):=x^3', $at1->get_value_key('c'));
+        $this->assertEquals('f(x):=x^3', $at1->get_display_key('c'));
+
+        $this->assertEquals('gamma7^3', $at1->get_value_key('d'));
+        $this->assertEquals('{\gamma}_{7}^3', $at1->get_display_key('d'));
+
+        $this->assertEquals('pi4^5', $at1->get_value_key('a2'));
+        $this->assertEquals('{\pi}_{4}^5', $at1->get_display_key('a2'));
+    }
+
     public function test_assignmatrixelements() {
         // Assign a value to matrix entries.
         $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3', 'B:A');
@@ -510,16 +540,52 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertFalse(strpos($at1->get_value_key('p'), 'STACK auto-generated plot of 0 with parameters'));
     }
 
-    public function test_conditionalcasstring() {
-        $cs = array('a:5', 'b:4');
-        $s1 = array();
-
+    public function test_rand_selection_err_1() {
+        $cs = array('a:rand_selection(1,1)');
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->get_valid('t');
             $s1[] = $cs;
         }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[]', $at1->get_value_key('a'));
+        $this->assertEquals('rand_selection error: first argument must be a list.', $at1->get_errors_key('a'));
+    }
 
+    public function test_rand_selection_err_2() {
+        $cs = array('a:rand_selection([a,b,c,d], 7)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[]', $at1->get_value_key('a'));
+        $this->assertEquals('rand_selection error: insuffient elements in the list.', $at1->get_errors_key('a'));
+    }
+
+    public function test_rand_selection() {
+        $cs = array('a:rand_selection([a,b,c,d], 4)', 'b:sort(a)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[a,b,c,d]', $at1->get_value_key('b'));
+    }
+
+    public function test_conditionalcasstring() {
+        $cs = array('a:5', 'b:4');
+        $s1 = array();
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
         $cs = new stack_cas_casstring('c:1/(a-5)', array(new stack_cas_casstring('a#5')));
         $cs->get_valid('t');
         $s1[] = $cs;
@@ -532,7 +598,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $cs = new stack_cas_casstring('f:1/(a-a)', array(new stack_cas_casstring('b#a'), new stack_cas_casstring('a#a')));
         $cs->get_valid('t');
         $s1[] = $cs;
-
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('false', $at1->get_value_key('c'));

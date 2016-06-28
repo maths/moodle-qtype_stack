@@ -42,7 +42,7 @@ class qtype_stack_question_test_form extends moodleform {
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('testinputs'));
 
-        foreach ($question->inputs as $inputname => $input) {
+        foreach ($question->inputs as $input) {
             // We do not require these to be filled in, (or contain valid input), as the teacher may want to test such cases.
             $input->add_to_moodleform_testinput($mform);
         }

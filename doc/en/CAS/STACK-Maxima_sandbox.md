@@ -1,4 +1,20 @@
-# STACK - Maxima sandbox
+# STACK Sandbox
+
+It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses [Maxima](Maxima.md).
+That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses.
+To do this you will need to load your local settings, and also the libraries of Maxima functions specific to STACK.
+
+# STACK - Maxima sandbox (without access to a server)
+
+If you don't have access to a STACK server then you will need to download the files.   Download all the STACK files from github (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
+
+Unfortunately, there are a lots of .php files as well.  Most of the files you need are in
+
+    .../stack/maxima/
+
+Edit and use the file `.../stack/maxima/sandbox.wmx`
+
+# STACK - Maxima sandbox (with access to a server)
 
 It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses [Maxima](Maxima.md).
 That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses.

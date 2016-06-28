@@ -1,0 +1,46 @@
+language: php
+
+sudo: required
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+php:
+ - 5.4
+
+env:
+ global:
+  - MOODLE_BRANCH=MOODLE_31_STABLE
+ matrix:
+  - DB=mysqli
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install maxima maxima-share texinfo
+  - sudo locale-gen "en_AU.UTF-8"
+  - sudo dpkg-reconfigure locales
+  - phpenv config-rm xdebug.ini
+  - cd ../..
+  - composer selfupdate
+  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^1
+  - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+
+install:
+  - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
+  - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
+  - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
+  - moodle-plugin-ci install
+
+script:
+  - moodle-plugin-ci phplint
+  - moodle-plugin-ci phpcpd
+  - moodle-plugin-ci phpmd
+  - moodle-plugin-ci codechecker
+  - moodle-plugin-ci csslint
+  - moodle-plugin-ci shifter
+  - moodle-plugin-ci jshint
+  - moodle-plugin-ci validate
+  - moodle-plugin-ci phpunit
+  - moodle-plugin-ci behat
+  

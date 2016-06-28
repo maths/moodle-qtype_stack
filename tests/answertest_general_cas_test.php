@@ -342,12 +342,12 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
     // SB:x^6/6;
     // SAd:diff(SA,v);
     // SBd:diff(SB,v);
-    // StackAddFeedback("", "ATInt_generic",StackDISP(SBd, "d"),StackDISP(v, "i"),StackDISP(SAd, "d"));
+    // StackAddFeedback("","ATInt_generic", stack_disp(SBd,"d"), stack_disp(v,"i"), stack_disp(SAd,"d"));
     //
     // There is a lot more going on in the real answer test (such as stripping
     // of constants of integration) but this is enough for now.....
     //
-    // StackDISP(SBd, "d") creates a *string* of the displayed/inline form of
+    // stack_disp(SBd,"d") creates a *string* of the displayed/inline form of
     // variable SBd etc.
     //
     // This generates a string
@@ -376,32 +376,32 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
 
     public function test_stack_maxima_translate_algequiv_list() {
         // This test points out which element in the list is incorrect.
-        $at = new stack_answertest_general_cas('[x^7,x^2,x^4]', '[x^7,x^3,x^4]', 'ATAlgEquiv',
+        $at = new stack_answertest_general_cas('[x^2,x^2,x^4]', '[x^2,x^3,x^4]', 'ATAlgEquiv',
                 false, '', null, true, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
-        $fb = 'stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ x^7 , {\color{red}{\underline{x^2}}} , x^4 \right] \]!quot! );';
+        $fb = 'stack_trans(\'ATList_wrongentries\' , !quot!\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
         $fbt = 'The entries underlined in red below are those that are incorrect. ' .
-                '\[\left[ x^7 , {\color{red}{\underline{x^2}}} , x^4 \right] \]';
+                '\[\left[ x^2 , {\color{red}{\underline{x^2}}} , x^4 \right] \]';
         $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 
     public function test_stack_maxima_translate_algequiv_matrix() {
         // Matrices have newline characters in them.
-        $at = new stack_answertest_general_cas('matrix([1,7],[2,4])', 'matrix([1,7],[3,4])', 'ATAlgEquiv',
+        $at = new stack_answertest_general_cas('matrix([1,2],[2,4])', 'matrix([1,2],[3,4])', 'ATAlgEquiv',
                 false, '', null, true, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
 
         $fb = 'stack_trans(\'ATMatrix_wrongentries\' , ' .
-                '!quot!\[ \left[\begin{array}{cc} 1 & 7 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
+                '!quot!\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]!quot! );';
         $this->assertEquals($fb, $at->get_at_feedback());
 
         $fbt = 'The entries underlined in red below are those that are incorrect. ' .
-                '\[ \left[\begin{array}{cc} 1 & 7 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
+                '\[ \left[\begin{array}{cc} 1 & 2 \\\\ {\color{red}{\underline{2}}} & 4 \end{array}\right]\]';
         $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
     }
 

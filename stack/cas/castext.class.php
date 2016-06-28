@@ -245,6 +245,7 @@ class stack_cas_text {
 
         $validationparsetreeroot = stack_cas_castext_parsetreenode::build_from_nested($arrayform);
 
+        $this->rawsession = array();
         $this->valid = $this->validation_recursion($validationparsetreeroot, $validationsession) && $this->valid;
 
         if (array_key_exists('errors', $arrayform)) {
@@ -577,6 +578,13 @@ class stack_cas_text {
     public function check_external_forbidden_words($keywords) {
         if (null === $this->valid) {
             $this->validate();
+        }
+        // Uninstantiated but validated.
+        if ($this->session == null || !$this->session->is_instantiated()) {
+            $cs = new stack_cas_session($this->rawsession);
+            // For the special bit of stack_cas_text_test::testcheck_external_forbidden_words.
+            $cs->merge_session($this->session);
+            return $cs->check_external_forbidden_words($keywords);
         }
         if (!is_a($this->session, 'stack_cas_session')) {
             return false;

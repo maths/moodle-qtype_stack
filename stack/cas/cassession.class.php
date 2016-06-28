@@ -556,4 +556,8 @@ class stack_cas_session {
         }
         return trim($keyvals);
     }
+
+    public function is_instantiated() {
+        return $this->instantiated !== null;
+    }
 }

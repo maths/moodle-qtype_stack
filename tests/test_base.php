@@ -38,6 +38,14 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class qtype_stack_testcase extends advanced_testcase {
+
+    /* Different underlying versions of LISP (behind Maxima) have different results,
+     * especially with the floating point routines upon which Maxima relies.
+     * 
+     * This must onlu be CLISP or SBCL.
+     */
+    protected $lisp = 'SBCL';
+
     public function setUp() {
         parent::setUp();
 

@@ -579,7 +579,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     public function test_test3_repeat_wrong_response_only_penalised_once() {
         // The scenario is this: (we use only the ans3 part of test3, leaving the others blank.)
         //
-        //  Resp. State Try Raw mark Mark Penalty
+        // Resp.  State Try Raw mark Mark Penalty
         // 1. x   valid -   -        -    -
         // 2. x   score X   0.5      0.5  0.1
         // 3. x   score -   -        -    -
@@ -1048,6 +1048,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     }
 
     public function test_test3_complex_scenario() {
+        // @codingStandardsIgnoreStart
         // Here are the sequence of responses we are going to test. When
         // a particular PRT generates a grades, that is shown in brackets as
         // raw fraction - penalty.
@@ -1068,6 +1069,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         //     1.0         1.0         0.6           0.9        3.5
         //
         // Hopefully this summary makes the following easier to understand.
+        // @codingStandardsIgnoreEnd
 
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');

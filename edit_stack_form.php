@@ -1197,8 +1197,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $textformat = $fromform[$prtname . 'truefeedback'][$nodekey]['format'];
             }
             if ($textformat != $fromform[$prtname . 'truefeedback'][$nodekey]['format']) {
-                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] =
-                        stack_string('allnodefeedbackmustusethesameformat');
+                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] = stack_string(
+                        'allnodefeedbackmustusethesameformat');
             }
         }
 
@@ -1454,9 +1454,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // TODO: loop over all the PRTs in a similar manner....
-        // Remember, to use
-        // clone $inputsession
-        // as the base session to have all the teacher's answers instantiated.
+        // Remember, to clone $inputsession as the base session to have all the teacher's answers instantiated.
         // Otherwise we are likley to do illigitimate things to the various inputs.
 
         return $errors;

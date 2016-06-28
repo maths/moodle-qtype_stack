@@ -336,7 +336,14 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($matches[1][9], $matches[1][12]);
 
         // Test the same equalitys with the full text.
-        $testpattern = '[[ define stackparsecond' . $matches[1][0] . '="a" stackparsecond' . $matches[1][1] . '="not (stackparsecond' . $matches[1][0] . ') and (b)" stackparsecond' . $matches[1][3] . '="not (stackparsecond' . $matches[1][1] . ')" /]][[ if test="stackparsecond' . $matches[1][0] . '" ]]1[[/ if ]][[ if test="stackparsecond' . $matches[1][1] . '" ]]2[[/ if ]][[ if test="stackparsecond' . $matches[1][3] . '" ]][[ define stackparsecond' . $matches[1][8] . '="c" stackparsecond' . $matches[1][9] . '="not (stackparsecond' . $matches[1][8] . ')" /]][[ if test="stackparsecond' . $matches[1][8] . '" ]]3[[/ if ]][[ if test="stackparsecond' . $matches[1][9] . '" ]]4[[/ if ]][[/ if ]]';
+        $testpattern = '[[ define stackparsecond' . $matches[1][0] . '="a" stackparsecond' . $matches[1][1]
+                    . '="not (stackparsecond' . $matches[1][0] . ') and (b)" stackparsecond' . $matches[1][3]
+                    . '="not (stackparsecond' . $matches[1][1] . ')" /]][[ if test="stackparsecond' . $matches[1][0]
+                    . '" ]]1[[/ if ]][[ if test="stackparsecond' . $matches[1][1]
+                    . '" ]]2[[/ if ]][[ if test="stackparsecond' . $matches[1][3]
+                    . '" ]][[ define stackparsecond' . $matches[1][8] . '="c" stackparsecond' . $matches[1][9]
+                    . '="not (stackparsecond' . $matches[1][8] . ')" /]][[ if test="stackparsecond' . $matches[1][8]
+                    . '" ]]3[[/ if ]][[ if test="stackparsecond' . $matches[1][9] . '" ]]4[[/ if ]][[/ if ]]';
         $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 
@@ -359,7 +366,10 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($matches[1][0] + 1, $matches[1][1]); // The second needs to be stored to the next and so on.
         $this->assertEquals($matches[1][1], $matches[1][4]);
 
-        $testpattern = '[[ fi test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ define stackparsecond' . $matches[1][0] . '="c" stackparsecond' . $matches[1][1] . '="not (stackparsecond' . $matches[1][0] . ')" /]][[ if test="stackparsecond' . $matches[1][0] . '" ]]3[[/ if ]][[ if test="stackparsecond' . $matches[1][1] . '" ]]4[[/ if ]][[/ fi ]]';
+        $testpattern = '[[ fi test="a" ]]1[[ elif test="b" ]]2[[ else ]][[ define stackparsecond' . $matches[1][0]
+                  . '="c" stackparsecond' . $matches[1][1]
+                  . '="not (stackparsecond' . $matches[1][0] . ')" /]][[ if test="stackparsecond' . $matches[1][0]
+                  . '" ]]3[[/ if ]][[ if test="stackparsecond' . $matches[1][1] . '" ]]4[[/ if ]][[/ fi ]]';
         $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 

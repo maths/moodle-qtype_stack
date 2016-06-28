@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 /**
  * SplClassLoader implementation that implements the technical interoperability

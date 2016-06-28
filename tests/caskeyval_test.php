@@ -65,7 +65,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $cs3->instantiate();
 
         $cs4 = new stack_cas_session(null, null, 123);
-        
+
         $cs5 = new stack_cas_session(array(new stack_cas_casstring('a:system(rm)')), null, 123);
         $cs5->instantiate();
         $cs6 = new stack_cas_session(array(new stack_cas_casstring('a:"system(rm)"')), null, 123);

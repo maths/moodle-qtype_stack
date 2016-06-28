@@ -96,7 +96,7 @@ abstract class stack_maths_output {
     /**
      * Replace dollar delimiters ($...$ and $$...$$) in text with the safer
      * \(...\) and \[...\].
-     * Replace old style CAS text delimiters (@...@) in text with the new delimiters needed 
+     * Replace old style CAS text delimiters (@...@) in text with the new delimiters needed
      * for the blocks {@...@}.
      * @param string $text the original text.
      * @param bool $markup surround the change with <ins></ins> tags.
@@ -122,7 +122,7 @@ abstract class stack_maths_output {
         $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
 
         $count = preg_match_all('~(?<!@)@(?!@)~', $text, $notused);
-        if($count > 0){
+        if ($count > 0) {
             $i = 0;
             $targets = stack_utils::all_substring_between($text, '@', '@', true, false, false);
             foreach ($targets as $target) {

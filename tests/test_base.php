@@ -41,7 +41,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
     /* Different underlying versions of LISP (behind Maxima) have different results,
      * especially with the floating point routines upon which Maxima relies.
-     * 
+     *
      * This must onlu be CLISP or SBCL.
      */
     protected $lisp = 'SBCL';
@@ -68,7 +68,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         qtype_stack_test_config::setup_test_maxima_connection();
     }
-
+// @codingStandardsIgnoreStart
     /**
      * Verify that some content, containing maths, that is due to be output, is as expected.
      *
@@ -92,7 +92,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     protected function assertContentWithMathsContains($expected, $actual) {
         $this->assertContains(self::prepare_expected_maths($expected), $actual);
     }
-
+// @codingStandardsIgnoreEnd
     /**
      * Prepare some content for comparison with rendered maths.
      * @param string $content Some content containing unprocessed maths like '<p>\(x + 1\)</p>'.

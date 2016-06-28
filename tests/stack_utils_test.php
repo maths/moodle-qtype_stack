@@ -198,7 +198,7 @@ class stack_utils_test extends basic_testcase {
     }
 
     public function test_all_substring_strings() {
-        $this->assertEquals(array("test","testb"), stack_utils::all_substring_strings("stringa:\"test\" and stringb:\"testb\""));
-        $this->assertEquals(array("","\\\""), stack_utils::all_substring_strings("stringa:\"\" and stringb:\"\\\"\""));
+        $this->assertEquals(array("test", "testb"), stack_utils::all_substring_strings("stringa:\"test\" and stringb:\"testb\""));
+        $this->assertEquals(array("", "\\\""), stack_utils::all_substring_strings("stringa:\"\" and stringb:\"\\\"\""));
     }
 }

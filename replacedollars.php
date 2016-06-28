@@ -223,7 +223,7 @@ class qtype_stack_dollar_fixer {
                 s($markedup)), array('class' => 'questiontext'));
         echo html_writer::tag('div', stack_ouput_castext($newtext), array('class' => 'questiontext'));
 
-        if ($field === 'questionnote' && strlen($newtext)>1024) {
+        if ($field === 'questionnote' && strlen($newtext) > 1300) {
             echo html_writer::tag('p', stack_string('questionnote_toolong'),
                 array('class' => 'error'));
             return array(false, stack_string('questionnote_toolong'));

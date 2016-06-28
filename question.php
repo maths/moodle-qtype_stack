@@ -243,6 +243,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // Nasty hack, but if seed has already been set, then use that. This is
             // used by the questiontestrun.php script to allow non-deployed
             // variants to be browsed.
+            $step->set_qt_var('_seed', $this->seed);
+
+            $this->initialise_question_from_seed();
+            return;
         } else if (!$this->has_random_variants()) {
             // Randomisation not used.
             $this->seed = 1;

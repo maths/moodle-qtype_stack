@@ -29,7 +29,6 @@ require_once('castext/if.class.php');
 require_once('castext/define.class.php');
 require_once('castext/foreach.class.php');
 require_once('castext/external.class.php');
-require_once(dirname(__FILE__) . '../../hints.class.php');
 
 class stack_cas_text {
 
@@ -175,22 +174,6 @@ class stack_cas_text {
         $dollar = stack_utils::check_matching_pairs($protected, '$');
         if ($dollar == false) {
             $this->errors[] = stack_string('stackCas_MissingDollar');
-            $this->valid = false;
-        }
-
-        $hints = stack_hints::check_bookends($this->trimmedcastext);
-        if ($hints !== true) {
-            // The method check_bookends does not return false.
-            $this->valid = false;
-            if ($hints == 'left') {
-                $this->errors[] = stack_string('stackCas_MissingOpenHint');
-            } else {
-                $this->errors[] = stack_string('stackCas_MissingClosingHint');
-            }
-        }
-        $unknownhints = stack_hints::check_hints_exist($this->trimmedcastext);
-        foreach ($unknownhints as $hint) {
-            $this->errors[] = stack_string('stack_hint_missing', $hint);
             $this->valid = false;
         }
 
@@ -461,9 +444,6 @@ class stack_cas_text {
         if (trim($this->trimmedcastext) !== '' && $this->parsetreeroot !== null) {
             $this->trimmedcastext = $this->parsetreeroot->to_string();
         }
-
-        // Deals with hints.
-        $this->trimmedcastext = stack_hints::replace_hints($this->trimmedcastext);
 
         $this->castext = stack_utils::wrap_around($this->trimmedcastext);
 

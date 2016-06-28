@@ -59,7 +59,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('\[{@x^2@}\]', null, true, '\[{x^2}\]'),
                 array('\[{@a@}+\sin(x)\]', $a1, true, '\[{x^2}+\sin(x)\]'),
                 array('\[{@a@}\]', $a1, true, '\[{x^2}\]'),
-        		array('{@a@}', $a1, true, '\({x^2}\)'),
+                array('{@a@}', $a1, true, '\({x^2}\)'),
                 array('{@sin(x)@}', $a1, true, '\({\sin \left( x \right)}\)'),
                 array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot \left(x+1\right)^2}\]'),
                 array('@', null, true, '@'),
@@ -139,13 +139,15 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $ct = new stack_cas_text($c, $session);
         $ct->get_display_castext();
         $this->assertFalse($ct->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span> PARSE ERROR: "elif" after an "else" in an if block.', $ct->get_errors(false));
+        $this->assertEquals('<span class="error">CASText failed validation. </span> PARSE ERROR: "elif" after '
+                . 'an "else" in an if block.', $ct->get_errors(false));
 
         $c = '[[ if test="a" ]][[else]]a[[else]]b[[/ if ]]';
         $ct = new stack_cas_text($c, $session);
         $ct->get_display_castext();
         $this->assertFalse($ct->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span> PARSE ERROR: Multiple else branches in an if block.', $ct->get_errors(false));
+        $this->assertEquals('<span class="error">CASText failed validation. </span> PARSE ERROR: Multiple else '
+                . 'branches in an if block.', $ct->get_errors(false));
     }
 
     public function test_broken_block_error() {
@@ -203,7 +205,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('{#a#} [[ foreach a="a" ]]{#a#},[[/foreach]]', $a1, true, "[1,2,3] 1,2,3,"),
                 array('[[ foreach a="b" ]]{#a#},[[/foreach]]', $a1, true, "4,5,6,7,"),
                 array('[[ foreach I="a" K="b" ]]{#I#},{#K#},[[/foreach]]', $a1, true, "1,4,2,5,3,6,"),
-                array('[[ foreach o="[[1,2],[3,4]]" ]]{[[ foreach k="o" ]]{#k#},[[/ foreach ]]}[[/foreach]]', $a1, true, "{1,2,}{3,4,}"),
+                array('[[ foreach o="[[1,2],[3,4]]" ]]{[[ foreach k="o" ]]{#k#},[[/ foreach ]]}[[/foreach]]',
+                          $a1, true, "{1,2,}{3,4,}"),
         );
 
         foreach ($cases as $case) {
@@ -244,7 +247,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_get_all_raw_casstrings_foreach() {
         $raw = 'Take {@x^2+2*x@} and then [[ foreach t="[1,2,3]"]]{@t@}[[/foreach]].';
         $at1 = new stack_cas_text($raw, null, 0);
-        // here the list is iterated over and the t-variable appears multiple times.
+        // Here the list is iterated over and the t-variable appears multiple times.
         $val = array('x^2+2*x', 't', 't:[1,2,3]');
         $this->assertEquals($val, $at1->get_all_raw_casstrings());
     }
@@ -307,7 +310,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_redefine_variables() {
         // Notice this means that within a session the value of n has to be returned at every stage....
         $at1 = new stack_cas_text(
-                'Let \(n\) be defined by \({@n:3@}\). Now add one to get \({@n:n+1@}\) and square the result \({@n:n^2@}\).', null, 0);
+                'Let \(n\) be defined by \({@n:3@}\). Now add one to get \({@n:n+1@}\) and square the result \({@n:n^2@}\).',
+                null, 0);
         $this->assertEquals('Let \(n\) be defined by \({3}\). Now add one to get \({4}\) and square the result \({16}\).',
                 $at1->get_display_castext());
     }

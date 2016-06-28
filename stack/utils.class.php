@@ -568,26 +568,26 @@ class stack_utils {
         $strings = array();
 
         $i = 0;
-        $lastslash = False;
-        $instring = False;
+        $lastslash = false;
+        $instring = false;
         $stringentry = -1;
         while ($i < strlen($string)) {
             $c = $string[$i];
             $i++;
             if ($instring) {
                 if ($c == '"' && !$lastslash) {
-                    $instring = False;
-                    // -1 to drop the quote
-                    $s = substr($string,$stringentry,($i-$stringentry)-1);
+                    $instring = false;
+                    // Last -1 to drop the quote.
+                    $s = substr($string, $stringentry, ($i - $stringentry) - 1);
                     $strings[] = $s;
                 } else if ($c == "\\") {
                     $lastslash = !$lastslash;
                 } else if ($lastslash) {
-                    $lastslash = False;
+                    $lastslash = false;
                 }
             } else if ($c == '"') {
-                $instring = True;
-                $lastslash = False;
+                $instring = true;
+                $lastslash = false;
                 $stringentry = $i;
             }
         }
@@ -971,7 +971,7 @@ class stack_utils {
     }
 
     public static function fix_to_continued_fraction($n, $accuracy) {
-        $frac = stack_utils::rational_approximation($n, $accuracy);
+        $frac = self::rational_approximation($n, $accuracy);
         return $frac[0] / $frac[1];
     }
 

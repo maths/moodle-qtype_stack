@@ -219,7 +219,7 @@ class stack_cas_casstring {
                 'pochhammer' => true, 'pochhammer_max_index' => true, 'points_joined' => true,  'polar' => true,
                 'polar_to_xy' => true, 'polygon' => true, 'prederror' => true, 'primep_number_of_tests' => true,
                 'printprops' => true, 'prodrac' => true, 'product' => true, 'product_use_gamma' => true, 'programmode' => true,
-                'proportional_axes' => true, 'props' => true, 'propvars' => true, 'psexpand' => true, 'psi' => true,
+                'proportional_axes' => true, 'props' => true, 'propvars' => true, 'psexpand' => true,
                 'pui' => true, 'pui2comp' => true, 'pui2ele' => true, 'pui2polynome' => true, 'pui_direct' => true,
                 'puireduc' => true, 'qty' => true, 'random' => true, 'ratchristof' => true, 'rateinstein' => true,
                 'rational' => true, 'ratprint' => true, 'ratriemann' => true, 'ratweyl' => true, 'ratwtlvl' => true,
@@ -345,7 +345,7 @@ class stack_cas_casstring {
                 'point_type' => true, 'point_size' => true, 'points' => true, 'poisdiff' => true, 'poisexpt' => true,
                 'poisint' => true, 'poislim' => true, 'poismap' => true, 'poisplus' => true, 'poissimp' => true,
                 'poisson' => true, 'poissubst' => true, 'poistimes' => true, 'poistrim' => true, 'polarform' => true,
-                'polartorect' => true, 'polymod' => true, 'polynome2ele' => true, 'polynomialp' => true,
+                'polartorect' => true, 'polymod' => true, 'polynome2ele' => true, 'polynomialp' => true, 'psi' => true,
                 'polytocompanion' => true, 'posfun' => true, 'potential' => true, 'power_mod' => true, 'powerdisp' => true,
                 'powers' => true, 'powerseries' => true, 'powerset' => true, 'primep' => true, 'printpois' => true,
                 'quad_qag' => true, 'quad_qagi' => true, 'quad_qags' => true, 'quad_qawc' => true, 'quad_qawf' => true,
@@ -463,6 +463,16 @@ class stack_cas_casstring {
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true);
+
+    /**
+     * Upper case Greek letters are allowed.
+     */
+    static $greekupper = array(
+        'Alpha' => true, 'Beta' => true, 'Gamma' => true, 'Delta' => true, 'Epsilon' => true,
+        'Zeta' => true, 'Eta' => true, 'Theta' => true, 'Iota' => true, 'Kappa' => true, 'Lambda' => true,
+        'Mu' => true, 'Nu' => true, 'Xi' => true, 'Omicron' => true, 'Pi' => true, 'Rho' => true,
+        'Sigma' => true, 'Tau' => true, 'Upsilon' => true, 'Phi' => true, 'Chi' => true, 'Psi' => true,
+        'Omega' => true);
 
     /**
      * These lists are used by question authors for groups of words.
@@ -912,7 +922,8 @@ class stack_cas_casstring {
         if (self::$cache === false) {
             self::$cache = array(
                     'allows' => array(),
-                    'merged-sallow' => array_merge(self::$studentallow, stack_cas_casstring_units::get_permitted_units(2)),
+                    'merged-sallow' => array_merge(self::$studentallow, self::$greekupper,
+                            stack_cas_casstring_units::get_permitted_units(2)),
                     'globalforbid' => self::$globalforbid,
                     'teachernotallow' => self::$teachernotallow,
                     'studentallow' => self::$studentallow,
@@ -997,11 +1008,18 @@ class stack_cas_casstring {
                     if (!isset($allow[$key]) && !isset(self::$cache['merged-sallow'][$key])) {
                         $this->valid = false;
                         if (isset(self::$cache['studentallow'][strtolower($key)]) || isset($allow[strtolower($key)])) {
-                            // We have spotted a case senditivity problem.
-                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                            // We have spotted a case sensitivity problem.
+                            // Did they try to enter an upper case Greek letter perhaps?
+                            if (isset(self::$greekupper[ucfirst(strtolower($key))]) && strtoupper($key) == $key) {
+                                $this->add_error(stack_string('stackCas_unknownFunctionCase',
                                     array('forbid' => stack_maxima_format_casstring($key),
-                                            'lower' => stack_maxima_format_casstring(strtolower($key)))));
-                            $this->answernote[] = 'unknownFunctionCase';
+                                        'lower' => stack_maxima_format_casstring(ucfirst(strtolower($key))))));
+                            } else {
+                                $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                    array('forbid' => stack_maxima_format_casstring($key),
+                                        'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                            }
+                        $this->answernote[] = 'unknownFunctionCase';
                         } else if ($err = stack_cas_casstring_units::check_units_case($key)) {
                             // We have spotted a case sensitivity problem in the units.
                             $this->add_error($err);

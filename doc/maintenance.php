@@ -41,7 +41,6 @@ function report($d) {
     $dirroot = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
     $wwwroot = $CFG->wwwroot;
     $webdocs = $wwwroot.'/question/type/stack/doc/en';
-    $weburl = $wwwroot.'/question/type/stack/doc/doc.php';
     $a = array();
     $fileslinkedto = array();
 
@@ -53,7 +52,6 @@ function report($d) {
                     if (filetype($fpath) == 'dir') {
                         $a = array_merge($a, report($fpath));
                     } else {
-                        $fname  = pathinfo($fpath, PATHINFO_FILENAME);
                         $fext   = pathinfo($fpath, PATHINFO_EXTENSION);
                         $fsize  = filesize($fpath);
                         $reldir = str_replace($dirroot, '', $d);
@@ -70,9 +68,9 @@ function report($d) {
                             }
 
                             // Let's do some link checking, step one: scrape the links off the document's web page.
-                            $links = stack_process_markdown((file_get_contents($fpath)), "");
+                            $links = stack_docs_render_markdown((file_get_contents($fpath)), "");
                             preg_match_all("/<a(?:[^>]*)href=\"([^\"]*)\"(?:[^>]*)>(?:[^<]*)<\/a>/is", $links, $found);
-                            // Variable $found[0] will have the full a tags, $found[1] contains their href properties.
+                            // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.
                             foreach ($found[1] as $i => $link) {
                                 if (strpos($link, 'mailto:') !== 0

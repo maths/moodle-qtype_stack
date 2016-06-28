@@ -493,11 +493,11 @@ class stack_cas_session {
                 $cmd = '0';
             }
 
-            // Special handling for the conditionally evaluated strings
+            // Special handling for the conditionally evaluated strings.
             if (count($cs->get_conditions()) > 0) {
                 $conditions = array();
-                foreach($cs->get_conditions() as $cond) {
-                    // No need to evaluate again if it is already evaluated
+                foreach ($cs->get_conditions() as $cond) {
+                    // No need to evaluate again if it is already evaluated.
                     if (array_search($cond, $this->session) !== false
                             && array_search($cond, $this->session) < array_search($cs, $this->session)) {
                         $conditions[] = str_replace('?', 'QMCHAR', $cond->get_key());
@@ -508,7 +508,8 @@ class stack_cas_session {
 
                 $condition = implode(" and ", $conditions);
 
-                $cascommands .= ", print(\"$i=[ error= [\"), if $condition then cte(\"$label\",errcatch($label:$cmd)) else cte(\"$label\",errcatch($label:false)) ";
+                $cascommands .= ", print(\"$i=[ error= [\"), if $condition then cte(\"$label\",errcatch($label:$cmd)) "
+                        . "else cte(\"$label\",errcatch($label:false)) ";
             } else {
                 $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
             }
@@ -555,5 +556,9 @@ class stack_cas_session {
             }
         }
         return trim($keyvals);
+    }
+
+    public function is_instantiated() {
+        return $this->instantiated !== null;
     }
 }

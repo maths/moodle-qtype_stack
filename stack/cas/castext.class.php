@@ -29,7 +29,6 @@ require_once('castext/if.class.php');
 require_once('castext/define.class.php');
 require_once('castext/foreach.class.php');
 require_once('castext/external.class.php');
-require_once(dirname(__FILE__) . '../../hints.class.php');
 
 class stack_cas_text {
 
@@ -178,22 +177,6 @@ class stack_cas_text {
             $this->valid = false;
         }
 
-        $hints = stack_hints::check_bookends($this->trimmedcastext);
-        if ($hints !== true) {
-            // The method check_bookends does not return false.
-            $this->valid = false;
-            if ($hints == 'left') {
-                $this->errors[] = stack_string('stackCas_MissingOpenHint');
-            } else {
-                $this->errors[] = stack_string('stackCas_MissingClosingHint');
-            }
-        }
-        $unknownhints = stack_hints::check_hints_exist($this->trimmedcastext);
-        foreach ($unknownhints as $hint) {
-            $this->errors[] = stack_string('stack_hint_missing', $hint);
-            $this->valid = false;
-        }
-
         $html = stack_utils::check_bookends($this->trimmedcastext, '<html>', '</html>');
         if ($html !== true) {
             // The method check_bookends does not return false.
@@ -245,6 +228,7 @@ class stack_cas_text {
 
         $validationparsetreeroot = stack_cas_castext_parsetreenode::build_from_nested($arrayform);
 
+        $this->rawsession = array();
         $this->valid = $this->validation_recursion($validationparsetreeroot, $validationsession) && $this->valid;
 
         if (array_key_exists('errors', $arrayform)) {
@@ -461,9 +445,6 @@ class stack_cas_text {
             $this->trimmedcastext = $this->parsetreeroot->to_string();
         }
 
-        // Deals with hints.
-        $this->trimmedcastext = stack_hints::replace_hints($this->trimmedcastext);
-
         $this->castext = stack_utils::wrap_around($this->trimmedcastext);
 
         // Another modification. Stops <html> tags from being given $ tags.
@@ -577,6 +558,13 @@ class stack_cas_text {
     public function check_external_forbidden_words($keywords) {
         if (null === $this->valid) {
             $this->validate();
+        }
+        // Uninstantiated but validated.
+        if ($this->session == null || !$this->session->is_instantiated()) {
+            $cs = new stack_cas_session($this->rawsession);
+            // For the special bit of stack_cas_text_test::testcheck_external_forbidden_words.
+            $cs->merge_session($this->session);
+            return $cs->check_external_forbidden_words($keywords);
         }
         if (!is_a($this->session, 'stack_cas_session')) {
             return false;

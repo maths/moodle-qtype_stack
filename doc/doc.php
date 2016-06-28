@@ -25,7 +25,6 @@
 
 require_once(__DIR__ . '/../../../../config.php');
 require_once(__DIR__ . '/docslib.php');
-require_once(__DIR__ . '/../stack/hints.class.php');
 
 /*
  *  This file serves the contents of a local directory and renders markup to html

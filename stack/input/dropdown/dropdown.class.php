@@ -94,7 +94,8 @@ class stack_dropdown_input extends stack_input {
         return true;
     }
 
-    /* For the dropdown, each expression must be a list of pairs:
+    /**
+     * For the dropdown, each expression must be a list of pairs:
      * [CAS expression, true/false].
      * The second Boolean value determines if this should be considered
      * correct.  If there is more than one correct answer then checkboxes
@@ -105,13 +106,21 @@ class stack_dropdown_input extends stack_input {
         // We need to reset the errors here, now we have a new teacher's answer.
         $this->ddlerrors = '';
 
-        /* Sort out the $this->ddlvalues.
-         * Each element must be an array with the keys
-         * value - the CAS value.
-         * display - the LaTeX displayed value.
-         * correct - whether this is considered correct or not.  This is a PHP boolean.
-        */
-        $values = stack_utils::list_to_array($teacheranswer, false);
+        // Sort out the $this->ddlvalues.
+        // Each element must be an array with the keys
+        // value - the CAS value.
+        // display - the LaTeX displayed value.
+        // correct - whether this is considered correct or not.  This is a PHP boolean.
+
+        // First extract strings as they cause trouble.
+        $str = $teacheranswer;
+        $strings = stack_utils::all_substring_strings($str);
+        foreach ($strings as $key => $string) {
+            $str = str_replace('"'.$string.'"', "[STR:$key]", $str);
+            // Also convert strings from escaped form to PHP-form.
+            $strings[$key] = stack_utils::maxima_string_to_php_string('"' . $string . '"');
+        }
+        $values = stack_utils::list_to_array($str, false);
         if (empty($values)) {
             $this->ddlerrors = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
@@ -128,6 +137,14 @@ class stack_dropdown_input extends stack_input {
             $value = stack_utils::list_to_array($distractor, false);
             $ddlvalue = array();
             if (is_array($value)) {
+                // Inject strings back if they exist.
+                foreach ($value as $key => $something) {
+                    if (strpos($something, '[STR:') !== false) {
+                        foreach ($strings as $skey => $string) {
+                            $value[$key] = str_replace("[STR:$skey]", '"' . $string . '"', $value[$key]);
+                        }
+                    }
+                }
                 if (count($value) >= 2) {
                     // Check for duplicates in the teacher's answer.
                     if (array_key_exists($value[0], $duplicatevalues)) {

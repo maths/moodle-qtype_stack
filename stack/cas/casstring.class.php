@@ -574,13 +574,12 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Check for matching string delimiters. After removing the escaped string delimiters
+        // Check for matching string delimiters. After removing the escaped string delimiters.
         if (stack_utils::check_matching_pairs($cmd, '"') == false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
         }
-
 
         // Search for HTML fragments.  This is hard to do because < is an infix operator!
         // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because

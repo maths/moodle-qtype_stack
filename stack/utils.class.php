@@ -198,7 +198,7 @@ class stack_utils {
                 array_push($openstack, $char);
 
             } else if (($closerpos = strpos($rights, $char)) !== false) {
-                $opener = array_pop($openstack); // null if array is empty, which works.
+                $opener = array_pop($openstack); // NULL if array is empty, which works.
                 if ($opener !== $lefts[$closerpos]) {
                     return false;
                 }
@@ -562,32 +562,32 @@ class stack_utils {
      * not the quotes
      *
      * @access private
-     * @return string
+     * @return array
      */
     public static function all_substring_strings($string) {
         $strings = array();
 
         $i = 0;
-        $lastslash = False;
-        $instring = False;
+        $lastslash = false;
+        $instring = false;
         $stringentry = -1;
         while ($i < strlen($string)) {
             $c = $string[$i];
             $i++;
             if ($instring) {
                 if ($c == '"' && !$lastslash) {
-                    $instring = False;
-                    // -1 to drop the quote
-                    $s = substr($string,$stringentry,($i-$stringentry)-1);
+                    $instring = false;
+                    // Last -1 to drop the quote.
+                    $s = substr($string, $stringentry, ($i - $stringentry) - 1);
                     $strings[] = $s;
                 } else if ($c == "\\") {
                     $lastslash = !$lastslash;
                 } else if ($lastslash) {
-                    $lastslash = False;
+                    $lastslash = false;
                 }
             } else if ($c == '"') {
-                $instring = True;
-                $lastslash = False;
+                $instring = true;
+                $lastslash = false;
                 $stringentry = $i;
             }
         }
@@ -891,7 +891,29 @@ class stack_utils {
         }
     }
 
-    /** 
+    /**
+     * Converts a PHP string object to a PHP string object containing the Maxima code that would generate a similar
+     * string in Maxima.
+     * @param a string
+     * @return a string that contains ""-quotes around the content.
+     */
+    public static function php_string_to_maxima_string($string) {
+        $converted = str_replace("\\", "\\\\", $string);
+        $converted = str_replace("\"", "\\\"", $converted);
+        return '"' . $converted . '"';
+    }
+    /**
+     * Converts a PHP string object containing a Maxima string as presented by the grind command to a PHP string object.
+     * @param a string that contains ""-quotes around the content.
+     * @return a string without those quotes.
+     */
+    public static function maxima_string_to_php_string($string) {
+        $converted = str_replace("\\\\", "\\", $string);
+        $converted = str_replace("\\\"", '"', $converted);
+        return substr($converted, 1, -1);
+    }
+
+    /**
      * Find a rational approximation to $n
      * @param float $n
      * @param int $accuracy Stop when we get within this many decimal places of $n
@@ -949,7 +971,7 @@ class stack_utils {
     }
 
     public static function fix_to_continued_fraction($n, $accuracy) {
-        $frac = stack_utils::rational_approximation($n, $accuracy);
+        $frac = self::rational_approximation($n, $accuracy);
         return $frac[0] / $frac[1];
     }
 

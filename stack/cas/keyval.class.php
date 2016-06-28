@@ -84,7 +84,7 @@ class stack_cas_keyval {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
         }
 
-        // CAS keyval may not contain @ or $. but strings sure can
+        // CAS keyval may not contain @ or $. but strings sure can.
         if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
             $this->errors = stack_string('illegalcaschars');
             $this->valid = false;

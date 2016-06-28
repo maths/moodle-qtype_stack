@@ -52,7 +52,7 @@ class stack_cas_text_exception_test extends basic_testcase {
         $this->setExpectedException('stack_exception');
         $ct = new stack_cas_text("[[ foo ]][[ unknown/]][[/foo]]", $session);
         $this->assertFalse($ct->get_valid());
-        $this->assertEquals($ct->get_errors(),"<span class=\"error\">CASText failed validation. </span>The following block is unknown:  'foo'");
+        $this->assertEquals($ct->get_errors(), "<span class=\"error\">CASText failed validation. </span>The following block is unknown:  'foo'");
         $ct->get_display_castext();
     }
 }

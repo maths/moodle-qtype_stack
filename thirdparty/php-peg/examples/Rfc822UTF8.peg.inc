@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 require 'Rfc822.php';
 

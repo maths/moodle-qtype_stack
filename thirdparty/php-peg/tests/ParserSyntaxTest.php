@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 require_once "ParserTestBase.php";
 

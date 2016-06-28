@@ -23,12 +23,12 @@
  */
 
 /**
- ** WARNING! if the file you are reading has .php-extension do not edit it! It has been generated from castext.peg.inc.
+ * WARNING! if the file you are reading has .php-extension do not edit it! It has been generated from castext.peg.inc.
  **/
 /**
- ** Howto generate the .php file: run the following command, in the directory of this file:
- ** php ../../../thirdparty/php-peg/cli.php castext.peg.inc > castextparser.class.php
- ** And do remove that PHP ending the question mark greater than thing after generation. If generated.
+ * Howto generate the .php file: run the following command, in the directory of this file:
+ * php ../../../thirdparty/php-peg/cli.php castext.peg.inc > castextparser.class.php
+ * And do remove that PHP ending the question mark greater than thing after generation. If generated.
  **/
 require_once(__DIR__ . '/../../../thirdparty/php-peg/autoloader.php');
 use hafriedlander\Peg\Parser;
@@ -243,8 +243,8 @@ class stack_cas_castext_castextparser extends Parser\Basic {
 
                         if (array_key_exists('params', $parsetree['item'][$key])) {
                             if (array_key_exists('_matchrule', $parsetree['item'][$key]['params'])) {
-                                $params[$parsetree['item'][$key]['params']['key']['text']] =
-                                        $parsetree['item'][$key]['params']['value']['text'];
+                                $params[$parsetree['item'][$key]['params']['key']['text']
+                                        ] = $parsetree['item'][$key]['params']['value']['text'];
                             } else {
                                 foreach ($parsetree['item'][$key]['params'] as $param) {
                                     $params[$param['key']['text']] = $param['value']['text'];
@@ -268,8 +268,8 @@ class stack_cas_castext_castextparser extends Parser\Basic {
 
                         if (array_key_exists('params', $parsetree['item'][$start])) {
                             if (array_key_exists('_matchrule', $parsetree['item'][$start]['params'])) {
-                                $params[$parsetree['item'][$start]['params']['key']['text']] =
-                                        $parsetree['item'][$start]['params']['value']['text'];
+                                $params[$parsetree['item'][$start]['params']['key']['text']
+                                        ] = $parsetree['item'][$start]['params']['value']['text'];
                             } else {
                                 foreach ($parsetree['item'][$start]['params'] as $param) {
                                     $params[$param['key']['text']] = $param['value']['text'];
@@ -301,19 +301,19 @@ class stack_cas_castext_castextparser extends Parser\Basic {
 
                     $i++;
 
-                    if ($closeststartcandidate !== null && $parsetree['item'][$endcandidateindex]['name'][1]['text'] ==
-                            $parsetree['item'][$closeststartcandidate]['name'][1]['text']) {
+                    if ($closeststartcandidate !== null && $parsetree['item'][$endcandidateindex]['name'][1]['text'
+                            ] == $parsetree['item'][$closeststartcandidate]['name'][1]['text']) {
                         $parsetree['item'][$closeststartcandidate]['_matchrule'] = "block";
 
-                        $parsetree['item'][$closeststartcandidate]['name'] =
-                                $parsetree['item'][$closeststartcandidate]['name'][1]['text'];
+                        $parsetree['item'][$closeststartcandidate]['name'
+                                ] = $parsetree['item'][$closeststartcandidate]['name'][1]['text'];
 
                         $params = array();
 
                         if (array_key_exists('params', $parsetree['item'][$closeststartcandidate])) {
                             if (array_key_exists('_matchrule', $parsetree['item'][$closeststartcandidate]['params'])) {
-                                $params[$parsetree['item'][$closeststartcandidate]['params']['key']['text']] =
-                                        $parsetree['item'][$closeststartcandidate]['params']['value']['text'];
+                                $params[$parsetree['item'][$closeststartcandidate]['params']['key']['text']
+                                        ] = $parsetree['item'][$closeststartcandidate]['params']['value']['text'];
                             } else {
                                 foreach ($parsetree['item'][$closeststartcandidate]['params'] as $param) {
                                     $params[$param['key']['text']] = $param['value']['text'];
@@ -414,7 +414,7 @@ class stack_cas_castext_castextparser extends Parser\Basic {
         return $err;
     }
 
-
+// @codingStandardsIgnoreStart
     /* texcasblock: "{@" cascontent:/[^@]+/ "@}" */
     protected $match_texcasblock_typestack = array('texcasblock');
     function match_texcasblock ($stack = array()) {
@@ -1308,9 +1308,9 @@ class stack_cas_castext_castextparser extends Parser\Basic {
 
 
 
-    // SO WOULD HAVE WANTED THIS BUT COULD NOT UNDERSTAND HOWTO... SO NOW WE HAVE THE NESTED PARSING DONE AFTERWARDS
+    // SO WOULD HAVE WANTED THIS BUT COULD NOT UNDERSTAND HOWTO... SO NOW WE HAVE THE NESTED PARSING DONE AFTERWARDS.
     // block: '[[' ws? name:blockid (params:param)* ws? ']]' content:castext '[[/' ws? "$name" ws? ']]'
-
+// @codingStandardsIgnoreEnd
 }
 
 

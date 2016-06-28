@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 // This file is part of Stack - http://stack.bham.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify

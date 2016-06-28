@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 require_once dirname(__DIR__).'/autoloader.php';
 use hafriedlander\Peg\Parser;

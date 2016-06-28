@@ -38,7 +38,7 @@ use Moodle\BehatExtension\Exception\SkippedException;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_qtype_stack extends behat_base {
-
+// @codingStandardsIgnoreStart
     /**
      * This step looks to see if there is information about a Maxima configuration
      * for testing in the config.php file. If there is, it sets STACK up to use
@@ -57,7 +57,7 @@ class behat_qtype_stack extends behat_base {
 
         qtype_stack_test_config::setup_test_maxima_connection();
     }
-
+// @codingStandardsIgnoreEnd
     /**
      * Get the xpath for a given input element.
      * @param string $name the input name, like 'ans1'.

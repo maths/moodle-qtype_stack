@@ -96,9 +96,9 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         if (!empty($question->prts)) {
-            foreach ($question->prts as $prtname => $prt) {
+            foreach ($question->prts as $prt) {
                 if (!empty($prt->nodes)) {
-                    foreach ($prt->nodes as $nodename => $node) {
+                    foreach ($prt->nodes as $node) {
                         $node->truefeedback  = $this->convert_legacy_fact_sheets($node->truefeedback);
                         $node->falsefeedback = $this->convert_legacy_fact_sheets($node->falsefeedback);
                     }
@@ -452,6 +452,15 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('questionvariables'), array('rows' => 5, 'cols' => 80));
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
+
+        if (array_key_exists('id', $this->question)) {
+            $urlparams = array('questionid' => $this->question->id, 'seed' => 0);
+            $qtestlink = html_writer::link(new moodle_url(
+                    '/question/type/stack/questiontestrun.php', $urlparams),
+                    stack_string('runquestiontests'), array('target' => '_blank'));
+            $qtlink = $mform->createElement('static', 'qtestlink', '', $qtestlink);
+            $mform->insertElementBefore($qtlink, 'questionvariables');
+        }
 
         $seed = $mform->createElement('text', 'variantsselectionseed',
                 stack_string('variantsselectionseed'), array('size' => 50));
@@ -1055,17 +1064,18 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Question note.
         $errors['questionnote'] = array();
-        if (strlen($fromform['questionnote']) > 1300) {
-            $errors['questionnote'][] = stack_string('questionnote_toolong');
-        }
         if ('' == $fromform['questionnote']) {
             if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
                 $errors['questionnote'][] = stack_string('questionnotempty');
+            }
+            if (strlen($fromform['questionnote']) > 1300) {
+                $errors['questionnote'][] = stack_string('questionnote_toolong');
             }
         } else {
             // Note, the 'questionnote' does not have an editor field and hence no 'text' sub-clause.
             $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote', $fixingdollars);
         }
+
         $errors['questionnote'] += $this->check_no_placeholders(
                     stack_string('questionnote'), $fromform['questionnote']);
 
@@ -1187,7 +1197,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $textformat = $fromform[$prtname . 'truefeedback'][$nodekey]['format'];
             }
             if ($textformat != $fromform[$prtname . 'truefeedback'][$nodekey]['format']) {
-                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] = stack_string('allnodefeedbackmustusethesameformat');
+                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] = stack_string(
+                        'allnodefeedbackmustusethesameformat');
             }
         }
 
@@ -1443,9 +1454,7 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // TODO: loop over all the PRTs in a similar manner....
-        // Remember, to use
-        // clone $inputsession
-        // as the base session to have all the teacher's answers instantiated.
+        // Remember, to clone $inputsession as the base session to have all the teacher's answers instantiated.
         // Otherwise we are likley to do illigitimate things to the various inputs.
 
         return $errors;

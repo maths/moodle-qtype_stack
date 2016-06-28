@@ -17,7 +17,7 @@
 require_once(__DIR__ . '/../../utils.class.php');
 
 /**
- *Input that is a text area. Each line input becomes one element of a list.
+ * Input that is a text area. Each line input becomes one element of a list.
  *
  * The value is stored as a string maxima list. For example [1,hello,x + y].
  *

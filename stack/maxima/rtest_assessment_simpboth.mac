@@ -283,7 +283,7 @@ strip_int_const(c+(t-1)^4/4,t);
 (t-1)^4/4$ 
 
 buggy_pow((x+1)^2);
-1^2+x^2$
+x^2+1^2$
 buggy_pow(sin((x+y)^3));
 sin(x^3+y^3)$
 
@@ -294,4 +294,34 @@ degree((x + y)^5, x);
 degree((x + y)^5, x + y);
 0$
 
+list_remove([a,b,c,d], 1);
+[b,c,d]$
+list_remove([a,b,c,d], 2);
+[a,c,d]$
+list_remove([a,b,c,d], 3);
+[a,b,d]$
+list_remove([a,b,c,d], 0);
+[a,b,c,d]$
+list_remove([a,b,c,d], 6);
+[a,b,c,d]$
+list_remove([a,[b],[c,d],d], 2);
+[a,[c,d],d]$
 
+stack_disp(a+1, "i");
+"\\(a+1\\)"$
+stack_disp(1, "i");
+"\\(1\\)"$
+stack_disp(false, "i");
+"\\(\\mathbf{false}\\)"$
+stack_disp(ab0, "i");
+"\\({{\\it ab}}_{0}\\)"$
+stack_disp(epsilon0345, "i");
+"\\({\\varepsilon}_{0345}\\)"$
+stack_disp(a+1/pi3, "i");
+"\\(a+\\frac{1}{{\\pi}_{3}}\\)"$
+stack_disp(gamma7^3, "i");
+"\\({\\gamma}_{7}^3\\)"$
+stack_disp(gamma7^(2*x), "i");
+"\\({\\gamma}_{7}^{2\\,x}\\)"$
+stack_disp(f(x):=2*x^3, "i");
+"\\(f(x):=2*x^3\\)"$

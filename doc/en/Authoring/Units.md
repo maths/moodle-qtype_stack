@@ -39,6 +39,8 @@ IMPORTANT: the internals of this input type actually changes the student's input
 
 where `num` is the part interpreted to be the numerical portion, and `units` is the portion considered to be the units.  For example, if a student answers `10*m/s` then the internal value from this input will be `stackunits(10,m/s)`.  Essentially the function `stackunits` is inert, but does subtly modify the display.  However, having STACK split the student's answer this way is more reliable than teachers trying to find the "numerical part" themselves on a question by question basis.  If you are using the units answer tests then you need not worry about these internals.  The units answer tests will happily acccept a `stackunits` expression. If you use other answer tests you can access the numerical and units parts with `first(args(ans1))` or `second(args(ans1))` respectively.
 
+If you would like to replace`stackunits` with multiplication automatically in the potential response trees use the add `mul` to the Extra Options field.
+
 This input type is built closely on the algebraic input type with the following differences.
 
 1. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.

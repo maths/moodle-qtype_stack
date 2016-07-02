@@ -335,6 +335,7 @@ abstract class stack_input {
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
                 $interpretedanswer = $answer->get_value();
+                $interpretedanswer = $this->post_validation_modification($interpretedanswer);
                 if (!($lvars->get_value() == '[]')) {
                     $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
                 }
@@ -544,6 +545,17 @@ abstract class stack_input {
         } else {
             return '';
         }
+    }
+
+    /**
+     * Transforms the interpreted answer after it has been validated by the CAS.
+     * Most do nothing, but see units.
+     *
+     * @param string $in
+     * @return string
+     */
+    protected function post_validation_modification($interpretedanswer) {
+        return $interpretedanswer;
     }
 
     /**

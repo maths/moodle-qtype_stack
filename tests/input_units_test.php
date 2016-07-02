@@ -489,4 +489,14 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
+    public function test_validate_student_response_option_mul_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.2*m/s');
+        $el->set_parameter('options', 'mul');
+        $state = $el->validate_student_response(array('sans1' => '3.2*m/s', 'sans1_val' => '3.2*m/s'),
+                $options, '3.2*m/s', array());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('subst("*", stackunits, stackunits(3.2,m*s^-1))', $state->contentsmodified);
+    }
+
 }

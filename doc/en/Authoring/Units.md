@@ -32,6 +32,13 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 ## Input type ##
 
 Stack provides an input type to enable teachers to support students in entering answers with scientific units.
+
+IMPORTANT: the internals of this input type actually changes the student's input.  If this input type is used then the value available to a potential response tree is of the form
+
+    stackunits(num, units)
+
+where `num` is the part interpreted to be the numerical portion, and `units` is the portion considered to be the units.  For example, if a student answers `10*m/s` then the internal value from this input will be `stackunits(10,m/s)`.  Essentially the function `stackunits` is inert, but does subtly modify the display.  However, having STACK split the student's answer this way is more reliable than teachers trying to find the "numerical part" themselves on a question by question basis.  If you are using the units answer tests then you need not worry about these internals.  The units answer tests will happily acccept a `stackunits` expression. If you use other answer tests you can access the numerical and units parts with `first(args(ans1))` or `second(args(ans1))` respectively.
+
 This input type is built closely on the algebraic input type with the following differences.
 
 1. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
@@ -42,6 +49,8 @@ This input type is built closely on the algebraic input type with the following 
 6. The student is permitted to use variable names in this input type.
 7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` between the numbers and units for implied multiplication.  
 8. You may want the single letter variable names options here, which is why this option has not been changed for this input type.
+
+
 
 ## Answer tests  ##
 

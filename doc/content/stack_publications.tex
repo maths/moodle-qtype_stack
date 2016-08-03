@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% A simple bibliography of STACK-related publications.
+%
+% First authored, 3rd August 2016.
+% Chris Sangwin, University of Edinburgh.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+
+\usepackage{a4wide,times}
+
+\setlength{\parindent}{0in}
+
+\begin{document}
+\bibliographystyle{plain}
+
+\centerline{\Large STACK publications}
+$~$\\[1cm]
+
+This document contains a list of publications relating to the STACK computer aided assessment system.
+This document is a catalogue of all entries in the BiBTeX file currently available from
+{\scriptsize
+\begin{verbatim}
+https://github.com/maths/moodle-qtype_stack/tree/master/doc/content/stack.bib
+\end{verbatim}
+}
+For more information about STACK please see {\tt https://stack.maths.ed.ac.uk/demo}
+
+% Books.
+\nocite{2013CAA,Nakamura2010}
+
+% Reports about STACK use.
+\nocite{2010STACKReport,2013STACK-Brum,2015STACKReport}
+
+% Research papers, theses and conference proceedings.
+\nocite{SangwinHSkills02,SangwinTMA03,Sangwin2006CASAlgebra,Sangwin2009ICMI,Sangwin2010IGI,WebALT2006,Sangwin2006UniServe}
+\nocite{Lowe2010,Sangwin2012ICME,Sangwin2013HEA,Nakamura2016,Majander2010,Majander2011,Harjula2008,Ruokokoski2009}
+\nocite{Rasila2007,Rasila2010,Rasila2015,Rasila2016,Rasila2016b,Pavia2015,Barbas2016,Badger2013,CervalPena2008}
+
+% More general research about online assessment, in which STACK played a significant part.
+\nocite{SangwinRamsden2006,Sangwin2009Equality,Sangwin2009Calculumus,2016MCQ,2016AutomationExaminations,Nakamura2016b}
+
+\bibliography{stack}
+
+$~$\hfill{\tiny \today}
+
+\end{document}

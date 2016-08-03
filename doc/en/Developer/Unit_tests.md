@@ -48,6 +48,19 @@ To make sure this keeps working, please annotate all test classes with
      * @group qtype_stack
      */
 
+## Stop resetting the dataroot directory.
+
+
+In `[...]/moodle/lib/phpunit/classes/util.php` 
+
+    public static function reset_all_data() {
+
+Comment out the line (currently 253).
+
+    self::reset_dataroot();
+
+This stops the unit tests from deleting the Maxima image files at each step.
+
 ## Making the tests faster ##
 
 The tests will be very slow, because the Moodle PHPUnit integration keeps resetting
@@ -75,17 +88,6 @@ Moodle overrides the PHP debug message settings.  To see errors and warnings, go
     Site administration -> Development -> Debugging
 
 and set the Debug messages option.
-
-# Resetting the database
-
-Subvert one of the functions in `[...]/moodle/lib/phpunit/classes/util.php` 
-
-    public static function reset_database() {
-    public static function reset_all_data() {
-
-By adding the following line at the beginning of the function.
-
-    return false;
 
 # Maxima unit tests
 

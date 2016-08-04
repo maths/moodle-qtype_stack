@@ -352,6 +352,23 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
+    public function test_greek_1() {
+        $s = 'a:Delta-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s'));
+    }
+
+    public function test_greek_2() {
+        $s = 'a:DELTA-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unknownFunctionCase', $at1->get_answernote());
+        // Note the capital D in the feedback here.  We suggest a capital Delta.
+        $this->assertEquals('Input is case sensitive:  <span class="stacksyntaxexample">DELTA</span> '.
+                'is an unknown function.  Did you mean <span class="stacksyntaxexample">Delta</span>?',
+                $at1->get_errors());
+    }
+
     public function test_forbid_function_single_letter() {
         $s = 'a:x^2+a+f(x)';
         $at1 = new stack_cas_casstring($s);

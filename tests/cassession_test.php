@@ -577,4 +577,61 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('[a,b,c,d]', $at1->get_value_key('b'));
     }
+
+    public function test_greek_lower() {
+        $cs = array('greek1:[alpha,beta,gamma,delta,epsilon]',
+                    'greek2:[zeta,eta,theta,iota,kappa]',
+                    'greek3:[lambda,mu,nu,xi,omicron,pi,rho]',
+                    'greek4:[sigma,tau,upsilon,phi,psi,chi,omega]');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('[alpha,beta,gamma,delta,epsilon]', $at1->get_value_key('greek1'));
+        $this->assertEquals('\left[ \alpha , \beta , \gamma , \delta , \varepsilon \right]',
+                $at1->get_display_key('greek1'));
+        $this->assertEquals('[zeta,eta,theta,iota,kappa]', $at1->get_value_key('greek2'));
+        $this->assertEquals('\left[ \zeta , \eta , \vartheta , \iota , \kappa \right]',
+                $at1->get_display_key('greek2'));
+        // Note here that pi is returned as the constant %pi.
+        $this->assertEquals('[lambda,mu,nu,xi,omicron,%pi,rho]', $at1->get_value_key('greek3'));
+        $this->assertEquals('\left[ \lambda , \mu , \nu , \xi ,  o , \pi , \rho \right]',
+                $at1->get_display_key('greek3'));
+        $this->assertEquals('[sigma,tau,upsilon,phi,psi,chi,omega]', $at1->get_value_key('greek4'));
+        $this->assertEquals('\left[ \sigma , \tau , \upsilon , \varphi , \psi , \chi , \omega  \right]',
+                $at1->get_display_key('greek4'));
+    }
+
+    public function test_greek_upper() {
+        $cs = array('greek1:[Alpha,Beta,Gamma,Delta,Epsilon]',
+                    'greek2:[Zeta,Eta,Theta,Iota,Kappa]',
+                    'greek3:[Lambda,Mu,Nu,Xi,Omicron,Pi,Rho]',
+                    'greek4:[Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega]',
+                    'v:round(float(Pi))');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        $this->assertEquals('3', $at1->get_value_key('v'));
+        $this->assertEquals('[Alpha,Beta,Gamma,Delta,Epsilon]', $at1->get_value_key('greek1'));
+        $this->assertEquals('\left[ {\rm A} , {\rm B} , \Gamma , \Delta , {\rm E} \right]',
+                $at1->get_display_key('greek1'));
+        $this->assertEquals('[Zeta,Eta,Theta,Iota,Kappa]', $at1->get_value_key('greek2'));
+        $this->assertEquals('\left[ {\rm Z} , {\rm H} , \Theta , {\rm I} , {\rm K} \right]',
+                $at1->get_display_key('greek2'));
+        // Note here that pi is returned as the constant %pi.
+        $this->assertEquals('[Lambda,Mu,Nu,Xi,Omicron,%pi,Rho]', $at1->get_value_key('greek3'));
+        $this->assertEquals('\left[ \Lambda , {\rm M} , {\rm N} , \Xi , {\rm O} , \pi , {\rm P}  \right]',
+                $at1->get_display_key('greek3'));
+        $this->assertEquals('[Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega]', $at1->get_value_key('greek4'));
+        $this->assertEquals('\left[ \Sigma , {\rm T} , \Upsilon , \Phi , {\rm X} , \Psi , \Omega  \right]',
+                $at1->get_display_key('greek4'));
+    }
+
 }

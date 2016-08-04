@@ -78,8 +78,10 @@ stack_unit_si_declare(mode) := block([pfi, ui, simp],
 
 /* Converts the whole expression to SI-base units. */
 stack_unit_si_to_si_base(expression) := block([ui, pfi, work, simp],
-    simp:true, 
+    simp:true,
     work:expression,
+    if safe_op(expression) = "stackunits" then
+      work:apply("*",args(expression)),
     for ui:1 thru length(stack_unit_other_unit_code) do (
         work:subst(stack_unit_other_unit_conversions[ui], stack_unit_other_unit_code[ui], work)
     ),
@@ -89,6 +91,9 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, work, simp],
         ),
         work:subst(stack_unit_si_unit_conversions[ui], stack_unit_si_unit_code[ui], work)
     ),
+    /* Return the expression with the operator is started with. */
+    if safe_op(expression) = "stackunits" then
+      work:stack_units_split(work),
     return(work)
 )$
 
@@ -150,6 +155,18 @@ stack_units_rational_number(ex) := block(
   if safe_op(second(ex))="noun^" and is(second(args(second(ex)))=-1) then return([first(ex)/first(args(second(ex)))]),
   true
 )$
+
+/* Add rules to the simplifier to deal with stackunits.  */
+matchdeclare(STACKNUM1, all, STACKNUM2, all, STACKUNITS1, all, STACKUNITS2, all, STACKNUM, numberp)$
+matchdeclare(STACKANY, all)$
+tellsimpafter(STACKNUM*stackunits(STACKNUM1,STACKUNITS1), stackunits(STACKNUM*STACKNUM1, STACKUNITS1));
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)^STACKNUM, stackunits(STACKNUM1^STACKNUM, STACKUNITS1^STACKNUM));
+
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2), stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2));
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)*stackunits(STACKNUM2, STACKUNITS2)*STACKANY, stackunits(STACKNUM1*STACKNUM2, STACKUNITS1*STACKUNITS2)*STACKANY);
+
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1), stackunits(STACKNUM1+STACKNUM2, STACKUNITS1));
+tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
 
 /* Validate an expression which is expected to have units.*/
 stack_validate_units(expr, LowestTerms, TAns, fracdisp) := block( [simp:false, exs, SAU, SBU],

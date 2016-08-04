@@ -879,6 +879,10 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3', '0.0498', '0.04975', 1, '', ''),
         array('NumSigFigs', '3', '0.0497', '0.04975', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '3', '0.0499', '0.0498', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '2', '5.4e21', '5.3e21', 0, 'ATNumSigFigs_Inaccurate.', 'Large numbers'),
+        array('NumSigFigs', '2', '5.3e21', '5.3e21', 1, '', ''),
+        array('NumSigFigs', '2', '5.3e22', '5.3e22', -2, '', ''),
+        array('NumSigFigs', '2', '5.3e20', '5.3e22', -2, '', ''),
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
         array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_SAns.', ''),

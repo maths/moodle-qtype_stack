@@ -722,6 +722,8 @@ $string['ATNumerical_SA_not_number']     = 'Your answer should be a floating poi
 $string['ATNumerical_FAILED']            = 'Your answer should be a floating point number, or a list or set of numbers.  It is not. ';
 $string['ATNumerical_STACKERROR_tol']    = 'The numerical tolerance for ATNumerical should be a floating point number, but is not.  This is an internal error with the test.  Please ask your teacher about this. ';
 
+$string['ATNum_OutofRange']         = 'A numerical expression is outside the supported range.  Please contact your teacher. ';
+
 $string['ATNumSigFigs_error_list']  = 'The answer test failed.  Please contact your systems administrator';
 $string['ATNumSigFigs_NotDecimal']  = 'Your answer should be a decimal number, but is not! ';
 $string['ATNumSigFigs_WrongSign']   = 'Your answer has the wrong algebraic sign. ';

@@ -18,6 +18,7 @@
 require_once(__DIR__ . '/connector.interface.php');
 require_once(__DIR__ . '/connector.class.php');
 require_once(__DIR__ . '/connector.dbcache.class.php');
+require_once(__DIR__ . '/installhelper.class.php');
 
 
 /**
@@ -395,7 +396,7 @@ abstract class stack_connection_helper {
                 if (trim($lisprun) == '') {
                     $success = false;
                     $message = stack_string('healthautomaxopt_nolisprun');
-                    return array($message, '', $success);
+                    return array($message, '', $success, '');
                 }
                 $lisprun = explode("\n", $lisprun);
                 $commandline = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
@@ -404,7 +405,7 @@ abstract class stack_connection_helper {
             default:
                 $success = false;
                 $message = stack_string('healthautomaxopt_nolisp');
-                return array($message, '', $success);
+                return array($message, '', $success, '');
         }
 
         // Really make sure there is no cache.
@@ -420,6 +421,7 @@ abstract class stack_connection_helper {
             $message = stack_string('healthautomaxopt_notok');
         }
 
-        return array($message, $debug, $success);
+        return array($message, $debug, $success, $commandline);
     }
+
 }

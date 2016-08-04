@@ -39,3 +39,9 @@ x+stackunits(-6,m)$
 
 3*stackunits(4,m)+y-stackunits(6,m);
 y+stackunits(6,m)$
+
+stack_unit_si_to_si_base(stackunits(10,km));
+stackunits(10000,m)$
+
+stack_unit_si_to_si_base(10*km);
+10000*m$

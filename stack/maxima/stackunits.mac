@@ -92,8 +92,10 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, work, simp],
         work:subst(stack_unit_si_unit_conversions[ui], stack_unit_si_unit_code[ui], work)
     ),
     /* Return the expression with the operator is started with. */
-    if safe_op(expression) = "stackunits" then
+    if safe_op(expression) = "stackunits" then block(
       work:stack_units_split(work),
+      work:apply(stackunits, args(work))
+      ),
     return(work)
 )$
 

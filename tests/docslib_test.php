@@ -77,8 +77,7 @@ class stack_docslib_test extends qtype_stack_testcase {
                 stack_docs_render_markdown('Literal \%CONTENT', '.../doc/content'));
 
         // @codingStandardsIgnoreStart
-        $this->assertEquals("<p><code>\\(x^2\\)</code> gives " .
-                qtype_stack_testcase::prepare_expected_maths("\\(x^2\\).</p>\n"),
+        $this->assertContentWithMathsEquals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
                 stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
         // @codingStandardsIgnoreEnd
     }

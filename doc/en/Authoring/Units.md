@@ -110,7 +110,16 @@ The function `stack_unit_si_declare(true)` declares symbols as units as far as S
 * `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear. Use of this function autoloads `stack_unit_si_declare(true)`.
 Also, you will need to use `stack_unit_si_declare(true)` in the feedback text itself.
 
-The function `stack_units_split(ex)` takes the expression `ex` and returns a list of `[numbers, symbols]`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.  Note, sybmbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
+The function `stackunits_make(ex)` takes the expression `ex` and, if this is a product of numbers and units it returns an inert function `stackunits` with arguments `stackunits(numbers, symbols)`.  This might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  If you regularly find yourself building a particular tree to test for some property please contact the developers who will consider adding this functionality to the core.  Note, sybmbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
+
+The functions
+
+    stack_units_units(ex);
+    stack_units_nums(ex);
+
+try to split the expression into units and numbers, and the return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULNUMS`. If there are no numbers, `stack_units_units(ex)` returns `NULUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.
+
+The function `stack_units_split` is deprecated.  DO NOT USE.
 
 ## Custom units ##
 

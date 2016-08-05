@@ -101,9 +101,14 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @return string The equivalent content, without the extra spans.
      */
     public static function prepare_actual_maths($content) {
-        return preg_replace('~(?:<span class="nolink"><span class="filter_mathjaxloader_equation">|' .
-                '<span class="filter_mathjaxloader_equation"><span class="nolink">)(.*?)</span></span>~',
-                '$1', $content);
+        $lastcontent = '';
+        while ($lastcontent != $content) {
+            $lastcontent = $content;
+            $content = preg_replace(
+                    '~(?:<span class="nolink">|<span class="filter_mathjaxloader_equation">)((?:(?!<span\b).)*?)</span>~s',
+                    '$1', $content);
+        }
+        return $content;
     }
 }
 

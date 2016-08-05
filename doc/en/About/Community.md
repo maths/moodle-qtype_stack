@@ -43,6 +43,9 @@ The following institutions made use of previous versionf of STACK.  If you are a
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
 
+The Open University
+: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) or Tim.Lowe.
+
 School of Science, Aalto University, Helsinki, Finland
 : Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
 
@@ -51,6 +54,9 @@ School of Informatics and Sciences, Nagoya University, Japan
 
 Ja STACK Community
 : Contact [Ja STACK.org](http://ja-stack.org/)
+
+Loughborough University.
+: Contact [Ian Jones](I.Jones@lboro.ac.uk)
 
 Polytechnic Institute of Leiria, Leiria, Portugal
 : Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)

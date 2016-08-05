@@ -4,13 +4,16 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 3.6
 
-Unreleased, currently in the master branch.
+Unreleased, currently in the master and ATUnitsNum branches.
 
-Numerous minor bug fixes and improvements.
+Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
 1. Expose functionality of `printf` to better control the display of integers and floats.
 2. Expand the "units" answer test to allow authors to use other numerical answer tests.
 3. Add a mechanism to allow spaces in inputs.  Trial functionality, which might change.
+4. Improve the installation mechanism to create a maxima image and update the options in one go.
+5. Numerous options for units and the display of fractions.
+6. Added a xMaxima file to give more direct access to the sandbox.
 
 ## Version 3.5
 

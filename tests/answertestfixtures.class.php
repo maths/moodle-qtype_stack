@@ -258,6 +258,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
+        array('AlgEquiv', '', '9.81*m/s^2', 'stackunits(9.81,m/s^2)', 1, '', 'Scientific units are ignored'),
         array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2,
             'CASError: The CAS timed out.', 'These currently fail'),
         array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),

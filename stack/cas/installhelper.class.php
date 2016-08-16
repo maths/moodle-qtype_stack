@@ -71,11 +71,11 @@ class stack_cas_configuration {
         $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
 
         if ($this->settings->platform === 'win') {
-        	$this->blocksettings['DEL_CMD']     = 'del';
+            $this->blocksettings['DEL_CMD']     = 'del';
             $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
         } else {
-        	$this->blocksettings['DEL_CMD']     = 'rm';
-        	if ((trim($this->settings->plotcommand)) != '') {
+            $this->blocksettings['DEL_CMD']     = 'rm';
+            if ((trim($this->settings->plotcommand)) != '') {
                 $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
             } else if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
                 $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
@@ -351,7 +351,7 @@ END;
     }
 
     /*
-     * This function genuinely recreates the maxima image and stores the results in 
+     * This function genuinely recreates the maxima image and stores the results in
      * the configuration settings.
      */
     public static function create_auto_maxima_image() {
@@ -361,12 +361,12 @@ END;
             return false;
         }
 
-        /* 
+        /*
          * Revert to the plain unix platform.  This will genuinely call the CAS, and
          * as a result create a new image.
          */
-        $old_platform = $config->platform;
-        $old_maximacommand = $config->maximacommand;
+        $oldplatform = $config->platform;
+        $oldmaximacommand = $config->maximacommand;
         set_config('platform', 'unix', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');
 
@@ -383,9 +383,10 @@ END;
         }
 
         $revert = false;
-        if ($result && ($old_platform == 'unix' || $old_platform == 'unix-optimised')) {
+        if ($result && ($oldplatform == 'unix' || $oldplatform == 'unix-optimised')) {
             // Try to auto make the optimised image.
-            list($message, $genuinedebug, $result, $commandline) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug, true);
+            list($message, $genuinedebug, $result, $commandline)
+                 = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug, true);
 
             if ($result) {
                 set_config('platform', 'unix-optimised', 'qtype_stack');
@@ -408,8 +409,8 @@ END;
         }
 
         if ($revert) {
-            set_config('platform', $old_platform, 'qtype_stack');
-            set_config('maximacommand', $old_maximacommand , 'qtype_stack');
+            set_config('platform', $oldplatform, 'qtype_stack');
+            set_config('maximacommand', $oldmaximacommand , 'qtype_stack');
             self::create_maximalocal();
         }
     }

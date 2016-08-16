@@ -47,8 +47,8 @@ foreach ($nodes as $node) {
     foreach ($questions as $q) {
         $qnames[] = $q->name;
     }
-    $trees[implode(', ', $qnames).' ('.$node->questionid . ') ' . $node->prtname][$node->nodename] =
-        array($node->truenextnode, $node->falsenextnode);
+    $trees[implode(', ', $qnames).' ('.$node->questionid . ') ' . $node->prtname][$node->nodename]
+        = array($node->truenextnode, $node->falsenextnode);
 }
 $nodes->close();
 $uniquetrees = array();

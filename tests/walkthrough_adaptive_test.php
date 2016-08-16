@@ -579,7 +579,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     public function test_test3_repeat_wrong_response_only_penalised_once() {
         // The scenario is this: (we use only the ans3 part of test3, leaving the others blank.)
         //
-        //  Resp. State Try Raw mark Mark Penalty
+        // Resp.  State Try Raw mark Mark Penalty
         // 1. x   valid -   -        -    -
         // 2. x   score X   0.5      0.5  0.1
         // 3. x   score -   -        -    -
@@ -639,7 +639,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertContentWithMathsContains('Your answer is not an even function. Look, \[ f(x)-f(-x)=2\\cdot x \neq 0.\]', $this->currentoutput);
+        $this->assertContentWithMathsContains('Your answer is not an even function. Look,'
+                .' \[ f(x)-f(-x)=2\\cdot x \neq 0.\]', $this->currentoutput);
 
         // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
         $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1));
@@ -1048,26 +1049,28 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     }
 
     public function test_test3_complex_scenario() {
-        // Here are the sequence of responses we are going to test. When
-        // a particular PRT generates a grades, that is shown in brackets as
-        // raw fraction - penalty.
-        //
-        //     odd         even        oddeven       unique     Mark so far
-        //  1. x^3         -           x             -          -
-        //  2. x^3 (1)     -           x   (0.5)     -          1.5
-        //  3. (x          (x          x+1           F (0)      1.5
-        //  4. x)          x^2         x+1 (0-0.1)   -          1.5
-        //  5. x^2         x           x^5           -          1.5
-        //  6. x^2 (0-0)   x^2         x^5 (0.5-0.2) T (1-0.1)  2.4
-        //  7. x           x^2 (1)     x+3           T (1-0.1)  3.4
-        //  8. x   (1-0.1) -           x+3 (0-0.3)   T (1-0.1)  3.4
-        //  9. x^3         x^2         0             T (1-0.1)  3.4
-        // 10. x^3 (1-0.1) x^2 (1-0.0) 0   (1-0.4)   T (1-0.1)  3.5
-        //
-        // Best mark
-        //     1.0         1.0         0.6           0.9        3.5
-        //
-        // Hopefully this summary makes the following easier to understand.
+        /**
+         * Here are the sequence of responses we are going to test. When
+         * a particular PRT generates a grades, that is shown in brackets as
+         * raw fraction - penalty.
+         *
+         *     odd         even        oddeven       unique     Mark so far
+         *  1. x^3         -           x             -          -
+         *  2. x^3 (1)     -           x   (0.5)     -          1.5
+         *  3. (x          (x          x+1           F (0)      1.5
+         *  4. x)          x^2         x+1 (0-0.1)   -          1.5
+         *  5. x^2         x           x^5           -          1.5
+         *  6. x^2 (0-0)   x^2         x^5 (0.5-0.2) T (1-0.1)  2.4
+         *  7. x           x^2 (1)     x+3           T (1-0.1)  3.4
+         *  8. x   (1-0.1) -           x+3 (0-0.3)   T (1-0.1)  3.4
+         *  9. x^3         x^2         0             T (1-0.1)  3.4
+         * 10. x^3 (1-0.1) x^2 (1-0.0) 0   (1-0.4)   T (1-0.1)  3.5
+         *
+         * Best mark
+         *     1.0         1.0         0.6           0.9        3.5
+         *
+         * Hopefully this summary makes the following easier to understand.
+         */
 
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');

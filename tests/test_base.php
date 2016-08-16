@@ -170,6 +170,15 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         }
     }
 
+    protected function check_answer_note($index, $note) {
+        $question = $this->quba->get_question($this->slot);
+        $attempt  = $this->quba->get_question_attempt($this->slot);
+        $qa       = $attempt->get_last_qt_data();
+        $result   = $question->get_prt_result($index, $qa, false);
+
+        $this->assertEquals($note, implode(' | ', $result->__get('answernotes')));
+    }
+
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
         $attributes = array(
             'type' => 'text',

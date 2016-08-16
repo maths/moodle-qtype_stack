@@ -34,6 +34,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * A button to remove a given PRT or input, without having to guess that the way to do it is to delete the placeholders from the question text.
 * A button to add a new PRT or input, without having to guess that the way to do it is to add the placeholders to the question text.
 * A button to save the current definition and continue editing. This would be a Moodle core change. See https://tracker.moodle.org/browse/MDL-33653.
+* Add functionality to add a "warning" to the castext class.  Warnings should not prevent execution of the code but will stop editing.
 
 ### Other ideas ###
 
@@ -95,8 +96,3 @@ Basic reports now work.
 * Add better maxima support functions for off-line analysis.
  * A fully maxima-based representation of the PRT?
 
-## Features we are unlikly to add to STACK! ##
-
-These are some things we are asked for, but which we are unlikley to add in the near future, often because there are other ways to do this.
-
-* Multi-lingual support for questions.  See [languages](Languages.md).  Also known as localisation of questions.  In particular to enable a single STACK question to carry around different versions for each of the text-based fields, including feedback.  Each field might have a new "tab".  The obvious use is for different languages, but it might also be use for different notations and also for applications which appeal to different disciplines, e.g. engineering, physics, maths.

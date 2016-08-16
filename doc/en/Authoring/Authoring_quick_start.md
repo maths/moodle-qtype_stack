@@ -307,6 +307,8 @@ If your question uses randomisation, then you need to [deploy instances](Deployi
 
 # Next steps #
 
+You might like to look at Moodle's quiz settings, creating a simple quiz.  This is, strictly speaking, a completely Moodle issue and there is every reason to combine STACK questions with other Moodle question types.  Some very brief notes are included in the [quiz quickstart guide](Authoring_quick_start_quiz.md).
+
 STACK's question type is very flexible.
 
 * You can add a worked solution in the [General feedback](CASText.md#General_feedback).

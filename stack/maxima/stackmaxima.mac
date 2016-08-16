@@ -269,6 +269,10 @@ stack_disp(expr, m) := block([str:"", expru],
     if str = "" then str:string(expr),
     return(str)
 )$
+/* This function was renamed to improve the consistency of the coding style. */
+/* We continue to support the old name, since question authors may have used */
+/* it, even though that was not recommended practice. */
+alias(StackDISP, stack_disp)$
 
 stack_disp_strip_dollars(ex) := block(
         if ?subseq(ex, 0, 2) = "$$" then
@@ -2485,4 +2489,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016062800$
+stackmaximaversion:2016081600$

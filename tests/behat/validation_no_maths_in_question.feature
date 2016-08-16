@@ -40,5 +40,5 @@ Feature: STACK input vaidation works even if there is no maths in the question
     And I set the input "ans1" to "x-1" in the STACK question
     And I wait "2" seconds
     Then I should see "Your last answer was interpreted as follows"
-    And I should not see "\\("
+    And I should not see "\("
     And I switch to the main window

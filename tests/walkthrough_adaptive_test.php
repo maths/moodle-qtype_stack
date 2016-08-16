@@ -142,8 +142,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_prt_score('firsttree', null, null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'sin(x)');
-        $this->check_output_contains_lang_string('studentValidation_listofvariables',
-                'qtype_stack', qtype_stack_testcase::prepare_expected_maths('\( \left[ x \right]\)'));
+        $expectedvarlist = get_string('studentValidation_listofvariables',
+                'qtype_stack', '\( \left[ x \right]\)');
+        $this->assertContentWithMathsContains($expectedvarlist, $this->currentoutput);
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
@@ -638,7 +639,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertContains('Your answer is not an even function. Look, \[ f(x)-f(-x)=2\\cdot x \neq 0.\]', $this->currentoutput);
+        $this->assertContentWithMathsContains('Your answer is not an even function. Look, \[ f(x)-f(-x)=2\\cdot x \neq 0.\]', $this->currentoutput);
 
         // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
         $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1));

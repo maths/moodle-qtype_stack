@@ -4,9 +4,7 @@
 
 [STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
 
-STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of
-the University of Edinburgh, and includes the work of
-[other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md).
+STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of many [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md). A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo).
 Notably, this branch contains significant contributions by Matti Harjula of Aalto, Finland.
 
 ## Current state of development

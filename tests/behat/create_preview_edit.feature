@@ -23,12 +23,12 @@ Feature: Create, preview, test, tidy and edit STACK questions
   Scenario: Create, preview, test, tidy and edit STACK questions
     # Create a new question.
     When I add a "STACK" question filling the form with:
-      | Question name      | Test STACK question                                                             |
-      | Question variables | p : (x-1)^3;                                                                    |
-      | Question text      | Differentiate {@p@} with respect to \\(x\\). [[input:ans1]] [[validation:ans1]] |
-      | Model answer       | diff(p,x)                                                                       |
-      | SAns               | ans1                                                                            |
-      | TAns               | diff(p,x)                                                                       |
+      | Question name      | Test STACK question                                                           |
+      | Question variables | p : (x-1)^3;                                                                  |
+      | Question text      | Differentiate @p@ with respect to \(x\). [[input:ans1]] [[validation:ans1]] |
+      | Model answer       | diff(p,x)                                                                     |
+      | SAns               | ans1                                                                          |
+      | TAns               | diff(p,x)                                                                     |
     Then I should see "Test STACK question"
 
     # Preview it.
@@ -89,13 +89,13 @@ Feature: Create, preview, test, tidy and edit STACK questions
     # Edit the question, verify the form field contents, then change some.
     When I click on "Edit" "link" in the "Test STACK question" "table_row"
     Then the following fields match these values:
-      | Question name      | Test STACK question                                                           |
-      | Question variables | p : (x-1)^3;                                                                  |
-      | Question text      | Differentiate {@p@} with respect to \\(x\\). [[input:ans]] [[validation:ans]] |
-      | Specific feedback  | [[feedback:prt]]                                                              |
-      | Model answer       | diff(p,x)                                                                     |
-      | SAns               | ans                                                                           |
-      | TAns               | diff(p,x)                                                                     |
+      | Question name      | Test STACK question                                                         |
+      | Question variables | p : (x-1)^3;                                                                |
+      | Question text      | Differentiate @p@ with respect to \(x\). [[input:ans]] [[validation:ans]] |
+      | Specific feedback  | [[feedback:prt]]                                                            |
+      | Model answer       | diff(p,x)                                                                   |
+      | SAns               | ans                                                                         |
+      | TAns               | diff(p,x)                                                                   |
     And I set the following fields to these values:
       | Question name | Edited question name |
     And I press "id_submitbutton"

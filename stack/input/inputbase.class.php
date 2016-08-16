@@ -335,6 +335,7 @@ abstract class stack_input {
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
                 $interpretedanswer = $answer->get_value();
+                $interpretedanswer = $this->post_validation_modification($interpretedanswer);
                 if (!($lvars->get_value() == '[]')) {
                     $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
                 }
@@ -487,7 +488,7 @@ abstract class stack_input {
             return '';
         }
         $feedback  = '';
-        $feedback .= html_writer::tag('p', format_text(stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed)));
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
@@ -512,7 +513,7 @@ abstract class stack_input {
      * Used by the units input type.
      */
     protected function tag_listofvariables($vars) {
-        return html_writer::tag('p', format_text(stack_string('studentValidation_listofvariables', $vars)));
+        return html_writer::tag('p', stack_string('studentValidation_listofvariables', $vars));
     }
 
     /**
@@ -544,6 +545,17 @@ abstract class stack_input {
         } else {
             return '';
         }
+    }
+
+    /**
+     * Transforms the interpreted answer after it has been validated by the CAS.
+     * Most do nothing, but see units.
+     *
+     * @param string $in
+     * @return string
+     */
+    protected function post_validation_modification($interpretedanswer) {
+        return $interpretedanswer;
     }
 
     /**

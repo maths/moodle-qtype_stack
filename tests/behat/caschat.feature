@@ -16,8 +16,7 @@ Feature: STACK has build in documentation.
 
     When I set the field "cas" to "1 + 1 = @ 1+1 @."
     And I press "Send to the CAS"
-    Then I should see "1 + 1 = 22."
-    # The 22 seems to be someting to do with how MathJax renders the equation.
+    Then I should see "1 + 1 = 2"
 
     When I set the field "cas" to "[[facts:calc_int_methods_parts]]"
     And I press "Send to the CAS"

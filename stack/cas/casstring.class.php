@@ -467,7 +467,7 @@ class stack_cas_casstring {
     /**
      * Upper case Greek letters are allowed.
      */
-    static $greekupper = array(
+    private static $greekupper = array(
         'Alpha' => true, 'Beta' => true, 'Gamma' => true, 'Delta' => true, 'Epsilon' => true,
         'Zeta' => true, 'Eta' => true, 'Theta' => true, 'Iota' => true, 'Kappa' => true, 'Lambda' => true,
         'Mu' => true, 'Nu' => true, 'Xi' => true, 'Omicron' => true, 'Pi' => true, 'Rho' => true,
@@ -503,7 +503,7 @@ class stack_cas_casstring {
      */
     // @codingStandardsIgnoreStart
     private static $allowedchars =
-            '0123456789,./\%&{}[]()$£@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
+            '0123456789,./\%&{}[]()$��@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -511,7 +511,7 @@ class stack_cas_casstring {
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
     // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
+    private static $disallowedfinalchars = '/+*^��#~=,_&`��;:$-';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -746,7 +746,7 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        // Check for disallowed final characters,  / * + - ^ £ # = & ~ |, ? : ;.
+        // Check for disallowed final characters,  / * + - ^ �� # = & ~ |, ? : ;.
         $disallowedfinalcharsregex = '~[' . preg_quote(self::$disallowedfinalchars, '~') . ']$~u';
         if (preg_match($disallowedfinalcharsregex, $cmd, $match)) {
             $this->valid = false;
@@ -1070,7 +1070,7 @@ class stack_cas_casstring {
                                     array('forbid' => stack_maxima_format_casstring($key),
                                         'lower' => stack_maxima_format_casstring(strtolower($key)))));
                             }
-                        $this->answernote[] = 'unknownFunctionCase';
+                            $this->answernote[] = 'unknownFunctionCase';
                         } else if ($err = stack_cas_casstring_units::check_units_case($key)) {
                             // We have spotted a case sensitivity problem in the units.
                             $this->add_error($err);
@@ -1123,7 +1123,7 @@ class stack_cas_casstring {
             return true;
         }
 
-        // Split over characters '<>', '<=', '>=', '<', '>', '=',
+        // Split over characters '<>', '<=', '>=', '<', '>', '='.
         // Note the order in splits:  this is important.
         $splits = array( '<>', '<=', '>=', '<', '>', '=');
         $bits = array($ex);

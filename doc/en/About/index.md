@@ -1,8 +1,6 @@
 # About the STACK Project
 
-STACK provides a question type for the Moodle quiz which is specifically designed to enable sophisticated computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
-
-STACK has been ported to the ILIAS learning evironment.  For details of that integration see [here](https://github.com/ilifau/assStackQuestion/).
+STACK is specifically designed to enable sophisticated computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
 
 Conventional on-line assessment systems are often very limited in the type of questions that can be set.  Accepting numeric answers, or providing multiple choice questions is relatively common. In mathematics there are many questions where checking an answer is significantly easier than solving the problem itself.  It is often invalid to use multiple choice questions here because (sensible) students do not solve the problem directly, but merely check each suggested answer.   It is impossible to set many questions as multiple choice items without giving the game away.
 
@@ -13,6 +11,10 @@ The solution lies in using a [Computer Algebra System](../CAS/index.md) to power
 The built-in knowledge of mathematics that the computer algebra system provides opens up entirely new possibilities to computer-aided assessment, of which we will now present a few examples:
 
 More about what we are trying to achieve can be found under [the philosophy of STACK](The_philosophy_of_STACK.md).
+
+A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
+
+Primarily, STACK provides a question type for the Moodle quiz.  STACK has also been ported to the ILIAS learning evironment.  For details of that integration see [here](https://github.com/ilifau/assStackQuestion/). STACK can be integrated into other systems using [LTI](../installation/LTI.md).
 
 ## Equivalent answers of the right form ##
 
@@ -46,7 +48,8 @@ STACK is a direct development of the AIM system, using the open source computer 
 
 ## Further information  ##
 
+* [The philosophy of STACK](The_philosophy_of_STACK.md).
+* A demonstration server :[https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 * [Associated publications](Publications.md)
-* [The STACK logo](Logo.md).
 
 

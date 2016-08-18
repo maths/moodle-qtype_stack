@@ -724,14 +724,14 @@ ATNumRelative(SA, SB) := ATNumerical(SA, SB, "RELATIVE")$
 
 
 ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote, ret, SAN, tol],
-    Validity:false, RawMark:false, 
+    Validity:true, RawMark:false, 
     FeedBack:StackAddFeedback("", "ATNumerical_FAILED"),
     AnswerNote:StackAddNote("", "ATNumerical_FAILED"),
     /* Turn on simplification and error catch */
     SA:errcatch(ev(float(SA), simp, nouns)),
     if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
     SA:SA[1],
-    SAN:copy(SA), /* Need this for when we have lists etc */
+    SAN:copy(SA), /* Need this for when we have lists etc. */
     SB:errcatch(ev(float(SB), simp, nouns, rat)),
     if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
     SB:SB[1], 
@@ -764,9 +764,9 @@ ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote,
         return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
       else
         if numtype = "ABSOLUTE" then
-            return([false, numabsolutep(SA, SB, tol), "", ""])
+            return([true, numabsolutep(SA, SB, tol), "", ""])
         else 
-            return([false, numrelativep(SA, SB, tol), "", ""]),
+            return([true, numrelativep(SA, SB, tol), "", ""]),
 
     ret:[Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
@@ -898,8 +898,12 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
     ),
     SA:ev(abs(SA),simp),
     SB:ev(abs(SB),simp),
+    if SA>5e22 then
+        return([false, false, StackAddNote("", "ATNumSigFigs_SA_OutofRange"), StackAddFeedback("", "ATNum_OutofRange")]),
+    if SB>5e22 then
+        return([false, false, StackAddNote("", "ATNumSigFigs_TA_OutofRange"), StackAddFeedback("", "ATNum_OutofRange")]),
     /* Round the teacher's answer to the correct number of significant figures prior to comparison.
-       This changes 1.5 -> 2.0 (2.s.f).                                                              */
+      This changes 1.5 -> 2.0 (2.s.f).                                                              */
     SB:significantfigures(SB, nsf),
     /* Puts Teacher's answer between 0 & 1 */
     c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp),

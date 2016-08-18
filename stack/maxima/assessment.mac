@@ -630,7 +630,7 @@ ATEqualComAss(sa, sb) :=
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 
-/* Legacy support for direct access to this function.  *.
+/* Legacy support for direct access to this function.  */
 alias(ATEqual_com_ass, ATEqualComAss)$
 
 /* ********************************** */

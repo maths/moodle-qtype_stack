@@ -881,12 +881,11 @@ class stack_cas_casstring {
         // Some patterns are always invalid syntax, and must have stars.
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
         $patterns[] = "|(\))([0-9A-Za-z])|";          // E.g. )a, or )3.
-        // We assume f and g are single letter functions.
         // 'E' and 'e' is used to denote scientific notation.
         // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
-            $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
-            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3x(.
+            $patterns[] = "|([0-9]+)([A-DF-Za-df-z])|";  // E.g. 3x.
+            $patterns[] = "|([0-9])([A-DF-Za-df-z]\()|"; // E.g. 3x(.
         } else {
             $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
             $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3x(.

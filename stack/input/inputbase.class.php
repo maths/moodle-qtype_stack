@@ -44,6 +44,7 @@ abstract class stack_input {
         'strictSyntax',
         'insertStars',
         'syntaxHint',
+        'syntaxAttribute',
         'forbidWords',
         'allowWords',
         'forbidFloats',
@@ -105,8 +106,8 @@ abstract class stack_input {
         $this->internal_contruct();
     }
 
-    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown
-     * uses this to sort out options.
+    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
+     * use this to sort out options.
      */
     protected function internal_contruct() {
         return true;
@@ -301,10 +302,8 @@ abstract class stack_input {
 
         // Send the string to the CAS.
         if ($valid) {
-            $validationmethod = $this->get_validation_method();
-
             $singlevarchars = false;
-            if (2 == $this->get_parameter('insertStars', 0)) {
+            if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                 $singlevarchars = true;
             }
 
@@ -316,7 +315,7 @@ abstract class stack_input {
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
                     $singlevarchars, $teacheranswer,
-                    $validationmethod, $this->get_parameter('allowWords', ''));
+                    $this->get_validation_method(), $this->get_parameter('allowWords', ''));
             $localoptions->set_option('simplify', false);
 
             $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);
@@ -335,6 +334,7 @@ abstract class stack_input {
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
                 $interpretedanswer = $answer->get_value();
+                $interpretedanswer = $this->post_validation_modification($interpretedanswer);
                 if (!($lvars->get_value() == '[]')) {
                     $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
                 }
@@ -487,7 +487,7 @@ abstract class stack_input {
             return '';
         }
         $feedback  = '';
-        $feedback .= html_writer::tag('p', format_text(stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed)));
+        $feedback .= html_writer::tag('p', stack_string('studentValidation_yourLastAnswer', $state->contentsdisplayed));
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
@@ -512,7 +512,7 @@ abstract class stack_input {
      * Used by the units input type.
      */
     protected function tag_listofvariables($vars) {
-        return html_writer::tag('p', format_text(stack_string('studentValidation_listofvariables', $vars)));
+        return html_writer::tag('p', stack_string('studentValidation_listofvariables', $vars));
     }
 
     /**
@@ -544,6 +544,17 @@ abstract class stack_input {
         } else {
             return '';
         }
+    }
+
+    /**
+     * Transforms the interpreted answer after it has been validated by the CAS.
+     * Most do nothing, but see units.
+     *
+     * @param string $in
+     * @return string
+     */
+    protected function post_validation_modification($interpretedanswer) {
+        return $interpretedanswer;
     }
 
     /**

@@ -23,6 +23,8 @@ require_once(__DIR__.'/../../../../../config.php');
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
+require_once(__DIR__ . '/connectorhelper.class.php');
+require_once(__DIR__ . '/cassession.class.php');
 
 
 class stack_cas_configuration {
@@ -68,12 +70,12 @@ class stack_cas_configuration {
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
         $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
 
-        if ($this->settings->platform == 'win') {
+        if ($this->settings->platform === 'win') {
             $this->blocksettings['DEL_CMD']     = 'del';
             $this->blocksettings['GNUPLOT_CMD'] = $this->get_plotcommand_win();
         } else {
             $this->blocksettings['DEL_CMD']     = 'rm';
-            if (trim($this->settings->plotcommand) != '') {
+            if ((trim($this->settings->plotcommand)) != '') {
                 $this->blocksettings['GNUPLOT_CMD'] = $this->settings->plotcommand;
             } else if (is_readable('/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot')) {
                 $this->blocksettings['GNUPLOT_CMD'] = '/Applications/Gnuplot.app/Contents/Resources/bin/gnuplot';
@@ -81,9 +83,8 @@ class stack_cas_configuration {
                 $this->blocksettings['GNUPLOT_CMD'] = 'gnuplot';
             }
         }
-
         // Loop over this array to format them correctly...
-        if ($this->settings->platform == 'win') {
+        if ($this->settings->platform === 'win') {
             foreach ($this->blocksettings as $var => $val) {
                 $this->blocksettings[$var] = addslashes(str_replace( '/', '\\', $val));
             }
@@ -166,7 +167,6 @@ class stack_cas_configuration {
         if ($this->settings->platform != 'win') {
             return true;
         }
-
         $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
 
         if (!copy($batchfilename, $CFG->dataroot . '/stack/maxima.bat')) {
@@ -348,5 +348,70 @@ END;
      */
     public static function validate_maximalibraries() {
         return self::get_instance()->get_validate_maximalibraries();
+    }
+
+    /*
+     * This function genuinely recreates the maxima image and stores the results in
+     * the configuration settings.
+     */
+    public static function create_auto_maxima_image() {
+        $config = get_config('qtype_stack');
+            // Do not try to generate the optimised image on MS platforms.
+        if ($config->platform == 'win') {
+            return false;
+        }
+
+        /*
+         * Revert to the plain unix platform.  This will genuinely call the CAS, and
+         * as a result create a new image.
+         */
+        $oldplatform = $config->platform;
+        $oldmaximacommand = $config->maximacommand;
+        set_config('platform', 'unix', 'qtype_stack');
+        set_config('maximacommand', '', 'qtype_stack');
+
+        // Try to make a new version of the maxima local file.
+        self::create_maximalocal();
+        // Try to actually connect to Maxima.
+        list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+
+        // Check if the libraries look like they are messing things up.
+        if (strpos($genuinedebug, 'eval_string not found') > 0) {
+            // If so, get rid of the libraries and try again.
+            set_config('maximalibraries', '', 'qtype_stack');
+            list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
+        }
+
+        $revert = false;
+        if ($result && ($oldplatform == 'unix' || $oldplatform == 'unix-optimised')) {
+            // Try to auto make the optimised image.
+            list($message, $genuinedebug, $result, $commandline)
+                 = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug, true);
+
+            if ($result) {
+                set_config('platform', 'unix-optimised', 'qtype_stack');
+                set_config('maximacommand', $commandline, 'qtype_stack');
+                // We need to regenerate this file to supress stackmaxima.mac and libraries being reloaded.
+                self::create_maximalocal();
+
+                // Now we need to check this actually works.
+                $cs = new stack_cas_casstring('a:1+1');
+                $ts = new stack_cas_session(array($cs));
+                $ts->instantiate();
+                if ($ts->get_value_key('a') != '2') {
+                    $revert = true;
+                }
+            } else {
+                $revert = true;
+            }
+        } else {
+            $revert = true;
+        }
+
+        if ($revert) {
+            set_config('platform', $oldplatform, 'qtype_stack');
+            set_config('maximacommand', $oldmaximacommand , 'qtype_stack');
+            self::create_maximalocal();
+        }
     }
 }

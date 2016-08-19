@@ -72,7 +72,10 @@ class stack_units_input extends stack_input {
             'lowestTerms'    => true,
             // The sameType option is ignored by this input type.
             // The answer is essantially required to be a number and units, other types are rejected.
-            'sameType'       => false);
+            'sameType'           => false,
+            // Currently this can only be "negpow", or "mul".
+            'options'            => ''
+        );
     }
 
     /**
@@ -108,6 +111,25 @@ class stack_units_input extends stack_input {
      */
     protected function get_validation_method() {
         $validationmethod = 'units';
+        $opt = trim($this->get_parameter('options'));
+        if (!(strpos($opt, 'negpow') === false)) {
+            $validationmethod = 'unitsnegpow';
+        }
         return $validationmethod;
     }
+
+    /**
+     * Transforms the contents array into a maxima expression.
+     *
+     * @param array|string $in
+     * @return string
+     */
+    protected function post_validation_modification($expr) {
+        $opt = trim($this->get_parameter('options'));
+        if (!(strpos($opt, 'mul') === false) and trim($expr) != '') {
+            $expr = 'subst("*", stackunits, '. $expr .')';
+        }
+        return $expr;
+    }
+
 }

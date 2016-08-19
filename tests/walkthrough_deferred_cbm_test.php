@@ -350,7 +350,6 @@ class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_
                 'dropdown', 'ans1', '[[1+x,false],[2+x,true]]');
         // @codingStandardsIgnoreEnd
 
-        // Dropdowns always return a list, so adapt the PRT to take the first element of ans1.
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('2+x');

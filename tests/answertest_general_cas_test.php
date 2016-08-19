@@ -536,4 +536,12 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
+
+    public function test_is_false_units_feedback() {
+        $at = new stack_answertest_general_cas('18.1*kJ', '18000.0*J', 'ATUnitsSigFigs', true, '2', null, false, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('ATNumSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', $at->get_at_answernote());
+        $this->assertEquals('stack_trans(\'ATNumSigFigs_WrongDigits\');', $at->get_at_feedback());
+    }
 }

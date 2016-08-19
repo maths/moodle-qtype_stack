@@ -266,7 +266,7 @@ stack_disp(expr, m) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
-    /* Fine tune displat, e.g. sort out display of atoms like theta0. */
+    /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru:unary_minus_sort(expr),
     expru:stack_disp_strip_number(expru),
 
@@ -323,7 +323,10 @@ stack_disp_strip_number(ex) := block([s,v,n],
   /* Note, we don't parse the n here to avoid stipping off a leading zero. */
   /*if slength(n)>0 then return(stacktexsubscript(parse_string(v), n)),*/
   if slength(n)=0 then return(ex),
+  /* Check if we only have letters left. */
+  if not(strimr("abcdefghijklmnopqrstuvwxyz", sdowncase (v)) = "") then return(ex),
   v:parse_string(v),
+  /* This is an inert function which creates subscripted variables names. */
   stacktexsubscript(v, n)
 )$
 
@@ -2511,4 +2514,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016081900$
+stackmaximaversion:2016081901$

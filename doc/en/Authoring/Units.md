@@ -14,6 +14,12 @@ Note that in Maxima are a number of separate packages which enable a user to man
 
 **WE DO NOT USE THESE PACKAGES** as they are too slow to load.  Instead we have a lightweight package of our own.
 
+By default in maxima, letters such as `k` are unbound variables.  If you would like to give these prefix values \(10^3\) so that `km` literally means `10^3*m` then you will need to add the following to the question variables field.
+
+    stack_unit_si_declare(true);
+
+The units input, and units answertest automatically execute this command.  More details are given below.
+
 ## Examples  ##
 
 ### Example 1  ###
@@ -97,11 +103,7 @@ For the `NumRelative` test the option gives the required percentage tollarance w
 Similarly, for `NumAbsolute` the option is an absolute difference.  Literally we test
 `|sa-ta| < |tol|`. Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively *once they have been converted to base units*.  Note, where the units are compatible, the same `tol` is used before and after converion to base units.  For this reason, the test `UnitsAbsolute` is likely to give strange behaviour for answers where the units are compatible.  *Suggestions from those teaching science, with examples, of improved behaviour here are very welcome!*
 
-
-
-## Dealing with units in Maxima functions, e.g. PRTs  ##
-
-If the above protocols do not give you the results you want, you are welcome to build a more complex potential response tree of your own.
+## Dealing with units in Maxima functions, e.g. question variables and PRTs  ##
 
 The function `stack_unit_si_declare(true)` declares symbols as units as far as STACK is concerned.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  Note that the symbols are *only* declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question, or feedback variables.
 

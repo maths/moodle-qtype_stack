@@ -219,7 +219,7 @@ class stack_cas_casstring {
                 'pochhammer' => true, 'pochhammer_max_index' => true, 'points_joined' => true,  'polar' => true,
                 'polar_to_xy' => true, 'polygon' => true, 'prederror' => true, 'primep_number_of_tests' => true,
                 'printprops' => true, 'prodrac' => true, 'product' => true, 'product_use_gamma' => true, 'programmode' => true,
-                'proportional_axes' => true, 'props' => true, 'propvars' => true, 'psexpand' => true, 'psi' => true,
+                'proportional_axes' => true, 'props' => true, 'propvars' => true, 'psexpand' => true,
                 'pui' => true, 'pui2comp' => true, 'pui2ele' => true, 'pui2polynome' => true, 'pui_direct' => true,
                 'puireduc' => true, 'qty' => true, 'random' => true, 'ratchristof' => true, 'rateinstein' => true,
                 'rational' => true, 'ratprint' => true, 'ratriemann' => true, 'ratweyl' => true, 'ratwtlvl' => true,
@@ -345,7 +345,7 @@ class stack_cas_casstring {
                 'point_type' => true, 'point_size' => true, 'points' => true, 'poisdiff' => true, 'poisexpt' => true,
                 'poisint' => true, 'poislim' => true, 'poismap' => true, 'poisplus' => true, 'poissimp' => true,
                 'poisson' => true, 'poissubst' => true, 'poistimes' => true, 'poistrim' => true, 'polarform' => true,
-                'polartorect' => true, 'polymod' => true, 'polynome2ele' => true, 'polynomialp' => true,
+                'polartorect' => true, 'polymod' => true, 'polynome2ele' => true, 'polynomialp' => true, 'psi' => true,
                 'polytocompanion' => true, 'posfun' => true, 'potential' => true, 'power_mod' => true, 'powerdisp' => true,
                 'powers' => true, 'powerseries' => true, 'powerset' => true, 'primep' => true, 'printpois' => true,
                 'quad_qag' => true, 'quad_qagi' => true, 'quad_qags' => true, 'quad_qawc' => true, 'quad_qawf' => true,
@@ -465,6 +465,16 @@ class stack_cas_casstring {
                 'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, 'null' => true);
 
     /**
+     * Upper case Greek letters are allowed.
+     */
+    private static $greekupper = array(
+        'Alpha' => true, 'Beta' => true, 'Gamma' => true, 'Delta' => true, 'Epsilon' => true,
+        'Zeta' => true, 'Eta' => true, 'Theta' => true, 'Iota' => true, 'Kappa' => true, 'Lambda' => true,
+        'Mu' => true, 'Nu' => true, 'Xi' => true, 'Omicron' => true, 'Pi' => true, 'Rho' => true,
+        'Sigma' => true, 'Tau' => true, 'Upsilon' => true, 'Phi' => true, 'Chi' => true, 'Psi' => true,
+        'Omega' => true);
+
+    /**
      * These lists are used by question authors for groups of words.
      * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
      */
@@ -503,6 +513,14 @@ class stack_cas_casstring {
     // @codingStandardsIgnoreStart
     private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
     // @codingStandardsIgnoreEnd
+
+    /**
+     * @var all the permitted patterns in which spaces occur.  Simple find and replace.
+     */
+    private static $spacepatterns = array(
+            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
+            ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
+    );
 
     public function __construct($rawstring) {
         $this->rawcasstring   = $rawstring;
@@ -588,23 +606,6 @@ class stack_cas_casstring {
             }
         }
 
-        // If student, check for spaces between letters or numbers in expressions.
-        if ($security != 't') {
-            $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
-            // Special case - allow students to type in expressions such as "x>1 and x<4".
-            $cmdmod = str_replace(' or ', '', $cmd);
-            $cmdmod = str_replace(' and ', '', $cmdmod);
-            $cmdmod = str_replace(' nounand ', '', $cmdmod);
-            $cmdmod = str_replace(' nounor ', '', $cmdmod);
-            $cmdmod = str_replace('not ', '', $cmdmod);
-            if (preg_match($pat, $cmdmod)) {
-                $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
-                $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
-                $this->answernote[] = 'spaces';
-                $this->valid = false;
-            }
-        }
-
         // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else.
         if (strstr($cmd, '%') !== false) {
             $cmdl = strtolower($cmd);
@@ -622,6 +623,8 @@ class stack_cas_casstring {
                 }
             }
         }
+
+        $cmd = $this->check_spaces($security, $syntax, $insertstars);
 
         $inline = stack_utils::check_bookends($cmd, '(', ')');
         if ($inline !== true) { // The method check_bookends does not return false.
@@ -765,7 +768,7 @@ class stack_cas_casstring {
         }
 
         // Check for spurious operators.
-        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/');
+        $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', '==');
         foreach ($spuriousops as $op) {
             if (substr_count($cmd, $op) > 0) {
                 $this->valid = false;
@@ -814,6 +817,63 @@ class stack_cas_casstring {
     }
 
     /**
+     * Checks for spaces in students' expressions.  Is not applied to teachers.
+     *
+     * @return bool|string true if no missing *s, false if missing stars but automatically added
+     * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
+     */
+    private function check_spaces($security, $syntax, $insertstars) {
+
+        $cmd = $this->rawcasstring;
+
+        // Remove the contents of any strings, so we don't test for spaces within them.
+        list ($cmd, $strings) = $this->strings_remove($cmd);
+
+        // Always replace multiple spaces with a single space.
+        $cmd = trim($cmd);
+        $cmd = preg_replace('!\s+!', ' ', $cmd);
+
+        if ($security == 't') {
+            return $cmd;
+        }
+
+        // Special cases: allow students to type in expressions such as "x>1 and x<4".
+        foreach (self::$spacepatterns as $key => $pat) {
+            $cmd = str_replace($key, $pat, $cmd);
+        }
+
+        $pat = "|([A-Za-z0-9\(\)]+) ([A-Za-z0-9\(\)]+)|";
+        $missingstar = false;
+        if (preg_match($pat, $cmd)) {
+            $missingstar = true;
+            if ($insertstars === 3 || $insertstars === 4 || $insertstars === 5) {
+                $cmd = str_replace(' ', '*', $cmd);
+            } else {
+                $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
+                foreach (self::$spacepatterns as $key => $pat) {
+                    $cmds = str_replace($pat, $key, $cmds);
+                }
+                $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
+                $this->valid = false;
+            }
+        }
+
+        if ($missingstar) {
+            $this->answernote[] = 'spaces';
+        }
+
+        foreach (self::$spacepatterns as $key => $pat) {
+                $cmd = str_replace($pat, $key, $cmd);
+        }
+
+        if ($insertstars === 3 || $insertstars === 4 || $insertstars === 5) {
+            $cmdn = $this->strings_replace($cmd, $strings);
+            $this->casstring = $cmdn;
+        }
+        return $cmd;
+    }
+
+    /**
      * Checks that there are no *s missing from expressions, eg 2x should be 2*x
      *
      * @return bool|string true if no missing *s, false if missing stars but automatically added
@@ -824,12 +884,11 @@ class stack_cas_casstring {
         // Some patterns are always invalid syntax, and must have stars.
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
         $patterns[] = "|(\))([0-9A-Za-z])|";          // E.g. )a, or )3.
-        // We assume f and g are single letter functions.
         // 'E' and 'e' is used to denote scientific notation.
         // E.g. 3E2 = 300.0 or 3e-2 = 0.03.
         if ($syntax) {
-            $patterns[] = "|([0-9]+)([A-DF-Za-dh-z])|";  // E.g. 3x.
-            $patterns[] = "|([0-9])([A-DF-Za-dh-z]\()|"; // E.g. 3x(.
+            $patterns[] = "|([0-9]+)([A-DF-Za-df-z])|";  // E.g. 3x.
+            $patterns[] = "|([0-9])([A-DF-Za-df-z]\()|"; // E.g. 3x(.
         } else {
             $patterns[] = "|([0-9]+)([A-Za-z])|";     // E.g. 3x.
             $patterns[] = "|([0-9])([A-Za-z]\()|";    // E.g. 3x(.
@@ -858,7 +917,7 @@ class stack_cas_casstring {
         $missingstring   = '';
 
         // Prevent ? characters calling LISP or the Maxima help file.  Instead, these pass through and are displayed as normal.
-        $cmd = str_replace('?', 'QMCHAR', $this->rawcasstring);
+        $cmd = str_replace('?', 'QMCHAR', $this->casstring);
 
         // Provide support for the grid2d command, which otherwise breaks insert stars.
         $cmd = str_replace('grid2d', 'STACKGRID', $cmd);
@@ -870,7 +929,7 @@ class stack_cas_casstring {
             if (preg_match($pat, $cmd)) {
                 // Found a missing star.
                 $missingstar = true;
-                if ($insertstars) {
+                if ($insertstars == 1 || $insertstars == 2 || $insertstars == 4 || $insertstars == 5) {
                     // Then we automatically add stars.
                     $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
                 } else {
@@ -890,7 +949,7 @@ class stack_cas_casstring {
         }
         // Guard clause above - we have missing stars detected.
         $this->answernote[] = 'missing_stars';
-        if ($insertstars) {
+        if ($insertstars == 1 || $insertstars == 2 || $insertstars == 4 || $insertstars == 5) {
             // If we are going to quietly insert them.
             $this->casstring = str_replace('QMCHAR', '?', $cmd);
             return true;
@@ -916,7 +975,8 @@ class stack_cas_casstring {
         if (self::$cache === false) {
             self::$cache = array(
                     'allows' => array(),
-                    'merged-sallow' => array_merge(self::$studentallow, stack_cas_casstring_units::get_permitted_units(2)),
+                    'merged-sallow' => array_merge(self::$studentallow, self::$greekupper,
+                            stack_cas_casstring_units::get_permitted_units(2)),
                     'globalforbid' => self::$globalforbid,
                     'teachernotallow' => self::$teachernotallow,
                     'studentallow' => self::$studentallow,
@@ -1001,10 +1061,17 @@ class stack_cas_casstring {
                     if (!isset($allow[$key]) && !isset(self::$cache['merged-sallow'][$key])) {
                         $this->valid = false;
                         if (isset(self::$cache['studentallow'][strtolower($key)]) || isset($allow[strtolower($key)])) {
-                            // We have spotted a case senditivity problem.
-                            $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                            // We have spotted a case sensitivity problem.
+                            // Did they try to enter an upper case Greek letter perhaps?
+                            if (isset(self::$greekupper[ucfirst(strtolower($key))]) && strtoupper($key) == $key) {
+                                $this->add_error(stack_string('stackCas_unknownFunctionCase',
                                     array('forbid' => stack_maxima_format_casstring($key),
-                                            'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                                        'lower' => stack_maxima_format_casstring(ucfirst(strtolower($key))))));
+                            } else {
+                                $this->add_error(stack_string('stackCas_unknownFunctionCase',
+                                    array('forbid' => stack_maxima_format_casstring($key),
+                                        'lower' => stack_maxima_format_casstring(strtolower($key)))));
+                            }
                             $this->answernote[] = 'unknownFunctionCase';
                         } else if ($err = stack_cas_casstring_units::check_units_case($key)) {
                             // We have spotted a case sensitivity problem in the units.
@@ -1058,7 +1125,7 @@ class stack_cas_casstring {
             return true;
         }
 
-        // Split over characters '<>', '<=', '>=', '<', '>', '=',
+        // Split over characters '<>', '<=', '>=', '<', '>', '='.
         // Note the order in splits:  this is important.
         $splits = array( '<>', '<=', '>=', '<', '>', '=');
         $bits = array($ex);
@@ -1323,9 +1390,9 @@ class stack_cas_casstring {
                     $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-                || $validationmethod == 'equiv')) {
+                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
             throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", "units", ' .
-                    'or "equiv", but received "'.$validationmethod.'".');
+                    'or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
@@ -1353,19 +1420,21 @@ class stack_cas_casstring {
             $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
         }
 
+        $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
+        if ($validationmethod == 'typeless') {
+            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.', false)';
+        }
         if ($validationmethod == 'equiv') {
             $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.', true)';
-            return true;
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.')';
-            return true;
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "inline")';
         }
-        $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
-        if ($validationmethod == 'typeless' || '' == $tans) {
-            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.', false)';
+        if ($validationmethod == 'unitsnegpow') {
+            // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "negpow")';
         }
         return true;
     }

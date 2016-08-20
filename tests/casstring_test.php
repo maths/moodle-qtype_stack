@@ -91,6 +91,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('spuriousop', $casstring->get_answernote());
     }
 
+    public function test_spurious_operators_2() {
+        $casstring = new stack_cas_casstring('x==2*x');
+        $casstring->get_valid('s');
+        $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">==</span>.',
+                $casstring->get_errors());
+        $this->assertEquals('spuriousop', $casstring->get_answernote());
+    }
+
     public function test_get_valid_inequalities() {
         $cases = array(
                 array('x>1 and x<4', true, true),
@@ -344,6 +352,23 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
+    public function test_greek_1() {
+        $s = 'a:Delta-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s'));
+    }
+
+    public function test_greek_2() {
+        $s = 'a:DELTA-1';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s'));
+        $this->assertEquals('unknownFunctionCase', $at1->get_answernote());
+        // Note the capital D in the feedback here.  We suggest a capital Delta.
+        $this->assertEquals('Input is case sensitive:  <span class="stacksyntaxexample">DELTA</span> '.
+                'is an unknown function.  Did you mean <span class="stacksyntaxexample">Delta</span>?',
+                $at1->get_errors());
+    }
+
     public function test_forbid_function_single_letter() {
         $s = 'a:x^2+a+f(x)';
         $at1 = new stack_cas_casstring($s);
@@ -472,6 +497,180 @@ class stack_cas_casstring_test extends basic_testcase {
         $err = 'Input of units is case sensitive:  <span class="stacksyntaxexample">mmhg</span> is an unknown unit. '
                    . 'Did you mean one from the following list <span class="stacksyntaxexample">[mmHg]</span>?';
         $this->assertEquals($err, $at1->get_errors());
+    }
+
+    public function test_spaces_1_simple() {
+        $s = 'a b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a b', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">a<font color="red">_</font>b</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_multiple() {
+        $s = 'a   b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a   b', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">a<font color="red">_</font>b</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_brackets() {
+        $s = 'a (b c)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a (b c)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression '
+                .'<span class="stacksyntaxexample">a<font color="red">_</font>(b<font color="red">_</font>c)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_bracket_brackets() {
+        $s = '(1+c) (x+1)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('(1+c) (x+1)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression '
+                .'<span class="stacksyntaxexample">(1+c)<font color="red">_</font>(x+1)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_logic() {
+        $s = 'a b and c';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a b nounand c', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">a<font color="red">_</font>b and c</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_3_simple() {
+        $s = 'a b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*b', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_multiple() {
+        $s = 'a   b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*b', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_scientific() {
+        // We probably don't really want this behaviour, but this is a consequence of adding *s.
+        $s = '3 E 4';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('3*E*4', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_brackets() {
+        $s = 'a (b c)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*(b*c)', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_bracket_brackets() {
+        $s = '(1+c) (x+1)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('(1+c)*(x+1)', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_logic() {
+        $s = 'a b and c';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*b and c', $at1->get_casstring());
+    }
+
+    public function test_spaces_0_insertneeded() {
+        $s = '3sin(a+b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('3sin(a+b)', $at1->get_casstring());
+        $err = 'You seem to be missing * characters. Perhaps you meant to type '
+                .'<span class="stacksyntaxexample">3<font color="red">*</font>sin(a+b)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_0_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('3sin(a b)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">3sin(a<font color="red">_</font>b)</span>. '
+                .'You seem to be missing * characters. Perhaps you meant to type '
+                        .'<span class="stacksyntaxexample">3<font color="red">*</font>sin(a b)</span>.';
+                        $this->assertEquals($err, $at1->get_errors());
+                        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('3*sin(a b)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">3sin(a<font color="red">_</font>b)</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_3_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 3));
+        $this->assertEquals('3sin(a*b)', $at1->get_casstring());
+        $err = 'You seem to be missing * characters. Perhaps you meant to type '
+                .'<span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_4_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 4));
+        $this->assertEquals('3*sin(a*b)', $at1->get_casstring());
+        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_3_sin() {
+        $s = 'sin x';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 3));
+        $this->assertEquals('sin*x', $at1->get_casstring());
+        $err = 'You must apply <span class="stacksyntaxexample">sin</span> to an argument.  '
+                .'You seem to have <span class="stacksyntaxexample">sin*</span>, which looks like you have tried '
+                        .'to use <span class="stacksyntaxexample">sin</span> as a variable name.';
+                        $this->assertEquals($err, $at1->get_errors());
+                        $this->assertEquals('spaces | trigop', $at1->get_answernote());
+    }
+
+    public function test_spaces_4_insertneeded_true() {
+        $s = '3b(x y)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 4));
+        $this->assertEquals('3*b(x*y)', $at1->get_casstring());
+        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_4_insertneeded_true_2() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 4));
+        $this->assertEquals('3*sin(a*b)', $at1->get_casstring());
     }
 
 }

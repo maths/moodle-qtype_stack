@@ -5,7 +5,7 @@ _This list is currently incomplete_.
 More details of our development history is given in the [development track](../Developer/Development_track.md).
 
 * [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh. STACK is the brainchild of Chris Sangwin.
-* [Tim Hunt](http://tjhunt.blogspot.co.uk/) of the Open University.
+* [Tim Hunt](http://tjhunt.blogspot.co.uk/)and Time Lowe of the Open University.
 * Matti Harjula of Aalto University, Finland.
 * Matti Pauna of the University of Helsinki.
 
@@ -25,10 +25,10 @@ Currently STACK is released with the following languages.
   * EN: English (British), by Chris Sangwin (and others)
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
-  * ES: Spanish, by V�ctor Hugo Huerta 
+  * ES: Spanish, by Victor Hugo Huerta 
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
-# Other implementations
+# Other implementations and projects
 
 STACK questions have also been included in the ILIAS project.
 

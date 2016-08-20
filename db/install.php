@@ -22,6 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/../stack/cas/connectorhelper.class.php');
+
+
 function xmldb_qtype_stack_install() {
     global $CFG;
 
@@ -33,9 +38,13 @@ function xmldb_qtype_stack_install() {
     set_config('stackmaximaversion', $matches[1], 'qtype_stack');
 
     // Make an reasonable guess at the OS. (It defaults to 'unix' in settings.php.
+    $platform = 'unix';
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         // See http://stackoverflow.com/questions/1482260/how-to-get-the-os-on-which-php-is-running
         // and http://stackoverflow.com/questions/738823/possible-values-for-php-os.
         set_config('platform', 'win', 'qtype_stack');
+        $platform = 'win';
     }
+
+    // TODO: Attempt to create an optimised image at install time.
 }

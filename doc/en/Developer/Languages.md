@@ -1,32 +1,33 @@
 # Translation of the STACK Project
 
+## Translation of questions
+
+Questions can support multiple languages. See this page in the [multi-language question](../Authoring/Languages.md) authoring section.
+
+## STACK 3 is released and being used with the following languages
+
+
 STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please let us know.
 
 We will maintain this page to indicate which languages are being worked on or have been requested.
 
-Details of who translated STACK are given under [credits](../About/Credits.md).
-
-# STACK 3 is released with the following languages
-
-* EN: English (British), by Chris Sangwin and Tim Hunt
-* SV: Swedish, by Mikael Kurula
-
-# STACK 3 planned translations
+* English (British)
+* Swedish
+* Japanese
+* Finnish
+* German
+* Portuguese 
 
 We believe STACK is being (or has been) translated into the following languages.
 
-* Japanese
-* Finnish
 * Italian
-* German
 * Dutch
 * Spanish
-* Portuguese 
 * French
 
-If you need these languages please contact the developers for more details of the status of this work.
+Details of who translated STACK are given under [credits](../About/Credits.md).  If you need these languages please contact the developers for more details of the status of this work.
 
-# How to translate STACK
+## How to translate STACK
 
 STACK is part of Moodle.  Hence, we have used the Moodle translation management system.  
 
@@ -42,13 +43,10 @@ It is convenient to translate the strings online.  To translate STACK into anoth
 
 Apologies to those people who have translated STACK through AMOS, but who do not appear here. Please contact Chris Sangwin to add your name to the credits.
 
-# Multilingual materials
+## Multilingual materials
 
-Colleagues have asked for multilingual materials.  We plan to implement this using Moodle's Multi-language content filter, see
-[http://docs.moodle.org/22/en/Multi-language_content_filter](http://docs.moodle.org/22/en/Multi-language_content_filter).
+See this page in the [multi-language question](../Authoring/Languages.md) authoring section.
 
-An alternative filter is given by [https://moodle.org/plugins/view/filter_multilangsecond](https://moodle.org/plugins/view/filter_multilangsecond).
+## Documentation
 
-# Documentation
-
-This is currently only available in English.  
+This is currently only available in English.

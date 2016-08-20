@@ -3,12 +3,12 @@
 <!-- question: 0  -->
   <question type="category">
     <category>
-        <text>Input type tests</text>
+        <text>$course$/Input type tests</text>
 
     </category>
   </question>
 
-<!-- question: 3  -->
+<!-- question: 1  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -56,6 +56,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>2</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords>solve</forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -99,7 +100,7 @@
     </prt>
   </question>
 
-<!-- question: 16  -->
+<!-- question: 2  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -147,6 +148,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>2</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -164,6 +166,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>2222222222</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -181,6 +184,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>222222222222222</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -198,6 +202,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>22</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -215,6 +220,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>12345123451234512345</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -232,6 +238,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>222</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -249,6 +256,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>2222</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -266,6 +274,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>22222</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -283,6 +292,7 @@
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint>2222222</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -326,7 +336,7 @@
     </prt>
   </question>
 
-<!-- question: 14  -->
+<!-- question: 3  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -381,6 +391,7 @@ ta:append(ta,[tao]);]]></text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -424,7 +435,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 11  -->
+<!-- question: 4  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -481,6 +492,7 @@ ta:append(ta,[tao]);]]></text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -524,7 +536,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 1  -->
+<!-- question: 5  -->
   <question type="stack">
     <name>
       <text>Equiv input test</text>
@@ -541,7 +553,7 @@ ta:append(ta,[tao]);]]></text>
     <questionvariables>
       <text>v:x
 p:3*v+7=4
-ta:[x=1]</text>
+ta:[p,x=(4-7)/3,x=-1]</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -574,6 +586,7 @@ ta:[x=1]</text>
       <strictsyntax>1</strictsyntax>
       <insertstars>1</insertstars>
       <syntaxhint>[3*x+7=4]</syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -617,7 +630,7 @@ ta:[x=1]</text>
     </prt>
   </question>
 
-<!-- question: 4  -->
+<!-- question: 6  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -665,6 +678,7 @@ ta:[x=1]</text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -708,7 +722,7 @@ ta:[x=1]</text>
     </prt>
   </question>
 
-<!-- question: 6  -->
+<!-- question: 7  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -756,6 +770,7 @@ ta:[x=1]</text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -799,7 +814,7 @@ ta:[x=1]</text>
     </prt>
   </question>
 
-<!-- question: 13  -->
+<!-- question: 8  -->
   <question type="stack">
     <name>
       <text>Radio</text>
@@ -854,6 +869,7 @@ ta:append(ta,[tao]);]]></text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -897,7 +913,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 5  -->
+<!-- question: 9  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -945,6 +961,7 @@ ta:append(ta,[tao]);]]></text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -988,7 +1005,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 2  -->
+<!-- question: 10  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
@@ -1036,6 +1053,7 @@ ta:append(ta,[tao]);]]></text>
       <strictsyntax>1</strictsyntax>
       <insertstars>1</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -1079,7 +1097,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 20  -->
+<!-- question: 11  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -1127,6 +1145,7 @@ ta:append(ta,[tao]);]]></text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -1218,6 +1237,7 @@ ta:append(ta,[tao]);]]></text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>

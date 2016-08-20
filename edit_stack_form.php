@@ -612,6 +612,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
 
+        $mform->addElement('select', $inputname . 'syntaxattribute',
+                stack_string('syntaxattribute'), stack_options::get_syntax_attribute_options());
+        $mform->setDefault($inputname . 'syntaxattribute', '0');
+        $mform->addHelpButton($inputname . 'syntaxattribute', 'syntaxattribute', 'qtype_stack');
+
         $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), array('size' => 20));
         $mform->setType($inputname . 'forbidwords', PARAM_RAW);
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
@@ -857,6 +862,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'strictsyntax'}       = $input->strictsyntax;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
+            $question->{$inputname . 'syntaxattribute'}    = $input->syntaxattribute;
             $question->{$inputname . 'forbidwords'}        = $input->forbidwords;
             $question->{$inputname . 'allowwords'}         = $input->allowwords;
             $question->{$inputname . 'forbidfloat'}        = $input->forbidfloat;
@@ -1194,8 +1200,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $textformat = $fromform[$prtname . 'truefeedback'][$nodekey]['format'];
             }
             if ($textformat != $fromform[$prtname . 'truefeedback'][$nodekey]['format']) {
-                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][] =
-                        stack_string('allnodefeedbackmustusethesameformat');
+                $errors[$prtname . 'truefeedback[' . $nodekey . ']'][]
+                    = stack_string('allnodefeedbackmustusethesameformat');
             }
         }
 
@@ -1452,9 +1458,8 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // TODO: loop over all the PRTs in a similar manner....
-        // Remember, to use
-        // clone $inputsession
-        // as the base session to have all the teacher's answers instantiated.
+        // Remember, to clone the inputsession as the base session for each PRT.
+        // This will have all the teacher's answers instantiated.
         // Otherwise we are likley to do illigitimate things to the various inputs.
 
         return $errors;

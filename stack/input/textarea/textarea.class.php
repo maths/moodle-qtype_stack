@@ -72,7 +72,6 @@ class stack_textarea_input extends stack_input {
      * @return string
      */
     protected function response_to_contents($response) {
-
         $contents = array();
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
@@ -107,6 +106,11 @@ class stack_textarea_input extends stack_input {
     private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
         return implode("\n", $values);
+    }
+
+    protected function ajax_to_response_array($in) {
+        $in = $this->maxima_to_raw_input($in);
+        return array($this->name => $in);
     }
 
     /**
@@ -159,17 +163,18 @@ class stack_textarea_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => true,
-            'showValidation' => 0,
-            'boxWidth'       => 20,
-            'strictSyntax'   => true,
-            'insertStars'    => 0,
-            'syntaxHint'     => '',
-            'forbidWords'    => '',
-            'allowWords'     => '',
-            'forbidFloats'   => true,
-            'lowestTerms'    => true,
-            'sameType'       => true);
+            'mustVerify'         => true,
+            'showValidation'     => 0,
+            'boxWidth'           => 20,
+            'strictSyntax'       => true,
+            'insertStars'        => 0,
+            'syntaxHint'         => '',
+            'syntaxAttribute'    => 0,
+            'forbidWords'        => '',
+            'allowWords'         => '',
+            'forbidFloats'       => true,
+            'lowestTerms'        => true,
+            'sameType'           => true);
     }
 
     /**

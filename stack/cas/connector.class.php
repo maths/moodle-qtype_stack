@@ -298,4 +298,5 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         return $errstr;
     }
+
 }

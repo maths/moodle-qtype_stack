@@ -356,6 +356,9 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
+    /* Remove scientific units from expressions. */
+    SA:ev(SA, stackunits="*"),
+    SB:ev(SB, stackunits="*"),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
@@ -637,6 +640,9 @@ ATEqualComAss(sa, sb) :=
         (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss: (AlgEquiv:true)")),
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
+
+/* Legacy support for direct access to this function.  */
+alias(ATEqual_com_ass, ATEqualComAss)$
 
 /****************************************************************/
 /*  Define noun versions of logical "and" and "or".             */

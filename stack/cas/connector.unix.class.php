@@ -52,7 +52,6 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
 
     /* @see stack_cas_connection_base::call_maxima() */
     protected function call_maxima($command) {
-
         $ret = false;
         $err = '';
         $cwd = null;

@@ -55,6 +55,14 @@ if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
     redirect($PAGE->url);
 }
 
+// Create and store Maxima image if requested.
+if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) {
+    require_sesskey();
+    stack_cas_connection_db_cache::clear_cache($DB);
+    stack_cas_configuration::create_auto_maxima_image();
+    redirect($PAGE->url);
+}
+
 $config = stack_utils::get_config();
 
 // Start output.
@@ -146,7 +154,7 @@ output_cas_text(stack_string('healthcheckconnect'),
 if ($config->platform === 'unix' and $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
-    list($message, $debug, $result) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
+    list($message, $debug, $result, $commandline) = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
     $summary[] = array($result, $message);
     echo html_writer::tag('p', $message);
     echo output_debug(stack_string('debuginfo'), $debug);
@@ -179,6 +187,14 @@ if ('db' == $config->casresultscache) {
             new moodle_url($PAGE->url, array('clearcache' => 1, 'sesskey' => sesskey())),
             stack_string('clearthecache'));
 }
+
+// Option to auto-create the Maxima image and store the results.
+if ($config->platform != 'win') {
+    echo $OUTPUT->single_button(
+        new moodle_url($PAGE->url, array('createmaximaimage' => 1, 'sesskey' => sesskey())),
+        stack_string('healthcheckcreateimage'));
+}
+
 
 echo '<hr />';
 $tab = '';

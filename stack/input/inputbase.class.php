@@ -44,6 +44,7 @@ abstract class stack_input {
         'strictSyntax',
         'insertStars',
         'syntaxHint',
+        'syntaxAttribute',
         'forbidWords',
         'allowWords',
         'forbidFloats',
@@ -105,8 +106,8 @@ abstract class stack_input {
         $this->internal_contruct();
     }
 
-    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown
-     * uses this to sort out options.
+    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
+     * use this to sort out options.
      */
     protected function internal_contruct() {
         return true;
@@ -271,7 +272,6 @@ abstract class stack_input {
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, $forbiddenkeys, $ajaxinput = false) {
-
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -294,7 +294,7 @@ abstract class stack_input {
         }
 
         $singlevarchars = false;
-        if (2 == $this->get_parameter('insertStars', 0)) {
+        if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
             $singlevarchars = true;
         }
 
@@ -306,7 +306,9 @@ abstract class stack_input {
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
         $validationmethod = $this->get_validation_method();
-        if ('checktype' == $validationmethod || 'units' == $validationmethod) {
+        $checktype = false;
+        if ('checktype' == $validationmethod || 'units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
+            $checktype = true;
             $tresponse = $this->maxima_to_response_array($teacheranswer);
             $tcontents = $this->response_to_contents($tresponse);
             list($tvalid, $terrors, $tmodifiedcontents, $tcaslines) = $this->validate_contents($tcontents, $forbiddenkeys);
@@ -327,14 +329,29 @@ abstract class stack_input {
         $note        = '';
         $sessionvars = array();
 
-        // Ensure we have an element in the session which is the whole answer.
-        // This results in a duplication for many, but textareas create a single list here representing the whole answer.
+        // Validate each line separately, where required and when there is something from the teacher to match up to.
         foreach ($caslines as $index => $cs) {
+            // Check the teacher actually has an answer in this slot.
+            $ta = '0';
+            $trivialta = true;
+            if (array_key_exists($index, $tvalidator)) {
+                if (!('' == trim($tvalidator[$index]))) {
+                    $ta = $tvalidator[$index];
+                    $trivialta = false;
+                }
+            }
+            // If we expect to check types, but don't have a teacher's answer just set to typeless.
+            // This can happen legitimately, e.g. where a student has too many elements in the textarea.
+            // Mostly it does not happen as other input types require a non-trivial teacher's answer at authoring time.
+            $ivalidationmethod = $validationmethod;
+            if ($checktype && $trivialta) {
+                $ivalidationmethod = 'typeless';
+            }
+
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $singlevarchars,
-                    $tvalidator[$index], $validationmethod, $this->get_parameter('allowWords', ''));
+                    $singlevarchars, $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''));
                 $sessionvars[] = $cs;
             }
         }
@@ -375,6 +392,7 @@ abstract class stack_input {
         } else {
             // We need the value which has passed through the CAS as singlevarchars changes the value of the answer.
             $interpretedanswer = $answer->get_value();
+            $interpretedanswer = $this->post_validation_modification($interpretedanswer);
             if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }
@@ -619,6 +637,17 @@ abstract class stack_input {
         } else {
             return '';
         }
+    }
+
+    /**
+     * Transforms the interpreted answer after it has been validated by the CAS.
+     * Most do nothing, but see units.
+     *
+     * @param string $in
+     * @return string
+     */
+    protected function post_validation_modification($interpretedanswer) {
+        return $interpretedanswer;
     }
 
     /**

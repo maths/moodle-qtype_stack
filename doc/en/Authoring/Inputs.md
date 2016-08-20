@@ -122,7 +122,7 @@ Please read the notes on [numbers](../CAS/Numbers.md#Floats).
 
 ### Insert Stars ### {#Insert_Stars}
 
-There are three options.
+There are six options.
 
 * Don't insert stars:  This does not insert `*` characters automatically into any patterns identified by Strict Syntax as needing them.  Strict Syntax is true and there are any pattern identified the result will be an invalid expression.
 * Insert `*`s for implied multiplication.  If any patterns identified by Strict Syntax as needing `*`s then they will automatically be inserted into the expression quietly.
@@ -130,7 +130,15 @@ There are three options.
   * Note, the student's formula is interpreted and variables identified, so \(\sin(ax\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
   * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
 
-The above two conditions are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted 
+There are also additional options to insert multiplication signs for spaces.
+
+* Insert stars for spaces only
+* Insert stars for implied multiplication and for spaces
+* Insert stars assuming single-character variable names and for spaces
+
+If a space is taken for multuplication what should we do with \(sin\ x\)?  Currently this is transformed to \(\sin \times x\) and then rejected as invalid as you can't multiply the function name by its argument.  Use these latter options with caution: in the long run students are likely to need to use a strict syntax with machines, and letting them use spaces now might be a diservice.
+
+The "Strict Syntax" and "Insert Stars" options are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted 
 
 1. as \( (x\cdot e)^x\) if we assume single character variable names, and
 2. as \( xe^x\) if we just "Insert `*`s for implied multiplication".  The absence of the dot here is key.

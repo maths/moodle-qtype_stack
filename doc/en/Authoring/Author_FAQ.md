@@ -2,7 +2,11 @@
 
 ## How can I report a bug or make a suggestion? ##
 
-Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+Please read this page first!  Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+
+## Can I write questions in multiple languages?
+
+Yes, see support for [multiple languages](Languages.md).
 
 ## What is LaTeX? Where can I get help learning LaTeX? ##
 

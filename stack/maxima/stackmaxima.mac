@@ -20,6 +20,9 @@
 stack_reset(rand_seed) := block(
   kill(allbut [functions]),
   kill(trigsimp),
+  /* Very unlikley the function psi will be needed for assessment and it breaks the session
+     when it is used as a variable. */
+  kill(psi),
   /* We need some kind of numerical number to compare against.  */
   /* This does not work in Maxima 5.13.0, but keep for future reference */
   /* MAXIMA_VERSION_NUM:parse_string(?subseq(MAXIMA_VERSION,2)) */
@@ -151,6 +154,24 @@ make_arccos(OPT_ACOS) := block(
     if OPT_ACOS = "arccos" then load("arccos.lisp")
 );
 
+
+/* Fine tune the display of fractions between inline and displayed. */
+stackfactionsinline(e) := block ([a, b],
+  [a, b]:args (e),
+  concat("{", tex1(a), "}/{", tex1(b), "}")
+)$
+stackfactionsdisplay(e) := block ([a, b],
+  [a, b]:args (e),
+  concat("\\frac{", tex1(a), "}{", tex1(b), "}")
+)$
+
+stack_disp_factions(ex) := block(
+  if is(ex="i") then 
+    ev(texput("/", stackfactionsinline),simp)
+  else 
+    ev(texput("/", stackfactionsdisplay),simp)
+)$
+
 /* This is needed to tweak the display of noun derivatives. */
 nary("blankmult", 0, 0);
 texput("blankmult", " # ", nary);
@@ -246,7 +267,7 @@ stack_disp(expr, m) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
-    /* Fine tune displat, e.g. sort out display of atoms like theta0. */
+    /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru:unary_minus_sort(expr),
     expru:stack_disp_strip_number(expru),
 
@@ -267,6 +288,10 @@ stack_disp(expr, m) := block([str:"", expru],
     if str = "" then str:string(expr),
     return(str)
 )$
+/* This function was renamed to improve the consistency of the coding style. */
+/* We continue to support the old name, since question authors may have used */
+/* it, even though that was not recommended practice. */
+alias(StackDISP, stack_disp)$
 
 stack_disp_strip_dollars(ex) := block(
         if ?subseq(ex, 0, 2) = "$$" then
@@ -299,7 +324,10 @@ stack_disp_strip_number(ex) := block([s,v,n],
   /* Note, we don't parse the n here to avoid stipping off a leading zero. */
   /*if slength(n)>0 then return(stacktexsubscript(parse_string(v), n)),*/
   if slength(n)=0 then return(ex),
+  /* Check if we only have letters left. */
+  if not(strimr("abcdefghijklmnopqrstuvwxyz", sdowncase (v)) = "") then return(ex),
   v:parse_string(v),
+  /* This is an inert function which creates subscripted variables names. */
   stacktexsubscript(v, n)
 )$
 
@@ -709,14 +737,14 @@ ATNumRelative(SA, SB) := ATNumerical(SA, SB, "RELATIVE")$
 
 
 ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote, ret, SAN, tol],
-    Validity:false, RawMark:false, 
+    Validity:true, RawMark:false, 
     FeedBack:StackAddFeedback("", "ATNumerical_FAILED"),
     AnswerNote:StackAddNote("", "ATNumerical_FAILED"),
     /* Turn on simplification and error catch */
     SA:errcatch(ev(float(SA), simp, nouns)),
     if is(SA = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_SAns")),
     SA:SA[1],
-    SAN:copy(SA), /* Need this for when we have lists etc */
+    SAN:copy(SA), /* Need this for when we have lists etc. */
     SB:errcatch(ev(float(SB), simp, nouns, rat)),
     if is(SB = [STACKERROR]) then return(StackBasicReturn(false, false, "ATNumerical_STACKERROR_TAns")),
     SB:SB[1], 
@@ -749,9 +777,9 @@ ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote,
         return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
       else
         if numtype = "ABSOLUTE" then
-            return([false, numabsolutep(SA, SB, tol), "", ""])
+            return([true, numabsolutep(SA, SB, tol), "", ""])
         else 
-            return([false, numrelativep(SA, SB, tol), "", ""]),
+            return([true, numrelativep(SA, SB, tol), "", ""]),
 
     ret:[Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
@@ -883,8 +911,12 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
     ),
     SA:ev(abs(SA),simp),
     SB:ev(abs(SB),simp),
+    if SA>5e22 then
+        return([false, false, StackAddNote("", "ATNumSigFigs_SA_OutofRange"), StackAddFeedback("", "ATNum_OutofRange")]),
+    if SB>5e22 then
+        return([false, false, StackAddNote("", "ATNumSigFigs_TA_OutofRange"), StackAddFeedback("", "ATNum_OutofRange")]),
     /* Round the teacher's answer to the correct number of significant figures prior to comparison.
-       This changes 1.5 -> 2.0 (2.s.f).                                                              */
+      This changes 1.5 -> 2.0 (2.s.f).                                                              */
     SB:significantfigures(SB, nsf),
     /* Puts Teacher's answer between 0 & 1 */
     c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp),
@@ -2508,4 +2540,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016061500$
+stackmaximaversion:2016082002$

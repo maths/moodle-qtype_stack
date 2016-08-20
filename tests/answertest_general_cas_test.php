@@ -456,56 +456,92 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
     }
 
     public function test_is_true_units() {
-        $at = new stack_answertest_general_cas('3.2*m/s', '3.2*m/s', 'ATUnits', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('3.2*m/s', '3.2*m/s', 'ATUnitsSigFigs', true, '2', null, false, true);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_units() {
-        $at = new stack_answertest_general_cas('3.1*m/s', '3.2*m/s', 'ATUnits', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('3.1*m/s', '3.2*m/s', 'ATUnitsSigFigs', true, '2', null, false, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_false_missingunits() {
-        $at = new stack_answertest_general_cas('3.1', '3.2*m/s', 'ATUnits', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('3.1', '3.2*m/s', 'ATUnitsSigFigs', true, '2', null, false, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATUnits_SA_no_units.', $at->get_at_answernote());
     }
 
     public function test_is_false_wrongunits() {
-        $at = new stack_answertest_general_cas('3.2*g', '3.2*m/s', 'ATUnits', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('3.2*g', '3.2*m/s', 'ATUnitsSigFigs', true, '2', null, false, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATUnits_incompatible_units. ATUnits_correct_numerical.', $at->get_at_answernote());
     }
 
     public function test_is_false_badunits() {
-        $at = new stack_answertest_general_cas('3.1+g', '3.2*m/s', 'ATUnits', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('3.1+g', '3.2*m/s', 'ATUnitsSigFigs', true, '2', null, false, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATUnits_SA_bad_units.', $at->get_at_answernote());
     }
 
     public function test_is_true_compatibleunits() {
-        $at = new stack_answertest_general_cas('32*g', '0.032*kg', 'ATUnits', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('32*g', '0.032*kg', 'ATUnitsSigFigs', true, '2', null, false, true);
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
-        $this->assertEquals('ATUnits_compatible_units.', $at->get_at_answernote());
+        $this->assertEquals('ATUnits_compatible_units: kg.', $at->get_at_answernote());
     }
 
     public function test_is_true_compatibleunits_strict() {
-        $at = new stack_answertest_general_cas('32*g', '0.032*kg', 'ATUnitsStrict', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('32*g', '0.032*kg', 'ATUnitsStrictSigFigs', true, '2', null, false, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('ATUnits_compatible_units.', $at->get_at_answernote());
+        $this->assertEquals('ATUnits_compatible_units: kg.', $at->get_at_answernote());
     }
 
     public function test_is_false_compatibleunits() {
-        $at = new stack_answertest_general_cas('0.032*g', '0.032*kg', 'ATUnits', true, '2', null, false, true);
+        $at = new stack_answertest_general_cas('0.032*g', '0.032*kg', 'ATUnitsSigFigs', true, '2', null, false, true);
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals('ATUnits_compatible_units. ATUnits_correct_numerical.', $at->get_at_answernote());
+        $this->assertEquals('ATUnits_compatible_units: kg. ATUnits_correct_numerical.', $at->get_at_answernote());
+    }
+
+    public function test_is_true_units_relative() {
+        $at = new stack_answertest_general_cas('3.1*m/s', '3.2*m/s', 'ATUnitsRelative', true, '0.1', null, false, true);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
+    }
+
+    public function test_is_false_units_relative() {
+        $at = new stack_answertest_general_cas('3.0*m/s', '3.2*m/s', 'ATUnitsRelative', true, '0.05', null, false, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
+    }
+
+    public function test_is_true_units_absolute() {
+        $at = new stack_answertest_general_cas('3.1*m/s', '3.2*m/s', 'ATUnitsAbsolute', true, '0.2', null, false, true);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
+    }
+
+    public function test_is_false_units_absolute() {
+        $at = new stack_answertest_general_cas('3.1*m/s', '3.2*m/s', 'ATUnitsAbsolute', true, '0.05', null, false, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
+    }
+
+    public function test_is_false_units_feedback() {
+        $at = new stack_answertest_general_cas('18.1*kJ', '18000.0*J', 'ATUnitsSigFigs', true, '2', null, false, true);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('ATNumSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', $at->get_at_answernote());
+        $this->assertEquals('stack_trans(\'ATNumSigFigs_WrongDigits\');', $at->get_at_feedback());
     }
 }

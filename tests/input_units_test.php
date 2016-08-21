@@ -575,4 +575,15 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('subst("*", stackunits, stackunits(3.2,m/s))', $state->contentsmodified);
     }
 
+    public function test_validate_student_response_mhz() {
+        // Case sensitity disambiguation.
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*mHz');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '9.81*mhz'),
+                $options, '9.81*mHz', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unknownUnitsCase', $state->note);
+    }
 }

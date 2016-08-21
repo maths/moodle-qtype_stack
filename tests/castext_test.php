@@ -665,4 +665,24 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals($at2->get_display_castext(),
                 '\({1}/{x}\) \(\frac{1}{x}\) \({1}/{x}\)');
     }
+
+    public function test_disp_greek() {
+        $a2 = array('a:Delta', 'b:sin(Delta^2)', 'c:delta', 't:theta');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@a@, @b@, @c@, @t@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\(\Delta\), \(\sin \left( \Delta^2 \right)\), ' .
+                '\(\delta\), \(\theta\)');
+    }
+
 }

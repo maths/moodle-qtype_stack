@@ -594,7 +594,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('\left[ \alpha , \beta , \gamma , \delta , \varepsilon \right]',
                 $at1->get_display_key('greek1'));
         $this->assertEquals('[zeta,eta,theta,iota,kappa]', $at1->get_value_key('greek2'));
-        $this->assertEquals('\left[ \zeta , \eta , \vartheta , \iota , \kappa \right]',
+        $this->assertEquals('\left[ \zeta , \eta , \theta , \iota , \kappa \right]',
                 $at1->get_display_key('greek2'));
         // Note here that pi is returned as the constant %pi.
         $this->assertEquals('[lambda,mu,nu,xi,omicron,%pi,rho]', $at1->get_value_key('greek3'));

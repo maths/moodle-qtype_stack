@@ -121,6 +121,7 @@ load("stacktex.lisp"); /* Loads LaTeX changes and preferences */
 /* load("expandfeedback.mac"); */
 
 texput(QMCHAR, "\\color{red}{?}");
+texput(theta, "\\theta");
 
 alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013. */
 alias(arcsin, asin);           
@@ -2514,4 +2515,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016081902$
+stackmaximaversion:2016082100$

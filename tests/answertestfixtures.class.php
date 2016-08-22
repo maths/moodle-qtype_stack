@@ -967,6 +967,8 @@ class stack_answertest_test_data {
         array('Units', '2', '400*cm^3', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '400*ml', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '400*mL', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
+        array('Units', '2', '18*kJ', '18000.0*J', 1, 'ATUnits_compatible_units: kg*m^2/s^2.', ''),
+        array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATNumSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', ''),
         array('Units', '4', '142.8*C', '415.9*K', -2, 'ATNumSigFigs_Inaccurate. ATUnits_incompatible_units.', 'TODO'),
 
         array('UnitsStrict', '2', '25*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg.', 'Differences from the Units test only'),

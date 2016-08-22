@@ -379,6 +379,7 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
 
     /* We do have compatible units.  */
     ansnote:StackAddNote(ret2[3], sconcat("ATUnits_compatible_units: ", string(ev(stack_units_units(SBU), simp)))),
+    fb:ret2[4],
 
     /* Is the numerical answer correct? */
     if ret2[2] then

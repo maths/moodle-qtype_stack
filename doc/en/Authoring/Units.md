@@ -28,7 +28,7 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 
 1. Students type this value into STACK exactly as it is above. Note the multiplication sign between
    the number and units. Thus only one answer field is needed. We think this is the best solution (see below).
-2. In entry, the numerical part is bound to the units part with multiplication.  Using multiplication in this way is ambiguous.  To create, and to disambiguate, a dimentional numerical quantity from a number multiplied by units (a subtle distinction at best) STACK has a mostly intert function `stackunits(12.1,m/s^2)`.  Students do not need to use this, but teachers can use it in question variables etc.
+2. In entry, the numerical part is bound to the units part with multiplication.  Using multiplication in this way is ambiguous.  To create, and to disambiguate, a dimensional numerical quantity from a number multiplied by units (a subtle distinction at best) STACK has a mostly intert function `stackunits(12.1,m/s^2)`.  Students do not need to use this, but teachers can use it in question variables etc.
 3. STACK converts the student's answer to SI base units only.
    This function also handles the number coefficients automatically (e.g. `1*km = 1000*m` etc.).
 4. STACK has answer tests which compare dimensional numbers. These tests use (share code with) one of the existing numerical answer tests, such as `NumSigFigs`.
@@ -42,7 +42,7 @@ IMPORTANT: the internals of this input type actually changes the student's input
 
     stackunits(num, units)
 
-where `num` is the part interpreted to be the numerical portion, and `units` is the portion considered to be the units.  For example, if a student answers `10*m/s` then the internal value from this input will be `stackunits(10,m/s)`.  Essentially the function `stackunits` is inert, but does subtly modify the display.  However, having STACK split the student's answer this way is more reliable than teachers trying to find the "numerical part" themselves on a question by question basis.  It essentially creates a single object representing a dimensional numerical quantity.  If you are using the units answer tests then you need not worry about these internals.  The units answer tests will happily acccept a `stackunits` expression.
+where `num` is the part interpreted to be the numerical portion, and `units` is the portion considered to be the units.  For example, if a student answers `10*m/s` then the internal value from this input will be `stackunits(10,m/s)`.  Essentially the function `stackunits` is inert, but does subtly modify the display.  However, having STACK split the student's answer this way is more reliable than teachers trying to find the "numerical part" themselves on a question by question basis.  It essentially creates a single object representing a dimensional numerical quantity.  If you are using the units answer tests then you need not worry about these internals.  The units answer tests will happily accept a `stackunits` expression.
 
 This input type is built closely on the algebraic input type with the following differences.
 
@@ -72,7 +72,7 @@ STACK provides six answer tests for dealing with units.  These are designed to a
 
 The answer tests *require* the teacher's answer (second argument to the function) to have units.  If the teacher does not specify units then the test will fail.  This decision is to help question authors write robust questions e.g. just specifying a number would be problematic.  The input will accept an answer as valid if and only if the teacher's answer has units, so you should know in advance if you have units.  If you want to compare numbers (i.e. no units), just use the numerical test!
 
-The units answer tests will happily acccept a `stackunits` expression.  Otherwise, the answer test splits up both arguments into this form first.
+The units answer tests will happily accept a `stackunits` expression.  Otherwise, the answer test splits up both arguments into this form first.
 
 * The numerical part is tested with one of the three numerical tests ATNumSigFigs, ATNumRelative or ATNumAbsolute.  Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
 * The units.  All non-numerical variable names are considered to be units.
@@ -96,10 +96,10 @@ This only applys to the "non-strict" versions of the tests.  If the units in the
 
 For example, in order to make a numerical comparison between `1.1*Mg/10^6` and `1.2*kN*ns/(mm*Hz)` both expressions are converted to base units of `kg`. The numerical test is then applied.
 
-For the `NumRelative` test the option gives the required percentage tollarance within which a student's answer should be.  Literally we test the following `|sa-ta| < |ta*tol|`.  Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively.  The same `tol` is used both when the units match and *once they have been converted to base units*.
+For the `NumRelative` test the option gives the required percentage tolerance within which a student's answer should be.  Literally we test the following `|sa-ta| < |ta*tol|`.  Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively.  The same `tol` is used both when the units match and *once they have been converted to base units*.
 
 Similarly, for `NumAbsolute` the option is an absolute difference.  Literally we test
-`|sa-ta| < |tol|`. Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively *once they have been converted to base units*.  Note, where the units are compatible, the same `tol` is used before and after converion to base units.  For this reason, the test `UnitsAbsolute` is likely to give strange behaviour for answers where the units are compatible.  *Suggestions from those teaching science, with examples, of improved behaviour here are very welcome!*
+`|sa-ta| < |tol|`. Here `sa` and `ta` are the numerical value of the student's and teacher's answer respectively *once they have been converted to base units*.  Note, where the units are compatible, the same `tol` is used before and after conversion to base units.  For this reason, the test `UnitsAbsolute` is likely to give strange behaviour for answers where the units are compatible.  *Suggestions from those teaching science, with examples, of improved behaviour here are very welcome!*
 
 ## Dealing with units in Maxima functions, e.g. question variables and PRTs  ##
 
@@ -139,7 +139,7 @@ The functions
     stack_units_units(ex);
     stack_units_nums(ex);
 
-try to split the expression into units and numbers, and the return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULNUMS`. If there are no numbers, `stack_units_units(ex)` returns `NULUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.  (You could also use `first(args(ans1))` or `second(args(ans1))` respectively to access the numerical and units parts.)
+try to split the expression into units and numbers, and the return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULLNUM`. If there are no numbers, `stack_units_units(ex)` returns `NULLUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.  (You could also use `first(args(ans1))` or `second(args(ans1))` respectively to access the numerical and units parts.)
 
 The function `stack_units_split` is deprecated.  DO NOT USE.
 
@@ -165,7 +165,7 @@ Note, the feedback created within potential response trees will not respect the 
 
 ## Tips for dealing with units in STACK ##
 
-CAS vaiables are tricky.
+CAS variables are tricky.
 
 *  When creating worked solutions etc. try `12.3m*s^(-1)` not `12.3m/s`.  The display is better.  The answer test accepts either as equivalent.
 *  Which units are supported?  It is probably best to look at the code.  This is contained in `qtype_stack\stack\cas\casstring_units_class.php`.  Comments and additions are welcome.

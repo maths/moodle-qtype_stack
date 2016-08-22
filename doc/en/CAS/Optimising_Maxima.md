@@ -6,9 +6,9 @@ The instructions for both CLISP and SBCL have been tested and work in STACK 3.  
 
 ## Terminating runaway LISPS ##
 
-It is relatively easy for students to inadvertently generate an answer which takes Maxima a very long time to evaluate.  Typically this arises from where Maxima needs to expand out the brackets by comparing `(x-a)^59999` with a similar expression.  It is very hard to ensure this kind of calculation is impossible so in general this situation will arise from time to time.  The PHP scripts have a timeout, but on linux systems you can also ensure the underlying LISP process is killed off using `timeout` command in linux.  This is particularly valuable for production systems where stability is essential.
+It is relatively easy for students to inadvertently generate an answer which takes Maxima a very long time to evaluate.  Typically this arises from where Maxima needs to expand out the brackets by comparing `(x-a)^59999` with a similar expression.  It is very hard to ensure this kind of calculation is impossible so in general this situation will arise from time to time.  The PHP scripts have a timeout, but on Linux systems you can also ensure the underlying LISP process is killed off using `timeout` command in Linux.  This is particularly valuable for production systems where stability is essential.
 
-1. Check that your linux has the `timeout` command.  Because this is not standard we have not included this mechanism by default.
+1. Check that your Linux has the `timeout` command.  Because this is not standard we have not included this mechanism by default.
 2. Make sure STACK is working.
 3. Set the CAS connection timeout variable as normal in the STACK settings.  E.g. you might choose 5 seconds
 4. Use the following Maxima command
@@ -92,7 +92,7 @@ Access speed increases of between 2 and 9.5 times have been reported over the st
 If you are using stack with sbcl (if you are using CentOS/sl5/RHEL with maxima from epel),
 use the following to generate a stand alone executable:
 
-* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this everytime you upgrade your version.
+* Get STACK working with Platform type set to 'Linux'. Run the health-check. It is important to do this every time you upgrade your version.
 * Go into your moodledata/stack folder as the current directory, and run Maxima.
 * In Maxima, type the commands:
 ~~~~
@@ -124,7 +124,7 @@ See a [Maxima pool](http://github.com/maths/stack_util_maximapool) has been impl
 
 ## Optimisation results ##
 
-The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLISP 2.49 (2010-07-07) on a linux server.
+The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLISP 2.49 (2010-07-07) on a Linux server.
 
 Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test.
 
@@ -133,7 +133,7 @@ CAS setting       | Answertest (460 tests) | Inputs (257 tests)
 Linux             | 517.8672               | 208.85655
                   | _1.1258_               | _0.81267_
 Mature cache      | 0.92644                | 13.9798
-(with linux)      | _0.00201_              | _0.0544_
+(with Linux)      | _0.00201_              | _0.0544_
 Linux (optimised) | 95.16954               | 20.89807
                   | _0.20689_              | _0.08132_
 Mature cache      | 0.90839                | 1.48648

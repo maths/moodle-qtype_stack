@@ -1,6 +1,6 @@
 # Displaying mathematics for STACK in moodle #
 
-STACK generates LaTeX code on the fly and expects to use a moodle filter to convert this into something the user's browser will display.  For Moodle 2.7 or later, MathJax is distributed as a filter.  We strongly recommend using the Moodle MathJax filter.  One reason for adopting MathJax is that it aids [accessibility](../Students/Accessibility.md).
+STACK generates LaTeX code on the fly and expects to use a Moodle filter to convert this into something the user's browser will display.  For Moodle 2.7 or later, MathJax is distributed as a filter.  We strongly recommend using the Moodle MathJax filter.  One reason for adopting MathJax is that it aids [accessibility](../Students/Accessibility.md).
 
 ## Using the MathJax filter
 

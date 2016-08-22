@@ -1,6 +1,6 @@
 # Community
 
-There is a large and growing community of STACK users.  This includes large universities with many teachers and thousands of students, through to smaller setups.  STACK is in regular use in English, Finnish, Sweedish, Japanese, German, Spanish and Portuguese.  If you are using STACK please let us know!
+There is a large and growing community of STACK users.  This includes large universities with many teachers and thousands of students, through to smaller setups.  STACK is in regular use in English, Finnish, Swedish, Japanese, German, Spanish and Portuguese.  If you are using STACK please let us know!
 
 A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
 
@@ -8,7 +8,7 @@ A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk
 
 STACK is a community project and contributions are welcome in many ways.
 
-* Helping collegaues write questions, and use online assessment is a good place to start.
+* Helping colleagues write questions, and use online assessment is a good place to start.
 * Contributing to the documentation and examples.
 * Undertaking projects with your students, and sharing the results.
 * Contributing sample questions and question banks.
@@ -38,7 +38,7 @@ Please do research and publish your experiences of using STACK with students.  A
 
 # STACK users
 
-The following institutions made use of previous versionf of STACK.  If you are actively using or trialling STACK and would like to be listed below then please contact the developers.
+The following institutions made use of previous version of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
 
 School of Mathematics, The University of Edinburgh
 : The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
@@ -68,7 +68,7 @@ Gymnasium Himmelsthür, Hildesheim, Deutschland
 : Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
 
 Universidad Michoacana de San Nicolas de Hidalgo
-: Contcat [V�ctor Hugo Huerta](mailto:v2hugo@gmail.com)
+: Contcat [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
 
 e-MAIO project, Coimbra Institute of Engineering, Portugal
 : Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)

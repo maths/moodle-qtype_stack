@@ -150,11 +150,17 @@ The chart below shows the answer test, whether it is defined in Maxima or PHP an
 | CompSquare   	| ATCompSquare          | Maxima     |	Variable
 | GT           	| ATGT                  | Maxima     |	
 | GTE          	| ATGTE                 | Maxima     |	
+| NumSigFigs   	| ATNumSigFigs          | Maxima     |	Number sig figs
 | NumAbsolute  	|                       | Hybrid     |	
 | NumRelative  	|                       | Hybrid     |	
-| NumSigFigs   	| ATNumSigFigs          | Maxima     |	Number sig figs
 | NumDecPlaces 	|                       | Hybrid     |	
 | LowestTerms  	| ATLowestTerms         | Maxima     |	
+| UnitsSigFigs  | ATUnitsSigFigs        | Maxima     |  Shares code with NumSigFigs
+| UnitsSigFigs  | ATUnitsStrictSigFigs  | Maxima     |  Shares code with NumSigFigs
+| UnitsAbsolute | ATUnitsAbsolute       | Maxima     |  Shares code with NumAbsolute
+| UnitsAbsolute | ATUnitsStrictAbsolute | Maxima     |  Shares code with NumAbsolute
+| UnitsRelative | ATUnitsRelative       | Maxima     |  Shares code with NumRelative
+| UnitsRelative | ATUnitsStrictRelative | Maxima     |  Shares code with NumRelative
 | Diff         	| ATDiff                | Maxima     |	Variable
 | Int          	| ATInt                 | Maxima     |	Variable
 | String       	|                       | PHP        |	

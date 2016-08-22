@@ -22,7 +22,7 @@
 /*  Answer test added by                                        */
 /*  Chris Sangwin <C.J.Sangwin@ed.ac.uk>                        */
 /*                                                              */
-/*  V0.4 December 2015                                          */
+/*  V0.5 August 2016                                            */
 /****************************************************************/
 
 /* This code is commented out as these lists are now defined in the main code and
@@ -148,7 +148,7 @@ stackunits_make(ex) := block([oldsimp, exn, exu],
     verb_arith(stackunits(exn, exu))
 )$
 
-/* This function is depricated.  NO NOT USE. */
+/* This function is deprecated.  NO NOT USE. */
 stack_units_split(ex) := args(stackunits_make(ex))$
 
 /* Turn stackunits into a product in a safe way.  */

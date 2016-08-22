@@ -61,7 +61,7 @@ The numerical scores are assembled by traversing each potential response tree.
 * A "penalty" may also set in the potential response tree for this attempt. Normally the penalty field in each branch of the the potential response tree is empty, in which case the question level penalty value is used.  However, these fields are useful to _remove_ any penalty for this outcome, by setting it to zero explicitly.
 * After the whole tree has been traversed, if the score is 1 then the penalty is always assigned to 0.
 
-STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(0.1=10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and dilligence_ when students initially get a question wrong, but they try again.
+STACK adjusts the score for each potential response tree, based on the number of valid, different attempts.  The penalty scheme deducts from the score a small amount (default is \(0.1=10\%\)) for each different and valid attempt which is not completely correct.   It is designed to _reward persistence and diligence_ when students initially get a question wrong, but they try again.
 
 It works in the following way. For each attempt \(k\), we let
 

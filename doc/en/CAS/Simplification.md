@@ -67,7 +67,7 @@ Then you can put in `@f@` into one of the CASText fields.
 
 ## Tips for manipulating expressions
 
-How do we do the followin in Maxima?
+How do we do the following in Maxima?
 \[ (1-x)^a \times (x-1) \rightarrow  -(1-x)^{a+1}.\]
 Try
 
@@ -76,7 +76,7 @@ Try
     q:subst(z=1-x ,q);
 
 
-How do we do the followin in Maxima?
+How do we do the following in Maxima?
 \[ (x-1)(k(x-1))^a \rightarrow  (x-1)^{a+1}k^a.\]
 
      factor(radcan((x-1)*(k*(x-1))^a)) 

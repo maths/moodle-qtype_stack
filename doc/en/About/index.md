@@ -17,7 +17,7 @@ Note, we cannot use a string match because mathematical questions usually have a
 The solution lies in using a [Computer Algebra System](../CAS/index.md) to power the assessment system.
 The built-in knowledge of mathematics that the computer algebra system provides opens up entirely new possibilities to computer-aided assessment, of which we will now present a few examples:
 
-Primarily, STACK provides a question type for the Moodle quiz.  STACK has also been ported to the ILIAS learning evironment.  For details of that integration see [here](https://github.com/ilifau/assStackQuestion/). STACK can be integrated into other systems using [LTI](../installation/LTI.md).
+Primarily, STACK provides a question type for the Moodle quiz.  STACK has also been ported to the ILIAS learning environment.  For details of that integration see [here](https://github.com/ilifau/assStackQuestion/). STACK can be integrated into other systems using [LTI](../installation/LTI.md).
 
 ## Equivalent answers of the right form ##
 

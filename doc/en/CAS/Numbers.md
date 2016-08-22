@@ -11,7 +11,7 @@ etc.   STACK also uses single letters, e.g.
     e: %e
     pi: %pi
 
-Optinally, depending on the question settings, you have
+Optionally, depending on the question settings, you have
 
     i: %i
     j: %i
@@ -40,7 +40,7 @@ The following commands which are relevant to manipulation of numbers are defined
 
 The display of numbers is controlled by Maxima's `texnumformat` command, which STACK modifies.
 
-Stack provides two variables to control the display of integers and floats repectively.  The default values are
+Stack provides two variables to control the display of integers and floats respectively.  The default values are
 
     stackintfmt:"~d";
     stackfltfmt:"~a";
@@ -96,11 +96,11 @@ STACK has defined the function `significantfigures(x,n)` to conform to conventio
 
 The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.    
 
-If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you must use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  Otherwise STACK will try to insert star characters for you and `3e4` will be interprted as `3*e*4`.
+If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you must use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  Otherwise STACK will try to insert star characters for you and `3e4` will be interpreted as `3*e*4`.
 
 ## Displaying a float with trailing zeros ##
 
-By default in Maxima all trailing zeros are suppressed.  Therefore, you can't display \(3.00\) for scientific work easily.  To overcome this, STACK provides a function `dispdp(x, n)`.  Here `x` is a number, and `n` is the number of decimal digits to display.  This function does perform rounding, and adds trailing digits to the display.  If you want to do further calculation with the value don't use this funtion, instead round with `decimalplaces(x,n)` and display only at the last moment.
+By default in Maxima all trailing zeros are suppressed.  Therefore, you can't display \(3.00\) for scientific work easily.  To overcome this, STACK provides a function `dispdp(x, n)`.  Here `x` is a number, and `n` is the number of decimal digits to display.  This function does perform rounding, and adds trailing digits to the display.  If you want to do further calculation with the value don't use this function, instead round with `decimalplaces(x,n)` and display only at the last moment.
 
 ## Surds ##
 

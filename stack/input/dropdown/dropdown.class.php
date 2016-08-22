@@ -106,13 +106,15 @@ class stack_dropdown_input extends stack_input {
         // We need to reset the errors here, now we have a new teacher's answer.
         $this->ddlerrors = '';
 
-        /* Sort out the ddlvalues.
+        /*
+         * Sort out the ddlvalues.
          * Each element must be an array with the keys:
          *   value - the CAS value.
          *   display - the LaTeX displayed value.
          *   correct - whether this is considered correct or not.  This is a PHP boolean.
+         *
+         * First extract strings as they cause trouble.
          */
-        // First extract strings as they cause trouble.
         $str = $teacheranswer;
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {

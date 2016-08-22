@@ -103,6 +103,12 @@ Similarly, for `NumAbsolute` the option is an absolute difference.  Literally we
 
 ## Dealing with units in Maxima functions, e.g. question variables and PRTs  ##
 
+STACK uses an intert function to represent dimensional numerical quantities.
+
+    stackunits(num, units)
+
+In particular, if we just represented scientific units as a product there would be no way to distinguish between `stackunits(0, m)` and `stackunits(0, s)`.  As a product both would evaluate to `0`, which would appear dimensionless.  A teacher is still likley to want to make comments on units when the numerical part is zero.
+
 The function `stack_unit_si_declare(true)` declares variables as units.  (Note the argument to this function is not used.)  For example, this changes the TeX output of `m` to Roman \(\mathrm{m}\) and not the normal \(m\).  (That units are displayed in Roman is lost to most students!).  Note that the symbols are *only* declared to be units by using `stack_unit_si_declare(true)` first somewhere else in the question, or feedback variables.
 
 * `unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a dimensional numerical quantity `stackunits`.  
@@ -111,6 +117,8 @@ The function `stack_unit_si_declare(true)` declares variables as units.  (Note t
 *  If you do not declare `stack_unit_si_declare(true)` in the question variables you may need to do so in the feedback text itself.
 
 The function `stackunits_make(ex)` takes the expression `ex` and, if this is a product of numbers and units, it returns an inert function `stackunits` with arguments `stackunits(numbers, symbols)`.  Note, symbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
+
+The function `stackunits_to_product(ex)` turns a `stackunits` object into a product of number and units.
 
 It might be helpful in the feedback variables field to separate units from numerical parts prior to building your own potential response tree.  However, do not do the following.
 
@@ -132,7 +140,6 @@ The functions
     stack_units_nums(ex);
 
 try to split the expression into units and numbers, and the return the units and numbers found.  If there are no numbers, `stack_units_nums(ex)` returns `NULNUMS`. If there are no numbers, `stack_units_units(ex)` returns `NULUNITS`.  These are special tags, but note they are displayed by LaTeX as empty strings.  (You could also use `first(args(ans1))` or `second(args(ans1))` respectively to access the numerical and units parts.)
-
 
 The function `stack_units_split` is deprecated.  DO NOT USE.
 

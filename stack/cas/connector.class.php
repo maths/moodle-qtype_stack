@@ -55,7 +55,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string replacement strings in relation to $wwwroothasunderscores. */
     protected $wwwrootfixupreplace;
 
+    // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::compute() */
+    // @codingStandardsIgnoreEnd
     public function compute($command) {
 
         $context = "Platform: ". stack_connection_helper::get_platform() . "\n";
@@ -81,7 +83,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $unpackedresult;
     }
 
+    // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::get_debuginfo() */
+    // @codingStandardsIgnoreEnd
     public function get_debuginfo() {
         return $this->debug->get_log();
     }
@@ -224,8 +228,10 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                     '', $local['display']);
                 $local['display'] = str_replace('</math>', '', $local['display']);
 
+                // @codingStandardsIgnoreStart
                 // For latex mode, remove the mbox.
                 // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.
+                // @codingStandardsIgnoreEnd
                 $local['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $local['display']);
 
                 if ($this->wwwroothasunderscores) {

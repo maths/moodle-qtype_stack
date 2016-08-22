@@ -1122,8 +1122,10 @@ class stack_cas_casstring {
             return true;
         }
 
+        // @codingStandardsIgnoreStart
         // Split over characters '<>', '<=', '>=', '<', '>', '='.
         // Note the order in splits:  this is important.
+        // @codingStandardsIgnoreEnd
         $splits = array( '<>', '<=', '>=', '<', '>', '=');
         $bits = array($ex);
         foreach ($splits as $split) {

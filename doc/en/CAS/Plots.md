@@ -6,7 +6,7 @@ The main way to create plots is using Maxima.
 
 ## plot() {#plot}
 
-In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and returns a URL to the image.  Not all of the features of `plot2d` are available through `plot`.  In particular only a very few of Maxima's `plot_options` are respected by `plot`, maily for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)  Note that the `draw` package is currently not supported.
+In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and returns a URL to the image.  Not all of the features of `plot2d` are available through `plot`.  In particular only a very few of Maxima's `plot_options` are respected by `plot`, mainly for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)  Note that the `draw` package is currently not supported.
 
 Try, for example, the following in the question stem.
 
@@ -74,11 +74,11 @@ If you would like an expression as part of this then try
     p:sin(x);
     plot(p,[x,-2,2],[alt,concat("Here is ",string(p))]);
 
-(Note, previous versions of STACK had the alt-text as an equation.  This has been refractored as a list, in line with other `plot2d` options.)
+(Note, previous versions of STACK had the alt-text as an equation.  This has been re-factored as a list, in line with other `plot2d` options.)
 
 ## A catalogue of plots
 
-The following castext gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.  Beware that these are likely to cause a timeout on the CAS if you try them all at once.
+The following CAStext gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the caschat script.  Beware that these are likely to cause a timeout on the CAS if you try them all at once.
 
     <h3>Basic plot</h3>
     @plot(x^2,[x,-2,2])@
@@ -124,7 +124,7 @@ In Maxima
 generates a plot of an implicit function.
 
 Maxima's `implicit_plot()` function does not respect the plot options, and we cannot place the resulting plot files in the correct places.
-Hence, STACK does not currenltly support implicit plots.
+Hence, STACK does not currently support implicit plots.
 
 
 ## HTML
@@ -149,7 +149,7 @@ This includes the code in the question variables to create [random objects](Rand
     anb : 5 + rand(20);
     aub : a+b-anb;
 
-Then, in the question stem we have the HTML which uses this.  Note the way valus of variables are inserted here.
+Then, in the question stem we have the HTML which uses this.  Note the way values of variables are inserted here.
 
     <img src="http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:@a@,@b@,0,@anb@,0,0&chdl=A|B">
 

@@ -70,6 +70,8 @@ alias(int,integrate);        /* Allows integrate to be called with int()    */
 alias(cosec,csc);            /* Corresponds to current student expectations */
 
 simplify(ex) := ev(fullratsimp(ex), simp); /* Allows simplify to be something */
+degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
+
 
 /* ********************************** */
 /* Logarithms                         */
@@ -96,8 +98,6 @@ matchfix("|", "|");
 /* Does not quite work yet ..... */
 /* load("noninteractive.mac"); */
 
-/*load("expandfeedback.mac");*/
-
 /*load("sqdnst")*/
 sqrtdenest(a) :=
   subst("^" = lambda([a, b],
@@ -122,6 +122,7 @@ load("stacktex.lisp");    /* Loads LaTeX changes and preferences.      */
 /* load("expandfeedback.mac"); */
 
 texput(QMCHAR, "\\color{red}{?}");
+texput(theta, "\\theta");
 
 alias(arccos, acos);          /* At the request of the OU, 4 Feb 2013. */
 alias(arcsin, asin);           
@@ -919,7 +920,10 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
       This changes 1.5 -> 2.0 (2.s.f).                                                              */
     SB:significantfigures(SB, nsf),
     /* Puts Teacher's answer between 0 & 1 */
-    c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp),
+    if not(is(SB=0) or is(SB=0.0)) then
+      c0:ev(-floor(log(abs(float(rat(SB))))/log(10)+1), simp)
+    else
+      c0:0.0,
     c1:ev(rat(SA)*10^(c0+floor(nsf)), simp),
     if is(ev(float(c1-floor(c1)), simp) = 0.0) = false then block(
         Validity:true, 
@@ -2540,4 +2544,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016082002$
+stackmaximaversion:2016082200$

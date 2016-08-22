@@ -89,13 +89,13 @@ documentaion.  See also [Predicate functions](Predicate_functions.md).
 | `zip_with(f,a,b)`               | This function applies the binary function \(f\) to two lists \(a\) and \(b\) returning a list.  An example is given in adding matrices to [show working](Matrix.md#Showing_working).
 | `coeff_list(ex,v)`              | This function takes an expression ex and returns a list of coefficients of v
 | `coeff_list_nz(ex,v)`           | This function takes an expression ex and returns a list of nonzero coefficients of v
-| `exdowncase(ex)`                | This return `ex` where all variable nanes are replaced by lower case versions.
+| `exdowncase(ex)`                | This return `ex` where all variable names are replaced by lower case versions.
 | `divthru(ex)`                   | Takes an algebraic fraction, e.g. \((x^4-1)/(x+2)\) and divides through by the denominator, to leave a polynomial and a proper fraction. Useful in feedback, or steps of a calculation.
 | `stack_strip_percent(ex,var)`   | Removes any variable beginning with the `%` character from `ex` and replace them with variables from `var`.  Useful for use with solve, ode2 etc.  [Solve and ode2](Differential_equations.md#Solve_and_ode2).
 | `exdowncase(ex)`                | Takes the expression `ex` and substitutes all variables for their lower case version (cf `sdowncase(ex)` in Maxima).  This is very useful if you don't care if a student uses the wrong case, just apply this function to their answer before using an [answer test](../Authoring/Answer_tests.md).  Note, of course, that `exdowncase(X)-x=0.`
 | `stack_reset_vars`              | Resets constants, e.g. \(i\), as abstract symbols, see [Numbers](Numbers.md).
 | `safe_op(ex)`                   | Returns the operation of the expression as a string.  Atoms return an empty string (rather than throwing an error as does `op`). 
-| `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed sequare form.
+| `comp_square(ex,v)`             | Returns a quadratic `ex` in the variable `v` in completed square form.
 | `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
 | `unary_minus_sort(ex)`          | Tidies up the way unary minus is represented within expressions when `simp:false`.  See also [simplification](Simplification.md).
 | `texboldatoms(ex)`              | Displays all non-numeric atoms in bold.  Useful for vector questions.

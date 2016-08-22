@@ -322,12 +322,14 @@ class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrou
                 'ans4' => 'true', '-submit' => 1));
 
         $this->check_current_state(question_state::$gradedpartial);
+        // @codingStandardsIgnoreStart
         // The  correct mark calculation is:
         // odd PRT:     0, 1,   1, penalty 0.4: 0.6
         // even PRT:    0, 0,   1, penalty 0.8: 0.2
         // oddeven PRT: 0, 0.5, 0, penalty 1.2: 0
         // unique PRT:  0, 0,   1, penalty 1:   0
         // Total:                               0.8.
+        // @codingStandardsIgnoreEnd
         $this->check_prt_score('odd', 1, 0);
         $this->check_prt_score('even', 1, 0);
         $this->check_prt_score('oddeven', 0, 0.4);

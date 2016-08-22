@@ -4,7 +4,7 @@ Greek letters are transliterated using their English names.  I.e.
 
     [alpha,beta,gamma,delta,epsilon,zeta,eta,theta,iota,kappa,lambda,mu,nu,xi,omicron,pi,rho,sigma,tau,upsilon,phi,chi,psi,omega]
     
-Upper case greek letters have an upper case English first letter.  I.e.
+Upper case Greek letters have an upper case English first letter.  I.e.
 
     [Alpha,Beta,Gamma,Delta,Epsilon,Zeta,Eta,Theta,Iota,Kappa,Lambda,Mu,Nu,Xi,Omicron,Pi,Rho,Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega]
     

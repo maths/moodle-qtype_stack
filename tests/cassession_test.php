@@ -465,10 +465,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('3^(3/2)', $at1->get_value_key('a'));
 
+        // @codingStandardsIgnoreStart
         // Warning to developers.   The behaviour of rat is not stable accross versions of Maxima.
         // In Maxima 5.25.1: rat(sqrt(27)) gives sqrt(3)^3.
         // In Maxima 5.36.1: rat(sqrt(27)) gives (3^(1/2)^3).
         // In Maxima 5.37.1: rat(sqrt(27)) gives sqrt(3)^3.
+        // @codingStandardsIgnoreEnd
         $maximaversion = $at1->get_value_key('m');
         if ($maximaversion == '36.1') {
             // Developers should add other versions of Maxima here as needed.
@@ -594,7 +596,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('\left[ \alpha , \beta , \gamma , \delta , \varepsilon \right]',
                 $at1->get_display_key('greek1'));
         $this->assertEquals('[zeta,eta,theta,iota,kappa]', $at1->get_value_key('greek2'));
-        $this->assertEquals('\left[ \zeta , \eta , \vartheta , \iota , \kappa \right]',
+        $this->assertEquals('\left[ \zeta , \eta , \theta , \iota , \kappa \right]',
                 $at1->get_display_key('greek2'));
         // Note here that pi is returned as the constant %pi.
         $this->assertEquals('[lambda,mu,nu,xi,omicron,%pi,rho]', $at1->get_value_key('greek3'));

@@ -10,7 +10,7 @@ The goal of these input types is to provide *modest* facilities for MCQ.  An ear
 
 ## Model answer ##
 
-This input type uses the "model answer" both to input the teacher's answer and the other options. In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.  Constructing a correctly formed model answer is complex, and so this input type should be considered "advanced".  New users are adviced to gain confidence writing questions with algebraic inputs first, and gain experience in using Maxima lists.
+This input type uses the "model answer" both to input the teacher's answer and the other options. In this respect, this input type is unique, and the "model answer" field does *not* contain just the teacher's model answer.  Constructing a correctly formed model answer is complex, and so this input type should be considered "advanced".  New users are advised to gain confidence writing questions with algebraic inputs first, and gain experience in using Maxima lists.
 
 The "model answer" must be supplied in a particular form as a list of lists `[[value, correct(, display)], ... ]`.
 
@@ -36,7 +36,7 @@ If you need "none of these" you must include this as an explicit option, and not
 
 The dropdown and radio inputs return the `value`, but the checkbox type returns the student's answer as Maxima list, even if they have only chosen one option.
 
-If, when authoring a question, you switch from radio/dropdown to checkboxes or back, you will probably break a PRT because of mis-matched types.
+If, when authoring a question, you switch from radio/dropdown to checkboxes or back, you will probably break a PRT because of mismatched types.
 
 For the select and radio types the first option on the list will always be "Not answered".  This enables a student to retract an answer and return a "blank" response.
 
@@ -111,7 +111,7 @@ The actual CAS value of the answer returned will be the respective integer selec
 
 For this reason you will probably want to switch off the validation feedback ``your last answer was...".  
 
-Using a PRT is slight overkill, but it maintains the consitent internal design.
+Using a PRT is slight overkill, but it maintains the consistent internal design.
 
 ## Dealing with external images in MCQ ##
 
@@ -137,5 +137,5 @@ Then the following test case contains all the "true" answers.
 
      [x^2-1,(x-1)*(x+1)]
 
-There is currently minimal checking that the string entered by the teacher corresponds to a valid choice in the input type.  If your testcase returns a blank result this is probably the problem.     
+There is currently minimal checking that the string entered by the teacher corresponds to a valid choice in the input type.  If your test case returns a blank result this is probably the problem.     
      

@@ -65,7 +65,7 @@ In this question a student is asked to give examples of odd and even functions.
 
 ### `continuous-non-differentiable.xml` ###
 
-In this question a student is asked to give examples of a functionwith a stationary point at x=n and which is continuous but not differentiable at x=0.
+In this question a student is asked to give examples of a function with a stationary point at x=n and which is continuous but not differentiable at x=0.
 
 * There are three separate properties to be established.
 * There is a randomly generated point.

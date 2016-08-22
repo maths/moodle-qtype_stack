@@ -407,7 +407,9 @@ class stack_inputvalidation_test_data {
 
         $phpvalid = $cs->get_valid();
         if ($phpvalid) {
-            // Trim off stack_validate_typeless([..], true, true, false).
+            // @codingStandardsIgnoreStart
+            // Trim off stack_validate_typeless([..], true, true).
+            // @codingStandardsIgnoreEnd
             $phpcasstring = $cs->get_casstring();
             $phpcasstring = substr($phpcasstring, 25);
             $phpcasstring = substr($phpcasstring, 0, strlen($phpcasstring) - 18);

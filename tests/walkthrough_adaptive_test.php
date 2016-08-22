@@ -1049,6 +1049,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     }
 
     public function test_test3_complex_scenario() {
+        // @codingStandardsIgnoreStart
         /**
          * Here are the sequence of responses we are going to test. When
          * a particular PRT generates a grades, that is shown in brackets as
@@ -1071,6 +1072,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
          *
          * Hopefully this summary makes the following easier to understand.
          */
+        // @codingStandardsIgnoreEnd
 
         // Create a stack question.
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');

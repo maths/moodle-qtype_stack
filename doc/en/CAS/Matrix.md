@@ -69,7 +69,7 @@ For non-square matrices we can use this.
     S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(B)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]));
     D:ev(C,simp);
 
-Now it makes no sense to include the pointwise multiplication of elements as a possible wrong answer.
+Now it makes no sense to include the point wise multiplication of elements as a possible wrong answer.
 
 There must be a more elegant way to do this!
 

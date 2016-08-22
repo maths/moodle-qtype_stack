@@ -6,6 +6,7 @@ The STACK system is a computer aided assessment package for mathematics, which p
 
    >  In these questions, a student makes a selection from, or interacts with, potential answers which the teacher has selected.
       Examples include multiple choice, multiple response and so on.
+
 *  *Student-provided answer questions*
 
    >  In these questions the student's answer contains the content.

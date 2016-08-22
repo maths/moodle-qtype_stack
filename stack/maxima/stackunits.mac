@@ -22,7 +22,7 @@
 /*  Answer test added by                                        */
 /*  Chris Sangwin <C.J.Sangwin@ed.ac.uk>                        */
 /*                                                              */
-/*  V0.4 December 2015                                          */
+/*  V0.5 August 2016                                            */
 /****************************************************************/
 
 /* This code is commented out as these lists are now defined in the main code and
@@ -77,24 +77,34 @@ stack_unit_si_declare(mode) := block([pfi, ui, simp],
 )$
 
 /* Converts the whole expression to SI-base units. */
-stack_unit_si_to_si_base(expression) := block([ui, pfi, work, simp],
+stack_unit_si_to_si_base(expression) := block([ui, pfi, ex, workex, oldsimp],
+    oldsimp:simp,
+    simp:false,
+    ex:stackunits_make(expression),
+    workex:stack_units_units(ex),
+    if debug then (print("stack_unit_si_to_si_base: working with the following."), print(ex), print(workex)),
+    /* If we don't have units there is nothing to do. */
+    if is(workex=NULLUNITS) then return(expression),
+    exop:safe_op(expression),
     simp:true,
-    work:expression,
-    if safe_op(expression) = "stackunits" then
-      work:apply("*",args(expression)),
     for ui:1 thru length(stack_unit_other_unit_code) do (
-        work:subst(stack_unit_other_unit_conversions[ui], stack_unit_other_unit_code[ui], work)
+        workex:subst(stack_unit_other_unit_conversions[ui], stack_unit_other_unit_code[ui], workex)
     ),
     for ui:1 thru length(stack_unit_si_unit_code) do (
         for pfi:1 thru length(stack_unit_si_prefix_code) do (
-            work:subst(stack_unit_si_prefix_multiplier[pfi]*stack_unit_si_unit_code[ui], concat(stack_unit_si_prefix_code[pfi], stack_unit_si_unit_code[ui]), work)
+            workex:subst(stack_unit_si_prefix_multiplier[pfi]*stack_unit_si_unit_code[ui], concat(stack_unit_si_prefix_code[pfi], stack_unit_si_unit_code[ui]), workex)
         ),
-        work:subst(stack_unit_si_unit_conversions[ui], stack_unit_si_unit_code[ui], work)
+        workex:subst(stack_unit_si_unit_conversions[ui], stack_unit_si_unit_code[ui], workex)
     ),
+    if debug then (print("stack_unit_si_to_si_base: after base conversion"), print(workex)),
+    workex:stackunits_make(workex),
+    if not(stack_units_nums(ex)=NULLNUMS and stack_units_nums(workex)=NULLNUM) then
+        workex:stackunits(ev(stack_units_nums(ex)*stack_units_nums(workex), NULLNUM=1), stack_units_units(workex)),
     /* Return the expression with the operator is started with. */
-    if safe_op(expression) = "stackunits" then
-      work:stackunits_make(work),
-    return(work)
+    simp:oldsimp,
+    if not(safe_op(expression) = "stackunits") then
+      workex:stackunits_to_product(workex),
+    return(workex)
 )$
 
 /* Splits off the units from the end of a product. */
@@ -119,7 +129,7 @@ stackunits_make(ex) := block([oldsimp, exn, exu],
     exu:sublist(args(exn), lambda([ex2], not(stackunits_make_p(ex2)))),
     exn:sublist(args(exn), lambda([ex2], stackunits_make_p(ex2))),
     simp:oldsimp,
-    if (debug) then (print("stackunits_make:"), print(exn), print(exu)),
+    if (debug) then (print("stackunits_make: expressions split as"), print(exn), print(exu)),
     /* Flag up if we genuinely have no numbers. */
     if is_simp(emptyp(exn)) then 
         exn:[NULLNUM],
@@ -129,15 +139,28 @@ stackunits_make(ex) := block([oldsimp, exn, exu],
     /* Transform (a^2)^-1 to a^(-2), for the units. */
     exu:maplist(unary_minus_remove, exu),
     exu:maplist(flatten_pow_minus_one, exu),
+    if (debug) then (print("stackunits_make: (1) reformulated units as "), print(exu)),
     exn:maplist(unary_minus_remove, exn),
     exn:stack_units_rational_number(exn),
     if length(exn)=1 then exn:first(exn) else exn:apply("noun*", exn),
     if length(exu)=1 then exu:first(exu) else exu:apply("noun*", exu),
+    if (debug) then (print("stackunits_make: (2) reformulated units as "), print(exu)),
     verb_arith(stackunits(exn, exu))
 )$
 
-/* This function is depricated.  NO NOT USE. */
+/* This function is deprecated.  NO NOT USE. */
 stack_units_split(ex) := args(stackunits_make(ex))$
+
+/* Turn stackunits into a product in a safe way.  */
+stackunits_to_product(ex) := block(
+    if not(safe_op(ex) = "stackunits") then
+        return(ex),
+    if stack_units_units(ex) = NULLUNITS then 
+        return(stack_units_nums(ex)),
+    if stack_units_nums(ex) = NULLNUM then 
+        return(stack_units_units(ex)),
+    apply("*", args(ex))
+)$
 
 /* Predicate function used as a filter in stackunits_make. */
 stackunits_make_p(ex) := block(
@@ -230,10 +253,12 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp) := block( [simp:false, e
 
     /* Add in an option to control the display of the units. */
     expr:SAU,
+    if (debug) then (print("stack_validate_units has: "), print(expr)),
     if fracdisp = "inline" then block(
         stack_disp_factions("i"),
         expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU),simp))
     ),
+    if (debug) then (print(expr)),
     expr:detexcolor(expr),
     expr:detexdecorate(expr),
     return(expr)
@@ -291,10 +316,10 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
     if not(member(units, features)) then
         stack_unit_si_declare(true),
 
-    if (debug) then (print(SA), print(SB)),
+    if (debug) then (print("ATUnitsFun: raw input: "), print(SA), print(SB)),
     SAU:stackunits_make(SA),
     SBU:stackunits_make(SB),
-    if (debug) then (print("ATUnitsFun: stackunits_make gives: "), print(SAU), print(SBU)),
+    if (debug) then (print("ATUnitsFun: Initial stackunits_make gives: "), print(SAU), print(SBU)),
 
     /* The teacher must supply some units, otherwise the test will fail. */
     if is_simp(stack_units_units(SBU) = NULLUNITS) then
@@ -313,7 +338,7 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
     /* Strip off units and check the numerical part with ATNumSigFigs. */
     SAU1:ev(float(stack_units_nums(SAU)), simp),
     SBU1:ev(float(stack_units_nums(SBU)), simp),
-    if (debug) then (print("Call to 1st numerical test with data: "), print(SAU1), print([SBU1, ol])),
+    if (debug) then (print("ATUnitsFun: call to 1st numerical test with data: "), print(SAU1), print([SBU1, ol])),
     if (numtest = "SigFigs") then
         ret1: ATNumSigFigs(SAU1, [SBU1, ol])
     else if (numtest = "Absolute") then
@@ -336,12 +361,12 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
         return([ret1[1], ret1[2], StackAddNote(ret1[3], "ATUnits_units_match"), ret1[4]]),
 
     /* Now convert to base units and compare again.  This is for feedback purposes. */
-    if (debug) then print("ATUnits: converting to base units."),
+    if (debug) then (print("ATUnits: about to convert the following to base units."), print(SA), print(SB)),
     SA:stack_unit_si_to_si_base(SA),
     SB:stack_unit_si_to_si_base(SB),
     SAU:stackunits_make(SA),
     SBU:stackunits_make(SB),
-    if (debug) then (print(SAU), print(SBU)),
+    if (debug) then (print("ATUnits: results of convertion to base units."), print(SAU), print(SBU)),
     /* Check the accuracy again, now we have converted. */
     SAU1:ev(float(stack_units_nums(SAU)), simp),
     SBU1:ev(float(stack_units_nums(SBU)), simp),

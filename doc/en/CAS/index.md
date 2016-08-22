@@ -1,8 +1,6 @@
 # Maxima and computer algebra use in STACK
 
-STACK uses the computer algebra system (CAS)
-[Maxima](Maxima.md). We have also provided some background to
-[CAS](CAS.md) in general.
+STACK uses the computer algebra system (CAS) [Maxima](Maxima.md). We have also provided some background to [CAS](CAS.md) in general.
 
 Computer algebra systems are most often designed for either the
 research mathematician, or the student _to do calculations_.
@@ -38,7 +36,7 @@ Information on specific mathematical topics are found below
 * [Statistics](Statistics.md).
 * [Randomly generated objects](Random.md).
 * [Plots](Plots.md) and graphics.
-* [Buggy rules](Buggy_rules.md) implenments rules which are not always valid!
+* [Buggy rules](Buggy_rules.md) implements rules which are not always valid!
 
 
 ## Developer information, and other topics {#developer}

@@ -1,19 +1,51 @@
-language: php
-
 sudo: required
+dist: trusty # Required so we get a not-totally-ancient build of Maxima.
+language: php
 
 cache:
   directories:
     - $HOME/.composer/cache
 
-php:
- - 5.4
+matrix:
+  # I would like to run at least some of these with DB=mysqli, but that
+  # currently fails with dist: trusty which we need for Maxima.
+  # The error is ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+  # The solution is to add --protocol=TCP in src/Installer/Database/MySQLDatabase.php
+  # in https://github.com/moodlerooms/moodle-plugin-ci, but I can't work out
+  # how to do that.
+  include:
+    - php: 5.4
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
 
-env:
- global:
-  - MOODLE_BRANCH=MOODLE_31_STABLE
- matrix:
-  - DB=mysqli
+    - php: 5.5
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_30_STABLE   DB=pgsql
+
+    - php: 5.6
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+
+    - php: 5.4
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
+
+    - php: 5.6
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_30_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+
+  allow_failures:
+    - php: 7.0
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+    - php: 7.0
+      env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
 
 before_install:
   - sudo apt-get update
@@ -25,22 +57,42 @@ before_install:
   - composer selfupdate
   - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^1
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+  - mkdir behat_output
 
 install:
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_dfcbmexplicitvaildate
   - moodle-plugin-ci add-plugin maths/moodle-qbehaviour_adaptivemultipart
   - moodle-plugin-ci install
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLATFORM",        "unix");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION",   "'`maxima --version | sed 's/Maxima //'`'");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASTIMEOUT",      "20");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE", "none");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND",   "maxima");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND",     "gnuplot");'
+  - moodle-plugin-ci add-config 'define("QTYPE_STACK_TEST_CONFIG_CASDEBUGGING",    "0");'
+
+  # Prepare to capture Behat failures.
+  - moodle-plugin-ci add-config '$CFG->behat_faildump_path = "'`pwd`'/behat_output";'
 
 script:
-  - moodle-plugin-ci phplint
-  - moodle-plugin-ci phpcpd
-  - moodle-plugin-ci phpmd
-  - moodle-plugin-ci codechecker
-  - moodle-plugin-ci csslint
-  - moodle-plugin-ci shifter
-  - moodle-plugin-ci jshint
-  - moodle-plugin-ci validate
-  - moodle-plugin-ci phpunit
-  - moodle-plugin-ci behat
-  
+  # Run all the PHP unit tests.
+  - if [ "$TASK" = 'PHPUNIT' ];        then moodle-plugin-ci phpunit;     fi
+
+  # Run all the Behat tests.
+  - if [ "$TASK" = 'BEHAT' ];          then moodle-plugin-ci behat;       fi
+  # The next line dumps the HTML of any failures to stdout. Not nice, but sufficient for now.
+  - if [ "$TASK" = 'BEHAT' ];          then find behat_output -name '*.html' -type f -print -exec cat {} \; ; fi
+
+  # Run all the various code style tests - this subset should all pass.
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci phplint;     fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci phpmd;       fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci csslint;     fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci shifter;     fi
+  - if [ "$TASK" = 'CODESTYLE' ];      then moodle-plugin-ci validate;    fi
+
+  # Run all the various code style tests - these ones are konwn to fail.
+  # Once we get them passing, move them to the CODESTYLE section above.
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci phpcpd;      fi
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci codechecker; fi
+  - if [ "$TASK" = 'CODEKNOWNFAILS' ]; then moodle-plugin-ci jshint;      fi

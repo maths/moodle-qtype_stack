@@ -1,21 +1,14 @@
 # PHP interface with the CAS.
 
-This document describes the design of the PHP interface to the
-CAS.  While this interface was developed specifically to
-connect STACK to Maxima, it should be possible to factor this
-into other projects.
+This document describes the design of the PHP interface to the CAS.  While this interface was developed specifically to connect STACK to Maxima, it should be possible to factor this into other projects.
 
 # High level objects
 
 ## CAS text.
 
-CAS text is literally "computer algebra active text".  This is
-documented [elsewhere](../Authoring/CASText.md).  It should be, in
-principle, possible to develop a "CASText filter" for Moodle.
+CAS text is literally "computer algebra active text".  This is documented [elsewhere](../Authoring/CASText.md).  It should be, in principle, possible to develop a "CASText filter" for Moodle.
 
-Note, that when constructing CAS text it must be able to take a
-CAS session as an argument to the constructor.  In this way we
-can use lists of variables, such as [question variables](../Authoring/KeyVals.md) to provide values.
+Note, that when constructing CAS text it must be able to take a CAS session as an argument to the constructor.  In this way we can use lists of variables, such as [question variables](../Authoring/KeyVals.md) to provide values.
 
 E.g. we might have :
 
@@ -121,10 +114,7 @@ The most difficult part of configuring the CAS is enabling Maxima to plot graphs
 
 The PHP code which creates this file sorts out backslashes and other vagaries...
 
-## Efficiency:  CLIC connector, XML and server mode.
+## Efficiency
 
-The connection to Maxima is slow, and is certainly the most important issue when trying to scale up the STACK.  The issue is that Maxima is quite slow to start.  Various attempts have been made to operate Maxima in "server mode" to speed this up.
-
-The University of Manchester have also compiled the Maxima code and this leads to increased server response.  See [optimising maxima](../CAS/Optimising_Maxima.md).
-
+The connection to Maxima is slow, and is certainly the most important issue when trying to scale up the STACK.  The issue is that Maxima is quite slow to start.  The University of Manchester provided a mechanism to compile the Maxima code and this leads to increased server response.  See [optimising maxima](../CAS/Optimising_Maxima.md).
 

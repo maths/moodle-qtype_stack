@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/../../stack/cas/installhelper.class.php');
 
 /**
  * Helper class for setting up the STACK configuration for automated tests.

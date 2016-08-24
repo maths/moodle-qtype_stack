@@ -30,7 +30,7 @@ require_once($CFG->libdir .'/tablelib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/input/factory.class.php');
-require_once(__DIR__ . '/tests/inputfixtures.class.php');
+require_once(__DIR__ . '/tests/fixtures/inputfixtures.class.php');
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);

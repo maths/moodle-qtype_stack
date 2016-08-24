@@ -85,7 +85,7 @@ abstract class qtype_stack_test_config {
             set_config('serveruserpass',    QTYPE_STACK_TEST_CONFIG_SERVERUSERPASS,    'qtype_stack');
         }
 
-        if (stack_cas_configuration::maxima_bat_is_missing()) {
+        if (!file_exists(stack_cas_configuration::maximalocal_location())) {
             stack_cas_configuration::create_maximalocal();
         }
 

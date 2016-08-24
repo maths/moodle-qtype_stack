@@ -1,4 +1,4 @@
-@qtype @qtype_stack
+@qtype @qtype_stack_extra @javascript
 Feature: STACK has a build in self-check.
   In order to verify STACK is installed properly
   As an admin
@@ -9,7 +9,6 @@ Feature: STACK has a build in self-check.
     And I set up STACK using the PHPUnit configuration
     And I navigate to "STACK" node in "Site administration > Plugins > Question types"
 
-  @javascript
   Scenario: Run the STACK healthcheck
     When I follow "healthcheck script"
     Then I should see "STACK healthcheck"

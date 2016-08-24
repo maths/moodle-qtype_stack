@@ -380,7 +380,7 @@ M.qtype_stack.init_input = function(name, qaid, prefix) {
         return false;
     }
 
-    // See if it is an ordinary input:
+    // See if it is an ordinary input.
     var input = Y.one(document.getElementById(prefix + name));
     if (input) {
         if (input.get('tagName') === 'TEXTAREA') {
@@ -391,7 +391,7 @@ M.qtype_stack.init_input = function(name, qaid, prefix) {
         return true;
     }
 
-    // See if it is a matrix input:
+    // See if it is a matrix input.
     var matrix = Y.one(document.getElementById(prefix + name + '_container'));
     if (matrix) {
         new stack_input(name, qaid, new stack_matrix_input(prefix + name, matrix), valinput);

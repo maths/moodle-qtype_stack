@@ -218,6 +218,24 @@ Feedback to students is in two forms.
 
 Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
 
+## Input tips and tricks ##
+
+It is often sensible to use a prefix just in front of the form box.  For example
+
+    \(f(x)=[[input:ans1]].\)
+
+This avoids all kinds of problems with students also trying to enter the prefix themselves.  You could also specify units afterwards, but you might also want the studnet to type these in!
+
+In Maxima the input `(a,b,c)` is a programatic block element (see Maxima's manual for `block`). Hence we cannot use this directly for the input of coordinates.  Instead, have the students type in an unnamed function like
+
+    P(x,y)
+
+This technique can be used to enter a set of points
+
+    {A(1,2), B(2,3)}
+
+as an answer.  The `op` command can be used to filter our a particular point, and the `args` command becomes a list of coordinates.
+
 ## Other input types ##
 
 Adding new inputs should be a straightforward job for the developers.  The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

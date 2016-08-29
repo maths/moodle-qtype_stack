@@ -666,7 +666,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
         // For some reason Maxima's taylor function doesn't always put \cdots at the end.
-        $this->assertEquals('lambda([ex],ex^3);', $at1->get_value_key('l1'));
+        $this->assertEquals('lambda([ex],ex^3)', $at1->get_value_key('l1'));
         $this->assertEquals('[1,8,27]', $at1->get_value_key('l3'));
     }
 }

@@ -662,4 +662,27 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 $at1->get_display_key('greek4'));
     }
 
+
+    public function test_lambda() {
+        $cs = array('l1:lambda([ex], ex^3)',
+                    'l2:[1,2,3]',
+                    'l3:maplist(l1, l2)',
+	            'tl:l1',
+		    'l4:tl(4)',
+                    'tl:lambda([ex], length(ex)+1)',
+                    'l5:tl(l2)',
+        );
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+        $at1 = new stack_cas_session($s1, null, 0);
+        $at1->instantiate();
+        // For some reason Maxima's taylor function doesn't always put \cdots at the end.
+        $this->assertEquals('lambda([ex],ex^3)', $at1->get_value_key('l1'));
+        $this->assertEquals('[1,8,27]', $at1->get_value_key('l3'));
+        $this->assertEquals('64', $at1->get_value_key('l4'));
+        $this->assertEquals('4', $at1->get_value_key('l5'));
+    }
 }

@@ -1375,8 +1375,11 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
 ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
     RawMark:false, FeedBack:"", AnswerNote:"ATLogic_False",
     /* Write the statements in canonical form then compare. */
-    SA:logical_normal(SA),
-    SB:logical_normal(SB),
+    SA:ev(logical_normal(SA), simp),
+    SB:ev(logical_normal(SB), simp),
+    /* Check for the empty set. */
+    if equationp(SA) and numberp(lhs(SA)) and not(algebraic_equivalence(lhs(SA), 0)) then SA:{},
+    if equationp(SB) and numberp(lhs(SB)) and not(algebraic_equivalence(lhs(SB), 0)) then SB:{},
     AnswerNote:concat("[", string(SA), " | ", string(SB), "]"),
     if SA = SB then 
         return([true, true, "ATLogic_True", FeedBack]),
@@ -1396,16 +1399,16 @@ ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
 
 /*
 
-	What these functions do:
-	
-	- Determine whether the student's and teacher's answers are systems of equations
-	- Convert the two systems of equations into two systems of expressions
-	- Determine whether both systems are systems of multivariate polynomials
-	- Compare the variables in student's and teacher's answers, if they're not the same tell the student
-	- Find their Buchberger polynomials of the two systems
-	- Use the Buchberger polynomials to compare the Grobner bases of the two systems
-	- If the Grobner bases are not equal, determine whether the student's is a subset of the teacher's
-	- If student's system has equations which should not be there, tell them which ones.
+    What these functions do:
+
+    - Determine whether the student's and teacher's answers are systems of equations
+    - Convert the two systems of equations into two systems of expressions
+    - Determine whether both systems are systems of multivariate polynomials
+    - Compare the variables in student's and teacher's answers, if they're not the same tell the student
+    - Find their Buchberger polynomials of the two systems
+    - Use the Buchberger polynomials to compare the Grobner bases of the two systems
+    - If the Grobner bases are not equal, determine whether the student's is a subset of the teacher's
+    - If student's system has equations which should not be there, tell them which ones.
 */
 
 /*
@@ -2544,4 +2547,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016082900$
+stackmaximaversion:2016083000$

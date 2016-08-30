@@ -670,6 +670,18 @@ logicp(ex) := block(
   return(false)
 )$
 
+free_of_logicp(ex) := block([logicops, res, k],
+   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
+   res:true,
+   for k: 1 thru length(logicops) do 
+       if ev(not(is(count_op(ex, logicops[k])=0)),simp) then res:false,
+   return(res)
+)$
+
+/* A predicate to check if we are free of logic and inequalities. */
+/* I.e. a basic algebraic expression.                             */
+
+
 /* DeMorgan's laws:  
     %not(A %and B) -> %not(A) %or %not(B)
     %not(A %or B) -> %not(A) %and %not(B)  */
@@ -738,6 +750,34 @@ noun_solve_logic_equation(ex):=block([factorargs],
   if is(length(ex)=1) then first(ex) else apply("nounor", ex)
 )$
 
+/* To check if two logical expressions are the same, turn them in to polynomials and work there. */
+logic_to_poly(ex) := block(
+    if atom(ex) then return(ex),
+
+    /* Solve an equation by factoring and joining each factor with =0 */
+    if equationp(ex) then return(lhs(ex)-rhs(ex)),
+
+    if polynomialp(ex, listofvars(ex)) then return(ex),
+
+    if not(logicp(ex) or safe_op(ex) = "%and" or safe_op(ex) = "%or") then return(ex),
+
+    if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then return(apply("*", maplist(logic_to_poly, args(ex)))),
+
+    if safe_op(ex) = "%and" or safe_op(ex) = "nounand" or safe_op(ex) = "and" then ex:(block([la, lv],
+        lv:listofvars(ex),
+        if not(is(length(lv)=1)) then return(ex),        
+        la:maplist(logic_to_poly, args(ex)),
+        logic_to_poly_helper(la, lv))),
+
+    return(ex)
+)$
+
+logic_to_poly_helper(ex, v) := block(
+    if not(listp(ex)) then return(false),
+    if ex=[] or length(ex)=1 then return(ex),
+    logic_to_poly_helper(append([poly_gcd(first(ex), second(ex), v)], rest(rest(ex))), v)
+)$
+
 /* ********************************** */
 /* Add in a +- operator               */
 /* ********************************** */
@@ -760,8 +800,8 @@ count_op(ex, ops):= block([count],
    Do we mean both + then both -, or all 4 combinations?
 */
 pm_replace(ex):= block(
-  if count_op(ex, "+-")#1 then return(ex),
-  opsubst("+", "+-", ex) nounor opsubst("-", "+-", ex)
+  if ev(is(count_op(ex, "+-")=1), simp) then return(opsubst("+", "+-", ex) nounor opsubst("-", "+-", ex)),
+  return(ex)
 )$
 
 
@@ -975,7 +1015,7 @@ texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 /* Expr: symbol, is a symbol which may or may not be displayed.                                */
 /* Expr: expression, is the line of the argument.                                              */
 /* String: note is some deugging information.                                                  */
-stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod],
+stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod, SA, SAL, SB, SBL],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
   if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], ""])),
   if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), ""])),
@@ -990,21 +1030,39 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod]
   for id:1 thru length(ex) step 1 do block([SA, tempnote],
      SA:exmod[ev(id, simp)],
      if expressionp(SA) and not(stringp(SA)) then SA:SA=0,
-     if count_op(SA,"+-")=1 then SA:pm_replace(SA),
+     if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
      exmod[ev(id, simp)]:SA
   ),
+  if debug then print(exmod),
   /* Loop and check adjacent expressions for equivalence. */
   for id:2 thru length(ex) step 1 do block([ATres, SA, SB],
       tempnote:"",
       SA:exmod[ev(id-1, simp)],
       SB:exmod[ev(id, simp)],
+      if (debug) then print("-------------------------------"),
+      if (debug) then print("Line: ", ev(id-1,simp)),
+      if (debug) then print(SA),
+      if (debug) then print(SB),
       /* Strings break up an argument into independent blocks. */
       if stringp(SA) or stringp(SB) then block(
           eqoutsymb[ev(id, simp)]:EMPTYCHAR,
           eqoutcome[ev(id, simp)]:unknown
       ) else (
+          /* First we try to turn things into polynomials.  Much more reliable equivalence checking. */
+          if (logicp(SA)) then block(
+              SA:logic_to_poly(SA),
+              if ev(free_of_logicp(SA), simp) then SA:SA=0,
+              tempnote:sconcat(tempnote, "SA_poly: ", string(SA))
+          ),
+          if (logicp(SB)) then block(
+              SB:logic_to_poly(SB),
+              if ev(free_of_logicp(SB), simp) then SB:SB=0,
+              tempnote:sconcat(tempnote, "SB_poly: ", string(SB))
+          ),
           /* Now check for equivalences. */
+          if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SB), ");"),
           ATres:ATAlgEquiv(SA, SB),
+          if (debug) then print(ATres),
           if second(ATres) then block(
               eqoutcome[ev(id, simp)]:true,
               eqoutsymb[ev(id, simp)]:EQUIVCHAR,
@@ -1012,22 +1070,74 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod]
           ) else (
              /* Normally the ATAlgEquiv test doesn't force everything to logic.  */
              /* But here we do when able to do so safely.                        */
+             SAL:SA,
+             SBL:SB,
              if (equationp(SA) or inequalityp(SA) or logicp(SA)) then block(
-                 SA:ev(noun_solve_logic(SA), simp),
-                 tempnote:sconcat(tempnote, "SA_solved: ")
+                 SAL:ev(noun_solve_logic(SA), simp),
+                 tempnote:sconcat(tempnote, "SA_solved: ", string(SAL), ". ")
                 ),
              if (equationp(SB) or inequalityp(SB) or logicp(SB)) then block(
-                 SB:ev(noun_solve_logic(SB), simp),
-                 tempnote:sconcat(tempnote, "SB_solved: ")
+                 SBL:ev(noun_solve_logic(SB), simp),
+                 tempnote:sconcat(tempnote, "SB_solved: ", string(SBL), ". ")
                 ),
-             ATres:ev(ATLogic(SA, SB), simp),
+             if (debug) then print("ATLogic(", string(SAL), ", ", string(SBL), ");"),
+             ATres:ev(ATLogic(SAL, SBL), simp),
+             if (debug) then print(ATres),
              if (second(ATres)) then block(
                  eqoutcome[ev(id, simp)]:true,
                  eqoutsymb[ev(id, simp)]:EQUIVCHAR
              ),
              eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
+          ),
+          /* Can we work out what has gone wrong?  */
+          if not(eqoutcome[ev(id, simp)]) then block(
+              if (debug) then print("** Checking for common mistakes **"),
+              /* (1) Squared both sides. */
+              SBL:ev(SB^2,simp),
+              if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SBL), ");"),
+              ATres:ATAlgEquiv(SA, SBL),
+              if (debug) then print(ATres),
+              if second(ATres) then block(
+                  eqoutcome[ev(id, simp)]:false,
+                  eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
+              ),
+              SAL:ev(abs(SA),simp),
+              SBL:ev(SB^2,simp),
+              /* (2) Square both sides and abs.  */
+              if (debug) then print("ATAlgEquiv(", string(SAL), ", ", string(SBL), ");"),
+              ATres:ATAlgEquiv(SA, SBL),
+              if (debug) then print(ATres),
+              if second(ATres) then block(
+                  eqoutcome[ev(id, simp)]:false,
+                  eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecond+abs| ", third(ATres))
+              ),
+              /* (1) Squared both sides. */
+              SAL:ev(SA^2,simp),
+              if (debug) then print("ATAlgEquiv(", string(SAL), ", ", string(SB), ");"),
+              ATres:ATAlgEquiv(SAL, SB),
+              if (debug) then print(ATres),
+              if second(ATres) then block(
+                  eqoutcome[ev(id, simp)]:false,
+                  eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredFirst | ", third(ATres))
+              ),
+              /* (2) Square both sides and abs.  */
+              SAL:ev(SA^2,simp),
+              SBL:ev(abs(SB),simp),
+              if (debug) then print("ATAlgEquiv(", string(SAL), ", ", string(SBL), ");"),
+              ATres:ATAlgEquiv(SA, SBL),
+              if (debug) then print(ATres),
+              if second(ATres) then block(
+                  eqoutcome[ev(id, simp)]:false,
+                  eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Squaredfirst+abs| ", third(ATres))
+              )
           )
-      )
+      ),
+      if (debug) then print("Outcome: ", eqoutcome[ev(id, simp)]),
+      if (debug) then print("Note: ", eqoutnote[ev(id, simp)])
   ),
   res:matrix(eqoutcome, eqoutsymb, ex, eqoutnote),
   return(transpose(res))

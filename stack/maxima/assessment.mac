@@ -1144,14 +1144,29 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
 );
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-disp_stack_eval_arg(ex, showlogic, equivdebug) := block([A, ret, exnew], 
+disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A, ret, exnew, eqoutsymb], 
     /* Evaluate the argument.      */
     A:transpose(stack_eval_arg(ex)),
+    /* If in debug mode check if we have what we expect. */
+    eqoutsymb:A[2],
+    /* Unit test the eval_arg code. */
+    if listp(debuglist) then block([simp, eqoutsymb, k],
+        eqoutsymb:A[2],
+        if is(length(eqoutsymb)=length(debuglist)) then block(
+            simp:true,
+            for k:2 thru length(eqoutsymb) step 1 do block([ATres, SA, SB],
+                if not(is(eqoutsymb[k]=debuglist[k])) then
+                    eqoutsymb[k]:[eqoutsymb[k], expected(debuglist[k])]
+            )
+        ) else (
+            print("ERROR, disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".") 
+        )
+    ),
     /* Modify input expressions for implied equivalence to zero. */
     exnew:maplist(lambda([ex2], if expressionp(ex2) and not(stringp(ex2)) then ex2=EQUIVZERO else ex2), A[3]),
     ret:[exnew],
     /* If we are not showing logical connectives, then suppress them. */
-    if showlogic then ret:append([A[2]], ret),
+    if showlogic then ret:append([eqoutsymb], ret),
     if equivdebug then ret:append(ret, [A[4]]),
     /* Switch off matrix brackets. */
     lmxchar:"",

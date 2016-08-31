@@ -72,7 +72,6 @@ echo $OUTPUT->heading($title);
  * based on caschat.php
  */
 
-$debug = true;
 $samplearguments = array();
 
 /******************************************************************************/
@@ -507,13 +506,6 @@ foreach ($samplearguments as $argument) {
         $casstrings[$cskey] = $cs1->get_casstring();
         $casstrings['D'.$i] = $argument['debuglist'];
         $cs1->set_key($cskey);
-        if ($debug) {
-            // Print debug information and show logical connectives on this page.
-            $cs2 = new stack_cas_casstring("S1:disp_stack_eval_arg(" . $cskey. ", true, true)");
-        } else {
-            // Print only logical connectives on this page.
-            $cs2 = new stack_cas_casstring("S1:disp_stack_eval_arg(" . $cskey. ", true, false)");
-        }
         if (array_key_exists('debuglist', $argument)) {
             $cs2 = new stack_cas_casstring("DL:" . $argument['debuglist']);
             $cs2->get_valid('t');
@@ -521,7 +513,13 @@ foreach ($samplearguments as $argument) {
             $cs2 = new stack_cas_casstring("DL:false");
             $cs2->get_valid('t');
         }
-        $cs3 = new stack_cas_casstring("S1:disp_stack_eval_arg(" . $cskey. ", true, true, DL)");
+        if ($debug) {
+            // Print debug information and show logical connectives on this page.
+            $cs3 = new stack_cas_casstring("S1:disp_stack_eval_arg(" . $cskey. ", true, true, DL)");
+        } else {
+            // Print only logical connectives on this page.
+            $cs3 = new stack_cas_casstring("S1:disp_stack_eval_arg(" . $cskey. ", true, false, DL)");
+        }
         $cs3->get_valid('t');
         $cs4 = new stack_cas_casstring("S2:check_stack_eval_arg(" . $cskey . ")");
         $cs4->get_valid('t');

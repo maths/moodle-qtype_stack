@@ -484,6 +484,17 @@ $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
+$newarg = array();
+$newarg['title']     = "Semi-automatic marking of a multi-stage problem.";
+$newarg['narrative']  = "Taken from Finnish national exam, Q9 of 22 March 1971." .
+    "(http://matemaattinenyhdistys.fi/yo/?download=1970-1998.pdf)" .
+    "This question illustrates the practical steps needed in problem solving at this level.\n\n".
+    "Find the minimum number of the positive integer \(a\), for which the equation \(x^2 + (a-2)x + a = 0\) has real roots.";
+$newarg['casstring'] = '[x^2 + (a-2)*x + a = 0,(x + (a-2)/2)^2 -((a-2)/2)^2 + a = 0,(x + (a-2)/2)^2 =(a-2)^2/4 - a,"This has real roots iff",(a-2)^2/4-a >=0,a^2-4*a+4-4*a >=0,a^2-8*a+4>=0,(a-4)^2-16+4>=0,(a-4)^2>=12,a-4>=sqrt(12) or a-4<= -sqrt(12),"Ignoring the negative solution.",a>=sqrt(12)+4,"Using external domain information that a is an integer.",a>=8]';
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
 
 /* Loop over each argument, evaluate it and display the results. */
 
@@ -494,7 +505,11 @@ $options->set_option('simplify', false);
 $casstrings = array();
 $i = 0;
 $debug = true;
-foreach ($samplearguments as $argument) {
+/* Just consider the last in the array. */
+$sa = array_reverse($samplearguments);
+$samplearguments2 = array($sa[0]);
+
+foreach ($samplearguments2 as $argument) {
     if (array_key_exists('section', $argument)) {
         echo '<hr>';
         echo html_writer::tag('h2', $argument['section']);

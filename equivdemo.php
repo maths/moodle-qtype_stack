@@ -403,7 +403,6 @@ $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
-
 /******************************************************************************/
 $newarg = array();
 $newarg['section'] = 'Inequalities';
@@ -509,7 +508,6 @@ $newarg['casstring'] = '[x^2 + (a-2)*x + a = 0,(x + (a-2)/2)^2 -((a-2)/2)^2 + a 
 $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
-
 
 /* Loop over each argument, evaluate it and display the results. */
 

@@ -525,6 +525,7 @@ class stack_cas_casstring {
     public function __construct($rawstring) {
         $this->rawcasstring   = $rawstring;
         $this->answernote     = array();
+
         $this->valid          = null;  // If null then the validate command has not yet been run.
 
         if (!is_string($this->rawcasstring)) {
@@ -589,6 +590,14 @@ class stack_cas_casstring {
 
         // Now remove any strings from the $cmd.
         list($cmd, $strings) = $this->strings_remove($cmd);
+
+        // CAS strings may not contain @ or $. But string sure can.
+        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
+            $this->add_error(stack_string('illegalcaschars'));
+            $this->answernote[] = 'illegalcaschars';
+            $this->valid = false;
+            return false;
+        }
 
         // Now turn logical connectives into noun versions.
         $this->logic_nouns_sort(true);
@@ -749,7 +758,7 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        // Check for disallowed final characters, e.g.  / * + - ^ £ # = & ~ |, ? : ;.
+        // Check for disallowed final characters, e.g. / * + - ^ £ # = & ~ |, ? : ;.
         $disallowedfinalcharsregex = '~[' . preg_quote(self::$disallowedfinalchars, '~') . ']$~u';
         if (preg_match($disallowedfinalcharsregex, $cmd, $match)) {
             $this->valid = false;
@@ -1159,14 +1168,14 @@ class stack_cas_casstring {
     }
 
     /* The purpose of this function is to make all occurances of the logical
-     * operators "and" and "or" into their noun equivalent versions.  The support
-     * for these opertators in Maxima relies on the underlying lisp version and hence
-     * it is impossible to turn simplification off and make them inert.  In particular
-     * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
-     * which is awkward.
-     *
-     * If the parameter is true we put in noun versions, and if false we remove them.
-     */
+     +     * operators "and" and "or" into their noun equivalent versions.  The support
+    +     * for these opertators in Maxima relies on the underlying lisp version and hence
+    +     * it is impossible to turn simplification off and make them inert.  In particular
+    +     * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
+    +     * which is awkward.
+    +     *
+    +     * If the parameter is true we put in noun versions, and if false we remove them.
+    +     */
     public function logic_nouns_sort($dir) {
         $connectives = array();
         $connectives[] = array(' and', ' nounand');
@@ -1392,9 +1401,9 @@ class stack_cas_casstring {
                     $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
-                || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
-            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", "units", ' .
-                    'or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
+            || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
+            throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
+                '"units" or "unitsnegpow" or "equiv", but received "'.validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
@@ -1438,6 +1447,7 @@ class stack_cas_casstring {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
             $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "negpow")';
         }
+
         return true;
     }
 

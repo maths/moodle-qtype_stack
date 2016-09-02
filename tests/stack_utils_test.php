@@ -196,4 +196,14 @@ class stack_utils_test extends basic_testcase {
                 'd' => 'temp2', 'f' => 'd', 'temp2' => 'f'), stack_utils::decompose_rename_operation(
                 array('a' => 'g', 'b' => 'b', 'd' => 'f', 'd' => 'f', 'e' => 'a', 'f' => 'd', 'g' => 'e', 'h' => 'i', 'i' => 'j')));
     }
+
+    public function test_all_substring_strings() {
+        $this->assertEquals(array("test", "testb"), stack_utils::all_substring_strings("stringa:\"test\" and stringb:\"testb\""));
+        $this->assertEquals(array("", "\\\""), stack_utils::all_substring_strings("stringa:\"\" and stringb:\"\\\"\""));
+    }
+
+    public function test_eliminate_strings() {
+        $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"test\" and stringb:\"testb\""));
+        $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"\" and stringb:\"\\\"\""));
+    }
 }

@@ -61,6 +61,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('setelmx(2,1,1,C)', false, true),
             array('2*reallytotalnonsensefunction(x)', false, true),
             array('system(rm *)', false, false), // This should never occur.
+            array('"system(rm *)"', true, true), // There is nothing wrong with this.
             array('$', false, false),
             array('@', false, false),
             // Inequalities.
@@ -268,11 +269,113 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
-    public function test_strings_4() {
-        $s = 'a:["system(\'rm *\')",3*x]';
+    public function test_system_execution() {
+        // First the obvious one, just eval that string.
+        $s = 'a:eval_string("system(\\\"rm /tmp/test\\\")")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">eval_string</span> is forbidden.',
+                $at1->get_errors());
+
+        // The second requires a bit more, parse but do the eval later.
+        $s = 'a:ev(parse_string("system(\\\"rm /tmp/test\\\")"),eval)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">parse_string</span> is forbidden.',
+                $at1->get_errors());
+
+        // Then things get tricky, one needs to write the thing out and eval when reading in.
+        // Luckilly, appendfile, save, writefile, and stringout commands would require manual eval.
+        // But lets test them anyway.
+        $s = 'a:appendfile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">appendfile</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:writefile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">writefile</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:save("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">save</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:stringout("/tmp/test", "system(\\\"rm /tmp/test\\\");")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">stringout</span> is forbidden.',
+                $at1->get_errors());
+
+        // The corresponding read commands load, loadfile, batch, and batchload are all bad.
+        $s = 'a:load("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">load</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:loadfile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">loadfile</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:batch("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">batch</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:batchload("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">batchload</span> is forbidden.',
+                $at1->get_errors());
+
+        // Naturally, lower level functions can allow you to actually edit or generate files to execute.
+        // The opena, openw, and openr and their binary versions could do even more harm.
+        // Even scarier is naturally, the possibility to edit files...
+        $s = 'a:opena("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">opena</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openw("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openw</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openr("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openr</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:opena_binary("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">opena_binary</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openw_binary("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openw_binary</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openr_binary("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openr_binary</span> is forbidden.',
+                $at1->get_errors());
+
+        // And lets not forget being able to output file contents.
+        $s = 'a:printfile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">printfile</span> is forbidden.',
+                $at1->get_errors());
+
+        // And then there is the possibility of using lisp level functions.
+        $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\"rm /tmp/test\");"))';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
                 $at1->get_errors());
     }
 

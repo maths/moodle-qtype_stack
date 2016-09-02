@@ -852,6 +852,19 @@ comp_square(ex,var) := block([vc],
     return(coeff(ex, var, 2)*((var+vc)^2-delta))
 )$
 
+/* Return the bag of factors of the expression.  I.e. strip away multiplicity of roots. */
+factor_bag(ex) := block(
+  if equationp(ex) then ex:ev(lhs(ex)-rhs(ex), simp),
+  if not(polynomialp(ex,listofvars(ex))) then return([ex]),
+  ex:ev(factor(ex), simp),
+  if safe_op(ex) = "^" then return([first(args(ex))]),
+  if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
+  /* Strip off any powers. */
+  ex:maplist(lambda([ex2], if safe_op(ex2) = "^" then first(args(ex2)) else ex2), ex),
+  /* Remove any numbers. */
+  ex:sublist(ex, lambda([ex2], ev(not(is(listofvars(ex2)=[])), simp))),
+  return(ex)
+);
 
 /*********************/
 /* Matrix operations */
@@ -1004,6 +1017,7 @@ texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
+texput(SAMEROOTS, "\\color{green}{\\mbox{(Same roots)}}");
 
 /* This function actually evaluates the correctness of an argument "ex".                       */
 /* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
@@ -1051,15 +1065,17 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
           /* First we try to turn things into polynomials.  Much more reliable equivalence checking. */
           if (logicp(SA)) then block(
               SA:logic_to_poly(SA),
-              if ev(free_of_logicp(SA), simp) then SA:SA=0,
-              tempnote:sconcat(tempnote, "SA_poly: ", string(SA))
+              if ev(free_of_logicp(SA), simp) then SA:ev(SA=0, simp),
+              tempnote:sconcat(tempnote, "SApoly. ")
           ),
           if (logicp(SB)) then block(
               SB:logic_to_poly(SB),
-              if ev(free_of_logicp(SB), simp) then SB:SB=0,
-              tempnote:sconcat(tempnote, "SB_poly: ", string(SB))
+              if ev(free_of_logicp(SB), simp) then SB:ev(SB=0, simp),
+              tempnote:sconcat(tempnote, "SBpoly. ")
           ),
           /* Now check for equivalences. */
+          tempnote:sconcat(tempnote, "SA: ", string(SA), "; "),
+          tempnote:sconcat(tempnote, "SB: ", string(SB), "; "),
           if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SB), ");"),
           ATres:ATAlgEquiv(SA, SB),
           if (debug) then print(ATres),
@@ -1074,11 +1090,11 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
              SBL:SB,
              if (equationp(SA) or inequalityp(SA) or logicp(SA)) then block(
                  SAL:ev(noun_solve_logic(SA), simp),
-                 tempnote:sconcat(tempnote, "SA_solved: ", string(SAL), ". ")
+                 tempnote:sconcat(tempnote, "SAsolved: ", string(SAL), ". ")
                 ),
              if (equationp(SB) or inequalityp(SB) or logicp(SB)) then block(
                  SBL:ev(noun_solve_logic(SB), simp),
-                 tempnote:sconcat(tempnote, "SB_solved: ", string(SBL), ". ")
+                 tempnote:sconcat(tempnote, "SBsolved: ", string(SBL), ". ")
                 ),
              if (debug) then print("ATLogic(", string(SAL), ", ", string(SBL), ");"),
              ATres:ev(ATLogic(SAL, SBL), simp),
@@ -1090,8 +1106,24 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
              eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
           ),
           /* Can we work out what has gone wrong?  */
-          if not(eqoutcome[ev(id, simp)]) then block(
+          if not(eqoutcome[ev(id, simp)]) then block([FBA, FBB],
               if (debug) then print("** Checking for common mistakes **"),
+              /* (0) Multiplicity of roots. */
+              FBA:factor_bag(SA),
+              FBB:factor_bag(SB),
+              if (debug) then print("Factor bags: ", string(FBB), "; ", string(FBB), "; "),
+              FBA:apply("*", FBA),
+              FBB:apply("*", FBB),
+              ATres:ATAlgEquiv(FBA, FBB),
+              if (debug) then print(ATres),
+              if second(ATres) then block(
+                  eqoutcome[ev(id, simp)]:true,
+                  eqoutsymb[ev(id, simp)]:SAMEROOTS,
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
+              )
+          ),
+
+          if not(eqoutcome[ev(id, simp)]) then block(
               /* (1) Squared both sides. */
               SBL:ev(SB^2,simp),
               if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SBL), ");"),

@@ -232,7 +232,8 @@ class stack_equiv_input extends stack_input {
     protected function additional_session_variables() {
         $equivdebug = 'false';
         $showlogic = 'true';
-        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.$equivdebug.')');
+        $debuglist = 'false';
+        $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.$equivdebug.', '.$debuglist.')');
         $an->get_valid('t', $this->get_parameter('strictSyntax', true),
                  $this->get_parameter('insertStars', 0));
         $an->set_key('equiv'.$this->name);

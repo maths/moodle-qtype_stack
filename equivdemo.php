@@ -83,7 +83,7 @@ $newarg = array();
 $newarg['title']     = "Empty argument";
 $newarg['narrative']  = '';
 $newarg['casstring'] = "[]";
-$newarg['debuglist'] = "[]";
+$newarg['debuglist'] = "[null]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -91,7 +91,7 @@ $newarg = array();
 $newarg['title']     = "Single line argument";
 $newarg['narrative']  = '';
 $newarg['casstring'] = "[x^2=-1]";
-$newarg['debuglist'] = "[]";
+$newarg['debuglist'] = "[null]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -213,7 +213,7 @@ $newarg = array();
 $newarg['title']     = "Difference of two cubes";
 $newarg['narrative']  = 'Over the reals, this argument is true, but we have missed complex roots.';
 $newarg['casstring'] = "[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+a*b+b^2)=0,(a-b)=0,a=b]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -229,7 +229,7 @@ $newarg = array();
 $newarg['title']     = "Solving quadratic equations 1";
 $newarg['narrative']  = 'This is the basic method for solving quadratics via factoring over the reals.  This should be true.';
 $newarg['casstring'] = "[x^2-x=30,x^2-x-30=0,(x-6)*(x+5)=0,x-6=0 or x+5=0,x=6 or x=-5]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -237,7 +237,7 @@ $newarg = array();
 $newarg['title']     = "Solving quadratic equations 2";
 $newarg['narrative']  = '';
 $newarg['casstring'] = "[x^2=2,x^2-2=0,(x-sqrt(2))*(x+sqrt(2))=0,x=sqrt(2) or x=-sqrt(2)]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -245,7 +245,7 @@ $newarg = array();
 $newarg['title']     = "Solving quadratic equations 3";
 $newarg['narrative']  = 'This argument avoids taking the square root of both sides by subtracting and taking the difference of two squares.';
 $newarg['casstring'] = "[(2*x-7)^2=(x+1)^2,(2*x-7)^2 -(x+1)^2=0,(2*x-7+x+1)*(2*x-7-x-1)=0,(3*x-6)*(x-8)=0,x=2 or x=8]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -253,7 +253,7 @@ $newarg = array();
 $newarg['title']     = "Solving quadratic equations 4 (repeated root)";
 $newarg['narrative']  = 'This has a repeated root. There is no easy way to deal with multiplicity of roots.';
 $newarg['casstring'] = "[x^2-6*x=-9,(x-3)^2=0,x-3=0,x=3]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,SAMEROOTS,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -283,9 +283,9 @@ $samplearguments[] = $newarg;
 
 $newarg = array();
 $newarg['title']     = "Solving quadratic equations 8 (Toby's method)";
-$newarg['narrative']  = '';
-$newarg['casstring'] = "[a*x^2+b*x+c=0 or a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0,(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c,a*x+b/2= +-sqrt(b^2/4-a*c),a=0 or (x=(-b+sqrt(a^2-4*a*c))/(2*a) or x=(-b+sqrt(a^2-4*a*c))/(2*a))]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['narrative']  = 'In the last line of this argument we get a double root for a=0, which is slightly odd.';
+$newarg['casstring'] = "[a*x^2+b*x+c=0 or a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0,(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c,a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c),(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)),a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
@@ -322,7 +322,7 @@ $newarg = array();
 $newarg['title']     = "Solving quadratic equations (McCullum's nonsense)";
 $newarg['narrative']  = 'This argument is by Bill McCullum: matching up the coefficients.  This argument is false in general, but in this special case leads to the correct solution.  We can not spot this kind of thing.  Note, this argument also has a repeated root.';
 $newarg['casstring'] = "[x^2-6*x+9=0,x^2-6*x=-9,x*(x-6)=3*-3,x=3 or x-6=-3,x=3]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
 $newarg['outcome']   = false;
 $samplearguments[] = $newarg;
 
@@ -345,11 +345,18 @@ $samplearguments[] = $newarg;
 $newarg = array();
 $newarg['title']     = "Classic nonsense 1.";
 $newarg['narrative']  = 'Here we create a problem by dividing by a term which is actually zero.';
-$newarg['casstring'] = "[a=b, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), a-b=b, a=2*b, b=2*b, 1=2]";
-$newarg['debuglist'] = "[null,QMCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR,QMCHAR,QMCHAR]";
+$newarg['casstring'] = "[a=b, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), a+b=b, 2*a=a, 1=2]";
+$newarg['debuglist'] = "[null,QMCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR,QMCHAR]";
 $newarg['outcome']   = false;
 $samplearguments[] = $newarg;
 
+$newarg = array();
+$newarg['title']     = "Classic nonsense 1 (with auditing).";
+$newarg['narrative']  = 'Here we create a problem by dividing by a term which is actually zero.';
+$newarg['casstring'] = "[a=b, a^2=a*b or a=0, a^2-b^2=a*b-b^2 or a=0, (a-b)*(a+b)=b*(a-b) or a=0, a+b=b or a=0 or a-b=0, 2*a=a or a=0 or a=b, 2=1 or a=0 or a=b, a=0 or a=b]";
+$newarg['debuglist'] = "[null,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
 
 /******************************************************************************/
 $newarg = array();
@@ -373,8 +380,16 @@ $newarg['outcome']   = false;
 $samplearguments[] = $newarg;
 
 $newarg = array();
-$newarg['title']     = "Solving rational expressions (erroneous argument)";
+$newarg['title']     = "Solving rational expressions (erroneous argument 1)";
 $newarg['narrative']  = 'Here we create a problem by dividing by a term which is actually zero.  The only solution is \(x=10\) which we have cancelled out.';
+$newarg['casstring'] = "[(x+10)/(x-6)-5= (4*x-40)/(13-x),(x+10-5*(x-6))/(x-6)= (4*x-40)/(13-x), (4*x-40)/(6-x)= (4*x-40)/(13-x),6-x= 13-x,6= 13]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving rational expressions (erroneous argument 2)";
+$newarg['narrative']  = 'This is similar to the previous argument, but there is a problem with ATEquation.';
 $newarg['casstring'] = "[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), (4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x,7= 13]";
 $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR]";
 $newarg['outcome']   = false;
@@ -387,6 +402,7 @@ $newarg['casstring'] = "[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*
 $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
+
 
 /******************************************************************************/
 $newarg = array();
@@ -483,6 +499,17 @@ $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
+$newarg = array();
+$newarg['title']     = "Semi-automatic marking of a multi-stage problem.";
+$newarg['narrative']  = "Taken from Finnish national exam, Q9 of 22 March 1971." .
+    "(http://matemaattinenyhdistys.fi/yo/?download=1970-1998.pdf)" .
+    "This question illustrates the practical steps needed in problem solving at this level.\n\n".
+    "Find the minimum number of the positive integer \(a\), for which the equation \(x^2 + (a-2)x + a = 0\) has real roots.";
+$newarg['casstring'] = '[x^2 + (a-2)*x + a = 0,(x + (a-2)/2)^2 -((a-2)/2)^2 + a = 0,(x + (a-2)/2)^2 =(a-2)^2/4 - a,"This has real roots iff",(a-2)^2/4-a >=0,a^2-4*a+4-4*a >=0,a^2-8*a+4>=0,(a-4)^2-16+4>=0,(a-4)^2>=12,a-4>=sqrt(12) or a-4<= -sqrt(12),"Ignoring the negative solution.",a>=sqrt(12)+4,"Using external domain information that a is an integer.",a>=8]';
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
 
 /* Loop over each argument, evaluate it and display the results. */
 
@@ -493,6 +520,10 @@ $options->set_option('simplify', false);
 $casstrings = array();
 $i = 0;
 $debug = true;
+/* Just consider the last in the array. */
+$sa = array_reverse($samplearguments);
+$samplearguments2 = array($sa[0]);
+
 foreach ($samplearguments as $argument) {
     if (array_key_exists('section', $argument)) {
         echo '<hr>';

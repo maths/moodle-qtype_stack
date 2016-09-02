@@ -289,12 +289,8 @@ END;
 
         self::get_instance()->copy_maxima_bat();
 
-        $fh = fopen(self::maximalocal_location(), 'w');
-        if ($fh === false) {
+        if (!file_put_contents(self::maximalocal_location(), self::generate_maximalocal_contents())) {
             throw new stack_exception('Failed to write Maxima configuration file.');
-        } else {
-            fwrite($fh, self::generate_maximalocal_contents());
-            fclose($fh);
         }
     }
 

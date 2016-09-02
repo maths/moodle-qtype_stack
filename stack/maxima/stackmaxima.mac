@@ -315,7 +315,7 @@ errcatch(compile(?texnumformat));
 
 /* A recursive function which strips off numbers at the end of variable names. */
 stack_disp_strip_number(ex) := block([s,v,n],
-  if not(freeof(":=", ex)) or not(freeof(lambda, ex)) then return(ex),
+  if safe_op(ex) = ":=" then return(ex),
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_strip_number, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
   s:string(ex),

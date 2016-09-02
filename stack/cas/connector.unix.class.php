@@ -23,7 +23,6 @@
  */
 class stack_cas_connection_unix extends stack_cas_connection_base {
 
-    /* @see stack_cas_connection_base::guess_maxima_command() */
     protected function guess_maxima_command($path) {
         global $CFG;
         if (stack_connection_helper::get_platform() == 'unix-optimised') {
@@ -50,7 +49,6 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         return $maximacommand;
     }
 
-    /* @see stack_cas_connection_base::call_maxima() */
     protected function call_maxima($command) {
         $ret = false;
         $err = '';

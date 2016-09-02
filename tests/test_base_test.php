@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * Unit tests for test_base.
@@ -32,7 +32,7 @@ require_once(__DIR__ . '/test_base.php');
  */
 class qtype_stack_test_base_testcase extends qtype_stack_testcase {
 
-    public function test_prepare_actual_maths() {
+    public function test_prepare_actual_maths_filtering() {
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths('frog'));
         $this->assertEquals('frog', qtype_stack_testcase::prepare_actual_maths(
                 '<span class="nolink">frog</span>'));
@@ -42,5 +42,31 @@ class qtype_stack_test_base_testcase extends qtype_stack_testcase {
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">frog</span></span>'));
         $this->assertEquals("\n\nfrog\n\n", qtype_stack_testcase::prepare_actual_maths(
                 "<span class=\"filter_mathjaxloader_equation\">\n<span class=\"nolink\">\nfrog\n</span>\n</span>"));
+    }
+
+    public function test_prepare_actual_maths_floats() {
+        $this->assertEquals('x = \(1.0e10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.e10\).'));
+        $this->assertEquals('x = \(1.0e10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.0e10\).'));
+        $this->assertEquals('x = \(1.2e10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.2e10\).'));
+
+        $this->assertEquals('x = \(-1.0e10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.e10\).'));
+        $this->assertEquals('x = \(-1.0e10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.0e10\).'));
+        $this->assertEquals('x = \(-1.2e10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.2e10\).'));
+
+        $this->assertEquals('x = \(1.0e-10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.e-10\).'));
+        $this->assertEquals('x = \(1.0e-10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.0e-10\).'));
+        $this->assertEquals('x = \(1.2e-10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.2e-10\).'));
+
+        $this->assertEquals('x = \(-1.0e-10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.e-10\).'));
+        $this->assertEquals('x = \(-1.0e-10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.0e-10\).'));
+        $this->assertEquals('x = \(-1.2e-10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.2e-10\).'));
+
+        $this->assertEquals('x = \(1.0e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.e+10\).'));
+        $this->assertEquals('x = \(1.0e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.0e+10\).'));
+        $this->assertEquals('x = \(1.2e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(1.2e+10\).'));
+
+        $this->assertEquals('x = \(-1.0e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.e+10\).'));
+        $this->assertEquals('x = \(-1.0e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.0e+10\).'));
+        $this->assertEquals('x = \(-1.2e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.2e+10\).'));
     }
 }

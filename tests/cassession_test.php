@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
 
@@ -323,6 +323,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_subscript_disp() {
+        // Fails with actual display output like '{\it pi_{025}}'.
+        $this->skip_if_old_maxima('5.23.2');
 
         $cs = array('a:pi025', 'b:1+x3', 'c:f(x):=x^3', 'd:gamma7^3', 'a2:pi4^5');
         foreach ($cs as $s) {
@@ -581,7 +583,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_greek_lower() {
-        $cs = array('greek1:[alpha,beta,gamma,delta,epsilon]',
+        // The case gamma is separated out below, so we can skip it on old Maxima where it is a known fail.
+        $cs = array('greek1:[alpha,beta,delta,epsilon]',
                     'greek2:[zeta,eta,theta,iota,kappa]',
                     'greek3:[lambda,mu,nu,xi,omicron,pi,rho]',
                     'greek4:[sigma,tau,upsilon,phi,psi,chi,omega]');
@@ -592,8 +595,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
-        $this->assertEquals('[alpha,beta,gamma,delta,epsilon]', $at1->get_value_key('greek1'));
-        $this->assertEquals('\left[ \alpha , \beta , \gamma , \delta , \varepsilon \right]',
+        $this->assertEquals('[alpha,beta,delta,epsilon]', $at1->get_value_key('greek1'));
+        $this->assertEquals('\left[ \alpha , \beta , \delta , \varepsilon \right]',
                 $at1->get_display_key('greek1'));
         $this->assertEquals('[zeta,eta,theta,iota,kappa]', $at1->get_value_key('greek2'));
         $this->assertEquals('\left[ \zeta , \eta , \theta , \iota , \kappa \right]',
@@ -605,6 +608,17 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('[sigma,tau,upsilon,phi,psi,chi,omega]', $at1->get_value_key('greek4'));
         $this->assertEquals('\left[ \sigma , \tau , \upsilon , \varphi , \psi , \chi , \omega  \right]',
                 $at1->get_display_key('greek4'));
+    }
+
+    public function test_greek_lower_gamma() {
+        // In old maxima, you get '\Gamma' for the display output.
+        $this->skip_if_old_maxima('5.23.2');
+        $cs = new stack_cas_casstring('greek1:gamma');
+        $cs->get_valid('s');
+        $at1 = new stack_cas_session(array($cs), null, 0);
+        $at1->instantiate();
+        $this->assertEquals('gamma', $at1->get_value_key('greek1'));
+        $this->assertEquals('\gamma', $at1->get_display_key('greek1'));
     }
 
     public function test_greek_upper() {

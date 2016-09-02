@@ -261,7 +261,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
         array('AlgEquiv', '', '9.81*m/s^2', 'stackunits(9.81,m/s^2)', 1, '', 'Scientific units are ignored'),
         array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2,
-            'CASError: The CAS timed out.', 'These currently fail'),
+            '', 'These currently fail'),
         array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
         array('AlgEquiv', '', '-inf', 'minf', -2, 'CASError: sign: sign of und is undefined.', ''),
         array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
@@ -805,8 +805,8 @@ class stack_answertest_test_data {
         array('NumRelative', '', '[3.141,1.414]', '[pi,sqrt(2)]', 1, '', ''),
         array('NumRelative', '0.01', '[3,1.414]', '[pi,sqrt(2)]', 0, 'ATNumerical_wrongentries SA/TA=[3.0].', ''),
         array('NumRelative', '0.01', '[3,1.414]', '{pi,sqrt(2)}', 0, 'ATNumerical_SA_not_set.', ''),
-        array('NumRelative', '0.01', '{1.414,3.1}', '{pi,sqrt(2)}', 0,
-            'ATNumerical_wrongentries: TA/SA=[3.14159265359], SA/TA=[3.1].', ''),
+        array('NumRelative', '0.01', '{1.414,3.1}', '{significantfigures(pi,6),sqrt(2)}', 0,
+            'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumRelative', '0.1', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '', ''),
 
         array('NumAbsolute', '', '1/0', '0', -1, 'ATNumAbsolute_STACKERROR_SAns.', 'Basic tests'),
@@ -827,8 +827,8 @@ class stack_answertest_test_data {
         array('NumAbsolute', '0.01', '[3.141,1.414]', '[pi,sqrt(2)]', 1, '', ''),
         array('NumAbsolute', '0.01', '[3,1.414]', '[pi,sqrt(2)]', 0, 'ATNumerical_wrongentries SA/TA=[3.0].', ''),
         array('NumAbsolute', '0.01', '[3,1.414]', '{pi,sqrt(2)}', 0, 'ATNumerical_SA_not_set.', ''),
-        array('NumAbsolute', '0.01', '{1.414,3.1}', '{pi,sqrt(2)}', 0,
-            'ATNumerical_wrongentries: TA/SA=[3.14159265359], SA/TA=[3.1].', ''),
+        array('NumAbsolute', '0.01', '{1.414,3.1}', '{significantfigures(pi,6),sqrt(2)}', 0,
+            'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumAbsolute', '0.1', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '', ''),
 
         array('NumSigFigs', '', '3.141', '3.1415927', -1, 'STACKERROR_OPTION.', 'Basic tests'),
@@ -894,8 +894,8 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3', '0.0499', '0.0498', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '2', '5.4e21', '5.3e21', 0, 'ATNumSigFigs_Inaccurate.', 'Large numbers'),
         array('NumSigFigs', '2', '5.3e21', '5.3e21', 1, '', ''),
-        array('NumSigFigs', '2', '5.3e22', '5.3e22', -2, '', ''),
-        array('NumSigFigs', '2', '5.3e20', '5.3e22', -2, '', ''),
+        array('NumSigFigs', '2', '5.3e22', '5.3e22', -2, 'ATNumSigFigs_SA_OutofRange.', ''),
+        array('NumSigFigs', '2', '5.3e20', '5.3e22', -2, 'ATNumSigFigs_TA_OutofRange.', ''),
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
         array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_SAns.', ''),
@@ -1145,14 +1145,14 @@ class stack_answertest_test_data {
             $ansnote  = '';
         }
 
-        $expectednote = '';
+        $anomalynote = '';
         $passed = true;
         if (!($rawmark === $test->expectedscore)) {
             $passed = false;
         }
         if (!($ansnote === $test->ansnote)) {
             $passed = false;
-            $expectednote = $test->ansnote;
+            $anomalynote = $test->ansnote;
         }
 
         // The test failed, and we expected it to fail.
@@ -1168,6 +1168,6 @@ class stack_answertest_test_data {
             $passed = true;
         }
 
-        return array($passed, $errors, $rawmark, $feedback, $ansnote, $expectednote);
+        return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote);
     }
 }

@@ -553,7 +553,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_numerical_display_float_default() {
-        // @0.000001@ used to be tested, but it was giving weird results.
+        // The number 0.000001 used to be tested, but it was giving weird results.
         // On some versions of Maxima, including the latest, it comes back as
         // 10.0e-7, instead of 1.0e-6. Other versions get it right. I did not like
         // a testcase that asserted weird behaviour (10.0e-7) so I removed it.
@@ -590,7 +590,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_numerical_display_float_scientific() {
-        // @0.000001@ handled below, so we can skip on old Maxima where it fails.
+        // The number 0.000001 is handled below, so we can skip on old Maxima where it fails.
         $st = 'Decimal numbers @0.1@, @0.01@, @0.001@, @0.0001@, @0.00001@.';
 
         $a2 = array('stackfltfmt:"~e"');

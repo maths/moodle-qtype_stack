@@ -16,9 +16,9 @@
 
 /**
  * Add in all the tests from answertestsfixtures.class into the unit testing framework.
- * While these are exposed to users as documentation, the Travis integration should also 
+ * While these are exposed to users as documentation, the Travis integration should also
  * run all the tests.
- * 
+ *
  * @copyright  2016 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

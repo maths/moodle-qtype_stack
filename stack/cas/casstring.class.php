@@ -1008,7 +1008,8 @@ class stack_cas_casstring {
         // Now however strings are more commonly used and forbidden words being part of them is a common problem.
         // The problem is that we can't realy distinguish which words are bad in strings and we forbid too much.
         // So to actually allow strings that are usable we no longer check inside strings.
-        // In any case what could we have done to a:concat("s","y","s"...);. We need to focus on blocking the evaluation of that string instead.
+        // In any case what could we have done to a:concat("s","y","s"...);.
+        // We need to focus on blocking the evaluation of that string instead.
         $cmd = stack_utils::eliminate_strings($this->casstring);
         $strinkeywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";

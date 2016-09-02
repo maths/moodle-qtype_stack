@@ -23,7 +23,7 @@
  */
 
 require_once(__DIR__ . '/../doc/docslib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 
 
 /**

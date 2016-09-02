@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 
 /*
  * Unit tests for the stack_algebra_input class.
@@ -120,7 +120,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
     public function test_render_placeholder() {
         $el = stack_input_factory::make('algebraic', 'sans1', '[a, b, c]');
         $el->set_parameter('syntaxHint', 'Remove me');
-        $el->set_parameter('syntaxAttyibute', 1);
+        $el->set_parameter('syntaxAttribute', 1);
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
                 .'size="16.5" style="width: 13.6em" placeholder="Remove me" />',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
@@ -331,6 +331,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 's^(24*r)');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
+        // For this test, if sameType is true, old versions of Maxima blow up with
+        // Heap exhausted during allocation: 8481509376 bytes available, 35303692080 requested.
+        $el->set_parameter('sameType', false);
         $state = $el->validate_student_response(array('sans1' => 's^r^24'), $options, 's^(24*r)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('s^r^24', $state->contentsmodified);

@@ -610,7 +610,7 @@ class stack_utils {
                 if ($c == '"' && !$lastslash) {
                     $instring = false;
                     $s = substr($string, $stringentry - 1, ($i - $stringentry + 1));
-                    $cleared =  str_replace($s, '""', $cleared);
+                    $cleared = str_replace($s, '""', $cleared);
                 } else if ($c == "\\") {
                     $lastslash = !$lastslash;
                 } else if ($lastslash) {

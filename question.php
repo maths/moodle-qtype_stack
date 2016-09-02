@@ -238,10 +238,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function start_attempt(question_attempt_step $step, $variant) {
 
+        // @codingStandardsIgnoreStart
         // Work out the right seed to use.
         if (!is_null($this->seed)) {
-            // Nasty hack, but if seed has already been set, then use that. This is
-            // used by the questiontestrun.php script to allow non-deployed
+            // This empty if statement is a hack, but if seed has already been set, then use that.
+            // This is used by the questiontestrun.php script to allow non-deployed
             // variants to be browsed.
         } else if (!$this->has_random_variants()) {
             // Randomisation not used.
@@ -254,6 +255,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // This question uses completely free randomisation.
             $this->seed = $variant;
         }
+        // @codingStandardsIgnoreEnd
         $step->set_qt_var('_seed', $this->seed);
 
         $this->initialise_question_from_seed();

@@ -176,10 +176,12 @@ class stack_abstract_graph {
                         $this->remove_clump($rightclump);
                     }
 
+                    // @codingStandardsIgnoreStart
                     // Weighted mean based on the length of the two branches.
                     $xpos = (($leftchild->x + 1) * ($rightchild->depth - $node->depth) +
                                 ($rightchild->x - 1) * ($leftchild->depth - $node->depth)) /
                                 ($rightchild->depth - $node->depth + $leftchild->depth - $node->depth);
+                    // @codingStandardsIgnoreEnd
 
                     $leftclump->add_node($node, $xpos, 2);
                 }

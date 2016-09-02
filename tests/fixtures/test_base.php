@@ -70,6 +70,20 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     }
 
     /**
+     * Helper that skips a test if the version of Maxima used is at least as old as a given one.
+     *
+     * @param string $version e.g. '5.23.2'. Skip if the maxima version is <= this.
+     */
+    public function skip_if_old_maxima($version) {
+        $versionused = get_config('qtype_stack', 'maximaversion');
+        if (version_compare($versionused, $version) <= 0) {
+            $this->markTestSkipped(
+                    'Skipping this test because it is known to fail on Maxima older than ' .
+                    $version . ' and the tests are running with Maxima ' . $versionused . '.');
+        }
+    }
+
+    /**
      * Verify that some content, containing maths, that is due to be output, is as expected.
      *
      * The purpose of this method is to hide the details of what the maths display system does.
@@ -101,6 +115,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @return string The equivalent content, without the extra spans.
      */
     public static function prepare_actual_maths($content) {
+        // Eliminate differences caused just by how Moodle post-proceses equations for display,
+        // which has changed between Moodle versions. We strip out the extra <span>s that
+        // Moodle adds, so we can just compare the raw maths.
         $lastcontent = '';
         while ($lastcontent != $content) {
             $lastcontent = $content;
@@ -108,6 +125,14 @@ abstract class qtype_stack_testcase extends advanced_testcase {
                     '~(?:<span class="nolink">|<span class="filter_mathjaxloader_equation">)((?:(?!<span\b).)*?)</span>~s',
                     '$1', $content);
         }
+
+        // Different versions of Maxima output floats in slighly different ways.
+        // Revert some of those irrelevant differences.
+        // We always expect the e in 3.0e8 to be lower case.
+        $content = preg_replace('~(\\\\\(-?\d+(?:\.\d*)?)E([-+]?\d+\\\\\))~', '$1e$2', $content);
+        // Add .0 in 3e8 or 3.e8, to give 3.0e8.
+        $content = preg_replace('~(\\\\\(-?\d+)\.?(e[-+]?\d+\\\\\))~', '$1.0$2', $content);
+
         return $content;
     }
 }

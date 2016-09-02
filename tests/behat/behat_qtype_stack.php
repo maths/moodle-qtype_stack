@@ -48,7 +48,7 @@ class behat_qtype_stack extends behat_base {
      */
     public function iSetUpStackUsingThePhpunitConfiguration() {
         // The require_once is here, this file may be required by behat before including /config.php.
-        require_once(__DIR__ . '/../test_maxima_configuration.php');
+        require_once(__DIR__ . '/../fixtures/test_maxima_configuration.php');
 
         if (!qtype_stack_test_config::is_test_config_available()) {
             throw new SkippedException('To run the STACK tests, ' .

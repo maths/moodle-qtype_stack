@@ -42,7 +42,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $this->db = $db;
     }
 
-    /* @see stack_cas_connection::compute() */
     public function compute($command) {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
@@ -65,7 +64,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $result;
     }
 
-    /* @see stack_cas_connection::get_debuginfo() */
     public function get_debuginfo() {
         return $this->debug->get_log();
     }

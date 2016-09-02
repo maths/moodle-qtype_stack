@@ -250,13 +250,13 @@ class stack_potentialresponse_tree {
             $rawcasstrings = array_merge($rawcasstrings, $node->get_required_cas_strings());
         }
 
+        // Remove strings in castrings so that strings like "...ans1..." do not match ans1.
+        $rawcasstring = stack_utils::eliminate_strings(implode('; ', $rawcasstrings));
+
         $requirednames = array();
         foreach ($variablenames as $name) {
-            foreach ($rawcasstrings as $string) {
-                if ($this->string_contains_variable($name, $string)) {
-                    $requirednames[] = $name;
-                    break;
-                }
+            if ($this->string_contains_variable($name, $rawcasstring)) {
+                $requirednames[] = $name;
             }
         }
         return $requirednames;

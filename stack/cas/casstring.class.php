@@ -89,7 +89,7 @@ class stack_cas_casstring {
                 'gnuplot_file_name' => true, 'gnuplot_out_file' => true, 'gnuplot_preamble' => true,
                 'gnuplot_ps_term_command' => true, 'gnuplot_term' => true, 'inchar' => true, 'infeval' => true,
                 'infolists' => true, 'kill' => true, 'killcontext' => true, 'labels' => true, 'leftjust' => true,
-                'ldisp' => true, 'ldisplay' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
+                'ldisp' => true, 'ldisplay' => true, 'lisp' => true, 'linechar' => true, 'linel' => true, 'linenum' => true,
                 'linsolvewarn' => true, 'load' => true, 'load_pathname' => true, 'loadfile' => true, 'loadprint' => true,
                 'macroexpand' => true, 'macroexpand1' => true, 'macroexpansion' => true, 'macros' => true,
                 'manual_demo' => true, 'maxima_tempdir' => true, 'maxima_userdir' => true, 'multiplot_mode' => true,
@@ -571,14 +571,6 @@ class stack_cas_casstring {
             return false;
         }
 
-        // CAS strings may not contain @ or $.
-        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
-            $this->add_error(stack_string('illegalcaschars'));
-            $this->answernote[] = 'illegalcaschars';
-            $this->valid = false;
-            return false;
-        }
-
         // Check for matching string delimiters.
         $cmdsafe = str_replace('\"', '', $cmd);
         if (stack_utils::check_matching_pairs($cmdsafe, '"') == false) {
@@ -589,6 +581,14 @@ class stack_cas_casstring {
 
         // Now remove any strings from the $cmd.
         list($cmd, $strings) = $this->strings_remove($cmd);
+
+        // CAS strings may not contain @ or $. But string sure can.
+        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
+            $this->add_error(stack_string('illegalcaschars'));
+            $this->answernote[] = 'illegalcaschars';
+            $this->valid = false;
+            return false;
+        }
 
         // Search for HTML fragments.  This is hard to do because < is an infix operator!
         // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
@@ -1001,10 +1001,15 @@ class stack_cas_casstring {
             $allow = self::$cache['allows'][$rawallowwords];
         }
 
-        // Note, we do not strip out strings here.  This would be a potential secuity risk.
+        // Previously we thought like this.
+        // Note, we do not strip out strings here.  This would be a potential security risk.
         // Teachers are trusted with any name already, and we would never permit a:"system('rm *')" as a string!
         // The contents of any string which look bad, probably is bad.
-        $cmd = $this->casstring;
+        // Now however strings are more commonly used and forbidden words being part of them is a common problem.
+        // The problem is that we can't realy distinguish which words are bad in strings and we forbid too much.
+        // So to actually allow strings that are usable we no longer check inside strings.
+        // In any case what could we have done to a:concat("s","y","s"...);. We need to focus on blocking the evaluation of that string instead.
+        $cmd = stack_utils::eliminate_strings($this->casstring);
         $strinkeywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);

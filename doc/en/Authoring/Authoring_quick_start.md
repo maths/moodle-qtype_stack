@@ -208,7 +208,7 @@ Modify the [question variables](KeyVals.md#Question_variables) from the previous
 Then change the [question text](CASText.md#question_text) to
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate @p@ with respect to \(x\).
+Differentiate @p@ with respect to \(x\) .
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 

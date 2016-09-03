@@ -132,7 +132,7 @@ example, interpolates. Another example is a stationary point of
 
     p : subst(a,x,diff(ans1,x));
 
-Here we have assumed a is some point given to the student, `ans1` is the and that \(p\) will be used in the response processing tree.
+Here we have assumed a is some point given to the student, `ans1` is the answer and that \(p\) will be used in the response processing tree.
 
 You can use Maxima's looping structures within Question
 variables, although the syntax requires this to be of the form

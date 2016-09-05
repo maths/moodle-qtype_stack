@@ -268,7 +268,7 @@ This contains random numbers, and also examples of variables and expressions sel
 Then change the Question text to
 
 <textarea readonly="readonly" rows="3" cols="50">
-Differentiate @p@ with respect to @v@.
+Differentiate @p@ with respect to @v@ .
 [[input:ans1]]
 [[validation:ans1]]</textarea>
 

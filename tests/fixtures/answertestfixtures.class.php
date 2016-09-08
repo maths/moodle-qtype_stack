@@ -962,6 +962,7 @@ class stack_answertest_test_data {
         array('Units', '2', '100*g', '10*kg', 0,
             'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_compatible_units: kg.', ''),
         array('Units', '2', '0.025*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg. ATUnits_correct_numerical.', ''),
+        array('Units', '2', '1000*m', '1*km', 1, 'ATUnits_compatible_units: m.', ''),
         array('Units', '1', '1*Mg/10^6', '1*N*s^2/(km)', 1, 'ATUnits_compatible_units: kg.', ''),
         array('Units', '1', '1*Mg/10^6', '1*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.', ''),
         array('Units', '3', '3.14*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.', ''),

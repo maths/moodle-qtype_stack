@@ -661,6 +661,10 @@ declare("nounor", rassociative);
 
 /* A predicate to decide if we have a logical expression. */
 logicp(ex) := block(
+  if is(ex=true) then return(true),
+  if is(ex=false) then return(true),
+  if is(ex=all) then return(true),
+  if is(ex=none) then return(true),
   if safe_op(ex) = "nounand" then return(true),
   if safe_op(ex) = "nounor" then return(true),
   if safe_op(ex) = "and" then return(true),
@@ -671,7 +675,7 @@ logicp(ex) := block(
 )$
 
 free_of_logicp(ex) := block([logicops, res, k],
-   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
+   logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
    res:true,
    for k: 1 thru length(logicops) do 
        if ev(not(is(count_op(ex, logicops[k])=0)),simp) then res:false,
@@ -1043,7 +1047,7 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
   exmod:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote],
      SA:exmod[ev(id, simp)],
-     if expressionp(SA) and not(stringp(SA)) then SA:SA=0,
+     if stack_eval_arg_equivzerop(ex) then SA:SA=0,
      if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
      exmod[ev(id, simp)]:SA
   ),
@@ -1195,7 +1199,7 @@ disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A, ret, exne
         )
     ),
     /* Modify input expressions for implied equivalence to zero. */
-    exnew:maplist(lambda([ex2], if expressionp(ex2) and not(stringp(ex2)) then ex2=EQUIVZERO else ex2), A[3]),
+    exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
     ret:[exnew],
     /* If we are not showing logical connectives, then suppress them. */
     if showlogic then ret:append([eqoutsymb], ret),
@@ -1203,7 +1207,17 @@ disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A, ret, exne
     /* Switch off matrix brackets. */
     lmxchar:"",
     ret:apply(matrix, ret),
-    return(transpose(ret))
+    ret:transpose(ret),
+    ret:apply(argument, args(ret)),
+    return(ret)
+)$
+
+/* A predicate to decide if we should equate to zero. */
+stack_eval_arg_equivzerop(ex) := block(
+   if is(ex=true) or is(ex=false) then return(false),
+   if is(ex={}) or is(ex=[]) or is(ex=all) then return(false),
+   if expressionp(ex) and not(stringp(ex)) then return(true),
+   return(false)
 )$
 
 check_stack_eval_arg(ex) := block([A, ret], 

@@ -35,26 +35,26 @@ class stack_equiv_input extends stack_input {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
 
-        $attributes = array(
-            'name' => $fieldname,
-            'id'   => $fieldname,
-        );
-
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+            $rows = array();
         } else {
             $current = implode("\n", $state->contents);
+            $rows = $state->contents;
         }
 
         // Sort out size of text area.
-        $rows = stack_utils::list_to_array($current, false);
-        $attributes['rows'] = max(3, count($rows) + 1);
-
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {
-            $boxwidth = max($boxwidth, strlen($row) + 5);
+            $boxwidth = max($boxwidth, strlen($row) - 15);
         }
-        $attributes['cols'] = $boxwidth;
+
+        $attributes = array(
+            'name' => $fieldname,
+            'id'   => $fieldname,
+            'rows' => max(3, count($rows) + 1),
+            'cols' => min($boxwidth, 90)
+        );
 
         if ($readonly) {
             $attributes['readonly'] = 'readonly';

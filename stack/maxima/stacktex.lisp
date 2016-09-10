@@ -199,7 +199,7 @@
 ;; Chris Sangwin, 8/6/2015.
 (defprop %integrate tex-int tex)
 (defun tex-int (x l r)
-  (let ((s1 (tex (cadr x) nil nil 'mparen 'mparen)) ;;integran, at the request of the OUd delims / & d
+  (let ((s1 (tex (cadr x) nil nil 'mparen 'mparen)) ;;integran, at the request of the OU delims / & d
     (var (tex (caddr x) nil nil 'mparen rop))) ;; variable
     (cond((= (length x) 3)
       (append l `("\\int {" ,@s1 "}{\\;\\mathrm{d}" ,@var "}") r))
@@ -276,4 +276,13 @@
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
 
+;; Added by CJS, 10-9-16.  Display an argument.
+(defprop $argument tex-argument tex)
+
+(defun tex-argument(x l r) ;;matrix looks like ((mmatrix)((mlist) a b) ...)
+  (append l `("\\begin{array}{lll}")
+      (mapcan #'(lambda(y)
+              (tex-list (cdr y) nil (list "\\cr ") "&"))
+          (cdr x))
+      '("\\end{array}") r))
 

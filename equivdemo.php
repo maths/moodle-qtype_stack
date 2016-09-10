@@ -95,6 +95,54 @@ $newarg['debuglist'] = "[null]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[x=x,all]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[x=x,true]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[1=2,false]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[1=2,none]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[1=2,{}]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[1=2,[]]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
 /******************************************************************************/
 $newarg = array();
 $newarg['section'] = 'Roots, powers and absolute value';
@@ -282,9 +330,25 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving cubic equations 1 (missing complex roots)";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Solving cubic equations 2 (complex roots)";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1 or x^2+x+1=0,x=1 or x = -(sqrt(3)*%i+1)/2 or x=(sqrt(3)*%i-1)/2]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving quadratic equations 8 (Toby's method)";
 $newarg['narrative']  = 'In the last line of this argument we get a double root for a=0, which is slightly odd.';
-$newarg['casstring'] = "[a*x^2+b*x+c=0 or a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0,(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c,a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c),(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)),a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
+$newarg['casstring'] = "[a*x^2+b*x+c=0 or a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0,(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c,a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c),(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)),a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
 $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
@@ -508,6 +572,15 @@ $newarg['casstring'] = '[x^2 + (a-2)*x + a = 0,(x + (a-2)/2)^2 -((a-2)/2)^2 + a 
 $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "Proof by induction";
+$newarg['narrative']  = "";
+$newarg['casstring'] = '["Set P(n) be the statement that",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6, "Then P(1) is the statement", 1^2 = 1*(1+1)*(2*1+1)/6, 1 = 1, "So P(1) holds.  Now assume P(n) is true.",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6,sum(k^2,k,1,n) +(n+1)^2= n*(n+1)*(2*n+1)/6 +(n+1)^2,sum(k^2,k,1,n+1)= (n+1)*(n*(2*n+1) +6*(n+1))/6,sum(k^2,k,1,n+1)= (n+1)*(2*n^2+7*n+6)/6,sum(k^2,k,1,n+1)= (n+1)*(n+1+1)*(2*(n+1)+1)/6]';
+$newarg['debuglist'] = "[null,null,null,EQUIVCHAR,null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
 
 /* Loop over each argument, evaluate it and display the results. */
 

@@ -1140,10 +1140,14 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
     /* First try without expanding out the equations */
     R1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
     R2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
-    if algebraic_equivalence(R2, 0) then
-        if algebraic_equivalence(R1, 0) then
+    if ATEquation_zerop(R2) then
+        if ATEquation_zerop(R1) then
              return([true, true, "ATEquation_zero", ""]) 
-        else return([true, false, "ATEquation_zero", ""]),
+        else return([true, false, "ATEquation_zero_fail", ""]),
+    if ATEquation_emptyp(lhs(SB)-rhs(SB)) then
+        if ATEquation_emptyp(lhs(SA)-rhs(SA)) then
+             return([true, true, "ATEquation_empty", ""]) 
+        else return([true, false, "ATEquation_empty_fail", ""]),
     if numberp(float(abs(R1/R2))) then 
 -        return([true, true, "", ""]),    R1:num(ratsimp(R1)),
     R2:num(ratsimp(R2)),
@@ -1155,22 +1159,38 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
     return([true, false, "ATEquation_default", ""])
     )$
 
+/* A predicate to decide if we have an empty equation. */
+ATEquation_zerop(ex) := block(
+  if is(ex=all) or is(ex=true) then return(true),
+  if algebraic_equivalence(ex, 0) then return(true),
+  return(false)
+)$
+
+/* A predicate to decide if we have no solutions (without solving). */
+ATEquation_emptyp(ex) := block(
+  if is(ex=none) or is(ex=false) then return(true),
+  if is(ex=true) or is(ex=all) then return(false),
+  if emptyp(listofvars(ex)) then return(true),
+  return(false)
+)$
+
 ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     RawMark:false, FeedBack:"", AnswerNote:"",
     /* Write the inequalities in canonical form then compare. */
     SA:ineqorder(SA),
     SB:ineqorder(SB),
+    if debug then print("ATInequality", SA, SB),
     if SA = SB then RawMark:true,
     /* Now try to give some basic feedback: potential for more work to recurse over complex expressions... */
-    if op(SA) = ">"  and op(SB) =">=" then block(
+    if safe_op(SA) = ">"  and safe_op(SB) =">=" then block(
         AnswerNote:StackAddNote("", "ATInequality_strict"),
         FeedBack:StackAddFeedback("", "ATInequality_strict")
     ),
-    if op(SA) = ">=" and op(SB) =">" then block(
+    if safe_op(SA) = ">=" and safe_op(SB) =">" then block(
         AnswerNote:StackAddNote("", "ATInequality_nonstrict"),
         FeedBack:StackAddFeedback("", "ATInequality_nonstrict")
     ),
-    if (">" = op(SA) or ">=" = op(SA)) and  (">" = op(SB) or ">=" = op(SB)) then block(
+    if (">" = safe_op(SA) or ">=" = safe_op(SA)) and  (">" = safe_op(SB) or ">=" = safe_op(SB)) then block(
         SA1:ev(part(SA, 1), simp),
         SB1:ev(part(SB, 1), simp),
         if algebraic_equivalence(-1*SA1,SB1) then block(
@@ -1380,7 +1400,7 @@ ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
     /* Check for the empty set. */
     if equationp(SA) and numberp(lhs(SA)) and not(algebraic_equivalence(lhs(SA), 0)) then SA:{},
     if equationp(SB) and numberp(lhs(SB)) and not(algebraic_equivalence(lhs(SB), 0)) then SB:{},
-    AnswerNote:concat("[", string(SA), " | ", string(SB), "]"),
+    AnswerNote:concat("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then 
         return([true, true, "ATLogic_True", FeedBack]),
     return([true, RawMark, AnswerNote, FeedBack])
@@ -2547,4 +2567,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016083000$
+stackmaximaversion:2016091000$

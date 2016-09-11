@@ -975,6 +975,7 @@ class stack_answertest_test_data {
         array('Units', '2', '400*mL', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '18*kJ', '18000.0*J', 1, 'ATUnits_compatible_units: kg*m^2/s^2.', ''),
         array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATNumSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', ''),
+        array('Units', '2', '2*hh', '720000*s', 1, 'ATUnits_compatible_units: s.', ''),
         array('Units', '2', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
         array('Units', '2', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
         array('Units', '2', '0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),

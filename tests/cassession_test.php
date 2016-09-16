@@ -338,20 +338,20 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('pi025', $at1->get_value_key('a'));
-        $this->assertEquals('{\pi}_{025}', $at1->get_display_key('a'));
+        $this->assertEquals($at1->get_value_key('a'), 'pi025');
+        $this->assertEquals($at1->get_display_key('a'), '{\pi}_{025}');
 
-        $this->assertEquals('1+x3', $at1->get_value_key('b'));
-        $this->assertEquals('1+{x}_{3}', $at1->get_display_key('b'));
+        $this->assertEquals($at1->get_value_key('b'), '1+x3');
+        $this->assertEquals($at1->get_display_key('b'), '1+{x}_{3}');
 
-        $this->assertEquals('f(x):=x^3', $at1->get_value_key('c'));
-        $this->assertEquals('f(x):=x^3', $at1->get_display_key('c'));
+        $this->assertEquals($at1->get_value_key('c'), 'f(x):=x^3');
+        $this->assertEquals($at1->get_display_key('c'), 'f(x):=x^3');
 
-        $this->assertEquals('gamma7^3', $at1->get_value_key('d'));
-        $this->assertEquals('{\gamma}_{7}^3', $at1->get_display_key('d'));
+        $this->assertEquals($at1->get_value_key('d'), 'gamma7^3');
+        $this->assertEquals($at1->get_display_key('d'), '{\gamma}_{7}^3');
 
-        $this->assertEquals('pi4^5', $at1->get_value_key('a2'));
-        $this->assertEquals('{\pi}_{4}^5', $at1->get_display_key('a2'));
+        $this->assertEquals($at1->get_value_key('a2'), 'pi4^5');
+        $this->assertEquals($at1->get_display_key('a2'), '{\pi}_{4}^5');
     }
 
     public function test_assignmatrixelements() {

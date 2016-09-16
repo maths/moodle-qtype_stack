@@ -2,8 +2,8 @@
 
 ## Matrices ##
 
-Note that in Maxima, matrix multiplication is the dot, e.g.
-`A.B`.  The star `A*B` gives element-wise multiplication.
+Note that in Maxima, the operator `.` represents noncommutative multiplication and scalar product.
+The star `A*B` gives element-wise multiplication.
 
 The paper
 [Setting Linear Algebra Problems](http://web.maths.unsw.edu.au/~jds/Papers/linalg.pdf)

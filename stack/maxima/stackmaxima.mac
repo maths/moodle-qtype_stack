@@ -268,8 +268,10 @@ stack_disp(expr, m) := block([str:"", expru],
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
-    expru:unary_minus_sort(expr),
-    expru:stack_disp_strip_number(expru),
+    expru:expr,
+    if not(stack_disp_control_structurep(expr)) then block(
+        expru:unary_minus_sort(expr),
+        expru:stack_disp_strip_number(expru)),
 
     str:block([expstr, offset, ld, rd],
         ld:"", 
@@ -293,6 +295,9 @@ stack_disp(expr, m) := block([str:"", expru],
 /* it, even though that was not recommended practice. */
 alias(StackDISP, stack_disp)$
 
+/* If an expression contains these control structures then we don't fine-tune the display. */
+stack_disp_control_structurep(ex) := not(freeof(?mdoin, ?mdo, catch, throw, ":=", lambda, setelmx, ex))$
+
 stack_disp_strip_dollars(ex) := block(
         if ?subseq(ex, 0, 2) = "$$" then
             ex:?subseq(ex, 2, ev(?length(ex)-3, simp))
@@ -314,7 +319,7 @@ errcatch(compile(?texnumformat));
 
 /* A recursive function which strips off numbers at the end of variable names. */
 stack_disp_strip_number(ex) := block([s,v,n],
-  if not(freeof(":=", lambda, setelmx, ex)) then return(ex),
+  if stack_disp_control_structurep(ex) then return(ex),
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_strip_number, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
   s:string(ex),
@@ -461,8 +466,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or atom(ex) then return(ex),
-  if not(freeof(":=", lambda, setelmx, ex)) then return(ex),
+  if simp or atom(ex) or stack_disp_control_structurep(ex) then return(ex),
   ex2:unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
 )$

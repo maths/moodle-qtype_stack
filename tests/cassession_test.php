@@ -411,11 +411,16 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('3.14', $at1->get_display_key('p'));
     }
 
-    public function test_disp_unevaluated_matrix() {
+    public function test_disp_control_structures() {
 
-        $cs = array('p:if a>b then setelmx(0,m[k],m[j],A)');
+        $csl = array('p:if a>b then setelmx(0,m[k],m[j],A)',
+                'addto1(ex):=thru ex do x:0.5*(x+5.0/x)',
+                'addto2(ex):=for a from -3 step 7 thru ex do a^2',
+                'addto3(ex):=for i from 2 while ex <= 10 do s:s+i',
+                'addto4(ex):=block([l],l:ex,for f in [log,rho,atan] do l:append(l,[f]),l)',
+                'l:addto4([sin,cos])');
 
-        foreach ($cs as $s) {
+        foreach ($csl as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->get_valid('t');
             $s1[] = $cs;
@@ -426,9 +431,20 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
+        $this->assertEquals('', $at1->get_errors(false));
+
         $this->assertEquals('if a > b then setelmx(0,m[k],m[j],A)', $at1->get_value_key('p'));
-        $this->assertEquals($at1->get_display_key('p'),
-                '\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m_{j} , A\right)');
+        $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m _{j} , A\right)',
+                $at1->get_display_key('p'));
+
+        // Confirm these expressions are unchanged by the CAS.
+        $atsession = $at1->get_session();
+        for ($i = 1; $i <= 4; $i++) {
+            $cs = $atsession[$i];
+            $this->assertEquals($csl[$i], $cs->get_value());
+        }
+
+        $this->assertEquals('[sin,cos,log,rho,atan]', $at1->get_value_key('l'));
     }
 
     public function test_redefine_variable() {

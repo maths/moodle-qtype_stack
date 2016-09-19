@@ -30,6 +30,13 @@ To assign values to individual elements, use the simple syntax such as the follo
     m:matrix([1,1],[1,2])
     m[1,2]:3
 
+Note also Maxima's `setelmx` function:
+
+    setelmx (<x>, <i>, <j>, <M>)
+
+Assigns `<x>` to the `(<i>, <j>)`'th element of the matrix `<M>`, and returns the altered matrix. `<M> [<i>, <j>]: <x>` has the same effect, but returns `<x>` instead of `<M>`.
+
+
 ### Showing working {#Showing_working}
 
 It is quite common to want to show part of a matrix calculation "un-evaluated".  For example, the following is typical.

@@ -392,6 +392,45 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     }
 
+    public function test_dispdp() {
+
+        $cs = array('p:dispdp(3.14159,2)');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('dispdp(3.14159,2)', $at1->get_value_key('p'));
+        $this->assertEquals('3.14', $at1->get_display_key('p'));
+    }
+
+    public function test_disp_unevaluated_matrix() {
+
+        $cs = array('p:if a>b then setelmx(0,m[k],m[j],A)');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('if a > b then setelmx(0,m[k],m[j],A)', $at1->get_value_key('p'));
+        $this->assertEquals($at1->get_display_key('p'),
+                '\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m_{j} , A\right)');
+    }
+
     public function test_redefine_variable() {
 
         // This example redefines the value of n.

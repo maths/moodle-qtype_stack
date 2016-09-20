@@ -466,7 +466,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or atom(ex) or stack_disp_control_structurep(ex) then return(ex),
+  if simp or atom(ex) return(ex),
   ex2:unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
 )$

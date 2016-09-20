@@ -271,7 +271,8 @@ stack_disp(expr, m) := block([str:"", expru],
     expru:expr,
     if not(stack_disp_control_structurep(expr)) then block(
         expru:unary_minus_sort(expr),
-        expru:stack_disp_strip_number(expru)),
+        expru:stack_disp_strip_number(expru),
+        expru:stack_disp_sub_script(expru)),
 
     str:block([expstr, offset, ld, rd],
         ld:"", 
@@ -317,7 +318,12 @@ stackfltfmt:"~a";
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
 
-/* A recursive function which strips off numbers at the end of variable names. */
+/* ********************************** */
+/* Display: Subscripts                */
+/* ********************************** */
+
+/* A recursive function which strips off numbers at the end of variable names. 
+   This is really needed to sort out Greek letters, like Theta_0.              */
 stack_disp_strip_number(ex) := block([s,v,n],
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_strip_number, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
@@ -326,7 +332,6 @@ stack_disp_strip_number(ex) := block([s,v,n],
   v:strimr("0123456789", s),
   n:substring(s, ev(slength(v)+1,simp)),
   /* Note, we don't parse the n here to avoid stipping off a leading zero. */
-  /*if slength(n)>0 then return(stacktexsubscript(parse_string(v), n)),*/
   if slength(n)=0 then return(ex),
   /* Check if we only have letters left. */
   if not(strimr("abcdefghijklmnopqrstuvwxyz", sdowncase (v)) = "") then return(ex),
@@ -335,6 +340,23 @@ stack_disp_strip_number(ex) := block([s,v,n],
   stacktexsubscript(v, n)
 )$
 
+stack_disp_sub_script(ex) := block([s],
+  if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
+  if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
+  s:string(ex),
+  s:split(s, "_"),
+  s:maplist(parse_string, s),
+  stack_disp_sub_script_helper(s)
+)$
+
+stack_disp_sub_script_helper(l) := block(
+  if length(l) = 1 then return(first(l)),
+  stacktexsubscript(stack_disp_sub_script_helper(reverse(rest(reverse(l)))), first(reverse(l)))
+)$
+
+/* ********************************** */
+/* Display: colour                    */
+/* ********************************** */
 
 COLOR_LIST:["red", "Blue"  , "YellowOrange", "Bittersweet"  , "BlueViolet" , "Aquamarine", "BrickRed" , 
     "Apricot" , "Brown" , "BurntOrange", "CadetBlue" , "CarnationPink" , "Cerulean" , "CornflowerBlue" , 
@@ -2522,4 +2544,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016091900$
+stackmaximaversion:2016092000$

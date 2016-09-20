@@ -1041,7 +1041,17 @@ class stack_cas_casstring {
 
         }
 
-        $strinkeywords = array_unique($strinkeywords);
+        // Create an array of unique keywords, once we have split over subscript symbols.
+        $keywords = array();
+        foreach ($strinkeywords as $key) {
+            foreach (explode("_", $key) as $kw) {
+                if (strlen($kw) > 2) {
+                    $keywords[$kw] = true;
+                }
+            }
+        }
+        $strinkeywords = array_keys($keywords);
+
         // Check for global forbidden words.
         foreach ($strinkeywords as $key) {
             if (isset(self::$cache['globalforbid'][strtolower($key)])) {

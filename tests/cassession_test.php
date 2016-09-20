@@ -326,7 +326,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // Fails with actual display output like '{\it pi_{025}}'.
         $this->skip_if_old_maxima('5.23.2');
 
-        $cs = array('a:pi025', 'b:1+x3', 'c:f(x):=x^3', 'd:gamma7^3', 'a2:pi4^5');
+        $cs = array('a:pi_25', 'b:1+x_3', 'c:f(x):=x^3', 'd:gamma_7^3', 'a2:pi_4^5');
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->get_valid('t');
@@ -338,8 +338,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals($at1->get_value_key('a'), 'pi025');
-        $this->assertEquals($at1->get_display_key('a'), '{\pi}_{025}');
+        $this->assertEquals($at1->get_value_key('a'), 'pi25');
+        $this->assertEquals($at1->get_display_key('a'), '{\pi}_{25}');
 
         $this->assertEquals($at1->get_value_key('b'), '1+x3');
         $this->assertEquals($at1->get_display_key('b'), '1+{x}_{3}');
@@ -347,10 +347,10 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals($at1->get_value_key('c'), 'f(x):=x^3');
         $this->assertEquals($at1->get_display_key('c'), 'f(x):=x^3');
 
-        $this->assertEquals($at1->get_value_key('d'), 'gamma7^3');
+        $this->assertEquals($at1->get_value_key('d'), 'gamma_7^3');
         $this->assertEquals($at1->get_display_key('d'), '{\gamma}_{7}^3');
 
-        $this->assertEquals($at1->get_value_key('a2'), 'pi4^5');
+        $this->assertEquals($at1->get_value_key('a2'), 'pi_4^5');
         $this->assertEquals($at1->get_display_key('a2'), '{\pi}_{4}^5');
     }
 

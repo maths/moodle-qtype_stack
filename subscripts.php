@@ -82,6 +82,7 @@ foreach($testdata as $data) {
     $result = stack_subscripts_test_data::run_test($test, false);
 
     $class = 'pass';
+    $outcome = '';
     $note = '';
     if ($test->notes != '') {
         $notes[$ni] = $test->notes;
@@ -101,7 +102,23 @@ foreach($testdata as $data) {
         'notes'         => $note,
     );
 
-    
+    if ('invalid' == $test->maxima) {
+        if ($test->valid) {
+            $class = 'fail';
+            $outcome .= 'Expected invalid expression. ';
+        }
+    } else {
+        if ($test->maxima != $test->value) {
+            $class = 'fail';
+            $outcome .= 'CAS value. ';
+        }
+        if ($test->value != '' && $test->tex != $test->display) {
+            $class = 'fail';
+            $outcome .= 'Display. ';
+        }
+    }
+
+    $row['outcome'] = $outcome;
 
     $table->add_data_keyed($row, $class);
 

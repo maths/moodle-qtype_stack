@@ -809,6 +809,8 @@ class stack_cas_casstring {
 
         $this->check_security($security, $allowwords);
 
+        $this->check_underscores($security);
+
         $this->key_val_split();
         return $this->valid;
     }
@@ -959,6 +961,34 @@ class stack_cas_casstring {
         }
     }
 
+    /* We have added support for subscripts using underscore.  We expect more invalid expressions. */
+    private function check_underscores($security) {
+
+        $strpatterns[] = ')_';
+        $strpatterns[] = '_(';
+        $strpatterns[] = ']_';
+        $strpatterns[] = '_[';
+        $strpatterns[] = '}_';
+        $strpatterns[] = '_{';
+
+        $cmd = $this->casstring;
+        $found = array();
+        $valid = true;
+        foreach ($strpatterns as $pat) {
+            if (!(strpos($cmd, $pat)===false)) {
+                $valid = false;
+                $this->answernote[] = 'underscores';
+                $found[] = '<font color=\"red\"><code>' . $pat . '</code></font>';
+            }
+        }
+
+        if (!$valid) {
+            $this->valid = false;
+            $a = implode($found, ', ');
+            $this->add_error(stack_string('stackCas_underscores', $a));
+        }
+
+    }
 
     /**
      * Check for forbidden CAS commands, based on security level

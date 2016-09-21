@@ -546,6 +546,7 @@ $string['texinlinestyle'] = 'Inline-style equation';
 
 // Used in casstring.class.php.
 $string['stackCas_spaces']                  = 'Illegal spaces found in expression {$a->expr}.';
+$string['stackCas_underscores']             = 'The following use of underscore characters is not permitted: {$a}.';
 $string['stackCas_percent']                 = '&#037; found in expression {$a->expr}.';
 $string['stackCas_missingLeftBracket']      = 'You have a missing left bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';
 $string['stackCas_missingRightBracket']     = 'You have a missing right bracket <span class="stacksyntaxexample">{$a->bracket}</span> in the expression: {$a->cmd}.';

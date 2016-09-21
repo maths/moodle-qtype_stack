@@ -47,7 +47,7 @@ Maxima "atoms" with a subscript will be displayed using subscripts.  For example
 
 will be displayed as \(\theta_2\).  Both teachers and students can use this mechanism.  However, this relies on the expression being a Maxima atom.  (See the maxima manual).
 
-Teachers only can create an intert function which displays using subscripts.
+Teachers can create an inert function which displays using subscripts.
 
     texsub(a,b)
 

@@ -338,10 +338,10 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals($at1->get_value_key('a'), 'pi25');
+        $this->assertEquals($at1->get_value_key('a'), 'pi_25');
         $this->assertEquals($at1->get_display_key('a'), '{\pi}_{25}');
 
-        $this->assertEquals($at1->get_value_key('b'), '1+x3');
+        $this->assertEquals($at1->get_value_key('b'), '1+x_3');
         $this->assertEquals($at1->get_display_key('b'), '1+{x}_{3}');
 
         $this->assertEquals($at1->get_value_key('c'), 'f(x):=x^3');
@@ -705,7 +705,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 $at1->get_display_key('greek4'));
     }
 
-    public function test_taylor_cos() {
+    public function test_taylor_cos_simp() {
         $cs = array('c1:taylor(cos(x),x,0,1)',
                     'c3:taylor(cos(x),x,0,3)');
         foreach ($cs as $s) {
@@ -713,13 +713,38 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('s');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
         // For some reason Maxima's taylor function doesn't always put \cdots at the end.
         $this->assertEquals('+1', $at1->get_value_key('c1'));
         $this->assertEquals('+1+\cdots', $at1->get_display_key('c1'));
         $this->assertEquals('1-x^2/2', $at1->get_value_key('c3'));
-        $this->assertEquals('1-\frac{x^2}{2}', $at1->get_display_key('c3'));
+        $this->assertEquals('1-\frac{x^2}{2}+\cdots', $at1->get_display_key('c3'));
+    }
+
+    public function test_taylor_cos_nosimp() {
+        $cs = array('c1:taylor(cos(x),x,0,1)',
+                    'c3:taylor(cos(x),x,0,3)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        // For some reason Maxima's taylor function doesn't always put \cdots at the end.
+        $this->assertEquals('+1', $at1->get_value_key('c1'));
+        $this->assertEquals('+1+\cdots', $at1->get_display_key('c1'));
+        $this->assertEquals('1-x^2/2', $at1->get_value_key('c3'));
+        $this->assertEquals('1-\frac{x^2}{2}+\cdots', $at1->get_display_key('c3'));
     }
 
     public function test_lambda() {

@@ -354,4 +354,15 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'unknownfunction(x^2+1)+3*x'), $options, '2*x', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
     }
+
+    public function test_validate_student_response_single_variable() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'cos(a*x)/(x*(ln(x)))');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(array('sans1' => 'cos(ax)/(x(ln(x)))'), $options, 'cos(a*x)/(x*(ln(x)))', array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('cos(a*x)/(x*(ln(x)))', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left( \ln \left( x \right) \right)} \]', $state->contentsdisplayed);
+    }
 }

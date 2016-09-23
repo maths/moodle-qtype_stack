@@ -265,6 +265,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '-inf', 'minf', -2, 'CASError: sign: sign of und is undefined.', ''),
         array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
         array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
+        array('AlgEquiv', '', 'atan(1/2)' ,'%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
         array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
 
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero.', ''),

@@ -6,7 +6,7 @@ _This is an outline for a feature currently under development for STACK 3.0._
 
 Question blocks are a feature that have been strongly requested to add flexibility to STACK
 questions by adding functional structures, i.e. conditional inclusion
-<http://stack.bham.ac.uk/live/mod/forum/discuss.php?d=153>.
+<http://stack.maths.ed.ac.uk/live/mod/forum/discuss.php?d=153>.
 
 More maximum flexibility, blocks can be nested and conditionally evaluated.
 A body of CAStext is then repeatedly processed until all blocks have been interpreted into CAStext.

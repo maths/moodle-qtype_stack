@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -150,7 +150,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '9.81m/s^2+tans'), $options, '9.81*m/s^2', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars | unknownFunction', $state->note);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_both_units() {

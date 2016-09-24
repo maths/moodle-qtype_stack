@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -143,7 +143,7 @@ class stack_cas_casstring {
                 'declare_weights' => true, 'decsym' => true, 'default_let_rule_package' => true, 'defcon' => true,
                 'defmatch' => true, 'defrule' => true, 'delay' => true, 'deleten' => true, 'diag' => true,
                 'diagmatrixp' => true, 'diagmetric' => true, 'dim' => true, 'dimension' => true, 'dimensionless' => true,
-                'dimensions' => true, 'dimensions_as_list' => true, 'direct' => true, 'disp' => true, 'dispcon' => true,
+                'dimensions' => true, 'dimensions_as_list' => true, 'direct' => true, 'dispcon' => true,
                 'dispflag' => true, 'dispform' => true, 'dispfun' => true, 'dispjordan' => true, 'display' => true,
                 'display2d' => true, 'display_format_internal' => true, 'disprule' => true, 'dispterms' => true,
                 'distrib' => true, 'domxexpt' => true, 'domxmxops' => true, 'domxnctimes' => true, 'dotsimp' => true,
@@ -503,7 +503,7 @@ class stack_cas_casstring {
      */
     // @codingStandardsIgnoreStart
     private static $allowedchars =
-            '0123456789,./\%&{}[]()$��@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
+            '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -511,7 +511,7 @@ class stack_cas_casstring {
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
     // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^��#~=,_&`��;:$-';
+    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -975,7 +975,7 @@ class stack_cas_casstring {
         $found = array();
         $valid = true;
         foreach ($strpatterns as $pat) {
-            if (!(strpos($cmd, $pat)===false)) {
+            if (!(strpos($cmd, $pat) === false)) {
                 $valid = false;
                 $this->answernote[] = 'underscores';
                 $found[] = '<font color=\"red\"><code>' . $pat . '</code></font>';
@@ -1071,19 +1071,41 @@ class stack_cas_casstring {
 
         }
 
-        // Create an array of unique keywords, once we have split over subscript symbols.
-        $keywords = array();
+        // Check for global forbidden words before we split over underscores.
         foreach ($strinkeywords as $key) {
+            if (isset(self::$cache['globalforbid'][strtolower($key)])) {
+                // Very bad!
+                $this->add_error(stack_string('stackCas_forbiddenWord',
+                        array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
+                $this->answernote[] = 'forbiddenWord';
+                $this->valid = false;
+            }
+        }
+        if ($this->valid == false) {
+            return null;
+        }
+
+        $keywords1 = array();
+        foreach ($strinkeywords as $key) {
+            // Delete function names which students are allowed from the list of keywords before we split over underscore.
+            if (!isset(self::$cache['merged-sallow'][$key])) {
+                $keywords1[$key] = true;
+            }
+        }
+
+        // Create an array of unique keywords, once we have split over subscript symbols.
+        $keywords2 = array();
+        foreach ($keywords1 as $key => $word) {
             foreach (explode("_", $key) as $kw) {
                 if (strlen($kw) > 2) {
-                    $keywords[$kw] = true;
+                    $keywords2[$kw] = true;
                 }
             }
         }
-        $strinkeywords = array_keys($keywords);
+        $strinkeywords = array_keys($keywords2);
 
-        // Check for global forbidden words.
         foreach ($strinkeywords as $key) {
+            // Check again for global forbidden words.
             if (isset(self::$cache['globalforbid'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',

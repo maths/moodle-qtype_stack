@@ -436,8 +436,12 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz],
 subst_equiv(ex1,ex2):=block([lv1, lv2, lvi, lvp, lvs, lve, il, perm_size, simp],
  simp:true,
  perm_size:4, /* This algorithm is order factorial(perm_size) and so this needs to be small. */
- lv1:listofvars(ex1),
- lv2:listofvars(ex2),
+ lv1:setify(listofvars(ex1)),
+ lv2:setify(listofvars(ex2)),
+ /* If any of the variables also appear as function names we should get rid of them. 
+    Otherwise we get an infinite loop.                                               */
+ lv1:listify(setdifference(lv1, get_ops(ex1))),
+ lv2:listify(setdifference(lv2, get_ops(ex2))),
  if length(lv1)#length(lv2) then return([]),
  /* If the lists are too long, try a weaker condition */
  /* We assume the variables which occur in both are correctly assigned. */

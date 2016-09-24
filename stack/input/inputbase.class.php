@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -309,6 +309,9 @@ abstract class stack_input {
 
             // Generate an expression from which we extract the list of variables in the student's answer.
             $lvars = new stack_cas_casstring('listofvars('.$interpretedanswer.')');
+            if ($singlevarchars) {
+                    $lvars = new stack_cas_casstring('listofvars(stack_singlevar_make('.$interpretedanswer.'))');
+            }
             $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
 

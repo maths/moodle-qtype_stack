@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016091900;
+$plugin->version   = 20160922001;
 $plugin->requires  = 2014051200;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';

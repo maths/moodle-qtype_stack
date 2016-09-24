@@ -51,7 +51,8 @@ $PAGE->set_title($title);
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-echo html_writer::tag('p', "This is a temporary page to run subscript examples.  These will eventually become part of the unit tests only.");
+echo html_writer::tag('p', "This is a temporary page to run subscript examples. ".
+        "These will eventually become part of the unit tests only.");
 
 // Set up the results table.
 $columns = array(
@@ -77,9 +78,10 @@ $table->setup();
 $testdata = stack_subscripts_test_data::get_raw_test_data();
 $notes = array();
 $ni = 1;
-foreach($testdata as $data) {
+foreach ($testdata as $data) {
     $test = stack_subscripts_test_data::test_from_raw($data);
-    $result = stack_subscripts_test_data::run_test($test, false);
+    $simp = true;
+    $result = stack_subscripts_test_data::run_test($test, $simp);
 
     $class = 'pass';
     $outcome = '';
@@ -89,18 +91,6 @@ foreach($testdata as $data) {
         $note = '('.$ni.')';
         $ni++;
     }
-    $row = array(
-        'outcome'       => '',
-        'expression'    => format_text('\('.$test->tex.'\)'),
-        'rawinput'      => '<pre>'.$test->rawinput.'</pre>',
-        'maxima'        => '<pre>'.$test->maxima.'</pre>',
-        'value'         => '<pre>'.$test->value.'</pre>',
-        'tex'           => '<pre>'.$test->tex.'</pre>',
-        'tex-display'   =>  '<pre>'.$test->display.'</pre>',
-        'display'       => format_text('\('.$test->display.'\)'),
-        'errors'        => $test->errors,
-        'notes'         => $note,
-    );
 
     if ('invalid' == $test->maxima) {
         if ($test->valid) {
@@ -108,22 +98,41 @@ foreach($testdata as $data) {
             $outcome .= 'Expected invalid expression. ';
         }
     } else {
-        if ($test->maxima != $test->value) {
+        $vtarget = $test->maxima;
+        if ($simp and $test->maximasimp != '!') {
+            $vtarget = $test->maximasimp;
+        }
+        if ($vtarget != $test->value) {
             $class = 'fail';
             $outcome .= 'CAS value. ';
         }
-        if ($test->value != '' && $test->tex != $test->display) {
+        $dtarget = $test->tex;
+            if ($simp and $test->texsimp != '!') {
+            $dtarget = $test->texsimp;
+        }
+        if ($test->value != '' && $dtarget != $test->display) {
             $class = 'fail';
             $outcome .= 'Display. ';
         }
     }
 
-    $row['outcome'] = $outcome;
+    $row = array(
+        'outcome'       => $outcome,
+        'expression'    => format_text('\('.$test->tex.'\)'),
+        'rawinput'      => '<pre>'.$test->rawinput.'</pre>',
+        'maxima'        => '<pre>'.$vtarget.'</pre>',
+        'value'         => '<pre>'.$test->value.'</pre>',
+        'tex'           => '<pre>'.$dtarget.'</pre>',
+        'tex-display'   => '<pre>'.$test->display.'</pre>',
+        'display'       => format_text('\('.$test->display.'\)'),
+        'errors'        => $test->errors,
+        'notes'         => $note,
+    );
 
     $table->add_data_keyed($row, $class);
 
     flush();
-    }
+}
 
 $table->finish_output();
 
@@ -135,6 +144,4 @@ echo "</ol>";
 
 // Finish output.
 echo $OUTPUT->footer();
-
-
 

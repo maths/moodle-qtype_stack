@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -265,6 +265,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '-inf', 'minf', -2, 'CASError: sign: sign of und is undefined.', ''),
         array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
         array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
+        array('AlgEquiv', '', 'atan(1/2)' ,'%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
         array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
 
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero.', ''),
@@ -273,8 +274,13 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', 'X^2+1', 'x^2+1', 1, 'ATSubstEquiv_Subst: [X = x].', ''),
         array('SubstEquiv', '', 'x^2+y', 'a^2+b', 1, 'ATSubstEquiv_Subst: [x = a,y = b].', ''),
         array('SubstEquiv', '', 'x^2+y/z', 'a^2+c/b', 1, 'ATSubstEquiv_Subst: [x = a,y = c,z = b].', ''),
-        array('SubstEquiv', '', 'y=x^2', 'a^2=b', 1, 'ATSubstEquiv_Subst: [y = b,x = a].', ''),
+        array('SubstEquiv', '', 'y=x^2', 'a^2=b', 1, 'ATSubstEquiv_Subst: [x = a,y = b].', ''),
         array('SubstEquiv', '', '{x=1,y=2}', '{x=2,y=1}', 1, 'ATSubstEquiv_Subst: [x = y,y = x].', ''),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*y)/(y*(ln(y)))', 1, 'ATSubstEquiv_Subst: [a = a,x = y].',
+                'Where a variable is also a function name.'),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(x*a)/(a*(ln(a)))', 1, 'ATSubstEquiv_Subst: [a = x,x = a].', ''),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*x)/(x(ln(x)))', 0, '', ''),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*y)/(y(ln(y)))', 0, '', ''),
 
         array('EqualComAss', '', '1/0', '0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_TAns.', ''),

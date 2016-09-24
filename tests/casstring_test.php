@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('%phi', true, true),
             array('%o1', false, false),
             // Literal unicode character, instead of name.
-            array('π', false, false),
+            array('��', false, false),
             // Non-matching brackets.
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
@@ -77,9 +77,9 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_validation_error() {
-        $casstring = new stack_cas_casstring('π');
+        $casstring = new stack_cas_casstring('�');
         $casstring->get_valid('s');
-        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => 'π')),
+        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => '�')),
                 $casstring->get_errors());
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
@@ -527,14 +527,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_3() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_allow_moles() {

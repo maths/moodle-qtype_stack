@@ -239,7 +239,7 @@ class stack_cas_casstring {
                 'simplify_sum' => true, 'simplode' => true, 'simpmetderiv' => true, 'simtran' => true, 'solve_rec' => true,
                 'solve_rec_rat' => true, 'somrac' => true, 'sparse6_decode' => true, 'sparse6_encode' => true,
                 'spherical_bessel_j' => true, 'spherical_bessel_y' => true, 'spherical_hankel1' => true,
-                'spherical_hankel2' => true, 'spherical_harmonic' => true, 'split' => true, 'sqrtdenest' => true,
+                'spherical_hankel2' => true, 'spherical_harmonic' => true, 'sqrtdenest' => true,
                 'sstatus' => true, 'staircase' => true, 'stardisp' => true, 'stirling' => true, 'stirling1' => true,
                 'stirling2' => true, 'stringdisp' => true, 'summand_to_rec' => true, 'surface_hide' => true,
                 'symmetricp' => true, 'tab' => true, 'take_channel' => true, 'tcontract' => true, 'tensorkill' => true,

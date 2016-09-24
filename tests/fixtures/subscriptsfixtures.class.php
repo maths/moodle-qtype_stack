@@ -107,7 +107,10 @@ class stack_subscripts_test_data {
 
         $cs = array('p:'.$test->rawinput);
         foreach ($cs as $s) {
-            $s1[] = new stack_cas_casstring($s);
+            $cs = new stack_cas_casstring($s);
+            // 
+            $cs->get_valid('s', true, 0);
+            $s1[] = $cs;
         }
         $options = new stack_options();
         $options->set_option('simplify', $simp);

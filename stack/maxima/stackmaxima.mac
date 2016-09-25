@@ -556,12 +556,16 @@ StackReturn(ex) := block([str],
 /* Validate an expression                      */
 /* ******************************************* */
 
-stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs, SameType],
+stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs, SameType, fvs],
   /* Try to simply the expression to catch CAS errors */
   exs:errcatch(ev(expr, simp)),
   if exs=[] then return(false),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr:first(expr),
+  /* Check to see if a variable is also a function name. */
+  fvs:intersection(setify(listofvars(expr)),get_ops(expr)),
+  if not(is(fvs={})) then
+    print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
   /* Check for floats, and if there are any then throw an error */
   if ForbidFloats and anyfloatex(expr) then
     print(StackAddFeedback("", "Illegal_floats")),
@@ -585,6 +589,10 @@ stack_validate_typeless(expr, ForbidFloats, LowestTerms) := block( [simp:false, 
   if exs = [] then return(false),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", expr, setify(expr))),
   expr:first(expr),
+  /* Check to see if a variable is also a function name. */
+  fvs:intersection(setify(listofvars(expr)),get_ops(expr)),
+  if not(is(fvs={})) then
+    print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
   /* Check for floats, and if there are any then throw an error */
   if ForbidFloats and anyfloatex(expr) then
     print(StackAddFeedback("", "Illegal_floats")),
@@ -2526,4 +2534,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016092201$
+stackmaximaversion:2016092500$

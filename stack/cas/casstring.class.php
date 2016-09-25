@@ -1505,7 +1505,9 @@ class stack_cas_casstring {
     public function decode_maxima_errors($error) {
         $searchstrings = array('DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
                 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
-                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units');
+                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
+                'Variable_function');
+
         $foundone = false;
         foreach ($searchstrings as $s) {
             if (false !== strpos($error, $s)) {

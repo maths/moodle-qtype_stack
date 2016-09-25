@@ -87,6 +87,7 @@ class stack_inputvalidation_test_data {
         array('a(x)', 'php_true', 'a*(x)', 'cas_true', 'missing_stars', ""),
         array('b/a(x)', 'php_true', 'b/a*(x)', 'cas_true', 'missing_stars', ""),
         array('3b+5/a(x)', 'php_true', '3*b+5/a*(x)', 'cas_true', 'missing_stars', ""),
+        array('a/(a(x+1)+2)', 'php_true', 'a/(a(x+1)+2)', 'cas_true', 'Variable_function', ""),
         array("f''(x)", 'php_false', '' , '', 'apostrophe', "Apostrophies again..."),
         array('dosomething(x,y,z)', 'php_false', '', '', 'unknownFunction',
         "Students have a restricted list of function names.  Teachers are less restricted."),

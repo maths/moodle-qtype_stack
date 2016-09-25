@@ -365,4 +365,13 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('cos(a*x)/(x*(ln(x)))', $state->contentsmodified);
         $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left( \ln \left( x \right) \right)} \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_functions_variable() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'a/(a*(x+1)+2)');
+
+        $state = $el->validate_student_response(array('sans1' => 'a/(a(x+1)+2)'), $options, 'a/(a*(x+1)+2)', array('ta'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals("Variable_function", $state->note);
+    }
 }

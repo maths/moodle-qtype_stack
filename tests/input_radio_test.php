@@ -47,7 +47,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     protected function make_radio($parameters = array()) {
-        $el = stack_input_factory::make('radio', 'ans1', $this->make_ta(), $parameters);
+        $el = stack_input_factory::make('radio', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
@@ -57,7 +57,22 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_simple_radio() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', array());
+        $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
+        // @codingStandardsIgnoreEnd
+        $expected = '<div class="answer">'
+            .'<div><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label>Not answered</label></div>'
+            .'<div><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" /><label>\(x+1\)</label></div>'
+            .'<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" checked="checked" /><label>'
+            .'\(y+2\)</label></div>'
+            .'</div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+    }
+
+    public function test_simple_casstring_radio() {
+        // @codingStandardsIgnoreStart
+        $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', null,
+                array('options' => 'casstring'));
         // @codingStandardsIgnoreEnd
         $expected = '<div class="answer">'
             .'<div><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label>Not answered</label></div>'
@@ -71,7 +86,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_no_correct_answer() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('radio', 'ans1', '[[1,false],[2,false]]', array());
+        $el = stack_input_factory::make('radio', 'ans1', '[[1,false],[2,false]]', null, array());
         // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
                 .' Please contact your teacher.</p><p>The teacher did not indicate at least one correct answer. </p></div>';
@@ -91,7 +106,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', array());
+        $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
@@ -103,14 +118,14 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values_ok() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', array());
+        $el = stack_input_factory::make('radio', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreStart
         $expected = '<div class="answer"><div><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" />'
                . '<label>Not answered</label></div><div><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />'
-               . '<label><code>1</code></label></div>'
+               . '<label>\(1\)</label></div>'
                . '<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" checked="checked" />'
-               . '<label><code>1</code></label></div></div>';
+               . '<label>\(1\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
     }
@@ -119,17 +134,30 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $el = $this->make_radio();
         $expected = '<div class="answer"><div>'
                . '<input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label>Not answered</label></div><div>'
-               . '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" /><label><code>x+1</code></label></div>'
-               . '<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" /><label><code>x+2</code></label>'
+               . '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" /><label>\(x+1\)</label></div>'
+               . '<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" /><label>\(x+2\)</label>'
                . '</div><div><input type="radio" name="stack1__ans1" value="3" id="stack1__ans1_3" />'
-               . '<label><code>sin(pi*n)</code></label></div></div>';
+               . '<label>\(\sin \left( \pi\cdot n \right)\)</label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
                         stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false));
     }
 
-    public function test_render_string() {
+    public function test_render_default() {
         $el = $this->make_radio();
+        $expected = '<div class="answer">'
+            . '<div><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label>Not answered</label></div>'
+            . '<div><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" /><label>\(x+1\)</label></div>'
+            . '<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" /><label>\(x+2\)</label></div>'
+            . '<div><input type="radio" name="stack1__ans1" value="3" id="stack1__ans1_3" checked="checked" /><label>'
+            . '\(\sin \left( \pi\cdot n \right)\)</label>'
+            . '</div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+    }
+
+    public function test_render_casstring() {
+        $el = $this->make_radio(array('options' => 'casstring'));
         $el->adapt_to_model_answer($this->make_ta());
         $expected = '<div class="answer">'
             . '<div><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label>Not answered</label></div>'
@@ -187,5 +215,23 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $el = $this->make_radio();
         $state = $el->validate_student_response(array('ans1' => '2'), $options, '2', null);
         $this->assertEquals(stack_input::SCORE, $state->status);
+    }
+
+    public function test_question_level_options() {
+        // @codingStandardsIgnoreStart
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('multiplicationsign', 'none');
+
+        $el = stack_input_factory::make('radio', 'ans1', '[[1+2,true],[2*x,false]]', $options, array());
+        $el->adapt_to_model_answer('[[1+2,true],[2*x,false]]');
+        // @codingStandardsIgnoreStart
+        $expected = '<div class="answer"><div><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" />'
+               . '<label>Not answered</label></div><div><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />'
+               . '<label>\(1+2\)</label></div>'
+               . '<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" checked="checked" />'
+               . '<label>\(2\,x\)</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
     }
 }

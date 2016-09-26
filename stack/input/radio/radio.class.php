@@ -28,6 +28,11 @@ class stack_radio_input extends stack_dropdown_input {
 
     protected $ddltype = 'radio';
 
+    /*
+     * Default ddldisplay for radio is 'LaTeX'.
+     */
+    protected $ddldisplay = 'LaTeX';
+
     public function render(stack_input_state $state, $fieldname, $readonly) {
 
         $result = '';

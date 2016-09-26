@@ -216,10 +216,10 @@
 (defun tex-stacktexsubscript (x l r)
   (let
       ((front (append '("{")
-                     (tex (cadr x) nil nil 'mparen 'mparen)
+                      (tex (cadr x) nil nil 'mparen 'mparen)
                       '("}_")))
        (back (append '("{")
-                      (list (stripdollar (caddr x)))
+                      (tex (caddr x) nil nil 'mparen 'mparen)
                      '("}"))))
     (append l front back r)))
 

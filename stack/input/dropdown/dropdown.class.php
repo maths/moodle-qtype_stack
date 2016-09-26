@@ -184,6 +184,7 @@ class stack_dropdown_input extends stack_input {
          */
         if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
             $this->ddlerrors .= stack_string('ddl_nocorrectanswersupplied');
+            return;
         }
         if ($this->ddltype == 'checkbox') {
             $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
@@ -225,7 +226,7 @@ class stack_dropdown_input extends stack_input {
             $csvs[] = $csv;
         }
 
-        $at1 = new stack_cas_session($csvs, null, 0);
+        $at1 = new stack_cas_session($csvs, $this->options, 0);
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {

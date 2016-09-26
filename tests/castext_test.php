@@ -702,4 +702,22 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 '\(\delta\), \(\theta\)');
     }
 
+    public function test_subscripts() {
+        $a2 = array('a:stacktexsubscript(v, 2*alpha)', 'b:stacktexsubscript(v, stacktexsubscript(m, n))');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@a@, @b@, @beta47@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\({v}_{2\cdot \alpha}\), \({v}_{{m}_{n}}\), \({\beta}_{\mbox{47}}\)',
+                $at1->get_display_castext());
+    }
 }

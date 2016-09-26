@@ -338,20 +338,20 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('pi025', $at1->get_value_key('a'));
-        $this->assertEquals('{\pi}_{025}', $at1->get_display_key('a'));
+        $this->assertEquals($at1->get_value_key('a'), 'pi025');
+        $this->assertEquals($at1->get_display_key('a'), '{\pi}_{025}');
 
-        $this->assertEquals('1+x3', $at1->get_value_key('b'));
-        $this->assertEquals('1+{x}_{3}', $at1->get_display_key('b'));
+        $this->assertEquals($at1->get_value_key('b'), '1+x3');
+        $this->assertEquals($at1->get_display_key('b'), '1+{x}_{3}');
 
-        $this->assertEquals('f(x):=x^3', $at1->get_value_key('c'));
-        $this->assertEquals('f(x):=x^3', $at1->get_display_key('c'));
+        $this->assertEquals($at1->get_value_key('c'), 'f(x):=x^3');
+        $this->assertEquals($at1->get_display_key('c'), 'f(x):=x^3');
 
-        $this->assertEquals('gamma7^3', $at1->get_value_key('d'));
-        $this->assertEquals('{\gamma}_{7}^3', $at1->get_display_key('d'));
+        $this->assertEquals($at1->get_value_key('d'), 'gamma7^3');
+        $this->assertEquals($at1->get_display_key('d'), '{\gamma}_{7}^3');
 
-        $this->assertEquals('pi4^5', $at1->get_value_key('a2'));
-        $this->assertEquals('{\pi}_{4}^5', $at1->get_display_key('a2'));
+        $this->assertEquals($at1->get_value_key('a2'), 'pi4^5');
+        $this->assertEquals($at1->get_display_key('a2'), '{\pi}_{4}^5');
     }
 
     public function test_assignmatrixelements() {
@@ -390,6 +390,61 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('2+3', $at1->get_value_key('a'));
         $this->assertEquals('5', $at1->get_value_key('b'));
 
+    }
+
+    public function test_dispdp() {
+
+        $cs = array('p:dispdp(3.14159,2)');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('dispdp(3.14159,2)', $at1->get_value_key('p'));
+        $this->assertEquals('3.14', $at1->get_display_key('p'));
+    }
+
+    public function test_disp_control_structures() {
+
+        $csl = array('p:if a>b then setelmx(0,m[k],m[j],A)',
+                'addto1(ex):=thru ex do x:0.5*(x+5.0/x)',
+                'addto2(ex):=for a from -3 step 7 thru ex do a^2',
+                'addto3(ex):=for i from 2 while ex <= 10 do s:s+i',
+                'addto4(ex):=block([l],l:ex,for f in [log,rho,atan] do l:append(l,[f]),l)',
+                'l:addto4([sin,cos])');
+
+        foreach ($csl as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('', $at1->get_errors(false));
+
+        $this->assertEquals('if a > b then setelmx(0,m[k],m[j],A)', $at1->get_value_key('p'));
+        $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m _{j} , A\right)',
+                $at1->get_display_key('p'));
+
+        // Confirm these expressions are unchanged by the CAS.
+        $atsession = $at1->get_session();
+        for ($i = 1; $i <= 4; $i++) {
+            $cs = $atsession[$i];
+            $this->assertEquals($csl[$i], $cs->get_value());
+        }
+
+        $this->assertEquals('[sin,cos,log,rho,atan]', $at1->get_value_key('l'));
     }
 
     public function test_redefine_variable() {

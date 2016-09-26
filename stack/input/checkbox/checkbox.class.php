@@ -31,6 +31,10 @@ class stack_checkbox_input extends stack_dropdown_input {
      */
     protected $ddltype = 'checkbox';
 
+    /*
+     * Default ddldisplay for checkboxes is 'LaTeX'.
+     */
+    protected $ddldisplay = 'LaTeX';
 
 
     /**

@@ -421,7 +421,7 @@ class qtype_stack extends question_type {
                 $parameters[$paramname] = $allparameters[$paramname];
             }
             $question->inputs[$name] = stack_input_factory::make(
-                    $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
+                    $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
         $totalvalue = 0;

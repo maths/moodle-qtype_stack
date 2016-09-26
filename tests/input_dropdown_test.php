@@ -47,7 +47,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     protected function make_dropdown($parameters = array()) {
-        $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), $parameters);
+        $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
@@ -57,7 +57,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_simple_dropdown() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+y,false]]', array());
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
         // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 .'<option value="">Not answered</option><option value="1"><code>1+x</code></option>'
@@ -68,7 +68,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_no_correct_answer() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('dropdown', 'ans1', '[[1,false],[2,false]]', array());
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1,false],[2,false]]', null, array());
         // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
                 .' Please contact your teacher.</p><p>The teacher did not indicate at least one correct answer. </p></div>';
@@ -88,7 +88,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', array());
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
@@ -100,7 +100,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values_ok() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', array());
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
@@ -196,7 +196,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_string_value() {
         $options = new stack_options();
-        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', array());
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, array());
         $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
                 . '<option value="">Not answered</option><option value="1"><code>1+x</code></option>'
@@ -212,7 +212,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_teacher_answer() {
         $options = new stack_options();
-        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', array());
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, array());
         $el->adapt_to_model_answer('[[1+x,false],[2+x^2,true],[{},false,"None of these"]]');
 
         $correctresponse = array('ans1' => 2);
@@ -225,8 +225,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_teacher_answer_display() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', array());
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, array());
         $el->adapt_to_model_answer('[[1+x,false],[2+x^2,false],[{},true,"None of these"]]');
 
         $correctresponse = array('ans1' => 3);

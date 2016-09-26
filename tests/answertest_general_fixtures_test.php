@@ -36,10 +36,10 @@ require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
  * @group qtype_stack
  */
 class stack_answertest_fixtures_cas_test extends qtype_stack_testcase {
-
     /**
      * @dataProvider answertest_fixtures
      */
+
     public function test_answertest($testrep, $passed, $ansnote, $expectednote) {
             $this->assertTrue($passed);
             $this->assertEquals($expectednote, $ansnote);
@@ -62,4 +62,5 @@ class stack_answertest_fixtures_cas_test extends qtype_stack_testcase {
         }
         return $testdata;
     }
+
 }

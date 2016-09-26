@@ -47,7 +47,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
     }
 
     protected function make_checkbox($parameters = array()) {
-        $el = stack_input_factory::make('checkbox', 'ans1', $this->make_ta(), $parameters);
+        $el = stack_input_factory::make('checkbox', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
@@ -57,7 +57,20 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_simple_checkbox() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]', array());
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
+        // @codingStandardsIgnoreEnd
+        $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
+                . '<label>\(x+1\)</label></div><div>'
+                . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>'
+                . '\(y+2\)</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false));
+    }
+
+    public function test_simple_casstring_checkbox() {
+        // @codingStandardsIgnoreStart
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+y,false]]',
+                null, array('options' => 'casstring'));
         // @codingStandardsIgnoreEnd
         $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
                 . '<label><code>1+x</code></label></div><div>'
@@ -79,7 +92,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', array());
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[1,false]]');
         // @codingStandardsIgnoreEnd
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
@@ -91,13 +104,13 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
 
     public function test_duplicate_values_ok() {
         // @codingStandardsIgnoreStart
-        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', array());
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1,true],[2,false]]', null, array());
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreStart
         $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
-            . '<label><code>1</code></label></div><div>'
+            . '<label>\(1\)</label></div><div>'
             . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" /><label>'
-            . '<code>1</code></label></div></div>';
+            . '\(1\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
     }
@@ -105,17 +118,17 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
     public function test_render_not_answered() {
         $el = $this->make_checkbox();
         $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
-            . '<label><code>x+1</code></label></div><div>'
-            . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label><code>x+2</code></label></div>'
-            . '<div><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" /><label><code>sin(pi*n)</code>'
-            . '</label></div></div>';
+            . '<label>\(x+1\)</label></div><div>'
+            . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>\(x+2\)</label></div>'
+            . '<div><input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />'
+            . '<label>\(\sin \left( \pi\cdot n \right)\)</label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
                         stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false));
     }
 
     public function test_render_x_plus_1() {
-        $el = $this->make_checkbox();
+        $el = $this->make_checkbox(array('options' => 'casstring'));
         $expected = '<div class="answer">'
             . '<div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" checked="checked" />'
             . '<label><code>x+1</code></label></div><div>'
@@ -174,9 +187,10 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('[x+1,x+2]', $state->contentsmodified);
     }
 
-    public function test_string_value() {
+    public function test_casstring_value() {
         $options = new stack_options();
-        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+x^2,false],[{},false,"None of these"]]', array());
+        $el = stack_input_factory::make('checkbox', 'ans1', '[[1+x,true],[2+x^2,false],[{},false,"None of these"]]',
+                null, array('options' => 'casstring'));
         $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
         $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
                 . '<label><code>1+x</code></label></div><div>'

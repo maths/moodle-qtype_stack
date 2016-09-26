@@ -51,7 +51,7 @@ class stack_textarea_input_test extends basic_testcase {
     }
 
     public function test_render_pre_syntaxhint() {
-        $el = stack_input_factory::make('textArea', 'test', null, array('syntaxHint' => '[y=?, z=?]'));
+        $el = stack_input_factory::make('textArea', 'test', null, null, array('syntaxHint' => '[y=?, z=?]'));
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" rows="5" cols="20">' .
                     "y=?\n z=?</textarea>",
         $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),

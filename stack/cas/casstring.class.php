@@ -462,7 +462,7 @@ class stack_cas_casstring {
                 'var_hypergeometric' => true, 'var_laplace' => true, 'var_logistic' => true, 'var_lognormal' => true,
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
-                'var_student_t' => true, 'var_weibull' => true, 'null' => true);
+                'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'logbase' => true);
 
     /**
      * Upper case Greek letters are allowed.

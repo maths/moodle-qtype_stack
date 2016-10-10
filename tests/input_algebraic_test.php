@@ -374,4 +374,13 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Variable_function", $state->note);
     }
+
+    public function test_validate_lg_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'lg(27,3)');
+        $state = $el->validate_student_response(array('sans1' => 'lg(27,3)'), $options, 'lg(27,3)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('logbase(27,3)', $state->contentsmodified);
+        $this->assertEquals('\[ \log_{3}\left(27\right)\, \]', $state->contentsdisplayed);
+    }
 }

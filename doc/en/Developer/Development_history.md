@@ -5,7 +5,7 @@ For current and future plans, see [Development track](Development_track.md) and 
 New featured added in this branch, but not yet on a tagged release.
 
 1. Change the display so that the underscore in atoms is displayed using subscripts.
-
+2. Added support for logarithms to an arbitrary base.
 ## Version 3.5.5
 
 Released August 2016. 

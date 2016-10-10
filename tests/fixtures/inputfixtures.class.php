@@ -345,7 +345,7 @@ class stack_inputvalidation_test_data {
         array('ln(x)', 'php_true', 'ln(x)', 'cas_true', '', "Natural logarithm, STACK alias."),
         array('ln*x', 'php_false', '', '', 'trigop', ""),
         array('In(x)', 'php_false', '', '', 'stackCas_badLogIn', ""),
-        array('log10(x)', 'php_true', 'log10(x)', 'cas_true', 'missing_stars', "BUG!  Should be logarithm to the base \(10\)."),
+        array('log10(x)', 'php_false', 'log*10*(x)', 'cas_false', 'missing_stars', ""),
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '', "Logarithm to the base \(10\)."),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '', ""),
         array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true', 'missing_stars', ""),

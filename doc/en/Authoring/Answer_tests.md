@@ -181,20 +181,35 @@ The FacForm test establishes that the expression is factored over the rational n
 
 These tests deal with the precision of numbers.  Please see the notes on [entering numbers](../CAS/Numbers.md).  
 
-| Expression    | Description
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| NumRelative   | Tests whether `abs(sa-ta) <= opt * abs(ta)` Hence the opt is a tolerance.
-| NumAbsolute   | Tests whether `abs(sa-ta) < opt`  Hence the opt is a tolerance. The default tolerance is 0.05.
-| NumSigFigs    | Tests (i) whether the student's answer contains `opt` significant figures, and (ii) whether the answer is accurate to `opt` significant figures.   If the option is a list \([n,m]\) then we check the answer has been written to \(n\) significant figures, with an accuracy of \(m\) places.  A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.  This test only supports numbers where \(|sa|<10^{22}\).
-| NumDecPlaces  | (Not yet released, see notes below) Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
-| GT            | "Greater than".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
-| GTE           | "Greater than or equal to". See above.
+### NumRelative & NumAbsolute ###
+
+The opt to these tests is a tolerance.  The default tolerance is 0.05.
+
+* Relatve: Tests whether `abs(sa-ta) <= opt * abs(ta)` 
+* Absolute: Tests whether `abs(sa-ta) < opt`  
 
 NumRelative  and NumAbsolute can also accept lists and sets.  Elements are automatically converted to floats and simplified (i.e. `ev(float(ex),simp)`) and are compared to the teacher's answer using the appropriate numerical test and accuracy.  A uniform accuracy must be used.  With lists the order is important, but with sets it is not.  Checking two sets are approximately equal is an interesting mathematical problem....
 
+### NumSigFigs ####
+
+Tests 
+
+1. whether the student's answer contains `opt` significant figures, and
+2. whether the answer is accurate to `opt` significant figures.   
+
+If the option is a list `[n,m]` then we check the answer has been written to `n` significant figures, with an accuracy of up to `m` places.  If the answer is too far out then rounding feedback will not be given.   A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
+
+This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes about numerical rounding](../CAS/Numbers.md) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
+
+### NumDecPlaces ###
+
+(Not yet released, see notes below) Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
+
 The decimal places test is unfinished.  In particular, we cannot currently distinguish between an answer of `0.30` and `0.3`.  The first is correct to two decimal places, but the second is not.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.  
 
-Please see the [Notes about numerical rounding](../CAS/Numbers.md) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
+### GT & GTE ###
+
+"Greater than" or "Greater than or equal to".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
 
 # Calculus #
 

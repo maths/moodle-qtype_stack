@@ -946,18 +946,23 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
       c0:0.0,
     c1:ev(rat(SA)*10^(c0+floor(nsf)), simp),
     if is(ev(float(c1-floor(c1)), simp) = 0.0) = false then block(
-        Validity:true, 
-        RawMark:false, 
+        Validity:true,
+        RawMark:false,
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongDigits"), 
         AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongDigits")
-    ), 
-    ev(c2:abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf)))), simp),
+    ),
+    ev(c2:float(abs(abs(rat(SA)*10^(c0+floor(asf)))-abs(rat(SB)*10^(c0+floor(asf))))), simp),
+    if (debug) then print([SA,SB,c0,asf,c2]), 
     if not(ev(is(c2<0.5), simp)) then block(
-        Validity:true, 
-        RawMark:false, 
-        FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_Inaccurate"), 
-        AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_Inaccurate")
-    ), 
+        Validity:true,
+        RawMark:false,
+        if ev(is(c2<5), simp) then block(
+            FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_Inaccurate"), 
+            AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_Inaccurate")
+        ) else block(
+            AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_VeryInaccurate")
+        )
+    ),
     if RawMark = true then AnswerNote:"",
     ret: [Validity, RawMark, AnswerNote, FeedBack],
     return(ret)

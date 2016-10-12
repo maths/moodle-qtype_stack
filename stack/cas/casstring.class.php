@@ -747,7 +747,7 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        // Check for disallowed final characters,  / * + - ^ �� # = & ~ |, ? : ;.
+        // Check for disallowed final characters,  / * + - ^ ������ # = & ~ |, ? : ;.
         $disallowedfinalcharsregex = '~[' . preg_quote(self::$disallowedfinalchars, '~') . ']$~u';
         if (preg_match($disallowedfinalcharsregex, $cmd, $match)) {
             $this->valid = false;
@@ -804,6 +804,17 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_unencpsulated_comma'));
             $this->answernote[] = 'unencpsulated_comma';
             $this->valid = false;
+        }
+
+        // Check for and replace logarithms log_A(B).
+        // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
+        if(preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
+            foreach ($found[0] as $key => $match) {
+                $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
+                $cmd = str_replace($match, $sub, $cmd);
+            }
+            $this->casstring = $cmd;
+            $this->answernote[] = 'logsubs';
         }
 
         $this->check_stars($security, $syntax, $insertstars);

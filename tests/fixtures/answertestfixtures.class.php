@@ -849,8 +849,9 @@ class stack_answertest_test_data {
         array('NumSigFigs', '2', '0.0', '0', 1, '', ''),
         array('NumSigFigs', '2', '0', '0.0', 1, '', ''),
         array('NumSigFigs', '2', '0.0', '0.0', 1, '', ''),
-        array('NumSigFigs', '1', '1.234', '4', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', 'Option is a number'),
-        array('NumSigFigs', '3', '3.141', '3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '1', '1.234', '4', 0,
+                'ATNumSigFigs_SAIncorrectSigFigs. ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', 'Option is a number'),
+        array('NumSigFigs', '3', '3.141', '3.1415927', 0, 'ATNumSigFigs_SAIncorrectSigFigs. ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '4', '3.141', '3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '3.146', '3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '3.147', '3.1415927', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
@@ -880,7 +881,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '4', '0.1663', '0.1667', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '0.1662', '0.1667', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
         array('NumSigFigs', '4', '0.166', '0.1667', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
-        array('NumSigFigs', '4', '0.16667', '0.1667', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '4', '0.16667', '0.1667', 0, 'ATNumSigFigs_SAIncorrectSigFigs. ATNumSigFigs_WrongDigits.', ''),
         // With mixed options [n,m] we check for n significant figures, and that the student's answer
         // matches the teacher's answer to m of them.
         array('NumSigFigs', '[4,3]', '3.142', '3.1415927', 1, '', 'Mixed options'),
@@ -891,7 +892,7 @@ class stack_answertest_test_data {
         // In this test case there are 4 sig figs, only 1 of which are accurate. Should not generate feedback.
         array('NumSigFigs', '[4,3]', '3.211', '3.1415927', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
         // In this test case there are 5 sig figs, which is the wrong number.
-        array('NumSigFigs', '[4,3]', '3.1416', '3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[4,3]', '3.1416', '3.1415927', 0, 'ATNumSigFigs_SAIncorrectSigFigs. ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '[4,3]', '0.1666', '0.1667', 1, '', ''),
         // This example has rounding.
         array('NumSigFigs', '[6,6]', '12345.7', '12345.654321', 1, '', ''),
@@ -903,7 +904,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[6,2]', '13000.0', '12345.654321', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[6,2]', '11000.0', '12345.654321', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '-3.141', '-3.1415927', 0, 'ATNumSigFigs_Inaccurate.', 'Negative numbers'),
-        array('NumSigFigs', '3', '-3.141', '-3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '3', '-3.141', '-3.1415927', 0, 'ATNumSigFigs_SAIncorrectSigFigs. ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '4', '-3.141', '-3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '-3.142', '-3.1415927', 1, '', ''),
         array('NumSigFigs', '4', '3.142', '-3.1415927', 0, 'ATNumSigFigs_WrongSign.', ''),
@@ -920,6 +921,30 @@ class stack_answertest_test_data {
         array('NumSigFigs', '2', '5.3e21', '5.3e21', 1, '', ''),
         array('NumSigFigs', '2', '5.3e22', '5.3e22', -2, 'ATNumSigFigs_SA_OutofRange.', ''),
         array('NumSigFigs', '2', '5.3e20', '5.3e22', -2, 'ATNumSigFigs_TA_OutofRange.', ''),
+        // 0.0010 has exactly 2 significant digits.
+        array('NumSigFigs', '[1,0]', '0.0010', '0', 0, '', 'Zero option and trailing zeros'),
+        array('NumSigFigs', '[2,0]', '0.0010', '0', 1, '', ''),
+        array('NumSigFigs', '[3,0]', '0.0010', '0', 0, '', ''),
+        // 0.001 has exactly 1 significant digits.
+        array('NumSigFigs', '[1,0]', '0.0010', '0', 1, '', ''),
+        array('NumSigFigs', '[2,0]', '0.0010', '0', 0, '', ''),
+        // 100 has at least 1 and maybe even 3 significant digits.
+        array('NumSigFigs', '[1,0]', '100', '0', 1, '', ''),
+        array('NumSigFigs', '[2,0]', '100', '0', 1, '', ''),
+        array('NumSigFigs', '[3,0]', '100', '0', 1, '', ''),
+        array('NumSigFigs', '[4,0]', '100', '0', 0, '', ''),
+        // 10.0 has exactly 3 significant digits.
+        array('NumSigFigs', '[2,0]', '10.0', '0', 0, '', ''),
+        array('NumSigFigs', '[3,0]', '10.0', '0', 1, '', ''),
+        array('NumSigFigs', '[4,0]', '10.0', '0', 0, '', ''),
+        // 0 has exactly 1 significant digits.
+        array('NumSigFigs', '[1,0]', '0', '0', 1, '', ''),
+        array('NumSigFigs', '[2,0]', '0', '0', 0, '', ''),
+        // 0.00 has at least 1 and maybe even 3 significant digits.
+        array('NumSigFigs', '[1,0]', '0.00', '0', 1, '', ''),
+        array('NumSigFigs', '[2,0]', '0.00', '0', 1, '', ''),
+        array('NumSigFigs', '[3,0]', '0.00', '0', 1, '', ''),
+        array('NumSigFigs', '[4,0]', '0.00', '0', 0, '', ''),
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
         array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_SAns.', ''),

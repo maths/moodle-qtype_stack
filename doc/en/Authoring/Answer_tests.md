@@ -199,6 +199,8 @@ Tests
 
 If the option is a list `[n,m]` then we check the answer has been written to `n` significant figures, with an accuracy of up to `m` places.  If the answer is too far out then rounding feedback will not be given.   A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
 
+If the options are of the form `[n,0]` then only the number of significant figures in `sa` will be checked.  This ignores any numerical accuracy and completely ignores the second argument to the function.  This test cannot be perfect, since without further information we do not know which digits are significant.  For example, if we have the digits \(100\) then how many of these are actually significant?  Just with this information we don't know.
+
 This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes about numerical rounding](../CAS/Numbers.md) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
 
 ### NumDecPlaces ###

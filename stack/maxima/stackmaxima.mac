@@ -898,7 +898,7 @@ num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1
 
 
 
-ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, SAA, SBB, SB],
+ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol, nsf, asf, c0, c1, c2, c3, SAA, SBB, SB],
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
 
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -924,14 +924,23 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
     SA:SAA[1],
     if (not(floatnump(SA)) and not(integerp(SA))) then
         return([false, false, StackAddNote("", "ATNumSigFigs_NotDecimal"), StackAddFeedback("", "ATNumSigFigs_NotDecimal")]),
+    /* Establish if SA is written to the correct number of significant figures.  */
+    if (debug) then print([SA,nsf,significantfigures(SA, nsf)]),
+    if not(ev(is(SA=significantfigures(SA, nsf)), simp)) then block(
+        RawMark:false,
+        AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_SAIncorrectSigFigs")
+        ), 
+    /* In the case of teacher's options [n,0] we ignore the question of numerical accuracy. */
+    if ev(is(asf = 0), simp) then
+        return([Validity, RawMark, AnswerNote, FeedBack]),
     /* Check answers have the same algebraic sign. */
     if not(is(sign(SA)=sign(SB))) then block(
         RawMark:false, 
         FeedBack:StackAddFeedback(FeedBack, "ATNumSigFigs_WrongSign"), 
         AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_WrongSign")
     ),
-    SA:ev(abs(SA),simp),
-    SB:ev(abs(SB),simp),
+    SA:ev(abs(SA), simp),
+    SB:ev(abs(SB), simp),
     if SA>5e22 then
         return([false, false, StackAddNote("", "ATNumSigFigs_SA_OutofRange"), StackAddFeedback("", "ATNum_OutofRange")]),
     if SB>5e22 then
@@ -963,7 +972,6 @@ ATNumSigFigs(SA, SBL) := block([Validity, RawMark, FeedBack, AnswerNote, ret, ol
             AnswerNote:StackAddNote(AnswerNote, "ATNumSigFigs_VeryInaccurate")
         )
     ),
-    if RawMark = true then AnswerNote:"",
     ret: [Validity, RawMark, AnswerNote, FeedBack],
     return(ret)
 )$

@@ -82,15 +82,18 @@ function digits($string) {
         array("-303.30003", 8, 8),
         array("+334.3", 4, 4),
         array(" -121000", 3, 6),
-        array("4.320e-3", 4, 4), // After a digit, zeros after the decimal separator are always significant.
-        array("0.020e3", 2, 2), // If no digits before a zero that zero is not significant even after the decimal separator.
         array("0.01030", 4, 4), 
         array("1030*m/s", 3, 4), // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
         array("1.23*4", 3, 3), // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
         array("4*3.21", 1, 1),
         array("50*3.21", 1, 2),
-   );
+        array("4.320e-3", 4, 4), // After a digit, zeros after the decimal separator are always significant.
+        array("0.020e3", 2, 2), // If no digits before a zero that zero is not significant even after the decimal separator.
+	array("1.00e3", 3, 3),
+        array("10.0e1", 3, 3),
+);
 
+echo "<pre>";
 foreach ($tests as $t) {
     $r = digits($t[0]);
     $passed = true;
@@ -108,5 +111,5 @@ foreach ($tests as $t) {
     if (!$passed) { echo ' | '.$message; }
     echo "<br>";
 }
-
+echo "</pre>";
 

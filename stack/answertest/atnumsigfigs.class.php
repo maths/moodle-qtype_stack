@@ -35,6 +35,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
     }
 
     public function do_test() {
+
         if ('' == trim($this->sanskey)) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
@@ -63,6 +64,15 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             $requiredsigfigs = $opts[0];
             $requiredaccuracy = $opts[1];
         }
+        $strictsigfigs = false;
+        $numaccuracy   = true;
+        if ('ATSigFigsStrict' == $this->casfunction) {
+            $strictsigfigs = true;
+            $numaccuracy   = false;
+        }
+        if ($requiredaccuracy == 0) {
+            $numaccuracy   = false;
+        }
 
         if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0 or $requiredaccuracy < 0
                 or !ctype_digit($requiredsigfigs) or !ctype_digit($requiredaccuracy)) {
@@ -90,34 +100,34 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         // Use PHP to establish that the range of significant figures from the student's expression
         // contains the number of significant figures specified by the teacher.
         $r = stack_utils::decimal_digits($this->sanskey);
-        if ('SigFigsStrict' == $this->casfunction) {
+        if ($strictsigfigs) {
             $this->atmark = 0;
             if ($r['lowerbound'] == $this->atoption) {
                 $this->atmark = 1;
             } else if ($r['lowerbound'] <= $this->atoption && $this->atoption <= $r['upperbound']) {
-                $this->atansnote    = 'ATSigFigsStrict_WithinRange. ';
+                $this->atansnote    = $this->casfunction.'_WithinRange. ';
             }
             return true;
-        }
-
-        if ($requiredsigfigs == $r['lowerbound']) {
-            $withinrange = true;
-            $this->atmark = 1;
-        } else if ($r['lowerbound'] <= $requiredsigfigs && $requiredsigfigs <= $r['upperbound']) {
-            $this->atansnote = 'ATNumSigFigs_WithinRange. ';
-            $withinrange = true;
-            $this->atmark = 1;
         } else {
-            $this->atansnote = 'ATNumSigFigs_WrongDigits. ';
-            // Note, we combine with feedback from the CAS, so we set up a situation which can be combined with
-            // other CAS-generated feedback here.
-            $this->atfeedback = "stack_trans('ATNumSigFigs_WrongDigits');";
-            $this->atmark = 0;
-            $withinrange = false;
+            if ($requiredsigfigs == $r['lowerbound']) {
+                $withinrange = true;
+                $this->atmark = 1;
+            } else if ($r['lowerbound'] <= $requiredsigfigs && $requiredsigfigs <= $r['upperbound']) {
+                $this->atansnote = $this->casfunction.'_WithinRange. ';
+                $withinrange = true;
+                $this->atmark = 1;
+            } else {
+                $this->atansnote = $this->casfunction.'_WrongDigits. ';
+                // Note, we combine with feedback from the CAS, so we set up a situation which can be combined with
+                // other CAS-generated feedback here.
+                $this->atfeedback = "stack_trans('ATNumSigFigs_WrongDigits');";
+                $this->atmark = 0;
+                $withinrange = false;
+            }
         }
 
-        // Do we need to check the required accuracy with a CAS call?
-        if ($requiredaccuracy == 0) {
+        // Do we need to check establish numerical precision with a CAS call?
+        if (!$numaccuracy) {
             return true;
         }
 

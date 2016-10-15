@@ -157,7 +157,7 @@ class stack_ans_test_controller {
 
             case 'SigFigsStrict':
                 require_once(__DIR__ . '/atnumsigfigs.class.php');
-                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'SigFigsStrict', true);
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATSigFigsStrict', true);
                 break;
 
             case 'NumAbsolute':

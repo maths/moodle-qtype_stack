@@ -175,7 +175,8 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumSigFigs':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumSigFigs', true, $casoption, $options, true, true);
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATNumSigFigs', true);
                 break;
 
             case 'NumDecPlaces':
@@ -184,13 +185,13 @@ class stack_ans_test_controller {
                 break;
 
             case 'Units':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsSigFigs',
-                                    true, $casoption, $options, false, true);
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATUnitsSigFigs', false);
                 break;
 
             case 'UnitsStrict':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrictSigFigs',
-                                    true, $casoption, $options, false, true);
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATUnitsStrictSigFigs', false);
                 break;
 
             case 'UnitsAbsolute':

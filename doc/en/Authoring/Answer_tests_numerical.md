@@ -84,4 +84,6 @@ The decimal places test is unfinished.  In particular, we cannot currently disti
 
 # See also
 
+* [Answer tests](Answer_tests.md)
+* [CAS and numbers](../CAS/Numbers.md)
 * [Maxima](../CAS/Maxima.md)

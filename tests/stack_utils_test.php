@@ -215,8 +215,8 @@ class stack_utils_test extends basic_testcase {
             array("00.00", 2, 2),
             array("0.000", 3, 3),
             array("0.0001", 1, 1), // Leading zeros are insignificant.
-            array("0.0010", 2, 2), 
-            array("100.0", 4, 4), // Existence of a significant zero (or digit) changes
+            array("0.0010", 2, 2),
+            array("100.0", 4, 4), // Existence of a significant zero (or digit) changes.
             array("100.", 3, 3),
             array("00120", 2, 3),
             array("00.120", 3, 3),
@@ -241,7 +241,8 @@ class stack_utils_test extends basic_testcase {
             array("-303.30003", 8, 8),
             // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
             array("52435*mg", 5, 5),
-            array("1030*m/s", 3, 4), // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
+            // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
+            array("1030*m/s", 3, 4),
             array("1.23*4", 3, 3),
             array("4*3.21", 1, 1),
             array("50*3.21", 1, 2),

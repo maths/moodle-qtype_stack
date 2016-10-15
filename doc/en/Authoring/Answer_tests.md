@@ -27,7 +27,7 @@ Where,
 
 | Variable        | Description
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------
-| StudentAnswer   | A CAS expression, assumed to be the student's answer.
+| StudentAnswer   | A CAS expression, assumed to be the student's answer.ATNumSigFigs_WithinRange. 
 | TeacherAnswer   | A CAS expression, assumed to be the model answer.
 | Opt             | Any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.
 
@@ -178,7 +178,7 @@ The FacForm test establishes that the expression is factored over the rational n
 
 # Numerical Precision {#Precision}
 
-These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](../Authoring/Answer_tests_numerical.md).
+These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](Answer_tests_numerical.md).
 
 # Calculus #
 

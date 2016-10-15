@@ -74,7 +74,7 @@ The answer tests *require* the teacher's answer (second argument to the function
 
 The units answer tests will happily accept a `stackunits` expression.  Otherwise, the answer test splits up both arguments into this form first.
 
-* The numerical part is tested with one of the three numerical tests ATNumSigFigs, ATNumRelative or ATNumAbsolute.  Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
+* The numerical part is tested with one of the three numerical tests ATNumSigFigs, ATNumRelative or ATNumAbsolute.  Units answer tests share code with these functions.  Use the appropriate options for the chosen test.  See documentation on [numerical answer tests](Answer_tests_numerical.md).
 * The units.  All non-numerical variable names are considered to be units.
 
 There are two families of answer tests.

@@ -78,9 +78,7 @@ This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes a
 
 ### NumDecPlaces ###
 
-(Not yet released, see notes below) Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
-
-The decimal places test is unfinished.  In particular, we cannot currently distinguish between an answer of `0.30` and `0.3`.  The first is correct to two decimal places, but the second is not.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.  
+Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
 
 # See also
 

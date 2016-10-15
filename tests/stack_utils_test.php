@@ -208,51 +208,54 @@ class stack_utils_test extends basic_testcase {
     }
 
     public function test_decimal_digits() {
+        // In this text digits are 1-9 and 0 is not a digit.
+        // array("string", lower, upper, decimal places)
         $tests = array(
-            array("0", 1, 1),  // Decision: zero has one significant digit.
-            array("0.0", 1, 1), // Decision: 0.0 has one significant digit.
-            array("0.00", 2, 2),
-            array("00.00", 2, 2),
-            array("0.000", 3, 3),
-            array("0.0001", 1, 1), // Leading zeros are insignificant.
-            array("0.0010", 2, 2),
-            array("100.0", 4, 4), // Existence of a significant zero (or digit) changes.
-            array("100.", 3, 3),
-            array("00120", 2, 3),
-            array("00.120", 3, 3),
-            array("1.001", 4, 4),
-            array("2.000", 4, 4),
-            array("1234", 4, 4),
-            array("123.4", 4, 4),
-            array("2000", 1, 4),
-            array("10000", 1, 5),
-            array("2001", 4, 4),
-            array("0.01030", 4, 4),
+            array("0", 1, 1, 0), // Decision: zero has one significant digit.
+            array("0.0", 1, 1, 1), // Decision: 0.0 has one significant digit.
+            array("0.00", 2, 2, 2),
+            array("00.00", 2, 2, 2),
+            array("0.000", 3, 3, 3),
+            array("0.0001", 1, 1, 4), // Leading zeros are insignificant.
+            array("0.0010", 2, 2, 4),
+            array("100.0", 4, 4, 1), // Existence of a significant zero (or digit) changes.
+            array("100.", 3, 3, 0),
+            array("00120", 2, 3, 0),
+            array("00.120", 3, 3, 3),
+            array("1.001", 4, 4, 3),
+            array("2.000", 4, 4, 3),
+            array("1234", 4, 4, 0),
+            array("123.4", 4, 4, 1),
+            array("2000", 1, 4, 0),
+            array("10000", 1, 5, 0),
+            array("2001", 4, 4, 0),
+            array("0.01030", 4, 4, 5),
             // Scientific notation.
-            array("4.320e-3", 4, 4), // After a digit, zeros after the decimal separator are always significant.
-            array("0.020e3", 2, 2), // If no digits before a zero that zero is not significant even after the decimal separator.
-            array("1.00e3", 3, 3),
-            array("10.0e1", 3, 3),
+            array("4.320e-3", 4, 4, 3), // After a digit, zeros after the decimal separator are always significant.
+            array("0.020e3", 2, 2, 3), // If no digits before a zero that zero is not significant even after the decimal separator.
+            array("1.00e3", 3, 3, 2),
+            array("10.0e1", 3, 3, 1),
             // Unary signs.
-            array("+334.3", 4, 4),
-            array("-0.00", 2, 2),
-            array("-12.00", 4, 4),
-            array(" -121000", 3, 6),
-            array("-303.30003", 8, 8),
+            array("+334.3", 4, 4, 1),
+            array("-0.00", 2, 2, 2),
+            array("-12.00", 4, 4, 2),
+            array(" -121000", 3, 6, 0),
+            array("-303.30003", 8, 8, 5),
             // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
-            array("52435*mg", 5, 5),
+            array("52435*mg", 5, 5, 0),
             // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
-            array("1030*m/s", 3, 4),
-            array("1.23*4", 3, 3),
-            array("4*3.21", 1, 1),
-            array("50*3.21", 1, 2),
-            array("3434...34*34", 4, 4),
+            array("1030*m/s", 3, 4, 0),
+            array("1.23*4", 3, 3, 2),
+            array("4*3.21", 1, 1, 0),
+            array("50*3.21", 1, 2, 0),
+            array("3434...34*34", 4, 4, 0),
         );
 
         foreach ($tests as $t) {
             $r = stack_utils::decimal_digits($t[0]);
             $this->assertEquals($r['lowerbound'], $t[1]);
             $this->assertEquals($r['upperbound'], $t[2]);
+            $this->assertEquals($r['decimalplaces'], $t[3]);
         }
 
     }

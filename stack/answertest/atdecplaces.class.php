@@ -56,20 +56,13 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         // Check that the first expression is a floating point number,
         // with the right number of decimal places.
-        $sans = explode('.', $this->sanskey);
-        if (2 === count($sans)) {
-            if ($atestops != strlen($sans[1]) ) {
-                $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
-                $anotes[]           = 'ATNumDecPlaces_Wrong_DPs ('.strlen($sans[1]).' <> '.$atestops.')';
-                $this->atmark       = 0;
-            } else {
-                $anotes[]           = 'ATNumDecPlaces_Correct';
-            }
-        } else {
-            // No '.' found.
-            $this->atfeedback  .= stack_string('ATNumDecPlaces_NoDP');
-            $anotes[]           = 'ATNumDecPlaces_NoDP';
+        $r = stack_utils::decimal_digits($this->sanskey);
+        if ($atestops != $r['decimalplaces'] ) {
+            $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
+            $anotes[]           = 'ATNumDecPlaces_Wrong_DPs';
             $this->atmark       = 0;
+        } else {
+            $anotes[]           = 'ATNumDecPlaces_Correct';
         }
 
         // Check that the two numbers evaluate to the same value.
@@ -78,6 +71,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
         $cascommands[] = "caschat0:ev(float(round(10^caschat2*{$this->sanskey})/10^caschat2),simp)";
         $cascommands[] = "caschat1:ev(float(round(10^caschat2*{$this->tanskey})/10^caschat2),simp)";
         $cascommands[] = "caschat3:ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
+        $cascommands[] = "caschat4:floatnump({$this->sanskey})";
 
         $cts = array();
         foreach ($cascommands as $com) {
@@ -126,6 +120,12 @@ class stack_anstest_atdecplaces extends stack_anstest {
         } else {
             $this->atmark = 0;
             $anotes[]     = 'ATNumDecPlaces_Not_equiv';
+        }
+
+        if ($session->get_value_key('caschat4') == 'false') {
+            $this->atmark = 0;
+            $this->atfeedback  = stack_string('ATNumDecPlaces_NoDP');
+            $anotes             = array('ATNumDecPlaces_NoDP');
         }
 
         $this->atansnote = implode('. ', $anotes).'.';

@@ -1014,15 +1014,14 @@ class stack_utils {
         $indefinitezeros = 0;
         $trailingzeros = 0;
         $meaningfulldigits = 0;
+        $decimalplaces = 0;
         $infrontofdecimaldeparator = true;
 
         $string = str_split(trim($string));
 
-        $debug = false;
         foreach ($string as $i => $c) {
-            if ($debug) {
-                echo "$i; digit: $c; LZ: $leadingzeros; ID: $indefinitezeros; TZ: $trailingzeros; MD: $meaningfulldigits; ". (string) $infrontofdecimaldeparator;
-                echo "<br/>";
+            if (!$infrontofdecimaldeparator && ctype_digit($c)) {
+                $decimalplaces++;
             }
             if ($c == '0') {
                 if ($meaningfulldigits == 0) {
@@ -1052,12 +1051,7 @@ class stack_utils {
             }
         }
 
-        if ($debug) {
-            echo "E; digit: $c; LZ: $leadingzeros; ID: $indefinitezeros; TZ: $trailingzeros; MD: $meaningfulldigits; ". (string) $infrontofdecimaldeparator;
-            echo "<br/>";
-        }
-
-        $ret = array('lowerbound' => 0, 'upperbound' => 0);
+        $ret = array('lowerbound' => 0, 'upperbound' => 0, 'decimalplaces' => $decimalplaces);
 
         if ($meaningfulldigits == 0) {
             // This is the case when we have only zeros in the number.

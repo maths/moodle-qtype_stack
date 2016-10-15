@@ -5,8 +5,7 @@ establish whether they satisfy some mathematical criteria. The
 prototype test is to establish if they are the _same_.  That is
 to say, _algebraically equivalent_.
 
-The exact behaviour of each answer test can be seen from
-STACK's [test suite for STACK Answer tests](../../../answertests.php).
+The exact behaviour of each answer test can be seen from STACK's [test suite for STACK Answer tests](../../../answertests.php).
 
 This compares pairs of expressions and displays the outcomes
 from each test. Mainly used to ensure STACK is working, it is
@@ -177,41 +176,9 @@ In elementary teaching, meaning 4. is unlikely to occur. Indeed, we might take t
 
 The FacForm test establishes that the expression is factored over the rational numbers.  If the coefficients of the polynomial are all real, at worst you will have quadratic irreducible terms.  There are some delicate cases such as: \((2-x)(3-x)\) vs  \((x-2)(x-3)\)  and \((1-x)^2\) vs \((x-1)^2\), which this test will cope with.
 
-# Precision {#Precision}
+# Numerical Precision {#Precision}
 
-These tests deal with the precision of numbers.  Please see the notes on [entering numbers](../CAS/Numbers.md).  
-
-### NumRelative & NumAbsolute ###
-
-The opt to these tests is a tolerance.  The default tolerance is 0.05.
-
-* Relatve: Tests whether `abs(sa-ta) <= opt * abs(ta)` 
-* Absolute: Tests whether `abs(sa-ta) < opt`  
-
-NumRelative  and NumAbsolute can also accept lists and sets.  Elements are automatically converted to floats and simplified (i.e. `ev(float(ex),simp)`) and are compared to the teacher's answer using the appropriate numerical test and accuracy.  A uniform accuracy must be used.  With lists the order is important, but with sets it is not.  Checking two sets are approximately equal is an interesting mathematical problem....
-
-### NumSigFigs ####
-
-Tests 
-
-1. whether the student's answer contains `opt` significant figures, and
-2. whether the answer is accurate to `opt` significant figures.   
-
-If the option is a list `[n,m]` then we check the answer has been written to `n` significant figures, with an accuracy of up to `m` places.  If the answer is too far out then rounding feedback will not be given.   A common test would be to ask for \([n,n-1]\) to permit the student to enter the last digit incorrectly.
-
-If the options are of the form `[n,0]` then only the number of significant figures in `sa` will be checked.  This ignores any numerical accuracy and completely ignores the second argument to the function.  This test cannot be perfect, since without further information we do not know which digits are significant.  For example, if we have the digits \(100\) then how many of these are actually significant?  Just with this information we don't know.
-
-This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes about numerical rounding](../CAS/Numbers.md) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
-
-### NumDecPlaces ###
-
-(Not yet released, see notes below) Tests (i) whether the student's answer is equivalent to the teacher's and is written to `opt` decimal places.  The option, which must be a positive integer, dictates the number of digits following the decimal separator `.`.  Note that trailing zeros are ''required'', i.e. to two decimal placed you must write `12.30` not just `12.3`.  The test rounds the numbers to the specified number of decimal places before trying to establish equivalence.
-
-The decimal places test is unfinished.  In particular, we cannot currently distinguish between an answer of `0.30` and `0.3`.  The first is correct to two decimal places, but the second is not.  To fully implement this we need an "ephemeral form" for floating point numbers, which will require some more work.  
-
-### GT & GTE ###
-
-"Greater than" or "Greater than or equal to".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.
+These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](../Authoring/Answer_tests_numerical.md).
 
 # Calculus #
 

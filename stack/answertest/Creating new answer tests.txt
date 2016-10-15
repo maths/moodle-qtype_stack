@@ -1,7 +1,7 @@
 ****************************
 Adding answer tests to STACK
 
-Changelog: Version 15th February 2011 - Chris Sangwin
+Changelog: Version 15th October 2016 - Chris Sangwin
 
 ****************************
 
@@ -59,11 +59,14 @@ See atdecplaces.class.php for an example.
 
 C) PHP Answertests
 ------------------
-For an example see stack_anstest_stringsloppy
+For an example see stack_anstest_stringsloppy.
 
 
 Adding the new Answertest to STACK
 ---------------------------------
 
-Open factory.class.php, passes information onto the correct
-answertest class. There are plenty of examples here.
+Open controller.class.php, passes information onto the correct answertest class. There are plenty of examples here.
+
+Unit testing a new Answertest
+---------------------------------
+Tests must be included.  These are added into /tests/fixtures/answertestsfixtures.class.php

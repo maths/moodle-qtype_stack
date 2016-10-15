@@ -1,5 +1,7 @@
 # Numbers in STACK #
 
+Numerical answer tests are documented in a page dedicated to [numerical answer tests](../Authoring/Answer_tests_numerical.md).
+
 ## Constants ##
 
 In maxima the special constants are defined to be

@@ -946,6 +946,7 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[3,0]', '0.00', '0', 1, '', ''),
         array('NumSigFigs', '[4,0]', '0.00', '0', 0, '', ''),
 
+
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
         array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_SAns.', ''),
         array('NumDecPlaces', '2', '0', '1/0', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_TAns.', ''),
@@ -971,6 +972,64 @@ class stack_answertest_test_data {
         array('NumDecPlaces', '1', '3.14', '3.143', 0, 'ATNumDecPlaces_Wrong_DPs (2 <> 1). ATNumDecPlaces_Equiv.', ''),
         array('NumDecPlaces', '3', '3.14', '3.140', 0, 'ATNumDecPlaces_Wrong_DPs (2 <> 3). ATNumDecPlaces_Equiv.', ''),
         array('NumDecPlaces', '4', '7.000', '7', 0, 'ATNumDecPlaces_Wrong_DPs (3 <> 4). ATNumDecPlaces_Equiv.', ''),
+        array('NumDecPlaces', '4', '7.0000', '7', 1, '', 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.'),
+
+        array('StrictSigFigs', '', '3.141', '', -1, 'ATStrictSigFigs_STACKERROR_Option.', 'Basic tests'),
+        array('StrictSigFigs', 'x^2', '3.141', '', -1, 'ATStrictSigFigs_STACKERROR_Option.', ''),
+        array('StrictSigFigs', '-2', '3.141', '', -1, 'ATStrictSigFigs_STACKERROR_Option.', ''),
+        array('StrictSigFigs', '0', '3.141', '', -1, 'ATStrictSigFigs_STACKERROR_Option.', ''),
+        // 0.0010 has exactly 2 significant digits.
+        array('StrictSigFigs', '1', '0.0010', '', 0, '', ''),
+        array('StrictSigFigs', '2', '0.0010', '', 1, '', ''),
+        array('StrictSigFigs', '3', '0.0010', '', 0, '', ''),
+        // 0.001 has exactly 1 significant digits.
+        array('StrictSigFigs', '1', '0.001', '', 1, '', ''),
+        array('StrictSigFigs', '2', '0.001', '', 0, '', ''),
+        // 100 has exactly 1 significant digit.
+        array('StrictSigFigs', '1', '100', '', 1, '', ''),
+        array('StrictSigFigs', '2', '100', '', 0, 'ATStrictSigFigs_WithinRange.', ''),
+        array('StrictSigFigs', '3', '100', '', 0, 'ATStrictSigFigs_WithinRange.', ''),
+        array('StrictSigFigs', '4', '100', '', 0, '', ''),
+        // 100. has exactly 3 significant digit.
+        array('StrictSigFigs', '1', '100.', '', 0, '', ''),
+        array('StrictSigFigs', '2', '100.', '', 0, '', ''),
+        array('StrictSigFigs', '3', '100.', '', 1, '', ''),
+        array('StrictSigFigs', '4', '100.', '', 0, '', ''),
+        // 123. has exactly 3 significant digit.
+        array('StrictSigFigs', '1', '123.', '', 0, '', ''),
+        array('StrictSigFigs', '2', '123.', '', 0, '', ''),
+        array('StrictSigFigs', '3', '123.', '', 1, '', ''),
+        array('StrictSigFigs', '4', '123.', '', 0, '', ''),
+        // 1.00e2 has exactly 3 significant digit2.
+        array('StrictSigFigs', '1', '1.00e2', '', 0, '', ''),
+        array('StrictSigFigs', '2', '1.00e2', '', 0, '', ''),
+        array('StrictSigFigs', '3', '1.00e2', '', 1, '', ''),
+        array('StrictSigFigs', '4', '1.00e2', '', 0, '', ''),
+        // 10.0 has exactly 3 significant digits.
+        array('StrictSigFigs', '2', '10.0', '', 0, '', ''),
+        array('StrictSigFigs', '3', '10.0', '', 1, '', ''),
+        array('StrictSigFigs', '4', '10.0', '', 0, '', ''),
+        // 0 has exactly 1 significant digits.
+        array('StrictSigFigs', '1', '0', '', 1, '', ''),
+        array('StrictSigFigs', '2', '0', '', 0, '', ''),
+        // 0.0 has exactly 1 significant digits.
+        array('StrictSigFigs', '1', '0.0', '', 1, '', ''),
+        array('StrictSigFigs', '2', '0.0', '', 0, '', ''),
+        // .0 has exactly 1 significant digits.
+        array('StrictSigFigs', '1', '.0', '', 1, '', ''),
+        array('StrictSigFigs', '2', '.0', '', 0, '', ''),
+        // .001030 has exactly 4 significant digits.
+        array('StrictSigFigs', '4', '.001030', '', 1, '', ''),
+        // 0.00 has exactly 2 significant digits.
+        array('StrictSigFigs', '1', '0.00', '', 0, '', ''),
+        array('StrictSigFigs', '2', '0.00', '', 1, '', ''),
+        array('StrictSigFigs', '3', '0.00', '', 0, '', ''),
+        // Mix of notations.
+        array('StrictSigFigs', '1', '25.00e1', '', 0, '', ''),
+        array('StrictSigFigs', '3', '25.00e1', '', 0, '', ''),
+        array('StrictSigFigs', '4', '25.00e1', '', 1, '', ''),
+        array('StrictSigFigs', '5', '25.00e1', '', 0, '', ''),
+        array('StrictSigFigs', '3', '9.81*m/s^2', '', 1, '', 'Units are ignored'),
 
         array('Units', '0', '1/0', '1', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_SAns.', ''),
         array('Units', '0', '1', '1/0', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_TAns.', ''),
@@ -1196,14 +1255,17 @@ class stack_answertest_test_data {
             $ansnote  = '';
         }
 
-        $anomalynote = '';
+        $anomalynote = array();
         $passed = true;
-        if (!($rawmark === $test->expectedscore)) {
+        if ($rawmark !== $test->expectedscore) {
             $passed = false;
+            if ($test->expectedscore >= 0) {
+                $anomalynote[] = '[SCORE]';
+            }
         }
         if (!($ansnote === $test->ansnote)) {
             $passed = false;
-            $anomalynote = $test->ansnote;
+            $anomalynote[] = '[NOTE expected: ' . $test->ansnote . ']';
         }
 
         // The test failed, and we expected it to fail.
@@ -1212,6 +1274,7 @@ class stack_answertest_test_data {
                 $passed = true;
             } else {
                 $passed = false;
+                $anomalynote[] = '[Expected test to fail!]';
             }
         }
         // These tests are all expected to fail, so we make them all pass.
@@ -1219,6 +1282,7 @@ class stack_answertest_test_data {
             $passed = true;
         }
 
+        $anomalynote = implode($anomalynote, ' | ');
         return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote);
     }
 }

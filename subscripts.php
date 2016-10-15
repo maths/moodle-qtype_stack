@@ -107,7 +107,7 @@ foreach ($testdata as $data) {
             $outcome .= 'CAS value. ';
         }
         $dtarget = $test->tex;
-            if ($simp and $test->texsimp != '!') {
+        if ($simp and $test->texsimp != '!') {
             $dtarget = $test->texsimp;
         }
         if ($test->value != '' && $dtarget != $test->display) {
@@ -137,7 +137,7 @@ foreach ($testdata as $data) {
 $table->finish_output();
 
 echo "<ol>";
-foreach($notes as $note) {
+foreach ($notes as $note) {
     echo "<li>". $note . "</li>";
 }
 echo "</ol>";

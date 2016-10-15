@@ -1006,6 +1006,73 @@ class stack_utils {
     }
 
     /**
+     * Establish bounds on the number of significant decimal digits in a number.
+     * @param string $string Input string to unpack.
+     */
+    public static function decimal_digits($string) {
+        $leadingzeros = 0;
+        $indefinitezeros = 0;
+        $trailingzeros = 0;
+        $meaningfulldigits = 0;
+        $infrontofdecimaldeparator = true;
+
+        $string = str_split(trim($string));
+
+        $debug = false;
+        foreach ($string as $i => $c) {
+            if ($debug) {
+                echo "$i; digit: $c; LZ: $leadingzeros; ID: $indefinitezeros; TZ: $trailingzeros; MD: $meaningfulldigits; ". (string) $infrontofdecimaldeparator;
+                echo "<br/>";
+            }
+            if ($c == '0') {
+                if ($meaningfulldigits == 0) {
+                    $leadingzeros++;
+                } else if ($infrontofdecimaldeparator) {
+                    $indefinitezeros++;
+                } else if ($meaningfulldigits > 0) {
+                    $meaningfulldigits += 1 + $indefinitezeros + $trailingzeros;
+                    $indefinitezeros = 0;
+                    $trailingzeros = 0;
+                } else {
+                    $trailingzeros++;
+                }
+            } else if (($c == '-' || $c == '+') && $meaningfulldigits == 0) {
+                continue;
+            } else if ($c == '.' && $infrontofdecimaldeparator) {
+                $infrontofdecimaldeparator = false;
+                // This case takes care of 100. (where we have a period at the end).
+                $meaningfulldigits += $indefinitezeros;
+                $indefinitezeros = 0;
+                $leadingzeros = 0;
+            } else if (ctype_digit($c)) {
+                $meaningfulldigits += $indefinitezeros + 1;
+                $indefinitezeros = 0;
+            } else {
+                break;
+            }
+        }
+
+        if ($debug) {
+            echo "E; digit: $c; LZ: $leadingzeros; ID: $indefinitezeros; TZ: $trailingzeros; MD: $meaningfulldigits; ". (string) $infrontofdecimaldeparator;
+            echo "<br/>";
+        }
+
+        $ret = array('lowerbound' => 0, 'upperbound' => 0);
+
+        if ($meaningfulldigits == 0) {
+            // This is the case when we have only zeros in the number.
+            $ret['lowerbound'] = max(1, $leadingzeros);
+            $ret['upperbound'] = max(1, $leadingzeros);
+        } else if (!$infrontofdecimaldeparator) {
+            $ret['lowerbound'] = $ret['upperbound'] = $meaningfulldigits;
+        } else {
+            $ret['lowerbound'] = $meaningfulldigits;
+            $ret['upperbound'] = $meaningfulldigits + $indefinitezeros;
+        }
+        return $ret;
+    }
+
+    /**
      * Change fraction marks close to 1/3 or 2/3 to the values exact to 7 decimal places.
      *
      * Moodle rounds fractional marks close to 1/3 (0.33 <= x <= 0.34) or 2/3

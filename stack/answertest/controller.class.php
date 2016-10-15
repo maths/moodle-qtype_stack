@@ -41,7 +41,7 @@ class stack_ans_test_controller {
               'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
               'GT'                   => 'stackOptions_AnsTest_values_GT',
               'GTE'                  => 'stackOptions_AnsTest_values_GTE',
-              'StrictSigFigs'        => 'stackOptions_AnsTest_values_StrictSigFigs',
+              'SigFigsStrict'        => 'stackOptions_AnsTest_values_SigFigsStrict',
               'NumAbsolute'          => 'stackOptions_AnsTest_values_NumAbsolute',
               'NumRelative'          => 'stackOptions_AnsTest_values_NumRelative',
               'NumSigFigs'           => 'stackOptions_AnsTest_values_NumSigFigs',
@@ -155,9 +155,9 @@ class stack_ans_test_controller {
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATGTE', false, $casoption, $options);
                 break;
 
-            case 'StrictSigFigs':
-                require_once(__DIR__ . '/atstrictsigfigs.class.php');
-                $this->at = new stack_anstest_atstrictsigfigs($sans, $tans, $options, $casoption);
+            case 'SigFigsStrict':
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'SigFigsStrict', true);
                 break;
 
             case 'NumAbsolute':

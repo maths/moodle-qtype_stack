@@ -362,6 +362,11 @@ algebraic_equivalence(SA, SB) :=
     /* Remove scientific units from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
+    /* Remove logarithms to other bases from expressions. */
+    if not(freeof(logbase, SA)) then
+        SA:ev(SA, logbase=logbasesimp),
+    if not(freeof(logbase, SB)) then
+        SB:ev(SB, logbase=logbasesimp),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),

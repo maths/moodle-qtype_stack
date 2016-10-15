@@ -77,10 +77,24 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
 /* Logarithms                         */
 /* ********************************** */
 alias(ln, log);
-load("log10");
-texput(log10, "\\log\\mathrm{10}", prefix);
-alias(lg, log10);
-texput(lg, "\\mathrm{lg}", prefix);
+
+/* Add in support for logarithms to an arbirary base. */
+lg([ex]) := block(
+  if length(ex) = 1 then return(logbase(first(ex), 10)),
+  if length(ex) = 2 then return(logbase(first(ex),second(ex))),
+  error("STACK function 'lg' must have one or two arguments only.")
+)$
+
+logbasetex(ex) := block([n, b],
+  [n, b]:args(ex),
+  oldsimp:simp,
+  return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
+)$
+texput(logbase, logbasetex);
+
+/* Use of radcan to give canonical form. */
+logbasesimp(n,b) := radcan(log(n)/log(b));
+
 load ("functs");
 
 /* We don't want to allow people to put boxes round things. */
@@ -2571,4 +2585,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016091900$
+stackmaximaversion:2016100700$

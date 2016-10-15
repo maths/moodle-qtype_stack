@@ -462,7 +462,8 @@ class stack_cas_casstring {
                 'var_hypergeometric' => true, 'var_laplace' => true, 'var_logistic' => true, 'var_lognormal' => true,
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
-                'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, 'null' => true);
+                'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, 'null' => true,
+                'logbase' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -503,7 +504,7 @@ class stack_cas_casstring {
      */
     // @codingStandardsIgnoreStart
     private static $allowedchars =
-            '0123456789,./\%&{}[]()$£@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:=><|: -';
+            '0123456789,./\%&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM;:=><|: -';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -511,7 +512,7 @@ class stack_cas_casstring {
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
     // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^£#~=,_&`¬;:$-';
+    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -758,7 +759,7 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        // Check for disallowed final characters, e.g. / * + - ^ £ # = & ~ |, ? : ;.
+        // Check for disallowed final characters,  / * + - ^ # = & ~ |, ? : ;.
         $disallowedfinalcharsregex = '~[' . preg_quote(self::$disallowedfinalchars, '~') . ']$~u';
         if (preg_match($disallowedfinalcharsregex, $cmd, $match)) {
             $this->valid = false;
@@ -815,6 +816,17 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_unencpsulated_comma'));
             $this->answernote[] = 'unencpsulated_comma';
             $this->valid = false;
+        }
+
+        // Check for and replace logarithms log_A(B).
+        // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
+        if(preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
+            foreach ($found[0] as $key => $match) {
+                $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
+                $cmd = str_replace($match, $sub, $cmd);
+            }
+            $this->casstring = $cmd;
+            $this->answernote[] = 'logsubs';
         }
 
         $this->check_stars($security, $syntax, $insertstars);

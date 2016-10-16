@@ -36,25 +36,25 @@ require_once(__DIR__ . '/../stack/answertest/stringsloppy.class.php');
 class stack_anstest_stringsloppy_test extends basic_testcase {
 
     public function test_is_true_for_equal_strings() {
-        $at = new stack_anstest_stringsloppy('hello', 'hello', array());
+        $at = new stack_anstest_stringsloppy('hello', 'hello');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings() {
-        $at = new stack_anstest_stringsloppy('hello', 'heloo', array());
+        $at = new stack_anstest_stringsloppy('hello', 'heloo');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_true_for_strings_with_different_case() {
-        $at = new stack_anstest_stringsloppy('Hello', 'hello', array());
+        $at = new stack_anstest_stringsloppy('Hello', 'hello');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_true_for_nearly_equal_strings() {
-        $at = new stack_anstest_stringsloppy('hel lo', 'Hello', array());
+        $at = new stack_anstest_stringsloppy('hel lo', 'Hello');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }

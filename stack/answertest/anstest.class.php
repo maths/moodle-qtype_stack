@@ -79,15 +79,21 @@ class stack_anstest {
      * @param  string $sanskey
      * @param  string $tanskey
      */
-    public function __construct($sans, $tans, $options = null, $casoption = null) {
+    public function __construct($sans, $tans, $options = null, $atoption = null) {
         $this->sanskey  = $sans;
         $this->tanskey  = $tans;
+
+        if (!(null === $options || is_a($options, 'stack_options'))) {
+            throw new stack_exception('stack_anstest_atnumsigfigs: options must be stack_options or null.');
+        }
+
         if ($options != null) {
             $this->options  = clone $options;
         } else {
             $this->options = null;
         }
-        $this->atoption = $casoption;
+
+        $this->atoption = $atoption;
     }
 
     /**

@@ -23,19 +23,14 @@
  */
 class stack_anstest_atnumsigfigs extends stack_anstest {
 
-    public function __construct($sans, $tans, $options, $casoption, $casfunction, $simp) {
-        parent::__construct($sans, $tans, $options, $casoption);
-
-        if (!(null === $options || is_a($options, 'stack_options'))) {
-            throw new stack_exception('stack_anstest_atnumsigfigs: options must be stack_options or null.');
-        }
+    public function __construct($sans, $tans, $options, $atoption, $casfunction, $simp) {
+        parent::__construct($sans, $tans, $options, $atoption);
 
         $this->casfunction = $casfunction;
         $this->simp        = (bool) $simp;
     }
 
     public function do_test() {
-
         if ('' == trim($this->sanskey)) {
             $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
@@ -99,6 +94,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         // Use PHP to establish that the range of significant figures from the student's expression
         // contains the number of significant figures specified by the teacher.
+        $sa = trim($this->sanskey);
         $r = stack_utils::decimal_digits($this->sanskey);
         if ($strictsigfigs) {
             $this->atmark = 0;
@@ -107,7 +103,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             } else if ($r['lowerbound'] <= $this->atoption && $this->atoption <= $r['upperbound']) {
                 $this->atansnote    = $this->casfunction.'_WithinRange. ';
             }
-            return true;
         } else {
             if ($requiredsigfigs == $r['lowerbound']) {
                 $withinrange = true;
@@ -128,7 +123,11 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         // Do we need to check establish numerical precision with a CAS call?
         if (!$numaccuracy) {
-            return true;
+            if ($this->atmark) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         // Use Maxim to establish numerical precision.

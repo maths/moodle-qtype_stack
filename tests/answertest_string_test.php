@@ -36,19 +36,19 @@ require_once(__DIR__ . '/../stack/answertest/atstring.class.php');
 class stack_anstest_atstring_test extends basic_testcase {
 
     public function test_is_true_for_equal_strings() {
-        $at = new stack_anstest_atstring('hello', 'hello', array());
+        $at = new stack_anstest_atstring('hello', 'hello');
         $this->assertTrue($at->do_test());
         $this->assertEquals(1, $at->get_at_mark());
     }
 
     public function test_is_false_for_unequal_strings() {
-        $at = new stack_anstest_atstring('hello', 'heloo', array());
+        $at = new stack_anstest_atstring('hello', 'heloo');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }
 
     public function test_is_false_for_strings_with_different_case() {
-        $at = new stack_anstest_atstring('Hello', 'hello', array());
+        $at = new stack_anstest_atstring('Hello', 'hello');
         $this->assertFalse($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
     }

@@ -956,9 +956,9 @@ class stack_answertest_test_data {
 
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
-        array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_SAns.', ''),
-        array('NumDecPlaces', '2', '0', '1/0', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_TAns.', ''),
-        array('NumDecPlaces', '1/0', '0', '0', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_Options..', ''),
+        array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_SAns.', ''),
+        array('NumDecPlaces', '2', '0', '1/0', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_TAns.', ''),
+        array('NumDecPlaces', '1/0', '0', '0', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_Options..', ''),
         array('NumDecPlaces', 'x', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
         array('NumDecPlaces', '-1', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
         array('NumDecPlaces', '0', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
@@ -986,10 +986,10 @@ class stack_answertest_test_data {
         array('NumDecPlaces', '3', '4.000', '3.99999', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.',
             'Teacher needs to round their answer.'),
 
-        array('SigFigsStrict', '', '3.141', 'null', -1, 'ATSigFigsStrict_STACKERROR_Option.', 'Basic tests'),
-        array('SigFigsStrict', 'x^2', '3.141', 'null', -1, 'ATSigFigsStrict_STACKERROR_Option.', ''),
-        array('SigFigsStrict', '-2', '3.141', 'null', -1, 'ATSigFigsStrict_STACKERROR_Option.', ''),
-        array('SigFigsStrict', '0', '3.141', 'null', -1, 'ATSigFigsStrict_STACKERROR_Option.', ''),
+        array('SigFigsStrict', '', '3.141', 'null', -1, 'STACKERROR_OPTION.', 'Basic tests'),
+        array('SigFigsStrict', 'x^2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
+        array('SigFigsStrict', '-2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
+        array('SigFigsStrict', '0', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
         // 0.0010 has exactly 2 significant digits.
         array('SigFigsStrict', '1', '0.0010', 'null', 0, '', ''),
         array('SigFigsStrict', '2', '0.0010', 'null', 1, '', ''),
@@ -1050,7 +1050,7 @@ class stack_answertest_test_data {
         array('Units', '[3,x]', '12.3*m*s^(-1)', '3*m', -1,
             'STACKERROR_OPTION.', ''),
         array('Units', '[1,2,3]', '12.3*m*s^(-1)', '3*m', -1,
-            'CASError: TEST_FAILED | ATUnitsSigFigs_STACKERROR_list_wrong_length.', ''),
+            'CASError: TEST_FAILED | ATNumSigFigs_STACKERROR_list_wrong_length.', ''),
         array('Units', '3', '12.3*m*s^(-1)', '{12.3*m*s^(-1)}', -1, 'CASError: TEST_FAILED | ATUnits_TA_not_expression.', ''),
         array('Units', '3', 'x=12.3*m*s^(-1)', '12.3*m*s^(-1)', 0, 'ATUnits_SA_not_expression.', ''),
         array('Units', '3', '12.3', '12.3*m', 0, 'ATUnits_SA_no_units.', 'Missing units'),
@@ -1101,7 +1101,7 @@ class stack_answertest_test_data {
         array('Units', '2', '400*cm^3', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '400*ml', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '18*kJ', '18000.0*J', 1, 'ATUnits_compatible_units: kg*m^2/s^2.', ''),
-        array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATNumSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', ''),
+        array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', ''),
         array('Units', '2', '2.0*hh', '720000*s', 1, 'ATUnits_compatible_units: s.', ''),
         array('Units', '1', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
         array('Units', '1', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
@@ -1295,10 +1295,6 @@ class stack_answertest_test_data {
                 $anomalynote[] = '[SCORE]';
             }
         }
-        if (!($ansnote === $test->ansnote)) {
-            $passed = false;
-            $anomalynote[] = '[NOTE expected: ' . $test->ansnote . ']';
-        }
 
         // The test failed, and we expected it to fail.
         if ($errors === 'TEST_FAILED') {
@@ -1312,6 +1308,11 @@ class stack_answertest_test_data {
         // These tests are all expected to fail, so we make them all pass.
         if (-2 === $test->expectedscore) {
             $passed = true;
+        }
+
+        if (!($ansnote === $test->ansnote)) {
+            $passed = false;
+            $anomalynote[] = '[NOTE expected: ' . $test->ansnote . ']';
         }
 
         $anomalynote = implode($anomalynote, ' | ');

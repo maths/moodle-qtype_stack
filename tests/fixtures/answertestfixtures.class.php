@@ -1041,6 +1041,10 @@ class stack_answertest_test_data {
         array('SigFigsStrict', '3', '25.00e1', 'null', 0, '', ''),
         array('SigFigsStrict', '4', '25.00e1', 'null', 1, '', ''),
         array('SigFigsStrict', '5', '25.00e1', 'null', 0, '', ''),
+        // Too many zeros.
+        array('SigFigsStrict', '3', '15.1', '15.1', 1, '', ''),
+        array('SigFigsStrict', '3', '15.10', '15.1', 0, '', ''),
+        array('SigFigsStrict', '3', '15.100', '15.1', 0, '', ''),
         array('SigFigsStrict', '3', '9.81*m/s^2', 'null', 1, '', 'Units are ignored'),
 
         array('Units', '2', '1/0', '1', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_SAns.', ''),

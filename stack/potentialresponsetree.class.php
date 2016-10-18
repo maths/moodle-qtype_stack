@@ -196,7 +196,7 @@ class stack_potentialresponse_tree {
             }
 
             $visitednodes[$nodekey] = true;
-            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $localoptions);
+            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $answers, $localoptions);
 
             if ($results->_errors) {
                 break;

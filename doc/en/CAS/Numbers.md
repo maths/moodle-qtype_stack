@@ -2,9 +2,9 @@
 
 Numerical answer tests are documented in a page dedicated to [numerical answer tests](../Authoring/Answer_tests_numerical.md).
 
-## Constants ##
+## Precise Constants ##
 
-In maxima the special constants are defined to be
+In Maxima the special constants are defined to be
 
     %i, %e, %pi
 
@@ -18,27 +18,36 @@ Optionally, depending on the question settings, you have
     i: %i
     j: %i
 
-Sometimes you need to use \(e\) as an abstract symbol not a number.
-The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.
+Sometimes you need to use \(e\), or other constants, as an abstract symbol not a number.  The Maxima solution is to use the `kill()` command, but for security reasons users of STACK are not permitted to use this function. Instead use `stack_reset_vars(true)` in the question variables.  This resets all the special constants defined by STACK so the symbols can be redefined in an individual STACK question.
 
-This resets all the special constants defined by STACK so the symbols can be redefined in a STACK question.
 
-The following commands which are relevant to manipulation of numbers are defined by STACK.
+## Internal representation of numbers ##
 
-| Command                         | Description
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places.
-| `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.
-| `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures.
-| `scientific_notation(x)`        | Write \(x\) in the form \(m10^e\).   Only works with `simp:false`.
-| `commonfaclist(l)`              | Returns the hcf of a list of numbers.
-| `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
-| `coeff_list(ex,v)`              | This function takes an expression \(ex\) and returns a list of coefficients of \(v\).
-| `coeff_list_nz(ex,v)`           | This function takes an expression \(ex\) and returns a list of nonzero coefficients of \(v\).
-| `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
-| `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).  
+Maxima has two data types to represent numbers: integers and floats.  Rational numbers are expressed as a division of two integers not with a dedicated data type, and surds with fractional powers or the `sqrt` function.
+The option [Surd for Square Root](../Authoring/Options.md#surd) enables the question author to alter the way surds are displayed in STACK.
 
-## Display of numbers ##
+Similarly, complex numbers are not represented as a single object, but as a sum of real and imaginary parts, or via the exponential function.
+The input and display of complex numbers is difficult, since differences exist between mathematics, physics and engineering about which symbols to use.
+The option [sqrt(-1)](../Authoring/Options.md#sqrt_minus_one) is set in each question to sort out meaning and display.
+
+## Floating point numbers ## {#Floats}
+
+* To convert to a float use Maxima's `float(ex)` command.
+* To convert a float to an exact representation use `rat(x)` to rationalise the decimal.
+
+The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.    
+
+If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you may want to use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  
+
+## Maxima and floats with trailing zeros ##
+
+For its internal representation, Maxima always truncates trailing zeros from a floating point number.  For example, the Maxima expression `0.01000` will be converted internally to `0.01`.  Actually this is a byproduct of the process of converting a decimal input to an internal binary float, and back again.  Similarly, when a number is a "float" datatype, Maxima always prints at least one decimal digit to indicate the number is a float.  For example, the floating point representation of the number ten is \(10.0\).  This does _not_ indicate significant figures, rather it indicates data type.  In situations where the number of significant figures is crucial this is problematic.
+
+Display of numbers in STACK is controlled with LaTeX, and the underlying LISP provides flexible ways to represent numbers.
+
+Note, that apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Authoring/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.  
+
+## Display of numbers with LaTeX ##
 
 The display of numbers is controlled by Maxima's `texnumformat` command, which STACK modifies.
 
@@ -47,7 +56,7 @@ Stack provides two variables to control the display of integers and floats respe
     stackintfmt:"~d";
     stackfltfmt:"~a";
 
-These two variables control the output format of integers (`integerp`) and floats (`floatnump`) respectively.  These variables persist, so you need to define their values each time you expect them to change.
+These two variables control the output format of integers (identified by the predicate `integerp`) and floats (identified by the predicate `floatnump`) respectively.  These variables persist, so you need to define their values each time you expect them to change.
 
 These variables must be assigned a string following Maxima's `printf` format.
 
@@ -55,7 +64,8 @@ These variables can be defined in the question variables, for global effect.  Th
 
     The decimal number @n:73@ is written in base \(2\) as @(stackintfmt:"~2r",n)@, in base \(7\) as @(stackintfmt:"~7r",n)@, in scientific notation as @(stackintfmt:"~e",n)@ and in rhetoric as @(stackintfmt:"~r",n)@.
 
-The result should be "The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\).."
+The result should be "The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\)."
+
 
 To force all floating point numbers to scientific notation use
 
@@ -65,14 +75,27 @@ To force all floating point numbers to decimal floating point numbers use
 
     stackfltfmt:"~f";
 
-You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.
+You can also force all integers to be displayed as floating point decimals or in scientific notation using `stackintfmt` and the appropriate template.  This function calls the LISP `format` function, which is complex and more example are available [online](http://www.gigamonkeys.com/book/a-few-format-recipes.html) elsewhere.
 
-The number of decimal digits printed is controlled by Maxima's `fpprec` and `fpprintprec` variables.  The default for STACK is
+| Template    | Input       |  TeX Output    |  Description/notes
+| ----------- | ----------- | -------------- | ----------------------------------------------------------------------------------------------
+| `"~,4f"`    | `0.12349`   | \(0.1235\)     |  Output four decimal places: floating point.
+|             | `0.12345`   | \(0.1234\)     |  Note the rounding.
+|             | `0.12`      | \(0.1200\)     |  
+| `"~,5e"`    | `100.34`    | \(1.00340e+2\) |  Output five decimal places: scientific notation.
+| `"~:d"`     | `10000000`  | \(10,000,000\) |  Separate decimal groups of three digits with commas.
+| `~r`        | `9`         | \(nine\)       |  Rhetoric.
+| `~:r`       | `9`         | \(ninth\)      |  Ordinal rhetoric.
+| `~7r`       | `9`         | \(12\)         |  Base 7.
+| `~@r`       | `9`         | \(IX\)         |  Roman numerals.
+| `~:@r`      | `9`         | \(VIIII\)      |  Old style Roman numerals.
+
+There are many other options within the LISP format command. Please note with the rhetoric and Roman numerals that the numbers will be in LaTeX mathematics environments.
+
+Maxima has a separate system for controlling the number of decimal digits used in calculations and when printing the _value_ of computed results.  Trailing zeros will not be printed with the value.  This is controlled by Maxima's `fpprec` and `fpprintprec` variables.  The default for STACK is
 
     fpprec:20,          /* Work with 20 digits. */
     fpprintprec:12,     /* Print only 12 digits. */
-
-For further examples, please see Maxima's documentation on `printf`.
 
 ## Notes about numerical rounding ##
 
@@ -85,7 +108,23 @@ Maxima's `round(ex)` command rounds multiples of 1/2 to the nearest even integer
 
 STACK has defined the function `significantfigures(x,n)` to conform to convention of rounding up.
 
-## STACK numerical predicates ##
+## STACK numerical functions and predicates ##
+
+The following commands which are relevant to manipulation of numbers are defined by STACK.
+
+| Command                         | Description
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures.
+| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places.
+| `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
+| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works with `simp:false` and when printing as a float.  The optional second argument applies `dispdp(m,n)` to the mantissa to control the display of trailing zeros.
+| `commonfaclist(l)`              | Returns the hcf of a list of numbers.
+| `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
+| `coeff_list(ex,v)`              | This function takes an expression \(ex\) and returns a list of coefficients of \(v\).
+| `coeff_list_nz(ex,v)`           | This function takes an expression \(ex\) and returns a list of nonzero coefficients of \(v\).
+| `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
+| `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).  
+
 
 | Function                  | Predicate
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -94,26 +133,6 @@ STACK has defined the function `significantfigures(x,n)` to conform to conventio
 | `lowesttermsp(ex)`        | Is the rational expression in its lowest terms?
 | `anyfloatex(ex)`          | Decides if any floats are in the expression.
 
-
-## Floating point numbers ## {#Floats}
-
-The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflicts with scientific notation `2e3` which means `2*10^3`.    
-
-If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you must use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  Otherwise STACK will try to insert star characters for you and `3e4` will be interpreted as `3*e*4`.
-
-## Displaying a float with trailing zeros ##
-
-By default in Maxima all trailing zeros are suppressed.  Therefore, you can't display \(3.00\) for scientific work easily.  To overcome this, STACK provides a function `dispdp(x, n)`.  Here `x` is a number, and `n` is the number of decimal digits to display.  This function does perform rounding, and adds trailing digits to the display.  If you want to do further calculation with the value don't use this function, instead round with `decimalplaces(x,n)` and display only at the last moment.
-
-## Surds ##
-
-The option [Surd for Square Root](../Authoring/Options.md#surd) enables the question author to alter the way surds are displayed in STACK.
-
-
-## Complex numbers ##
-
-The input and display of complex numbers is difficult, since differences exist between mathematics, physics and engineering about which symbols to use.
-The option [sqrt(-1)](../Authoring/Options.md#sqrt_minus_one) is set in each question to sort out meaning and display.
 
 ## See also
 

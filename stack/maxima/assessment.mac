@@ -280,14 +280,18 @@ significantfigures(x,n) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1
   return(ex2)
 )$
 
-scientific_notation(x) := block([simp:false,fpprintprec,ex,ex2,ex3],
+scientific_notation([a]) := block([simp:false,fpprintprec,ex,ex2,ex3,exn],
+  if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
+  else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
+  else error("scientific_notation takes only one or two arguments"),
   if real_numberp(x) and ev(x>0,simp) then (
       ex:ev(floor(float(log(x)/log(10))),simp),
       ex2:ev(float(x/10^ex),simp),
       ex3:ex2*10^ex,
+      if not(is(exn=false)) then ex3:dispdp(ex2,exn)*10^ex,
       return(ex3)
   ) else return (x)
-);
+)$
 
 /* ********************************** */
 /* Inequalities                       */

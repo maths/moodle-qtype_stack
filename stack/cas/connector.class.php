@@ -265,10 +265,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                     $var = 'errors';
                     $errors['LOCVARNAME'] = "Couldn't get the name of the local variable.";
                 }
-
                 $unparsed[$var] = $val;
                 $offset = $gb[2];
-            } while (($eqpos = strpos($rawresultfragment, '=', $offset)) && ($offset < $rawresultfragmentlen));
+            } while (($offset >= 0) && ($offset < $rawresultfragmentlen) && ($eqpos = strpos($rawresultfragment, '=', $offset)));
 
         } else {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";

@@ -776,4 +776,52 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('3*sin(a*b)', $at1->get_casstring());
     }
 
+    public function test_log_sugar_1() {
+        $s = 'log(x)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('log(x)', $at1->get_casstring());
+    }
+
+    public function test_log_sugar_2() {
+        $s = 'log_10(a+x^2)+log_a(b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(a+x^2, 10)+lg(b, a)', $at1->get_casstring());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_3() {
+        // Note that STACK spots there is a missing * here.
+        $s = 'log_5x(3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(3, 5x)', $at1->get_casstring());
+        $this->assertEquals('logsubs | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_4() {
+        // The missing * in this expression is correctly inserted.
+        $s = 'log_5x(3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 1));
+        $this->assertEquals('lg(3, 5*x)', $at1->get_casstring());
+        $this->assertEquals('logsubs | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_5() {
+        $s = 'log_x^2(3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(3, x^2)', $at1->get_casstring());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_6() {
+        $s = 'log_%e(%e)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(%e, %e)', $at1->get_casstring());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
 }

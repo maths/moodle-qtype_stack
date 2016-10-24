@@ -77,10 +77,24 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
 /* Logarithms                         */
 /* ********************************** */
 alias(ln, log);
-load("log10");
-texput(log10, "\\log\\mathrm{10}", prefix);
-alias(lg, log10);
-texput(lg, "\\mathrm{lg}", prefix);
+
+/* Add in support for logarithms to an arbirary base. */
+lg([ex]) := block(
+  if length(ex) = 1 then return(logbase(first(ex), 10)),
+  if length(ex) = 2 then return(logbase(first(ex),second(ex))),
+  error("STACK function 'lg' must have one or two arguments only.")
+)$
+
+logbasetex(ex) := block([n, b],
+  [n, b]:args(ex),
+  oldsimp:simp,
+  return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
+)$
+texput(logbase, logbasetex);
+
+/* Use of radcan to give canonical form. */
+logbasesimp(n,b) := radcan(log(n)/log(b));
+
 load ("functs");
 
 /* We don't want to allow people to put boxes round things. */
@@ -269,8 +283,10 @@ stack_disp(expr, m) := block([str:"", expru],
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
-    expru:unary_minus_sort(expr),
-    expru:stack_disp_strip_number(expru),
+    expru:expr,
+    if not(stack_disp_control_structurep(expr)) then block(
+        expru:unary_minus_sort(expr),
+        expru:stack_disp_strip_number(expru)),
 
     str:block([expstr, offset, ld, rd],
         ld:"", 
@@ -294,6 +310,9 @@ stack_disp(expr, m) := block([str:"", expru],
 /* it, even though that was not recommended practice. */
 alias(StackDISP, stack_disp)$
 
+/* If an expression contains these control structures then we don't fine-tune the display. */
+stack_disp_control_structurep(ex) := not(freeof(?mdoin, ?mdo, catch, throw, ":=", lambda, setelmx, ex))$
+
 stack_disp_strip_dollars(ex) := block(
         if ?subseq(ex, 0, 2) = "$$" then
             ex:?subseq(ex, 2, ev(?length(ex)-3, simp))
@@ -315,7 +334,6 @@ errcatch(compile(?texnumformat));
 
 /* A recursive function which strips off numbers at the end of variable names. */
 stack_disp_strip_number(ex) := block([s,v,n],
-  if safe_op(ex) = ":=" then return(ex),
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_strip_number, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
   s:string(ex),
@@ -423,7 +441,8 @@ texput(matrix, stack_matrix_disp)$
 /* Although we ultimately need to transform all integers back into "-"(number) for correct display */
 /* this function gives us a definite form for comparison purposes in the interim.*/
 unary_minus_traverse(ex) := block(
-  if mapatom(ex) then return(ex),
+  /* We want atom here, not mapatom to catch a[4]. */
+  if atom(ex) then return(ex),
   if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
   apply(op(ex), map(unary_minus_traverse, args(ex)) )
 )$
@@ -433,7 +452,7 @@ unary_minus_traverse(ex) := block(
 /* For example,   -(2*y^2) is ok                                                     */
 /* But            (-3)*7 is not.                                                     */
 unary_minus_pull(ex) := block([ex2],
-  if mapatom(ex) then return(ex),
+  if atom(ex) then return(ex),
   ex2:apply(op(ex), map(unary_minus_pull, args(ex))),
   if op(ex) = "+" then ex2:apply("+", map(unary_minus_pull_helper, args(ex2))),
   if op(ex) = "*" then ex2:unary_minus_pull_helper(ex2),
@@ -447,7 +466,7 @@ unary_minus_pull(ex) := block([ex2],
 /* Makes sure any minus sign is the top element  */
 unary_minus_pull_helper(ex) := block([fe],
   if numberp(ex) and is(ex<0) then return(-(ev(-1*ex,simp))),  /* Turns -8 into "-"(8) */
-  if mapatom(ex) then return(ex),
+  if atom(ex) then return(ex),
   fe:first(args(ex)), /* First element of the arguments.  Is this a negative number? */
   if op(ex) = "*" then
      if numberp(fe) and is(fe<0) 
@@ -461,8 +480,7 @@ unary_minus_pull_helper(ex) := block([fe],
 
 /* Sorts out display of expressions in the case simp:false */
 unary_minus_sort(ex) := block([ex2],
-  if simp or mapatom(ex) then return(ex),
-  if op(ex) = ":=" then return(ex),
+  if simp or atom(ex) then return(ex),
   ex2:unary_minus_traverse(ex),
   return(unary_minus_pull(ex2))
 )$
@@ -2567,4 +2585,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016091000$
+stackmaximaversion:2016100700$

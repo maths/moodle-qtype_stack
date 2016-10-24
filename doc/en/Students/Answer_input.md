@@ -123,9 +123,10 @@ Things to remember:
 
 ### **Exponentials** and **Logarithms** ###
 
-* You should always write `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
-* Currently in STACK both \(\ln\) and \(\log\) are the _natural logarithms_ with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l, not a capital I. 
-* Log to base \(10\) is entered as `lg`.
+* To enter the exponential function type `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
+* Type `ln(x)` or `log(x)` to enter the _natural logarithm_ of \(x\) with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l for logarithm, not a capital I (`i`).
+* Log \(x\) to base \(10\) is entered as `lg(x)`.
+* The logarithm of \(x\) to base \(a\) is entered as `lg(x,a)`, sometimes written \(\log_{a}(x)\).
 
 ## Matrices  ##
 

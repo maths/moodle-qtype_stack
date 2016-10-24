@@ -586,4 +586,14 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unknownUnitsCase', $state->note);
     }
+
+    public function test_validate_student_hours() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '5*hr');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', false);
+        $state = $el->validate_student_response(array('sans1' => '5*hr'),
+                $options, '5*hr', array('tans'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+    }
 }

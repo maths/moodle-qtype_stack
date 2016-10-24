@@ -90,6 +90,7 @@ class stack_cas_casstring_units {
         array('lm', 'cd', 'lm', 'lumen'),
         array('lx', 'cd/m^2', 'lx', 'lux'),
         array('mol', 'mol', 'mol', 'moles'),
+        array('M', 'mol/(m^3/1000)', 'M', 'Molar'),
         array('kat', 'mol/s', 'kat', 'katal'),
         array('rad', 'rad', 'rad', 'radian')
     );
@@ -124,7 +125,8 @@ class stack_cas_casstring_units {
         'torr' => array('tor', 'tors', 'torrs'),
         'amu' => array('amus', 'dalton'),
         'cc' => array('ccm'),
-        'Hz' => array('hz')
+        'Hz' => array('hz'),
+        'h' => array('hr')
     );
 
     /**

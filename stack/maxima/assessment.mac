@@ -289,11 +289,14 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
 /* n is the number to be displayed                                                          */
 /* dp is the number of decimal places                                                       */
 
-dispdptex(ex):=block([ss, s2, n, dp],
+dispdptex(ex):=block([oldsimp, ss, s2, n, dp],
   [n, dp]:args(ex),
   ss:split(string(decimalplaces(n, dp)), "."),
-  if length(ss) = 2 then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
-  if slength(s2)<dp then s2:concat(s2, smake(dp-slength(s2),"0")) else s2:substring(s2,1,dp+1),
+  oldsimp:simp,
+  simp:true,
+  if is(length(ss) = 2) then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
+  if is(slength(s2)<dp) then s2:concat(s2, smake(dp-slength(s2),"0")) else s2:substring(s2,1,dp+1),
+  simp:oldsimp,
   concat(first(ss), ".", s2)
 );
 texput(dispdp, dispdptex);
@@ -359,6 +362,11 @@ algebraic_equivalence(SA, SB) :=
     /* Remove scientific units from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
+    /* Remove logarithms to other bases from expressions. */
+    if not(freeof(logbase, SA)) then
+        SA:ev(SA, logbase=logbasesimp),
+    if not(freeof(logbase, SB)) then
+        SB:ev(SB, logbase=logbasesimp),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),

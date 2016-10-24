@@ -69,6 +69,11 @@ abstract class stack_input {
     protected $teacheranswer;
 
     /**
+     * The question level options for CAS sessions.
+     */
+    protected $options;
+
+    /**
      * Answertest paramaters.
      * @var array paramer name => current value.
      */
@@ -86,11 +91,16 @@ abstract class stack_input {
      * @param array $parameters The options for this input. All the opitions have default
      *      values, so you only have to give options that are different from the default.
      */
-    public function __construct($name, $teacheranswer, $parameters = null) {
+    public function __construct($name, $teacheranswer, $options = null, $parameters = null) {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $class = get_class($this);
         $this->parameters = $class::get_parameters_defaults();
+
+        if (!(null === $options || is_a($options, 'stack_options'))) {
+            throw new stack_exception('stack_input: $options must be stack_options.');
+        }
+        $this->options = $options;
 
         if (!(null === $parameters || is_array($parameters))) {
             throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, ' .

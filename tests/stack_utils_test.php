@@ -209,7 +209,7 @@ class stack_utils_test extends basic_testcase {
 
     public function test_decimal_digits() {
         // In this text digits are 1-9 and 0 is not a digit.
-        // array("string", lower, upper, decimal places)
+        // array("string", lower, upper, decimal places).
         $tests = array(
             array("0", 1, 1, 0, '"~a"'), // Decision: zero has one significant digit.
             array("0.0", 1, 1, 1, '"~,1f"'), // Decision: 0.0 has one significant digit.
@@ -233,7 +233,7 @@ class stack_utils_test extends basic_testcase {
             // Scientific notation.
             array("4.320e-3", 4, 4, 3, '"~,3e"'), // After a digit, zeros after the decimal separator are always significant.
             // If no digits before a zero that zero is not significant even after the decimal separator.
-            array("0.020e3", 2, 2, 3, '"~,1e"'), 
+            array("0.020e3", 2, 2, 3, '"~,1e"'),
             array("1.00e3", 3, 3, 2, '"~,2e"'),
             array("10.0e1", 3, 3, 1, '"~,2e"'),
             // Unary signs.
@@ -259,6 +259,25 @@ class stack_utils_test extends basic_testcase {
             $this->assertEquals($r['upperbound'], $t[2]);
             $this->assertEquals($r['decimalplaces'], $t[3]);
             $this->assertEquals($r['fltfmt'], $t[4]);
+        }
+
+    }
+
+    public function test_single_char_vars() {
+
+        $testcases = array('ab' => 'a*b',
+            'abc' => 'a*b*c',
+            'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
+            'sin(xy)' => 'sin(x*y)',
+            'xe^x' => 'x*e^x',
+            'pix' => 'p*i*x',
+            '2pi+nk' => '2*pi+n*k',
+            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
+            'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
+        );
+
+        foreach ($testcases as $test => $result) {
+            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 2, ''), $result);
         }
 
     }

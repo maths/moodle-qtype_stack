@@ -161,7 +161,7 @@ class stack_matrix_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
 
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
@@ -171,6 +171,13 @@ class stack_matrix_input extends stack_input {
         foreach ($contents as $row) {
             $modifiedrow = array();
             foreach ($row as $val) {
+                // Process single character variable names in PHP.
+                if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
+                    $val = stack_utils::make_single_char_vars($val, $localoptions,
+                            $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
+                            $this->get_parameter('allowWords', ''));
+                }
+
                 $answer = new stack_cas_casstring($val);
                 $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                         $this->get_parameter('insertStars', 0),  $this->get_parameter('allowwords', ''));

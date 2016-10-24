@@ -266,7 +266,7 @@ class stack_cas_casstring {
                 'zaxis_type' => true, 'zaxis_width' => true, 'zeilberger' => true, 'zeroa' => true, 'zerob' => true,
                 'zlabel' => true, 'zlange' => true, 'zrange' => true, 'ztics_axis' => true, 'ztics_rotate' => true);
 
-    private static $teachernotsplit = array('random_permutation' => true);
+    private static $teachernotsplit = array('random_permutation' => true, 'get_ops' => true);
 
     /** @var array CAS keywords ALLOWED by students. */
     private static $studentallow    = array('%c' => true, '%e' => true, '%gamma' => true, '%i' => true, '%k1' => true,
@@ -465,8 +465,8 @@ class stack_cas_casstring {
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
-                'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 
-    		    'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true);
+                'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true,
+                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -1445,7 +1445,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is NULL then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
+                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless'
             || $validationmethod == 'units' || $validationmethod == 'unitsnegpow')) {
@@ -1476,10 +1476,6 @@ class stack_cas_casstring {
 
         $fltfmt = stack_utils::decimal_digits($starredanswer);
         $fltfmt = $fltfmt['fltfmt'];
-
-        if ($singlecharvars) {
-            $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
-        }
 
         $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {

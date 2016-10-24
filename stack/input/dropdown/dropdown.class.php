@@ -277,7 +277,7 @@ class stack_dropdown_input extends stack_input {
         return '';
     }
 
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
         $valid = true;
         $errors = '';
         $modifiedcontents = $contents;

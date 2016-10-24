@@ -1075,7 +1075,7 @@ class stack_utils {
         if ($scientificnotation) {
             $ret['fltfmt'] = '"~e"';
             if ($ret['lowerbound'] > 1) {
-                $ret['fltfmt'] = '"~,' . ($ret['upperbound']-1) . 'e"';
+                $ret['fltfmt'] = '"~,' . ($ret['upperbound'] - 1) . 'e"';
             }
         }
 
@@ -1105,4 +1105,52 @@ class stack_utils {
             return $fraction;
         }
     }
+
+    /**
+     * This function takes a raw casstring, and returns another raw casstring in which every
+     * variable name has been interpreted as a product of single letters.
+     * @param unknown $rawcasstring
+     */
+    public static function make_single_char_vars($rawcasstring, $options, $syntax, $stars, $allowwords) {
+        $lvars = new stack_cas_casstring('listofvars('.$rawcasstring.')');
+        $lvars->get_valid('t', $syntax, $stars, $allowwords);
+        $lops = new stack_cas_casstring('get_ops('.$rawcasstring.')');
+        $lops->get_valid('t', $syntax, $stars, $allowwords);
+        $session = new stack_cas_session(array($lvars, $lops), $options, 0);
+        $session->instantiate();
+        $session = $session->get_session();
+        $lvars  = $session[0];
+        $lops  = $session[1];
+        $errors = stack_maxima_translate($lvars->get_errors());
+        $casstring = $rawcasstring;
+        if ('' != $errors) {
+            $valid = false;
+        } else {
+            // Create an array of variable names in the answer.
+            $lvars = $lvars->get_value();
+            $lvars = substr($lvars, 1, -1);
+            $lvars = explode(',', $lvars);
+            $lops = $lops->get_value();
+            $lops = substr($lops, 1, -1);
+            $lops = explode(',', $lops);
+            // We need to check if the $var is a substring of an operation in the answer.
+            // For example, if we have "sin(in)" then we want "sin(i*n)" not "si*n(i*n)".
+            // To avoid this we safely replace operands with !!STACKOP??!! first.
+            foreach ($lops as $key => $op) {
+                $casstring = str_replace($op, '!!STACKOP'.$key.'!!', $casstring);
+            }
+            foreach ($lvars as $var) {
+                if (strlen($var) > 1) {
+                    // Split the variable and substitute.
+                    $subvar = implode('*', str_split($var));
+                    $casstring = str_replace($var, $subvar, $casstring);
+                }
+            }
+            foreach ($lops as $key => $op) {
+                $casstring = str_replace('!!STACKOP'.$key.'!!', $op, $casstring);
+            }
+        }
+        return $casstring;
+    }
+
 }

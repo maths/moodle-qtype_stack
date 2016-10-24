@@ -287,6 +287,7 @@ abstract class stack_input {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
         $localoptions = clone $options;
+        $localoptions->set_option('simplify', false);
 
             // The validation field should always come back through as a single RAW Maxima expression for each input.
         if (array_key_exists($this->name . '_val', $response)) {
@@ -302,34 +303,27 @@ abstract class stack_input {
         }
 
         // This method actually validates any CAS strings etc.
-        list($valid, $errors, $modifiedcontents) = $this->validate_contents($contents, $forbiddenkeys);
+        list($valid, $errors, $modifiedcontents) = $this->validate_contents($contents, $forbiddenkeys, $localoptions);
 
         // If we can't get a "displayed value" back from the CAS, show the student their original expression.
         $display = stack_maxima_format_casstring($this->contents_to_maxima($contents));
+        $lvarsdisp = '';
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
         $answer = new stack_cas_casstring($interpretedanswer);
-        $lvarsdisp = '';
 
         // Send the string to the CAS.
         if ($valid) {
-            $singlevarchars = false;
-            if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
-                $singlevarchars = true;
-            }
+
+            $answer = new stack_cas_casstring($interpretedanswer);
 
             // Generate an expression from which we extract the list of variables in the student's answer.
-            $lvars = new stack_cas_casstring('listofvars('.$interpretedanswer.')');
-            if ($singlevarchars) {
-                    $lvars = new stack_cas_casstring('listofvars(stack_singlevar_make('.$interpretedanswer.'))');
-            }
+            $lvars = new stack_cas_casstring('sort(listofvars('.$interpretedanswer.'))');
             $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
 
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $singlevarchars, $teacheranswer,
-                    $this->get_validation_method(), $this->get_parameter('allowWords', ''));
-            $localoptions->set_option('simplify', false);
+                    $teacheranswer, $this->get_validation_method(), $this->get_parameter('allowWords', ''));
 
             $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);
             $session->instantiate();
@@ -337,7 +331,6 @@ abstract class stack_input {
             $session = $session->get_session();
             $answer = $session[0];
             $lvars  = $session[1];
-
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {
                 $valid = false;
@@ -346,12 +339,10 @@ abstract class stack_input {
                 $valid = false;
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
-                // TODO: URGENT.
-                // Deleting the line below in a previous commit has broken "single char vars".
-                // The old functionality was done in the CAS.  But, if we send numbers through the CAS
-                // then we loose information about digits.  This needs to be refactored to split up 
-                // variable names in PHP.
-                //$interpretedanswer = $answer->get_value();
+                // This indicates some kind of error.
+                if ($answer->get_value() == 'false' && $answer->get_raw_casstring() != 'false') {
+                    $display = $answer->get_raw_casstring();
+                }
                 if (!($lvars->get_value() == '[]')) {
                     $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
                 }
@@ -418,7 +409,7 @@ abstract class stack_input {
      *                             must not appear in the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
 
@@ -426,6 +417,13 @@ abstract class stack_input {
         $modifiedcontents = array();
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
+            // Process single character variable names in PHP.
+            if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
+                $val = stack_utils::make_single_char_vars($val, $localoptions,
+                        $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
+                        $this->get_parameter('allowWords', ''));
+            }
+
             $answer = new stack_cas_casstring($val);
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $allowwords);

@@ -897,7 +897,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * @return qtype_stack_question a very elementary question.
+     * @return qtype_stack_question a very elementary question assuming single letter variables.
      */
     public static function make_stack_question_single_char_vars() {
         $q = self::make_a_stack_question();

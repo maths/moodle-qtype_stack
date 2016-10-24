@@ -74,6 +74,11 @@ class stack_cas_casstring_units {
         array('cd', 'cd', 'cd', 'candela'),
         array('N', '(kg*m)/s^2', 'N', 'Newton'),
         array('Pa', 'kg/(m*s^2)', 'Pa', 'Pascals'),
+        // Define these before the base units.
+        array('cal', '4.2*J', 'cal', 'calorie'),
+        array('Cal', '4200*J', 'cal', 'kilo calorie'),
+        array('Btu', '1055*J', 'Btu', 'British thermal units'),
+        array('eV', '1.602177e-19*J', 'eV', 'Electron volt'),
         array('J', '(kg*m^2)/s^2', 'J', 'Joules'),
         array('W', '(kg*m^2)/s^3', 'W', 'Watts'),
         array('A', 'A', 'A', 'Ampere'),
@@ -92,7 +97,7 @@ class stack_cas_casstring_units {
         array('mol', 'mol', 'mol', 'moles'),
         array('M', 'mol/(m^3/1000)', 'M', 'Molar'),
         array('kat', 'mol/s', 'kat', 'katal'),
-        array('rad', 'rad', 'rad', 'radian')
+        array('rad', 'rad', 'rad', 'radian'),
     );
 
     /*
@@ -100,6 +105,8 @@ class stack_cas_casstring_units {
      * Entries below are in the form of array(label, base, TeX, fullname).
      */
     private static $nonpreficunits = array(
+        array('min', 's*60', 'min', 'minutes'),
+        array('day', '24*60*60*s', 'day', 'day'),
         array('amu', 'amu', 'amu', 'Atomic mass units'),
         array('u', 'amu', 'u', ''),
         array('mmHg', '133.322387415*Pa', 'mmHg', 'Millimeters of mercury'),
@@ -108,6 +115,9 @@ class stack_cas_casstring_units {
         array('mbar', '10^2*Pa', 'mbar', 'millibar'),
         array('atm', '101325*Pa', 'atm', 'Standard atmosphere'),
         array('Torr', '101325/760*Pa', 'Torr', 'torr'),
+        array('rev', '2*pi*rad', 'rev', 'revolutions'),
+        array('deg', 'pi*rad/180', '{}^{o}', 'degrees'),
+        array('rpm', 'pi*rad/(30*s)', 'rpm', 'revolutions per minute'),
         array('K', 'K', 'K', 'Kelvin'),
         // @codingStandardsIgnoreStart
         // Celsius conflicts with Coulomb.
@@ -122,11 +132,12 @@ class stack_cas_casstring_units {
         'mol' => array('mols', 'moles', 'mole'),
         'kat' => array('kats', 'katal', 'katals'),
         'rad' => array('radian', 'radians'),
-        'torr' => array('tor', 'tors', 'torrs'),
+        'Torr' => array('tor', 'tors', 'torrs'),
         'amu' => array('amus', 'dalton'),
         'cc' => array('ccm'),
         'Hz' => array('hz'),
-        'h' => array('hr')
+        'h' => array('hr', 'hours'),
+        'day' => array('days')
     );
 
     /**

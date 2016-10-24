@@ -266,6 +266,8 @@ class stack_cas_casstring {
                 'zaxis_type' => true, 'zaxis_width' => true, 'zeilberger' => true, 'zeroa' => true, 'zerob' => true,
                 'zlabel' => true, 'zlange' => true, 'zrange' => true, 'ztics_axis' => true, 'ztics_rotate' => true);
 
+    private static $teachernotsplit = array('random_permutation' => true);
+
     /** @var array CAS keywords ALLOWED by students. */
     private static $studentallow    = array('%c' => true, '%e' => true, '%gamma' => true, '%i' => true, '%k1' => true,
                 '%k2' => true, '%phi' => true, '%pi' => true, 'abs' => true, 'absint' => true, 'acos' => true, 'acosh' => true,
@@ -463,7 +465,8 @@ class stack_cas_casstring {
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
-                'logbase' => true);
+                'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 
+    		    'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -1108,9 +1111,11 @@ class stack_cas_casstring {
         // Create an array of unique keywords, once we have split over subscript symbols.
         $keywords2 = array();
         foreach ($keywords1 as $key => $word) {
-            foreach (explode("_", $key) as $kw) {
-                if (strlen($kw) > 2) {
-                    $keywords2[$kw] = true;
+            if (!($security == 't' and isset(self::$teachernotsplit[strtolower($key)]))) {
+                foreach (explode("_", $key) as $kw) {
+                    if (strlen($kw) > 2) {
+                        $keywords2[$kw] = true;
+                    }
                 }
             }
         }
@@ -1478,13 +1483,15 @@ class stack_cas_casstring {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
             $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
         }
+       	$fltfmt = stack_utils::decimal_digits($starredanswer);
+       	$fltfmt = $fltfmt['fltfmt'];
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "inline")';
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.','.$tans.', "inline", '.$fltfmt.')';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "negpow")';
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "negpow", '.$fltfmt.')';
         }
 
         return true;

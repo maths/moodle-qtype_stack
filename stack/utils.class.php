@@ -1016,12 +1016,16 @@ class stack_utils {
         $meaningfulldigits = 0;
         $decimalplaces = 0;
         $infrontofdecimaldeparator = true;
+        $scientificnotation = false;
 
         $string = str_split(trim($string));
 
         foreach ($string as $i => $c) {
             if (!$infrontofdecimaldeparator && ctype_digit($c)) {
                 $decimalplaces++;
+            }
+            if ($c == 'e') {
+                $scientificnotation = true;
             }
             if ($c == '0') {
                 if ($meaningfulldigits == 0) {
@@ -1051,7 +1055,8 @@ class stack_utils {
             }
         }
 
-        $ret = array('lowerbound' => 0, 'upperbound' => 0, 'decimalplaces' => $decimalplaces);
+        $ret = array('lowerbound' => 0, 'upperbound' => 0,
+                'decimalplaces' => $decimalplaces, 'fltfmt' => '"~a"');
 
         if ($meaningfulldigits == 0) {
             // This is the case when we have only zeros in the number.
@@ -1063,6 +1068,17 @@ class stack_utils {
             $ret['lowerbound'] = $meaningfulldigits;
             $ret['upperbound'] = $meaningfulldigits + $indefinitezeros;
         }
+
+        if ($decimalplaces > 0) {
+            $ret['fltfmt'] = '"~,' . $decimalplaces . 'f"';
+        }
+        if ($scientificnotation) {
+            $ret['fltfmt'] = '"~e"';
+            if ($ret['lowerbound'] > 1) {
+                $ret['fltfmt'] = '"~,' . ($ret['upperbound']-1) . 'e"';
+            }
+        }
+
         return $ret;
     }
 

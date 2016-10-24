@@ -259,6 +259,30 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 1\, \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_student_trailingzeros() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 0);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '9.8100*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('\[ 9.8100\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_student_trailingzeros_neg() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 0);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '-9.8100*m/s^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-9.81*m/s^2', $state->contentsmodified);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('\[ -9.8100\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_student_teacher_missing_units() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
@@ -595,5 +619,6 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '5*hr'),
                 $options, '5*hr', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('unitssynonym', $state->note);
     }
 }

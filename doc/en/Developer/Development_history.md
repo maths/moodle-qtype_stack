@@ -4,12 +4,6 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 3.5.6
 
-TODO for release.
-
-1. Add additional units suggestested by David H.
-2. Ensure for the units input that the validation feedback displays the number of decimal places found in the student's answer.
-3. Add unit tests for the validation feedback, including a question walk through.
-
 New featured added in this branch, but not yet on a tagged release.
 
 1. Change the display so that the underscore in atoms is displayed using subscripts.

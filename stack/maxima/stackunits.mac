@@ -29,12 +29,15 @@
    copied over to maximalocal.mac by the install scripts.  This ensures exactly the
    same collections of units are available in PHP and this Maxima code.
    
-   stack_unit_si_prefix_code:[y,z,a,f,p,n,u,m,c,d,da,h,k,M,G,T,P,E,Z,Y]$
-   stack_unit_si_prefix_multiplier:[10^-24,10^-21,10^-18,10^-15,10^-12,10^-9,10^-6,10^-3,10^-2,10^-1,10,10^2,10^3,10^6,10^9,10^12,10^15,10^18,10^21,10^24]$
-   stack_unit_si_prefix_tex:["y","z","a","f","p","n","\\mu ","m","c","d","da","h","k","M","G","T","P","E","Z","Y"]$
-   stack_unit_si_unit_code:[m,g,s,A,ohm,K,mol,cd,Hz,N,Pa,J,W,C,V,F,S,Wb,T,H,l,Bq,Gy,Sv,lm,lx]$
-   stack_unit_si_unit_conversions:[m,kg/1000,s,A,kg*m^2/(s^3*A^2),K,mol,cd,1/s,kg*m/(s^2),kg/(m*s^2),kg*m^2/(s^2),kg*m^2/(s^3),s*A,kg*m^2/(s^3*A),A^2*s^4/(kg*m^2),s^3*A^2/(kg*m^2),kg*m^2/(s^2*A),kg/(s^2*A),kg*m^2/(s^2*A^2),m^3/1000,1/s,m^2/s^2,m^2/s^2,cd,cd/m^2]$
-   stack_unit_si_unit_tex:["m","g","s","A","\Omega","K","mol","cd","Hz","N","Pa","J","W","C","V","F","S","Wb","T","H","l","Bq","Gy","Sv","lm","lx"]$
+   stack_unit_si_prefix_code:[y, z, a, f, p, n, u, m, c, d, da, h, k, M, G, T, P, E, Z, Y],
+   stack_unit_si_prefix_multiplier:[10^-24, 10^-21, 10^-18, 10^-15, 10^-12, 10^-9, 10^-6, 10^-3, 10^-2, 10^-1, 10, 10^2, 10^3, 10^6, 10^9, 10^12, 10^15, 10^18, 10^21, 10^24],
+   stack_unit_si_prefix_tex:["\\mathrm{y}", "\\mathrm{z}", "\\mathrm{a}", "\\mathrm{f}", "\\mathrm{p}", "\\mathrm{n}", "\\mu ", "\\mathrm{m}", "\\mathrm{c}", "\\mathrm{d}", "\\mathrm{da}", "\\mathrm{h}", "\\mathrm{k}", "\\mathrm{M}", "\\mathrm{G}", "\\mathrm{T}", "\\mathrm{P}", "\\mathrm{E}", "\\mathrm{Z}", "\\mathrm{Y}"],
+   stack_unit_si_unit_code:[m, l, L, g, s, h, Hz, Bq, cd, N, Pa, cal, Cal, Btu, eV, J, W, A, ohm, C, V, F, S, Wb, T, H, Gy, Sv, lm, lx, mol, M, kat, rad],
+   stack_unit_si_unit_conversions:[m, m^3/1000, m^3/1000, kg/1000, s, s*3600, 1/s, 1/s, cd, (kg*m)/s^2, kg/(m*s^2), 4.2*J, 4200*J, 1055*J, 1.602177e-19*J, (kg*m^2)/s^2, (kg*m^2)/s^3, A, (kg*m^2)/(s^3*A^2), s*A, (kg*m^2)/(s^3*A), (s^4*A^2)/(kg*m^2), (s^3*A^2)/(kg*m^2), (kg*m^2)/(s^2*A), kg/(s^2*A), (kg*m^2)/(s^2*A^2), m^2/s^2, m^2/s^2, cd, cd/m^2, mol, mol/(m^3/1000), mol/s, rad],
+   stack_unit_si_unit_tex:["\\mathrm{m}", "\\mathrm{l}", "\\mathrm{L}", "\\mathrm{g}", "\\mathrm{s}", "\\mathrm{h}", "\\mathrm{Hz}", "\\mathrm{Bq}", "\\mathrm{cd}", "\\mathrm{N}", "\\mathrm{Pa}", "\\mathrm{cal}", "\\mathrm{cal}", "\\mathrm{Btu}", "\\mathrm{eV}", "\\mathrm{J}", "\\mathrm{W}", "\\mathrm{A}", "\\Omega", "\\mathrm{C}", "\\mathrm{V}", "\\mathrm{F}", "\\mathrm{S}", "\\mathrm{Wb}", "\\mathrm{T}", "\\mathrm{H}", "\\mathrm{Gy}", "\\mathrm{Sv}", "\\mathrm{lm}", "\\mathrm{lx}", "\\mathrm{mol}", "\\mathrm{M}", "\\mathrm{kat}", "\\mathrm{rad}"],
+   stack_unit_other_unit_code:[min, day, amu, u, mmHg, bar, cc, mbar, atm, Torr, rev, deg, rpm, K],
+   stack_unit_other_unit_conversions:[s*60, 24*60*60*s, amu, amu, 133.322387415*Pa, 10^5*Pa, m^3*10^(-6), 10^2*Pa, 101325*Pa, 101325/760*Pa, 2*pi*rad, pi*rad/180, pi*rad/(30*s), K],
+   stack_unit_other_unit_tex:["\\mathrm{min}", "\\mathrm{day}", "\\mathrm{amu}", "\\mathrm{u}", "\\mathrm{mmHg}", "\\mathrm{bar}", "\\mathrm{cc}", "\\mathrm{mbar}", "\\mathrm{atm}", "\\mathrm{Torr}", "\\mathrm{rev}", "\\mathrm{{}^{o}}", "\\mathrm{rpm}", "\\mathrm{K}"],
 */
 
 unitsp(ex) := featurep(ex, units)$
@@ -140,11 +143,17 @@ stackunits_make(ex) := block([oldsimp, exn, exu],
     exu:maplist(unary_minus_remove, exu),
     exu:maplist(flatten_pow_minus_one, exu),
     if (debug) then (print("stackunits_make: (1) reformulated units as "), print(exu)),
+    if (debug) then (print("stackunits_make: (2) reformulated numbers as "), print(exn)),
     exn:maplist(unary_minus_remove, exn),
     exn:stack_units_rational_number(exn),
+    if (debug) then (print("stackunits_make: (2) reformulated numbers as "), print(exn)),
+    if is(first(exn) = UNARY_MINUS) then block(
+        exn:rest(exn),
+        exn[1]:ev(-1*exn[1],simp)
+    ),
     if length(exn)=1 then exn:first(exn) else exn:apply("noun*", exn),
     if length(exu)=1 then exu:first(exu) else exu:apply("noun*", exu),
-    if (debug) then (print("stackunits_make: (2) reformulated units as "), print(exu)),
+    if (debug) then (print("stackunits_make: (3) reformulated units as "), print(exu)),
     verb_arith(stackunits(exn, exu))
 )$
 
@@ -210,7 +219,7 @@ tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNIT
 tellsimpafter(stackunits(STACKNUM1, STACKUNITS1)+stackunits(STACKNUM2, STACKUNITS1)+STACKANY, stackunits(STACKNUM1+STACKNUM2, STACKUNITS1)+STACKANY);
 
 /* Validate an expression which is expected to have units.*/
-stack_validate_units(expr, LowestTerms, TAns, fracdisp) := block( [simp:false, exs, SAU, SBU],
+stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:false, exs, SAU, SBU],
     /* Check the display option. */
     if not(fracdisp = "inline" or fracdisp = "negpow") then block(
         print("fracdisp argument to stack_validate_units must be either inline or negpow only.")
@@ -231,6 +240,15 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp) := block( [simp:false, e
     /* SA should be only an expression. */
     if not(expressionp(expr)) then
         (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
+
+    /* Deal with the display of floats.  */
+    /* Only use the number template when we have exactly 1 float in the expression. */
+    stackfltfmt:"~a",
+    if numberp(expr) or is(safe_op(expr) = "-") then 
+        stackfltfmt:fltfmt
+    else if is(safe_op(expr) = "*") then
+        if is(length(sublist(args(expr), numberp)) <= 1) then 
+           stackfltfmt:fltfmt,
 
     /* Check if the student has correctly used units.*/
     SAU:stackunits_make(expr),

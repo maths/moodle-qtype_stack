@@ -1474,6 +1474,9 @@ class stack_cas_casstring {
             $lowestterms = 'false';
         }
 
+        $fltfmt = stack_utils::decimal_digits($starredanswer);
+        $fltfmt = $fltfmt['fltfmt'];
+
         if ($singlecharvars) {
             $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
         }
@@ -1483,8 +1486,6 @@ class stack_cas_casstring {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
             $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.')';
         }
-       	$fltfmt = stack_utils::decimal_digits($starredanswer);
-       	$fltfmt = $fltfmt['fltfmt'];
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
             $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.','.$tans.', "inline", '.$fltfmt.')';

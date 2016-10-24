@@ -346,6 +346,12 @@ abstract class stack_input {
                 $valid = false;
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
+                // TODO: URGENT.
+                // Deleting the line below in a previous commit has broken "single char vars".
+                // The old functionality was done in the CAS.  But, if we send numbers through the CAS
+                // then we loose information about digits.  This needs to be refactored to split up 
+                // variable names in PHP.
+                //$interpretedanswer = $answer->get_value();
                 if (!($lvars->get_value() == '[]')) {
                     $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
                 }

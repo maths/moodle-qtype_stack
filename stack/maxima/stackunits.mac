@@ -241,19 +241,19 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
     if not(expressionp(expr)) then
         (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
 
-    /* Deal with the display of floats.  */
-    /* Only use the number template when we have exactly 1 float in the expression. */
-    stackfltfmt:"~a",
-    if numberp(expr) or is(safe_op(expr) = "-") then 
-        stackfltfmt:fltfmt
-    else if is(safe_op(expr) = "*") then
-        if is(length(sublist(args(expr), numberp)) <= 1) then 
-           stackfltfmt:fltfmt,
-
     /* Check if the student has correctly used units.*/
     SAU:stackunits_make(expr),
     SBU:stackunits_make(TAns),
     if (debug) then (print("stack_validate_units working with: "), print(SAU), print(SBU)),
+
+    /* Deal with the display of floats.  */
+    /* Only use the number template when we have exactly 1 float in the expression. */
+    stackfltfmt:"~a",
+    if numberp(stack_units_nums(SAU)) or is(safe_op(stack_units_nums(SAU)) = "-") then 
+        stackfltfmt:fltfmt
+    else if is(safe_op(stack_units_nums(SAU)) = "*") then
+        if is(length(sublist(args(stack_units_nums(SAU)), numberp)) <= 1) then 
+           stackfltfmt:fltfmt,
 
     /* Check if stackunits_make appears to have done something sensible. */ 
     /* Student types only units.  This should always be invalid. */ 

@@ -55,7 +55,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'information',  // Neither inputs nor PRTs.
             'survey',       // Inputs, but no PRTs.
             'single_char_vars', // Tests the insertion of * symbols between letter names.
-            'runtime_prt_err' // This generates an error in the PRT at runtime.  With and without guard clause.
+            'runtime_prt_err', // This generates an error in the PRT at runtime.  With and without guard clause.
+            'units' // This question has units inputs, and a numerical test.
         );
     }
 
@@ -144,6 +145,8 @@ class qtype_stack_test_helper extends question_test_helper {
                                Then, since $\frac{d}{d@v@}u=1$ we have
                                \[ \int @p@ d@v@ = \int u^@n@ du = \frac{u^@n+1@}{@n+1@}+c = @ta@+c.\]';
 
+        $q->questionnote = '@p@, @ta@.';
+
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
         $q->penalty = 0.25; // Non-zero and not the default.
 
@@ -151,7 +154,11 @@ class qtype_stack_test_helper extends question_test_helper {
                         'algebraic', 'ans1', 'ta+c', null,
                 array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin'));
 
-        $sans = new stack_cas_casstring('ans1');
+        // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
+        // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
+        // question variables.  Normally we don't want the student's answer to be evaluated in this way,
+        // but in this question we do to ensure the random values are used.
+        $sans = new stack_cas_casstring('ans1+0');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('ta');
         $tans->get_valid('t');
@@ -821,6 +828,37 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a question using a numerical precision answertest.
+     */
+    public static function make_stack_question_units() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-units';
+        $q->questionvariables = '';
+        $q->questiontext = 'Please round type in gravity to three significant figures. [[input:ans1]]
+        [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.1; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('9.81*m/s^2');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'Units', '3');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question the question from the test1.xml file.
      */
     public static function make_stack_question_1input2prts() {
@@ -916,11 +954,11 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = new stack_cas_casstring('ans1');
+        $sans = new stack_cas_casstring('ans1+0');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('sin(x*y)');
         $tans->get_valid('t');
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);

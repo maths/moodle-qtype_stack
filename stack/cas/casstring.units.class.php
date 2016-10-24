@@ -106,12 +106,12 @@ class stack_cas_casstring_units {
      */
     private static $nonpreficunits = array(
         array('min', 's*60', 'min', 'minutes'),
-        array('day', '24*60*60*s', 'day', 'day'),
         array('amu', 'amu', 'amu', 'Atomic mass units'),
         array('u', 'amu', 'u', ''),
         array('mmHg', '133.322387415*Pa', 'mmHg', 'Millimeters of mercury'),
         array('bar', '10^5*Pa', 'bar', 'bar'),
         array('cc', 'm^3*10^(-6)', 'cc', 'cubic centimetre'),
+        array('gal', '3.785*l', 'gal', 'US gallon'),
         array('mbar', '10^2*Pa', 'mbar', 'millibar'),
         array('atm', '101325*Pa', 'atm', 'Standard atmosphere'),
         array('Torr', '101325/760*Pa', 'Torr', 'torr'),
@@ -123,6 +123,10 @@ class stack_cas_casstring_units {
         // Celsius conflicts with Coulomb.
         // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
         // @codingStandardsIgnoreEnd
+        //
+        // We know these two are not really correct, but there we are.
+        array('day', '86400*s', 'day', 'day'),
+        array('year', '3.156e7*s', 'year', 'year'),
     );
 
     /* This array keeps a list of synoymns which students are likely to use.

@@ -499,7 +499,6 @@ class stack_cas_session {
             }
             $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
             $i++;
-
         }
 
         $cass  = $caspreamble;

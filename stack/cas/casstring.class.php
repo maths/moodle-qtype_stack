@@ -266,8 +266,6 @@ class stack_cas_casstring {
                 'zaxis_type' => true, 'zaxis_width' => true, 'zeilberger' => true, 'zeroa' => true, 'zerob' => true,
                 'zlabel' => true, 'zlange' => true, 'zrange' => true, 'ztics_axis' => true, 'ztics_rotate' => true);
 
-    private static $teachernotsplit = array('random_permutation' => true, 'get_ops' => true);
-
     /** @var array CAS keywords ALLOWED by students. */
     private static $studentallow    = array('%c' => true, '%e' => true, '%gamma' => true, '%i' => true, '%k1' => true,
                 '%k2' => true, '%phi' => true, '%pi' => true, 'abs' => true, 'absint' => true, 'acos' => true, 'acosh' => true,
@@ -809,6 +807,10 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
+        $this->casstring = $cmd;
+        $this->key_val_split();
+        $cmd = $this->casstring;
+
         // Check for and replace logarithms log_A(B).
         // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
         if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
@@ -826,7 +828,6 @@ class stack_cas_casstring {
 
         $this->check_underscores($security);
 
-        $this->key_val_split();
         return $this->valid;
     }
 
@@ -1100,26 +1101,25 @@ class stack_cas_casstring {
             return null;
         }
 
-        $keywords1 = array();
+        $keywords = array();
+        // Create an array of unique keywords.  For students we split over underscores.  We don't do this for teachers otherwise
+        // too many existing question break because teachers have defined function names with underscores.
         foreach ($strinkeywords as $key) {
             // Delete function names which students are allowed from the list of keywords before we split over underscore.
             if (!isset(self::$cache['merged-sallow'][$key])) {
-                $keywords1[$key] = true;
-            }
-        }
-
-        // Create an array of unique keywords, once we have split over subscript symbols.
-        $keywords2 = array();
-        foreach ($keywords1 as $key => $word) {
-            if (!($security == 't' and isset(self::$teachernotsplit[strtolower($key)]))) {
-                foreach (explode("_", $key) as $kw) {
-                    if (strlen($kw) > 2) {
-                        $keywords2[$kw] = true;
+                if ($security == 't') {
+                    $keywords[$key] = true;
+                } else {
+                    foreach (explode("_", $key) as $kw) {
+                        if (strlen($kw) > 2) {
+                            $keywords[$kw] = true;
+                        }
                     }
                 }
             }
         }
-        $strinkeywords = array_keys($keywords2);
+
+        $strinkeywords = array_keys($keywords);
 
         foreach ($strinkeywords as $key) {
             // Check again for global forbidden words.

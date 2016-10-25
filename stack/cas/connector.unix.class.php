@@ -113,7 +113,6 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             // WARNING: the string 'The CAS timed out' is used by the cache to search for a timeout occurrence.
             $ret .= ' The CAS timed out. ] ] ] ]';
         }
-
         return $ret;
     }
 }

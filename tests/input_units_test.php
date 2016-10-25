@@ -290,10 +290,9 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '9.8100ms^2'), $options, '9.81*m*s^2', array('tans'));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('9.8100*ms^2', $state->contentsmodified);
+        $this->assertEquals('9.8100*m*s^2', $state->contentsmodified);
         $this->assertEquals('', $state->note);
-        // The below is probably NOT what students expect, but it a consequence of splitting ms^2 into single letter names.
-        $this->assertEquals('\[ 9.8100\, \mathrm{m}^2\cdot \mathrm{s}^2 \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.8100\, \mathrm{m}\cdot \mathrm{s}^2 \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_trailingzeros_neg() {
@@ -386,7 +385,7 @@ class stack_units_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => '7.81ms'), $options, '7.81*m*s', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('7.81*ms', $state->contentsmodified);
+        $this->assertEquals('7.81*m*s', $state->contentsmodified);
         $this->assertEquals('\[ 7.81\, \mathrm{m}\cdot \mathrm{s} \]', $state->contentsdisplayed);
     }
 

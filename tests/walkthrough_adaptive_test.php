@@ -214,7 +214,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->process_submission(array('ans1' => '(v-a)^(n+1)/(n+1)+c', 'ans1_val' => '(v-a)^(n+1)/(n+1)+c', '-submit' => 1));
 
         // Verify.
-        //$this->check_current_state(question_state::$complete);
+        $this->check_current_state(question_state::$complete);
         $this->check_current_mark(1);
         $this->check_prt_score('PotResTree_1', 1, 0);
         $this->render();
@@ -2172,7 +2172,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
-    public function test_units_() {
+    public function test_units() {
 
         // Create the stack question 'test1'.
         $q = test_question_maker::make_question('stack', 'units');

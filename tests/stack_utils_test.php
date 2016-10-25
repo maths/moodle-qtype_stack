@@ -23,6 +23,7 @@
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
 
 /**
@@ -263,21 +264,44 @@ class stack_utils_test extends basic_testcase {
 
     }
 
-    public function test_single_char_vars() {
+    public function test_single_char_vars_2() {
 
         $testcases = array('ab' => 'a*b',
             'abc' => 'a*b*c',
             'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
             'sin(xy)' => 'sin(x*y)',
+            'sin(xy)+cos(ab)+c' => 'sin(x*y)+cos(a*b)+c',
             'xe^x' => 'x*e^x',
             'pix' => 'p*i*x',
+            '2(xya+3c)' => '2(x*y*a+3c)',
+            '2pi+nk' => '2pi+n*k',  // This function does not add the star in 2*pi here.  That is done elsewhere.
+            '(ax+1)(ax-1)' => '(a*x+1)(a*x-1)',
+            'nx(1+2x)' => 'nx(1+2x)' // Note, two letter function names are permitted.
+        );
+
+        foreach ($testcases as $test => $result) {
+            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 2, ''), $result);
+        }
+
+    }
+
+    public function test_single_char_vars_5() {
+
+        $testcases = array('ab' => 'a*b',
+            'abc' => 'a*b*c',
+            'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
+            'sin(xy)' => 'sin(x*y)',
+            'sin(xy)+cos(ab)+c' => 'sin(x*y)+cos(a*b)+c',
+            'xe^x' => 'x*e^x',
+            'pix' => 'p*i*x',
+            '2(xya+3c)' => '2*(x*y*a+3*c)',
             '2pi+nk' => '2*pi+n*k',
             '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
             'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
         );
 
         foreach ($testcases as $test => $result) {
-            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 2, ''), $result);
+            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 5, ''), $result);
         }
 
     }

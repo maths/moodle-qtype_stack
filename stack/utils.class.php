@@ -1112,9 +1112,20 @@ class stack_utils {
      * @param unknown $rawcasstring
      */
     public static function make_single_char_vars($rawcasstring, $options, $syntax, $stars, $allowwords) {
-        $lvars = new stack_cas_casstring('listofvars('.$rawcasstring.')');
+
+        // Guard clause:  if we have no letters then we just don't need to call the CAS.
+        preg_match("/([A-Za-z].*)/", $rawcasstring, $output);
+        if ($output == array()) {
+            return $rawcasstring;
+        }
+        $cs = new stack_cas_casstring($rawcasstring, true, $stars, $allowwords);
+        $cs->get_valid('s', true, $stars, $allowwords);
+        $casstring = $cs->get_casstring();
+
+        // Use the modified $casstring to get the most liberal interpretation.
+        $lvars = new stack_cas_casstring('listofvars('.$casstring.')');
         $lvars->get_valid('t', $syntax, $stars, $allowwords);
-        $lops = new stack_cas_casstring('get_ops('.$rawcasstring.')');
+        $lops = new stack_cas_casstring('get_ops('.$casstring.')');
         $lops->get_valid('t', $syntax, $stars, $allowwords);
         $session = new stack_cas_session(array($lvars, $lops), $options, 0);
         $session->instantiate();
@@ -1122,7 +1133,10 @@ class stack_utils {
         $lvars  = $session[0];
         $lops  = $session[1];
         $errors = stack_maxima_translate($lvars->get_errors());
-        $casstring = $rawcasstring;
+        // Only put in *s to the original expression.
+        if ($stars != 5) {
+            $casstring = $rawcasstring;
+        }
         if ('' != $errors) {
             $valid = false;
         } else {
@@ -1137,7 +1151,7 @@ class stack_utils {
             // For example, if we have "sin(in)" then we want "sin(i*n)" not "si*n(i*n)".
             // To avoid this we safely replace operands with !!STACKOP??!! first.
             foreach ($lops as $key => $op) {
-                $casstring = str_replace($op, '!!STACKOP'.$key.'!!', $casstring);
+                $casstring = str_replace($op.'(', '!!STACKOP'.$key.'!!(', $casstring);
             }
             foreach ($lvars as $var) {
                 if (strlen($var) > 1) {

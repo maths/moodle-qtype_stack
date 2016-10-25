@@ -418,6 +418,7 @@ abstract class stack_input {
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
             // Process single character variable names in PHP.
+            // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
             if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                 $val = stack_utils::make_single_char_vars($val, $localoptions,
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),

@@ -172,6 +172,8 @@ class stack_matrix_input extends stack_input {
             $modifiedrow = array();
             foreach ($row as $val) {
                 // Process single character variable names in PHP.
+                // Note, this does potentially call the CAS for each element of the matrix.
+                // To reduce this load, stack_utils::make_single_char_vars only calls the CAS when we have letters.
                 if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
                     $val = stack_utils::make_single_char_vars($val, $localoptions,
                             $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),

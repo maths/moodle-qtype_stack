@@ -290,7 +290,7 @@ class stack_cas_text {
     }
 
     /**
-     * Tidy up LaTeX commands used in castext which are not interpreted by JSMath.
+     * Tidy up LaTeX commands used in castext which are not interpreted by MathJax.
      */
     private function latex_tidy() {
         // Need to create line breaks in sensible places.

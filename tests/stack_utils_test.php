@@ -21,6 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
@@ -33,7 +34,7 @@ require_once(__DIR__ . '/../stack/cas/cassession.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_utils_test extends basic_testcase {
+class stack_utils_test extends qtype_stack_testcase {
 
     public function test_matching_pairs() {
         $this->assertTrue(stack_utils::check_matching_pairs('Hello $world$!', '$'));
@@ -301,6 +302,7 @@ class stack_utils_test extends basic_testcase {
         );
 
         foreach ($testcases as $test => $result) {
+            $this->resetAfterTest();
             $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 5, ''), $result);
         }
 

@@ -173,7 +173,6 @@ class stack_cas_session {
         $connection = stack_connection_helper::make();
         $results = $connection->compute($this->construct_maxima_command());
         $this->debuginfo = $connection->get_debuginfo();
-
         // Now put the information back into the correct slots.
         $session    = $this->session;
         $newsession = array();
@@ -431,7 +430,7 @@ class stack_cas_session {
         foreach ($this->session as $casstr) {
             $key    = $casstr->get_key();
             if ($key === '') {
-                // This is something like a function definition, or an equality.
+                // An empty key is something like a function definition, or an equality.
                 // It is not something that can be replaced in the CAS text.
                 continue;
             }

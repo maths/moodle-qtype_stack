@@ -464,7 +464,7 @@ class stack_cas_casstring {
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true,
-                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true);
+                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true, 'xor' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -520,7 +520,7 @@ class stack_cas_casstring {
      * @var all the permitted patterns in which spaces occur.  Simple find and replace.
      */
     private static $spacepatterns = array(
-            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
+            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT'
     );
 
     public function __construct($rawstring) {
@@ -584,8 +584,8 @@ class stack_cas_casstring {
         // Now remove any strings from the $cmd.
         list($cmd, $strings) = $this->strings_remove($cmd);
 
-        // CAS strings may not contain @ or $. But string sure can.
-        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
+        // CAS strings may not contain @, $ or \. But a string sure can.
+        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false || strpos($cmd, '\\') !== false) {
             $this->add_error(stack_string('illegalcaschars'));
             $this->answernote[] = 'illegalcaschars';
             $this->valid = false;
@@ -623,6 +623,22 @@ class stack_cas_casstring {
             }
         }
 
+        // Check for and replace logarithms log_A(B).
+        // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
+        $cmd = $this->casstring;
+        // Be forgiving with log10.
+        $cmd = str_replace('log10(', 'log_10(', $cmd);
+        if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
+            foreach ($found[0] as $key => $match) {
+                $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
+                $cmd = str_replace($match, $sub, $cmd);
+            }
+            $this->casstring = $cmd;
+            $this->answernote[] = 'logsubs';
+        }
+
+
+        // These two commands have side effects on $this->casstring, necessitating returning a new $cmd variable.
         $cmd = $this->check_spaces($security, $syntax, $insertstars);
 
         $inline = stack_utils::check_bookends($cmd, '(', ')');
@@ -748,7 +764,7 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        // Check for disallowed final characters,  / * + - ^ ������ # = & ~ |, ? : ;.
+        // Check for disallowed final characters,  / * + - ^ # = & ~ |, ? : ;.
         $disallowedfinalcharsregex = '~[' . preg_quote(self::$disallowedfinalchars, '~') . ']$~u';
         if (preg_match($disallowedfinalcharsregex, $cmd, $match)) {
             $this->valid = false;
@@ -807,24 +823,12 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        $this->casstring = $cmd;
-        $this->key_val_split();
-        $cmd = $this->casstring;
-
-        // Check for and replace logarithms log_A(B).
-        // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
-        if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
-            foreach ($found[0] as $key => $match) {
-                $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
-                $cmd = str_replace($match, $sub, $cmd);
-            }
-            $this->casstring = $cmd;
-            $this->answernote[] = 'logsubs';
-        }
-
         $this->check_stars($security, $syntax, $insertstars);
 
         $this->check_security($security, $allowwords);
+
+        // We need to split keyvals off here before we check underscore characters.
+        $this->key_val_split();
 
         $this->check_underscores($security);
 

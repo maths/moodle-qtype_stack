@@ -90,8 +90,17 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $phpvalid, $phpcasstring, $error, $casvalid, $caserrors, $casdisplay, $casvalue, $answernote)
-            = stack_inputvalidation_test_data::run_test($test);
+    $testresult = stack_inputvalidation_test_data::run_test($test);
+    $passed = $testresult->passed;
+    $phpvalid = $testresult->phpvalid;
+    $phpcasstring = $testresult->phpcasstring;
+    $answernote = $testresult->ansnotes;
+    $error = $testresult->errors;
+    $casvalid = $testresult->casvalid;
+    $caserrors = $testresult->caserrors;
+    $casdisplay = $testresult->casdisplay;
+    $casvalue = $testresult->casvalue;
+
     $allpassed = $allpassed && $passed;
 
     if ($passed) {

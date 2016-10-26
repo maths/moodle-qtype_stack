@@ -340,6 +340,7 @@ abstract class stack_input {
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
                 // This indicates some kind of error.
+                // The value "valse" is returned by the "stack_validate_..." functions.
                 if ($answer->get_value() == 'false' && $answer->get_raw_casstring() != 'false') {
                     $display = $answer->get_raw_casstring();
                 }

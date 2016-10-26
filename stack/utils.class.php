@@ -418,15 +418,6 @@ class stack_utils {
 
 
     /**
-     * Replaces @blah@ with \(@blah@\) if the castext is not otherwise enclosed by mathematics environments.
-     * @param string
-     * @return string
-     */
-    public static function wrap_around($string) {
-        return self::wrap($string);
-    }
-
-    /**
      * Ensures that all elements within this text that need to be in math mode, are so.
      * Specifically, CAS elements and inline input macros.
      * @param string
@@ -446,7 +437,7 @@ class stack_utils {
 
     /**
      * Returns the first position of an opening math delimiter in $text from the $offset.
-     * Helper function for wrap().
+     * Helper function for wrap_around().
      */
     public static function math_start($text, $offset = 0) {
         $delimiters = array('$', '$$', '\(', '\[');
@@ -468,7 +459,7 @@ class stack_utils {
 
     /**
      * Returns the position of the character following a closing math delimiter in $text from the $offset.
-     * Helper function for wrap().
+     * Helper function for wrap_around().
      */
     public static function math_length($text, $start) {
         $delimiters = array('$', '$$', '\)', '\]');
@@ -502,14 +493,19 @@ class stack_utils {
         }
     }
 
-    public static function wrap($text) {
+    /**
+     * Replaces @blah@ with \(@blah@\) if the castext is not otherwise enclosed by mathematics environments.
+     * @param string
+     * @return string
+     */
+    public static function wrap_around($text) {
         $mathstart = self::math_start($text);
         if ($mathstart !== false) { // We have some maths ahead.
             $pre = substr($text, 0, $mathstart); // Get previous text.
             $for = self::math_length($text, $mathstart);
             $maths = substr($text, $mathstart, $for);
             $rest = substr($text, $mathstart + $for);
-            return self::delimit($pre).$maths.self::wrap($rest);
+            return self::delimit($pre).$maths.self::wrap_around($rest);
         } else { // No math sections left.
             return self::delimit($text);
         }

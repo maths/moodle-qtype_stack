@@ -43,8 +43,8 @@ class stack_studentinput_test extends qtype_stack_testcase {
     public function test_studentinput($testrep, $result) {
 
         $this->assertTrue($result->passed);
-        $this->assertEquals($test->display, $test->casdisplay);
-        $this->assertEquals($test->ansnotes, $test->casnotes);
+        $this->assertEquals($result->display, $result->casdisplay);
+        $this->assertEquals($result->ansnotes, $result->casnotes);
 
     }
 

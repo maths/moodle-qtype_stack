@@ -1114,7 +1114,7 @@ class stack_utils {
         if ($output == array()) {
             return $rawcasstring;
         }
-        $cs = new stack_cas_casstring($rawcasstring, true, $stars, $allowwords);
+        $cs = new stack_cas_casstring($rawcasstring, $syntax, $stars, $allowwords);
         $cs->get_valid('s', true, $stars, $allowwords);
         $casstring = $cs->get_casstring();
 

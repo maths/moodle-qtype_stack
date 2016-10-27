@@ -155,10 +155,21 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_keyval_session_keyval_3() {
-        // Inserting stars.
-        $kvin  = "a:2x; b:(x+1)(x-1); b:f(x);";
-        $kvins = "a:2*x; b:(x+1)*(x-1); b:f(x);";
+        // Inserting stars: strict syntax is *false* and we add in more stars.
+        $kvin  = "a:2x; b:(x+1)(x-1); b:f(x); c:x7;";
+        $kvins = "a:2*x; b:(x+1)*(x-1); b:f*(x); c:x*7;";
         $at1 = new stack_cas_keyval($kvin, null, 123, 's', false, 1);
+        $session = $at1->get_session();
+        $kvout = $session->get_keyval_representation();
+
+        $this->assertEquals($kvins, $kvout);
+    }
+
+    public function test_keyval_session_keyval_4() {
+        // Inserting stars. Strict syntax is *true*.
+        $kvin  = "a:2x; b:(x+1)(x-1); b:f(x); c:x7;";
+        $kvins = "a:2*x; b:(x+1)*(x-1); b:f(x); c:x7;";
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, 1);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
 

@@ -695,16 +695,16 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('s');
             $s1[] = $cs;
         }
-    
+
         $options = new stack_options();
         $options->set_option('simplify', true);
-    
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
+
         $this->assertEquals('{}', $at1->get_value_key('c1'));
         $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
-        $this->assertEquals('{a,b,c}', $at1->get_value_key('c3'));
-        $this->assertEquals('\left \{a , b , c \right \}', $at1->get_display_key('c3'));
+        $this->assertEquals('{a,b,c}', $at1->get_value_key('c2'));
+        $this->assertEquals('\left \{a , b , c \right \}', $at1->get_display_key('c2'));
     }
 
     public function test_sets_simp_false() {
@@ -715,15 +715,15 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('s');
             $s1[] = $cs;
         }
-    
+
         $options = new stack_options();
         $options->set_option('simplify', false);
-    
+
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
         $this->assertEquals('{}', $at1->get_value_key('c1'));
         $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
-        $this->assertEquals('{b,a,c}', $at1->get_value_key('c3'));
-        $this->assertEquals('\left \{b , a , c \right \}', $at1->get_display_key('c3'));
+        $this->assertEquals('{b,a,c}', $at1->get_value_key('c2'));
+        $this->assertEquals('\left \{b , a , c \right \}', $at1->get_display_key('c2'));
     }
 }

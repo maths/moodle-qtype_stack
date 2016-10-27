@@ -808,7 +808,7 @@ class qtype_stack_test_helper extends question_test_helper {
                            [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
-        $q->penalty = 0.1; // Non-zero and not the default.
+        $q->penalty = 0.1;
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '3.14', null, array('boxWidth' => 5, 'forbidFloats' => false));
@@ -839,7 +839,7 @@ class qtype_stack_test_helper extends question_test_helper {
         [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
-        $q->penalty = 0.1; // Non-zero and not the default.
+        $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));

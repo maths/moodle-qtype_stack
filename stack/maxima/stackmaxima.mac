@@ -337,7 +337,7 @@ errcatch(compile(?texnumformat));
 
 stack_disp_sub_script(ex) := block([s],
   if taylorp(ex) then return(ex),
-  if setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
+  if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
   s:string(ex),
@@ -769,9 +769,9 @@ ATNumerical(SA, SB, numtype) := block([simp:true, RawMark, FeedBack, AnswerNote,
       else 
         return(ATNumerical_list(SA, SB, numtype, tol)),
 
-    /* Are we dealing with lists? */
-    if setp(SB) then
-      if setp(SAN)=false then
+    /* Are we dealing with sets? */
+    if safe_setp(SB) then
+      if safe_setp(SAN)=false then
         return(StackBasicReturn(false, false, "ATNumerical_SA_not_set"))
       else
         return(ATNumerical_set(SA, SB, numtype, tol)),
@@ -1021,9 +1021,9 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_inequality"))
       else
         return(ATInequality(SA, SB)),
-    /* Are we dealing with lists? */
-    if setp(SB) then
-      if setp(SA)=false then
+    /* Are we dealing with sets? */
+    if safe_setp(SB) then
+      if safe_setp(SA)=false then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
       else
         return(ATSet(SA, SB)),
@@ -1064,7 +1064,7 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, kloop, AnsNotes
             AnsNotes:cons(string(kloop), AnsNotes),
         if retnew[2] = false then block(
             /* ret[4]:concat(ret[4], retnew[4]), */
-            if not(listp(SAk) or matrixp(SAk) or setp(SAk)) then block(
+            if not(listp(SAk) or matrixp(SAk) or safe_setp(SAk)) then block(
                 SAN[kloop]:texcolor("red", SAk)
             ),
             AddFeedBack:true

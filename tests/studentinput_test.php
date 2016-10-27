@@ -15,13 +15,13 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Add in all the tests from answertestsfixtures.class into the unit testing framework.
-* While these are exposed to users as documentation, the Travis integration should also
-* run all the tests.
-*
-* @copyright  2016 The University of Edinburgh
-* @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-*/
+ * Add in all the tests from studentinput.php into the unit testing framework.
+ * While these are exposed to users as documentation, the Travis integration should also
+ * run all the tests.
+ *
+ * @copyright  2016 The University of Edinburgh
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
@@ -42,7 +42,7 @@ class stack_studentinput_test extends qtype_stack_testcase {
      */
     public function test_studentinput($testrep, $result) {
 
-        $this->assertTrue($testresult->passed);
+        $this->assertTrue($result->passed);
         $this->assertEquals($test->display, $test->casdisplay);
         $this->assertEquals($test->ansnotes, $test->casnotes);
 

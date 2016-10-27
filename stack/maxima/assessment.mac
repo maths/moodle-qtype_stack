@@ -141,13 +141,16 @@ inequalityp(ex) := block(
 )$
 
 expressionp(ex) := block(
- if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or setp(ex) or functionp(ex) then
+ if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) then
     return (false),
  return(true)
 );
 
 /* Checks that an expression is a polynomial. */
 polynomialpsimp(e):= polynomialp(e, listofvars(e))$
+
+/* This is to fix a bug in Maxima 5.38.1.  */
+safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 
 /* ********************************** */
 /* Numerical operations               */

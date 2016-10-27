@@ -35,6 +35,7 @@ class stack_inputvalidation_test_data {
     const NOTES         = 6;
 
     protected static $rawdata = array(
+
         array('x', 'php_true', 'x', 'cas_true', 'x', '', "Whitespace"),
         array('xy', 'php_true', 'xy', 'cas_true', '{\it xy}', '', "This is a single variable name, not a product."),
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),

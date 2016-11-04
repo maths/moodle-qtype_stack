@@ -368,6 +368,18 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_single_variable_subscripts() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'a*b_c*d');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => 'ab_cd'), $options, 'a*b_c*d',
+                array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('a*b_c*d', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot {b}_{c}\cdot d \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_functions_variable() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'a/(a*(x+1)+2)');

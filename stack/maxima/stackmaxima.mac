@@ -277,10 +277,10 @@ list_remove(ex, n) := block([k, l],
 /*        "" for no delimiters.       */
 /* ********************************** */
 
-stack_disp(expr, m) := block([str:"", expru],
+stack_disp(expr, exprm) := block([str:"", expru],
     /* LaTeX display */
     if OPT_OUTPUT = "LaTeX" then
-        if not(ev(elementp(m, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", m)),
+        if not(ev(elementp(exprm, {"", "i", "d"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
     expru:expr,
     if not(stack_disp_control_structurep(expr)) then block(
@@ -290,8 +290,8 @@ stack_disp(expr, m) := block([str:"", expru],
     str:block([expstr, offset, ld, rd],
         ld:"", 
         rd:"",
-        if m = "i" then block(ld:"\\(", rd:"\\)"),
-        if m = "d" then block(ld:"\\[", rd:"\\]"),
+        if exprm = "i" then block(ld:"\\(", rd:"\\)"),
+        if exprm = "d" then block(ld:"\\[", rd:"\\]"),
         expstr:tex(expru, false),
         expstr:concat(ld, stack_disp_strip_dollars(expstr), rd)
     ),

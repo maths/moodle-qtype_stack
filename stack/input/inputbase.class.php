@@ -327,6 +327,7 @@ abstract class stack_input {
 
             $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);
             $session->instantiate();
+            $sessionerrors = trim($session->get_errors());
 
             $session = $session->get_session();
             $answer = $session[0];

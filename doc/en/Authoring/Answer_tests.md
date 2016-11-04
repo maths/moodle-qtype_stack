@@ -27,7 +27,7 @@ Where,
 
 | Variable        | Description
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------
-| StudentAnswer   | A CAS expression, assumed to be the student's answer.ATNumSigFigs_WithinRange. 
+| StudentAnswer   | A CAS expression, assumed to be the student's answer.
 | TeacherAnswer   | A CAS expression, assumed to be the model answer.
 | Opt             | Any options which the specific answer test provides. For example, a variable, the accuracy of the numerical comparison, number of significant figures.
 

@@ -936,6 +936,14 @@ class stack_answertest_test_data {
         // 0.001 has exactly 1 significant digits.
         array('NumSigFigs', '[1,0]', '0.001', '0', 1, '', ''),
         array('NumSigFigs', '[2,0]', '0.001', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // 0.00100 has exactly 3 significant digits.
+        array('NumSigFigs', '[2,0]', '0.00100', 'null', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[3,0]', '0.00100', 'null', 1, '', ''),
+        array('NumSigFigs', '[4,0]', '0.00100', 'null', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // 5.00 has exactly 3 significant digits.
+        array('NumSigFigs', '[2,0]', '5.00', 'null', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[3,0]', '5.00', 'null', 1, '', ''),
+        array('NumSigFigs', '[4,0]', '5.00', 'null', 0, 'ATNumSigFigs_WrongDigits.', ''),
         // 100 has at least 1 and maybe even 3 significant digits.
         array('NumSigFigs', '[1,0]', '100', '0', 1, '', ''),
         array('NumSigFigs', '[2,0]', '100', '0', 1, 'ATNumSigFigs_WithinRange.', ''),
@@ -994,6 +1002,10 @@ class stack_answertest_test_data {
         array('SigFigsStrict', '1', '0.0010', 'null', 0, '', ''),
         array('SigFigsStrict', '2', '0.0010', 'null', 1, '', ''),
         array('SigFigsStrict', '3', '0.0010', 'null', 0, '', ''),
+        // 0.00100 has exactly 3 significant digits.
+        array('SigFigsStrict', '2', '0.00100', 'null', 0, '', ''),
+        array('SigFigsStrict', '3', '0.00100', 'null', 1, '', ''),
+        array('SigFigsStrict', '4', '0.00100', 'null', 0, '', ''),
         // 0.001 has exactly 1 significant digits.
         array('SigFigsStrict', '1', '0.001', 'null', 1, '', ''),
         array('SigFigsStrict', '2', '0.001', 'null', 0, '', ''),

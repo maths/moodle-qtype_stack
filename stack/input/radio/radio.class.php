@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,11 @@ require_once(__DIR__ . '/../dropdown/dropdown.class.php');
 class stack_radio_input extends stack_dropdown_input {
 
     protected $ddltype = 'radio';
+
+    /*
+     * Default ddldisplay for radio is 'LaTeX'.
+     */
+    protected $ddldisplay = 'LaTeX';
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
 

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ require_once($CFG->libdir .'/tablelib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/input/factory.class.php');
-require_once(__DIR__ . '/tests/inputfixtures.class.php');
+require_once(__DIR__ . '/tests/fixtures/inputfixtures.class.php');
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);
@@ -90,8 +90,17 @@ foreach ($tests as $test) {
     }
 
     set_time_limit(30);
-    list($passed, $phpvalid, $phpcasstring, $error, $casvalid, $caserrors, $casdisplay, $casvalue,
-            $answernote) = stack_inputvalidation_test_data::run_test($test);
+    $testresult = stack_inputvalidation_test_data::run_test($test);
+    $passed = $testresult->passed;
+    $phpvalid = $testresult->phpvalid;
+    $phpcasstring = $testresult->phpcasstring;
+    $answernote = $testresult->ansnotes;
+    $error = $testresult->errors;
+    $casvalid = $testresult->casvalid;
+    $caserrors = $testresult->caserrors;
+    $casdisplay = $testresult->casdisplay;
+    $casvalue = $testresult->casvalue;
+
     $allpassed = $allpassed && $passed;
 
     if ($passed) {

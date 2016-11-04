@@ -18,7 +18,7 @@ Check
 * check version numbers on stackmaxima.mac.
 * check docs
 
-* Commit all changes to git, e.g. "Update version number for the 3.4 release."
+* Commit all changes to git, e.g. "Update version number for the 3.5.5 release."
 
 ## 2. Run all unit tests.
 
@@ -29,6 +29,7 @@ E.g. "v3.4".
 * push to github.
 * push tags to github 
  * Tortoise git: pulldown from push
+ * unix: `git tag -a v3.5.5 -m "Update version number for the 3.5.5 release."`
  * unix: `git push --tags`
 
 ## Moodle plugins database entry for the plugin.

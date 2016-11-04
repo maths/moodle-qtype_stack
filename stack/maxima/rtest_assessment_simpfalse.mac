@@ -119,3 +119,12 @@ sin(sqrt(a)+sqrt(b))$
 mediant(1/2,2/3);
 (1+2)/(2+3)$
 
+safe_setp({1,2});
+true$
+safe_setp({});
+true$
+safe_setp(set(a,b));
+true$
+safe_setp(1);
+false$
+

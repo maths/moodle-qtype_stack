@@ -44,7 +44,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test3_penalty0_1', // Four inputs, four PRTs, not randomised. (Even and odd functions.)
             'test4', // One input, one PRT, not randomised, has a plot. (What is the equation of this graph? x^2.)
             'test5', // Three inputs, three PRTs, one with 4 nodes, randomised. (Three steps, rectangle side length from area.)
-            // 'test6', // Test of the matrix input type. Not currently supported.
+            'test6', // Test of the matrix input type.
             'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with intersting feedback.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
@@ -55,7 +55,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'information',  // Neither inputs nor PRTs.
             'survey',       // Inputs, but no PRTs.
             'single_char_vars', // Tests the insertion of * symbols between letter names.
-            'runtime_prt_err' // This generates an error in the PRT at runtime.  With and without guard clause.
+            'runtime_prt_err', // This generates an error in the PRT at runtime.  With and without guard clause.
+            'units' // This question has units inputs, and a numerical test.
         );
     }
 
@@ -110,7 +111,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', array('boxWidth' => 5));
+                'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
 
         $q->options->questionsimplify = 0;
 
@@ -144,14 +145,20 @@ class qtype_stack_test_helper extends question_test_helper {
                                Then, since $\frac{d}{d@v@}u=1$ we have
                                \[ \int @p@ d@v@ = \int u^@n@ du = \frac{u^@n+1@}{@n+1@}+c = @ta@+c.\]';
 
+        $q->questionnote = '@p@, @ta@.';
+
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta+c',
+                        'algebraic', 'ans1', 'ta+c', null,
                 array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin'));
 
-        $sans = new stack_cas_casstring('ans1');
+        // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
+        // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
+        // question variables.  Normally we don't want the student's answer to be evaluated in this way,
+        // but in this question we do to ensure the random values are used.
+        $sans = new stack_cas_casstring('ans1+0');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('ta');
         $tans->get_valid('t');
@@ -179,9 +186,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', '5', array('boxWidth' => 3));
+                        'algebraic', 'ans1', '5', null, array('boxWidth' => 3));
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', '6', array('boxWidth' => 3));
+                        'algebraic', 'ans2', '6', null, array('boxWidth' => 3));
 
         $sans = new stack_cas_casstring('x^2-ans1*x+ans2');
         $sans->get_valid('t');
@@ -222,13 +229,14 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '';
         $q->penalty = 0.4;
 
-        $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x^3',
+        $options = new stack_options();
+        $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x^3', $options,
                         array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
-        $q->inputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x^4',
+        $q->inputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x^4', $options,
                         array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
-        $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0',
+        $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0', $options,
                         array('boxWidth' => 15, 'strictSyntax' => true, 'lowestTerms' => false, 'sameType' => false));
-        $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true');
+        $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
 
         $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null, 't');
         $sans = new stack_cas_casstring('sa');
@@ -323,11 +331,11 @@ class qtype_stack_test_helper extends question_test_helper {
                                   [[feedback:unique]]</p>';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^3', array('boxWidth' => 15));
+                        'algebraic', 'ans1', 'x^3', null, array('boxWidth' => 15));
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', 'x^4', array('boxWidth' => 15));
+                        'algebraic', 'ans2', 'x^4', null, array('boxWidth' => 15));
         $q->inputs['ans3'] = stack_input_factory::make(
-                        'algebraic', 'ans3', '0',   array('boxWidth' => 15));
+                        'algebraic', 'ans3', '0', null, array('boxWidth' => 15));
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
@@ -408,7 +416,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^2', array('boxWidth' => 15));
+                        'algebraic', 'ans1', 'x^2', null, array('boxWidth' => 15));
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
@@ -461,11 +469,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '@ta1@, @rp@.';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                            'algebraic', 'ans1', 'ta1', array('boxWidth' => 15));
+                            'algebraic', 'ans1', 'ta1', null, array('boxWidth' => 15));
         $q->inputs['ans2'] = stack_input_factory::make(
-                            'algebraic', 'ans2', 'tas', array('boxWidth' => 15));
+                            'algebraic', 'ans2', 'tas', null, array('boxWidth' => 15));
         $q->inputs['ans3'] = stack_input_factory::make(
-                            'algebraic', 'ans3', 'rp', array('boxWidth' => 5));
+                            'algebraic', 'ans3', 'rp', null, array('boxWidth' => 5));
 
         $sans = new stack_cas_casstring('ans1');
         $sans->get_valid('t');
@@ -653,7 +661,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '@ta@';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta',
+                        'algebraic', 'ans1', 'ta', null,
                         array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}'));
 
         $feedbackvars = new stack_cas_keyval('a1 : listify(ans1);' .
@@ -740,9 +748,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '\[ a_1=@ta1@,\ a_2=@ta2@.\]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                                    'algebraic', 'ans1', 'ta1', array('boxWidth' => 4));
+                                    'algebraic', 'ans1', 'ta1', null, array('boxWidth' => 4));
         $q->inputs['ans2'] = stack_input_factory::make(
-                                    'algebraic', 'ans2', 'ta2', array('boxWidth' => 4));
+                                    'algebraic', 'ans2', 'ta2', null, array('boxWidth' => 4));
 
         $feedbackvars = new stack_cas_keyval('g : lambda([x],if (x<0) then p else ans1*exp(ans2*x))');
 
@@ -774,7 +782,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3333333;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '1/2', array('boxWidth' => 5));
+                'algebraic', 'ans1', '1/2', null, array('boxWidth' => 5));
 
         $sans = new stack_cas_casstring('1/ans1');
         $sans->get_valid('t');
@@ -800,10 +808,10 @@ class qtype_stack_test_helper extends question_test_helper {
                            [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
-        $q->penalty = 0.1; // Non-zero and not the default.
+        $q->penalty = 0.1;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '3.14', array('boxWidth' => 5, 'forbidFloats' => false));
+                'algebraic', 'ans1', '3.14', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
         $q->options->questionsimplify = 0;
 
@@ -812,6 +820,37 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = new stack_cas_casstring('3.14');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '3');
+        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question using a numerical precision answertest.
+     */
+    public static function make_stack_question_units() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-units';
+        $q->questionvariables = '';
+        $q->questiontext = 'Please round type in gravity to three significant figures. [[input:ans1]]
+        [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.2; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
+
+        $q->options->questionsimplify = 0;
+
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('9.81*m/s^2');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'Units', '3');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
@@ -835,7 +874,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.1;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', '6', array('boxWidth' => 15));
+                        'algebraic', 'ans1', '6', null, array('boxWidth' => 15));
 
         $sans = new stack_cas_casstring('mod(ans1,2)');
         $sans->get_valid('t');
@@ -891,7 +930,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->defaultmark = 0;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', array('boxWidth' => 15, 'sameType' => false));
+                'algebraic', 'ans1', '2', null, array('boxWidth' => 15, 'sameType' => false));
 
         return $q;
     }
@@ -911,15 +950,15 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '2', array('boxWidth' => 5, 'insertStars' => 2, 'strictSyntax' => false));
+                    'algebraic', 'ans1', '2', null, array('boxWidth' => 5, 'insertStars' => 2, 'strictSyntax' => false));
 
         $q->options->questionsimplify = 0;
 
-        $sans = new stack_cas_casstring('ans1');
+        $sans = new stack_cas_casstring('ans1+0');
         $sans->get_valid('t');
         $tans = new stack_cas_casstring('sin(x*y)');
         $tans->get_valid('t');
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
@@ -939,7 +978,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '[x+y=1,x-y=1]', array('boxWidth' => 25));
+                'algebraic', 'ans1', '[x+y=1,x-y=1]', null, array('boxWidth' => 25));
 
         $feedbackvars = new stack_cas_keyval('', null, 0, 't');
 
@@ -1019,6 +1058,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1138,6 +1178,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1158,6 +1199,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1178,6 +1220,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;
@@ -1198,6 +1241,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->strictsyntax       = 1;
         $input->insertstars        = 0;
         $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
         $input->forbidwords        = '';
         $input->allowwords         = '';
         $input->forbidfloat        = 1;

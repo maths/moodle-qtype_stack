@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ class stack_dropdown_input extends stack_input {
         return true;
     }
 
-    /**
+    /*
      * For the dropdown, each expression must be a list of pairs:
      * [CAS expression, true/false].
      * The second Boolean value determines if this should be considered
@@ -106,13 +106,15 @@ class stack_dropdown_input extends stack_input {
         // We need to reset the errors here, now we have a new teacher's answer.
         $this->ddlerrors = '';
 
-        // Sort out the $this->ddlvalues.
-        // Each element must be an array with the keys
-        // value - the CAS value.
-        // display - the LaTeX displayed value.
-        // correct - whether this is considered correct or not.  This is a PHP boolean.
-
-        // First extract strings as they cause trouble.
+        /*
+         * Sort out the ddlvalues.
+         * Each element must be an array with the keys:
+         *   value - the CAS value.
+         *   display - the LaTeX displayed value.
+         *   correct - whether this is considered correct or not.  This is a PHP boolean.
+         *
+         * First extract strings as they cause trouble.
+         */
         $str = $teacheranswer;
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
@@ -182,6 +184,7 @@ class stack_dropdown_input extends stack_input {
          */
         if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
             $this->ddlerrors .= stack_string('ddl_nocorrectanswersupplied');
+            return;
         }
         if ($this->ddltype == 'checkbox') {
             $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
@@ -223,7 +226,7 @@ class stack_dropdown_input extends stack_input {
             $csvs[] = $csv;
         }
 
-        $at1 = new stack_cas_session($csvs, null, 0);
+        $at1 = new stack_cas_session($csvs, $this->options, 0);
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
@@ -274,7 +277,7 @@ class stack_dropdown_input extends stack_input {
         return '';
     }
 
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
         $valid = true;
         $errors = '';
         $modifiedcontents = $contents;

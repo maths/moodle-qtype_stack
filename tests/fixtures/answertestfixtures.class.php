@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -123,9 +123,14 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '-4*sec(4*z)^2*sin(6*z)-6*tan(4*z)*cos(6*z)',
             '4*sec(4*z)^2*sin(6*z)+6*tan(4*z)*cos(6*z)', 0, '', ''),
         array('AlgEquiv', '', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
-        array('AlgEquiv', '', 'lg(10^x)', 'x', 1, '', ''),
         array('AlgEquiv', '', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),
         array('AlgEquiv', '', 'log(abs((x^2-9)))', 'log(abs(x-3))+log(abs(x+3))', 0, '', ''),
+        array('AlgEquiv', '', 'lg(10^x)', 'x', 1, '', ''),
+        array('AlgEquiv', '', 'lg(3^x,3)', 'x', 1, '', ''),
+        array('AlgEquiv', '', 'lg(a^x,a)', 'x', 1, '', ''),
+        array('AlgEquiv', '', '1+lg(27,3)', '4', 1, '', ''),
+        array('AlgEquiv', '', '1+lg(27,3)', '3', 0, '', ''),
+        array('AlgEquiv', '', 'lg(1/8,2)', '-3', 1, '', ''),
         array('AlgEquiv', '', 'e^1-e^(-1)', '2*sinh(1)', 1, '', 'Hyperbolic trig'),
         array('AlgEquiv', '', 'x', '[1,2,3]', 0, 'ATAlgEquiv_SA_not_list.', 'Lists'),
         array('AlgEquiv', '', '[1,2]', '[1,2,3]', 0, 'ATList_wronglen.', ''),
@@ -258,12 +263,14 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials'),
         array('AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
+        array('AlgEquiv', '', '9.81*m/s^2', 'stackunits(9.81,m/s^2)', 1, '', 'Scientific units are ignored'),
         array('AlgEquiv', '', '2/%i*ln(sqrt((1+z)/2)+%i*sqrt((1-z)/2))', '-%i*ln(z+i*sqrt(1-z^2))', -2,
-            'CASError: The CAS timed out.', 'These currently fail'),
+            '', 'These currently fail'),
         array('AlgEquiv', '', '(-1)^n*cos(x)^n', '(-cos(x))^n', -2, '', ''),
         array('AlgEquiv', '', '-inf', 'minf', -2, 'CASError: sign: sign of und is undefined.', ''),
         array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
         array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
+        array('AlgEquiv', '', 'atan(1/2)' ,'%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
         array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
 
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero.', ''),
@@ -272,8 +279,13 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', 'X^2+1', 'x^2+1', 1, 'ATSubstEquiv_Subst: [X = x].', ''),
         array('SubstEquiv', '', 'x^2+y', 'a^2+b', 1, 'ATSubstEquiv_Subst: [x = a,y = b].', ''),
         array('SubstEquiv', '', 'x^2+y/z', 'a^2+c/b', 1, 'ATSubstEquiv_Subst: [x = a,y = c,z = b].', ''),
-        array('SubstEquiv', '', 'y=x^2', 'a^2=b', 1, 'ATSubstEquiv_Subst: [y = b,x = a].', ''),
+        array('SubstEquiv', '', 'y=x^2', 'a^2=b', 1, 'ATSubstEquiv_Subst: [x = a,y = b].', ''),
         array('SubstEquiv', '', '{x=1,y=2}', '{x=2,y=1}', 1, 'ATSubstEquiv_Subst: [x = y,y = x].', ''),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*y)/(y*(ln(y)))', 1, 'ATSubstEquiv_Subst: [a = a,x = y].',
+                'Where a variable is also a function name.'),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(x*a)/(a*(ln(a)))', 1, 'ATSubstEquiv_Subst: [a = x,x = a].', ''),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*x)/(x(ln(x)))', 0, '', ''),
+        array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*y)/(y(ln(y)))', 0, '', ''),
 
         array('EqualComAss', '', '1/0', '0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_TAns.', ''),
@@ -289,6 +301,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'sqrt(2)/4', '1/sqrt(8)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1/sqrt(2)', '2^(1/2)/2', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', 'a^2/b^3', 'a^2*b^(-3)', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Powers'),
+        array('EqualComAss', '', 'lg(a^x,a)', 'x', 0,
+            'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1+2*x', 'x*2+1', 1, '', 'Simple polynomials'),
         array('EqualComAss', '', '1+x', '2*x+1', 0, 'ATEqualComAss: (AlgEquiv:false).', ''),
         array('EqualComAss', '', '1+x+x', '2*x+1', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
@@ -333,7 +347,6 @@ class stack_answertest_test_data {
             'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'polarform((4*sqrt(3)*%i+4)^(1/5))', 0,
             'ATEqualComAss: (AlgEquiv:false).', ''),
-
         array('EqualComAss', '', 'y=x', 'x=y', 0, 'ATEqualComAss: (AlgEquiv:true).',
             'Equality is not included as commutative....'),
         array('EqualComAss', '', 'x+1', 'y=2*x+1', 0, 'ATEqualComAss: ATAlgEquiv_SA_not_equation.', 'Equations'),
@@ -796,8 +809,8 @@ class stack_answertest_test_data {
         array('NumRelative', '', '[3.141,1.414]', '[pi,sqrt(2)]', 1, '', ''),
         array('NumRelative', '0.01', '[3,1.414]', '[pi,sqrt(2)]', 0, 'ATNumerical_wrongentries SA/TA=[3.0].', ''),
         array('NumRelative', '0.01', '[3,1.414]', '{pi,sqrt(2)}', 0, 'ATNumerical_SA_not_set.', ''),
-        array('NumRelative', '0.01', '{1.414,3.1}', '{pi,sqrt(2)}', 0,
-            'ATNumerical_wrongentries: TA/SA=[3.14159265359], SA/TA=[3.1].', ''),
+        array('NumRelative', '0.01', '{1.414,3.1}', '{significantfigures(pi,6),sqrt(2)}', 0,
+            'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumRelative', '0.1', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '', ''),
 
         array('NumAbsolute', '', '1/0', '0', -1, 'ATNumAbsolute_STACKERROR_SAns.', 'Basic tests'),
@@ -818,60 +831,64 @@ class stack_answertest_test_data {
         array('NumAbsolute', '0.01', '[3.141,1.414]', '[pi,sqrt(2)]', 1, '', ''),
         array('NumAbsolute', '0.01', '[3,1.414]', '[pi,sqrt(2)]', 0, 'ATNumerical_wrongentries SA/TA=[3.0].', ''),
         array('NumAbsolute', '0.01', '[3,1.414]', '{pi,sqrt(2)}', 0, 'ATNumerical_SA_not_set.', ''),
-        array('NumAbsolute', '0.01', '{1.414,3.1}', '{pi,sqrt(2)}', 0,
-            'ATNumerical_wrongentries: TA/SA=[3.14159265359], SA/TA=[3.1].', ''),
+        array('NumAbsolute', '0.01', '{1.414,3.1}', '{significantfigures(pi,6),sqrt(2)}', 0,
+            'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumAbsolute', '0.1', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '', ''),
 
         array('NumSigFigs', '', '3.141', '3.1415927', -1, 'STACKERROR_OPTION.', 'Basic tests'),
-        array('NumSigFigs', '0', '1/0', '3', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''),
-        array('NumSigFigs', '0', '0', '1/0', -1, 'ATNumSigFigs_STACKERROR_TAns.', ''),
-        array('NumSigFigs', '1/0', '0', '0', -1, 'ATNumSigFigs_STACKERROR_TAns.', ''),
+        array('NumSigFigs', '3', '1/0', '3', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''),
+        array('NumSigFigs', '3', '0', '1/0', -1, 'ATNumSigFigs_STACKERROR_TAns.', ''),
+        array('NumSigFigs', '1/0', '0', '0', -1, 'STACKERROR_OPTION.', ''),
         array('NumSigFigs', '(', '0', '1', -1, 'STACKERROR_OPTION.', ''),
         array('NumSigFigs', '1', '(', '1', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''),
-        array('NumSigFigs', 'pi', '1', '3', -1, 'CASError: TEST_FAILED | ATNumSigFigs_STACKERROR_not_integer.', ''),
-        array('NumSigFigs', '[3,x]', '1', '3', -1, 'CASError: TEST_FAILED | ATNumSigFigs_STACKERROR_not_integer.', ''),
+        array('NumSigFigs', 'pi', '1', '3', -1, 'STACKERROR_OPTION.', ''),
+        array('NumSigFigs', '[3,x]', '1', '3', -1, 'STACKERROR_OPTION.', ''),
         array('NumSigFigs', '[1,2,3]', '1', '3', -1, 'CASError: TEST_FAILED | ATNumSigFigs_STACKERROR_list_wrong_length.', ''),
         array('NumSigFigs', '', '1', '3', -1, 'STACKERROR_OPTION.', ''),
-        array('NumSigFigs', '1', '1.234', '4', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', 'Option is a number'),
+        array('NumSigFigs', '4', 'pi', 'pi', 0, 'ATNumSigFigs_NotDecimal.', ''),
+        array('NumSigFigs', '2', '0', '0', 0, 'ATNumSigFigs_WrongDigits.', 'Edge cases'),
+        array('NumSigFigs', '1', '0', '0', 1, '', ''),
+        array('NumSigFigs', '1', '0.0', '0', 1, '', ''),
+        array('NumSigFigs', '2', '0.0', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '2', '0', '0.0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '2', '0.0', '0.0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '2', '0.00', '0.00', 1, '', ''),
+        array('NumSigFigs', '2', '5.4e21', '5.3e21', 0, 'ATNumSigFigs_Inaccurate.', 'Large numbers'),
+        array('NumSigFigs', '2', '5.3e21', '5.3e21', 1, '', ''),
+        array('NumSigFigs', '2', '5.3e22', '5.3e22', -2, 'ATNumSigFigs_SA_OutofRange.', ''),
+        array('NumSigFigs', '2', '5.3e20', '5.3e22', -2, 'ATNumSigFigs_TA_OutofRange.', ''),
+        array('NumSigFigs', '1', '1.234', '4', 0,
+                'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', 'No trailing zeros.'),
         array('NumSigFigs', '3', '3.141', '3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '4', '3.141', '3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '4', '3.146', '3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '4', '3.147', '3.1415927', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
         array('NumSigFigs', '4', '3.142', '3.1415927', 1, '', ''),
         array('NumSigFigs', '4', '3.142', 'pi', 1, '', ''),
-        array('NumSigFigs', '4', 'pi', 'pi', 0, 'ATNumSigFigs_NotDecimal.', ''),
-        array('NumSigFigs', '4', '3141', '3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '4', '3141', '3.1415927', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
         array('NumSigFigs', '3', '0.00123', '0.001234567', 1, '', ''),
         array('NumSigFigs', '3', '1.23e-3', '0.001234567', 1, '', ''),
         array('NumSigFigs', '3', '1.24e-3', '0.001234567', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '1.235e-3', '0.001234567', 1, '', ''),
-        array('NumSigFigs', '2', '1000', '999', 1, '', ''),
-        array('NumSigFigs', '2', '1E3', '999', 1, '', ''),
+        array('NumSigFigs', '2', '1000', '999', 1, 'ATNumSigFigs_WithinRange.', ''),
+        array('NumSigFigs', '2', '1E3', '999', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '1', '-100', '-149', 1, '', ''),
         array('NumSigFigs', '1', '-0.05', '-0.0499', 1, '', ''),
-        array('NumSigFigs', '2', '1E3', '999', 1, '', ''),
         array('NumSigFigs', '3', '1170', '1174.34', 1, '', ''),
         array('NumSigFigs', '3', '61300', '61250', 1, '', ''),
-        array('NumSigFigs', '3', '180', '178.35', 0, 'ATNumSigFigs_Inaccurate.',
-            'The test DOES NOT recognize too few significant figures being entered'),
-        array('NumSigFigs', '3', '33', '33.1558', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '3', '1.5', '1.500', 0, '',
-            'The test DOES NOT recognize final zeros after the decimal as being significant.'),
-        array('NumSigFigs', '3', '245.0', '245', 0, '', ''),
         array('NumSigFigs', '4', '0.1667', '0.1667', 1, '', 'Previous tricky case'),
         array('NumSigFigs', '4', '0.1666', '0.1667', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '4', '0.166', '0.1667', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '4', '0.1663', '0.1667', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '4', '0.1662', '0.1667', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
+        array('NumSigFigs', '4', '0.166', '0.1667', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_VeryInaccurate.', ''),
         array('NumSigFigs', '4', '0.16667', '0.1667', 0, 'ATNumSigFigs_WrongDigits.', ''),
-        array('NumSigFigs', '[4,3]', '3.142', '3.1415927', 1, '', 'Mixed options'),
-        array('NumSigFigs', '[4,3]', '3.143', '3.1415927', 1, '', ''),
-        array('NumSigFigs', '[4,3]', '3.150', '3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '[4,3]', '3.1416', '3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
-        array('NumSigFigs', '[4,3]', '0.1666', '0.1667', 1, '', ''),
         array('NumSigFigs', '4', '-3.141', '-3.1415927', 0, 'ATNumSigFigs_Inaccurate.', 'Negative numbers'),
         array('NumSigFigs', '3', '-3.141', '-3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '4', '-3.141', '-3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '4', '-3.142', '-3.1415927', 1, '', ''),
         array('NumSigFigs', '4', '3.142', '-3.1415927', 0, 'ATNumSigFigs_WrongSign.', ''),
         array('NumSigFigs', '4', '-3.142', '3.1415927', 0, 'ATNumSigFigs_WrongSign.', ''),
-        array('NumSigFigs', '4', '-3.149', '3.1415927', 0, 'ATNumSigFigs_WrongSign. ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '4', '-3.149', '3.1415927', 0, 'ATNumSigFigs_WrongSign. ATNumSigFigs_VeryInaccurate.', ''),
         /* Maxima's round() command uses Bankers' rounding, but STACK does not.
          * We actually round the teacher's answer to the specified number of SFs. */
         array('NumSigFigs', '3', '0.0499', '0.04985', 1, '', 'Round teacher answer'),
@@ -879,23 +896,77 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3', '0.0498', '0.04975', 1, '', ''),
         array('NumSigFigs', '3', '0.0497', '0.04975', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '3', '0.0499', '0.0498', 0, 'ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '2', '5.4e21', '5.3e21', 0, 'ATNumSigFigs_Inaccurate.', 'Large numbers'),
-        array('NumSigFigs', '2', '5.3e21', '5.3e21', 1, '', ''),
-        array('NumSigFigs', '2', '5.3e22', '5.3e22', -2, '', ''),
-        array('NumSigFigs', '2', '5.3e20', '5.3e22', -2, '', ''),
+        array('NumSigFigs', '3', '1.5', '1.500', 0, 'ATNumSigFigs_WrongDigits.',
+            'Final zeros after the decimal are significant.'),
+        array('NumSigFigs', '3', '1.50', '1.500', 1, '', ''),
+        array('NumSigFigs', '3', '1.500', '1.500', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '3', '245.0', '245', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // The test DOES NOT recognize too few significant figures being entered.
+        array('NumSigFigs', '3', '180', '178.35', 0, 'ATNumSigFigs_WithinRange. ATNumSigFigs_Inaccurate.', 'Too few digits'),
+        array('NumSigFigs', '3', '33', '33.1558', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
+        // 0.0010 has exactly 2 significant digits.
+        // With mixed options [n,m] we check for n significant figures, and that the student's answer
+        // matches the teacher's answer to m of them.
+        array('NumSigFigs', '[4,3]', '3.142', '3.1415927', 1, '', 'Mixed options'),
+        // In this test case there are 4 sig figs, only 3 of which are accurate. Should generate feedback.
+        array('NumSigFigs', '[4,3]', '3.143', '3.1415927', 1, '', ''),
+        // In this test case there are 4 sig figs, only 2 of which are accurate. Should generate feedback.
+        array('NumSigFigs', '[4,3]', '3.150', '3.1415927', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        // In this test case there are 4 sig figs, only 1 of which are accurate. Should not generate feedback.
+        array('NumSigFigs', '[4,3]', '3.211', '3.1415927', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
+        // In this test case there are 5 sig figs, which is the wrong number.
+        array('NumSigFigs', '[4,3]', '3.1416', '3.1415927', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[4,3]', '0.1666', '0.1667', 1, '', ''),
+        array('NumSigFigs', '[3,1]', '180', '178.35', 1, 'ATNumSigFigs_WithinRange.', ''), // Range of sigfigs of 180 contains 3, accurate to 1!
+        array('NumSigFigs', '[3,1]', '33', '33.1558', 0, 'ATNumSigFigs_WrongDigits.', ''), // Too few sigfigs.
+        array('NumSigFigs', '[3,1]', '1.500', '1.5', 0, 'ATNumSigFigs_WrongDigits.', ''), // Too many sigfigs.
+        array('NumSigFigs', '[3,1]', '245.0', '245', 0, 'ATNumSigFigs_WrongDigits.', ''), // Too many sigfigs.
+        // This example has rounding.
+        array('NumSigFigs', '[6,6]', '12345.7', '12345.654321', 1, '', ''),
+        array('NumSigFigs', '[6,3]', '12345.7', '12345.654321', 1, '', ''),
+        array('NumSigFigs', '[6,3]', '12300.0', '12345.654321', 1, '', ''),
+        array('NumSigFigs', '[6,3]', '12400.0', '12345.654321', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[6,3]', '13500.0', '12345.654321', 0, 'ATNumSigFigs_VeryInaccurate.', ''),
+        array('NumSigFigs', '[6,2]', '12000.0', '12345.654321', 1, '', ''),
+        array('NumSigFigs', '[6,2]', '13000.0', '12345.654321', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[6,2]', '11000.0', '12345.654321', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[1,0]', '0.0010', '0', 0, 'ATNumSigFigs_WrongDigits.', 'Zero option and trailing zeros'),
+        array('NumSigFigs', '[2,0]', '0.0010', '0', 1, '', ''),
+        array('NumSigFigs', '[3,0]', '0.0010', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // 0.001 has exactly 1 significant digits.
+        array('NumSigFigs', '[1,0]', '0.001', '0', 1, '', ''),
+        array('NumSigFigs', '[2,0]', '0.001', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // 100 has at least 1 and maybe even 3 significant digits.
+        array('NumSigFigs', '[1,0]', '100', '0', 1, '', ''),
+        array('NumSigFigs', '[2,0]', '100', '0', 1, 'ATNumSigFigs_WithinRange.', ''),
+        array('NumSigFigs', '[3,0]', '100', '0', 1, 'ATNumSigFigs_WithinRange.', ''),
+        array('NumSigFigs', '[4,0]', '100', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // 10.0 has exactly 3 significant digits.
+        array('NumSigFigs', '[2,0]', '10.0', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[3,0]', '10.0', '0', 1, '', ''),
+        array('NumSigFigs', '[4,0]', '10.0', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // 0 has exactly 1 significant digits.
+        array('NumSigFigs', '[1,0]', '0', '0', 1, '', ''),
+        array('NumSigFigs', '[2,0]', '0', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        // 0.00 has at exactly 2 significant digits.
+        array('NumSigFigs', '[1,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[2,0]', '0.00', '0', 1, '', ''),
+        array('NumSigFigs', '[3,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '[4,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
-        array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_SAns.', ''),
-        array('NumDecPlaces', '2', '0', '1/0', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_TAns.', ''),
-        array('NumDecPlaces', '1/0', '0', '0', -1, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_STACKERROR_Options..', ''),
+        array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_SAns.', ''),
+        array('NumDecPlaces', '2', '0', '1/0', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_TAns.', ''),
+        array('NumDecPlaces', '1/0', '0', '0', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_Options..', ''),
         array('NumDecPlaces', 'x', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
         array('NumDecPlaces', '-1', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
         array('NumDecPlaces', '0', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
         array('NumDecPlaces', '(', '0', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
         array('NumDecPlaces', '1', '(', '1', -1, 'ATNumDecPlaces_STACKERROR_Option.', ''),
         array('NumDecPlaces', '2', 'x', '3.143', 0,
-            'ATNumDecPlaces_NoDP. ATNumDecPlaces_Not_equiv.', 'Student\'s answer not a floating point number'),
-        array('NumDecPlaces', '3', '3', '3.000', 0, 'ATNumDecPlaces_NoDP. ATNumDecPlaces_Equiv.', ''),
+            'ATNumDecPlaces_NoDP.', 'Student\'s answer not a floating point number'),
+        array('NumDecPlaces', '3', '3', '3.000', 0, 'ATNumDecPlaces_NoDP.', ''),
         array('NumDecPlaces', '2', '3.14', '3.143', 1,
             'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.', 'Right number of places'),
         array('NumDecPlaces', '2', '3.14', '3.14', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.', ''),
@@ -905,17 +976,83 @@ class stack_answertest_test_data {
         array('NumDecPlaces', '4', '3.1416', 'pi', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.', ''),
         array('NumDecPlaces', '1', '-7.3', '-7.3', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.', ''),
         array('NumDecPlaces', '1', '3.14', '3.143', 0,
-            'ATNumDecPlaces_Wrong_DPs (2 <> 1). ATNumDecPlaces_Equiv.', 'Wrong number of places'),
-        array('NumDecPlaces', '1', '3.14', '3.143', 0, 'ATNumDecPlaces_Wrong_DPs (2 <> 1). ATNumDecPlaces_Equiv.', ''),
-        array('NumDecPlaces', '3', '3.14', '3.140', 0, 'ATNumDecPlaces_Wrong_DPs (2 <> 3). ATNumDecPlaces_Equiv.', ''),
-        array('NumDecPlaces', '4', '7.000', '7', 0, 'ATNumDecPlaces_Wrong_DPs (3 <> 4). ATNumDecPlaces_Equiv.', ''),
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.', 'Wrong number of places'),
+        array('NumDecPlaces', '1', '3.14', '3.143', 0, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.', ''),
+        array('NumDecPlaces', '3', '3.14', '3.140', 0, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.', ''),
+        array('NumDecPlaces', '4', '7.000', '7', 0, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv.', ''),
+        array('NumDecPlaces', '4', '7.0000', '7', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.', ''),
+        array('NumDecPlaces', '3', '8.0000', '7', 0, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv.',
+            'Both wrong DPs and inaccurate.'),
+        array('NumDecPlaces', '3', '4.000', '3.99999', 1, 'ATNumDecPlaces_Correct. ATNumDecPlaces_Equiv.',
+            'Teacher needs to round their answer.'),
 
-        array('Units', '0', '1/0', '1', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_SAns.', ''),
-        array('Units', '0', '1', '1/0', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_TAns.', ''),
-        array('Units', '1/0', '1', '1', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_TAns.', ''),
-        array('Units', '0', 'x-1)^2', '(x-1)^2', -1, 'ATUnitsSigFigs_STACKERROR_SAns.', ''),
+        array('SigFigsStrict', '', '3.141', 'null', -1, 'STACKERROR_OPTION.', 'Basic tests'),
+        array('SigFigsStrict', 'x^2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
+        array('SigFigsStrict', '-2', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
+        array('SigFigsStrict', '0', '3.141', 'null', -1, 'STACKERROR_OPTION.', ''),
+        // 0.0010 has exactly 2 significant digits.
+        array('SigFigsStrict', '1', '0.0010', 'null', 0, '', ''),
+        array('SigFigsStrict', '2', '0.0010', 'null', 1, '', ''),
+        array('SigFigsStrict', '3', '0.0010', 'null', 0, '', ''),
+        // 0.001 has exactly 1 significant digits.
+        array('SigFigsStrict', '1', '0.001', 'null', 1, '', ''),
+        array('SigFigsStrict', '2', '0.001', 'null', 0, '', ''),
+        // 100 has exactly 1 significant digit.
+        array('SigFigsStrict', '1', '100', 'null', 1, '', ''),
+        array('SigFigsStrict', '2', '100', 'null', 0, 'ATSigFigsStrict_WithinRange.', ''),
+        array('SigFigsStrict', '3', '100', 'null', 0, 'ATSigFigsStrict_WithinRange.', ''),
+        array('SigFigsStrict', '4', '100', 'null', 0, '', ''),
+        // 100. has exactly 3 significant digit.
+        array('SigFigsStrict', '1', '100.', 'null', 0, '', ''),
+        array('SigFigsStrict', '2', '100.', 'null', 0, '', ''),
+        array('SigFigsStrict', '3', '100.', 'null', 1, '', ''),
+        array('SigFigsStrict', '4', '100.', 'null', 0, '', ''),
+        // 123. has exactly 3 significant digit.
+        array('SigFigsStrict', '1', '123.', 'null', 0, '', ''),
+        array('SigFigsStrict', '2', '123.', 'null', 0, '', ''),
+        array('SigFigsStrict', '3', '123.', 'null', 1, '', ''),
+        array('SigFigsStrict', '4', '123.', 'null', 0, '', ''),
+        // 1.00e2 has exactly 3 significant digit2.
+        array('SigFigsStrict', '1', '1.00e2', 'null', 0, '', ''),
+        array('SigFigsStrict', '2', '1.00e2', 'null', 0, '', ''),
+        array('SigFigsStrict', '3', '1.00e2', 'null', 1, '', ''),
+        array('SigFigsStrict', '4', '1.00e2', 'null', 0, '', ''),
+        // 10.0 has exactly 3 significant digits.
+        array('SigFigsStrict', '2', '10.0', 'null', 0, '', ''),
+        array('SigFigsStrict', '3', '10.0', 'null', 1, '', ''),
+        array('SigFigsStrict', '4', '10.0', 'null', 0, '', ''),
+        // 0 has exactly 1 significant digits.
+        array('SigFigsStrict', '1', '0', 'null', 1, '', ''),
+        array('SigFigsStrict', '2', '0', 'null', 0, '', ''),
+        // 0.0 has exactly 1 significant digits.
+        array('SigFigsStrict', '1', '0.0', 'null', 1, '', ''),
+        array('SigFigsStrict', '2', '0.0', 'null', 0, '', ''),
+        // .0 has exactly 1 significant digits.
+        array('SigFigsStrict', '1', '.0', 'null', 1, '', ''),
+        array('SigFigsStrict', '2', '.0', 'null', 0, '', ''),
+        // .001030 has exactly 4 significant digits.
+        array('SigFigsStrict', '4', '.001030', 'null', 1, '', ''),
+        // 0.00 has exactly 2 significant digits.
+        array('SigFigsStrict', '1', '0.00', 'null', 0, '', ''),
+        array('SigFigsStrict', '2', '0.00', 'null', 1, '', ''),
+        array('SigFigsStrict', '3', '0.00', 'null', 0, '', ''),
+        // Mix of notations.
+        array('SigFigsStrict', '1', '25.00e1', 'null', 0, '', ''),
+        array('SigFigsStrict', '3', '25.00e1', 'null', 0, '', ''),
+        array('SigFigsStrict', '4', '25.00e1', 'null', 1, '', ''),
+        array('SigFigsStrict', '5', '25.00e1', 'null', 0, '', ''),
+        // Too many zeros.
+        array('SigFigsStrict', '3', '15.1', '15.1', 1, '', ''),
+        array('SigFigsStrict', '3', '15.10', '15.1', 0, '', ''),
+        array('SigFigsStrict', '3', '15.100', '15.1', 0, '', ''),
+        array('SigFigsStrict', '3', '9.81*m/s^2', 'null', 1, '', 'Units are ignored'),
+
+        array('Units', '2', '1/0', '1', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_SAns.', ''),
+        array('Units', '2', '1', '1/0', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_TAns.', ''),
+        array('Units', '1/0', '1', '1', -1, 'STACKERROR_OPTION.', ''),
+        array('Units', '2', 'x-1)^2', '(x-1)^2', -1, 'ATUnitsSigFigs_STACKERROR_SAns.', ''),
         array('Units', '[3,x]', '12.3*m*s^(-1)', '3*m', -1,
-            'CASError: TEST_FAILED | ATNumSigFigs_STACKERROR_not_integer.', ''),
+            'STACKERROR_OPTION.', ''),
         array('Units', '[1,2,3]', '12.3*m*s^(-1)', '3*m', -1,
             'CASError: TEST_FAILED | ATNumSigFigs_STACKERROR_list_wrong_length.', ''),
         array('Units', '3', '12.3*m*s^(-1)', '{12.3*m*s^(-1)}', -1, 'CASError: TEST_FAILED | ATUnits_TA_not_expression.', ''),
@@ -931,10 +1068,10 @@ class stack_answertest_test_data {
         array('Units', '3', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', 'Basic tests'),
         array('Units', '3', '12.4*m/s', '12.3*m/s', 0, 'ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
         array('Units', '[3,2]', '12.4*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
-        array('Units', '[3,2]', '12.45*m/s', '12.3*m/s', 0, 'ATNumSigFigs_WrongDigits. ATUnits_units_match.', ''),
+        array('Units', '[3,2]', '12.45*m/s', '12.3*m/s', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_units_match.', ''),
         array('Units', '[3,2]', '13.45*m/s', '12.3*m/s', 0,
-            'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
-        array('Units', '3', '12*m/s', '12.3*m/s', 0, 'ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
+            'ATUnitsSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
+        array('Units', '3', '12*m/s', '12.3*m/s', 0, 'ATUnitsSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
         array('Units', '3', '-9.81*m/s^2', '-9.81*m/s^2', 1, 'ATUnits_units_match.', ''),
         array('Units', '3', '-9.82*m/s^2', '-9.815*m/s^2', 1, 'ATUnits_units_match.', ''),
         array('Units', '3', '-9.81*m/s^2', '-9.815*m/s^2', 0, 'ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
@@ -946,41 +1083,115 @@ class stack_answertest_test_data {
         array('Units', '3', '-9.81*m/s', '-9.81*m/s^2', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('Units', '3', '9.81*m/s', '-9.81*m/s^2', 0, 'ATNumSigFigs_WrongSign. ATUnits_incompatible_units.', ''),
         array('Units', '3', '8.81*m/s', '-9.81*m/s^2', 0,
-            'ATNumSigFigs_WrongSign. ATNumSigFigs_Inaccurate. ATUnits_incompatible_units.', ''),
+            'ATNumSigFigs_WrongSign. ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
         array('Units', '3', '8.1*m/s', '-9.81*m/s^2', 0,
-            'ATNumSigFigs_WrongSign. ATNumSigFigs_Inaccurate. ATUnits_incompatible_units.', ''),
-        array('Units', '3', 'm/4', '0.25*m', 1, 'ATUnits_units_match.', ''),
-        array('Units', '3', 'pi*s', '3.14*s', 0, 'ATNumSigFigs_WrongDigits. ATUnits_units_match.', 'Student is too exact'),
-        array('Units', '3', 'sqrt(2)*m', '1.41*m', 0, 'ATNumSigFigs_WrongDigits. ATUnits_units_match.', ''),
+            'ATUnitsSigFigs_WrongDigits. ATNumSigFigs_WrongSign. ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
+        array('Units', '3', 'm/4', '0.25*m', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_units_match.', ''),
+        array('Units', '3', 'pi*s', '3.14*s', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_units_match.', 'Student is too exact'),
+        array('Units', '3', 'sqrt(2)*m', '1.41*m', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_units_match.', ''),
         array('Units', '2', '25*g', '0.025*kg', 1, 'ATUnits_compatible_units: kg.', 'Different units'),
         array('Units', '2', '26*g', '0.025*kg', 0, 'ATNumSigFigs_Inaccurate. ATUnits_compatible_units: kg.', ''),
         array('Units', '2', '100*g', '10*kg', 0,
-            'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_compatible_units: kg.', ''),
+            'ATUnitsSigFigs_WithinRange. ATNumSigFigs_VeryInaccurate. ATUnits_compatible_units: kg.', ''),
         array('Units', '2', '0.025*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg. ATUnits_correct_numerical.', ''),
+        array('Units', '2', '1000*m', '1*km', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m.', ''),
         array('Units', '1', '1*Mg/10^6', '1*N*s^2/(km)', 1, 'ATUnits_compatible_units: kg.', ''),
         array('Units', '1', '1*Mg/10^6', '1*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.', ''),
         array('Units', '3', '3.14*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.', ''),
-        array('Units', '3', '3.141*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 0, 'ATNumSigFigs_WrongDigits. ATUnits_compatible_units: kg.', ''),
+        array('Units', '3', '3.141*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_compatible_units: kg.', ''),
         array('Units', '3', '4.141*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 0,
-            'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate. ATUnits_compatible_units: kg.', ''),
-        array('Units', '2', '400*cc', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
-        array('Units', '2', '400*cm^3', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
-        array('Units', '2', '400*ml', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
-        array('Units', '2', '400*mL', '0.4*l', 1, 'ATUnits_compatible_units: m^3.', ''),
+            'ATUnitsSigFigs_WrongDigits. ATNumSigFigs_VeryInaccurate. ATUnits_compatible_units: kg.', ''),
+        array('Units', '2', '400*cc', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
+        array('Units', '2', '400*cm^3', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
+        array('Units', '2', '400*ml', '0.4*l', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
         array('Units', '2', '18*kJ', '18000.0*J', 1, 'ATUnits_compatible_units: kg*m^2/s^2.', ''),
-        array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATNumSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', ''),
-        array('Units', '4', '142.8*C', '415.9*K', -2, 'ATNumSigFigs_Inaccurate. ATUnits_incompatible_units.', 'TODO'),
+        array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATUnitsSigFigs_WrongDigits. ATUnits_compatible_units: kg*m^2/s^2.', ''),
+        array('Units', '2', '2.0*hh', '720000*s', 1, 'ATUnits_compatible_units: s.', ''),
+        array('Units', '1', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
+        array('Units', '1', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('Units', '1', '0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('Units', '2', '0.00*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('Units', '1', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units: m/s.', ''),
+        array('Units', '1', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
+        array('Units', '1', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        array('Units', '4', '142.8*C', '415.9*K', -2, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
 
         array('UnitsStrict', '2', '25*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg.', 'Differences from the Units test only'),
         array('UnitsStrict', '1', '1*Mg/10^6', '1*N*s^2/(km)', 0, 'ATUnits_compatible_units: kg.', ''),
         array('UnitsStrict', '1', '1*Mg/10^6', '1*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units: kg.', ''),
         array('UnitsStrict', '3', '3.14*Mg/10^6', '%pi*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units: kg.', ''),
-        array('UnitsStrict', '2', '400*cc', '0.4*l', 0, 'ATUnits_compatible_units: m^3.', ''),
-        array('UnitsStrict', '2', '400*cm^3', '0.4*l', 0, 'ATUnits_compatible_units: m^3.', ''),
-        array('UnitsStrict', '2', '400*ml', '0.4*l', 0, 'ATUnits_compatible_units: m^3.', ''),
-        array('UnitsStrict', '2', '400*mL', '0.4*l', 0, 'ATUnits_compatible_units: m^3.', ''),
-        array('UnitsStrict', '4', '142.8*C', '415.9*K', 0, 'ATNumSigFigs_Inaccurate. ATUnits_incompatible_units.', ''),
+        array('UnitsStrict', '2', '400*cc', '0.4*l', 0, 'ATUnitsStrictSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
+        array('UnitsStrict', '2', '400*cm^3', '0.4*l', 0, 'ATUnitsStrictSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
+        array('UnitsStrict', '2', '400*ml', '0.4*l', 0, 'ATUnitsStrictSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
+        array('UnitsStrict', '2', '400*mL', '0.4*l', 0, 'ATUnitsStrictSigFigs_WithinRange. ATUnits_compatible_units: m^3.', ''),
+        array('UnitsStrict', '4', '142.8*C', '415.9*K', 0, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', ''),
         array('UnitsStrict', '3', '-9.81*m/s/s', '-9.81*m/s^2', 1, 'ATUnits_units_match.', 'We are not *that* strict!'),
+        array('UnitsStrict', '1', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
+        array('UnitsStrict', '1', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '1', '0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '1', '0.0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '1', '0.0*km/s', '0.0*m/s', 0, 'ATUnits_compatible_units: m/s.', ''),
+        array('UnitsStrict', '1', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
+        array('UnitsStrict', '1', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        array('UnitsStrict', '[3,2]', '2.33e-15*kg', '2.33e-15*kg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '7.03e-3*ng', '7.03e-3*ng', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '2.35e-6*ug', '2.35e-6*ug', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.83e-10*cg', '9.83e-10*cg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.73e-21*Gg', '9.73e-21*Gg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '7.19e-15*kg', '7.19e-15*kg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '8.12e-12*g', '8.12e-12*g', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.34e-12*g', '9.34e-12*g', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '1.07e-21*Gg', '1.07e-21*Gg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '1.91e-10*cg', '1.91e-10*cg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '5.67e-18*Mg', '5.67e-18*Mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '2.04e-9*mg', '2.04e-9*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '6.75e-6*ug', '6.75e-6*ug', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '6.58e-6*ug', '6.58e-6*ug', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '3.58e-9*mg', '3.58e-9*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.99e-15*kg', '9.99e-15*kg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.8e-9*mg', '9.8e-9*mg', 0,
+            'ATUnitsStrictSigFigs_WrongDigits. ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.80e-9*mg', '9.8e-9*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.83e-9*mg', '9.8e-9*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '9.78e-9*mg', '9.8e-9*mg', 1, 'ATUnits_units_match.', ''),
+
+        array('UnitsRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
+        array('UnitsRelative', '0.15', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.', ''),
+        array('UnitsRelative', '0.05', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units: kg.', ''),
+        array('UnitsRelative', '0.01', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
+        array('UnitsRelative', '0.01', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsRelative', '0.01', '0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsRelative', '0.01', '0.0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsRelative', '0.01', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units: m/s.', ''),
+        array('UnitsRelative', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
+        array('UnitsRelative', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+
+        array('UnitsStrictRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.15', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units: kg.', ''),
+        array('UnitsStrictRelative', '0.05', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units: kg.', ''),
+        array('UnitsStrictRelative', '0.01', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
+        array('UnitsStrictRelative', '0.01', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '0.0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '0.0*km/s', '0.0*m/s', 0, 'ATUnits_compatible_units: m/s.', ''),
+        array('UnitsStrictRelative', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
+        array('UnitsStrictRelative', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+
+        array('UnitsAbsolute', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsAbsolute', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
+        array('UnitsAbsolute', '0.15', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.', ''),
+        array('UnitsAbsolute', '0.05', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units: kg.',
+                'The following illustrates that we convert to base units to compare.'),
+        array('UnitsAbsolute', '0.00001', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units: kg.', ''),
+        array('UnitsAbsolute', '0.01', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
+        array('UnitsAbsolute', '0.01', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsAbsolute', '0.01', '0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsAbsolute', '0.01', '0.0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsAbsolute', '0.01', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units: m/s.', ''),
+        array('UnitsAbsolute', '0.01', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
+        array('UnitsAbsolute', '0.01', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
 
         array('UnitsRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
@@ -1097,14 +1308,13 @@ class stack_answertest_test_data {
             $ansnote  = '';
         }
 
-        $expectednote = '';
+        $anomalynote = array();
         $passed = true;
-        if (!($rawmark === $test->expectedscore)) {
+        if ($rawmark !== $test->expectedscore) {
             $passed = false;
-        }
-        if (!($ansnote === $test->ansnote)) {
-            $passed = false;
-            $expectednote = $test->ansnote;
+            if ($test->expectedscore >= 0) {
+                $anomalynote[] = '[SCORE]';
+            }
         }
 
         // The test failed, and we expected it to fail.
@@ -1113,6 +1323,7 @@ class stack_answertest_test_data {
                 $passed = true;
             } else {
                 $passed = false;
+                $anomalynote[] = '[Expected test to fail!]';
             }
         }
         // These tests are all expected to fail, so we make them all pass.
@@ -1120,6 +1331,12 @@ class stack_answertest_test_data {
             $passed = true;
         }
 
-        return array($passed, $errors, $rawmark, $feedback, $ansnote, $expectednote);
+        if (!($ansnote === $test->ansnote)) {
+            $passed = false;
+            $anomalynote[] = '[NOTE expected: ' . $test->ansnote . ']';
+        }
+
+        $anomalynote = implode($anomalynote, ' | ');
+        return array($passed, $errors, $rawmark, $feedback, $ansnote, $anomalynote);
     }
 }

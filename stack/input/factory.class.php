@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,9 +49,9 @@ class stack_input_factory {
      * @param array $param some sort of options.
      * @return stack_input the requested input.
      */
-    public static function make($type, $name, $teacheranswer, $parameters = null) {
+    public static function make($type, $name, $teacheranswer, $options = null, $parameters = null) {
         $class = self::class_for_type($type);
-        return new $class($name, $teacheranswer, $parameters);
+        return new $class($name, $teacheranswer, $options, $parameters);
     }
 
     /**

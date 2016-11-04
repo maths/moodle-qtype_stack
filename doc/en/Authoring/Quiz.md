@@ -19,11 +19,11 @@ Beware, once a student has attempted the quiz you may not alter the options!
 Also note that when authoring a STACK question there are two forms of "feedback".
 
 * for each input there is validation feedback.
-* for each potential response tree there is "feedback" based on the mathematical proerties established.
+* for each potential response tree there is "feedback" based on the mathematical properties established.
 
 We *always* want to give validation feedback, and this must be placed in the Question text.  
 
-The potential response tree feedback can be placed anywhere in the Question text, or in the "Specific feedback" field of the question.  It usually makes sense for multi-part questions to put the feeback in the question text.  However, if you do so it will always be displayed and will not respect the "specific feedback" settings in the "Review options" section of the quiz settings.
+The potential response tree feedback can be placed anywhere in the Question text, or in the "Specific feedback" field of the question.  It usually makes sense for multi-part questions to put the feedback in the question text.  However, if you do so it will always be displayed and will not respect the "specific feedback" settings in the "Review options" section of the quiz settings.
 
 ## Behaviours ##
 

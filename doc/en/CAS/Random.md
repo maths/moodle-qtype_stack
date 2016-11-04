@@ -78,7 +78,7 @@ Now, the output from the first expression will be a random expression in constan
     4*y+5*y+(-2*y)
     4*y+5*y-2*y
 
-## Radom objects with corresponding information.
+## Random objects with corresponding information.
 
 It is often necessary to generate a random object with a number of separate aspects to it.  For example, if you have scientific data and you need to include this in a question.
 

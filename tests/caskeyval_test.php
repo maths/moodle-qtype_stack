@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
@@ -80,7 +80,7 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
                 array('@', false, $cs4),
                 array('$', false, $cs4),
                 array('a:system(rm);', false, $cs5),
-                array('a:"system(rm)";', false, $cs6),
+                array('a:"system(rm)";', true, $cs6),
                 array('a:"a:x^2); b:(x+1)^2;$;@;";', true, $cs7),
         );
 
@@ -164,10 +164,21 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
     }
 
     public function test_keyval_session_keyval_3() {
-        // Inserting stars.
-        $kvin  = "a:2x; b:(x+1)(x-1); b:f(x);";
-        $kvins = "a:2*x; b:(x+1)*(x-1); b:f(x);";
+        // Inserting stars: strict syntax is *false* and we add in more stars.
+        $kvin  = "a:2x; b:(x+1)(x-1); b:f(x); c:x7;";
+        $kvins = "a:2*x; b:(x+1)*(x-1); b:f*(x); c:x*7;";
         $at1 = new stack_cas_keyval($kvin, null, 123, 's', false, 1);
+        $session = $at1->get_session();
+        $kvout = $session->get_keyval_representation();
+
+        $this->assertEquals($kvins, $kvout);
+    }
+
+    public function test_keyval_session_keyval_4() {
+        // Inserting stars. Strict syntax is *true*.
+        $kvin  = "a:2x; b:(x+1)(x-1); b:f(x); c:x7;";
+        $kvins = "a:2*x; b:(x+1)*(x-1); b:f(x); c:x7;";
+        $at1 = new stack_cas_keyval($kvin, null, 123, 's', true, 1);
         $session = $at1->get_session();
         $kvout = $session->get_keyval_representation();
 

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,8 +21,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
 
 /**
@@ -32,7 +34,7 @@ require_once(__DIR__ . '/../stack/utils.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_utils_test extends basic_testcase {
+class stack_utils_test extends qtype_stack_testcase {
 
     public function test_matching_pairs() {
         $this->assertTrue(stack_utils::check_matching_pairs('Hello $world$!', '$'));
@@ -200,5 +202,109 @@ class stack_utils_test extends basic_testcase {
     public function test_all_substring_strings() {
         $this->assertEquals(array("test", "testb"), stack_utils::all_substring_strings("stringa:\"test\" and stringb:\"testb\""));
         $this->assertEquals(array("", "\\\""), stack_utils::all_substring_strings("stringa:\"\" and stringb:\"\\\"\""));
+    }
+
+    public function test_eliminate_strings() {
+        $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"test\" and stringb:\"testb\""));
+        $this->assertEquals('stringa:"" and stringb:""', stack_utils::eliminate_strings("stringa:\"\" and stringb:\"\\\"\""));
+    }
+
+    public function test_decimal_digits() {
+        // In this text digits are 1-9 and 0 is not a digit.
+        // array("string", lower, upper, decimal places).
+        $tests = array(
+            array("0", 1, 1, 0, '"~a"'), // Decision: zero has one significant digit.
+            array("0.0", 1, 1, 1, '"~,1f"'), // Decision: 0.0 has one significant digit.
+            array("0.00", 2, 2, 2, '"~,2f"'),
+            array("00.00", 2, 2, 2, '"~,2f"'),
+            array("0.000", 3, 3, 3, '"~,3f"'),
+            array("0.0001", 1, 1, 4, '"~,4f"'), // Leading zeros are insignificant.
+            array("0.0010", 2, 2, 4, '"~,4f"'),
+            array("100.0", 4, 4, 1, '"~,1f"'), // Existence of a significant zero (or digit) changes.
+            array("100.", 3, 3, 0, '"~a"'),
+            array("00120", 2, 3, 0, '"~a"'),
+            array("00.120", 3, 3, 3, '"~,3f"'),
+            array("1.001", 4, 4, 3, '"~,3f"'),
+            array("2.000", 4, 4, 3, '"~,3f"'),
+            array("1234", 4, 4, 0, '"~a"'),
+            array("123.4", 4, 4, 1, '"~,1f"'),
+            array("2000", 1, 4, 0, '"~a"'),
+            array("10000", 1, 5, 0, '"~a"'),
+            array("2001", 4, 4, 0, '"~a"'),
+            array("0.01030", 4, 4, 5, '"~,5f"'),
+            // Scientific notation.
+            array("4.320e-3", 4, 4, 3, '"~,3e"'), // After a digit, zeros after the decimal separator are always significant.
+            // If no digits before a zero that zero is not significant even after the decimal separator.
+            array("0.020e3", 2, 2, 3, '"~,1e"'),
+            array("1.00e3", 3, 3, 2, '"~,2e"'),
+            array("10.0e1", 3, 3, 1, '"~,2e"'),
+            // Unary signs.
+            array("+334.3", 4, 4, 1, '"~,1f"'),
+            array("-0.00", 2, 2, 2, '"~,2f"'),
+            array("-12.00", 4, 4, 2, '"~,2f"'),
+            array(" -121000", 3, 6, 0, '"~a"'),
+            array("-303.30003", 8, 8, 5, '"~,5f"'),
+            // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
+            array("52435*mg", 5, 5, 0, '"~a"'),
+            array("-12.00*m", 4, 4, 2, '"~,2f"'),
+            // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
+            array("1030*m/s", 3, 4, 0, '"~a"'),
+            array("1.23*4", 3, 3, 2, '"~,2f"'),
+            array("4*3.21", 1, 1, 0, '"~a"'),
+            array("50*3.21", 1, 2, 0, '"~a"'),
+            array("3434...34*34", 4, 4, 0, '"~a"'),
+        );
+
+        foreach ($tests as $t) {
+            $r = stack_utils::decimal_digits($t[0]);
+            $this->assertEquals($r['lowerbound'], $t[1]);
+            $this->assertEquals($r['upperbound'], $t[2]);
+            $this->assertEquals($r['decimalplaces'], $t[3]);
+            $this->assertEquals($r['fltfmt'], $t[4]);
+        }
+
+    }
+
+    public function test_single_char_vars_2() {
+
+        $testcases = array('ab' => 'a*b',
+            'abc' => 'a*b*c',
+            'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
+            'sin(xy)' => 'sin(x*y)',
+            'sin(xy)+cos(ab)+c' => 'sin(x*y)+cos(a*b)+c',
+            'xe^x' => 'x*e^x',
+            'pix' => 'p*i*x',
+            '2(xya+3c)' => '2(x*y*a+3c)',
+            '2pi+nk' => '2pi+n*k',  // This function does not add the star in 2*pi here.  That is done elsewhere.
+            '(ax+1)(ax-1)' => '(a*x+1)(a*x-1)',
+            'nx(1+2x)' => 'nx(1+2x)' // Note, two letter function names are permitted.
+        );
+
+        foreach ($testcases as $test => $result) {
+            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 2, ''), $result);
+        }
+
+    }
+
+    public function test_single_char_vars_5() {
+
+        $testcases = array('ab' => 'a*b',
+            'abc' => 'a*b*c',
+            'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
+            'sin(xy)' => 'sin(x*y)',
+            'sin(xy)+cos(ab)+c' => 'sin(x*y)+cos(a*b)+c',
+            'xe^x' => 'x*e^x',
+            'pix' => 'p*i*x',
+            '2(xya+3c)' => '2*(x*y*a+3*c)',
+            '2pi+nk' => '2*pi+n*k',
+            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
+            'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
+        );
+
+        foreach ($testcases as $test => $result) {
+            $this->resetAfterTest();
+            $this->assertEquals(stack_utils::make_single_char_vars($test, null, false, 5, ''), $result);
+        }
+
     }
 }

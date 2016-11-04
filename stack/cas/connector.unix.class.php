@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
  */
 class stack_cas_connection_unix extends stack_cas_connection_base {
 
-    /* @see stack_cas_connection_base::guess_maxima_command() */
     protected function guess_maxima_command($path) {
         global $CFG;
         if (stack_connection_helper::get_platform() == 'unix-optimised') {
@@ -50,7 +49,6 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         return $maximacommand;
     }
 
-    /* @see stack_cas_connection_base::call_maxima() */
     protected function call_maxima($command) {
 
         $ret = false;
@@ -115,7 +113,6 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
             // WARNING: the string 'The CAS timed out' is used by the cache to search for a timeout occurrence.
             $ret .= ' The CAS timed out. ] ] ] ]';
         }
-
         return $ret;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/castext.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
@@ -347,9 +347,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text($rawcastext, $cs, 0, 't', false, 0);
 
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span> ' .
+        $this->assertEquals('<span class="error">CASText failed validation. </span> ' .
                         'CAS commands not valid.  You seem to be missing * characters. Perhaps you meant to type ' .
-                        '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.');
+                        '<span class="stacksyntaxexample">c2<font color="red">*</font>A</span>.',
+                        $at1->get_errors());
     }
 
     public function test_assignmatrixelements() {
@@ -554,8 +555,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_text('This is system cost {@system(rm*)@} to create.', null, 0, 't');
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals($at1->get_errors(), '<span class="error">CASText failed validation. </span>CAS commands not valid.  ' .
-                'The expression <span class="stacksyntaxexample">system</span> is forbidden.');
+        $this->assertEquals('<span class="error">CASText failed validation. </span>CAS commands not valid.  ' .
+                'The expression <span class="stacksyntaxexample">system</span> is forbidden.', $at1->get_errors());
     }
 
     public function test_mathdelimiters1() {
@@ -572,7 +573,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\begin{align*} x & = {2}+1 \ & = {3} \end{align*}');
+        $this->assertEquals('\begin{align*} x & = {2}+1 \ & = {3} \end{align*}', $at1->get_display_castext());
     }
 
     public function test_mathdelimiters2() {
@@ -589,9 +590,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(),
+        $this->assertEquals(
                 '\begin{multline*} {\frac{x^2}{\left(x^2+1\right)^3}} \\\\ ' .
-                '{\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4}} \end{multline*}');
+                '{\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4}} \end{multline*}',
+                $at1->get_display_castext());
     }
 
     public function test_disp_decimalplaces() {
@@ -607,7 +609,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at1 = new stack_cas_text('{@dispdp(a,2)@}, {@dispdp(b,3)@}', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
-        $this->assertEquals($at1->get_display_castext(), '\({2.72}\), \({4.000}\)');
+
+        $this->assertEquals('\({2.72}\), \({4.000}\)', $at1->get_display_castext());
     }
 
     public function test_disp_decimalplaces2() {
@@ -624,7 +627,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\({3.\cdot x^2}\), \({-4.000}\)');
+        $this->assertEquals('\({3.\cdot x^2}\), \({-4.000}\)', $at1->get_display_castext());
     }
 
     public function test_disp_mult_blank() {
@@ -642,7 +645,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\({x\, y}\)');
+        $this->assertEquals('\({x\, y}\)', $at1->get_display_castext());
     }
 
     public function test_disp_mult_dot() {
@@ -660,7 +663,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\({x\cdot y}\)');
+        $this->assertEquals('\({x\cdot y}\)', $at1->get_display_castext());
     }
 
     public function test_disp_mult_cross() {
@@ -678,7 +681,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals($at1->get_display_castext(), '\({x\times y}\)');
+        $this->assertEquals('\({x\times y}\)', $at1->get_display_castext());
     }
 
     public function test_disp_ode1() {
@@ -690,10 +693,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
+        $this->assertEquals(
                 '\[{\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0}\] ' .
                 '\[{2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)' .
-                '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0}\]');
+                '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0}\]',
+                $at2->get_display_castext());
     }
 
     public function test_disp_ode2() {
@@ -705,8 +709,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                '\[{y_{x  x}+2\cdot y=0}\] \[{2\cdot y_{x  x  z  z  z}+y_{x  x}=0}\]');
+        $this->assertEquals(
+                '\[{y_{x  x}+2\cdot y=0}\] \[{2\cdot y_{x  x  z  z  z}+y_{x  x}=0}\]',
+                $at2->get_display_castext());
     }
 
     public function test_disp_int() {
@@ -718,8 +723,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                '\[{\int {f\left(x\right)}{\;\mathrm{d}x}}\]');
+        $this->assertEquals(
+                '\[{\int {f\left(x\right)}{\;\mathrm{d}x}}\]',
+                $at2->get_display_castext());
     }
 
     public function test_strings_in_castext() {
@@ -731,8 +737,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                '\[{3}\]');
+        $this->assertEquals('\[{3}\]', $at2->get_display_castext());
     }
 
     public function test_strings_in_castext_escaped() {
@@ -744,8 +749,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                '\[{\mbox{This is a string with escaped " strings....}}\]');
+        $this->assertEquals('\[{\mbox{This is a string with escaped " strings....}}\]',
+                $at2->get_display_castext());
     }
 
 
@@ -756,25 +761,24 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                '\({\mbox{This is a string}}\) whereas this is empty \({\mbox{ }}\).');
+        $this->assertEquals(
+                '\({\mbox{This is a string}}\) whereas this is empty \({\mbox{ }}\).',
+                $at2->get_display_castext());
     }
 
     public function test_numerical_display_float_default() {
-        $s = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}, {@0.000001@}.';
+        // The number 0.000001 used to be tested, but it was giving weird results.
+        // On some versions of Maxima, including the latest, it comes back as
+        // 10.0e-7, instead of 1.0e-6. Other versions get it right. I did not like
+        // a testcase that asserted weird behaviour (10.0e-7) so I removed it.
+        $s = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}.';
 
         $at2 = new stack_cas_text($s, null, 0, 't');
         $this->assertTrue($at2->get_valid());
 
-        if ($this->lisp == 'CLISP') {
-            $this->assertEquals($at2->get_display_castext(),
-                'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({1.0E-4}\), \({1.0E-5}\), \({1.0E-6}\).');
-        } else if ($this->lisp == 'SBCL') {
-            $this->assertEquals($at2->get_display_castext(),
-                'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({1.0e-4}\), \({1.0e-5}\), \({10.0e-7}\).');
-        } else {
-            throw new Exception('Unknown lisp version!');
-        }
+        $this->assertContentWithMathsEquals(
+            'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({1.0e-4}\), \({1.0e-5}\).',
+            $at2->get_display_castext());
     }
 
     public function test_numerical_display_float_decimal() {
@@ -793,12 +797,14 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals($at2->get_display_castext(),
-                'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({0.0001}\), \({0.00001}\), \({0.000001}\).');
+        $this->assertEquals(
+                'Decimal numbers \({0.1}\), \({0.01}\), \({0.001}\), \({0.0001}\), \({0.00001}\), \({0.000001}\).',
+                $at2->get_display_castext());
     }
 
     public function test_numerical_display_float_scientific() {
-        $st = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}, {@0.000001@}.';
+        // The number 0.000001 is handled below, so we can skip on old Maxima where it fails.
+        $st = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}.';
 
         $a2 = array('stackfltfmt:"~e"');
         $s2 = array();
@@ -813,15 +819,33 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        if ($this->lisp == 'CLISP') {
-            $this->assertEquals($at2->get_display_castext(),
-                    'Decimal numbers \({1.0E-1}\), \({1.0E-2}\), \({1.0E-3}\), \({1.0E-4}\), \({1.0E-5}\), \({1.0E-6}\).');
-        } else if ($this->lisp == 'SBCL') {
-            $this->assertEquals($at2->get_display_castext(),
-                    'Decimal numbers \({1.e-1}\), \({1.e-2}\), \({1.e-3}\), \({1.e-4}\), \({1.e-5}\), \({9.999999999999999e-7}\).');
-        } else {
-            throw new Exception('Unknown lisp version!');
+        $this->assertContentWithMathsEquals(
+                'Decimal numbers \({1.0e-1}\), \({1.0e-2}\), \({1.0e-3}\), \({1.0e-4}\), \({1.0e-5}\).',
+                $at2->get_display_castext());
+    }
+
+    public function test_numerical_display_float_scientific_small() {
+        // On old Maxima, you get back \(9.999999999999999e-7\).
+        $this->skip_if_old_maxima('5.32.1');
+
+        $st = 'Decimal number {@0.000001@}.';
+
+        $a2 = array('stackfltfmt:"~e"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
         }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertContentWithMathsEquals(
+                'Decimal number \({1.0e-6}\).',
+                $at2->get_display_castext());
     }
 
     public function test_numerical_display_1() {
@@ -833,17 +857,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        if ($this->lisp == 'CLISP') {
-            $this->assertEquals($at2->get_display_castext(),
+        $this->assertContentWithMathsEquals(
                 'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
-                'in scientific notation as \({7.3E+1}\) and in rhetoric as \({seventy-three}\).');
-        } else if ($this->lisp == 'SBCL') {
-            $this->assertEquals($at2->get_display_castext(),
-                'The decimal number \({73}\) is written in base \(2\) as \({1001001}\), in base \(7\) as \({133}\), ' .
-                'in scientific notation as \({7.3e+1}\) and in rhetoric as \({seventy-three}\).');
-        } else {
-            throw new Exception('Unknown lisp version!');
-        }
+                'in scientific notation as \({7.3e+1}\) and in rhetoric as \({seventy-three}\).',
+                $at2->get_display_castext());
     }
 
     public function test_numerical_display_binary() {
@@ -863,7 +880,57 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
+        $this->assertEquals(
+                'The number \({1001001}\) is written in base \(2\).',
+                $at2->get_display_castext());
+    }
+
+    public function test_inline_fractions() {
+        $s = '{@(stack_disp_factions("i"), 1/x)@} {@(stack_disp_factions("d"), 1/x)@} {@(stack_disp_factions("i"), 1/x)@}';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
         $this->assertEquals($at2->get_display_castext(),
-                'The number \({1001001}\) is written in base \(2\).');
+                '\({{1}/{x}}\) \({\frac{1}{x}}\) \({{1}/{x}}\)');
+    }
+
+    public function test_disp_greek() {
+        $a2 = array('a:Delta', 'b:sin(Delta^2)', 'c:delta', 't:theta');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('{@a@}, {@b@}, {@c@}, {@t@}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals($at1->get_display_castext(), '\({\Delta}\), \({\sin \left( \Delta^2 \right)}\), ' .
+                '\({\delta}\), \({\theta}\)');
+    }
+
+    public function test_subscripts() {
+        $a2 = array('a:texsub(v, 2*alpha)', 'b:texsub(v, texsub(m, n))');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('{@a@}, {@b@}, {@beta47@}', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), \({{\it beta_{47}}}\)',
+                $at1->get_display_castext());
     }
 }

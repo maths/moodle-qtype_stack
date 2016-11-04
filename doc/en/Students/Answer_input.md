@@ -93,6 +93,10 @@ Note that in this context you should always use ordinary round bracket (like (a+
 
 You may be asked to answer a question in which the answer has units.  E.g. \( 9.81\mbox{m}\mbox{s}^{-2} \).  To enter units you must use multiplication, so this is entered as either `9.81*m/s^2` or `9.81*m*s^(-2)`.  Don't use a space, or another symbol such as `+`.
 
+### Subscripts  ###
+
+Use the underscore character to denote a subscript.  For example, \(a_b\) should be entered as `a_b`.
+
 ### More examples  ###
 
 * \(2^{a+b}\) should be entered as `2^(a+b)`
@@ -124,9 +128,10 @@ Things to remember:
 
 ### **Exponentials** and **Logarithms** ###
 
-* You should always write `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
-* Currently in STACK both \(\ln\) and \(\log\) are the _natural logarithms_ with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l, not a capital I. 
-* Log to base \(10\) is entered as `lg`.
+* To enter the exponential function type `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
+* Type `ln(x)` or `log(x)` to enter the _natural logarithm_ of \(x\) with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l for logarithm, not a capital I (`i`).
+* Log \(x\) to base \(10\) is entered as `lg(x)`.
+* The logarithm of \(x\) to base \(a\) is entered as `lg(x,a)`, sometimes written \(\log_{a}(x)\).
 
 ## Matrices  ##
 

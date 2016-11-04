@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ class behat_qtype_stack extends behat_base {
      */
     public function iSetUpStackUsingThePhpunitConfiguration() {
         // The require_once is here, this file may be required by behat before including /config.php.
-        require_once(__DIR__ . '/../test_maxima_configuration.php');
+        require_once(__DIR__ . '/../fixtures/test_maxima_configuration.php');
 
         if (!qtype_stack_test_config::is_test_config_available()) {
             throw new SkippedException('To run the STACK tests, ' .

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -196,7 +196,7 @@ class stack_potentialresponse_tree {
             }
 
             $visitednodes[$nodekey] = true;
-            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $localoptions);
+            $nodekey = $this->nodes[$nodekey]->traverse($results, $nodekey, $cascontext, $answers, $localoptions);
 
             if ($results->_errors) {
                 break;
@@ -250,13 +250,13 @@ class stack_potentialresponse_tree {
             $rawcasstrings = array_merge($rawcasstrings, $node->get_required_cas_strings());
         }
 
+        // Remove strings in castrings so that strings like "...ans1..." do not match ans1.
+        $rawcasstring = stack_utils::eliminate_strings(implode('; ', $rawcasstrings));
+
         $requirednames = array();
         foreach ($variablenames as $name) {
-            foreach ($rawcasstrings as $string) {
-                if ($this->string_contains_variable($name, $string)) {
-                    $requirednames[] = $name;
-                    break;
-                }
+            if ($this->string_contains_variable($name, $rawcasstring)) {
+                $requirednames[] = $name;
             }
         }
         return $requirednames;

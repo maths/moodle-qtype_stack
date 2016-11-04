@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,7 +42,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         $this->db = $db;
     }
 
-    /* @see stack_cas_connection::compute() */
     public function compute($command) {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {
@@ -65,7 +64,6 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $result;
     }
 
-    /* @see stack_cas_connection::get_debuginfo() */
     public function get_debuginfo() {
         return $this->debug->get_log();
     }

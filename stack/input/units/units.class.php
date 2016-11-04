@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -116,20 +116,6 @@ class stack_units_input extends stack_input {
             $validationmethod = 'unitsnegpow';
         }
         return $validationmethod;
-    }
-
-    /**
-     * Transforms the contents array into a maxima expression.
-     *
-     * @param array|string $in
-     * @return string
-     */
-    protected function post_validation_modification($expr) {
-        $opt = trim($this->get_parameter('options'));
-        if (!(strpos($opt, 'mul') === false) and trim($expr) != '') {
-            $expr = 'subst("*", stackunits, '. $expr .')';
-        }
-        return $expr;
     }
 
 }

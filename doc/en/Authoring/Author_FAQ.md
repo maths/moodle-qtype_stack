@@ -2,7 +2,11 @@
 
 ## How can I report a bug or make a suggestion? ##
 
-Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+Please read this page first!  Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+
+## Can I write questions in multiple languages?
+
+Yes, see support for [multiple languages](Languages.md).
 
 ## What is LaTeX? Where can I get help learning LaTeX? ##
 
@@ -34,6 +38,24 @@ Some libraries are optional and may not be included by your local installation.
 
 You should also be aware that there are also a number of functions defined by STACK which are not standard Maxima functions.
 The command you need may well not be enabled since you should use one STACK provides instead.
+
+## How can I use subscripts in STACK ##
+
+Maxima "atoms" with a subscript will be displayed using subscripts.  For example
+
+    theta_2
+
+will be displayed as \(\theta_2\).  Both teachers and students can use this mechanism.  However, this relies on the expression being a Maxima atom.  (See the maxima manual).
+
+Teachers can create an inert function which displays using subscripts.
+
+    texsub(a,b)
+
+is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscipts to be displayed with non-atomic things like
+
+    texsub(F,1-2)
+    
+with simplicifation off will be displayed as \({F}_{1-2}\) (with simplifcation off).  The complex expression in the subscript cannot form an atomic Maxima expression.
 
 ## How can I test out STACK specific functions in a Maxima session? ##
 

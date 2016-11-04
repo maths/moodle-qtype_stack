@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ abstract class stack_input {
         'strictSyntax',
         'insertStars',
         'syntaxHint',
+        'syntaxAttribute',
         'forbidWords',
         'allowWords',
         'forbidFloats',
@@ -68,6 +69,11 @@ abstract class stack_input {
     protected $teacheranswer;
 
     /**
+     * The question level options for CAS sessions.
+     */
+    protected $options;
+
+    /**
      * Answertest paramaters.
      * @var array paramer name => current value.
      */
@@ -85,11 +91,16 @@ abstract class stack_input {
      * @param array $parameters The options for this input. All the opitions have default
      *      values, so you only have to give options that are different from the default.
      */
-    public function __construct($name, $teacheranswer, $parameters = null) {
+    public function __construct($name, $teacheranswer, $options = null, $parameters = null) {
         $this->name = $name;
         $this->teacheranswer = $teacheranswer;
         $class = get_class($this);
         $this->parameters = $class::get_parameters_defaults();
+
+        if (!(null === $options || is_a($options, 'stack_options'))) {
+            throw new stack_exception('stack_input: $options must be stack_options.');
+        }
+        $this->options = $options;
 
         if (!(null === $parameters || is_array($parameters))) {
             throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, ' .
@@ -105,8 +116,8 @@ abstract class stack_input {
         $this->internal_contruct();
     }
 
-    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown
-     * uses this to sort out options.
+    /* This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
+     * use this to sort out options.
      */
     protected function internal_contruct() {
         return true;
@@ -276,6 +287,7 @@ abstract class stack_input {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
         $localoptions = clone $options;
+        $localoptions->set_option('simplify', false);
 
             // The validation field should always come back through as a single RAW Maxima expression for each input.
         if (array_key_exists($this->name . '_val', $response)) {
@@ -291,33 +303,27 @@ abstract class stack_input {
         }
 
         // This method actually validates any CAS strings etc.
-        list($valid, $errors, $modifiedcontents) = $this->validate_contents($contents, $forbiddenkeys);
+        list($valid, $errors, $modifiedcontents) = $this->validate_contents($contents, $forbiddenkeys, $localoptions);
 
         // If we can't get a "displayed value" back from the CAS, show the student their original expression.
         $display = stack_maxima_format_casstring($this->contents_to_maxima($contents));
+        $lvarsdisp = '';
         $interpretedanswer = $this->contents_to_maxima($modifiedcontents);
         $answer = new stack_cas_casstring($interpretedanswer);
-        $lvarsdisp = '';
 
         // Send the string to the CAS.
         if ($valid) {
-            $validationmethod = $this->get_validation_method();
 
-            $singlevarchars = false;
-            if (2 == $this->get_parameter('insertStars', 0)) {
-                $singlevarchars = true;
-            }
+            $answer = new stack_cas_casstring($interpretedanswer);
 
             // Generate an expression from which we extract the list of variables in the student's answer.
-            $lvars = new stack_cas_casstring('listofvars('.$interpretedanswer.')');
+            $lvars = new stack_cas_casstring('sort(listofvars('.$interpretedanswer.'))');
             $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
 
             $answer->set_cas_validation_casstring($this->name,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $singlevarchars, $teacheranswer,
-                    $validationmethod, $this->get_parameter('allowWords', ''));
-            $localoptions->set_option('simplify', false);
+                    $teacheranswer, $this->get_validation_method(), $this->get_parameter('allowWords', ''));
 
             $session = new stack_cas_session(array($answer, $lvars), $localoptions, 0);
             $session->instantiate();
@@ -325,7 +331,6 @@ abstract class stack_input {
             $session = $session->get_session();
             $answer = $session[0];
             $lvars  = $session[1];
-
             $errors = stack_maxima_translate($answer->get_errors());
             if ('' != $errors) {
                 $valid = false;
@@ -334,8 +339,11 @@ abstract class stack_input {
                 $valid = false;
             } else {
                 $display = '\[ ' . $answer->get_display() . ' \]';
-                $interpretedanswer = $answer->get_value();
-                $interpretedanswer = $this->post_validation_modification($interpretedanswer);
+                // This indicates some kind of error.
+                // The value "valse" is returned by the "stack_validate_..." functions.
+                if ($answer->get_value() == 'false' && $answer->get_raw_casstring() != 'false') {
+                    $display = $answer->get_raw_casstring();
+                }
                 if (!($lvars->get_value() == '[]')) {
                     $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
                 }
@@ -402,7 +410,7 @@ abstract class stack_input {
      *                             must not appear in the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
 
@@ -410,6 +418,14 @@ abstract class stack_input {
         $modifiedcontents = array();
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $val) {
+            // Process single character variable names in PHP.
+            // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
+            if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
+                $val = stack_utils::make_single_char_vars($val, $localoptions,
+                        $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
+                        $this->get_parameter('allowWords', ''));
+            }
+
             $answer = new stack_cas_casstring($val);
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $allowwords);

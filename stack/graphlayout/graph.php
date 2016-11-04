@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -176,9 +176,12 @@ class stack_abstract_graph {
                         $this->remove_clump($rightclump);
                     }
 
+                    // @codingStandardsIgnoreStart
                     // Weighted mean based on the length of the two branches.
-                    $xpos = (($leftchild->x + 1) * ($rightchild->depth - $node->depth) + ($rightchild->x - 1) * ($leftchild->depth - $node->depth));
-                    $xpos /= ($rightchild->depth - $node->depth + $leftchild->depth - $node->depth);
+                    $xpos = (($leftchild->x + 1) * ($rightchild->depth - $node->depth) +
+                                ($rightchild->x - 1) * ($leftchild->depth - $node->depth)) /
+                                ($rightchild->depth - $node->depth + $leftchild->depth - $node->depth);
+                    // @codingStandardsIgnoreEnd
 
                     $leftclump->add_node($node, $xpos, 2);
                 }

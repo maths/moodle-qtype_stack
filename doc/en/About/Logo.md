@@ -2,7 +2,7 @@
 
 The STACK logo is based on the following problem.
 
-> If you stack indentical blocks one on top of the other, how far can it lean before it falls over?   You have a potentially unlimited supply of blocks.
+> If you stack identical blocks one on top of the other, how far can it lean before it falls over?   You have a potentially unlimited supply of blocks.
 
 The answer is that there is no limit to how far it can lean!  A physical model is shown below.
 

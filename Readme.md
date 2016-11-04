@@ -1,6 +1,6 @@
 # abacus branch of STACK (BETA)
 
-# STACK 3.5
+# STACK 3.5.5 (ATUnitsNum)
 
 [STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
 

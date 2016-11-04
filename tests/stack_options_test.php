@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@
  */
 
 require_once(__DIR__ . '/../stack/options.class.php');
-
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * Unit tests for stack_options.

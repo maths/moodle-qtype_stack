@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -143,6 +143,7 @@ class qtype_stack extends question_type {
             $input->strictsyntax       = $fromform->{$inputname . 'strictsyntax'};
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
+            $input->syntaxattribute    = $fromform->{$inputname . 'syntaxattribute'};
             $input->forbidwords        = $fromform->{$inputname . 'forbidwords'};
             $input->allowwords         = $fromform->{$inputname . 'allowwords'};
             $input->forbidfloat        = $fromform->{$inputname . 'forbidfloat'};
@@ -347,7 +348,7 @@ class qtype_stack extends question_type {
         $question->inputs = $DB->get_records('qtype_stack_inputs',
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
-                'syntaxhint, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
+                'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
                 'checkanswertype, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
@@ -398,18 +399,19 @@ class qtype_stack extends question_type {
         $requiredparams = stack_input_factory::get_parameters_used();
         foreach ($questiondata->inputs as $name => $inputdata) {
             $allparameters = array(
-                'boxWidth'       => $inputdata->boxsize,
-                'strictSyntax'   => (bool) $inputdata->strictsyntax,
-                'insertStars'    => (int) $inputdata->insertstars,
-                'syntaxHint'     => $inputdata->syntaxhint,
-                'forbidWords'    => $inputdata->forbidwords,
-                'allowWords'     => $inputdata->allowwords,
-                'forbidFloats'   => (bool) $inputdata->forbidfloat,
-                'lowestTerms'    => (bool) $inputdata->requirelowestterms,
-                'sameType'       => (bool) $inputdata->checkanswertype,
-                'mustVerify'     => (bool) $inputdata->mustverify,
-                'showValidation' => $inputdata->showvalidation,
-                'options'        => $inputdata->options,
+                'boxWidth'        => $inputdata->boxsize,
+                'strictSyntax'    => (bool) $inputdata->strictsyntax,
+                'insertStars'     => (int) $inputdata->insertstars,
+                'syntaxHint'      => $inputdata->syntaxhint,
+                'syntaxAttribute' => $inputdata->syntaxattribute,
+                'forbidWords'     => $inputdata->forbidwords,
+                'allowWords'      => $inputdata->allowwords,
+                'forbidFloats'    => (bool) $inputdata->forbidfloat,
+                'lowestTerms'     => (bool) $inputdata->requirelowestterms,
+                'sameType'        => (bool) $inputdata->checkanswertype,
+                'mustVerify'      => (bool) $inputdata->mustverify,
+                'showValidation'  => $inputdata->showvalidation,
+                'options'         => $inputdata->options,
             );
             $parameters = array();
             foreach ($requiredparams[$inputdata->type] as $paramname) {
@@ -419,7 +421,7 @@ class qtype_stack extends question_type {
                 $parameters[$paramname] = $allparameters[$paramname];
             }
             $question->inputs[$name] = stack_input_factory::make(
-                    $inputdata->type, $inputdata->name, $inputdata->tans, $parameters);
+                    $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
         $totalvalue = 0;
@@ -980,6 +982,7 @@ class qtype_stack extends question_type {
             $output .= "      <strictsyntax>{$input->strictsyntax}</strictsyntax>\n";
             $output .= "      <insertstars>{$input->insertstars}</insertstars>\n";
             $output .= "      <syntaxhint>{$format->xml_escape($input->syntaxhint)}</syntaxhint>\n";
+            $output .= "      <syntaxattribute>{$format->xml_escape($input->syntaxattribute)}</syntaxattribute>\n";
             $output .= "      <forbidwords>{$format->xml_escape($input->forbidwords)}</forbidwords>\n";
             $output .= "      <allowwords>{$format->xml_escape($input->allowwords)}</allowwords>\n";
             $output .= "      <forbidfloat>{$input->forbidfloat}</forbidfloat>\n";
@@ -1156,6 +1159,7 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, array('#', 'strictsyntax', 0, '#'), 1);
         $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', 'insertstars', 0, '#'), 0);
         $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
+        $fromform->{$name . 'syntaxattribute'}    = $format->getpath($xml, array('#', 'syntaxattribute', 0, '#'), 0);
         $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
         $fromform->{$name . 'allowwords'}         = $format->getpath($xml, array('#', 'allowwords', 0, '#'), '');
         $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);

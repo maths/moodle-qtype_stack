@@ -2,13 +2,26 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## Version 3.6
+## Version 3.5.6
 
-Unreleased, currently in the master branch.
+New featured added in this branch, but not yet on a tagged release.
 
-Numerous minor bug fixes and improvements.
+1. Change the display so that the underscore in atoms is displayed using subscripts.
+2. Added support for logarithms to an arbitrary base.
+3. Added `SigFigsStrict` answer test.
+
+## Version 3.5.5
+
+Released August 2016. 
+
+Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
 1. Expose functionality of `printf` to better control the display of integers and floats.
+2. Expand the "units" answer test to allow authors to use other numerical answer tests, see [units](../Authoring/Units.md).
+3. Add a mechanism to allow spaces in inputs.  Trial functionality, which might change.
+4. Improve the mechanism to create a maxima image and update the options in one go.
+5. Numerous options for units and the display of fractions.
+6. Added a xMaxima file to give more direct access to the sandbox.
 
 ## Version 3.5
 

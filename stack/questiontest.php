@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -133,10 +133,11 @@ class stack_question_test {
         $cascontext->add_vars($vars);
         $cascontext->instantiate();
 
+        // TODO: at this point we need to stop trailing zeros being stripped off the numerical values.
         $response = array();
         foreach ($inputs as $name => $notused) {
             $computedinput = $cascontext->get_value_key('testresponse_' . $name);
-            // In the case we start with an invalid input, and hence don't send it to the CAS
+            // In the case we start with an invalid input, and hence don't send it to the CAS.
             // We want the response to constitute the raw invalid input.
             // This permits invalid expressions in the inputs, and to compute with valid expressions.
             if ('' == $computedinput) {

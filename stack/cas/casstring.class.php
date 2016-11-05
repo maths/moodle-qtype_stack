@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -143,7 +143,7 @@ class stack_cas_casstring {
                 'declare_weights' => true, 'decsym' => true, 'default_let_rule_package' => true, 'defcon' => true,
                 'defmatch' => true, 'defrule' => true, 'delay' => true, 'deleten' => true, 'diag' => true,
                 'diagmatrixp' => true, 'diagmetric' => true, 'dim' => true, 'dimension' => true, 'dimensionless' => true,
-                'dimensions' => true, 'dimensions_as_list' => true, 'direct' => true, 'disp' => true, 'dispcon' => true,
+                'dimensions' => true, 'dimensions_as_list' => true, 'direct' => true, 'dispcon' => true,
                 'dispflag' => true, 'dispform' => true, 'dispfun' => true, 'dispjordan' => true, 'display' => true,
                 'display2d' => true, 'display_format_internal' => true, 'disprule' => true, 'dispterms' => true,
                 'distrib' => true, 'domxexpt' => true, 'domxmxops' => true, 'domxnctimes' => true, 'dotsimp' => true,
@@ -239,7 +239,7 @@ class stack_cas_casstring {
                 'simplify_sum' => true, 'simplode' => true, 'simpmetderiv' => true, 'simtran' => true, 'solve_rec' => true,
                 'solve_rec_rat' => true, 'somrac' => true, 'sparse6_decode' => true, 'sparse6_encode' => true,
                 'spherical_bessel_j' => true, 'spherical_bessel_y' => true, 'spherical_hankel1' => true,
-                'spherical_hankel2' => true, 'spherical_harmonic' => true, 'split' => true, 'sqrtdenest' => true,
+                'spherical_hankel2' => true, 'spherical_harmonic' => true, 'sqrtdenest' => true,
                 'sstatus' => true, 'staircase' => true, 'stardisp' => true, 'stirling' => true, 'stirling1' => true,
                 'stirling2' => true, 'stringdisp' => true, 'summand_to_rec' => true, 'surface_hide' => true,
                 'symmetricp' => true, 'tab' => true, 'take_channel' => true, 'tcontract' => true, 'tensorkill' => true,
@@ -461,9 +461,10 @@ class stack_cas_casstring {
                 'var_general_finite_discrete' => true, 'var_geometric' => true, 'var_gumbel' => true,
                 'var_hypergeometric' => true, 'var_laplace' => true, 'var_logistic' => true, 'var_lognormal' => true,
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
-                'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
-                'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, 'null' => true,
-                'logbase' => true);
+                'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true, 'null' => true,
+                'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, , 'xor' => true,
+                'logbase' => true, 'net' => true, 'texsub' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true,
+                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -519,7 +520,7 @@ class stack_cas_casstring {
      * @var all the permitted patterns in which spaces occur.  Simple find and replace.
      */
     private static $spacepatterns = array(
-            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
+            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT'
             ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
     );
 
@@ -592,8 +593,8 @@ class stack_cas_casstring {
         // Now remove any strings from the $cmd.
         list($cmd, $strings) = $this->strings_remove($cmd);
 
-        // CAS strings may not contain @ or $. But string sure can.
-        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false) {
+        // CAS strings may not contain @, $ or \. But a string sure can.
+        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false || strpos($cmd, '\\') !== false) {
             $this->add_error(stack_string('illegalcaschars'));
             $this->answernote[] = 'illegalcaschars';
             $this->valid = false;
@@ -634,6 +635,7 @@ class stack_cas_casstring {
             }
         }
 
+        // These two commands have side effects on $this->casstring, necessitating returning a new $cmd variable.
         $cmd = $this->check_spaces($security, $syntax, $insertstars);
 
         $inline = stack_utils::check_bookends($cmd, '(', ')');
@@ -818,9 +820,15 @@ class stack_cas_casstring {
             $this->valid = false;
         }
 
-        // Check for and replace logarithms log_A(B).
+        // We need to split keyvals off here before we check underscore characters.
+        $this->key_val_split();
+
+            // Check for and replace logarithms log_A(B).
         // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
-        if(preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
+        $cmd = $this->casstring;
+        // Be forgiving with log10.
+        $cmd = str_replace('log10(', 'log_10(', $cmd);
+        if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
             foreach ($found[0] as $key => $match) {
                 $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
                 $cmd = str_replace($match, $sub, $cmd);
@@ -833,7 +841,8 @@ class stack_cas_casstring {
 
         $this->check_security($security, $allowwords);
 
-        $this->key_val_split();
+        $this->check_underscores($security);
+
         return $this->valid;
     }
 
@@ -983,6 +992,34 @@ class stack_cas_casstring {
         }
     }
 
+    /* We have added support for subscripts using underscore.  We expect more invalid expressions. */
+    private function check_underscores($security) {
+
+        $strpatterns[] = ')_';
+        $strpatterns[] = '_(';
+        $strpatterns[] = ']_';
+        $strpatterns[] = '_[';
+        $strpatterns[] = '}_';
+        $strpatterns[] = '_{';
+
+        $cmd = $this->casstring;
+        $found = array();
+        $valid = true;
+        foreach ($strpatterns as $pat) {
+            if (!(strpos($cmd, $pat) === false)) {
+                $valid = false;
+                $this->answernote[] = 'underscores';
+                $found[] = '<font color=\"red\"><code>' . $pat . '</code></font>';
+            }
+        }
+
+        if (!$valid) {
+            $this->valid = false;
+            $a = implode($found, ', ');
+            $this->add_error(stack_string('stackCas_underscores', $a));
+        }
+
+    }
 
     /**
      * Check for forbidden CAS commands, based on security level
@@ -1059,9 +1096,42 @@ class stack_cas_casstring {
 
         }
 
-        $strinkeywords = array_unique($strinkeywords);
-        // Check for global forbidden words.
+        // Check for global forbidden words before we split over underscores.
         foreach ($strinkeywords as $key) {
+            if (isset(self::$cache['globalforbid'][strtolower($key)])) {
+                // Very bad!
+                $this->add_error(stack_string('stackCas_forbiddenWord',
+                        array('forbid' => stack_maxima_format_casstring(strtolower($key)))));
+                $this->answernote[] = 'forbiddenWord';
+                $this->valid = false;
+            }
+        }
+        if ($this->valid == false) {
+            return null;
+        }
+
+        $keywords = array();
+        // Create an array of unique keywords.  For students we split over underscores.  We don't do this for teachers otherwise
+        // too many existing question break because teachers have defined function names with underscores.
+        foreach ($strinkeywords as $key) {
+            // Delete function names which students are allowed from the list of keywords before we split over underscore.
+            if (!isset(self::$cache['merged-sallow'][$key])) {
+                if ($security == 't') {
+                    $keywords[$key] = true;
+                } else {
+                    foreach (explode("_", $key) as $kw) {
+                        if (strlen($kw) > 2) {
+                            $keywords[$kw] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        $strinkeywords = array_keys($keywords);
+
+        foreach ($strinkeywords as $key) {
+            // Check again for global forbidden words.
             if (isset(self::$cache['globalforbid'][strtolower($key)])) {
                 // Very bad!
                 $this->add_error(stack_string('stackCas_forbiddenWord',
@@ -1410,7 +1480,7 @@ class stack_cas_casstring {
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
     public function set_cas_validation_casstring($key, $forbidfloats = true,
-                    $lowestterms = true, $singlecharvars = false, $tans = null, $validationmethod, $allowwords = '') {
+                    $lowestterms = true, $tans = null, $validationmethod, $allowwords = '') {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
@@ -1439,9 +1509,8 @@ class stack_cas_casstring {
             $lowestterms = 'false';
         }
 
-        if ($singlecharvars) {
-            $starredanswer = 'stack_singlevar_make('.$starredanswer.')';
-        }
+        $fltfmt = stack_utils::decimal_digits($starredanswer);
+        $fltfmt = $fltfmt['fltfmt'];
 
         $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
@@ -1453,11 +1522,11 @@ class stack_cas_casstring {
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "inline")';
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.','.$tans.', "inline", '.$fltfmt.')';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'],'.$lowestterms.','.$tans.', "negpow")';
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "negpow", '.$fltfmt.')';
         }
 
         return true;
@@ -1490,7 +1559,9 @@ class stack_cas_casstring {
     public function decode_maxima_errors($error) {
         $searchstrings = array('DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
                 'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
-                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units');
+                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
+                'Variable_function');
+
         $foundone = false;
         foreach ($searchstrings as $s) {
             if (false !== strpos($error, $s)) {

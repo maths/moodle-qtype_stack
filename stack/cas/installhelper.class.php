@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -132,10 +132,16 @@ class stack_cas_configuration {
         }
 
         $locations = array();
+        $locations[] = 'C:/maxima-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/Maxima-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/bin/Maxima-gcl-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/bin/Maxima-sbcl-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/Program Files/Maxima-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/Program Files (x86)/Maxima-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/Program Files/Maxima-sbcl-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/Program Files (x86)/Maxima-sbcl-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/Program Files/Maxima-gcl-' . $this->settings->maximaversion . '/';
+        $locations[] = 'C:/Program Files (x86)/Maxima-gcl-' . $this->settings->maximaversion . '/';
         if ('5.25.1' == $this->settings->maximaversion) {
             $locations[] = 'C:/Program Files/Maxima-5.25.1-gcl/';
             $locations[] = 'C:/Program Files (x86)/Maxima-5.25.1-gcl/';

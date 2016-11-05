@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.maths.ed.ac.uk//
+// This file is part of STACK - http://stack.maths.ed.ac.uk//
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Add in all the tests from answertestsfixtures.class into the unit testing framework.
+ * Add in all the tests from studentinput.php into the unit testing framework.
  * While these are exposed to users as documentation, the Travis integration should also
  * run all the tests.
  *
@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
+require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 
 /**
  * Unit tests for all answertests.
@@ -35,32 +35,31 @@ require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_answertest_fixtures_cas_test extends qtype_stack_testcase {
-    /**
-     * @dataProvider answertest_fixtures
-     */
+class stack_studentinput_test extends qtype_stack_testcase {
 
-    public function test_answertest($testrep, $passed, $ansnote, $expectednote) {
-            $this->assertTrue($passed);
-            $this->assertEquals($expectednote, $ansnote);
+    /**
+     * @dataProvider studentinput_fixtures
+     */
+    public function test_studentinput($testrep, $result) {
+
+        $this->assertTrue($result->passed);
+        $this->assertEquals($result->display, $result->casdisplay);
+        $this->assertEquals($result->ansnotes, $result->casnotes);
+
     }
 
-    public function answertest_fixtures() {
+    public function studentinput_fixtures() {
+
+        $tests = stack_inputvalidation_test_data::get_raw_test_data();
 
         $testdata = array();
-        // Get the list of available tests.
-        $tests = stack_answertest_test_data::get_all();
+        foreach ($tests as $data) {
+            $test = stack_inputvalidation_test_data::test_from_raw($data);
+            $result = stack_inputvalidation_test_data::run_test($test);
 
-        foreach ($tests as $test) {
-            $testrep = 'AT' . $test->name . "( " . $test->studentanswer . ", " .$test->teacheranswer. ")";
-            if ($test->options != '') {
-                $testrep .= ' Options: ' . $test->options;
-            }
-
-            list($passed, $error, $rawmark, $feedback, $ansnote, $anomalynote) = stack_answertest_test_data::run_test($test);
-            $testdata[] = array($testrep, $passed, $ansnote, $test->ansnote);
+            $testrep = $test->rawstring;
+            $testdata[] = array($testrep, $result);
         }
         return $testdata;
     }
-
 }

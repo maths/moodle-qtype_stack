@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -703,7 +703,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_subscripts() {
-        $a2 = array('a:stacktexsubscript(v, 2*alpha)', 'b:stacktexsubscript(v, stacktexsubscript(m, n))');
+        $a2 = array('a:texsub(v, 2*alpha)', 'b:texsub(v, texsub(m, n))');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -717,7 +717,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\({v}_{2\cdot \alpha}\), \({v}_{{m}_{n}}\), \({\beta}_{\mbox{47}}\)',
+        $this->assertEquals('\({v}_{2\cdot \alpha}\), \({v}_{{m}_{n}}\), \({\it beta_{47}}\)',
                 $at1->get_display_castext());
     }
 }

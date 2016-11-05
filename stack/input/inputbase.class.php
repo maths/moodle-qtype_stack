@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -286,6 +286,7 @@ abstract class stack_input {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
         $localoptions = clone $options;
+        $localoptions->set_option('simplify', false);
 
         if ($ajaxinput) {
             $response = $this->ajax_to_response_array($response);
@@ -311,7 +312,7 @@ abstract class stack_input {
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // AT this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $modifiedcontents, $caslines) = $this->validate_contents($contents, $forbiddenkeys);
+        list($valid, $errors, $modifiedcontents, $caslines) = $this->validate_contents($contents, $forbiddenkeys, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
@@ -357,7 +358,6 @@ abstract class stack_input {
             if ($checktype && $trivialta) {
                 $ivalidationmethod = 'typeless';
             }
-
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
@@ -376,6 +376,7 @@ abstract class stack_input {
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;
         }
+            $sessionerrors = trim($session->get_errors());
 
         // Generate an expression from which we extract the list of variables in the student's answer.
         // We do this from the *answer* once interprted, so stars are inserted if insertStars=2.
@@ -385,7 +386,6 @@ abstract class stack_input {
         if ($lvars->get_valid()) {
             $sessionvars[] = $lvars;
         }
-
         $additionalvars = $this->additional_session_variables();
         $sessionvars = array_merge($sessionvars, $additionalvars);
 
@@ -394,7 +394,7 @@ abstract class stack_input {
         $session->instantiate();
 
         //  Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
-        //  we don't need to extract updated values from the instantated $session explicitly.
+        //  we don't need to extract updated values from the instantiated $session explicitly.
         list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $additionalvars, $valid, $errors);
 
         if ('' == $answer->get_value()) {
@@ -469,7 +469,7 @@ abstract class stack_input {
      *                             variables which must not appear in the student's input.
      * @return array of the validity, errors strings, modified contents and caslines.
      */
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
 
@@ -479,6 +479,14 @@ abstract class stack_input {
         $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $index => $val) {
+            // Process single character variable names in PHP.
+            // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
+            if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
+                $val = stack_utils::make_single_char_vars($val, $localoptions,
+                        $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
+                        $this->get_parameter('allowWords', ''));
+            }
+
             $answer = new stack_cas_casstring($val);
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $allowwords);
@@ -647,17 +655,6 @@ abstract class stack_input {
         } else {
             return '';
         }
-    }
-
-    /**
-     * Transforms the interpreted answer after it has been validated by the CAS.
-     * Most do nothing, but see units.
-     *
-     * @param string $in
-     * @return string
-     */
-    protected function post_validation_modification($interpretedanswer) {
-        return $interpretedanswer;
     }
 
     /**

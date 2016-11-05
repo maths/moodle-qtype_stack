@@ -462,7 +462,7 @@ class stack_cas_casstring {
                 'var_hypergeometric' => true, 'var_laplace' => true, 'var_logistic' => true, 'var_lognormal' => true,
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true, 'null' => true,
-                'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, , 'xor' => true,
+                'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, 'xor' => true,
                 'logbase' => true, 'net' => true, 'texsub' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true);
 
@@ -520,9 +520,8 @@ class stack_cas_casstring {
      * @var all the permitted patterns in which spaces occur.  Simple find and replace.
      */
     private static $spacepatterns = array(
-            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT'
-            ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
-    );
+            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
+            ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
 
     public function __construct($rawstring) {
         $this->rawcasstring   = $rawstring;
@@ -1485,7 +1484,7 @@ class stack_cas_casstring {
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
             || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
             throw new stack_exception('stack_cas_casstring: validationmethod must one of "checktype", "typeless", ' .
-                '"units" or "unitsnegpow" or "equiv", but received "'.validationmethod.'".');
+                '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
         }
         if (null === $this->valid) {
             $this->validate('s', true, 0, $allowwords);
@@ -1512,17 +1511,17 @@ class stack_cas_casstring {
         $fltfmt = stack_utils::decimal_digits($starredanswer);
         $fltfmt = $fltfmt['fltfmt'];
 
-        $this->casstring = 'stack_validate(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.','.$tans.')';
+        $this->casstring = 'stack_validate(['.$starredanswer.'], '.$forbidfloats.','.$lowestterms.','.$tans.')';
         if ($validationmethod == 'typeless') {
             // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.', false)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', false)';
         }
         if ($validationmethod == 'equiv') {
-            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'],'.$forbidfloats.','.$lowestterms.', true)';
+            $this->casstring = 'stack_validate_typeless(['.$starredanswer.'], '.$forbidfloats.', '.$lowestterms.', true)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
-            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.','.$tans.', "inline", '.$fltfmt.')';
+            $this->casstring = 'stack_validate_units(['.$starredanswer.'], '.$lowestterms.', '.$tans.', "inline", '.$fltfmt.')';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.

@@ -361,7 +361,7 @@ abstract class stack_input {
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_casstring($this->name.$index,
                     $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-                    $singlevarchars, $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''));
+                    $ta, $ivalidationmethod, $this->get_parameter('allowWords', ''));
                 $sessionvars[] = $cs;
             }
         }
@@ -371,12 +371,10 @@ abstract class stack_input {
         $answer = new stack_cas_casstring($interpretedanswer);
         $answer->set_cas_validation_casstring($this->name,
             $this->get_parameter('forbidFloats', false), $this->get_parameter('lowestTerms', false),
-            $singlevarchars,
             $teacheranswer, $validationmethod, $this->get_parameter('allowWords', ''));
         if ($valid && $answer->get_valid()) {
             $sessionvars[] = $answer;
         }
-            $sessionerrors = trim($session->get_errors());
 
         // Generate an expression from which we extract the list of variables in the student's answer.
         // We do this from the *answer* once interprted, so stars are inserted if insertStars=2.
@@ -402,7 +400,6 @@ abstract class stack_input {
         } else {
             // We need the value which has passed through the CAS as singlevarchars changes the value of the answer.
             $interpretedanswer = $answer->get_value();
-            $interpretedanswer = $this->post_validation_modification($interpretedanswer);
             if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }

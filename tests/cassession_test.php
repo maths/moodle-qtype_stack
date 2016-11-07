@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -215,83 +215,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('x+\\left(-5+y\\right)', $at1->get_display_key('p5'));
     }
 
-    public function test_single_char_vars_teacher() {
-
-        $testcases = array('ab' => 'a*b',
-            'abc' => 'a*b*c',
-            'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
-            'sin(xy)' => 'sin(x*y)',
-            'xe^x' => '(x*%e)^x',
-            'pix' => 'p*%i*x',
-            '2pi+nk' => '2*%pi+n*k',
-            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
-            'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
-        );
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $cs = new stack_cas_casstring($test);
-            $cs->get_valid('t', false, 2);
-            $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
-            $sessionvars[] = $cs;
-            $k++;
-            $this->assertTrue($cs->get_valid());
-        }
-
-        $options = new stack_options();
-        $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($sessionvars, $options, 0);
-        $at1->instantiate();
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $this->assertEquals($at1->get_value_key('v'.$k), $result);
-            $k++;
-        }
-
-    }
-
-    public function test_single_char_vars_student() {
-
-        $testcases = array('ab' => 'a*b',
-                'ab*c' => 'a*b*c',
-                'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
-                'sin(xy)' => 'sin(x*y)',
-                'xe^x' => '(x*%e)^x',
-                '2pi+nk' => '2*%pi+n*k',
-                '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
-                'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
-        );
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $cs = new stack_cas_casstring($test);
-            $cs->get_valid('s', false, 2);
-            $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
-            $sessionvars[] = $cs;
-            $k++;
-            $this->assertTrue($cs->get_valid());
-        }
-
-        $options = new stack_options();
-        $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($sessionvars, $options, 0);
-        $at1->instantiate();
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $this->assertEquals($at1->get_value_key('v'.$k), $result);
-            $k++;
-        }
-
-    }
-
     public function test_string1() {
 
         $cs = array('s:"This is a string"');
@@ -326,7 +249,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // Fails with actual display output like '{\it pi_{025}}'.
         $this->skip_if_old_maxima('5.23.2');
 
-        $cs = array('a:pi025', 'b:1+x3', 'c:f(x):=x^3', 'd:gamma7^3', 'a2:pi4^5');
+        $cs = array('a:pi_25', 'b:1+x_3', 'c:f(x):=x^3', 'd:gamma_7^3', 'a2:pi_4^5');
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->get_valid('t');
@@ -338,19 +261,19 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals($at1->get_value_key('a'), 'pi025');
-        $this->assertEquals($at1->get_display_key('a'), '{\pi}_{025}');
+        $this->assertEquals($at1->get_value_key('a'), 'pi_25');
+        $this->assertEquals($at1->get_display_key('a'), '{\pi}_{25}');
 
-        $this->assertEquals($at1->get_value_key('b'), '1+x3');
+        $this->assertEquals($at1->get_value_key('b'), '1+x_3');
         $this->assertEquals($at1->get_display_key('b'), '1+{x}_{3}');
 
         $this->assertEquals($at1->get_value_key('c'), 'f(x):=x^3');
         $this->assertEquals($at1->get_display_key('c'), 'f(x):=x^3');
 
-        $this->assertEquals($at1->get_value_key('d'), 'gamma7^3');
+        $this->assertEquals($at1->get_value_key('d'), 'gamma_7^3');
         $this->assertEquals($at1->get_display_key('d'), '{\gamma}_{7}^3');
 
-        $this->assertEquals($at1->get_value_key('a2'), 'pi4^5');
+        $this->assertEquals($at1->get_value_key('a2'), 'pi_4^5');
         $this->assertEquals($at1->get_display_key('a2'), '{\pi}_{4}^5');
     }
 
@@ -705,7 +628,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 $at1->get_display_key('greek4'));
     }
 
-    public function test_taylor_cos() {
+    public function test_taylor_cos_simp() {
         $cs = array('c1:taylor(cos(x),x,0,1)',
                     'c3:taylor(cos(x),x,0,3)');
         foreach ($cs as $s) {
@@ -713,13 +636,38 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $cs->get_valid('s');
             $s1[] = $cs;
         }
-        $at1 = new stack_cas_session($s1, null, 0);
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
         // For some reason Maxima's taylor function doesn't always put \cdots at the end.
         $this->assertEquals('+1', $at1->get_value_key('c1'));
         $this->assertEquals('+1+\cdots', $at1->get_display_key('c1'));
         $this->assertEquals('1-x^2/2', $at1->get_value_key('c3'));
-        $this->assertEquals('1-\frac{x^2}{2}', $at1->get_display_key('c3'));
+        $this->assertEquals('1-\frac{x^2}{2}+\cdots', $at1->get_display_key('c3'));
+    }
+
+    public function test_taylor_cos_nosimp() {
+        $cs = array('c1:taylor(cos(x),x,0,1)',
+                    'c3:taylor(cos(x),x,0,3)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        // For some reason Maxima's taylor function doesn't always put \cdots at the end.
+        $this->assertEquals('+1', $at1->get_value_key('c1'));
+        $this->assertEquals('+1+\cdots', $at1->get_display_key('c1'));
+        $this->assertEquals('1-x^2/2', $at1->get_value_key('c3'));
+        $this->assertEquals('1-\frac{x^2}{2}+\cdots', $at1->get_display_key('c3'));
     }
 
     public function test_lambda() {
@@ -737,5 +685,45 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // For some reason Maxima's taylor function doesn't always put \cdots at the end.
         $this->assertEquals('lambda([ex],ex^3)', $at1->get_value_key('l1'));
         $this->assertEquals('[1,8,27]', $at1->get_value_key('l3'));
+    }
+
+    public function test_sets_simp() {
+        $cs = array('c1:{}',
+            'c2:{b,a,c}');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('{}', $at1->get_value_key('c1'));
+        $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
+        $this->assertEquals('{a,b,c}', $at1->get_value_key('c2'));
+        $this->assertEquals('\left \{a , b , c \right \}', $at1->get_display_key('c2'));
+    }
+
+    public function test_sets_simp_false() {
+        $cs = array('c1:{}',
+            'c2:{b,a,c}');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('{}', $at1->get_value_key('c1'));
+        $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
+        $this->assertEquals('{b,a,c}', $at1->get_value_key('c2'));
+        $this->assertEquals('\left \{b , a , c \right \}', $at1->get_display_key('c2'));
     }
 }

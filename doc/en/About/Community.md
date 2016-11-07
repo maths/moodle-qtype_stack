@@ -56,7 +56,7 @@ Ja STACK Community
 : Contact [Ja STACK.org](http://ja-stack.org/)
 
 Loughborough University.
-: Contact [Ian Jones](I.Jones@lboro.ac.uk)
+: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
 
 Polytechnic Institute of Leiria, Leiria, Portugal
 : Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)

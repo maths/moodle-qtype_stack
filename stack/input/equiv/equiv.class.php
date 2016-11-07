@@ -151,7 +151,7 @@ class stack_equiv_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
 
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
@@ -166,10 +166,17 @@ class stack_equiv_input extends stack_input {
                 $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
                 $this->comments[$index] = $val;
             } else {
-                $answer = new stack_cas_casstring($val);
+                // Process single character variable names in PHP.
+                // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
+                if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
+                    $val = stack_utils::make_single_char_vars($val, $localoptions,
+                        $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
+                        $this->get_parameter('allowWords', ''));
+                }
             }
+            $answer = new stack_cas_casstring($val);
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
-                    $this->get_parameter('insertStars', 0), $allowwords);
+                $this->get_parameter('insertStars', 0), $allowwords);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {

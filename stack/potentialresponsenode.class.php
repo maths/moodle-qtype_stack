@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -194,7 +194,7 @@ class stack_potentialresponse_node {
      * @param stack_options $options
      * @return array with two elements, the updated $results and the index of the next node.
      */
-    public function traverse($results, $key, $cascontext, $options) {
+    public function traverse($results, $key, $cascontext, $answers, $options) {
 
         $errorfree = true;
         if ($cascontext->get_errors_key('PRSANS' . $key)) {
@@ -218,10 +218,23 @@ class stack_potentialresponse_node {
         if (!($errorfree)) {
             return -1;
         }
+        // At this point we need to subvert the CAS.  If the sans or tans is *exactly* the name of one of the
+        // inputs, then we should use the casstring (not the rawcasstring).  Running the value through the CAS strips
+        // off trailing zeros, making it effectively impossible to run the numerical sigfigs tests.
         $sans   = $cascontext->get_value_key('PRSANS' . $key);
         $tans   = $cascontext->get_value_key('PRTANS' . $key);
+        foreach ($answers as $cskey => $val) {
+            // Check whether the raw input to the node exactly matches one of the answer names.
+            $cs = $this->sans;
+            if ($cs->get_raw_casstring() == $cskey ) {
+                $sans = $cascontext->get_casstring_key($cskey);
+            }
+            $cs = $this->tans;
+            if ($cs->get_raw_casstring() == $cskey ) {
+                $tans = $cascontext->get_casstring_key($cskey);
+            }
+        }
         $atopts = $cascontext->get_value_key('PRATOPT' . $key);
-
         // If we can't find atopts then they were not processed by the CAS.
         // They might still be some in the potential response which do not
         // need to be processed.

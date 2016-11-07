@@ -212,8 +212,8 @@
 
 ;; Fine tune the display to enable us to print gamma07 as \gammma_{07},
 ;; Chris Sangwin 7/6/2016.
-(defprop $stacktexsubscript tex-stacktexsubscript tex)
-(defun tex-stacktexsubscript (x l r)
+(defprop $texsub tex-texsub tex)
+(defun tex-texsub (x l r)
   (let
       ((front (append '("{")
                       (tex (cadr x) nil nil 'mparen 'mparen)
@@ -245,7 +245,7 @@
                         f ; there is such a function
                         (member (getcharn f 1) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
-                        (not (member f '(%sum %product %derivative %integrate %at $stacktexsubscript
+                        (not (member f '(%sum %product %derivative %integrate %at $texsub
                                          %lsum %limit $pderivop) :test #'eq)) ;; what else? what a hack...
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))

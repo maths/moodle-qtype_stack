@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -270,8 +270,14 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_system_execution() {
-        // First the obvious one, just eval that string.
         $s = 'a:eval_string("system(\\\"rm /tmp/test\\\")")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+                $at1->get_errors());
+
+        // First the obvious one, just eval that string.
+        $s = 'a:eval_string("system(rm /tmp/test)")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
         $this->assertEquals('The expression <span class="stacksyntaxexample">eval_string</span> is forbidden.',
@@ -281,7 +287,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:ev(parse_string("system(\\\"rm /tmp/test\\\")"),eval)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">parse_string</span> is forbidden.',
+        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
                 $at1->get_errors());
 
         // Then things get tricky, one needs to write the thing out and eval when reading in.
@@ -305,7 +311,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:stringout("/tmp/test", "system(\\\"rm /tmp/test\\\");")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">stringout</span> is forbidden.',
+        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
                 $at1->get_errors());
 
         // The corresponding read commands load, loadfile, batch, and batchload are all bad.
@@ -542,14 +548,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_3() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_allow_moles() {
@@ -822,6 +828,16 @@ class stack_cas_casstring_test extends basic_testcase {
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 0));
         $this->assertEquals('lg(%e, %e)', $at1->get_casstring());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_log_key_vals_1() {
+        // This may not what we really want here, but this unit test is a warning.
+        $s = 'log_x:log_x(a)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(a, x)', $at1->get_casstring());
+        $this->assertEquals('log_x', $at1->get_key());
         $this->assertEquals('logsubs', $at1->get_answernote());
     }
 }

@@ -322,7 +322,8 @@ abstract class stack_input {
             $checktype = true;
             $tresponse = $this->maxima_to_response_array($teacheranswer);
             $tcontents = $this->response_to_contents($tresponse);
-            list($tvalid, $terrors, $tmodifiedcontents, $tcaslines) = $this->validate_contents($tcontents, $forbiddenkeys);
+            list($tvalid, $terrors, $tmodifiedcontents, $tcaslines)
+                = $this->validate_contents($tcontents, $forbiddenkeys, $localoptions);
         } else {
             $tcaslines = array();
         }

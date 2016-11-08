@@ -86,6 +86,9 @@ if (!$vars and !$string) {
     $simp = true;
 }
 
+// Set a value for the "insert stars" flag.  Useful for testing, but should be set to zero normally.
+$stars = 0;
+
 if ($string) {
     $options = new stack_options();
     $options->set_site_defaults();
@@ -93,13 +96,13 @@ if ($string) {
 
     $session = new stack_cas_session(null, $options);
     if ($vars) {
-        $keyvals = new stack_cas_keyval($vars, $options, 0, 't');
+        $keyvals = new stack_cas_keyval($vars, $options, 0, 't', true, $stars);
         $session = $keyvals->get_session();
         $varerrs = $keyvals->get_errors();
     }
 
     if (!$varerrs) {
-        $ct           = new stack_cas_text($string, $session, 0, 't');
+        $ct           = new stack_cas_text($string, $session, 0, 't', true, $stars);
         $displaytext  = $ct->get_display_castext();
         $errs         = $ct->get_errors();
         $debuginfo    = $ct->get_debuginfo();
@@ -166,5 +169,4 @@ if ($string) {
 if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);
 }
-
 echo $OUTPUT->footer();

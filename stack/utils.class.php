@@ -1144,6 +1144,12 @@ class stack_utils {
             $lvars = $lvars->get_value();
             $lvars = substr($lvars, 1, -1);
             $lvars = explode(',', $lvars);
+            // Deal with subscripts.
+            $lvarsub = array();
+            foreach ($lvars as $var) {
+                $lvarsub[] = explode('_', $var);
+            }
+            $lvars = call_user_func_array('array_merge', $lvarsub);
             $lops = $lops->get_value();
             $lops = substr($lops, 1, -1);
             $lops = explode(',', $lops);

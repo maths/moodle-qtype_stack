@@ -83,7 +83,7 @@ class stack_inputvalidation_test_data {
                 'missing_stars', "Note the subscripting and the implied multiplication."),
         array("a'", 'php_false', '', '', '', 'apostrophe', ""),
         array('X', 'php_true', 'X', 'cas_true', 'X', '', ""),
-        array('aXy1', 'php_false', '', 'cas_true', '{\it aXy}\cdot 1', 'missing_stars | unknownFunction', ""),
+        array('aXy1', 'php_false', '', 'cas_true', '', 'missing_stars | unknownFunction', ""),
         array('f(x)', 'php_true', 'f*(x)', 'cas_true', 'f\cdot x', 'missing_stars', "Functions"),
         array('a(x)', 'php_true', 'a*(x)', 'cas_true', 'a\cdot x', 'missing_stars', ""),
         array('b/a(x)', 'php_true', 'b/a*(x)', 'cas_true', '\frac{b}{a}\cdot x', 'missing_stars', ""),

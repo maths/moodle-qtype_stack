@@ -648,7 +648,7 @@ ATEqualComAss(sa, sb) :=
     ret:ATSameTypefun(sa,sb),
     if ret[2]=false then    
         (ret[3]:StackAddNote("ATEqualComAss: ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquivfun(sa, sb)),
+    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
     if ret[2]=false then    
         (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */

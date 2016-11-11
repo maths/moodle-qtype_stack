@@ -378,8 +378,11 @@ class stack_inputvalidation_test_data {
         array('3,14159', 'php_false', '3,14159', 'cas_true', '', 'unencpsulated_comma', ""),
         array('0,5*x^2+3', 'php_false', '0,5*x^2+3', 'cas_true', '', 'unencpsulated_comma', ""),
         array('\sqrt{2+x}', 'php_false', '\sqrt{2+x}', 'cas_false', '', 'illegalcaschars', "Student uses LaTeX"),
-        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true', '\sin \left( x \right)',
+        array('sin(x),cos(y)', 'php_true', 'sin(x),cos(y)', 'cas_true',
                 'CommaError', ""),
+        array('sum(k^n,n,0,3)', 'php_true', 'sum(k^n,n,0,3)', 'cas_true', '\sum_{n=0}^{3}{k^{n}}', '', "Sums and products"),
+        array('product(cos(k*x),k,1,3)', 'php_true', 'product(cos(k*x),k,1,3)', 'cas_true',
+            '\prod_{k=1}^{3}{\cos \left( k\cdot x \right)}', '', '')
         );
 
     public static function get_raw_test_data() {

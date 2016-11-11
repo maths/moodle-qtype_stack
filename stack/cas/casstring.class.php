@@ -461,10 +461,11 @@ class stack_cas_casstring {
                 'var_general_finite_discrete' => true, 'var_geometric' => true, 'var_gumbel' => true,
                 'var_hypergeometric' => true, 'var_laplace' => true, 'var_logistic' => true, 'var_lognormal' => true,
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
-                'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true, 'null' => true,
-                'var_student_t' => true, 'var_weibull' => true, 'nounor' => true, 'nounand' => true, 'xor' => true,
-                'logbase' => true, 'net' => true, 'texsub' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true,
-                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true);
+                'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
+                'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
+                'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
+                'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
+                'nounor' => true, 'nounand' => true, 'xor' => true);
 
     /**
      * Upper case Greek letters are allowed.

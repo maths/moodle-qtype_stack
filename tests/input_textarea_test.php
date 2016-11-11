@@ -36,7 +36,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_textarea_input_test extends basic_testcase {
+class stack_textarea_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('textArea', 'ans1', null);
@@ -83,7 +83,7 @@ class stack_textarea_input_test extends basic_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => "x^2=-7*x\nab=2"), $options, '[x^2=-7*x,a*b=2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[x^2 = (-7)*x,a*b = 2]', $state->contentsmodified);
+        $this->assertEquals('[x^2=-7*x,a*b=2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
     }
 
@@ -95,7 +95,7 @@ class stack_textarea_input_test extends basic_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[x^2 = (-7)*x,ab = 2]', $state->contentsmodified);
+        $this->assertEquals('[x^2=-7*x,ab=2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
     }
 
@@ -106,7 +106,7 @@ class stack_textarea_input_test extends basic_testcase {
         $el->set_parameter('strictSyntax', false);
         $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('[x^2 = (-7)*x,ab = 2]', $state->contentsmodified);
+        $this->assertEquals('[x^2=-7*x,ab=2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
     }
 

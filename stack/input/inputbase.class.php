@@ -399,8 +399,6 @@ abstract class stack_input {
         if ('' == $answer->get_value()) {
             $valid = false;
         } else {
-            // We need the value which has passed through the CAS as singlevarchars changes the value of the answer.
-            $interpretedanswer = $answer->get_value();
             if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }

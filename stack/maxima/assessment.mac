@@ -248,17 +248,17 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
 /* n is the number to be displayed                                                          */
 /* dp is the number of decimal places                                                       */
 
-dispdptex(ex):=block([oldsimp, ss, s2, n, dp],
-  [n, dp]:args(ex),
-  ss:split(string(decimalplaces(n, dp)), "."),
-  oldsimp:simp,
-  simp:true,
-  if is(length(ss) = 2) then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
-  if is(slength(s2)<dp) then s2:concat(s2, smake(dp-slength(s2),"0")) else s2:substring(s2,1,dp+1),
-  simp:oldsimp,
-  concat(first(ss), ".", s2)
+/* To print out *values* with trailing decimal places use this function.                    */
+
+make_dispdpvalue(ex):= block([n,d],
+    if atom(ex) then return(ex),
+    if not(is(safe_op(ex)="dispdp")) then return(apply(op(ex), maplist(make_dispdpvalue, args(ex)))),
+    if not(length(args(ex))=2) then error("dispdp must have exactly 2 arguments"),
+    n:float(first(args(ex))),
+    d:second(args(ex)),
+    if not(floatnump(n) and integerp(d)) then return(ex),
+    return(apply(dispdpvalue, [n, d]))
 );
-texput(dispdp, dispdptex);
 
 /* Write the number x in n decimal places */
 decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)), simp)$

@@ -260,6 +260,12 @@ make_dispdpvalue(ex):= block([n,d],
     return(apply(dispdpvalue, [n, d]))
 );
 
+remove_dispdp(ex):= block(
+    if atom(ex) then return(ex),
+    if not(is(safe_op(ex)="dispdp")) then return(apply(op(ex), maplist(make_dispdpvalue, args(ex)))),
+    return(first(args(ex)))
+);
+
 /* Write the number x in n decimal places */
 decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)), simp)$
 
@@ -364,9 +370,13 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
-    /* Remove scientific units from expressions. */
+    /* Remove scientific units and dispdp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
+    if not(freeof(dispdp, SA)) then
+      SA:remove_dispdp(SA),
+    if not(freeof(dispdp, SB)) then
+      SA:remove_dispdp(SB),
     /* Remove logarithms to other bases from expressions. */
     if not(freeof(logbase, SA)) then
         SA:ev(SA, logbase=logbasesimp),

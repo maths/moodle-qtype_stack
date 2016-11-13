@@ -48,6 +48,11 @@ class stack_cas_casstring {
     private $value;
 
     /**
+     * @var string A sanitised version of the value, e.g. with decimal places printed.
+     */
+    private $dispvalue;
+
+    /**
      * @var string how to display the CAS string, e.g. LaTeX. Only gets set
      *             after the casstring has been processed by the CAS.
      */
@@ -1398,6 +1403,10 @@ class stack_cas_casstring {
         return $this->display;
     }
 
+    public function get_dispvalue() {
+        return $this->dispvalue;
+    }
+
     public function set_key($key, $appendkey=true) {
         if (null === $this->valid) {
             $this->validate();
@@ -1416,6 +1425,10 @@ class stack_cas_casstring {
 
     public function set_display($val) {
         $this->display = $val;
+    }
+
+    public function set_dispvalue($val) {
+        $this->dispvalue = $val;
     }
 
     public function get_answernote() {

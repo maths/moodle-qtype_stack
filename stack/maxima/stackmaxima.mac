@@ -506,6 +506,8 @@ cte(var, ex) := block([str],
     else block(
         print(", value = ["),
         print(string(ex[1])),
+        print("], dispvalue = ["),
+        print(stack_dispvalue(ex[1])),
         print("], display = ["),
         print(stack_disp(ex[1], "")),
         print("]"), 
@@ -513,6 +515,15 @@ cte(var, ex) := block([str],
     ),
     print("], "),
     return(ex)
+)$
+
+/* This function strips out functions to leave only things in the value which might be typed in. */
+stack_dispvalue(ex) := block(
+  ex:detexcolor(ex),
+  ex:detexdecorate(ex),
+  ex:make_dispdpvalue(ex),
+  ex:ev(ex, stackunits="*"),
+  return(string(ex))
 )$
 
 /* ********************************** */

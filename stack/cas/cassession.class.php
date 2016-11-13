@@ -218,6 +218,11 @@ class stack_cas_session {
                     $cs->set_display($disp);
                 }
 
+                if (array_key_exists('dispvalue', $result)) {
+                    $val = str_replace('QMCHAR', '?', $result['dispvalue']);
+                    $cs->set_dispvalue($val);
+                }
+
                 if (array_key_exists('valid', $result)) {
                     $cs->set_valid($result['valid']);
                 }
@@ -339,7 +344,7 @@ class stack_cas_session {
         return false;
     }
 
-    public function get_value_key($key) {
+    public function get_value_key($key, $dispvalue = false) {
         if (null === $this->valid) {
             $this->validate();
         }
@@ -349,6 +354,9 @@ class stack_cas_session {
         // We need to reverse the array to get the last value with this key.
         foreach (array_reverse($this->session) as $casstr) {
             if ($casstr->get_key() === $key) {
+                if ($dispvalue) {
+                    return $casstr->get_dispvalue();
+                }
                 return $casstr->get_value();
             }
         }

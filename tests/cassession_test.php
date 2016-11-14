@@ -351,7 +351,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('dispdp(31.4159,3)', $at1->get_value_key('p'));
+        $this->assertEquals('dispdp(31.416,3)', $at1->get_value_key('p'));
         $this->assertEquals('31.416', $at1->get_display_key('p'));
     }
 

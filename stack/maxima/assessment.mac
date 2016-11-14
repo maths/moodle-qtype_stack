@@ -248,29 +248,36 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
 /* n is the number to be displayed                                                          */
 /* dp is the number of decimal places                                                       */
 
-dispdptex(ex):=block([oldsimp, ss, s2, n, dp],
-  [n, dp]:args(ex),
-  ss:split(string(decimalplaces(n, dp)), "."),
-  oldsimp:simp,
-  simp:true,
-  if is(length(ss) = 2) then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
-  if is(slength(s2)<dp) then s2:concat(s2, smake(dp-slength(s2),"0")) else s2:substring(s2,1,dp+1),
-  simp:oldsimp,
-  concat(first(ss), ".", s2)
+/* To print out *values* with trailing decimal places use this function.                    */
+
+make_dispdpvalue(ex):= block([n,d],
+    if atom(ex) then return(ex),
+    if taylorp(ex) or functionp(ex) or freeof(dispdp, ex) then return(ex),
+    if not(is(safe_op(ex)="dispdp")) then return(apply(op(ex), maplist(make_dispdpvalue, args(ex)))),
+    if not(length(args(ex))=2) then error("dispdp must have exactly 2 arguments"),
+    n:float(first(args(ex))),
+    d:second(args(ex)),
+    if not(floatnump(n) and integerp(d)) then return(ex),
+    return(apply(dispdpvalue, [n, d]))
 );
-texput(dispdp, dispdptex);
+
+remove_dispdp(ex):= block(
+    if atom(ex) then return(ex),
+    if not(is(safe_op(ex)="dispdp")) then return(apply(op(ex), maplist(make_dispdpvalue, args(ex)))),
+    return(first(args(ex)))
+);
 
 /* Write the number x in n decimal places */
 decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)), simp)$
 
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
-significantfigures(x,n) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2],
+sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2, dps],
+  if not(integerp(n)) then error("significantfigures(x,n) requires an integer as a second argument."),
   if x = 0 then return(0),
   if x = 0.0 then return(0.0),
   sign_of_x : signum(x),
-  x : abs(x),
-  ex:floor(float(log(x)/log(10))),
+  ex:floor(float(log(abs(x))/log(10))),
   /* Modification to round 0.5 up to 1, not down as in Maxima's round command. */
   ex1:float(x/10^(ex-n+1)),
   if ex1-floor(ex1) = 0.5 then
@@ -279,9 +286,12 @@ significantfigures(x,n) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1
       ex2:round(ex1),
   ex2:float(ex2*10^(ex-n+1)),
   if is(floor(ex2) = ratsimp(ex2)) then ex2:ratsimp(ex2),
-  if is(sign_of_x<0) then ex2:-1*ex2,
+  if dispsigfigs and is((ex+1-n)<0) then ex2:dispdp(ex2,n-1-ex),
   return(ex2)
-)$
+);
+
+significantfigures(x,n) := sigfigsfun(x,n,false);
+dispsf(x,n) := sigfigsfun(x,n,true);
 
 scientific_notation([a]) := block([simp:false,fpprintprec,ex,ex2,ex3,exn],
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
@@ -364,9 +374,13 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
-    /* Remove scientific units from expressions. */
+    /* Remove scientific units and dispdp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
+    if not(freeof(dispdp, SA)) then
+      SA:remove_dispdp(SA),
+    if not(freeof(dispdp, SB)) then
+      SA:remove_dispdp(SB),
     /* Remove logarithms to other bases from expressions. */
     if not(freeof(logbase, SA)) then
         SA:ev(SA, logbase=logbasesimp),
@@ -638,7 +652,7 @@ ATEqualComAss(sa, sb) :=
     ret:ATSameTypefun(sa,sb),
     if ret[2]=false then    
         (ret[3]:StackAddNote("ATEqualComAss: ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquivfun(sa, sb)),
+    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
     if ret[2]=false then    
         (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */

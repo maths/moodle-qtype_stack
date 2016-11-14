@@ -66,7 +66,6 @@ These variables can be defined in the question variables, for global effect.  Th
 
 The result should be "The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\)."
 
-
 To force all floating point numbers to scientific notation use
 
     stackfltfmt:"~e";
@@ -116,14 +115,20 @@ The following commands which are relevant to manipulation of numbers are defined
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures.
 | `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places.
-| `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
-| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works with `simp:false` and when printing as a float.  The optional second argument applies `dispdp(m,n)` to the mantissa to control the display of trailing zeros.
 | `commonfaclist(l)`              | Returns the hcf of a list of numbers.
 | `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
 | `coeff_list(ex,v)`              | This function takes an expression \(ex\) and returns a list of coefficients of \(v\).
 | `coeff_list_nz(ex,v)`           | This function takes an expression \(ex\) and returns a list of nonzero coefficients of \(v\).
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).  
+
+The following commands generate displayed forms of numbers.  These will not be manipulated further automatically, so you will need to use these at the past moment, e.g. only when generating the teacher's answer etc.
+
+| Command                         | Description
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
+| `dispsf(x,n)`                   | Truncate \(x\) to \(n\) significant figures and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
+| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works with `simp:false` and when printing as a float.  The optional second argument applies `dispdp(m,n)` to the mantissa to control the display of trailing zeros.
 
 
 | Function                  | Predicate

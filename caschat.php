@@ -169,4 +169,5 @@ if ($string) {
 if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);
 }
+
 echo $OUTPUT->footer();

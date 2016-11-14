@@ -54,6 +54,13 @@ class stack_cas_casstring {
     private $conditions;
 
     /**
+     * @var string A sanitised version of the value, e.g. with decimal places printed
+     *             and stackunits replaced by multiplication.  Used sparingly, e.g. for
+     *             the teacher's answer, and testing inputs.
+     */
+    private $dispvalue;
+
+    /**
      * @var string how to display the CAS string, e.g. LaTeX. Only gets set
      *             after the casstring has been processed by the CAS.
      */
@@ -469,7 +476,7 @@ class stack_cas_casstring {
                 'var_negative_binomial' => true, 'var_noncentral_chi2' => true, 'var_noncentral_student_t' => true,
                 'var_normal' => true, 'var_pareto' => true, 'var_poisson' => true, 'var_rayleigh' => true,
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
-                'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true,
+                'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true, 'xor' => true);
 
     /**
@@ -1412,6 +1419,10 @@ class stack_cas_casstring {
         return $this->display;
     }
 
+    public function get_dispvalue() {
+        return $this->dispvalue;
+    }
+
     public function set_key($key, $appendkey=true) {
         if (null === $this->valid) {
             $this->validate();
@@ -1430,6 +1441,10 @@ class stack_cas_casstring {
 
     public function set_display($val) {
         $this->display = $val;
+    }
+
+    public function set_dispvalue($val) {
+        $this->dispvalue = $val;
     }
 
     public function get_answernote() {

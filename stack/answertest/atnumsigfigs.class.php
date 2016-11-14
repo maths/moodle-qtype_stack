@@ -96,6 +96,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         // contains the number of significant figures specified by the teacher.
         $sa = trim($this->sanskey);
         $r = stack_utils::decimal_digits($this->sanskey);
+
         if ($strictsigfigs) {
             $this->atmark = 0;
             if ($r['lowerbound'] == $this->atoption) {

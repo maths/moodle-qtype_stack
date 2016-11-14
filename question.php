@@ -393,7 +393,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
         foreach ($inputs as $name) {
             $input = $this->inputs[$name];
-            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name),
+            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name, true),
                     $this->session->get_display_key($name)));
         }
         return stack_ouput_castext($feedback);
@@ -439,7 +439,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
-                    $input->get_correct_response($this->session->get_value_key($name)));
+                    $input->get_correct_response($this->session->get_value_key($name, true)));
         }
 
         return $teacheranswer;

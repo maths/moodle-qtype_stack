@@ -384,6 +384,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_disp_decimalplaces() {
+        // dispdp only holds the number of decimal places to display.  It does not do rounding.
+        // Use dispsf for rounding.
         $a2 = array('a:float(%e)', 'b:3.99999');
         $s2 = array();
         foreach ($a2 as $s) {
@@ -393,11 +395,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('@dispdp(a,2)@, @dispdp(b,3)@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('@dispdp(a,2)@, @dispdp(b,3)@, @dispsf(b,4)@', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\(2.72\), \(4.000\)', $at1->get_display_castext());
+        $this->assertEquals('\(2.71\), \(3.999\), \(4.000\)', $at1->get_display_castext());
     }
 
     public function test_disp_decimalplaces2() {
@@ -410,11 +412,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session($s2, null, 0);
 
-        $at1 = new stack_cas_text('@dispdp(a,0)*x^2@, @dispdp(b,3)@', $cs2, 0, 't');
+        $at1 = new stack_cas_text('@dispdp(a,0)*x^2@, @dispdp(b,3)@, @dispsf(b,4)@', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\(3.\cdot x^2\), \(-4.000\)', $at1->get_display_castext());
+        $this->assertEquals('\(2\cdot x^2\), \(-3.999\), \(-4.000\)', $at1->get_display_castext());
     }
 
     public function test_disp_mult_blank() {

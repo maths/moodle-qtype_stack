@@ -122,7 +122,7 @@ The following commands which are relevant to manipulation of numbers are defined
 | `numabsolutep(sa,ta,tol)`       | Is \(sa\) within \(tol\) of \(ta\)? I.e. \( |sa-ta|<tol \)  
 | `numrelativep(sa,ta,tol)`       | Is \(sa\) within \(tol\times ta\) of \(ta\)? I.e. \( |sa-ta|<tol\times ta \).  
 
-The following commands generate displayed forms of numbers.  These will not be manipulated further automatically, so you will need to use these at the past moment, e.g. only when generating the teacher's answer etc.
+The following commands generate displayed forms of numbers.  These will not be manipulated further automatically, so you will need to use these at the last moment, e.g. only when generating the teacher's answer etc.
 
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

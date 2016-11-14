@@ -302,11 +302,3 @@
   (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
 )
 
-;; Add dispdp to the tex system as well.
-;;     (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x))
-(defprop $dispdp tex-dispdp tex)
-(defun tex-dispdp (x l r)
-  (let
-      ((front (list (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)))))
-    (append l front r))
-)

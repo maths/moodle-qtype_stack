@@ -48,7 +48,9 @@ class stack_cas_casstring {
     private $value;
 
     /**
-     * @var string A sanitised version of the value, e.g. with decimal places printed.
+     * @var string A sanitised version of the value, e.g. with decimal places printed
+     *             and stackunits replaced by multiplication.  Used sparingly, e.g. for
+     *             the teacher's answer, and testing inputs.
      */
     private $dispvalue;
 

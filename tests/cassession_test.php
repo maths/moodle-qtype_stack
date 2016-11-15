@@ -16,6 +16,7 @@
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
 
@@ -332,6 +333,26 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $this->assertEquals('dispdp(3.14159,2)', $at1->get_value_key('p'));
         $this->assertEquals('3.14', $at1->get_display_key('p'));
+    }
+
+    public function test_dispsf() {
+
+        // This function actually has rounding in it as well as display.
+        $cs = array('p:dispsf(31.4159,5)');
+
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('dispdp(31.416,3)', $at1->get_value_key('p'));
+        $this->assertEquals('31.416', $at1->get_display_key('p'));
     }
 
     public function test_disp_control_structures() {
@@ -759,5 +780,29 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
         $this->assertEquals('{b,a,c}', $at1->get_value_key('c2'));
         $this->assertEquals('\left \{b , a , c \right \}', $at1->get_display_key('c2'));
+    }
+
+    public function test_numerical_rounding() {
+
+        $tests = stack_numbers_test_data::get_raw_test_data();
+        $s1 = array();
+        foreach ($tests as $key => $test) {
+            $cs = new stack_cas_casstring('dispdp('.$test[0].', '.$test[3] .')');
+            $cs->get_valid('t');
+            $cs->set_key('p'.$key);
+            $s1[$key] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertTrue($at1->get_valid());
+        $at1->instantiate();
+
+        foreach ($tests as $key => $test) {
+            $this->assertEquals($at1->get_value_key('p'.$key, true), $test[5]);
+        }
+
     }
 }

@@ -247,17 +247,27 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
 /* dispdp(n, dp) is an inert function.  The tex function converts this to display.          */
 /* n is the number to be displayed                                                          */
 /* dp is the number of decimal places                                                       */
+/* Note, dispdp does not do any rounding, it is only display.  Use significantfigure.s      */
 
 /* To print out *values* with trailing decimal places use this function.                    */
+
+dispdptex(ex):=block([ss, n, dp],
+  [n, dp]:args(ex),
+  ss:sconcat("~,", string(dp), "f"),
+  if is(equal(dp,0)) then ss:"~d",
+  ev(printf(false, ss, ev(float(n))), simp)
+);
+texput(dispdp, dispdptex);
 
 make_dispdpvalue(ex):= block([n,d],
     if atom(ex) then return(ex),
     if taylorp(ex) or functionp(ex) or freeof(dispdp, ex) then return(ex),
     if not(is(safe_op(ex)="dispdp")) then return(apply(op(ex), maplist(make_dispdpvalue, args(ex)))),
     if not(length(args(ex))=2) then error("dispdp must have exactly 2 arguments"),
-    n:float(first(args(ex))),
+    n:ev(float(first(args(ex))), simp),
     d:second(args(ex)),
     if not(floatnump(n) and integerp(d)) then return(ex),
+    if is(equal(d,0)) then return(ev(ratsimp(floor(n)), simp)),
     return(apply(dispdpvalue, [n, d]))
 );
 

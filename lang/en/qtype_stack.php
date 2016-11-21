@@ -357,7 +357,7 @@ $string['settingplatformtypeserver'] = 'Server';
 $string['settingplatformmaximacommand'] = 'Maxima command';
 $string['settingplatformmaximacommand_desc'] = 'For Platform type: Server, this is must be set to the URL of the Maxima Pool servlet. For other platform types, if this is blank, STACK will make an educated guess as to where to find Maxima. If that fails, this should be set to the full path of the maxima or maxima-optimised executable.  Consider using the timeout command on unix based systems. E.g. timeout --kill-after=10s 10s maxima';
 $string['settingplatformplotcommand'] = 'Plot command';
-$string['settingplatformplotcommand_desc'] = 'Normally this can be left blank, but if graph plotting is not working, you may need to supply the full plath to the gnuplot command here.';
+$string['settingplatformplotcommand_desc'] = 'Normally this can be left blank, but if graph plotting is not working, you may need to supply the full path to the gnuplot command here.';
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
 $string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to user the \'Fix maths delimiters\' script which is referred to below.';
 $string['settingserveruserpass'] = 'Server username:password';

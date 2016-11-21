@@ -976,7 +976,6 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     public function validation($fromform, $files) {
-        print_r($fromform);
         $errors = parent::validation($fromform, $files);
 
         $inputs = $this->get_input_names_from_question_text();

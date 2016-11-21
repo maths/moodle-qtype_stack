@@ -26,7 +26,7 @@
 class stack_numbers_test_data {
 
     // In this text digits are 1-9 and 0 is not a digit.
-    // array("string", lower, upper, decimal places, dispvalue).
+    // array("string", lower, upper, decimal places, dispvalue, casvalue from dispdp).
     protected static $rawdata = array(
             array("0", 1, 1, 0, '"~a"', '0'), // Decision: zero has one significant digit.
             array("0.0", 1, 1, 1, '"~,1f"', '0.0'), // Decision: 0.0 has one significant digit.

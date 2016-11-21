@@ -288,7 +288,7 @@
 )
 
 ;; This function has grind (and hence "string") output the number with the following number of decimal places.
-;; dispdp(number, ndps).
+;; displaydp(number, ndps).
 ;; DO NOT USE: no error checking on the types of the arguments.
 ;;(defprop $dispdp msz-dispdp grind)
 ;;(defun msz-dispdp (x l r)
@@ -296,9 +296,9 @@
 ;;)
 
 ;; This function has grind (and hence "string") output the number with the following number of decimal places.
-;; dispdp(number, ndps).
+;; displaydp(number, ndps).
 (defprop $dispdpvalue msz-dispdpvalue grind)
 (defun msz-dispdpvalue (x l r)
-  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
+ (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
 )
 

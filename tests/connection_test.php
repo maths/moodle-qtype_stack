@@ -41,7 +41,7 @@ class stack_cas_connection_base_test extends qtype_stack_testcase {
         $strin = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), cte("p",errcatch(dispdp(1,3))),'
         .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
-        $expected = array( 0 => array('key' => 'p', 'value' => 'dispdp(1,3)', 'dispvalue' => '1.00', 'display' => '1.00',
+        $expected = array( 0 => array('key' => 'p', 'value' => 'displaydp(1.0,3)', 'dispvalue' => '1.00', 'display' => '1.00',
                 'error' => ''));
         $this->assertEquals($return, $expected);
     }
@@ -51,7 +51,7 @@ class stack_cas_connection_base_test extends qtype_stack_testcase {
         $strin = 'cab:block([],print("[TimeStamp= [ 0 ], Locals= [ 0=[ error= ["), cte("p",errcatch(stackunits(dispsf(30,4),kg))),'
         .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
-        $expected = array( 0 => array('key' => 'p', 'value' => 'stackunits(dispdp(30,2),kg)',
+        $expected = array( 0 => array('key' => 'p', 'value' => 'stackunits(displaydp(30,2),kg)',
                 'dispvalue' => '30.00*kg', 'display' => '30.00\, {\it kg}', 'error' => ''));
         $this->assertEquals($return, $expected);
     }

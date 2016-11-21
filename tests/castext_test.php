@@ -399,7 +399,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\(2.71\), \(3.999\), \(4.000\)', $at1->get_display_castext());
+        $this->assertEquals('\(2.72\), \(4.000\), \(4.000\)', $at1->get_display_castext());
     }
 
     public function test_disp_decimalplaces2() {
@@ -416,7 +416,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\(2\cdot x^2\), \(-3.999\), \(-4.000\)', $at1->get_display_castext());
+        $this->assertEquals('\(2\cdot x^2\), \(-4.000\), \(-4.000\)', $at1->get_display_castext());
     }
 
     public function test_disp_mult_blank() {

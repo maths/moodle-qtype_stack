@@ -110,6 +110,39 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, ex, workex, oldsimp],
     return(workex)
 )$
 
+stack_unit_si_present(value,target) := block([conversionfactor, va, vb, simp, best, bestc, ii],
+  simp:true,
+  bestc:9000000,
+  if listp(target) then (
+    for ii:1 thru length(target) do (
+      va:stack_unit_si_present(value,target[ii]),
+      if (is(stack_units_nums(va)=0) or is(stack_units_nums(va)=0.0)) 
+         then (best:va,return(best)) 
+      else (
+        vb:abs(log(if is(stack_units_nums(va)=NULLNUM) then 1 else stack_units_nums(va))-sqrt(2)),
+        if is(vb<bestc) then (best:va,bestc:vb)
+      )
+    ),
+    return(best)
+  ) else (
+    va:stack_unit_si_to_si_base(stack_units_units(stackunits_make(10*value))),
+    vb:stack_unit_si_to_si_base(stack_units_units(stackunits_make(10*target))),
+    ii:is(stack_units_units(va)!=stack_units_units(vb)),
+    va:stack_units_nums(va),
+    if is(va = NULLNUM) then va:1,
+    vb:stack_units_nums(vb),
+    if is(vb = NULLNUM) then vb:1,
+    conversionfactor:va/vb,
+    va:stack_units_nums(stackunits_make(value)),
+    if is(va = NULLNUM) then va:1,
+    va:va*conversionfactor,
+    vb:stack_units_units(stackunits_make(target)),
+    if ii then error("Units presentation requires compatible units.") 
+    else return(stackunits(va,vb))
+  )
+)$
+
+
 /* Splits off the units from the end of a product. */
 stackunits_make(ex) := block([oldsimp, exn, exu],
     if (debug) then (print("stackunits_make: "), print(ex)),

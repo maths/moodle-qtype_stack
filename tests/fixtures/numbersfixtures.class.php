@@ -63,6 +63,9 @@ class stack_numbers_test_data {
             array("0.020e3", 2, 2, 3, '"~,1e"'),
             array("1.00e3", 3, 3, 2, '"~,2e"'),
             array("10.0e1", 3, 3, 1, '"~,2e"'),
+            array("0.020E3", 2, 2, 3, '"~,1e"'),
+            array("1.00E3", 3, 3, 2, '"~,2e"'),
+            array("10.0E1", 3, 3, 1, '"~,2e"'),
             // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
             array("52435*mg", 5, 5, 0, '"~a"'),
             array("-12.00*m", 4, 4, 2, '"~,2f"'),

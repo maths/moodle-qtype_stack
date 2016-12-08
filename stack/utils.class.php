@@ -1020,7 +1020,7 @@ class stack_utils {
             if (!$infrontofdecimaldeparator && ctype_digit($c)) {
                 $decimalplaces++;
             }
-            if ($c == 'e') {
+            if (strtolower($c) == 'e') {
                 $scientificnotation = true;
             }
             if ($c == '0') {

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * General answer test which connects to the CAS - prevents duplicate code.
  *

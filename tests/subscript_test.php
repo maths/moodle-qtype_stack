@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Add in all the tests from answertestsfixtures.class into the unit testing framework.
  * While these are exposed to users as documentation, the Travis integration should also

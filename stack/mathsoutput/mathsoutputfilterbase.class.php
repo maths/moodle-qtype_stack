@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/filterlib.php');
 require_once($CFG->dirroot . '/filter/tex/filter.php');
-
 
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.

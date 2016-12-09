@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * A CAS session is a list of Maxima expressions, which are validated
  * sent to the CAS Maxima to be evaluated, and then used.  This class

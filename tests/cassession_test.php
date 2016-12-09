@@ -733,6 +733,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_dispdp() {
+        // @codingStandardsIgnoreStart
 
         // Tests in the following form.
         // 0. Input string.
@@ -740,6 +741,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // 2. Displayed form in LaTeX.
         // 3. Value form after rounding.
         // E.g. dispdp(3.14159,2) -> displaydp(3.14,2).
+
+        // @codingStandardsIgnoreEnd
+
         $tests = array(
                     array('3.14159', '2', '3.14', 'displaydp(3.14,2)'),
                     array('100', '1', '100.0', 'displaydp(100.0,1)'),
@@ -770,6 +774,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_dispsf() {
+        // @codingStandardsIgnoreStart
 
         // Tests in the following form.
         // 0. Input string.
@@ -777,6 +782,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // 2. Displayed form.
         // 3. Value form after rounding.
         // E.g. dispsf(3.14159,2) -> displaydp(3.1,1).
+
+        // @codingStandardsIgnoreEnd
+
         $tests = array(
                     array('3.14159', '2', '3.1', 'displaydp(3.1,1)'),
                     array('100', '1', '100', '100'),

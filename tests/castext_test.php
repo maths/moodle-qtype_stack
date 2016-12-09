@@ -384,7 +384,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_disp_decimalplaces() {
-        // dispdp only holds the number of decimal places to display.  It does not do rounding.
+        // The function dispdp only holds the number of decimal places to display.  It does not do rounding.
         // Use dispsf for rounding.
         $a2 = array('a:float(%e)', 'b:3.99999');
         $s2 = array();
@@ -683,6 +683,26 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals($at2->get_display_castext(),
                 '\({1}/{x}\) \(\frac{1}{x}\) \({1}/{x}\)');
+    }
+
+    public function test_inline_fractions_all() {
+        $st = '@1/x@, @1/x^2@, @1/(a+x)@, @1/(2*a)@, @1/sin(x+y)@.';
+
+        $a2 = array('stack_disp_factions("i")');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals('\({1}/{x}\), \({1}/{x^2}\), \({1}/{\left(x+a\right)}\), \({1}/{\left(2\cdot a\right)}\),'
+              . ' \({1}/{\sin \left( y+x \right)}\).', $at2->get_display_castext());
     }
 
     public function test_disp_greek() {

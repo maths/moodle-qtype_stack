@@ -157,6 +157,9 @@ stackunits_make(ex) := block([oldsimp, exn, exu],
         return(stackunits(NULLNUM, ex)),
     if safe_op(ex)="stackunits" then
         return(ex),
+    /* We have a special case  x*1/s which we need to filter out at this stage. */
+    if safe_op(ex)="/" then
+        ex:stackunits_make_recip(ex),
     exn:flatten_recurse_nouns(noun_arith(ex)),
     if (debug) then (print("stackunits_make: nounarith expression is"), print(exn)),
     /* If we don't have a product we are return what we are given. */
@@ -222,6 +225,18 @@ stack_units_rational_number(ex) := block(
   if not(integerp(first(ex))) or atom(second(ex)) then return(ex),
   if safe_op(second(ex))="noun^" and is(second(args(second(ex)))=-1) then return([first(ex)/first(args(second(ex)))]),
   true
+)$
+
+/* We have a special case  x*1/s which we need to filter out at this stage. */
+stackunits_make_recip(ex) := block([ex1,ex2],
+  if not(safe_op(ex)="/") then return(ex),
+  ex1:first(args(ex)),
+  ex2:second(args(ex)),
+  if not(safe_op(ex1)="*") then return(ex),
+  ex1:reverse(args(ex1)),
+  if not(is(first(ex1)=1)) then return(ex),
+  if is(length(ex1)=2) then return(second(ex1)/ex2),
+  reverse(rest(ex1))/ex2
 )$
 
 /* Add utility functions to get units and numerical parts.  */
@@ -318,6 +333,10 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
 /* Finer control over display of units, separating out the number from the units. */
 stackunitstex(e) := block ([a, b],
   [a, b]:args (e),
+  /* Fine tune the edge cases. */
+  if is(safe_op(b)="/") then 
+      if (is(first(args(b))=1)) then return(concat(tex1(a),"\\times ",tex1(b))),
+  /* Otherwise....             */
   concat(tex1(a),"\\, ",tex1(b))
 )$
 texput(stackunits, stackunitstex);

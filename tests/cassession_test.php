@@ -14,8 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
 
@@ -197,9 +200,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
     public function test_get_display_unary_minus() {
 
-        $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x+ -3+y', 'p5:x+(-5+y)');
-        /* Notice the subtle difference in p4 & p5. */
-        /* Where extra brackets are put in they should stay. */
+        $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x+-3+y', 'p5:x+(-5+y)');
+        // Notice the subtle difference in p4 & p5.
+        // Where extra brackets are put in they should stay.
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
@@ -312,27 +315,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $this->assertEquals('2+3', $at1->get_value_key('a'));
         $this->assertEquals('5', $at1->get_value_key('b'));
-
     }
 
-    public function test_dispdp() {
-
-        $cs = array('p:dispdp(3.14159,2)');
-
-        foreach ($cs as $s) {
-            $cs = new stack_cas_casstring($s);
-            $cs->get_valid('t');
-            $s1[] = $cs;
-        }
-
-        $options = new stack_options();
-        $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($s1, $options, 0);
-        $at1->instantiate();
-
-        $this->assertEquals('dispdp(3.14159,2)', $at1->get_value_key('p'));
-        $this->assertEquals('3.14', $at1->get_display_key('p'));
-    }
 
     public function test_disp_control_structures() {
 
@@ -725,5 +709,118 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
         $this->assertEquals('{b,a,c}', $at1->get_value_key('c2'));
         $this->assertEquals('\left \{b , a , c \right \}', $at1->get_display_key('c2'));
+    }
+
+    public function test_numerical_rounding() {
+
+        $tests = stack_numbers_test_data::get_raw_test_data();
+        $s1 = array();
+        foreach ($tests as $key => $test) {
+            $cs = new stack_cas_casstring('dispdp('.$test[0].', '.$test[3] .')');
+            $cs->get_valid('t');
+            $cs->set_key('p'.$key);
+            $s1[$key] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertTrue($at1->get_valid());
+        $at1->instantiate();
+        foreach ($tests as $key => $test) {
+            $this->assertEquals($at1->get_value_key('p'.$key, true), $test[5]);
+        }
+
+    }
+
+    public function test_dispdp() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of decimal places.
+        // 2. Displayed form in LaTeX.
+        // 3. Value form after rounding.
+        // E.g. dispdp(3.14159,2) -> displaydp(3.14,2).
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+                    array('3.14159', '2', '3.14', 'displaydp(3.14,2)'),
+                    array('100', '1', '100.0', 'displaydp(100.0,1)'),
+                    array('100', '2', '100.00', 'displaydp(100.0,2)'),
+                    array('100', '3', '100.000', 'displaydp(100.0,3)'),
+                    array('100', '4', '100.0000', 'displaydp(100.0,4)'),
+                    array('100', '5', '100.00000', 'displaydp(100.0,5)'),
+                    array('0.99', '1', '1.0', 'displaydp(1.0,1)'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:dispdp({$c[0]},{$c[1]})";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+            $this->assertEquals($c[3], $at1->get_value_key($sk));
+        }
+    }
+
+    public function test_dispsf() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of significant figures.
+        // 2. Displayed form.
+        // 3. Value form after rounding.
+        // E.g. dispsf(3.14159,2) -> displaydp(3.1,1).
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+                    array('3.14159', '2', '3.1', 'displaydp(3.1,1)'),
+                    array('100', '1', '100', '100'),
+                    array('100', '2', '100', '100'),
+                    array('100', '3', '100', '100'),
+                    array('100', '4', '100.0', 'displaydp(100,1)'),
+                    array('100', '5', '100.00', 'displaydp(100,2)'),
+                    array('100.00000000000001', '3', '100', '100'),
+                    array('99', '1', '100', '100'),
+                    array('0.99', '1', '1', '1'),
+                    array('-0.99', '1', '-1', '-1'),
+                    array('0.0000049', '1', '0.000005', 'displaydp(5.0E-6,6)'),
+                    array('0', '1', '0', '0'),
+                    array('0.0', '1', '0', '0'),
+                    array('0', '2', '0.0', 'displaydp(0,1)'),
+                    array('0', '3', '0.00', 'displaydp(0,2)'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:dispsf({$c[0]},{$c[1]})";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+            $this->assertEquals($c[3], $at1->get_value_key($sk));
+        }
     }
 }

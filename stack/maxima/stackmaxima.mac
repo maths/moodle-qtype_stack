@@ -173,8 +173,12 @@ make_arccos(OPT_ACOS) := block(
 /* Fine tune the display of fractions between inline and displayed. */
 stackfactionsinline(e) := block ([a, b],
   [a, b]:args (e),
-  concat("{", tex1(a), "}/{", tex1(b), "}")
+  /* We need to be more careful about when we have brackets around expressions in inline fractions. */
+  if (atom(b) or safe_op(b) = "^") then return(concat("{", tex1(a), "}/{", tex1(b), "}")),
+  if is(length(args(b))=1) then return(concat("{", tex1(a), "}/{", tex1(b), "}")),
+  concat("{", tex1(a), "}/{\\left(", tex1(b), "\\right)}")
 )$
+
 stackfactionsdisplay(e) := block ([a, b],
   [a, b]:args (e),
   concat("\\frac{", tex1(a), "}{", tex1(b), "}")
@@ -507,6 +511,8 @@ cte(var, ex) := block([str],
     else block(
         print(", value = ["),
         print(string(ex[1])),
+        print("], dispvalue = ["),
+        print(stack_dispvalue(ex[1])),
         print("], display = ["),
         print(stack_disp(ex[1], "")),
         print("]"), 
@@ -514,6 +520,15 @@ cte(var, ex) := block([str],
     ),
     print("], "),
     return(ex)
+)$
+
+/* This function strips out functions to leave only things in the value which might be typed in. */
+stack_dispvalue(ex) := block(
+  ex:detexcolor(ex),
+  ex:detexdecorate(ex),
+  ex:make_displaydpvalue(ex),
+  ex:ev(ex, stackunits="*"),
+  return(string(ex))
 )$
 
 /* ********************************** */
@@ -2594,4 +2609,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016102600$
+stackmaximaversion:2016112100$

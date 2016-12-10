@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Significant figure answer test.
@@ -96,6 +97,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         // contains the number of significant figures specified by the teacher.
         $sa = trim($this->sanskey);
         $r = stack_utils::decimal_digits($this->sanskey);
+
         if ($strictsigfigs) {
             $this->atmark = 0;
             if ($r['lowerbound'] == $this->atoption) {

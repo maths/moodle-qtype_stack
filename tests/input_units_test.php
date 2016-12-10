@@ -14,12 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Unit tests for the stack_algebra_input class.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -28,9 +22,9 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
- * Unit tests for stack_algebra_input.
+ * Unit tests for stack_units_input.
  *
- * @copyright  2012 The Open University
+ * @copyright  2016 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
@@ -644,5 +638,44 @@ class stack_units_input_test extends qtype_stack_testcase {
                 $options, '5*hr', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unitssynonym', $state->note);
+    }
+
+    public function test_validate_student_response_display_recip() {
+        // This test is for the awkarward edge case where we have 1/unit.  We don't want an extra one in the numbers.
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.88e-4*1/s');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3.88e-4*1/s', $state->contentsmodified);
+        // This is a special display rule to highlight the multiplication with 1/unit.
+        $this->assertEquals('\[ 3.88E-4\times {1}/{\mathrm{s}} \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_display_recip_negpow() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.88e-4*1/s');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', true);
+        $el->set_parameter('options', 'negpow');
+        $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3.88e-4*1/s', $state->contentsmodified);
+        $this->assertEquals('\[ 3.88E-4\, \mathrm{s}^ {- 1 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_display_recip_multi() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '3.88e-4*1/s');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/(M*s)'), $options, '3.88e-4*1/s', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3.88e-4*1/(M*s)', $state->contentsmodified);
+        $this->assertEquals('\[ 3.88E-4\times {1}/{\left(\mathrm{s}\cdot \mathrm{M}\right)} \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
     }
 }

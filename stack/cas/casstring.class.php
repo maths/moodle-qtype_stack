@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * CAS strings and related functions.
  *
@@ -46,6 +48,13 @@ class stack_cas_casstring {
      *             after the casstring has been processed by the CAS.
      */
     private $value;
+
+    /**
+     * @var string A sanitised version of the value, e.g. with decimal places printed
+     *             and stackunits replaced by multiplication.  Used sparingly, e.g. for
+     *             the teacher's answer, and testing inputs.
+     */
+    private $dispvalue;
 
     /**
      * @var string how to display the CAS string, e.g. LaTeX. Only gets set
@@ -1436,6 +1445,10 @@ class stack_cas_casstring {
         return $this->display;
     }
 
+    public function get_dispvalue() {
+        return $this->dispvalue;
+    }
+
     public function set_key($key, $appendkey=true) {
         if (null === $this->valid) {
             $this->validate();
@@ -1454,6 +1467,10 @@ class stack_cas_casstring {
 
     public function set_display($val) {
         $this->display = $val;
+    }
+
+    public function set_dispvalue($val) {
+        $this->dispvalue = $val;
     }
 
     public function get_answernote() {

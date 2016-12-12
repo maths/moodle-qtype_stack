@@ -136,14 +136,6 @@ class stack_potentialresponse_node {
             $ncasopts = $this->atoptions;
         }
 
-        // Store the following information to create a detailed trace.
-        $trace = array();
-        $trace['test'] = $this->answertest;
-        $trace['sans'] = $nsans;
-        $trace['tans'] = $ntans;
-        $trace['atopts'] = $ncasopts;
-        $trace['atanswernote'] = '';
-
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
 
@@ -151,11 +143,9 @@ class stack_potentialresponse_node {
         if ($testpassed) {
             $resultbranch = $this->branches[1];
             $branchname = 'prtnodetruefeedback';
-            $trace['result'] = 1;
         } else {
             $resultbranch = $this->branches[0];
             $branchname = 'prtnodefalsefeedback';
-            $trace['result'] = 0;
         }
 
         if ($at->get_at_answernote()) {
@@ -195,14 +185,7 @@ class stack_potentialresponse_node {
             $results->_debuginfo .= $at->get_debuginfo();
         }
 
-        // Create an easy representation of the trace.  Suitable for Maxima input for testing.
-        $args = array($trace['sans'], $trace['tans']);
-        if ('' != trim($trace['atopts'])) {
-            $args[] = $trace['atopts'];
-        }
-        $traceline = 'AT'.$trace['test'] . '(' . implode(', ', $args) . ') = ['.$trace['result']. ', "' 
-                . $trace['atanswernote'] .'"];';
-        $results->add_trace($traceline);
+        $results->add_trace($at->get_trace());
 
         return $resultbranch['nextnode'];
     }

@@ -57,4 +57,8 @@ class stack_anstest_atregexp extends stack_anstest {
     public function validate_atoptions($opt) {
         return array(true, '');
     }
+
+    protected function get_casfunction() {
+        return 'ATRegEx';
+    }
 }

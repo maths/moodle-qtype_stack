@@ -25,11 +25,6 @@ defined('MOODLE_INTERNAL') || die();
 class stack_answertest_general_cas extends stack_anstest {
 
     /**
-     * @var string The name of the cas function this answer test uses.
-     */
-    private $casfunction;
-
-    /**
      * $var bool Are options processed by the CAS.
      */
     private $processcasoptions;
@@ -63,6 +58,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         $this->casfunction       = $casfunction;
+        $this->atname            = $casfunction;
         $this->processcasoptions = $processcasoptions;
         $this->requiredoptions   = $requiredoptions;
         $this->simp              = (bool) $simp;

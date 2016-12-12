@@ -56,7 +56,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
  2. at->get_at_mark() really ought to be at->matches(), since that is how it is used.
  3. Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).
 * Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
-* Refactor the STACK return object as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
+* Refactor the STACK return object in maxima as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
 
 ## Features that might be attempted in the future - possible self contained projects ##
 
@@ -65,30 +65,18 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Read other file formats into STACK.  In particular
   * AIM
   * WebWork, including the Open Problem Library:  http://webwork.maa.org/wiki/Open_Problem_Library
-  * MapleTA
+  * MapleTA (underway: see https://github.com/maths/moodle-qformat_mapleta)
   * Wiris
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
  * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
- * Add an ephemeral form for floating point numbers for better support for the numerical tests.  See below.
 * Add support for qtype_stack in Moodle's lesson module.
 * Improve the way questions are deployed.
  1. Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
  2. Remove many versions at once.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
-
-
-## Ephemeral forms for numbers.
-
-To implement the decinal places test we need an "ephemiral form" for representing numbers at a syntactic level.   This test probably needs to operate at the PHP level on strings, rather then through Maxima.  
-
-Note that in Maxima the `floor()` function gives `floor(0.1667*10^4)` as `1666` not `1667` as expected.  So use `floor(0.1667*10^4)` instead.
-
-Add in support for `printf` to better format numbers.  In paticular to display floats in the form \(3.1\cdot 10^3\).  Perhaps using something like stackfltfmt:"~e".  See issue #215.
-
-
 
 ## STACK custom reports
 

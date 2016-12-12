@@ -135,6 +135,15 @@ class stack_potentialresponse_node {
         if (false === $ncasopts) {
             $ncasopts = $this->atoptions;
         }
+
+        // Store the following information to create a detailed trace.
+        $trace = array();
+        $trace['test'] = $this->answertest;
+        $trace['sans'] = $nsans;
+        $trace['tans'] = $ntans;
+        $trace['atopts'] = $ncasopts;
+        $trace['atanswernote'] = '';
+
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
 
@@ -142,13 +151,16 @@ class stack_potentialresponse_node {
         if ($testpassed) {
             $resultbranch = $this->branches[1];
             $branchname = 'prtnodetruefeedback';
+            $trace['result'] = 1;
         } else {
             $resultbranch = $this->branches[0];
             $branchname = 'prtnodefalsefeedback';
+            $trace['result'] = 0;
         }
 
         if ($at->get_at_answernote()) {
             $results->add_answernote($at->get_at_answernote());
+            $trace['atanswernote'] = $at->get_at_answernote();
         }
         if ($resultbranch['answernote']) {
             $results->add_answernote($resultbranch['answernote']);
@@ -182,6 +194,15 @@ class stack_potentialresponse_node {
             $results->_debuginfo .= $cascommand;
             $results->_debuginfo .= $at->get_debuginfo();
         }
+
+        // Create an easy representation of the trace.  Suitable for Maxima input for testing.
+        $args = array($trace['sans'], $trace['tans']);
+        if ('' != trim($trace['atopts'])) {
+            $args[] = $trace['atopts'];
+        }
+        $traceline = 'AT'.$trace['test'] . '(' . implode(', ', $args) . ') = ['.$trace['result']. ', "' 
+                . $trace['atanswernote'] .'"];';
+        $results->add_trace($traceline);
 
         return $resultbranch['nextnode'];
     }
@@ -228,11 +249,11 @@ class stack_potentialresponse_node {
         foreach ($answers as $cskey => $val) {
             // Check whether the raw input to the node exactly matches one of the answer names.
             $cs = $this->sans;
-            if ($cs->get_raw_casstring() == $cskey ) {
+            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
                 $sans = $cascontext->get_casstring_key($cskey);
             }
             $cs = $this->tans;
-            if ($cs->get_raw_casstring() == $cskey ) {
+            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
                 $tans = $cascontext->get_casstring_key($cskey);
             }
         }

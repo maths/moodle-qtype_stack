@@ -229,7 +229,6 @@ class stack_potentialresponse_tree {
             $results->_score = null;
             $results->_penalty = null;
         }
-
         $results->set_cas_context($cascontext, $seed);
         return $results;
     }

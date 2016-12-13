@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Holds the results of one {@link stack_question_test).
@@ -123,6 +124,7 @@ class stack_question_test_result {
                 $state->score = $actualresult->score;
                 $state->penalty = $actualresult->penalty;
                 $state->answernote = implode(' | ', $actualresult->answernotes);
+                $state->trace = implode("\n", $actualresult->trace);
                 $feedback = array();
                 foreach ($actualresult->feedback as $fb) {
                     $feedback[] = $fb->feedback;

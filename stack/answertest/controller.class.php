@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Answer test controller class.
  *
@@ -61,13 +63,11 @@ class stack_ans_test_controller {
               );
 
     /**
-     * The answertest object that the functions call
+     * The answertest object that the functions call.
      * @var string
      * @access private
      */
     private $at;
-
-    // Operations.
 
     /**
      *
@@ -337,6 +337,16 @@ class stack_ans_test_controller {
      */
     public function get_debuginfo() {
         return $this->at->get_debuginfo();
+    }
+
+    /**
+     * Returns an intelligible trace of an executed answer test.
+     *
+     * @return string
+     * @access public
+     */
+    public function get_trace() {
+        return $this->at->get_trace();
     }
 }
 

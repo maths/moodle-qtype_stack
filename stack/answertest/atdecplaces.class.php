@@ -14,13 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * String answer test
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+//
+// Decimal places answer tests.
+//
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+//
 class stack_anstest_atdecplaces extends stack_anstest {
 
     public function do_test() {
@@ -141,6 +142,10 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
     public function required_atoptions() {
         return true;
+    }
+
+    protected function get_casfunction() {
+        return 'ATDecimalPlaces';
     }
 
     /**

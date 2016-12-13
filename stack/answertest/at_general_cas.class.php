@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * General answer test which connects to the CAS - prevents duplicate code.
  *
@@ -21,11 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_answertest_general_cas extends stack_anstest {
-
-    /**
-     * @var string The name of the cas function this answer test uses.
-     */
-    private $casfunction;
 
     /**
      * $var bool Are options processed by the CAS.
@@ -61,6 +58,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         $this->casfunction       = $casfunction;
+        $this->atname            = $casfunction;
         $this->processcasoptions = $processcasoptions;
         $this->requiredoptions   = $requiredoptions;
         $this->simp              = (bool) $simp;

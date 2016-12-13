@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fact_sheets.class.php');
-
 
 /**
  * The base class for STACK maths output methods.

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Loose string comparison answer test.
@@ -49,5 +50,9 @@ class stack_anstest_stringsloppy extends stack_anstest {
 
     public function validate_atoptions($opt) {
         return array(true, '');
+    }
+
+    protected function get_casfunction() {
+        return 'ATStringSloppy';
     }
 }

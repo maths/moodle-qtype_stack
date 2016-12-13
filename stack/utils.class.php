@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Various utility classes for Stack.
@@ -1024,7 +1025,7 @@ class stack_utils {
             if (!$infrontofdecimaldeparator && ctype_digit($c)) {
                 $decimalplaces++;
             }
-            if ($c == 'e') {
+            if (strtolower($c) == 'e') {
                 $scientificnotation = true;
             }
             if ($c == '0') {

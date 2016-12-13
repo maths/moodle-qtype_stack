@@ -113,8 +113,8 @@ The following commands which are relevant to manipulation of numbers are defined
 
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures.
-| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places.
+| `significantfigures(x,n)`       | Truncate \(x\) to \(n\) significant figures (does perform rounding).
+| `decimalplaces(x,n)`            | Truncate \(x\) to \(n\) decimal places  (does perform rounding).
 | `commonfaclist(l)`              | Returns the hcf of a list of numbers.
 | `list_expression_numbers(ex)`   | Create a list with all parts for which `numberp(ex)=true`.
 | `coeff_list(ex,v)`              | This function takes an expression \(ex\) and returns a list of coefficients of \(v\).
@@ -126,9 +126,10 @@ The following commands generate displayed forms of numbers.  These will not be m
 
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
+| `dispdp(x,n)`                   | Truncate \(x\) to \(n\) decimal places and display with trailing digits.  Note, this always prints as a float (or integer), and not in scientific notation.
 | `dispsf(x,n)`                   | Truncate \(x\) to \(n\) significant figures and display with trailing digits.  Note, this always prints as a float, and not in scientific notation.
-| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works with `simp:false` and when printing as a float.  The optional second argument applies `dispdp(m,n)` to the mantissa to control the display of trailing zeros.
+| `scientific_notation(x,n)`      | Write \(x\) in the form \(m10^e\).   Only works with `simp:false` and when printing as a float.  The optional second argument applies `displaydp(m,n)` to the mantissa to control the display of trailing zeros.
+| `displaydp(x,n)`                | An intert internal function to record that \(x\) should be displayed to \(n\) decimal places with trailing digits.  This function does no rounding.
 
 
 | Function                  | Predicate

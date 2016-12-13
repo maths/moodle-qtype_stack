@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This class represents the current state of a potential response tree.
  *
@@ -36,6 +38,11 @@ class stack_potentialresponse_tree_state {
      * @var array of answernote strings for the teacher.
      */
     public $_answernotes = array();
+
+    /**
+     * @var array of detailed tracing for the teacher.
+     */
+    public $_trace = array();
 
     /**
      * @var boolean Is this attempt valid?
@@ -110,6 +117,8 @@ class stack_potentialresponse_tree_state {
                 return $this->_feedback;
             case 'answernotes':
                 return $this->_answernotes;
+            case 'trace':
+                return $this->_trace;
             case 'debuginfo':
                 return $this->_debuginfo;
             default:
@@ -171,6 +180,14 @@ class stack_potentialresponse_tree_state {
         $result = $feedbackct->get_display_castext();
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
         return $result;
+    }
+
+    /**
+     * Add another answer trace to the list.
+     * @param array $trace the line in the trace.
+     */
+    public function add_trace($trace) {
+        $this->_trace[] = $trace;
     }
 }
 

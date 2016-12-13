@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Node in a potential response tree.
  *
@@ -133,6 +135,7 @@ class stack_potentialresponse_node {
         if (false === $ncasopts) {
             $ncasopts = $this->atoptions;
         }
+
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
 
@@ -147,6 +150,7 @@ class stack_potentialresponse_node {
 
         if ($at->get_at_answernote()) {
             $results->add_answernote($at->get_at_answernote());
+            $trace['atanswernote'] = $at->get_at_answernote();
         }
         if ($resultbranch['answernote']) {
             $results->add_answernote($resultbranch['answernote']);
@@ -180,6 +184,8 @@ class stack_potentialresponse_node {
             $results->_debuginfo .= $cascommand;
             $results->_debuginfo .= $at->get_debuginfo();
         }
+
+        $results->add_trace($at->get_trace());
 
         return $resultbranch['nextnode'];
     }
@@ -226,11 +232,11 @@ class stack_potentialresponse_node {
         foreach ($answers as $cskey => $val) {
             // Check whether the raw input to the node exactly matches one of the answer names.
             $cs = $this->sans;
-            if ($cs->get_raw_casstring() == $cskey ) {
+            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
                 $sans = $cascontext->get_casstring_key($cskey);
             }
             $cs = $this->tans;
-            if ($cs->get_raw_casstring() == $cskey ) {
+            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
                 $tans = $cascontext->get_casstring_key($cskey);
             }
         }

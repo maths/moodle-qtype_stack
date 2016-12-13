@@ -333,7 +333,7 @@ foreach ($testresults as $key => $result) {
                 $expectedscore,
                 $state->penalty,
                 $expectedpenalty,
-                s($state->answernote),
+                s($state->answernote) . html_writer::tag('pre', $state->trace),
                 s($state->expectedanswernote),
                 format_text($state->feedback),
                 $passedcol,

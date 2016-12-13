@@ -35,16 +35,19 @@ class stack_answertest_test_data {
     const ANSNOTE = 5;
     const NOTES   = 6;
 
-    /* Raw data should be in the following form.
+    /**
+     * Raw data should be in the following form (matching the constants above).
      * Name of test
+     * Options
      * Student's answer
      * Teacher's answer
      * Expected result
      *    0 = different
      *    1 = same
      *    -1 = "Test fails", but this is trapped.
-     * Test options
-     * Header row in the table.
+     * Answer note(s)
+     * Comments on this test.
+     * Header row in the table (optional).
      */
     protected static $rawdata = array(
         array('AlgEquiv', '', '1/0', '1', -1, 'CASError: Division by zero.', ''),
@@ -83,6 +86,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'),
         array('AlgEquiv', '', 'x', 'sqrt(x^2)', 0, '', ''),
         array('AlgEquiv', '', 'abs(x)', 'sqrt(x^2)', 1, '', ''),
+        array('AlgEquiv', '', '1/abs(x)^(1/3)', '(abs(x)^(1/3)/abs(x))^(1/2)', 1, '', ''),
         array('AlgEquiv', '', 'sqrt((x-3)*(x-5))', 'sqrt(x-3)*sqrt(x-5)', 0, '', ''),
         array('AlgEquiv', '', '1/sqrt(x)', 'sqrt(1/x)', 1, '', ''),
         array('AlgEquiv', '', 'x-1', '(x^2-1)/(x+1)', 1, '', ''),

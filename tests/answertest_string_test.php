@@ -16,25 +16,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for stack_anstest_atstring.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
 require_once(__DIR__ . '/../stack/answertest/anstest.class.php');
 require_once(__DIR__ . '/../stack/answertest/atstring.class.php');
 
 
-/**
- * Unit tests for stack_anstest_atstring.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
+// Unit tests for stack_anstest_atstring.
+//
+// @copyright  2012 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group qtype_stack.
+
 class stack_anstest_atstring_test extends basic_testcase {
 
     public function test_is_true_for_equal_strings() {

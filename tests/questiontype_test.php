@@ -16,31 +16,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for the STACK question type class.
- *
- * @package   qtype_stack
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
-defined('MOODLE_INTERNAL') || die();
-
 global $CFG;
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once(__DIR__ . '/../questiontype.php');
 
+// Unit tests for the STACK question type class.
+//
+// @package   qtype_stack.
+// @copyright 2012 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-/**
- * Unit tests for the STACK question type class.
- *
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
 class qtype_stack_test extends qtype_stack_walkthrough_test_base {
 
     /** @var qtype_stack */

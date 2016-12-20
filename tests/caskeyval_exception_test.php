@@ -21,10 +21,9 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
-/**
- * Unit tests for {@link stack_cas_keyval} involving exceptions.
- * @group qtype_stack
- */
+// Unit tests for {@link stack_cas_keyval} involving exceptions.
+// @group qtype_stack.
+
 class stack_cas_keyval_exception_test extends basic_testcase {
     public function test_exception_1() {
         $this->setExpectedException('stack_exception');

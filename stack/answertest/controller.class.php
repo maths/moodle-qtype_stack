@@ -16,12 +16,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Answer test controller class.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+
+// Answer test controller class.
+//
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/anstest.class.php');
 require_once(__DIR__ . '/at_general_cas.class.php');
 require_once(__DIR__ . '/../cas/connector.class.php');

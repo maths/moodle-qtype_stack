@@ -20,22 +20,14 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-/*
- * Unit tests for the stack_algebra_input class.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
-/*
- * Unit tests for stack_algebra_input.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
+// Unit tests for stack_algebra_input.
+//
+// @copyright  2012 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group qtype_stack.
+
 class stack_algebra_input_test extends qtype_stack_testcase {
 
     public function test_internal_validate_parameter() {

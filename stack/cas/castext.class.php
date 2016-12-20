@@ -16,12 +16,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * CAS text and related functions.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// CAS text and related functions.
+//
+// @copyright  2012 University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/cassession.class.php');
 require_once(__DIR__ . '/casstring.class.php');
 

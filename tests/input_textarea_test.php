@@ -16,24 +16,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for the stack_textarea_input class.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 require_once(__DIR__ . '/../stack/input/textarea/textarea.class.php');
 
+// Unit tests for stack_textarea_input.
+//
+// @copyright 2012 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group     qtype_stack.
 
-/**
- * Unit tests for stack_textarea_input.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
 class stack_textarea_input_test extends basic_testcase {
 
     public function test_render_blank() {

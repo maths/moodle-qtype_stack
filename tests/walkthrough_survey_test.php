@@ -32,13 +32,14 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 
-/**
- * Unit tests for the Stack question type.
- *
- * @copyright 2013 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
+// Tests that walk STACK questions that are special cases.
+// Specifically a question with neither inputs nor PRTs,
+// and a question with inputs but no PRTs.
+//
+// @copyright 2013 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group     qtype_stack.
+
 class qtype_stack_walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
 
     public function test_neither_inputs_nor_prts() {

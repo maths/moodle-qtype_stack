@@ -22,10 +22,9 @@ require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 
-/**
- * Unit tests for {@link stack_cas_keyval}.
- * @group qtype_stack
- */
+// Unit tests for {@link stack_cas_keyval}.
+// @group qtype_stack.
+
 class stack_cas_keyval_test extends qtype_stack_testcase {
 
     public function get_valid($s, $val, $session) {

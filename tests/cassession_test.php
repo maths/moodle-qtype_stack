@@ -21,11 +21,9 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
+// Unit tests for {@link stack_cas_session}.
+// @group qtype_stack.
 
-/**
- * Unit tests for {@link stack_cas_session}.
- * @group qtype_stack
- */
 class stack_cas_session_test extends qtype_stack_testcase {
 
     public function get_valid($cs, $val) {

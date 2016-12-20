@@ -16,21 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for stack_cas_casstring.
- *
- * @copyright  2012 The University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/cas/casstring.class.php');
 
+// Unit tests for {@link stack_cas_casstring}.
+// @copyright  2012 The University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group qtype_stack.
 
-/**
- * Unit tests for {@link stack_cas_casstring}.
- * @group qtype_stack
- */
 class stack_cas_casstring_test extends basic_testcase {
 
     public function get_valid($s, $st, $te) {

@@ -16,23 +16,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * A CAS session is a list of Maxima expressions, which are validated
- * sent to the CAS Maxima to be evaluated, and then used.  This class
- * prepares expressions for the CAS and deals with return information.
- *
- * @copyright  2012 The University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// A CAS session is a list of Maxima expressions, which are validated
+// sent to the CAS Maxima to be evaluated, and then used.  This class
+// prepares expressions for the CAS and deals with return information.
+//
+// @copyright  2012 The University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once('casstring.class.php');
 require_once('connectorhelper.class.php');
 require_once(__DIR__ . '/../options.class.php');
-
-
-/**
- *  This deals with Maxima sessions.
- *  This is the class which actually sends variables to the CAS itself.
- */
 
 class stack_cas_session {
     /**

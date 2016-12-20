@@ -16,27 +16,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for stack_utils.
- *
- * @copyright  2012 The Open Unviersity
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
+// Unit tests for stack_utils.
+//
+// @copyright 2012 The Open Unviersity.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group     qtype_stack.
 
-/**
- * Unit tests for stack_utils.
- *
- * @copyright  2012 The Open Unviersity
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
 class stack_utils_test extends qtype_stack_testcase {
 
     public function test_matching_pairs() {

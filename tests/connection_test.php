@@ -21,11 +21,9 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/castext.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
+// Unit tests for {@link stack_cas_text}.
+// @group qtype_stack.
 
-/**
- * Unit tests for {@link stack_cas_text}.
- * @group qtype_stack
- */
 class stack_cas_connection_base_test extends qtype_stack_testcase {
 
     public function test_compute_true() {

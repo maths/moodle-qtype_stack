@@ -16,29 +16,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for the OU multiple response question class.
- *
- * @package    qtype
- * @subpackage oumultiresponse
- * @copyright 2008 The Open University
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
-defined('MOODLE_INTERNAL') || die();
-
 global $CFG;
 require_once(__DIR__ . '/fixtures/test_base.php');
 
+// Unit tests for (some of) question/type/stack/questiontype.php.
+//
+// @copyright 2008 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group     qtype_stack.
 
-/**
- * Unit tests for (some of) question/type/oumultiresponse/questiontype.php.
- *
- * @copyright  2008 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
 class qtype_stack_question_test extends qtype_stack_testcase {
 
     /**

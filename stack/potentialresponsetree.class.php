@@ -16,22 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Deals with whole potential response trees.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Deals with whole potential response trees.
+//
+// @copyright  2012 University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/potentialresponsenode.class.php');
 require_once(__DIR__ . '/potentialresponsetreestate.class.php');
 
-/**
- * Deals with whole potential response trees.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class stack_potentialresponse_tree {
 
     /** @var string Name of the PRT. */

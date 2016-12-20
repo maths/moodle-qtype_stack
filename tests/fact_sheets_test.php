@@ -20,11 +20,9 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/castext.class.php');
 
+// Unit tests for {@link stack_fact_sheets}.
+// @group qtype_stack.
 
-/**
- * Unit tests for {@link stack_fact_sheets}.
- * @group qtype_stack
- */
 class stack_fact_sheets_test extends qtype_stack_testcase {
 
     public function test_basic_castext_instantiation() {

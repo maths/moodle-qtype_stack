@@ -16,26 +16,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for the stack_boolean_input class.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
 global $CFG;
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
+// Unit tests for stack_boolean_input_test.
+//
+// @copyright  2012 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+// @group qtype_stack.
 
-/**
- * Unit tests for stack_boolean_input_test.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @group qtype_stack
- */
 class stack_boolean_input_validation_test extends qtype_stack_testcase {
     public function test_validate_student_response_true() {
         $options = new stack_options();

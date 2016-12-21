@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/connector.interface.php');
 
@@ -55,7 +56,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     /** @var string replacement strings in relation to $wwwroothasunderscores. */
     protected $wwwrootfixupreplace;
 
+    // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::compute() */
+    // @codingStandardsIgnoreEnd
     public function compute($command) {
 
         $context = "Platform: ". stack_connection_helper::get_platform() . "\n";
@@ -81,7 +84,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $unpackedresult;
     }
 
+    // @codingStandardsIgnoreStart
     /* @see stack_cas_connection::get_debuginfo() */
+    // @codingStandardsIgnoreEnd
     public function get_debuginfo() {
         return $this->debug->get_log();
     }
@@ -223,8 +228,10 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                     '', $local['display']);
                 $local['display'] = str_replace('</math>', '', $local['display']);
 
+                // @codingStandardsIgnoreStart
                 // For latex mode, remove the mbox.
                 // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.
+                // @codingStandardsIgnoreEnd
                 $local['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $local['display']);
 
                 if ($this->wwwroothasunderscores) {
@@ -258,10 +265,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                     $var = 'errors';
                     $errors['LOCVARNAME'] = "Couldn't get the name of the local variable.";
                 }
-
                 $unparsed[$var] = $val;
                 $offset = $gb[2];
-            } while (($eqpos = strpos($rawresultfragment, '=', $offset)) && ($offset < $rawresultfragmentlen));
+            } while (($offset >= 0) && ($offset < $rawresultfragmentlen) && ($eqpos = strpos($rawresultfragment, '=', $offset)));
 
         } else {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";
@@ -292,4 +298,5 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
         return $errstr;
     }
+
 }

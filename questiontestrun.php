@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -333,7 +333,7 @@ foreach ($testresults as $key => $result) {
                 $expectedscore,
                 $state->penalty,
                 $expectedpenalty,
-                s($state->answernote),
+                s($state->answernote) . html_writer::tag('pre', $state->trace),
                 s($state->expectedanswernote),
                 format_text($state->feedback),
                 $passedcol,

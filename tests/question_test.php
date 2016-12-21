@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Unit tests for the OU multiple response question class.
  *
@@ -27,7 +29,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 
 
 /**

@@ -141,13 +141,16 @@ inequalityp(ex) := block(
 )$
 
 expressionp(ex) := block(
- if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or setp(ex) or functionp(ex) then
+ if matrixp(ex) or listp(ex) or equationp(ex) or inequalityp(ex) or safe_setp(ex) or functionp(ex) then
     return (false),
  return(true)
 );
 
 /* Checks that an expression is a polynomial. */
 polynomialpsimp(e):= polynomialp(e, listofvars(e))$
+
+/* This is to fix a bug in Maxima 5.38.1.  */
+safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
 
 /* ********************************** */
 /* Numerical operations               */
@@ -241,50 +244,90 @@ anyfloatex(ex) := block([partswitch,ret,kloop],
 )$
 
 /* This function is designed for displaying decimal places. It is also useful for currency. */
-/* dispdp(n, dp) is an inert function.  The tex function converts this to display.          */
+/* displaydp(n, dp) is an inert function.  The tex function converts this to display.       */
 /* n is the number to be displayed                                                          */
 /* dp is the number of decimal places                                                       */
+/* Note, displaydp does not do any rounding, it is only display.  Use significantfigures.   */
+/* To print out *values* with trailing decimal places use this function.                    */
 
-dispdptex(ex):=block([ss, s2, n, dp],
+displaydptex(ex):=block([ss, n, dp],
   [n, dp]:args(ex),
-  ss:split(string(decimalplaces(n, dp)), "."),
-  if length(ss) = 2 then s2:second(ss) else return(concat("\\mbox{dispdp: }(", string(n), ")")),
-  if slength(s2)<dp then s2:concat(s2, smake(dp-slength(s2),"0")) else s2:substring(s2,1,dp+1),
-  concat(first(ss), ".", s2)
+  ss:sconcat("~,", string(dp), "f"),
+  if is(equal(dp,0)) then ss:"~d",
+  ev(printf(false, ss, ev(float(n))), simp)
 );
-texput(dispdp, dispdptex);
+texput(displaydp, displaydptex);
 
-/* Write the number x in n decimal places */
-decimalplaces(x,n) := ev(float(round(10^n*float(x))/(10^n)), simp)$
+make_displaydpvalue(ex):= block([n,d],
+    if atom(ex) then return(ex),
+    if taylorp(ex) or functionp(ex) or freeof(displaydp, ex) then return(ex),
+    if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
+    if not(length(args(ex))=2) then error("displaydp must have exactly 2 arguments"),
+    n:ev(float(first(args(ex))), simp),
+    d:second(args(ex)),
+    if not(floatnump(n) and integerp(d)) then return(ex),
+    if is(equal(d,0)) then return(ev(ratsimp(floor(n)), simp)),
+    return(apply(dispdpvalue, [n, d]))
+);
+
+remove_displaydp(ex):= block(
+    if atom(ex) then return(ex),
+    if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
+    return(first(args(ex)))
+);
+
+/* Write the number ex in n decimal places */
+decimalplacesfun(ex, n, dispdps) := block([ex2],
+    ex2:ev(float(round(10^n*float(ex))/(10^n)), simp),
+    if dispdps then ex2:displaydp(ex2, n),
+    return(ex2)
+    )$
+decimalplaces(ex, n) := decimalplacesfun(ex, n, false)$
+dispdp(ex, n) := decimalplacesfun(ex, n, true)$
 
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */
-significantfigures(x,n) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2],
-  if x = 0 then return(0),
-  if x = 0.0 then return(0.0),
+sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, ex, ex1, ex2, dps],
+  if not(integerp(n)) then error("significantfigures(x,n) requires an integer as a second argument."),
+  if (is(x = 0) or is(x = 0.0)) then 
+    if (is(n <= 1)) then return(0)
+    else if dispsigfigs then return(displaydp(0, n-1))
+        else return(0),
   sign_of_x : signum(x),
-  x : abs(x),
-  ex:floor(float(log(x)/log(10))),
+  ex:ev(bfloat(log(abs(x))/log(10)), simp),
+  ex:ev(floor(float(ex)), simp),
   /* Modification to round 0.5 up to 1, not down as in Maxima's round command. */
   ex1:float(x/10^(ex-n+1)),
   if ex1-floor(ex1) = 0.5 then
       ex2:floor(ex1)+1
   else 
       ex2:round(ex1),
-  ex2:float(ex2*10^(ex-n+1)),
-  if floor(ex2) = ratsimp(ex2) then ex2:ratsimp(ex2),
-  return(sign_of_x*ex2)
+  ex2:ev(bfloat(ex2*10^(ex-n+1)), simp),
+  ex2:ev(float(ex2), simp),
+  /* Calculate the number of decimal places again, after rounding. */
+  ex:ev(bfloat(log(abs(ex2))/log(10)),simp),
+  ex:ev(floor(float(ex)),simp),
+  if is(debug) then print([ex2,ex,n]),
+  if is(floor(ex2) = ratsimp(ex2)) then ex2:ratsimp(ex2),
+  if dispsigfigs and is((ex+1-n)<0) then ex2:displaydp(ex2,n-1-ex),
+  return(ex2)
 );
 
+significantfigures(x, n) := sigfigsfun(x, n, false);
+dispsf(x, n) := sigfigsfun(x, n, true);
 
-scientific_notation(x) := block([simp:false,fpprintprec,ex,ex2,ex3],
+scientific_notation([a]) := block([simp:false,fpprintprec,ex,ex2,ex3,exn],
+  if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
+  else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
+  else error("scientific_notation takes only one or two arguments"),
   if real_numberp(x) and ev(x>0,simp) then (
       ex:ev(floor(float(log(x)/log(10))),simp),
       ex2:ev(float(x/10^ex),simp),
       ex3:ex2*10^ex,
+      if not(is(exn=false)) then ex3:displaydp(ex2,exn)*10^ex,
       return(ex3)
   ) else return (x)
-);
+)$
 
 /* ********************************** */
 /* Inequalities                       */
@@ -354,6 +397,18 @@ algebraic_equivalence(SA, SB) :=
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
        SB:first(args(SB))),
+    /* Remove scientific units and displaydp from expressions. */
+    SA:ev(SA, stackunits="*"),
+    SB:ev(SB, stackunits="*"),
+    if not(freeof(displaydp, SA)) then
+      SA:remove_displaydp(SA),
+    if not(freeof(displaydp, SB)) then
+      SA:remove_displaydp(SB),
+    /* Remove logarithms to other bases from expressions. */
+    if not(freeof(logbase, SA)) then
+        SA:ev(SA, logbase=logbasesimp),
+    if not(freeof(logbase, SB)) then
+        SB:ev(SB, logbase=logbasesimp),
     /* Try not to expand out: pure numbers. */
     ex:errcatch(ev(SA-SB, simp)),
     if ex=[] then (print("algebraic_equivalence: evaluating the difference of two expressions threw an error."), return(false)),
@@ -411,7 +466,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz],
   if is(p1 = []) then (print("STACK: ignore previous error. (p1)"), return(false)),
   p2:errcatch(ev(float(p2), lv, numer_pbranch:true, simp)),
   if is(p2 = []) then (print("STACK: ignore previous error. (p2)"), return(false)),
-  sz:errcatch(ev(abs(float(first(p1)-first(p2)))), simp),
+  sz:errcatch(ev(abs(float(first(p1)-first(p2))), simp)),
   /* print([p1,p2,sz]), */
   if is(sz = []) then (print("STACK: ignore previous error."), return(false)),
   if first(sz) > 0.0001 then true else false)$
@@ -430,8 +485,12 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz],
 subst_equiv(ex1,ex2):=block([lv1, lv2, lvi, lvp, lvs, lve, il, perm_size, simp],
  simp:true,
  perm_size:4, /* This algorithm is order factorial(perm_size) and so this needs to be small. */
- lv1:listofvars(ex1),
- lv2:listofvars(ex2),
+ lv1:setify(listofvars(ex1)),
+ lv2:setify(listofvars(ex2)),
+ /* If any of the variables also appear as function names we should get rid of them. 
+    Otherwise we get an infinite loop.                                               */
+ lv1:listify(setdifference(lv1, get_ops(ex1))),
+ lv2:listify(setdifference(lv2, get_ops(ex2))),
  if length(lv1)#length(lv2) then return([]),
  /* If the lists are too long, try a weaker condition */
  /* We assume the variables which occur in both are correctly assigned. */
@@ -616,7 +675,7 @@ ATEqualComAss(sa, sb) :=
     ret:ATSameTypefun(sa,sb),
     if ret[2]=false then    
         (ret[3]:StackAddNote("ATEqualComAss: ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquivfun(sa, sb)),
+    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
     if ret[2]=false then    
         (ret[3]:StackAddNote("ATEqualComAss: (AlgEquiv:false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */
@@ -627,6 +686,8 @@ ATEqualComAss(sa, sb) :=
     return([Validity, RawMark, AnswerNote, FeedBack])
 )$
 
+/* Legacy support for direct access to this function.  */
+alias(ATEqual_com_ass, ATEqualComAss)$
 
 /* ********************************** */
 /* Algebraic form                     */

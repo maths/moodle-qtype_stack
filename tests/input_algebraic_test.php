@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 
 /*
  * Unit tests for the stack_algebra_input class.
@@ -113,6 +113,16 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', '[?, ?, ?]');
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
                 .'size="16.5" style="width: 13.6em" value="[?, ?, ?]" />',
+                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                        'stack1__sans1', false));
+    }
+
+    public function test_render_placeholder() {
+        $el = stack_input_factory::make('algebraic', 'sans1', '[a, b, c]');
+        $el->set_parameter('syntaxHint', 'Remove me');
+        $el->set_parameter('syntaxAttribute', 1);
+        $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
+                .'size="16.5" style="width: 13.6em" placeholder="Remove me" />',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__sans1', false));
     }
@@ -321,6 +331,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 's^(24*r)');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('strictSyntax', false);
+        // For this test, if sameType is true, old versions of Maxima blow up with
+        // Heap exhausted during allocation: 8481509376 bytes available, 35303692080 requested.
+        $el->set_parameter('sameType', false);
         $state = $el->validate_student_response(array('sans1' => 's^r^24'), $options, 's^(24*r)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('s^r^24', $state->contentsmodified);
@@ -340,5 +353,57 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('allowWords', 'pop, funney1, unknownfunction');
         $state = $el->validate_student_response(array('sans1' => 'unknownfunction(x^2+1)+3*x'), $options, '2*x', array('ta'));
         $this->assertEquals(stack_input::VALID, $state->status);
+    }
+
+    public function test_validate_student_response_single_variable() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'cos(a*x)/(x*(ln(x)))');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(array('sans1' => 'cos(ax)/(x(ln(x)))'), $options, 'cos(a*x)/(x*(ln(x)))',
+                array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('cos(a*x)/(x*(ln(x)))', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left( \ln \left( x \right) \right)} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_single_variable_subscripts() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'a*b_c*d');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => 'ab_cd'), $options, 'a*b_c*d',
+                array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('a*b_c*d', $state->contentsmodified);
+        $this->assertEquals('\[ a\cdot {b}_{c}\cdot d \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_functions_variable() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'a/(a*(x+1)+2)');
+
+        $state = $el->validate_student_response(array('sans1' => 'a/(a(x+1)+2)'), $options, 'a/(a*(x+1)+2)', array('ta'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals("Variable_function", $state->note);
+    }
+
+    public function test_validate_lg_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'lg(27,3)');
+        $state = $el->validate_student_response(array('sans1' => 'lg(27,3)'), $options, 'lg(27,3)', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('logbase(27,3)', $state->contentsmodified);
+        $this->assertEquals('\[ \log_{3}\left(27\right)\, \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_set_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '{a,b,c}');
+        $state = $el->validate_student_response(array('sans1' => '{a,b,c}'), $options, '{a,b,c}', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('{a,b,c}', $state->contentsmodified);
+        $this->assertEquals('\[ \left \{a , b , c\right \}\, \]', $state->contentsdisplayed);
     }
 }

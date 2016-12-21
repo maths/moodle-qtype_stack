@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Unit tests for the STACK question type class.
  *
@@ -26,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once($CFG->dirroot . '/question/format/xml/format.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once(__DIR__ . '/../questiontype.php');
@@ -200,6 +202,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -310,6 +313,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
       <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
@@ -408,6 +412,7 @@ class qtype_stack_test extends qtype_stack_walkthrough_test_base {
         $expectedq->ans1strictsyntax       = 1;
         $expectedq->ans1insertstars        = 0;
         $expectedq->ans1syntaxhint         = '';
+        $expectedq->ans1syntaxattribute    = 0;
         $expectedq->ans1forbidwords        = '';
         $expectedq->ans1allowwords         = '';
         $expectedq->ans1forbidfloat        = 1;

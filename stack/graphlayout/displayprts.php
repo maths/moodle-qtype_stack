@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,8 +47,8 @@ foreach ($nodes as $node) {
     foreach ($questions as $q) {
         $qnames[] = $q->name;
     }
-    $trees[implode(', ', $qnames).' ('.$node->questionid . ') '
-             . $node->prtname][$node->nodename] = array($node->truenextnode, $node->falsenextnode);
+    $trees[implode(', ', $qnames).' ('.$node->questionid . ') ' . $node->prtname][$node->nodename]
+        = array($node->truenextnode, $node->falsenextnode);
 }
 $nodes->close();
 $uniquetrees = array();

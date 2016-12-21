@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Functions related to dealing with scientific units in STACK.
@@ -74,6 +76,11 @@ class stack_cas_casstring_units {
         array('cd', 'cd', 'cd', 'candela'),
         array('N', '(kg*m)/s^2', 'N', 'Newton'),
         array('Pa', 'kg/(m*s^2)', 'Pa', 'Pascals'),
+        // Define these before the base units.
+        array('cal', '4.2*J', 'cal', 'calorie'),
+        array('Cal', '4200*J', 'cal', 'kilo calorie'),
+        array('Btu', '1055*J', 'Btu', 'British thermal units'),
+        array('eV', '1.602177e-19*J', 'eV', 'Electron volt'),
         array('J', '(kg*m^2)/s^2', 'J', 'Joules'),
         array('W', '(kg*m^2)/s^3', 'W', 'Watts'),
         array('A', 'A', 'A', 'Ampere'),
@@ -86,12 +93,13 @@ class stack_cas_casstring_units {
         array('T', 'kg/(s^2*A)', 'T', 'Tesla'),
         array('H', '(kg*m^2)/(s^2*A^2)', 'H', 'Henry'),
         array('Gy', 'm^2/s^2', 'Gy', 'gray'),
+        array('rem', '0.01*Sv', 'rem', 'Roentgen equivalent'),
         array('Sv', 'm^2/s^2', 'Sv', 'sievert'),
-        array('lm', 'cd', 'lm', 'lumen'),
         array('lx', 'cd/m^2', 'lx', 'lux'),
         array('mol', 'mol', 'mol', 'moles'),
+        array('M', 'mol/(m^3/1000)', 'M', 'Molar'),
         array('kat', 'mol/s', 'kat', 'katal'),
-        array('rad', 'rad', 'rad', 'radian')
+        array('rad', 'rad', 'rad', 'radian'),
     );
 
     /*
@@ -99,17 +107,28 @@ class stack_cas_casstring_units {
      * Entries below are in the form of array(label, base, TeX, fullname).
      */
     private static $nonpreficunits = array(
+        array('min', 's*60', 'min', 'minutes'),
         array('amu', 'amu', 'amu', 'Atomic mass units'),
         array('u', 'amu', 'u', ''),
         array('mmHg', '133.322387415*Pa', 'mmHg', 'Millimeters of mercury'),
         array('bar', '10^5*Pa', 'bar', 'bar'),
         array('cc', 'm^3*10^(-6)', 'cc', 'cubic centimetre'),
+        array('gal', '3.785*l', 'gal', 'US gallon'),
         array('mbar', '10^2*Pa', 'mbar', 'millibar'),
         array('atm', '101325*Pa', 'atm', 'Standard atmosphere'),
         array('Torr', '101325/760*Pa', 'Torr', 'torr'),
+        array('rev', '2*pi*rad', 'rev', 'revolutions'),
+        array('deg', 'pi*rad/180', '{}^{o}', 'degrees'),
+        array('rpm', 'pi*rad/(30*s)', 'rpm', 'revolutions per minute'),
         array('K', 'K', 'K', 'Kelvin'),
-        // Below conflicts with Coulomb.
-        // array('C', 'C', '{}^{o}C', 'Celsius')
+        // @codingStandardsIgnoreStart
+        // Celsius conflicts with Coulomb.
+        // Add in 'C', 'C', '{}^{o}C', 'Celsius'.
+        // @codingStandardsIgnoreEnd
+        //
+        // We know these two are not really correct, but there we are.
+        array('day', '86400*s', 'day', 'day'),
+        array('year', '3.156e7*s', 'year', 'year'),
     );
 
     /* This array keeps a list of synoymns which students are likely to use.
@@ -119,10 +138,12 @@ class stack_cas_casstring_units {
         'mol' => array('mols', 'moles', 'mole'),
         'kat' => array('kats', 'katal', 'katals'),
         'rad' => array('radian', 'radians'),
-        'torr' => array('tor', 'tors', 'torrs'),
+        'Torr' => array('tor', 'tors', 'torrs'),
         'amu' => array('amus', 'dalton'),
         'cc' => array('ccm'),
-        'Hz' => array('hz')
+        'Hz' => array('hz'),
+        'h' => array('hr', 'hours'),
+        'day' => array('days')
     );
 
     /**

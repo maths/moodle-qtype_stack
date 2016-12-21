@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * A CAS session is a list of Maxima expressions, which are validated
@@ -173,7 +175,6 @@ class stack_cas_session {
         $connection = stack_connection_helper::make();
         $results = $connection->compute($this->construct_maxima_command());
         $this->debuginfo = $connection->get_debuginfo();
-
         // Now put the information back into the correct slots.
         $session    = $this->session;
         $newsession = array();
@@ -217,6 +218,11 @@ class stack_cas_session {
                     // Need to add this in here also because strings may contain question mark characters.
                     $disp = str_replace('QMCHAR', '?', $result['display']);
                     $cs->set_display($disp);
+                }
+
+                if (array_key_exists('dispvalue', $result)) {
+                    $val = str_replace('QMCHAR', '?', $result['dispvalue']);
+                    $cs->set_dispvalue($val);
                 }
 
                 if (array_key_exists('valid', $result)) {
@@ -341,7 +347,7 @@ class stack_cas_session {
         return false;
     }
 
-    public function get_value_key($key) {
+    public function get_value_key($key, $dispvalue = false) {
         if (null === $this->valid) {
             $this->validate();
         }
@@ -351,6 +357,9 @@ class stack_cas_session {
         // We need to reverse the array to get the last value with this key.
         foreach (array_reverse($this->session) as $casstr) {
             if ($casstr->get_key() === $key) {
+                if ($dispvalue) {
+                    return $casstr->get_dispvalue();
+                }
                 return $casstr->get_value();
             }
         }
@@ -432,7 +441,7 @@ class stack_cas_session {
         foreach ($this->session as $casstr) {
             $key    = $casstr->get_key();
             if ($key === '') {
-                // This is something like a function definition, or an equality.
+                // An empty key is something like a function definition, or an equality.
                 // It is not something that can be replaced in the CAS text.
                 continue;
             }

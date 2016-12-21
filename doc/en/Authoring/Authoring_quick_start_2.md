@@ -1,4 +1,4 @@
-# Authoring quick start 2: multipart mathematical questions
+# Authoring quick start 2: multi-part mathematical questions
 
 This is the second part of the [authoring quick start](Authoring_quick_start.md).  The purpose is to write multi-part questions.
 

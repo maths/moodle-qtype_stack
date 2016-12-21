@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,13 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * String answer test
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+//
+// Decimal places answer tests.
+//
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+//
 class stack_anstest_atdecplaces extends stack_anstest {
 
     public function do_test() {
@@ -56,20 +57,13 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
         // Check that the first expression is a floating point number,
         // with the right number of decimal places.
-        $sans = explode('.', $this->sanskey);
-        if (2 === count($sans)) {
-            if ($atestops != strlen($sans[1]) ) {
-                $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
-                $anotes[]           = 'ATNumDecPlaces_Wrong_DPs ('.strlen($sans[1]).' <> '.$atestops.')';
-                $this->atmark       = 0;
-            } else {
-                $anotes[]           = 'ATNumDecPlaces_Correct';
-            }
-        } else {
-            // No '.' found.
-            $this->atfeedback  .= stack_string('ATNumDecPlaces_NoDP');
-            $anotes[]           = 'ATNumDecPlaces_NoDP';
+        $r = stack_utils::decimal_digits($this->sanskey);
+        if ($atestops != $r['decimalplaces'] ) {
+            $this->atfeedback  .= stack_string('ATNumDecPlaces_Wrong_DPs');
+            $anotes[]           = 'ATNumDecPlaces_Wrong_DPs';
             $this->atmark       = 0;
+        } else {
+            $anotes[]           = 'ATNumDecPlaces_Correct';
         }
 
         // Check that the two numbers evaluate to the same value.
@@ -78,6 +72,7 @@ class stack_anstest_atdecplaces extends stack_anstest {
         $cascommands[] = "caschat0:ev(float(round(10^caschat2*{$this->sanskey})/10^caschat2),simp)";
         $cascommands[] = "caschat1:ev(float(round(10^caschat2*{$this->tanskey})/10^caschat2),simp)";
         $cascommands[] = "caschat3:ev(second(ATAlgEquiv(caschat0,caschat1)),simp)";
+        $cascommands[] = "caschat4:floatnump({$this->sanskey})";
 
         $cts = array();
         foreach ($cascommands as $com) {
@@ -128,6 +123,12 @@ class stack_anstest_atdecplaces extends stack_anstest {
             $anotes[]     = 'ATNumDecPlaces_Not_equiv';
         }
 
+        if ($session->get_value_key('caschat4') == 'false') {
+            $this->atmark = 0;
+            $this->atfeedback  = stack_string('ATNumDecPlaces_NoDP');
+            $anotes             = array('ATNumDecPlaces_NoDP');
+        }
+
         $this->atansnote = implode('. ', $anotes).'.';
         if ($this->atmark) {
             return true;
@@ -141,6 +142,10 @@ class stack_anstest_atdecplaces extends stack_anstest {
 
     public function required_atoptions() {
         return true;
+    }
+
+    protected function get_casfunction() {
+        return 'ATDecimalPlaces';
     }
 
     /**

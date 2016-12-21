@@ -12,6 +12,24 @@ See Maxima's documentation for more details.
 
 Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  No warnings or errors are issued if more than one is encountered.
 
+## Logarithms to an arbitrary base.
+
+By default, Maxima does not provide logarithms to an arbitrary base.  To overcome this, STACK provides a function `lg` for student entry.
+
+* `lg(x)` is log of \(x\) to the base 10.
+* `lg(x, a)` is log of \(x\) to the base \(a\).
+
+The function `lg` is an alias and is always transformed to the inert function `logbase(x,a)`.  That is, it undertakes no simplification at all.  STACK provides no simplification rules for these logarithms.  To simplify you must transform back to natural logarithms.
+
+For example (with `simp:true` or `simp:false`)
+
+    p:lg(27, 3)
+    q:ev(p, logbase=logbasesimp)
+
+results in `p=logbase(27, 3)`, and `q=3`.
+
+The algebraic equivalence function `algebraic_equivalence`, and so anything upon which it depends, will automatically remove logarithms to other bases.  This includes the answer tests as needed.
+
 ## Selective simplification
 
 The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
@@ -67,7 +85,7 @@ Then you can put in `{@f@}` into one of the CASText fields.
 
 ## Tips for manipulating expressions
 
-How do we do the followin in Maxima?
+How do we do the following in Maxima?
 \[ (1-x)^a \times (x-1) \rightarrow  -(1-x)^{a+1}.\]
 Try
 
@@ -76,7 +94,7 @@ Try
     q:subst(z=1-x ,q);
 
 
-How do we do the followin in Maxima?
+How do we do the following in Maxima?
 \[ (x-1)(k(x-1))^a \rightarrow  (x-1)^{a+1}k^a.\]
 
      factor(radcan((x-1)*(k*(x-1))^a)) 

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * String answer test
@@ -41,5 +42,9 @@ class stack_anstest_atstring extends stack_anstest {
 
     public function validate_atoptions($opt) {
         return array(true, '');
+    }
+
+    protected function get_casfunction() {
+        return 'ATString';
     }
 }

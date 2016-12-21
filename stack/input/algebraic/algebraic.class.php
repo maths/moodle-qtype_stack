@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * A basic text-field input.
@@ -34,7 +35,11 @@ class stack_algebraic_input extends stack_input {
         );
 
         if ($this->is_blank_response($state->contents)) {
-            $attributes['value'] = $this->parameters['syntaxHint'];
+            $field = 'value';
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $field = 'placeholder';
+            }
+            $attributes[$field] = $this->parameters['syntaxHint'];
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }
@@ -59,17 +64,18 @@ class stack_algebraic_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => true,
-            'showValidation' => 1,
-            'boxWidth'       => 15,
-            'strictSyntax'   => false,
-            'insertStars'    => 0,
-            'syntaxHint'     => '',
-            'forbidWords'    => '',
-            'allowWords'     => '',
-            'forbidFloats'   => true,
-            'lowestTerms'    => true,
-            'sameType'       => true);
+            'mustVerify'         => true,
+            'showValidation'     => 1,
+            'boxWidth'           => 15,
+            'strictSyntax'       => false,
+            'insertStars'        => 0,
+            'syntaxHint'         => '',
+            'syntaxAttribute'    => 0,
+            'forbidWords'        => '',
+            'allowWords'         => '',
+            'forbidFloats'       => true,
+            'lowestTerms'        => true,
+            'sameType'           => true);
     }
 
     /**

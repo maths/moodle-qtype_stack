@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -238,10 +238,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function start_attempt(question_attempt_step $step, $variant) {
 
+        // @codingStandardsIgnoreStart
         // Work out the right seed to use.
         if (!is_null($this->seed)) {
-            // Nasty hack, but if seed has already been set, then use that. This is
-            // used by the questiontestrun.php script to allow non-deployed
+            // This empty if statement is a hack, but if seed has already been set, then use that.
+            // This is used by the questiontestrun.php script to allow non-deployed
             // variants to be browsed.
             $step->set_qt_var('_seed', $this->seed);
 
@@ -258,6 +259,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // This question uses completely free randomisation.
             $this->seed = $variant;
         }
+        // @codingStandardsIgnoreEnd
         $step->set_qt_var('_seed', $this->seed);
 
         $this->initialise_question_from_seed();
@@ -391,7 +393,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
         foreach ($inputs as $name) {
             $input = $this->inputs[$name];
-            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name),
+            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name, true),
                     $this->session->get_display_key($name)));
         }
         return stack_ouput_castext($feedback);
@@ -437,7 +439,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $teacheranswer = array();
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
-                    $input->get_correct_response($this->session->get_value_key($name)));
+                    $input->get_correct_response($this->session->get_value_key($name, true)));
         }
 
         return $teacheranswer;

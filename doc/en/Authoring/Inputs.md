@@ -110,7 +110,7 @@ Please read the notes on [numbers](../CAS/Numbers.md#Floats).
 
 ### Insert Stars ### {#Insert_Stars}
 
-There are three options.
+There are six options.
 
 * Don't insert stars:  This does not insert `*` characters automatically into any patterns identified by Strict Syntax as needing them.  Strict Syntax is true and there are any pattern identified the result will be an invalid expression.
 * Insert `*`s for implied multiplication.  If any patterns identified by Strict Syntax as needing `*`s then they will automatically be inserted into the expression quietly.
@@ -118,7 +118,15 @@ There are three options.
   * Note, the student's formula is interpreted and variables identified, so \(\sin(ax)\) will not end up as `s*i*n*(a*b)` but as `sin(a*v)`.
   * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
 
-The above two conditions are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted 
+There are also additional options to insert multiplication signs for spaces.
+
+* Insert stars for spaces only
+* Insert stars for implied multiplication and for spaces
+* Insert stars assuming single-character variable names and for spaces
+
+If a space is taken for multiplication what should we do with \(sin\ x\)?  Currently this is transformed to \(\sin \times x\) and then rejected as invalid as you can't multiply the function name by its argument.  Use these latter options with caution: in the long run students are likely to need to use a strict syntax with machines, and letting them use spaces now might be a disservice.
+
+The "Strict Syntax" and "Insert Stars" options are in conflict: we can't have it both ways.  What would you expect to happen in \(\sin(in)\)? If we replace `in` by `i*n` in the original typed expression we end up in a mess.   For this reason it is essential to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted 
 
 1. as \( (x\cdot e)^x\) if we assume single character variable names, and
 2. as \( xe^x\) if we just "Insert `*`s for implied multiplication".  The absence of the dot here is key.
@@ -146,7 +154,7 @@ The ? may also be used to give partial credit. Of course it could also be used f
 
 This is a comma separated list of text strings which are forbidden in a student's answer.  If one of these strings is present then the student's attempt will be considered invalid, and no penalties will be given.  This is an unsophisticated string match.
 
-Note, any variable names longer than one letter in length used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).  If the teacher uses a variable name which is two characters or longer, then students will not be able to use this variable name in their input.  Input from students with two charater variable names which appear in the question variables will be rejected as invalid.  Students can always use single letter variable names.  Teachers are therefore advised to avoid single letter variable names.
+Note, any variable names longer than one letter in length used in the question variables are automatically forbidden (otherwise the student could potentially use the variable name you have defined, which might be the correct answer).  If the teacher uses a variable name which is two characters or longer, then students will not be able to use this variable name in their input.  Input from students with two character variable names which appear in the question variables will be rejected as invalid.  Students can always use single letter variable names.  Teachers are therefore advised to avoid single letter variable names.
 
 Note that the string `*` is literally taken as `*` and is not a wild card.  Teachers may ask a student to calculate `2*3` and hence need to forbid multiplication in an answer.
 
@@ -209,6 +217,24 @@ Feedback to students is in two forms.
 * feedback tied to each potential response tree.
 
 Setting this option displays any feedback from this input, including echoing back their expression in traditional two dimensional notation.  Generally, feedback and verification are used in conjunction.  Errors will always be displayed.  In addition to simply displaying the student's expression, the teacher can display the list of variables which occurs in the expression.  From experience, this is helpful in letting students understand the idea of variable and to spot case insensitivity or wrong variable problems.
+
+## Input tips and tricks ##
+
+It is often sensible to use a prefix just in front of the form box.  For example
+
+    \(f(x)=[[input:ans1]].\)
+
+This avoids all kinds of problems with students also trying to enter the prefix themselves.  You could also specify units afterwards, but you might also want the studnet to type these in!
+
+In Maxima the input `(a,b,c)` is a programatic block element (see Maxima's manual for `block`). Hence we cannot use this directly for the input of coordinates.  Instead, have the students type in an unnamed function like
+
+    P(x,y)
+
+This technique can be used to enter a set of points
+
+    {A(1,2), B(2,3)}
+
+as an answer.  The `op` command can be used to filter our a particular point, and the `args` command becomes a list of coordinates.
 
 ## Other input types ##
 

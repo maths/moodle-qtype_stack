@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,12 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Unit tests for stack_cas_casstring.
  *
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/cas/casstring.class.php');
 
@@ -61,6 +64,7 @@ class stack_cas_casstring_test extends basic_testcase {
             array('setelmx(2,1,1,C)', false, true),
             array('2*reallytotalnonsensefunction(x)', false, true),
             array('system(rm *)', false, false), // This should never occur.
+            array('"system(rm *)"', true, true), // There is nothing wrong with this.
             array('$', false, false),
             array('@', false, false),
             // Inequalities.
@@ -95,6 +99,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $casstring = new stack_cas_casstring('2/*x');
         $casstring->get_valid('s');
         $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">/*</span>.',
+                $casstring->get_errors());
+        $this->assertEquals('spuriousop', $casstring->get_answernote());
+    }
+
+    public function test_spurious_operators_2() {
+        $casstring = new stack_cas_casstring('x==2*x');
+        $casstring->get_valid('s');
+        $this->assertEquals('Unknown operator: <span class="stacksyntaxexample">==</span>.',
                 $casstring->get_errors());
         $this->assertEquals('spuriousop', $casstring->get_answernote());
     }
@@ -282,11 +294,119 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
-    public function test_strings_4() {
-        $s = 'a:["system(\'rm *\')",3*x]';
+    public function test_system_execution() {
+        $s = 'a:eval_string("system(\\\"rm /tmp/test\\\")")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The expression <span class="stacksyntaxexample">system</span> is forbidden.',
+        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+                $at1->get_errors());
+
+        // First the obvious one, just eval that string.
+        $s = 'a:eval_string("system(rm /tmp/test)")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">eval_string</span> is forbidden.',
+                $at1->get_errors());
+
+        // The second requires a bit more, parse but do the eval later.
+        $s = 'a:ev(parse_string("system(\\\"rm /tmp/test\\\")"),eval)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+                $at1->get_errors());
+
+        // Then things get tricky, one needs to write the thing out and eval when reading in.
+        // Luckilly, appendfile, save, writefile, and stringout commands would require manual eval.
+        // But lets test them anyway.
+        $s = 'a:appendfile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">appendfile</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:writefile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">writefile</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:save("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">save</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:stringout("/tmp/test", "system(\\\"rm /tmp/test\\\");")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+                $at1->get_errors());
+
+        // The corresponding read commands load, loadfile, batch, and batchload are all bad.
+        $s = 'a:load("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">load</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:loadfile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">loadfile</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:batch("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">batch</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:batchload("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">batchload</span> is forbidden.',
+                $at1->get_errors());
+
+        // Naturally, lower level functions can allow you to actually edit or generate files to execute.
+        // The opena, openw, and openr and their binary versions could do even more harm.
+        // Even scarier is naturally, the possibility to edit files...
+        $s = 'a:opena("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">opena</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openw("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openw</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openr("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openr</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:opena_binary("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">opena_binary</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openw_binary("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openw_binary</span> is forbidden.',
+                $at1->get_errors());
+        $s = 'a:openr_binary("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">openr_binary</span> is forbidden.',
+                $at1->get_errors());
+
+        // And lets not forget being able to output file contents.
+        $s = 'a:printfile("/tmp/test")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">printfile</span> is forbidden.',
+                $at1->get_errors());
+
+        // And then there is the possibility of using lisp level functions.
+        $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\"rm /tmp/test\");"))';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
                 $at1->get_errors());
     }
 
@@ -447,14 +567,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_3() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
-        $this->assertEquals('unitssynonym | unknownFunction', $at1->get_answernote());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_allow_moles() {
@@ -507,4 +627,236 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals($err, $at1->get_errors());
     }
 
+    public function test_spaces_1_simple() {
+        $s = 'a b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a b', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">a<font color="red">_</font>b</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_multiple() {
+        $s = 'a   b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a   b', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">a<font color="red">_</font>b</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_brackets() {
+        $s = 'a (b c)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a (b c)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression '
+                .'<span class="stacksyntaxexample">a<font color="red">_</font>(b<font color="red">_</font>c)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_bracket_brackets() {
+        $s = '(1+c) (x+1)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('(1+c) (x+1)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression '
+                .'<span class="stacksyntaxexample">(1+c)<font color="red">_</font>(x+1)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_logic() {
+        $s = 'a b and c';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('a b and c', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">a<font color="red">_</font>b and c</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces', $at1->get_answernote());
+    }
+
+    public function test_spaces_3_simple() {
+        $s = 'a b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*b', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_multiple() {
+        $s = 'a   b';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*b', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_scientific() {
+        // We probably don't really want this behaviour, but this is a consequence of adding *s.
+        $s = '3 E 4';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('3*E*4', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_brackets() {
+        $s = 'a (b c)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*(b*c)', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_bracket_brackets() {
+        $s = '(1+c) (x+1)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('(1+c)*(x+1)', $at1->get_casstring());
+    }
+
+    public function test_spaces_3_logic() {
+        $s = 'a b and c';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 3));
+        $this->assertEquals('a*b and c', $at1->get_casstring());
+    }
+
+    public function test_spaces_0_insertneeded() {
+        $s = '3sin(a+b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('3sin(a+b)', $at1->get_casstring());
+        $err = 'You seem to be missing * characters. Perhaps you meant to type '
+                .'<span class="stacksyntaxexample">3<font color="red">*</font>sin(a+b)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_0_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('3sin(a b)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">3sin(a<font color="red">_</font>b)</span>. '
+                .'You seem to be missing * characters. Perhaps you meant to type '
+                        .'<span class="stacksyntaxexample">3<font color="red">*</font>sin(a b)</span>.';
+                        $this->assertEquals($err, $at1->get_errors());
+                        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_1_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 1));
+        $this->assertEquals('3*sin(a b)', $at1->get_casstring());
+        $err = 'Illegal spaces found in expression <span class="stacksyntaxexample">3sin(a<font color="red">_</font>b)</span>.';
+        $this->assertEquals($err, $at1->get_errors());
+        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_3_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 3));
+        $this->assertEquals('3sin(a*b)', $at1->get_casstring());
+        $err = 'You seem to be missing * characters. Perhaps you meant to type '
+                .'<span class="stacksyntaxexample">3<font color="red">*</font>sin(a*b)</span>.';
+                $this->assertEquals($err, $at1->get_errors());
+                $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_4_insertneeded_andspace() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 4));
+        $this->assertEquals('3*sin(a*b)', $at1->get_casstring());
+        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_3_sin() {
+        $s = 'sin x';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 3));
+        $this->assertEquals('sin*x', $at1->get_casstring());
+        $err = 'You must apply <span class="stacksyntaxexample">sin</span> to an argument.  '
+                .'You seem to have <span class="stacksyntaxexample">sin*</span>, which looks like you have tried '
+                        .'to use <span class="stacksyntaxexample">sin</span> as a variable name.';
+                        $this->assertEquals($err, $at1->get_errors());
+                        $this->assertEquals('spaces | trigop', $at1->get_answernote());
+    }
+
+    public function test_spaces_4_insertneeded_true() {
+        $s = '3b(x y)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 4));
+        $this->assertEquals('3*b(x*y)', $at1->get_casstring());
+        $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_spaces_4_insertneeded_true_2() {
+        $s = '3sin(a b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 4));
+        $this->assertEquals('3*sin(a*b)', $at1->get_casstring());
+    }
+
+    public function test_log_sugar_1() {
+        $s = 'log(x)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('log(x)', $at1->get_casstring());
+    }
+
+    public function test_log_sugar_2() {
+        $s = 'log_10(a+x^2)+log_a(b)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(a+x^2, 10)+lg(b, a)', $at1->get_casstring());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_3() {
+        // Note that STACK spots there is a missing * here.
+        $s = 'log_5x(3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(3, 5x)', $at1->get_casstring());
+        $this->assertEquals('logsubs | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_4() {
+        // The missing * in this expression is correctly inserted.
+        $s = 'log_5x(3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 1));
+        $this->assertEquals('lg(3, 5*x)', $at1->get_casstring());
+        $this->assertEquals('logsubs | missing_stars', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_5() {
+        $s = 'log_x^2(3)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(3, x^2)', $at1->get_casstring());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_log_sugar_6() {
+        $s = 'log_%e(%e)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(%e, %e)', $at1->get_casstring());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
+
+    public function test_log_key_vals_1() {
+        // This may not what we really want here, but this unit test is a warning.
+        $s = 'log_x:log_x(a)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('lg(a, x)', $at1->get_casstring());
+        $this->assertEquals('log_x', $at1->get_key());
+        $this->assertEquals('logsubs', $at1->get_answernote());
+    }
 }

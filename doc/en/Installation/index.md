@@ -11,11 +11,11 @@ STACK is being used live at a number of institutions, including the UK Open Univ
 
 Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.36.1 then 5.38.0 to 5.38.1 are supported.  Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  Please contact the developers to request support for other versions.  
 
-On linux we currently recommend that you compile maxima 5.36.1 from sourceforge-sources with sbcl enabled.  On linux also ensure you also have maxima-share and texinfo.
+On Linux we currently recommend that you compile maxima 5.36.1 from sourceforge-sources with sbcl enabled.  On Linux also ensure you also have maxima-share and texinfo.
 
 Please note 
 
-* Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  There appear to be some important changes in Maxima we are working to accommodate in STACK.  In particular with `simp:false`, \(s^(-1)\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This cuases all sorts of problems.  Do not use Maxim 5.37.1 to 5.37.3.
+* Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  There appear to be some important changes in Maxima we are working to accommodate in STACK.  In particular with `simp:false`, \(s^(-1)\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This causes all sorts of problems.  Do not use Maxim 5.37.1 to 5.37.3.
 * From version 5.35.1 on Windows, Maxima is very slow in starting, and there is no optimization mechanism.
 * Older versions of Maxima:  in particular, Maxima 5.23.2 has some differences which result in \(1/\sqrt{x} \neq \sqrt{1/x}\), and similar problems.  This means that we have an inconsistency between questions between versions of maxima.   Of course, we can argue about which values of \(x\) make \(1/\sqrt{x} = \sqrt{1/x}\), but currently the unit tests and assumption is that these expressions should be considered to be algebraically equivalent!   So, older versions of Maxima are not supported for a reason.  Please test thoroughly if you try to use an older version, and expect some errors in the mathematical parts of the code.
 * If you install more than one version of Maxima then you will need to tell STACK which version to use.  Otherwise just use the "default" option.

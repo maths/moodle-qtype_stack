@@ -45,13 +45,8 @@ The only field which is compulsory is in **bold**.
 * [Answer tests](Answer_tests.md),
 * [Frequently Asked Questions](Author_FAQ.md),
 * [KeyVals](KeyVals.md)
-* [Question versioning](Question_versioning.md)
+* [Deploying question versions](Deploying.md)
 * Specific adaptations of [Maxima](../CAS/Maxima.md).
 * [Import and Export](ImportExport.md) of STACK questions.
 * [Question blocks](Question_blocks.md)
 
-# Future plans
-
-Yet to be completed:
-
-* [Units](Units.md)

@@ -28,4 +28,3 @@ Below are a small selection of papers about STACK, and are a good place to start
 * C. J. Sangwin and M. Grove [STACK: addressing the needs of the neglected learners](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/2006WebAlt.pdf). Proceedings of the WebAlt Conference (2006).
 * C. J. Sangwin. [Assessing mathematics automatically using computer algebra and the internet](http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/tma03.pdf). Teaching Mathematics and its Applications, 23(1), pages 1--14 (2004).
 
-## Papers about online assessment in which STACK has played a leading role.

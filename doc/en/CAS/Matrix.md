@@ -2,8 +2,8 @@
 
 ## Matrices ##
 
-Note that in Maxima, matrix multiplication is the dot, e.g.
-`A.B`.  The star `A*B` gives element-wise multiplication.
+Note that in Maxima, the operator `.` represents noncommutative multiplication and scalar product.
+The star `A*B` gives element-wise multiplication.
 
 The paper
 [Setting Linear Algebra Problems](http://web.maths.unsw.edu.au/~jds/Papers/linalg.pdf)
@@ -29,6 +29,13 @@ To assign values to individual elements, use the simple syntax such as the follo
 
     m:matrix([1,1],[1,2])
     m[1,2]:3
+
+Note also Maxima's `setelmx` function:
+
+    setelmx (<x>, <i>, <j>, <M>)
+
+Assigns `<x>` to the `(<i>, <j>)`'th element of the matrix `<M>`, and returns the altered matrix. `<M> [<i>, <j>]: <x>` has the same effect, but returns `<x>` instead of `<M>`.
+
 
 ### Showing working {#Showing_working}
 
@@ -69,7 +76,7 @@ For non-square matrices we can use this.
     S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(B)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]));
     D:ev(C,simp);
 
-Now it makes no sense to include the pointwise multiplication of elements as a possible wrong answer.
+Now it makes no sense to include the point wise multiplication of elements as a possible wrong answer.
 
 There must be a more elegant way to do this!
 

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * A basic text-field input.
@@ -138,7 +139,10 @@ class stack_matrix_input extends stack_input {
         // Turn the student's answer into a PHP array.
         $t = trim($in);
         if ('matrix(' == substr($t, 0, 7)) {
-            $rows = $this->modinput_tokenizer(substr($t, 7, -1));  // E.g. array("[a,b]", "[c,d]").
+            // @codingStandardsIgnoreStart
+            // E.g. array("[a,b]","[c,d]").
+            // @codingStandardsIgnoreEnd
+            $rows = $this->modinput_tokenizer(substr($t, 7, -1));
             for ($i = 0; $i < count($rows); $i++) {
                 $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
                 $tc[$i] = $row;
@@ -158,7 +162,7 @@ class stack_matrix_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    protected function validate_contents($contents, $forbiddenkeys) {
+    protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
 
         $errors = $this->extra_validation($contents);
         $valid = !$errors;
@@ -168,6 +172,15 @@ class stack_matrix_input extends stack_input {
         foreach ($contents as $row) {
             $modifiedrow = array();
             foreach ($row as $val) {
+                // Process single character variable names in PHP.
+                // Note, this does potentially call the CAS for each element of the matrix.
+                // To reduce this load, stack_utils::make_single_char_vars only calls the CAS when we have letters.
+                if (2 == $this->get_parameter('insertStars', 0) || 5 == $this->get_parameter('insertStars', 0)) {
+                    $val = stack_utils::make_single_char_vars($val, $localoptions,
+                            $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
+                            $this->get_parameter('allowWords', ''));
+                }
+
                 $answer = new stack_cas_casstring($val);
                 $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                         $this->get_parameter('insertStars', 0),  $this->get_parameter('allowwords', ''));
@@ -292,17 +305,18 @@ class stack_matrix_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => true,
-            'showValidation' => 1,
-            'boxWidth'       => 5,
-            'strictSyntax'   => false,
-            'insertStars'    => 0,
-            'syntaxHint'     => '',
-            'forbidWords'    => '',
-            'allowWords'     => '',
-            'forbidFloats'   => true,
-            'lowestTerms'    => true,
-            'sameType'       => true);
+            'mustVerify'         => true,
+            'showValidation'     => 1,
+            'boxWidth'           => 5,
+            'strictSyntax'       => false,
+            'insertStars'        => 0,
+            'syntaxHint'         => '',
+            'syntaxAttribute'    => 0,
+            'forbidWords'        => '',
+            'allowWords'         => '',
+            'forbidFloats'       => true,
+            'lowestTerms'        => true,
+            'sameType'           => true);
     }
 
     /**

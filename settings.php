@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,6 +72,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
                       '5.32.0' => '5.32.0', '5.32.1' => '5.32.1', '5.33.0' => '5.33.0',
                       '5.34.0' => '5.34.0', '5.34.1' => '5.34.1', '5.35.1' => '5.35.1',
                       '5.35.1.2' => '3.35.1.2', '5.36.0' => '5.36.0', '5.36.1' => '5.36.1',
+                      '5.37.3' => '5.37.3', // Recently compiled GCL version for Windows is much faster.
                       '5.38.0' => '5.38.0', '5.38.1' => '5.38.1',
                       'default' => 'default')));
 

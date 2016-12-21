@@ -212,14 +212,14 @@
 
 ;; Fine tune the display to enable us to print gamma07 as \gammma_{07},
 ;; Chris Sangwin 7/6/2016.
-(defprop $stacktexsubscript tex-stacktexsubscript tex)
-(defun tex-stacktexsubscript (x l r)
+(defprop $texsub tex-texsub tex)
+(defun tex-texsub (x l r)
   (let
       ((front (append '("{")
-                     (tex (cadr x) nil nil 'mparen 'mparen)
+                      (tex (cadr x) nil nil 'mparen 'mparen)
                       '("}_")))
        (back (append '("{")
-                      (list (stripdollar (caddr x)))
+                      (tex (caddr x) nil nil 'mparen 'mparen)
                      '("}"))))
     (append l front back r)))
 
@@ -245,7 +245,7 @@
                         f ; there is such a function
                         (member (getcharn f 1) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
-                        (not (member f '(%sum %product %derivative %integrate %at $stacktexsubscript
+                        (not (member f '(%sum %product %derivative %integrate %at $texsub
                                          %lsum %limit $pderivop) :test #'eq)) ;; what else? what a hack...
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))
@@ -276,4 +276,29 @@
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
 
+;; Added 13 Nov 2016.  Try to better display trailing zeros.
+;; Based on the "grind function". See src/grind.lisp
+
+;; This function has grind (and hence "string") output the number according to the format template.
+;; floatgrind(number, template).
+;; DANGER: no error checking on the type of arguments.
+(defprop $floatgrind msz-floatgrind grind)
+(defun msz-floatgrind (x l r)
+  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
+)
+
+;; This function has grind (and hence "string") output the number with the following number of decimal places.
+;; displaydp(number, ndps).
+;; DO NOT USE: no error checking on the types of the arguments.
+;;(defprop $dispdp msz-dispdp grind)
+;;(defun msz-dispdp (x l r)
+;;  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "dispdp(" (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) "," (format nil "~d" (cadr (cdr x))) ")" ))) l r)
+;;)
+
+;; This function has grind (and hence "string") output the number with the following number of decimal places.
+;; displaydp(number, ndps).
+(defprop $dispdpvalue msz-dispdpvalue grind)
+(defun msz-dispdpvalue (x l r)
+ (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
+)
 

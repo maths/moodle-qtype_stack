@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Answer test controller class.
@@ -41,6 +43,7 @@ class stack_ans_test_controller {
               'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
               'GT'                   => 'stackOptions_AnsTest_values_GT',
               'GTE'                  => 'stackOptions_AnsTest_values_GTE',
+              'SigFigsStrict'        => 'stackOptions_AnsTest_values_SigFigsStrict',
               'NumAbsolute'          => 'stackOptions_AnsTest_values_NumAbsolute',
               'NumRelative'          => 'stackOptions_AnsTest_values_NumRelative',
               'NumSigFigs'           => 'stackOptions_AnsTest_values_NumSigFigs',
@@ -60,13 +63,11 @@ class stack_ans_test_controller {
               );
 
     /**
-     * The answertest object that the functions call
+     * The answertest object that the functions call.
      * @var string
      * @access private
      */
     private $at;
-
-    // Operations.
 
     /**
      *
@@ -154,6 +155,11 @@ class stack_ans_test_controller {
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATGTE', false, $casoption, $options);
                 break;
 
+            case 'SigFigsStrict':
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATSigFigsStrict', true);
+                break;
+
             case 'NumAbsolute':
                 if (trim($casoption) == '') {
                     $casoption = '0.05';
@@ -169,7 +175,8 @@ class stack_ans_test_controller {
                 break;
 
             case 'NumSigFigs':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATNumSigFigs', true, $casoption, $options, true, true);
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATNumSigFigs', true);
                 break;
 
             case 'NumDecPlaces':
@@ -178,13 +185,13 @@ class stack_ans_test_controller {
                 break;
 
             case 'Units':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsSigFigs',
-                                    true, $casoption, $options, false, true);
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATUnitsSigFigs', false);
                 break;
 
             case 'UnitsStrict':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATUnitsStrictSigFigs',
-                                    true, $casoption, $options, false, true);
+                require_once(__DIR__ . '/atnumsigfigs.class.php');
+                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $options, $casoption, 'ATUnitsStrictSigFigs', false);
                 break;
 
             case 'UnitsAbsolute':
@@ -330,6 +337,16 @@ class stack_ans_test_controller {
      */
     public function get_debuginfo() {
         return $this->at->get_debuginfo();
+    }
+
+    /**
+     * Returns an intelligible trace of an executed answer test.
+     *
+     * @return string
+     * @access public
+     */
+    public function get_trace() {
+        return $this->at->get_trace();
     }
 }
 

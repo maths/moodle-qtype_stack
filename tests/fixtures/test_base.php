@@ -44,7 +44,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      *
      * This must onlu be CLISP or SBCL.
      */
-    protected $lisp = 'CLISP';
+    protected $lisp = 'SBCL';
 
     public function setUp() {
         parent::setUp();
@@ -68,7 +68,21 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         qtype_stack_test_config::setup_test_maxima_connection();
     }
-// @codingStandardsIgnoreStart
+
+    /**
+     * Helper that skips a test if the version of Maxima used is at least as old as a given one.
+     *
+     * @param string $version e.g. '5.23.2'. Skip if the maxima version is <= this.
+     */
+    public function skip_if_old_maxima($version) {
+        $versionused = get_config('qtype_stack', 'maximaversion');
+        if (version_compare($versionused, $version) <= 0) {
+            $this->markTestSkipped(
+                    'Skipping this test because it is known to fail on Maxima older than ' .
+                    $version . ' and the tests are running with Maxima ' . $versionused . '.');
+        }
+    }
+
     /**
      * Verify that some content, containing maths, that is due to be output, is as expected.
      *
@@ -92,7 +106,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     protected function assertContentWithMathsContains($expected, $actual) {
         $this->assertContains($expected, self::prepare_actual_maths($actual));
     }
-// @codingStandardsIgnoreEnd
+
     /**
      * Prepare some content for comparison with expected maths but stripping out the
      * extra spans that the maths filder adds, so they don't get in the way of the comparison.
@@ -101,6 +115,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
      * @return string The equivalent content, without the extra spans.
      */
     public static function prepare_actual_maths($content) {
+        // Eliminate differences caused just by how Moodle post-proceses equations for display,
+        // which has changed between Moodle versions. We strip out the extra <span>s that
+        // Moodle adds, so we can just compare the raw maths.
         $lastcontent = '';
         while ($lastcontent != $content) {
             $lastcontent = $content;
@@ -108,6 +125,14 @@ abstract class qtype_stack_testcase extends advanced_testcase {
                     '~(?:<span class="nolink">|<span class="filter_mathjaxloader_equation">)((?:(?!<span\b).)*?)</span>~s',
                     '$1', $content);
         }
+
+        // Different versions of Maxima output floats in slighly different ways.
+        // Revert some of those irrelevant differences.
+        // We always expect the e in 3.0e8 to be lower case.
+        $content = preg_replace('~(\\\\\(-?\d+(?:\.\d*)?)E([-+]?\d+\\\\\))~', '$1e$2', $content);
+        // Add .0 in 3e8 or 3.e8, to give 3.0e8.
+        $content = preg_replace('~(\\\\\(-?\d+)\.?(e[-+]?\d+\\\\\))~', '$1.0$2', $content);
+
         return $content;
     }
 }
@@ -168,6 +193,15 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             $this->assertEquals($penalty, $result->penalty, 'Wrong penalty.  The PRT returned ' .
                     $result->penalty . ' but we expected ' . $penalty . '.');
         }
+    }
+
+    protected function check_answer_note($index, $note) {
+        $question = $this->quba->get_question($this->slot);
+        $attempt  = $this->quba->get_question_attempt($this->slot);
+        $qa       = $attempt->get_last_qt_data();
+        $result   = $question->get_prt_result($index, $qa, false);
+
+        $this->assertEquals($note, implode(' | ', $result->__get('answernotes')));
     }
 
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,11 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
@@ -31,7 +32,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 class stack_dropdown_input_exception_test extends basic_testcase {
 
     protected function make_dropdown($parameters = array()) {
-        $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), $parameters);
+        $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
 
@@ -46,9 +47,14 @@ class stack_dropdown_input_exception_test extends basic_testcase {
         $state = $el->validate_student_response(array('ans1' => '4'), $options, '1', null);
     }
 
-    public function test_type_option() {
+    public function test_type_input_options() {
         $this->setExpectedException('stack_exception');
         $el = $this->make_dropdown(array('options' => 'WHOKNOWS'));
         $el->adapt_to_model_answer($this->make_ta());
+    }
+
+    public function test_type_question_options() {
+        $this->setExpectedException('stack_exception');
+        $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), 'parameters');
     }
 }

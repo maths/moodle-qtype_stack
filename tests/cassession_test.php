@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,8 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
 
@@ -198,8 +201,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
     public function test_get_display_unary_minus() {
 
         $cs = array('p1:y^3-2*y^2-8*y', 'p2:y^2-2*y-8', 'p3:y^2-2*y-0.5', 'p4:x+-3+y', 'p5:x+(-5+y)');
-        /* Notice the subtle difference in p4 & p5 */
-        /* Where extra brackets are put in they should stay... */
+        // Notice the subtle difference in p4 & p5..
+        // Where extra brackets are put in they should stay.
         foreach ($cs as $s) {
             $s1[] = new stack_cas_casstring($s);
         }
@@ -213,83 +216,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('y^2-2\\cdot y-0.5', $at1->get_display_key('p3'));
         $this->assertEquals('x-3+y', $at1->get_display_key('p4'));
         $this->assertEquals('x+\\left(-5+y\\right)', $at1->get_display_key('p5'));
-    }
-
-    public function test_single_char_vars_teacher() {
-
-        $testcases = array('ab' => 'a*b',
-            'abc' => 'a*b*c',
-            'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
-            'sin(xy)' => 'sin(x*y)',
-            'xe^x' => '(x*%e)^x',
-            'pix' => 'p*%i*x',
-            '2pi+nk' => '2*%pi+n*k',
-            '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
-            'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
-        );
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $cs = new stack_cas_casstring($test);
-            $cs->get_valid('t', false, 2);
-            $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
-            $sessionvars[] = $cs;
-            $k++;
-            $this->assertTrue($cs->get_valid());
-        }
-
-        $options = new stack_options();
-        $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($sessionvars, $options, 0);
-        $at1->instantiate();
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $this->assertEquals($at1->get_value_key('v'.$k), $result);
-            $k++;
-        }
-
-    }
-
-    public function test_single_char_vars_student() {
-
-        $testcases = array('ab' => 'a*b',
-                'ab*c' => 'a*b*c',
-                'ab*c+a+(b+cd)' => 'a*b*c+a+(b+c*d)',
-                'sin(xy)' => 'sin(x*y)',
-                'xe^x' => '(x*%e)^x',
-                '2pi+nk' => '2*%pi+n*k',
-                '(ax+1)(ax-1)' => '(a*x+1)*(a*x-1)',
-                'nx(1+2x)' => 'nx(1+2*x)' // Note, two letter function names are permitted.
-        );
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $cs = new stack_cas_casstring($test);
-            $cs->get_valid('s', false, 2);
-            $key = 'v'.$k;
-            $cs->set_cas_validation_casstring($key, true, false, true, $result, 'checktype', '');
-            $sessionvars[] = $cs;
-            $k++;
-            $this->assertTrue($cs->get_valid());
-        }
-
-        $options = new stack_options();
-        $options->set_option('simplify', false);
-        $at1 = new stack_cas_session($sessionvars, $options, 0);
-        $at1->instantiate();
-
-        $k = 0;
-        $sessionvars = array();
-        foreach ($testcases as $test => $result) {
-            $this->assertEquals($at1->get_value_key('v'.$k), $result);
-            $k++;
-        }
-
     }
 
     public function test_string1() {
@@ -323,8 +249,10 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_subscript_disp() {
+        // Fails with actual display output like '{\it pi_{025}}'.
+        $this->skip_if_old_maxima('5.23.2');
 
-        $cs = array('a:pi025', 'b:1+x3', 'c:f(x):=x^3', 'd:gamma7^3', 'a2:pi4^5');
+        $cs = array('a:pi_25', 'b:1+x_3', 'c:f(x):=x^3', 'd:gamma_7^3', 'a2:pi_4^5');
         foreach ($cs as $s) {
             $cs = new stack_cas_casstring($s);
             $cs->get_valid('t');
@@ -336,20 +264,20 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('pi025', $at1->get_value_key('a'));
-        $this->assertEquals('{\pi}_{025}', $at1->get_display_key('a'));
+        $this->assertEquals($at1->get_value_key('a'), 'pi_25');
+        $this->assertEquals($at1->get_display_key('a'), '{\pi}_{25}');
 
-        $this->assertEquals('1+x3', $at1->get_value_key('b'));
-        $this->assertEquals('1+{x}_{3}', $at1->get_display_key('b'));
+        $this->assertEquals($at1->get_value_key('b'), '1+x_3');
+        $this->assertEquals($at1->get_display_key('b'), '1+{x}_{3}');
 
-        $this->assertEquals('f(x):=x^3', $at1->get_value_key('c'));
-        $this->assertEquals('f(x):=x^3', $at1->get_display_key('c'));
+        $this->assertEquals($at1->get_value_key('c'), 'f(x):=x^3');
+        $this->assertEquals($at1->get_display_key('c'), 'f(x):=x^3');
 
-        $this->assertEquals('gamma7^3', $at1->get_value_key('d'));
-        $this->assertEquals('{\gamma}_{7}^3', $at1->get_display_key('d'));
+        $this->assertEquals($at1->get_value_key('d'), 'gamma_7^3');
+        $this->assertEquals($at1->get_display_key('d'), '{\gamma}_{7}^3');
 
-        $this->assertEquals('pi4^5', $at1->get_value_key('a2'));
-        $this->assertEquals('{\pi}_{4}^5', $at1->get_display_key('a2'));
+        $this->assertEquals($at1->get_value_key('a2'), 'pi_4^5');
+        $this->assertEquals($at1->get_display_key('a2'), '{\pi}_{4}^5');
     }
 
     public function test_assignmatrixelements() {
@@ -387,7 +315,43 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $this->assertEquals('2+3', $at1->get_value_key('a'));
         $this->assertEquals('5', $at1->get_value_key('b'));
+    }
 
+
+    public function test_disp_control_structures() {
+
+        $csl = array('p:if a>b then setelmx(0,m[k],m[j],A)',
+                'addto1(ex):=thru ex do x:0.5*(x+5.0/x)',
+                'addto2(ex):=for a from -3 step 7 thru ex do a^2',
+                'addto3(ex):=for i from 2 while ex <= 10 do s:s+i',
+                'addto4(ex):=block([l],l:ex,for f in [log,rho,atan] do l:append(l,[f]),l)',
+                'l:addto4([sin,cos])');
+
+        foreach ($csl as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('', $at1->get_errors(false));
+
+        $this->assertEquals('if a > b then setelmx(0,m[k],m[j],A)', $at1->get_value_key('p'));
+        $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m _{j} , A\right)',
+                $at1->get_display_key('p'));
+
+        // Confirm these expressions are unchanged by the CAS.
+        $atsession = $at1->get_session();
+        for ($i = 1; $i <= 4; $i++) {
+            $cs = $atsession[$i];
+            $this->assertEquals($csl[$i], $cs->get_value());
+        }
+
+        $this->assertEquals('[sin,cos,log,rho,atan]', $at1->get_value_key('l'));
     }
 
     public function test_redefine_variable() {
@@ -465,10 +429,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('3^(3/2)', $at1->get_value_key('a'));
 
+        // @codingStandardsIgnoreStart
         // Warning to developers.   The behaviour of rat is not stable accross versions of Maxima.
         // In Maxima 5.25.1: rat(sqrt(27)) gives sqrt(3)^3.
         // In Maxima 5.36.1: rat(sqrt(27)) gives (3^(1/2)^3).
         // In Maxima 5.37.1: rat(sqrt(27)) gives sqrt(3)^3.
+        // @codingStandardsIgnoreEnd
         $maximaversion = $at1->get_value_key('m');
         if ($maximaversion == '36.1') {
             // Developers should add other versions of Maxima here as needed.
@@ -607,7 +573,8 @@ class stack_cas_session_test extends qtype_stack_testcase {
     }
 
     public function test_greek_lower() {
-        $cs = array('greek1:[alpha,beta,gamma,delta,epsilon]',
+        // The case gamma is separated out below, so we can skip it on old Maxima where it is a known fail.
+        $cs = array('greek1:[alpha,beta,delta,epsilon]',
                     'greek2:[zeta,eta,theta,iota,kappa]',
                     'greek3:[lambda,mu,nu,xi,omicron,pi,rho]',
                     'greek4:[sigma,tau,upsilon,phi,psi,chi,omega]');
@@ -618,11 +585,11 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
         $at1 = new stack_cas_session($s1, null, 0);
         $at1->instantiate();
-        $this->assertEquals('[alpha,beta,gamma,delta,epsilon]', $at1->get_value_key('greek1'));
-        $this->assertEquals('\left[ \alpha , \beta , \gamma , \delta , \varepsilon \right]',
+        $this->assertEquals('[alpha,beta,delta,epsilon]', $at1->get_value_key('greek1'));
+        $this->assertEquals('\left[ \alpha , \beta , \delta , \varepsilon \right]',
                 $at1->get_display_key('greek1'));
         $this->assertEquals('[zeta,eta,theta,iota,kappa]', $at1->get_value_key('greek2'));
-        $this->assertEquals('\left[ \zeta , \eta , \vartheta , \iota , \kappa \right]',
+        $this->assertEquals('\left[ \zeta , \eta , \theta , \iota , \kappa \right]',
                 $at1->get_display_key('greek2'));
         // Note here that pi is returned as the constant %pi.
         $this->assertEquals('[lambda,mu,nu,xi,omicron,%pi,rho]', $at1->get_value_key('greek3'));
@@ -631,6 +598,17 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('[sigma,tau,upsilon,phi,psi,chi,omega]', $at1->get_value_key('greek4'));
         $this->assertEquals('\left[ \sigma , \tau , \upsilon , \varphi , \psi , \chi , \omega  \right]',
                 $at1->get_display_key('greek4'));
+    }
+
+    public function test_greek_lower_gamma() {
+        // In old maxima, you get '\Gamma' for the display output.
+        $this->skip_if_old_maxima('5.23.2');
+        $cs = new stack_cas_casstring('greek1:gamma');
+        $cs->get_valid('s');
+        $at1 = new stack_cas_session(array($cs), null, 0);
+        $at1->instantiate();
+        $this->assertEquals('gamma', $at1->get_value_key('greek1'));
+        $this->assertEquals('\gamma', $at1->get_display_key('greek1'));
     }
 
     public function test_greek_upper() {
@@ -662,6 +640,47 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 $at1->get_display_key('greek4'));
     }
 
+    public function test_taylor_cos_simp() {
+        $cs = array('c1:taylor(cos(x),x,0,1)',
+                    'c3:taylor(cos(x),x,0,3)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        // For some reason Maxima's taylor function doesn't always put \cdots at the end.
+        $this->assertEquals('+1', $at1->get_value_key('c1'));
+        $this->assertEquals('+1+\cdots', $at1->get_display_key('c1'));
+        $this->assertEquals('1-x^2/2', $at1->get_value_key('c3'));
+        $this->assertEquals('1-\frac{x^2}{2}+\cdots', $at1->get_display_key('c3'));
+    }
+
+    public function test_taylor_cos_nosimp() {
+        $cs = array('c1:taylor(cos(x),x,0,1)',
+                    'c3:taylor(cos(x),x,0,3)');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        // For some reason Maxima's taylor function doesn't always put \cdots at the end.
+        $this->assertEquals('+1', $at1->get_value_key('c1'));
+        $this->assertEquals('+1+\cdots', $at1->get_display_key('c1'));
+        $this->assertEquals('1-x^2/2', $at1->get_value_key('c3'));
+        $this->assertEquals('1-\frac{x^2}{2}+\cdots', $at1->get_display_key('c3'));
+    }
 
     public function test_lambda() {
         $cs = array('l1:lambda([ex], ex^3)',
@@ -684,5 +703,158 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('[1,8,27]', $at1->get_value_key('l3'));
         $this->assertEquals('64', $at1->get_value_key('l4'));
         $this->assertEquals('4', $at1->get_value_key('l5'));
+    }
+
+    public function test_sets_simp() {
+        $cs = array('c1:{}',
+            'c2:{b,a,c}');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        $this->assertEquals('{}', $at1->get_value_key('c1'));
+        $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
+        $this->assertEquals('{a,b,c}', $at1->get_value_key('c2'));
+        $this->assertEquals('\left \{a , b , c \right \}', $at1->get_display_key('c2'));
+    }
+
+    public function test_sets_simp_false() {
+        $cs = array('c1:{}',
+            'c2:{b,a,c}');
+        foreach ($cs as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('s');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('{}', $at1->get_value_key('c1'));
+        $this->assertEquals('\left \{ \right \}', $at1->get_display_key('c1'));
+        $this->assertEquals('{b,a,c}', $at1->get_value_key('c2'));
+        $this->assertEquals('\left \{b , a , c \right \}', $at1->get_display_key('c2'));
+    }
+
+    public function test_numerical_rounding() {
+
+        $tests = stack_numbers_test_data::get_raw_test_data();
+        $s1 = array();
+        foreach ($tests as $key => $test) {
+            $cs = new stack_cas_casstring('dispdp('.$test[0].', '.$test[3] .')');
+            $cs->get_valid('t');
+            $cs->set_key('p'.$key);
+            $s1[$key] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $this->assertTrue($at1->get_valid());
+        $at1->instantiate();
+        foreach ($tests as $key => $test) {
+            $this->assertEquals($at1->get_value_key('p'.$key, true), $test[5]);
+        }
+
+    }
+
+    public function test_dispdp() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of decimal places.
+        // 2. Displayed form in LaTeX.
+        // 3. Value form after rounding.
+        // E.g. dispdp(3.14159,2) -> displaydp(3.14,2).
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+                    array('3.14159', '2', '3.14', 'displaydp(3.14,2)'),
+                    array('100', '1', '100.0', 'displaydp(100.0,1)'),
+                    array('100', '2', '100.00', 'displaydp(100.0,2)'),
+                    array('100', '3', '100.000', 'displaydp(100.0,3)'),
+                    array('100', '4', '100.0000', 'displaydp(100.0,4)'),
+                    array('100', '5', '100.00000', 'displaydp(100.0,5)'),
+                    array('0.99', '1', '1.0', 'displaydp(1.0,1)'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:dispdp({$c[0]},{$c[1]})";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+            $this->assertEquals($c[3], $at1->get_value_key($sk));
+        }
+    }
+
+    public function test_dispsf() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of significant figures.
+        // 2. Displayed form.
+        // 3. Value form after rounding.
+        // E.g. dispsf(3.14159,2) -> displaydp(3.1,1).
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+                    array('3.14159', '2', '3.1', 'displaydp(3.1,1)'),
+                    array('100', '1', '100', '100'),
+                    array('100', '2', '100', '100'),
+                    array('100', '3', '100', '100'),
+                    array('100', '4', '100.0', 'displaydp(100,1)'),
+                    array('100', '5', '100.00', 'displaydp(100,2)'),
+                    array('100.00000000000001', '3', '100', '100'),
+                    array('99', '1', '100', '100'),
+                    array('0.99', '1', '1', '1'),
+                    array('-0.99', '1', '-1', '-1'),
+                    array('0.0000049', '1', '0.000005', 'displaydp(5.0E-6,6)'),
+                    array('0', '1', '0', '0'),
+                    array('0.0', '1', '0', '0'),
+                    array('0', '2', '0.0', 'displaydp(0,1)'),
+                    array('0', '3', '0.00', 'displaydp(0,2)'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:dispsf({$c[0]},{$c[1]})";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+            $this->assertEquals($c[3], $at1->get_value_key($sk));
+        }
     }
 }

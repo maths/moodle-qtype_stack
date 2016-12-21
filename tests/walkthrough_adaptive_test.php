@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
-require_once(__DIR__ . '/test_base.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 
 
 /**
@@ -640,7 +640,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_contains_prt_feedback('oddeven');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertContentWithMathsContains('Your answer is not an even function. Look, \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
+        $this->assertContentWithMathsContains('Your answer is not an even function. Look,'
+                .' \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
 
         // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
         $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1));
@@ -1050,26 +1051,28 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     public function test_test3_complex_scenario() {
         // @codingStandardsIgnoreStart
-        // Here are the sequence of responses we are going to test. When
-        // a particular PRT generates a grades, that is shown in brackets as
-        // raw fraction - penalty.
-        //
-        //     odd         even        oddeven       unique     Mark so far
-        //  1. x^3         -           x             -          -
-        //  2. x^3 (1)     -           x   (0.5)     -          1.5
-        //  3. (x          (x          x+1           F (0)      1.5
-        //  4. x)          x^2         x+1 (0-0.1)   -          1.5
-        //  5. x^2         x           x^5           -          1.5
-        //  6. x^2 (0-0)   x^2         x^5 (0.5-0.2) T (1-0.1)  2.4
-        //  7. x           x^2 (1)     x+3           T (1-0.1)  3.4
-        //  8. x   (1-0.1) -           x+3 (0-0.3)   T (1-0.1)  3.4
-        //  9. x^3         x^2         0             T (1-0.1)  3.4
-        // 10. x^3 (1-0.1) x^2 (1-0.0) 0   (1-0.4)   T (1-0.1)  3.5
-        //
-        // Best mark
-        //     1.0         1.0         0.6           0.9        3.5
-        //
-        // Hopefully this summary makes the following easier to understand.
+        /**
+         * Here are the sequence of responses we are going to test. When
+         * a particular PRT generates a grades, that is shown in brackets as
+         * raw fraction - penalty.
+         *
+         *     odd         even        oddeven       unique     Mark so far
+         *  1. x^3         -           x             -          -
+         *  2. x^3 (1)     -           x   (0.5)     -          1.5
+         *  3. (x          (x          x+1           F (0)      1.5
+         *  4. x)          x^2         x+1 (0-0.1)   -          1.5
+         *  5. x^2         x           x^5           -          1.5
+         *  6. x^2 (0-0)   x^2         x^5 (0.5-0.2) T (1-0.1)  2.4
+         *  7. x           x^2 (1)     x+3           T (1-0.1)  3.4
+         *  8. x   (1-0.1) -           x+3 (0-0.3)   T (1-0.1)  3.4
+         *  9. x^3         x^2         0             T (1-0.1)  3.4
+         * 10. x^3 (1-0.1) x^2 (1-0.0) 0   (1-0.4)   T (1-0.1)  3.5
+         *
+         * Best mark
+         *     1.0         1.0         0.6           0.9        3.5
+         *
+         * Hopefully this summary makes the following easier to understand.
+         */
         // @codingStandardsIgnoreEnd
 
         // Create a stack question.
@@ -1868,4 +1871,374 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         );
 
     }
+
+    public function test_test0_validate_then_submit_wrong_answer_default_penalty() {
+        // Create the stack question based on 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $sans1 = new stack_cas_casstring('ans1');
+        $sans1->get_valid('t');
+        $tans1 = new stack_cas_casstring('2');
+        $tans1->get_valid('t');
+        $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
+        $node1->add_branch(0, '=', 0, 0.3, 1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $sans2 = new stack_cas_casstring('ans1');
+        $sans2->get_valid('t');
+        $tans2 = new stack_cas_casstring('3');
+        $tans2->get_valid('t');
+        $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
+        $node2->add_branch(0, '=', 0, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-F');
+        // This is the point of the test: we explicitly set a zero penalty here.
+        $node2->add_branch(1, '=', 0.5, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), 0);
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->render();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => '3', 'ans1_val' => '3', '-submit' => 1));
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0.5);
+        $this->check_answer_note('firsttree', 'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | firsttree-2-T');
+        $this->check_prt_score('firsttree', 0.5, 0.3);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Submit again and check penalty.
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '3', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        // Mark from previous attempt is non-zero, even at the validate stage.
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '2', '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.7);
+        $this->check_answer_note('firsttree', 'firsttree-1-T');
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_test0_validate_then_submit_wrong_answer_explicit_penalty() {
+
+        // Create the stack question 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        // Modify the PRT to that the penalty on the false branch is 0.1.
+        $sans = new stack_cas_casstring('ans1');
+        $sans->get_valid('t');
+        $tans = new stack_cas_casstring('2');
+        $tans->get_valid('t');
+        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
+        $node->add_branch(0, '=', 0, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 1, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), 0);
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->render();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => '3', 'ans1_val' => '3', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.1);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Submit again and check penalty.
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '3', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '2', '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.9);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_test0_validate_then_submit_wrong_answer_no_penalty() {
+        /* This test creates a situation where we have partial credit, but the attempt
+         * accrues no penalty.  This makes use of the PRT "penalty" field.
+         */
+
+        // Create the stack question based on 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $sans1 = new stack_cas_casstring('ans1');
+        $sans1->get_valid('t');
+        $tans1 = new stack_cas_casstring('2');
+        $tans1->get_valid('t');
+        $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
+        $node1->add_branch(0, '=', 0, 0.1, 1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $sans2 = new stack_cas_casstring('ans1');
+        $sans2->get_valid('t');
+        $tans2 = new stack_cas_casstring('3');
+        $tans2->get_valid('t');
+        $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
+        $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
+        // This is the point of the test: we explicitly set a zero penalty here.
+        $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), 0);
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->render();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => '3', 'ans1_val' => '3', '-submit' => 1));
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0.5);
+        $this->check_answer_note('firsttree', 'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | firsttree-2-T');
+        // This is the point of the test: we expect a zero penalty here in the 3rd argument.
+        $this->check_prt_score('firsttree', 0.5, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Submit again and check penalty.
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '3', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        // Mark from previous attempt is non-zero, even at the validate stage.
+        $this->check_current_mark(0.5);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '2', '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_answer_note('firsttree', 'firsttree-1-T');
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_test0_validate_then_submit_two_wrong_answers_one_no_penalty() {
+        /* This test creates a situation where we have partial credit, but the attempt
+         * accrues no penalty.  This makes use of the PRT "penalty" field.
+         */
+
+        // Create the stack question based on 'test0'.
+        $q = test_question_maker::make_question('stack', 'test0');
+        $sans1 = new stack_cas_casstring('ans1');
+        $sans1->get_valid('t');
+        $tans1 = new stack_cas_casstring('2');
+        $tans1->get_valid('t');
+        $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
+        $node1->add_branch(0, '=', 0, 0.1, 1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $sans2 = new stack_cas_casstring('ans1');
+        $sans2->get_valid('t');
+        $tans2 = new stack_cas_casstring('3');
+        $tans2->get_valid('t');
+        $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
+        $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
+        // This is the point of the test: we explicitly set a zero penalty here.
+        $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
+        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), 0);
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $this->render();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '4', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '4');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the wrong response, which attracts a penalty.
+        $this->process_submission(array('ans1' => '4', 'ans1_val' => '4', '-submit' => 1));
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_answer_note('firsttree',
+                'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | ATEqualComAss: (AlgEquiv:false). | firsttree-2-F');
+        $this->check_prt_score('firsttree', 0, 0.2);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '4');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a validate request of an incorrect response with no penalty.
+        $this->process_submission(array('ans1' => '3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => '3', 'ans1_val' => '3', '-submit' => 1));
+        // Verify.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0.3);
+        $this->check_answer_note('firsttree', 'ATEqualComAss: (AlgEquiv:false). | firsttree-1-F | firsttree-2-T');
+        // This is the point of the test: we expect a zero penalty here in the 3rd argument.
+        $this->check_prt_score('firsttree', 0.5, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Submit again and check penalty.
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '3', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        // Mark from previous attempt is non-zero, even at the validate stage.
+        $this->check_current_mark(0.3);
+        $this->check_prt_score('firsttree', null, null);
+
+        $this->process_submission(array('ans1' => '2', 'ans1_val' => '2', '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.8);
+        $this->check_answer_note('firsttree', 'firsttree-1-T');
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_units() {
+
+        // Create the stack question 'test1'.
+        $q = test_question_maker::make_question('stack', 'units');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/gravity/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Process a validate request.
+        // Notice here we get away with including single letter question variables in the answer.
+        $this->process_submission(array('ans1' => '9.8100*m/s^2', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '9.8100*m/s^2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the incorrect answer (too many sig figs).
+        $this->process_submission(array('ans1' => '9.8100*m/s^2', 'ans1_val' => '9.8100*m/s^2', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.2);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '9.8100*m/s^2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '9.81*m/s^2', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '9.81*m/s^2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the incorrect answer (too many sig figs).
+        $this->process_submission(array('ans1' => '9.81*m/s^2', 'ans1_val' => '9.81*m/s^2', '-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.8);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', '9.81*m/s^2');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('firsttree');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
 }

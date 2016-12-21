@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * CAS text and related functions.
@@ -457,7 +459,7 @@ class stack_cas_text {
     }
 
     /**
-     * Tidy up LaTeX commands used in castext which are not interpreted by JSMath.
+     * Tidy up LaTeX commands used in castext which are not interpreted by MathJax.
      */
     private function latex_tidy() {
         // Need to create line breaks in sensible places.

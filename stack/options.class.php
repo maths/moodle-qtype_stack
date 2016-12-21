@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Options enable a context to be set for each question, and information
@@ -220,6 +222,19 @@ class stack_options {
             '0' => get_string('insertstarsno', 'qtype_stack'),
             '1' => get_string('insertstarsyes', 'qtype_stack'),
             '2' => get_string('insertstarsassumesinglechar', 'qtype_stack'),
+            '3' => get_string('insertspaces', 'qtype_stack'),
+            '4' => get_string('insertstarsspaces', 'qtype_stack'),
+            '5' => get_string('insertstarsspacessinglechar', 'qtype_stack')
+        );
+    }
+
+    /**
+     * @return array of choices for the input syntax hint display attribute.
+     */
+    public static function get_syntax_attribute_options() {
+        return array(
+                '0' => get_string('syntaxattributevalue', 'qtype_stack'),
+                '1' => get_string('syntaxattributeplaceholder', 'qtype_stack'),
         );
     }
 

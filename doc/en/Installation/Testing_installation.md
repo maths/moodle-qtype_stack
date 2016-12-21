@@ -32,7 +32,7 @@ If PHP does not connect to Maxima then this checklist might help.
 ## Maxima optional packages
 
 Maxima has a wide range of optional libraries.  Which are loaded on your server is set with the option `qtype_stack | maximalibraries` from the STACK question type settings page.
-Currently the defualt setting is to load the following optional Maxima packages whenever Maxima is used.
+Currently the default setting is to load the following optional Maxima packages whenever Maxima is used.
 
     stats, distrib, descriptive
 

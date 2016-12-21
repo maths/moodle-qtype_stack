@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Various utility classes for Stack.
@@ -421,15 +422,6 @@ class stack_utils {
 
 
     /**
-     * Replaces @blah@ with \(@blah@\) if the castext is not otherwise enclosed by mathematics environments.
-     * @param string
-     * @return string
-     */
-    public static function wrap_around($string) {
-        return self::wrap($string);
-    }
-
-    /**
      * Ensures that all elements within this text that need to be in math mode, are so.
      * Specifically, CAS elements and inline input macros.
      * @param string
@@ -449,7 +441,7 @@ class stack_utils {
 
     /**
      * Returns the first position of an opening math delimiter in $text from the $offset.
-     * Helper function for wrap().
+     * Helper function for wrap_around().
      */
     public static function math_start($text, $offset = 0) {
         $delimiters = array('$', '$$', '\(', '\[');
@@ -471,7 +463,7 @@ class stack_utils {
 
     /**
      * Returns the position of the character following a closing math delimiter in $text from the $offset.
-     * Helper function for wrap().
+     * Helper function for wrap_around().
      */
     public static function math_length($text, $start) {
         $delimiters = array('$', '$$', '\)', '\]');
@@ -505,14 +497,19 @@ class stack_utils {
         }
     }
 
-    public static function wrap($text) {
+    /**
+     * Replaces @blah@ with \(@blah@\) if the castext is not otherwise enclosed by mathematics environments.
+     * @param string
+     * @return string
+     */
+    public static function wrap_around($text) {
         $mathstart = self::math_start($text);
         if ($mathstart !== false) { // We have some maths ahead.
             $pre = substr($text, 0, $mathstart); // Get previous text.
             $for = self::math_length($text, $mathstart);
             $maths = substr($text, $mathstart, $for);
             $rest = substr($text, $mathstart + $for);
-            return self::delimit($pre).$maths.self::wrap($rest);
+            return self::delimit($pre).$maths.self::wrap_around($rest);
         } else { // No math sections left.
             return self::delimit($text);
         }
@@ -559,14 +556,13 @@ class stack_utils {
 
     /**
      * Extracts double quoted strings with \-escapes, extracts only the content
-     * not the quotes
+     * not the quotes.
      *
-     * @access private
+     * @access public
      * @return array
      */
     public static function all_substring_strings($string) {
         $strings = array();
-
         $i = 0;
         $lastslash = false;
         $instring = false;
@@ -593,6 +589,41 @@ class stack_utils {
         }
 
         return $strings;
+    }
+
+    /**
+     * Replaces all Maxima strings with zero length strings to eliminate string
+     * contents for validation tasks.
+     *
+     * @access public
+     * @return string
+     */
+    public static function eliminate_strings($string) {
+        $cleared = $string;
+        $i = 0;
+        $lastslash = false;
+        $instring = false;
+        $stringentry = -1;
+        while ($i < strlen($string)) {
+            $c = $string[$i];
+            $i++;
+            if ($instring) {
+                if ($c == '"' && !$lastslash) {
+                    $instring = false;
+                    $s = substr($string, $stringentry - 1, ($i - $stringentry + 1));
+                    $cleared = str_replace($s, '""', $cleared);
+                } else if ($c == "\\") {
+                    $lastslash = !$lastslash;
+                } else if ($lastslash) {
+                    $lastslash = false;
+                }
+            } else if ($c == '"') {
+                $instring = true;
+                $lastslash = false;
+                $stringentry = $i;
+            }
+        }
+        return $cleared;
     }
 
     /**
@@ -976,6 +1007,83 @@ class stack_utils {
     }
 
     /**
+     * Establish bounds on the number of significant decimal digits in a number.
+     * @param string $string Input string to unpack.
+     */
+    public static function decimal_digits($string) {
+        $leadingzeros = 0;
+        $indefinitezeros = 0;
+        $trailingzeros = 0;
+        $meaningfulldigits = 0;
+        $decimalplaces = 0;
+        $infrontofdecimaldeparator = true;
+        $scientificnotation = false;
+
+        $string = str_split(trim($string));
+
+        foreach ($string as $i => $c) {
+            if (!$infrontofdecimaldeparator && ctype_digit($c)) {
+                $decimalplaces++;
+            }
+            if (strtolower($c) == 'e') {
+                $scientificnotation = true;
+            }
+            if ($c == '0') {
+                if ($meaningfulldigits == 0) {
+                    $leadingzeros++;
+                } else if ($infrontofdecimaldeparator) {
+                    $indefinitezeros++;
+                } else if ($meaningfulldigits > 0) {
+                    $meaningfulldigits += 1 + $indefinitezeros + $trailingzeros;
+                    $indefinitezeros = 0;
+                    $trailingzeros = 0;
+                } else {
+                    $trailingzeros++;
+                }
+            } else if (($c == '-' || $c == '+') && $meaningfulldigits == 0) {
+                continue;
+            } else if ($c == '.' && $infrontofdecimaldeparator) {
+                $infrontofdecimaldeparator = false;
+                // This case takes care of 100. (where we have a period at the end).
+                $meaningfulldigits += $indefinitezeros;
+                $indefinitezeros = 0;
+                $leadingzeros = 0;
+            } else if (ctype_digit($c)) {
+                $meaningfulldigits += $indefinitezeros + 1;
+                $indefinitezeros = 0;
+            } else {
+                break;
+            }
+        }
+
+        $ret = array('lowerbound' => 0, 'upperbound' => 0,
+                'decimalplaces' => $decimalplaces, 'fltfmt' => '"~a"');
+
+        if ($meaningfulldigits == 0) {
+            // This is the case when we have only zeros in the number.
+            $ret['lowerbound'] = max(1, $leadingzeros);
+            $ret['upperbound'] = max(1, $leadingzeros);
+        } else if (!$infrontofdecimaldeparator) {
+            $ret['lowerbound'] = $ret['upperbound'] = $meaningfulldigits;
+        } else {
+            $ret['lowerbound'] = $meaningfulldigits;
+            $ret['upperbound'] = $meaningfulldigits + $indefinitezeros;
+        }
+
+        if ($decimalplaces > 0) {
+            $ret['fltfmt'] = '"~,' . $decimalplaces . 'f"';
+        }
+        if ($scientificnotation) {
+            $ret['fltfmt'] = '"~e"';
+            if ($ret['lowerbound'] > 1) {
+                $ret['fltfmt'] = '"~,' . ($ret['upperbound'] - 1) . 'e"';
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
      * Change fraction marks close to 1/3 or 2/3 to the values exact to 7 decimal places.
      *
      * Moodle rounds fractional marks close to 1/3 (0.33 <= x <= 0.34) or 2/3
@@ -998,4 +1106,72 @@ class stack_utils {
             return $fraction;
         }
     }
+
+    /**
+     * This function takes a raw casstring, and returns another raw casstring in which every
+     * variable name has been interpreted as a product of single letters.
+     * @param unknown $rawcasstring
+     */
+    public static function make_single_char_vars($rawcasstring, $options, $syntax, $stars, $allowwords) {
+
+        // Guard clause:  if we have no letters then we just don't need to call the CAS.
+        preg_match("/([A-Za-z].*)/", $rawcasstring, $output);
+        if ($output == array()) {
+            return $rawcasstring;
+        }
+        $cs = new stack_cas_casstring($rawcasstring);
+        $cs->get_valid('s', true, $stars, $allowwords);
+        $casstring = $cs->get_casstring();
+
+        // Use the modified $casstring to get the most liberal interpretation.
+        $lvars = new stack_cas_casstring('listofvars('.$casstring.')');
+        $lvars->get_valid('t', $syntax, $stars, $allowwords);
+        $lops = new stack_cas_casstring('get_ops('.$casstring.')');
+        $lops->get_valid('t', $syntax, $stars, $allowwords);
+        $session = new stack_cas_session(array($lvars, $lops), $options, 0);
+        $session->instantiate();
+        $session = $session->get_session();
+        $lvars  = $session[0];
+        $lops  = $session[1];
+        $errors = stack_maxima_translate($lvars->get_errors());
+        // Only put in *s to the original expression.
+        if ($stars != 5) {
+            $casstring = $rawcasstring;
+        }
+        if ('' != $errors) {
+            $valid = false;
+        } else {
+            // Create an array of variable names in the answer.
+            $lvars = $lvars->get_value();
+            $lvars = substr($lvars, 1, -1);
+            $lvars = explode(',', $lvars);
+            // Deal with subscripts.
+            $lvarsub = array();
+            foreach ($lvars as $var) {
+                $lvarsub[] = explode('_', $var);
+            }
+            $lvars = call_user_func_array('array_merge', $lvarsub);
+            $lops = $lops->get_value();
+            $lops = substr($lops, 1, -1);
+            $lops = explode(',', $lops);
+            // We need to check if the $var is a substring of an operation in the answer.
+            // For example, if we have "sin(in)" then we want "sin(i*n)" not "si*n(i*n)".
+            // To avoid this we safely replace operands with !!STACKOP??!! first.
+            foreach ($lops as $key => $op) {
+                $casstring = str_replace($op.'(', '!!STACKOP'.$key.'!!(', $casstring);
+            }
+            foreach ($lvars as $var) {
+                if (strlen($var) > 1) {
+                    // Split the variable and substitute.
+                    $subvar = implode('*', str_split($var));
+                    $casstring = str_replace($var, $subvar, $casstring);
+                }
+            }
+            foreach ($lops as $key => $op) {
+                $casstring = str_replace('!!STACKOP'.$key.'!!', $op, $casstring);
+            }
+        }
+        return $casstring;
+    }
+
 }

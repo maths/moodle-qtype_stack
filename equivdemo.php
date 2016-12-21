@@ -330,6 +330,14 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Completing the square";
+$newarg['narrative']  = 'A direct method for completing the square.';
+$newarg['casstring'] = "[x^2+2*a*x = 0, x*(x+2*a)=0, (x+a-a)*(x+a+a)=0, (x+a)^2-a^2=0]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving cubic equations 1 (missing complex roots)";
 $newarg['narrative']  = '';
 $newarg['casstring'] = "[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1]";

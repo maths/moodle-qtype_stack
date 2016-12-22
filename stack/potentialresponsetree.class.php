@@ -16,22 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Deals with whole potential response trees.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Deals with whole potential response trees.
+//
+// @copyright  2012 University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/potentialresponsenode.class.php');
 require_once(__DIR__ . '/potentialresponsetreestate.class.php');
 
-/**
- * Deals with whole potential response trees.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class stack_potentialresponse_tree {
 
     /** @var string Name of the PRT. */
@@ -179,6 +171,10 @@ class stack_potentialresponse_tree {
         $cascontext = $this->create_cas_context_for_evaluation($questionvars, $localoptions, $answers, $seed);
 
         $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0);
+        $fv = $this->feedbackvariables;
+        if ($fv !== null) {
+            $results->add_trace($fv->get_keyval_representation());
+        }
 
         // Traverse the tree.
         $nodekey = $this->firstnode;
@@ -229,7 +225,6 @@ class stack_potentialresponse_tree {
             $results->_score = null;
             $results->_penalty = null;
         }
-
         $results->set_cas_context($cascontext, $seed);
         return $results;
     }

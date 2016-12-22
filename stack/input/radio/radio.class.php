@@ -16,14 +16,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Input that is a dropdown list/multiple choice that the teacher
- * has specified.
- *
- * @copyright  2015 University of Edinburgh
- * @author     Chris Sangwin
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Input that is a radio/multiple choice.
+//
+// @copyright  2015 University of Edinburgh.
+// @author     Chris Sangwin.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/../dropdown/dropdown.class.php');
 class stack_radio_input extends stack_dropdown_input {

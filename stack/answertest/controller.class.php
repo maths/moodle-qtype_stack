@@ -16,12 +16,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Answer test controller class.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+
+// Answer test controller class.
+//
+// @copyright  2012 University of Birmingham
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/anstest.class.php');
 require_once(__DIR__ . '/at_general_cas.class.php');
 require_once(__DIR__ . '/../cas/connector.class.php');
@@ -63,13 +63,11 @@ class stack_ans_test_controller {
               );
 
     /**
-     * The answertest object that the functions call
+     * The answertest object that the functions call.
      * @var string
      * @access private
      */
     private $at;
-
-    // Operations.
 
     /**
      *
@@ -339,6 +337,16 @@ class stack_ans_test_controller {
      */
     public function get_debuginfo() {
         return $this->at->get_debuginfo();
+    }
+
+    /**
+     * Returns an intelligible trace of an executed answer test.
+     *
+     * @return string
+     * @access public
+     */
+    public function get_trace() {
+        return $this->at->get_trace();
     }
 }
 

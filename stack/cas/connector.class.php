@@ -240,6 +240,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                             $this->wwwrootfixupreplace, $local['display']);
                 }
             }
+            foreach ($local as $key => $val) {
+                $local[$key] = trim(str_replace('!NEWLINE!', '', $val));
+            }
         }
         return $locals;
     }
@@ -289,20 +292,30 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     protected function tidy_error($errstr) {
 
-        // This case arises when we use a numerical text for algebraic equivalence.
-        if (strpos($errstr, 'STACK: ignore previous error.') !== false) {
+        if ('' === trim($errstr)) {
             return '';
         }
 
-        if (strpos($errstr, '0 to a negative exponent') !== false) {
-            $errstr = stack_string('Maxima_DivisionZero');
+        $error = explode("!NEWLINE!", $errstr);
+        $errorclean = array();
+        foreach ($error as $err) {
+            // This case arises when we use a numerical text for algebraic equivalence.
+            if (strpos($err, 'STACK: ignore previous error.') !== false) {
+                $err = '';
+            }
+
+            if (strpos($err, '0 to a negative exponent') !== false) {
+                $err = stack_string('Maxima_DivisionZero');
+            }
+
+            if (strpos($err, 'args: argument must be a non-atomic expression;') !== false) {
+                $err = stack_string('Maxima_Args');
+            }
+
+            $errorclean[] = $err;
         }
 
-        if (strpos($errstr, 'args: argument must be a non-atomic expression;') !== false) {
-            $errstr = stack_string('Maxima_Args');
-        }
-
-        return $errstr;
+        return trim(implode(" ", $errorclean));
     }
 
 }

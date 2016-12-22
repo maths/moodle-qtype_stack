@@ -16,12 +16,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Node in a potential response tree.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Node in a potential response tree.
+//
+// @copyright  2012 University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/answertest/controller.class.php');
 
@@ -135,6 +133,7 @@ class stack_potentialresponse_node {
         if (false === $ncasopts) {
             $ncasopts = $this->atoptions;
         }
+
         $at = new stack_ans_test_controller($this->answertest, $nsans, $ntans, $options, $ncasopts);
         $at->do_test();
 
@@ -149,6 +148,7 @@ class stack_potentialresponse_node {
 
         if ($at->get_at_answernote()) {
             $results->add_answernote($at->get_at_answernote());
+            $trace['atanswernote'] = $at->get_at_answernote();
         }
         if ($resultbranch['answernote']) {
             $results->add_answernote($resultbranch['answernote']);
@@ -182,6 +182,8 @@ class stack_potentialresponse_node {
             $results->_debuginfo .= $cascommand;
             $results->_debuginfo .= $at->get_debuginfo();
         }
+
+        $results->add_trace($at->get_trace());
 
         return $resultbranch['nextnode'];
     }
@@ -228,11 +230,11 @@ class stack_potentialresponse_node {
         foreach ($answers as $cskey => $val) {
             // Check whether the raw input to the node exactly matches one of the answer names.
             $cs = $this->sans;
-            if ($cs->get_raw_casstring() == $cskey ) {
+            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
                 $sans = $cascontext->get_casstring_key($cskey);
             }
             $cs = $this->tans;
-            if ($cs->get_raw_casstring() == $cskey ) {
+            if (trim($cs->get_raw_casstring()) == trim($cskey)) {
                 $tans = $cascontext->get_casstring_key($cskey);
             }
         }

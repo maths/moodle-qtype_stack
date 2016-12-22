@@ -144,6 +144,10 @@ class stack_anstest_atdecplaces extends stack_anstest {
         return true;
     }
 
+    protected function get_casfunction() {
+        return 'ATDecimalPlaces';
+    }
+
     /**
      * Validates the options, when needed.
      *

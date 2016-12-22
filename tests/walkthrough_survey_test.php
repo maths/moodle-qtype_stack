@@ -14,17 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * This file contains tests that walk STACK questions that are special cases,
- * specifically a question with neither inputs nor PRTs, and a question with
- * inputs but no PRTs.
- *
- * @package   qtype_stack
- * @copyright 2013 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -32,11 +21,14 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 
+// Tests that walk STACK questions that are special cases.
+// Specifically a question with neither inputs nor PRTs,
+// and a question with inputs but no PRTs.
+//
+// @copyright 2013 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 /**
- * Unit tests for the Stack question type.
- *
- * @copyright 2013 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class qtype_stack_walkthrough_survey_test extends qtype_stack_walkthrough_test_base {

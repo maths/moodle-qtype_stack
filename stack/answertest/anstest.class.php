@@ -24,6 +24,13 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_anstest {
 
+
+    /**
+     * Every answer test must have something sensible here for the tracing.
+     * @var string The name of the cas function this answer test uses.
+     */
+    protected $casfunction;
+
     /**
      * @var    string
      */
@@ -81,8 +88,8 @@ class stack_anstest {
      * @param  string $tanskey
      */
     public function __construct($sans, $tans, $options = null, $atoption = null) {
-        $this->sanskey  = $sans;
-        $this->tanskey  = $tans;
+        $this->sanskey = $sans;
+        $this->tanskey = $tans;
 
         if (!(null === $options || is_a($options, 'stack_options'))) {
             throw new stack_exception('stack_anstest_atnumsigfigs: options must be stack_options or null.');
@@ -179,4 +186,34 @@ class stack_anstest {
     public function get_debuginfo() {
         return $this->debuginfo;
     }
+
+    /**
+     * Returns some sensible debug information for testing questions.
+     *
+     * @return string
+     * @access public
+     */
+    protected function get_casfunction() {
+        return $this->casfunction;
+    }
+
+    /**
+     * Returns an intelligible trace of an executed answer test.
+     *
+     * @return string
+     * @access public
+     */
+    public function get_trace() {
+
+        $ta   = $this->tanskey;
+        $atopt = $this->atoption;
+        if ('' != trim($atopt)) {
+            $ta = "[$this->tanskey,$atopt]";
+        }
+        $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ') = ['.$this->atmark. ', "'
+                . $this->atansnote .'"];';
+
+        return $traceline;
+    }
+
 }

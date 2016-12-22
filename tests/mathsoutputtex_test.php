@@ -16,23 +16,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for the Moodle TeX filter maths output class.
- *
- * @package   qtype_stack
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 require_once(__DIR__ . '/../doc/docslib.php');
 
+// Unit tests for the Moodle TeX filter maths output class.
+//
+// @copyright 2012 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 /**
- * Unit tests for the Moodle TeX filter maths output class.
- *
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_maths_tex_test extends advanced_testcase {

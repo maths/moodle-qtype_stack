@@ -98,6 +98,7 @@ $string['feedbackfromprtx'] = '[ Feedback from {$a}. ]';
 $string['feedbackvariables'] = 'Feedback variables';
 $string['feedbackvariables_help'] = 'The feedback variables enable you to manipulate any of the inputs, together with the question variables, prior to traversing the tree.  Variables defined here may be used anywhere else in this tree.';
 $string['feedbackvariables_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/KeyVals.md#Feedback_variables';
+$string['feedbackvariableskeys'] = 'You many not redefine the value of an input within the feedback variables, but you have redefined \'{$a}\'.';
 $string['fieldshouldnotcontainplaceholder'] = '{$a->field} should not contain any [[{$a->type}:...]] placeholders.';
 $string['firstnodemusthavelowestnumber'] = 'The first node must have the lowest number.';
 $string['fixdollars'] = 'Fix dollars';

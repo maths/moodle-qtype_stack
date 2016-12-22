@@ -81,7 +81,7 @@ alias(ln, log);
 /* Add in support for logarithms to an arbirary base. */
 lg([ex]) := block(
   if length(ex) = 1 then return(logbase(first(ex), 10)),
-  if length(ex) = 2 then return(logbase(first(ex),second(ex))),
+  if length(ex) = 2 then return(logbase(first(ex), second(ex))),
   error("STACK function 'lg' must have one or two arguments only.")
 )$
 
@@ -543,7 +543,7 @@ StackAddFeedback(fb, key, [ex]) := block([str, exprs, jloop],
     ev(for jloop:1 thru length(ex) do
         /* HACK: !quot! needs to be replaced with " when we get into PHP.  */
         exprs:concat(exprs, " , !quot!", ex[jloop], "!quot! "), simp),
-    str:concat(fb, "stack_trans('", key, "'", exprs, "); "),
+    str:concat(fb, "stack_trans('", key, "'", exprs, "); !NEWLINE!"),
     return(str)
 )$
 
@@ -587,15 +587,17 @@ StackReturn(ex) := block([str],
 /* Validate an expression                      */
 /* ******************************************* */
 
-stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs, SameType, fvs],
+stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
   /* Try to simply the expression to catch CAS errors */
   exs:errcatch(ev(expr, simp)),
   if exs=[] then return(false),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr:first(expr),
   /* Check to see if a variable is also a function name. */
-  fvs:intersection(setify(listofvars(expr)), get_ops(expr)),
-  if not(is(fvs={})) then
+  fvs1:setify(listofvars(expr)),
+  fvs2:get_ops(expr),
+  fvs:ev(intersection(fvs1, fvs2), simp),
+  if ev(not(is(fvs={})), simp) then
     print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
   /* Check for floats, and if there are any then throw an error. */
   if ForbidFloats and anyfloatex(expr) then
@@ -617,15 +619,17 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block( [simp:false, exs
 )$
 
 /* Validate an expression without type checking. Floats and mathematical errors only. */
-stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv) := block( [simp:false, exs],
+stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
   /* Try to simply the expression to catch CAS errors */
   exs:errcatch(ev(expr, simp)),
   if exs = [] then return(false),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr:first(expr),
   /* Check to see if a variable is also a function name. */
-  fvs:intersection(setify(listofvars(expr)), get_ops(expr)),
-  if not(is(fvs={})) then
+  fvs1:setify(listofvars(expr)),
+  fvs2:get_ops(expr),
+  fvs:ev(intersection(fvs1, fvs2), simp),
+  if ev(not(is(fvs={})), simp) then
     print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
   /* Check for floats, and if there are any then throw an error */
   if ForbidFloats and anyfloatex(expr) then
@@ -2609,4 +2613,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016112100$
+stackmaximaversion:2016122004$

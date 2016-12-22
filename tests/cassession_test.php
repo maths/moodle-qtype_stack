@@ -22,8 +22,13 @@ require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
 // Unit tests for {@link stack_cas_session}.
-// @group qtype_stack.
+//
+// @copyright  2012 The University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+/**
+ * @group qtype_stack
+ */
 class stack_cas_session_test extends qtype_stack_testcase {
 
     public function get_valid($cs, $val) {

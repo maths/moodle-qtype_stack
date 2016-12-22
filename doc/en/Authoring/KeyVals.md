@@ -57,7 +57,6 @@ The feedback variables form one field in the [potential response tree](Potential
 When using the [potential response tree](Potential_response_trees.md) it is often very useful
 to manipulate the student's answer _before_ applying any of the [Answer tests](Answer_tests.md).
 This gives the opportunity to perform sophisticated mathematical operations.
-Of course, using these makes interoperability very difficult.
 
 Before each answer test is applied the following list of variables is assembled and evaluated
 
@@ -66,3 +65,9 @@ Before each answer test is applied the following list of variables is assembled 
 3. The feedback variables.
 
 The values of the evaluated feedback variables can be used as expressions in the answer tests and in the feedback.
+
+Note, you cannot redefine the value of an input as a key in the feedback variables.  E.g. you cannot have something like `ans1:ans1+1`.
+You must use a new variable name.  
+When an answer test is evaluated, if the SA or TA field is exactly the name of an input then the raw student's value is used, and not the value from the feedback variables. 
+This is because some of the answer tests require exactly what is typed (e.g. trailing zeros) and not the value through the CAS.  To avoid this problem authors must use new variable names to distinguish between the actual input typed by the student and any calculated value.
+

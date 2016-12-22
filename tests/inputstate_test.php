@@ -20,10 +20,12 @@ require_once(__DIR__ . '/../stack/input/inputbase.class.php');
 
 // Unit tests for stack_input_state.
 //
-// @copyright  2012 The Open University
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-// @group qtype_stack.
+// @copyright  2012 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+/**
+ * @group qtype_stack
+ */
 class stack_input_state_test extends basic_testcase {
 
     public function test_create_and_get() {

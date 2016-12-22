@@ -20,12 +20,13 @@ defined('MOODLE_INTERNAL') || die();
 //
 // @copyright 2012 The Open University.
 // @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @package qtype_stack.
-// @group   qtype_stack.
 
 require_once(__DIR__ . '/../doc/docslib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
+/**
+ * @group qtype_stack
+ */
 class stack_docslib_test extends qtype_stack_testcase {
 
     public function test_stack_docs_title_from_filename() {

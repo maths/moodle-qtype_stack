@@ -171,6 +171,10 @@ class stack_potentialresponse_tree {
         $cascontext = $this->create_cas_context_for_evaluation($questionvars, $localoptions, $answers, $seed);
 
         $results = new stack_potentialresponse_tree_state($this->value, true, 0, 0);
+        $fv = $this->feedbackvariables;
+        if ($fv !== null) {
+            $results->add_trace($fv->get_keyval_representation());
+        }
 
         // Traverse the tree.
         $nodekey = $this->firstnode;

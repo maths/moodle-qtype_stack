@@ -25,8 +25,10 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 //
 // @copyright  2015 The University of Edinburgh.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_dropdown_input_exception_test extends basic_testcase {
 
     protected function make_dropdown($parameters = array()) {

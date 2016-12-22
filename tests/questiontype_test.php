@@ -28,6 +28,9 @@ require_once(__DIR__ . '/../questiontype.php');
 // @copyright 2012 The Open University.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+/**
+ * @group qtype_stack
+ */
 class qtype_stack_test extends qtype_stack_walkthrough_test_base {
 
     /** @var qtype_stack */

@@ -27,8 +27,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 //
 // @copyright 2012 The Open University.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class qtype_stack_walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_answers_to_all_parts_and_stubmit() {

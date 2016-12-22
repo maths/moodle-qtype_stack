@@ -22,8 +22,10 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 //
 // @copyright  2012 The Open University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_singlechar_input_validation_test extends qtype_stack_testcase {
     public function test_validate_student_response_true() {
         $options = new stack_options();

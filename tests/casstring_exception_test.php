@@ -22,9 +22,11 @@ require_once(__DIR__ . '/../stack/cas/casstring.class.php');
 // Unit tests for stack_casstring_exception.
 //
 // @copyright  2012 The University of Birmingham.
-// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later/
-// @group qtype_stack.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+/**
+ * @group qtype_stack
+ */
 class stack_cas_casstring_exception_test extends basic_testcase {
 
     public function test_exception_1() {

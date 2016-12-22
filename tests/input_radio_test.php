@@ -25,8 +25,10 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 //
 // @copyright  2012 The Open University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
     protected function expected_choices() {
         return array(

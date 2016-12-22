@@ -22,8 +22,10 @@ require_once(__DIR__ . '/../stack/cas/castext.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 // Unit tests for {@link stack_cas_text}.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_cas_text_test extends qtype_stack_testcase {
 
     public function basic_castext_instantiation($strin, $sa, $val, $disp) {

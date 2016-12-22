@@ -24,8 +24,10 @@ require_once(__DIR__ . '/../doc/docslib.php');
 //
 // @copyright 2012 The Open University.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group     qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_maths_maths_test extends advanced_testcase {
 
     public function test_maths_rendering() {

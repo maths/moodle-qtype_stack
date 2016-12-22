@@ -1175,6 +1175,18 @@ class qtype_stack_edit_form extends question_edit_form {
         // Check the fields that belong to the PRT as a whole.
         $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
                 $prtname . 'feedbackvariables');
+        // Prevent teachers re-defining the input variables here.
+        if ('' != trim($fromform[$prtname . 'feedbackvariables'])) {
+            $keyval = new stack_cas_keyval($fromform[$prtname . 'feedbackvariables'], $this->options, $this->seed, 't');
+            $session = $keyval->get_session();
+            $keys = $session->get_all_keys();
+            $inputs = $this->get_input_names_from_question_text();
+            foreach ($inputs as $iname => $input) {
+                if (in_array($iname, $keys)) {
+                    $errors[$prtname . 'feedbackvariables'][] = stack_string('feedbackvariableskeys', $iname);
+                }
+            }
+        }
 
         if ($fromform[$prtname . 'value'] < 0) {
             $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');

@@ -24,8 +24,10 @@ require_once(__DIR__ . '/../stack/answertest/atregexp.class.php');
 //
 // @copyright  2012 The Open University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_anstest_atregexp_test extends basic_testcase {
 
     public function test_true_when_matches() {

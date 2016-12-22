@@ -25,8 +25,10 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 //
 // @copyright 2016 The University of Edinburgh.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group     qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_units_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {

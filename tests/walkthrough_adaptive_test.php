@@ -25,8 +25,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 //
 // @copyright 2012 The Open University.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group     qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_then_submit_right_first_time() {

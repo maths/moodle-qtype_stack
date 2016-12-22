@@ -24,6 +24,9 @@ require_once(__DIR__ . '/../stack/cas/casstring.class.php');
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 // @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_cas_casstring_test extends basic_testcase {
 
     public function get_valid($s, $st, $te) {

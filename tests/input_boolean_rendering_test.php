@@ -24,8 +24,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 //
 // @copyright  2012 The Open University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_boolean_input_rendering_test extends question_testcase {
 
     protected function expected_choices() {

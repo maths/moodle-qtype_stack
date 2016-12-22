@@ -27,8 +27,10 @@ require_once(__DIR__ . '/fixtures/subscriptsfixtures.class.php');
 //
 // @copyright 2016 The University of Edinburgh.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group     qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_subscript_test extends qtype_stack_testcase {
 
     /**

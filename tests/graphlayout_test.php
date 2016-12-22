@@ -22,8 +22,10 @@ require_once(__DIR__ . '/../stack/graphlayout/graph.php');
 //
 // @copyright 2013 The Open Unviersity.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_abstract_graph_test extends basic_testcase {
 
     /**

@@ -22,8 +22,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 //
 // @copyright 2016 The Open Unviersity.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group     qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class qtype_stack_test_base_testcase extends qtype_stack_testcase {
 
     public function test_prepare_actual_maths_filtering() {

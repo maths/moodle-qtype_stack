@@ -25,8 +25,10 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 //
 // @copyright 2012 The University of Birmingham.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
-// @group     qtype_stack.
 
+/**
+ * @group qtype_stack
+ */
 class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
     public function test_constructor() {

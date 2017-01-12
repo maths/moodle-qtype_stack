@@ -1427,4 +1427,343 @@ class qtype_stack_test_helper extends question_test_helper {
 
         return $qdata;
     }
+
+    public function get_stack_question_form_data_test3() {
+        $formform = new stdClass();
+
+        $formform->category = '2,14';
+        $formform->usecurrentcat = '1';
+        $formform->categorymoveto = '2,14';
+        $formform->name = 'test-3';
+        $formform->questionvariables = '';
+        $formform->variantsselectionseed = '';
+        $formform->questiontext = array(
+                'text' => '<p>1. Give an example of an odd function by typing
+                                 an expression which represents it.
+                                 $f_1(x)=$ [[input:ans1]].
+                                 [[validation:ans1]]
+                                 [[feedback:odd]]</p>
+                           <p>2. Give an example of an even function.
+                                 $f_2(x)=$ [[input:ans2]].
+                                 [[validation:ans2]]
+                                 [[feedback:even]]</p>
+                           <p>3. Give an example of a function which is odd and even.
+                                 $f_3(x)=$ [[input:ans3]].
+                                 [[validation:ans3]]
+                                 [[feedback:oddeven]]</p>
+                           <p>4. Is the answer to 3. unique? [[input:ans4]]
+                                 (Or are there many different possibilities.)
+                                 [[validation:ans4]]
+                                 [[feedback:unique]]</p>',
+                'format' => '1',
+                'itemid' => 815759888);
+        $formform->defaultmark = 4;
+        $formform->specificfeedback = array(
+                'text' => '',
+                'format' => '1',
+                'itemid' => 137873291);
+        $formform->penalty = 0.40000000000000002;
+        $formform->generalfeedback = array(
+                'text' => '',
+                'format' => '1',
+                'itemid' => 250226104);
+        $formform->questionnote = '';
+
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'x^3';
+        $formform->ans1boxsize = 15;
+        $formform->ans1strictsyntax = '1';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = 'x^4';
+        $formform->ans2boxsize = 15;
+        $formform->ans2strictsyntax = '1';
+        $formform->ans2insertstars = '0';
+        $formform->ans2syntaxhint = '';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '1';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '1';
+        $formform->ans2showvalidation = '1';
+        $formform->ans2options = '';
+
+        $formform->ans3type = 'algebraic';
+        $formform->ans3modelans = '0';
+        $formform->ans3boxsize = 15;
+        $formform->ans3strictsyntax = '1';
+        $formform->ans3insertstars = '0';
+        $formform->ans3syntaxhint = '';
+        $formform->ans3forbidwords = '';
+        $formform->ans3allowwords = '';
+        $formform->ans3forbidfloat = '1';
+        $formform->ans3requirelowestterms = '0';
+        $formform->ans3checkanswertype = '0';
+        $formform->ans3mustverify = '1';
+        $formform->ans3showvalidation = '1';
+        $formform->ans3options = '';
+
+        $formform->ans4type = 'boolean';
+        $formform->ans4modelans = 'true';
+        $formform->ans4boxsize = 15;
+        $formform->ans4strictsyntax = '1';
+        $formform->ans4insertstars = '0';
+        $formform->ans4syntaxhint = '';
+        $formform->ans4forbidwords = '';
+        $formform->ans4allowwords = '';
+        $formform->ans4forbidfloat = '1';
+        $formform->ans4requirelowestterms = '0';
+        $formform->ans4checkanswertype = '0';
+        $formform->ans4mustverify = '0';
+        $formform->ans4showvalidation = '0';
+        $formform->ans4options = '';
+
+        $formform->oddvalue = 1;
+        $formform->oddautosimplify = '1';
+        $formform->oddfeedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
+        $formform->oddanswertest = array(
+                0 => 'AlgEquiv');
+        $formform->oddsans = array(
+                0 => 'sa');
+        $formform->oddtans = array(
+                0 => '0');
+        $formform->oddtestoptions = array(
+                0 => '');
+        $formform->oddquiet = array(
+                0 => '0');
+        $formform->oddtruescoremode = array(
+                0 => '=');
+        $formform->oddtruescore = array(
+                0 => '1');
+        $formform->oddtruepenalty = array(
+                0 => '');
+        $formform->oddtruenextnode = array(
+                0 => '-1');
+        $formform->oddtrueanswernote = array(
+                0 => 'odd-1-T');
+        $formform->oddtruefeedback = array(
+                0 => array(
+                        'text' => '',
+                        'format' => '1',
+                        'itemid' => 251659256,
+                ));
+        $formform->oddfalsescoremode = array(
+                0 => '=');
+        $formform->oddfalsescore = array(
+                0 => '0');
+        $formform->oddfalsepenalty = array(
+                0 => '');
+        $formform->oddfalsenextnode = array(
+                0 => '-1');
+        $formform->oddfalseanswernote = array(
+                0 => 'odd-1-F');
+        $formform->oddfalsefeedback = array(
+                0 => array(
+                        'text' => 'Your answer is not an odd function. Look, \\[ f(x)+f(-x)=@sa@ \\neq 0.\\]<br>',
+                        'format' => '1',
+                        'itemid' => 352216298,
+                ));
+
+        $formform->evenvalue = 1;
+        $formform->evenautosimplify = '1';
+        $formform->evenfeedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
+        $formform->evenanswertest = array(
+                0 => 'AlgEquiv');
+        $formform->evensans = array(
+                0 => 'sa');
+        $formform->eventans = array(
+                0 => '0');
+        $formform->eventestoptions = array(
+                0 => '');
+        $formform->evenquiet = array(
+                0 => '0');
+        $formform->eventruescoremode = array(
+                0 => '=');
+        $formform->eventruescore = array(
+                0 => '1');
+        $formform->eventruepenalty = array(
+                0 => '');
+        $formform->eventruenextnode = array(
+                0 => '-1');
+        $formform->eventrueanswernote = array(
+                0 => 'even-1-T');
+        $formform->eventruefeedback = array(
+                0 => array(
+                        'text' => '',
+                        'format' => '1',
+                        'itemid' => 374097881,
+                ));
+        $formform->evenfalsescoremode = array(
+                0 => '=');
+        $formform->evenfalsescore = array(
+                0 => '0');
+        $formform->evenfalsepenalty = array(
+                0 => '');
+        $formform->evenfalsenextnode = array(
+                0 => '-1');
+        $formform->evenfalseanswernote = array(
+                0 => 'even-1-F');
+        $formform->evenfalsefeedback = array(
+                0 => array(
+                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)=@sa@ \\neq 0.\\]<br></p>',
+                        'format' => '1',
+                        'itemid' => 880424514,
+                ));
+
+        $formform->oddevenvalue = 1;
+        $formform->oddevenautosimplify = '1';
+        $formform->oddevenfeedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
+        $formform->oddevenanswertest = array(
+                0 => 'AlgEquiv',
+                1 => 'AlgEquiv');
+        $formform->oddevensans = array(
+                0 => 'sa1',
+                1 => 'sa2');
+        $formform->oddeventans = array(
+                0 => '0',
+                1 => '0');
+        $formform->oddeventestoptions = array(
+                0 => '',
+                1 => '');
+        $formform->oddevenquiet = array(
+                0 => '0',
+                1 => '0');
+        $formform->oddeventruescoremode = array(
+                0 => '=',
+                1 => '+');
+        $formform->oddeventruescore = array(
+                0 => '0.5',
+                1 => '0.5');
+        $formform->oddeventruepenalty = array(
+                0 => '',
+                1 => '');
+        $formform->oddeventruenextnode = array(
+                0 => '1',
+                1 => '-1');
+        $formform->oddeventrueanswernote = array(
+                0 => 'oddeven-1-T',
+                1 => 'oddeven-2-T');
+        $formform->oddeventruefeedback = array(
+                0 => array(
+                        'text' => '',
+                        'format' => '1',
+                        'itemid' => 90882068),
+                1 => array(
+                        'text' => '',
+                        'format' => '1',
+                        'itemid' => 201325868));
+        $formform->oddevenfalsescoremode = array(
+                0 => '=',
+                1 => '+');
+        $formform->oddevenfalsescore = array(
+                0 => '0',
+                1 => '0');
+        $formform->oddevenfalsepenalty = array(
+                0 => '',
+                1 => '');
+        $formform->oddevenfalsenextnode = array(
+                0 => '1',
+                1 => '-1');
+        $formform->oddevenfalseanswernote = array(
+                0 => 'oddeven-1-F',
+                1 => 'oddeven-2-F');
+        $formform->oddevenfalsefeedback = array(
+                0 => array(
+                        'text' => '<p>Your answer is not an odd function. Look, \\[ f(x)+f(-x)=@sa1@ \\neq 0.\\]<br></p>',
+                        'format' => '1',
+                        'itemid' => 387904086),
+                1 => array(
+                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)=@sa2@ \\neq 0.\\]<br></p>',
+                        'format' => '1',
+                        'itemid' => 212217540));
+
+        $formform->uniquevalue = 1;
+        $formform->uniqueautosimplify = '1';
+        $formform->uniquefeedbackvariables = '';
+        $formform->uniqueanswertest = array(
+                0 => 'AlgEquiv');
+        $formform->uniquesans = array(
+                0 => 'ans4');
+        $formform->uniquetans = array(
+                0 => 'true');
+        $formform->uniquetestoptions = array(
+                0 => '');
+        $formform->uniquequiet = array(
+                0 => '0');
+        $formform->uniquetruescoremode = array(
+                0 => '=');
+        $formform->uniquetruescore = array(
+                0 => '1');
+        $formform->uniquetruepenalty = array(
+                0 => '');
+        $formform->uniquetruenextnode = array(
+                0 => '-1');
+        $formform->uniquetrueanswernote = array(
+                0 => 'unique-1-T');
+        $formform->uniquetruefeedback = array(
+                0 => array(
+                        'text' => '',
+                        'format' => '1',
+                        'itemid' => 692993996));
+        $formform->uniquefalsescoremode = array(
+                0 => '=');
+        $formform->uniquefalsescore = array(
+                0 => '0');
+        $formform->uniquefalsepenalty = array(
+                0 => '');
+        $formform->uniquefalsenextnode = array(
+                0 => '-1');
+        $formform->uniquefalseanswernote = array(
+                0 => 'unique-1-F');
+        $formform->uniquefalsefeedback = array(
+                0 => array(
+                        'text' => '',
+                        'format' => '1',
+                        'itemid' => 55631697,
+                ));
+
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '0';
+        $formform->prtcorrect = array(
+                'text' => 'Correct answer, well done!',
+                'format' => '1',
+                'itemid' => 847867102);
+        $formform->prtpartiallycorrect = array(
+                'text' => 'Your answer is partially correct!',
+                'format' => '1',
+                'itemid' => 698828552);
+        $formform->prtincorrect = array(
+                'text' => 'Incorrect answer :-(',
+                'format' => '1',
+                'itemid' => 56111684);
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->matrixparens = '[';
+        $formform->numhints = 2;
+        $formform->hint = array(
+                0 => array(
+                        'text' => 'Hint 1<br>',
+                        'format' => '1',
+                        'itemid' => '83894244'),
+                1 => array(
+                        'text' => '<p>Hint 2<br></p>',
+                        'format' => '1',
+                        'itemid' => '34635511'));
+        $formform->qtype = 'stack';
+
+        return $formform;
+    }
 }

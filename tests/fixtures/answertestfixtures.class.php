@@ -341,6 +341,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'a^2/b^3', 'a^2*b^(-3)', 0, 'ATEqualComAss: (AlgEquiv:true).', 'Powers'),
         array('EqualComAss', '', 'lg(a^x,a)', 'x', 0,
             'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', 'x^(2/4)', 'x^(1/2)', 0,
+            'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', '1+2*x', 'x*2+1', 1, '', 'Simple polynomials'),
         array('EqualComAss', '', '1+x', '2*x+1', 0, 'ATEqualComAss: (AlgEquiv:false).', ''),
         array('EqualComAss', '', '1+x+x', '2*x+1', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
@@ -1296,7 +1298,8 @@ class stack_answertest_test_data {
         array('LowestTerms', '', 'x^2/x', '0', 1, '', 'Use predicate lowesttermsp'),
         array('LowestTerms', '', '(2*x)/(4*t)', '0', 1, '', ''),
         array('LowestTerms', '', '(2/4)*(x^2/t)', '0', 0, 'ATLowestTerms_entries.', ''),
-    );
+        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', ''),
+        );
 
     public static function get_raw_test_data() {
         return self::$rawdata;

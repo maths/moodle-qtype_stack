@@ -298,7 +298,17 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
                 $graph->add_node($node->nodename + 1, $left, $right);
             }
-            $graph->layout();
+            try {
+                $graph->layout();
+            } catch (coding_exception $ce) {
+                $question = $DB->get_record('question', array('id' => $prt->questionid));
+                $this->step->log('The PRT named "' . $prt->name .
+                        '" is malformed in question id ' . $prt->questionid .
+                        ' and cannot be laid out, (Question name "' . $question->name .
+                        '").  Error reported: ' . $ce->getMessage(), backup::LOG_WARNING);
+                continue;
+            }
+
             $roots = $graph->get_roots();
             if (count($roots) != 1 || $graph->get_broken_cycles()) {
                 $question = $DB->get_record('question', array('id' => $prt->questionid));
@@ -309,8 +319,8 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
                 }
                 $this->step->log('The PRT named "' . $prt->name .
                         '" is malformed in question id ' . $prt->questionid .
-                        ', question named "' . $question->name .
-                        '".  Error reported: ' . $err, backup::LOG_WARNING);
+                        ' and does not have a single root, (Question name "' . $question->name .
+                        '").  Error reported: ' . $err, backup::LOG_WARNING);
             }
             reset($roots);
             $firstnode = key($roots) - 1;

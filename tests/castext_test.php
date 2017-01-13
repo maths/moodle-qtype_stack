@@ -744,4 +744,41 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('\({v}_{2\cdot \alpha}\), \({v}_{{m}_{n}}\), \({\it beta_{47}}\)',
                 $at1->get_display_castext());
     }
+
+    public function test_length() {
+        $a2 = array('f(x):=length(x)', 'b:[1,2,3]', 'c:f(b)');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@c@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\(3\)', $at1->get_display_castext());
+    }
+
+    public function test_lambda() {
+        $a2 = array('sf: lambda([x,n],significantfigures(x,n))',
+            'n:[3.1234,1]', 'm:apply(sf,n)');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+    
+        $at1 = new stack_cas_text('@sf@, @m@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+    
+        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left( x , n\right)\right)\), \(3\)', $at1->get_display_castext());
+    }
 }

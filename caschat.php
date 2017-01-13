@@ -153,16 +153,12 @@ if ($string) {
     // Display the question variables.
     echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
     echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $displayqvs = '';
-    $variables = $session->get_session();
-    if ($variables) {
-        foreach ($session->get_session() as $var) {
-            $displayqvs .= s($var->get_key()) . ' : ' . s($var->get_value()). ";\n";
-        }
-    } else {
-        $displayqvs .= get_string('none');
+    $variables = $session->get_keyval_representation();
+    $variables = implode(";\n", explode('; ', $variables));
+    if (trim($variables) == '') {
+        $variables .= get_string('none');
     }
-    echo  html_writer::tag('pre', $displayqvs);
+    echo  html_writer::tag('pre', $variables);
     echo html_writer::end_tag('div');
 }
 

@@ -54,7 +54,7 @@ STACK is a question type for the Moodle quiz.
 
     Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
-        git clone git://github.com/maths/moodle-qtype_stack.git question/type/stack`.
+        git clone git://github.com/maths/moodle-qtype_stack.git question/type/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 3. As the admin user, navigate to `Home > Site administration > Plugins > Question types > Stack`.  Please choose and save the appropriate options.
 4. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.

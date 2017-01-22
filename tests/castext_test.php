@@ -544,15 +544,27 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 $at2->get_display_castext());
     }
 
-    public function test_empty_strings() {
-        $s = '@"This is a string"@ whereas this is empty @""@.';
+    public function test_strings_only() {
+        $s = '@"This is a string"@ whereas this is empty |@""@|. Not quite empty |@" "@|.';
 
         $at2 = new stack_cas_text($s, null, 0, 't');
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
         $this->assertEquals(
-                '\(\mbox{This is a string}\) whereas this is empty \(\mbox{ }\).',
+                'This is a string whereas this is empty ||.  Note quite empty | |.',
+                $at2->get_display_castext());
+    }
+
+    public function test_strings_embeded() {
+        $s = '@"This is a string"+x^2@.';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals(
+                '\(x^2+\mbox{This is a string}\).',
                 $at2->get_display_castext());
     }
 

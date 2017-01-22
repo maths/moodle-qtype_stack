@@ -420,6 +420,7 @@ class stack_cas_session {
 
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
+
         if (null === $this->valid) {
             $this->validate();
         }
@@ -439,9 +440,18 @@ class stack_cas_session {
             }
             $errors = $casstr->get_errors();
             $disp   = $casstr->get_display();
-            $value  = $casstr->get_casstring();
+            $value  = $casstr->get_value();
 
             $dummy = '@'.$key.'@';
+
+            // Cheat when we have only strings in the output.
+            if (substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
+                $disp = substr(trim($disp), 6, strlen($disp)-7);
+                if ($value == '""') {
+                    $disp = '';
+                }
+                $dummy = '\(@'.$key.'@\)';
+            }
 
             if ('' !== $errors && null != $errors) {
                 $strin = str_replace($dummy, $value, $strin);

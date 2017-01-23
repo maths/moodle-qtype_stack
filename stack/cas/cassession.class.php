@@ -432,7 +432,7 @@ class stack_cas_session {
         }
 
         foreach ($this->session as $casstr) {
-            $key    = $casstr->get_key();
+            $key = $casstr->get_key();
             if ($key === '') {
                 // An empty key is something like a function definition, or an equality.
                 // It is not something that can be replaced in the CAS text.
@@ -444,17 +444,18 @@ class stack_cas_session {
 
             $dummy = '@'.$key.'@';
 
-            // Cheat when we have only strings in the output.
-            if (substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
+            // When we have only a single string in the output remove the maths environment.
+            if ($errors == '' and substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
                 $disp = substr(trim($disp), 6, strlen($disp)-7);
                 if ($value == '""') {
                     $disp = '';
                 }
+                // TODO: probably check for whitespace, e.g. \( @...@ \).
                 $dummy = '\(@'.$key.'@\)';
             }
 
             if ('' !== $errors && null != $errors) {
-                $strin = str_replace($dummy, $value, $strin);
+                $strin = str_replace($dummy, $casstr->get_casstring(), $strin);
             } else if (strstr($strin, $dummy)) {
                 $strin = str_replace($dummy, $disp, $strin);
             }

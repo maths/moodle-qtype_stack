@@ -552,7 +552,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at2->get_display_castext();
 
         $this->assertEquals(
-                'This is a string whereas this is empty ||.  Note quite empty | |.',
+                'This is a string whereas this is empty ||. Not quite empty | |.',
                 $at2->get_display_castext());
     }
 

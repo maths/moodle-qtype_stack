@@ -114,6 +114,47 @@ $samplearguments[] = $newarg;
 $newarg = array();
 $newarg['title']     = "";
 $newarg['narrative']  = '';
+$newarg['casstring'] = "[x=x,false]";
+$newarg['debuglist'] = "[null,QMCHAR]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[1=1,all]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[1=1,true]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+// We need separate test cases for the 0=0 equation.
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[0=0,all]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[0=0,true]";
+$newarg['debuglist'] = "[null,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
 $newarg['casstring'] = "[1=2,false]";
 $newarg['debuglist'] = "[null,EQUIVCHAR]";
 $newarg['outcome']   = true;
@@ -236,7 +277,7 @@ $samplearguments[] = $newarg;
 $newarg = array();
 $newarg['title']     = "Vacuous linear equation (1)";
 $newarg['narrative']  = 'This equation is satisfied by any value of x.';
-$newarg['casstring'] = "[2*(x-3) = 5*x-3*(x+2),2*x-6=2*x-6,0=0]";
+$newarg['casstring'] = "[2*(x-3) = 5*x-3*(x+2),2*x-6=2*x-6,0=0,all]";
 $newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
@@ -676,12 +717,13 @@ if ($debug) {
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';
-    
+
     // Have a second text area to facilitate pasting the arguments into separate lines in Maxima.
     $script = '';
     foreach ($casstrings as $key => $val) {
         $script .= $key . ':' . $val . ";\n";
     }
+    $script .= "\n\n".'disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist);';
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';

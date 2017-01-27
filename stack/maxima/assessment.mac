@@ -703,8 +703,8 @@ alias(ATEqual_com_ass, ATEqualComAss)$
 /*  Define noun versions of logical "and" and "or".             */
 /****************************************************************/
 
-nary("nounand", 70);
-nary("nounor", 70);
+nary("nounand", 65);
+nary("nounor", 61);
 
 declare("nounand", commutative);
 declare("nounand", lassociative);
@@ -730,7 +730,7 @@ logicp(ex) := block(
 )$
 
 free_of_logicp(ex) := block([logicops, logiconsts, res, k],
-   if is(ex=all) or is (ex=none) then return(false),
+   if is(ex=all) or is(ex=none) then return(false),
    logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
    res:true,
    for k: 1 thru length(logicops) do 
@@ -773,6 +773,8 @@ logical_normal(ex):=block(
     ex:subst("%and", "nounand", ex), 
     ex:subst("%or", "nounor", ex), 
     ex:subst("%not", "not", ex), 
+    ex:subst("%and", "and", ex), 
+    ex:subst("%or", "or", ex), 
     ex:de_morgan(ex),
     ex:distrib_and(ex),
     ex:logical_normal_rem_redundant(ex),

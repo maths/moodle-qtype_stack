@@ -608,6 +608,10 @@ stack_validate(expr, ForbidFloats, LowestTerms, TAns) := block([simp:false, exs,
   /* The +- operator may only appear once. */
   if ev(count_op(expr, "+-"), simp)>1 then 
     print(StackAddFeedback("", "Too_many+-")),
+  /* Check for x=1 or 2.  */
+  exs:stack_validate_missing_assignment(expr),
+  if first(exs) then
+    print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
   /* Check if the student's answer is the same type as the Teacher's. */
   SameType:ATSameTypefun(expr, TAns),
   if SameType[2]#true then print(SameType[4]),
@@ -640,6 +644,10 @@ stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv) := block([simp:f
   /* The +- operator may only appear once. */
   if ev(count_op(expr, "+-"), simp)>1 then 
     print(StackAddFeedback("", "Too_many+-")),
+  /* Check for x=1 or 2.  */
+  exs:stack_validate_missing_assignment(expr),
+  if first(exs) then
+    print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
   /* Additional tests which restrict the equivalence input type. */
   if Equiv and op_usedp(expr, set) then print(StackAddFeedback("", "Equiv_Illegal_set")),
   if Equiv and op_usedp(expr, "[") then print(StackAddFeedback("", "Equiv_Illegal_list")),
@@ -677,6 +685,26 @@ stack_singlevar_make(ex) := block([vars, subs],
   vars:maplist(lambda([ex], ex=stack_singlevar_make_helper(ex)), vars),
   /* We only need to use associtativity of "*", not "+", but we have to do it over the whole expression. */
   STACK_assoc(sublis(vars, ex), ["*"])
+)$
+
+/* Spot the very specific pattern x=1 nounor 2 instead of x=1 nounor x=2. */
+/* Returns a list: [pattern found, changed expression]. */
+stack_validate_missing_assignment(ex) := block([ret, ex2, v],
+    if not(safe_op(ex)="nounor") 
+        then return([false, ex]),
+    if length(listofvars(ex))#1 
+        then return([false, ex]),
+    ex2:args(ex),
+    /* Do we have any equations which look like assignments? */
+    if not(any_listp(lambda([ex], equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))),ex2)) 
+        then return([false, ex]),
+    /* Do they all look ok? */
+    if all_listp(lambda([ex], equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))),ex2) 
+        then return([false, ex]),
+    v:first(listofvars(ex)),
+    ex:maplist(lambda([ex], if (equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))) then ex else v=ex), ex2),
+    ex:apply("nounor", ex),  
+    return([true,ex])
 )$
 
 /* *************************************/
@@ -1067,7 +1095,6 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
       else
         return(ATSet(SA, SB)),
-    /* Are we dealing with a logical expression? */
     if logicp(SB) then
       if logicp(SA)#true and inequalityp(SA)#true then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_logic"))

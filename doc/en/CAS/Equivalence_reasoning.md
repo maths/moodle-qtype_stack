@@ -82,7 +82,6 @@ To enter options for this input use the "extra options field".   Options should 
 5. Define \(x\pm a\) as an infix and prefix operator.  
 6. Reject any use of the \(\pm\) operator in normal algebraic input.
 7. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
-8. Decide implication direction as well as establishing equivalence.  E.g. if a student squares both sides.
 9. Calculate the natural domain, and use this information, i.e. auditing.
 10. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
 11. Write an "Eqivalence" answer test.  This will do more than just check the last lines, and will complement the validation input.

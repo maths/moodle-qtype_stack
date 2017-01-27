@@ -186,6 +186,28 @@ $samplearguments[] = $newarg;
 
 /******************************************************************************/
 $newarg = array();
+$newarg['section'] = 'Things students will get wrong.';
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[x=1 or x=2,x=1 or 2]";
+$newarg['debuglist'] = "[null,MISSINGVAR]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+$newarg = array();
+$newarg['title']     = "";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[x=1 or x=2,x=1 and x=2]";
+$newarg['debuglist'] = "[null,ANDOR]";
+$newarg['outcome']   = false;
+$samplearguments[] = $newarg;
+
+/******************************************************************************/
+
+$newarg = array();
 $newarg['section'] = 'Roots, powers and absolute value';
 $samplearguments[] = $newarg;
 

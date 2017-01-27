@@ -1181,17 +1181,20 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           ),
 
           /* Can we work out what has gone wrong?  */
+          if (debug) then print("** Checking for common mistakes **"),
+          if (debug) then print(SA),
+          if (debug) then print(SB),
           malrulecont:not(eqoutcome[ev(id, simp)]),
           /* In the edge cases we don't look for malrules.  Edge cases are turned into equations.  */
           if is(lhs(SA)=all) or is(lhs(SB)=all) or is(lhs(SA)=none) or is(lhs(SB)=none) then
               malrulecont:false,
-  
+          
+
           if malrulecont then block([FBA, FBB],
-              if (debug) then print("** Checking for common mistakes **"),
               /* (0) Multiplicity of roots. */
               FBA:factor_bag(SA),
               FBB:factor_bag(SB),
-              if (debug) then print("Factor bags: ", string(FBB), "; ", string(FBB), "; "),
+              if (debug) then print("Factor bags: ", string(FBA), "; ", string(FBB), "; "),
               FBA:apply("*", FBA),
               FBB:apply("*", FBB),
               ATres:ATAlgEquiv(FBA, FBB),
@@ -1248,6 +1251,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Squaredfirst+abs| ", third(ATres))
               )
           )
+
       ),
       if (debug) then print("Outcome: ", eqoutcome[ev(id, simp)]),
       if (debug) then print("Note: ", eqoutnote[ev(id, simp)])
@@ -1292,7 +1296,7 @@ disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A, ret, exne
 /* A predicate to decide if we should equate to zero. */
 stack_eval_arg_equivzerop(ex) := block(
    if is(ex=true) or is(ex=false) then return(false),
-   if is(ex={}) or is(ex=[]) or is(ex=all) then return(false),
+   if emptyp(ex) or is(ex=all) then return(false),
    if expressionp(ex) and not(stringp(ex)) then return(true),
    return(false)
 )$
@@ -1305,6 +1309,8 @@ check_stack_eval_arg(ex) := block([A, ret],
     if elementp(unknown, setify(A)) then return(unknown),
     return(apply("and", rest(A)))
 )$
+
+
 
 /* ********************************** */
 /* Answer tests                       */

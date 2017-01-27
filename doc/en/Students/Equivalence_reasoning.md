@@ -66,4 +66,3 @@ Try to avoid using the \( \pm \) operator as it can be abiguious, especially whe
 For example, do not write \(x-5=\pm 2\).  Instead write \[ x-5=2 \lor x-5=-2\]
 and work from there.  This looks like more writing, but it reduces opportunites for error.
 
-Final answers with the \(\pm\) operator will be rejected as invalid.

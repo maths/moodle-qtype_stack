@@ -1,4 +1,4 @@
-﻿# Reasoning by equivalence
+# Reasoning by equivalence
 
 __NOTE: this is experimental code and the features and behaviour are very likely to change significantly in the near future.__
 
@@ -56,7 +56,6 @@ The ability to give feedback on the equivalence of adjacent lines as the student
 ## Notes for question authors
 
 * The validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feeback is always displayed next to the textarea into which students type their answer.
-* The teach must set an option which controls whether feedback is displayed to the student telling them if lines are considered to be equivalent as the student types.
 * The teacher's answer and any syntax hint must be a list.  If you just pass in an expression strange behaviour may result.
 * The input type works very much like the textarea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as  the following in your potential response tree.
 
@@ -64,7 +63,16 @@ The ability to give feedback on the equivalence of adjacent lines as the student
 * Mathematically, the code assumes we are working over the real numbers.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
 
-    
+## Input type options.
+
+To enter options for this input use the "extra options field".   Options should be a comma separated list of values only from the following list.
+
+`hideequiv` does not display whether each line is equivalent to the next at validation time.
+
+`comments` allows students to include comments in their answer.  By default comments are not permitted as it breaks up the argument and stops automatic marking.
+
+`firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.
+
 ## TODO
 
 1. Document and enforce only specific types of problems which we support reasoning by equivalence with.
@@ -77,11 +85,8 @@ The ability to give feedback on the equivalence of adjacent lines as the student
 8. Decide implication direction as well as establishing equivalence.  E.g. if a student squares both sides.
 9. Calculate the natural domain, and use this information, i.e. auditing.
 10. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-11. Mechanism for semi-automatic marking of answer with commnents.
-11. Option to display the equivalence signs, and debugging.  Input options mechanism.
-12. Option to allow or disallow comments.
-13. Write an "Eqivalence" answer test.  This will do more than just check the last lines, and will complement the validation input.
-14. Assume we solve over the real numbers, but if a student used complex numbers correctly it will not be marked as incorrect.
+11. Write an "Eqivalence" answer test.  This will do more than just check the last lines, and will complement the validation input.
+12. Assume we solve over the real numbers, but if a student used complex numbers correctly it will not be marked as incorrect.
 
 ## Longer term plans
 

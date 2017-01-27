@@ -1,6 +1,6 @@
 # Reasoning by Equivalence
 
-The reasoning by equivalence input allows you to work line by line to solve an equation or inequality.  You must work in such a way that adjacent lines are equivalent to each other.  See below for more information about this.
+Sometimes STACK allows you to work line by line to solve an equation or inequality.  You must work in such a way that adjacent lines are equivalent to each other.  See below for more information about this.
 
 Start by typing in the equation in the question. Then work line by line in the text area until you have solved the problem.  Normally some feedback will be available as you type.  You can copy and paste from one line to the next and modify the line if this helps.
 

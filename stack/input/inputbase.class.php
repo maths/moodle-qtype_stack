@@ -329,7 +329,6 @@ abstract class stack_input {
         } else {
             $tcaslines = array();
         }
-
         $tvalidator = array();
         foreach ($caslines as $index => $cs) {
             $tvalidator[$index] = null;
@@ -387,7 +386,7 @@ abstract class stack_input {
         if ($lvars->get_valid()) {
             $sessionvars[] = $lvars;
         }
-        $additionalvars = $this->additional_session_variables();
+        $additionalvars = $this->additional_session_variables($caslines, $teacheranswer);
         $sessionvars = array_merge($sessionvars, $additionalvars);
 
         $localoptions->set_option('simplify', false);
@@ -524,10 +523,10 @@ abstract class stack_input {
         return '';
     }
 
-    /** This function creates additional session variables.
+    /** This function creates additional session variables, possibly using the caslines found so far.
      *  Currently only used by the equiv class.
      */
-    protected function additional_session_variables() {
+    protected function additional_session_variables($caslines, $tcaslines) {
         return array();
     }
 

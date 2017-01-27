@@ -31,6 +31,55 @@ class stack_equiv_input extends stack_input {
      */
     private $comments = array();
 
+    /**
+     * @var bool
+     * Does a student see the equivalence signs at validation time?
+     */
+    private $optdisplayequivalence = true;
+
+    /**
+     * @var bool
+     * Must a student have the same first line as the teacher's answer?
+     */
+    private $optfirstline = false;
+
+    /**
+     * @var bool
+     * Is a student permitted to include comments in their answer?
+     */
+    private $optcomments = false;
+
+    protected function internal_contruct() {
+        $options = $this->get_parameter('options');
+
+        if (trim($options) != '') {
+            $options = explode(',', $options);
+            foreach ($options as $option) {
+                $option = strtolower(trim($option));
+
+                switch($option) {
+
+                    case 'hideequiv':
+                        $this->optdisplayequivalence = false;
+                        break;
+
+                    case 'comments':
+                        $this->optcomments = true;
+                        break;
+
+                    case 'firstline':
+                        $this->optfirstline = true;
+                        break;
+
+                    default:
+                        throw new stack_exception('stack_equiv_input: did not recognize the input type option '.$option);
+                }
+            }
+        }
+
+        return true;
+    }
+
     public function render(stack_input_state $state, $fieldname, $readonly) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
@@ -162,9 +211,15 @@ class stack_equiv_input extends stack_input {
         $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $index => $val) {
+
             if ($this->identify_comments($val)) {
                 $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
                 $this->comments[$index] = $val;
+                // Is the student permitted to include comments in their answer?
+                if (!$this->optcomments) {
+                    $valid = false;
+                    $answer->add_errors(stack_string('equivnocomments'));
+                }
             } else {
                 // Process single character variable names in PHP.
                 // This is done before we validate the casstring to split up abc->a*b*c which would otherwise be invalid.
@@ -173,8 +228,9 @@ class stack_equiv_input extends stack_input {
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
                         $this->get_parameter('allowWords', ''));
                 }
+                $answer = new stack_cas_casstring($val);
             }
-            $answer = new stack_cas_casstring($val);
+
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                 $this->get_parameter('insertStars', 0), $allowwords);
 
@@ -209,8 +265,20 @@ class stack_equiv_input extends stack_input {
      */
     protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
 
+        if ($this->optfirstline) {
+            foreach ($additionalvars as $index => $cs) {
+                if ($cs->get_key() === 'firstline') {
+                    if ('false' === $cs->get_value()) {
+                        // Then the first line of the student's response does not match that of the teacher.
+                        $valid = false;
+                        $caslines[0]->add_errors(stack_string('equivfirstline'));
+                    }
+                }
+            }
+        }
+
         $display = '<center><table style="vertical-align: middle;" ' .
-                   'border="0" cellpadding="4" cellspacing="0"><tbody>';
+                'border="0" cellpadding="4" cellspacing="0"><tbody>';
         foreach ($caslines as $index => $cs) {
             $display .= '<tr>';
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
@@ -224,7 +292,6 @@ class stack_equiv_input extends stack_input {
             $display .= '</tr>';
         }
         $display .= '</tbody></table></center>';
-
         if ($valid) {
             $equiv = $additionalvars[0];
             $display = '\[ ' . $equiv->get_display() . ' \]';
@@ -233,19 +300,43 @@ class stack_equiv_input extends stack_input {
         return array($valid, $errors, $display);
     }
 
+
     /** This function creates additional session variables.
      *  Currently only used by the equiv class.
      */
-    protected function additional_session_variables() {
+    protected function additional_session_variables($caslines, $teacheranswer) {
         $equivdebug = 'false';
-        $showlogic = 'true';
+        $showlogic = 'false';
+        if ($this->optdisplayequivalence) {
+            $showlogic = 'true';
+        }
         $debuglist = 'false';
         $an = new stack_cas_casstring('disp_stack_eval_arg('.$this->name.', '.$showlogic.', '.$equivdebug.', '.$debuglist.')');
         $an->get_valid('t', $this->get_parameter('strictSyntax', true),
                  $this->get_parameter('insertStars', 0));
         $an->set_key('equiv'.$this->name);
 
-        return array($an);
+        $tresponse = $this->maxima_to_response_array($teacheranswer);
+        $tcontents = $this->response_to_contents($tresponse);
+        // Has the student used the correct first line?
+        $fl = new stack_cas_casstring('irstline:true');
+        if ($this->optfirstline) {
+            if (array_key_exists(0, $tcontents)) {
+                $ta = $tcontents[0];
+                if (array_key_exists(0, $caslines)) {
+                    $sa = $caslines[0]->get_raw_casstring();
+                    $fl = new stack_cas_casstring('firstline:second(ATAlgEquiv('.$sa.','.$ta.'))');
+                }
+            }
+        }
+        // Looks odd making this true, but if there is a validity error here it will have
+        // surfaced somewhere else.
+        if (!($fl->get_valid('t', $this->get_parameter('strictSyntax', true),
+                $this->get_parameter('insertStars', 0)))) {
+            $fl = new stack_cas_casstring('firstline:true');
+        }
+
+        return array($an, $fl);
     }
 
     protected function get_validation_method() {
@@ -283,7 +374,9 @@ class stack_equiv_input extends stack_input {
             'allowWords'     => '',
             'forbidFloats'   => true,
             'lowestTerms'    => true,
-            'sameType'       => false);
+            'sameType'       => false,
+            'options'        => ''
+            );
     }
 
     /**

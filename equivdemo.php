@@ -534,6 +534,14 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Simultaneous equations (without using square roots or substitution) 2";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[4*x^2+7*x*y+4*y^2=0 and y=x-4, 4*x^2+7*x*(x-4)+4*(x-4)^2=0 and y=x-4, 15*x^2-60*x+60=0 and y=x-4, (x-2)^2=0 and y=x-4, x=2 and y=x-4, x=2 and y=-2]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Substitution";
 $newarg['narrative']  = '';
 $newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";

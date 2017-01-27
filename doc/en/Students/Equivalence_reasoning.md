@@ -47,6 +47,18 @@ To avoid this problem use the *difference of two squares* in the following way.
 
 \[ \begin{array}{ccc} \  & a^2=b^2 & \mbox{ } \\ \color{green}{\Leftrightarrow} & a^2-b^2=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & \left(a-b\right)\cdot \left(a+b\right)=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & a=b\lor a=-b & \mbox{ } \end{array} \]
 
+## Edge cases
+
+Sometimes you will have an equation with no solutions.  You can express the fact there are no solutions in the following ways.
+
+1. `false`.  This is because sometimes you end up with a contradiction such as \(1=2\), since this equation is false you can type that as the final line in your argument.
+2. `{}`.  The empty set indicates there are no solutions.
+
+Sometimes you will have an equation in which every number is a solution, such as \(x=x\).  You can express the fact every number is a solution in the following ways
+
+1. `true`.  This is because sometimes you end up with an equation such as \(x=x\), and since this equation is true you can type that as the final line in your argument.
+2. `all`.  The special keyword `all` is used to signify that any values of the variables satisfy the equation.
+
 ## Avoid the \(\pm\) operator
 
 Try to avoid using the \( \pm \) operator as it can be abiguious, especially when it appears more than once.  The \(\pm\) operator is normally used when taking square roots, to indicate two roots exist.  Instead of using \(\pm\) just write both possibilities explicitly.

@@ -729,7 +729,8 @@ logicp(ex) := block(
   return(false)
 )$
 
-free_of_logicp(ex) := block([logicops, res, k],
+free_of_logicp(ex) := block([logicops, logiconsts, res, k],
+   if is(ex=all) or is (ex=none) then return(false),
    logicops:["nounand", "nounor", "and", "or", "%and", "%or", "not", "%not", "+-", "<", ">", "<=", ">=", "=", "[", "{"],
    res:true,
    for k: 1 thru length(logicops) do 
@@ -914,7 +915,7 @@ comp_square(ex,var) := block([vc],
 /* Return the bag of factors of the expression.  I.e. strip away multiplicity of roots. */
 factor_bag(ex) := block(
   if equationp(ex) then ex:ev(lhs(ex)-rhs(ex), simp),
-  if not(polynomialp(ex,listofvars(ex))) then return([ex]),
+  if not(polynomialp(ex, listofvars(ex))) then return([ex]),
   ex:ev(factor(ex), simp),
   if safe_op(ex) = "^" then return([first(args(ex))]),
   if safe_op(ex) = "*" then ex:args(ex) else ex:[ex],
@@ -1078,6 +1079,13 @@ texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 texput(SAMEROOTS, "\\color{green}{\\mbox{(Same roots)}}");
 
+/* We assume the token "all" is the set of real numbers, and "none" means it is empty. */
+declare(all, constant);
+texput(all, "\\mathbb{R}");
+
+declare(none, constant);
+texput(none, "\\emptyset");
+
 /* This function actually evaluates the correctness of an argument "ex".                       */
 /* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
 /* Display, fitness to a model and other functions are separate, and all rely on this.         */
@@ -1088,7 +1096,7 @@ texput(SAMEROOTS, "\\color{green}{\\mbox{(Same roots)}}");
 /* Expr: symbol, is a symbol which may or may not be displayed.                                */
 /* Expr: expression, is the line of the argument.                                              */
 /* String: note is some deugging information.                                                  */
-stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod, SA, SAL, SB, SBL],
+stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, SA, SAL, SB, SBL, malrulecont],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
   if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], ""])),
   if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), ""])),
@@ -1112,6 +1120,13 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
       tempnote:"",
       SA:exmod[ev(id-1, simp)],
       SB:exmod[ev(id, simp)],
+      /* Reduce the range of options. Avoid sets, since Maxima 5.38.1 has a bug.         */
+      /* As far as resoning by equivalence is concerned, {}=[]=false=none and true=all.  */
+      if is(emptyp(SA)) or is(SA=false) then SA:none,
+      if is(emptyp(SB)) or is(SB=false) then SB:none,
+      if is(SA=true) then SA:all,
+      if is(SB=true) then SB:all,
+
       if (debug) then print("-------------------------------"),
       if (debug) then print("Line: ", ev(id-1,simp)),
       if (debug) then print(SA),
@@ -1164,8 +1179,14 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
              ),
              eqoutnote[ev(id, simp)]:sconcat(tempnote, third(ATres))
           ),
+
           /* Can we work out what has gone wrong?  */
-          if not(eqoutcome[ev(id, simp)]) then block([FBA, FBB],
+          malrulecont:not(eqoutcome[ev(id, simp)]),
+          /* In the edge cases we don't look for malrules.  Edge cases are turned into equations.  */
+          if is(lhs(SA)=all) or is(lhs(SB)=all) or is(lhs(SA)=none) or is(lhs(SB)=none) then
+              malrulecont:false,
+  
+          if malrulecont then block([FBA, FBB],
               if (debug) then print("** Checking for common mistakes **"),
               /* (0) Multiplicity of roots. */
               FBA:factor_bag(SA),
@@ -1176,13 +1197,14 @@ stack_eval_arg(ex) := block([eqoutcome, res, id, truthargument, tempnote, exmod,
               ATres:ATAlgEquiv(FBA, FBB),
               if (debug) then print(ATres),
               if second(ATres) then block(
+                  malrulecont:false,
                   eqoutcome[ev(id, simp)]:true,
                   eqoutsymb[ev(id, simp)]:SAMEROOTS,
                   eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
               )
           ),
 
-          if not(eqoutcome[ev(id, simp)]) then block(
+          if malrulecont then block(
               /* (1) Squared both sides. */
               SBL:ev(SB^2,simp),
               if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SBL), ");"),

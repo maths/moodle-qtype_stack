@@ -1048,7 +1048,7 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
       else
         return(ATFunction(SA, SB)),
     /* Are we dealing with an equation? */
-    if equationp(SB) then
+    if equationp(SB) or SB = all or SB = none then
       if equationp(SA)#true and logicp(SA)#true then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation"))
       else
@@ -1168,21 +1168,31 @@ stack_eval_assignments(ex) := block([asl, sl],
 
 /* Two equations are the "same" when they have identical roots
    with identical multiplicities. */
-ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
+ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgecase],
     keepfloat:false,
     RawMark:false,
 
+    /* Check for an equation satisfied by anything.                                  */
+    if algebraic_equivalence(lhs(SA), rhs(SA)) then SA:all,
+    if algebraic_equivalence(lhs(SB), rhs(SB)) then SB:all,
+
+    /* Trap edge cases.                                                              */
+    edgecase:false,
+    if is(SA=all) or is(SA=none) or is(SB=all) or is(SB=none) then
+        edgecase:true,
+
     /* That said in lots of situations students will be asked to enter an equation.  */
-    /* First we try the obvious of checking equivalence of each side!                */
+    /* First we try the obvious of checking equivalence of each side.                */
     /* This catches lots of otherwise problematic cases.                             */
-    if algebraic_equivalence(lhs(SA), lhs(SB)) then 
+    if not(edgecase) and algebraic_equivalence(lhs(SA), lhs(SB)) then 
         if algebraic_equivalence(rhs(SA), rhs(SB)) then
              return([true, true, "ATEquation_sides", ""]) 
         else return([true, false, "ATEquation_lhs_notrhs", ""]),
-    if algebraic_equivalence(lhs(SA), rhs(SB)) then 
+    if not(edgecase) and algebraic_equivalence(lhs(SA), rhs(SB)) then 
         if algebraic_equivalence(rhs(SA), lhs(SB)) then
              return([true, true, "ATEquation_sides_op", ""]) 
         else return([true, false, "ATEquation_lhs_notrhs_op", ""]),
+
     /* First try without expanding out the equations */
     R1:ev(lhs(factor(SA))-rhs(factor(SA)), simp),
     R2:ev(lhs(factor(SB))-rhs(factor(SB)), simp),
@@ -1205,17 +1215,19 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R],
     return([true, false, "ATEquation_default", ""])
     )$
 
-/* A predicate to decide if we have an empty equation. */
+/* A predicate to decide if we have an empty equation, satisfied by anything. */
 ATEquation_zerop(ex) := block(
   if is(ex=all) or is(ex=true) then return(true),
+  if is(ex=none) or is(ex=false) then return(false),
   if algebraic_equivalence(ex, 0) then return(true),
   return(false)
 )$
 
 /* A predicate to decide if we have no solutions (without solving). */
 ATEquation_emptyp(ex) := block(
+  if is(ex=all) or is(ex=true) then return(false),
   if is(ex=none) or is(ex=false) then return(true),
-  if is(ex=true) or is(ex=all) then return(false),
+  if algebraic_equivalence(ex, 0) then return(false),
   if emptyp(listofvars(ex)) then return(true),
   return(false)
 )$
@@ -1444,8 +1456,8 @@ ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
     SA:ev(logical_normal(SA), simp),
     SB:ev(logical_normal(SB), simp),
     /* Check for the empty set. */
-    if equationp(SA) and numberp(lhs(SA)) and not(algebraic_equivalence(lhs(SA), 0)) then SA:{},
-    if equationp(SB) and numberp(lhs(SB)) and not(algebraic_equivalence(lhs(SB), 0)) then SB:{},
+    if equationp(SA) and numberp(lhs(SA)) and not(algebraic_equivalence(lhs(SA), 0)) then SA:none,
+    if equationp(SB) and numberp(lhs(SB)) and not(algebraic_equivalence(lhs(SB), 0)) then SB:none,
     AnswerNote:concat("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then 
         return([true, true, "ATLogic_True", FeedBack]),

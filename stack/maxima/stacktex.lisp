@@ -33,13 +33,12 @@
 ;; Fix the problem with -27 being printed -(27)
 ;; CJS 21 Jan 2009
 
-(defprop mminus tex-prefix-unaryminus tex)
+(defprop mminus tex-prefix-blank tex)
 ;;(defprop mminus tex-prefix tex)
 (defprop mminus ("-") texsym)
 
-(defun tex-prefix-unaryminus (x l r)
+(defun tex-prefix-blank (x l r)
   (tex (cadr x) (append l (texsym (caar x))) r (caar x) rop))
-
 
 ;; Display question marks correctly
 (defprop &? ("?") texsym)
@@ -246,7 +245,7 @@
                         (member (getcharn f 1) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
                         (not (member f '(%sum %product %derivative %integrate %at $texsub
-                                         %lsum %limit $pderivop) :test #'eq)) ;; what else? what a hack...
+                                         %lsum %limit $pderivop $+-) :test #'eq)) ;; what else? what a hack...
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))
                                         ; f(x)^3 is ok, but not f(x)^-1, which could

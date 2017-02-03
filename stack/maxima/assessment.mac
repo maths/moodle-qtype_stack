@@ -844,9 +844,19 @@ logic_to_poly_helper(ex, v) := block(
 /* Add in a +- operator               */
 /* ********************************** */
 
+/* We have to define +- to be both a prefix and an nary operator in this order. */
 prefix("+-");
-texput("+-", "{\\pm}");
+nary("+-", 100);
 
+displaypmtex(ex):=block([al, a1, a2],
+  al:args(ex),
+  if is(length(al)=1) then 
+        return(sconcat(" \\pm ", tex1(first(al)))),
+  a1:tex1(first(al)),
+  a2:tex1(second(al)),
+  sconcat("{", a1, " \\pm ", a2, "}")
+  );
+texput("+-", displaypmtex);
 
 /* Count the occurance of an operator. */
 count_op(ex, ops):= block([count],

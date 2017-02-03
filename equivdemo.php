@@ -353,6 +353,14 @@ $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 
 $newarg = array();
+$newarg['title']     = "Solving quadratic equations 2 (pm)";
+$newarg['narrative']  = '';
+$newarg['casstring'] = "[x^2=2,x=+-sqrt(2),x=sqrt(2) or x=-sqrt(2)]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+$newarg['outcome']   = true;
+$samplearguments[] = $newarg;
+
+$newarg = array();
 $newarg['title']     = "Solving quadratic equations 3";
 $newarg['narrative']  = 'This argument avoids taking the square root of both sides by subtracting and taking the difference of two squares.';
 $newarg['casstring'] = "[(2*x-7)^2=(x+1)^2,(2*x-7)^2 -(x+1)^2=0,(2*x-7+x+1)*(2*x-7-x-1)=0,(3*x-6)*(x-8)=0,x=2 or x=8]";

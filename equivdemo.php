@@ -300,7 +300,7 @@ $newarg = array();
 $newarg['title']     = "Vacuous linear equation (1)";
 $newarg['narrative']  = 'This equation is satisfied by any value of x.';
 $newarg['casstring'] = "[2*(x-3) = 5*x-3*(x+2),2*x-6=2*x-6,0=0,all]";
-$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR]";
+$newarg['debuglist'] = "[null,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
 $newarg['outcome']   = true;
 $samplearguments[] = $newarg;
 

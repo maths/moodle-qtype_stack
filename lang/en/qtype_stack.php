@@ -631,6 +631,8 @@ $string['stackOptions_AnsTest_values_FacForm']             = "FacForm";
 $string['stackOptions_AnsTest_values_SingleFrac']          = "SingleFrac";
 $string['stackOptions_AnsTest_values_PartFrac']            = "PartFrac";
 $string['stackOptions_AnsTest_values_CompSquare']          = "CompletedSquare";
+$string['stackOptions_AnsTest_values_Equiv']               = "EquivReasoning";
+$string['stackOptions_AnsTest_values_EquivFirst']      = "EquivFirst";
 $string['stackOptions_AnsTest_values_SigFigsStrict']       = "SigFigsStrict";
 $string['stackOptions_AnsTest_values_NumRelative']         = "NumRelative";
 $string['stackOptions_AnsTest_values_NumAbsolute']         = "NumAbsolute";
@@ -774,6 +776,13 @@ $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system 
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
+
+$string['ATEquiv_SA_not_list']               = 'The first argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.';
+$string['ATEquiv_SB_not_list']               = 'The second argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.';
+$string['ATEquivFirst_SA_not_list']      = 'The first argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.';
+$string['ATEquivFirst_SB_not_list']      = 'The second argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.';
+$string['ATEquivFirst_SA_wrong_start']   = 'The first line in your argument must be "{$a->m0}". ';
+$string['ATEquivFirst_SA_wrong_end']     = 'Your final answer is not in the correct form. ';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';

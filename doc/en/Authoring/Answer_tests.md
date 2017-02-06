@@ -128,6 +128,10 @@ As the test allows for polynomials in several variables, it can cope with the in
 * This test disregards whether [simplification](../CAS/Simplification.md) is switched on, it only simplifies its arguments where required.
 This allows the test to list equations in feedback that the student has erroneously included in their system.
 
+### Equiv and EquivFirstLast ###
+
+These answer tests are used with [equivalence reasoning](../CAS/Equivalence_reasoning.md).  See the separate documentation.
+
 # Form {#Form}
 
 Often we wish to establish if the student's expression has the correct _form_.
@@ -236,9 +240,7 @@ A dedicated answer test for scientific units is described on the [units](../Auth
 
 # Developer #
 
-Adding answer tests is possible, but is a developer task.  Tests currently lacking include the following.
-
-* A numerical test which includes _units_, for science.
+Adding answer tests is possible, but is a developer task.
 
 # See also
 

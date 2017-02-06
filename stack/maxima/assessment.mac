@@ -1003,21 +1003,21 @@ rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
   while (ci<=nr) and (cj<=nc) do
   (
     if (debug = 1) then (
-	    disp(p),
-	    print("curseur en ligne ",ci," et colonne ",cj)),
+        disp(p),
+        print("curseur en ligne ",ci," et colonne ",cj)),
     pivot_row : 0, pivot : 0,
     for k : ci thru nr do (
        if ( abs(p[k,cj]) > pivot ) then (
          pivot_row : k,
          pivot : abs(p[k,cj]))),
          if (debug = 1) then
-	   print("colonne ",cj," : pivot trouve ligne ", pivot_row,", valeur : ",pivot),
+       print("colonne ",cj," : pivot trouve ligne ", pivot_row,", valeur : ",pivot),
     if (pivot = 0) then (cj : cj +1)
     else (
       p : rowswap(p,ci,pivot_row),
-	if (debug = 1) then      print (".. Echange : ",p),
+    if (debug = 1) then      print (".. Echange : ",p),
       p : rowmul(p,ci,1/p[ci,cj]),
-	if (debug = 1) then     print (".. Normalisation : ",p),
+    if (debug = 1) then     print (".. Normalisation : ",p),
       for k : 1 thru nr do (
          if not (k=ci) then (p : addrow (p,k,ci,-p[k,cj]))),
       ci : ci+1, cj : cj+1)),
@@ -1273,7 +1273,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
 );
 
 /* This modifies stack_eval_arg to create something which can be displayed. */
-disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A, ret, exnew, eqoutsymb], 
+stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note], 
     /* Evaluate the argument.      */
     A:transpose(stack_eval_arg(ex)),
     /* If in debug mode check if we have what we expect. */
@@ -1302,7 +1302,15 @@ disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A, ret, exne
     ret:apply(matrix, ret),
     ret:transpose(ret),
     ret:apply(argument, args(ret)),
-    return(ret)
+    /* Construct a separate note. */
+    note:rest(second(A)),
+    /* Decide if the overall argument is true. */
+    res:first(A),
+    if elementp(unknown, setify(res)) then 
+        res:unknown
+    else
+        res:apply("and", rest(res)),
+    return([res, ret, note])
 )$
 
 /* A predicate to decide if we should equate to zero. */
@@ -1313,19 +1321,77 @@ stack_eval_arg_equivzerop(ex) := block(
    return(false)
 )$
 
-check_stack_eval_arg(ex) := block([A, ret], 
-    /* Evaluate the argument.      */
-    if length(ex)<2 then return(true),
-    A:transpose(stack_eval_arg(ex)),
-    A:first(A),
-    if elementp(unknown, setify(A)) then return(unknown),
-    return(apply("and", rest(A)))
+/* This modifies stack_eval_arg to create something which can be displayed. */
+disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A],
+    A:stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist),
+    return(second(A))
 )$
 
+check_stack_eval_arg(ex) := block([ret], 
+    /* Evaluate the argument.      */
+    if length(ex)<2 then return(true),
+    ret:stack_eval_equiv_arg(ex, false, false, false),
+    return(first(ret))
+)$
 
+/* An answer test based on equivalence reasoning. */
+ATEquiv(SA,SB) := block([SAA, SAB, ret, A, AnswerNote, FeedBack],
+
+    /* Turn on simplification and error catch. */
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATEquiv_STACKERROR_SAns"), ""]),
+    SAB:errcatch(ev(SB, simp, nouns)),
+    if (is(SAB=[STACKERROR]) or is(SAB=[])) 
+        then return([false, false, StackAddNote("", "ATEquiv_STACKERROR_TAns"), ""]),
+
+    /* Are both answers lists? */
+    if not listp(SA) then
+        (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATEquiv_SA_not_list"))),
+    if not listp(SB) then
+        (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATEquiv_SB_not_list"))),
+
+    /* Actually perform the test.  */
+    A:stack_eval_equiv_arg(SA, true, false, false),
+    AnswerNote:third(A), 
+    FeedBack:stack_disp(second(A), "d"),
+
+    ret:[true, first(A), AnswerNote, FeedBack],
+    return(ret)
+)$
+
+/* An answer test based on equivalence reasoning. */
+ATEquivFirst(SA,SB) := block([SAA, SAB, ret, A, AnswerNote, FeedBack],
+
+    /* Turn on simplification and error catch. */
+    SAA:errcatch(ev(SA, simp, nouns)),
+    if (is(SAA=[STACKERROR]) or is(SAA=[])) then 
+        return([false, false, StackAddNote("", "ATEquivFirst_STACKERROR_SAns"), ""]),
+    SAB:errcatch(ev(SB, simp, nouns)),
+    if (is(SAB=[STACKERROR]) or is(SAB=[])) 
+        then return([false, false, StackAddNote("", "ATEquivFirst_STACKERROR_TAns"), ""]),
+
+    /* Are both answers lists? */
+    if not listp(SA) then
+        (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATEquivFirst_SA_not_list"))),
+    if not listp(SB) then
+        (print("TEST_FAILED"), return(StackBasicReturn(false, false, "ATEquivFirst_SB_not_list"))),
+
+    ret:ATEqualComAss(first(SA), first(SB)),
+    if not(second(ret)) then
+         return([false, false, "ATEquivFirst_SA_wrong_start", StackAddFeedback("", "ATEquivFirst_SA_wrong_start", stack_disp(first(SB), "i"))]),
+
+    /* Actually perform the test.  */
+    A:stack_eval_equiv_arg(SA, true, false, false),
+    AnswerNote:third(A), 
+    FeedBack:stack_disp(second(A), "d"),
+
+    ret:[true, first(A), AnswerNote, FeedBack],
+    return(ret)
+)$
 
 /* ********************************** */
 /* Answer tests                       */
 /* ********************************** */
 
-AnswerTests : [AlgEquiv, EqualComAss, CasEqual, SameType, SubstEquiv, SysEquiv, Expanded, FacForm, SingleFrac, PartFrac, CompSquare, GT, GTE, NumAbsolute, NumRelative, NumSigFigs, LowestTerms, Diff, Int, String, StringSloppy, RegExp]$ 
+AnswerTests : [AlgEquiv, EqualComAss, CasEqual, SameType, SubstEquiv, SysEquiv, Expanded, FacForm, SingleFrac, PartFrac, CompSquare, Equiv, EquivFirstLast, GT, GTE, NumAbsolute, NumRelative, NumSigFigs, LowestTerms, Diff, Int, String, StringSloppy, RegExp]$ 

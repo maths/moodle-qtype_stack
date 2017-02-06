@@ -41,6 +41,8 @@ class stack_ans_test_controller {
               'SingleFrac'           => 'stackOptions_AnsTest_values_SingleFrac',
               'PartFrac'             => 'stackOptions_AnsTest_values_PartFrac',
               'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
+              'Equiv'                => 'stackOptions_AnsTest_values_Equiv',
+              'EquivFirst'       => 'stackOptions_AnsTest_values_EquivFirst',
               'GT'                   => 'stackOptions_AnsTest_values_GT',
               'GTE'                  => 'stackOptions_AnsTest_values_GTE',
               'SigFigsStrict'        => 'stackOptions_AnsTest_values_SigFigsStrict',
@@ -122,6 +124,14 @@ class stack_ans_test_controller {
             case 'CompSquare':
                 $this->at = new stack_answertest_general_cas($sans, $tans, 'ATCompSquare',
                                     true, $casoption, $options, true, false, true);
+                break;
+
+            case 'Equiv':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', false, $casoption, $options);
+                break;
+
+            case 'EquivFirst':
+                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquivFirst', false, $casoption, $options);
                 break;
 
             case 'String':

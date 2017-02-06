@@ -600,6 +600,7 @@ class stack_answertest_test_data {
         array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[1/0]',  -1,
             'CASError: Division by zero. | ATEquiv_STACKERROR_TAns.', ''),
         array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EQUIVCHAR]', ''),
+        array('Equiv', '', '[x^2=4,x=+-2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '[EQUIVCHAR,ANDOR]', ''),
         array('Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[IMPLIEDCHAR]', ''),
         array('Equiv', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
             '[EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),

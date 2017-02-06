@@ -783,6 +783,9 @@ $string['ATEquivFirst_SA_not_list']      = 'The first argument to the Equiv answ
 $string['ATEquivFirst_SB_not_list']      = 'The second argument to the Equiv answer test should be a list, but the test failed. Please contact your teacher.';
 $string['ATEquivFirst_SA_wrong_start']   = 'The first line in your argument must be "{$a->m0}". ';
 $string['ATEquivFirst_SA_wrong_end']     = 'Your final answer is not in the correct form. ';
+$string['ATEquivFirst_SA_wrong_end']     = 'Your final answer is not in the correct form. ';
+$string['equiv_SAMEROOTS']               = '(Same roots)';
+$string['equiv_ANDOR']                   = 'and/or confusion!';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';

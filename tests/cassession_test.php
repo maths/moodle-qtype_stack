@@ -870,7 +870,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('x= \pm b', $at1->get_display_key('c9'));
         $this->assertEquals('sin(x +- a)^2', $at1->get_value_key('c10'));
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $at1->get_display_key('c10'));
-}
+    }
 
     public function test_pm_simp_true() {
         $cs = array('c1:a+-b',

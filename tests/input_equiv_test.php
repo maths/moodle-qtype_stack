@@ -46,7 +46,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
-        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="10"></textarea></td><td><div class="stackinputfeedback" id="stack1__ans1_val"><input type="hidden" name="stack1__ans1_val" value="[]" /></div></td></tr></table>',
+        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="10"></textarea></td>' .
+                '<td><div class="stackinputfeedback" id="stack1__ans1_val">' .
+                '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></td></tr></table>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false));
     }

@@ -454,7 +454,6 @@ $string['variant'] = 'Variant';
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
 $string['equivfirstline'] = 'You have used the wrong first line in your argument!';
 
-
 // Support scripts (CAS chat, healthcheck, etc.)
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';

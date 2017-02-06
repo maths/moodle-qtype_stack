@@ -100,7 +100,7 @@ echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
 if ($config->platform !== 'win') {
     $connection = stack_connection_helper::make();
     if (is_a($connection, 'stack_cas_connection_unix')) {
-        echo html_writer::tag('pre', $connection-> get_maxima_available());
+        echo html_writer::tag('pre', $connection->get_maxima_available());
     }
 }
 

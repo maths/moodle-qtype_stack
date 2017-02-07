@@ -609,8 +609,10 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Now turn logical connectives into noun versions.
-        $this->logic_nouns_sort(true);
+        // Now turn logical connectives into noun versions, for students' expressions.
+        if ($security == 's') {
+            $this->logic_nouns_sort(true);
+        }
 
         // Search for HTML fragments.  This is hard to do because < is an infix operator!
         // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
@@ -1268,14 +1270,16 @@ class stack_cas_casstring {
     }
 
     /* The purpose of this function is to make all occurances of the logical
-     +     * operators "and" and "or" into their noun equivalent versions.  The support
-    +     * for these opertators in Maxima relies on the underlying lisp version and hence
-    +     * it is impossible to turn simplification off and make them inert.  In particular
-    +     * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
-    +     * which is awkward.
-    +     *
-    +     * If the parameter is true we put in noun versions, and if false we remove them.
-    +     */
+     * operators "and" and "or" into their noun equivalent versions.  The support
+     * for these opertators in Maxima relies on the underlying lisp version and hence
+     * it is impossible to turn simplification off and make them inert.  In particular
+     * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
+     * which is awkward for students' input.
+     * 
+     * Teachers need to use the non-intert forms in loops and conditional statements.
+     *
+     * If the parameter is true we put in noun versions, and if false we remove them.
+     */
     public function logic_nouns_sort($dir) {
         $connectives = array();
         $connectives[] = array(' and', ' nounand');

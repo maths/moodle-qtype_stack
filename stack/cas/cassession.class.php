@@ -211,6 +211,7 @@ class stack_cas_session {
                 if (array_key_exists('display', $result)) {
                     // Need to add this in here also because strings may contain question mark characters.
                     $disp = str_replace('QMCHAR', '?', $result['display']);
+                    $disp = $this->translate_displayed_tex($disp);
                     $cs->set_display($disp);
                 }
 
@@ -228,7 +229,9 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('feedback', $result)) {
-                    $cs->set_feedback($result['feedback']);
+                    $feedback = $result['feedback'];
+                    $feedback = $this->translate_displayed_tex($feedback);
+                    $cs->set_feedback($feedback);
                 }
 
             } else if (!$gotvalue) {
@@ -251,6 +254,18 @@ class stack_cas_session {
             $this->errors .= $this->get_debuginfo();
         }
         $this->instantiated = true;
+    }
+
+    /**
+     * Some of the TeX contains language tags which we need to translate.
+     * @param string $str
+     */
+    private function translate_displayed_tex($str) {
+        $loctags = array('ANDOR', 'SAMEROOTS');
+        foreach ($loctags as $tag) {
+            $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
+        }
+        return $str;
     }
 
     public function get_debuginfo() {

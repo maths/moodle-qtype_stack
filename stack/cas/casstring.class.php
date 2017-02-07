@@ -833,11 +833,6 @@ class stack_cas_casstring {
         // We need to split keyvals off here before we check underscore characters.
         $this->key_val_split();
 
-        // The opertator +- is a prefix operator.  We also need it to be an infix addition-like operator.
-        $cmd = $this->casstring;
-//        $cmd = str_replace('+-', '+ +-', $cmd);
-        $this->casstring = $cmd;
-
         // Check for and replace logarithms log_A(B).
         // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
         // Be forgiving with log10.

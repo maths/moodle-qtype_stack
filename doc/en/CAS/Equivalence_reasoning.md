@@ -73,19 +73,34 @@ To enter options for this input use the "extra options field".   Options should 
 
 `firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.
 
-## TODO
+# Answer tests
+
+There are a number of answer tests which seek to establish whether a student's list of expressions are all equivalent.
+
+In these tests there is no concept of "step size" or any test that a student has worked in a sensible order.  The tests share code with the input type, and feedback from the test will be identical to that from the input when this is shown.
+
+### EquivReasoning ###
+
+This test establishes that all the items in the list are equivalent.
+
+### EquivFirst ###
+
+1. This test establishes that all the items in the list are equivalent.  
+2. Test that the first line of the student's answer is equivalent to the first line of the teacher's answer up to commutativity and associativity (using the answer test EqualComAss.)
+
+To test the last line of an argument is in the correct form will require a separate node in the potential response tree.  To add this to the answer test gives too many possibilities.
+
+# TODO
 
 1. Document and enforce only specific types of problems which we support reasoning by equivalence with.
 2. Reject equations containing trig functions (for the moment) as invalid.
 3. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK version.
 4. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-5. Define \(x\pm a\) as an infix and prefix operator.  
-6. Reject any use of the \(\pm\) operator in normal algebraic input.
-7. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
-9. Calculate the natural domain, and use this information, i.e. auditing.
-10. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-11. Write an "Eqivalence" answer test.  This will do more than just check the last lines, and will complement the validation input.
-12. Assume we solve over the real numbers, but if a student used complex numbers correctly it will not be marked as incorrect.
+5. Reject any use of the \(\pm\) operator in normal algebraic input.
+6. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
+8. Calculate the natural domain, and use this information, i.e. auditing.
+9. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
+10. Assume we solve over the real numbers, but if a student used complex numbers correctly it will not be marked as incorrect.
 
 ## Longer term plans
 

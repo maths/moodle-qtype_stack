@@ -420,6 +420,7 @@ class stack_cas_session {
 
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
+
         if (null === $this->valid) {
             $this->validate();
         }
@@ -431,7 +432,7 @@ class stack_cas_session {
         }
 
         foreach ($this->session as $casstr) {
-            $key    = $casstr->get_key();
+            $key = $casstr->get_key();
             if ($key === '') {
                 // An empty key is something like a function definition, or an equality.
                 // It is not something that can be replaced in the CAS text.
@@ -439,12 +440,22 @@ class stack_cas_session {
             }
             $errors = $casstr->get_errors();
             $disp   = $casstr->get_display();
-            $value  = $casstr->get_casstring();
+            $value  = $casstr->get_value();
 
             $dummy = '@'.$key.'@';
 
+            // When we have only a single string in the output remove the maths environment.
+            if ($errors == '' and substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
+                $disp = substr(trim($disp), 6, strlen($disp)-7);
+                if ($value == '""') {
+                    $disp = '';
+                }
+                // TODO: probably check for whitespace, e.g. \( @...@ \).
+                $dummy = '\(@'.$key.'@\)';
+            }
+
             if ('' !== $errors && null != $errors) {
-                $strin = str_replace($dummy, $value, $strin);
+                $strin = str_replace($dummy, $casstr->get_casstring(), $strin);
             } else if (strstr($strin, $dummy)) {
                 $strin = str_replace($dummy, $disp, $strin);
             }

@@ -556,6 +556,19 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 $at2->get_display_castext());
     }
 
+    public function test_strings_only_latex() {
+        // Remember the quotes below are escaped!
+        $s = '@"This is a string with LaTeX in it \\\\(\\\\pi\\\\)."@';
+
+        $at2 = new stack_cas_text($s, null, 0, 't');
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals(
+                'This is a string with LaTeX in it \\(\\pi\\).',
+                $at2->get_display_castext());
+    }
+
     public function test_strings_embeded() {
         $s = '@"This is a string"+x^2@.';
 

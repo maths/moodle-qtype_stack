@@ -14,16 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * This file contains tests that walk Stack questions through various sequences
- * of student interaction using the immediate feedback behaviour.
- *
- * @package   qtype_stack
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -31,11 +21,15 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
 
+// Unit tests for the Stack question type with the immediate feedback behaviour.
+//
+// Note that none of these tests include clicking the 'Check' button that dfexplicitvaldiation provies.
+// That button is simply @author tjh238 way to trigger a save without navigating to a different page of the quiz.
+//
+// @copyright 2012 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 /**
- * Unit tests for the Stack question type with the immediate feedback behaviour.
- *
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class qtype_stack_walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_base {

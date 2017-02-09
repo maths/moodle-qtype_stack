@@ -16,12 +16,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * CAS strings and related functions.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// CAS strings and related functions.
+//
+// @copyright  2012 University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
@@ -528,7 +527,7 @@ class stack_cas_casstring {
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
     // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-';
+    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-.';
     // @codingStandardsIgnoreEnd
 
     /**

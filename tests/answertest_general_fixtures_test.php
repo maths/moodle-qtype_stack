@@ -16,14 +16,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Add in all the tests from answertestsfixtures.class into the unit testing framework.
- * While these are exposed to users as documentation, the Travis integration should also
- * run all the tests.
- *
- * @copyright  2016 The University of Edinburgh
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Add in all the tests from answertestsfixtures.class into the unit testing framework.
+// These are exposed to users as documentation and Travis integration should also run all the tests.
+//
+// @copyright  2016 The University of Edinburgh.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
@@ -31,10 +29,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
 
 /**
- * Unit tests for all answertests.
- *
- * @copyright  2016 The University of Edinburgh
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_answertest_fixtures_cas_test extends qtype_stack_testcase {

@@ -150,6 +150,7 @@ class stack_inputvalidation_test_data {
         array('x+', 'php_false', 'x+', '', '', 'finalChar', "Not enough arguments for op error"),
         array('y*', 'php_false', 'y*', '', '', 'finalChar', ""),
         array('x^', 'php_flase', 'x^', '', '', 'finalChar', ""),
+        array('x.', 'php_flase', 'x.', '', '', 'finalChar', ""),
         array('x and', 'php_false', '', '', '', 'spaces', ""),
         array('!', 'php_true', '!', '', '', 'CASFailedReturn', ""),
         array('sin', 'php_true', 'sin', 'cas_true', '\sin', '',

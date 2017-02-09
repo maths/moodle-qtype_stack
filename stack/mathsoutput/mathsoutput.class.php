@@ -16,12 +16,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Public API for other parts of STACK to call in order to process equations.
- */
+// Public API for other parts of STACK to call in order to process equations.
 
 require_once(__DIR__ . '/mathsoutputbase.class.php');
-
 
 /**
  * Public API to the maths rendering system.
@@ -105,7 +102,6 @@ class stack_maths {
         }
         return self::get_output_instance(stack_utils::get_config()->mathsdisplay);
     }
-
 
     /**
      * @param string $type the output method name.

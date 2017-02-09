@@ -21,11 +21,12 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
+// Unit tests for stack_checkbox_input.
+//
+// @copyright  2012 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 /**
- * Unit tests for stack_checkbox_input.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {

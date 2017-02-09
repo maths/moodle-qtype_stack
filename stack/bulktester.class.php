@@ -14,20 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Helper class for running the question tests in bulk.
- *
- * @copyright  2015 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Class for running the question tests in bulk.
+//
+// @copyright  2015 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-
-/**
- * Class for running the question tests in bulk.
- *
- * @copyright  2015 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class stack_bulk_tester  {
 
     /**

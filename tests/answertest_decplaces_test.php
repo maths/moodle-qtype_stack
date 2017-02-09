@@ -16,12 +16,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for stack_anstest_decplaces.
- *
- * @copyright  2012 The University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Unit tests for stack_anstest_decplaces.
+//
+// @copyright  2012 The University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/castext.class.php');
@@ -30,10 +28,6 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/answertest/atdecplaces.class.php');
 
 /**
- * Unit tests for stack_anstest_numabsolute.
- *
- * @copyright  2012 The University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_anstest_atdecplaces_test extends qtype_stack_testcase {

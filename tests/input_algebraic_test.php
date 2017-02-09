@@ -20,20 +20,14 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-/*
- * Unit tests for the stack_algebra_input class.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
-/*
- * Unit tests for stack_algebra_input.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+// Unit tests for stack_algebra_input.
+//
+// @copyright  2012 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
+/**
  * @group qtype_stack
  */
 class stack_algebra_input_test extends qtype_stack_testcase {
@@ -187,7 +181,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('strictSyntax', true);
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)+tans'), $options, 'x^2/(1+x^2)', array('tans'));
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('missing_stars | unknownFunction', $state->note);
+        $this->assertEquals('missing_stars', $state->note);
     }
 
     public function test_validate_student_response_8() {
@@ -309,9 +303,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         // Hack to accomodate Maxima version 5.37.0 onwards.
         $content = $state->contentsmodified;
         if ($content === '(-3)*x^2-4') {
-            $content = '(-3*x^2)-4';
+            $content = '-3*x^2-4';
         }
-        $this->assertEquals('(-3*x^2)-4', $content);
+        $this->assertEquals('-3*x^2-4', $content);
         $this->assertEquals('\[ -3\cdot x^2-4 \]', $state->contentsdisplayed);
     }
 
@@ -362,9 +356,9 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('insertStars', 2);
         $state = $el->validate_student_response(array('sans1' => 'cos(ax)/(x(ln(x)))'), $options, 'cos(a*x)/(x*(ln(x)))',
                 array('ta'));
-        $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('cos(a*x)/(x*(ln(x)))', $state->contentsmodified);
-        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left( \ln \left( x \right) \right)} \]',
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('cos(a*x)/(x(ln(x)))', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left(\ln \left( x \right) \right)} \]',
                 $state->contentsdisplayed);
     }
 
@@ -394,8 +388,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'lg(27,3)');
         $state = $el->validate_student_response(array('sans1' => 'lg(27,3)'), $options, 'lg(27,3)', null);
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('logbase(27,3)', $state->contentsmodified);
-        $this->assertEquals('\[ \log_{3}\left(27\right)\, \]', $state->contentsdisplayed);
+        $this->assertEquals('lg(27,3)', $state->contentsmodified);
+        $this->assertEquals('\[ \log_{3}\left(27\right) \]', $state->contentsdisplayed);
     }
 
     public function test_validate_set_1() {
@@ -404,6 +398,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '{a,b,c}'), $options, '{a,b,c}', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('{a,b,c}', $state->contentsmodified);
-        $this->assertEquals('\[ \left \{a , b , c\right \}\, \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \left \{a , b , c \right \} \]', $state->contentsdisplayed);
     }
+
 }

@@ -239,6 +239,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                             $this->wwwrootfixupreplace, $local['display']);
                 }
             }
+            foreach ($local as $key => $val) {
+                $local[$key] = trim(str_replace('!NEWLINE!', '', $val));
+            }
         }
         return $locals;
     }
@@ -248,7 +251,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;
         $rawresultfragmentlen = strlen($rawresultfragment);
-        $unparsed = '';
+        $unparsed = array();
         $errors = '';
 
         $eqpos = strpos($rawresultfragment, '=', $offset);
@@ -288,15 +291,25 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     protected function tidy_error($errstr) {
 
-        // This case arises when we use a numerical text for algebraic equivalence.
-        if (strpos($errstr, 'STACK: ignore previous error.') !== false) {
+        if ('' === trim($errstr)) {
             return '';
         }
 
-        if (strpos($errstr, '0 to a negative exponent') !== false) {
-            $errstr = stack_string('Maxima_DivisionZero');
+        $error = explode("!NEWLINE!", $errstr);
+        $errorclean = array();
+        foreach ($error as $err) {
+            // This case arises when we use a numerical text for algebraic equivalence.
+            if (strpos($err, 'STACK: ignore previous error.') !== false) {
+                $err = '';
+            }
+
+            if (strpos($err, '0 to a negative exponent') !== false) {
+                $err = stack_string('Maxima_DivisionZero');
+            }
+            $errorclean[] = $err;
         }
-        return $errstr;
+
+        return trim(implode(" ", $errorclean));
     }
 
 }

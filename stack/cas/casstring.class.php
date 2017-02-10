@@ -1005,6 +1005,9 @@ class stack_cas_casstring {
     /* We have added support for subscripts using underscore.  We expect more invalid expressions. */
     private function check_underscores($security) {
 
+        // Remove the contents of any strings, so we don't test for these within them.
+        list ($cmd, $strings) = $this->strings_remove($this->rawcasstring);
+
         $strpatterns[] = ')_';
         $strpatterns[] = '_(';
         $strpatterns[] = ']_';
@@ -1012,7 +1015,6 @@ class stack_cas_casstring {
         $strpatterns[] = '}_';
         $strpatterns[] = '_{';
 
-        $cmd = $this->casstring;
         $found = array();
         $valid = true;
         foreach ($strpatterns as $pat) {

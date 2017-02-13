@@ -314,7 +314,7 @@ stack_disp(expr, exprm) := block([str:"", expru],
 alias(StackDISP, stack_disp)$
 
 /* If an expression contains these control structures then we don't fine-tune the display. */
-stack_disp_control_structurep(ex) := not(freeof(?mdoin, ?mdo, catch, throw, ":=", lambda, setelmx, ex))$
+stack_disp_control_structurep(ex) := not(freeof(?mdoin, ?mdo, ?mcond, catch, throw, ":=", lambda, setelmx, ex))$
 
 stack_disp_strip_dollars(ex) := block(
         if ?subseq(ex, 0, 2) = "$$" then
@@ -2550,4 +2550,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017021001$
+stackmaximaversion:2017021301$

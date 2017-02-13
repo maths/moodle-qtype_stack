@@ -16,23 +16,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for the documentation library functions.
- *
- * @package   qtype_stack
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Unit tests for the documentation library functions.
+//
+// @copyright 2012 The Open University.
+// @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/../doc/docslib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-
 /**
- * Unit tests for the documentation library functions.
- *
- * @copyright 2012 The Open University
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_docslib_test extends qtype_stack_testcase {

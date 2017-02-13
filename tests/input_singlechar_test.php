@@ -16,21 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for the stack_singlechar_input class.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
+// Unit tests for stack_singlechar_input.
+//
+// @copyright 2012 The Open University.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 /**
- * Unit tests for stack_singlechar_input.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_singlechar_input_test extends basic_testcase {

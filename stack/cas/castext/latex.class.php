@@ -24,6 +24,7 @@
  */
 require_once(__DIR__ . '/../casstring.class.php');
 require_once("block.interface.php");
+require_once(__DIR__ . '/../../utils.class.php');
 
 class stack_cas_castext_latex extends stack_cas_castext_block {
 
@@ -56,15 +57,23 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
-        $evaluated = $evaluatedcassession->get_display_key("caschat".$this->number);
-        if (strpos($evaluated, "<html") !== false) {
-            $this->get_node()->convert_to_text($evaluated);
-        } else {
-            if ($this->get_node()->get_mathmode() == true) {
-                $this->get_node()->convert_to_text("{".$evaluated."}");
+        $value = $evaluatedcassession->get_value_key("caschat".$this->number);
+        $stringvalue = substr(trim($value), 0, 1) == '"';
+
+        if (!$stringvalue) {
+            $evaluated = $evaluatedcassession->get_display_key("caschat".$this->number);
+            if (strpos($evaluated, "<html") !== false) {
+                $this->get_node()->convert_to_text($evaluated);
             } else {
-                $this->get_node()->convert_to_text("\\({".$evaluated."}\\)");
+                if ($this->get_node()->get_mathmode() == true) {
+                    $this->get_node()->convert_to_text("{".$evaluated."}");
+                } else {
+                    $this->get_node()->convert_to_text("\\({".$evaluated."}\\)");
+                }
             }
+        } else {
+            $value = stack_utils::maxima_string_to_php_string($value);
+            $this->get_node()->convert_to_text($value);
         }
 
         return false;

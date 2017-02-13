@@ -192,8 +192,10 @@ class stack_dropdown_input extends stack_input {
             $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
             $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
         } else {
-            $this->teacheranswervalue = implode('', $correctanswer);
-            $this->teacheranswerdisplay = '<code>'.implode('', $correctanswerdisplay).'</code>';
+            // As a correct answer we only take the first element.  If we create a list then when we seek the teacher's
+            // answer later we throw an exception that the correct answer can't be found.
+            $this->teacheranswervalue = $correctanswer[0];
+            $this->teacheranswerdisplay = '<code>'.implode(', ', $correctanswerdisplay).'</code>';
         }
 
         if (empty($ddlvalues)) {

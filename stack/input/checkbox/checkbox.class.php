@@ -16,16 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Input that is a dropdown list/multiple choice that the teacher
- * has specified.
- *
- * @copyright  2015 University of Edinburgh
- * @author     Chris Sangwin
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// Input that is a checkbox/multiple choice.
+//
+// @copyright  2015 University of Edinburgh.
+// @author     Chris Sangwin.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/../dropdown/dropdown.class.php');
+
 class stack_checkbox_input extends stack_dropdown_input {
 
     /*
@@ -37,7 +35,6 @@ class stack_checkbox_input extends stack_dropdown_input {
      * Default ddldisplay for checkboxes is 'LaTeX'.
      */
     protected $ddldisplay = 'LaTeX';
-
 
     /**
      * Transforms the contents array into a maxima list.
@@ -181,5 +178,4 @@ class stack_checkbox_input extends stack_dropdown_input {
         }
         return $allblank;
     }
-
 }

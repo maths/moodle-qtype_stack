@@ -4,7 +4,9 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 3.5.6
 
-New featured added in this branch, but not yet on a tagged release.
+Released December 2016. 
+
+Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
 1. Change the display so that the underscore in atoms is displayed using subscripts.
 2. Added support for logarithms to an arbitrary base.

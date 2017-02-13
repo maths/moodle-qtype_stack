@@ -20,8 +20,9 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
 
+// Unit tests for {@link stack_cas_session} that involve exceptions.
+
 /**
- * Unit tests for {@link stack_cas_session} that involve exceptions.
  * @group qtype_stack
  */
 class stack_cas_session_exception_test extends qtype_stack_testcase {

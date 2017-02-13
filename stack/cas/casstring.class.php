@@ -16,12 +16,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * CAS strings and related functions.
- *
- * @copyright  2012 University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+// CAS strings and related functions.
+//
+// @copyright  2012 University of Birmingham.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
@@ -528,7 +527,7 @@ class stack_cas_casstring {
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
     // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-';
+    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-.';
     // @codingStandardsIgnoreEnd
 
     /**
@@ -1006,6 +1005,9 @@ class stack_cas_casstring {
     /* We have added support for subscripts using underscore.  We expect more invalid expressions. */
     private function check_underscores($security) {
 
+        // Remove the contents of any strings, so we don't test for these within them.
+        list ($cmd, $strings) = $this->strings_remove($this->rawcasstring);
+
         $strpatterns[] = ')_';
         $strpatterns[] = '_(';
         $strpatterns[] = ']_';
@@ -1013,7 +1015,6 @@ class stack_cas_casstring {
         $strpatterns[] = '}_';
         $strpatterns[] = '_{';
 
-        $cmd = $this->casstring;
         $found = array();
         $valid = true;
         foreach ($strpatterns as $pat) {

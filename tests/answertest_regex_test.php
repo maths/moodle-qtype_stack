@@ -16,23 +16,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for stack_anstest_atregexp.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-
 require_once(__DIR__ . '/../stack/answertest/anstest.class.php');
 require_once(__DIR__ . '/../stack/answertest/atregexp.class.php');
 
 
+// Unit tests for stack_anstest_atregexp.
+//
+// @copyright  2012 The Open University.
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
 /**
- * Unit tests for stack_anstest_atregexp.
- *
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_anstest_atregexp_test extends basic_testcase {

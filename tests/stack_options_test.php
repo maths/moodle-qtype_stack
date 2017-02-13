@@ -16,22 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Unit tests for stack_options.
- *
- * @copyright  2012 The University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 require_once(__DIR__ . '/../stack/options.class.php');
-require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/fixtures/test_base.php');
+
+// Unit tests for stack_options.
+//
+// @copyright 2012 The University of Birmingham.
+// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 /**
- * Unit tests for stack_options.
- *
- * @copyright  2012 The University of Birmingham
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
 class stack_options_set_exception_test extends basic_testcase {

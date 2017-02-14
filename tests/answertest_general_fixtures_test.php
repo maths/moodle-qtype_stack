@@ -31,32 +31,31 @@ require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
 /**
  * @group qtype_stack
  */
-class stack_answertest_fixtures_cas_test extends qtype_stack_testcase {
+class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
+
     /**
      * @dataProvider answertest_fixtures
      */
+    public function test_answertest($test) {
+        $testrep = 'AT' . $test->name . "( " . $test->studentanswer . ", " .$test->teacheranswer. ")";
+        if ($test->options != '') {
+            $testrep .= ' Options: ' . $test->options;
+        }
 
-    public function test_answertest($testrep, $passed, $ansnote, $expectednote) {
-            $this->assertTrue($passed);
-            $this->assertEquals($expectednote, $ansnote);
+        list($passed, $error, $rawmark, $feedback, $ansnote, $anomalynote) = stack_answertest_test_data::run_test($test);
+
+        $this->assertTrue($passed);
+        $this->assertEquals($test->ansnote, $ansnote);
     }
 
     public function answertest_fixtures() {
 
-        $testdata = array();
-        // Get the list of available tests.
         $tests = stack_answertest_test_data::get_all();
 
+        $testdata = array();
         foreach ($tests as $test) {
-            $testrep = 'AT' . $test->name . "( " . $test->studentanswer . ", " .$test->teacheranswer. ")";
-            if ($test->options != '') {
-                $testrep .= ' Options: ' . $test->options;
-            }
-
-            list($passed, $error, $rawmark, $feedback, $ansnote, $anomalynote) = stack_answertest_test_data::run_test($test);
-            $testdata[] = array($testrep, $passed, $ansnote, $test->ansnote);
+            $testdata[] = array($test);
         }
         return $testdata;
     }
-
 }

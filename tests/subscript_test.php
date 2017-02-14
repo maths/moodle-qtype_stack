@@ -31,12 +31,18 @@ require_once(__DIR__ . '/fixtures/subscriptsfixtures.class.php');
 /**
  * @group qtype_stack
  */
-class stack_subscript_test extends qtype_stack_testcase {
+class stack_subscript_testcase extends qtype_stack_testcase {
 
     /**
-     * @dataProvider subscripts_fixtures
+     * @dataProvider stack_subscripts_test_data::get_raw_test_data
      */
-    public function test_subscripts($testrep, $resultfalse, $resulttrue) {
+    public function test_subscripts() {
+        $test1 = stack_subscripts_test_data::test_from_raw(func_get_args());
+        $resultfalse = stack_subscripts_test_data::run_test($test1, false);
+
+        $test2 = stack_subscripts_test_data::test_from_raw(func_get_args());
+        $resulttrue = stack_subscripts_test_data::run_test($test2, true);
+
         if ('invalid' == $resultfalse->maxima) {
             $this->assertFalse($resultfalse->valid);
         } else {
@@ -58,24 +64,5 @@ class stack_subscript_test extends qtype_stack_testcase {
             }
             $this->assertEquals($target, $resulttrue->display);
         }
-    }
-
-    public function subscripts_fixtures() {
-
-        $tests = stack_subscripts_test_data::get_raw_test_data();
-
-        $testdata = array();
-        foreach ($tests as $data) {
-            $test1 = stack_subscripts_test_data::test_from_raw($data);
-            $resultfalse = stack_subscripts_test_data::run_test($test1, false);
-
-            $test2 = stack_subscripts_test_data::test_from_raw($data);
-            $resulttrue = stack_subscripts_test_data::run_test($test2, true);
-
-            $testrep = $test1->rawinput . ' | ' . $test1->tex;
-
-            $testdata[] = array($testrep, $resultfalse, $resulttrue);
-        }
-        return $testdata;
     }
 }

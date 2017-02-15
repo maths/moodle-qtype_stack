@@ -36,15 +36,10 @@ class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
     /**
      * @dataProvider answertest_fixtures
      */
-    public function test_answertest($test) {
-        $testrep = 'AT' . $test->name . "( " . $test->studentanswer . ", " .$test->teacheranswer. ")";
-        if ($test->options != '') {
-            $testrep .= ' Options: ' . $test->options;
-        }
-
+    public function test_answertest($name, $test) {
         list($passed, $error, $rawmark, $feedback, $ansnote, $anomalynote) = stack_answertest_test_data::run_test($test);
 
-        $this->assertTrue($passed);
+        $this->assertTrue($passed, $anomalynote);
         $this->assertEquals($test->ansnote, $ansnote);
     }
 
@@ -54,7 +49,12 @@ class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
 
         $testdata = array();
         foreach ($tests as $test) {
-            $testdata[] = array($test);
+            $testname = 'AT' . $test->name .
+                    '( ' . $test->studentanswer . ', ' . $test->teacheranswer. ')';
+            if ($test->options != '') {
+                $testname .= ' Options: ' . $test->options;
+            }
+            $testdata[] = array($testname, $test);
         }
         return $testdata;
     }

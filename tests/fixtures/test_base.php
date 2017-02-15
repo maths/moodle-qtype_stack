@@ -129,9 +129,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         // Different versions of Maxima output floats in slighly different ways.
         // Revert some of those irrelevant differences.
         // We always expect the e in 3.0e8 to be lower case.
-        $content = preg_replace('~(\\\\\(-?\d+(?:\.\d*)?)E([-+]?\d+\\\\\))~', '$1e$2', $content);
+        $content = preg_replace('~(-?\b\d+(?:\.\d*)?)E([-+]?\d+\b)~', '$1e$2', $content);
         // Add .0 in 3e8 or 3.e8, to give 3.0e8.
-        $content = preg_replace('~(\\\\\(-?\d+)\.?(e[-+]?\d+\\\\\))~', '$1.0$2', $content);
+        $content = preg_replace('~((?<!\.)\b-?\d+)\.?(e[-+]?\d+\b)~', '$1.0$2', $content);
 
         return $content;
     }

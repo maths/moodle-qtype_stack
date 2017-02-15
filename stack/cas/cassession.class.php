@@ -533,6 +533,10 @@ class stack_cas_session {
      * @return string
      */
     public function get_keyval_representation() {
+        if ($this->session == null) {
+            return '';
+        }
+
         $keyvals = '';
         foreach ($this->session as $cs) {
             if (null === $this->instantiated) {

@@ -63,6 +63,11 @@ The ability to give feedback on the equivalence of adjacent lines as the student
 * Mathematically, the code assumes we are working over the real numbers.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
 
+Teachers must explicitly use the `nounor` and `nounand` commands, not the `and` and `or` logic.  For example, a worked solution might be
+
+    ta:[p=0,(v-n1)*(v-n2)=0,v-n1=0 nounor v-n2=0,v=n1 nounor v=n2]
+
+
 ## Input type options.
 
 To enter options for this input use the "extra options field".   Options should be a comma separated list of values only from the following list.
@@ -71,7 +76,7 @@ To enter options for this input use the "extra options field".   Options should 
 
 `comments` allows students to include comments in their answer.  By default comments are not permitted as it breaks up the argument and stops automatic marking.
 
-`firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.
+`firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.  The test used is equality up to commutativity and associativity (EqualComAss answer test).
 
 # Answer tests
 
@@ -89,6 +94,14 @@ This test establishes that all the items in the list are equivalent.
 2. Test that the first line of the student's answer is equivalent to the first line of the teacher's answer up to commutativity and associativity (using the answer test EqualComAss.)
 
 To test the last line of an argument is in the correct form will require a separate node in the potential response tree.  To add this to the answer test gives too many possibilities.
+
+# Other functions #
+
+The maxima function `stack_disp_arg(ex, showlogic)` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  The boolean variable `showlogic` dertemines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
+
+    \[ @stack_disp_arg(ta, true)@ \]
+
+
 
 # TODO
 

@@ -266,14 +266,19 @@ class stack_equiv_input extends stack_input {
     protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
 
         if ($this->optfirstline) {
+            $foundfirstline = false;
             foreach ($additionalvars as $index => $cs) {
                 if ($cs->get_key() === 'firstline') {
+                    $foundfirstline = true;
                     if ('false' === $cs->get_value()) {
                         // Then the first line of the student's response does not match that of the teacher.
                         $valid = false;
                         $caslines[0]->add_errors(stack_string('equivfirstline'));
                     }
                 }
+            }
+            if (!$foundfirstline) {
+                throw new stack_exception("ERROR: expected 'firstline' in the additional variables, but it is missing.");
             }
         }
 
@@ -325,7 +330,7 @@ class stack_equiv_input extends stack_input {
                 $ta = $tcontents[0];
                 if (array_key_exists(0, $caslines)) {
                     $sa = $caslines[0]->get_raw_casstring();
-                    $fl = new stack_cas_casstring('firstline:second(ATAlgEquiv('.$sa.','.$ta.'))');
+                    $fl = new stack_cas_casstring('firstline:second(ATEqualComAss('.$sa.','.$ta.'))');
                 }
             }
         }

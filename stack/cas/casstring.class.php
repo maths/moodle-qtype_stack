@@ -1270,26 +1270,40 @@ class stack_cas_casstring {
      * it is impossible to turn simplification off and make them inert.  In particular
      * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
      * which is awkward for students' input.
-     * 
+     *
      * Teachers need to use the non-intert forms in loops and conditional statements.
      *
      * If the parameter is true we put in noun versions, and if false we remove them.
      */
-    public function logic_nouns_sort($dir) {
-        $connectives = array();
-        $connectives[] = array(' and', ' nounand');
-        $connectives[] = array(' or', ' nounor');
-        // Fine in the reverse direction as these patterns will have gone.
-        $connectives[] = array(')and', ') nounand');
-        $connectives[] = array(')or', ') nounor');
-        foreach ($connectives as $con) {
-            if ($dir) {
-                $this->casstring = str_replace($con[0], $con[1], $this->casstring);
+    public function logic_nouns_sort($direction, $externstr = '') {
+
+        $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
+        // The last two patterns are fine in the reverse direction as these patterns will have gone.
+
+        if ($direction) {
+            $str = $this->casstring;
+        } else {
+            $str = $this->value;
+        }
+        if ($externstr != '') {
+            $str = $externstr;
+        }
+
+        foreach ($connectives as $key=>$val) {
+            if ($direction) {
+                $str = str_replace($key, $val, $str);
             } else {
-                $this->value = str_replace($con[1], $con[0], $this->value);
+                $str = str_replace($val, $key, $str);
             }
         }
-        return true;
+
+        if ($direction) {
+            $this->casstring = $str;
+        } else {
+            $this->value = $str;
+        }
+
+        return $str;
     }
 
     /**

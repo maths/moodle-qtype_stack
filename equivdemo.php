@@ -689,8 +689,9 @@ foreach ($samplearguments as $argument) {
     } else {
         $i++;
         $cskey = 'A'.$i;
+
         $cs1 = new stack_cas_casstring($argument['casstring']);
-        $cs1->get_valid('t');
+        $cs1->get_valid('s');
         // This step is needed because validate replaces `or` with `nounor` etc.
         $casstrings[$cskey] = $cs1->get_casstring();
         $casstrings['D'.$i] = $argument['debuglist'];

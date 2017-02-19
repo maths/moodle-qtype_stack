@@ -1207,7 +1207,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           /* In the edge cases we don't look for malrules.  Edge cases are turned into equations.  */
           if is(lhs(SA)=all) or is(lhs(SB)=all) or is(lhs(SA)=none) or is(lhs(SB)=none) then
               malrulecont:false,
-          
 
           if malrulecont then block([FBA, FBB, ATres],
               /* (0) Multiplicity of roots. */
@@ -1348,6 +1347,12 @@ stack_eval_arg_equivzerop(ex) := block(
 /* This modifies stack_eval_arg to create something which can be displayed. */
 disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist) := block([A],
     A:stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist),
+    return(second(A))
+)$
+
+/* This modifies stack_eval_arg to create something which can be displayed. */
+stack_disp_arg(ex, showlogic) := block([A],
+    A:stack_eval_equiv_arg(ex, showlogic, false, false),
     return(second(A))
 )$
 

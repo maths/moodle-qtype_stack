@@ -126,8 +126,12 @@ class stack_answertest_general_cas extends stack_anstest {
             $this->options->set_option('simplify', $this->simp);
         }
 
+        // Protect "and" and "or" as noun forms.  In maxima with simp:false these are always verbs.
+        $ta = $this->process_nouns($ta);
+        $sa = $this->process_nouns($this->sanskey);
+
         $cascommands = array();
-        $cascommands[] = "STACKSA:$this->sanskey";
+        $cascommands[] = "STACKSA:$sa";
         $cascommands[] = "STACKTA:$ta";
         $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
 
@@ -192,6 +196,13 @@ class stack_answertest_general_cas extends stack_anstest {
         } else {
             return false;
         }
+    }
+
+    /* This function protects functions in Maxima with their noun versions. */
+    private function process_nouns($cmd) {
+        $cs = new stack_cas_casstring('null');
+        $cmd = $cs->logic_nouns_sort(true, $cmd);
+        return $cmd;
     }
 
     public function process_atoptions() {

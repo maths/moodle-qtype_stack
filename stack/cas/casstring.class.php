@@ -1289,7 +1289,7 @@ class stack_cas_casstring {
             $str = $externstr;
         }
 
-        foreach ($connectives as $key=>$val) {
+        foreach ($connectives as $key => $val) {
             if ($direction) {
                 $str = str_replace($key, $val, $str);
             } else {

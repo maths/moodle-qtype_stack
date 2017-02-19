@@ -63,7 +63,8 @@ class stack_subscripts_test_data {
         array('P_max', 'P_max', '!', '{P}_{{\it max}}', '!'),
         array('F_max', 'F_max', '!', '{F}_{{\it max}}', '!'),
         array('F_net', 'F_net', '!', '{F}_{{\it net}}', '!',
-                'The function net is not known to Maxima.  In this case it has been added, but in general studnets are only permitted to add known tokens with two letters.'),
+                'The function net is not known to Maxima.  In this case it has been added, '.
+                'but in general studnets are only permitted to add known tokens with two letters.'),
         array('omega_a', 'omega_a', '!', '{\omega}_{a}', '!'),
         array('omega_0', 'omega_0', '!', '{\omega}_{0}', '!'),
         array('omega_0^2', 'omega_0^2', '!', '{\omega}_{0}^2', '!'),
@@ -83,7 +84,7 @@ class stack_subscripts_test_data {
         array('T_1/2', 'T_1/2', '!', '\frac{{T}_{1}}{2}', '!', 'Again, we need to use texsub'),
         array('texsub(T,1/2)', 'texsub(T,1/2)', '!', '{T}_{\frac{1}{2}}', '!'),
         array('a_b_c', 'a_b_c', '!', '{{a}_{b}}_{c}', '!'),
-        array('(a_b)_c', 'invalid', '', '', '!','Test associativity...'),
+        array('(a_b)_c', 'invalid', '', '', '!', 'Test associativity...'),
         array('a_(b_c)', 'invalid', '', '', ''),
         array('texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'),
         array('texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'),

@@ -406,6 +406,8 @@ class stack_equiv_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        $cs = new stack_cas_casstring('');
+        $values = $cs->logic_nouns_sort(false, $values);
         $values = stack_utils::list_to_array($value, false);
         $values = array_map(function ($ex) {
                 return '<code>'.$ex.'</code>';

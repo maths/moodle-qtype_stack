@@ -660,7 +660,9 @@ abstract class stack_input {
      * @param unknown_type $in
      */
     public function get_correct_response($in) {
-        return $this->maxima_to_response_array($in);
+        $cs = new stack_cas_casstring('');
+        $value = $cs->logic_nouns_sort(false, $in);
+        return $this->maxima_to_response_array($value);
     }
 
     /**

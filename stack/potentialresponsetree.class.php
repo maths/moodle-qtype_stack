@@ -128,6 +128,8 @@ class stack_potentialresponse_tree {
             // we don't have access to.  This effectively allows any words here.  But the
             // student's answer has already been through validation.
             $cs->get_valid('t');
+            // But, we still need to sort out logical names, which are not done by default as a teacher.
+            $cs->logic_nouns_sort(true);
             // Setting the key must come after validation.
             $cs->set_key($name);
             $answervars[] = $cs;

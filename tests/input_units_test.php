@@ -651,7 +651,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3.88e-4*1/s', $state->contentsmodified);
         // This is a special display rule to highlight the multiplication with 1/unit.
-        $this->assertEquals('\[ 3.88E-4\times {1}/{\mathrm{s}} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 3.88e-4\times {1}/{\mathrm{s}} \]',
+                qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
 
@@ -664,7 +665,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3.88e-4*1/s', $state->contentsmodified);
-        $this->assertEquals('\[ 3.88E-4\, \mathrm{s}^ {- 1 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 3.88e-4\, \mathrm{s}^ {- 1 } \]',
+                qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
 
@@ -676,7 +678,8 @@ class stack_units_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/(M*s)'), $options, '3.88e-4*1/s', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3.88e-4*1/(M*s)', $state->contentsmodified);
-        $this->assertEquals('\[ 3.88E-4\times {1}/{\left(\mathrm{s}\cdot \mathrm{M}\right)} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\cdot \mathrm{M}\right)} \]',
+                qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
     }
 }

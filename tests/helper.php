@@ -1475,6 +1475,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans1strictsyntax = '1';
         $formform->ans1insertstars = '0';
         $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
         $formform->ans1forbidwords = '';
         $formform->ans1allowwords = '';
         $formform->ans1forbidfloat = '1';
@@ -1490,6 +1491,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans2strictsyntax = '1';
         $formform->ans2insertstars = '0';
         $formform->ans2syntaxhint = '';
+        $formform->ans2syntaxattribute = '0';
         $formform->ans2forbidwords = '';
         $formform->ans2allowwords = '';
         $formform->ans2forbidfloat = '1';
@@ -1505,6 +1507,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans3strictsyntax = '1';
         $formform->ans3insertstars = '0';
         $formform->ans3syntaxhint = '';
+        $formform->ans3syntaxattribute = '0';
         $formform->ans3forbidwords = '';
         $formform->ans3allowwords = '';
         $formform->ans3forbidfloat = '1';
@@ -1520,6 +1523,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans4strictsyntax = '1';
         $formform->ans4insertstars = '0';
         $formform->ans4syntaxhint = '';
+        $formform->ans4syntaxattribute = '0';
         $formform->ans4forbidwords = '';
         $formform->ans4allowwords = '';
         $formform->ans4forbidfloat = '1';

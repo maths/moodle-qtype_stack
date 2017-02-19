@@ -252,7 +252,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;
         $rawresultfragmentlen = strlen($rawresultfragment);
-        $unparsed = '';
+        $unparsed = array();
         $errors = '';
 
         $eqpos = strpos($rawresultfragment, '=', $offset);

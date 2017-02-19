@@ -25,6 +25,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once('equivfixtures.class.php');
 
 class stack_answertest_test_data {
     const NAME    = 0;
@@ -603,13 +604,13 @@ class stack_answertest_test_data {
             'CASError: Division by zero. | ATEquiv_STACKERROR_SAns.', ''),
         array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[1/0]',  -1,
             'CASError: Division by zero. | ATEquiv_STACKERROR_TAns.', ''),
-        array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EQUIVCHAR]', ''),
-        array('Equiv', '', '[x^2=4,x=+-2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '[EQUIVCHAR,ANDOR]', ''),
-        array('Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[IMPLIEDCHAR]', ''),
+        array('Equiv', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EMPTYCHAR,EQUIVCHAR]', ''),
+        array('Equiv', '', '[x^2=4,x=+-2,x=2 and x=-2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,EQUIVCHAR,ANDOR]', ''),
+        array('Equiv', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,IMPLIEDCHAR]', ''),
         array('Equiv', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '[EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
+            '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
         array('Equiv', '', '[x^2=4,x= +-2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '[EQUIVCHAR,EQUIVCHAR]', ''),
+            '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
 
         array('EquivFirst', '', 'x', '[x^2=4,x=2 or x=-2]', -1, 'CASError: TEST_FAILED | ATEquivFirst_SA_not_list.', ''),
         array('EquivFirst', '', '[x^2=4,x=2 or x=-2]', 'x',  -1, 'CASError: TEST_FAILED | ATEquivFirst_SB_not_list.', ''),
@@ -617,13 +618,13 @@ class stack_answertest_test_data {
             'CASError: Division by zero. | ATEquivFirst_STACKERROR_SAns.', ''),
         array('EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[1/0]',  -1,
             'CASError: Division by zero. | ATEquivFirst_STACKERROR_TAns.', ''),
-        array('EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EQUIVCHAR]', ''),
+        array('EquivFirst', '', '[x^2=4,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1, '[EMPTYCHAR,EQUIVCHAR]', ''),
         array('EquivFirst', '', '[x^2=9,x=3 or x=-3]', '[x^2=4,x=2 or x=-2]', 0, 'ATEquivFirst_SA_wrong_start', ''),
-        array('EquivFirst', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[IMPLIEDCHAR]', ''),
+        array('EquivFirst', '', '[x^2=4,x=2]', '[x^2=4,x=2 or x=-2]', 0, '[EMPTYCHAR,IMPLIEDCHAR]', ''),
         array('EquivFirst', '', '[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '[EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
+            '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
         array('EquivFirst', '', '[x^2=4,x= +-2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
-            '[EQUIVCHAR,EQUIVCHAR]', ''),
+            '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]', ''),
 
         array('SingleFrac', '', '1/0', '1/n', -1, 'CASError: Division by zero. | ATSingleFrac_STACKERROR_SAns.', ''),
         array('SingleFrac', '', '0', '1/0', -1, 'CASError: Division by zero. | ATSingleFrac_STACKERROR_TAns.', ''),
@@ -1341,11 +1342,12 @@ class stack_answertest_test_data {
         array('LowestTerms', '', 'x^2/x', '0', 1, '', 'Use predicate lowesttermsp'),
         array('LowestTerms', '', '(2*x)/(4*t)', '0', 1, '', ''),
         array('LowestTerms', '', '(2/4)*(x^2/t)', '0', 0, 'ATLowestTerms_entries.', ''),
-        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', ''),
+        array('LowestTerms', '', 'x^(2/4)', '0', 0, 'ATLowestTerms_entries.', '')
         );
 
     public static function get_raw_test_data() {
-        return self::$rawdata;
+        $equiv = new stack_equiv_test_data();
+        return array_merge(self::$rawdata, $equiv->get_answertestfixtures());
     }
 
     public static function get_available_tests() {
@@ -1370,7 +1372,8 @@ class stack_answertest_test_data {
 
     public static function get_all() {
         $tests = array();
-        foreach (self::$rawdata as $data) {
+        $rawdata = self::get_available_tests();
+        foreach ($rawdata as $data) {
             $tests[] = self::test_from_raw($data);
         }
         return $tests;
@@ -1378,7 +1381,8 @@ class stack_answertest_test_data {
 
     public static function get_tests_for($anstest) {
         $tests = array();
-        foreach (self::$rawdata as $data) {
+        $rawdata = self::get_raw_test_data();
+        foreach ($rawdata as $data) {
             if ($data[self::NAME] == $anstest) {
                 $tests[] = self::test_from_raw($data);
             }

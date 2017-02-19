@@ -15,11 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This script lets the user send commands to the Maxima, and see the response.
- * This can be useful for learning about the CAS syntax, and also for testing
- * that maxima is working correctly.
- *
- * @copyright  2015 University of Edinburgh
+ * @copyright  2016 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

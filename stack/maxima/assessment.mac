@@ -1325,8 +1325,8 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
     ret:apply(matrix, ret),
     ret:transpose(ret),
     ret:apply(argument, args(ret)),
-    /* Construct a separate note. */
-    note:rest(second(A)),
+    /* Construct a separate note. The note should be the same length as the argument, so normally has "EMPTYCHAR" as the first entry.*/
+    note:second(A),
     /* Decide if the overall argument is true. */
     res:first(A),
     if elementp(unknown, setify(res)) then 

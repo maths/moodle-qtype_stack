@@ -572,7 +572,6 @@ class stack_cas_casstring {
 
         $this->valid     = true;
         $this->casstring = $this->rawcasstring;
-        $cmd             = $this->rawcasstring;
 
         // CAS strings must be non-empty.
         if (trim($this->casstring) == '') {
@@ -581,41 +580,70 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Check for matching string delimiters.
-        $cmdsafe = str_replace('\"', '', $cmd);
-        if (stack_utils::check_matching_pairs($cmdsafe, '"') == false) {
+        // Try removing "strings".
+        $stringles = stack_utils::eliminate_strings($this->casstring);
+
+        // Check for unexpected "-chars that are a sign of invalid syntax.
+        // Basically, the cases where we have two strings touching, '""""' or pairles ".
+        if (strpos($stringles, '"""') || strpos(str_replace('""', '', $stringles), '"') !== false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
         }
 
-        // Now remove any strings from the $cmd.
-        list($cmd, $strings) = $this->strings_remove($cmd);
+        // From now on all checks ignore the contents of "strings" and most definitely do not modify them.
+        $this->check_constants($stringles);
+        $this->check_parentheses($stringles);
+        $this->check_characters($stringles, $security);
+        $this->check_commas($stringles);
+        $this->check_operators($stringles);
 
-        // CAS strings may not contain @, $ or \. But a string sure can.
-        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false || strpos($cmd, '\\') !== false) {
-            $this->add_error(stack_string('illegalcaschars'));
-            $this->answernote[] = 'illegalcaschars';
-            $this->valid = false;
+        // Here is a good place to fail fast.
+        if (!$this->valid) {
             return false;
         }
 
-        // Search for HTML fragments.  This is hard to do because < is an infix operator!
-        // We cannot search for arbitrary closing tags, e.g. for the pattern '</' because
-        // we pass back strings with HTML in when we have already evaluated plots!
-        $htmlfragments = array('<span', '</span>', '<p>', '</p>');
-        foreach ($htmlfragments as $frag) {
-            if (strpos($cmd, $frag) !== false) {
-                $this->add_error(stack_string('htmlfragment').' <pre>'.$this->strings_replace($cmd, $strings).'</pre>');
-                $this->answernote[] = 'htmlfragment';
-                $this->valid = false;
-                return false;
-            }
+        // This is a special check that also modifies the strings structure.
+        $stringles = $this->check_spaces($stringles, $security, $syntax, $insertstars);
+
+        if ($security == 's') {
+            $this->check_bad_trig($stringles);
         }
 
+
+
+        // Check security before splitting the key, just in case the key does things.
+        $this->check_security($stringles, $security, $allowwords);
+
+        // We need to split keyvals off here before we check underscore characters.
+        $this->casstring = $stringles;
+        $this->key_val_split();
+        $stringlesvalue = $this->casstring;
+        $stringleskey = $this->key;
+
+        // This is a special check that also modifies the strings structure.
+        // Note! This one must be before check_stars and check_underscores.
+        $stringlesvalue = $this->check_logs($stringlesvalue);
+
+        // This is a special check that also modifies the strings structure.
+        $stringlesvalue = $this->check_stars($stringlesvalue, $security, $syntax, $insertstars);
+
+        $this->check_underscores($stringlesvalue, $security);
+
+        // Inject the strings back. Noting the possibility of strings in the key.
+        $injecttarget = $stringleskey . '|>key_val_split<|' . $stringlesvalue;
+        $injecttarget = $this->strings_replace($injecttarget);
+        $split = explode('|>key_val_split<|', $injecttarget, 2);
+        $this->casstring = $split[1];
+        $this->key =$split[0];
+
+        return $this->valid;
+    }
+
+    private function check_constants($stringles) {
         // Check for % signs, allow %pi %e, %i, %gamma, %phi but nothing else.
-        if (strstr($cmd, '%') !== false) {
-            $cmdl = strtolower($cmd);
+        if (strstr($stringles, '%') !== false) {
+            $cmdl = strtolower($stringles);
             preg_match_all("(\%.*)", $cmdl, $found);
 
             foreach ($found[0] as $match) {
@@ -624,27 +652,27 @@ class stack_cas_casstring {
                     || (strpos($match, '%gamma') !== false) || (strpos($match, '%phi') !== false))) {
                     // Constants %e and %pi are allowed. Any other percentages dissallowed.
                     $this->add_error(stack_string('stackCas_percent',
-                            array('expr' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                            array('expr' => stack_maxima_format_casstring($this->casstring))));
                     $this->answernote[] = 'percent';
                     $this->valid   = false;
                 }
             }
         }
+    }
 
-        // These two commands have side effects on $this->casstring, necessitating returning a new $cmd variable.
-        $cmd = $this->check_spaces($security, $syntax, $insertstars);
-
+    private function check_parentheses($cmd) {
+        // $cmd is already stringles.
         $inline = stack_utils::check_bookends($cmd, '(', ')');
         if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                    array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => '(', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                    array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                    array('bracket' => ')', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '{', '}');
@@ -653,11 +681,11 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '{', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '}', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             }
         }
         $inline = stack_utils::check_bookends($cmd, '[', ']');
@@ -666,18 +694,35 @@ class stack_cas_casstring {
             if ($inline == 'left') {
                 $this->answernote[] = 'missingLeftBracket';
                 $this->add_error(stack_string('stackCas_missingLeftBracket',
-                 array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => '[', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             } else {
                 $this->answernote[] = 'missingRightBracket';
                 $this->add_error(stack_string('stackCas_missingRightBracket',
-                 array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                 array('bracket' => ']', 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
             }
         }
 
         if (!stack_utils::check_nested_bookends($cmd)) {
             $this->valid = false;
             $this->add_error(stack_string('stackCas_bracketsdontmatch',
-                     array('cmd' => stack_maxima_format_casstring($this->strings_replace($cmd, $strings)))));
+                     array('cmd' => stack_maxima_format_casstring($this->rawcasstring))));
+        }
+
+        // Check for empty parentheses `()`.
+        if (strpos($cmd, '()') !== false) {
+            $this->valid = false;
+            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring('()'))));
+            $this->answernote[] = 'forbiddenWord';
+        }
+    }
+
+    private function check_characters($cmd, $security) {
+        // $cmd is already stringles.
+        // CAS strings may not contain @, $ or \.
+        if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false || strpos($cmd, '\\') !== false) {
+            $this->add_error(stack_string('illegalcaschars'));
+            $this->answernote[] = 'illegalcaschars';
+            $this->valid = false;
         }
 
         if ($security == 's') {
@@ -692,50 +737,6 @@ class stack_cas_casstring {
                 $this->add_error(stack_string('stackCas_newline'));
                 $this->answernote[] = 'newline';
                 $this->valid = false;
-            }
-        }
-
-        if ($security == 's') {
-            // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
-            // asin etc, will be included automatically, so we don't need them explicitly.
-            $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
-            $funlist  = array('log', 'ln', 'lg', 'exp', 'abs', 'sqrt');
-            foreach (array_merge($triglist, $funlist) as $fun) {
-                if (strpos($cmd, $fun.'^') !== false) {
-                    $this->add_error(stack_string('stackCas_trigexp',
-                        array('forbid' => stack_maxima_format_casstring($fun.'^'))));
-                    $this->answernote[] = 'trigexp';
-                    $this->valid = false;
-                    break;
-                }
-                if (strpos($cmd, $fun.'[') !== false) {
-                    $this->add_error(stack_string('stackCas_trigparens',
-                        array('forbid' => stack_maxima_format_casstring($fun.'(x)'))));
-                    $this->answernote[] = 'trigparens';
-                    $this->valid = false;
-                    break;
-                }
-                $opslist = array('*', '+', '-', '/');
-                foreach ($opslist as $op) {
-                    if (strpos($cmd, $fun.$op) !== false) {
-                        $this->add_error(stack_string('stackCas_trigop',
-                            array('trig' => stack_maxima_format_casstring($fun),
-                                    'forbid' => stack_maxima_format_casstring($fun.$op))));
-                        $this->answernote[] = 'trigop';
-                        $this->valid = false;
-                        break;
-                    }
-                }
-            }
-            foreach ($triglist as $fun) {
-                if (strpos($cmd, 'arc'.$fun) !== false) {
-                    $this->add_error(stack_string('stackCas_triginv',
-                        array('badinv' => stack_maxima_format_casstring('arc'.$fun),
-                                'goodinv' => stack_maxima_format_casstring('a'.$fun))));
-                    $this->answernote[] = 'triginv';
-                    $this->valid = false;
-                    break;
-                }
             }
         }
 
@@ -763,22 +764,74 @@ class stack_cas_casstring {
             $this->valid = false;
             $a = array();
             $a['char'] = $match[0];
-            $a['cmd']  = stack_maxima_format_casstring($this->strings_replace($cmd, $strings));
+            $a['cmd']  = stack_maxima_format_casstring($this->rawcasstring);
             $this->add_error(stack_string('stackCas_finalChar', $a));
             $this->answernote[] = 'finalChar';
         }
+    }
 
-        // Check for empty parentheses `()`.
-        if (strpos($cmd, '()') !== false) {
-            $this->valid = false;
-            $this->add_error(stack_string('stackCas_forbiddenWord', array('forbid' => stack_maxima_format_casstring('()'))));
-            $this->answernote[] = 'forbiddenWord';
+    private function check_bad_trig($cmd) {
+        // Check for bad looking trig functions, e.g. sin^2(x) or tan*2*x
+        // asin etc, will be included automatically, so we don't need them explicitly.
+        $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
+        $funlist  = array('log', 'ln', 'lg', 'exp', 'abs', 'sqrt');
+        foreach (array_merge($triglist, $funlist) as $fun) {
+            if (strpos($cmd, $fun.'^') !== false) {
+                $this->add_error(stack_string('stackCas_trigexp',
+                    array('forbid' => stack_maxima_format_casstring($fun.'^'))));
+                $this->answernote[] = 'trigexp';
+                $this->valid = false;
+                break;
+            }
+            if (strpos($cmd, $fun.'[') !== false) {
+                $this->add_error(stack_string('stackCas_trigparens',
+                    array('forbid' => stack_maxima_format_casstring($fun.'(x)'))));
+                $this->answernote[] = 'trigparens';
+                $this->valid = false;
+                break;
+            }
+            $opslist = array('*', '+', '-', '/');
+            foreach ($opslist as $op) {
+                if (strpos($cmd, $fun.$op) !== false) {
+                    $this->add_error(stack_string('stackCas_trigop',
+                        array('trig' => stack_maxima_format_casstring($fun),
+                                'forbid' => stack_maxima_format_casstring($fun.$op))));
+                    $this->answernote[] = 'trigop';
+                    $this->valid = false;
+                    break;
+                }
+            }
         }
+        foreach ($triglist as $fun) {
+            if (strpos($cmd, 'arc'.$fun) !== false) {
+                $this->add_error(stack_string('stackCas_triginv',
+                    array('badinv' => stack_maxima_format_casstring('arc'.$fun),
+                            'goodinv' => stack_maxima_format_casstring('a'.$fun))));
+                $this->answernote[] = 'triginv';
+                $this->valid = false;
+                break;
+            }
+        }
+    }
 
+    private function check_commas($stringles) {
+        // Commas not inside brackets either should be, or indicate a decimal number not
+        // using the decimal point.  In either case this is problematic.
+        // For now, we just look for expressions with a comma, but without brackets.
+        // [TODO]: improve this test to really look for unencapsulated commas.
+        if (!(false === strpos($stringles, ',')) && !(!(false === strpos($stringles, '(')) ||
+                !(false === strpos($stringles, '[')) || !(false === strpos($stringles, '{')) )) {
+            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
+            $this->answernote[] = 'unencpsulated_comma';
+            $this->valid = false;
+        }
+    }
+
+    private function check_operators($stringles) {
         // Check for spurious operators.
         $spuriousops = array('<>', '||', '&', '..', ',,', '/*', '*/', '==');
         foreach ($spuriousops as $op) {
-            if (substr_count($cmd, $op) > 0) {
+            if (substr_count($stringles, $op) > 0) {
                 $this->valid = false;
                 $a = array();
                 $a['cmd']  = stack_maxima_format_casstring($op);
@@ -790,8 +843,8 @@ class stack_cas_casstring {
         // CAS strings may not contain
         // * reversed inequalities, i.e =< is not permitted in place of <=.
         // * chained inequalities 1<x<=3.
-        if (strpos($cmd, '=<') !== false || strpos($cmd, '=>') !== false) {
-            if (strpos($cmd, '=<') !== false) {
+        if (strpos($stringles, '=<') !== false || strpos($stringles, '=>') !== false) {
+            if (strpos($stringles, '=<') !== false) {
                 $a['cmd'] = stack_maxima_format_casstring('=<');
             } else {
                 $a['cmd'] = stack_maxima_format_casstring('=>');
@@ -799,29 +852,17 @@ class stack_cas_casstring {
             $this->add_error(stack_string('stackCas_backward_inequalities', $a));
             $this->answernote[] = 'backward_inequalities';
             $this->valid = false;
-        } else if (!($this->check_chained_inequalities($cmd))) {
+        } else if (!($this->check_chained_inequalities($stringles))) {
             $this->add_error(stack_string('stackCas_chained_inequalities'));
             $this->answernote[] = 'chained_inequalities';
             $this->valid = false;
         }
+    }
 
-        // Commas not inside brackets either should be, or indicate a decimal number not
-        // using the decimal point.  In either case this is problematic.
-        // For now, we just look for expressions with a comma, but without brackets.
-        // [TODO]: improve this test to really look for unencapsulated commas.
-        if (!(false === strpos($cmd, ',')) && !(!(false === strpos($cmd, '(')) ||
-                !(false === strpos($cmd, '[')) || !(false === strpos($cmd, '{')) )) {
-            $this->add_error(stack_string('stackCas_unencpsulated_comma'));
-            $this->answernote[] = 'unencpsulated_comma';
-            $this->valid = false;
-        }
-
-        // We need to split keyvals off here before we check underscore characters.
-        $this->key_val_split();
-
-            // Check for and replace logarithms log_A(B).
+    private function check_logs($stringles) {
+        // Check for and replace logarithms log_A(B).
         // This has to go before we try to insert *s, otherwise we will have log_10(x) -> log_10*(x) etc.
-        $cmd = $this->casstring;
+        $cmd = $stringles;
         // Be forgiving with log10.
         $cmd = str_replace('log10(', 'log_10(', $cmd);
         if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
@@ -829,18 +870,11 @@ class stack_cas_casstring {
                 $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
                 $cmd = str_replace($match, $sub, $cmd);
             }
-            $this->casstring = $cmd;
             $this->answernote[] = 'logsubs';
         }
-
-        $this->check_stars($security, $syntax, $insertstars);
-
-        $this->check_security($security, $allowwords);
-
-        $this->check_underscores($security);
-
-        return $this->valid;
+        return $cmd;
     }
+
 
     /**
      * Checks for spaces in students' expressions.  Is not applied to teachers.
@@ -848,12 +882,8 @@ class stack_cas_casstring {
      * @return bool|string true if no missing *s, false if missing stars but automatically added
      * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
      */
-    private function check_spaces($security, $syntax, $insertstars) {
-
-        $cmd = $this->rawcasstring;
-
-        // Remove the contents of any strings, so we don't test for spaces within them.
-        list ($cmd, $strings) = $this->strings_remove($cmd);
+    private function check_spaces($stringles, $security, $syntax, $insertstars) {
+        $cmd = $stringles;
 
         // Always replace multiple spaces with a single space.
         $cmd = trim($cmd);
@@ -875,7 +905,7 @@ class stack_cas_casstring {
             if ($insertstars === 3 || $insertstars === 4 || $insertstars === 5) {
                 $cmd = str_replace(' ', '*', $cmd);
             } else {
-                $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd, $strings));
+                $cmds = str_replace(' ', '<font color="red">_</font>', $this->strings_replace($cmd));
                 foreach (self::$spacepatterns as $key => $pat) {
                     $cmds = str_replace($pat, $key, $cmds);
                 }
@@ -892,10 +922,11 @@ class stack_cas_casstring {
                 $cmd = str_replace($pat, $key, $cmd);
         }
 
-        if ($insertstars === 3 || $insertstars === 4 || $insertstars === 5) {
-            $cmdn = $this->strings_replace($cmd, $strings);
-            $this->casstring = $cmdn;
+        // Passes many unit tests that think oddly, maybe remove this pointless thing and fix the unit tests instead.
+        if (!$this->valid) {
+            return $stringles;
         }
+
         return $cmd;
     }
 
@@ -905,7 +936,7 @@ class stack_cas_casstring {
      * @return bool|string true if no missing *s, false if missing stars but automatically added
      * If stack is set to not add stars automatically, a string indicating the missing stars is returned.
      */
-    private function check_stars($security, $syntax, $insertstars) {
+    private function check_stars($stringles, $security, $syntax, $insertstars) {
 
         // Some patterns are always invalid syntax, and must have stars.
         $patterns[] = "|(\))(\()|";                   // Simply the pattern ")(".  Must be wrong!
@@ -943,13 +974,10 @@ class stack_cas_casstring {
         $missingstring   = '';
 
         // Prevent ? characters calling LISP or the Maxima help file.  Instead, these pass through and are displayed as normal.
-        $cmd = str_replace('?', 'QMCHAR', $this->casstring);
+        $cmd = str_replace('?', 'QMCHAR', $stringles);
 
         // Provide support for the grid2d command, which otherwise breaks insert stars.
         $cmd = str_replace('grid2d', 'STACKGRID', $cmd);
-
-        // Remove the contents of any strings, so we don't test for missing *s within them.
-        list ($cmd, $strings) = $this->strings_remove($cmd);
 
         foreach ($patterns as $pat) {
             if (preg_match($pat, $cmd)) {
@@ -966,39 +994,29 @@ class stack_cas_casstring {
             }
         }
 
-        $cmd = $this->strings_replace($cmd, $strings);
-        $missingstring = $this->strings_replace($missingstring, $strings);
-
         if (false == $missingstar) {
-            // If no missing stars return true.
-            return true;
+            // If no missing stars return original.
+            return $stringles;
         }
         // Guard clause above - we have missing stars detected.
         $this->answernote[] = 'missing_stars';
         if ($insertstars == 1 || $insertstars == 2 || $insertstars == 4 || $insertstars == 5) {
             // If we are going to quietly insert them.
-            $this->casstring = str_replace('QMCHAR', '?', $cmd);
-            return true;
+            return str_replace('QMCHAR', '?', $cmd);
         } else {
             // If missing stars & strict syntax is on return errors.
             $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
-            return false;
+            return $stringles;
         }
     }
 
     /* We have added support for subscripts using underscore.  We expect more invalid expressions. */
-    private function check_underscores($security) {
+    private function check_underscores($stringlesvalue, $security) {
+        $strpatterns = array(')_', '_(', ']_', '_[', '}_', '_{');
 
-        $strpatterns[] = ')_';
-        $strpatterns[] = '_(';
-        $strpatterns[] = ']_';
-        $strpatterns[] = '_[';
-        $strpatterns[] = '}_';
-        $strpatterns[] = '_{';
-
-        $cmd = $this->casstring;
+        $cmd = $stringlesvalue;
         $found = array();
         $valid = true;
         foreach ($strpatterns as $pat) {
@@ -1014,7 +1032,6 @@ class stack_cas_casstring {
             $a = implode($found, ', ');
             $this->add_error(stack_string('stackCas_underscores', $a));
         }
-
     }
 
     /**
@@ -1022,7 +1039,7 @@ class stack_cas_casstring {
      *
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
-    private function check_security($security, $rawallowwords) {
+    private function check_security($stringles, $security, $rawallowwords) {
 
         // Create a minimal cache to store words as keys.
         // This gives faster searching using the search functionality of that map.
@@ -1067,7 +1084,7 @@ class stack_cas_casstring {
         // So to actually allow strings that are usable we no longer check inside strings.
         // In any case what could we have done to a:concat("s","y","s"...);.
         // We need to focus on blocking the evaluation of that string instead.
-        $cmd = stack_utils::eliminate_strings($this->casstring);
+        $cmd = $stringles;
         $strinkeywords = array();
         $pat = "|[\?_A-Za-z0-9]+|";
         preg_match_all($pat, $cmd, $out, PREG_PATTERN_ORDER);
@@ -1514,24 +1531,22 @@ class stack_cas_casstring {
     }
 
     /*
-     *  Remove contents of strings and replace them with safe tags.
+     *  Replace the contents of strings to the stringles version.
      */
-    private function strings_remove($cmd) {
-        $strings = stack_utils::all_substring_strings($cmd);
-        foreach ($strings as $key => $string) {
-            $cmd = str_replace('"'.$string.'"', '[STR:'.$key.']', $cmd);
+    private function strings_replace($stringles) {
+        $strings = stack_utils::all_substring_strings($this->rawcasstring);
+        if (count($strings) > 0) {
+            $split = explode('""', $stringles);
+            $stringles = '';
+            $i = 0;
+            foreach ($strings as $string) {
+                $stringles .= $split[$i];
+                $stringles .= '"' . $string . '"';
+                $i++;
+            }
+            $stringles .= $split[$i];
         }
-        return array($cmd, $strings);
-    }
-
-    /*
-     *  Replace tags with the contents of strings.
-     */
-    private function strings_replace($cmd, $strings) {
-        foreach ($strings as $key => $string) {
-            $cmd = str_replace('[STR:'.$key.']', '"'.$string.'"', $cmd);
-        }
-        return $cmd;
+        return $stringles;
     }
 
     /**

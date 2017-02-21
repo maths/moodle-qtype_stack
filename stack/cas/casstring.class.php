@@ -580,18 +580,11 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Try removing "strings".
+        // Remove the contents of "strings".
         $stringles = stack_utils::eliminate_strings($this->casstring);
 
-        // Check for unexpected "-chars that are a sign of invalid syntax.
-        // Basically, the cases where we have two strings touching, '""""' or pairles ".
-        if (strpos($stringles, '"""') || strpos(str_replace('""', '', $stringles), '"') !== false) {
-            $this->errors .= stack_string('stackCas_MissingString');
-            $this->answernote[] = 'MissingString';
-            $this->valid = false;
-        }
-
         // From now on all checks ignore the contents of "strings" and most definitely do not modify them.
+        $this->check_string_usage($stringles);
         $this->check_constants($stringles);
         $this->check_parentheses($stringles);
         $this->check_characters($stringles, $security);
@@ -609,8 +602,6 @@ class stack_cas_casstring {
         if ($security == 's') {
             $this->check_bad_trig($stringles);
         }
-
-
 
         // Check security before splitting the key, just in case the key does things.
         $this->check_security($stringles, $security, $allowwords);
@@ -638,6 +629,57 @@ class stack_cas_casstring {
         $this->key =$split[0];
 
         return $this->valid;
+    }
+
+    private function check_string_usage($stringles) {
+        // Check for unexpected "-chars that are a sign of invalid syntax.
+        // Basically, the cases where we have two strings touching, '""""' or pairles ".
+        $spaceles = preg_replace('!\s+!', '', $stringles);
+        if (strpos($spaceles, '"""') !== false || strpos(str_replace('""', '', $spaceles), '"') !== false) {
+            $this->errors .= stack_string('stackCas_MissingString');
+            $this->answernote[] = 'MissingString';
+            $this->valid = false;
+        } else {
+            // Check mixing of "strings" with operators and others.
+            $prechars = array();
+            $postchars = array();
+            if (preg_match_all("/([^\"])\"/", $spaceles, $prechars) > 0) {
+                foreach ($prechars[1] as $prechar) {
+                    switch ($prechar) {
+                        case '':
+                        case '(':
+                        case '[':
+                        case '{':
+                        case ',':
+                        case ':':
+                        case '=':
+                            break;
+                        default:
+                            $this->errors .= stack_string('stackCas_StringOperation', array('issue' => "$prechar\"", 'cmd' => stack_maxima_format_casstring($this->rawcasstring)));
+                            $this->answernote[] = 'StringOperation';
+                            $this->valid = false;
+                    }
+                }
+            }
+            if (preg_match_all("/\"([^\"])/", $spaceles, $postchars) > 0) {
+                foreach ($postchars[1] as $postchar) {
+                    switch ($postchar) {
+                        case '':
+                        case ')':
+                        case ']':
+                        case '}':
+                        case ',':
+                        case ';':
+                        case '=':
+                            break;
+                        default:
+                            $this->errors .= stack_string('stackCas_StringOperation', array('issue' => "\"$postchar", 'cmd' => stack_maxima_format_casstring($this->rawcasstring)));
+                            $this->answernote[] = 'StringOperation';
+                            $this->valid = false;
+                    }
+                }
+            }
+        }
     }
 
     private function check_constants($stringles) {
@@ -1008,7 +1050,7 @@ class stack_cas_casstring {
             $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
-            return $stringles;
+            return str_replace('QMCHAR', '?', $cmd);
         }
     }
 
@@ -1530,21 +1572,23 @@ class stack_cas_casstring {
         return true;
     }
 
-    /*
+    /**
      *  Replace the contents of strings to the stringles version.
      */
     private function strings_replace($stringles) {
+        // NOTE: This function should not exist, as this should only happen at the end of validate(), but we still have some error messages that need it.
         $strings = stack_utils::all_substring_strings($this->rawcasstring);
         if (count($strings) > 0) {
             $split = explode('""', $stringles);
-            $stringles = '';
+            $stringbuilder = array();
             $i = 0;
             foreach ($strings as $string) {
-                $stringles .= $split[$i];
-                $stringles .= '"' . $string . '"';
+                $stringbuilder[] = $split[$i];
+                $stringbuilder[] = $string;
                 $i++;
             }
-            $stringles .= $split[$i];
+            $stringbuilder[] = $split[$i];
+            $stringles = implode('"', $stringbuilder);
         }
         return $stringles;
     }

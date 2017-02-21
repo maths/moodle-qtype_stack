@@ -252,14 +252,59 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertTrue($at1->get_valid('t'));
     }
 
-    public function test_system_execution() {
-        $s = 'a:eval_string("system(\\\"rm /tmp/test\\\")")';
+    public function test_strings_4() {
+        $s = 'a:""hello""';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+        $s = 'a:""hello""';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $s = 'a:"hello"   "hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+    }
+
+    public function test_strings_5() {
+        $s = 'a:"hello"5';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $s = 'a:"hello"*5';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $s = 'a:"hello"  +  "hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $s = 'a:(5)*"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $s = 'a:(5)/"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $s = 'a:5-"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+    }
+
+    public function test_strings_6() {
+        $s = 'a:[{"hello"},"hello",["hello"]]';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('t'));
+        $s = 'a:cos(pi)"hello"';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $s = 'a:[{"hello"}"hello"["hello"]]';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+    }
+
+    public function test_system_execution() {
+        // First the obvious one, just eval that string.
+        $s = 'a:eval_string("system(\\"rm /tmp/test\\")")';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('The expression <span class="stacksyntaxexample">eval_string</span> is forbidden.',
                 $at1->get_errors());
 
-        // First the obvious one, just eval that string.
         $s = 'a:eval_string("system(rm /tmp/test)")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
@@ -267,10 +312,10 @@ class stack_cas_casstring_test extends basic_testcase {
                 $at1->get_errors());
 
         // The second requires a bit more, parse but do the eval later.
-        $s = 'a:ev(parse_string("system(\\\"rm /tmp/test\\\")"),eval)';
+        $s = 'a:ev(parse_string("system(\\"rm /tmp/test\\")"),eval)';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">parse_string</span> is forbidden.',
                 $at1->get_errors());
 
         // Then things get tricky, one needs to write the thing out and eval when reading in.
@@ -291,10 +336,10 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertFalse($at1->get_valid('t'));
         $this->assertEquals('The expression <span class="stacksyntaxexample">save</span> is forbidden.',
                 $at1->get_errors());
-        $s = 'a:stringout("/tmp/test", "system(\\\"rm /tmp/test\\\");")';
+        $s = 'a:stringout("/tmp/test", "system(\\"rm /tmp/test\\");")';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('The characters @, $ and \ are not allowed in CAS input.',
+        $this->assertEquals('The expression <span class="stacksyntaxexample">stringout</span> is forbidden.',
                 $at1->get_errors());
 
         // The corresponding read commands load, loadfile, batch, and batchload are all bad.
@@ -361,7 +406,14 @@ class stack_cas_casstring_test extends basic_testcase {
                 $at1->get_errors());
 
         // And then there is the possibility of using lisp level functions.
-        $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\"rm /tmp/test\");"))';
+        $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\\"rm /tmp/test\\");"))';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('t'));
+        $this->assertEquals('A string is in a wrong place this <code>m"</code> is the issue. A string is in a wrong place this <code>m"</code> is the issue. A string is in a wrong place this <code>":</code> is the issue. ',
+                $at1->get_errors());
+        // That last goes wrong due to "strings" not being usable in the lisp way.
+        // Assuming those are in variables we can try this.
+        $s = ':lisp (with-open-file (stream a :direction :output) (format stream b))';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
         $this->assertEquals('The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',

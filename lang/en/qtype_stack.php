@@ -585,6 +585,7 @@ $string['stackCas_tooLong']                 = 'CASText statement is too long. ';
 $string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign. ';
 $string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
 $string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';
+$string['stackCas_StringOperation']         = 'A string is in a wrong place this <code>{$a->issue}</code> is the issue. ';
 $string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>. ';
 $string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>. ';
 $string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>. ';

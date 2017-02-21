@@ -20,7 +20,6 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 
-
 // Unit tests for the Stack question type.
 //
 // @copyright 2012 The Open University.
@@ -1066,6 +1065,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         // @codingStandardsIgnoreEnd
 
         // Create a stack question.
+
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');
         $this->start_attempt_at_question($q, 'adaptive', 4);
 
@@ -1854,6 +1854,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_prt_feedback('Result');
         $this->check_output_does_not_contain_stray_placeholders();
         /* Note from version 5.37.0 of Maxima the precise form of the error message changed. */
+
         $this->check_current_output(
                 new question_pattern_expectation('/following error: algsys: /'),
                 $this->get_does_not_contain_num_parts_correct(),
@@ -1991,9 +1992,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     }
 
     public function test_test0_validate_then_submit_wrong_answer_no_penalty() {
-        /* This test creates a situation where we have partial credit, but the attempt
-         * accrues no penalty.  This makes use of the PRT "penalty" field.
-         */
+        // This test creates a situation where we have partial credit, but the attempt
+        // accrues no penalty.  This makes use of the PRT "penalty" field.
 
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
@@ -2064,9 +2064,8 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     }
 
     public function test_test0_validate_then_submit_two_wrong_answers_one_no_penalty() {
-        /* This test creates a situation where we have partial credit, but the attempt
-         * accrues no penalty.  This makes use of the PRT "penalty" field.
-         */
+         // This test creates a situation where we have partial credit, but the attempt
+         // accrues no penalty.  This makes use of the PRT "penalty" field.
 
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
@@ -2233,35 +2232,201 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
     public function test_equiv_quad_1() {
 
         // Create the stack question 'equiv_quad'.
-        $q = test_question_maker::make_question('stack', 'units');
+        $q = test_question_maker::make_question('stack', 'equiv_quad');
         $this->start_attempt_at_question($q, 'adaptive', 1);
-
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->assertEquals('adaptivemultipart',
                 $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
         $this->render();
-        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_textarea_input('ans1');
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-                new question_pattern_expectation('/Solve the/'),
+                new question_pattern_expectation('/Solve/'),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
 
-        // Process a validate request.
-        $this->process_submission(array('ans1' => '[x^2-3*x+2=0]', '-submit' => 1));
+        $this->process_submission(array('ans1' => 'x^2-3*x+2=0', '-submit' => 1));
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
-        $this->check_output_contains_text_input('ans1', 'x^2-3*x+2=0');
-        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_textarea_input('ans1', 'x^2-3*x+2=0');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
+        $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0", '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0");
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2", '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2");
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expectedvalidation = '\\[ \\begin{array}{lll}\\ &x^2-3\cdot x+2=0\\cr  '.
+            '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1 \\right)=0\\cr '.
+            '\\color{red}{?}&x=-1\\,{\mbox{ and }}\\, x=-2\\cr  \\end{array} \]';
+        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
+
+        $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2",
+                 'ans1_val' => "[x^2-3*x+2=0,(x-2)*(x-1)=0,x=-1 and x=-2]",'-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0, 0.2);
+        $this->check_answer_note('firsttree', '[EMPTYCHAR,EQUIVCHAR,QMCHAR] | firsttree-1-F');
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2");
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2", '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expectedvalidation = '\\[ \\begin{array}{lll}\\ &x^2-3\cdot x+2=0\\cr  '.
+                '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1 \\right)=0\\cr '.
+                '\\color{green}{\Leftrightarrow}&x=1\\,{\mbox{ or }}\\, x=2 \\cr \\end{array} \]';
+        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
+
+        $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2",
+                 'ans1_val' => "[x^2-3*x+2=0,(x-2)*(x-1)=0,x=1 or x=2]",'-submit' => 1));
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(0.8);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->check_answer_note('firsttree', '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR] | firsttree-1-T');
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expectedvalidation = '\\[ \\begin{array}{lll}\\ &x^2-3\cdot x+2=0\\cr  '.
+                '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1 \\right)=0\\cr '.
+                '\\color{green}{\Leftrightarrow}&x=1\\,{\mbox{ or }}\\, x=2 \\cr \\end{array} \]';
+        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
+}
+
+    public function test_equiv_quad_first_line() {
+
+        // Create the stack question 'equiv_quad'.
+        $q = test_question_maker::make_question('stack', 'equiv_quad');
+
+        // Add in the option to force a particular first line.
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'equiv', 'ans1', 'ta', null,
+                array('boxWidth' => 20, 'forbidFloats' => false, 'options' => 'firstline'));
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Solve/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        // Get first line wrong.
+        $this->process_submission(array('ans1' => 'x^2-3*x+1=0', '-submit' => 1));
+        $this->check_current_state(question_state::$invalid);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', 'x^2-3*x+1=0');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Get first line right.
+        $this->process_submission(array('ans1' => 'x^2-3*x+2=0', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', 'x^2-3*x+2=0');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Get first line right up to commutativity.
+        $this->process_submission(array('ans1' => '2+x^2-3*x=0', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', '2+x^2-3*x=0');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Get first line right up to algebraic equivalence.  This is not enough!
+        $this->process_submission(array('ans1' => '(x-1)*(x-2)=0', '-submit' => 1));
+        $this->check_current_state(question_state::$invalid);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', '(x-1)*(x-2)=0');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_equiv_quad_hideequiv() {
+
+        // Create the stack question 'equiv_quad'.
+        $q = test_question_maker::make_question('stack', 'equiv_quad');
+
+        // Add in the option to suppress equivalence feedback.
+        $q->inputs['ans1'] = stack_input_factory::make(
+                'equiv', 'ans1', 'ta', null,
+                array('boxWidth' => 20, 'forbidFloats' => false, 'options' => 'hideequiv'));
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/Solve/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+        );
+
+        $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0", '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0");
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        // This non-trivial sumbission should be shown without equivalence symbols. 
+        $expectedvalidation = '\\[ \\begin{array}{lll}x^2-3\cdot x+2=0\\cr '.
+                '\\left(x-2\\right)\cdot \\left(x -1\\right)=0\\cr \\end{array} \]';
+        $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
     }
 }

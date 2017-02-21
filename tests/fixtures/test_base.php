@@ -227,6 +227,29 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         }
     }
 
+    protected function check_output_contains_textarea_input($name, $content = null, $enabled = true) {
+        $attributes = array(
+                'name' => $this->quba->get_field_prefix($this->slot) . $name,
+        );
+        if (!$enabled) {
+            $attributes['readonly'] = 'readonly';
+        }
+        $matcher = $this->get_tag_matcher('textarea', $attributes);
+        $this->assertTag($matcher, $this->currentoutput,
+                'Looking for a textarea with attributes ' . html_writer::attributes($attributes) . ' in ' . $this->currentoutput);
+
+        if ($content) {
+            $this->assertRegExp('/' . preg_quote(s($content), '/') . '/', $this->currentoutput);
+        }
+
+        if ($enabled) {
+            $matcher['attributes']['readonly'] = 'readonly';
+            $this->assertNotTag($matcher, $this->currentoutput,
+                    'input with attributes ' . html_writer::attributes($attributes) .
+                    ' should not be read-only in ' . $this->currentoutput);
+        }
+    }
+
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
         $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback")(?=[^>]*\bid="' . $id . '")~', $this->currentoutput,

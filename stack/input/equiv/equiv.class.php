@@ -233,6 +233,7 @@ class stack_equiv_input extends stack_input {
 
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                 $this->get_parameter('insertStars', 0), $allowwords);
+            $answer->logic_nouns_sort(true);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {
@@ -264,7 +265,6 @@ class stack_equiv_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function validation_display($answer, $caslines, $additionalvars, $valid, $errors) {
-
         if ($this->optfirstline) {
             $foundfirstline = false;
             foreach ($additionalvars as $index => $cs) {

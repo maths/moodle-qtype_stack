@@ -584,11 +584,23 @@ class stack_cas_casstring {
         $stringles = stack_utils::eliminate_strings($this->casstring);
 
         // From now on all checks ignore the contents of "strings" and most definitely do not modify them.
-        $this->check_string_usage($stringles);
+        if (strpos($stringles, '"') !== false) {
+            $this->check_string_usage($stringles);
+        }
         $this->check_constants($stringles);
-        $this->check_parentheses($stringles);
+        if (preg_match("/[\(\)\{\}\[\]]/", $stringles) == 1) {
+            $this->check_parentheses($stringles);
+        }
+
+        // Here is a good place to fail fast.
+        if (!$this->valid) {
+            return false;
+        }
+
         $this->check_characters($stringles, $security);
-        $this->check_commas($stringles);
+        if (strpos($stringles, ',') !== false) {
+            $this->check_commas($stringles);
+        }
         $this->check_operators($stringles);
 
         // Here is a good place to fail fast.
@@ -639,7 +651,7 @@ class stack_cas_casstring {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
-        } else {
+        } else if (strpos($spaceles, '""') !== false){
             // Check mixing of "strings" with operators and others.
             $prechars = array();
             $postchars = array();
@@ -647,17 +659,22 @@ class stack_cas_casstring {
                 foreach ($prechars[1] as $prechar) {
                     switch ($prechar) {
                         case '':
+                        // Various structures.
                         case '(':
                         case '[':
                         case '{':
+                        // Lists of arguments.
                         case ',':
+                        // Assigning "string" values.
                         case ':':
+                        // For use with is(a=b).
                         case '=':
                             break;
                         default:
-                            $this->errors .= stack_string('stackCas_StringOperation', array('issue' => "$prechar\"", 'cmd' => stack_maxima_format_casstring($this->rawcasstring)));
+                            $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "$prechar\"", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
                             $this->answernote[] = 'StringOperation';
                             $this->valid = false;
+                            return;
                     }
                 }
             }
@@ -673,9 +690,10 @@ class stack_cas_casstring {
                         case '=':
                             break;
                         default:
-                            $this->errors .= stack_string('stackCas_StringOperation', array('issue' => "\"$postchar", 'cmd' => stack_maxima_format_casstring($this->rawcasstring)));
+                            $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "\"$postchar", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
                             $this->answernote[] = 'StringOperation';
                             $this->valid = false;
+                            return;
                     }
                 }
             }
@@ -1082,7 +1100,6 @@ class stack_cas_casstring {
      * @return bool|string true if passes checks if fails, returns string of forbidden commands
      */
     private function check_security($stringles, $security, $rawallowwords) {
-
         // Create a minimal cache to store words as keys.
         // This gives faster searching using the search functionality of that map.
         if (self::$cache === false) {
@@ -1168,7 +1185,7 @@ class stack_cas_casstring {
             }
         }
         if ($this->valid == false) {
-            return null;
+            return;
         }
 
         $keywords = array();
@@ -1240,7 +1257,6 @@ class stack_cas_casstring {
                 }
             }
         }
-        return null;
     }
 
     /**

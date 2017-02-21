@@ -409,7 +409,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\\"rm /tmp/test\\");"))';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('A string is in a wrong place this <code>m"</code> is the issue. A string is in a wrong place this <code>m"</code> is the issue. A string is in a wrong place this <code>":</code> is the issue. ',
+        $this->assertEquals('A string is in a wrong place this <code>m"</code> is the issue.',
                 $at1->get_errors());
         // That last goes wrong due to "strings" not being usable in the lisp way.
         // Assuming those are in variables we can try this.

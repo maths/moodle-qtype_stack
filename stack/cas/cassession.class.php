@@ -66,7 +66,7 @@ class stack_cas_session {
     /** @var array Global variables. */
     private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true);
 
-    public function __construct($session, $options = null, $seed = null) {
+    public function __construct($session, $options = null, $seed=null) {
 
         if (is_null($session)) {
             $session = array();
@@ -202,7 +202,6 @@ class stack_cas_session {
                 if (array_key_exists('value', $result)) {
                     $val = str_replace('QMCHAR', '?', $result['value']);
                     $cs->set_value($val);
-                    $cs->logic_nouns_sort(false);
                     $gotvalue = true;
                 } else {
                     $cs->add_errors(stack_string("stackCas_failedReturnOne"));
@@ -211,7 +210,6 @@ class stack_cas_session {
                 if (array_key_exists('display', $result)) {
                     // Need to add this in here also because strings may contain question mark characters.
                     $disp = str_replace('QMCHAR', '?', $result['display']);
-                    $disp = $this->translate_displayed_tex($disp);
                     $cs->set_display($disp);
                 }
 
@@ -229,9 +227,7 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('feedback', $result)) {
-                    $feedback = $result['feedback'];
-                    $feedback = $this->translate_displayed_tex($feedback);
-                    $cs->set_feedback($feedback);
+                    $cs->set_feedback($result['feedback']);
                 }
 
             } else if (!$gotvalue) {
@@ -253,19 +249,8 @@ class stack_cas_session {
             $this->errors = '<span class="error">'.stack_string('stackCas_allFailed').'</span>';
             $this->errors .= $this->get_debuginfo();
         }
-        $this->instantiated = true;
-    }
 
-    /**
-     * Some of the TeX contains language tags which we need to translate.
-     * @param string $str
-     */
-    private function translate_displayed_tex($str) {
-        $loctags = array('ANDOR', 'SAMEROOTS');
-        foreach ($loctags as $tag) {
-            $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
-        }
-        return $str;
+        $this->instantiated = true;
     }
 
     public function get_debuginfo() {
@@ -435,7 +420,6 @@ class stack_cas_session {
 
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
-
         if (null === $this->valid) {
             $this->validate();
         }
@@ -447,7 +431,7 @@ class stack_cas_session {
         }
 
         foreach ($this->session as $casstr) {
-            $key = $casstr->get_key();
+            $key    = $casstr->get_key();
             if ($key === '') {
                 // An empty key is something like a function definition, or an equality.
                 // It is not something that can be replaced in the CAS text.
@@ -455,13 +439,13 @@ class stack_cas_session {
             }
             $errors = $casstr->get_errors();
             $disp   = $casstr->get_display();
-            $value  = $casstr->get_value();
+            $value  = $casstr->get_casstring();
 
             $dummy = '@'.$key.'@';
 
             // When we have only a single string in the output remove the maths environment.
             if ($errors == '' and substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
-                $disp = substr(trim($disp), 6, strlen($disp) - 7);
+                $disp = substr(trim($disp), 6, strlen($disp)-7);
                 if ($value == '""') {
                     $disp = '';
                 }
@@ -470,7 +454,7 @@ class stack_cas_session {
             }
 
             if ('' !== $errors && null != $errors) {
-                $strin = str_replace($dummy, $casstr->get_casstring(), $strin);
+                $strin = str_replace($dummy, $value, $strin);
             } else if (strstr($strin, $dummy)) {
                 $strin = str_replace($dummy, $disp, $strin);
             }
@@ -548,10 +532,6 @@ class stack_cas_session {
      * @return string
      */
     public function get_keyval_representation() {
-        if ($this->session == null) {
-            return '';
-        }
-
         $keyvals = '';
         foreach ($this->session as $cs) {
             if (null === $this->instantiated) {

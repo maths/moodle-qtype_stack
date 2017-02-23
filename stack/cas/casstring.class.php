@@ -683,6 +683,7 @@ class stack_cas_casstring {
                     switch ($postchar) {
                         case '':
                         case ')':
+                        case '(':
                         case ']':
                         case '}':
                         case ',':

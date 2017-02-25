@@ -689,12 +689,13 @@ stack_singlevar_make(ex) := block([vars, subs],
 
 /* Spot the very specific pattern x=1 nounor 2 instead of x=1 nounor x=2. */
 /* Returns a list: [pattern found, changed expression]. */
-stack_validate_missing_assignment(ex) := block([ret, ex2, v],
-    if not(safe_op(ex)="nounor") 
+stack_validate_missing_assignment(ex) := block([ret, ex2, v, exop],
+    if not(safe_op(ex)="nounor" or safe_op(ex)="nounand") 
         then return([false, ex]),
     if length(listofvars(ex))#1 
         then return([false, ex]),
     ex2:args(ex),
+    exop:op(ex),
     /* Do we have any equations which look like assignments? */
     if not(any_listp(lambda([ex], equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))),ex2)) 
         then return([false, ex]),
@@ -703,8 +704,8 @@ stack_validate_missing_assignment(ex) := block([ret, ex2, v],
         then return([false, ex]),
     v:first(listofvars(ex)),
     ex:maplist(lambda([ex], if (equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))) then ex else v=ex), ex2),
-    ex:apply("nounor", ex),  
-    return([true,ex])
+    ex:apply(exop, ex),  
+    return([true, ex])
 )$
 
 /* *************************************/

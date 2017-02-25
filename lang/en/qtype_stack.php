@@ -785,6 +785,7 @@ $string['ATEquivFirst_SA_wrong_end']     = 'Your final answer is not in the corr
 $string['ATEquivFirst_SA_wrong_end']     = 'Your final answer is not in the correct form. ';
 $string['equiv_SAMEROOTS']               = '(Same roots)';
 $string['equiv_ANDOR']                   = 'and/or confusion!';
+$string['equiv_MISSINGVAR']              = 'Missing assignments';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';

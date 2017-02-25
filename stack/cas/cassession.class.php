@@ -261,7 +261,7 @@ class stack_cas_session {
      * @param string $str
      */
     private function translate_displayed_tex($str) {
-        $loctags = array('ANDOR', 'SAMEROOTS');
+        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR');
         foreach ($loctags as $tag) {
             $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
         }

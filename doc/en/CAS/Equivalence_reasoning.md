@@ -78,6 +78,8 @@ To enter options for this input use the "extra options field".   Options should 
 
 `firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.  The test used is equality up to commutativity and associativity (EqualComAss answer test).
 
+`assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\).  This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question variables to also affect the answer test.
+
 # Answer tests
 
 There are a number of answer tests which seek to establish whether a student's list of expressions are all equivalent.
@@ -100,8 +102,6 @@ To test the last line of an argument is in the correct form will require a separ
 The maxima function `stack_disp_arg(ex, showlogic)` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  The boolean variable `showlogic` dertemines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
 
     \[ @stack_disp_arg(ta, true)@ \]
-
-
 
 # TODO
 

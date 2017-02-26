@@ -1279,9 +1279,15 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               ATres:ATAlgEquiv(SA, SBL),
               if (debug) then print(ATres),
               if second(ATres) then block(
-                  eqoutcome[ev(id, simp)]:false,
-                  eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecond+abs| ", third(ATres))
+                  if assume_pos then block(
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecondEquiv | ", third(ATres))
+                  ) else block(
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecond+abs| ", third(ATres))
+                  )
               ),
               /* (4) Squared both sides. */
               SAL:ev(SA^2,simp),
@@ -1289,10 +1295,17 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               ATres:ATAlgEquiv(SAL, SB),
               if (debug) then print(ATres),
               if second(ATres) then block(
-                  eqoutcome[ev(id, simp)]:false,
-                  eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredFirst | ", third(ATres))
+                  if assume_pos then block(
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredFirstEquiv | ", third(ATres))
+                  ) else block(
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredFirst | ", third(ATres))
+                  )
               ),
+
               /* (5) Square both sides and abs.  */
               SAL:ev(SA^2,simp),
               SBL:ev(abs(SB),simp),

@@ -49,6 +49,12 @@ class stack_equiv_input extends stack_input {
      */
     private $optcomments = false;
 
+    /**
+     * @var bool
+     * Sets the value of the assume_pos variable, which affects squareing both sides.
+     */
+    private $optassumepos = false;
+
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
 
@@ -69,6 +75,10 @@ class stack_equiv_input extends stack_input {
 
                     case 'firstline':
                         $this->optfirstline = true;
+                        break;
+
+                    case 'assume_pos':
+                        $this->optassumepos = true;
                         break;
 
                     default:
@@ -298,7 +308,7 @@ class stack_equiv_input extends stack_input {
         }
         $display .= '</tbody></table></center>';
         if ($valid) {
-            $equiv = $additionalvars[0];
+            $equiv = $additionalvars[1];
             $display = '\[ ' . $equiv->get_display() . ' \]';
         }
 
@@ -324,7 +334,7 @@ class stack_equiv_input extends stack_input {
         $tresponse = $this->maxima_to_response_array($teacheranswer);
         $tcontents = $this->response_to_contents($tresponse);
         // Has the student used the correct first line?
-        $fl = new stack_cas_casstring('irstline:true');
+        $fl = new stack_cas_casstring('firstline:true');
         if ($this->optfirstline) {
             if (array_key_exists(0, $tcontents)) {
                 $ta = $tcontents[0];
@@ -341,7 +351,13 @@ class stack_equiv_input extends stack_input {
             $fl = new stack_cas_casstring('firstline:true');
         }
 
-        return array($an, $fl);
+        $assumepos = 'false';
+        if ($this->optassumepos) {
+            $assumepos = 'true';
+        }
+        $ap = new stack_cas_casstring('assume_pos:'.$assumepos);
+
+        return array($ap, $an, $fl);
     }
 
     protected function get_validation_method() {

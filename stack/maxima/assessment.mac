@@ -1246,7 +1246,24 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           ),
 
           if malrulecont then block([FBA, ATres],
-              /* (1.2) MISSINGVAR. */
+              /* (1.1) And/or errors. */
+              FBA:exmod[ev(id, simp)],
+              if safe_op(FBA) = "nounor" then block(
+                  FBA:apply("nounand", args(FBA)),
+                  FBA:noun_solve_logic(FBA),
+                  ATres:ev(ATLogic(SA, FBA), simp),
+                  if (debug) then print("Checking for AND/OR:", ATres),
+                  if (second(ATres)) then block( 
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:ANDOR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ANDOR ")
+                  )
+              )
+          ),
+
+          if malrulecont then block([FBA, ATres],
+              /* (1.3) MISSINGVAR. */
               FBA:stack_validate_missing_assignment(SBO),
               if first(FBA) then block(
                   FBA:noun_solve_logic(second(FBA)),

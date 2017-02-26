@@ -159,6 +159,14 @@ class stack_equiv_test_data {
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x=1 and y=2,x=1 or y=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,ANDOR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
         /******************************************************************************/
 
         $newarg = array();

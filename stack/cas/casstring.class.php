@@ -646,56 +646,68 @@ class stack_cas_casstring {
     private function check_string_usage($stringles) {
         // Check for unexpected "-chars that are a sign of invalid syntax.
         // Basically, the cases where we have two strings touching, '""""' or pairles ".
-        $spaceles = preg_replace('!\s+!', '', $stringles);
+        $spaceles = strtolower(preg_replace('!\s+!', '', $stringles));
+
         if (strpos($spaceles, '"""') !== false || strpos(str_replace('""', '', $spaceles), '"') !== false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
-        } else if (strpos($spaceles, '""') !== false){
+        }
+
+        // We have certain patterns that behave differently and we need to cover them.
+        $spaceles = str_replace("if\"", ",\"", $spaceles);
+        $spaceles = str_replace("then\"", ",\"", $spaceles);
+        $spaceles = str_replace("\"then", "\",", $spaceles);
+        $spaceles = str_replace("\"else", "\",", $spaceles);
+        $spaceles = str_replace("else\"", ",\"", $spaceles);
+        $spaceles = str_replace("while\"", ",\"", $spaceles);
+        $spaceles = str_replace("and\"", ",\"", $spaceles);
+        $spaceles = str_replace("\"and", "\",", $spaceles);
+        $spaceles = str_replace("or\"", ",\"", $spaceles);
+        $spaceles = str_replace("\"or", "\",", $spaceles);
+
+        $matches = array();
+        if (preg_match_all("/(.?)\\\"\\\"(.?)/", $spaceles, $matches) > 0) {
             // Check mixing of "strings" with operators and others.
-            $prechars = array();
-            $postchars = array();
-            if (preg_match_all("/([^\"])\"/", $spaceles, $prechars) > 0) {
-                foreach ($prechars[1] as $prechar) {
-                    switch ($prechar) {
-                        case '':
-                        // Various structures.
-                        case '(':
-                        case '[':
-                        case '{':
-                        // Lists of arguments.
-                        case ',':
-                        // Assigning "string" values.
-                        case ':':
-                        // For use with is(a=b).
-                        case '=':
-                            break;
-                        default:
-                            $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "$prechar\"", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-                            $this->answernote[] = 'StringOperation';
-                            $this->valid = false;
-                            return;
-                    }
+            $prechars = $matches[1];
+            $postchars = $matches[2];
+            foreach ($prechars as $prechar) {
+                switch ($prechar) {
+                    case '':
+                    // Various structures.
+                    case '(':
+                    case '[':
+                    case '{':
+                    // Lists of arguments.
+                    case ',':
+                    // Assigning "string" values.
+                    case ':':
+                    // For use with is(a=b).
+                    case '=':
+                        break;
+                    default:
+                        $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "$prechar\"", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
+                        $this->answernote[] = 'StringOperation';
+                        $this->valid = false;
+                        return;
                 }
             }
-            if (preg_match_all("/\"([^\"])/", $spaceles, $postchars) > 0) {
-                foreach ($postchars[1] as $postchar) {
-                    switch ($postchar) {
-                        case '':
-                        case ')':
-                        case '(':
-                        case ']':
-                        case '}':
-                        case ',':
-                        case ';':
-                        case '=':
-                            break;
-                        default:
-                            $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "\"$postchar", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-                            $this->answernote[] = 'StringOperation';
-                            $this->valid = false;
-                            return;
-                    }
+            foreach ($postchars as $postchar) {
+                switch ($postchar) {
+                    case '':
+                    case ')':
+                    case '(':
+                    case ']':
+                    case '}':
+                    case ',':
+                    case ';':
+                    case '=':
+                        break;
+                    default:
+                        $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "\"$postchar", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
+                        $this->answernote[] = 'StringOperation';
+                        $this->valid = false;
+                        return;
                 }
             }
         }

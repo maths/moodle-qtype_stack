@@ -328,4 +328,16 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
     protected function assertContentWithMathsContains($expected, $actual) {
         $this->assertContains($expected, qtype_stack_testcase::prepare_actual_maths($actual));
     }
+
+    /**
+     * Moodle has changed how the HTML for select menus is generated between versions. This method
+     * compares expected and acutal HTML ignoring these differences.
+     *
+     * @param string $expected expected HTML
+     * @param string $actual actual HTML
+     */
+    protected function assertSameSelectHtml($expected, $actual) {
+        $actual = str_replace('class="select custom-select', 'class="select', $actual);
+        $this->assertEquals($expected, $actual);
+    }
 }

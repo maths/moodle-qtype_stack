@@ -20,7 +20,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * Input that is a text area.
  * However, the purpose is to allow a student to write language (English) notes.
  * These are not passed into the CAS
- * @copyright  2015 Loughborough University
+ * @copyright  2017 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_notes_input extends stack_input {
@@ -28,7 +28,6 @@ class stack_notes_input extends stack_input {
     public function render(stack_input_state $state, $fieldname, $readonly) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
-
         $attributes = array(
             'name' => $fieldname,
             'id'   => $fieldname,

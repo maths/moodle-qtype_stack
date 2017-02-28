@@ -835,7 +835,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'log_x:log_x(a)';
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 0));
-        $this->assertEquals('lg(a, x)', $at1->get_casstring());
+        $this->assertEquals('lg(a, x:log_x)', $at1->get_casstring());
         $this->assertEquals('log_x', $at1->get_key());
         $this->assertEquals('logsubs', $at1->get_answernote());
     }

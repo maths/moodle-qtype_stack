@@ -435,7 +435,6 @@ class stack_cas_session {
 
     /* This returns the values of the variables with keys */
     public function get_display_castext($strin) {
-
         if (null === $this->valid) {
             $this->validate();
         }

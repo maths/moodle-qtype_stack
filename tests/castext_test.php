@@ -799,12 +799,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
-
+    
         $at1 = new stack_cas_text('@sf@, @m@', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
-
-        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left( x , n\right)\right)\), \(3\)',
-                $at1->get_display_castext());
+    
+        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left( x , n\right)\right)\), \(3\)', $at1->get_display_castext());
     }
 }

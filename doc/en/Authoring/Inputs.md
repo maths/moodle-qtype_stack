@@ -74,7 +74,7 @@ _The student may not fill in part of a matrix._  If they do so, the remaining en
 
 #### Notes input ####
 
-This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always an empty value returns to the CAS, so that the contents are never assessed.
+This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns an empty value to the CAS, so that the contents are never assessed.
 Note that any potential response tree which relies on this input will never get evaluated!
 
 #### Equivalence reasoning input ####

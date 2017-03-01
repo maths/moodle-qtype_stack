@@ -699,8 +699,8 @@ stack_validate_missing_assignment(ex) := block([ret, ex2, v, exop],
     /* Do we have any equations which look like assignments? */
     if not(any_listp(lambda([ex], equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))),ex2)) 
         then return([false, ex]),
-    /* Do they all look ok? */
-    if all_listp(lambda([ex], equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))),ex2) 
+    /* Do any of them look bad, that just a number on its own? */
+    if all_listp(lambda([ex], not(is(listofvars(ex)=[]))), ex2) 
         then return([false, ex]),
     v:first(listofvars(ex)),
     ex:maplist(lambda([ex], if (equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))) then ex else v=ex), ex2),

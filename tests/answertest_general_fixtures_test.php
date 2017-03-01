@@ -46,7 +46,6 @@ class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
     public function answertest_fixtures() {
 
         $tests = stack_answertest_test_data::get_all();
-
         $testdata = array();
         foreach ($tests as $test) {
             $testname = 'AT' . $test->name .

@@ -149,7 +149,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]',
             1, '', ''),
 
-        /* Note to self: Maxima's round() command uses Bankers' rounding, but significantfigures does not. */
+        // Note to self: Maxima's round() command uses Bankers' rounding, but significantfigures does not.
         array('AlgEquiv', '', 'round(0.5)', '0.0', 1, '', 'Rounding of floats'),
         array('AlgEquiv', '', 'round(1.5)', '2.0', 1, '', ''),
         array('AlgEquiv', '', 'round(2.5)', '2.0', 1, '', ''),
@@ -991,8 +991,8 @@ class stack_answertest_test_data {
         array('NumSigFigs', '4', '3.142', '-3.1415927', 0, 'ATNumSigFigs_WrongSign.', ''),
         array('NumSigFigs', '4', '-3.142', '3.1415927', 0, 'ATNumSigFigs_WrongSign.', ''),
         array('NumSigFigs', '4', '-3.149', '3.1415927', 0, 'ATNumSigFigs_WrongSign. ATNumSigFigs_VeryInaccurate.', ''),
-        /* Maxima's round() command uses Bankers' rounding, but STACK does not.
-         * We actually round the teacher's answer to the specified number of SFs. */
+        // Maxima's round() command uses Bankers' rounding, but STACK does not.
+        // We actually round the teacher's answer to the specified number of SFs.
         array('NumSigFigs', '3', '0.0499', '0.04985', 1, '', 'Round teacher answer'),
         array('NumSigFigs', '3', '0.0498', '0.04985', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '3', '0.0498', '0.04975', 1, '', ''),
@@ -1359,6 +1359,7 @@ class stack_answertest_test_data {
     }
 
     public static function test_from_raw($data) {
+
         $test = new stdClass();
         $test->name          = $data[self::NAME];
         $test->studentanswer = $data[self::SANS];
@@ -1372,7 +1373,7 @@ class stack_answertest_test_data {
 
     public static function get_all() {
         $tests = array();
-        $rawdata = self::get_available_tests();
+        $rawdata = self::get_raw_test_data();
         foreach ($rawdata as $data) {
             $tests[] = self::test_from_raw($data);
         }
@@ -1382,6 +1383,7 @@ class stack_answertest_test_data {
     public static function get_tests_for($anstest) {
         $tests = array();
         $rawdata = self::get_raw_test_data();
+
         foreach ($rawdata as $data) {
             if ($data[self::NAME] == $anstest) {
                 $tests[] = self::test_from_raw($data);

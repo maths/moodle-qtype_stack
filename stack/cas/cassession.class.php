@@ -446,7 +446,7 @@ class stack_cas_session {
 
             // When we have only a single string in the output remove the maths environment.
             if ($errors == '' and substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
-                $disp = substr(trim($disp), 6, strlen($disp)-7);
+                $disp = substr(trim($disp), 6, strlen($disp) - 7);
                 if ($value == '""') {
                     $disp = '';
                 }

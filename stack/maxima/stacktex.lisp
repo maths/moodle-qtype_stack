@@ -276,6 +276,10 @@
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
 
+;; *************************************************************************************************
+;; The following code does not affect TeX output, but rather are general functions needed for STACK.
+;;
+
 ;; Added 13 Nov 2016.  Try to better display trailing zeros.
 ;; Based on the "grind function". See src/grind.lisp
 
@@ -302,3 +306,5 @@
  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
 )
 
+;; Define an "arrayp" function to check if we have a Maxima array.
+(defmfun $arrayp (x) (and (not (atom x)) (cond ((member 'array (car x) :test #'eq) $true) (T $false))))

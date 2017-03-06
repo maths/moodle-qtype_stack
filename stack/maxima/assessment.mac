@@ -261,6 +261,7 @@ texput(displaydp, displaydptex);
 make_displaydpvalue(ex):= block([n,d],
     if atom(ex) then return(ex),
     if taylorp(ex) or functionp(ex) or freeof(displaydp, ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_displaydpvalue, args(ex)))),
     if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
     if not(length(args(ex))=2) then error("displaydp must have exactly 2 arguments"),
     n:ev(float(first(args(ex))), simp),
@@ -272,6 +273,7 @@ make_displaydpvalue(ex):= block([n,d],
 
 remove_displaydp(ex):= block(
     if atom(ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_displaydpvalue, args(ex)))),
     if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
     return(first(args(ex)))
 );

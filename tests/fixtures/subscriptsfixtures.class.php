@@ -88,11 +88,12 @@ class stack_subscripts_test_data {
         array('texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'),
         array('texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'),
         array('a_theta1', 'a_theta1', '!', '{a}_{{\it theta_1}}', '!'),
-        array('a[1]', 'a[1]', '!', 'a\left(1\right)', '!',
-                'Elements of lists are displayed by round brackets in Maxima, which is close to "function application".'),
-        array('a[theta]', 'a[theta]', '!', 'a\left(\theta\right)', '!'),
-        array('theta[1]', 'theta[1]', '!', '\theta\left(1\right)', '!'),
-        array('theta[a]', 'theta[a]', '!', '\theta\left(a\right)', '!'),
+        array('a[1]', 'a[1]', '!', 'a_{1}', '!',
+                'Elements of arrays are displayed by subscripts as well.'),
+        array('a[theta]', 'a[theta]', '!', 'a_{\theta}', '!'),
+        array('theta[1]', 'theta[1]', '!', '\theta_{1}', '!'),
+        array('theta[a]', 'theta[a]', '!', '\theta_{a}', '!'),
+        array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
     );
 
     public static function get_raw_test_data() {

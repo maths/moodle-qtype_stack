@@ -1063,6 +1063,10 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[2,0]', '0.00', '0', 1, '', ''),
         array('NumSigFigs', '[3,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
         array('NumSigFigs', '[4,0]', '0.00', '0', 0, 'ATNumSigFigs_WrongDigits.', ''),
+        array('NumSigFigs', '4', '1.279', 'ev(lg(19),logbase=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
+        array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
+        array('NumSigFigs', '3', '3.15', 'pi', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '6', '1.73205', 'sqrt(3)', 1, '', ''),
 
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),

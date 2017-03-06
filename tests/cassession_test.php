@@ -917,4 +917,39 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('sin(x +- a)^2', $at1->get_value_key('c10'));
         $this->assertEquals('\sin ^2\left({x \pm a}\right)', $at1->get_display_key('c10'));
     }
+
+    public function test_sf() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of significant figures.
+        // 2. Displayed form.
+        // E.g. significantfigures(3.14159,2) -> 3.1.
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+                    array('lg(19)', '4', '1.279'),
+                    array('pi', '4', '3.142'),
+                    array('sqrt(27)', '8', '5.1961524'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:significantfigures({$c[0]},{$c[1]})";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+        }
+    }
 }

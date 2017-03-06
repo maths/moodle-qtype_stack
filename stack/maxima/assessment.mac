@@ -214,7 +214,7 @@ real_numberp(ex):=
     trigexpand:true,
     logexpand:super,
     keepfloat:true,
-    ex:errcatch(ev(fullratsimp(ex),simp)),
+    ex:errcatch(ev(fullratsimp(ex), logbase=logbasesimp, simp)),
     if ex=[] then return(false),
     ex:ev(float(ex[1]),simp),
     if listofvars(ex)#[] then return(false),
@@ -304,6 +304,7 @@ texput(displaydp, displaydptex);
 make_displaydpvalue(ex):= block([n,d],
     if atom(ex) then return(ex),
     if taylorp(ex) or functionp(ex) or freeof(displaydp, ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_displaydpvalue, args(ex)))),
     if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
     if not(length(args(ex))=2) then error("displaydp must have exactly 2 arguments"),
     n:ev(float(first(args(ex))), simp),
@@ -315,13 +316,14 @@ make_displaydpvalue(ex):= block([n,d],
 
 remove_displaydp(ex):= block(
     if atom(ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_displaydpvalue, args(ex)))),
     if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
     return(first(args(ex)))
 );
 
 /* Write the number ex in n decimal places */
 decimalplacesfun(ex, n, dispdps) := block([ex2],
-    ex2:ev(float(round(10^n*float(ex))/(10^n)), simp),
+    ex2:ev(float(round(10^n*float(ex))/(10^n)), logbase=logbasesimp, simp),
     if dispdps then ex2:displaydp(ex2, n),
     return(ex2)
     )$
@@ -336,7 +338,10 @@ sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, e
     if (is(n <= 1)) then return(0)
     else if dispsigfigs then return(displaydp(0, n-1))
         else return(0),
-  sign_of_x : signum(x),
+  sign_of_x:signum(x),
+  /* Evaluate logarithms to an arbitrary base. */
+  x:ev(x, logbase=logbasesimp, simp),
+  /* Evaluate and round. */
   ex:ev(bfloat(log(abs(x))/log(10)), simp),
   ex:ev(floor(float(ex)), simp),
   /* Modification to round 0.5 up to 1, not down as in Maxima's round command. */
@@ -348,28 +353,29 @@ sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, e
   ex2:ev(bfloat(ex2*10^(ex-n+1)), simp),
   ex2:ev(float(ex2), simp),
   /* Calculate the number of decimal places again, after rounding. */
-  ex:ev(bfloat(log(abs(ex2))/log(10)),simp),
-  ex:ev(floor(float(ex)),simp),
-  if is(debug) then print([ex2,ex,n]),
+  ex:ev(bfloat(log(abs(ex2))/log(10)), simp),
+  ex:ev(floor(float(ex)), simp),
+  if is(debug) then print([ex2, ex, n]),
   if is(floor(ex2) = ratsimp(ex2)) then ex2:ratsimp(ex2),
-  if dispsigfigs and is((ex+1-n)<0) then ex2:displaydp(ex2,n-1-ex),
+  if dispsigfigs and is((ex+1-n) < 0) then ex2:displaydp(ex2, n-1-ex),
   return(ex2)
 );
 
 significantfigures(x, n) := sigfigsfun(x, n, false);
 dispsf(x, n) := sigfigsfun(x, n, true);
 
-scientific_notation([a]) := block([simp:false,fpprintprec,ex,ex2,ex3,exn],
+scientific_notation([a]) := block([simp:false,x,ex,ex2,ex3,exn],
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
   else error("scientific_notation takes only one or two arguments"),
-  if real_numberp(x) and ev(x>0,simp) then (
-      ex:ev(floor(float(log(x)/log(10))),simp),
-      ex2:ev(float(x/10^ex),simp),
+  x:ev(float(x), logbase=logbasesimp, simp),
+  if real_numberp(x) and ev(x>0, simp) then (
+      ex:ev(floor(float(log(x)/log(10))), simp),
+      ex2:ev(float(x/10^ex), simp),
       ex3:ex2*10^ex,
-      if not(is(exn=false)) then ex3:displaydp(ex2,exn)*10^ex,
+      if not(is(exn=false)) then ex3:displaydp(ex2, exn)*10^ex,
       return(ex3)
-  ) else return (x)
+  ) else return (first(a))
 )$
 
 

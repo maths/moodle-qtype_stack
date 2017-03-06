@@ -770,6 +770,28 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 $at1->get_display_castext());
     }
 
+    public function test_maxima_arrays() {
+        $a2 = array('p1:a[2]', 'p2:a[n+1]', 'p3:a[b_c]');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@p1@, @p2@, @p3@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\(a_{2}\), \(a_{n+1}\), \(a_{{b}_{c}}\)',
+                $at1->get_display_castext());
+
+        $this->assertEquals('a[n+1]',
+            $cs2->get_value_key('p2'));
+    }
+
     public function test_length() {
         $a2 = array('f(x):=length(x)', 'b:[1,2,3]', 'c:f(b)');
         $s2 = array();
@@ -799,11 +821,12 @@ class stack_cas_text_test extends qtype_stack_testcase {
             $s2[] = $cs;
         }
         $cs2 = new stack_cas_session($s2, null, 0);
-    
+
         $at1 = new stack_cas_text('@sf@, @m@', $cs2, 0, 't');
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
-    
-        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left( x , n\right)\right)\), \(3\)', $at1->get_display_castext());
+
+        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left( x , n\right)\right)\), \(3\)',
+                $at1->get_display_castext());
     }
 }

@@ -367,6 +367,7 @@ class stack_inputvalidation_test_data {
         array('log10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '\log_{10}\left(x\right)', '', "Logarithm to the base \(10\)."),
+        array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3)', '', ""),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '\log_{a}\left(x\right)', '', ""),
         array('log(2x)/x+1/2', 'php_true', 'log(2*x)/x+1/2', 'cas_true',
                 '\frac{\ln \left( 2\cdot x \right)}{x}+\frac{1}{2}', 'missing_stars', ""),

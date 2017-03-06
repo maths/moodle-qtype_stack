@@ -38,6 +38,7 @@ __STACK 3 now uses Maxima's assignment rules.  This is a change from STACK 2.__ 
 * You can include C-style block comments for increased clarity, and these may appear on separate lines
     e.g. `dice : rand(6) + 1 /* roll it! */`
 * Avoid using variable names with a single letter, otherwise a student might type this in and it will not automatically be forbidden.  You can always forbid them explicitly in the input "forbid" options.
+* Do not define a feedback variable with the same name as an input.  For example, if your input is `ans1` then do not define a feedback variable `ans1:exdowncase(ans1)`.
 
 ## Question variables {#Question_variables}
 

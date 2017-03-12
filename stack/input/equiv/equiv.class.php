@@ -174,6 +174,9 @@ class stack_equiv_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
+        foreach ($contents as $key => $val) {
+            $contents[$key] = $this->equals_to_stackeq($val);
+        }
         return '['.implode(',', $contents).']';
     }
 
@@ -185,6 +188,9 @@ class stack_equiv_input extends stack_input {
      */
     private function maxima_to_raw_input($in) {
         $values = stack_utils::list_to_array($in, false);
+        foreach ($values as $key => $val) {
+            $values[$key] = $this->stackeq_to_equals($val);
+        }
         return implode("\n", $values);
     }
 
@@ -221,6 +227,9 @@ class stack_equiv_input extends stack_input {
         $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $index => $val) {
+
+            // We need this check first.  Otherwise the single var chars function can't work.
+            $val = $this->equals_to_stackeq($val);
 
             if ($this->identify_comments($val)) {
                 $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
@@ -378,6 +387,25 @@ class stack_equiv_input extends stack_input {
         return 'EQUIVCOMMENT'.$index;
     }
 
+    /* Convert an expression starting with a stackeq to an equals sign. */
+    private function stackeq_to_equals($val) {
+        if (substr(trim($val), 0, 8) == 'stackeq(') {
+            $val = '= ' . substr(trim($val), 8, -1);
+        }
+        return $val;
+    }
+
+    /* Convert an expression starting with an = sign to one with stackeq. */
+    private function equals_to_stackeq($val) {
+        if (substr(trim($val), 0, 1) === "=") {
+            $trimmed = trim(substr(trim($val), 1));
+            if ( $trimmed !== '') {
+                $val = 'stackeq(' . $trimmed . ')';
+            }
+        }
+        return $val;
+    }
+
     /**
      * Return the default values for the options. Using this is optional, in this
      * base class implementation, no default options are set.
@@ -387,7 +415,7 @@ class stack_equiv_input extends stack_input {
         return array(
             'mustVerify'     => true,
             'showValidation' => 1,
-            'boxWidth'       => 10,
+            'boxWidth'       => 25,
             'strictSyntax'   => true,
             'insertStars'    => 0,
             'syntaxHint'     => '',
@@ -423,11 +451,14 @@ class stack_equiv_input extends stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         $cs = new stack_cas_casstring('');
-        $values = $cs->logic_nouns_sort(false, $values);
         $values = stack_utils::list_to_array($value, false);
-        $values = array_map(function ($ex) {
-                return '<code>'.$ex.'</code>';
-        }, $values);
+        foreach ($values as $key => $val) {
+            if (trim($val) !== '' ) {
+                $val = $cs->logic_nouns_sort(false, $val);
+            }
+            $val = '<code>'.$this->stackeq_to_equals($val).'</code>';
+            $values[$key] = $val;
+        }
         $value = "<br/>".implode("<br/>", $values);
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));

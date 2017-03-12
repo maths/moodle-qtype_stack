@@ -131,6 +131,7 @@ class stack_answertest_general_cas extends stack_anstest {
         $sa = $this->process_nouns($this->sanskey);
 
         $cascommands = array();
+        $cascommands[] = "stackeq(x):=x";
         $cascommands[] = "STACKSA:$sa";
         $cascommands[] = "STACKTA:$ta";
         $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
@@ -165,7 +166,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         $sessionvars = $session->get_session();
-        $result = $sessionvars[2];
+        $result = $sessionvars[3];
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';

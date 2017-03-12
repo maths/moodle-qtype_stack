@@ -650,6 +650,27 @@ class stack_equiv_test_data {
 
         /******************************************************************************/
         $newarg = array();
+        $newarg['section'] = 'Equational reasoning';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Completing the square (1)";
+        $newarg['narrative'] = 'A simple matter of completing the square.';
+        $newarg['casstring'] = "[x^2+2*a*x,x^2+2*a*x+a^2-a^2,(x+a)^2-a^2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Completing the square (2)";
+        $newarg['narrative'] = 'Using "stackeq" as a prefix equation symbol.';
+        $newarg['casstring'] = "[x^2+2*a*x,stackeq(x^2+2*a*x+a^2-a^2),stackeq((x+a)^2-a^2)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        /******************************************************************************/
+        $newarg = array();
         $newarg['section'] = 'Inequalities';
         $samplearguments[] = $newarg;
 

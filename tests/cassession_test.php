@@ -217,7 +217,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('y^3-2\\cdot y^2-8\\cdot y', $at1->get_display_key('p1'));
         $this->assertEquals('y^2-2\\cdot y-8', $at1->get_display_key('p2'));
         $this->assertEquals('y^2-2\\cdot y-0.5', $at1->get_display_key('p3'));
-        // Since we introduced a +- operator, changes from Maxima's x-3+y. 
+        // Since we introduced a +- operator, changes from Maxima's x-3+y.
         $this->assertEquals('{x \pm 3}+y', $at1->get_display_key('p4'));
         $this->assertEquals('x+\\left(-5+y\\right)', $at1->get_display_key('p5'));
     }

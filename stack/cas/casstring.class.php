@@ -473,7 +473,7 @@ class stack_cas_casstring {
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
-                'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true);
+                'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true, 'stackeq' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -1294,6 +1294,16 @@ class stack_cas_casstring {
                 $str = str_replace($key, $val, $str);
             } else {
                 $str = str_replace($val, $key, $str);
+            }
+        }
+
+        if ($direction) {
+            // Check if we are using equational reasoning.
+            if (substr(trim($str), 0, 1) === "=") {
+                $trimmed = trim(substr(trim($str), 1));
+                if ( $trimmed !== '') {
+                    $str = 'stackeq(' . $trimmed . ')';
+                }
             }
         }
 

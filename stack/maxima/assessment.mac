@@ -125,7 +125,7 @@ any_listp(p, l) := if listp(l) then ret:apply("or", maplist(p, l)) else ret:"fai
 listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
 
 /* Returns true iff a and b are lists (not necessarily same length) and contain the common element v */
-listscontain(a, b, v) := elementp(v,intersection(setify(a), setify(b)))$
+listscontain(a, b, v) := elementp(v, intersection(setify(a), setify(b)))$
 
 /* This function applies the binary function zf to two lists a and b returning a list
 [ zf(a[1],b[1]), zf(a[2],b[2]), ... ] zip_with quietly gives up when one of the list runs out of elements.  
@@ -1092,6 +1092,7 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 
 texput(EMPTYCHAR, "\\ ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
+texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
@@ -1107,6 +1108,12 @@ texput(all, "\\mathbb{R}");
 
 declare(none, constant);
 texput(none, "\\emptyset");
+
+/* stackeq is an intert prefix equality symbol. */
+stackeqtex(ex):=block([ss, n, dp],
+  sconcat("=", tex1(first(args(ex))))
+);
+texput(stackeq, stackeqtex);
 
 /* This function actually evaluates the correctness of an argument "ex".                       */
 /* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
@@ -1134,6 +1141,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
      SA:exmod[ev(id, simp)],
      if stack_eval_arg_equivzerop(ex) then SA:SA=0,
      if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
+     if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
      exmod[ev(id, simp)]:SA
   ),
   if debug then print(exmod),
@@ -1356,10 +1364,17 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
     A:transpose(stack_eval_arg(ex)),
     /* If in debug mode check if we have what we expect. */
     eqoutsymb:A[2],
+    /* Modify input expressions for implied equivalence to zero. */
+    exnew:A[3],
+    /* Optimize symbols when equational reasoning. */
+    for k:1 thru length(ex) step 1 do block([SA, tempnote],
+        if is(safe_op(exnew[ev(k,simp)])="stackeq") and is(eqoutsymb[ev(k,simp)]=EQUIVCHAR) then
+            eqoutsymb[ev(k,simp)]:CHECKMARK
+    ),
     /* Unit test the eval_arg code. */
     if listp(debuglist) then block([simp, eqoutsymb, k],
         eqoutsymb:A[2],
-        if is(length(eqoutsymb)=length(debuglist)) then block(
+        if is(length(eqoutsymb)=length(debuglist)) then block([simp],
             simp:true,
             for k:2 thru length(eqoutsymb) step 1 do block([ATres, SA, SB],
                 if not(is(eqoutsymb[k]=debuglist[k])) then
@@ -1369,8 +1384,9 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
             print("ERROR, disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".") 
         )
     ),
-    /* Modify input expressions for implied equivalence to zero. */
-    exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
+    /* Only add in EQUIVZERO when we don't have equational reasoning. */
+    if not(op_usedp(A[3], stackeq)) then 
+        exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
     ret:[exnew],
     /* If we are not showing logical connectives, then suppress them. */
     if showlogic then ret:append([eqoutsymb], ret),

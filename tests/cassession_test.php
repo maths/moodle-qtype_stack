@@ -861,4 +861,63 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $this->assertEquals($c[2], $at1->get_display_key($sk));
         }
     }
+
+
+    public function test_scientific_notation() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of significant figures.
+        // 2. Displayed form.
+        // E.g. scientific_notation(314.159,2) -> 3.1\times 10^2.
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+                    array('9000', '2', '9.00\times 10^3'),
+                    array('9000', '1', '9.0\times 10^3'),
+                    array('9000', '', '9\times 10^3'),
+                    array('1000', '2', '1.00\times 10^3'),
+                    array('1000', '', '1\times 10^3'),
+                    array('1.55E8', '2', '1.55\times 10^8'),
+                    array('-0.01', '1', '-1.0\times 10^{-2}'),
+                    array('-1000', '2', '-1.00\times 10^3'),
+                    array('-1000', '', '-1\times 10^3'),
+                    array('-31415.927', '3', '-3.142\times 10^4'),
+                    array('155.5', '2', '1.56\times 10^2'),
+                    array('15.55', '2', '1.56\times 10^1'),
+                    array('777.7', '2', '7.78\times 10^2'),
+                    array('775.5', '2', '7.76\times 10^2'),
+                    array('775.55', '2', '7.76\times 10^2'),
+                    array('0.5555', '2', '5.56\times 10^{-1}'),
+                    array('0.05555', '2', '5.56\times 10^{-2}'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:scientific_notation({$c[0]},{$c[1]})";
+            if ($c[1] == '') {
+                $s = "p{$key}:scientific_notation({$c[0]})";
+            }
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        // TODO: we should not have to set this option.  scientific_notation should always print a cross.
+        $options->set_option('multiplicationsign', 'cross');
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            // TODO: this is a hack, so we can see all the results in one go for development.
+            //$this->assertEquals($c[2], $at1->get_display_key($sk));
+            echo "\n";
+            echo 'Input: ' . $c[0] . ' | ' . $c[1];
+            echo ' Expected: '. $c[2] . ' Actual: ' . $at1->get_display_key($sk);
+        }
+    }
 }

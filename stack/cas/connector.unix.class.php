@@ -55,7 +55,8 @@ class stack_cas_connection_unix extends stack_cas_connection_base {
         $ret = false;
         $err = '';
         $cwd = null;
-        $env = array('why' => 'itworks');
+        $newpath = getenv('PATH');
+        $env = array('PATH' => $newpath);
 
         $descriptors = array(
             0 => array('pipe', 'r'),

@@ -1971,10 +1971,15 @@ ATSingleFrac(SA, SB) := block(
         else
             return(StackBasicReturn(true,false,"ATSingleFrac_ret_exp")),
 
+    /* Ignore minus signs. */
+    SAA:SA,
+    if safe_op(SA)="-" then
+        SAA:first(args(SA)),
+
     /* Check for single fraction */
     fbn:"",
-    if op(SA) = "/" then block(
-        if (freeof("/", num(SA)) and freeof("/", denom(SA))) then block(
+    if op(SAA) = "/" then block(
+        if (freeof("/", num(SAA)) and freeof("/", denom(SAA))) then block(
             rawmk:true,
             ansnote:"ATSingleFrac_true")
         else block(
@@ -1987,7 +1992,7 @@ ATSingleFrac(SA, SB) := block(
     fb: StackAddFeedback(fb,ansnote),
     ansnote:StackAddNote("",ansnote),
     /* Check for algebraic equivalence */
-    if not(algebraic_equivalence(SA,SB)) then block(
+    if not(algebraic_equivalence(SA, SB)) then block(
             rawmk:false,
             fbn:"ATSingleFrac_ret_exp",
             fb: StackAddFeedback(fb,fbn),

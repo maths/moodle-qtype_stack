@@ -508,17 +508,6 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Reasoning with many variables";
-        $newarg['narrative'] = 'This example comes from proving Heron\'s formula. '.
-                'See http://math.stackexchange.com/questions/255527/show-that-2a2-b2a2c2b2c2-a4b4c4-abc-abca-bcab';
-        $newarg['casstring'] = "[2*(a^2*b^2+b^2*c^2+c^2*a^2)-(a^4+b^4+c^4),4*a^2*b^2-(a^4+b^4+c^4+2*a^2*b^2-2*b^2*c^2-2*c^2*a^2),".
-                "(2*a*b)^2-(b^2+a^2-c^2)^2,(2*a*b+b^2+a^2-c^2)*(2*a*b-b^2-a^2+c^2),".
-                "((a+b)^2-c^2)*(c^2-(a-b)^2),(a+b+c)*(a+b-c)*(c+a-b)*(c-a+b)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = true;
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
         $newarg['title']     = "Solving equations with surds (erroneous argument 1)";
         $newarg['narrative'] = 'Squaring both sides of an equation leads to possible additional solutions.';
         $newarg['casstring'] = "[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),".
@@ -666,6 +655,18 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'Using "stackeq" as a prefix equation symbol.';
         $newarg['casstring'] = "[x^2+2*a*x,stackeq(x^2+2*a*x+a^2-a^2),stackeq((x+a)^2-a^2)]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Reasoning with many variables";
+        $newarg['narrative'] = 'This example comes from proving Heron\'s formula. '.
+                'See http://math.stackexchange.com/questions/255527/show-that-2a2-b2a2c2b2c2-a4b4c4-abc-abca-bcab';
+        $newarg['casstring'] = "[2*(a^2*b^2+b^2*c^2+c^2*a^2)-(a^4+b^4+c^4),".
+                "stackeq(4*a^2*b^2-(a^4+b^4+c^4+2*a^2*b^2-2*b^2*c^2-2*c^2*a^2)),".
+                "stackeq((2*a*b)^2-(b^2+a^2-c^2)^2,(2*a*b+b^2+a^2-c^2)*(2*a*b-b^2-a^2+c^2)),".
+                "stackeq(((a+b)^2-c^2)*(c^2-(a-b)^2)),stackeq((a+b+c)*(a+b-c)*(c+a-b)*(c-a+b))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

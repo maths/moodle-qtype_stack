@@ -29,7 +29,7 @@ A CAS provides a library of functions with which to manipulate students' answers
 Establishing algebraic equivalence with a correct answer is only one kind of manipulation which is possible.
 
 Using CAS can also help generate random yet structured problems, and corresponding worked solutions.
-This system is the brain child of [Chris Sangwin](mailto:chris@sangwin.com).
+This system is the brain child of [Chris Sangwin](mailto:C.J.Sangwin@ed.ac.uk).
 
 In STACK a lot of attention has been paid to allowing teachers to author and manage their own questions. The following are the key features.
 

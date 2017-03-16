@@ -862,7 +862,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
     }
 
-
     public function test_scientific_notation() {
         // @codingStandardsIgnoreStart
 
@@ -875,23 +874,42 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // @codingStandardsIgnoreEnd
 
         $tests = array(
-                    array('9000', '2', '9.00\times 10^3'),
-                    array('9000', '1', '9.0\times 10^3'),
-                    array('9000', '', '9\times 10^3'),
-                    array('1000', '2', '1.00\times 10^3'),
-                    array('1000', '', '1\times 10^3'),
-                    array('1.55E8', '2', '1.55\times 10^8'),
-                    array('-0.01', '1', '-1.0\times 10^{-2}'),
-                    array('-1000', '2', '-1.00\times 10^3'),
-                    array('-1000', '', '-1\times 10^3'),
-                    array('-31415.927', '3', '-3.142\times 10^4'),
-                    array('155.5', '2', '1.56\times 10^2'),
-                    array('15.55', '2', '1.56\times 10^1'),
-                    array('777.7', '2', '7.78\times 10^2'),
-                    array('775.5', '2', '7.76\times 10^2'),
-                    array('775.55', '2', '7.76\times 10^2'),
-                    array('0.5555', '2', '5.56\times 10^{-1}'),
-                    array('0.05555', '2', '5.56\times 10^{-2}'),
+                    array('2', '0', '2 \times 10^{0}'),
+                    array('300', '0', '3 \times 10^{2}'),
+                    array('300', '0', '3 \times 10^{2}'),
+                    array('4321.768', '3', '4.322 \times 10^{3}'),
+                    array('-53000', '2', '-5.30 \times 10^{4}'),
+                    array('6720000000', '3', '6.720 \times 10^{9}'),
+                    array('6.0221409e23', '4', '6.0221 \times 10^{23}'),
+                    array('1.6022e-19', '4', '1.6022 \times 10^{-19}'),
+                    array('9000', '1', '9.0 \times 10^{3}'),
+                    array('9000', '0', '9 \times 10^{3}'),
+                    array('1.55E8', '2', '1.55 \times 10^{8}'),
+                    array('-0.01', '1', '-1.0 \times 10^{-2}'),
+                    array('-0.00000001', '3', '-1.000 \times 10^{-8}'),
+                    array('-0.00000001', '1', '-1.0 \times 10^{-8}'),
+                    array('-0.00000001', '0', '-1 \times 10^{-8}'),
+                    array('-1000', '2', '-1.00 \times 10^{3}'),
+                    array('31415.927', '3', '3.142 \times 10^{4}'),
+                    array('-31415.927', '3', '-3.142 \times 10^{4}'),
+                    array('155.5', '2', '1.56 \times 10^{2}'),
+                    array('15.55', '2', '1.56 \times 10^{1}'),
+                    array('777.7', '2', '7.78 \times 10^{2}'),
+                    array('775.5', '2', '7.76 \times 10^{2}'),
+                    array('775.55', '2', '7.76 \times 10^{2}'),
+                    array('0.5555', '2', '5.56 \times 10^{-1}'),
+                    array('0.05555', '2', '5.56 \times 10^{-2}'),
+                    array('cos(23*pi/180)', '3', '9.205 \times 10^{-1}'),
+                    // Edge case.  Want these ones to be 1*10^3, not 10.0*10^2.
+                    array('1000', '2', '1.00 \times 10^{3}'),
+                    // If we don't supply a number of decimal places, then we return a value form.
+                    // This is entered as scientific_notation(x).
+                    // This is displayed normally (without a \times) and always returns a *float*.
+                    array('9000', '', '9.0\cdot 10^3'),
+                    array('1000', '', '1.0\cdot 10^3'),
+                    array('-1000', '', '-1.0\cdot 10^3'),
+                    array('1e50', '', '1.0\cdot 10^{50}'),
+                    array('-0.00000001', '', '-1.0 \times 10^{-8}'),
         );
 
         foreach ($tests as $key => $c) {
@@ -906,18 +924,27 @@ class stack_cas_session_test extends qtype_stack_testcase {
 
         $options = new stack_options();
         $options->set_option('simplify', false);
-        // TODO: we should not have to set this option.  scientific_notation should always print a cross.
-        $options->set_option('multiplicationsign', 'cross');
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
+        $passed = array();
+        $failed = array();
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             // TODO: this is a hack, so we can see all the results in one go for development.
             //$this->assertEquals($c[2], $at1->get_display_key($sk));
-            echo "\n";
-            echo 'Input: ' . $c[0] . ' | ' . $c[1];
-            echo ' Expected: '. $c[2] . ' Actual: ' . $at1->get_display_key($sk);
+            $s = 'Input: ' . $c[0] . ' | ' . $c[1]. "\nE: ". $c[2] . "\nA: " . $at1->get_display_key($sk);
+            $s .= "\n --- \n";
+            if (trim($c[2]) == trim($at1->get_display_key($sk))) {
+                $passed[] = $s;
+            } else {
+                $failed[] = $s;
+            }
         }
+        echo "\n-------\n";
+        echo implode($passed, "\n");
+        echo "\nFAILED below here -------\n";
+        echo implode($failed, "\n");
+        echo "\n-------\n";
     }
 }

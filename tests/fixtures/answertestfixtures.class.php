@@ -647,6 +647,12 @@ class stack_answertest_test_data {
         array('SingleFrac', '', '(1/2)/(3/4)', '2/3', 0, 'ATSingleFrac_div.', 'Fractions within fractions'),
         array('SingleFrac', '', '(x-2)/4/(2/x^2)', '(x-2)*x^2/8', 0, 'ATSingleFrac_div.', ''),
         array('SingleFrac', '', '1/(1-1/x)', 'x/(x-1)', 0, 'ATSingleFrac_div.', ''),
+        array('SingleFrac', '', '-1/2', '-1/2', 1, 'ATSingleFrac_true.', 'Negative cases'),
+        array('SingleFrac', '', '-1/2', '-1/3', 0, 'ATSingleFrac_true. ATSingleFrac_ret_exp.', ''),
+        array('SingleFrac', '', '-a/b', '-a/b', 1, 'ATSingleFrac_true.', ''),
+        array('SingleFrac', '', '-(1/2)', '-1/2', 1, 'ATSingleFrac_true.', ''),
+        array('SingleFrac', '', '-(a/b)', '-a/b', 1, 'ATSingleFrac_true.', ''),
+        array('SingleFrac', '', '-(1/(n-1))', '1/(1-n)', 1, 'ATSingleFrac_true.', ''),
 
         array('PartFrac', '', '1/0', '3*x^2', -1, 'STACKERROR_OPTION.', ''),
         array('PartFrac', 'x', '1/0', '3*x^2', -1, 'ATPartFrac_STACKERROR_SAns.', ''),

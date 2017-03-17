@@ -188,11 +188,11 @@ These tests deal with the precision of numbers.  See dedicated page on [numerica
 
 ### Diff ###
 
-This test is a general differentiation test. The first argument is the student's answer. The answer test options needs to be the variable.
+This test is a general differentiation test: it is passed if the arguments are algebraically equivalent, but gives feedback if it looks like the student has integrated instead of differentiated. The first argument is the student's answer. The second argument is the model answer. The answer test option must be the variable with respect to which differentiation is assumed to take place.
 
 ### Int ###
 
-This test is designed for a general indefinite integration question. The first argument is the student's answer.
+This test is designed for a general indefinite integration question: it is passed if both the arguments are indefinite integrals of the same expression. The first argument is the student's answer.
 The second argument is the model answer. The answer test option needs to be the variable with respect to which integration is assumed to take place, or a list (see below).
 
 Getting this test to work in a general setting is a very difficult challenge.
@@ -210,7 +210,7 @@ we insist the student is at least consistent.  If the teacher has *any*
 teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 
 student must have all or none. 
 
-The ATInt test has various additional options.
+The Int test has various additional options.
 
 The question author must supply these options in the form of a list `[var, opt1, ...]`.  The first argument of this list must be the variable with respect to which integration is taking place.  
 

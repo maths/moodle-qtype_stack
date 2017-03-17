@@ -889,6 +889,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('-0.00000001', '3', '-1.000 \times 10^{-8}'),
                     array('-0.00000001', '1', '-1.0 \times 10^{-8}'),
                     array('-0.00000001', '0', '-1 \times 10^{-8}'),
+                    array('-1E-8', '0', '-1 \times 10^{-8}'),
                     array('-1000', '2', '-1.00 \times 10^{3}'),
                     array('31415.927', '3', '3.142 \times 10^{4}'),
                     array('-31415.927', '3', '-3.142 \times 10^{4}'),
@@ -902,6 +903,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('cos(23*pi/180)', '3', '9.205 \times 10^{-1}'),
                     // Edge case.  Want these ones to be 1*10^3, not 10.0*10^2.
                     array('1000', '2', '1.00 \times 10^{3}'),
+                    array('100', '2', '1.00 \times 10^{2}'),
                     // If we don't supply a number of decimal places, then we return a value form.
                     // This is entered as scientific_notation(x).
                     // This is displayed normally (without a \times) and always returns a *float*.
@@ -909,7 +911,10 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('1000', '', '1.0\cdot 10^3'),
                     array('-1000', '', '-1.0\cdot 10^3'),
                     array('1e50', '', '1.0\cdot 10^{50}'),
-                    array('-0.00000001', '', '-1.0 \times 10^{-8}'),
+                    array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }'),
+                    array('-1E-8', '', '-1.0\cdot 10^ {- 8 }'),
+                    // If we pass in a general expression is should be unchanged.
+                    array('pi*x^2', '', '\pi\cdot x^2'),
         );
 
         foreach ($tests as $key => $c) {
@@ -927,12 +932,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $passed = array();
-        $failed = array();
+        //$passed = array();
+        //$failed = array();
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
-            // TODO: this is a hack, so we can see all the results in one go for development.
-            //$this->assertEquals($c[2], $at1->get_display_key($sk));
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+            /*
             $s = 'Input: ' . $c[0] . ' | ' . $c[1]. "\nE: ". $c[2] . "\nA: " . $at1->get_display_key($sk);
             $s .= "\n --- \n";
             if (trim($c[2]) == trim($at1->get_display_key($sk))) {
@@ -940,11 +945,14 @@ class stack_cas_session_test extends qtype_stack_testcase {
             } else {
                 $failed[] = $s;
             }
+            */
         }
+        /*
         echo "\n-------\n";
         echo implode($passed, "\n");
         echo "\nFAILED below here -------\n";
         echo implode($failed, "\n");
         echo "\n-------\n";
+        */
     }
 }

@@ -313,7 +313,7 @@ abstract class stack_input {
 
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
-        // AT this sage, $valid records the PHP validation or other non-CAS issues.
+        // At this sage, $valid records the PHP validation or other non-CAS issues.
         list($valid, $errors, $modifiedcontents, $caslines) = $this->validate_contents($contents, $forbiddenkeys, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.

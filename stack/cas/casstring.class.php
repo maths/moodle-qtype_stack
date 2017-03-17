@@ -522,7 +522,7 @@ class stack_cas_casstring {
      * Note, these are used in regular expression ranges, so - must be at the end, and ^ may not be first.
      */
     // @codingStandardsIgnoreStart
-    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-.';
+    private static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
     // @codingStandardsIgnoreEnd
 
     /**

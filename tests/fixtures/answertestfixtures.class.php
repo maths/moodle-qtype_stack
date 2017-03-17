@@ -423,6 +423,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '1+k+k^2+k^3', 'sum(k^n,n,0,3)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
         array('EqualComAss', '', 'product(cos(k*x),k,1,3)', 'product(cos(k*x),k,1,3)', 1, '', ''),
         array('EqualComAss', '', 'cos(x)*cos(2*x)*cos(3*x)', 'product(cos(k*x),k,1,3)', 0, 'ATEqualComAss: (AlgEquiv:true).', ''),
+        array('EqualComAss', '', '-6/5 > x', 'x < -6/5', 0, 'ATEqualComAss: (AlgEquiv:true).',
+            'Inequalities are not commutative under this test'),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero. | ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'CASError: Division by zero. | ATCASEqual_STACKERROR_TAns.', ''),

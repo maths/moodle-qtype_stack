@@ -44,7 +44,7 @@ class stack_boolean_input_rendering_test extends question_testcase {
                         'stack1__ans1', $this->expected_choices(), stack_boolean_input::NA),
                 $el->render(new stack_input_state(
                         stack_input::BLANK, array(stack_boolean_input::NA), '', '', '', '', '', ''),
-                        'stack1__ans1', false, ''));
+                        'stack1__ans1', false, null));
     }
 
     public function test_render_true() {
@@ -52,7 +52,7 @@ class stack_boolean_input_rendering_test extends question_testcase {
         $this->assert(new question_contains_select_expectation('stack1__ans2', $this->expected_choices(),
                 stack_boolean_input::T), $el->render(new stack_input_state(
                         stack_input::VALID, array(stack_boolean_input::T), '', '', '', '', '', ''),
-                        'stack1__ans2', false));
+                        'stack1__ans2', false, null));
     }
 
     public function test_render_false() {
@@ -60,7 +60,7 @@ class stack_boolean_input_rendering_test extends question_testcase {
         $this->assert(new question_contains_select_expectation('stack1__ans3', $this->expected_choices(),
                 stack_boolean_input::F), $el->render(new stack_input_state(
                         stack_input::VALID, array(stack_boolean_input::F), '', '', '', '', '', ''),
-                        'stack1__ans3', false));
+                        'stack1__ans3', false, null));
     }
 
     public function test_render_disabled() {
@@ -68,6 +68,6 @@ class stack_boolean_input_rendering_test extends question_testcase {
         $this->assert(new question_contains_select_expectation('stack1__ans1', $this->expected_choices(),
                 stack_boolean_input::NA, false), $el->render(new stack_input_state(
                         stack_input::BLANK, array(), '', '', '', '', ''),
-                        'stack1__ans1', true));
+                        'stack1__ans1', true, null));
     }
 }

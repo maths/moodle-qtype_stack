@@ -609,6 +609,15 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Rational expressions 3";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),5*x^2+5*x-6*x-3=2*x^2+3*x+1,".
+            "3*x^2-4*x-4=0,(x-2)*(3*x+2)=0,x=2 nounor x=-2/3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Solving rational expressions (erroneous argument 1)";
         $newarg['narrative'] = 'Here we create a problem by dividing by a term which is actually zero.  '.
                 'The only solution is \(x=10\) which we have cancelled out.';
@@ -640,6 +649,22 @@ class stack_equiv_test_data {
         /******************************************************************************/
         $newarg = array();
         $newarg['section'] = 'Equational reasoning';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Expand out the brackets (1)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Expand out the brackets (2)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(3*x-2)^4,stackeq((9*x^2-12*x+4)^2),stackeq(81*x^4-2*9*12*x^3+2*4*9*x^2+12*12*x^2-2*4*12*x+16),stackeq(81*x^4-216*x^3+216*x^2-96*x+16)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -784,6 +809,14 @@ class stack_equiv_test_data {
         $newarg['title']     = "Differential quotient as the unknown";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Integration by parts";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "['int(x^3*log(x),x),stackequiv(x^4/4*log(x)-1/4*'int(x^3,x)),stackequiv(x^4/4*log(x)-x^4/4)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;

@@ -43,11 +43,14 @@ class qtype_stack_renderer extends qtype_renderer {
         $inputstovaldiate = array();
         $qaid = null;
         foreach ($question->inputs as $name => $input) {
+            // Get the actual value of the teacher's answer at this point.
+            $tavalue = $question->get_session_variable($name);
+
             $fieldname = $qa->get_qt_field_name($name);
             $state = $question->get_input_state($name, $response);
 
             $questiontext = str_replace("[[input:{$name}]]",
-                    $input->render($state, $fieldname, $options->readonly),
+                    $input->render($state, $fieldname, $options->readonly, $tavalue),
                     $questiontext);
 
             $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext);

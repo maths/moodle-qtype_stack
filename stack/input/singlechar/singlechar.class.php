@@ -24,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_singlechar_input extends stack_input {
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         $attributes = array(
             'type'      => 'text',

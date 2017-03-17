@@ -131,7 +131,13 @@ class stack_answertest_general_cas extends stack_anstest {
         $sa = $this->process_nouns($this->sanskey);
 
         $cascommands = array();
-        $cascommands[] = "stackeq(x):=x";
+        // Normally the prefix equality should be the identity function in the context of answer tests.
+        if ($this->casfunction == 'ATEquiv' || $this->casfunction == 'ATEquivFirst') {
+            // This is a placeholder to ensure the result is always in slot 3.
+            $cascommands[] = "null";
+        } else {
+            $cascommands[] = "stackeq(x):=x";
+        }
         $cascommands[] = "STACKSA:$sa";
         $cascommands[] = "STACKTA:$ta";
         $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";

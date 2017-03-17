@@ -206,7 +206,7 @@ class stack_matrix_input extends stack_input {
         return array($valid, $errors, $modifiedcontents, $caslines);
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         $attributes = array(
             'type' => 'text',
             'name' => $fieldname,

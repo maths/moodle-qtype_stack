@@ -53,7 +53,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return '['.implode(',', $vals).']';
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         $result = '';
         // Display runtime errors and bail out.

@@ -34,7 +34,7 @@ class stack_notes_input_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer('Hello world');
         $this->assertEquals('<textarea name="ans1" id="ans1" rows="5" cols="50"></textarea>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
-                        'ans1', false));
+                        'ans1', false, null));
     }
 
 }

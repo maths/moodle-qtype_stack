@@ -49,7 +49,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
                 .'size="16.5" style="width: 13.6em" value="" />',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
-                        'stack1__ans1', false));
+                        'stack1__ans1', false, null));
     }
 
     public function test_render_zero() {
@@ -57,7 +57,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" '
                 .'size="16.5" style="width: 13.6em" value="0" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
-                        'stack1__ans1', false));
+                        'stack1__ans1', false, null));
     }
 
     public function test_render_pre_filled() {
@@ -65,7 +65,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
                 .'size="16.5" style="width: 13.6em" value="x+y" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', '', ''),
-                        'stack1__test', false));
+                        'stack1__test', false, null));
     }
 
     public function test_render_pre_filled_nasty_input() {
@@ -73,7 +73,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
                 .'size="16.5" style="width: 13.6em" value="x&lt;y" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('x<y'), '', '', '', '', ''),
-                        'stack1__test', false));
+                        'stack1__test', false, null));
     }
 
     public function test_render_max_length() {
@@ -81,7 +81,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" '
                 .'size="16.5" style="width: 13.6em" value="x+y" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+y'), '', '', '', '', ''),
-                        'stack1__test', false));
+                        'stack1__test', false, null));
     }
 
     public function test_render_disabled() {
@@ -90,7 +90,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 '<input type="text" name="stack1__input" id="stack1__input" '
                 .'size="16.5" style="width: 13.6em" value="x+1" readonly="readonly" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', '', ''),
-                        'stack1__input', true));
+                        'stack1__input', true, null));
     }
 
     public function test_render_different_size() {
@@ -99,7 +99,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" '
                 .'size="33" style="width: 27.1em" value="x+1" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('x+1'), '', '', '', '', ''),
-                        'stack1__input', false));
+                        'stack1__input', false, null));
     }
 
     public function test_render_syntaxhint() {
@@ -108,7 +108,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
                 .'size="16.5" style="width: 13.6em" value="[?, ?, ?]" />',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
-                        'stack1__sans1', false));
+                        'stack1__sans1', false, null));
     }
 
     public function test_render_placeholder() {
@@ -118,7 +118,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" '
                 .'size="16.5" style="width: 13.6em" placeholder="Remove me" />',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
-                        'stack1__sans1', false));
+                        'stack1__sans1', false, null));
     }
 
     public function test_validate_student_response_1() {

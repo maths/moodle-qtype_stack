@@ -21,6 +21,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+global $CFG;
+require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
+
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
@@ -46,11 +50,32 @@ class stack_equiv_input_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
-        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="10"></textarea></td>' .
+        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25"></textarea></td>' .
                 '<td><div class="stackinputfeedback" id="stack1__ans1_val">' .
                 '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></td></tr></table>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
-                        'stack1__ans1', false));
+                        'stack1__ans1', false, null));
+    }
+
+    public function test_render_firstline() {
+        $el = stack_input_factory::make('equiv', 'ans1', '[]');
+        $el->set_parameter('syntaxHint', 'firstline');
+        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25">x^2=4</textarea></td>' .
+                '<td><div class="stackinputfeedback" id="stack1__ans1_val">' .
+                '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></td></tr></table>',
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                        'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
+    }
+
+    public function test_render_hint() {
+        $el = stack_input_factory::make('equiv', 'ans1', '[]');
+        // Note the syntax hint must be a list.
+        $el->set_parameter('syntaxHint', '[x^2=3]');
+        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25">x^2=3</textarea></td>' .
+                '<td><div class="stackinputfeedback" id="stack1__ans1_val">' .
+                '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></td></tr></table>',
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                        'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
     }
 
     public function test_validate_student_response_1() {
@@ -58,6 +83,11 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('equiv', 'sans1', '[x^2-2*x+1=0]');
         $state = $el->validate_student_response(array('sans1' => 'x^2-2*x+1=0'), $options, '[x^2-2*x+1=0]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
+        $excont = array(0 => 'x^2-2*x+1=0');
+        $this->assertEquals($excont, $state->contents);
+        $this->assertEquals('[x^2-2*x+1=0]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2-2\cdot x+1=0\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_2() {
@@ -75,4 +105,50 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('  Sets are not allowed when reasoning by equivalence.', $state->errors);
     }
 
+    public function test_validate_student_response_insert_stars_0_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]');
+        $el->set_parameter('insertStars', 2);
+        $el->set_parameter('strictSyntax', false);
+
+        $state = $el->validate_student_response(array('sans1' => "(x-1)(x+4)\n=x^2-x+4x-4\n=x^2+3x-4"), $options,
+                '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', null);
+        $excont = array(0 => '(x-1)(x+4)', 1 => '=x^2-x+4x-4', 2 => '=x^2+3x-4');
+        $this->assertEquals($excont, $state->contents);
+        $this->assertEquals('[(x-1)*(x+4),stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr  \color{green}{\checkmark}'.
+                '&=x^2-x+4\cdot x-4\cr  \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('  ', $state->errors);
+    }
+
+    public function test_validate_student_response_insert_stars_0_false() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]');
+        $el->set_parameter('insertStars', 0);
+        $el->set_parameter('strictSyntax', true);
+
+        $state = $el->validate_student_response(array('sans1' => "(x-1)(x+4)"), $options,
+                '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $excont = array(0 => '(x-1)*(x+4)');
+        $this->assertEquals(' You seem to be missing * characters. Perhaps you meant to type '.
+                '<span class="stacksyntaxexample">(x-1)<font color="red">*</font>(x+4)</span>.', $state->errors);
+    }
+
+    public function test_validate_student_response_equational_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]');
+        $state = $el->validate_student_response(array('sans1' => "(x-1)*(x+4)\n=x^2-x+4*x-4\n=x^2+3*x-4"), $options,
+                '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', null);
+        $excont = array(0 => '(x-1)*(x+4)', 1 => '=x^2-x+4*x-4', 2 => '=x^2+3*x-4');
+        $this->assertEquals($excont, $state->contents);
+        $this->assertEquals('[(x-1)*(x+4),stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr  \color{green}{\checkmark}'.
+                '&=x^2-x+4\cdot x-4\cr  \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('  ', $state->errors);
+    }
+
 }
+

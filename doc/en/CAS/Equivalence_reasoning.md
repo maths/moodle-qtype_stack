@@ -12,6 +12,7 @@ An example of solving a quadratic equation is shown below.
 \color{green}{\Leftrightarrow} & x-6=0\lor x+5=0 \\ 
 \color{green}{\Leftrightarrow} & x=6\lor x=-5 
 \end{array}\]
+
 The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
 This input type enables us to capture and evaluate student's line by line reasoning, i.e. their steps in working, during this kind of activity.
 
@@ -57,11 +58,12 @@ The ability to give feedback on the equivalence of adjacent lines as the student
 
 * The validation tags, e.g. `[[validation:ans1]]` are ignored for this input type.  Validation feeback is always displayed next to the textarea into which students type their answer.
 * The teacher's answer and any syntax hint must be a list.  If you just pass in an expression strange behaviour may result.
-* The input type works very much like the textarea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as  the following in your potential response tree.
-
-    last(ans1)
-* Mathematically, the code assumes we are working over the real numbers.
+* The input type works very much like the textarea input type.  Internally, the student's lines are turned into a list.  If you want to use the "final answer" then use code such as `last(ans1)` in your potential response tree.
 * If students type in an expression rather than an equation, the system will assume they forgot to add \(=0\) at the end and act accordingly.  This is displayed to the student.
+
+If the student starts their line with an `=` sign, this is accepted.  Teachers cannot use a prefix `=`.  In a worked solution the teacher must use the prefix function `stackeq`.  For example,
+
+    ta:[(x-1)^2,stackeq(x^2-2*x+1)]
 
 Teachers must explicitly use the `nounor` and `nounand` commands, not the `and` and `or` logic.  For example, a worked solution might be
 
@@ -79,6 +81,8 @@ To enter options for this input use the "extra options field".   Options should 
 `firstline` takes the first line of the teacher's answer and forces the student to have this as the first line of the student's answer.  The test used is equality up to commutativity and associativity (EqualComAss answer test).
 
 `assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\).  This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question variables to also affect the answer test.
+
+If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  This enables a randomly generated syntax hint to appear in the box.
 
 # Answer tests
 

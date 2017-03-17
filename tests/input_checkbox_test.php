@@ -66,7 +66,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>'
                 . '\(y+2\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_simple_casstring_checkbox() {
@@ -79,7 +79,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label>'
                 . '<code>2+y</code></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_bad_teacheranswer() {
@@ -89,7 +89,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 . ' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>. '
                 . '</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values() {
@@ -101,7 +101,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options. </p>'
                 .'</div>';
          $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values_ok() {
@@ -114,7 +114,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" checked="checked" /><label>'
             . '\(1\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_not_answered() {
@@ -126,7 +126,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<label>\(\sin \left( \pi\cdot n \right)\)</label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
-                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_x_plus_1() {
@@ -139,7 +139,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<label><code>sin(pi*n)</code></label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
-                        stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_latex() {
@@ -150,7 +150,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
             . '<label>\(\sin \left( \pi\cdot n \right)\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_latexdisplay() {
@@ -161,7 +161,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
             . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
             . '<label>\[\sin \left( \pi\cdot n \right)\]</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_response_blank() {
@@ -201,7 +201,7 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                 . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
                 . '<label>None of these</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', null);
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals(array('3'), $state->contents);

@@ -32,7 +32,7 @@ class stack_radio_input extends stack_dropdown_input {
      */
     protected $ddldisplay = 'LaTeX';
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         $result = '';
         // Display runtime errors and bail out.

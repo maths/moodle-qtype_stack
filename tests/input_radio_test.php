@@ -68,7 +68,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             .'\(y+2\)</label></div>'
             .'</div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_simple_casstring_radio() {
@@ -83,7 +83,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             .'<code>2+y</code></label></div>'
             .'</div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_no_correct_answer() {
@@ -93,7 +93,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
                 .' Please contact your teacher.</p><p>The teacher did not indicate at least one correct answer. </p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_bad_teacheranswer() {
@@ -103,7 +103,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                 .' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>.'
                 .' The teacher did not indicate at least one correct answer. </p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values() {
@@ -115,7 +115,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                 .' Please contact your teacher.</p><p>Duplicate values have been found when generating the input options. </p>'
                 .'</div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values_ok() {
@@ -129,7 +129,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                . '<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" checked="checked" />'
                . '<label>\(1\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_not_answered() {
@@ -142,7 +142,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                . '<label>\(\sin \left( \pi\cdot n \right)\)</label></div></div>';
         $this->assertEquals($expected,
                 $el->render(new stack_input_state(
-                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_default() {
@@ -155,7 +155,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             . '\(\sin \left( \pi\cdot n \right)\)</label>'
             . '</div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_casstring() {
@@ -169,7 +169,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             . '<code>sin(pi*n)</code></label>'
             . '</div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_latex() {
@@ -182,7 +182,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             . '\(\sin \left( \pi\cdot n \right)\)</label>'
             . '</div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_render_latexdisplay() {
@@ -195,7 +195,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
             . '\[\sin \left( \pi\cdot n \right)\]</label>'
             . '</div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false));
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_response_blank() {
@@ -234,6 +234,6 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
                . '<div><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" checked="checked" />'
                . '<label>\(2\,x\)</label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false));
+                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 }

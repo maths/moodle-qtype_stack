@@ -564,10 +564,11 @@ abstract class stack_input {
      *
      * @param string student's current answer to insert into the xhtml.
      * @param string $fieldname the field name to use in the HTML for this input.
-     * @param bool $readonly whether the contro should be displayed read-only.
+     * @param bool $readonly whether the control should be displayed read-only.
+     * @param array $tavalue the value of the teacher's answer for this input.
      * @return string HTML for this input.
      */
-    public abstract function render(stack_input_state $state, $fieldname, $readonly);
+    public abstract function render(stack_input_state $state, $fieldname, $readonly, $tavalue);
 
     /**
      * Add this input the MoodleForm, but only used in questiontestform.php.

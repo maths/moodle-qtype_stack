@@ -45,7 +45,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
                 '<td><input type="text" name="ans1_sub_1_2" value="" size="5"></td>' .
                 '<td style="border-width: 0px 2px 2px 0px; padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table>',
                 $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
-                        'ans1', false));
+                        'ans1', false, null));
     }
 
     public function test_render_no_errors_if_garbled() {
@@ -58,7 +58,7 @@ class stack_matrix_input_test extends qtype_stack_testcase {
                 '<span class="stacksyntaxexample">ta:matrix_size([[1,0],[0,1]])</span> ' .
                 'caused the following error: The "$first" argument of the function "$matrix_size" must be a matrix </p>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
-                        'ans1', false));
+                        'ans1', false, null));
     }
 
     public function test_modinput_tokenizer_1() {

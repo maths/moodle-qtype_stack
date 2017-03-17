@@ -1,6 +1,6 @@
 # Reasoning by Equivalence
 
-Sometimes STACK allows you to work line by line to solve an equation or inequality.  You must work in such a way that adjacent lines are equivalent to each other.  See below for more information about this.
+Sometimes STACK allows you to work line by line to solve an equation or inequality.  You must work in such a way that adjacent lines are equivalent to each other.
 
 Start by typing in the equation in the question. Then work line by line in the text area until you have solved the problem.  Normally some feedback will be available as you type.  You can copy and paste from one line to the next and modify the line if this helps.
 
@@ -20,9 +20,24 @@ Whether this feedback is available to you or not immediately depends on your que
 2. Sets, lists and matrices are not permitted when reasoning by equivalence.
 3. Do not enter your answer as a list or set of numbers, use logical notation such as `x=-1 or x=5`.
 
+You can also work line by line with expressions, not equations.  For example, to expand out \( (x-1)(x+4) \) you might reason in the following way.
+
+    (x-1)*(x+4)
+    =x^2-x+4*x-4
+    =x^2+3*x-4
+
+This might be displayed as follows
+
+\[\begin{array}{ll}\ &\left(x-1\right)\cdot \left(x+4\right) \cr \color{green}{\checkmark}&=x^2-x+4\cdot x-4 \cr
+\color{green}{\checkmark}&=x^2+3\cdot x-4\end{array}\]
+
+Here, each new line must start with an equals sign `=`.
+
 ## What is "equivalence"?
 
-Two equations are *equivalent* if they have the same solutions with the same multiplicities.
+Two *equations* are equivalent if they have the same solutions with the same multiplicities.
+
+Two *expressions* are equivalent if they have the same value when the variables are evaluated.
 
 Some general advice for solving equations when reasoning by equivalence is
 

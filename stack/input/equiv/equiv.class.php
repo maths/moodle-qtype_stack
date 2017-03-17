@@ -90,13 +90,18 @@ class stack_equiv_input extends stack_input {
         return true;
     }
 
-    public function render(stack_input_state $state, $fieldname, $readonly) {
+    public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
             $rows = array();
+            // Put the first line of the value of the teacher's answer in the input.
+            if (trim($this->parameters['syntaxHint']) == 'firstline') {
+                $values = stack_utils::list_to_array($tavalue, false);
+                $current = $values[0];
+            }
         } else {
             $current = implode("\n", $state->contents);
             $rows = $state->contents;

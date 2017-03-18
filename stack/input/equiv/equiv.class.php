@@ -233,9 +233,6 @@ class stack_equiv_input extends stack_input {
         $allowwords = $this->get_parameter('allowWords', '');
         foreach ($contents as $index => $val) {
 
-            // We need this check first.  Otherwise the single var chars function can't work.
-            $val = $this->equals_to_stackeq($val);
-
             if ($this->identify_comments($val)) {
                 $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
                 $this->comments[$index] = $val;
@@ -271,9 +268,10 @@ class stack_equiv_input extends stack_input {
             }
 
             $caslines[] = $answer;
+
             $modifiedcontents[] = $answer->get_casstring();
             $valid = $valid && $answer->get_valid();
-            $errors[] = $answer->get_errors();
+            $errors[] = trim($answer->get_errors());
         }
 
         return array($valid, $errors, $modifiedcontents, $caslines);

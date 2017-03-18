@@ -974,7 +974,7 @@ class stack_cas_casstring {
                 } else {
                     // Flag up the error.
                     $missingstring = stack_maxima_format_casstring(preg_replace($pat,
-                        "\${1}<font color=\"red\">*</font>\${2}", $cmd));
+                        "\${1}<font color=\"red\">*</font>\${2}", $this->logic_nouns_sort(false, $cmd)));
                 }
             }
         }
@@ -994,7 +994,7 @@ class stack_cas_casstring {
             return true;
         } else {
             // If missing stars & strict syntax is on return errors.
-            $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
+            $a['cmd']  = str_replace('QMCHAR', '?', $this->logic_nouns_sort(false, $missingstring));
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
             return false;
@@ -1304,6 +1304,10 @@ class stack_cas_casstring {
                 if ( $trimmed !== '') {
                     $str = 'stackeq(' . $trimmed . ')';
                 }
+            }
+        } else {
+            if (substr(trim($str), 0, 8) == 'stackeq(') {
+                $str = '=' . substr(trim($str), 8, -1);
             }
         }
 

@@ -105,6 +105,134 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('  Sets are not allowed when reasoning by equivalence.', $state->errors);
     }
 
+    public function test_validate_student_response_invalid_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n =(x-2)(x-3)"), $options,
+                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('  You seem to be missing * characters. Perhaps you meant to type '.
+                '<span class="stacksyntaxexample">=(x-2)<font color="red">*</font>(x-3)</span>.', $state->errors);
+    }
+
+    public function test_validate_student_response_invalid_2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\n(x-2)(x-3)=0"), $options,
+                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('  You seem to be missing * characters. Perhaps you meant to type '.
+                '<span class="stacksyntaxexample">(x-2)<font color="red">*</font>(x-3)=0</span>.', $state->errors);
+    }
+
+    public function test_validate_student_response_invalid_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n =(x-2)*x^"), $options,
+                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('  \'^\' is an invalid final character in <span class="stacksyntaxexample">=(x-2)*x^</span>',
+                $state->errors);
+    }
+
+    public function test_validate_student_response_invalid_comments() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n \"Factoring gives \"\n=(x-2)*(x-3)"), $options,
+                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('  You are not permitted to use comments in this input type.  '.
+                'Please just work line by line. ', $state->errors);
+    }
+
+    public function test_validate_student_response_valid_comments() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $el->set_parameter('options', 'comments');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n\"Factoring gives \"\n=(x-2)*(x-3)"), $options,
+                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('  ', $state->errors);
+    }
+
+    public function test_validate_student_response_with_equiv() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6=0]');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\nx=2 or x=3"), $options, '[x^2-5*x+6=0]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2-5\cdot x+6=0\cr'.
+            '  \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3\cr  \end{array} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_without_equiv() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6=0]');
+        $el->set_parameter('options', 'hideequiv');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\nx=2 or x=3"), $options, '[x^2-5*x+6=0]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}x^2-5\cdot x+6=0\cr'.
+                ' x=2\,{\mbox{ or }}\, x=3\cr  \end{array} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_without_assume_pos() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2=4,x=2 nounor x=-2]');
+        $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2 or x=-2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2 \,{\mbox{ or }}\, x=-2\cr'.
+                ' \end{array} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_without_assume_pos_wrong() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2=4,x=2 nounor x=-2]');
+        $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
+        // Note this is an implication, not equivalence.
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{red}{\Leftarrow}&x=2\cr  \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_assume_pos() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2=4,x=2 nounor x=-2]');
+        $el->set_parameter('options', 'assume_pos');
+        $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
+        // In this example, we have assumed x is positive so we do have an equivalence.
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2 \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_firstline() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2=4,x=2 nounor x=-2]');
+        $el->set_parameter('options', 'firstline');
+        $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2 or x=-2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2 \,{\mbox{ or }}\, x=-2\cr'.
+                ' \end{array} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_firstline_false() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2=4,x=2 nounor x=-2]');
+        $el->set_parameter('options', 'firstline');
+        $state = $el->validate_student_response(array('sans1' => "x^2-4=0\nx=2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('[x^2-4=0,x=2]', $state->contentsmodified);
+        $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0"><tbody>'.
+                '<tr><td><span class="stacksyntaxexample">x^2-4=0</span></td><td>You have used the wrong first line in your'.
+                ' argument!</td></tr></tr><tr><td>\(\displaystyle x=2 \)</td></tr></tbody></table></center>',
+                $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_insert_stars_0_true() {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]');
@@ -150,5 +278,21 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals('  ', $state->errors);
     }
 
+    public function test_validate_student_response_equational_insert_stars_true() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[a^2-a*b, stackeq(a*(a-b))]');
+        $el->set_parameter('insertStars', 2);
+        $el->set_parameter('strictSyntax', false);
+
+        $state = $el->validate_student_response(array('sans1' => "a^2-ab\n=a*(a-b)"), $options,
+                '[a^2-a*b,stackeq(a*(a-b))]', null);
+        $excont = array(0 => 'a^2-ab', 1 => '=a*(a-b)');
+        $this->assertEquals($excont, $state->contents);
+        $this->assertEquals('[a^2-a*b,stackeq(a*(a-b))]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &a^2-a\cdot b\cr \color{green}{\checkmark}& =a\cdot \left(a-b\right)\cr'.
+                ' \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(' ', $state->errors);
+    }
 }
 

@@ -160,6 +160,9 @@ abstract class stack_input {
         }
 
         $this->parameters[$parameter] = $value;
+        // Often setting a paramter needs to update internal flags, so we call this again.
+        // Mostly used by testing.
+        $this->internal_contruct();
     }
 
     /**

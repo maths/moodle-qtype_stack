@@ -1116,6 +1116,7 @@ class stack_utils {
             return $rawcasstring;
         }
         $cs = new stack_cas_casstring($rawcasstring);
+        $cs->logic_nouns_sort(true);
         $cs->get_valid('s', true, $stars, $allowwords);
         $casstring = $cs->get_casstring();
 

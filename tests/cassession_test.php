@@ -842,6 +842,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('lg(19)', '4', '1.279'),
                     array('pi', '4', '3.142'),
                     array('sqrt(27)', '8', '5.1961524'),
+                    array('-5.985', '3', '-5.99'),
         );
 
         foreach ($tests as $key => $c) {
@@ -901,7 +902,6 @@ class stack_cas_session_test extends qtype_stack_testcase {
             array('0.001', '2', '1.00 \times 10^{-3}'),
             array('-0.001', '2', '-1.00 \times 10^{-3}'),
             array('10', '2', '1.00 \times 10^{1}'),
-        
             array('2', '0', '2 \times 10^{0}'),
             array('300', '0', '3 \times 10^{2}'),
             array('300', '0', '3 \times 10^{2}'),
@@ -937,7 +937,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
             array('1000', '', '1.0\cdot 10^3'),
             array('-1000', '', '-1.0\cdot 10^3'),
             array('1e50', '', '1.0\cdot 10^{50}'),
-            array('-0.00000001', '', '-1.0 \times 10^{-8}'),
+            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }'),
         );
 
         foreach ($tests as $key => $c) {
@@ -955,24 +955,24 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        $passed = array();
-        $failed = array();
+        //$passed = array();
+        //$failed = array();
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             // TODO: this is a hack, so we can see all the results in one go for development.
-            //$this->assertEquals($c[2], $at1->get_display_key($sk));
-            $s = 'Input: ' . $c[0] . ' | ' . $c[1]. "\nE: ". $c[2] . "\nA: " . $at1->get_display_key($sk);
-            $s .= "\n --- \n";
-            if (trim($c[2]) == trim($at1->get_display_key($sk))) {
-                $passed[] = $s;
-            } else {
-                $failed[] = $s;
-            }
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+            //$s = 'Input: ' . $c[0] . ' | ' . $c[1]. "\nE: ". $c[2] . "\nA: " . $at1->get_display_key($sk);
+            //$s .= "\n --- \n";
+            //if (trim($c[2]) == trim($at1->get_display_key($sk))) {
+            //    $passed[] = $s;
+            //} else {
+            //    $failed[] = $s;
+            //}
         }
-        echo "\n-------\n";
-        echo implode($passed, "\n");
-        echo "\nFAILED below here -------\n";
-        echo implode($failed, "\n");
-        echo "\n-------\n";
+        //echo "\n-------\n";
+        //echo implode($passed, "\n");
+        //echo "\nFAILED below here -------\n";
+        //echo implode($failed, "\n");
+        //echo "\n-------\n";
     }
 }

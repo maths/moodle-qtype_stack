@@ -321,19 +321,34 @@ sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, e
 significantfigures(x, n) := sigfigsfun(x, n, false);
 dispsf(x, n) := sigfigsfun(x, n, true);
 
-scientific_notation([a]) := block([simp:false,x,ex,ex2,ex3,exn],
+scientific_notation([a]) := block([simp:false, x, ex, ex2, ex3, exn],
   if ev(is(length(a)=1), simp) then (x:first(a), exn:false)
   else if ev(is(length(a)=2), simp) then (x:first(a), exn:second(a))
   else error("scientific_notation takes only one or two arguments"),
   x:ev(float(x), logbase=logbasesimp, simp),
-  if real_numberp(x) and ev(x>0, simp) then (
-      ex:ev(floor(float(log(x)/log(10))), simp),
+  if real_numberp(x) then (
+      ex:ev(floor(float(log(abs(x))/log(10))), simp),
       ex2:ev(float(x/10^ex), simp),
+
+      /* Edge case of 10. */
+      if ev(is(abs(abs(ex2)-10.0)<1e-10), simp) then block(
+          if ev(sign(x)=pos) then ex2:1.0 else ex2:-1.0,
+          ex:ev(ex+1, simp)
+      ),
+
       ex3:ex2*10^ex,
-      if not(is(exn=false)) then ex3:displaydp(ex2, exn)*10^ex,
-      return(ex3)
+      /* The use of significantfigures here means we don't use banker's rounding but round up. */
+      if not(is(exn=false)) then ex3:displaysci(significantfigures(ex2, exn+1), exn, ex),      return(ex3)
   ) else return (first(a))
 )$
+
+displayscitex(ex):=block([ss, n, dp],
+  [n, dp, expo]:args(ex),
+  ss:sconcat("~,", string(dp), "f \\times 10^{~a}"),
+  if is(equal(dp, 0)) then ss:"~d \\times 10^{~a}",
+  ev(printf(false, ss, ev(float(n)), expo), simp)
+)$
+texput(displaysci, displayscitex)$
 
 /* ********************************** */
 /* Inequalities                       */

@@ -684,6 +684,14 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Mix of equations and expressions";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]";
+        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Reasoning with many variables";
         $newarg['narrative'] = 'This example comes from proving Heron\'s formula. '.
                 'See http://math.stackexchange.com/questions/255527/show-that-2a2-b2a2c2b2c2-a4b4c4-abc-abca-bcab';

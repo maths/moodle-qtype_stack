@@ -35,4 +35,4 @@ $plugin->dependencies = array(
     'qbehaviour_adaptivemultipart'     => 2015090900,
     'qbehaviour_dfexplicitvaildate'    => 2015090900,
     'qbehaviour_dfcbmexplicitvaildate' => 2015090900,
-);
+); 

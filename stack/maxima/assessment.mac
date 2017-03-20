@@ -1385,7 +1385,7 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
         )
     ),
     /* Only add in EQUIVZERO when we don't have equational reasoning and when we do have more than one line. */
-    if not(op_usedp(A[3], stackeq)) and is(length(A[3])>1) then 
+    if stack_eval_arg_equivalence_reasoningp(A[3]) then 
         exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
     ret:[exnew],
     /* If we are not showing logical connectives, then suppress them. */
@@ -1413,6 +1413,16 @@ stack_eval_arg_equivzerop(ex) := block(
    if emptyp(ex) or is(ex=all) then return(false),
    if expressionp(ex) and not(stringp(ex)) then return(true),
    return(false)
+)$
+
+/* A predicate to distinguish between equational reasoning and equivalence reasoning. */
+/* Reasoning by equivalence uses equivalence of equations.  Equational reasoning is a chain of =s. */
+stack_eval_arg_equivalence_reasoningp(L) := block(
+    if is(length(L<=1)) then return(false),
+    if op_usedp(L, stackeq) then return(false),
+    /* We use the rest of the list because we could have an answer like "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]". */
+    if all_listp(lambda([ex], expressionp(ex) or is(safe_op(ex)="stackeq")), rest(L)) then return(false),  
+    return(true)
 )$
 
 /* This modifies stack_eval_arg to create something which can be displayed. */

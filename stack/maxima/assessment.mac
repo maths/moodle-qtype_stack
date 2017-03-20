@@ -1384,8 +1384,8 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
             print("ERROR, disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".") 
         )
     ),
-    /* Only add in EQUIVZERO when we don't have equational reasoning. */
-    if not(op_usedp(A[3], stackeq)) then 
+    /* Only add in EQUIVZERO when we don't have equational reasoning and when we do have more than one line. */
+    if not(op_usedp(A[3], stackeq)) and is(length(A[3])>1) then 
         exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
     ret:[exnew],
     /* If we are not showing logical connectives, then suppress them. */

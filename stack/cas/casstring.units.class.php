@@ -213,6 +213,10 @@ class stack_cas_casstring_units {
      * @param int len This is the minimum length of string to be needed to be worth considering.
      */
     public static function get_permitted_units($len) {
+        static $cache = array();
+        if (array_key_exists($len, $cache)) {
+            return $cache[$len];
+        }
         $units = array();
         foreach (self::$nonpreficunits as $unit) {
             if (strlen($unit[0]) > $len) {
@@ -230,6 +234,7 @@ class stack_cas_casstring_units {
                 }
             }
         }
+        $cache[$len] = $units;
         return($units);
     }
 
@@ -237,18 +242,25 @@ class stack_cas_casstring_units {
      * @param string $key is just a single atomic key.
      */
     public static function find_units_synonyms($key) {
+        static $cache = false;
+        if ($cache === false) {
+            $cache = array();
+            foreach (self::$unitsynonyms as $ckey => $synonyms) {
+                foreach ($synonyms as $possibleunit) {
+                    $cache[strtolower($possibleunit)] = $ckey;
+                }
+            }
+        }
+
         $fndsynonym = false;
         $answernote = '';
         $synonymerr = '';
-        foreach (self::$unitsynonyms as $ckey => $synonyms) {
-            foreach ($synonyms as $possibleunit) {
-                // Do a case insensitive check for equality here, respecting case sensitivity of the keys.
-                if (strtolower($key) == strtolower($possibleunit) and $ckey != $key) {
-                    $fndsynonym = true;
-                    $answernote = 'unitssynonym';
-                    $synonymerr = stack_string('stackCas_unitssynonym',
-                            array('forbid' => stack_maxima_format_casstring($key), 'unit' => stack_maxima_format_casstring($ckey)));
-                }
+        if (array_key_exists(strtolower($key), $cache)) {
+            if ($cache[strtolower($key)] != $key) {
+                $fndsynonym = true;
+                $answernote = 'unitssynonym';
+                $synonymerr = stack_string('stackCas_unitssynonym',
+                        array('forbid' => stack_maxima_format_casstring($key), 'unit' => stack_maxima_format_casstring($cache[strtolower($key)])));
             }
         }
 
@@ -259,31 +271,44 @@ class stack_cas_casstring_units {
      * @param string $key is just a single atomic key.
      */
     public static function check_units_case($key) {
-        // Note, sometimes there is more than one option.  E.g. M and m give many options.
-        $foundcmds = array();
-        foreach (self::$nonpreficunits as $unit) {
-            $cmd = $unit[0];
-            if (strtolower($key) == strtolower($cmd)) {
-                $foundcmds[] = $cmd;
+        static $valid = false;
+        static $invalid = false;
+        if ($valid === false) {
+            $valid = array();
+            $invalid = array();
+
+            foreach (self::$nonpreficunits as $unit) {
+                $valid[$unit[0]] = true;
             }
-        }
-        foreach (self::$supportedunits as $unit) {
-            $cmd = $unit[0];
-            if (strtolower($key) == strtolower($cmd)) {
-                $foundcmds[] = $cmd;
+            foreach (self::$supportedunits as $unit) {
+                $valid[$unit[0]] = true;
+                foreach (self::$supportedprefix as $prefix) {
+                    $valid[$prefix[0].$unit[0]] = true;
+                }
             }
-            foreach (self::$supportedprefix as $prefix) {
-                $cmd = $prefix[0].$unit[0];
-                if (strtolower($key) == strtolower($cmd)) {
-                    $foundcmds[] = $cmd;
+            foreach ($valid as $k => $noop) {
+                $l = strtolower($k);
+                if (!array_key_exists($l, $valid)) {
+                    if (!array_key_exists($l, $invalid)) {
+                        $invalid[$l] = array($k);
+                    } else {
+                        $invalid[$l][] = $k;
+                    }
                 }
             }
         }
-        if (empty($foundcmds)) {
+
+        // Note, sometimes there is more than one option.  E.g. M and m give many options.
+        $foundcmds = array();
+        if (array_key_exists($key, $valid)) {
             return false;
         }
+        if (!array_key_exists(strtolower($key), $invalid)) {
+            return false;
+        }
+
         return(stack_string('stackCas_unknownUnitsCase',
             array('forbid' => stack_maxima_format_casstring($key),
-                'unit' => stack_maxima_format_casstring('['.implode($foundcmds, ", ").']'))));
+                'unit' => stack_maxima_format_casstring('['.implode($invalid[strtolower($key)], ", ").']'))));
     }
 }

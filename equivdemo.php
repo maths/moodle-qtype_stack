@@ -98,6 +98,7 @@ foreach ($samplearguments as $argument) {
         if (array_key_exists('assumepos', $argument)) {
             $ap = new stack_cas_casstring('assume_pos:true');
         }
+        $ap->get_valid('t');
 
         $cs1 = new stack_cas_casstring($argument['casstring']);
         $cs1->get_valid('s');

@@ -368,6 +368,7 @@ class stack_equiv_input extends stack_input {
             $assumepos = 'true';
         }
         $ap = new stack_cas_casstring('assume_pos:'.$assumepos);
+        $ap->get_valid('t');
 
         return array($ap, $an, $fl);
     }

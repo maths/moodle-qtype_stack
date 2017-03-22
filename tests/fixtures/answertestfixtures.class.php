@@ -929,7 +929,6 @@ class stack_answertest_test_data {
         array('NumAbsolute', '0.01', '{1.414,3.1}', '{significantfigures(pi,6),sqrt(2)}', 0,
             'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumAbsolute', '0.1', '{1,1.414,3.1,2}', '{1,2,pi,sqrt(2)}', 1, '', ''),
-
         array('NumSigFigs', '', '3.141', '3.1415927', -1, 'STACKERROR_OPTION.', 'Basic tests'),
         array('NumSigFigs', '3', '1/0', '3', -1, 'ATNumSigFigs_STACKERROR_SAns.', ''),
         array('NumSigFigs', '3', '0', '1/0', -1, 'ATNumSigFigs_STACKERROR_TAns.', ''),
@@ -1075,7 +1074,6 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
         array('NumSigFigs', '3', '3.15', 'pi', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '6', '1.73205', 'sqrt(3)', 1, '', ''),
-
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
         array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_SAns.', ''),

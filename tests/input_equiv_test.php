@@ -141,6 +141,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n \"Factoring gives \"\n=(x-2)*(x-3)"), $options,
                 '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('[x^2-5*x+6,"EQUIVCOMMENT1",stackeq((x-2)*(x-3))]', $state->contentsmodified);
         $this->assertEquals('  You are not permitted to use comments in this input type.  '.
                 'Please just work line by line. ', $state->errors);
     }
@@ -295,4 +296,5 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(' ', $state->errors);
     }
 }
+
 

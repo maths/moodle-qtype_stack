@@ -1354,6 +1354,29 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if (debug) then print("Outcome: ", eqoutcome[ev(id, simp)]),
       if (debug) then print("Note: ", eqoutnote[ev(id, simp)])
   ),
+  /* Equational reasoning where the first line is an equation, and then every line starts with =s. */
+  if equationp(ex[1]) and all_listp(lambda([ex2], is(safe_op(ex2)="stackeq")), rest(ex)) then block(
+      eqoutnote[1]:sconcat(eqoutnote[1], "A=B, =C, ..."),
+      if second(ATAlgEquiv(lhs(ex[1]), rhs(ex[1]))) then block(
+          eqoutcome[1]:true,
+          eqoutsymb[1]:CHECKMARK
+      ) else block(
+          eqoutcome[1]:false,
+          eqoutsymb[1]:QMCHAR
+      ),
+      if second(ATAlgEquiv(rhs(ex[1]), first(args(ex[2])))) then block(
+          eqoutcome[2]:true,
+          eqoutsymb[2]:CHECKMARK
+      ) else block(
+          eqoutcome[2]:false,
+          eqoutsymb[2]:QMCHAR
+      )
+  ),
+  /* Optimize symbols when equational reasoning. */
+  for k:1 thru length(ex) step 1 do block([SA, tempnote],
+      if is(safe_op(ex[ev(k,simp)])="stackeq") and is(eqoutsymb[ev(k,simp)]=EQUIVCHAR) then
+          eqoutsymb[ev(k,simp)]:CHECKMARK
+  ),
   res:matrix(eqoutcome, eqoutsymb, ex, eqoutnote),
   return(transpose(res))
 );
@@ -1366,11 +1389,6 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
     eqoutsymb:A[2],
     /* Modify input expressions for implied equivalence to zero. */
     exnew:A[3],
-    /* Optimize symbols when equational reasoning. */
-    for k:1 thru length(ex) step 1 do block([SA, tempnote],
-        if is(safe_op(exnew[ev(k,simp)])="stackeq") and is(eqoutsymb[ev(k,simp)]=EQUIVCHAR) then
-            eqoutsymb[ev(k,simp)]:CHECKMARK
-    ),
     /* Unit test the eval_arg code. */
     if listp(debuglist) then block([simp, eqoutsymb, k],
         eqoutsymb:A[2],

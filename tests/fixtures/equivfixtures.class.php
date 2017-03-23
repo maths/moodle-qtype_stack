@@ -687,7 +687,23 @@ class stack_equiv_test_data {
         $newarg['title']     = "Mix of equations and expressions";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]";
-        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Adding fractions";
+        $newarg['narrative'] = 'This contains an edge case of zero only in a line.';
+        $newarg['casstring'] = "[(y-z)/(y*z)+(z-x)/(z*x)+(x-y)/(x*y),(x*(y-z)+y*(z-x)+z*(x-y))/(x*y*z),0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Adding fractions";
+        $newarg['narrative'] = 'This contains an edge case of zero only in a line.';
+        $newarg['casstring'] = "[(y-z)/(y*z)+(z-x)/(z*x)+(x-y)/(x*y),stackeq((x*(y-z)+y*(z-x)+z*(x-y))/(x*y*z)),stackeq(0)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

@@ -155,7 +155,6 @@ class stack_equiv_input extends stack_input {
      * @return string
      */
     protected function response_to_contents($response) {
-
         $contents = array();
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
@@ -163,7 +162,7 @@ class stack_equiv_input extends stack_input {
             $rowsout = array();
             foreach ($rowsin as $key => $row) {
                 $cleanrow = trim($row);
-                if ($cleanrow) {
+                if ($cleanrow != '') {
                     $contents[] = $cleanrow;
                 }
             }

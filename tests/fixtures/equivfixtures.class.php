@@ -684,10 +684,18 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Mix of equations and expressions";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]";
-        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
+        $newarg['title']     = "Adding fractions";
+        $newarg['narrative'] = 'This contains an edge case of zero only in a line.';
+        $newarg['casstring'] = "[(y-z)/(y*z)+(z-x)/(z*x)+(x-y)/(x*y),(x*(y-z)+y*(z-x)+z*(x-y))/(x*y*z),0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Adding fractions";
+        $newarg['narrative'] = 'This contains an edge case of zero only in a line.';
+        $newarg['casstring'] = "[(y-z)/(y*z)+(z-x)/(z*x)+(x-y)/(x*y),stackeq((x*(y-z)+y*(z-x)+z*(x-y))/(x*y*z)),stackeq(0)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -700,6 +708,35 @@ class stack_equiv_test_data {
                 "stackeq((2*a*b)^2-(b^2+a^2-c^2)^2,(2*a*b+b^2+a^2-c^2)*(2*a*b-b^2-a^2+c^2)),".
                 "stackeq(((a+b)^2-c^2)*(c^2-(a-b)^2)),stackeq((a+b+c)*(a+b-c)*(c+a-b)*(c-a+b))]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        /******************************************************************************/
+        $newarg = array();
+        $newarg['section'] = 'Mix of equations and expressions';
+        $samplearguments[] = $newarg;
+        
+        $newarg = array();
+        $newarg['title']     = "Correct";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]";
+        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Correct 1st line, incorrect next step";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+2)]";
+        $newarg['debuglist'] = "[CHECKMARK,QMCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Incorrect 1st line, incorrect next step";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[(x-2)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]";
+        $newarg['debuglist'] = "[QMCHAR,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

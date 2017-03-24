@@ -1117,6 +1117,7 @@ class stack_utils {
         }
         $cs = new stack_cas_casstring($rawcasstring);
         $cs->logic_nouns_sort(true);
+        // We need to use the student here to allow a wider range of star patterns.
         $cs->get_valid('s', true, $stars, $allowwords);
         $casstring = $cs->get_casstring();
 

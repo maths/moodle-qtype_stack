@@ -460,7 +460,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:tan^-1(x)-1';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
+        $this->assertEquals('trigexp', $at1->get_answernote());
     }
 
     public function test_trig_4() {
@@ -735,7 +735,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a b and c';
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 3));
-        $this->assertEquals('a*b and c', $at1->get_casstring());
+        $this->assertEquals('a*b nounand c', $at1->get_casstring());
     }
 
     public function test_spaces_0_insertneeded() {
@@ -793,13 +793,12 @@ class stack_cas_casstring_test extends basic_testcase {
     public function test_spaces_3_sin() {
         $s = 'sin x';
         $at1 = new stack_cas_casstring($s);
-        $this->assertFalse($at1->get_valid('s', true, 3));
-        $this->assertEquals('sin*x', $at1->get_casstring());
-        $err = 'You must apply <span class="stacksyntaxexample">sin</span> to an argument.  '
-                .'You seem to have <span class="stacksyntaxexample">sin*</span>, which looks like you have tried '
-                        .'to use <span class="stacksyntaxexample">sin</span> as a variable name.';
+        $at1->get_valid('s', true, 3);
+        $this->assertEquals('sin x', $at1->get_casstring());
+        $err = 'To apply a trig function to its arguments you must use brackets, not spaces.  '.
+            'For example use <span class="stacksyntaxexample">sin(...)</span> instead.';
                         $this->assertEquals($err, $at1->get_errors());
-                        $this->assertEquals('spaces | trigop', $at1->get_answernote());
+                        $this->assertEquals('trigspace', $at1->get_answernote());
     }
 
     public function test_spaces_4_insertneeded_true() {
@@ -867,11 +866,10 @@ class stack_cas_casstring_test extends basic_testcase {
     }
 
     public function test_log_key_vals_1() {
-        // This may not what we really want here, but this unit test is a warning.
         $s = 'log_x:log_x(a)';
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 0));
-        $this->assertEquals('lg(a, x:log_x)', $at1->get_casstring());
+        $this->assertEquals('lg(a, x)', $at1->get_casstring());
         $this->assertEquals('log_x', $at1->get_key());
         $this->assertEquals('logsubs', $at1->get_answernote());
     }

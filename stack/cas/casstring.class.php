@@ -605,14 +605,6 @@ class stack_cas_casstring {
             return false;
         }
 
-        // Check security before splitting the key, just in case the key does things.
-        $this->check_security($stringles, $security, $allowwords);
-
-        // Here is a good place to fail fast.
-        if (!$this->valid) {
-            return false;
-        }
-
         $this->check_characters($stringles, $security);
         if (strpos($stringles, ',') !== false) {
             $this->check_commas($stringles);
@@ -624,14 +616,8 @@ class stack_cas_casstring {
             return false;
         }
 
-        // We need to split keyvals off here before we check underscore characters.
-        $this->casstring = $stringles;
-        $this->key_val_split();
-        $stringlesvalue = $this->casstring;
-        $stringleskey = $this->key;
-
-        if (preg_match("/[\(\)\{\}\[\]]/", $stringlesvalue) == 1) {
-            $this->check_parentheses($stringlesvalue);
+        if (preg_match("/[\(\)\{\}\[\]]/", $stringles) == 1) {
+            $this->check_parentheses($stringles);
         }
 
             // Here is a good place to fail fast.
@@ -640,19 +626,27 @@ class stack_cas_casstring {
         }
 
         // This is a special check that also modifies the strings structure.
-        $stringlesvalue = $this->check_spaces($stringlesvalue, $security, $syntax, $insertstars);
+        $stringles = $this->check_spaces($stringles, $security, $syntax, $insertstars);
+
+        $this->check_security($stringles, $security, $allowwords);
+
+        // We need to split keyvals off here before we check underscore characters.
+        $this->casstring = $stringles;
+        $this->key_val_split();
+        $stringles = $this->casstring;
+        $stringleskey = $this->key;
 
         // This is a special check that also modifies the strings structure.
-        // Note! This one must be before check_stars and check_underscores.
-        $stringlesvalue = $this->check_logs($stringlesvalue);
+        // Note this must be before check_stars and check_underscores, but after keyval split!
+        $stringles = $this->check_logs($stringles);
 
         // This is a special check that also modifies the strings structure.
-        $stringlesvalue = $this->check_stars($stringlesvalue, $security, $syntax, $insertstars);
+        $stringles = $this->check_stars($stringles, $security, $syntax, $insertstars);
 
-        $this->check_underscores($stringlesvalue, $security);
+        $this->check_underscores($stringles, $security);
 
         // Inject the strings back. Noting the possibility of strings in the key.
-        $injecttarget = $stringleskey . '|>key_val_split<|' . $stringlesvalue;
+        $injecttarget = $stringleskey . '|>key_val_split<|' . $stringles;
         $injecttarget = $this->strings_replace($injecttarget);
         $split = explode('|>key_val_split<|', $injecttarget, 2);
         $this->casstring = $split[1];
@@ -867,6 +861,13 @@ class stack_cas_casstring {
         $triglist = array('sin', 'cos', 'tan', 'sinh', 'cosh', 'tanh', 'sec', 'cosec', 'cot', 'csc', 'coth', 'csch', 'sech');
         $funlist  = array('log', 'ln', 'lg', 'exp', 'abs', 'sqrt');
         foreach (array_merge($triglist, $funlist) as $fun) {
+            if (strpos($cmd, $fun.' ') !== false) {
+                $this->add_error(stack_string('stackCas_trigspace',
+                    array('trig' => stack_maxima_format_casstring($fun.'(...)'))));
+                $this->answernote[] = 'trigspace';
+                $this->valid = false;
+                break;
+            }
             if (strpos($cmd, $fun.'^') !== false) {
                 $this->add_error(stack_string('stackCas_trigexp',
                     array('forbid' => stack_maxima_format_casstring($fun.'^'))));
@@ -1000,6 +1001,7 @@ class stack_cas_casstring {
                 foreach (self::$spacepatterns as $key => $pat) {
                     $cmds = str_replace($pat, $key, $cmds);
                 }
+                $cmds = $this->logic_nouns_sort(false, $cmds);
                 $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
                 $this->valid = false;
             }

@@ -600,29 +600,14 @@ class stack_cas_casstring {
             $this->check_bad_trig($stringles);
         }
 
-        // Here is a good place to fail fast.
-        if (!$this->valid) {
-            return false;
-        }
-
         $this->check_characters($stringles, $security);
         if (strpos($stringles, ',') !== false) {
             $this->check_commas($stringles);
         }
         $this->check_operators($stringles);
 
-        // Here is a good place to fail fast.
-        if (!$this->valid) {
-            return false;
-        }
-
         if (preg_match("/[\(\)\{\}\[\]]/", $stringles) == 1) {
             $this->check_parentheses($stringles);
-        }
-
-            // Here is a good place to fail fast.
-        if (!$this->valid) {
-            return false;
         }
 
         // This is a special check that also modifies the strings structure.
@@ -664,64 +649,6 @@ class stack_cas_casstring {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
-        }
-
-        // We have certain patterns that behave differently and we need to cover them.
-        $spaceles = str_replace("if\"", ",\"", $spaceles);
-        $spaceles = str_replace("then\"", ",\"", $spaceles);
-        $spaceles = str_replace("\"then", "\",", $spaceles);
-        $spaceles = str_replace("\"else", "\",", $spaceles);
-        $spaceles = str_replace("else\"", ",\"", $spaceles);
-        $spaceles = str_replace("while\"", ",\"", $spaceles);
-        $spaceles = str_replace("and\"", ",\"", $spaceles);
-        $spaceles = str_replace("\"and", "\",", $spaceles);
-        $spaceles = str_replace("or\"", ",\"", $spaceles);
-        $spaceles = str_replace("\"or", "\",", $spaceles);
-
-        $matches = array();
-        if (preg_match_all("/(.?)\\\"\\\"(.?)/", $spaceles, $matches) > 0) {
-            // Check mixing of "strings" with operators and others.
-            $prechars = $matches[1];
-            $postchars = $matches[2];
-            foreach ($prechars as $prechar) {
-                switch ($prechar) {
-                    case '':
-                    // Various structures.
-                    case '(':
-                    case '[':
-                    case '{':
-                    // Lists of arguments.
-                    case ',':
-                    // Assigning "string" values.
-                    case ':':
-                    // For use with is(a=b).
-                    case '=':
-                        break;
-                    default:
-                        $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "$prechar\"", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-                        $this->answernote[] = 'StringOperation';
-                        $this->valid = false;
-                        return;
-                }
-            }
-            foreach ($postchars as $postchar) {
-                switch ($postchar) {
-                    case '':
-                    case ')':
-                    case '(':
-                    case ']':
-                    case '}':
-                    case ',':
-                    case ';':
-                    case '=':
-                        break;
-                    default:
-                        $this->add_error(stack_string('stackCas_StringOperation', array('issue' => "\"$postchar", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
-                        $this->answernote[] = 'StringOperation';
-                        $this->valid = false;
-                        return;
-                }
-            }
         }
     }
 
@@ -826,8 +753,10 @@ class stack_cas_casstring {
         }
 
         // Only permit the following characters to be sent to the CAS.
-        $cmd = trim($cmd);
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
+
+        // Need to trim off the "stackeq(..)" operator.
+        $cmd = trim($this->logic_nouns_sort(false, $cmd));
 
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
@@ -1401,7 +1330,7 @@ class stack_cas_casstring {
                 }
             }
         } else {
-            if (substr(trim($str), 0, 8) == 'stackeq(') {
+            if (substr(trim($str), 0, 8) == 'stackeq(' && substr(trim($str), -1, 1) == ')') {
                 $str = '=' . substr(trim($str), 8, -1);
             }
         }

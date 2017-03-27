@@ -41,7 +41,7 @@ class stack_inputvalidation_test_data {
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
         array('x+ 1', 'php_true', 'x+ 1', 'cas_true', 'x+1', '', ""),
         array('x + 1', 'php_true', 'x + 1', 'cas_true', 'x+1', '', "Ok to have some spaces between these operators."),
-        array('sin x', 'php_false', '', '', '', 'trigspace', "Maxima does not allow spaces to denote function application."),
+        array('sin x', 'php_false', '', '', '', 'trigspace | spaces', "Maxima does not allow spaces to denote function application."),
         array('x y', 'php_false', '', '', '', 'spaces', "We don't allow spaces to denote implicit multiplication."),
         array('1 x', 'php_false', '', '', '', 'spaces', ""),
         array('1x', 'php_true', '1*x', 'cas_true', '1\cdot x', 'missing_stars', ""),
@@ -118,7 +118,7 @@ class stack_inputvalidation_test_data {
         array('x and y', 'php_true', 'x nounand y', 'cas_true', 'x\,{\mbox{ and }}\, y', '', ""),
         array('x or y', 'php_true', 'x nounor y', 'cas_true', 'x\,{\mbox{ or }}\, y', '', ""),
         array('x xor y', 'php_false', '', '', '', 'spaces', ""),
-        array('x isa "number"', 'php_false', '', '', '', 'StringOperation', ""),
+        array('x isa "number"', 'php_false', '', '', '', 'StringOperation | spaces', ""),
         array('x && y', 'php_false', '', '', '', 'spuriousop', ""),
         array('x || y', 'php_false', '', '', '', 'spuriousop', ""),
         array('x | y', 'php_true', 'x | y', '', '', 'CASFailedReturn', ""),
@@ -160,7 +160,7 @@ class stack_inputvalidation_test_data {
         array('x^', 'php_flase', 'x^', '', '', 'finalChar', ""),
         array('x.', 'php_flase', 'x.', '', '', 'finalChar', ""),
         array('x and', 'php_false', '', '', '', 'spaces', ""),
-        array('!', 'php_true', '!', '', '', 'CASFailedReturn', ""),
+        array('!', 'php_true', '!', 'CASFailedReturn', '', 'CASFailedReturn', ""),
         array('sin', 'php_true', 'sin', 'cas_true', '\sin', '',
         "This names the operator sine, which is a valid expression on its own.
         The classic difference between the function \(f\) and the value of the
@@ -181,9 +181,9 @@ class stack_inputvalidation_test_data {
         array('y^2-2*y-0.5', 'php_true', 'y^2-2*y-0.5', 'cas_true', 'y^2-2\cdot y-0.5', 'Illegal_floats', ""),
         array('(x)', 'php_true', '(x)', 'cas_true', 'x', '', "Brackets"),
         array('((x))', 'php_true', '((x))', 'cas_true', 'x', '', ""),
-        array('(()x)', 'php_false', '(()*x)', 'cas_false', '', 'forbiddenWord', ""),
-        array('()x', 'php_false', '()*x', 'cas_false', '', 'forbiddenWord', ""),
-        array('x()', 'php_false', 'x*()', 'cas_false', '', 'forbiddenWord', ""),
+        array('(()x)', 'php_false', '(()*x)', 'cas_false', '', 'forbiddenWord | missing_stars', ""),
+        array('()x', 'php_false', '()*x', 'cas_false', '', 'forbiddenWord | missing_stars', ""),
+        array('x()', 'php_false', 'x*()', 'cas_false', '', 'forbiddenWord | missing_stars', ""),
         array('([x)]', 'php_false', '([x)]', '', '', '', ""),
         array('(', 'php_false', '', '', '', 'missingRightBracket', "Brackets"),
         array(')', 'php_false', '', '', '', 'missingLeftBracket', ""),
@@ -196,7 +196,7 @@ class stack_inputvalidation_test_data {
         array('(x+(y)', 'php_false', '', '', '', 'missingRightBracket', ""),
         array('x-1)^2', 'php_false', '', '', '', 'missingLeftBracket', ""),
         array('x+(y))', 'php_false', '', '', '', 'missingLeftBracket', ""),
-        array('f(x))', 'php_false', '', '', '', 'missingLeftBracket', ""),
+        array('f(x))', 'php_false', '', '', '', 'missingLeftBracket | missing_stars', ""),
         array('[x', 'php_false', '', '', '', 'missingRightBracket', ""),
         array('x]', 'php_false', '', '', '', 'missingLeftBracket', ""),
         array('{x', 'php_false', '', '', '', 'missingRightBracket', ""),
@@ -355,7 +355,7 @@ class stack_inputvalidation_test_data {
         array('sim(x)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('asin(x)', 'php_true', 'asin(x)', 'cas_true', '\sin^{-1}\left( x \right)', '', "Maxima uses the asin pattern"),
         array('arcsin(x)', 'php_false', 'arcsin(x)', 'cas_true', '', 'triginv', "Not the arcsin"),
-        array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'trigexp', ""),
+        array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'trigexp | missing_stars', ""),
         array('sin*2*x', 'php_false', 'sin*2*x', 'cas_false', '', 'trigop', ""),
         array('sin[2*x]', 'php_false', 'sin[2*x]', 'cas_false', '', 'trigparens', ""),
         array('cosh(x)', 'php_true', 'cosh(x)', 'cas_true', '\cosh \left( x \right)', '', ""),
@@ -502,7 +502,7 @@ class stack_inputvalidation_test_data {
             } else {
                 $casexpected = false;
             }
-            if ('' == $cs->get_value()) {
+            if ('' == $cs->get_dispvalue()) {
                 $casvalid = false;
             } else {
                 $casvalid = true;

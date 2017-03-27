@@ -409,7 +409,8 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = ':lisp (with-open-file (stream "/tmp/test" :direction :output) (format stream "system(\\"rm /tmp/test\\");"))';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('t'));
-        $this->assertEquals('A string appears to be in the wrong place. This is the issue: <code>m"</code>.',
+        $this->assertEquals('A string appears to be in the wrong place. This is the issue: <code>m"</code>.'.
+                ' The expression <span class="stacksyntaxexample">lisp</span> is forbidden.',
                 $at1->get_errors());
         // That last goes wrong due to "strings" not being usable in the lisp way.
         // Assuming those are in variables we can try this.
@@ -460,7 +461,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'a:tan^-1(x)-1';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s'));
-        $this->assertEquals('trigexp', $at1->get_answernote());
+        $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
     }
 
     public function test_trig_4() {
@@ -798,7 +799,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $err = 'To apply a trig function to its arguments you must use brackets, not spaces.  '.
             'For example use <span class="stacksyntaxexample">sin(...)</span> instead.';
                         $this->assertEquals($err, $at1->get_errors());
-                        $this->assertEquals('trigspace', $at1->get_answernote());
+                        $this->assertEquals('trigspace | spaces', $at1->get_answernote());
     }
 
     public function test_spaces_4_insertneeded_true() {

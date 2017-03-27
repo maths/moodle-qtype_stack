@@ -131,7 +131,6 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n =(x-2)*x^"), $options,
                 '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
         $this->assertEquals(stack_input::INVALID, $state->status);
-        print_r($state);
         $this->assertEquals('  \'^\' is an invalid final character in <span class="stacksyntaxexample">=(x-2)*x^</span>',
                 $state->errors);
     }

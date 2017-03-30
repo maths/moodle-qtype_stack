@@ -35,7 +35,6 @@ class stack_inputvalidation_test_data {
     const NOTES         = 6;
 
     protected static $rawdata = array(
-
         array('x', 'php_true', 'x', 'cas_true', 'x', '', "Whitespace"),
         array('xy', 'php_true', 'xy', 'cas_true', '{\it xy}', '', "This is a single variable name, not a product."),
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
@@ -378,6 +377,8 @@ class stack_inputvalidation_test_data {
         array('In(x)', 'php_false', '', '', '', 'stackCas_badLogIn', ""),
         array('log10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
+        array('log_2(a)', 'php_true', 'lg(a, 2)', 'cas_true', '\log_{2}\left(a\right)', 'logsubs', ""),
+        array('log_x(1/(x+b))', 'php_true', 'lg(1/(x+b), x)', 'cas_true', '\log_{x}\left(\frac{1}{x+b}\right)', 'logsubs', ""),
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '\log_{10}\left(x\right)', '', "Logarithm to the base \(10\)."),
         array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3\right)', '', ""),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '\log_{a}\left(x\right)', '', ""),

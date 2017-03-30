@@ -340,6 +340,7 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(x*a)/(a*(ln(a)))', 1, 'ATSubstEquiv_Subst: [a = x,x = a].', ''),
         array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*x)/(x(ln(x)))', 0, '', ''),
         array('SubstEquiv', '', 'cos(a*x)/(x*(ln(x)))', 'cos(a*y)/(y(ln(y)))', 0, '', ''),
+	array('SubstEquiv', '', 'matrix([1,A^2+A+1],[2,0])', 'matrix([1,x^2+x+1],[2,0])', 1, '', ''),
 
         array('EqualComAss', '', '1/0', '0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'CASError: Division by zero. | ATEqualComAss_STACKERROR_TAns.', ''),

@@ -888,7 +888,10 @@ class stack_cas_casstring {
         $cmd = str_replace('log10(', 'log_10(', $cmd);
         if (preg_match_all("/log_([\S]+?)\(([\S]+?)\)/", $cmd, $found)) {
             foreach ($found[0] as $key => $match) {
-                $sub = 'lg(' . $found[2][$key] . ', ' . $found[1][$key] .')';
+                $argpos = stack_utils::substring_between($cmd, 'log_'.$found[1][$key], ')');
+                $argval = stack_utils::substring_between($cmd, '(', ')', $argpos[1] + strlen($found[1][$key]));
+                $match = 'log_'.$found[1][$key].$argval[0];
+                $sub = 'lg(' . substr($argval[0], 1, -1) . ', ' . $found[1][$key] .')';
                 $cmd = str_replace($match, $sub, $cmd);
             }
             $this->answernote[] = 'logsubs';

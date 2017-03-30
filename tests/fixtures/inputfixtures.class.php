@@ -379,6 +379,8 @@ class stack_inputvalidation_test_data {
         array('log_10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_2(a)', 'php_true', 'lg(a, 2)', 'cas_true', '\log_{2}\left(a\right)', 'logsubs', ""),
         array('log_x(1/(x+b))', 'php_true', 'lg(1/(x+b), x)', 'cas_true', '\log_{x}\left(\frac{1}{x+b}\right)', 'logsubs', ""),
+        array('2+log_x(1/(x+b))*x^2', 'php_true', '2+lg(1/(x+b), x)*x^2', 'cas_true', '2+\log_{x}\left(\frac{1}{x+b}\right)\cdot x^2', 'logsubs', ""),
+        array('log_a(b)*log_b(c)', 'php_true', 'lg(b, a)*lg(c, b)', 'cas_true', '\log_{a}\left(b\right)\cdot \log_{b}\left(c\right)', 'logsubs', ""),
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '\log_{10}\left(x\right)', '', "Logarithm to the base \(10\)."),
         array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3\right)', '', ""),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '\log_{a}\left(x\right)', '', ""),

@@ -343,7 +343,6 @@ scientific_notation([a]) := block([simp:false, x, ex, ex2, ex3, exn],
   ),
   return(first(a))
 )$
-compile(scientific_notation)$
 
 displayscitex(ex):=block([ss, n, dp],
   [n, dp, expo]:args(ex),

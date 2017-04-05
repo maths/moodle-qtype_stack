@@ -1028,6 +1028,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
             array('1000', '', '1.0\cdot 10^3'),
             array('-1000', '', '-1.0\cdot 10^3'),
             array('1e50', '', '1.0\cdot 10^{50}'),
+            // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
+            // Adding in compile(scientific_notation)$ after the function definition cures this,
+            // but breaks some versions of Maxima.
             array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }'),
         );
 
@@ -1046,24 +1049,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
 
-        //$passed = array();
-        //$failed = array();
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
-            // TODO: this is a hack, so we can see all the results in one go for development.
             $this->assertEquals($c[2], $at1->get_display_key($sk));
-            //$s = 'Input: ' . $c[0] . ' | ' . $c[1]. "\nE: ". $c[2] . "\nA: " . $at1->get_display_key($sk);
-            //$s .= "\n --- \n";
-            //if (trim($c[2]) == trim($at1->get_display_key($sk))) {
-            //    $passed[] = $s;
-            //} else {
-            //    $failed[] = $s;
-            //}
         }
-        //echo "\n-------\n";
-        //echo implode($passed, "\n");
-        //echo "\nFAILED below here -------\n";
-        //echo implode($failed, "\n");
-        //echo "\n-------\n";
     }
 }

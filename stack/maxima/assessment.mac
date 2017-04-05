@@ -180,6 +180,7 @@ functionp(ex) := block(
 inequalityp(ex) := block(
    if atom(ex) then return(false),
    if ">" = op(ex) or "<" = op(ex) or ">=" = op(ex) or "<=" = op(ex) then return(true),
+   if "and" = op(ex) or "or" = op(ex) or "not" then return(true),
    return(false)
 )$
 
@@ -387,7 +388,13 @@ scientific_notation([a]) := block([simp:false, x, ex, ex2, ex3, exn],
   return(first(a))
 )$
 
-
+displayscitex(ex):=block([ss, n, dp],
+  [n, dp, expo]:args(ex),
+  ss:sconcat("~,", string(dp), "f \\times 10^{~a}"),
+  if is(equal(dp, 0)) then ss:"~d \\times 10^{~a}",
+  ev(printf(false, ss, ev(float(n)), expo), simp)
+)$
+texput(displaysci, displayscitex)$
 
 /* ********************************** */
 /* Equivalence                        */
@@ -1531,4 +1538,5 @@ ATEquivFirst(SA,SB) := block([SAA, SAB, ret, A, AnswerNote, FeedBack],
 /* Answer tests                       */
 /* ********************************** */
 
-AnswerTests : [AlgEquiv, EqualComAss, CasEqual, SameType, SubstEquiv, SysEquiv, Expanded, FacForm, SingleFrac, PartFrac, CompSquare, Equiv, EquivFirstLast, GT, GTE, NumAbsolute, NumRelative, NumSigFigs, LowestTerms, Diff, Int, String, StringSloppy, RegExp]$ 
+AnswerTests : [AlgEquiv, EqualComAss, CasEqual, SameType, SubstEquiv, SysEquiv, Expanded, FacForm, SingleFrac, PartFrac, CompSquare, GT, GTE, NumAbsolute, NumRelative, NumSigFigs, LowestTerms, Diff, Int, String, StringSloppy, RegExp]$ 
+

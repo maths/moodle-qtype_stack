@@ -344,6 +344,14 @@ scientific_notation([a]) := block([simp:false, x, ex, ex2, ex3, exn],
   return(first(a))
 )$
 
+displayscitex(ex):=block([ss, n, dp],
+  [n, dp, expo]:args(ex),
+  ss:sconcat("~,", string(dp), "f \\times 10^{~a}"),
+  if is(equal(dp, 0)) then ss:"~d \\times 10^{~a}",
+  ev(printf(false, ss, ev(float(n)), expo), simp)
+)$
+texput(displaysci, displayscitex)$
+
 /* ********************************** */
 /* Inequalities                       */
 /* ********************************** */

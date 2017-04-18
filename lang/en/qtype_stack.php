@@ -380,6 +380,7 @@ $string['replacedollarsindexintro'] = 'Clicking on any of the links will take yo
 $string['replacedollarsindextitle'] = 'Replace $s in question texts';
 $string['replacedollarsnoproblems'] = 'No problem delimiters found.';
 $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
+$string['replacedollarserrors'] = 'The following questions generated errors.';
 
 // Strings used by the bulk run question tests script.
 $string['bulktestcontinuefromhere'] = 'Run again or resume, starting from here';
@@ -480,12 +481,12 @@ $string['healthchecklatexmathjax'] = 'STACK relies on the Moodle MathJax filter.
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
-$string['healthchecksamplecas'] = 'The derivative of @ x^4/(1+x^4) @ is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \]';
+$string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]';
 $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
-$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@  A third plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3])@';
+$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3])@}';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
@@ -594,6 +595,10 @@ $string['stackCas_MissingAt']               = 'You are missing a <code>@</code> 
 $string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
 $string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';
 $string['stackCas_StringOperation']         = 'A string appears to be in the wrong place. This is the issue: <code>{$a->issue}</code>. ';
+$string['stackCas_MissingOpenTeXCAS']       = 'Missing <code>{@</code>. ';
+$string['stackCas_MissingClosingTeXCAS']    = 'Missing <code>@}</code>. ';
+$string['stackCas_MissingOpenRawCAS']       = 'Missing <code>{#</code>. ';
+$string['stackCas_MissingClosingRawCAS']    = 'Missing <code>#}</code>. ';
 $string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>. ';
 $string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>. ';
 $string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>. ';
@@ -604,6 +609,14 @@ $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
+// Used in blocks.
+$string['stackBlock_ifNeedsCondition']       = 'If-block needs a test attribute. ';
+$string['stackBlock_unknownBlock']           = 'The following block is unknown: ';
+$string['stackBlock_missmatch']              = 'has no match. ';
+$string['stackBlock_else_out_of_an_if']      = '"else" cannot exist outside an if block.';
+$string['stackBlock_elif_out_of_an_if']      = '"elif" cannot exist outside an if block.';
+$string['stackBlock_multiple_else']          = 'Multiple else branches in an if block.';
+$string['stackBlock_elif_after_else']        = '"elif" after an "else" in an if block.';
 $string['unrecognisedfactstags']            = 'The following facts tag(s) are not recognized: {$a->tags}.';
 $string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
 

@@ -28,11 +28,15 @@ require_once("block.interface.php");
 class stack_cas_castext_define extends stack_cas_castext_block {
 
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
+        $css = array();
+
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = new stack_cas_casstring($value, $conditionstack);
+            $cs = new stack_cas_casstring("$key:$value", $conditionstack);
             $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-            $cs->set_key($key, true);
-            $tobeevaluatedcassession->add_vars(array($cs));
+            $css[] = $cs;
+        }
+        if (count($css) > 0) {
+            $tobeevaluatedcassession->add_vars($css);
         }
     }
 
@@ -51,7 +55,7 @@ class stack_cas_castext_define extends stack_cas_castext_block {
     public function validate_extract_attributes() {
         $r = array();
         foreach ($this->get_node()->get_parameters() as $key => $value) {
-            $cs = new stack_cas_casstring($key . ':' . $value);
+            $cs = new stack_cas_casstring("$key:$value");
             $r[] = $cs;
         }
         return $r;

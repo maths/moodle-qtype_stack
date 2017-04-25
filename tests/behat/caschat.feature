@@ -14,7 +14,7 @@ Feature: STACK has build in documentation.
     When I follow "CAS chat script"
     Then I should see "Test the connection to the CAS"
 
-    When I set the field "cas" to "1 + 1 = @ 1+1 @."
+    When I set the field "cas" to "1 + 1 = {@ 1+1 @}."
     And I press "Send to the CAS"
     Then I should see "1 + 1 = 2"
 

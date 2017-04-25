@@ -36,11 +36,8 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
         $condition = $this->get_node()->get_parameter("test", "false");
 
-        $cs = null;
-        $cs = new stack_cas_casstring($condition, $conditionstack);
 
-        $this->condition = $cs;
-
+        $key = false;
         $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
         do { // ... make sure names are not already in use.
@@ -49,8 +46,12 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         } while (in_array($key, $sessionkeys));
         $this->number = $i - 1;
 
+        $cs = null;
+        $cs = new stack_cas_casstring("$key:$condition", $conditionstack);
+
+        $this->condition = $cs;
+
         $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-        $cs->set_key($key, true);
 
         $tobeevaluatedcassession->add_vars(array($cs));
     }
@@ -81,11 +82,12 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     }
 
     public function validate(&$errors='') {
-        $valid = parent::validate($errors);
-
+        $valid = true;
         if (!$this->get_node()->parameter_exists('test')) {
             $valid = false;
             $errors[] = stack_string('stackBlock_ifNeedsCondition');
+        } else {
+            $valid = parent::validate($errors);
         }
 
         return $valid;

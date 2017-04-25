@@ -540,6 +540,7 @@ class stack_cas_casstring {
 
     public function __construct($rawstring, $conditions = null) {
         $this->rawcasstring   = $rawstring;
+        $this->answernote     = array();
         $this->valid          = null;  // If null then the validate command has not yet been run.
 
         if (!is_string($this->rawcasstring)) {

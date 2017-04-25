@@ -48,15 +48,14 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
         $i = 0;
         foreach ($this->get_node()->get_parameters() as $key => $value) {
             $cs = null;
-            $cs = new stack_cas_casstring($value, $conditionstack);
             $caskey = '';
             do { // ... make sure names are not already in use.
                 $caskey = 'caschat'.$i;
                 $i++;
             } while (in_array($caskey, $sessionkeys));
             $this->numbers[$key] = $i - 1;
+            $cs = new stack_cas_casstring("$caskey:$value", $conditionstack);
             $cs->get_valid($this->security, $this->syntax, $this->insertstars);
-            $cs->set_key($caskey, true);
             $tobeevaluatedcassession->add_vars(array($cs));
         }
     }

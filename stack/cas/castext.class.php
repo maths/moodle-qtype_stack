@@ -377,12 +377,15 @@ class stack_cas_text {
             $this->parsetreeroot = stack_cas_castext_parsetreenode::build_from_nested($arrayform);
             $this->first_pass_recursion($this->parsetreeroot, array());
             $this->session->instantiate();
+
             $requiresrerun = false;
             foreach (array_reverse($this->blocks) as $block) {
                 $requiresrerun = $block->process_content($this->session) || $requiresrerun;
             }
         }
 
+        // This is only excecuted on the blocks existing after the last iteration.
+        // Others have been cleared from existence through other means.
         foreach ($this->blocks as $block) {
             $block->clear();
         }

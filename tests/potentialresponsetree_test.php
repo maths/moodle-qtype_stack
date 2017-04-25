@@ -144,7 +144,7 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $tans = new stack_cas_casstring('ta');
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[@(sa1)^2@ \neq @(sa2)^2@\]', FORMAT_HTML, '1-0-0');
+        $node->add_branch(0, '=', 0, '', -1, 'Test 1 false. Look: \[{@(sa1)^2@} \neq {@(sa2)^2@}\]', FORMAT_HTML, '1-0-0');
         $node->add_branch(1, '=', 1, '', 1, 'Test 1 true. ', FORMAT_HTML, '1-0-1');
         $potentialresponses[] = $node;
 

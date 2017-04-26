@@ -472,6 +472,15 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Solving quadratic equations 8";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2-10*x+7=0,(x-5)^2-18=0,(x-5)^2=sqrt(18)^2,(x-5)^2-sqrt(18)^2=0,".
+                "(x-5-sqrt(18))*(x-5+sqrt(18))=0,x=5-sqrt(18) or x=5+sqrt(18)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Completing the square";
         $newarg['narrative'] = 'A direct method for completing the square.';
         $newarg['casstring'] = "[x^2+2*a*x = 0, x*(x+2*a)=0, (x+a-a)*(x+a+a)=0, (x+a)^2-a^2=0]";
@@ -660,10 +669,26 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Expand out the brackets (2)";
+        $newarg['title']     = "Expand out the brackets (1)";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[(3*x-2)^4,stackeq((9*x^2-12*x+4)^2),stackeq(81*x^4-2*9*12*x^3+2*4*9*x^2+12*12*x^2-2*4*12*x+16),stackeq(81*x^4-216*x^3+216*x^2-96*x+16)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['casstring'] = "[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Difference of two square 1";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2-2,stackeq((x-sqrt(2))*(x+sqrt(2)))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Difference of two square 2";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2+4,stackeq((x-2*i)*(x+2*i))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

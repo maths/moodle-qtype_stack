@@ -238,4 +238,5 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($correctresponse,
                 $el->get_teacher_answer_display(null, null));
     }
+
 }

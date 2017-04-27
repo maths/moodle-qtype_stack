@@ -34,15 +34,12 @@ class stack_radio_input extends stack_dropdown_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
 
-        $result = '';
-        // Display runtime errors and bail out.
-        if ('' != $this->ddlerrors) {
-            $result .= html_writer::tag('p', stack_string('ddl_runtime'));
-            $result .= html_writer::tag('p', $this->ddlerrors);
-            return html_writer::tag('div', $result, array('class' => 'error'));
+        if ($this->errors) {
+            return $this->render_error($this->errors);
         }
 
         // Create html.
+        $result = '';
         $values = $this->get_choices();
         $selected = $state->contents;
 

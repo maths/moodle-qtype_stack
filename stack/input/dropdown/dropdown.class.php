@@ -28,11 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 class stack_dropdown_input extends stack_input {
 
     /*
-     * Catch and report runtime errors.
-     */
-    protected $ddlerrors = '';
-
-    /*
      * ddlvalues is an array of the types used.
      */
     protected $ddlvalues = array();
@@ -106,7 +101,7 @@ class stack_dropdown_input extends stack_input {
     public function adapt_to_model_answer($teacheranswer) {
 
         // We need to reset the errors here, now we have a new teacher's answer.
-        $this->ddlerrors = '';
+        $this->errors = null;
 
         /*
          * Sort out the ddlvalues.
@@ -126,7 +121,7 @@ class stack_dropdown_input extends stack_input {
         }
         $values = stack_utils::list_to_array($str, false);
         if (empty($values)) {
-            $this->ddlerrors = stack_string('ddl_badanswer', $teacheranswer);
+            $this->errors = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
             $this->teacheranswerdisplay = '<code>'.'[ERR]'.'</code>';
             $this->ddlvalues = null;
@@ -152,7 +147,7 @@ class stack_dropdown_input extends stack_input {
                 if (count($value) >= 2) {
                     // Check for duplicates in the teacher's answer.
                     if (array_key_exists($value[0], $duplicatevalues)) {
-                        $this->ddlerrors = stack_string('ddl_duplicates');
+                        $this->errors = stack_string('ddl_duplicates');
                     }
                     $duplicatevalues[$value[0]] = true;
                     // Store the answers.
@@ -173,7 +168,7 @@ class stack_dropdown_input extends stack_input {
                     }
                     $ddlvalues[] = $ddlvalue;
                 } else {
-                    $this->ddlerrors = stack_string('ddl_badanswer', $teacheranswer);
+                    $this->errors = stack_string('ddl_badanswer', $teacheranswer);
                 }
             }
         }
@@ -185,7 +180,7 @@ class stack_dropdown_input extends stack_input {
          * list of the values of those things the teacher said are correct.
          */
         if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
-            $this->ddlerrors .= stack_string('ddl_nocorrectanswersupplied');
+            $this->errors .= stack_string('ddl_nocorrectanswersupplied');
             return;
         }
         if ($this->ddltype == 'checkbox') {
@@ -234,7 +229,7 @@ class stack_dropdown_input extends stack_input {
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
-            $this->ddlerrors .= $at1->get_errors();
+            $this->errors .= $at1->get_errors();
             return;
         }
 
@@ -283,7 +278,7 @@ class stack_dropdown_input extends stack_input {
 
     protected function validate_contents($contents, $forbiddenkeys, $localoptions) {
         $valid = true;
-        $errors = '';
+        $errors = $this->errors;
         $modifiedcontents = $contents;
 
         return array($valid, $errors, $modifiedcontents);
@@ -310,7 +305,7 @@ class stack_dropdown_input extends stack_input {
 
         $values = $this->ddlvalues;
         if (empty($values)) {
-            $this->ddlerrors .= stack_string('ddl_empty');
+            $this->errors .= stack_string('ddl_empty');
             return array();
         }
 
@@ -321,7 +316,7 @@ class stack_dropdown_input extends stack_input {
             if (!array_key_exists($val['value'], $choices)) {
                 $choices[$key] = $val['display'];
             } else {
-                $this->ddlerrors .= stack_string('ddl_duplicates');
+                $this->errors .= stack_string('ddl_duplicates');
             }
         }
         return $choices;
@@ -329,15 +324,12 @@ class stack_dropdown_input extends stack_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
 
-        $result = '';
-        // Display runtime errors and bail out.
-        if ('' != $this->ddlerrors) {
-            $result .= html_writer::tag('p', stack_string('ddl_runtime'));
-            $result .= html_writer::tag('p', $this->ddlerrors);
-            return html_writer::tag('div', $result, array('class' => 'error'));
+        if ($this->errors) {
+            return $this->render_error($this->errors);
         }
 
         // Create html.
+        $result = '';
         $values = $this->get_choices();
         $selected = $state->contents;
 
@@ -355,6 +347,7 @@ class stack_dropdown_input extends stack_input {
         if ($this->ddltype == 'select') {
             unset($values['']);
         }
+
         $result .= html_writer::select($values, $fieldname, $select,
             $notanswered, $inputattributes);
 
@@ -489,7 +482,7 @@ class stack_dropdown_input extends stack_input {
                 return $key;
             }
         }
-        throw new stack_exception('stack_dropdown_input: could not find a key for '.$value);
+        $this->errors = stack_string('ddl_unknown', $value);
 
         return false;
     }

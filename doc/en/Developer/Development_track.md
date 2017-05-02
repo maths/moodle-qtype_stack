@@ -22,7 +22,7 @@ The primary puropose of this branch is the reasoning by equivalence input type.
 * Inputs which enable student to input steps in the working. In particular, variable numbers of input boxes.
 * Follow a "model solution", and give feedback based on the steps used.  E.g. identify where in the students' solution a student deviates from the model solution.
 * *done* Fix the instant validation. Change the Javascript in yui/input/inputs.js around stack_textarea_input.prototype.get_value = function() to not return a Maxima list.  We need the raw input, line breaks and all, to get a proper validation of the student's answer.  This need us to change ajax.php as well.
-* Display a teacher's answer as a worked solution, just as the input type uses.
+* *done* Display a teacher's answer as a worked solution, just as the input type uses.
 
 
 ## Interface features

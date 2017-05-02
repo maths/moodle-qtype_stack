@@ -26,6 +26,11 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_notes_input extends stack_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
+
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
         $attributes = array(

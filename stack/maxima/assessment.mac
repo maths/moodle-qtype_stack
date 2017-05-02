@@ -396,6 +396,19 @@ displayscitex(ex):=block([ss, n, dp],
 )$
 texput(displaysci, displayscitex)$
 
+make_displayscivalue(ex):= block([n, d, expo, ss],
+    if atom(ex) then return(ex),
+    if taylorp(ex) or functionp(ex) or freeof(displaysci, ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_displayscivalue, args(ex)))),
+    if not(is(safe_op(ex)="displaysci")) then return(apply(op(ex), maplist(make_displayscivalue, args(ex)))),
+    if not(length(args(ex))=3) then error("displaysci must have exactly 3 arguments"),
+    [n, dp, expo]:args(ex),
+    ss:sconcat("!! ~,", string(dp), "fE~a !!"),
+    if is(equal(dp, 0)) then ss:"!! ~dE~a  !!",
+    ss:ev(printf(false, ss, ev(float(n)), expo), simp),
+    return(ss)
+);
+
 /* ********************************** */
 /* Equivalence                        */
 /* ********************************** */

@@ -217,7 +217,9 @@ class stack_cas_session {
 
                 if (array_key_exists('dispvalue', $result)) {
                     $val = str_replace('QMCHAR', '?', $result['dispvalue']);
-                    $cs->set_dispvalue($val);
+                    $val = str_replace('"!! ', '', $val);
+                    $val = str_replace(' !!"', '', $val);
+                    $cs->set_dispvalue(trim($val));
                 }
 
                 if (array_key_exists('valid', $result)) {

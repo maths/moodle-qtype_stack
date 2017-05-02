@@ -531,6 +531,7 @@ stack_dispvalue(ex) := block(
   ex:detexcolor(ex),
   ex:detexdecorate(ex),
   ex:make_displaydpvalue(ex),
+  ex:make_displayscivalue(ex),
   ex:ev(ex, stackunits="*"),
   return(string(ex))
 )$
@@ -1437,9 +1438,7 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
     return([validity, mark, AnswerNote, FeedBack])
 )$
 
-
-
-ATSubstEquiv(SA,SB) := block([simp:true, ret],
+ATSubstEquiv(SA,SB) := block([simp:true, ret, SAc, SBc],
     /* Turn on simplification and error catch */
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_SAns"), ""]),
@@ -1447,7 +1446,10 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret],
     SB:errcatch(ev(SB, simp, nouns)),
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_TAns"), ""]),
     SB:SB[1],
-    ret:ATAlgEquivfun(SA, SB),
+    /* Copy SA and SB.  If they are lists or matrices then ATAlgEquivfun potentially colours wrong entries. */
+    SAc:copy(SA),
+    SBc:copy(SB),
+    ret:ATAlgEquivfun(SAc, SBc),
     /* Can we find a permutation of the variables? */
     if ret[2]=false then block([p1],
         p1:subst_equiv(SA, SB),
@@ -2638,4 +2640,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016122100$
+stackmaximaversion:2017042700$

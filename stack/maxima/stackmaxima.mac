@@ -530,6 +530,7 @@ stack_dispvalue(ex) := block(
   ex:detexcolor(ex),
   ex:detexdecorate(ex),
   ex:make_displaydpvalue(ex),
+  ex:make_displayscivalue(ex),
   ex:ev(ex, stackunits="*"),
   return(string(ex))
 )$

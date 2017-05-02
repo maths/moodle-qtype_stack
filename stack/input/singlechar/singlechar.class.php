@@ -26,6 +26,10 @@ class stack_singlechar_input extends stack_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
 
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
         $attributes = array(
             'type'      => 'text',
             'name'      => $fieldname,

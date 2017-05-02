@@ -25,6 +25,11 @@ defined('MOODLE_INTERNAL') || die();
 class stack_algebraic_input extends stack_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
+
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
         $attributes = array(
             'type'  => 'text',

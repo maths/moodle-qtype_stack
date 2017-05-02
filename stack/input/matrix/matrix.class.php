@@ -23,7 +23,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_matrix_input extends stack_input {
-    protected $errors = null;
     protected $width;
     protected $height;
 
@@ -206,15 +205,15 @@ class stack_matrix_input extends stack_input {
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
+
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
         $attributes = array(
             'type' => 'text',
             'name' => $fieldname,
         );
-
-        if ($this->errors) {
-            // If there are errors, don't try to display anything else.
-            return html_writer::tag('p', $this->errors, array('id' => 'error', 'class' => 'p'));
-        }
 
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);

@@ -30,7 +30,7 @@
 /* Reduces an inequality to either ? > 0 or ? >=0, which is monic in its variable. */
 ineqprepare(ex) := block([op2, ex2],
     if mapatom(ex) then return(ex),
-    if op(ex)="="  then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) = 0),
+    if op(ex)="="  then return(make_monic_eq(ev(part(ex,1) - part(ex,2), simp, trigreduce)) = 0),
     if op(ex)=">"  then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) > 0),
     if op(ex)=">=" then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) >= 0),
     if op(ex)="<"  then return(make_monic(ev(part(ex,2) - part(ex,1), simp, trigreduce)) > 0),
@@ -42,7 +42,7 @@ ineqprepare(ex) := block([op2, ex2],
 
 
 /* Turn a single variable polynomial expression into a +1/-1 monic polynomial.
-   This is used with inequalities and equations. */
+   This is used with inequalities. */
 make_monic(ex) := block([v],
     if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),
@@ -51,6 +51,14 @@ make_monic(ex) := block([v],
     ev(expand(ex/abs(coeff(ex,first(listofvars(ex)),degree(ex,first(listofvars(ex)))))),simp)
 )$
 
+  /* This is used with equations. */
+make_monic_eq(ex) := block([v],
+    if mapatom(ex) then return(ex),
+    if not(polynomialpsimp(ex)) then return(ex),
+    ex:expand(ex),
+    /* Divide by the coefficient of the highest power, without losing the minus sign. */
+    ev(expand(ex/coeff(ex,first(listofvars(ex)),degree(ex,first(listofvars(ex))))),simp)
+)$
 
 /* Determines if we have a linear inequality in one variable. 
    This function prepares the inequality.                       */

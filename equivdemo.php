@@ -135,7 +135,11 @@ foreach ($samplearguments as $argument) {
         $string      .= "Overall the argument is @S2@.  We expected the argument to be {$expected}.";
         $ct           = new stack_cas_text($string, $session, 0, 't');
         $displaytext  = $ct->get_display_castext();
-        $errs         = "<font color='red'>".$ct->get_errors()."</font>";
+        $errs = '';
+        if ($ct->get_errors() != '') {
+            $errs = "<font color='red'>".$ct->get_errors()."</font>";
+            $errs .= $ct->get_debuginfo();
+        }
         $debuginfo    = $ct->get_debuginfo();
 
         echo html_writer::tag('h3', $cskey . ": ". $argument['title']).

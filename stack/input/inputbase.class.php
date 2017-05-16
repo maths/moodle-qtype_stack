@@ -702,7 +702,6 @@ abstract class stack_input {
         return $response;
     }
 
-<<<<<<< HEAD
     /**
      * This function is responsible for removing the validation tags from the question stem and replacing
      * them with the validation feedback.  Only the equiv input type currently does anything different here.
@@ -739,12 +738,10 @@ abstract class stack_input {
         return array($this->name => $in);
     }
 
-=======
     /*
      * Return the value of any errors.
      */
     public function get_errors() {
             return $this->errors;
     }
->>>>>>> origin/master
 }

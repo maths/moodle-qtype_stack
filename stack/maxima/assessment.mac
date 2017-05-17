@@ -397,6 +397,18 @@ displayscitex(ex):=block([ss, n, dp],
 )$
 texput(displaysci, displayscitex)$
 
+make_displayscivalue(ex):= block([n, d, expo, ss],
+    if atom(ex) then return(ex),
+    if taylorp(ex) or functionp(ex) or freeof(displaysci, ex) then return(ex),
+    if arrayp(ex) then return(arraymake(op(ex), maplist(make_displayscivalue, args(ex)))),
+    if not(is(safe_op(ex)="displaysci")) then return(apply(op(ex), maplist(make_displayscivalue, args(ex)))),
+    if not(length(args(ex))=3) then error("displaysci must have exactly 3 arguments"),
+    [n, dp, expo]:args(ex),
+    ss:sconcat("!! ~,", string(dp), "fE~a !!"),
+    if is(equal(dp, 0)) then ss:"!! ~dE~a  !!",
+    ss:ev(printf(false, ss, ev(float(n)), expo), simp),
+    return(ss)
+);
 
 /* ********************************** */
 /* Equivalence                        */
@@ -792,6 +804,7 @@ distrib_and(ex):=block([orlisti, orlist1, orlist2],
 /* Normal form for logical expressions. */
 logical_normal(ex):=block(
     /* Change the noun logical operators into associative indenpotent ones. */
+    ex:abs_replace(ex),
     ex:ineqprepare(expand(ex)),
     ex:noun_solve_logic(ex),
     ex:subst("%and", "nounand", ex), 
@@ -839,11 +852,10 @@ noun_solve_logic_equation(ex):=block([factorargs],
 /* To check if two logical expressions are the same, turn them in to polynomials and work there. */
 logic_to_poly(ex) := block(
     if atom(ex) then return(ex),
+    if polynomialp(ex, listofvars(ex)) then return(ex),
 
     /* Solve an equation by factoring and joining each factor with =0 */
     if equationp(ex) then return(lhs(ex)-rhs(ex)),
-
-    if polynomialp(ex, listofvars(ex)) then return(ex),
 
     if not(logicp(ex) or safe_op(ex) = "%and" or safe_op(ex) = "%or") then return(ex),
 
@@ -899,6 +911,41 @@ pm_replace(ex):= block(
   if ev(is(count_op(ex, "+-")=1), simp) then return(opsubst("+", "+-", ex) nounor opsubst("-", "+-", ex)),
   return(ex)
 )$
+
+/* ********************************** */
+/* Abs removal functions              */
+/* ********************************** */
+
+/* Replace the first occurance of the A for B in ex. */
+opsubst_first(A, B, C):=block([ar, k],
+  if freeof(A, C) then return(C),
+  if equal(A, C) then return(B), 
+  if atom(C) then return(C), 
+  if equal(safe_op(C), string(A)) then return(apply(B, args(C))),
+  ar:args(C),
+  k:1,
+  while freeof(A, ar[k]) do k:k+1,
+  ar[k]:opsubst_first(A, B, ar[k]),
+  return(apply(op(C), ar))  
+)$
+
+/* Replace abs(x) with + %or - versions.  */
+abs_replace(ex):=block([exp, exm],
+  if freeof(abs, ex) then return(ex),
+  exp:ev(opsubst_first(abs, "+", copy(ex))),
+  exm:ev(opsubst_first(abs, "-", copy(ex))),
+  return(abs_replace(exp %or exm))
+);
+
+/* Replace abs(x) in an equation to give a product of factors.  */
+abs_replace_eq(ex):=block([exn],
+  if freeof(abs, ex) then return(ex),
+  if not(equationp(ex)) then return(ex),
+  exn:abs_replace(ex),
+  exn:ineqprepare(exn),
+  exn:map(lhs, args(exn)),
+  return(apply("*", args(exn))=0)
+);
 
 
 /* ********************************** */
@@ -1118,6 +1165,7 @@ texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
 texput(SAMEROOTS, "\\color{green}{\\mbox{!SAMEROOTS!}}");
 texput(ANDOR, "\\color{red}{\\mbox{!ANDOR!}}");
 texput(MISSINGVAR, "\\color{red}{\\mbox{!MISSINGVAR!}}");
+texput(ASSUMEPOSVARS, "\\color{blue}{\\mbox{!ASSUMEPOSVARS!}}");
 
 
 /* We assume the token "all" is the set of real numbers, and "none" means it is empty. */
@@ -1153,13 +1201,14 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   eqoutnote:makelist("", length(ex)), 
   eqoutcome[1]:null,
   eqoutsymb[1]:EMPTYCHAR,
+  if assume_pos then eqoutsymb[1]:ASSUMEPOSVARS,
   /* Loop and sort out expressions. */
   exmod:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote],
      SA:exmod[ev(id, simp)],
      if stack_eval_arg_equivzerop(ex) then SA:SA=0,
-     if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
      if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
+     if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
      exmod[ev(id, simp)]:SA
   ),
   if debug then print(exmod),

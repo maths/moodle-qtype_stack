@@ -321,6 +321,7 @@ $string['ddl_empty'] = 'No choices were provided for this drop-down.';
 $string['ddl_nocorrectanswersupplied'] = 'The teacher did not indicate at least one correct answer. ';
 $string['ddl_duplicates'] = 'Duplicate values have been found when generating the input options. ';
 $string['ddl_badanswer'] = 'The model answer field for this input is malformed: <code>{$a}</code>. ';
+$string['ddl_unknown'] = 'STACK received <code>{$a}</code> but this is not listed by the teacher as an option. ';
 
 $string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
 $string['teacheranswershow_disp'] = 'A correct answer is {$a->display} .';
@@ -788,6 +789,7 @@ $string['ATEquivFirst_SA_wrong_end']     = 'Your final answer is not in the corr
 $string['equiv_SAMEROOTS']               = '(Same roots)';
 $string['equiv_ANDOR']                   = 'and/or confusion!';
 $string['equiv_MISSINGVAR']              = 'Missing assignments';
+$string['equiv_ASSUMEPOSVARS']           = 'Assume +ve vars';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';

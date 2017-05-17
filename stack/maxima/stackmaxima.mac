@@ -1,6 +1,8 @@
 /*  Author Chris Sangwin
     Loughborough University
     Copyright (C) 2014 Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2017 Chris Sangwin
 
     This program is free software: you can redistribute it or modify
     it under the terms of the GNU General Public License version two.
@@ -531,6 +533,7 @@ stack_dispvalue(ex) := block(
   ex:detexcolor(ex),
   ex:detexdecorate(ex),
   ex:make_displaydpvalue(ex),
+  ex:make_displayscivalue(ex),
   ex:ev(ex, stackunits="*"),
   return(string(ex))
 )$
@@ -1074,6 +1077,12 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_list"))
       else
         return(ATList(SA, SB)),
+    /* Are we dealing with sets? */
+    if safe_setp(SB) then
+      if safe_setp(SA)=false then
+        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
+      else
+        return(ATSet(SA, SB)),
     /* Are we dealing with a function? */
     if functionp(SB) then
       if functionp(SA)#true then
@@ -1094,12 +1103,6 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_inequality"))
       else
         return(ATInequality(SA, SB)),
-    /* Are we dealing with sets? */
-    if safe_setp(SB) then
-      if safe_setp(SA)=false then
-        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_set"))
-      else
-        return(ATSet(SA, SB)),
     if logicp(SB) then
       if logicp(SA)#true and inequalityp(SA)#true then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_logic"))
@@ -1244,6 +1247,25 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgec
     R:ratsimp(R1/R2),
     if numberp(float(abs(R))) then 
         return([true, true, "ATEquation_num", ""]),
+
+    /* Now try to get rid of absolute value signs. */
+    R1:abs_replace_eq(SA),
+    R1:lhs(R1)-rhs(R1),
+    R2:abs_replace_eq(SB),
+    R2:lhs(R2)-rhs(R2),
+    if ATEquation_zerop(R2) then
+        if ATEquation_zerop(R1) then
+             return([true, true, "ATEquation_abs_zero", ""]) 
+        else return([true, false, "ATEquation_abs_zero_fail", ""]),
+    if numberp(float(abs(R1/R2))) then 
+-        return([true, true, "", ""]),    R1:num(ratsimp(R1)),
+    R2:num(ratsimp(R2)),
+    if algebraic_equivalence(abs(R1/R2), 1) then 
+        return([true, true, "ATEquation_abs_ratio", ""]),
+    R:ratsimp(R1/R2),
+    if numberp(float(abs(R))) then 
+        return([true, true, "ATEquation_abs_num", ""]),
+
     return([true, false, "ATEquation_default", ""])
     )$
 
@@ -1437,9 +1459,7 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
     return([validity, mark, AnswerNote, FeedBack])
 )$
 
-
-
-ATSubstEquiv(SA,SB) := block([simp:true, ret],
+ATSubstEquiv(SA,SB) := block([simp:true, ret, SAc, SBc],
     /* Turn on simplification and error catch */
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_SAns"), ""]),
@@ -1447,7 +1467,10 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret],
     SB:errcatch(ev(SB, simp, nouns)),
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_TAns"), ""]),
     SB:SB[1],
-    ret:ATAlgEquivfun(SA, SB),
+    /* Copy SA and SB.  If they are lists or matrices then ATAlgEquivfun potentially colours wrong entries. */
+    SAc:copy(SA),
+    SBc:copy(SB),
+    ret:ATAlgEquivfun(SAc, SBc),
     /* Can we find a permutation of the variables? */
     if ret[2]=false then block([p1],
         p1:subst_equiv(SA, SB),
@@ -2638,4 +2661,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2016122100$
+stackmaximaversion:2017042700$

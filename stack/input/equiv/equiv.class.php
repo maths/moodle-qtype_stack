@@ -94,6 +94,10 @@ class stack_equiv_input extends stack_input {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
 
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
             $rows = array();

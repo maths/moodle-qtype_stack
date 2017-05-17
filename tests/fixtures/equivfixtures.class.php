@@ -242,7 +242,15 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a^2=b^2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Absolute value (Tricky)";
+        $newarg['narrative'] = 'These *equations* are equivalent, but the expressions are not.  ';
+        $newarg['casstring'] = "[abs(x-1/2)+abs(x+1/2)=2,abs(x)=1]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         /******************************************************************************/
@@ -254,7 +262,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Make g the subject";
         $newarg['narrative'] = 'In this example we need to assume all variables are positive.';
         $newarg['casstring'] = "[T=2*pi*sqrt(L/g),T^2=4*pi^2*L/g,g=4*pi^2*L/T^2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -263,7 +271,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Squaring both sides";
         $newarg['narrative'] = 'Squaring both sides does not give equivalence.';
         $newarg['casstring'] = "[a=b,a^2=b^2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -272,7 +280,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Rooting both sides (1)";
         $newarg['narrative'] = 'Taking the square root of both sides does not give equivalence.';
         $newarg['casstring'] = "[a=b,sqrt(a)=sqrt(b)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -281,7 +289,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Rooting both sides (2)";
         $newarg['narrative'] = 'Taking the square root of both sides does not give equivalence.';
         $newarg['casstring'] = "[a^2=b^2,a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -291,7 +299,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'Taking the square root of both sides does not give equivalence, we need two values.  '.
                 'This is still ok when we assume positive values';
         $newarg['casstring'] = "[a^2=b^2,a=b or a=-b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -300,7 +308,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[a=b,abs(a)=abs(b)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -309,7 +317,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -318,7 +326,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a=b or a=-b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -327,7 +335,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a^2=b^2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -336,7 +344,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving quadratic equations 2 (pm) and assume pos";
         $newarg['narrative']  = '';
         $newarg['casstring'] = "[x^2=2,x=+-sqrt(2),x=sqrt(2) or x=-sqrt(2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -345,7 +353,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving quadratic equations 2 (pm) and assume pos";
         $newarg['narrative']  = '';
         $newarg['casstring'] = "[x^2=2,x=sqrt(2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -513,6 +521,15 @@ class stack_equiv_test_data {
                 "(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
                 "a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving cubic equations 9 (11th centuary Hindu method)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a^2+b*x=-c,4*a^2*x^2+4*a*b*x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^2-4*a*c,2*a*x+b=+-sqrt(b^2-4*a*c),".
+                "2*a*x=-b+-sqrt(b^2-4*a*c),x=(-b+-sqrt(b^2-4*a*c))/(2*a)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -754,7 +771,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+2)]";
         $newarg['debuglist'] = "[CHECKMARK,QMCHAR]";
-        $newarg['outcome']   = true;
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();

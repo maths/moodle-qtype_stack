@@ -286,6 +286,14 @@
           (cdr x))
       '("\\end{array}") r))
 
+;; Added by CJS, 15-5-17.  Display a list as a group with a single curly bracket on the left.
+(defprop $argumentand tex-argumentand tex)
+(defun tex-argumentand(x l r)
+  (append l `("\\left\\{\\begin{array}{l}")
+      (mapcan #'(lambda(y)
+              (tex y nil (list "\\cr ") 'mparen 'mparen))
+          (cdr x))
+      '("\\end{array}\\right.") r))
 
 ;; *************************************************************************************************
 ;; The following code does not affect TeX output, but rather are general functions needed for STACK.

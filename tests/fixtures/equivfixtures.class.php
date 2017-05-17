@@ -811,9 +811,27 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Rectangle question from NH_2016_8";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
+                "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>2 and (x<5 and x>-3),x>2 and x<5]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
         /******************************************************************************/
         $newarg = array();
         $newarg['section'] = 'Simultaneous equations and substitution';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Linear simultaneous equations";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2*x+3*y=6 nounand 4*x+9*y=15,2*x+3*y=6 nounand -2*x=-3,".
+            "3+3*y=6 nounand 2*x=3,y=1 nounand x=3/2];";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -849,7 +867,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Substitution";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

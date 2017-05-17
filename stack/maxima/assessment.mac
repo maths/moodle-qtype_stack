@@ -388,6 +388,7 @@ scientific_notation([a]) := block([simp:false, x, ex, ex2, ex3, exn],
   return(first(a))
 )$
 
+/* displysci is an inert internal function of three arguments. */
 displayscitex(ex):=block([ss, n, dp],
   [n, dp, expo]:args(ex),
   ss:sconcat("~,", string(dp), "f \\times 10^{~a}"),
@@ -395,6 +396,7 @@ displayscitex(ex):=block([ss, n, dp],
   ev(printf(false, ss, ev(float(n)), expo), simp)
 )$
 texput(displaysci, displayscitex)$
+
 
 /* ********************************** */
 /* Equivalence                        */
@@ -1421,6 +1423,8 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
     /* Only add in EQUIVZERO when we don't have equational reasoning and when we do have more than one line. */
     if stack_eval_arg_equivalence_reasoningp(A[3]) then 
         exnew:maplist(lambda([ex2], if stack_eval_arg_equivzerop(ex2) then ex2=EQUIVZERO else ex2), A[3]),
+    /* Turn "and" opertors into displayed ones. */
+    exnew:maplist(lambda([ex2], if safe_op(ex2)="nounand" then apply(argumentand, args(ex2)) else ex2), A[3]),
     ret:[exnew],
     /* If we are not showing logical connectives, then suppress them. */
     if showlogic then ret:append([eqoutsymb], ret),

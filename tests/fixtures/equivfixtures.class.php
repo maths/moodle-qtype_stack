@@ -253,6 +253,14 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Explicit assumptions";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a^2=9 nounand a>0,a=3]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
         /******************************************************************************/
         $newarg = array();
         $newarg['section'] = 'Assume positive values, to condone squaring.';
@@ -844,15 +852,15 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Linear simultaneous equations";
-        $newarg['narrative'] = '';
+        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
         $newarg['casstring'] = "[2*x+3*y=6 nounand 4*x+9*y=15,2*x+3*y=6 nounand -2*x=-3,".
-            "3+3*y=6 nounand 2*x=3,y=1 nounand x=3/2];";
+            "3+3*y=6 nounand 2*x=3,y=1 nounand x=3/2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Simultaneous equations (must use and to join them)";
+        $newarg['title']     = "Simultaneous equations";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, ".
                 "(x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";

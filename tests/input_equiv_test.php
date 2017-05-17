@@ -205,8 +205,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
-        // In this example, we have assumed x is positive so we do have an equivalence.
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2 \cr \end{array} \]',
+        // In this example, we have assumed x is positive so we do have an equivalence. Note the feedback.
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4\cr  '.
+                '\color{green}{\Leftrightarrow}&x=2\cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 

@@ -208,7 +208,7 @@ simp_numberp(ex) := block(
   false
 )$
 
-/* Do we have a real number?*/
+/* Do we have a real number?  */
 /* Code taken from Stack_Test */
 real_numberp(ex):=
     block([keepfloat, trigexpand, logexpand],
@@ -408,7 +408,7 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
     if is(equal(dp, 0)) then ss:"!! ~dE~a  !!",
     ss:ev(printf(false, ss, ev(float(n)), expo), simp),
     return(ss)
-);
+)$
 
 /* ********************************** */
 /* Equivalence                        */
@@ -739,16 +739,16 @@ alias(ATEqual_com_ass, ATEqualComAss)$
 /*  Define noun versions of logical "and" and "or".             */
 /****************************************************************/
 
-nary("nounand", 65);
-nary("nounor", 61);
+nary("nounand", 65)$
+nary("nounor", 61)$
 
-declare("nounand", commutative);
-declare("nounand", lassociative);
-declare("nounand", rassociative);
+declare("nounand", commutative)$
+declare("nounand", lassociative)$
+declare("nounand", rassociative)$
 
-declare("nounor", commutative);
-declare("nounor", lassociative);
-declare("nounor", rassociative);
+declare("nounor", commutative)$
+declare("nounor", lassociative)$
+declare("nounor", rassociative)$
 
 /* A predicate to decide if we have a logical expression. */
 logicp(ex) := block(
@@ -1586,10 +1586,4 @@ ATEquivFirst(SA,SB) := block([SAA, SAB, ret, A, AnswerNote, FeedBack],
     ret:[true, first(A), AnswerNote, FeedBack],
     return(ret)
 )$
-
-/* ********************************** */
-/* Answer tests                       */
-/* ********************************** */
-
-AnswerTests : [AlgEquiv, EqualComAss, CasEqual, SameType, SubstEquiv, SysEquiv, Expanded, FacForm, SingleFrac, PartFrac, CompSquare, GT, GTE, NumAbsolute, NumRelative, NumSigFigs, LowestTerms, Diff, Int, String, StringSloppy, RegExp]$ 
 

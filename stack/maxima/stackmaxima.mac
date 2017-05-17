@@ -62,17 +62,17 @@ stack_reset(rand_seed) := block(
   true
 )$
 
-/* Sometimes we need i,j,e etc to be *symbols*, not values.... */
+/* Sometimes we need i,j,e etc to be *symbols*, not values. */
 stack_reset_vars(ex) := block(kill(i, j, e, pi, Pi, PI));
 
-/* Execute this command to ensure values have been set */
+/* Execute this command to ensure values have been set. */
 stack_reset(1000);
 
 alias(int,integrate);        /* Allows integrate to be called with int()    */
 alias(cosec,csc);            /* Corresponds to current student expectations */
 
-simplify(ex) := ev(fullratsimp(ex), simp); /* Allows simplify to be something */
-degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
+simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
+degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
 
 /* ********************************** */
@@ -97,7 +97,7 @@ texput(logbase, logbasetex);
 /* Use of radcan to give canonical form. */
 logbasesimp(n,b) := radcan(log(n)/log(b));
 
-load ("functs");
+load("functs");
 
 /* We don't want to allow people to put boxes round things. */
 box(ex) := ex;

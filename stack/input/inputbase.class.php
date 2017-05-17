@@ -83,7 +83,7 @@ abstract class stack_input {
 
     /**
      * Catch and report runtime errors.
-     * @var string.
+     * @var array.
      */
     protected $errors = null;
 
@@ -423,7 +423,9 @@ abstract class stack_input {
         }
 
         $note = $answer->get_answernote();
-        $errors = implode(' ', $errors);
+        if ($errors) {
+            $errors = implode(' ', $errors);
+        }
 
         if (!$valid) {
             $status = self::INVALID;

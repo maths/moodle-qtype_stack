@@ -1288,10 +1288,11 @@ ATEquation_emptyp(ex) := block(
 
 ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     RawMark:false, FeedBack:"", AnswerNote:"",
+    if debug then print("ATInequality(", SA, ", ", SB, ")"),
     /* Write the inequalities in canonical form then compare. */
-    SA:ineqorder(SA),
-    SB:ineqorder(SB),
-    if debug then print("ATInequality", SA, SB),
+    SA:logical_normal(SA),
+    SB:logical_normal(SB),
+    if debug then print("ATInequality(", SA, ", ", SB, ")"),
     if SA = SB then RawMark:true,
     /* Now try to give some basic feedback: potential for more work to recurse over complex expressions... */
     if safe_op(SA) = ">"  and safe_op(SB) =">=" then block(

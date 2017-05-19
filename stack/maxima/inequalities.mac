@@ -51,7 +51,7 @@ make_monic(ex) := block([v],
     ev(expand(ex/abs(coeff(ex,first(listofvars(ex)),degree(ex,first(listofvars(ex)))))),simp)
 )$
 
-  /* This is used with equations. */
+/* This is used with equations. */
 make_monic_eq(ex) := block([v],
     if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),

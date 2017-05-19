@@ -251,6 +251,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{}', '1=2', 0, 'ATAlgEquiv_SA_not_equation.', ''),
         array('AlgEquiv', '', '[]', '1=2', 0, 'ATAlgEquiv_SA_not_equation.', ''),
 
+        array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y', 0, '', 'Absolute value in equations'),
+        array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y or x=-y', 1, '', ''),
+        array('AlgEquiv', '', 'abs(x)=abs(y)', '(x-y)*(x+y)=0', 1, '', ''),
+
         array('AlgEquiv', '', 'f(x):=1/0', 'f(x):=x^2', -1, 'CASError: Division by zero.', 'Functions'),
         array('AlgEquiv', '', '1', 'f(x):=x^2', 0, 'ATAlgEquiv_SA_not_function.', ''),
         array('AlgEquiv', '', 'f(x)=x^2', 'f(x):=x^2', 0, 'ATAlgEquiv_SA_not_function.', ''),

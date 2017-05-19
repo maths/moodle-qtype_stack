@@ -132,9 +132,20 @@ foreach ($samplearguments as $argument) {
             $expected = 'false';
         }
         $string       = "\[@S1@\]";
-        $string      .= "Overall the argument is @S2@.  We expected the argument to be {$expected}.";
         $ct           = new stack_cas_text($string, $session, 0, 't');
+
+        $start = microtime(true);
         $displaytext  = $ct->get_display_castext();
+        $took = (microtime(true) - $start);
+        $rtook = round($took, 5);
+
+        $argumentvalue = $session->get_value_key("S2");
+        $overall = "Overall the argument is {$argumentvalue}.  We expected the argument to be {$expected}.";
+        if ($argumentvalue != $expected) {
+            $overall = "<font color='red'>".$overall."</font>";
+        }
+        $displaytext .= $overall;
+        $displaytext .= "\n<br>Time taken: ".$rtook;
         $errs = '';
         if ($ct->get_errors() != '') {
             $errs = "<font color='red'>".$ct->get_errors()."</font>";

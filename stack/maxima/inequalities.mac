@@ -30,6 +30,7 @@
 /* Reduces an inequality to either ? > 0 or ? >=0, which is monic in its variable. */
 ineqprepare(ex) := block([op2, ex2],
     if mapatom(ex) then return(ex),
+    if safe_op(ex)="%not" then ex:not_ineq(first(args(ex))),
     if op(ex)="="  then return(make_monic_eq(ev(part(ex,1) - part(ex,2), simp, trigreduce)) = 0),
     if op(ex)=">"  then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) > 0),
     if op(ex)=">=" then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) >= 0),
@@ -39,7 +40,6 @@ ineqprepare(ex) := block([op2, ex2],
     ex2:map(ineqprepare, ex2),
     return(apply(op(ex), ex2))
 )$
-
 
 /* Turn a single variable polynomial expression into a +1/-1 monic polynomial.
    This is used with inequalities. */
@@ -91,12 +91,21 @@ rev_ineq(ex):=block(
     return(ex)
 )$
 
-/* Negates the inequality. */
+/* Checks if we have the wrong inequality. */
 neg_ineq(ex):=block(
     if safe_op(ex) = "<" then return(lhs(ex) > rhs(ex)),
     if safe_op(ex) = "<=" then return(lhs(ex) >= rhs(ex)),
     if safe_op(ex) = ">" then return(lhs(ex) < rhs(ex)),
     if safe_op(ex) = ">=" then return(lhs(ex) <= rhs(ex)),
+    return(ex)
+)$
+
+/* Negates the inequality. */
+not_ineq(ex):=block(
+    if safe_op(ex) = "<" then return(lhs(ex) >= rhs(ex)),
+    if safe_op(ex) = "<=" then return(lhs(ex) > rhs(ex)),
+    if safe_op(ex) = ">" then return(lhs(ex) <= rhs(ex)),
+    if safe_op(ex) = ">=" then return(lhs(ex) < rhs(ex)),
     return(ex)
 )$
 
@@ -108,8 +117,6 @@ neg_ineq_list(ex, l) := block([k],
     for k: 1 thru length(l) do ex[ev(l[k], simp)]:neg_ineq(ex[ev(l[k], simp)]),
     ex
 )$
-
-
 
 /*******************************************************************************/
 /* This block of functions removes unessary inequalities from a collection.    */

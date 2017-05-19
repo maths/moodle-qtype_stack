@@ -778,6 +778,15 @@ class stack_equiv_test_data {
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Induction step";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[sum(k,k,1,n+1),stackeq(sum(k,k,1,n)+(n+1)),stackeq(n*(n+1)/2 +n+1),".
+                "stackeq((n+1)*(n+1+1)/2),stackeq((n+1)*(n+2)/2)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+        
         /******************************************************************************/
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';
@@ -804,6 +813,14 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[(x-2)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]";
         $newarg['debuglist'] = "[QMCHAR,CHECKMARK]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Numerical example";
+        $newarg['narrative'] = 'From an induction proof that 3 divides 4^(n+1)-1.';
+        $newarg['casstring'] = "[4^((n+1)+1)-1= 4*4^(n+1)-1,stackeq(4*(4^(n+1)-1)+3)]";
+        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

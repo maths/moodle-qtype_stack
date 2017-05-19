@@ -1522,10 +1522,12 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
     note:second(A),
     /* Decide if the overall argument is true. */
     res:first(A),
+    /* Remove first entry when this has not been set. */
+    if first(res)=null then res:rest(res),
     if elementp(unknown, setify(res)) then 
         res:unknown
     else
-        res:apply("and", rest(res)),
+        res:apply("and", res),
     return([res, ret, note])
 )$
 

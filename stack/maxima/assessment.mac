@@ -945,15 +945,11 @@ abs_replace(ex):=block([exp, exm, exc1, exc2, ret],
   exc2:copy(ex),
   exp:opsubst_first(abs, "+", exc1),
   exm:opsubst_first(abs, "-", exc2),
-  /* We then have to do some simplification here to prune down the replacement tree and remove obvious duplicates. */
-  /* This prevents exponential growth.*/
-  if equationp(exp) then exp:ineqprepare(exp),
-  if equationp(exm) then exm:ineqprepare(exm),
-  if safe_op(exp)="or" then exp:apply("%or", map(ineqprepare, args(exp))),
-  if safe_op(exm)="or" then exm:apply("%or", map(ineqprepare, args(exm))),
+  exp:abs_replace(exp),
+  exm:abs_replace(exm),
   ret:ev(exp %or exm, simp),
-  return(abs_replace(ret))
-);
+  apply("%or", map(ineqprepare, args(ret)))
+)$
 
 /* Replace abs(x) in an equation to give a product of factors.  */
 abs_replace_eq(ex):=block([exn],
@@ -963,7 +959,7 @@ abs_replace_eq(ex):=block([exn],
   exn:abs_replace(exn),
   exn:map(lhs, args(exn)),
   return(apply("*", args(exn))=0)
-);
+)$
 
 
 /* ********************************** */

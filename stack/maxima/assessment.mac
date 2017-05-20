@@ -1171,7 +1171,7 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 
 texput(EMPTYCHAR, "\\ ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
-texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\, \\color{blue}{(\\mathbb{R})}");
+texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\\, \\color{blue}{(\\mathbb{R})}");
 texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
@@ -1181,6 +1181,8 @@ texput(SAMEROOTS, "\\color{green}{\\mbox{!SAMEROOTS!}}");
 texput(ANDOR, "\\color{red}{\\mbox{!ANDOR!}}");
 texput(MISSINGVAR, "\\color{red}{\\mbox{!MISSINGVAR!}}");
 texput(ASSUMEPOSVARS, "\\color{blue}{\\mbox{!ASSUMEPOSVARS!}}");
+texput(ASSUMEREALVARS, "\\color{blue}{(\\mathbb{R})}");
+texput(ASSUMEPOSREALVARS, "\\color{blue}{\\mbox{!ASSUMEPOSREALVARS!}}");
 
 
 /* We assume the token "all" is the set of real numbers, and "none" means it is empty. */
@@ -1217,6 +1219,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   eqoutcome[1]:null,
   eqoutsymb[1]:EMPTYCHAR,
   if assume_pos then eqoutsymb[1]:ASSUMEPOSVARS,
+  if assume_real then eqoutsymb[1]:ASSUMEREALVARS,
+  if assume_pos and assume_real then eqoutsymb[1]:ASSUMEPOSREALVARS,
 
   /* STAGE A: Loop and sort out expressions. */
   exmod:copy(ex),
@@ -1300,6 +1304,25 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   eqoutcome[ev(id, simp)]:true,
                   eqoutsymb[ev(id, simp)]:EQUIVCHAR,
                   eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_abs_sq | ", third(ATres))
+              )
+          ),
+
+          /* Special cause of real single variable equations. */
+          if (assume_real and not(eqoutcome[ev(id, simp)])) then block([FAA, FBB, FGCD, ATres],
+              FAA:lhs(SAP),
+              FAB:lhs(SBP),
+              if (debug) then print("** Checking assume_real with: ", string(FAA), ", ", string(FAB), " **"),
+              if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and length(listofvars(FAA))=1 and length(listofvars(FAB))=1) then block(
+                  FAA:ev(solve(FAA), simp),
+                  FAB:ev(solve(FAB), simp),
+                  if (debug) then print("Solved as ", string(FAA), ", ", string(FAB)),
+                  FAA:ev(sublist(FAA, lambda([ex2], real_numberp(rhs(ex2))))),
+                  FAB:ev(sublist(FAB, lambda([ex2], real_numberp(rhs(ex2))))),
+                  if (debug) then print("Filtered as ", string(FAA), ", ", string(FAB)),
+                  if sort(FAA)=sort(FAB) then block(
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVCHARREAL
+                  )
               )
           ),
 

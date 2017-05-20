@@ -82,6 +82,8 @@ To enter options for this input use the "extra options field".   Options should 
 
 `assume_pos` sets the value of Maxima's `assume_pos` variable to be true.  In particular, this also has the effect of condoning squaring or rooting both sides of an equation.  For example \(x^4=2\) will now be equivalent to \(x=2\) (rather than \(x=2 \vee x=-2\).  This is not the default, but is useful in situations where a student is rearranging an equation to a given subject, and all the variables are assume to be positive.  Note, this option is only for the input type. You will also need to set this in the question variables to also affect the answer test.
 
+`assume_real` sets an internal flag to work over the real numbers.  If `true` then \(x=1\) will be considered equivalent to \(x^3=1\).  Note, this option is only for the input type. You will also need to set this in the question variables to also affect the answer test.
+
 If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  This enables a randomly generated syntax hint to appear in the box.
 
 # Answer tests

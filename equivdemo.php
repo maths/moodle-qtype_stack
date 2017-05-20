@@ -100,6 +100,12 @@ foreach ($samplearguments as $argument) {
         }
         $ap->get_valid('t');
 
+        $ar = new stack_cas_casstring('assume_real:false');
+        if (array_key_exists('assumereal', $argument)) {
+            $ar = new stack_cas_casstring('assume_real:true');
+        }
+        $ar->get_valid('t');
+
         $cs1 = new stack_cas_casstring($argument['casstring']);
         $cs1->get_valid('s');
         // This step is needed because validate replaces `or` with `nounor` etc.
@@ -124,7 +130,7 @@ foreach ($samplearguments as $argument) {
         $cs4 = new stack_cas_casstring("S2:check_stack_eval_arg(" . $cskey . ")");
         $cs4->get_valid('t');
 
-        $session = new stack_cas_session(array($ap, $cs1, $cs2, $cs3, $cs4), $options);
+        $session = new stack_cas_session(array($ap, $ar, $cs1, $cs2, $cs3, $cs4), $options);
         $expected = $argument['outcome'];
         if (true === $argument['outcome']) {
             $expected = 'true';

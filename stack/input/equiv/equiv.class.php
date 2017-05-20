@@ -55,6 +55,12 @@ class stack_equiv_input extends stack_input {
      */
     private $optassumepos = false;
 
+    /**
+     * @var bool
+     * Sets the value of the assume_real variable, which affects how we deal with complex numbers.
+     */
+    private $optassumereal = false;
+
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
 
@@ -79,6 +85,10 @@ class stack_equiv_input extends stack_input {
 
                     case 'assume_pos':
                         $this->optassumepos = true;
+                        break;
+
+                    case 'assume_real':
+                        $this->optassumereal = true;
                         break;
 
                     default:
@@ -371,6 +381,13 @@ class stack_equiv_input extends stack_input {
             $assumepos = 'true';
         }
         $ap = new stack_cas_casstring('assume_pos:'.$assumepos);
+        $ap->get_valid('t');
+
+        $assumereal = 'false';
+        if ($this->optassumereal) {
+            $assumereal = 'true';
+        }
+        $ap = new stack_cas_casstring('assume_real:'.$assumepos);
         $ap->get_valid('t');
 
         return array($ap, $an, $fl);

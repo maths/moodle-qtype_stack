@@ -571,15 +571,16 @@ class stack_equiv_test_data {
 
         /******************************************************************************/
         $newarg = array();
-        $newarg['section'] = 'Working over the real numbers (TODO!)';
+        $newarg['section'] = 'Working over the real numbers';
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Difference of two cubes";
-        $newarg['narrative'] = 'Over the reals, this argument is true, but we have missed complex roots.';
+        $newarg['narrative'] = 'We have missed complex roots, and we don nott know what a and b are, so this is still false.';
         $newarg['casstring'] = "[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+a*b+b^2)=0,(a-b)=0,a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHARREAL,EQUIVCHAR]";
-        $newarg['outcome']   = true;
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,IMPLIEDCHAR,EQUIVCHAR]";
+        $newarg['assumereal'] = true;
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -587,6 +588,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHARREAL]";
+        $newarg['assumereal'] = true;
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

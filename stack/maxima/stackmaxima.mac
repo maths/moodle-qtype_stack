@@ -1095,8 +1095,8 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation"))
       else
         return(ATEquation(SA, SB)),
-    /* Did the student type in an equation, but the teacher did not? */
-    if equationp(SA) then return(StackBasicReturn(false, false, "ATAlgEquiv_TA_not_equation")),
+    /* Did the student type in a simple equation, but the teacher did not? */
+    if (equationp(SA) and not(op_usedp(SA, abs)) and not(op_usedp(SA, "+-"))) then return(StackBasicReturn(false, false, "ATAlgEquiv_TA_not_equation")),
     /* Are we dealing with an inequality? */
     if inequalityp(SB) then
       if inequalityp(SA)#true and logicp(SA)#true then
@@ -1104,7 +1104,7 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
       else
         return(ATInequality(SA, SB)),
     if logicp(SB) then
-      if logicp(SA)#true and inequalityp(SA)#true then
+      if logicp(SA)#true and inequalityp(SA)#true and op_usedp(SA,abs)#true then
         return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_logic"))
       else
         return(ATLogic(SA, SB)),
@@ -1482,18 +1482,27 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret, SAc, SBc],
 )$
 
 /* Deal with exprssions which have logical operations.  */
-ATLogic(SA, SB) := block([RawMark, FeedBack, AnswerNote],
-    RawMark:false, FeedBack:"", AnswerNote:"ATLogic_False",
+ATLogic(SA, SB) := block([SAL, SBL, res],
+    res:[true, false, "", ""],
     /* Write the statements in canonical form then compare. */
+    if ev(is(count_op(SA,"+-")=1), simp) then SA:pm_replace(SA),
+    if ev(is(count_op(SB,"+-")=1), simp) then SB:pm_replace(SB),
     SA:ev(logical_normal(SA), simp),
     SB:ev(logical_normal(SB), simp),
     /* Check for the empty set. */
     if equationp(SA) and numberp(lhs(SA)) and not(algebraic_equivalence(lhs(SA), 0)) then SA:none,
     if equationp(SB) and numberp(lhs(SB)) and not(algebraic_equivalence(lhs(SB), 0)) then SB:none,
-    AnswerNote:concat("ATLogic: [", string(SA), " | ", string(SB), "]"),
+    if (debug) then print("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then 
-        return([true, true, "ATLogic_True", FeedBack]),
-    return([true, RawMark, AnswerNote, FeedBack])
+        return([true, true, "ATLogic_True", ""]),
+    SAP:ev(logic_to_poly(SA), simp),
+    SBP:ev(logic_to_poly(SB), simp),
+    if (debug) then print("ATLogic_to_poly: [", string(SAP), " | ", string(SBP), "]"),
+    if equationp(SAP) and equationp(SBP) then block(
+        res:ATEquation(SAP, SBP),
+        if (debug) then print(res)
+    ),
+    return(res)
 )$
 
 

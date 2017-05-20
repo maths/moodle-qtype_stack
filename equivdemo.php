@@ -154,13 +154,16 @@ foreach ($samplearguments as $argument) {
         $debuginfo    = $ct->get_debuginfo();
 
         echo html_writer::tag('h3', $cskey . ": ". $argument['title']).
-             html_writer::tag('p', $argument['narrative']).
-             html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
-             html_writer::tag('p', $errs).
-             html_writer::tag('p', stack_ouput_castext($displaytext));
+             html_writer::tag('p', $argument['narrative']);
+        if (!$debug) {
+            echo html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
+                 html_writer::tag('p', $errs);
+        }
+        echo html_writer::tag('p', stack_ouput_castext($displaytext));
         if ($debug) {
             echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_casstring()) .
-                    ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";");
+                    ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
+                    html_writer::tag('p', $errs);
         }
         echo "\n<hr/>\n\n\n";
 
@@ -185,9 +188,9 @@ if ($debug) {
     // Have a second text area to facilitate pasting the arguments into separate lines in Maxima.
     $script = '';
     foreach ($casstrings as $key => $val) {
-        $script .= $key . ':' . $val . ";\n";
+        $script .= $key . ':' . $val . "\$\n";
     }
-    $script .= "\n\n".'disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist);';
+    $script .= "\n\n".'disp_stack_eval_arg(A22, true, true, D22);';
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';

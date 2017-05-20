@@ -811,9 +811,9 @@ logical_normal(ex):=block(
     ex:subst(%not, "not", ex), 
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
+    ex:de_morgan(ex),
     ex:ineqprepare(expand(ex)),
     ex:noun_solve_logic(ex),
-    ex:de_morgan(ex),
     ex:distrib_and(ex),
     ex:logical_normal_rem_redundant(ex),
     ex:ineqprepare(expand(ex)),
@@ -856,18 +856,15 @@ logic_to_poly(ex) := block(
     if polynomialp(ex, listofvars(ex)) then return(ex),
 
     /* Solve an equation by factoring and joining each factor with =0 */
-    if equationp(ex) then return(lhs(ex)-rhs(ex)),
+    if equationp(ex) then return(ineqprepare(ex)),
 
     if not(logicp(ex) or safe_op(ex) = "%and" or safe_op(ex) = "%or") then return(ex),
 
-    if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then return(apply("*", maplist(logic_to_poly, args(ex)))),
-
-    if safe_op(ex) = "%and" or safe_op(ex) = "nounand" or safe_op(ex) = "and" then ex:(block([la, lv],
-        lv:listofvars(ex),
-        if not(is(length(lv)=1)) then return(ex),        
-        la:maplist(logic_to_poly, args(ex)),
-        logic_to_poly_helper(la, lv))),
-
+    if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then block([ex2],
+        ex2:maplist(logic_to_poly, args(ex)),
+        if (all_listp(equationp, ex2)) then 
+            ex:apply("*", maplist(lhs, ex2))=0
+    ),
     return(ex)
 )$
 
@@ -938,29 +935,32 @@ opsubst_first(A, B, C):=block([ar, k],
 )$
 
 /* Replace abs(x) with + %or - versions.  */
-abs_replace(ex):=block([exp, exm, exc1, exc2, ret],
+abs_replace(ex):=block([exc1, exc2, ret],
   if freeof(abs, ex) then return(ex),
   /* These copy commands must be outside the opsubst_first, otherwise the time taken explodes. */
   exc1:copy(ex),
   exc2:copy(ex),
-  exp:opsubst_first(abs, "+", exc1),
-  exm:opsubst_first(abs, "-", exc2),
-  exp:abs_replace(exp),
-  exm:abs_replace(exm),
-  ret:ev(exp %or exm, simp),
-  apply("%or", map(ineqprepare, args(ret)))
+  exc1:ineqprepare(opsubst_first(abs, "+", exc1)),
+  exc2:ineqprepare(opsubst_first(abs, "-", exc2)),
+  exc1:abs_replace(exc1),
+  exc2:abs_replace(exc2),
+  ret:ev(exc1 %or exc2, simp)
 )$
 
-/* Replace abs(x) in an equation to give a product of factors.  */
-abs_replace_eq(ex):=block([exn],
+/* Replace abs(x) in an equation or inequality, to possibly give a product of factors.  */
+abs_replace_eq(ex):=block([exn, assume_pos],
+  /* In this function we don't want any extra simplification of variables. */
+  assume_pos:false,
   if freeof(abs, ex) then return(ex),
-  if not(equationp(ex)) then return(ex),
+  if not(equationp(ex) or inequalityp(ex)) then return(ex),
   exn:ineqprepare(ex),
   exn:abs_replace(exn),
-  exn:map(lhs, args(exn)),
-  return(apply("*", args(exn))=0)
+  if all_listp(equationp, args(exn)) then block(
+      exn:map(lhs, args(exn)),
+      exn:(apply("*", args(exn))=0)
+  ),
+  return(exn)
 )$
-
 
 /* ********************************** */
 /* Algebraic form                     */
@@ -1237,28 +1237,19 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if (debug) then print("     Line:", ev(id, simp), SA),
       exmod[ev(id, simp)]:SA,
 
-      SA:abs_replace_eq(SA),
-
+      SA:abs_replace_eq(ev(SA, simp)),
+      SA:ev(ineqprepare(SA), simp),
       /* Try to turn things into polynomials.  Much more reliable equivalence checking. */
+      /* End up in the form p(x) = 0                                                    */
       if (logicp(SA)) then block(
-          SA:logic_to_poly(SA),
-          if ev(free_of_logicp(SA), simp) then SA:ev(SA=0, simp)
+          SA:ev(logic_to_poly(SA), simp)
       ),
       if (debug) then print("Turn line ", ev(id, simp), " to polynomials:", SA),
-      exmodpoly[ev(id, simp)]:SA,
-
-      /* Try to solve the equation with logic. */
-      if (equationp(SA) or inequalityp(SA) or logicp(SA)) then block(
-          SA:ev(noun_solve_logic(SA), simp),
-          if (debug) then print("Apply logic solve:", SA)
-      ),
-
-      exmodlogic[ev(id, simp)]:SA
+      exmodpoly[ev(id, simp)]:SA
   ),
 
   if debug then print("Modified list: ", exmod),
   if debug then print("To poly list: ", exmodpoly),
-  if debug then print("To logic list: ", exmodlogic),
 
   /* STAGE B: Loop and check adjacent expressions for equivalence. */
   for id:2 thru length(ex) step 1 do block([ATres, SA, SB, SAP, SBP, SAL, SBL],
@@ -1267,8 +1258,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       SB:exmod[ev(id, simp)],
       SAP:exmodpoly[ev(id-1, simp)],
       SBP:exmodpoly[ev(id, simp)],
-      SAL:exmodpoly[ev(id-1, simp)],
-      SBL:exmodpoly[ev(id, simp)],
 
       if (debug) then print("-------------------------------"),
       if (debug) then print("Line: ", ev(id-1,simp)),
@@ -1276,8 +1265,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if (debug) then print(SB),
       if (debug) then print(SAP),
       if (debug) then print(SBP),
-      if (debug) then print(SAL),
-      if (debug) then print(SBL),
       /* Strings break up an argument into independent blocks. */
       if stringp(SA) or stringp(SB) then block(
           eqoutsymb[ev(id, simp)]:EMPTYCHAR,
@@ -1293,14 +1280,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               eqoutcome[ev(id, simp)]:true,
               eqoutsymb[ev(id, simp)]:EQUIVCHAR,
               eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
-          ) else (
-              /* Try to check the "solved" forms. */
-              ATres:ATLogic(SAL, SBL),
-              if second(ATres) then block(
-                 eqoutcome[ev(id, simp)]:true,
-                 eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                 eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
-             )
           ),
 
           /* Can we work out what has gone wrong?  */
@@ -1312,29 +1291,60 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if is(lhs(SA)=all) or is(lhs(SB)=all) or is(lhs(SA)=none) or is(lhs(SB)=none) then
               malrulecont:false,
 
-          if malrulecont then block([FBA, FBB, ATres],
+          if malrulecont then block([FAA, FBB, FGCD, ATres],
               /* (0) Multiplicity of roots. */
-              FBA:factor_bag(SAP),
-              FBB:factor_bag(SBP),
-              if (debug) then print("Factor bags: ", string(FBA), "; ", string(FBB), "; "),
-              FBA:apply("*", FBA),
-              FBB:apply("*", FBB),
-              ATres:ATAlgEquiv(FBA, FBB),
-              if (debug) then print(ATres),
-              if second(ATres) then block(
-                  malrulecont:false,
-                  eqoutcome[ev(id, simp)]:true,
-                  eqoutsymb[ev(id, simp)]:SAMEROOTS,
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
+              /* (1) Look at the GCD. */
+              FAA:lhs(SAP),
+              FAB:lhs(SBP),
+              if (debug) then print("Possible multiplicity and GCD with: ", string(FAA), ", ", string(FAB)),
+              if (polynomialpsimp(FAA) and polynomialpsimp(FAB)) then block([facbA,facbB],
+
+                  facbA:factor_bag(SAP),
+                  facbB:factor_bag(SBP),
+                  if (debug) then print("Factor bags: ", string(facbA), "; ", string(facbB), "; "),
+                  facbA:apply("*", facbA),
+                  facbB:apply("*", facbB),
+                  ATres:ATAlgEquiv(facbA, facbB),
+                  if (debug) then print(ATres),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:SAMEROOTS,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
+                  ),
+
+                  if malrulecont then block(
+                      /* We know at this point FAA and FAB are not equivalent, so they will not both equal the gcd. */
+                      if (debug) then print("Considering GCD of ", string(FAA), " and ", string(FAB), "."),
+                      FGCD:gcd(FAA,FAB),
+                      if (debug) then print("Calculated GCD as: ", FGCD),
+                      ATres:ATAlgEquiv(FAA=0, FGCD=0),
+                      if (debug) then print(ATres),
+                      if second(ATres) then block(
+                          malrulecont:false,
+                          eqoutcome[ev(id, simp)]:false,
+                          eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
+                          eqoutnote[ev(id, simp)]:sconcat(tempnote, " | GBD-IMPLIES | ", third(ATres))
+                      ) else (
+                          ATres:ATAlgEquiv(FAB=0, FGCD=0),
+                          if (debug) then print(ATres),
+                          if second(ATres) then block(
+                              malrulecont:false,
+                              eqoutcome[ev(id, simp)]:false,
+                              eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                              eqoutnote[ev(id, simp)]:sconcat(tempnote, " | GBD-IMPLIED | ", third(ATres))
+                          )
+                      )
+                  )
               )
           ),
 
           if malrulecont then block([FBA, ATres],
               /* (1.1.and) And/or errors. */
               FBA:exmod[ev(id, simp)],
+              if (debug) then print("(1.1.and) and/or errors: ", string(FBA), SA),
               if safe_op(FBA) = "nounand" then block(
                   FBA:apply("nounor", args(FBA)),
-                  FBA:noun_solve_logic(FBA),
                   ATres:ev(ATLogic(SA, FBA), simp),
                   if (debug) then print("Checking for AND/OR:", ATres),
                   if (second(ATres)) then block( 
@@ -1349,9 +1359,9 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if malrulecont then block([FBA, ATres],
               /* (1.1.or) And/or errors. */
               FBA:exmod[ev(id, simp)],
+              if (debug) then print("(1.1.or) and/or errors: ", string(FBA), SA),
               if safe_op(FBA) = "nounor" then block(
                   FBA:apply("nounand", args(FBA)),
-                  FBA:noun_solve_logic(FBA),
                   ATres:ev(ATLogic(SA, FBA), simp),
                   if (debug) then print("Checking for AND/OR:", ATres),
                   if (second(ATres)) then block( 
@@ -1366,8 +1376,9 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if malrulecont then block([FBA, ATres],
               /* (1.3) MISSINGVAR. */
               FBA:stack_validate_missing_assignment(SB),
+              if (debug) then print("MISSINGVAR: ", string(FBA)),
               if first(FBA) then block(
-                  FBA:noun_solve_logic(second(FBA)),
+                  FBA:second(FBA),
                   ATres:ev(ATLogic(SA, FBA), simp),
                   if (debug) then print("Checking for MISSINGVAR", [SA, FBA]),
                   if second(ATres) then block( 
@@ -1379,32 +1390,12 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               )
           ),
 
-          if malrulecont then block(
-              /* (2) Square both sides and abs.  */
-              SAL:ev(abs(SA),simp),
-              SBL:ev(SB^2,simp),
-              if (debug) then print("ATAlgEquiv(", string(SAL), ", ", string(SBL), ");"),
-              ATres:ATAlgEquiv(SAL, SBL),
-              if (debug) then print(ATres),
-              if second(ATres) then block(
-                  malrulecont:false,
-                  if assume_pos then block(
-                      eqoutcome[ev(id, simp)]:true,
-                      eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecondEquiv | ", third(ATres))
-                  ) else block(
-                      eqoutcome[ev(id, simp)]:false,
-                      eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecond+abs| ", third(ATres))
-                  )
-              )
-          ),
-
-          if malrulecont then block(
-              /* (3) Squared both sides. */
-              SAL:ev(SA^2,simp),
-              if (debug) then print("ATAlgEquiv(", string(SAL), ", ", string(SB), ");"),
-              ATres:ATAlgEquiv(SAL, SB),
+          /* Keep the explicit squaring of both sides to remove square roots.  */
+          if malrulecont then block([FBA, ATres],
+              /* (2) Squared first side. */
+              FBA:ev(SA^2,simp),
+              if (debug) then print("ATAlgEquiv(", string(FBA), ", ", string(SB), ");"),
+              ATres:ATAlgEquiv(FBA, SB),
               if (debug) then print(ATres),
               if second(ATres) then block(
                   malrulecont:false,
@@ -1420,32 +1411,17 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               )
           ),
 
-          if malrulecont then block(
-              /* (4) Squared both sides. */
-              SBL:ev(SB^2,simp),
+          if malrulecont then block([FBB, ATres],
+              /* (3) Squared second. */
+              FBB:ev(SB^2,simp),
               if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SBL), ");"),
-              ATres:ATAlgEquiv(SA, SBL),
+              ATres:ATAlgEquiv(SA, FBB),
               if (debug) then print(ATres),
               if second(ATres) then block(
                   malrulecont:false,
                   eqoutcome[ev(id, simp)]:false,
                   eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
                   eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
-              )
-          ),
-
-          if malrulecont then block(
-              /* (5) Square both sides and abs.  */
-              SAL:ev(SA^2,simp),
-              SBL:ev(abs(SB),simp),
-              if (debug) then print("ATAlgEquiv(", string(SAL), ", ", string(SBL), ");"),
-              ATres:ATAlgEquiv(SA, SBL),
-              if (debug) then print(ATres),
-              if second(ATres) then block(
-                  malrulecont:false,
-                  eqoutcome[ev(id, simp)]:false,
-                  eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Squaredfirst+abs| ", third(ATres))
               )
           )
 

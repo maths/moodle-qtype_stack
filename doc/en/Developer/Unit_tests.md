@@ -114,9 +114,13 @@ Maxima has a range of functions for code profiling.  Put the following at the st
 
     timer(all)$
 
-This adds all user-defined functions to the timer list.  Then to access your data:
+This adds all user-defined functions to the timer list.  
 
-Execute your command(s).
+To time a single command
+
+    ev(timer_info(abs_replace), simp);
+
+To profile all user-defined commands execute.
 
     simp:true$
     T:timer_info()$

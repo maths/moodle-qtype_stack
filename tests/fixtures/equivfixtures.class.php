@@ -407,7 +407,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Difference of two cubes";
         $newarg['narrative'] = 'Over the reals, this argument is true, but we have missed complex roots.';
         $newarg['casstring'] = "[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+a*b+b^2)=0,(a-b)=0,a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHARREAL,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -508,7 +508,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving cubic equations 1 (missing complex roots)";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHARREAL]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

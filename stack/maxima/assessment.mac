@@ -1175,6 +1175,7 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 
 texput(EMPTYCHAR, "\\ ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
+texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\, \\color{blue}{(\\mathbb{R})}");
 texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");

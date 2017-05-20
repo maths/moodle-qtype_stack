@@ -1282,6 +1282,27 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
           ),
 
+          /* Deal with special cases with assume_pos. */
+          if assume_pos then block(
+              if (debug) then print("** Checking for assume_pos **"),
+              if (debug) then print("ATAlgEquiv(", string(SA^2), ", ", string(abs(SB)), ");"),
+              ATres:ATAlgEquiv(SA^2, abs(SB)),
+              if (debug) then print(ATres),
+              if second(ATres) then block(
+                  eqoutcome[ev(id, simp)]:true,
+                  eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_sq_abs | ", third(ATres))
+              ),
+              if (debug) then print("ATAlgEquiv(", string(abs(SA)), ", ", string(SB^2), ");"),
+              ATres:ATAlgEquiv(abs(SA), SB^2),
+              if (debug) then print(ATres),
+              if second(ATres) then block(
+                  eqoutcome[ev(id, simp)]:true,
+                  eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_abs_sq | ", third(ATres))
+              )
+          ),
+
           /* Can we work out what has gone wrong?  */
           if (debug) then print("** Checking for common mistakes **"),
           if (debug) then print(SA),

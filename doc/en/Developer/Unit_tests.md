@@ -136,4 +136,10 @@ Sort by functions called most often.
 Sort by the time/call
 
     float_time(a):= if a=0 then 0 else first(args(a))$
-    S:sort(S, lambda([a,b],float_time(second(a))>float_time(second(b)))); 
+    S:sort(S, lambda([a,b],float_time(second(a))>float_time(second(b))));
+    
+# Testing ajax specific problems.
+
+You need to output values to the file system, as the display can't manage this.  For example,
+
+    file_put_contents("/tmp/log.txt", print_r($result, true));

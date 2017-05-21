@@ -92,7 +92,7 @@ class stack_equiv_input extends stack_input {
                         break;
 
                     default:
-                        throw new stack_exception('stack_equiv_input: did not recognize the input type option '.$option);
+                        $this->errors = stack_string('inputoptionunknown', $option);
                 }
             }
         }
@@ -324,7 +324,9 @@ class stack_equiv_input extends stack_input {
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
                 $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
-                $display .= '<td>'. stack_maxima_format_casstring($cs->get_raw_casstring()). '</td>';
+                // This is an exception, because inputs modify the *raw* casstring to protect nouns.
+                $cds = $cs->logic_nouns_sort(false, $cs->get_raw_casstring());
+                $display .= '<td>'. stack_maxima_format_casstring($cds). '</td>';
                 $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
@@ -333,7 +335,7 @@ class stack_equiv_input extends stack_input {
         }
         $display .= '</tbody></table></center>';
         if ($valid) {
-            $equiv = $additionalvars[1];
+            $equiv = $additionalvars[2];
             $display = '\[ ' . $equiv->get_display() . ' \]';
         }
 
@@ -387,10 +389,10 @@ class stack_equiv_input extends stack_input {
         if ($this->optassumereal) {
             $assumereal = 'true';
         }
-        $ap = new stack_cas_casstring('assume_real:'.$assumepos);
-        $ap->get_valid('t');
+        $ar = new stack_cas_casstring('assume_real:'.$assumereal);
+        $ar->get_valid('t');
 
-        return array($ap, $an, $fl);
+        return array($ap, $ar, $an, $fl);
     }
 
     protected function get_validation_method() {

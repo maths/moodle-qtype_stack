@@ -592,6 +592,15 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Solving over the reals";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^4=2,x^4-2=0,(x^2-sqrt(2))*(x^2+sqrt(2))=0,x^2=sqrt(2),x=+- 2^(1/4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHARREAL,EQUIVCHAR]";
+        $newarg['assumereal'] = true;
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
         /******************************************************************************/
         $newarg = array();
         $newarg['section'] = 'Difficult cases and nonsense arguments';

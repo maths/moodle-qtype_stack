@@ -81,7 +81,7 @@ class stack_dropdown_input extends stack_input {
                         break;
 
                     default:
-                        throw new stack_exception('stack_dropdown_input: did not recognize the input type option '.$option);
+                        $this->errors = stack_string('inputoptionunknown', $option);
                 }
             }
         }

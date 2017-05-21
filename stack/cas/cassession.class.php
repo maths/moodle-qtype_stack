@@ -219,6 +219,7 @@ class stack_cas_session {
                     $val = str_replace('QMCHAR', '?', $result['dispvalue']);
                     $val = str_replace('"!! ', '', $val);
                     $val = str_replace(' !!"', '', $val);
+                    $val = $cs->logic_nouns_sort(false, $val);
                     $cs->set_dispvalue(trim($val));
                 }
 

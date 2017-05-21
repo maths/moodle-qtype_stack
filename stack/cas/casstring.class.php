@@ -636,7 +636,7 @@ class stack_cas_casstring {
         $injecttarget = $this->strings_replace($injecttarget);
         $split = explode('|>key_val_split<|', $injecttarget, 2);
         $this->casstring = $split[1];
-        $this->key =$split[0];
+        $this->key = $split[0];
 
         return $this->valid;
     }

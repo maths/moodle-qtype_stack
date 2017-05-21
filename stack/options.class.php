@@ -95,6 +95,14 @@ class stack_options {
                 'caskey'     => 'assume_pos',
                 'castype'    => 'ex',
             ),
+            'assumereal'   => array(
+                'type'       => 'boolean',
+                'value'      => false,
+                'strict'     => true,
+                'values'     => array(),
+                'caskey'     => 'assume_real',
+                'castype'    => 'ex',
+            ),
             'matrixparens'   => array(
                 'type'       => 'list',
                 'value'      => '[',

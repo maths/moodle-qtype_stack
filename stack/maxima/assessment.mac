@@ -1278,7 +1278,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           tempnote:sconcat(tempnote, "SAP: ", string(SAP), "; "),
           tempnote:sconcat(tempnote, "SBP: ", string(SBP), "; "),
           if (debug) then print("ATAlgEquiv(", string(SAP), ", ", string(SBP), ");"),
-          ATres:ATAlgEquiv(SAP, SBP),
+          ATres:ev(ATAlgEquiv(SAP, SBP), simp),
           if (debug) then print(ATres),
           if second(ATres) then block(
               eqoutcome[ev(id, simp)]:true,
@@ -1290,7 +1290,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if assume_pos then block(
               if (debug) then print("** Checking for assume_pos **"),
               if (debug) then print("ATAlgEquiv(", string(SA^2), ", ", string(abs(SB)), ");"),
-              ATres:ATAlgEquiv(SA^2, abs(SB)),
+              ATres:ev(ATAlgEquiv(SA^2, abs(SB)), simp),
               if (debug) then print(ATres),
               if second(ATres) then block(
                   eqoutcome[ev(id, simp)]:true,
@@ -1298,7 +1298,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_sq_abs | ", third(ATres))
               ),
               if (debug) then print("ATAlgEquiv(", string(abs(SA)), ", ", string(SB^2), ");"),
-              ATres:ATAlgEquiv(abs(SA), SB^2),
+              ATres:ev(ATAlgEquiv(abs(SA), SB^2), simp),
               if (debug) then print(ATres),
               if second(ATres) then block(
                   eqoutcome[ev(id, simp)]:true,
@@ -1348,7 +1348,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   if (debug) then print("Factor bags: ", string(facbA), "; ", string(facbB), "; "),
                   facbA:apply("*", facbA),
                   facbB:apply("*", facbB),
-                  ATres:ATAlgEquiv(facbA, facbB),
+                  ATres:ev(ATAlgEquiv(facbA, facbB), simp),
                   if (debug) then print(ATres),
                   if second(ATres) then block(
                       malrulecont:false,
@@ -1362,7 +1362,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       if (debug) then print("Considering GCD of ", string(FAA), " and ", string(FAB), "."),
                       FGCD:gcd(FAA,FAB),
                       if (debug) then print("Calculated GCD as: ", FGCD),
-                      ATres:ATAlgEquiv(FAA=0, FGCD=0),
+                      ATres:ev(ATAlgEquiv(FAA=0, FGCD=0), simp),
                       if (debug) then print(ATres),
                       if second(ATres) then block(
                           malrulecont:false,
@@ -1439,7 +1439,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               /* (2) Squared first side. */
               FBA:ev(SA^2,simp),
               if (debug) then print("ATAlgEquiv(", string(FBA), ", ", string(SB), ");"),
-              ATres:ATAlgEquiv(FBA, SB),
+              ATres:ev(ATAlgEquiv(FBA, SB), simp),
               if (debug) then print(ATres),
               if second(ATres) then block(
                   malrulecont:false,
@@ -1459,7 +1459,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               /* (3) Squared second. */
               FBB:ev(SB^2,simp),
               if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SBL), ");"),
-              ATres:ATAlgEquiv(SA, FBB),
+              ATres:ev(ATAlgEquiv(SA, FBB), simp),
               if (debug) then print(ATres),
               if second(ATres) then block(
                   malrulecont:false,

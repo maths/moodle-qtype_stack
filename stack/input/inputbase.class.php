@@ -393,7 +393,7 @@ abstract class stack_input {
         $lvars = new stack_cas_casstring('ev(sort(listofvars('.$this->name.')),simp)');
         $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                 $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
-        if ($lvars->get_valid()) {
+        if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
         $additionalvars = $this->additional_session_variables($caslines, $teacheranswer);
@@ -410,7 +410,7 @@ abstract class stack_input {
         if ('' == $answer->get_value()) {
             $valid = false;
         } else {
-            if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
+            if (!($lvars->get_value() == '[]' || trim($lvars->get_dispvalue()) == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }
         }

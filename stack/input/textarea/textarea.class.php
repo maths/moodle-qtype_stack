@@ -115,7 +115,8 @@ class stack_textarea_input extends stack_input {
     }
 
     protected function ajax_to_response_array($in) {
-        $in = $this->maxima_to_raw_input($in);
+        $in = explode('<br>', $in);
+        $in = implode("\n", $in);
         return array($this->name => $in);
     }
 

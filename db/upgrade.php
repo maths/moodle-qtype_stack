@@ -685,7 +685,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         $DB->set_field_select('qtype_stack_qtest_expected', 'expectedpenalty', '0.6666667',
                 'expectedpenalty BETWEEN ? AND ?', array('0.66', '0.67'));
 
-        // Qtype stack savepoint reached.
         upgrade_plugin_savepoint(true, 2016012902, 'qtype', 'stack');
     }
 
@@ -701,8 +700,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2016082000, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2017052100) {
+
+        // Define field assumepositive to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('assumereal', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assumepositive');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 2017052100, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.
@@ -715,29 +726,14 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     // this bit of code to run every time that qtype_stack is updated.
     if (!preg_match('~stackmaximaversion:(\d{10})~',
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
-        throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
-    }
-    $latestversion = $matches[1];
-    $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
+                throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
+            }
+            $latestversion = $matches[1];
+            $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
 
-    if ($latestversion != $currentlyusedversion) {
-        stack_cas_connection_db_cache::clear_cache($DB);
-    }
-
-    if ($oldversion < 2017052100) {
-
-        // Define field matrixparens to be added to qtype_stack_options.
-        $table = new xmldb_table('qtype_stack_options');
-        $field = new xmldb_field('assumereal', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assumepositive');
-
-        // Conditionally launch add field matrixparens.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Qtype stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2017052100, 'qtype', 'stack');
-    }
+            if ($latestversion != $currentlyusedversion) {
+                stack_cas_connection_db_cache::clear_cache($DB);
+            }
 
     // Update the record of the currently used version.
     set_config('stackmaximaversion', $latestversion, 'qtype_stack');

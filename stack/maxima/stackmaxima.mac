@@ -657,6 +657,7 @@ stack_validate_typeless(expr, ForbidFloats, LowestTerms, Equiv) := block([simp:f
     print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
   /* Additional tests which restrict the equivalence input type. */
   if Equiv and op_usedp(expr, set) then print(StackAddFeedback("", "Equiv_Illegal_set")),
+  if Equiv and op_usedp(expr, "{") then print(StackAddFeedback("", "Equiv_Illegal_set")),
   if Equiv and op_usedp(expr, "[") then print(StackAddFeedback("", "Equiv_Illegal_list")),
   if Equiv and op_usedp(expr, matrix) then print(StackAddFeedback("", "Equiv_Illegal_matrix")),
   /* Now display the result. */
@@ -2671,4 +2672,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017042700$
+stackmaximaversion:2017052100$

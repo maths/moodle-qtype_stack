@@ -244,8 +244,8 @@ class stack_equiv_input extends stack_input {
         $caslines = array();
         $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
-        foreach ($contents as $index => $val) {
 
+        foreach ($contents as $index => $val) {
             if ($this->identify_comments($val)) {
                 $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
                 $this->comments[$index] = $val;

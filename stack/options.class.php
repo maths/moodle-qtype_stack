@@ -138,6 +138,7 @@ class stack_options {
         $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
         $this->set_option('simplify', (bool) $stackconfig->questionsimplify);
         $this->set_option('assumepos', (bool) $stackconfig->assumepositive);
+        $this->set_option('assumereal', (bool) $stackconfig->assumereal);
         return true;
     }
 

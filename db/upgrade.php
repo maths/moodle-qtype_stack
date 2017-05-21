@@ -724,6 +724,21 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
     }
 
+    if ($oldversion < 2017052100) {
+
+        // Define field matrixparens to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('assumereal', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assumepositive');
+
+        // Conditionally launch add field matrixparens.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Qtype stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2017052100, 'qtype', 'stack');
+    }
+
     // Update the record of the currently used version.
     set_config('stackmaximaversion', $latestversion, 'qtype_stack');
 

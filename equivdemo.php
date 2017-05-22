@@ -100,6 +100,12 @@ foreach ($samplearguments as $argument) {
         }
         $ap->get_valid('t');
 
+        $ar = new stack_cas_casstring('assume_real:false');
+        if (array_key_exists('assumereal', $argument)) {
+            $ar = new stack_cas_casstring('assume_real:true');
+        }
+        $ar->get_valid('t');
+
         $cs1 = new stack_cas_casstring($argument['casstring']);
         $cs1->get_valid('s');
         // This step is needed because validate replaces `or` with `nounor` etc.
@@ -124,7 +130,7 @@ foreach ($samplearguments as $argument) {
         $cs4 = new stack_cas_casstring("S2:check_stack_eval_arg(" . $cskey . ")");
         $cs4->get_valid('t');
 
-        $session = new stack_cas_session(array($ap, $cs1, $cs2, $cs3, $cs4), $options);
+        $session = new stack_cas_session(array($ap, $ar, $cs1, $cs2, $cs3, $cs4), $options);
         $expected = $argument['outcome'];
         if (true === $argument['outcome']) {
             $expected = 'true';
@@ -132,20 +138,38 @@ foreach ($samplearguments as $argument) {
             $expected = 'false';
         }
         $string       = "\[@S1@\]";
-        $string      .= "Overall the argument is @S2@.  We expected the argument to be {$expected}.";
         $ct           = new stack_cas_text($string, $session, 0, 't');
+
+        $start = microtime(true);
         $displaytext  = $ct->get_display_castext();
-        $errs         = "<font color='red'>".$ct->get_errors()."</font>";
+        $took = (microtime(true) - $start);
+        $rtook = round($took, 5);
+
+        $argumentvalue = $session->get_value_key("S2");
+        $overall = "Overall the argument is {$argumentvalue}.  We expected the argument to be {$expected}.";
+        if ($argumentvalue != $expected) {
+            $overall = "<font color='red'>".$overall."</font>";
+        }
+        $displaytext .= $overall;
+        $displaytext .= "\n<br>Time taken: ".$rtook;
+        $errs = '';
+        if ($ct->get_errors() != '') {
+            $errs = "<font color='red'>".$ct->get_errors()."</font>";
+            $errs .= $ct->get_debuginfo();
+        }
         $debuginfo    = $ct->get_debuginfo();
 
         echo html_writer::tag('h3', $cskey . ": ". $argument['title']).
-             html_writer::tag('p', $argument['narrative']).
-             html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
-             html_writer::tag('p', $errs).
-             html_writer::tag('p', stack_ouput_castext($displaytext));
+             html_writer::tag('p', $argument['narrative']);
+        if (!$debug) {
+            echo html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
+                 html_writer::tag('p', $errs);
+        }
+        echo html_writer::tag('p', stack_ouput_castext($displaytext));
         if ($debug) {
             echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_casstring()) .
-                    ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";");
+                    ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
+                    html_writer::tag('p', $errs);
         }
         echo "\n<hr/>\n\n\n";
 
@@ -170,9 +194,9 @@ if ($debug) {
     // Have a second text area to facilitate pasting the arguments into separate lines in Maxima.
     $script = '';
     foreach ($casstrings as $key => $val) {
-        $script .= $key . ':' . $val . ";\n";
+        $script .= $key . ':' . $val . "\$\n";
     }
-    $script .= "\n\n".'disp_stack_eval_arg(ex, showlogic, equivdebug, debuglist);';
+    $script .= "\n\n".'disp_stack_eval_arg(A22, true, true, D22);';
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';

@@ -104,6 +104,7 @@ class qtype_stack extends question_type {
         $options->questionnote              = $fromform->questionnote;
         $options->questionsimplify          = $fromform->questionsimplify;
         $options->assumepositive            = $fromform->assumepositive;
+        $options->assumereal                = $fromform->assumereal;
         $options->prtcorrect                = $this->import_or_save_files($fromform->prtcorrect,
                     $context, 'qtype_stack', 'prtcorrect', $fromform->id);
         $options->prtcorrectformat          = $fromform->prtcorrect['format'];
@@ -395,6 +396,7 @@ class qtype_stack extends question_type {
         $question->options->set_option('sqrtsign',    (bool) $questiondata->options->sqrtsign);
         $question->options->set_option('simplify',    (bool) $questiondata->options->questionsimplify);
         $question->options->set_option('assumepos',   (bool) $questiondata->options->assumepositive);
+        $question->options->set_option('assumereal',  (bool) $questiondata->options->assumereal);
 
         $requiredparams = stack_input_factory::get_parameters_used();
         foreach ($questiondata->inputs as $name => $inputdata) {
@@ -960,6 +962,7 @@ class qtype_stack extends question_type {
         $output .= "    </questionnote>\n";
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
         $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
+        $output .= "    <assumereal>{$options->assumereal}</assumereal>\n";
         $output .= $this->export_xml_text($format, 'prtcorrect', $options->prtcorrect,
                         $options->prtcorrectformat, $contextid, 'prtcorrect', $questiondata->id);
         $output .= $this->export_xml_text($format, 'prtpartiallycorrect', $options->prtpartiallycorrect,
@@ -1075,6 +1078,7 @@ class qtype_stack extends question_type {
         $fromform->questionnote          = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionsimplify      = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
         $fromform->assumepositive        = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);
+        $fromform->assumereal            = $format->getpath($xml, array('#', 'assumereal', 0, '#'), 0);
         $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fromform->questiontextformat);
         $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect',
                                                                   $format, $fromform->questiontextformat);

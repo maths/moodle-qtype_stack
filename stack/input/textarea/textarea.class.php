@@ -32,6 +32,10 @@ class stack_textarea_input extends stack_input {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
 
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
         $attributes = array(
             'name' => $fieldname,
             'id'   => $fieldname,
@@ -111,7 +115,8 @@ class stack_textarea_input extends stack_input {
     }
 
     protected function ajax_to_response_array($in) {
-        $in = $this->maxima_to_raw_input($in);
+        $in = explode('<br>', $in);
+        $in = implode("\n", $in);
         return array($this->name => $in);
     }
 

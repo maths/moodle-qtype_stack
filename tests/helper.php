@@ -1062,6 +1062,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->questionnote              = '';
         $qdata->options->questionsimplify          = 1;
         $qdata->options->assumepositive            = 0;
+        $qdata->options->assumereal                = 0;
         $qdata->options->prtcorrect                = self::DEFAULT_CORRECT_FEEDBACK;
         $qdata->options->prtcorrectformat          = FORMAT_HTML;
         $qdata->options->prtpartiallycorrect       = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;
@@ -1181,6 +1182,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->questionnote              = '';
         $qdata->options->questionsimplify          = 1;
         $qdata->options->assumepositive            = 0;
+        $qdata->options->assumereal                = 0;
         $qdata->options->markmode                  = 'penalty';
         $qdata->options->prtcorrect                = self::DEFAULT_CORRECT_FEEDBACK;
         $qdata->options->prtcorrectformat          = FORMAT_HTML;
@@ -1771,6 +1773,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $formform->questionsimplify = '1';
         $formform->assumepositive = '0';
+        $formform->assumereal = '0';
         $formform->prtcorrect = array(
                 'text' => 'Correct answer, well done!',
                 'format' => '1',

@@ -193,6 +193,11 @@ $settings->add(new admin_setting_configselect('qtype_stack/assumepositive',
         get_string('assumepositive_help', 'qtype_stack'), '0',
         stack_options::get_yes_no_options()));
 
+$settings->add(new admin_setting_configselect('qtype_stack/assumereal',
+        get_string('assumereal', 'qtype_stack'),
+        get_string('assumereal_help', 'qtype_stack'), '0',
+        stack_options::get_yes_no_options()));
+
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtcorrect',
         get_string('prtcorrectfeedback', 'qtype_stack'), '',
         get_string('defaultprtcorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));

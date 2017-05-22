@@ -55,6 +55,12 @@ class stack_equiv_input extends stack_input {
      */
     private $optassumepos = false;
 
+    /**
+     * @var bool
+     * Sets the value of the assume_real variable, which affects how we deal with complex numbers.
+     */
+    private $optassumereal = false;
+
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
 
@@ -81,8 +87,12 @@ class stack_equiv_input extends stack_input {
                         $this->optassumepos = true;
                         break;
 
+                    case 'assume_real':
+                        $this->optassumereal = true;
+                        break;
+
                     default:
-                        throw new stack_exception('stack_equiv_input: did not recognize the input type option '.$option);
+                        $this->errors = stack_string('inputoptionunknown', $option);
                 }
             }
         }
@@ -93,6 +103,10 @@ class stack_equiv_input extends stack_input {
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
         // used as minimums. If the current input is bigger, the box is expanded.
+
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
@@ -230,8 +244,8 @@ class stack_equiv_input extends stack_input {
         $caslines = array();
         $errors = array();
         $allowwords = $this->get_parameter('allowWords', '');
-        foreach ($contents as $index => $val) {
 
+        foreach ($contents as $index => $val) {
             if ($this->identify_comments($val)) {
                 $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
                 $this->comments[$index] = $val;
@@ -310,7 +324,9 @@ class stack_equiv_input extends stack_input {
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
                 $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
-                $display .= '<td>'. stack_maxima_format_casstring($cs->get_raw_casstring()). '</td>';
+                // This is an exception, because inputs modify the *raw* casstring to protect nouns.
+                $cds = $cs->logic_nouns_sort(false, $cs->get_raw_casstring());
+                $display .= '<td>'. stack_maxima_format_casstring($cds). '</td>';
                 $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
@@ -319,7 +335,7 @@ class stack_equiv_input extends stack_input {
         }
         $display .= '</tbody></table></center>';
         if ($valid) {
-            $equiv = $additionalvars[1];
+            $equiv = $additionalvars[2];
             $display = '\[ ' . $equiv->get_display() . ' \]';
         }
 
@@ -369,7 +385,14 @@ class stack_equiv_input extends stack_input {
         $ap = new stack_cas_casstring('assume_pos:'.$assumepos);
         $ap->get_valid('t');
 
-        return array($ap, $an, $fl);
+        $assumereal = 'false';
+        if ($this->optassumereal) {
+            $assumereal = 'true';
+        }
+        $ar = new stack_cas_casstring('assume_real:'.$assumereal);
+        $ar->get_valid('t');
+
+        return array($ap, $ar, $an, $fl);
     }
 
     protected function get_validation_method() {
@@ -520,7 +543,8 @@ class stack_equiv_input extends stack_input {
     }
 
     protected function ajax_to_response_array($in) {
-        $in = $this->maxima_to_raw_input($in);
+        $in = explode('<br>', $in);
+        $in = implode("\n", $in);
         return array($this->name => $in);
     }
 }

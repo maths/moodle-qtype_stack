@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stack - http://stack.bham.ac.uk/
+// This file is part of Stack - https://stack.maths.ed.ac.uk/demo/
 //
 // Stack is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -234,13 +234,29 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a=b or a=-b]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a^2=b^2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Absolute value (Tricky)";
+        $newarg['narrative'] = 'These *equations* are equivalent, but the expressions are not.  ';
+        $newarg['casstring'] = "[abs(x-1/2)+abs(x+1/2)=2,abs(x)=1]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Explicit assumptions";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a^2=9 nounand a>0,a=3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
@@ -254,34 +270,34 @@ class stack_equiv_test_data {
         $newarg['title']     = "Make g the subject";
         $newarg['narrative'] = 'In this example we need to assume all variables are positive.';
         $newarg['casstring'] = "[T=2*pi*sqrt(L/g),T^2=4*pi^2*L/g,g=4*pi^2*L/T^2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Squaring both sides";
-        $newarg['narrative'] = 'Squaring both sides does not give equivalence.';
+        $newarg['narrative'] = 'Assume positive values then squaring both sides does give equivalence.';
         $newarg['casstring'] = "[a=b,a^2=b^2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Rooting both sides (1)";
-        $newarg['narrative'] = 'Taking the square root of both sides does not give equivalence.';
+        $newarg['narrative'] = 'Assume positive values then taking the square root of both sides does give equivalence.';
         $newarg['casstring'] = "[a=b,sqrt(a)=sqrt(b)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Rooting both sides (2)";
-        $newarg['narrative'] = 'Taking the square root of both sides does not give equivalence.';
+        $newarg['narrative'] = 'Assume positive values then taking the square root of both sides does give equivalence.';
         $newarg['casstring'] = "[a^2=b^2,a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -291,7 +307,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'Taking the square root of both sides does not give equivalence, we need two values.  '.
                 'This is still ok when we assume positive values';
         $newarg['casstring'] = "[a^2=b^2,a=b or a=-b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -300,8 +316,8 @@ class stack_equiv_test_data {
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[a=b,abs(a)=abs(b)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
+        $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
@@ -309,16 +325,16 @@ class stack_equiv_test_data {
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
+        $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Absolute value";
-        $newarg['narrative'] = '';
+        $newarg['narrative'] = "We can't have it both ways: if the variables are positive then this is not equivalen!" ;
         $newarg['casstring'] = "[abs(a)=abs(b),a=b or a=-b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,IMPLIESCHAR]";
         $newarg['outcome']   = false;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -327,25 +343,25 @@ class stack_equiv_test_data {
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[abs(a)=abs(b),a^2=b^2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
-        $newarg['assumepos'] = true;
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Solving quadratic equations 2 (pm) and assume pos";
-        $newarg['narrative']  = '';
-        $newarg['casstring'] = "[x^2=2,x=+-sqrt(2),x=sqrt(2) or x=-sqrt(2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Solving quadratic equations 2 (pm) and assume pos";
+        $newarg['title']     = "Solving quadratic equations (pm) and assume pos";
+        $newarg['narrative']  = '';
+        $newarg['casstring'] = "[x^2=2,x=+-sqrt(2),x=sqrt(2) or x=-sqrt(2)]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $newarg['assumepos'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving quadratic equations with assume pos";
         $newarg['narrative']  = '';
         $newarg['casstring'] = "[x^2=2,x=sqrt(2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[ASSUMEPOSVARS,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
@@ -391,8 +407,8 @@ class stack_equiv_test_data {
         $newarg['title']     = "Difference of two cubes";
         $newarg['narrative'] = 'Over the reals, this argument is true, but we have missed complex roots.';
         $newarg['casstring'] = "[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+a*b+b^2)=0,(a-b)=0,a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = true;
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,IMPLIEDCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -450,7 +466,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving quadratic equations 5 (missing root)";
         $newarg['narrative'] = 'This argument creates problems by taking the square root of both sides.';
         $newarg['casstring'] = "[(2*x-7)^2=(x+1)^2,sqrt((2*x-7)^2)=sqrt((x+1)^2),2*x-7=x+1,x=8]";
-        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIEDCHAR,IMPLIEDCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,IMPLIEDCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -472,6 +488,15 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Solving quadratic equations 8";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2-10*x+7=0,(x-5)^2-18=0,(x-5)^2=sqrt(18)^2,(x-5)^2-sqrt(18)^2=0,".
+                "(x-5-sqrt(18))*(x-5+sqrt(18))=0,x=5-sqrt(18) or x=5+sqrt(18)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Completing the square";
         $newarg['narrative'] = 'A direct method for completing the square.';
         $newarg['casstring'] = "[x^2+2*a*x = 0, x*(x+2*a)=0, (x+a-a)*(x+a+a)=0, (x+a)^2-a^2=0]";
@@ -483,8 +508,8 @@ class stack_equiv_test_data {
         $newarg['title']     = "Solving cubic equations 1 (missing complex roots)";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = true;
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,IMPLIEDCHAR]";
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -498,12 +523,30 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations 8 (Toby's method)";
         $newarg['narrative'] = 'In the last line of this argument we get a double root for a=0, which is slightly odd.';
-        $newarg['casstring'] = "[a*x^2+b*x+c=0 or a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0, ".
+        $newarg['casstring'] = "[a*x^2+b*x+c=0 nounor a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0, ".
                 "(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c, ".
-                "a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c), ".
-                "(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
-                "a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
+                "a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) nounor a*x=-b/2-sqrt(b^2/4-a*c), ".
+                "(a=0 nounor x=(-b+sqrt(b^2-4*a*c))/(2*a)) nounor (a=0 nounor x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
+                "a=0 nounor x=(-b+sqrt(b^2-4*a*c))/(2*a) nounor x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving cubic equations 9 (11th centuary Hindu method)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a*x^2+b*x=-c,4*a^2*x^2+4*a*b*x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^2-4*a*c,2*a*x+b=+-sqrt(b^2-4*a*c),".
+                "2*a*x=-b+-sqrt(b^2-4*a*c),x=(-b+-sqrt(b^2-4*a*c))/(2*a)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving cubic equations 9 (11th centuary Hindu method)";
+        $newarg['narrative'] = 'With auditing, we decide this argument is correct.';
+        $newarg['casstring'] = "[a*x^2+b*x=-c nounor a=0,4*a^2*x^2+4*a*b*x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^2-4*a*c,2*a*x+b=+-sqrt(b^2-4*a*c),".
+                "2*a*x=-b+-sqrt(b^2-4*a*c),x=(-b+-sqrt(b^2-4*a*c))/(2*a) nounor a=0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -528,6 +571,38 @@ class stack_equiv_test_data {
 
         /******************************************************************************/
         $newarg = array();
+        $newarg['section'] = 'Working over the real numbers';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Difference of two cubes";
+        $newarg['narrative'] = 'We have missed complex roots, and we don nott know what a and b are, so this is still false.';
+        $newarg['casstring'] = "[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+a*b+b^2)=0,(a-b)=0,a=b]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,IMPLIEDCHAR,EQUIVCHAR]";
+        $newarg['assumereal'] = true;
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving cubic equations 1 (missing complex roots)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHARREAL]";
+        $newarg['assumereal'] = true;
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving over the reals";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^4=2,x^4-2=0,(x^2-sqrt(2))*(x^2+sqrt(2))=0,x^2=sqrt(2),x=+- 2^(1/4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHARREAL,EQUIVCHAR]";
+        $newarg['assumereal'] = true;
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        /******************************************************************************/
+        $newarg = array();
         $newarg['section'] = 'Difficult cases and nonsense arguments';
         $samplearguments[] = $newarg;
 
@@ -547,43 +622,43 @@ class stack_equiv_test_data {
                 'We can not spot this kind of thing.  Note, this argument also has a repeated root.';
         $newarg['casstring'] = "[x^2-6*x+9=0,x^2-6*x=-9,x*(x-6)=3*-3,x=3 or x-6=-3,x=3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations (Maxwell's nonsense)";
-        $newarg['narrative'] = 'Maxwell pg 88.  The wrong method leads to a correct solution.  '.
+        $newarg['narrative'] = 'Maxwell pg 88.  The wrong method leads to a correct solution. So, this outcome is expected to be *true*!'.
                 'This argument is false in general, but in this special case leads to the correct solution.  '.
                 'We can not spot this kind of thing.';
         $newarg['casstring'] = "[(x+3)*(2-x)=4,x+3=4 or (2-x)=4,x=1 or x=-2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations (Maxwell's nonsense)";
-        $newarg['narrative'] = 'Maxwell pg 89.  A general version of the previous argument.';
+        $newarg['narrative'] = 'Maxwell pg 89.  A general version of the previous argument. This outcome is expected to be *true*!';
         $newarg['casstring'] = "[(x-p)*(x-q)=0,x^2-p*x-q*x+p*q=0,1+q-x-p-p*q+p*x+x+q*x-x^2=1-p+q,(1+q-x)*(1-p+x)=1-p+q,".
                 "(1+q-x)=1-p+q or (1-p+x)=1-p+q,x=p or x=q]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Classic nonsense 1.";
         $newarg['narrative'] = 'Here we create a problem by dividing by a term which is actually zero.';
         $newarg['casstring'] = "[a=b, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), a+b=b, 2*a=a, 1=2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,EQUIVCHAR,EQUIVCHAR,IMPLIEDCHAR,EQUIVCHAR,IMPLIEDCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Classic nonsense 1 (with auditing).";
         $newarg['narrative'] = 'Here we create a problem by dividing by a term which is actually zero.';
-        $newarg['casstring'] = "[a=b, a^2=a*b or a=0, a^2-b^2=a*b-b^2 or a=0, (a-b)*(a+b)=b*(a-b) or a=0, ".
-                "a+b=b or a=0 or a-b=0, 2*a=a or a=0 or a=b, 2=1 or a=0 or a=b, a=0 or a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['casstring'] = "[a=b or a=0, a^2=a*b, a^2-b^2=a*b-b^2, (a-b)*(a+b)=b*(a-b), ".
+                "a+b=b or a-b=0, 2*a=a or a=b, 2=1 or a=0 or a=b, a=0 or a=b]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         /******************************************************************************/
@@ -604,7 +679,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'We should have cancelled the roots. '.
                 'As a result of the failure to do this we have an extra root of this equation.';
         $newarg['casstring'] = "[(x^2-4)/(x-2)=0,(x^2-4)=0,(x-2)*(x+2)=0,x=-2 or x=2]";
-        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -623,16 +698,16 @@ class stack_equiv_test_data {
                 'The only solution is \(x=10\) which we have cancelled out.';
         $newarg['casstring'] = "[(x+10)/(x-6)-5= (4*x-40)/(13-x),(x+10-5*(x-6))/(x-6)= (4*x-40)/(13-x), ".
                 "(4*x-40)/(6-x)= (4*x-40)/(13-x),6-x= 13-x,6= 13]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,IMPLIEDCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving rational expressions (erroneous argument 2)";
-        $newarg['narrative'] = 'This is similar to the previous argument, but there is a problem with ATEquation.';
+        $newarg['narrative'] = 'This is similar to the previous argument.';
         $newarg['casstring'] = "[(x+5)/(x-7)-5= (4*x-40)/(13-x),(x+5-5*(x-7))/(x-7)= (4*x-40)/(13-x), ".
                 "(4*x-40)/(7-x)= (4*x-40)/(13-x),7-x= 13-x,7= 13]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,IMPLIEDCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -660,10 +735,26 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Expand out the brackets (2)";
+        $newarg['title']     = "Expand out the brackets (1)";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[(3*x-2)^4,stackeq((9*x^2-12*x+4)^2),stackeq(81*x^4-2*9*12*x^3+2*4*9*x^2+12*12*x^2-2*4*12*x+16),stackeq(81*x^4-216*x^3+216*x^2-96*x+16)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['casstring'] = "[(x-1)*(x+4), stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Difference of two square 1";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2-2,stackeq((x-sqrt(2))*(x+sqrt(2)))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Difference of two square 2";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2+4,stackeq((x-2*i)*(x+2*i))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -711,6 +802,23 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Non-trivial difference between equations and expressions";
+        $newarg['narrative'] = 'This contains an edge case of zero only in a line.';
+        $newarg['casstring'] = "[abs(x-1/2)+abs(x+1/2)-2,stackeq(abs(x)-1)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Induction step";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[sum(k,k,1,n+1),stackeq(sum(k,k,1,n)+(n+1)),stackeq(n*(n+1)/2 +n+1),".
+                "stackeq((n+1)*(n+1+1)/2),stackeq((n+1)*(n+2)/2)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+        
         /******************************************************************************/
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';
@@ -729,7 +837,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+2)]";
         $newarg['debuglist'] = "[CHECKMARK,QMCHAR]";
-        $newarg['outcome']   = true;
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -737,6 +845,14 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[(x-2)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]";
         $newarg['debuglist'] = "[QMCHAR,CHECKMARK]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Numerical example";
+        $newarg['narrative'] = 'From an induction proof that 3 divides 4^(n+1)-1.';
+        $newarg['casstring'] = "[4^((n+1)+1)-1= 4*4^(n+1)-1,stackeq(4*(4^(n+1)-1)+3)]";
+        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -786,13 +902,40 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Rectangle question from NH_2016_8";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
+                "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>2 and (x<5 and x>-3),x>2 and x<5]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Rectangle question from NH_2016_8 (slip)";
+        $newarg['narrative'] = 'With a wrong line.';
+        $newarg['casstring'] = "[x-2>0 and x*(x-2)<15,x>2 and x^2-2*x-15<0,x>2 and (x-5)*(x+3)<0,".
+                "x>2 and ((x<5 and x>-3) or (x>5 and x<-3)),x>7 and (x<5 and x>-3),x>2 and x<5]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
         /******************************************************************************/
         $newarg = array();
         $newarg['section'] = 'Simultaneous equations and substitution';
         $samplearguments[] = $newarg;
 
         $newarg = array();
-        $newarg['title']     = "Simultaneous equations (must use and to join them)";
+        $newarg['title']     = "Linear simultaneous equations";
+        $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
+        $newarg['casstring'] = "[2*x+3*y=6 nounand 4*x+9*y=15,2*x+3*y=6 nounand -2*x=-3,".
+            "3+3*y=6 nounand 2*x=3,y=1 nounand x=3/2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Simultaneous equations";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[x^2+y^2=8 and x=y, 2*x^2=8 and y=x, x^2=4 and y=x, x= +-2 and y=x, ".
                 "(x= 2 and y=x) or (x=-2 and y=x), (x=2 and y=2) or (x=-2 and y=-2)]";
@@ -824,7 +967,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Substitution";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[a^2=b and a^2=1, b=a^2 and (a=1 or a=-1), (b=1 and a=1) or (b=1 and a=-1)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -861,8 +1004,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Integration by parts";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "['int(x^3*log(x),x),stackequiv(x^4/4*log(x)-1/4*'int(x^3,x)),stackequiv(x^4/4*log(x)-x^4/4)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['casstring'] = "[nounint(x^3*log(x),x),stackeq(x^4/4*log(x)-1/4*nounint(x^3,x)),stackeq(x^4/4*log(x)-x^4/4)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -879,7 +1022,7 @@ class stack_equiv_test_data {
                 'a>=sqrt(12)+4,"Using external domain information that a is an integer.",a>=8]';
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
                 "EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR]";
-        $newarg['outcome']   = true;
+        $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
 
         $newarg = array();

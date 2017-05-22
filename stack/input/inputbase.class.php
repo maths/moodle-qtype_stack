@@ -82,6 +82,12 @@ abstract class stack_input {
     protected $parameters;
 
     /**
+     * Catch and report runtime errors.
+     * @var array.
+     */
+    protected $errors = null;
+
+    /**
      * Constructor
      *
      * @param string $name the name of the input. This is the name of the
@@ -306,7 +312,8 @@ abstract class stack_input {
         }
 
         if (array() == $contents or $this->is_blank_response($contents)) {
-            return new stack_input_state(self::BLANK, array(), '', '', '', '', '');
+            // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
+            return new stack_input_state(self::BLANK, array(), '', '', $this->errors, '', '');
         }
 
         $singlevarchars = false;
@@ -386,7 +393,7 @@ abstract class stack_input {
         $lvars = new stack_cas_casstring('ev(sort(listofvars('.$this->name.')),simp)');
         $lvars->get_valid('t', $this->get_parameter('strictSyntax', true),
                 $this->get_parameter('insertStars', 0), $this->get_parameter('allowWords', ''));
-        if ($lvars->get_valid()) {
+        if ($lvars->get_valid() && $valid && $answer->get_valid()) {
             $sessionvars[] = $lvars;
         }
         $additionalvars = $this->additional_session_variables($caslines, $teacheranswer);
@@ -395,7 +402,6 @@ abstract class stack_input {
         $localoptions->set_option('simplify', false);
         $session = new stack_cas_session($sessionvars, $localoptions, 0);
         $session->instantiate();
-
         //  Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
         //  we don't need to extract updated values from the instantiated $session explicitly.
         list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $additionalvars, $valid, $errors);
@@ -403,7 +409,7 @@ abstract class stack_input {
         if ('' == $answer->get_value()) {
             $valid = false;
         } else {
-            if (!($lvars->get_value() == '[]' || $lvars->get_value() == '')) {
+            if (!($lvars->get_value() == '[]' || trim($lvars->get_dispvalue()) == '')) {
                 $lvarsdisp = '\( ' . $lvars->get_display() . '\) ';
             }
         }
@@ -416,7 +422,9 @@ abstract class stack_input {
         }
 
         $note = $answer->get_answernote();
-        $errors = implode(' ', $errors);
+        if ($errors) {
+            $errors = implode(' ', $errors);
+        }
 
         if (!$valid) {
             $status = self::INVALID;
@@ -573,6 +581,15 @@ abstract class stack_input {
      */
     public abstract function render(stack_input_state $state, $fieldname, $readonly, $tavalue);
 
+    /*
+     * Render any error message.
+     */
+    protected function render_error($error) {
+        $result = html_writer::tag('p', stack_string('ddl_runtime'));
+        $result .= html_writer::tag('p', $error);
+        return html_writer::tag('div', $result, array('class' => 'error'));
+    }
+
     /**
      * Add this input the MoodleForm, but only used in questiontestform.php.
      * It enables the teacher to enter the data as a CAS variable where necessary
@@ -722,4 +739,10 @@ abstract class stack_input {
         return array($this->name => $in);
     }
 
+    /*
+     * Return the value of any errors.
+     */
+    public function get_errors() {
+            return $this->errors;
+    }
 }

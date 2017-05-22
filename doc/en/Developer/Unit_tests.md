@@ -107,3 +107,39 @@ To run this set up the [STACK-maxima-sandbox](../CAS/STACK-Maxima_sandbox.md) an
 The output from these tests is written to `.ERR` files in `\moodle\question\type\stack\stack\maxima\`.
     
 Please note that currently, with simplification false, there are a number of false negative results.  That is tests appear to fail, but do not.  This is because rtest is not designed to run with simp:false, and so does not correctly decide whether things are really the "same" or "different".
+
+# Timing the code.
+
+Maxima has a range of functions for code profiling.  Put the following at the start of the file.
+
+    timer(all)$
+
+This adds all user-defined functions to the timer list.  
+
+To time a single command
+
+    ev(timer_info(abs_replace), simp);
+
+To profile all user-defined commands execute.
+
+    simp:true$
+    T:timer_info()$
+
+Find those commands actually called (based on T being the matrix above).
+
+    S:sublist(rest(args(T)),lambda([a], not(is(third(a)=0))));
+
+Sort by functions called most often.
+
+    S:sort(S, lambda([a,b],third(a)>third(b)));
+
+Sort by the time/call
+
+    float_time(a):= if a=0 then 0 else first(args(a))$
+    S:sort(S, lambda([a,b],float_time(second(a))>float_time(second(b))));
+    
+# Testing ajax specific problems.
+
+You need to output values to the file system, as the display can't manage this.  For example,
+
+    file_put_contents("/tmp/log.txt", print_r($result, true));

@@ -507,6 +507,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault('assumepositive', $this->stackconfig->assumepositive);
         $mform->addHelpButton('assumepositive', 'assumepositive', 'qtype_stack');
 
+        $mform->addElement('selectyesno', 'assumereal',
+                stack_string('assumereal'));
+        $mform->setDefault('assumereal', $this->stackconfig->assumereal);
+        $mform->addHelpButton('assumereal', 'assumereal', 'qtype_stack');
+
         $mform->addElement('editor', 'prtcorrect',
                 stack_string('prtcorrectfeedback'),
                 array('rows' => 1), $this->editoroptions);
@@ -841,6 +846,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->sqrtsign              = $opt->sqrtsign;
         $question->questionsimplify      = $opt->questionsimplify;
         $question->assumepositive        = $opt->assumepositive;
+        $question->assumereal            = $opt->assumereal;
 
         return $question;
     }
@@ -990,6 +996,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $this->options->set_option('sqrtsign',    (bool) $fromform['sqrtsign']);
         $this->options->set_option('simplify',    (bool) $fromform['questionsimplify']);
         $this->options->set_option('assumepos',   (bool) $fromform['assumepositive']);
+        $this->options->set_option('assumereal',  (bool) $fromform['assumereal']);
 
         // We slightly break the usual conventions of validation, in that rather
         // than building up $errors as an array of strings, we initially build it

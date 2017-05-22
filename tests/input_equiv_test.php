@@ -205,8 +205,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
-        // In this example, we have assumed x is positive so we do have an equivalence.
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2 \cr \end{array} \]',
+        // In this example, we have assumed x is positive so we do have an equivalence. Note the feedback.
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4\cr  '.
+                '\color{green}{\Leftrightarrow}&x=2\cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -294,6 +295,63 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 ' \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals(' ', $state->errors);
+    }
+
+    public function test_validate_student_response_without_assume_real() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^4=16,x=2 nounor x=-2]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^4=16\cr \color{red}{\Leftarrow}&x=2 \,{\mbox{ or }}\, x=-2\cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_assume_real() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
+        $el->set_parameter('options', 'assume_real');
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^4=16,x=2 nounor x=-2]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr  \color{green}{\Leftrightarrow}\, '.
+                '\color{blue}{(\mathbb{R})}&x=2 \,{\mbox{ or }}\, x=-2\cr \end{array} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_assume_wrong() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
+        $el->set_parameter('options', 'assume_real');
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr  '.
+                '\color{red}{?}&x=1\,{\mbox{ or }}\, x=-1\cr \end{array} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_assume_real_complex() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
+        $el->set_parameter('options', 'assume_real');
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2 or x=2*i or x=-2*i"), $options,
+                '[x^4=16,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^4=16,x=2 nounor x=-2 nounor x=2*i nounor x=-2*i]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr  '.
+                '\color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, '.
+                'x=-2 \,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot  \mathrm{i}\cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_hideequiv() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
+        $el->set_parameter('options', 'hideequiv');
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}x^4=16\cr x=1\,{\mbox{ or }}\, x=-1\cr  \end{array} \]',
+                $state->contentsdisplayed);
     }
 }
 

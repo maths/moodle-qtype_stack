@@ -30,7 +30,8 @@
 /* Reduces an inequality to either ? > 0 or ? >=0, which is monic in its variable. */
 ineqprepare(ex) := block([op2, ex2],
     if mapatom(ex) then return(ex),
-    if op(ex)="="  then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) = 0),
+    if safe_op(ex)="%not" then ex:not_ineq(first(args(ex))),
+    if op(ex)="="  then return(make_monic_eq(ev(part(ex,1) - part(ex,2), simp, trigreduce)) = 0),
     if op(ex)=">"  then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) > 0),
     if op(ex)=">=" then return(make_monic(ev(part(ex,1) - part(ex,2), simp, trigreduce)) >= 0),
     if op(ex)="<"  then return(make_monic(ev(part(ex,2) - part(ex,1), simp, trigreduce)) > 0),
@@ -40,17 +41,37 @@ ineqprepare(ex) := block([op2, ex2],
     return(apply(op(ex), ex2))
 )$
 
-
 /* Turn a single variable polynomial expression into a +1/-1 monic polynomial.
-   This is used with inequalities and equations. */
-make_monic(ex) := block([v],
+   This is used with inequalities. */
+make_monic(ex) := block([v,vc],
     if mapatom(ex) then return(ex),
     if not(polynomialpsimp(ex)) then return(ex),
     ex:expand(ex),
-    /* Divide by the coefficient of the highest power, without losing the minus sign. */
-    ev(expand(ex/abs(coeff(ex,first(listofvars(ex)),degree(ex,first(listofvars(ex)))))),simp)
+    v:listofvars(ex),
+    if v=[] then return(ex),
+    /* Divide by the numerical coefficient of the leading term, without losing the minus sign. */
+    ev(expand(ex/abs(numerical_coeff(ex))), simp)
 )$
 
+/* Return the numerical coefficient of the leading term in expression. */
+numerical_coeff(ex):= block([v, vc],
+  v:listofvars(ex),
+  if v=[] then return(ex),
+  vc:ratcoef(ex, first(v), degree(ex, first(v))),
+  if listofvars(vc)=[] then return(vc),
+  numerical_coeff(vc)
+);
+
+/* This is used with equations. */
+make_monic_eq(ex) := block([v],
+    if mapatom(ex) then return(ex),
+    if not(polynomialpsimp(ex)) then return(ex),
+    ex:expand(ex),
+    /* Divide by the coefficient of the highest power. */
+    v:listofvars(ex),
+    if v=[] then return(ex),
+    poly_normalize(ex,v)
+)$
 
 /* Determines if we have a linear inequality in one variable. 
    This function prepares the inequality.                       */
@@ -83,12 +104,21 @@ rev_ineq(ex):=block(
     return(ex)
 )$
 
-/* Negates the inequality. */
+/* Checks if we have the wrong inequality. */
 neg_ineq(ex):=block(
     if safe_op(ex) = "<" then return(lhs(ex) > rhs(ex)),
     if safe_op(ex) = "<=" then return(lhs(ex) >= rhs(ex)),
     if safe_op(ex) = ">" then return(lhs(ex) < rhs(ex)),
     if safe_op(ex) = ">=" then return(lhs(ex) <= rhs(ex)),
+    return(ex)
+)$
+
+/* Negates the inequality. */
+not_ineq(ex):=block(
+    if safe_op(ex) = "<" then return(lhs(ex) >= rhs(ex)),
+    if safe_op(ex) = "<=" then return(lhs(ex) > rhs(ex)),
+    if safe_op(ex) = ">" then return(lhs(ex) <= rhs(ex)),
+    if safe_op(ex) = ">=" then return(lhs(ex) < rhs(ex)),
     return(ex)
 )$
 
@@ -100,8 +130,6 @@ neg_ineq_list(ex, l) := block([k],
     for k: 1 thru length(l) do ex[ev(l[k], simp)]:neg_ineq(ex[ev(l[k], simp)]),
     ex
 )$
-
-
 
 /*******************************************************************************/
 /* This block of functions removes unessary inequalities from a collection.    */

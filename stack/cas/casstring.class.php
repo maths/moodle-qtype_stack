@@ -479,7 +479,8 @@ class stack_cas_casstring {
                 'var_student_t' => true, 'var_weibull' => true, 'null' => true, 'net' => true, 'texsub' => true,
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
-                'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true, 'stackeq' => true);
+                'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true, 'stackeq' => true,
+                'nounint' => true, 'noundiff' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -646,7 +647,7 @@ class stack_cas_casstring {
         $injecttarget = $this->strings_replace($injecttarget);
         $split = explode('|>key_val_split<|', $injecttarget, 2);
         $this->casstring = $split[1];
-        $this->key =$split[0];
+        $this->key = $split[0];
 
         return $this->valid;
     }

@@ -775,6 +775,9 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
+            // Test the difference between value and dispvalue.
+            $this->assertEquals($c[2], $at1->get_value_key($sk, true));
+            $this->assertEquals($c[3], $at1->get_value_key($sk, false));
             $this->assertEquals($c[3], $at1->get_value_key($sk));
         }
     }

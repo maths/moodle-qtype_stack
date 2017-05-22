@@ -534,7 +534,7 @@ stack_dispvalue(ex) := block(
   ex:detexdecorate(ex),
   ex:make_displaydpvalue(ex),
   ex:make_displayscivalue(ex),
-  ex:ev(ex, stackunits="*"),
+  ex:opsubst("*",stackunits,ex),
   return(string(ex))
 )$
 

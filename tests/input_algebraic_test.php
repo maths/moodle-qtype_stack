@@ -427,4 +427,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left \{a , b , c \right \} \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_or_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x=1 or x=1');
+        $state = $el->validate_student_response(array('sans1' => 'x=1 or x=1'), $options, 'x=1 or x=1', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('x=1 nounor x=1', $state->contentsmodified);
+        $this->assertEquals('\[ x=1\,{\mbox{ or }}\, x=1 \]', $state->contentsdisplayed);
+    }
 }

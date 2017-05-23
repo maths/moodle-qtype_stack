@@ -256,7 +256,7 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Explicit assumptions";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a^2=9 nounand a>0,a=3]";
+        $newarg['casstring'] = "[a^2=9 and a>0,a=3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
@@ -523,11 +523,11 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Solving quadratic equations 8 (Toby's method)";
         $newarg['narrative'] = 'In the last line of this argument we get a double root for a=0, which is slightly odd.';
-        $newarg['casstring'] = "[a*x^2+b*x+c=0 nounor a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0, ".
+        $newarg['casstring'] = "[a*x^2+b*x+c=0 or a=0,a^2*x^2+a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*c=0, ".
                 "(a*x)^2+b*(a*x)+b^2/4-b^2/4+a*c=0,(a*x+b/2)^2-b^2/4+a*c=0,(a*x+b/2)^2=b^2/4-a*c, ".
-                "a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) nounor a*x=-b/2-sqrt(b^2/4-a*c), ".
-                "(a=0 nounor x=(-b+sqrt(b^2-4*a*c))/(2*a)) nounor (a=0 nounor x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
-                "a=0 nounor x=(-b+sqrt(b^2-4*a*c))/(2*a) nounor x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
+                "a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c), ".
+                "(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
+                "a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
@@ -544,8 +544,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Solving cubic equations 9 (11th centuary Hindu method)";
         $newarg['narrative'] = 'With auditing, we decide this argument is correct.';
-        $newarg['casstring'] = "[a*x^2+b*x=-c nounor a=0,4*a^2*x^2+4*a*b*x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^2-4*a*c,2*a*x+b=+-sqrt(b^2-4*a*c),".
-                "2*a*x=-b+-sqrt(b^2-4*a*c),x=(-b+-sqrt(b^2-4*a*c))/(2*a) nounor a=0]";
+        $newarg['casstring'] = "[a*x^2+b*x=-c or a=0,4*a^2*x^2+4*a*b*x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^2-4*a*c,2*a*x+b=+-sqrt(b^2-4*a*c),".
+                "2*a*x=-b+-sqrt(b^2-4*a*c),x=(-b+-sqrt(b^2-4*a*c))/(2*a) or a=0]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
@@ -687,7 +687,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Rational expressions 3";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),5*x^2+5*x-6*x-3=2*x^2+3*x+1,".
-            "3*x^2-4*x-4=0,(x-2)*(3*x+2)=0,x=2 nounor x=-2/3]";
+            "3*x^2-4*x-4=0,(x-2)*(3*x+2)=0,x=2 or x=-2/3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
@@ -928,8 +928,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Linear simultaneous equations";
         $newarg['narrative'] = 'With sumultaneous equations students must use "and" to join them.';
-        $newarg['casstring'] = "[2*x+3*y=6 nounand 4*x+9*y=15,2*x+3*y=6 nounand -2*x=-3,".
-            "3+3*y=6 nounand 2*x=3,y=1 nounand x=3/2]";
+        $newarg['casstring'] = "[2*x+3*y=6 and 4*x+9*y=15,2*x+3*y=6 and -2*x=-3,".
+            "3+3*y=6 and 2*x=3,y=1 and x=3/2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
@@ -1035,6 +1035,17 @@ class stack_equiv_test_data {
                 'sum(k^2,k,1,n+1)= (n+1)*(2*n^2+7*n+6)/6,sum(k^2,k,1,n+1)= (n+1)*(n+1+1)*(2*(n+1)+1)/6]';
         $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+        
+        $newarg = array();
+        $newarg['title']     = "Proof by induction (2)";
+        $newarg['narrative'] = "";
+        $newarg['casstring'] = '[(n+1)^2+sum(k^2,k,1,n) = (n+1)^2+(n*(n+1)*(2*n+1))/6, '.
+                'sum(k^2,k,1,n+1) = ((n+1)*(n*(2*n+1)+6*(n+1)))/6, sum(k^2,k,1,n+1) = ((n+1)*(2*n^2+7*n+6))/6, '.
+                'sum(k^2,k,1,n+1) = ((n+1)*(n+2)*(2*(n+1)+1))/6]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
 
         $this->rawdata = $samplearguments;
     }
@@ -1048,7 +1059,8 @@ class stack_equiv_test_data {
                 if ($equivarg['outcome']) {
                     $score = 1;
                 }
-                $answertestfixtures[] = array('Equiv', '', $equivarg['casstring'], '[]', $score, $equivarg['debuglist'], '');
+                $arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
+                $answertestfixtures[] = array('Equiv', '', $arg, '[]', $score, $equivarg['debuglist'], '');
             }
         }
 

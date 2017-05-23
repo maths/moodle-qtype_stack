@@ -120,16 +120,18 @@ class stack_potentialresponse_tree {
         // Some irrelevant but invalid answers might break the CAS connection.
         foreach ($this->get_required_variables(array_keys($answers)) as $name) {
             if (array_key_exists($name . '_val', $answers)) {
-                $cs = new stack_cas_casstring($answers[$name . '_val']);
+                $ans = $answers[$name . '_val'];
             } else {
-                $cs = new stack_cas_casstring($answers[$name]);
+                $ans = $answers[$name];
             }
+            // We always add logical nouns to students' answers.
+            $ans = stack_utils::logic_nouns_sort($ans, 'add');
+            $cs = new stack_cas_casstring($ans);
+
             // Validating as teacher at this stage removes the problem of "allowWords" which
             // we don't have access to.  This effectively allows any words here.  But the
             // student's answer has already been through validation.
             $cs->get_valid('t');
-            // But, we still need to sort out logical names, which are not done by default as a teacher.
-            $cs->logic_nouns_sort(true);
             // Setting the key must come after validation.
             $cs->set_key($name);
             $answervars[] = $cs;

@@ -151,7 +151,8 @@ class stack_textarea_input extends stack_input {
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
                 $errors[$index] = ' ' . stack_maxima_translate($cs->get_errors());
-                $display .= '<td>'. stack_maxima_format_casstring($cs->get_raw_casstring()). '</td>';
+                $cds = stack_utils::logic_nouns_sort($cs->get_raw_casstring(), 'remove');
+                $display .= '<td>'. stack_maxima_format_casstring($cds). '</td>';
                 $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
                 $display .= '<td>\(\displaystyle ' . $cs->get_display() . ' \)</td>';
@@ -207,9 +208,13 @@ class stack_textarea_input extends stack_input {
      */
     public function get_teacher_answer_display($value, $display) {
         $values = stack_utils::list_to_array($value, false);
-        $values = array_map(function ($ex) {
-                return '<code>'.$ex.'</code>';
-        }, $values);
+        foreach ($values as $key => $val) {
+            if (trim($val) !== '' ) {
+                $val = stack_utils::logic_nouns_sort($val, 'remove');
+            }
+            $val = '<code>'.$this->stackeq_to_equals($val).'</code>';
+            $values[$key] = $val;
+        }
         $value = "<br/>".implode("<br/>", $values);
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));

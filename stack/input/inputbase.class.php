@@ -495,6 +495,7 @@ abstract class stack_input {
                         $this->get_parameter('allowWords', ''));
             }
 
+            $val = stack_utils::logic_nouns_sort($val, 'add');
             $answer = new stack_cas_casstring($val);
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                     $this->get_parameter('insertStars', 0), $allowwords);
@@ -681,8 +682,7 @@ abstract class stack_input {
      * @param unknown_type $in
      */
     public function get_correct_response($in) {
-        $cs = new stack_cas_casstring('');
-        $value = $cs->logic_nouns_sort(false, $in);
+        $value = stack_utils::logic_nouns_sort($in, 'remove');
         return $this->maxima_to_response_array($value);
     }
 

@@ -566,14 +566,6 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('forbiddenChar', $at1->get_answernote());
     }
 
-    public function test_logic_noun_sort_1() {
-        $s = 'a:x=1 or x=2';
-        $at1 = new stack_cas_casstring($s);
-        $this->assertTrue($at1->get_valid('s'));
-        $at1->logic_nouns_sort(true);
-        $this->assertEquals('x=1 nounor x=2', $at1->get_casstring());
-    }
-
     public function test_units_1() {
         $s = 'sa:3.14*mol';
         $at1 = new stack_cas_casstring($s);
@@ -644,6 +636,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals($err, $at1->get_errors());
     }
 
+    public function test_logic_noun_sort_1() {
+        $s = 'a:x=1 or x=2';
+        $s = stack_utils::logic_nouns_sort($s, 'add');
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s'));
+        $this->assertEquals('x=1 nounor x=2', $at1->get_casstring());
+    }
+
     public function test_spaces_1_simple() {
         $s = 'a b';
         $at1 = new stack_cas_casstring($s);
@@ -688,6 +688,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_spaces_1_logic() {
         $s = 'a b and c';
+        $s = stack_utils::logic_nouns_sort($s, 'add');
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 1));
         $this->assertEquals('a b nounand c', $at1->get_casstring());
@@ -734,6 +735,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
     public function test_spaces_3_logic() {
         $s = 'a b and c';
+        $s = stack_utils::logic_nouns_sort($s, 'add');
         $at1 = new stack_cas_casstring($s);
         $this->assertTrue($at1->get_valid('s', true, 3));
         $this->assertEquals('a*b nounand c', $at1->get_casstring());

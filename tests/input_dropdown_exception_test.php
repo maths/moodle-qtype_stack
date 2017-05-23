@@ -47,12 +47,6 @@ class stack_dropdown_input_exception_test extends basic_testcase {
         $state = $el->validate_student_response(array('ans1' => '4'), $options, '1', null);
     }
 
-    public function test_type_input_options() {
-        $this->setExpectedException('stack_exception');
-        $el = $this->make_dropdown(array('options' => 'WHOKNOWS'));
-        $el->adapt_to_model_answer($this->make_ta());
-    }
-
     public function test_type_question_options() {
         $this->setExpectedException('stack_exception');
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), 'parameters');

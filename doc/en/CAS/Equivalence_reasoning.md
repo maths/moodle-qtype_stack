@@ -65,7 +65,7 @@ If the student starts their line with an `=` sign, this is accepted.  Teachers c
 
     ta:[(x-1)^2,stackeq(x^2-2*x+1)]
 
-Teachers must explicitly use the `nounor` and `nounand` commands, not the `and` and `or` logic.  For example, a worked solution might be
+Teachers must explicitly use the `nounor` and `nounand` commands, not the `and` and `or` logic.  For more details see the section on [simplification](Simplification.md).  For example, a worked solution might be
 
     ta:[p=0,(v-n1)*(v-n2)=0,v-n1=0 nounor v-n2=0,v=n1 nounor v=n2]
 

@@ -202,7 +202,6 @@ class stack_cas_session {
                 if (array_key_exists('value', $result)) {
                     $val = str_replace('QMCHAR', '?', $result['value']);
                     $cs->set_value($val);
-                    $cs->logic_nouns_sort(false);
                     $gotvalue = true;
                 } else {
                     $cs->add_errors(stack_string("stackCas_failedReturnOne"));
@@ -219,7 +218,9 @@ class stack_cas_session {
                     $val = str_replace('QMCHAR', '?', $result['dispvalue']);
                     $val = str_replace('"!! ', '', $val);
                     $val = str_replace(' !!"', '', $val);
-                    $val = $cs->logic_nouns_sort(false, $val);
+                    // TODO: adding in this line breaks the checkboxes.
+                    // TODO: run unit tests then decide if we don't need it.
+                    //$val = stack_utils::logic_nouns_sort($val, 'remove');
                     $cs->set_dispvalue(trim($val));
                 }
 

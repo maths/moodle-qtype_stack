@@ -20,6 +20,7 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/numbersfixtures.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 // Unit tests for {@link stack_cas_session}.
 //
@@ -771,10 +772,12 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $at1 = new stack_cas_session($s1, $options, 0);
         $at1->instantiate();
-
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
+            // Test the difference between value and dispvalue.
+            $this->assertEquals($c[2], $at1->get_value_key($sk, true));
+            $this->assertEquals($c[3], $at1->get_value_key($sk, false));
             $this->assertEquals($c[3], $at1->get_value_key($sk));
         }
     }
@@ -1055,4 +1058,48 @@ class stack_cas_session_test extends qtype_stack_testcase {
             $this->assertEquals($c[3], $at1->get_value_key($sk, true));
         }
     }
+
+    public function test_odd_logic_eval() {
+        // First we have a session. That comes from keyval like question-vars.
+        $kv = new stack_cas_keyval('a:true;b:is(1>2);c:false');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        // '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' is the castext.
+        // Then we start to add some new variables into it as the castext is evaluated.
+        // First the conditions that have been extracted from a if-elif-else construct during the "compilation"-step.
+        $s->add_vars(array(new stack_cas_casstring('stackparsecond8:b')));
+        $s->add_vars(array(new stack_cas_casstring('stackparsecond9:not (stackparsecond8) and (c)')));
+        $s->add_vars(array(new stack_cas_casstring('stackparsecond10:not (stackparsecond9)')));
+        // After that the if-blocks will map those definitions to their own conditions.
+        $s->add_vars(array(new stack_cas_casstring('caschat0:stackparsecond8')));
+        $s->add_vars(array(new stack_cas_casstring('caschat1:stackparsecond9')));
+        $s->add_vars(array(new stack_cas_casstring('caschat2:stackparsecond10')));
+
+        // Now lets instantiate.
+        $s->instantiate();
+
+        $this->assertEquals('false', $s->get_value_key('caschat0'));
+        $this->assertEquals('false', $s->get_value_key('caschat1'));
+        $this->assertEquals('true', $s->get_value_key('caschat2'));
+    }
+
+    public function test_logic_nouns_sort() {
+
+        $cmds = array('p0:x=1 or x=2',
+            stack_utils::logic_nouns_sort('p1:x=1 or x=2', 'add'),
+            'p2:noun_logic_remove(p1)', 'p3:ev(p2)');
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $this->assertEquals('false', $s->get_value_key('p0'));
+        $this->assertEquals('x = 1 nounor x = 2', $s->get_value_key('p1'));
+        // Note, that noun_logic_remove(p1) does not give an extra evaluation.
+        $this->assertEquals('x = 1 or x = 2', $s->get_value_key('p2'));
+        // However, the display function does force an extra evaluation!
+        $this->assertEquals('\mathbf{false}', $s->get_display_key('p2'));
+        $this->assertEquals('false', $s->get_value_key('p3'));
+     }
 }

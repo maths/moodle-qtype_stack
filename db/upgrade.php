@@ -727,13 +727,13 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     if (!preg_match('~stackmaximaversion:(\d{10})~',
             file_get_contents($CFG->dirroot . '/question/type/stack/stack/maxima/stackmaxima.mac'), $matches)) {
                 throw new coding_exception('Maxima libraries version number not found in stackmaxima.mac.');
-            }
-            $latestversion = $matches[1];
-            $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
+    }
+    $latestversion = $matches[1];
+    $currentlyusedversion = get_config('qtype_stack', 'stackmaximaversion');
 
-            if ($latestversion != $currentlyusedversion) {
-                stack_cas_connection_db_cache::clear_cache($DB);
-            }
+    if ($latestversion != $currentlyusedversion) {
+        stack_cas_connection_db_cache::clear_cache($DB);
+    }
 
     // Update the record of the currently used version.
     set_config('stackmaximaversion', $latestversion, 'qtype_stack');

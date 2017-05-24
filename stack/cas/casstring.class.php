@@ -596,11 +596,6 @@ class stack_cas_casstring {
         // Remove the contents of "strings".
         $stringles = stack_utils::eliminate_strings($this->casstring);
 
-        // Now turn logical connectives into noun versions, for students' expressions.
-        if ($security == 's') {
-            $stringles = $this->logic_nouns_sort(true, $stringles);
-        }
-
         // From now on all checks ignore the contents of "strings" and most definitely do not modify them.
         if (strpos($stringles, '"') !== false) {
             $this->check_string_usage($stringles);
@@ -656,11 +651,71 @@ class stack_cas_casstring {
         // Check for unexpected "-chars that are a sign of invalid syntax.
         // Basically, the cases where we have two strings touching, '""""' or pairles ".
         $spaceles = strtolower(preg_replace('!\s+!', '', $stringles));
-
         if (strpos($spaceles, '"""') !== false || strpos(str_replace('""', '', $spaceles), '"') !== false) {
             $this->errors .= stack_string('stackCas_MissingString');
             $this->answernote[] = 'MissingString';
             $this->valid = false;
+        }
+
+        // We have certain patterns that behave differently and we need to cover them.
+        $spaceles = str_replace("if\"", ",\"", $spaceles);
+        $spaceles = str_replace("then\"", ",\"", $spaceles);
+        $spaceles = str_replace("\"then", "\",", $spaceles);
+        $spaceles = str_replace("\"else", "\",", $spaceles);
+        $spaceles = str_replace("else\"", ",\"", $spaceles);
+        $spaceles = str_replace("while\"", ",\"", $spaceles);
+        $spaceles = str_replace("and\"", ",\"", $spaceles);
+        $spaceles = str_replace("\"and", "\",", $spaceles);
+        $spaceles = str_replace("or\"", ",\"", $spaceles);
+        $spaceles = str_replace("\"or", "\",", $spaceles);
+        $matches = array();
+
+        if (preg_match_all("/(.?)\\\"\\\"(.?)/", $spaceles, $matches) > 0) {
+            // Check mixing of "strings" with operators and others.
+            $prechars = $matches[1];
+            $postchars = $matches[2];
+            foreach ($prechars as $prechar) {
+                switch ($prechar) {
+                    case '':
+                        // Various structures.
+                    case '(':
+                    case '[':
+                    case '{':
+                        // Lists of arguments.
+                    case ',':
+                        // Assigning "string" values.
+                    case ':':
+                        // For use with is(a=b).
+                    case '=':
+                        break;
+                    default:
+                        $this->add_error(stack_string('stackCas_StringOperation',
+                            array('issue' => "$prechar\"", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
+                        $this->answernote[] = 'StringOperation';
+                        $this->valid = false;
+                        return;
+                }
+            }
+
+            foreach ($postchars as $postchar) {
+                switch ($postchar) {
+                    case '':
+                    case ')':
+                    case '(':
+                    case ']':
+                    case '}':
+                    case ',':
+                    case ';':
+                    case '=':
+                        break;
+                    default:
+                        $this->add_error(stack_string('stackCas_StringOperation',
+                            array('issue' => "\"$postchar", 'cmd' => stack_maxima_format_casstring($this->rawcasstring))));
+                        $this->answernote[] = 'StringOperation';
+                        $this->valid = false;
+                        return;
+                }
+            }
         }
     }
 
@@ -768,7 +823,7 @@ class stack_cas_casstring {
         $allowedcharsregex = '~[^' . preg_quote(self::$allowedchars, '~') . ']~u';
 
         // Need to trim off the "stackeq(..)" operator.
-        $cmd = trim($this->logic_nouns_sort(false, $cmd));
+        $cmd = trim(stack_utils::logic_nouns_sort($cmd, 'remove'));
 
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $cmd, $matches)) {
@@ -790,7 +845,11 @@ class stack_cas_casstring {
             $this->valid = false;
             $a = array();
             $a['char'] = $match[0];
-            $a['cmd']  = stack_maxima_format_casstring($this->rawcasstring);
+            $cdisp = $this->rawcasstring;
+            if ($security == 's') {
+                $cdisp = stack_utils::logic_nouns_sort($cdisp, 'remove');
+            }
+            $a['cmd']  = stack_maxima_format_casstring($cdisp);
             $this->add_error(stack_string('stackCas_finalChar', $a));
             $this->answernote[] = 'finalChar';
         }
@@ -945,7 +1004,7 @@ class stack_cas_casstring {
                 foreach (self::$spacepatterns as $key => $pat) {
                     $cmds = str_replace($pat, $key, $cmds);
                 }
-                $cmds = $this->logic_nouns_sort(false, $cmds);
+                $cmds = stack_utils::logic_nouns_sort($cmds, 'remove');
                 $this->add_error(stack_string('stackCas_spaces', array('expr' => stack_maxima_format_casstring($cmds))));
                 $this->valid = false;
             }
@@ -1025,8 +1084,9 @@ class stack_cas_casstring {
                     $cmd = preg_replace($pat, "\${1}*\${2}", $cmd);
                 } else {
                     // Flag up the error.
+                    $missingstring = stack_utils::logic_nouns_sort($cmd, 'remove');
                     $missingstring = stack_maxima_format_casstring(preg_replace($pat,
-                        "\${1}<font color=\"red\">*</font>\${2}", $this->logic_nouns_sort(false, $cmd)));
+                        "\${1}<font color=\"red\">*</font>\${2}", $missingstring));
                 }
             }
         }
@@ -1042,7 +1102,8 @@ class stack_cas_casstring {
             return str_replace('QMCHAR', '?', $cmd);
         } else {
             // If missing stars & strict syntax is on return errors.
-            $a['cmd']  = str_replace('QMCHAR', '?', $this->logic_nouns_sort(false, $missingstring));
+            $missingstring = stack_utils::logic_nouns_sort($missingstring, 'remove');
+            $a['cmd']  = str_replace('QMCHAR', '?', $missingstring);
             $this->add_error(stack_string('stackCas_MissingStars', $a));
             $this->valid = false;
             return str_replace('QMCHAR', '?', $cmd);
@@ -1301,62 +1362,6 @@ class stack_cas_casstring {
             $ok = $ok && $onefound;
         }
         return $ok;
-    }
-
-    /* The purpose of this function is to make all occurances of the logical
-     * operators "and" and "or" into their noun equivalent versions.  The support
-     * for these opertators in Maxima relies on the underlying lisp version and hence
-     * it is impossible to turn simplification off and make them inert.  In particular
-     * expressions such as x=1 or x=2 immediately evaluate to false in Maxima,
-     * which is awkward for students' input.
-     *
-     * Teachers need to use the non-intert forms in loops and conditional statements.
-     *
-     * If the parameter is true we put in noun versions, and if false we remove them.
-     */
-    public function logic_nouns_sort($direction, $externstr = '') {
-
-        $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
-        // The last two patterns are fine in the reverse direction as these patterns will have gone.
-
-        if ($direction) {
-            $str = $this->casstring;
-        } else {
-            $str = $this->value;
-        }
-        if ($externstr != '') {
-            $str = $externstr;
-        }
-
-        foreach ($connectives as $key => $val) {
-            if ($direction) {
-                $str = str_replace($key, $val, $str);
-            } else {
-                $str = str_replace($val, $key, $str);
-            }
-        }
-
-        if ($direction) {
-            // Check if we are using equational reasoning.
-            if (substr(trim($str), 0, 1) === "=") {
-                $trimmed = trim(substr(trim($str), 1));
-                if ( $trimmed !== '') {
-                    $str = 'stackeq(' . $trimmed . ')';
-                }
-            }
-        } else {
-            if (substr(trim($str), 0, 8) == 'stackeq(' && substr(trim($str), -1, 1) == ')') {
-                $str = '=' . substr(trim($str), 8, -1);
-            }
-        }
-
-        if ($direction) {
-            $this->casstring = $str;
-        } else {
-            $this->value = $str;
-        }
-
-        return $str;
     }
 
     /**

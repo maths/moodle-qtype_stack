@@ -874,6 +874,12 @@ logic_to_poly_helper(ex, v) := block(
     logic_to_poly_helper(append([poly_gcd(first(ex), second(ex), v)], rest(rest(ex))), v)
 )$
 
+noun_logic_remove(ex) := block([rex],
+    rex:opsubst("and", "nounand", ex),
+    rex:opsubst("or", "nounor", rex),
+    return(rex)
+)$
+
 /****************************************************************/
 /*  Define noun versions of other functions                     */
 /****************************************************************/

@@ -114,7 +114,7 @@ class stack_equiv_input extends stack_input {
             // Put the first line of the value of the teacher's answer in the input.
             if (trim($this->parameters['syntaxHint']) == 'firstline') {
                 $values = stack_utils::list_to_array($tavalue, false);
-                $current = $values[0];
+                $current = stack_utils::logic_nouns_sort($values[0], 'remove');
             }
         } else {
             $current = implode("\n", $state->contents);
@@ -262,12 +262,12 @@ class stack_equiv_input extends stack_input {
                         $this->get_parameter('strictSyntax', true), $this->get_parameter('insertStars', 0),
                         $this->get_parameter('allowWords', ''));
                 }
+                $val = stack_utils::logic_nouns_sort($val, 'add');
                 $answer = new stack_cas_casstring($val);
             }
 
             $answer->get_valid('s', $this->get_parameter('strictSyntax', true),
                 $this->get_parameter('insertStars', 0), $allowwords);
-            $answer->logic_nouns_sort(true);
 
             // Ensure student hasn't used a variable name used by the teacher.
             if ($forbiddenkeys) {
@@ -324,8 +324,7 @@ class stack_equiv_input extends stack_input {
             if ('' != $cs->get_errors()  || '' == $cs->get_value()) {
                 $valid = false;
                 $errors[$index] = ' '.stack_maxima_translate($cs->get_errors());
-                // This is an exception, because inputs modify the *raw* casstring to protect nouns.
-                $cds = $cs->logic_nouns_sort(false, $cs->get_raw_casstring());
+                $cds = stack_utils::logic_nouns_sort($cs->get_raw_casstring(), 'remove');
                 $display .= '<td>'. stack_maxima_format_casstring($cds). '</td>';
                 $display .= '<td>'. stack_maxima_translate($errors[$index]). '</td></tr>';
             } else {
@@ -476,11 +475,10 @@ class stack_equiv_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
-        $cs = new stack_cas_casstring('');
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {
-                $val = $cs->logic_nouns_sort(false, $val);
+                $val = stack_utils::logic_nouns_sort($val, 'remove');
             }
             $val = '<code>'.$this->stackeq_to_equals($val).'</code>';
             $values[$key] = $val;

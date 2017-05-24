@@ -44,7 +44,7 @@ class stack_algebraic_input extends stack_input {
             if ($this->parameters['syntaxAttribute'] == '1') {
                 $field = 'placeholder';
             }
-            $attributes[$field] = $this->parameters['syntaxHint'];
+            $attributes[$field] = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
         } else {
             $attributes['value'] = $this->contents_to_maxima($state->contents);
         }

@@ -90,7 +90,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
         );
 
         foreach ($cases as $case) {
-            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3], 't');
+        }
+
+        foreach ($cases as $case) {
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3], 's');
         }
     }
 

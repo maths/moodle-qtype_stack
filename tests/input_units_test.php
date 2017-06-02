@@ -682,4 +682,18 @@ class stack_units_input_test extends qtype_stack_testcase {
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
     }
+
+    public function test_validate_student_response_display_errors1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '9.81+-0.01m/s^2'), $options, '9.81*m/s^2', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('Units_SA_errorbounds_invalid', $state->note);
+        $this->assertEquals('9.81+-0.01*m/s^2', $state->contentsmodified);
+        $this->assertEquals('\[ 9.81\pm 0.01\, {\mathrm{m}}/{\mathrm{s}^2} \]',
+                qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
+        $this->assertEquals('\( \left[ \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
+    }
 }

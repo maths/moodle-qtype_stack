@@ -182,7 +182,7 @@ We need to assign outcomes.
 2. On the false branch set the `score=1` (well, you may disagree here, but that is up to you!)
 3. On the false branch set the feedback to something like
 
-<textarea readonly="readonly" rows="3" cols="50">
+<textarea readonly="readonly" rows="3" cols="75">
 Your answer is unfactored. There is no need to expand out the expression in this question. You can differentiate using the chain rule directly and keep the answer in factored form.</textarea>
 
 

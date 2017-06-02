@@ -757,14 +757,15 @@ $string['ATNumSigFigs_WrongSign']   = 'Your answer has the wrong algebraic sign.
 $string['ATNumSigFigs_Inaccurate']  = 'The accuracy of your answer is not correct.  Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.';
 $string['ATNumSigFigs_WrongDigits'] = 'Your answer contains the wrong number of significant digits. ';
 
-$string['ATUnits_SA_not_expression']   = 'Your answer needs to be a number together with units. Do not use sets, lists, equations or matrices. ';
-$string['ATUnits_SA_no_units']         = 'Your answer must have units. ';
-$string['ATUnits_SA_excess_units']     = 'Your answer has used units (or variables), but should not. ';
-$string['ATUnits_SA_only_units']       = 'Your answer needs to be a number together with units. Your answer only has units. ';
-$string['ATUnits_SA_bad_units']        = 'Your answer must have units, and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>. ';
-$string['ATUnits_incompatible_units']  = 'Your units are incompatible with those used by the teacher. ';
-$string['ATUnits_compatible_units']    = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
-$string['ATUnits_correct_numerical']   = 'Please check your units carefully. ';
+$string['ATUnits_SA_not_expression']      = 'Your answer needs to be a number together with units. Do not use sets, lists, equations or matrices. ';
+$string['ATUnits_SA_no_units']            = 'Your answer must have units. ';
+$string['ATUnits_SA_excess_units']        = 'Your answer has used units (or variables), but should not. ';
+$string['ATUnits_SA_only_units']          = 'Your answer needs to be a number together with units. Your answer only has units. ';
+$string['ATUnits_SA_bad_units']           = 'Your answer must have units, and you must use multiplication to attach the units to a value, e.g. <code>3.2*m/s</code>. ';
+$string['ATUnits_SA_errorbounds_invalid'] = 'Your answer has error bounds.  In this case do not indicate error bounds, instead use just the quantity and units. ';
+$string['ATUnits_incompatible_units']     = 'Your units are incompatible with those used by the teacher. ';
+$string['ATUnits_compatible_units']       = 'Your units are different from those used by the teacher, but are compatible with them.  Numerical values are being converted to SI base units for comparison. ';
+$string['ATUnits_correct_numerical']      = 'Please check your units carefully. ';
 
 $string['ATNumDecPlaces_OptNotInt']    = 'For ATNumDecPlaces the test option must be a positive integer, in fact "{$a->opt}" was received. ';
 $string['ATNumDecPlaces_NoDP']         = 'Your answer must be a decimal number, including a decimal point. ';

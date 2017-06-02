@@ -13,6 +13,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Add an option to validation to require compatible units with the teacher's answer, not just some units.
 * Create a mechanism to distinguish between `m/s` and `m*s^-1`, both at validation and answer test levels.
 * Create a mechanism to distinguish between `m/s/s` and `m/s^2`, both at validation and answer test levels.
+* Add support for testing for error bounds in units.  E.g. `9.81+-0.01m/s^2`.  There is already CAS code for this, and the error bounds are an optional 3rd argument to `stackunits`.  This is currently only used to reject students' answers as invalid.
 
 ### Inputs ###
 

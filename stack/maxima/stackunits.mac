@@ -142,9 +142,8 @@ stack_unit_si_present(value,target) := block([conversionfactor, va, vb, simp, be
   )
 )$
 
-
 /* Splits off the units from the end of a product. */
-stackunits_make(ex) := block([oldsimp, exn, exu],
+stackunits_make(ex) := block([oldsimp, exn, exu, exl],
     if (debug) then (print("stackunits_make: "), print(ex)),
     if not(member(units, features)) then
         stack_unit_si_declare(true),
@@ -157,11 +156,25 @@ stackunits_make(ex) := block([oldsimp, exn, exu],
         return(stackunits(NULLNUM, ex)),
     if safe_op(ex)="stackunits" then
         return(ex),
+    if is_simp(op(ex)="+-") then return(block([numa,numb],
+        if length(args(ex))=1 then block(
+            numa:NULLNUM,
+            numb:first(args(ex))
+        ) else block(
+            numa:first(args(ex)),
+            numb:second(args(ex))
+        ),
+        if (debug) then print("stackunits_make: found +-.  Preliminary split as ", print(numa), print(numb)),
+        numb:stackunits_make(numb),
+        if (debug) then print("stackunits_make: +- results give ", print(numa), print(numb)),
+        verb_arith(stackunits(numa, second(args(numb)),first(args(numb))))
+    )),
     /* We have a special case  x*1/s which we need to filter out at this stage. */
     if safe_op(ex)="/" then
         ex:stackunits_make_recip(ex),
     exn:flatten_recurse_nouns(noun_arith(ex)),
     if (debug) then (print("stackunits_make: nounarith expression is"), print(exn)),
+    /* If the student has indicated +- we deal with this. */
     /* If we don't have a product we are return what we are given. */
     if not(is_simp(op(exn)="noun*")) then 
         return(stackunits(ex, NULLUNITS)),
@@ -189,7 +202,7 @@ stackunits_make(ex) := block([oldsimp, exn, exu],
     ),
     if length(exn)=1 then exn:first(exn) else exn:apply("noun*", exn),
     if length(exu)=1 then exu:first(exu) else exu:apply("noun*", exu),
-    if (debug) then (print("stackunits_make: (3) reformulated units as "), print(exu)),
+    if (debug) then (print("stackunits_make: (3) reformulated units as "), print(exu)),    
     verb_arith(stackunits(exn, exu))
 )$
 
@@ -234,24 +247,37 @@ stackunits_make_recip(ex) := block([ex1,ex2],
   ex2:second(args(ex)),
   if not(safe_op(ex1)="*") then return(ex),
   ex1:reverse(args(ex1)),
-  if not(is(first(ex1)=1)) then return(ex),
+  if not(is_simp((first(ex1)=1))) then return(ex),
   if is(length(ex1)=2) then return(second(ex1)/ex2),
   reverse(rest(ex1))/ex2
 )$
 
 /* Add utility functions to get units and numerical parts.  */
-stack_units_units(ex) := block ([su],
+stack_units_units(ex) := block([su],
   if safe_op(ex) = "stackunits" then return(second(args(ex))),
   su:stackunits_make(ex),
   if safe_op(su) = "stackunits" then return(second(args(su))),
   return(ex)
 )$
 
-stack_units_nums(ex) := block ([su],
+stack_units_nums(ex) := block([su],
   if safe_op(ex) = "stackunits" then return(first(args(ex))),
   su:stackunits_make(ex),
   if safe_op(su) = "stackunits" then return(first(args(su))),
   return(ex)
+)$
+
+stack_units_err(ex) := block(
+  if not(safe_op(ex) = "stackunits") then ex:stackunits_make(ex),
+  if not(is(safe_op(ex) = "stackunits")) then return(0),
+  if is_simp(length(args(ex))=3) then return(third(args(ex))),
+  return(0)
+)$
+
+stack_units_errp(ex) := block(
+  if not(safe_op(ex) = "stackunits") then ex:stackunits_make(ex),
+  if length(args(ex))=3 then return(true),
+  return(false)
 )$
 
 /* Add rules to the simplifier to deal with stackunits.  */
@@ -286,7 +312,7 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
     if LowestTerms and not(all_lowest_termsex(expr)) then
         print(StackAddFeedback("", "Lowest_Terms")),
     /* SA should be only an expression. */
-    if not(expressionp(expr)) then
+    if not(expressionp(expr) or is(safe_op(expr)="+-")) then
         (print(StackAddFeedback("", "ATUnits_SA_not_expression")), return(expr)),
 
     /* Check if the student has correctly used units.*/
@@ -317,12 +343,20 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
             print(StackAddFeedback("", "ATUnits_SA_excess_units"))
     ),
 
+    /* Check if the student has added in error bounds. */
+    if stack_units_errp(SAU) then 
+        print(StackAddFeedback("", "ATUnits_SA_errorbounds_invalid")),
+
     /* Add in an option to control the display of the units. */
     expr:SAU,
     if (debug) then (print("stack_validate_units has: "), print(expr)),
     if fracdisp = "inline" then block(
         stack_disp_factions("i"),
-        expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU),simp))
+        if stack_units_errp(SAU) then
+            expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU),simp), ev(stack_units_err(SAU),simp))
+        else 
+            expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU),simp))
+
     ),
     if (debug) then (print(expr)),
     expr:detexcolor(expr),
@@ -331,13 +365,17 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
 )$
 
 /* Finer control over display of units, separating out the number from the units. */
-stackunitstex(e) := block ([a, b],
-  [a, b]:args (e),
+stackunitstex(ex) := block ([a, b, c, astr],
+  a:first(args(ex)),
+  b:second(args(ex)),
+  astr:tex1(a),
+  if length(args(ex))=3 then
+      astr:concat(astr, "\\pm ", third(args(ex))),
   /* Fine tune the edge cases. */
   if is(safe_op(b)="/") then 
-      if (is(first(args(b))=1)) then return(concat(tex1(a),"\\times ",tex1(b))),
+      if (is(first(args(b))=1)) then return(concat(astr,"\\times ",tex1(b))),
   /* Otherwise....             */
-  concat(tex1(a),"\\, ",tex1(b))
+  concat(astr,"\\, ",tex1(b))
 )$
 texput(stackunits, stackunitstex);
 texput(NULLUNITS, "");

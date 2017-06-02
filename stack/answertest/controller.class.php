@@ -127,11 +127,19 @@ class stack_ans_test_controller {
                 break;
 
             case 'Equiv':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', false, $casoption, $options);
+                if (trim($casoption) == '' ) {
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', true, 'null', $options);
+                } else {
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', true, $casoption, $options);
+                }
                 break;
 
             case 'EquivFirst':
-                $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquivFirst', false, $casoption, $options);
+                if (trim($casoption) == '' ) {
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquivFirst', true, 'null', $options);
+                } else {
+                    $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquivFirst', true, $casoption, $options);
+                }
                 break;
 
             case 'String':

@@ -1853,7 +1853,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('Result');
         $this->check_output_does_not_contain_stray_placeholders();
-        /* Note from version 5.37.0 of Maxima the precise form of the error message changed. */
+        // Note from version 5.37.0 of Maxima the precise form of the error message changed.
 
         $this->check_current_output(
                 new question_pattern_expectation('/following error: algsys: /'),
@@ -2278,7 +2278,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_stray_placeholders();
         $expectedvalidation = '\\[ \\begin{array}{lll}\\ &x^2-3\cdot x+2=0\\cr  '.
             '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1 \\right)=0\\cr '.
-            '\\color{red}{?}&x=-1\\,{\mbox{ and }}\\, x=-2\\cr  \\end{array} \]';
+            '\\color{red}{?}&\\left\{\\begin{array}{l}x=-1\\cr x=-2\\cr  \\end{array}\\right.\\cr \\end{array} \]';
         $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
 
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2",

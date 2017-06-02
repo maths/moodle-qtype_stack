@@ -47,9 +47,10 @@ class stack_maths_tex_test extends advanced_testcase {
                 .'<a .*alt="x\^2".*</(a|script)> \.</p>\n$~',
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).', ''));
 
-        // Test docs - make sure maths inside <textarea> is not rendered.
-        $this->assertRegExp('~^<p>\n' .
-                        'Differentiate \\\\\\\\\[x\^2 \+ y\^2\\\\\\\\\] with respect to \\\\\\\\\(x\\\\\\\\\).</p>\n$~',
+        // Test docs - make sure maths inside <textarea> is not rendered, and <textarea> is retained.
+        $expectation = '<p><textarea readonly="readonly" rows="3" cols="50">' . "\n" .
+            'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea></p>' . "\n";
+        $this->assertEquals($expectation,
                 stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
                         'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>', ''));
 

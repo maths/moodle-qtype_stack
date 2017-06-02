@@ -1033,8 +1033,8 @@ class stack_equiv_test_data {
                 '"So P(1) holds.  Now assume P(n) is true.",sum(k^2,k,1,n) = n*(n+1)*(2*n+1)/6,'.
                 'sum(k^2,k,1,n) +(n+1)^2= n*(n+1)*(2*n+1)/6 +(n+1)^2,sum(k^2,k,1,n+1)= (n+1)*(n*(2*n+1) +6*(n+1))/6,'.
                 'sum(k^2,k,1,n+1)= (n+1)*(2*n^2+7*n+6)/6,sum(k^2,k,1,n+1)= (n+1)*(n+1+1)*(2*(n+1)+1)/6]';
-        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = true;
+        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
         
         $newarg = array();
@@ -1043,7 +1043,7 @@ class stack_equiv_test_data {
         $newarg['casstring'] = '[(n+1)^2+sum(k^2,k,1,n) = (n+1)^2+(n*(n+1)*(2*n+1))/6, '.
                 'sum(k^2,k,1,n+1) = ((n+1)*(n*(2*n+1)+6*(n+1)))/6, sum(k^2,k,1,n+1) = ((n+1)*(2*n^2+7*n+6))/6, '.
                 'sum(k^2,k,1,n+1) = ((n+1)*(n+2)*(2*(n+1)+1))/6]';
-        $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1055,12 +1055,25 @@ class stack_equiv_test_data {
         $answertestfixtures = array();
         foreach ($this->rawdata as $equivarg) {
             if (!array_key_exists('section', $equivarg)) {
+                $options = array();
                 $score = 0;
                 if ($equivarg['outcome']) {
                     $score = 1;
                 }
                 $arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
-                $answertestfixtures[] = array('Equiv', '', $arg, '[]', $score, $equivarg['debuglist'], '');
+
+                if (array_key_exists('assumepos', $equivarg)) {
+                    $options[] = 'assumepos';
+                }
+                if (array_key_exists('assumereal', $equivarg)) {
+                    $options[] = 'assumereal';
+                }
+                $options = implode(',', $options);
+                if ('' !== $options) {
+                    $options = '[' . $options . ']';
+                }
+
+                $answertestfixtures[] = array('Equiv', $options, $arg, '[]', $score, $equivarg['debuglist'], '');
             }
         }
 

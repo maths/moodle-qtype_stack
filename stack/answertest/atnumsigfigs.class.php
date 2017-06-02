@@ -132,8 +132,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             }
         }
 
-        // Use Maxim to establish numerical precision.
-        $ta   = "[$this->tanskey,$atopt]";
         // Sort out options for the CAS session.
         if (null === $this->options) {
             $this->options = new stack_options();
@@ -142,8 +140,9 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         $cascommands = array();
         $cascommands[] = "STACKSA:$this->sanskey";
-        $cascommands[] = "STACKTA:$ta";
-        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
+        $cascommands[] = "STACKTA:$this->tanskey";
+        $cascommands[] = "STACKOP:$atopt";
+        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
 
         $cts = array();
         foreach ($cascommands as $com) {
@@ -174,8 +173,17 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             return null;
         }
 
+        if ('' != $session->get_errors_key('STACKOP')) {
+            $this->aterror      = 'TEST_FAILED';
+            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKOP')));
+            $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
+            $this->atmark       = 0;
+            $this->atvalid      = false;
+            return null;
+        }
+
         $sessionvars = $session->get_session();
-        $result = $sessionvars[2];
+        $result = $sessionvars[3];
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';

@@ -383,30 +383,30 @@ texput(NULLNUM, "");
 
 
 /* Units answer tests. */
-ATUnitsSigFigs(SA, SBL) := ATUnitsFun(SA, SBL, false, "SigFigs")$
-ATUnitsStrictSigFigs(SA, SBL) := ATUnitsFun(SA, SBL, true, "SigFigs")$
-ATUnitsRelative(SA, SBL) := ATUnitsFun(SA, SBL, false, "Relative")$
-ATUnitsStrictRelative(SA, SBL) := ATUnitsFun(SA, SBL, true, "Relative")$
-ATUnitsAbsolute(SA, SBL) := ATUnitsFun(SA, SBL, false, "Absolute")$
-ATUnitsStrictAbsolute(SA, SBL) := ATUnitsFun(SA, SBL, true, "Absolute")$
+ATUnitsSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "SigFigs")$
+ATUnitsStrictSigFigs(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "SigFigs")$
+ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Relative")$
+ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Relative")$
+ATUnitsAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, false, "Absolute")$
+ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, true, "Absolute")$
 
 /* This function has two options:
    boolean: strictp determines if the test should be "strict" in requiging exactly the correct units.
    numtest: string Chooses the numerical test applied to the numerical part.
 */
-ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
+ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote, SAU, SBU, SAU1, SBU1, ol, ret, ret1, ret2],
     validity:true, rawmk:true, fb:"", ansnote:"",
     SAA:errcatch(ev(SA, simp, nouns)),
     if (is_simp(SAA = [STACKERROR]) or is_simp(SAA = [])) then 
         return([false, false, StackAddNote("", "ATUnits_STACKERROR_SAns"), ""]),
-    SBB:errcatch(ev(SBL, simp, nouns)),
+    SBB:errcatch(ev(SB, simp, nouns)),
     if (is_simp(SBB = [STACKERROR]) or is_simp(SBB = [])) then 
         return([false, false, StackAddNote("", "ATUnits_STACKERROR_TAns"), ""]),
+    SOO:errcatch(ev(SO, simp, nouns)),
+    if (is_simp(SOO = [STACKERROR]) or is_simp(SOO = [])) then 
+        return([false, false, StackAddNote("", "ATUnits_STACKERROR_Opt"), ""]),
 
-    /* SBL is a list: the teacher's answer, the variable, and whether formative feedback is to be provided. */
-    /* Sort out options */
-    if listp(SBL) then (SB:SBL[1], ol:SBL[2]) else 
-        (print("TEST_FAILED"), return([false, false, StackAddNote("", "ATUnits_STACKERROR_no_option"), StackAddFeedback("", "TEST_FAILED_Q")])),
+    ol:SO, 
 
     /* SA should be only an expression. */
     if not(expressionp(SA)) then
@@ -448,11 +448,11 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
     SBU1:ev(float(stack_units_nums(SBU)), simp),
     if (debug) then (print("ATUnitsFun: call to 1st numerical test with data: "), print(SAU1), print([SBU1, ol])),
     if (numtest = "SigFigs") then
-        ret1: ATNumSigFigs(SAU1, [SBU1, ol])
+        ret1: ATNumSigFigs(SAU1, SBU1, ol)
     else if (numtest = "Absolute") then
-        ret1: ATNumAbsolute(SAU1, [SBU1, ol])
+        ret1: ATNumAbsolute(SAU1, SBU1, ol)
     else if (numtest = "Relative") then
-        ret1: ATNumRelative(SAU1, [SBU1, ol])
+        ret1: ATNumRelative(SAU1, SBU1, ol)
     else 
         block(
             print(sconcat("Error: ATUnitsFun received the following numtest option which is unknown: ", numtest)),
@@ -479,11 +479,11 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
     SAU1:ev(float(stack_units_nums(SAU)), simp),
     SBU1:ev(float(stack_units_nums(SBU)), simp),
     if (numtest = "SigFigs") then
-        ret2: ATNumSigFigs(SAU1, [SBU1, ol])
+        ret2: ATNumSigFigs(SAU1, SBU1, ol)
     else if (numtest = "Absolute") then
-        ret2: ATNumAbsolute(SAU1, [SBU1, ol])
+        ret2: ATNumAbsolute(SAU1, SBU1, ol)
     else if (numtest = "Relative") then
-        ret2: ATNumRelative(SAU1, [SBU1, ol])
+        ret2: ATNumRelative(SAU1, SBU1, ol)
     else 
         print(sconcat("Error: ATUnitsFun received the following numtest option which is unknown: ", numtest)),
     if (debug) then print(ret2),
@@ -530,7 +530,6 @@ ATUnitsFun(SA, SBL, strictp, numtest) := block([validity, rawmk, sb, ansnote, SB
         fb:StackAddFeedback("", "ATUnits_correct_numerical")
     ),
 
-    
     /* Send back the result. */
     ret:[validity, rawmk, ansnote, fb],
     return(ret)

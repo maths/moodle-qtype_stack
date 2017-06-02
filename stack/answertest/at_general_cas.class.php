@@ -112,10 +112,6 @@ class stack_answertest_general_cas extends stack_anstest {
                     return null;
                 }
             }
-            $atopt = $this->atoption;
-            $ta   = "[$this->tanskey,$atopt]";
-        } else {
-            $ta = $this->tanskey;
         }
 
         // Sort out options.
@@ -127,8 +123,9 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         // Protect "and" and "or" as noun forms.  In maxima with simp:false these are always verbs.
-        $ta = stack_utils::logic_nouns_sort($ta, 'add');
+        $ta = stack_utils::logic_nouns_sort($this->tanskey, 'add');
         $sa = stack_utils::logic_nouns_sort($this->sanskey, 'add');
+        $op = stack_utils::logic_nouns_sort($this->atoption, 'add');
 
         $cascommands = array();
         // Normally the prefix equality should be the identity function in the context of answer tests.
@@ -140,7 +137,12 @@ class stack_answertest_general_cas extends stack_anstest {
         }
         $cascommands[] = "STACKSA:$sa";
         $cascommands[] = "STACKTA:$ta";
-        $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
+        if (!$this->processcasoptions || trim($op) === '' ) {
+            $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA))";
+        } else {
+            $cascommands[] = "STACKOP:$op";
+            $cascommands[] = "result:StackReturn({$this->casfunction}(STACKSA,STACKTA,STACKOP))";
+        }
 
         $cts = array();
         foreach ($cascommands as $com) {
@@ -170,8 +172,23 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
+        if ($this->processcasoptions && trim($op) !== '') {
+            if ('' != $session->get_errors_key('STACKOP')) {
+                $this->aterror      = 'TEST_FAILED';
+                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $session->get_errors_key('STACKTA')));
+                $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
+                $this->atmark       = 0;
+                $this->atvalid      = false;
+                return null;
+            }
+        }
+
         $sessionvars = $session->get_session();
-        $result = $sessionvars[3];
+        if (!$this->processcasoptions || trim($op) === '' ) {
+            $result = $sessionvars[3];
+        } else {
+            $result = $sessionvars[4];
+        }
 
         if ('' != $result->get_errors()) {
             $this->aterror      = 'TEST_FAILED';

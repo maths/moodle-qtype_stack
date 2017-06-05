@@ -716,16 +716,17 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2017052100, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2017060500) {
+    if ($oldversion < 2017060501) {
         // Changing type of field questionnote on table qtype_stack_options to text.
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('questionnote', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, '');
 
         // Launch change of type for field questionnote.
         $dbman->change_field_type($table, $field);
+        $dbman->change_field_default($table, $field);
 
         // STACK savepoint reached.
-        upgrade_plugin_savepoint(true, 2017060500, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2017060501, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.

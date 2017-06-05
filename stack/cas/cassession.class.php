@@ -460,16 +460,16 @@ class stack_cas_session {
             $disp   = $casstr->get_display();
             $value  = $casstr->get_value();
 
-            $dummy = '@'.$key.'@';
+            $dummy = '{@'.$key.'@}';
 
             // When we have only a single string in the output remove the maths environment.
-            if ($errors == '' and substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\(@'.$key.'@\)') === false)) {
+            if ($errors == '' and substr(trim($value), 0, 1) == '"' and !(strpos($strin, '\({@'.$key.'@}\)') === false)) {
                 $disp = substr(trim($disp), 6, strlen($disp) - 7);
                 if ($value == '""') {
                     $disp = '';
                 }
                 // TODO: probably check for whitespace, e.g. \( @...@ \).
-                $dummy = '\(@'.$key.'@\)';
+                $dummy = '\({@'.$key.'@}\)';
             }
 
             if ('' !== $errors && null != $errors) {
@@ -523,12 +523,33 @@ class stack_cas_session {
                 $cmd = '0';
             }
 
+            // Special handling for the conditionally evaluated strings.
+            if (count($cs->get_conditions()) > 0) {
+                $conditions = array();
+                foreach ($cs->get_conditions() as $cond) {
+                    // No need to evaluate again if it is already evaluated.
+                    if (array_search($cond, $this->session) !== false
+                            && array_search($cond, $this->session) < array_search($cs, $this->session)) {
+                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_key());
+                    } else {
+                        $conditions[] = str_replace('?', 'QMCHAR', $cond->get_casstring());
+                    }
+                }
+
+                $condition = implode(" and ", $conditions);
+
+                $cascommands .= ", print(\"$i=[ error= [\"), if $condition then cte(\"$label\",errcatch($label:$cmd)) "
+                        . "else cte(\"$label\",errcatch($label:false)) ";
+            } else {
+                $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
+            }
+
             // The session might, legitimately, attempt to redefine a Maxima global variable,
             // which would throw a spurious error when the block attempts to define them as local.
             if (!(array_key_exists($cleanlabel, self::$maximaglobals))) {
                 $csnames   .= ", $cleanlabel";
             }
-            $cascommands .= ", print(\"$i=[ error= [\"), cte(\"$label\",errcatch($label:$cmd)) ";
+
             $i++;
         }
 
@@ -572,4 +593,7 @@ class stack_cas_session {
         return trim($keyvals);
     }
 
+    public function is_instantiated() {
+        return $this->instantiated !== null;
+    }
 }

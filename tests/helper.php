@@ -100,7 +100,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'test-0';
         $q->questionvariables = 'a:1+1;';
-        $q->questiontext = 'What is @a@? [[input:ans1]]
+        $q->questiontext = 'What is {@a@}? [[input:ans1]]
                            [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
@@ -132,16 +132,16 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->name = 'test-1';
         $q->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (v-a)^(n+1)/(n+1); ta1 : ta';
         $q->questiontext = 'Find
-                            \[ \int @p@ d@v@\]
+                            \[ \int {@p@} d{@v@}\]
                             [[input:ans1]]
                             [[validation:ans1]]';
         $q->generalfeedback = 'We can either do this question by inspection (i.e. spot the answer)
                                or in a more formal manner by using the substitution
-                               \[ u = (@v@-@a@).\]
-                               Then, since $\frac{d}{d@v@}u=1$ we have
-                               \[ \int @p@ d@v@ = \int u^@n@ du = \frac{u^@n+1@}{@n+1@}+c = @ta@+c.\]';
+                               \[ u = ({@v@}-{@a@}).\]
+                               Then, since $\frac{d}{d{@v@}}u=1$ we have
+                               \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]';
 
-        $q->questionnote = '@p@, @ta@.';
+        $q->questionnote = '{@p@}, {@ta@}.';
 
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
         $q->penalty = 0.25; // Non-zero and not the default.
@@ -241,7 +241,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
@@ -253,7 +253,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'even-0-0');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
         $q->prts['even'] = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
@@ -266,7 +266,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node0->add_branch(0, '=', 0, $q->penalty, 1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
         $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', FORMAT_HTML, 'oddeven-0-1');
 
         $sans = new stack_cas_casstring('sa2');
@@ -275,7 +275,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node1->add_branch(0, '+', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
         $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
@@ -342,7 +342,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['odd']     = new stack_potentialresponse_tree('odd',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
@@ -354,7 +354,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]', FORMAT_HTML, 'odd-0-0');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
         $q->prts['even']    = new stack_potentialresponse_tree('even',
                 '', true, 0.25, $feedbackvars->get_session(), array($node), 0);
@@ -367,7 +367,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node0->add_branch(0, '=', 0, $q->penalty, 1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
+                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
         $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', FORMAT_HTML, 'oddeven-0-1');
 
         $sans = new stack_cas_casstring('sa2');
@@ -376,7 +376,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node1->add_branch(0, '+', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
+                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
         $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'EVEN');
 
         $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
@@ -404,11 +404,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->name = 'test-4';
         $q->questionvariables = 'p : x^2';
         $q->questiontext = 'Below is a sketch of a graph. Find an algebraic expression which represents it.
-                            @plot(p,[x,-2,2])@
+                            {@plot(p,[x,-2,2])@}
                             $f(x)=$ [[input:ans1]].
                             [[validation:ans1]]';
         $q->specificfeedback = '[[feedback:plots]]';
-        $q->generalfeedback = 'The graph @plot(p,[x,-2,2])@ has algebraic expression \[ f(x)=@p@. \]';
+        $q->generalfeedback = 'The graph {@plot(p,[x,-2,2])@} has algebraic expression \[ f(x)={@p@}. \]';
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs['ans1'] = stack_input_factory::make(
@@ -420,7 +420,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer and my answer are plotted below. Look they are different! @plot([p,ans1],[x,-2,2])@',
+                'Your answer and my answer are plotted below. Look they are different! {@plot([p,ans1],[x,-2,2])@}',
                 FORMAT_HTML, 'plots-0-0');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'plots-0-1');
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
@@ -438,8 +438,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->name = 'test-5';
         $q->questionvariables = 'rn : -1*(rand(4)+1); rp : 8+rand(6); ar : rn*rp; sg : rn+rp; ' .
                 'ta1 : x*(x+sg)=-ar; ta2 : x*(x-sg)=-ar; tas : setify(map(rhs,solve(ta1,x)))';
-        $q->questiontext = '<p>A rectangle has length @sg@cm greater than its width.
-                            If it has an area of $@abs(ar)@cm^2$, find the dimensions of the rectangle.</p>
+        $q->questiontext = '<p>A rectangle has length {@sg@}cm greater than its width.
+                            If it has an area of ${@abs(ar)@}cm^2$, find the dimensions of the rectangle.</p>
                             <p>1. Write down an equation which relates the side lengths to the
                                   area of the rectangle.<br />
                                   [[input:ans1]]
@@ -453,16 +453,16 @@ class qtype_stack_test_helper extends question_test_helper {
                                   [[input:ans3]] cm
                                   [[validation:ans3]]
                                   [[feedback:short]]</p>';
-        $q->generalfeedback = 'If $x$cm is the width then $(x+@sg@)$ is the length.
-                               Now the area is $@abs(ar)@cm^2$ and so
-                               \[ @x*(x+sg)=-ar@. \]
-                               \[ @x^2+sg*x+ar@=0 \]
-                               \[ @(x+rp)*(x+rn)=0@ \]
-                               So that $x=@-rp@$ or $x=@-rn@$. Since lengths are positive quantities $x>0$
+        $q->generalfeedback = 'If $x$cm is the width then $(x+{@sg@})$ is the length.
+                               Now the area is ${@abs(ar)@}cm^2$ and so
+                               \[ {@x*(x+sg)=-ar@}. \]
+                               \[ {@x^2+sg*x+ar@}=0 \]
+                               \[ {@(x+rp)*(x+rn)=0@} \]
+                               So that $x={@-rp@}$ or $x={@-rn@}$. Since lengths are positive quantities $x>0$
                                and we discard the negative root. Hence the length of the shorter side is
-                               $x=@-rn@$cm.';
+                               $x={@-rn@}$cm.';
 
-        $q->questionnote = '@ta1@, @rp@.';
+        $q->questionnote = '{@ta1@}, {@rp@}.';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                             'algebraic', 'ans1', 'ta1', null, array('boxWidth' => 15));
@@ -542,7 +542,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'test-boolean';
         $q->questionvariables = 'ta:true;';
-        $q->questiontext = 'What is @ta@? [[input:ans1]]
+        $q->questiontext = 'What is {@ta@}? [[input:ans1]]
                            [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
@@ -576,12 +576,12 @@ class qtype_stack_test_helper extends question_test_helper {
                                 "c1 : -1*(l1+l2); c2 = l1*l2; " .
                                 "ode : 'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t); " .
                                 "ta : A*e^(l1*t)+B*e^(l2*t)";
-        $q->questiontext = '<p>Find the general solution to \[ @ode@ =0. \]</p>
+        $q->questiontext = '<p>Find the general solution to \[ {@ode@} =0. \]</p>
                             <p>$y(t)=$ [[input:ans1]]</p>
                             [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:Result]]';
-        $q->questionnote = '@ta@';
+        $q->questionnote = '{@ta@}';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta', array('boxWidth' => 15));
@@ -603,11 +603,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
         $node0->add_branch(0, '=', 0, '', -1, '<p>Your answer should satisfy the differential equation.
                 In fact, when we substitute your expression into the differential equation we get</p>
-                \[ @sa1@ =0, \]
+                \[ {@sa1@} =0, \]
                 <p>evaluating the derivatives we have</p>
-                \[ @sa2@ =0 \]
+                \[ {@sa2@} =0 \]
                 <p>This simplifies to</p>
-                \[ @sa3@ = 0,\]
+                \[ {@sa3@} = 0,\]
                 <p>so you must have done something wrong.</p>', FORMAT_HTML, 'Fails to satisfy DE');
         $node0->add_branch(1, '=', 1, '', 1, '', FORMAT_HTML, 'Result-0-T');
 
@@ -648,13 +648,13 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionvariables = "n : rand(2)+3; " .
                                 "p : rand(3)+2; " .
                                 "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))";
-        $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^@n@=@p^n@.\]
+        $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^{@n@}={@p^n@}.\]
                             Enter your answer as a set of numbers.
                             [[input:ans1]]</p>
                             [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:ans]]';
-        $q->questionnote = '@ta@';
+        $q->questionnote = '{@ta@}';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta', null,
@@ -710,7 +710,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questiontext = '<p>Let $f(x)$ be a real function defined on the interval $[-1,1]$ by the following formula.</p>
                             \[
                             f(x) = \left\{ \begin{array}{ll}
-                            @p@ & \mbox{if }x<0, \\
+                            {@p@} & \mbox{if }x<0, \\
                             a_1 e^{a_2\ x} & \mbox{if }x\geq 0.
                             \end{array}
                             \right.
@@ -723,25 +723,25 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:prt1]]';
 
         $q->generalfeedback  = '<p>We would like the function to be continuous at $x=0$, so we would like
-                                \[ @p@=a_1e^{a_2\ x}\]
+                                \[ {@p@}=a_1e^{a_2\ x}\]
                                 when evaluated at $x=0$. That is to say we want
-                                \[ @b@ = a_1 \]
+                                \[ {@b@} = a_1 \]
                                 If we differentiate both sides of the above equation with respect to $x$ we
                                 may match up the gradients. This gives us
-                                \[ @a@=a_1a_2.\]
-                                Solving this gives $a_2 = @a/b@$.</p>
+                                \[ {@a@}=a_1a_2.\]
+                                Solving this gives $a_2 = {@a/b@}$.</p>
                                 <p>Hence the full answer is
                                 \[
                                 f(x) = \left\{ \begin{array}{ll}
-                                @p@ & \mbox{if }x<0, \\
-                                @ta1@ e^{@ta2@ x} & \mbox{if }x\geq 0.
+                                {@p@} & \mbox{if }x<0, \\
+                                {@ta1@} e^{{@ta2@} x} & \mbox{if }x\geq 0.
                                 \end{array}
                                 \right.
                                 \]</p>
                                 <p>We can sketch the graph of this function as follows.
-                                @plot(f(x),[x,-1,1])@</p>';
+                                {@plot(f(x),[x,-1,1])@}</p>';
 
-        $q->questionnote = '\[ a_1=@ta1@,\ a_2=@ta2@.\]';
+        $q->questionnote = '\[ a_1={@ta1@},\ a_2={@ta2@}.\]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
                                     'algebraic', 'ans1', 'ta1', null, array('boxWidth' => 4));
@@ -756,7 +756,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans->get_valid('t');
         $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
         $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Compare your answer with the correct one @plot([f(x),g(x)],[x,-1,1])@', FORMAT_HTML, 'prt1-1-F');
+                'Compare your answer with the correct one {@plot([f(x),g(x)],[x,-1,1])@}', FORMAT_HTML, 'prt1-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node), 0);
 
@@ -862,7 +862,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'test-equiv-quad';
         $q->questionvariables = 'ta:[x^2-3*x+2=0,(x-2)*(x-1)=0,x=2 or x=1]; p:first(ta)';
-        $q->questiontext = 'Solve the following equation: @p@. [[input:ans1]]
+        $q->questiontext = 'Solve the following equation: {@p@}. [[input:ans1]]
         [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
@@ -932,7 +932,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'Information item';
         $q->questionvariables = 'a:7;';
-        $q->questiontext = '\[a = @a@\].';
+        $q->questiontext = '\[a = {@a@}\].';
         $q->generalfeedback = 'The end.';
 
         $q->specificfeedback = '';
@@ -970,7 +970,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'single_char_vars';
         $q->questionvariables = 'a:sin(x*y);';
-        $q->questiontext = 'What is @a@? [[input:ans1]]
+        $q->questiontext = 'What is {@a@}? [[input:ans1]]
                                [[validation:ans1]]';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
@@ -1312,7 +1312,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->falsepenalty        = 0.4;
         $node->falsenextnode       = -1;
         $node->falseanswernote     = 'odd-0-0';
-        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]';
         $node->falsefeedbackformat = FORMAT_HTML;
         $prt->nodes['0'] = $node;
         $qdata->prts['odd'] = $prt;
@@ -1348,7 +1348,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->falsepenalty        = 0.4;
         $node->falsenextnode       = -1;
         $node->falseanswernote     = 'even-0-0';
-        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa@ \neq 0.\]';
+        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]';
         $node->falsefeedbackformat = FORMAT_HTML;
         $prt->nodes['0'] = $node;
         $qdata->prts['even'] = $prt;
@@ -1384,7 +1384,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->falsepenalty        = 0.4;
         $node->falsenextnode       = 1;
         $node->falseanswernote     = 'oddeven-0-0';
-        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)=@sa1@ \neq 0.\]';
+        $node->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]';
         $node->falsefeedbackformat = FORMAT_HTML;
         $prt->nodes['0'] = $node;
 
@@ -1410,7 +1410,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->falsepenalty        = 0.4;
         $node->falsenextnode       = -1;
         $node->falseanswernote     = 'oddeven-1-0';
-        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)=@sa2@ \neq 0.\]';
+        $node->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]';
         $node->falsefeedbackformat = FORMAT_HTML;
         $prt->nodes['1'] = $node;
         $qdata->prts['oddeven'] = $prt;
@@ -1608,7 +1608,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 0 => 'odd-1-F');
         $formform->oddfalsefeedback = array(
                 0 => array(
-                        'text' => 'Your answer is not an odd function. Look, \\[ f(x)+f(-x)=@sa@ \\neq 0.\\]<br>',
+                        'text' => 'Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa@} \\neq 0.\\]<br>',
                         'format' => '1',
                         'itemid' => 352216298,
                 ));
@@ -1654,7 +1654,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 0 => 'even-1-F');
         $formform->evenfalsefeedback = array(
                 0 => array(
-                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)=@sa@ \\neq 0.\\]<br></p>',
+                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa@} \\neq 0.\\]<br></p>',
                         'format' => '1',
                         'itemid' => 880424514,
                 ));
@@ -1718,11 +1718,11 @@ class qtype_stack_test_helper extends question_test_helper {
                 1 => 'oddeven-2-F');
         $formform->oddevenfalsefeedback = array(
                 0 => array(
-                        'text' => '<p>Your answer is not an odd function. Look, \\[ f(x)+f(-x)=@sa1@ \\neq 0.\\]<br></p>',
+                        'text' => '<p>Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa1@} \\neq 0.\\]<br></p>',
                         'format' => '1',
                         'itemid' => 387904086),
                 1 => array(
-                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)=@sa2@ \\neq 0.\\]<br></p>',
+                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa2@} \\neq 0.\\]<br></p>',
                         'format' => '1',
                         'itemid' => 212217540));
 

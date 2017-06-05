@@ -1,62 +1,75 @@
 # Question blocks
 
-_This is an outline for a feature currently under development for STACK 3.0._
-
 ## Introduction ##
 
-Question blocks are a feature that have been strongly requested to add flexibility to STACK
-questions by adding functional structures, i.e. conditional inclusion
-<http://stack.maths.ed.ac.uk/live/mod/forum/discuss.php?d=153>.
+Question blocks add flexibility to STACK questions by adding functional structures.
 
-More maximum flexibility, blocks can be nested and conditionally evaluated.
-A body of CAStext is then repeatedly processed until all blocks have been interpreted into CAStext.
-This is currently applied to the question text and the worked solution.
+For maximum flexibility, blocks can be nested and conditionally evaluated. A body of CAStext is then repeatedly processed until all
+blocks have been interpreted into CAStext. This is a core part of CAStext and so applied to all appropriate parts of the question.
+
+Note:  The parameters to blocks in the question body may **NOT** depend on the student's answers. This means that you cannot reveal
+an input block based on student input, well not just by using an [[if/]]-block. But you may still adapt PRT-feedback as much as you
+want. Such adaptation requires persistent modifiable question state and is not currently possible in STACK, there is however work being done to create systems that would allow it.
+
 
 ## General Syntax ##
 
-In anticipation of unforeseen extensions, we favour a generic format inspired by the Django templating system:
+To avoid issues with the rich text editors used in Moodle we use a simple syntax not too different from the syntax used in input and
+output components:
 
-    {% block_type var_1 var_2 ... var_n %}
-    some content
-    {% end block_type %}
+    [[ block_type param1="value1" param2='value2' ... paramN="valueN" ]]
+    Some content.
+    [[/ block_type ]]
+
+The syntax is quite similar to XML and includes [[ emptyblocks /]].
 
 ## Conditional blocks ##
 
-The common **if** statement would be written:
+The common **if** statement is written as:
 
-    {% if @some_CAS_expression@ %}
-    The expression seems to be true
-    {% end if %}
+    [[ if test="some_CAS_expression_evaluating_to_true_or_false" ]]
+    The expression seems to be true.
+    [[/ if ]]
 
-An **else** sub-block can optionally be included:
+The **if** block uses a special syntax expansion that provides it a way to handle **else** cases. For example,
 
-    {% if @some_CAS_expression@ %}
-    The expression seems to be true
-    {% else %}
-    not quite true
-    {% end if %}
+    [[ if test='oddp(rand(5))' ]]
+    This is an odd block!
+    [[ else ]]
+    This is an even block!
+    [[/ if]]
 
-The **else if** construct is also supported, e.g:
+There is an *else if* type of structure using **elif** (Python coders won the syntax selection vote),
 
-    {% if @is(x=2)@ %}
-       {% bold %}it is 2{% end bold %}
-    {% else if @is(x=3)@ %}
-       it is 3
-    {% else %}
-       {% if @is(x=4)@ %}
-          {% bold %}is be 4{% end bold%}
-       {% else if @is(x=5)@ %}
-          it is 5
-       {% else %}
-          it is something else
-       {% end if %}
-    {% end if %}
+    [[ if test='oddp(var)' ]]
+    This is an odd block!
+    [[ elif test='is(var=0)' ]]
+    It might be even but it is also zero.
+    [[ else ]]
+    This is an even block!
+    [[/ if]]
 
-## Development ##
 
-Question block work is being committed to the STACK 2.1 branch
-<http://stack.cvs.sourceforge.net/viewvc/stack/stack-dev/lib/ui/?pathrev=STACK2_1> of CVS. Current focus is on:
+## Foreach loop ##
 
-* Minimising number of CAS calls where possible, e.g. by evaluating all blocks at same level in one call.
-* Integrating with CASText and probably lib/filters.
-* Added block handling to potential response feedback.
+Foreach blocks iterate over lists or sets and repeat their content redefining variables for each repetition.
+
+    [[ foreach x="[1,2,3]" ]]{#x#} [[/ foreach ]]
+
+You may have multiple variables and they will be iterated over in sync and the variables may also come from Maxima. Should one of
+the lists or set be shorter/smaller the iteration will stop when the first one ends.
+
+    [[ foreach x="[1,2,3]" y="makelist(x^2,x,4)" ]] ({#x#},{#y#}) [[/ foreach ]]
+
+Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one
+additional cas evaluation for each nested level of foreach blocks.
+
+## Define block ##
+
+The define block is a core component of the foreach block, but it may also be used elsewhere. Its function is to change the value of
+a cas variable in the middle of castex. For example:
+
+    [[ define x='1' /]] {#x#}, [[ define x='x+1' /]] {#x#}, [[ define x='x+1' /]] {#x#}
+
+should print "1, 2, 3". You may define multiple variables in the same block and the order of define operations is from left to right
+so "[[ define a='1' b='a+1' c='a+b' /]] {#a#}, {#b#}, {#c#}" should generate the same output.

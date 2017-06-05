@@ -177,4 +177,25 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 
         $this->assertEquals($kvins, $kvout);
     }
+
+    public function test_basic_logic() {
+        $tests = "t1: is(1>0);
+                t2: t1 and true;
+                t3: true or true;
+                f4: false;
+                f5: not(t1) and false;
+                f6: not(true and true);
+                t7: not(false);
+                t8: not(f6);
+                t9: t8 and true;
+        ";
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $kv->instantiate();
+        foreach ($kv->get_session() as $cs) {
+            $expect = (strpos($cs->get_key(),'t') === 0)?'true':'false';
+            $this->assertEquals($expect,$cs->get_value());
+        }
+    }
 }

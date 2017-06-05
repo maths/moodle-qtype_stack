@@ -66,24 +66,21 @@ Add mathematical support in the following order.
 * Auto identify what the student has done in a particular step?
 * Develop a metric to measure the distance between expressions.  Use this as a measure of "step size" when working with expressions.
 
-
 # STACK 4.0
-
-This track adds major new features, and changes the interaction model for STACK substantially.  The goal is to develop STACK 3.6 and STACK 4.0 in parallel.  At a point where both are stable we will decide whether to actually release 3.6, or to merge and release all features as one new major change.
 
 STACK 4.0 represents a major release of STACK.  
 
-__ STACK 4.0 is a non-reversible change, with important differences which break back-compatability.  __
+**STACK 4.0 is a non-reversible change, with important differences which break back-compatability.**
 
 Note that the underlying code in this development have been used at Aalto for many years, with complex questions.  We believe these are battle tested improvements in the functionality.
 
 STACK 4.0 includes the block features and other important changes in CASText.
 
-* To generate the LaTeX displayed form of a CAS variable in castext you must use '{@...@}'.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
-* To generate the Maxima value of a CAS variable in castext you can use '{#...#}'. This is useful when interfacing with other software, or showing examples to students.
+* To generate the LaTeX displayed form of a CAS variable in castext you must use `@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
+* To generate the Maxima value of a CAS variable in castext you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
 * CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks.md).
 
 Other changes.
 
 * The question note is no longer limited in size.
-
+* Mathematics in LaTeX can no longer be supported with `$..$` or `$$..$$`.  This useage has been discouraged for many years, and we have a long-standing "fix" script to convert from dollars to the forms `\(..\)` and `\[..\]`.

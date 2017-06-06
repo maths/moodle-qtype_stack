@@ -595,7 +595,6 @@ $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 $string['stackCas_failedReturnOne']         = 'CAS failed to return some data.';
 
 // Used in castext.class.php.
-$string['stackCas_tooLong']                 = 'CASText statement is too long. ';
 $string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign. ';
 $string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
 $string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';

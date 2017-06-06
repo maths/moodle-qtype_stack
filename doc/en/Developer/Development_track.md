@@ -84,3 +84,4 @@ Other changes.
 
 * The question note is no longer limited in size.
 * Mathematics in LaTeX can no longer be supported with `$..$` or `$$..$$`.  This useage has been discouraged for many years, and we have a long-standing "fix" script to convert from dollars to the forms `\(..\)` and `\[..\]`.
+* Remove the artificial limit on the size of CASText.  We now rely on surrounding limits, like POST requests and database limits.  This may result in ugly errors, but we need larger limits to accommodate interactive elements embedded into text fields.

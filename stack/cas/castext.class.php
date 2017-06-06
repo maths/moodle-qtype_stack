@@ -121,12 +121,6 @@ class stack_cas_text {
      */
     private function validate() {
         $this->errors = array();
-        if (strlen(trim($this->rawcastext)) > 64000) {
-            // Limit to just less than 64kb. Maximum practical size of a post. (About 14 pages).
-            $this->errors[] = stack_string("stackCas_tooLong");
-            $this->valid = false;
-            return false;
-        }
 
         // Remove any comments from the castext.
         $this->trimmedcastext = stack_utils::remove_comments(str_replace("\n", ' ', $this->rawcastext));

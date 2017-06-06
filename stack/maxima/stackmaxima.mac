@@ -74,7 +74,7 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
 
 
 /* ********************************** */
-/* Logarithms                         */
+/* Logarithms and nth roots           */
 /* ********************************** */
 alias(ln, log);
 
@@ -95,14 +95,22 @@ texput(logbase, logbasetex);
 /* Use of radcan to give canonical form. */
 logbasesimp(n,b) := radcan(log(n)/log(b));
 
-load ("functs");
+/* Add in a flexible "nth" roots function. */
+root([ex]) := block(
+  if length(ex) > 2 then error("root: must have only two arguments"),
+  if length(ex) = 1 then return(sqrt(first(ex))),
+  if length(ex) = 2 then return(first(ex)^(1/second(ex)))
+)$
 
-/* We don't want to allow people to put boxes round things. */
-box(ex) := ex;
 
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
+
+load ("functs");
+
+/* We don't want to allow people to put boxes round things. */
+box(ex) := ex;
 
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */

@@ -40,8 +40,8 @@ class stack_studentinput_testcase extends qtype_stack_testcase {
         $test = stack_inputvalidation_test_data::test_from_raw(func_get_args());
         $result = stack_inputvalidation_test_data::run_test($test);
 
-        $this->assertTrue($result->passed);
         $this->assertEquals($result->display, $result->casdisplay);
         $this->assertEquals($result->ansnotes, $result->casnotes);
+        $this->assertTrue($result->passed);
     }
 }

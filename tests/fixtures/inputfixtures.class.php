@@ -349,6 +349,7 @@ class stack_inputvalidation_test_data {
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
+        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), /* This is now a Maxima alias. */
         array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), // This is now a Maxima alias.
         array('Sin(x)', 'php_false', '', '', '', 'unknownFunctionCase', ""),
         array('sim(x)', 'php_false', '', '', '', 'unknownFunction', ""),

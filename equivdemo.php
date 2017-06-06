@@ -146,10 +146,13 @@ foreach ($samplearguments as $argument) {
         $took = (microtime(true) - $start);
         $rtook = round($took, 5);
 
-        $argumentvalue = $session->get_value_key("S2");
-        $overall = "Overall the argument is {$argumentvalue}.  We expected the argument to be {$expected}.";
-        if ($argumentvalue != $expected) {
-            $overall = "<font color='red'>".$overall."</font>";
+        $argumentvalue = trim($session->get_value_key("S2"));
+        $overall = "Overall the argument is {$argumentvalue}.";
+        if ('unsupported' !== $argument['outcome']) {
+            $overall .= "  We expected the argument to be {$expected}.";
+            if ($argumentvalue != $expected) {
+                $overall = "<font color='red'>".$overall."</font>";
+            }
         }
         $displaytext .= $overall;
         $displaytext .= "\n<br>Time taken: ".$rtook;
@@ -160,7 +163,11 @@ foreach ($samplearguments as $argument) {
         }
         $debuginfo    = $ct->get_debuginfo();
 
-        echo html_writer::tag('h3', $cskey . ": ". $argument['title']).
+        $title = $argument['title'];
+        if ('unsupported' === $argument['outcome']) {
+            $title .= ' (Unsupported case)';
+        }
+        echo html_writer::tag('h3', $cskey . ": ". $title).
              html_writer::tag('p', $argument['narrative']);
         if (!$debug) {
             echo html_writer::tag('pre', htmlspecialchars($argument['casstring'])).

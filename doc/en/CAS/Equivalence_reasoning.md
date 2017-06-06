@@ -2,6 +2,8 @@
 
 __NOTE: this is experimental code and the features and behaviour are very likely to change significantly in the near future.__
 
+__NOTE: for the first release we are providing no support at all for inequalities, or simultaneous equations.  Wider support is intended for future versions.__
+
 ##  What is reasoning by equivalence and this input type?
 
 Reasoning by Equivalence is a particularly important activity in elementary algebra.  It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, are replaced by an equivalent until a "solved" form is reached. 

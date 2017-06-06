@@ -163,7 +163,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $errors = false;
         // This adds sufficient closing brackets to make sure we have enough to match.
         $rawresult .= ']]]]';
-
         if ('' == trim($rawresult)) {
             $this->debug->log('Warning, empty result!', 'unpack_raw_result: completely empty result was returned by the CAS.');
             return array();
@@ -179,6 +178,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         $result = trim(str_replace('#', '', $result));
+        $result = trim(str_replace("\n ", '', $result));
         $result = trim(str_replace("\n", '', $result));
 
         $unp = $this->unpack_helper($result);

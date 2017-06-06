@@ -164,9 +164,11 @@ class qtype_stack_dollar_fixer {
      */
     public function __construct() {
         $this->search = array(s('<ins>\[</ins>'), s('<ins>\]</ins>'),
-                s('<ins>\(</ins>'), s('<ins>\)</ins>'));
+                s('<ins>\(</ins>'), s('<ins>\)</ins>'),
+                s('<ins>{@</ins>'), s('<ins>@}</ins>'));
         $this->replace = array('<del>$$</del><ins>\[</ins>', '<del>$$</del><ins>\]</ins>',
-                '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>');
+                '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>',
+                '<del>@</del><ins>{@</ins>', '<del>@</del><ins>@}</ins>');
     }
 
     /**
@@ -182,7 +184,7 @@ class qtype_stack_dollar_fixer {
             return false;
         }
 
-        $markedup = stack_maths::replace_dollars($question->{$field}, '<ins>', '</ins>');
+        $markedup = stack_maths::replace_dollars($question->{$field}, true);
         echo html_writer::tag('p', stack_string('replacedollarsin', $field));
         echo html_writer::tag('pre', str_replace($this->search, $this->replace,
                 s($markedup)), array('class' => 'questiontext'));

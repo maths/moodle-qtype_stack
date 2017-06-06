@@ -338,7 +338,7 @@ class stack_inputvalidation_test_data {
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
         array('cot(x)', 'php_true', 'cot(x)', 'cas_true', '\cot \left( x \right)', '', ""),
-        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""), /* This is now a Maxima alias. */
+        array('cosec(x)', 'php_true', 'cosec(x)', 'cas_true', '\csc \left( x \right)', '', ""),  // This is now a Maxima alias.
         array('Sin(x)', 'php_false', '', '', '', 'unknownFunctionCase', ""),
         array('sim(x)', 'php_false', '', '', '', 'unknownFunction', ""),
         array('asin(x)', 'php_true', 'asin(x)', 'cas_true', '\sin^{-1}\left( x \right)', '', "Maxima uses the asin pattern"),
@@ -366,6 +366,7 @@ class stack_inputvalidation_test_data {
         array('In(x)', 'php_false', '', '', '', 'stackCas_badLogIn', ""),
         array('log10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_10(x)', 'php_true', 'lg(x, 10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
+
         array('lg(x)', 'php_true', 'lg(x)', 'cas_true', '\log_{10}\left(x\right)', '', "Logarithm to the base \(10\)."),
         array('lg(10^3)', 'php_true', 'lg(10^3)', 'cas_true', '\log_{10}\left(10^3)', '', ""),
         array('lg(x,a)', 'php_true', 'lg(x,a)', 'cas_true', '\log_{a}\left(x\right)', '', ""),

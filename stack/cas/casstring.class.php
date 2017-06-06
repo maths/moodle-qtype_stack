@@ -84,7 +84,7 @@ class stack_cas_casstring {
                 'alphabetic' => true, 'appendfile' => true, 'apropos' => true, 'assume_external_byte_order' => true,
                 'backtrace' => true, 'batch' => true, 'barsplot' => true, 'batchload' => true, 'boxchar' => true,
                 'boxplot' => true, 'bug_report' => true, 'build_info' => true, 'catch' => true, 'close' => true,
-                'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true,
+                'closefile' => true, 'compfile' => true, 'compile' => true, 'compile_file' => true, 'concat' => true,
                 'current_let_rule_package' => true, 'data_file_name' => true, 'deactivate' => true, 'debugmode' => true,
                 'define' => true, 'define_variable' => true, 'demo' => true, 'dependencies' => true, 'describe' => true,
                 'dimacs_export' => true, 'dimacs_import' => true, 'entermatrix' => true, 'errcatch' => true, 'error' => true,
@@ -289,7 +289,7 @@ class stack_cas_casstring {
                 'charfun' => true, 'charfun2' => true, 'charlist' => true, 'charp' => true, 'charpoly' => true, 'cint' => true,
                 'clessp' => true, 'clesspignore' => true, 'coeff' => true, 'coefmatrix' => true, 'col' => true,
                 'columnop' => true, 'columnspace' => true, 'columnswap' => true, 'combine' => true, 'compare' => true,
-                'concat' => true, 'conjugate' => true, 'cons' => true, 'constituent' => true, 'copy' => true, 'cos' => true,
+                'conjugate' => true, 'cons' => true, 'constituent' => true, 'copy' => true, 'cos' => true,
                 'cosh' => true, 'cot' => true, 'coth' => true, 'color' => true, 'covect' => true, 'csc' => true,
                 'csch' => true, 'cspline' => true, 'cyan' => true, 'cosec' => true, 'ctranspose' => true, 'dblint' => true,
                 'defint' => true, 'del' => true, 'delete' => true, 'delta' => true, 'denom' => true, 'desolve' => true,
@@ -360,7 +360,7 @@ class stack_cas_casstring {
                 'quad_qawo' => true, 'quad_qaws' => true, 'qunit' => true, 'quotient' => true, 'radcan' => true,
                 'radexpand' => true, 'radsubstflag' => true, 'rank' => true, 'rassociative' => true, 'rat' => true,
                 'ratalgdenom' => true, 'ratcoef' => true, 'ratdenom' => true, 'ratdenomdivide' => true, 'ratdiff' => true,
-                'ratdisrep' => true, 'ratepsilon' => true, 'ratexpand' => true, 'ratfa => truec' => true, 'rationalize' => true,
+                'ratdisrep' => true, 'ratepsilon' => true, 'ratexpand' => true, 'ratfac' => true, 'rationalize' => true,
                 'ratmx' => true, 'ratnumer' => true, 'ratnump' => true, 'ratp' => true, 'ratsimp' => true,
                 'ratsimpexpons' => true, 'ratsubst' => true, 'ratvars' => true, 'ratweight' => true, 'ratweights' => true,
                 'realonly' => true, 'realpart' => true, 'realroots' => true, 'rectform' => true, 'recttopolar' => true,
@@ -489,7 +489,7 @@ class stack_cas_casstring {
      * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
      */
     private static $keywordlists = array(
-            '[[basic-algebra]]' => array('coeff', 'concat', 'conjugate', 'cspline', 'disjoin', 'divisors',
+            '[[basic-algebra]]' => array('coeff', 'conjugate', 'cspline', 'disjoin', 'divisors',
                     'ev', 'eliminate', 'equiv_classes', 'expand', 'expandwrt', 'facsum', 'factor', 'find_root',
                     'fullratsimp', 'gcd', 'gfactor', 'imagpart', 'intersection', 'lcm', 'logcontract', 'logexpand',
                     'member', 'nroots', 'nthroot', 'numer', 'partfrac', 'polarform', 'polartorect', 'ratexpand',
@@ -1434,11 +1434,14 @@ class stack_cas_casstring {
         $this->dispvalue = $val;
     }
 
-    public function get_answernote() {
+    public function get_answernote($raw = 'implode') {
         if (null === $this->valid) {
             $this->validate();
         }
-        return implode(' | ', $this->answernote);
+        if ($raw === 'implode') {
+            return trim(implode(' | ', $this->answernote));
+        }
+        return $this->answernote;
     }
 
     public function set_answernote($val) {

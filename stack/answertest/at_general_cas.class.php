@@ -203,7 +203,7 @@ class stack_answertest_general_cas extends stack_anstest {
             return null;
         }
 
-        $this->atansnote  = trim($result->get_answernote());
+        $this->atansnote  = str_replace("\n", '', trim($result->get_answernote()));
 
         // Convert the Maxima string 'true' to PHP true.
         if ('true' == $result->get_value()) {

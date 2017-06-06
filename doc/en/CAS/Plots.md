@@ -72,7 +72,7 @@ To set a specific alt tag, pass an equation `[alt,"..."]` as an argument to the 
 If you would like an expression as part of this then try
 
     p:sin(x);
-    plot(p,[x,-2,2],[alt,concat("Here is ",string(p))]);
+    plot(p,[x,-2,2],[alt,sconcat("Here is ",string(p))]);
 
 (Note, previous versions of STACK had the alt-text as an equation.  This has been re-factored as a list, in line with other `plot2d` options.)
 

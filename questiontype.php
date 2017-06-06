@@ -90,6 +90,7 @@ class qtype_stack extends question_type {
             $options = new stdClass();
             $options->questionid = $fromform->id;
             $options->questionvariables = '';
+            $options->questionnote = '';
             $options->specificfeedback = '';
             $options->prtcorrect = '';
             $options->prtpartiallycorrect = '';

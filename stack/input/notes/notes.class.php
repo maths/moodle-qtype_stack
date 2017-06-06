@@ -143,7 +143,6 @@ class stack_notes_input extends stack_input {
     /**
      * @return string the teacher's answer, an example of what could be typed into
      * this input as part of a correct response to the question.
-     * 
      * For the notes class this is always the boolean "true".
      */
     public function get_teacher_answer() {

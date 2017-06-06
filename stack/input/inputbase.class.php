@@ -402,8 +402,8 @@ abstract class stack_input {
         $localoptions->set_option('simplify', false);
         $session = new stack_cas_session($sessionvars, $localoptions, 0);
         $session->instantiate();
-        //  Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
-        //  we don't need to extract updated values from the instantiated $session explicitly.
+        // Since $lvars and $answer and the other casstrings are passed by reference, into the $session,
+        // we don't need to extract updated values from the instantiated $session explicitly.
         list($valid, $errors, $display) = $this->validation_display($answer, $caslines, $additionalvars, $valid, $errors);
 
         if ('' == $answer->get_value()) {

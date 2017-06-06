@@ -218,9 +218,6 @@ class stack_cas_session {
                     $val = str_replace('QMCHAR', '?', $result['dispvalue']);
                     $val = str_replace('"!! ', '', $val);
                     $val = str_replace(' !!"', '', $val);
-                    // TODO: adding in this line breaks the checkboxes.
-                    // TODO: run unit tests then decide if we don't need it.
-                    //$val = stack_utils::logic_nouns_sort($val, 'remove');
                     $cs->set_dispvalue(trim($val));
                 }
 

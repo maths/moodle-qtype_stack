@@ -54,7 +54,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('', null, true, ''),
                 array('Hello world', null, true, 'Hello world'),
                 array('$x^2$', null, true, '$x^2$'),
-                array('$${@x^2@}$$', null, true, '$$x^2$$'),
                 array('\(x^2\)', null, true, '\(x^2\)'),
                 array('{@x*x^2@}', null, true, '\({x^3}\)'),
                 array('{@1+2@}', null, true, '\({3}\)'),
@@ -67,6 +66,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('{@(x^2@}', null, false, false),
                 array('{@1/0@}', null, true, '\({1/0}\)'),
                 array('{@x^2@}', $a2, false, false),
+                // This last one looks very odd.  It records a change in v4.0 where we stop supporting dollars.
+                array('$${@x^2@}$$', null, true, '$$\(x^2\)$$'),
         );
 
         foreach ($cases as $case) {

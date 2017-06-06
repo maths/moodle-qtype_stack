@@ -204,6 +204,14 @@ class stack_cas_text {
             }
         }
 
+        // Perform validation on the existing session.
+        if (null != $this->session) {
+            if (!$this->session->get_valid()) {
+                $this->valid = false;
+                $this->errors[] = $this->session->get_errors();
+            }
+        }
+
         // Perform block and casstring validation.
         $parser = new stack_cas_castext_castextparser($this->trimmedcastext);
         $validationsession = new stack_cas_session(array(), null, $this->seed);

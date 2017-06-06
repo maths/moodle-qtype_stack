@@ -41,6 +41,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
 
         $at1 = new stack_cas_text($strin, $cs1, 0, $security);
+        $at1->get_valid();
+        //print_r($at1);
         $this->assertEquals($val, $at1->get_valid());
         $this->assertEquals($disp, $at1->get_display_castext());
     }
@@ -64,10 +66,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot \left(x+1\right)^2}\]'),
                 array('{@', null, false, false),
                 array('{@(x^2@}', null, false, false),
-                array('{@1/0@}', null, true, '\({1/0}\)'),
-                array('{@x^2@}', $a2, false, false),
+                array('{@1/0@}', null, true, '1/0'),
+                array('\(1+{@1/0@}\)', null, true, '\(1+1/0\)'),
+                array('{@x^2@}', $a2, false, null),
                 // This last one looks very odd.  It records a change in v4.0 where we stop supporting dollars.
-                array('$${@x^2@}$$', null, true, '$$\(x^2\)$$'),
+                array('$${@x^2@}$$', null, true, '$$\({x^2}\)$$'),
         );
 
         foreach ($cases as $case) {
@@ -986,4 +989,5 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals('false', $s->get_value_key('caschat1'));
         $this->assertEquals('true', $s->get_value_key('caschat2'));
     }
+
 }

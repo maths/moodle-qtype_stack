@@ -57,9 +57,15 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
     }
 
     public function process_content($evaluatedcassession, $conditionstack = null) {
+
+        $errors = $evaluatedcassession->get_errors_key("caschat".$this->number);
+        if ('' !== $errors && null != $errors) {
+            $this->get_node()->convert_to_text($this->get_node()->get_content());
+            return false;
+        }
+
         $value = $evaluatedcassession->get_value_key("caschat".$this->number);
         $stringvalue = substr(trim($value), 0, 1) == '"';
-
         if (!$stringvalue) {
             $evaluated = $evaluatedcassession->get_display_key("caschat".$this->number);
             if (strpos($evaluated, "<html") !== false) {
@@ -72,6 +78,7 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
                 }
             }
         } else {
+            
             $value = stack_utils::maxima_string_to_php_string($value);
             $this->get_node()->convert_to_text($value);
         }

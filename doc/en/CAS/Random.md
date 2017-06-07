@@ -89,9 +89,9 @@ It is often necessary to generate a random object with a number of separate aspe
     p:l1[idx];
     ta:t*l2[idx]/(4*%pi^2);
 
-The question text can then be 
+The question text can then be
 
-    A pendulum is located on @p@. What length should the pendulum have in order to have a period of @t@s?
+    A pendulum is located on {@p@}. What length should the pendulum have in order to have a period of {@t@}s?
 
 This indexing with the variable `idx` is quite robust.  Note that indexes in Maxima start at \(1\), whereas `rand(n)` could return zero.
 

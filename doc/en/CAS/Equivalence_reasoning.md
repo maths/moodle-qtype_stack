@@ -6,13 +6,13 @@ __NOTE: for the first release we are providing no support at all for inequalitie
 
 ##  What is reasoning by equivalence and this input type?
 
-Reasoning by Equivalence is a particularly important activity in elementary algebra.  It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, are replaced by an equivalent until a "solved" form is reached. 
+Reasoning by Equivalence is a particularly important activity in elementary algebra.  It is an iterative formal symbolic procedure where algebraic expressions, or terms within an expression, are replaced by an equivalent until a "solved" form is reached.
 An example of solving a quadratic equation is shown below.
-\[\begin{array}{cc} \  & x^2-x=30 & \\ 
+\[\begin{array}{cc} \  & x^2-x=30 & \\
 \color{green}{\Leftrightarrow} & x^2-x-30=0 & \\
 \color{green}{\Leftrightarrow} & \left(x-6\right)\cdot \left(x+5\right)=0 \\
-\color{green}{\Leftrightarrow} & x-6=0\lor x+5=0 \\ 
-\color{green}{\Leftrightarrow} & x=6\lor x=-5 
+\color{green}{\Leftrightarrow} & x-6=0\lor x+5=0 \\
+\color{green}{\Leftrightarrow} & x=6\lor x=-5
 \end{array}\]
 
 The point is that replacing an expression or a sub-expression in a problem by an equivalent expression provides a new problem having the same solutions.
@@ -53,7 +53,7 @@ Each line of a student's answer must be a valid expression, just as with the alg
 2. In a formative setting, we want immediate feedback on whether the argument consists of equivalent lines.  This feedback can be given
   1. as the student types line by line, or
   2. at the end when they press "check".
-  
+
 The ability to give feedback on the equivalence of adjacent lines as the student types their answer somewhat blurs the distinction between validation and correctness, but in a way which is probably very useful to students.
 
 ## Notes for question authors
@@ -111,7 +111,7 @@ To test the last line of an argument is in the correct form will require a separ
 
 The maxima function `stack_disp_arg(ex, showlogic)` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  The boolean variable `showlogic` dertemines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
 
-    \[ @stack_disp_arg(ta, true)@ \]
+    \[ {@stack_disp_arg(ta, true)@} \]
 
 # TODO
 
@@ -133,7 +133,6 @@ In the future students might also be expected to say what they are doing, e.g. `
 
 We would like to introduce the idea of a *model answer*.  STACK will then establish the extent to which the student's answer follows this model solution.
 
-The longer term goal is to implement the ideas in the paper 
+The longer term goal is to implement the ideas in the paper
 
 * Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
-

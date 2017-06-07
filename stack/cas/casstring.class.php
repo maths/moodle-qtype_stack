@@ -480,7 +480,7 @@ class stack_cas_casstring {
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
                 'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true, 'stackeq' => true,
-                'nounint' => true, 'noundiff' => true);
+                'nounint' => true, 'noundiff' => true, 'root' => true);
 
     /**
      * Upper case Greek letters are allowed.
@@ -679,7 +679,7 @@ class stack_cas_casstring {
     }
 
     private function check_parentheses($cmd) {
-        // $cmd is already stringles.
+        // Note that $cmd is already stringles.
         $inline = stack_utils::check_bookends($cmd, '(', ')');
         if ($inline !== true) { // The method check_bookends does not return false.
             $this->valid = false;
@@ -735,7 +735,7 @@ class stack_cas_casstring {
     }
 
     private function check_characters($cmd, $security) {
-        // $cmd is already stringles.
+        // Note that $cmd is already stringles.
         // CAS strings may not contain @, $ or \.
         if (strpos($cmd, '@') !== false || strpos($cmd, '$') !== false || strpos($cmd, '\\') !== false) {
             $this->add_error(stack_string('illegalcaschars'));
@@ -1579,7 +1579,8 @@ class stack_cas_casstring {
      *  Replace the contents of strings to the stringles version.
      */
     private function strings_replace($stringles) {
-        // NOTE: This function should not exist, as this should only happen at the end of validate(), but we still have some error messages that need it.
+        // NOTE: This function should not exist, as this should only happen at the end of validate().
+        // We still have some error messages that need it.
         $strings = stack_utils::all_substring_strings($this->rawcasstring);
         if (count($strings) > 0) {
             $split = explode('""', $stringles);

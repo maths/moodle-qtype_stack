@@ -260,7 +260,8 @@ class stack_cas_casstring_units {
                 $fndsynonym = true;
                 $answernote = 'unitssynonym';
                 $synonymerr = stack_string('stackCas_unitssynonym',
-                        array('forbid' => stack_maxima_format_casstring($key), 'unit' => stack_maxima_format_casstring($cache[strtolower($key)])));
+                        array('forbid' => stack_maxima_format_casstring($key),
+                                'unit' => stack_maxima_format_casstring($cache[strtolower($key)])));
             }
         }
 

@@ -61,3 +61,16 @@ As of 2015-9-17, STACK has been tested on the following versions of Maxima.
 * 5.31.3 = PASS
 * branch_5_35_base_87_g454731b = PASS (compiled from source)
 * 5.36.1 = PASS
+
+## Testing you questions when you upgrade
+
+Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all
+of the [question tests](../Authoring/Testing.md) to be sure that the behaviour of STACK has not
+changed in a way that breaks any of your questions. To do this, go to Site administration
+-> Plugins -> Question types -> STACK and follow the "run the question tests in bulk script" link.
+
+It is even possible, with a bit of hacking, to [execute the question tests from
+one Moodle site on a different Moodle site](../Developer/Running_question_tests_other_site.md).
+For example you may be evaluating the latest realease of STACK on a test server, and you would
+like to know if the upgrade will break any of your existing questions.
+(And you don't want to do a lot of exporting and importing.

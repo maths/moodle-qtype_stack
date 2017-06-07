@@ -1064,7 +1064,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval('a:true;b:is(1>2);c:false');
         $s = $kv->get_session(); // This does a validation on the side.
 
-        // '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' is the castext.
+        // The form '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' is the castext.
         // Then we start to add some new variables into it as the castext is evaluated.
         // First the conditions that have been extracted from a if-elif-else construct during the "compilation"-step.
         $s->add_vars(array(new stack_cas_casstring('stackparsecond8:b')));
@@ -1101,5 +1101,5 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // However, the display function does force an extra evaluation!
         $this->assertEquals('\mathbf{false}', $s->get_display_key('p2'));
         $this->assertEquals('false', $s->get_value_key('p3'));
-     }
+    }
 }

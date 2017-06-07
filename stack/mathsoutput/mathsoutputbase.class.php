@@ -135,12 +135,9 @@ abstract class stack_maths_output {
             }
             $front = $pos > 0 && $text[$pos - 1] == '{';
             $back = $post < strlen($text) && $text[$post] == '}';
-            print("\n<!-- ". $pos . ' | ' . $cmd  . ' | ' .  $text . " -->\n");
-
             if (!($front && $back)) {
                 $text = substr($text, 0, $pos) . $v4start . trim($cmd) . $v4end . substr($text, $post);
             }
-            print("\n<!-- ". $text . " -->\n");
             $i = $pos + strlen($v4start);
         }
 

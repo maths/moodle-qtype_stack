@@ -163,7 +163,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\ &x^2-5\cdot x+6=0\cr'.
-            '  \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3\cr  \end{array} \]', $state->contentsdisplayed);
+            ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3\cr \end{array} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_without_equiv() {
@@ -174,7 +174,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}x^2-5\cdot x+6=0\cr'.
-                ' x=2\,{\mbox{ or }}\, x=3\cr  \end{array} \]', $state->contentsdisplayed);
+                ' x=2\,{\mbox{ or }}\, x=3\cr \end{array} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_without_assume_pos() {
@@ -183,7 +183,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2 or x=-2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2 \,{\mbox{ or }}\, x=-2\cr'.
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2\cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
     }
 
@@ -194,7 +194,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
         // Note this is an implication, not equivalence.
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{red}{\Leftarrow}&x=2\cr  \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{red}{\Leftarrow}&x=2\cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -206,7 +206,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
         // In this example, we have assumed x is positive so we do have an equivalence. Note the feedback.
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4\cr  '.
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4\cr '.
                 '\color{green}{\Leftrightarrow}&x=2\cr \end{array} \]',
                 $state->contentsdisplayed);
     }
@@ -218,7 +218,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2 or x=-2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2 \,{\mbox{ or }}\, x=-2\cr'.
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2\cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
     }
 
@@ -246,8 +246,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => '(x-1)(x+4)', 1 => '=x^2-x+4x-4', 2 => '=x^2+3x-4');
         $this->assertEquals($excont, $state->contents);
         $this->assertEquals('[(x-1)*(x+4),stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr  \color{green}{\checkmark}'.
-                '&=x^2-x+4\cdot x-4\cr  \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr \color{green}{\checkmark}'.
+                '&=x^2-x+4\cdot x-4\cr \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('  ', $state->errors);
     }
@@ -274,8 +274,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => '(x-1)*(x+4)', 1 => '=x^2-x+4*x-4', 2 => '=x^2+3*x-4');
         $this->assertEquals($excont, $state->contents);
         $this->assertEquals('[(x-1)*(x+4),stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr  \color{green}{\checkmark}'.
-                '&=x^2-x+4\cdot x-4\cr  \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr \color{green}{\checkmark}'.
+                '&=x^2-x+4\cdot x-4\cr \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('  ', $state->errors);
     }
@@ -291,7 +291,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => 'a^2-ab', 1 => '=a*(a-b)');
         $this->assertEquals($excont, $state->contents);
         $this->assertEquals('[a^2-a*b,stackeq(a*(a-b))]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &a^2-a\cdot b\cr \color{green}{\checkmark}& =a\cdot \left(a-b\right)\cr'.
+        $this->assertEquals('\[ \begin{array}{lll}\ &a^2-a\cdot b\cr \color{green}{\checkmark}&=a\cdot \left(a-b\right)\cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals(' ', $state->errors);
@@ -303,7 +303,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^4=16\cr \color{red}{\Leftarrow}&x=2 \,{\mbox{ or }}\, x=-2\cr \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll}\ &x^4=16\cr \color{red}{\Leftarrow}&x=2\,{\mbox{ or }}\, x=-2\cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -314,8 +314,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr  \color{green}{\Leftrightarrow}\, '.
-                '\color{blue}{(\mathbb{R})}&x=2 \,{\mbox{ or }}\, x=-2\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr \color{green}{\Leftrightarrow}\, '.
+                '\color{blue}{(\mathbb{R})}&x=2\,{\mbox{ or }}\, x=-2\cr \end{array} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_with_assume_wrong() {
@@ -325,7 +325,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options, '[x^4=16,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr  '.
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr '.
                 '\color{red}{?}&x=1\,{\mbox{ or }}\, x=-1\cr \end{array} \]', $state->contentsdisplayed);
     }
 
@@ -337,9 +337,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '[x^4=16,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=2 nounor x=-2 nounor x=2*i nounor x=-2*i]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr  '.
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr '.
                 '\color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, '.
-                'x=-2 \,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot  \mathrm{i}\cr \end{array} \]',
+                'x=-2\,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot \mathrm{i}\cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -350,7 +350,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options, '[x^4=16,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}x^4=16\cr x=1\,{\mbox{ or }}\, x=-1\cr  \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll}x^4=16\cr x=1\,{\mbox{ or }}\, x=-1\cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 }

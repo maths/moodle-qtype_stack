@@ -381,7 +381,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals(
                 '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ ' .
-                '\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}',
+                '\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1\right)^4} \end{multline*}',
                 $at1->get_display_castext());
     }
 
@@ -486,7 +486,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals(
                 '\[\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0\] ' .
-                '\[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)' .
+                '\[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}  z^3}\right)' .
                 '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0\]',
                 $at2->get_display_castext());
     }
@@ -826,7 +826,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left( x , n\right)\right)\), \(3\)',
+        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left(x , n\right)\right)\), \(3\)',
                 $at1->get_display_castext());
     }
 }

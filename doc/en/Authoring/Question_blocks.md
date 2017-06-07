@@ -2,26 +2,36 @@
 
 ## Introduction ##
 
-Question blocks add flexibility to STACK questions by adding functional structures.
+Question blocks add flexibility to STACK questions by adding functional structures to the CAStext.  These are new from v4.0 onwards.
+
+For example, you can add in a conditional statement to selectively include materials in the version of the CAStext depending on values of variables.
+This is useful in randomly generated contexts, especially within model solutions and randomly generated diagrams/charts.
 
 For maximum flexibility, blocks can be nested and conditionally evaluated. A body of CAStext is then repeatedly processed until all
 blocks have been interpreted into CAStext. This is a core part of CAStext and so applied to all appropriate parts of the question.
 
 Note:  The parameters to blocks in the question body may **NOT** depend on the student's answers. This means that you cannot reveal
-an input block based on student input, well not just by using an [[if/]]-block. But you may still adapt PRT-feedback as much as you
+an input block based on student input, well not just by using an `[[if/]]`-block. But you may still adapt PRT-feedback as much as you
 want. Such adaptation requires persistent modifiable question state and is not currently possible in STACK, there is however work being done to create systems that would allow it.
 
 
 ## General Syntax ##
 
-To avoid issues with the rich text editors used in Moodle we use a simple syntax not too different from the syntax used in input and
-output components:
+The syntax is quite similar to XML but preserving the style ``[[ ... ]]`` used in the inputs and potential response tree declarations.
 
     [[ block_type param1="value1" param2='value2' ... paramN="valueN" ]]
     Some content.
     [[/ block_type ]]
 
-The syntax is quite similar to XML and includes [[ emptyblocks /]].
+To avoid issues with the rich text editors used in Moodle we use a simple syntax not too different from the syntax used in input and
+output components.
+
+Notes 
+
+1. In closing a block you must use `[[/ "blockname"]]` where `"blockname"` must be used, and it must match the previous opening block.  
+2. Whitespace is tollerated in block definitions and after the `/` in the closing block, but is not necessary.
+3. The parameters have the following syntax:  `param1="value1"`.  Blocks define what are valid identifiers and parameters.  The identifiers must not be in quotes (and so cannot contain spaces).  The parameters must be in quotes, and either `param1="value1"` or `param1='value1'` is accepted.
+4. Typically `param1` will be a valid maxima identifier, e.g. a variable name and the value would be a valid maxima expression.
 
 ## Conditional blocks ##
 
@@ -30,6 +40,8 @@ The common **if** statement is written as:
     [[ if test="some_CAS_expression_evaluating_to_true_or_false" ]]
     The expression seems to be true.
     [[/ if ]]
+
+The if block requires a parameter called `test` and the value must be a maxima expression which evaluates to `true` or `false`.
 
 The **if** block uses a special syntax expansion that provides it a way to handle **else** cases. For example,
 
@@ -49,6 +61,26 @@ There is an *else if* type of structure using **elif** (Python coders won the sy
     This is an even block!
     [[/ if]]
 
+Note that you may have to evaluate your expression explicitly.  Maxima does not always evaluate predicates to `true` or `false`.  For example, you might expect `p<1` in the following to evaluate to `true`.
+
+    [[ define p="0" /]] \(p\) is now {@p@}.
+    [[ if test="p<1"]]
+    \(p\) is less than 1.
+    [[ else ]]
+    \(p\) is not less than 1.
+    [[/ if ]]
+
+However, it remains unevaluated.  The true branch is therefore not satisfied.  Also, the else branch is literally converted to a condition `not(p<1)` which in this case is also unevaluated.  The overall effect is that **neither** the if or the else branch is included.  This might be not be the expected behaviour!
+
+To address this explicitly evaluate your expressions as predicates.
+
+    [[ if test="is(p<1)"]]
+
+Teachers can also use evaluation with simplification and predicates as follows:
+
+    [[ if test="ev(p<1,simp,pred)"]]
+
+It is the responsibility of the question author to ensure that every test in an if block evaluates to `true` or `false`.
 
 ## Foreach loop ##
 
@@ -73,3 +105,22 @@ a cas variable in the middle of castex. For example:
 
 should print "1, 2, 3". You may define multiple variables in the same block and the order of define operations is from left to right
 so "[[ define a='1' b='a+1' c='a+b' /]] {#a#}, {#b#}, {#c#}" should generate the same output.
+
+Note, the use of define provides an alternative to using the question variables.  Variables here are defined on the fly.  However, we do **not** reccomend this is done routinely.
+
+1. the readability of the code will suffer.
+2. question variables are available elsewhere in the question, but `define` blocks are only available in that CAStext.  This feature can also be used to your advantage.
+
+## Empty blocks ## 
+
+Some blocks do not have content.  For example, the `[[ define x='1' /]]` block above does not include content.
+The following is correct syntax:
+
+    [[ define x='1']] [[/ define]]
+
+But we think the following is much more direct, and clean.
+
+    [[ define x='1' /]]
+
+There are other kinds of `[[ emptyblocks /]]`, which are useful in certain cases and developers of new blocks might like to consider this as a possibility.
+

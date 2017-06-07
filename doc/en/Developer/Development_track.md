@@ -76,7 +76,7 @@ Note that the underlying code in this development have been used at Aalto for ma
 
 STACK 4.0 includes the block features and other important changes in CASText.
 
-* To generate the LaTeX displayed form of a CAS variable in castext you must use `@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
+* To generate the LaTeX displayed form of a CAS variable in castext you must use `{@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
 * To generate the Maxima value of a CAS variable in castext you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
 * CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks.md).
 

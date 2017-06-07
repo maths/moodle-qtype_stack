@@ -12,13 +12,13 @@ Where \(a\), \(b\) and \(n\) are randomly generated numbers.
 
 It is tempting when writing questions such as this to operate at the _level of display._  We could randomly generate \(a\), \(b\) and \(n\) and insert them into the question text.  For example:
 
-     \(\right(@a@e^{@b@ i}\left)^{@n@}\)
+     \(\right({@a@}e^{{@b@} i}\left)^{@n@}\)
 
 What we are doing here is to treat every variable separately, not to create a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because it mixes CAS and LaTeX.
 
 The alternative is to switch simplification off and use the CAS to represent expressions more directly.  The following is a single Maxima expression.
 
-     @(a*%e^(b*%i))^n@
+     {@(a*%e^(b*%i))^n@}
 
 Of course, we don't want Maxima to _actually calculate the power_ just to _represent it!_  To see the difference, you can copy the following into a Maxima desktop session.
 
@@ -52,7 +52,7 @@ A useful alternative when many consecutive expressions need to be simplified is 
     q : a*%e^(b*%i*%pi);
     p : ev(mod(b*n,2),simp);
 
-The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  The difficulty is often with the unary minus.  Inserting numbers into expressions such as `y=@m@x+@c@` if \(c<0\) is that it will be displayed as \(y=3x+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
+The particular circumstances will dictate if it is better to have lots of variables and use the display, or whether to turn `simp:false` and work with this.  The difficulty is often with the unary minus.  Inserting numbers into expressions such as `y={@m@}x+{@c@}` if \(c<0\) is that it will be displayed as \(y=3x+-5\), for example.  While simplification is "off", the display routines in Maxima will (often) cope with the unary minus in a sensible way.
 
 ## The importance of the question note ##
 
@@ -62,11 +62,11 @@ Hence the teacher must leave a meaningful question note.  Two versions of a ques
 
 The question note field is ["CAS text"](CASText.md), just like the question text.  We could write something like
 
-    @[a,b,n]@
+    {@[a,b,n]@}
 
 Or we could leave something more meaningful:
 
-    @q^n = a^n*(cos(p*%i*%pi)+%i*sin(p*%i*%pi))@
+    {@q^n = a^n*(cos(p*%i*%pi)+%i*sin(p*%i*%pi))@}
 
 Notice, we probably don't want to evaluate `a^n` here as it isn't likely to be "simpler".  It is up to the teacher, but putting the answer in the answer note helps if students come and ask you for the answer to their version of the question...
 
@@ -76,7 +76,7 @@ This question has two independent parts.  Hence, it probably needs two separate 
 
 The question text might look something like the following:
 
-    Given a complex number \(\displaystyle z=@q@\) determine
+    Given a complex number \(\displaystyle z={@q@}\) determine
     \( |z^{@n@}|= \) [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]
     and \( \arg(z^{@n@})= \) [[input:ans2]] [[validation:ans2]] [[feedback:prt2]]
 
@@ -126,11 +126,11 @@ as the two correct answers, and then incorrect answers to ensure these are being
 The general feedback (previously known as the worked solution) can show some of the steps in working.  For example,
 
     It makes sense that the index laws should still apply.  This is called De Moivre's theorem.
-    \[ @q^n@ =@a^n@ e^{@b*n*%i*%pi@}.\]
+    \[ {@q^n@} ={@a^n@} e^{@b*n*%i*%pi@}.\]
     Recall that
     \[ e^{i\theta} = \cos(\theta)+i\sin(\theta).\]
     Working with the principle argument \( 0\leq \theta \leq 2\pi \) gives us
-    \[ @q^n@ = @a^n@ e^{@b*n*%i*%pi@} = @a^n@ e^{@ev(b*n,simp)*%i*%pi@} = @a^n@ e^{@p*%i*%pi@}.\]
+    \[ {@q^n@} = {@a^n@} e^{@b*n*%i*%pi@} = {@a^n@} e^{@ev(b*n,simp)*%i*%pi@} = {@a^n@} e^{@p*%i*%pi@}.\]
 
 # Next steps #
 

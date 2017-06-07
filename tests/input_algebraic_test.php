@@ -384,7 +384,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('cos(a*x)/(x(ln(x)))', $state->contentsmodified);
-        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left(\ln \left( x \right) \right)} \]',
+        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left(\ln \left( x \right)\right)} \]',
                 $state->contentsdisplayed);
     }
 
@@ -421,7 +421,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('sin^2*(ab)', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">sin^2(ab)</span>', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">sin^2*(ab)</span>', $state->contentsdisplayed);
         $this->assertEquals('trigexp', $state->note);
     }
 

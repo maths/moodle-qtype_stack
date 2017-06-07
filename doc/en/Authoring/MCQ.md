@@ -1,6 +1,6 @@
 # Multiple choice questions
 
-The whole point of STACK is not to use multiple choice questions, but instead to have the student enter an algebraic expression!  That said their are occasions where it is very useful, if not necessary, to use multiple choice questions in their various forms.  STACK's use of a CAS is then very helpful to generate random versions of multiple choice questions based on the mathematical values. 
+The whole point of STACK is not to use multiple choice questions, but instead to have the student enter an algebraic expression!  That said their are occasions where it is very useful, if not necessary, to use multiple choice questions in their various forms.  STACK's use of a CAS is then very helpful to generate random versions of multiple choice questions based on the mathematical values.
 
 This can also be one input in a multi-part randomly generated question. E.g. you might say "which method do you need to integrate \( \sin(x)\cos(x) \)?" and give students the choice of (i) trig functions first, (ii) parts, (iii) substitution, (iv) replace with complex exponentials.  (Yes, this is a joke: all these methods can be made to work here!)  Another algebraic input can then be used for the answer.
 
@@ -22,9 +22,9 @@ For example
 
      ta:[[diff(p,x),true],[p,false],[int(p,x),false]]
 
-At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".  You must still use a [potential response tree](Potential_response_trees.md) to assess the student's answer as normal. 
+At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".  You must still use a [potential response tree](Potential_response_trees.md) to assess the student's answer as normal.
 
-Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...".  A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  In this example the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer".  Such a change might have other unintended and confusing consequences.* 
+Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...".  A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  In this example the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer".  Such a change might have other unintended and confusing consequences.*
 
 Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomisation.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
 
@@ -50,7 +50,7 @@ We did not add support for a special internal "none of the others" because the t
 
 These input types make use of the "Extra options" field of the input type to pass in options.  These options are not case sensitive.  This must be a comma separated list of values as follows, but currently the only option is to control the display of mathematical expressions.
 
-The way the items are displayed can be controlled by the following options. 
+The way the items are displayed can be controlled by the following options.
 
 * `LaTeX` The default option is to use LaTeX to display the options, using an inline maths environment `\(...\)`.  This is probably better for radio and checkboxes.  It sometimes works in dropdowns, but not always and we need to test this in a wider variety of browsers.
 * `LaTeXdisplay` use LaTeX to display the options, using the display maths environment `\[...\]`.
@@ -78,7 +78,7 @@ These command ensure (1) the substantive options are in a random order, and (2) 
 
 As the Question Note, you might like to consider just takeing the first item from each list, for example:
 
-    @maplist(first,ta)@.  The correct answer is @tac@.
+    {@maplist(first,ta)@}.  The correct answer is {@tac@}.
 
 This note stores both the correct answer and the order shown to the student without the clutter of the `true/false` values or the optional display strings.  Remember, random versions of a question are considered to be the same if and only if the question note is the same, so the random order must be part of the question note if you shuffle the options.
 
@@ -140,4 +140,3 @@ Then the following test case contains all the "true" answers.
      [x^2-1,(x-1)*(x+1)]
 
 There is currently minimal checking that the string entered by the teacher corresponds to a valid choice in the input type.  If your test case returns a blank result this is probably the problem.     
-     

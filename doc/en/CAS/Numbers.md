@@ -62,7 +62,7 @@ These variables must be assigned a string following Maxima's `printf` format.
 
 These variables can be defined in the question variables, for global effect.  They can also be defined inside a Maxima block to control the display on the fly, and for individual expressions.  For example, consider the following CASText.
 
-    The decimal number @n:73@ is written in base \(2\) as @(stackintfmt:"~2r",n)@, in base \(7\) as @(stackintfmt:"~7r",n)@, in scientific notation as @(stackintfmt:"~e",n)@ and in rhetoric as @(stackintfmt:"~r",n)@.
+    The decimal number {@n:73@} is written in base \(2\) as {@(stackintfmt:"~2r",n)@}, in base \(7\) as {@(stackintfmt:"~7r",n)@}, in scientific notation as {@(stackintfmt:"~e",n)@} and in rhetoric as {@(stackintfmt:"~r",n)@}.
 
 The result should be "The decimal number \(73\) is written in base \(2\) as \(1001001\), in base \(7\) as \(133\), in scientific notation as \(7.3E+1\) and in rhetoric as \(seventy-three\)."
 

@@ -702,7 +702,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_inline_fractions() {
-        $s = '@(stack_disp_factions("i"), 1/x)@ @(stack_disp_factions("d"), 1/x)@ @(stack_disp_factions("i"), 1/x)@';
+        $s = '@(stack_disp_fractions("i"), 1/x)@ @(stack_disp_fractions("d"), 1/x)@ @(stack_disp_fractions("i"), 1/x)@';
 
         $at2 = new stack_cas_text($s, null, 0, 't');
         $this->assertTrue($at2->get_valid());
@@ -715,7 +715,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_inline_fractions_all() {
         $st = '@1/x@, @1/x^2@, @1/(a+x)@, @1/(2*a)@, @1/sin(x+y)@.';
 
-        $a2 = array('stack_disp_factions("i")');
+        $a2 = array('stack_disp_fractions("i")');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);

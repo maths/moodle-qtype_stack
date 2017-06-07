@@ -474,7 +474,7 @@ class stack_cas_casstring {
                 'logbase' => true, 'day' => true, 'year' => true, 'rpm' => true, 'rev' => true, 'product' => true,
                 'gal' => true, 'deg' => true, 'cal' => true, 'btu' => true, 'rem' => true,
                 'nounor' => true, 'nounand' => true, 'xor' => true, 'all' => true, 'none' => true, 'stackeq' => true,
-                'nounint' => true, 'noundiff' => true);
+                'nounint' => true, 'noundiff' => true, 'root' => true);
 
     /**
      * Upper case Greek letters are allowed.

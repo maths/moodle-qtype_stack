@@ -20,12 +20,11 @@ require_once(__DIR__ . '/api.php');
 
 $api = new qtype_stack_api();
 
-$questionxml = file_get_contents('samplequestions/odd-even.xml');
-$question = $api->initialise_question_from_xml($questionxml);
-
+//$questionxml = file_get_contents('samplequestions/odd-even.xml');
+$questionxml = file_get_contents('samplequestions/test_3_matrix.xml');
 //$questionxml = file_get_contents('samplequestions/test_1_basic_integral.xml');
-//$question = $api->initialise_question_from_xml($questionxml);
 
+$question = $api->initialise_question_from_xml($questionxml);
 $question->initialise_question_from_seed();
 //print_r($question);
 
@@ -35,7 +34,7 @@ $options->readonly = false;
 $options->feedback = true;
 
 $response = $_POST;
-print_r($response);
+//print_r($response);
 
 echo "<html>\n<head>\n";
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">";

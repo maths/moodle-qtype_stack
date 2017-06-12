@@ -214,6 +214,8 @@ class stack_matrix_input extends stack_input {
         $attributes = array(
             'type' => 'text',
             'name' => $fieldname,
+            // Added 'id' for ILIAS.
+            'id'    => $fieldname,
         );
 
         $tc = $state->contents;

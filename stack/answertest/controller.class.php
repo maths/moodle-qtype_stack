@@ -24,9 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/anstest.class.php');
 require_once(__DIR__ . '/at_general_cas.class.php');
-require_once(__DIR__ . '/../cas/connector.class.php');
-require_once(__DIR__ . '/../cas/casstring.class.php');
-require_once(__DIR__ . '/../cas/cassession.class.php');
+
 
 class stack_ans_test_controller {
     protected static $types = array(

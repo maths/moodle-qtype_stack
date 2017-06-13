@@ -129,9 +129,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         // Different versions of Maxima output floats in slighly different ways.
         // Revert some of those irrelevant differences.
         // We always expect the e in 3.0e8 to be lower case.
-        $content = preg_replace('~(\\\\\(-?\d+(?:\.\d*)?)E([-+]?\d+\\\\\))~', '$1e$2', $content);
+        $content = preg_replace('~(-?\b\d+(?:\.\d*)?)E([-+]?\d+\b)~', '$1e$2', $content);
         // Add .0 in 3e8 or 3.e8, to give 3.0e8.
-        $content = preg_replace('~(\\\\\(-?\d+)\.?(e[-+]?\d+\\\\\))~', '$1.0$2', $content);
+        $content = preg_replace('~((?<!\.)\b-?\d+)\.?(e[-+]?\d+\b)~', '$1.0$2', $content);
 
         return $content;
     }
@@ -304,5 +304,17 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
      */
     protected function assertContentWithMathsContains($expected, $actual) {
         $this->assertContains($expected, qtype_stack_testcase::prepare_actual_maths($actual));
+    }
+
+    /**
+     * Moodle has changed how the HTML for select menus is generated between versions. This method
+     * compares expected and acutal HTML ignoring these differences.
+     *
+     * @param string $expected expected HTML
+     * @param string $actual actual HTML
+     */
+    protected function assertSameSelectHtml($expected, $actual) {
+        $actual = str_replace('class="select custom-select', 'class="select', $actual);
+        $this->assertEquals($expected, $actual);
     }
 }

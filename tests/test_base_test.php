@@ -64,5 +64,7 @@ class qtype_stack_test_base_testcase extends qtype_stack_testcase {
         $this->assertEquals('x = \(-1.0e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.e+10\).'));
         $this->assertEquals('x = \(-1.0e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.0e+10\).'));
         $this->assertEquals('x = \(-1.2e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.2e+10\).'));
+
+        $this->assertEquals('x = \(-1.0e+10\).', qtype_stack_testcase::prepare_actual_maths('x = \(-1.e+10\).'));
     }
 }

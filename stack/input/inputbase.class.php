@@ -82,6 +82,12 @@ abstract class stack_input {
     protected $parameters;
 
     /**
+     * Catch and report runtime errors.
+     * @var string.
+     */
+    protected $errors = null;
+
+    /**
      * Constructor(3)
      *
      * @param string $name the name of the input. This is the name of the
@@ -301,7 +307,8 @@ abstract class stack_input {
         $contents = $this->response_to_contents($response);
 
         if (array() == $contents or $this->is_blank_response($contents)) {
-            return new stack_input_state(self::BLANK, array(), '', '', '', '', '');
+            // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
+            return new stack_input_state(self::BLANK, array(), '', '', $this->errors, '', '');
         }
 
         // This method actually validates any CAS strings etc.
@@ -481,6 +488,15 @@ abstract class stack_input {
      */
     public abstract function render(stack_input_state $state, $fieldname, $readonly);
 
+    /*
+     * Render any error message.
+     */
+    protected function render_error($error) {
+        $result = html_writer::tag('p', stack_string('ddl_runtime'));
+        $result .= html_writer::tag('p', $error);
+        return html_writer::tag('div', $result, array('class' => 'error'));
+    }
+
     /**
      * Add this input the MoodleForm, but only used in questiontestform.php.
      * It enables the teacher to enter the data as a CAS variable where necessary
@@ -603,4 +619,10 @@ abstract class stack_input {
         return $response;
     }
 
+    /*
+     * Return the value of any errors.
+     */
+    public function get_errors() {
+            return $this->errors;
+    }
 }

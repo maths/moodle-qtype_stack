@@ -52,6 +52,7 @@ Negative or fractional powers need brackets:
 
 * \(x^{-2}\) should be entered as `x^(-2)`.
 * \(x^{1/3}\) should be entered as `x^(1/3)`.
+* The function `root(x,n)` can be used for `x^(1/n)`.  If you omit the second argument you get `root(x)=sqrt(x)`.
 
 ### Brackets  ###
 

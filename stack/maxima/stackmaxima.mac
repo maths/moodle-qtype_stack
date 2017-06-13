@@ -74,7 +74,7 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp); /*See notes on hipow*/
 
 
 /* ********************************** */
-/* Logarithms                         */
+/* Logarithms and nth roots           */
 /* ********************************** */
 alias(ln, log);
 
@@ -95,14 +95,22 @@ texput(logbase, logbasetex);
 /* Use of radcan to give canonical form. */
 logbasesimp(n,b) := radcan(log(n)/log(b));
 
-load ("functs");
+/* Add in a flexible "nth" roots function. */
+root([ex]) := block(
+  if length(ex) > 2 then error("root: must have only two arguments"),
+  if length(ex) = 1 then return(sqrt(first(ex))),
+  if length(ex) = 2 then return(first(ex)^(1/second(ex)))
+)$
 
-/* We don't want to allow people to put boxes round things. */
-box(ex) := ex;
 
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
+
+load ("functs");
+
+/* We don't want to allow people to put boxes round things. */
+box(ex) := ex;
 
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
@@ -170,7 +178,7 @@ make_arccos(OPT_ACOS) := block(
 
 
 /* Fine tune the display of fractions between inline and displayed. */
-stackfactionsinline(e) := block ([a, b],
+stackfractionsinline(e) := block ([a, b],
   [a, b]:args (e),
   /* We need to be more careful about when we have brackets around expressions in inline fractions. */
   if (atom(b) or safe_op(b) = "^") then return(concat("{", tex1(a), "}/{", tex1(b), "}")),
@@ -178,16 +186,16 @@ stackfactionsinline(e) := block ([a, b],
   concat("{", tex1(a), "}/{\\left(", tex1(b), "\\right)}")
 )$
 
-stackfactionsdisplay(e) := block ([a, b],
+stackfractionsdisplay(e) := block ([a, b],
   [a, b]:args (e),
   concat("\\frac{", tex1(a), "}{", tex1(b), "}")
 )$
 
-stack_disp_factions(ex) := block(
+stack_disp_fractions(ex) := block(
   if is(ex="i") then 
-    ev(texput("/", stackfactionsinline),simp)
+    ev(texput("/", stackfractionsinline),simp)
   else 
-    ev(texput("/", stackfactionsdisplay),simp)
+    ev(texput("/", stackfractionsdisplay),simp)
 )$
 
 /* This is needed to tweak the display of noun derivatives. */
@@ -342,6 +350,7 @@ errcatch(compile(?texnumformat));
 stack_disp_sub_script(ex) := block([s],
   if taylorp(ex) then return(ex),
   if safe_setp(ex) then return(apply(set, maplist(stack_disp_sub_script, args(ex)))),
+  if arrayp(ex) then return(arraymake(op(ex), maplist(stack_disp_sub_script, args(ex)))),
   if not(atom(ex)) then return(apply(op(ex), maplist(stack_disp_sub_script, args(ex)))),
   if simp_numberp(ex) or stringp(ex) or ex or not(ex) then return(ex),
   s:string(ex),
@@ -392,6 +401,7 @@ detexdecorate(ex) := block([argsex],
 texboldatoms(ex) := block(
   if numberp(ex) then return(ex),
   if atom(ex) then return(texdecorate("\\bf", ex)),
+  if arrayp(ex) then return(arraymake(op(ex), maplist(texboldatoms, args(ex)))),
   apply(op(ex), maplist(texboldatoms, args(ex)))
 )$
 
@@ -453,6 +463,7 @@ unary_minus_traverse(ex) := block(
   /* We want atom here, not mapatom to catch a[4]. */
   if atom(ex) then return(ex),
   if op(ex) = "-" and numberp(first(args(ex))) then return(ev(ex,simp)),
+  if arrayp(ex) then return(arraymake(op(ex), maplist(unary_minus_traverse, args(ex)))),
   apply(op(ex), map(unary_minus_traverse, args(ex)) )
 )$
 
@@ -463,6 +474,7 @@ unary_minus_traverse(ex) := block(
 unary_minus_pull(ex) := block([ex2],
   if atom(ex) then return(ex),
   ex2:apply(op(ex), map(unary_minus_pull, args(ex))),
+  if arrayp(ex) then ex2:arraymake(op(ex), map(unary_minus_pull, args(ex))),
   if op(ex) = "+" then ex2:apply("+", map(unary_minus_pull_helper, args(ex2))),
   if op(ex) = "*" then ex2:unary_minus_pull_helper(ex2),
   return(ex2)
@@ -527,6 +539,7 @@ stack_dispvalue(ex) := block(
   ex:detexcolor(ex),
   ex:detexdecorate(ex),
   ex:make_displaydpvalue(ex),
+  ex:make_displayscivalue(ex),
   ex:ev(ex, stackunits="*"),
   return(string(ex))
 )$
@@ -1343,9 +1356,7 @@ ATLowestTerms(SA, SB) := block([simp:false, ret, validity, mark, FeedBack, Answe
     return([validity, mark, AnswerNote, FeedBack])
 )$
 
-
-
-ATSubstEquiv(SA,SB) := block([simp:true, ret],
+ATSubstEquiv(SA,SB) := block([simp:true, ret, SAc, SBc],
     /* Turn on simplification and error catch */
     SA:errcatch(ev(SA, simp, nouns)),
     if is(SA=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_SAns"), ""]),
@@ -1353,7 +1364,10 @@ ATSubstEquiv(SA,SB) := block([simp:true, ret],
     SB:errcatch(ev(SB, simp, nouns)),
     if is(SB=[STACKERROR]) then return([false, false, StackAddNote("", "ATSubstEquiv_STACKERROR_TAns"), ""]),
     SB:SB[1],
-    ret:ATAlgEquivfun(SA, SB),
+    /* Copy SA and SB.  If they are lists or matrices then ATAlgEquivfun potentially colours wrong entries. */
+    SAc:copy(SA),
+    SBc:copy(SB),
+    ret:ATAlgEquivfun(SAc, SBc),
     /* Can we find a permutation of the variables? */
     if ret[2]=false then block([p1],
         p1:subst_equiv(SA, SB),
@@ -1968,10 +1982,15 @@ ATSingleFrac(SA, SB) := block(
         else
             return(StackBasicReturn(true,false,"ATSingleFrac_ret_exp")),
 
+    /* Ignore minus signs. */
+    SAA:SA,
+    if safe_op(SA)="-" then
+        SAA:first(args(SA)),
+
     /* Check for single fraction */
     fbn:"",
-    if op(SA) = "/" then block(
-        if (freeof("/", num(SA)) and freeof("/", denom(SA))) then block(
+    if op(SAA) = "/" then block(
+        if (freeof("/", num(SAA)) and freeof("/", denom(SAA))) then block(
             rawmk:true,
             ansnote:"ATSingleFrac_true")
         else block(
@@ -1984,7 +2003,7 @@ ATSingleFrac(SA, SB) := block(
     fb: StackAddFeedback(fb,ansnote),
     ansnote:StackAddNote("",ansnote),
     /* Check for algebraic equivalence */
-    if not(algebraic_equivalence(SA,SB)) then block(
+    if not(algebraic_equivalence(SA, SB)) then block(
             rawmk:false,
             fbn:"ATSingleFrac_ret_exp",
             fb: StackAddFeedback(fb,fbn),
@@ -2550,4 +2569,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017021301$
+stackmaximaversion:2017061300$

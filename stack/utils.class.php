@@ -1121,9 +1121,22 @@ class stack_utils {
         }
         $cs = new stack_cas_casstring($rawcasstring);
         $cs->get_valid('s', true, $stars, $allowwords);
-        $casstring = $cs->get_casstring();
+
+        // If we have certain errors in this casstring we should bail at this point.
+        if ($cs->get_answernote() !== '') {
+            // We only need to worry about the difference between 's' and 't' validation here.
+            // If we get past this clause we still validate as "t" below, so no need to list everything.
+            $rejectnotes = array('trigexp' => true, 'trigparens' => true,
+                    'trigop' => true, 'triginv' => true);
+            foreach ($cs->get_answernote('raw') as $note) {
+                if (array_key_exists($note, $rejectnotes)) {
+                    return $rawcasstring;
+                }
+            }
+        }
 
         // Use the modified $casstring to get the most liberal interpretation.
+        $casstring = $cs->get_casstring();
         $lvars = new stack_cas_casstring('listofvars('.$casstring.')');
         $lvars->get_valid('t', $syntax, $stars, $allowwords);
         $lops = new stack_cas_casstring('get_ops('.$casstring.')');

@@ -753,7 +753,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $at2->get_display_castext();
 
-        $this->assertEquals('\[{\mbox{This is a string with escaped " strings....}}\]',
+        $this->assertEquals('\[This is a string with escaped " strings....\]',
                 $at2->get_display_castext());
     }
 
@@ -927,7 +927,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_inline_fractions_all() {
         $st = '{@1/x@}, {@1/x^2@}, {@1/(a+x)@}, {@1/(2*a)@}, {@1/sin(x+y)@}.';
 
-        $a2 = array('stack_disp_factions("i")');
+        $a2 = array('stack_disp_fractions("i")');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -980,6 +980,28 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals('\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), \({{\it beta_{47}}}\)',
                 $at1->get_display_castext());
+    }
+
+    public function test_maxima_arrays() {
+        $a2 = array('p1:a[2]', 'p2:a[n+1]', 'p3:a[b_c]');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session($s2, null, 0);
+
+        $at1 = new stack_cas_text('@p1@, @p2@, @p3@', $cs2, 0, 't');
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $this->assertEquals('\(a_{2}\), \(a_{n+1}\), \(a_{{b}_{c}}\)',
+                $at1->get_display_castext());
+
+        $this->assertEquals('a[n+1]',
+            $cs2->get_value_key('p2'));
     }
 
     public function test_length() {

@@ -374,6 +374,31 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ a\cdot {b}_{c}\cdot d \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_single_variable_trigexp() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'sin(ab)^2');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => 'sin(ab)^2'), $options, 'sin(ab)^2',
+                array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(a*b)^2', $state->contentsmodified);
+        $this->assertEquals('\[ \sin ^2\left(a\cdot b\right) \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_single_variable_trigexp_fail() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'sin(ab)^2');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => 'sin^2(ab)'), $options, 'sin(ab)^2',
+                array('ta'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('sin^2*(ab)', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">sin^2(ab)</span>', $state->contentsdisplayed);
+        $this->assertEquals('trigexp', $state->note);
+    }
+
     public function test_validate_student_response_functions_variable() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', 'a/(a*(x+1)+2)');

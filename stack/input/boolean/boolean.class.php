@@ -44,6 +44,10 @@ class stack_boolean_input extends stack_input {
 
     public function render(stack_input_state $state, $fieldname, $readonly) {
 
+        if ($this->errors) {
+            return $this->render_error($this->errors);
+        }
+
         $attributes = array();
         if ($readonly) {
             $attributes['disabled'] = 'disabled';

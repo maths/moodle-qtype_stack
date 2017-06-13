@@ -770,6 +770,14 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('spaces | missing_stars', $at1->get_answernote());
     }
 
+    public function test_spaces_5_insertneeded_andspace_trigexp() {
+        $s = '3sin^3(ab)';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 4));
+        $this->assertEquals('3*sin^3*(ab)', $at1->get_casstring());
+        $this->assertEquals('trigexp | missing_stars', $at1->get_answernote());
+    }
+
     public function test_spaces_3_sin() {
         $s = 'sin x';
         $at1 = new stack_cas_casstring($s);

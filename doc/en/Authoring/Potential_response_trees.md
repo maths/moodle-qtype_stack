@@ -21,6 +21,8 @@ Before the tree is traversed the [feedback variables](KeyVals.md#Feedback_variab
 The feedback variables may depend on the values of the [question variables](KeyVals.md#Question_variables) and the [inputs](Inputs.md).
 The values of these variables are available to the [answer tests](Answer_tests.md) and all [CASText](CASText.md) fields within the tree, for example the feedback could be built using these variables.
 
+Note, you cannot define a feedback variable with the same name as an input.  For example, if your input is `ans1` then it is tempting to define a feedback variable `ans1:exdowncase(ans1)` to ensure it is in lower case.  Do not do this!  Please use a different variable name.  This is because in some situations the answer test will choose to take the raw value of `ans1` exactly as the student typed it.  Any redefinition will interfear with this process.
+
 ## Traversing the tree ##
 
 A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes we call potential responses.

@@ -93,7 +93,7 @@ Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) ar
 
 Why doesn't the test automatically apply `radcan`?  If we always did this, then \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\) would be expanded out, which would break the system.  Since, in a given situation, we know a lot about what a student is likely to answer we can apply an appropriate form.   There isn't one rule which will work here, unfortunately.
 
-There are also some cases which Maxima can't establish as being equivalent.  For example \[ \sqrt[3]{\sqrt{108}+10}-\sqrt[3]{sqrt{108}-10} = 2.\]  As Maxima code
+There are also some cases which Maxima can't establish as being equivalent.  For example \[ \sqrt[3]{\sqrt{108}+10}-\sqrt[3]{\sqrt{108}-10} = 2.\]  As Maxima code
 
     (sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)
 
@@ -103,7 +103,7 @@ This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot
 
 This test seeks to establish whether two expressions are the same when the basic arithmetic operations of addition and multiplication are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
 
-Notice that this test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}\) under this test.  In many situations this notation is taken mean the same thing, but internally in Maxima they are represented by different functions and not converted to a canonical form by the test.  Extra re-write rules could be added to achieve this, which would change the equivalence classes.
+Notice that this test does not include laws of indices, so \(x\times x \neq x^2\). Since we are dealing only with nouns \(-\times -\) does not simplify to \(1\). E.g. \(-x\times -x \neq x\times x \neq x^2\).  This also means that \(\sqrt{x}\) is not considered to be equivalent to \(x^{\frac{1}{2}}\) under this test.  In many situations this notation is taken mean the same thing, but internally in Maxima they are represented by different functions and not converted to a canonical form by the test.  Extra re-write rules could be added to achieve this, which would change the equivalence classes.
 
 This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".
 
@@ -184,11 +184,11 @@ These tests deal with the precision of numbers.  See dedicated page on [numerica
 
 ### Diff ###
 
-This test is a general differentiation test. The first argument is the student's answer. The answer test options needs to be the variable.
+This test is a general differentiation test: it is passed if the arguments are algebraically equivalent, but gives feedback if it looks like the student has integrated instead of differentiated. The first argument is the student's answer. The second argument is the model answer. The answer test option must be the variable with respect to which differentiation is assumed to take place.
 
 ### Int ###
 
-This test is designed for a general indefinite integration question. The first argument is the student's answer.
+This test is designed for a general indefinite integration question: it is passed if both the arguments are indefinite integrals of the same expression. The first argument is the student's answer.
 The second argument is the model answer. The answer test option needs to be the variable with respect to which integration is assumed to take place, or a list (see below).
 
 Getting this test to work in a general setting is a very difficult challenge.
@@ -206,7 +206,7 @@ we insist the student is at least consistent.  If the teacher has *any*
 teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 
 student must have all or none. 
 
-The ATInt test has various additional options.
+The Int test has various additional options.
 
 The question author must supply these options in the form of a list `[var, opt1, ...]`.  The first argument of this list must be the variable with respect to which integration is taking place.  
 

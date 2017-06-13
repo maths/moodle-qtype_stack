@@ -321,7 +321,7 @@ stack_validate_units(expr, LowestTerms, TAns, fracdisp, fltfmt) := block( [simp:
     expr:SAU,
     if (debug) then (print("stack_validate_units has: "), print(expr)),
     if fracdisp = "inline" then block(
-        stack_disp_factions("i"),
+        stack_disp_fractions("i"),
         expr:stackunits(stack_units_nums(SAU), ev(stack_units_units(SAU),simp))
     ),
     if (debug) then (print(expr)),

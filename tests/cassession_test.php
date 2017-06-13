@@ -835,7 +835,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
                     array('99', '1', '100', '100'),
                     array('0.99', '1', '1', '1'),
                     array('-0.99', '1', '-1', '-1'),
-                    array('0.0000049', '1', '0.000005', 'displaydp(5.0E-6,6)'),
+                    array('0.0000049', '1', '0.000005', 'displaydp(5.0e-6,6)'),
                     array('0', '1', '0', '0'),
                     array('0.0', '1', '0', '0'),
                     array('0', '2', '0.0', 'displaydp(0,1)'),
@@ -857,7 +857,145 @@ class stack_cas_session_test extends qtype_stack_testcase {
         foreach ($tests as $key => $c) {
             $sk = "p{$key}";
             $this->assertEquals($c[2], $at1->get_display_key($sk));
-            $this->assertEquals($c[3], $at1->get_value_key($sk));
+            $this->assertEquals($c[3], qtype_stack_testcase::prepare_actual_maths($at1->get_value_key($sk)));
+        }
+    }
+
+    public function test_sf() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of significant figures.
+        // 2. Displayed form.
+        // E.g. significantfigures(3.14159,2) -> 3.1.
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+                    array('lg(19)', '4', '1.279'),
+                    array('pi', '4', '3.142'),
+                    array('sqrt(27)', '8', '5.1961524'),
+                    array('-5.985', '3', '-5.99'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:significantfigures({$c[0]},{$c[1]})";
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+        }
+    }
+
+    public function test_scientific_notation() {
+        // @codingStandardsIgnoreStart
+
+        // Tests in the following form.
+        // 0. Input string.
+        // 1. Number of significant figures.
+        // 2. Displayed form.
+        // E.g. scientific_notation(314.159,2) -> 3.1\times 10^2.
+        // 3. Dispvalue form, that is how it should be typed in.
+
+        // @codingStandardsIgnoreEnd
+
+        $tests = array(
+            array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
+            array('-2.998e8', '2', '-3.00 \times 10^{8}', '-3.00E8'),
+            array('6.626e-34', '2', '6.63 \times 10^{-34}', '6.63E-34'),
+            array('-6.626e-34', '2', '-6.63 \times 10^{-34}', '-6.63E-34'),
+            array('6.022e23', '2', '6.02 \times 10^{23}', '6.02E23'),
+            array('5.985e30', '2', '5.99 \times 10^{30}', '5.99E30'),
+            array('-5.985e30', '2', '-5.99 \times 10^{30}', '-5.99E30'),
+            array('1.6726e-27', '2', '1.67 \times 10^{-27}', '1.67E-27'),
+            array('1e5', '2', '1.00 \times 10^{5}', '1.00E5'),
+            array('1.9e5', '2', '1.90 \times 10^{5}', '1.90E5'),
+            array('1.0e9', '2', '1.00 \times 10^{9}', '1.00E9'),
+            array('100000', '2', '1.00 \times 10^{5}', '1.00E5'),
+            array('110000', '2', '1.10 \times 10^{5}', '1.10E5'),
+            array('54e3', '2', '5.40 \times 10^{4}', '5.40E4'),
+            array('0.00000000000067452', '2', '6.75 \times 10^{-13}', '6.75E-13'),
+            array('-0.00000000000067452', '2', '-6.75 \times 10^{-13}', '-6.75E-13'),
+            array('-0.0000000000006', '2', '-6.00 \times 10^{-13}', '-6.00E-13'),
+            array('0.0000000000000000000005555', '2', '5.56 \times 10^{-22}', '5.56E-22'),
+            array('0.00000000000000000000055', '2', '5.50 \times 10^{-22}', '5.50E-22'),
+            array('-0.0000000000000000000005555', '2', '-5.56 \times 10^{-22}', '-5.56E-22'),
+            array('67260000000000000000000000', '2', '6.73 \times 10^{25}', '6.73E25'),
+            array('67000000000000000000000000', '2', '6.70 \times 10^{25}', '6.70E25'),
+            array('-67260000000000000000000000', '2', '-6.73 \times 10^{25}', '-6.73E25'),
+            array('-67000000000000000000000000', '2', '-6.70 \times 10^{25}', '-6.70E25'),
+            array('0.001', '2', '1.00 \times 10^{-3}', '1.00E-3'),
+            array('-0.001', '2', '-1.00 \times 10^{-3}', '-1.00E-3'),
+            array('10', '2', '1.00 \times 10^{1}', '1.00E1'),
+            array('2', '0', '2 \times 10^{0}', '2E0'),
+            array('300', '0', '3 \times 10^{2}', '3E2'),
+            array('4321.768', '3', '4.322 \times 10^{3}', '4.322E3'),
+            array('-53000', '2', '-5.30 \times 10^{4}', '-5.30E4'),
+            array('6720000000', '3', '6.720 \times 10^{9}', '6.720E9'),
+            array('6.0221409e23', '4', '6.0221 \times 10^{23}', '6.0221E23'),
+            array('1.6022e-19', '4', '1.6022 \times 10^{-19}', '1.6022E-19'),
+            array('9000', '1', '9.0 \times 10^{3}', '9.0E3'),
+            array('9000', '0', '9 \times 10^{3}', '9E3'),
+            array('1.55E8', '2', '1.55 \times 10^{8}', '1.55E8'),
+            array('-0.01', '1', '-1.0 \times 10^{-2}', '-1.0E-2'),
+            array('-0.00000001', '3', '-1.000 \times 10^{-8}', '-1.000E-8'),
+            array('-0.00000001', '1', '-1.0 \times 10^{-8}', '-1.0E-8'),
+            array('-0.00000001', '0', '-1 \times 10^{-8}', '-1E-8'),
+            array('-1000', '2', '-1.00 \times 10^{3}', '-1.00E3'),
+            array('31415.927', '3', '3.142 \times 10^{4}', '3.142E4'),
+            array('-31415.927', '3', '-3.142 \times 10^{4}', '-3.142E4'),
+            array('155.5', '2', '1.56 \times 10^{2}', '1.56E2'),
+            array('15.55', '2', '1.56 \times 10^{1}', '1.56E1'),
+            array('777.7', '2', '7.78 \times 10^{2}', '7.78E2'),
+            array('775.5', '2', '7.76 \times 10^{2}', '7.76E2'),
+            array('775.55', '2', '7.76 \times 10^{2}', '7.76E2'),
+            array('0.5555', '2', '5.56 \times 10^{-1}', '5.56E-1'),
+            array('0.05555', '2', '5.56 \times 10^{-2}', '5.56E-2'),
+            array('cos(23*pi/180)', '3', '9.205 \times 10^{-1}', '9.205E-1'),
+            // Edge case.  Want these ones to be 1*10^3, not 10.0*10^2.
+            array('1000', '2', '1.00 \times 10^{3}', '1.00E3'),
+            // If we don't supply a number of decimal places, then we return a value form.
+            // This is entered as scientific_notation(x).
+            // This is displayed normally (without a \times) and always returns a *float*.
+            array('9000', '', '9.0\cdot 10^3', '9.0*10^3'),
+            array('1000', '', '1.0\cdot 10^3', '1.0*10^3'),
+            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3'),
+            array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50'),
+            // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
+            // Adding in compile(scientific_notation)$ after the function definition cures this,
+            // but breaks some versions of Maxima.
+            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0E-8'),
+        );
+
+        foreach ($tests as $key => $c) {
+            $s = "p{$key}:scientific_notation({$c[0]},{$c[1]})";
+            if ($c[1] == '') {
+                $s = "p{$key}:scientific_notation({$c[0]})";
+            }
+            $cs = new stack_cas_casstring($s);
+            $cs->get_valid('t');
+            $s1[] = $cs;
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+
+        foreach ($tests as $key => $c) {
+            $sk = "p{$key}";
+            $this->assertEquals($c[2], $at1->get_display_key($sk));
+            $this->assertEquals($c[3], $at1->get_value_key($sk, true));
         }
     }
 }

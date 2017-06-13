@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 3.5.7
+
+Released June 2017. 
+
+Numerous minor bug fixes and improvements.
+
 ## Version 3.5.6
 
 Released December 2016. 
@@ -12,6 +18,13 @@ Numerous minor bug fixes and improvements, particularly with numerical tests and
 2. Added support for logarithms to an arbitrary base.
 3. Added `SigFigsStrict` answer test.
 4. Better support for floating point numbers, including the preservation and display of trailing zeros in numerical tests.
+
+Note, many of these changes have resulted in stricter rules on the acceptability of strings and stricter validation rules.
+
+1 You can no longer have a feedback variable, or a question variable, with a name that is the same as an input.
+2. `log10` function and `log_b` functions are now handled by STACK, by manipulating the CAS string before it is sent to Maxima. Therefore, if your question previously defined a function with names like that, it will now break.
+3. Variable names with a digit in the middle `eqn1gen` no longer work. (They should never have been used, but used not to break quesitons.)
+4. Previously, unnecessary `\` in CAS text were ignored. E.g. if you have a question variable called `vangle2` then `@\vangle2@` used to work, it does not any more.
 
 ## Version 3.5.5
 

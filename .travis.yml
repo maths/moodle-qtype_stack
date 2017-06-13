@@ -24,16 +24,19 @@ matrix:
       env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
 
     - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
 
     - php: 5.4
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_27_STABLE   DB=pgsql
 
-    - php: 5.6
+    - php: 5.5
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_30_STABLE   DB=pgsql
 
-    - php: 7.0
+    - php: 5.6
       env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
+
+    - php: 7.0
+      env: TASK=BEHAT          MOODLE_BRANCH=MOODLE_32_STABLE   DB=pgsql
 
     - php: 7.0
       env: TASK=CODESTYLE      MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
@@ -42,8 +45,6 @@ matrix:
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
 
   allow_failures:
-    - php: 7.0
-      env: TASK=PHPUNIT        MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
     - php: 7.0
       env: TASK=CODEKNOWNFAILS MOODLE_BRANCH=MOODLE_31_STABLE   DB=pgsql
 

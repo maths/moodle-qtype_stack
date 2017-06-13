@@ -27,8 +27,8 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
-* A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input.
-
+* A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
+* We need to add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
 
 ### Improve the editing form ###
 

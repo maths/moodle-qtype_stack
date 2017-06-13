@@ -31,31 +31,17 @@ require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 /**
  * @group qtype_stack
  */
-class stack_studentinput_test extends qtype_stack_testcase {
+class stack_studentinput_testcase extends qtype_stack_testcase {
 
     /**
-     * @dataProvider studentinput_fixtures
+     * @dataProvider stack_inputvalidation_test_data::get_raw_test_data
      */
-    public function test_studentinput($testrep, $result) {
+    public function test_studentinput() {
+        $test = stack_inputvalidation_test_data::test_from_raw(func_get_args());
+        $result = stack_inputvalidation_test_data::run_test($test);
 
-        $this->assertTrue($result->passed);
         $this->assertEquals($result->display, $result->casdisplay);
         $this->assertEquals($result->ansnotes, $result->casnotes);
-
-    }
-
-    public function studentinput_fixtures() {
-
-        $tests = stack_inputvalidation_test_data::get_raw_test_data();
-
-        $testdata = array();
-        foreach ($tests as $data) {
-            $test = stack_inputvalidation_test_data::test_from_raw($data);
-            $result = stack_inputvalidation_test_data::run_test($test);
-
-            $testrep = $test->rawstring;
-            $testdata[] = array($testrep, $result);
-        }
-        return $testdata;
+        $this->assertTrue($result->passed);
     }
 }

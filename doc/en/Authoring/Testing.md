@@ -51,7 +51,10 @@ In this way, the teacher can record, within the question itself, how they expect
 
 Just above the "Question tests" section of this page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
 
-## STACK-Maxima sandbox  ##
+A Moodle administrator can run all of the questions tests within a particular course, or across the the whole site
+by following the links on the STACK admin page.
+
+## STACK-Maxima sandbox ##
 
 It is very useful to be able to use the desktop Maxima application to test questions.  To do this it is very helpful to load all the STACK libraries.  Details on how to do this are in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) page.
 

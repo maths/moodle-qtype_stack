@@ -1,6 +1,6 @@
 # abacus branch of STACK (BETA)
 
-# STACK 3.5.6, Abacus 1.4.1
+# STACK 3.5.7, Abacus 1.4.2
 
 [STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
 
@@ -10,7 +10,9 @@ Notably, this branch contains significant contributions by Matti Harjula of Aalt
 ## Current state of development
 
 This branch of the code contains some major changes from the previous versions, notably the question blocks from Aalto Finland.
-Originally intended as "STACK 3.4", these changes are significant enough for this to scheduled as "STACK 4.0".  
+Originally intended as "STACK 3.4", these changes are significant enough for this to scheduled as "STACK 4.0". 
+
+Abacus 1.4.2 is hopefully the final Abacus release, the next step will be a merger with master and equiv_input branches expected for the fall semester of 2017.
 
 Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 

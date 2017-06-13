@@ -4,6 +4,8 @@
  * Minimal functionality needed to display and grade a question in a stateless way.
  */
 
+require_once("apilib.php");
+
 class qtype_stack_api {
 
     /* 
@@ -37,12 +39,16 @@ class qtype_stack_api {
             }
         }
 
+        $weights = $question->get_parts_and_weights();
+        $scores = array();
+
         // Replace PRTs.
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($index, $response, false);
-            echo "<pre>"; print_r($result); echo "</pre>";
+            //echo "<pre>"; print_r($result); echo "</pre>";
             $resultfeedback = $result->get_feedback();
+            $scores[$index] = $result->score;
             foreach ($resultfeedback as $fb) {
                 $feedback .= $fb->feedback;
             }
@@ -56,10 +62,35 @@ class qtype_stack_api {
                 $feedback = html_writer::nonempty_tag('div', $result->errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
+            if ($options->score) {
+                if (null !== $result->score) {
+                    // TODO: language support etc.
+                    $feedback .= "<p>Your mark for this part is ".$result->score.".</p>";
+                }
+            }
+
             $target = "[[feedback:{$index}]]";
             $questiontext = str_replace($target, $feedback, $questiontext);
         }
 
+        if ($options->score) {
+            $score = 0;
+            foreach ($weights as $prt => $weight) {
+                $score += $weights[$prt] * $scores[$prt];
+            }
+            $score = $score * $question->defaultmark;
+            // TODO: language support etc.
+            $questiontext .= "<p>Your mark for this attempt is ".$score.".</p>";
+        }
+
+        // Add "generalfeedback" (worked solution), if it exists, and correct answer.
+        if ($options->generalfeedback) {
+            $questiontext .=  "<hr />";
+            $generalfeedback = $question->get_generalfeedback_castext();
+            $questiontext .= $generalfeedback->get_display_castext();
+
+            $questiontext .= $question->format_correct_response(null);
+        }
         // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
         $questiontext = stack_maths::process_display_castext($questiontext);
 
@@ -71,8 +102,18 @@ class qtype_stack_api {
         }
         */
 
-//print_r($question);
         return $questiontext;
+    }
+
+    public function format_correct_response($qa) {
+        $feedback = '';
+        $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
+        foreach ($inputs as $name) {
+            $input = $this->inputs[$name];
+            $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->session->get_value_key($name, true),
+                    $this->session->get_display_key($name)));
+        }
+        return stack_ouput_castext($feedback);
     }
 
     public function initialise_question_from_xml($questionxml) {
@@ -86,7 +127,7 @@ class qtype_stack_api {
         $question = new qtype_stack_question();
 
         $question->type = 'stack';
-        $question->defaultgrade              = (float) $questionob->defaultgrade;
+        $question->defaultmark               = (float) $questionob->defaultgrade;
         $question->penalty                   = (float) $questionob->penalty;
 
         $question->name                      = (string) $questionob->name->text;

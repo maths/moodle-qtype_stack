@@ -20,7 +20,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/../../../../../config.php');
 
-require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/casstring.units.class.php');
 require_once(__DIR__ . '/connectorhelper.class.php');

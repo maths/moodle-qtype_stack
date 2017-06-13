@@ -10,7 +10,7 @@
 <p> [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text><![CDATA[<p>To multiply matrices $A$ and $B$ we need to remember that the $(i,j)$th entry is the scalar product of the $i$th row of $A$ with the $j$th column of $B$.</p>
+      <text><![CDATA[<p>To multiply matrices \(A\) and \(B\) we need to remember that the \((i,j)\)th entry is the scalar product of the \(i\)th row of \(A\) with the \(j\)th column of \(B\).</p>
 <p>\[ @A@.@B@ = @C@ = @D@.\]</p>]]></text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
@@ -76,7 +76,7 @@ C:C;]]></text>
         <sans>ans1</sans>
         <tans>TA</tans>
         <testoptions></testoptions>
-        <quiet>1</quiet>
+        <quiet>0</quiet>
         <truescoremode>=</truescoremode>
         <truescore>1.0000000</truescore>
         <truepenalty></truepenalty>

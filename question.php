@@ -30,7 +30,12 @@ require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
-require_once(__DIR__ . '/locallib.php');
+
+if (defined('MINIMAL_API')) {
+    require_once(__DIR__ . '/apilib.php');
+} else {
+    require_once(__DIR__ . '/locallib.php');
+}
 
 
 /**

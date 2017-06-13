@@ -7,31 +7,37 @@ ini_set('display_errors', 1);
 ini_set('html_errors', 1);
 
 define('MOODLE_INTERNAL', true);
+define('MINIMAL_API', true);
 
 require_once(__DIR__ . '../../../../config.php');
 require_once(__DIR__ . '../../../../question/type/questionbase.php');
 require_once(__DIR__ . '../../../../question/behaviour/behaviourbase.php');
 
-//require_once(__DIR__ . '/stack/input/factory.class.php');
-//require_once(__DIR__ . '/stack/cas/keyval.class.php');
-//require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/question.php');
 require_once(__DIR__ . '/api.php');
 
 $api = new qtype_stack_api();
 
-//$questionxml = file_get_contents('samplequestions/odd-even.xml');
-$questionxml = file_get_contents('samplequestions/test_3_matrix.xml');
+// Choose one of the XML files in the samplequestions directory.
+$questionxml = file_get_contents('samplequestions/odd-even.xml');
+//$questionxml = file_get_contents('samplequestions/test_3_matrix.xml');
 //$questionxml = file_get_contents('samplequestions/test_1_basic_integral.xml');
 
 $question = $api->initialise_question_from_xml($questionxml);
-$question->initialise_question_from_seed();
 //print_r($question);
 
+// Make this a definite number, to fix the random numbers.
+$question->seed = 10384;
 
+$question->initialise_question_from_seed();
+
+// Control the display of feedback, and whether students can change their answer.
 $options = new stdClass();
 $options->readonly = false;
 $options->feedback = true;
+$options->score = true;
+// Show a worked solution?
+$options->generalfeedback = true;
 
 $response = $_POST;
 //print_r($response);

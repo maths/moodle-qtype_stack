@@ -6,15 +6,10 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 ini_set('html_errors', 1);
 
-define('MOODLE_INTERNAL', true);
-define('MINIMAL_API', true);
+require_once(__DIR__ . '/config.php');
 
-require_once(__DIR__ . '../../../../config.php');
-require_once(__DIR__ . '../../../../question/type/questionbase.php');
-require_once(__DIR__ . '../../../../question/behaviour/behaviourbase.php');
-
+require_once(__DIR__ . '/api/api.php');
 require_once(__DIR__ . '/question.php');
-require_once(__DIR__ . '/api.php');
 
 $api = new qtype_stack_api();
 
@@ -24,10 +19,9 @@ $questionxml = file_get_contents('samplequestions/odd-even.xml');
 //$questionxml = file_get_contents('samplequestions/test_1_basic_integral.xml');
 
 $question = $api->initialise_question_from_xml($questionxml);
-//print_r($question);
-
 // Make this a definite number, to fix the random numbers.
 $question->seed = 10384;
+//print_r($question);
 
 $question->initialise_question_from_seed();
 

@@ -33,6 +33,7 @@ require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 if (defined('MINIMAL_API')) {
     require_once(__DIR__ . '/api/apilib.php');
 } else {
+    require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
     require_once(__DIR__ . '/locallib.php');
 }
 

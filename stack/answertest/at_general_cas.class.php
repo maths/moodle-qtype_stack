@@ -16,6 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../cas/cassession.class.php');
+
 /**
  * General answer test which connects to the CAS - prevents duplicate code.
  *

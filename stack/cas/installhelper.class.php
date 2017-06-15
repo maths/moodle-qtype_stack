@@ -58,6 +58,10 @@ class stack_cas_configuration {
         $this->maximacodepath = stack_utils::convert_slash_paths(
                 $CFG->dirroot . '/question/type/stack/stack/maxima');
 
+        if (defined('MINIMAL_API')) {
+            $this->maximacodepath = stack_utils::convert_slash_paths($CFG->dirroot . '/stack/maxima');
+        }
+
         $this->logpath = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/logs');
 
         $this->vnum = (float) substr($this->settings->maximaversion, 2);

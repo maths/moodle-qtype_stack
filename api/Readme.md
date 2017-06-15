@@ -7,3 +7,9 @@ This is to prove the functionality of including STACK questions in other interac
 ## Installation
 
 1. Copy 'api/config.php.dist' to 'config.php' and edit the file to reflect your current directory.
+2. Create the following temporary directories given in $CFG->dataroot
+
+    $CFG->dataroot.'/stack'
+    $CFG->dataroot.'/stack/plots'
+    $CFG->dataroot.'/stack/logs'
+    $CFG->dataroot.'/stack/tmp'

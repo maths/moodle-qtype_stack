@@ -118,6 +118,18 @@ function get_config() {
     return $CFG;
 }
 
+function set_config($var, $val, $mod) {
+    global $CFG;
+    $CFG->$var = $val;
+
+    return $CFG;
+}
+
+// We expect API users to create their own directories on the server.
+function make_upload_directory($directory, $exceptiononerror = true) {
+  return true;
+}
+
 /**
  * Add quotes to HTML characters.
  *

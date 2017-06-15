@@ -282,4 +282,18 @@ class qtype_stack_api {
 
     return($question);
     }
+
+    /*
+     * This function writes the maximalocal.mac file into the data directory,
+     * communicating the local setting to maxima.
+     */
+    public function install() {
+        global $CFG;
+
+        $helper = new stack_cas_configuration;
+        $helper->create_maximalocal();
+        $helper->create_auto_maxima_image();
+
+        echo "You must now update your maximacommand to be <pre>". $CFG->maximacommand . "</pre>";
+    }
 }

@@ -6,6 +6,20 @@
 
 require_once("apilib.php");
 
+/*
+ * Dummy classes to allow STACK's question.php to extend it.
+ */
+class question_graded_automatically_with_countback {
+
+}
+
+interface question_automatically_gradable_with_multiple_parts{
+
+}
+
+/*
+ * 
+ */
 class qtype_stack_api {
 
     /* 
@@ -267,5 +281,5 @@ class qtype_stack_api {
     }
 
     return($question);
-}
+    }
 }

@@ -29,10 +29,9 @@ require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
-require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
 
 if (defined('MINIMAL_API')) {
-    require_once(__DIR__ . '/apilib.php');
+    require_once(__DIR__ . '/api/apilib.php');
 } else {
     require_once(__DIR__ . '/locallib.php');
 }

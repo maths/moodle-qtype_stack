@@ -294,6 +294,7 @@ class qtype_stack_api {
         $helper->create_maximalocal();
         $helper->create_auto_maxima_image();
 
-        echo "You must now update your maximacommand to be <pre>". $CFG->maximacommand . "</pre>";
+        echo "You must now update the setting <tt>maximacommand</tt> in <tt>config.php</tt> to be <pre>". $CFG->maximacommand . "</pre>";
+        die();
     }
 }

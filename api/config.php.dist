@@ -5,14 +5,20 @@
 
 $CFG = new stdClass;
 
+// This is the directory into which you put the scripts.
 $CFG->wwwroot = "/var/www/api";
-// The base url of the installation (without script)
+// The base url of the installation
 // The server path of the installation.
 $CFG->dirroot = realpath(dirname(__FILE__));
 // You must have a data directory into which the webserver can write.  Don't put this in your web directory.
 $CFG->dataroot = "/var/data/api";
+
+// URL of your web server, e.g.
 $CFG->dataurl = "http://localhost/api/";
 
+// You will need to replace this with the compiled version.
+$CFG->maximacommand = 'maxima';
+$CFG->maximaversion = 'default';
 
 /*
  * These settings are hard-wired here.  See settings.php for more details.
@@ -20,10 +26,7 @@ $CFG->dataurl = "http://localhost/api/";
  */
 $CFG->maximalocalfolder = $CFG->dataroot . 'maxima/';
 
-// You probably want 'unix-optimised' in this next setting.
-$CFG->platform     = 'unix';
-$CFG->maximacommand = 'maxima';
-$CFG->maximaversion = 'default';
+$CFG->platform     = 'unix-optimised';
 // Type (int).
 $CFG->castimeout = 10;
 $CFG->casdebugging = 1;

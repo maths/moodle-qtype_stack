@@ -1,7 +1,4 @@
 <?php
-// https://github.com/ilifau/assStackQuestion
-// https://github.com/ilifau/assStackQuestion/blob/master-ilias52/classes/utils/class.assStackQuestionInitialization.php
-
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 ini_set('html_errors', 1);
@@ -14,7 +11,7 @@ require_once(__DIR__ . '/question.php');
 $api = new qtype_stack_api();
 
 // Run this command once at install time to compile Maxima on your machine.
-//$api->install();
+// $api->install();
 
 // Choose one of the XML files in the samplequestions directory.
 $questionxml = file_get_contents('samplequestions/odd-even.xml');

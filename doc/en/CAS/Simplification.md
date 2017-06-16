@@ -73,16 +73,6 @@ which pulls "-" out the front in a specific situation: that of a product with a 
 
 Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed. 
 
-## If you really insist on a cludge....
-
-In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  Please avoid doing this!
-
-    a:sin(x^2);
-    b:1+x^2;
-    f:sconcat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
-
-Then you can put in `@f@` into one of the CASText fields.
-
 ## Tips for manipulating expressions
 
 How do we do the following in Maxima?
@@ -122,6 +112,30 @@ Teachers *always* need to use `nounand` and `nounor` in CAS expressions when the
 
 Note, the answer tests do *not* convert noun forms to the Maxima forms.  Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!  To replace all `nounand` (etc) operators and replace them with the Maxima equivalent, use `noun_logic_remove(ex)`.
 
+## Surds
+
+Imagine you would like the student to expand out \( (\sqrt{5}−2)(\sqrt{5}+4)=2\sqrt{5}−3 \). There are two tests you probably want to apply to the student's answer.
+
+1. Algebraic equivalence with the correct answer: use `ATAlgEquiv`.
+2. That the expression is "expanded": use `ATExpanded`.
+
+You probably then want to make sure a student has "gathered" like terms.  In particular you'd like to make sure a student has either
+\[ 2\sqrt{5}−3 \mbox{ or } \sqrt{20}−3\]
+but not \[ 5+4\sqrt{2}-2\sqrt{2}+6.\]
+This causes a problem because `ATComAss` thinks that \[ 2\sqrt{5}−3 \neq \sqrt{20}−3.\]
+So you can't use `ATComAss` here, and gurantee that all random versions will work by testing that we really have \(5+4\sqrt{2}\) for example.
+
+What we really want is for the functions `sqrt` and `+` to appear precicely once in the student's answer, or that the answer is a sum of two things.
+
+## If you really insist on a cludge....
+
+In some situations you may find you really do need to work at the display level, construct a string and display this to the student in Maxima.  Please avoid doing this!
+
+    a:sin(x^2);
+    b:1+x^2;
+    f:sconcat("\\frac{",StackDISP(a,""),"}{",StackDISP(b,""),"}");
+
+Then you can put in `@f@` into one of the CASText fields.
 
 ## Further examples
 

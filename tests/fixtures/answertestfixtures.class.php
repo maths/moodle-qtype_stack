@@ -552,6 +552,9 @@ class stack_answertest_test_data {
         array('Expanded', '', 'cos(2*x)', '0', 1, 'ATExpanded_TRUE.', ''),
         array('Expanded', '', 'p+1', '0', 1, 'ATExpanded_TRUE.', ''),
         array('Expanded', '', '(p+1)*(p-1)', '0', 0, 'ATExpanded_FALSE.', ''),
+        array('Expanded', '', '3+2*sqrt(3)', '0', 1, 'ATExpanded_TRUE.', ''),
+        array('Expanded', '', '3+sqrt(12)', '0', 1, 'ATExpanded_TRUE.', ''),
+        array('Expanded', '', '(1+sqrt(5))*(1-sqrt(3))', '0', 0, 'ATExpanded_FALSE.', ''),
         array('Expanded', '', '(a-x)^6000', '0', -2, 'ATExpanded_TRUE.',
             'This fails, but you are never going to ask students to do this anyway...'),
 

@@ -185,9 +185,16 @@ if (!$question->has_random_variants()) {
         if ($qn->get_question_summary() == $question->get_question_summary()) {
             $variantdeployed = true;
         }
+
+        $iconurl = '';
+        if ($bulktestresults[0]) {
+            $iconurl = " <img src=\"" . $OUTPUT->pix_url('t/' . 'check') . "\" alt=\"\" />";
+        }
+
         $notestable->data[] = array(
             $choice,
             stack_ouput_castext($qn->get_question_summary()),
+            $iconurl,
             $bulktestresults[1]
             );
     }

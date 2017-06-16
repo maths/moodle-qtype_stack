@@ -36,6 +36,7 @@ require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/questiontest.php');
+require_once(__DIR__ . '/stack/bulktester.class.php');
 
 
 // Get the parameters from the URL.
@@ -167,6 +168,10 @@ if (!$question->has_random_variants()) {
                     new pix_icon('t/delete', stack_string('undeploy')));
         }
 
+        // Bulk test all versions.
+        $bulktester = new stack_bulk_tester();
+        $bulktestresults = $bulktester->qtype_stack_test_question($question, $testscases, $deployedseed, true);
+
         // Print out question notes of all deployed versions.
         $qn = question_bank::load_question($questionid);
         $qn->seed = (int) $deployedseed;
@@ -183,7 +188,8 @@ if (!$question->has_random_variants()) {
         $notestable->data[] = array(
             $choice,
             stack_ouput_castext($qn->get_question_summary()),
-        );
+            $bulktestresults[1]
+            );
     }
 
     echo html_writer::table($notestable);

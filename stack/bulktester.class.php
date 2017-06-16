@@ -130,7 +130,7 @@ class stack_bulk_tester  {
      *              bool true if the tests passed, else false.
      *              sring message summarising the number of passes and fails.
      */
-    public function qtype_stack_test_question($question, $tests, $seed = null) {
+    public function qtype_stack_test_question($question, $tests, $seed = null, $quiet = false) {
         flush(); // Force output to prevent timeouts and to make progress clear.
         core_php_time_limit::raise(60); // Prevent PHP timeouts.
         gc_collect_cycles(); // Because PHP's default memory management is rubbish.
@@ -163,7 +163,9 @@ class stack_bulk_tester  {
         }
 
         $message = stack_string('testpassesandfails', array('passes' => $passes, 'fails' => $fails));
-        echo html_writer::tag('p', $flag.$message, array('class' => $class));
+        if (!$quiet) {
+            echo html_writer::tag('p', $flag.$message, array('class' => $class));
+        }
 
         flush(); // Force output to prevent timeouts and to make progress clear.
 

@@ -12,7 +12,7 @@ Where \(a\), \(b\) and \(n\) are randomly generated numbers.
 
 It is tempting when writing questions such as this to operate at the _level of display._  We could randomly generate \(a\), \(b\) and \(n\) and insert them into the question text.  For example:
 
-     \(\right(@a@e^{@b@ i}\left)^{@n@}\)
+      \(\left(@a@e^{@b@ i}\right)^{@n@}\)
 
 What we are doing here is to treat every variable separately, not to create a single CAS object for the complex number.  This is ok, but causes problems and is difficult to read because it mixes CAS and LaTeX.
 

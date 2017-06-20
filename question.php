@@ -307,7 +307,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // up to this point should have been caught during validation when
             // the question was edited or deployed.
             throw new stack_exception('qtype_stack_question : CAS error when instantiating the session: ' .
-                    $session->get_errors());
+                    $session->get_errors(defined('MINIMAL_API') ? null : $this->user_can_edit() ));
         }
 
         // Finally, store only those values really needed for later.

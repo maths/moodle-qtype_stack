@@ -26,7 +26,8 @@ $CFG->maximaversion = 'default';
  */
 $CFG->maximalocalfolder = $CFG->dataroot . 'maxima/';
 
-$CFG->platform     = 'unix-optimised';
+$CFG->platform     = 'unix';
+// $CFG->platform     = 'unix-optimised';
 // Type (int).
 $CFG->castimeout = 10;
 $CFG->casdebugging = 1;

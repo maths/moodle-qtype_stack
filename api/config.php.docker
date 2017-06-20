@@ -12,6 +12,7 @@ $CFG->wwwroot = "/var/www/html";
 $CFG->dirroot = realpath(dirname(__FILE__));
 // You must have a data directory into which the webserver can write.  Don't put this in your web directory.
 $CFG->dataroot = "/var/data/api";
+$CFG->platform = 'unix';
 
 // URL of your web server, e.g.
 $CFG->dataurl = "http://localhost/api/";
@@ -25,8 +26,6 @@ $CFG->maximaversion = 'default';
  * You probably don't need to change many of the following.
  */
 $CFG->maximalocalfolder = $CFG->dataroot . 'maxima/';
-
-$CFG->platform     = 'unix';
 
 // Type (int).
 $CFG->castimeout = 10;

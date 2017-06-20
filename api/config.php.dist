@@ -19,6 +19,9 @@ $CFG->dataurl = "http://localhost/api/";
 // You will need to replace this with the compiled version.
 $CFG->maximacommand = 'maxima';
 $CFG->maximaversion = 'default';
+// Once you have compiled maxima you will need to change this.
+$CFG->platform     = 'unix';
+// $CFG->platform     = 'unix-optimised';
 
 /*
  * These settings are hard-wired here.  See settings.php for more details.
@@ -26,8 +29,6 @@ $CFG->maximaversion = 'default';
  */
 $CFG->maximalocalfolder = $CFG->dataroot . 'maxima/';
 
-$CFG->platform     = 'unix';
-// $CFG->platform     = 'unix-optimised';
 // Type (int).
 $CFG->castimeout = 10;
 $CFG->casdebugging = 1;

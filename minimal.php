@@ -12,7 +12,7 @@ $api = new qtype_stack_api();
 
 
 // Run this command once at install time to compile Maxima on your machine.
-// $api->install();
+//$api->install();
 
 // Choose one of the XML files in the samplequestions directory.
 $questionxml = file_get_contents('samplequestions/odd-even.xml');

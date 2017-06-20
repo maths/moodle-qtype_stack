@@ -15,7 +15,8 @@ $api = new qtype_stack_api();
 // $api->install();
 
 // Choose one of the XML files in the samplequestions directory.
-$questionxml = file_get_contents('samplequestions/odd-even.xml');
+$questionParam =  array_key_exists('q', $_GET) ? $_GET['q'] : 'odd-even.xml';
+$questionxml = file_get_contents('samplequestions/' . $questionParam);
 //$questionxml = file_get_contents('samplequestions/test_3_matrix.xml');
 //$questionxml = file_get_contents('samplequestions/test_1_basic_integral.xml');
 
@@ -45,7 +46,7 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">";
 echo "<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>";
 echo "</head>\n";
 echo "<body>\n";
-echo "\n\n<form action=\"minimal.php\" method=\"post\">\n";
+echo "\n\n<form action=\"minimal.php?q=".$questionParam."\" method=\"post\">\n";
 echo $result->questiontext;
 echo "\n\n<br/>\n<input type=\"submit\" value=\"Check\">\n";
 $score = $result->score * $result->defaultmark;

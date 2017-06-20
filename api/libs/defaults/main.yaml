@@ -1,0 +1,48 @@
+## default settings
+## At runtime, these will be merged into the user configuration if not present
+
+default_mark: 1
+
+options:
+  hidden: 0
+  simplify: 1
+  assume_positive: 0
+  assume_real: 0
+  multiplication_sign: dot
+  sqrt_sign: 1
+  complex_no: i
+  inverse_trig: cos-1
+  matrix_parens: square
+
+input:
+  box_size: 30
+  strict_syntax: 1
+  insert_stars: none
+  syntax_attribute: 0
+  forbid_words: "" ## good doc explanation required here
+  allow_words: ""
+  syntax_hint: "" # i.e {?,?,...} doc it
+  forbid_float: 1
+  require_lowest_terms: 0
+  check_answer_type: 0
+  must_verify: true
+  show_validations: with_varlist
+  options: ""
+
+response_trees:
+  tree:
+    value: 1
+    auto_simplify: yes
+    node:
+      answer_test: AlgEquiv
+      quiet: 0
+      T:
+        score_mode: add
+        score: 1
+        penalty: 0
+        next_node: -1
+      F:
+        score_mode: equals
+        score: 0
+        penalty: 0
+        next_node: -1

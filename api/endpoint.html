@@ -1,0 +1,106 @@
+<html>
+  <head>
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$', '$'], ['\\[','\\]'], ['\\(','\\)']],
+            displayMath: [['$$', '$$']],
+            processEscapes: true,
+            skipTags: ["script","noscript","style","textarea","pre","code","button"]
+          },
+          showMathMenu: false
+        })
+      </script>
+      <script
+        type="text/javascript"
+        src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
+      >
+      </script>
+  </head>
+  <body>
+    <script>
+      function collectData() {
+        var defaults = document.getElementById('defaults').value;
+
+        var res = {
+          question: document.getElementById('xml').value,
+          readOnly: document.getElementById('readOnly').checked,
+          feedback: document.getElementById('feedback').checked,
+          score: document.getElementById('hasScore').checked,
+          prefix: 'codio_',
+          answer: collectAnswer(),
+          seed: 12313123
+        }
+        if (defaults.length > 0) {
+          res['defaults'] = defaults
+        }
+        return res;
+      }
+
+      function collectAnswer() {
+        var inputs = document.getElementsByTagName('input')
+        var res = {};
+        for (i = 0; i < inputs.length; i++) {
+          var element = inputs[i];
+          if (element.name.indexOf('codio_') === 0 && element.name.indexOf('_val') === -1) {
+            res[element.name] = element.value
+          }
+        }
+        return res;
+      }
+
+      function send() {
+        var http = new XMLHttpRequest();
+        var url = "endpoint.php";
+        http.open("POST", url, true);
+
+        http.setRequestHeader('Content-Type', 'application/json')
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+              try {
+                var json = JSON.parse(http.responseText);
+                if (json.error) {
+                  document.getElementById('output').innerText = http.responseText;
+                  return
+                }
+                document.getElementById('output').innerHTML = json.questiontext;
+                document.getElementById('generalfeedback').innerHTML = json.generalfeedback;
+                document.getElementById('formatcorrectresponse').innerHTML = json.formatcorrectresponse;
+                document.getElementById('summariseresponse').innerText = JSON.stringify(json.summariseresponse);
+                document.getElementById('answernotes').innerHTML = JSON.stringify(json.answernotes);
+                document.getElementById('score').innerText = json.score.toString();
+                document.getElementById('time').innerHTML = '<b>Request Time:</b> ' + json.request_time +
+                  ' <b>Api Time:</b> ' + json.api_time;
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              }
+              catch(e) {
+                document.getElementById('output').innerText = http.responseText;
+              }
+
+            }
+        }
+        http.send(JSON.stringify(collectData()))
+      }
+    </script>
+    Yaml/XML<span style="width: 700px;display: inline-block;">&nbsp;</span>Defaults<br>
+    <textarea id='xml' cols="100" rows="50"></textarea>|<textarea id='defaults' cols="60" rows="50"></textarea><br/>
+    <input type="checkbox" id="readOnly"/>Read Only |
+    <input type="checkbox" id="feedback"/>Feedback |
+    <input type="checkbox" id="hasScore"/>Score |
+    <input type="button" onclick="send()" value="Send"/><br/>
+    <h1>QuestionText:</h1>
+    <div id="output"></div>
+    <h1>General feedback:</h1>
+    <div id="generalfeedback"></div>
+    <h1>format correct response:</h1>
+    <div id="formatcorrectresponse"></div>
+    <h1>score:</h1><span id="score"></span>
+    <h1>summarise response:</h1>
+    <div id="summariseresponse"></div>
+    <h1>answer notes:</h1>
+    <div id="answernotes"></div>
+    <h1>time:</h1>
+    <div id="time"></div>
+
+  </body>
+</html>

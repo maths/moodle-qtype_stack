@@ -381,7 +381,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals(
                 '\begin{multline*} \frac{x^2}{\left(x^2+1\right)^3} \\\\ ' .
-                '\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1 \right)^4} \end{multline*}',
+                '\frac{2\cdot x}{\left(x^2+1\right)^3}-\frac{6\cdot x^3}{\left(x^2+1\right)^4} \end{multline*}',
                 $at1->get_display_castext());
     }
 
@@ -486,7 +486,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $this->assertEquals(
                 '\[\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}+2\cdot y=0\] ' .
-                '\[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}   z^3}\right)' .
+                '\[2\cdot \left(\frac{\mathrm{d}^5  y}{\mathrm{d}  x^2  \mathrm{d}  z^3}\right)' .
                 '+\frac{\mathrm{d}^2  y}{\mathrm{d}  x^2}=0\]',
                 $at2->get_display_castext());
     }
@@ -702,7 +702,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_inline_fractions() {
-        $s = '@(stack_disp_factions("i"), 1/x)@ @(stack_disp_factions("d"), 1/x)@ @(stack_disp_factions("i"), 1/x)@';
+        $s = '@(stack_disp_fractions("i"), 1/x)@ @(stack_disp_fractions("d"), 1/x)@ @(stack_disp_fractions("i"), 1/x)@';
 
         $at2 = new stack_cas_text($s, null, 0, 't');
         $this->assertTrue($at2->get_valid());
@@ -715,7 +715,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
     public function test_inline_fractions_all() {
         $st = '@1/x@, @1/x^2@, @1/(a+x)@, @1/(2*a)@, @1/sin(x+y)@.';
 
-        $a2 = array('stack_disp_factions("i")');
+        $a2 = array('stack_disp_fractions("i")');
         $s2 = array();
         foreach ($a2 as $s) {
             $cs = new stack_cas_casstring($s);
@@ -826,7 +826,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->get_display_castext();
 
-        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left( x , n\right)\right)\), \(3\)',
+        $this->assertEquals('\(\lambda\left(\left[ x , n \right]  , {\it significantfigures}\left(x , n\right)\right)\), \(3\)',
                 $at1->get_display_castext());
     }
 }

@@ -341,7 +341,12 @@ sigfigsfun(x, n, dispsigfigs) := block([fpprec:128, fpprintprec:16, simp:true, e
         else return(0),
   sign_of_x:signum(x),
   /* Evaluate logarithms to an arbitrary base. */
-  x:ev(x, logbase=logbasesimp, simp),
+  x:ev(bfloat(x), logbase=logbasesimp, simp),
+  /* Check again for a zero.  E.g. cases like cos(0.5*pi). */
+  if (is(x = 0) or is(x = 0.0)) then 
+    if (is(n <= 1)) then return(0)
+    else if dispsigfigs then return(displaydp(0, n-1))
+        else return(0),
   /* Evaluate and round. */
   ex:ev(bfloat(log(abs(x))/log(10)), simp),
   ex:ev(floor(float(ex)), simp),

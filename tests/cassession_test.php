@@ -346,7 +346,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('', $at1->get_errors(false));
 
         $this->assertEquals('if a > b then setelmx(0,m[k],m[j],A)', $at1->get_value_key('p'));
-        $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m _{j} , A\right)',
+        $this->assertEquals('\mathbf{if}\;a > b\;\mathbf{then}\;{\it setelmx}\left(0 , m_{k} , m_{j} , A\right)',
                 $at1->get_display_key('p'));
 
         // Confirm these expressions are unchanged by the CAS.
@@ -573,7 +573,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('\left[ \lambda , \mu , \nu , \xi ,  o , \pi , \rho \right]',
                 $at1->get_display_key('greek3'));
         $this->assertEquals('[sigma,tau,upsilon,phi,psi,chi,omega]', $at1->get_value_key('greek4'));
-        $this->assertEquals('\left[ \sigma , \tau , \upsilon , \varphi , \psi , \chi , \omega  \right]',
+        $this->assertEquals('\left[ \sigma , \tau , \upsilon , \varphi , \psi , \chi , \omega \right]',
                 $at1->get_display_key('greek4'));
     }
 
@@ -610,10 +610,10 @@ class stack_cas_session_test extends qtype_stack_testcase {
                 $at1->get_display_key('greek2'));
         // Note here that pi is returned as the constant %pi.
         $this->assertEquals('[Lambda,Mu,Nu,Xi,Omicron,%pi,Rho]', $at1->get_value_key('greek3'));
-        $this->assertEquals('\left[ \Lambda , {\rm M} , {\rm N} , \Xi , {\rm O} , \pi , {\rm P}  \right]',
+        $this->assertEquals('\left[ \Lambda , {\rm M} , {\rm N} , \Xi , {\rm O} , \pi , {\rm P} \right]',
                 $at1->get_display_key('greek3'));
         $this->assertEquals('[Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega]', $at1->get_value_key('greek4'));
-        $this->assertEquals('\left[ \Sigma , {\rm T} , \Upsilon , \Phi , {\rm X} , \Psi , \Omega  \right]',
+        $this->assertEquals('\left[ \Sigma , {\rm T} , \Upsilon , \Phi , {\rm X} , \Psi , \Omega \right]',
                 $at1->get_display_key('greek4'));
     }
 
@@ -1064,7 +1064,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval('a:true;b:is(1>2);c:false');
         $s = $kv->get_session(); // This does a validation on the side.
 
-        // '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' is the castext.
+        // The form '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' is the castext.
         // Then we start to add some new variables into it as the castext is evaluated.
         // First the conditions that have been extracted from a if-elif-else construct during the "compilation"-step.
         $s->add_vars(array(new stack_cas_casstring('stackparsecond8:b')));
@@ -1101,5 +1101,5 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // However, the display function does force an extra evaluation!
         $this->assertEquals('\mathbf{false}', $s->get_display_key('p2'));
         $this->assertEquals('false', $s->get_value_key('p3'));
-     }
+    }
 }

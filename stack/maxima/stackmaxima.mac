@@ -76,7 +76,7 @@ degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.          
 
 
 /* ********************************** */
-/* Logarithms                         */
+/* Logarithms and nth roots           */
 /* ********************************** */
 alias(ln, log);
 
@@ -97,14 +97,22 @@ texput(logbase, logbasetex);
 /* Use of radcan to give canonical form. */
 logbasesimp(n,b) := radcan(log(n)/log(b));
 
-load("functs");
+/* Add in a flexible "nth" roots function. */
+root([ex]) := block(
+  if length(ex) > 2 then error("root: must have only two arguments"),
+  if length(ex) = 1 then return(sqrt(first(ex))),
+  if length(ex) = 2 then return(first(ex)^(1/second(ex)))
+)$
 
-/* We don't want to allow people to put boxes round things. */
-box(ex) := ex;
 
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
+
+load ("functs");
+
+/* We don't want to allow people to put boxes round things. */
+box(ex) := ex;
 
 /* Although this works well in MAXIMA, |'s are not allowed in STACK */
 /* The heuristics to catch the various errors do not work, since | is symmetrical */
@@ -173,7 +181,7 @@ make_arccos(OPT_ACOS) := block(
 
 
 /* Fine tune the display of fractions between inline and displayed. */
-stackfactionsinline(e) := block ([a, b],
+stackfractionsinline(e) := block ([a, b],
   [a, b]:args (e),
   /* We need to be more careful about when we have brackets around expressions in inline fractions. */
   if (atom(b) or safe_op(b) = "^") then return(concat("{", tex1(a), "}/{", tex1(b), "}")),
@@ -181,16 +189,16 @@ stackfactionsinline(e) := block ([a, b],
   concat("{", tex1(a), "}/{\\left(", tex1(b), "\\right)}")
 )$
 
-stackfactionsdisplay(e) := block ([a, b],
+stackfractionsdisplay(e) := block ([a, b],
   [a, b]:args (e),
   concat("\\frac{", tex1(a), "}{", tex1(b), "}")
 )$
 
-stack_disp_factions(ex) := block(
+stack_disp_fractions(ex) := block(
   if is(ex="i") then 
-    ev(texput("/", stackfactionsinline),simp)
+    ev(texput("/", stackfractionsinline),simp)
   else 
-    ev(texput("/", stackfactionsdisplay),simp)
+    ev(texput("/", stackfractionsdisplay),simp)
 )$
 
 /* This is needed to tweak the display of noun derivatives. */
@@ -2660,4 +2668,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017060200$
+stackmaximaversion:2017060700$

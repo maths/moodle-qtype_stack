@@ -384,7 +384,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 array('ta'));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('cos(a*x)/(x(ln(x)))', $state->contentsmodified);
-        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left(\ln \left( x \right) \right)} \]',
+        $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\left(\ln \left( x \right)\right)} \]',
                 $state->contentsdisplayed);
     }
 
@@ -398,6 +398,31 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('a*b_c*d', $state->contentsmodified);
         $this->assertEquals('\[ a\cdot {b}_{c}\cdot d \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_single_variable_trigexp() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'sin(ab)^2');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => 'sin(ab)^2'), $options, 'sin(ab)^2',
+                array('ta'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(a*b)^2', $state->contentsmodified);
+        $this->assertEquals('\[ \sin ^2\left(a\cdot b\right) \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_single_variable_trigexp_fail() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'sin(ab)^2');
+        // Assuming single character variable names.
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => 'sin^2(ab)'), $options, 'sin(ab)^2',
+                array('ta'));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('sin^2*(ab)', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">sin^2*(ab)</span>', $state->contentsdisplayed);
+        $this->assertEquals('trigexp', $state->note);
     }
 
     public function test_validate_student_response_functions_variable() {

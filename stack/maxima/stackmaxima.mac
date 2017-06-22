@@ -282,6 +282,16 @@ list_remove(ex, n) := block([k, l],
     makelist(ex[k], k, l)
 )$
 
+/* Create a number in a random range. */
+rand_range([ex]) := block(
+  if (length(ex)<2 or length(ex)>3) then error("rand_range must have 2 or three arguments."),
+  if not(integerp(ex[1])) then error("rand_range expects its first argument to be an integer."),
+  if not(integerp(ex[2])) then error("rand_range expects its second argument to be an integer."),
+  if is(length(ex)=2) then return(ev(ex[1]+rand(ex[2]-ex[1]), simp)),
+  if not(integerp(ex[3])) then error("rand_range expects its first argument to be an integer."),
+  if is(length(ex)=3) then return(ev(ex[1]+ex[3]*rand(floor((ex[2]-ex[1])/ex[3])), simp))
+);
+
 /* ********************************** */
 /* Display                            */
 /* ********************************** */

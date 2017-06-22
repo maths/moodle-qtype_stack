@@ -14,33 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
-require_once(__DIR__ . '/../stack/cas/keyval.class.php');
+require_once("config.php");
+require_once("api/api.php");
 
-/**
- * @group qtype_stack
- */
-class stack_api_test extends qtype_stack_testcase {
+class stack_api_api_test extends TestCase {
 
-    public function basic_castext_instantiation($strin, $sa, $val, $disp) {
+    public function test_xml_import() {
+        $questionxml = file_get_contents('samplequestions/test_1_basic_integral.xml');
+        $api = new qtype_stack_api();
+        $question = $api->initialise_question_from_xml($questionxml);
 
-        if (is_array($sa)) {
-            $s1 = array();
-            foreach ($sa as $s) {
-                $s1[] = new stack_cas_casstring($s);
-            }
-            $cs1 = new stack_cas_session($s1, null, 0);
-        } else {
-            $cs1 = null;
-        }
-
-        $at1 = new stack_cas_text($strin, $cs1, 0);
-        $this->assertEquals($val, $at1->get_valid());
-        $this->assertEquals($disp, $at1->get_display_castext());
+        $this->assertEquals($question->type, 'stack');
+        $this->assertEquals($question->questionnote, '$\int @p@ d@v@ = @ta@$');
+        $this->assertEquals($question->questiontext, '<p>Find \[ \int @p@ d@v@\] [[input:ans1]] [[validation:ans1]]</p>');
     }
 
 }

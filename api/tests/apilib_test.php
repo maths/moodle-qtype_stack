@@ -14,24 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/* CJS notes:
- * 
- * https://phpunit.de/getting-started.html
- * 
- */
-
 use PHPUnit\Framework\TestCase;
 
-require_once("../config.php");
+require_once("config.php");
+require_once("api/apilib.php");
 
-final class stack_apilib_html_test extends TestCase {
 
-    public function stack_string() {
-        $this->assertEquals(stack_string('debuginfo'), 'Debug info2');
+class stack_api_apilib_test extends TestCase {
+
+    public function test_stack_string() {
+        $this->assertEquals(stack_string('debuginfo'), 'Debug info');
     }
 
-    public function html_writer_1() {
+    public function test_html_writer() {
         $w = new html_writer;
-        echo $w->tag('p', 'This is a paragraph');
+        $t = $w->tag('p', 'This is a paragraph');
+        $this->assertEquals($t, '<p>This is a paragraph</p>');
     }
 }

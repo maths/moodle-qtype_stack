@@ -5,6 +5,7 @@
  */
 
 require_once("apilib.php");
+require_once(__DIR__ . '/../question.php');
 
 /*
  * Dummy classes to allow STACK's question.php to extend it.

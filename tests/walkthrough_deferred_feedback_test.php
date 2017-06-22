@@ -562,7 +562,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $q = test_question_maker::make_question('stack', 'test0');
 
         // Comment out the following line, and the test passes.
-        $q->questionvariables = 'PrintVect(v):= concat("\\,\\!",ssubst("\\mathbf{j}","YY",   ' .
+        $q->questionvariables = 'PrintVect(v):= sconcat("\\,\\!",ssubst("\\mathbf{j}","YY",   ' .
             'ssubst("\\mathbf{i}","XX", ssubst(" ","*", stack_disp(subst(XX, ii, subst(YY, jj,v )  ),"")))))';
 
         $q->questiontext = '<p><img style="display: block; margin-left: auto; margin-right: auto;" ' .

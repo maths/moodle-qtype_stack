@@ -1034,9 +1034,9 @@ factor_bag(ex) := block(
   return(ex)
 );
 
-/*********************/
-/* Matrix operations */
-/*********************/
+/****************************/
+/* Matrix/vector operations */
+/****************************/
 
 /*
   Description : forme echelonne par lignes d'une matrice rectangulaire
@@ -1118,6 +1118,12 @@ rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
          if not (k=ci) then (p : addrow (p,k,ci,-p[k,cj]))),
       ci : ci+1, cj : cj+1)),
   p
+)$
+
+crossproduct(a,b) := block(
+    if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("cossproduct requires matrices as arguments."),
+    if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("cossproduct requires 3*1 matrices."),
+    transpose(matrix([a[2,1]*b[3,1]−a[3,1]*b[2,1],a[3,1]*b[1,1]−a[1,1]*b[3,1],a[1,1]*b[2,1]−a[2,1]*b[1,1]]))
 )$
 
 /* ********************************** */

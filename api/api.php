@@ -24,10 +24,37 @@ interface question_automatically_gradable_with_multiple_parts{
 class qtype_stack_api {
 
     /* 
-     * This is based closely on the render.php version.
+     * This is based closely on the render.php formulation_and_controls.
      * 
      */
-    public function formulation_and_controls($question, $response, $options, $fieldprefix) {
+    public function formulation_and_controls($question, $attempt, $options, $fieldprefix) {
+
+        /*****************************************************************************/
+        $response = new stdClass();
+        // The "questiontext" is what is shown to the student.
+        // Note, we need a lot of options to formulate this correctly.
+        // For example, are inputs still editable?  Do we display feedback/partial marks in multi-part questions?
+        $response->questiontext = null;
+        // The overall score for this attempt.  Must be a float between 0 and 1.
+        $response->score = null;
+        // The number of marks available for the question, as specified in the question itself.
+        $response->defaultmark = $question->defaultmark;
+        // The "generalfeedback" is a Moodle term for a "worked solution".
+        $response->generalfeedback = null;
+        // This is feedback to students of the form "A correct answer is ...".
+        // This is a text field, not an array of correct answers in Maxima syntax.
+        $response->formatcorrectresponse = null;
+
+        // TODO: should the JSON format be used, or would an array be better here?
+        // One option for the API is that all fields in this class return a flat text object or number. In that case JSON.
+        // This affects the next two fields.
+
+        // This gives a JSON encoded summary of the status of the attempt: "valid", "invalid" etc.
+        $response->summariseresponse = null;
+        // This gives a JSON encoded summary of the status of the potential response trees.
+        $response->answernotes = null;
+
+        /*****************************************************************************/
 
         $questiontext = $question->questiontextinstantiated;
         // For the minimal API we concatinate the two.
@@ -41,7 +68,7 @@ class qtype_stack_api {
             $tavalue = $question->get_session_variable($name);
 
             $fieldname = $fieldprefix.$name;
-            $state = $question->get_input_state($name, $response);
+            $state = $question->get_input_state($name, $attempt);
 
             $questiontext = str_replace("[[input:{$name}]]",
             $input->render($state, $fieldname, $options->readonly, $tavalue),
@@ -56,14 +83,16 @@ class qtype_stack_api {
 
         $weights = $question->get_parts_and_weights();
         $scores = array();
+        $notes = array();
 
         // Replace PRTs.
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
-            $result = $question->get_prt_result($index, $response, false);
+            $result = $question->get_prt_result($index, $attempt, false);
             //echo "<pre>"; print_r($result); echo "</pre>";
             $resultfeedback = $result->get_feedback();
             $scores[$index] = $result->score;
+            $notes[$index] = implode(' | ', $result->answernotes);
             foreach ($resultfeedback as $fb) {
                 $feedback .= $fb->feedback;
             }
@@ -87,27 +116,24 @@ class qtype_stack_api {
             $target = "[[feedback:{$index}]]";
             $questiontext = str_replace($target, $feedback, $questiontext);
         }
+        $response->questiontext = stack_maths::process_display_castext($questiontext);
+        $response->answernotes = json_encode($notes);
 
-        if ($options->score) {
-            $score = 0;
-            foreach ($weights as $prt => $weight) {
-                $score += $weights[$prt] * $scores[$prt];
-            }
-            $score = $score * $question->defaultmark;
-            // TODO: language support etc.
-            $questiontext .= "<p>Your mark for this attempt is ".$score.".</p>";
+        // Sort out the "marks", called a "score".
+        // TODO: STACK penalty scheme is not applied.
+        $score = 0;
+        foreach ($weights as $prt => $weight) {
+            $score += $weights[$prt] * $scores[$prt];
         }
+        $response->score = $score;
+        // You will probably want to do the following somewhere.
+        // $score = $score * $question->defaultmark;
 
-        // Add "generalfeedback" (worked solution), if it exists, and correct answer.
-        if ($options->generalfeedback) {
-            $questiontext .=  "<hr />";
-            $generalfeedback = $question->get_generalfeedback_castext();
-            $questiontext .= $generalfeedback->get_display_castext();
-
-            $questiontext .= $question->format_correct_response(null);
-        }
-        // Now format the questiontext.  This should be done after the subsitutions of inputs and PRTs.
-        $questiontext = stack_maths::process_display_castext($questiontext);
+        // Add in general feedback.
+        $generalfeedback = $question->get_generalfeedback_castext();
+        $response->generalfeedback = stack_maths::process_display_castext($generalfeedback->get_display_castext());
+        $response->formatcorrectresponse = stack_maths::process_display_castext($question->format_correct_response(null));
+        $response->summariseresponse = $question->summarise_response_json($attempt);
 
         /*
         // Initialise automatic validation, if enabled.
@@ -117,7 +143,7 @@ class qtype_stack_api {
         }
         */
 
-        return $questiontext;
+        return $response;
     }
 
     public function format_correct_response($qa) {

@@ -86,6 +86,7 @@ $debug = true;
 $sa = array_reverse($samplearguments);
 $samplearguments2 = array($sa[0]);
 
+$timestart = microtime(true);
 foreach ($samplearguments as $argument) {
     if (array_key_exists('section', $argument)) {
         echo '<hr>';
@@ -172,6 +173,10 @@ foreach ($samplearguments as $argument) {
         if ($rtook < 2) {
             $display_args = false;
         }
+        if ($argumentvalue != $expected) {
+            $display_args = true;
+        }
+        $display_args = true;
         if ($display_args) {
             echo html_writer::tag('h3', $cskey . ": ". $title).
                 html_writer::tag('p', $argument['narrative']);
@@ -191,6 +196,9 @@ foreach ($samplearguments as $argument) {
         flush(); // Force output to prevent timeouts and to make progress clear.
     }
 }
+$timetook = (microtime(true) - $timestart);
+$timetook = round($timetook, 2);
+echo "\n\n<h3 style=\"color:blue;\">Time taken: $timetook</h3>\n\n";
 
 /* Generate offline testing script to cut and paste into desktop Maxima. */
 if ($debug) {

@@ -167,19 +167,26 @@ foreach ($samplearguments as $argument) {
         if ('unsupported' === $argument['outcome']) {
             $title .= ' (Unsupported case)';
         }
-        echo html_writer::tag('h3', $cskey . ": ". $title).
-             html_writer::tag('p', $argument['narrative']);
-        if (!$debug) {
-            echo html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
-                 html_writer::tag('p', $errs);
+
+        $display_args = true;
+        if ($rtook < 2) {
+            $display_args = false;
         }
-        echo html_writer::tag('p', stack_ouput_castext($displaytext));
-        if ($debug) {
-            echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_casstring()) .
-                    ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
+        if ($display_args) {
+            echo html_writer::tag('h3', $cskey . ": ". $title).
+                html_writer::tag('p', $argument['narrative']);
+                if (!$debug) {
+                    echo html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
                     html_writer::tag('p', $errs);
+                }
+                echo html_writer::tag('p', stack_ouput_castext($displaytext));
+                if ($debug) {
+                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_casstring()) .
+                            ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
+                            html_writer::tag('p', $errs);
+                }
+                echo "\n<hr/>\n\n\n";
         }
-        echo "\n<hr/>\n\n\n";
 
         flush(); // Force output to prevent timeouts and to make progress clear.
     }

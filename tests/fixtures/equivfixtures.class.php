@@ -1045,7 +1045,7 @@ class stack_equiv_test_data {
                 'sum(k^2,k,1,n+1) = ((n+1)*(n*(2*n+1)+6*(n+1)))/6, sum(k^2,k,1,n+1) = ((n+1)*(2*n^2+7*n+6))/6, '.
                 'sum(k^2,k,1,n+1) = ((n+1)*(n+2)*(2*(n+1)+1))/6]';
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = false;
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $this->rawdata = $samplearguments;

@@ -1123,7 +1123,7 @@ rref(m):= block([p,nr,nc,i,j,k,pivot,pivot_row,debug],
 crossproduct(a,b) := block(
     if (not(is(safe_op(a)="matrix")) or not(is(safe_op(b)="matrix"))) then error("cossproduct requires matrices as arguments."),
     if (not(is(matrix_size(a)=[3,1])) or not(is(matrix_size(b)=[3,1]))) then error("cossproduct requires 3*1 matrices."),
-    transpose(matrix([a[2,1]*b[3,1]−a[3,1]*b[2,1],a[3,1]*b[1,1]−a[1,1]*b[3,1],a[1,1]*b[2,1]−a[2,1]*b[1,1]]))
+    transpose(matrix([a[2,1]*b[3,1]-a[3,1]*b[2,1],a[3,1]*b[1,1]-a[1,1]*b[3,1],a[1,1]*b[2,1]-a[2,1]*b[1,1]]))
 )$
 
 /* ********************************** */

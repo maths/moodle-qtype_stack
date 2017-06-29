@@ -185,7 +185,6 @@ single_linear_ineq_reduce_h(exl, exo, odr):=block([m1,m2,m3,exg],
 )$  
 
 
-
 /*******************************************************************************/
 /* Solve pol a single inequality a standard form.                              */
 /* ex>0 or ex>=0.                                                              */
@@ -193,7 +192,29 @@ ineqorder(ex) := ineq_rem_redundant(ev(ineqprepare(ex), simp))$
 
 
 /*******************************************************************************/
-/* Solve a single inequality in a single variable by factoring,                */  
+/* Takes a linear inequality in one variable and returns an interval. */
+linear_inequality_to_interval(ex) := block([ex2, v, p, Ans],
+    if not(linear_inequalityp(ex)) then return(ex),
+    ex2:ineqprepare(ex),
+    v:first(listofvars(ex2)),
+    /* We know this solution will exist. */
+    p:rhs(first(solve(lhs(ex2), v))),
+    Ans:ex,
+    if equal(coeff(lhs(ex2), v), 1) then 
+        (
+        if op(ex2)=">" then Ans:oo(p,inf), 
+        if op(ex2)=">=" then Ans:co(p,inf)    
+        ),
+    if equal(coeff(lhs(ex2), v), -1) then 
+        (
+        if op(ex2)=">" then Ans:oo(-inf,p), 
+        if op(ex2)=">=" then Ans:oc(-inf,p)    
+        ),
+    return(Ans)
+)$
+
+/*******************************************************************************/
+/* Solve a single inequality in a single variable by factoring,                */
 /* where possible expressing the result as irreducible inequalities.           */
 inequality_factor_solve(ex):=block(
     if not(inequalityp(ex)) then return(ex),
@@ -204,7 +225,7 @@ inequality_factor_solve(ex):=block(
     if atom(ex2) then return(ex),
     /* Create a list of factors */
     if is(op(ex2)="-") then m:true else m:false,
-    if is(op(ex2)=DIV_OP) then ex2:num(ex2),
+    if is(op(ex2)="/") then ex2:num(ex2),
     if m then fl:first(args(ex2)) else fl:ex2, 
     if safe_op(fl)="*" then fl:args(fl) else fl:[fl],
     /* Turn each inequality back into a list. */

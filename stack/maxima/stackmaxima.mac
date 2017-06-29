@@ -74,37 +74,6 @@ alias(cosec,csc);            /* Corresponds to current student expectations */
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
-
-/* ********************************** */
-/* Logarithms and nth roots           */
-/* ********************************** */
-alias(ln, log);
-
-/* Add in support for logarithms to an arbirary base. */
-lg([ex]) := block(
-  if length(ex) = 1 then return(logbase(first(ex), 10)),
-  if length(ex) = 2 then return(logbase(first(ex), second(ex))),
-  error("STACK function 'lg' must have one or two arguments only.")
-)$
-
-logbasetex(ex) := block([n, b],
-  [n, b]:args(ex),
-  oldsimp:simp,
-  return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
-)$
-texput(logbase, logbasetex);
-
-/* Use of radcan to give canonical form. */
-logbasesimp(n,b) := radcan(log(n)/log(b));
-
-/* Add in a flexible "nth" roots function. */
-root([ex]) := block(
-  if length(ex) > 2 then error("root: must have only two arguments"),
-  if length(ex) = 1 then return(sqrt(first(ex))),
-  if length(ex) = 2 then return(first(ex)^(1/second(ex)))
-)$
-
-
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
@@ -139,11 +108,12 @@ sqrtdenest(a) :=
 /* Load STACK packages                */
 /* ********************************** */
 
-load("assessment.mac");   /* Currently part of the STACK distribution. */
-load("inequalities.mac"); /* Currently part of the STACK distribution. */
-load("stackunits.mac");   /* Currently part of the STACK distribution. */
-load("stacktex.lisp");    /* Loads LaTeX changes and preferences.      */
-/* load("expandfeedback.mac"); */
+load("assessment.mac");
+load("inequalities.mac");
+load("intervals.mac");
+load("stackunits.mac");
+load("stacktex.lisp");
+load("utils.mac");
 
 texput(QMCHAR, "\\color{red}{?}");
 texput(theta, "\\theta");
@@ -1225,14 +1195,18 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgec
     keepfloat:false,
     RawMark:false,
 
+   /* This test assumes we have equations or edge cases.  
+      Type checking here saves a lot of calls to algebraic_equivalence.             */
+    if not((equationp(SA) or logic_edgep(SA)) and (equationp(SB) or logic_edgep(SB))) then
+       return([true, false, "ATEquation_not_both_equations", ""]), 
+
     /* Check for an equation satisfied by anything.                                  */
     if algebraic_equivalence(lhs(SA), rhs(SA)) then SA:all,
     if algebraic_equivalence(lhs(SB), rhs(SB)) then SB:all,
 
     /* Trap edge cases.                                                              */
     edgecase:false,
-    if is(SA=all) or is(SA=none) or is(SB=all) or is(SB=none) then
-        edgecase:true,
+    if logic_edgep(SA) or logic_edgep(SB) then edgecase:true,
 
     /* That said in lots of situations students will be asked to enter an equation.  */
     /* First we try the obvious of checking equivalence of each side.                */
@@ -1265,6 +1239,10 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgec
     R:ratsimp(R1/R2),
     if numberp(float(abs(R))) then 
         return([true, true, "ATEquation_num", ""]),
+
+    /* Guard clause for efficiency. */
+    if freeof(abs, SA) and freeof(abs, SB) then
+        return([true, false, "ATEquation_default", ""]),
 
     /* Now try to get rid of absolute value signs. */
     R1:abs_replace_eq(SA),

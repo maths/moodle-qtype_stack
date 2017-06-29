@@ -42,87 +42,6 @@ poly_truncate(pa,d) := apply("+",maplist(lambda([ex],if hipow(ex,x)>d then 0 els
 /*                                                              */
 /****************************************************************/
 
-
-
-/* Use nounand/noun or with the output of to_poly_solve.          */
-noun_to_poly_solve_output(ex) := block([S],
-   S:ev(to_poly_solve(ex, listofvars(s)), simp),
-   /* Check the trivial cases. */
-   if S=[] then return([]),
-   if S=[ex] then return(ex),
-   if atom(S) then return(S),
-   if not(is(op(S)='%union)) then return(S),
-   if length(args(S))=1 then 
-          return(makenounandlist(first(args(S)))),
-   apply("nounor", maplist(makenounandlist, args(S)))
-)$
-
-makenounandlist(ex) := block(
-   if not(listp(ex)) then return(ex),
-   if length(ex)=1 then return(first(ex)),
-   apply("nounand", args(ex))
-)$
-
-/* This function removes duplicates (e.g. x>1 and 1<x end up the same.        */
-/* Finally it orders the result.                                              */
-ineq_rem_dups(ex) := block(
-    if mapatom(ex) then return(ex),
-    if safe_op(ex)="?%and" or safe_op(ex)="?%or" or safe_op(ex)="?%not" or safe_op(ex)="and" or safe_op(ex)="or"
-        then return(ineq_rem_dups_h(op(ex), args(ex))),
-    return(ex)
-)$
-
-/* This function removes duplicates, but only keeps the operator when the resulting list has 
-   more than one element. */
-ineq_rem_dups_h(a, ex) := block([S],
-    S:sort(listify(setify((map(ineqorder_f, ex))))),
-    if length(S)=1 then return(first(S)) else return(apply(a, S))
-)$
-
-/*******************************************************************************/
-/* Using inequalities to represent real intervals                              */
-
-/* Does the expression define a *single* interval, by means of an inequality?  */
-/* E.g. 1<x and x<7                                                            */
-/* We only accept linear inequalities in one variable, combined by "and"       */
-/* We don't expect this to be the *simplest* form, that is later.              */ 
-/* A single inequality is a half open interval.                                */
-/* true is the whole real line, false is the empty set.                        */
-interval_inequalityp(ex) := block(
-    /* Emptyset and real line. */
-    if equal(ex, true) then return(true),
-    if equal(ex, false) then return(true),
-    if atom(ex) then return(false),
-    /* Half open intervals. */
-    if linear_inequalityp(ex) then return(true),
-    if not(is(safe_op(ex)="nounand") or is(safe_op(ex)="?%and")) then return(false),
-    if is(length(listofvars(ex))>1) then return(false),
-    return(all_listp(linear_inequalityp, args(ex)))
-)$
-
-/* Takes a real interval and returns the canonical form for this inequality    */
-/* a<x and x<b                                                                 */
-/* or, true, false, or a single inequality                                     */
-interval_simplify(ex) := block([ex2, v, a, b],
-    if not(interval_inequalityp(ex)) then return(ex),
-    /* We know we have an interval inequality. */
-    if equal(ex, true) then return(true),
-    if equal(ex, false) then return(false),
-    /* Remove redundant inequalities: might leave us with a single one. */
-    ex:map(inequality_disp, ex),
-    ex:ineq_rem_redundant(ex),
-    if linear_inequalityp(ex) then return(inequality_disp(ex)),
-    /* Now we are in business.  We have a single interval, of two inequalities. */
-    v:listofvars(ex),
-    if equal(v,lhs(first(ex))) then ex:second(args(ex)) and first(args(ex)),
-    /* This should now be in the right form. */
-    /* Check for an empty set (2 possibilities) */
-    if (lhs(first(args(ex)))) > (rhs(second(args(ex)))) then return(false),
-    if (lhs(first(args(ex)))) = (rhs(second(args(ex)))) and not(safe_op(first(args(ex))) = "<=" and safe_op(second(args(ex))) = "<=") then return(false), 
-    ex
-)$
-
-
 /****************************************************************/
 /*  Reporting support functions for STACK                       */
 /*                                                              */
@@ -252,4 +171,15 @@ naivesqrthelper(ex):=block(
   if equal(first(ex), second(ex)) then return(append([first(args(first(ex)))], naivesqrthelper(rest(rest(ex))))),
   append([first(ex)], naivesqrthelper(rest(ex)))
 );
+
+
+/****************************************************************/
+/*  Solver for single variable systems over R                   */
+/*                                                              */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
+/*  V0.1 August 2015                                            */
+/*                                                              */
+/****************************************************************/
+
+s
 

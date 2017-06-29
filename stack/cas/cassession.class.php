@@ -208,8 +208,13 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('display', $result)) {
+                    $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+                        '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
                     // Need to add this in here also because strings may contain question mark characters.
-                    $disp = str_replace('QMCHAR', '?', $result['display']);
+                    $disp = $result['display'];
+                    foreach ($dispfix as $key => $fix) {
+                        $disp = str_replace($key, $fix, $disp);
+                    }
                     $disp = $this->translate_displayed_tex($disp);
                     $cs->set_display($disp);
                 }

@@ -570,6 +570,15 @@ class stack_equiv_test_data {
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'Extra and missing solutions';
+        $newarg['casstring'] = "[x*(x-1)*(x-2)=0,x*(x-1)=0,x*(x-1)*(x-2)=0,x*(x^2-2)=0]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIEDCHAR,IMPLIESCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $newarg['assumepos'] = false;
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Working over the real numbers';

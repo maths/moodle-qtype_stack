@@ -37,8 +37,6 @@ if not(?functionp('to_poly_solve)) then load("to_poly_solve");
 
 if not(?functionp('rempart)) then load(functs);
 
-load("inequalities.mac");
-
 /* ********************************** */
 /* Parts of expressions               */
 /* ********************************** */
@@ -195,6 +193,35 @@ polynomialpsimp(e):= polynomialp(e, listofvars(e))$
 
 /* This is to fix a bug in Maxima 5.38.1.  */
 safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
+
+/* ********************************** */
+/* Logarithms and nth roots           */
+/* ********************************** */
+alias(ln, log);
+
+/* Add in support for logarithms to an arbirary base. */
+lg([ex]) := block(
+  if length(ex) = 1 then return(logbase(first(ex), 10)),
+  if length(ex) = 2 then return(logbase(first(ex), second(ex))),
+  error("STACK function 'lg' must have one or two arguments only.")
+)$
+
+logbasetex(ex) := block([n, b],
+  [n, b]:args(ex),
+  oldsimp:simp,
+  return(concat("\\log_{", stack_disp_strip_dollars(tex(b, false)), "}\\left(", stack_disp_strip_dollars(tex(n, false)), "\\right)"))
+)$
+texput(logbase, logbasetex);
+
+/* Use of radcan to give canonical form. */
+logbasesimp(n,b) := radcan(log(n)/log(b));
+
+/* Add in a flexible "nth" roots function. */
+root([ex]) := block(
+  if length(ex) > 2 then error("root: must have only two arguments"),
+  if length(ex) = 1 then return(sqrt(first(ex))),
+  if length(ex) = 2 then return(first(ex)^(1/second(ex)))
+)$
 
 /* ********************************** */
 /* Numerical operations               */
@@ -755,12 +782,17 @@ declare("nounor", commutative)$
 declare("nounor", lassociative)$
 declare("nounor", rassociative)$
 
+logic_edgep(ex) := block(
+   if is(ex=true) then return(true),
+   if is(ex=false) then return(true),
+   if is(ex=all) then return(true),
+   if is(ex=none) then return(true),
+   return(false)
+)$
+
 /* A predicate to decide if we have a logical expression. */
 logicp(ex) := block(
-  if is(ex=true) then return(true),
-  if is(ex=false) then return(true),
-  if is(ex=all) then return(true),
-  if is(ex=none) then return(true),
+  if logic_edgep(ex) then return(true),
   if safe_op(ex) = "nounand" then return(true),
   if safe_op(ex) = "nounor" then return(true),
   if safe_op(ex) = "and" then return(true),
@@ -1225,7 +1257,7 @@ texput(stackeq, stackeqtex);
 /* Expr: symbol, is a symbol which may or may not be displayed.                                */
 /* Expr: expression, is the line of the argument.                                              */
 /* String: note is some deugging information.                                                  */
-stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodlogic, SA, SAL, SB, SBL, malrulecont],
+stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, SA, SAL, SB, SBL, malrulecont],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
   if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], ""])),
   if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), ""])),
@@ -1242,8 +1274,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   /* STAGE A: Loop and sort out expressions. */
   exmod:copy(ex),
   exmodpoly:copy(ex),
-  exmodlogic:copy(ex),
-  exmodtps:copy(ex),
+  exmodsolve:copy(ex),
   for id:1 thru length(ex) step 1 do block([SA, tempnote],
       SA:exmod[ev(id, simp)],
       if stack_eval_arg_equivzerop(ex) then SA:SA=0,
@@ -1255,30 +1286,31 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(emptyp(SA)) or is(SA=false) then SA:none,
       if is(SA=true) then SA:all,
 
-      if (debug) then print("     Line:", ev(id, simp), SA),
+      SA:abs_replace_eq(SA),
       exmod[ev(id, simp)]:SA,
 
-      SA:abs_replace_eq(ev(SA, simp)),
-      SA:ev(ineqprepare(SA), simp),
+      exmodsolve[ev(id, simp)]:ev(single_variable_solver_real(SA), simp),
       /* Try to turn things into polynomials.  Much more reliable equivalence checking. */
       /* End up in the form p(x) = 0                                                    */
       if (logicp(SA)) then block(
           SA:ev(logic_to_poly(SA), simp)
       ),
-      if (debug) then print("Turn line ", ev(id, simp), " to polynomials:", SA),
       exmodpoly[ev(id, simp)]:SA
   ),
 
   if debug then print("Modified list: ", exmod),
   if debug then print("To poly list: ", exmodpoly),
+  if debug then print("Solved: ", exmodsolve),
 
   /* STAGE B: Loop and check adjacent expressions for equivalence. */
-  for id:2 thru length(ex) step 1 do block([ATres, SA, SB, SAP, SBP, SAL, SBL],
+  for id:2 thru length(ex) step 1 do block([ATres, SA, SB, SAP, SBP, SAS, SBS, SAL, SBL],
       tempnote:"",
       SA:exmod[ev(id-1, simp)],
       SB:exmod[ev(id, simp)],
       SAP:exmodpoly[ev(id-1, simp)],
       SBP:exmodpoly[ev(id, simp)],
+      SAS:exmodsolve[ev(id-1, simp)],
+      SBS:exmodsolve[ev(id, simp)],
 
       if (debug) then print("-------------------------------"),
       if (debug) then print("Line: ", ev(id-1,simp)),
@@ -1286,60 +1318,102 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if (debug) then print(SB),
       if (debug) then print(SAP),
       if (debug) then print(SBP),
+      if (debug) then print(SAS),
+      if (debug) then print(SBS),
       /* Strings break up an argument into independent blocks. */
       if stringp(SA) or stringp(SB) then block(
           eqoutsymb[ev(id, simp)]:EMPTYCHAR,
           eqoutcome[ev(id, simp)]:unknown
       ) else (
+          malrulecont:true,
           /* Now check for equivalences. */
-          tempnote:sconcat(tempnote, "SAP: ", string(SAP), "; "),
-          tempnote:sconcat(tempnote, "SBP: ", string(SBP), "; "),
+          tempnote:sconcat(tempnote, "SAS: ", string(SAS), "; "),
+          tempnote:sconcat(tempnote, "SBS: ", string(SBS), "; "),
+          if (debug) then print("Solved as ", string(SAS), ", ", string(SBS)),
           if (debug) then print("ATAlgEquiv(", string(SAP), ", ", string(SBP), ");"),
-          ATres:ev(ATAlgEquiv(SAP, SBP), simp),
-          if (debug) then print(ATres),
-          if second(ATres) then block(
+          if is(SAS=SBS) then block
+              (
+              malrulecont:false,
               eqoutcome[ev(id, simp)]:true,
               eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-              eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
-          ),
-
-          /* Deal with special cases with assume_pos. */
-          if assume_pos then block(
-              if (debug) then print("** Checking for assume_pos **"),
-              if (debug) then print("ATAlgEquiv(", string(SA^2), ", ", string(abs(SB)), ");"),
-              ATres:ev(ATAlgEquiv(SA^2, abs(SB)), simp),
-              if (debug) then print(ATres),
-              if second(ATres) then block(
-                  eqoutcome[ev(id, simp)]:true,
-                  eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_sq_abs | ", third(ATres))
-              ),
-              if (debug) then print("ATAlgEquiv(", string(abs(SA)), ", ", string(SB^2), ");"),
-              ATres:ev(ATAlgEquiv(abs(SA), SB^2), simp),
-              if (debug) then print(ATres),
-              if second(ATres) then block(
-                  eqoutcome[ev(id, simp)]:true,
-                  eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_abs_sq | ", third(ATres))
+              eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Solved_true")
               )
-          ),
+          else 
+              /* First thing, check for subsets.  */
+              if safe_op(SAS)="realset" and safe_op(SBS)="realset" and is(first(args(SAS))=first(args(SBS))) then block
+                  (
+                  if not(SAS=SBS) and setp(second(args(SAS))) and setp(second(args(SBS))) then
+                  if subsetp(second(args(SAS)), second(args(SBS))) then block
+                      (
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Solved IMPLIES ")
+                      )
+                  elseif subsetp(second(args(SBS)), second(args(SAS))) then block
+                      (
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Solved IMPLIED ")
+                      )
+             ),
 
-          /* Special cause of real single variable equations. */
-          if (assume_real and not(eqoutcome[ev(id, simp)])) then block([FAA, FBB, FGCD, ATres],
-              FAA:lhs(SAP),
-              FAB:lhs(SBP),
-              if (debug) then print("** Checking assume_real with: ", string(FAA), ", ", string(FAB), " **"),
-              if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and length(listofvars(FAA))=1 and length(listofvars(FAB))=1) then block(
-                  FAA:ev(solve(FAA), simp),
-                  FAB:ev(solve(FAB), simp),
-                  if (debug) then print("Solved as ", string(FAA), ", ", string(FAB)),
-                  FAA:ev(sublist(FAA, lambda([ex2], real_numberp(rhs(ex2))))),
-                  FAB:ev(sublist(FAB, lambda([ex2], real_numberp(rhs(ex2))))),
-                  if (debug) then print("Filtered as ", string(FAA), ", ", string(FAB)),
-                  if sort(FAA)=sort(FAB) then block(
+          if (malrulecont) then block
+          (
+              ATres:ev(ATAlgEquiv(SAP, SBP), simp),
+              tempnote:sconcat(tempnote, "SAP: ", string(SAP), "; "),
+              tempnote:sconcat(tempnote, "SBP: ", string(SBP), "; "),
+              if (debug) then print(ATres),
+              if second(ATres) then block
+                (
+                eqoutcome[ev(id, simp)]:true,
+                eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
+                ),
+
+              /* Deal with special cases with assume_pos. */
+              if assume_pos then block
+                  (
+                  if (debug) then print("** Checking for assume_pos **"),
+                  if (debug) then print("ATAlgEquiv(", string(SA^2), ", ", string(abs(SB)), ");"),
+                  ATres:ev(ATAlgEquiv(SA^2, abs(SB)), simp),
+                  if (debug) then print(ATres),
+                  if second(ATres) then block
+                      (
                       eqoutcome[ev(id, simp)]:true,
-                      eqoutsymb[ev(id, simp)]:EQUIVCHARREAL
-                  )
+                      eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_sq_abs | ", third(ATres))
+                      ),
+                  if (debug) then print("ATAlgEquiv(", string(abs(SA)), ", ", string(SB^2), ");"),
+                  ATres:ev(ATAlgEquiv(abs(SA), SB^2), simp),
+                  if (debug) then print(ATres),
+                  if second(ATres) then block
+                      (
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:EQUIVCHAR,
+                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_abs_sq | ", third(ATres))
+                      )
+                ),
+
+              /* Special cause of real single variable equations. */
+              if (assume_real and not(eqoutcome[ev(id, simp)])) then block([FAA, FBB, FGCD, ATres],
+                  FAA:lhs(SAP),
+                  FAB:lhs(SBP),
+                  if (debug) then print("** Checking assume_real with: ", string(FAA), ", ", string(FAB), " **"),
+                  if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and length(listofvars(FAA))=1 and length(listofvars(FAB))=1) then block(
+                    FAA:ev(solve(FAA), simp),
+                    FAB:ev(solve(FAB), simp),
+                    if (debug) then print("Solved as ", string(FAA), ", ", string(FAB)),
+                    FAA:ev(sublist(FAA, lambda([ex2], real_numberp(rhs(ex2))))),
+                    FAB:ev(sublist(FAB, lambda([ex2], real_numberp(rhs(ex2))))),
+                    if (debug) then print("Filtered as ", string(FAA), ", ", string(FAB)),
+                    if sort(FAA)=sort(FAB) then block
+                        (
+                        eqoutcome[ev(id, simp)]:true,
+                        eqoutsymb[ev(id, simp)]:EQUIVCHARREAL
+                        )
+                 )
               )
           ),
 
@@ -1475,7 +1549,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if malrulecont then block([FBB, ATres],
               /* (3) Squared second. */
               FBB:ev(SB^2,simp),
-              if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(SBL), ");"),
+              if (debug) then print("ATAlgEquiv(", string(SA), ", ", string(FBB), ");"),
               ATres:ev(ATAlgEquiv(SA, FBB), simp),
               if (debug) then print(ATres),
               if second(ATres) then block(

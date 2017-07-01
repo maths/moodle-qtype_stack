@@ -828,12 +828,12 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-        
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';
         $samplearguments[] = $newarg;
-        
+
         $newarg = array();
         $newarg['title']     = "Correct";
         $newarg['narrative'] = '';
@@ -1046,7 +1046,7 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unknown';
         $samplearguments[] = $newarg;
-        
+
         $newarg = array();
         $newarg['title']     = "Proof by induction (2)";
         $newarg['narrative'] = "";

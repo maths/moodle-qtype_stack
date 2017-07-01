@@ -195,7 +195,7 @@ SimpleUnion(X,Y) :=
             Ans:A
         elseif setp(A) then
                 (
-                if setp(B) then 
+                if setp(B) then
                     Ans:union(A,B)
                 else
                     (
@@ -205,19 +205,19 @@ SimpleUnion(X,Y) :=
                     n:length(Aset),
                     while i<(n+1) do
                         ( if (Aset[i]<x1 or Aset[i]>y1) then setAns:cons(Aset[i],setAns)
-                            elseif Aset[i]=x1 then 
+                            elseif Aset[i]=x1 then
                                 (
                                 if op(B)=oc then B:cc(x1,y1),
-                                if op(B)=oo then B:co(x1,y1) 
+                                if op(B)=oo then B:co(x1,y1)
                                 )
                             elseif Aset[i]=y1 then
                                 (
                                 if op(B)=co then B:cc(x1,y1),
-                                if op(B)=oo then B:oc(x1,y1) 
+                                if op(B)=oo then B:oc(x1,y1)
                                 ),
                         i:i+1
                         ),
-                    if length(setAns)>0 then (setAns:setify(setAns), Ans: [B,setAns] ) else Ans:B  
+                    if length(setAns)>0 then (setAns:setify(setAns), Ans: [B,setAns] ) else Ans:B
                     )
                 )
             elseif setp(B) then
@@ -228,22 +228,22 @@ SimpleUnion(X,Y) :=
                     n:length(Aset),
                     while i<(n+1) do
                         (if (Aset[i]<x1 or Aset[i]>y1) then setAns:cons(Aset[i],setAns)
-                            elseif Aset[i]=x1 then 
+                            elseif Aset[i]=x1 then
                                 (
                                 if op(A)=oc then A:cc(x1,y1),
-                                if op(A)=oo then A:co(x1,y1) 
+                                if op(A)=oo then A:co(x1,y1)
                                 )
                             elseif Aset[i]=y1 then
                                 (
                                 if op(A)=co then A:cc(x1,y1),
-                                if op(A)=oo then A:oc(x1,y1) 
+                                if op(A)=oo then A:oc(x1,y1)
                                 ),
                         i:i+1
                         ),
                     if length(setAns)>0 then (setAns:setify(setAns), Ans: [A,setAns] ) else Ans:A
                     ),
-                    
-        if ( not atom(A) and not atom(B) ) then 
+
+        if ( not atom(A) and not atom(B) ) then
             (
             Args1:args(A),
             Args2:args(B),
@@ -253,7 +253,7 @@ SimpleUnion(X,Y) :=
                 if first(Args1)<first(Args2) then swap:false,
                 if first(Args1)=first(Args2) then
                     (
-                    if ( op(A)=co or op(A)=cc ) then swap:false 
+                    if ( op(A)=co or op(A)=cc ) then swap:false
                     elseif ( op(B)=co or op(B)=cc ) then swap:true
                     else swap:false
                     ),
@@ -293,12 +293,12 @@ SimpleUnion(X,Y) :=
                     (
                     if (op(B)=oc or op(B)=cc) then
                         Ans:SimpleUnion( A , {y2} )
-                    else 
+                    else
                         Ans:A
                     ),
                 if (x2<y1 and y2<y1) then
                     Ans:A,
-                if x2=y1 then 
+                if x2=y1 then
                     (
                     if ( (op(A)=co or op(A)=oo) and (op(B)=oo or op(B)=oc) ) then
                         Ans:[A,B]
@@ -307,12 +307,12 @@ SimpleUnion(X,Y) :=
                         if (op(A)=cc or op(A)=co) then
                             (
                             if (op(B)=oc or op(B)=cc) then Ans:cc(x1,y2)
-                            elseif (op(B)=oo or op(B)=co) then Ans:co(x1,y2) 
+                            elseif (op(B)=oo or op(B)=co) then Ans:co(x1,y2)
                             )
                         elseif (op(A)=oc or op(A)=oo) then
                             (
                             if (op(B)=oc or op(B)=cc) then Ans:oc(x1,y2)
-                            elseif (op(B)=oo or op(B)=co) then Ans:oo(x1,y2) 
+                            elseif (op(B)=oo or op(B)=co) then Ans:oo(x1,y2)
                             )
                         )
                     )
@@ -332,7 +332,7 @@ SimpleIntersect(X,Y) :=
             atom(B) then Ans:{} elseif
             setp(A) then
                 (
-                if setp(B) then 
+                if setp(B) then
                     (
                     return(intersect(A,B))
                     )
@@ -345,7 +345,7 @@ SimpleIntersect(X,Y) :=
                     while i<(n+1) do
                         (if inintervalp(Aset[i],B) then setAns:cons(Aset[i],setAns),
                         i:i+1),
-                    if length(setAns)>0 then (setAns:setify(setAns), Ans:setAns ) else Ans:{} 
+                    if length(setAns)>0 then (setAns:setify(setAns), Ans:setAns ) else Ans:{}
                     )
                 )
             elseif setp(B) then
@@ -360,7 +360,7 @@ SimpleIntersect(X,Y) :=
                         ),
                     if length(setAns)>0 then (setAns:setify(setAns), Ans:setAns ) else Ans:{}
                     ),
-        if ( not atom(A) and not atom(B) ) then 
+        if ( not atom(A) and not atom(B) ) then
             (
             Args1:args(A),
             Args2:args(B),
@@ -388,19 +388,19 @@ SimpleIntersect(X,Y) :=
                     y2:last(Args1),
                     x1:first(Args2),
                     y1:last(Args2) ),
-                if x2>y1 then 
+                if x2>y1 then
                     Ans:{},
                 if (x2<y1 and y2>y1) then
                     (
                     if (op(A)=cc or op(A)=oc) then
                         (
                         if (op(B)=cc or op(B)=co) then Ans:cc(x2,y1)
-                        elseif (op(B)=oo or op(B)=oc) then Ans:oc(x2,y1) 
+                        elseif (op(B)=oo or op(B)=oc) then Ans:oc(x2,y1)
                         )
                     elseif (op(A)=co or op(A)=oo) then
                         (
                         if (op(B)=co or op(B)=cc) then Ans:co(x2,y1)
-                        elseif (op(B)=oo or op(B)=oc) then Ans:oo(x2,y1) 
+                        elseif (op(B)=oo or op(B)=oc) then Ans:oo(x2,y1)
                         )
                     ),
                 if (x2<y1 and y2<y1) then Ans:B,
@@ -413,7 +413,7 @@ SimpleIntersect(X,Y) :=
                     if (not lopen and ropen) then Ans:co(x2,y1),
                     if (not lopen and not ropen) then Ans:cc(x2,y1)
                     ),
-                if x2=y1 then 
+                if x2=y1 then
                     (
                     if ( (op(A)=cc or op(A)=oc) and (op(B)=co or op(B)=cc) ) then Ans:{x2} else Ans:{}
                     )
@@ -487,7 +487,7 @@ TidyUnion(X):=
             n:length(A),
             while i<n+1 do
                 (
-                if ( setp(A[i]) ) then 
+                if ( setp(A[i]) ) then
                     (
                     setpart:union( setpart, A[i] ),
                     A:delete( A[i], A, 1 ),
@@ -520,37 +520,37 @@ Union(X, Y) :=
         if op(Y)=%union then B:args(Y),
 
         if ( ( not op(A)="[" ) and ( not op(B)="[" ) ) then Ans:SimpleUnion(A,B)
-            else 
+            else
                 (
                 if ( not op(A)="[" ) then (temp:[], A:cons(A,temp) ),
                 if ( not op(B)="[" ) then (temp:[], B:cons(B,temp) )
                 ),
 
-        if ( ( op(A)="[" ) and ( op(B)="[" ) ) then 
+        if ( ( op(A)="[" ) and ( op(B)="[" ) ) then
             (
             m:length(A),
             n:length(B),
-            if (m=1 and n=1) then (A:A[1], B:B[1], Ans:Union(A,B) ) 
-            else 
+            if (m=1 and n=1) then (A:A[1], B:B[1], Ans:Union(A,B) )
+            else
             (
             while i<(m+1)do
                 (
-                if op( A[i] ) = set then 
+                if op( A[i] ) = set then
                     (
-                    sets:SimpleUnion( sets , A[i] ), 
-                    A:delete( A[i] , A , 1 ), 
+                    sets:SimpleUnion( sets , A[i] ),
+                    A:delete( A[i] , A , 1 ),
                     i:i-1,
                     m:m-1
                     ),
-                i:i+1   
+                i:i+1
                 ),
             i:1,
             while j<(n+1)do
                 (
-                if op( B[j] ) = set then 
+                if op( B[j] ) = set then
                     (
-                    sets:SimpleUnion( sets , B[j] ), 
-                    B:delete( B[j] , B , 1 ), 
+                    sets:SimpleUnion( sets , B[j] ),
+                    B:delete( B[j] , B , 1 ),
                     j:j-1,
                     n:n-1
                     ),
@@ -574,15 +574,15 @@ Union(X, Y) :=
                         (
                         x:first( temp[i] ),
                         y:last( temp[i] ),
-                        if inintervalp( sets[j], temp[i] ) then 
+                        if inintervalp( sets[j], temp[i] ) then
                             (
                             sets:delete( sets[j], sets, 1 ),
                             n:n-1,
                             j:j-1,
                             i:m+1
                             )
-                        elseif ( sets[j]=x or sets[j]=y ) then 
-                            ( 
+                        elseif ( sets[j]=x or sets[j]=y ) then
+                            (
                             temp[i]:Union( temp[i], { sets[j] } ) ,
                             sets:delete( sets[j], sets, 1 ),
                             n:n-1,
@@ -654,7 +654,7 @@ JoinedUnion(X) :=
                         ),
                     j:j+1
                     ),
-                if disjoint[i] = true then 
+                if disjoint[i] = true then
                     (
                     nextA:delete( A[i], nextA, 1 ),
                     nextA:append(nextA, [ A[i] ] )
@@ -680,18 +680,18 @@ Intersection(X,Y) :=
         if op(A)=%union then A:args(A),
         if op(B)=%union then B:args(B),
         if ( ( not op(A)="[" ) and ( not op(B)="[" ) ) then Ans:SimpleIntersect(A,B)
-            else 
+            else
                 (
                 if ( not op(A)="[" ) then (temp:[], A:cons(A,temp) ),
                 if ( not op(B)="[" ) then (temp:[], B:cons(B,temp) )
                 ),
 
-        if ( ( op(A)="[" ) and ( op(B)="[" ) ) then 
+        if ( ( op(A)="[" ) and ( op(B)="[" ) ) then
             (
             m:length(A),
             n:length(B),
-            if (m=1 and n=1) then (A:A[1], B:B[1], Ans:SimpleIntersect(A,B) )     
-            else    
+            if (m=1 and n=1) then (A:A[1], B:B[1], Ans:SimpleIntersect(A,B) )
+            else
                 (
                 while i<m+1 do
                     (
@@ -755,7 +755,7 @@ OrderPoints(X):=
                         )
                     else
                         (
-                        if setpart[1] < first( A[1] ) then 
+                        if setpart[1] < first( A[1] ) then
                             (
                             Ans:append( Ans, [ { setpart[1] } ] ),
                             setpart:delete( setpart[1], setpart, 1 )
@@ -909,7 +909,7 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     ex:subst("%and", "nounand", ex),
     ex:subst("%or", "nounor", ex),
     /* %not is not an infix operator... */
-    ex:subst(%not, "not", ex), 
+    ex:subst(%not, "not", ex),
     ex:subst("%and", "and", ex),
     ex:subst("%or", "or", ex),
 
@@ -918,7 +918,6 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
        assume_pos:false,
        ex:ex %and (v>=0)
        ),
-print([assume_pos,ex]),
     ex:de_morgan(ex),
 
     ex:single_variable_solver_real_rec(ex, v),
@@ -970,5 +969,11 @@ equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
   sol2:sublist(sol0, lambda([ex2], not is(lhs(ex2)=v))),
   sol1:maplist(rhs,sol1),
   sol1:setify(sol1),
-  return(sol1 %or apply("%or", sol2))
+  if is(length(sol2)=1) then
+    sol2:first(sol2)
+  else
+    sol2:apply("%or", sol2),
+  if emptyp(sol1) then
+    return(sol2),
+  return(sol1 %or sol2)
 );

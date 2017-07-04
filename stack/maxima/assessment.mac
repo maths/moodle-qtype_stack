@@ -993,6 +993,7 @@ abs_replace(ex):=block([exc1, exc2, ret],
 /* Replace abs(x) in an equation or inequality, to possibly give a product of factors.  */
 abs_replace_eq(ex):=block([exn, assume_pos],
   /* In this function we don't want any extra simplification of variables. */
+  assume_pos:false,
   if freeof(abs, ex) then return(ex),
   if not(equationp(ex) or inequalityp(ex)) then return(ex),
   exn:ineqprepare(ex),
@@ -1256,7 +1257,7 @@ texput(stackeq, stackeqtex);
 /* Expr: symbol, is a symbol which may or may not be displayed.                                */
 /* Expr: expression, is the line of the argument.                                              */
 /* String: note is some deugging information.                                                  */
-stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, exnatdomain, SA, SAL, SB, SBL, malrulecont],
+stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, exnatdomain, SA, SAL, SB, SBL, malrulecont, assume_pos],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
   if emptyp(ex) then return(matrix([true, EMPTYCHAR, EMPTYCHAR, [], ""])),
   if length(ex)=1 then return(matrix([true, EMPTYCHAR, EMPTYCHAR, first(ex), ""])),
@@ -1719,7 +1720,7 @@ ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack]
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack],
+ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos],
 
     /* Turn on simplification and error catch. */
     SAA:errcatch(ev(SA, simp, nouns)),

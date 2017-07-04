@@ -333,7 +333,7 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Absolute value";
-        $newarg['narrative'] = "We can't have it both ways: if the variables are positive then this is not equivalen!" ;
+        $newarg['narrative'] = "We can't have it both ways: if the variables are positive then this is not equivalent!" ;
         $newarg['casstring'] = "[abs(a)=abs(b),a=b or a=-b]";
         $newarg['debuglist'] = "[ASSUMEPOSVARS,IMPLIESCHAR]";
         $newarg['outcome']   = false;

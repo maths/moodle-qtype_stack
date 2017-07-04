@@ -28,9 +28,9 @@
 cc_num(x,y) :=
     block ( [Ans],
         Ans: 'cc(x,y),                          /* Makes Ans equal to the original interval. Note the ' to stop evaluation or else it would create an infinite loop. */
-        if not numberp(x) then                  /* Checks x is a real number. */
+        if not ev(real_numberp(x), simp) then                  /* Checks x is a real number. */
         error("intervals: ",x," should be a real number"),
-        if not numberp(y) then                  /* Checks y is a real number. */
+        if not ev(real_numberp(y), simp) then                  /* Checks y is a real number. */
         error("intervals: ",y," should be a real number"),
         if y<x then Ans:{},                     /* Our interval is the empty set if y<x. */
         if x=y then Ans:{x},                    /* Simply the set {x} is x=y. */
@@ -40,9 +40,9 @@ cc_num(x,y) :=
 oo_num(x,y) :=
     block ( [Ans],
         Ans: 'oo(x,y),
-        if (not numberp(x) and not(x=\inf or x=-\inf ) ) then
+        if ev(not real_numberp(x) and not(x=\inf or x=-\inf ), simp) then
         error("intervals: ",x," should be a real number"),
-        if (not numberp(y) and not(y=\inf or y=-\inf ) ) then
+        if ev(not real_numberp(y) and not(y=\inf or y=-\inf ), simp) then
         error("intervals: ",y," should be a real number"),
         if y<x then Ans:{},
         if x=y then Ans:{},
@@ -52,9 +52,9 @@ oo_num(x,y) :=
 co_num(x,y) :=
     block ( [Ans],
         Ans: 'co(x,y),
-        if not numberp(x) then
+        if ev(not real_numberp(x), simp) then
         error("intervals: ",x," should be a real number"),
-        if (not numberp(y) and not(y=\inf or y=-\inf ) ) then
+        if ev((not real_numberp(y) and not(y=\inf or y=-\inf )), simp) then
         error("intervals: ",y," should be a real number"),
         if y<x then Ans:{},
         if x=y then Ans:{},
@@ -64,9 +64,9 @@ co_num(x,y) :=
 oc_num(x,y) :=
     block ( [Ans],
         Ans: 'oc(x,y),
-        if (not numberp(x) and not(x=\inf or x=-\inf ) ) then
+        if ev(not real_numberp(x) and not(x=\inf or x=-\inf )), simp) then
         error("intervals: ",x," should be a real number"),
-        if not numberp(y) then
+        if ev(not real_numberp(y), simp) then
         error("intervals: ",y," should be a real number"),
         if y<x then Ans:{},
         if x=y then Ans:{},
@@ -105,10 +105,14 @@ oo_interval_tex(ex) := block([a, b],
   )$
 texput(oo, oo_interval_tex)$
 
-realset_tex(ex) := block([a, b],
+realset_tex(ex) := block([a, b, c],
   a:first(args(ex)),
   b:second(args(ex)),
-  concat("{", tex1(a), " \\in {",tex1(b), "}}")
+  c:ev(Complement(b), simp),
+  if setp(c) then
+      concat("{", tex1(a), " \\not\\in {",tex1(c), "}}")
+  else
+      concat("{", tex1(a), " \\in {",tex1(b), "}}")
   )$
 texput(realset, realset_tex)$
 
@@ -119,7 +123,7 @@ inintervalp(p, A) :=
         cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
         Ans:false,
-        if not simp_numberp(ev(p,simp)) then
+        if not ev(real_numberp(p), simp) then
         error("intervals: ",p," should be a real number"),
 
         if atom(A) then Ans:false
@@ -182,6 +186,16 @@ realsetp(ex) := block(
     if setp(ex) then return(true),
     if intervalp(ex) then return(true),
     if op(ex)=%union then return(all_listp(intervalp, args(ex))),
+    return(false)
+)$
+
+/* Predicate to remove trivial cases like oo(a,a) and co(-inf, -inf). */
+trivialintervalp(ex) := block(
+    if atom(ex) then return(false),
+    if setp(ex) and ex={} then return(true),
+    if save_op(ex)="oo" and first(ex)=second(ex) then return(true),
+    if first(ex)=inf then return(true),
+    if second(ex)=-inf then return(true),
     return(false)
 )$
 
@@ -478,6 +492,7 @@ ConnectIntervals(X):=
 TidyUnion(X):=
     block ( [A, Ans:[], n, setpart:{}, x, y, i:1],
         if atom(X) then return(Ans:phi),
+        if listp(X)then X:apply(%union, X),
 
         if (not (op(X)=%union or op(X)="[") ) then Ans:X
         else
@@ -493,6 +508,12 @@ TidyUnion(X):=
                     A:delete( A[i], A, 1 ),
                     i:i-1,
                     n:n-1
+                    )
+                else if ( trivialintervalp(A[i]) ) then
+                    (
+                    A:delete( A[i], A, 1 ),
+                    i:i-1,
+                    n:n-1
                     ),
                 i:i+1
                 ),
@@ -504,7 +525,7 @@ TidyUnion(X):=
             if length(setpart)>0 then Ans:append( args(Ans), [setpart] )
         ),
         Ans
-        );
+        )$
 
 /* Finds the union of any two sets: */
 Union(X, Y) :=
@@ -673,7 +694,9 @@ Intersection(X,Y) :=
         A:X,
         B:Y,
 
-        if atom(A) then Ans:{}
+        if is(A=all) then return(B)
+        elseif is(B=all) then return(A)
+        elseif atom(A) then Ans:{}
         elseif atom(B) then Ans:{}
         else
         (
@@ -774,105 +797,59 @@ OrderPoints(X):=
         Ans
         );
 
+
 Complement(X):=
     block ( [A:X, Ans:[], x, y, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), n, i:1],
-        cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
+    cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
-        if atom(A) then return( Ans:oo(-inf,inf) ),
-        if not op(A) = "[" then
+    if atom(A) then return( Ans:oo(-inf,inf) ),
+    if not (op(A) = "[" or op(A)=%union) then
+        (
+        if op(A)=set then Ans:SetComplement(A)
+        elseif intervalp(A) then
             (
-            if op(A)=set then Ans:SetComplement(A)
-            elseif intervalp(A) then
+            if op(A)=co then
                 (
-                if op(A)=co then
-                    (
-                    Ans:append( Ans, [ oo(-inf, first(A) ) ] ),
-                    Ans:append( Ans, [ co( last(A), inf) ] )
-                    ),
-                if op(A)=cc then
-                    (
-                    Ans:append( Ans, [ oo(-inf, first(A) ) ] ),
-                    Ans:append( Ans, [ oo( last(A), inf) ] )
-                    ),
-                if op(A)=oc then
-                    (
-                    Ans:append( Ans, [ oc(-inf, first(A) ) ] ),
-                    Ans:append( Ans, [ oo( last(A), inf) ] )
-                    ),
-                if op(A)=oo then
-                    (
-                    Ans:append( Ans, [ oc(-inf, first(A) ) ] ),
-                    Ans:append( Ans, [ co( last(A), inf) ] )
-                    )
-                )
+                Ans:append( Ans, [ oo(-inf, first(A) ) ] ),
+                Ans:append( Ans, [ co( last(A), inf) ] )
+                ),
+            if op(A)=cc then
+                (
+                Ans:append( Ans, [ oo(-inf, first(A) ) ] ),
+                Ans:append( Ans, [ oo( last(A), inf) ] )
+                ),
+            if op(A)=oc then
+               (
+               Ans:append( Ans, [ oc(-inf, first(A) ) ] ),
+               Ans:append( Ans, [ oo( last(A), inf) ] )
+               ),
+            if op(A)=oo then
+               (
+               Ans:append( Ans, [ oc(-inf, first(A) ) ] ),
+               Ans:append( Ans, [ co( last(A), inf) ] )
+               )
             )
+        )
         else
-            (
-            A:OrderPoints(A),
+        (
+        A:OrderPoints(A),
+        A:args(A),
 
-            n:length(A),
+        /* Just use DeMorgan's laws. */
+        Ans:ListIntersect(maplist(lambda([ex2], TidyUnion(Complement(ex2))), A)),
 
-            if not (first( first(A) ) = -inf) then
-                (
-                if ( op( first(A) ) = oo or op( first(A) ) = oc or op( first(A) ) = set ) then
-                    (
-                    Ans:append( Ans, [ oc( -inf, first( first(A) ) ) ] )
-                    )
-                elseif  ( op( first(A) ) = co or op( first(A) ) = cc ) then
-                    (
-                    Ans:append( Ans, [ oo( -inf, first( first(A) ) ) ] )
-                    )
-                ),
+        if listp(Ans) and length(Ans)=1 then
+            Ans:Ans[1]
+        else if listp(Ans) then
+            Ans:apply(%union, Ans)
+        ),
 
-            while i<n do
-                (
-                x:last( A[i] ),
-                y:first( A[i+1] ),
-
-                if ( op( A[i] ) = cc or op( A[i] ) = oc or op( A[i] ) = set ) then
-                    (
-                    if ( op( A[i+1] ) = cc or op( A[i+1] ) = co or op( A[i+1] ) = set ) then
-                        (
-                        Ans:append( Ans, [ oo( x,y ) ] )
-                        )
-                    elseif  ( op( A[i+1] ) = oc or op( A[i+1] ) = oo ) then
-                        (
-                        Ans:append( Ans, [ oc( x,y ) ] )
-                        )
-                    )
-                elseif ( op( A[i] ) = co or op( A[i] ) = oo ) then
-                    (
-                    if ( op( A[i+1] ) = cc or op( A[i+1] ) = co or op( A[i+1] ) = set ) then
-                        (
-                        Ans:append( Ans, [ co( x,y ) ] )
-                        )
-                    elseif  ( op( A[i+1] ) = oc or op( A[i+1] ) = oo ) then
-                        (
-                        Ans:append( Ans, [ cc( x,y ) ] )
-                        )
-                    ),
-                i:i+1
-                ),
-            if not (last( A[i] ) = inf) then
-                (
-                if ( op( A[i] ) = oo or op( A[i] ) = co ) then
-                    (
-                    Ans:append( Ans, [ co( last( A[i] ), inf ) ] )
-                    )
-                elseif  ( op( A[i] ) = cc or op( A[i] ) = oc or op( A[i] ) = set ) then
-                    (
-                    Ans:append( Ans, [ oo( last( A[i] ), inf ) ] )
-                    )
-                ),
-
-            if length(Ans)=1 then Ans:Ans[1]
-            ),
-
-        Ans
-        );
+    Ans
+    );
 
 SetComplement(X):=
     block ( [A:X, Ans:[], temp, n, i:1],
+        if not(setp(X)) then error("SetComplement requires a set."),
         A:listify(A),
         n:length(A),
         temp:oo( -inf, A[1] ),
@@ -892,7 +869,7 @@ SetComplement(X):=
 
 /* Turns a single variable system over the reals in to a set of real number, together with insoluable bits (if any) */
 
-single_variable_solver_real(ex) := block([v, rs1, rs2],
+single_variable_solver_real(ex) := block([v, rs1, rs2, assume_pos],
     if atom(ex) then return(ex),
     v:listofvars(ex),
     if is(length(v)=0) then block
@@ -931,8 +908,8 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     rs2:false,
     if safe_op(ex)="%or" then block
         (
-        rs1:sublist(args(ex), realsetp),
-        rs2:sublist(args(ex), lambda([ex2], not realsetp(ex2) ))
+        rs1:ev(sublist(args(ex), realsetp), simp),
+        rs2:ev(sublist(args(ex), lambda([ex2], not realsetp(ex2))), simp)
         ),
 
     return(realset(v,rs1) %or rs2)
@@ -952,8 +929,8 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2, exn],
 
     if safe_op(ex)="%or" or safe_op(ex)="%and" then block(
         r0:maplist(lambda([ex2], single_variable_solver_real_rec(ex2, v)), args(ex)),
-        r1:sublist(r0, realsetp),
-        r2:sublist(r0, lambda([ex2], not(realsetp(ex2))))
+        r1:ev(sublist(r0, realsetp), simp),
+        r2:ev(sublist(r0, lambda([ex2], not(realsetp(ex2)))), simp)
         ),
     if safe_op(ex)="%or" then return(apply("%or", append([TidyUnion(r1)], r2))),
     if safe_op(ex)="%and" then return(apply("%and", append([ListIntersect(r1)], r2))),
@@ -977,3 +954,31 @@ equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
     return(sol2),
   return(sol1 %or sol2)
 );
+
+/* Calculate the natural domain of a single-variable term.  */
+natural_domain(ex):=block([v, ex2],
+  if atom(ex) then return(all),
+  v:listofvars(ex),
+  if not(is(length(v)=1)) then return(all),
+  v:first(v),
+
+  /* The variables inside this are local.  */
+  if safe_op(ex)="int" then
+    return(all),
+  if safe_op(ex)="sqrt" then
+    return(single_variable_solver_real(first(args(ex))>=0)),
+  if safe_op(ex)="ln" or safe_op(ex)="log" then
+    return(single_variable_solver_real(first(args(ex))>0)),
+  if safe_op(ex)="/" then
+    if is(listofvars(second(args(ex)))=[v]) then
+        return(single_variable_solver_real((second(args(ex))>0) %or (second(args(ex))<0)))
+    else
+        return(all),
+  ex2:map(natural_domain, args(ex)),
+  /* We have to strip of the realset bit before intersecting. */
+  ex2:map(lambda([ex3], if safe_op(ex3)="realset" then second(ex3) else ex3), ex2),
+  ex2:ListIntersect(ex2),
+  if not(trivialintervalp(ex2) or ex2=all) then
+   ex2:realset(v, ex2),
+  ex2
+)$

@@ -182,6 +182,7 @@ intervalp(X) :=
         );
 
 realsetp(ex) := block(
+    if is(ex=all) then return(true),
     if atom(ex) then return(false),
     if setp(ex) then return(true),
     if intervalp(ex) then return(true),
@@ -744,7 +745,8 @@ Intersection(X,Y) :=
 
 /* Given a *list* of intervals, returns the intersection of all of them. */
 ListIntersect(X) :=
-    block ( [A:X, Ans, n],
+    block ( [A:X, Ans, n, simp],
+        simp:true,
         if X=[] then return({}),
         n:length(A),
         if n=1 then return(first(A)),
@@ -836,7 +838,7 @@ Complement(X):=
         A:args(A),
 
         /* Just use DeMorgan's laws. */
-        Ans:ListIntersect(maplist(lambda([ex2], TidyUnion(Complement(ex2))), A)),
+        Ans:ev(ListIntersect(maplist(lambda([ex2], TidyUnion(Complement(ex2))), A)), simp),
 
         if listp(Ans) and length(Ans)=1 then
             Ans:Ans[1]
@@ -855,7 +857,7 @@ SetComplement(X):=
         temp:oo( -inf, A[1] ),
         Ans:[temp],
         while i<n do
-            (
+             (
             temp:oo( A[i], A[i+1] ),
             temp:[temp],
             Ans:append(Ans, temp),
@@ -869,7 +871,7 @@ SetComplement(X):=
 
 /* Turns a single variable system over the reals in to a set of real number, together with insoluable bits (if any) */
 
-single_variable_solver_real(ex) := block([v, rs1, rs2, assume_pos],
+single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
     if atom(ex) then return(ex),
     v:listofvars(ex),
     if is(length(v)=0) then block
@@ -882,6 +884,8 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, assume_pos],
     if not(length(v)=1) then return(ex),
     v:first(v),
 
+    simp:false,
+
     ex:abs_replace_eq(ex),
     ex:subst("%and", "nounand", ex),
     ex:subst("%or", "nounor", ex),
@@ -892,12 +896,12 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, assume_pos],
 
     if assume_pos then block
        (
-       assume_pos:false,
        ex:ex %and (v>=0)
        ),
     ex:de_morgan(ex),
 
-    ex:single_variable_solver_real_rec(ex, v),
+    ex:block([assume_pos:false], single_variable_solver_real_rec(ex, v)),
+
     if ((safe_op(ex)="[" or safe_op(ex)="%union") and length(args(ex))=1) then ex:first(ex),
 
     if logic_edgep(ex) then return(ex),
@@ -915,25 +919,23 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, assume_pos],
     return(realset(v,rs1) %or rs2)
 )$
 
-/* Recursive function which does not return the variable. */
-single_variable_solver_real_rec(ex, v) := block([r0, r1, r2, exn],
+single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     if atom(ex) then return(ex),
     if intervalp(ex) then return(ex),
 
-    if equationp(ex) then return(equation_to_intervals(ex, v)),
+    if equationp(ex) then return(ev(equation_to_intervals(ex, v), simp)),
+    if linear_inequalityp(ex) then return(ev(linear_inequality_to_interval(ex), simp)),
 
-    if linear_inequalityp(ex) then return(linear_inequality_to_interval(ex)),
-    exn:ex,
-    if inequalityp(ex) then exn:inequality_factor_solve(ex),
-    if not(is(ex=exn)) then return(single_variable_solver_real_rec(exn, v)),
+    /* Possible recursion from here. */
+    if inequalityp(ex) then ex:ev(inequality_factor_solve(ex), simp),
 
     if safe_op(ex)="%or" or safe_op(ex)="%and" then block(
         r0:maplist(lambda([ex2], single_variable_solver_real_rec(ex2, v)), args(ex)),
         r1:ev(sublist(r0, realsetp), simp),
         r2:ev(sublist(r0, lambda([ex2], not(realsetp(ex2)))), simp)
         ),
-    if safe_op(ex)="%or" then return(apply("%or", append([TidyUnion(r1)], r2))),
-    if safe_op(ex)="%and" then return(apply("%and", append([ListIntersect(r1)], r2))),
+    if safe_op(ex)="%or" then return(ev(apply("%or", append([TidyUnion(r1)], r2)), simp)),
+    if safe_op(ex)="%and" then return(ev(apply("%and", append([ListIntersect(r1)], r2)), simp)),
 
     return(ex)
 )$
@@ -956,10 +958,12 @@ equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
 );
 
 /* Calculate the natural domain of a single-variable term.  */
+/* Calculate the natural domain of a single-variable term.  */
 natural_domain(ex):=block([v, ex2],
   if atom(ex) then return(all),
   v:listofvars(ex),
-  if not(is(length(v)=1)) then return(all),
+  if is(v=[]) then return(all),
+  if not(is(length(v)=1)) then return(unknown),
   v:first(v),
 
   /* The variables inside this are local.  */
@@ -976,9 +980,13 @@ natural_domain(ex):=block([v, ex2],
         return(all),
   ex2:map(natural_domain, args(ex)),
   /* We have to strip of the realset bit before intersecting. */
-  ex2:map(lambda([ex3], if safe_op(ex3)="realset" then second(ex3) else ex3), ex2),
-  ex2:ListIntersect(ex2),
-  if not(trivialintervalp(ex2) or ex2=all) then
-   ex2:realset(v, ex2),
+  ex2:map(lambda([ex3], if is(safe_op(ex3)="realset") then second(ex3) else ex3), ex2),
+  /* Only return a define value if we really have one. */
+  if any_listp(lambda([ex3], is(ex3=unknown) or not(realsetp(ex3))), ex2) then
+    ex2:unknown
+  else
+    ex2:ListIntersect(ex2),
+  if not(trivialintervalp(ex2) or is(ex2=all) or is(ex2=unknown)) then
+    ex2:realset(v, ex2),
   ex2
 )$

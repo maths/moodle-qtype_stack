@@ -34,6 +34,13 @@ inequality_disp(x-1>0)$
 inequality_disp(x-1<=%pi)$
 x<=1+%pi$
 
+single_linear_ineq_reduce([x>1,x>1], [max,min])$
+[x>1]$
+
+/* Empty interval: not sorted out by this function. */
+single_linear_ineq_reduce([x>1,x<-1], [max,min])$
+[x>1,-1>x]$
+
 ineqorder(x^2-1>=5)$
 x^2-6>=0$
 
@@ -77,13 +84,60 @@ true$
 ineq_rem_redundant((x>1) %or (x=3))$
 x>1$
 
-inequality_factor_solve(x^2>1)$
+/* Solve inequalities */
+inequality_factor_solve(x^2>1);
 (-1>x) %or (x>1)$
 
-single_linear_ineq_reduce([x>1,x>1], [max,min])$
-[x>1]$
+inequality_factor_solve(x^2<1);
+((-1 > x) %and (x > 1)) %or ((1 > x) %and (x > -1))$
 
-/* Empty interval: not sorted out by this function. */
-single_linear_ineq_reduce([x>1,x<-1], [max,min])$
-[x>1,x<-1]$
+inequality_factor_solve(x^2>4);
+(-2>x) %or (x>2)$
 
+inequality_factor_solve(x^2>-1);
+true$
+
+inequality_factor_solve(x^2+1<0);
+false$
+
+inequality_factor_solve(x^2+x>1);
+(-(sqrt(5)+1)/2 > x) %or (x > (sqrt(5)-1)/2)$
+
+inequality_factor_solve(x^2+x<1);
+((sqrt(5)-1)/2 > x) %and (x > -(sqrt(5)+1)/2)$
+
+inequality_factor_solve(x^2+x>-1);
+true$
+
+inequality_factor_solve(x^2>3);
+(-sqrt(3) > x) %or (x > sqrt(3))$
+
+inequality_factor_solve(2*x^2>1);
+(-1/sqrt(2) > x) %or (x > 1/sqrt(2))$
+
+inequality_factor_solve(2*x^2<1);
+((-1/sqrt(2) > x) %and (x > 1/sqrt(2))) %or ((1/sqrt(2) > x) %and (x > -1/sqrt(2)))$
+
+inequality_factor_solve(x^3>8);
+x-2>0$
+
+inequality_factor_solve(x^3<8);
+x-2<0$
+
+inequality_factor_solve(x^7>2);
+x-2^(1/7) > 0$
+
+inequality_factor_solve(x^7<=2);
+x-2^(1/7) <= 0$
+
+inequality_factor_solve(x^4>16)$
+(-2>x) %or (x>2)$
+
+inequality_factor_solve(x>0);
+x>0$
+
+inequality_factor_solve(x^2>0);
+(x > 0) %or (x < 0)$
+
+inequality_factor_solve(x^20>0);
+(x > 0) %or (x < 0)$

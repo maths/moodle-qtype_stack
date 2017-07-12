@@ -81,7 +81,7 @@ $options->set_option('simplify', false);
 
 $casstrings = array();
 $i = 0;
-$debug = false;
+$debug = true;
 /* Just consider the last in the array. */
 $sa = array_reverse($samplearguments);
 $samplearguments2 = array($sa[0]);

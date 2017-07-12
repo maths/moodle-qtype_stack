@@ -1,31 +1,44 @@
 natural_domain(1);
-all
+all$
 
 natural_domain(x);
-all
+all$
+
 natural_domain(1+x);
-all
+all$
 
 natural_domain(1+abs(x));
-all
+all$
 
 natural_domain(1/x);
-realset(x,%union(oo(0,inf),oo(-inf,0)))
+realset(x,%union(oo(0,inf),oo(-inf,0)))$
 
 natural_domain(1/x^2);
-realset(x,%union(oo(0,inf),oo(-inf,0)))
+realset(x,%union(oo(0,inf),oo(-inf,0)))$
 
 natural_domain(1+1/x);
-realset(x,%union(oo(0,inf),oo(-inf,0)))
+realset(x,%union(oo(0,inf),oo(-inf,0)))$
 
 natural_domain(1+x^2+1/(x-1));
-realset(x,%union(oo(1,inf),oo(-inf,1)))
+realset(x,%union(oo(1,inf),oo(-inf,1)))$
 
 natural_domain(1+x^2+1/(x+1));
-realset(x,%union(oo(-1,inf),oo(-inf,-1)))
+realset(x,%union(oo(-1,inf),oo(-inf,-1)))$
 
 natural_domain(x+y);
-unknown
+unknown$
 
 natural_domain(5*x/(2*x+1)-3/(x+1) = 1);
-realset(x,%union(oo(-1,-1/2),oo(-1/2,inf),oo(-inf,-1)))
+realset(x,%union(oo(-1,-1/2),oo(-1/2,inf),oo(-inf,-1)))$
+
+natural_domain(1+log(x^2-4));
+realset(x,%union(oo(2,inf),oo(-inf,-2)))$
+
+single_variable_solver_real(x^2-4>0);
+realset(x,%union(oo(2,inf),oo(-inf,-2)))$
+
+natural_domain(ln(x)+ln(-x));
+{}$
+
+natural_domain(ln(1-x^2));
+realset(x,oo(-1,1))$

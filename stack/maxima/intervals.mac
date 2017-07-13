@@ -183,11 +183,24 @@ intervalp(X) :=
 
 realsetp(ex) := block(
     if is(ex=all) then return(true),
+    if is(ex=none) then return(true),
     if atom(ex) then return(false),
     if setp(ex) then return(true),
     if intervalp(ex) then return(true),
     if op(ex)=%union then return(all_listp(intervalp, args(ex))),
     return(false)
+)$
+
+
+/* Make a real set, taking edge cases into account.  This is also a top level function to convert true/false into all/none. */
+realsetmake(v, ex) :=block(
+  if is(ex=false) then return(none),
+  if is(ex={}) then return(none),
+  if is(ex=true) then return(all),
+  if is(ex=all) or is(ex=none) or is(ex=unknown) then return(ex),
+  if atom(ex) then return(ex),
+  if is(safe_op(ex)="realset") then return(ex),
+  return(realset(v, ex))
 )$
 
 /* Predicate to remove trivial cases like oo(a,a) and co(-inf, -inf). */
@@ -904,19 +917,24 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
 
     if ((safe_op(ex)="[" or safe_op(ex)="%union") and length(args(ex))=1) then ex:first(ex),
 
-    if logic_edgep(ex) then return(ex),
     if is(ex={}) then return(none),
+    if is(ex=false) then return(none),
     if is(ex={v}) then return(all),
+    if is(ex=true) then return(all),
+    if logic_edgep(ex) then return(ex),
 
     rs1:ex,
     rs2:false,
     if safe_op(ex)="%or" then block
         (
         rs1:ev(sublist(args(ex), realsetp), simp),
-        rs2:ev(sublist(args(ex), lambda([ex2], not realsetp(ex2))), simp)
+        rs2:ev(sublist(args(ex), lambda([ex2], not realsetp(ex2))), simp),
+        ex:realsetmake(v, rs1) %or rs2
         ),
+    if safe_op(ex)="%union" then
+        ex:realsetmake(v, ex),
 
-    return(realset(v,rs1) %or rs2)
+    return(ex)
 )$
 
 single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
@@ -944,8 +962,9 @@ equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
   sol0:solve(ex,v),
   if sol0=[] then return({}),
   if logic_edgep(sol0) then return(sol0),
-  sol1:sublist(sol0, lambda([ex2], is(lhs(ex2)=v))),
-  sol2:sublist(sol0, lambda([ex2], not is(lhs(ex2)=v))),
+  /* We need the "freeof" clause to catch rearrangements of equations. */
+  sol1:sublist(sol0, lambda([ex2], is(lhs(ex2)=v) and freeof(v, rhs(ex2)))),
+  sol2:sublist(sol0, lambda([ex2], not(is(lhs(ex2)=v) and freeof(v, rhs(ex2))))),
   sol1:maplist(rhs,sol1),
   sol1:setify(sol1),
   if is(length(sol2)=1) then
@@ -958,35 +977,44 @@ equation_to_intervals(ex,v):=block([sol0,sol1,sol2],
 );
 
 /* Calculate the natural domain of a single-variable term.  */
-/* Calculate the natural domain of a single-variable term.  */
 natural_domain(ex):=block([v, ex2],
   if atom(ex) then return(all),
   v:listofvars(ex),
   if is(v=[]) then return(all),
   if not(is(length(v)=1)) then return(unknown),
   v:first(v),
+  /* Recurse using true/false instead of all/none, then convert. */
+  ex2:natural_domain_rec(ex),
+  realsetmake(v, ex2)
+)$
 
+/* Calculate the natural domain of a single-variable term.  */
+natural_domain_rec(ex):=block([v, ex2],
+  if atom(ex) then return(all),
+  v:listofvars(ex),
+  if is(v=[]) then return(all),
+  if not(is(length(v)=1)) then return(unknown),
+  v:first(v),
+
+  if safe_op(ex)="sum" then
+    return(unknown),
   /* The variables inside this are local.  */
   if safe_op(ex)="int" then
-    return(all),
+    return(unknown),
   if safe_op(ex)="sqrt" then
     return(single_variable_solver_real(first(args(ex))>=0)),
   if safe_op(ex)="ln" or safe_op(ex)="log" then
     return(single_variable_solver_real(first(args(ex))>0)),
   if safe_op(ex)="/" then
-    if is(listofvars(second(args(ex)))=[v]) then
-        return(single_variable_solver_real((second(args(ex))>0) %or (second(args(ex))<0)))
-    else
-        return(all),
-  ex2:map(natural_domain, args(ex)),
+        ex2:[natural_domain_rec(first(args(ex))), single_variable_solver_real((second(args(ex))>0) %or (second(args(ex))<0))]
+  else
+        ex2:map(natural_domain_rec, args(ex)),
   /* We have to strip of the realset bit before intersecting. */
   ex2:map(lambda([ex3], if is(safe_op(ex3)="realset") then second(ex3) else ex3), ex2),
   /* Only return a define value if we really have one. */
-  if any_listp(lambda([ex3], is(ex3=unknown) or not(realsetp(ex3))), ex2) then
+  if any_listp(lambda([ex3], is(ex3=unknown) or not(realsetp(ex3) or is(ex3=true) or is(ex3=false))), ex2) then
     ex2:unknown
   else
     ex2:ListIntersect(ex2),
-  if not(trivialintervalp(ex2) or is(ex2=all) or is(ex2=unknown)) then
-    ex2:realset(v, ex2),
   ex2
 )$

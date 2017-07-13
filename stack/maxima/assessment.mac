@@ -1232,6 +1232,8 @@ texput(MISSINGVAR, "\\color{red}{\\mbox{!MISSINGVAR!}}");
 texput(ASSUMEPOSVARS, "\\color{blue}{\\mbox{!ASSUMEPOSVARS!}}");
 texput(ASSUMEREALVARS, "\\color{blue}{(\\mathbb{R})}");
 texput(ASSUMEPOSREALVARS, "\\color{blue}{\\mbox{!ASSUMEPOSREALVARS!}}");
+/* For now we suppress this. */
+texput(unknown, "\\ ");
 
 
 /* We assume the token "all" is the set of real numbers, and "none" means it is empty. */
@@ -1593,8 +1595,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   for k:1 thru length(ex) step 1 do block([tempnote],
     tempnote:ev(natural_domain(exnatdomain[k]), simp),
     exnatdomain[ev(k,simp)]:EMPTYCHAR,
-    if not(is(tempnote=all)) then
-        exnatdomain[ev(k,simp)]:texcolor("blue", tempnote)
+    if not(is(tempnote=all) or is(tempnote=unknown)) then
+        exnatdomain[ev(k,simp)]:texcolorplain("blue", tempnote)
   ),
   res:matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote),
   return(transpose(res))

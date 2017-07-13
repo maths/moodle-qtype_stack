@@ -216,7 +216,7 @@ linear_inequality_to_interval(ex) := block([ex2, v, p, Ans],
 /*******************************************************************************/
 /* Solve a single inequality in a single variable by factoring,                */
 /* where possible expressing the result as irreducible inequalities.           */
-inequality_factor_solve(ex):=block([ex2, simp],
+inequality_factor_solve(ex):=block([ex2],
     if not(inequalityp(ex)) then return(ex),
     if length(listofvars(ex))#1 then return(ex),
     ex:ineqprepare(ex),
@@ -226,12 +226,17 @@ inequality_factor_solve(ex):=block([ex2, simp],
     ex2:factor(lhs(ex)),
     if atom(ex2) then return(ex),
     /* Create a list of factors */
-    if is(op(ex2)="-") then m:true else m:false,
+    m:false,
+    if is(op(ex2)="-") then block(
+        m:true,
+        ex2:first(args(ex2))
+        ),
     if is(op(ex2)="/") then ex2:num(ex2),
 
     if safe_op(fl)="*" then fl:args(ex2) else fl:[ex2],
     fl:flatten(maplist(factor_ineq, fl)),
 
+    /* This function returns "true" or "false" rather than all/none to better interact with %or and %and. */
     if is(fl=[]) then return(not(m)),
     /* Turn each inequality back into a list. */
     ex2:maplist(lambda([ex],apply(exop,[ex,0])),fl),

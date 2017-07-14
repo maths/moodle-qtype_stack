@@ -615,6 +615,7 @@ $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
 // Used in blocks.
 $string['stackBlock_ifNeedsCondition']       = 'If-block needs a test attribute. ';
+$string['stackBlock_escapeNeedsValue']       = 'Escape-block needs a value attribute. ';
 $string['stackBlock_unknownBlock']           = 'The following block is unknown: ';
 $string['stackBlock_missmatch']              = 'has no match. ';
 $string['stackBlock_else_out_of_an_if']      = '"else" cannot exist outside an if block.';

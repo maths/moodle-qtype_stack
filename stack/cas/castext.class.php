@@ -396,7 +396,7 @@ class stack_cas_text {
             $this->trimmedcastext = $this->parsetreeroot->to_string();
         }
 
-        $this->castext = stack_utils::wrap_around($this->trimmedcastext);
+        $this->castext = $this->trimmedcastext;
 
         // Another modification. Stops <html> tags from being given $ tags.
         $this->castext = str_replace('\(<html>', '', $this->castext);

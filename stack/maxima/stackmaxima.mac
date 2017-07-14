@@ -367,6 +367,7 @@ detexcolor(ex) := block([argsex],
   if mapatom(ex) then return(ex),
   argsex:args(ex),
   if op(ex) = texcolor then return(detexcolor(argsex[2])),
+  if op(ex) = texcolorplain then return(detexcolor(argsex[2])),
   if op(ex) = "/" then return(detexcolor(argsex[1])/detexcolor(argsex[2])),
   map(detexcolor, ex)
 )$

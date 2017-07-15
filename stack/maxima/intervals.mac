@@ -196,6 +196,7 @@ realsetp(ex) := block(
 realsetmake(v, ex) :=block(
   if is(ex=false) then return(none),
   if is(ex={}) then return(none),
+  if is(ex=%union()) then return(none),
   if is(ex=true) then return(all),
   if is(ex=all) or is(ex=none) or is(ex=unknown) then return(ex),
   if atom(ex) then return(ex),
@@ -928,9 +929,16 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
         (
         rs1:ev(sublist(args(ex), realsetp), simp),
         rs2:ev(sublist(args(ex), lambda([ex2], not realsetp(ex2))), simp),
-        ex:realsetmake(v, rs1) %or rs2
-        ),
-    if safe_op(ex)="%union" then
+        if is(length(rs1)=1) then rs1:first(rs1),
+        rs1:realsetmake(v, rs1),
+        if is(rs1=none) then
+            ex:apply("%or", rs2)
+        else if is(rs1=all) then
+            ex:all
+        else
+            ex:realsetmake(v, rs1) %or apply("%or", rs2)
+    ),
+    if safe_op(ex)="%union" or safe_setp(ex) then
         ex:realsetmake(v, ex),
 
     return(ex)

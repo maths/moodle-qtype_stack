@@ -81,11 +81,19 @@ $options->set_option('multiplicationsign', 'none');
 
 $casstrings = array();
 $i = 0;
-$debug = false;
+$debug = true;
 // Set this to display only one argument.  Use the number.
 $onlyarg = false;
 if (array_key_exists('only', $_GET)) {
   $onlyarg = (int) $_GET['only'];
+};
+$failing = false;
+$failingcount = 0;
+// Only print the failing tests.
+if (array_key_exists('fail', $_GET)) {
+  $failing = true;
+  $debug = true;
+  $onlyarg = false;
 };
 $verbose = $debug;
 /* Just consider the last in the array. */
@@ -95,7 +103,7 @@ $samplearguments2 = array($sa[0]);
 $timestart = microtime(true);
 foreach ($samplearguments as $argument) {
     if (array_key_exists('section', $argument)) {
-        if (false === $onlyarg) {
+        if (false === $onlyarg && false === $failing) {
           echo html_writer::tag('h2', $argument['section']);
         }
     } else {
@@ -131,13 +139,14 @@ foreach ($samplearguments as $argument) {
             }
             if ($debug) {
                 // Print debug information and show logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:disp_stack_eval_arg(" . $cskey. ", true, true, DL)");
+                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, true, DL)");
             } else {
                 // Print only logical connectives on this page.
-                $cs3 = new stack_cas_casstring("S1:disp_stack_eval_arg(" . $cskey. ", true, false, DL)");
+                $cs3 = new stack_cas_casstring("S1:stack_eval_equiv_arg(" . $cskey. ", true, false, DL)");
             }
             $cs3->get_valid('t');
-            $cs4 = new stack_cas_casstring("S2:check_stack_eval_arg(" . $cskey . ")");
+
+            $cs4 = new stack_cas_casstring("R1:first(S1)");
             $cs4->get_valid('t');
 
             $session = new stack_cas_session(array($ap, $ar, $cs1, $cs2, $cs3, $cs4), $options);
@@ -147,7 +156,7 @@ foreach ($samplearguments as $argument) {
             } else if (false === $argument['outcome']) {
                 $expected = 'false';
             }
-            $string       = "\[@S1@\]";
+            $string       = "\[@second(S1)@\]";
             $ct           = new stack_cas_text($string, $session, 0, 't');
 
             $start = microtime(true);
@@ -155,13 +164,16 @@ foreach ($samplearguments as $argument) {
             $took = (microtime(true) - $start);
             $rtook = round($took, 5);
 
-            $argumentvalue = trim($session->get_value_key("S2"));
+            $argumentvalue = trim($session->get_value_key("R1"));
             $overall = "Overall the argument is {$argumentvalue}.";
             if ('unsupported' !== $argument['outcome']) {
                 $overall .= "  We expected the argument to be {$expected}.";
                 if ($argumentvalue != $expected) {
                     $overall = "<font color='red'>".$overall."</font>";
                 }
+            }
+            if ($argumentvalue === 'fail') {
+                $failingcount++;
             }
             if ($verbose) {
                 $displaytext .= $overall;
@@ -187,6 +199,9 @@ foreach ($samplearguments as $argument) {
                 $displayargs = true;
             }
             $displayargs = true;
+            if ($failing && $argumentvalue !== 'fail') {
+                $displayargs = false;
+            }
             if ($displayargs) {
                 echo html_writer::tag('h3', $cskey . ": ". $title).
                     html_writer::tag('p', $argument['narrative']);
@@ -209,7 +224,8 @@ foreach ($samplearguments as $argument) {
 }
 $timetook = (microtime(true) - $timestart);
 $timetook = round($timetook, 2);
-echo "\n\n<h3 style=\"color:blue;\">Time taken: $timetook</h3>\n\n";
+echo "\n\n<h3 style=\"color:blue;\">Time taken: $timetook</h3>\n";
+echo "<h3 style=\"color:blue;\">Number failing: $failingcount</h3>\n\n";
 
 /* Generate offline testing script to cut and paste into desktop Maxima. */
 if ($debug) {

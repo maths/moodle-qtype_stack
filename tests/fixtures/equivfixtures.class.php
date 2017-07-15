@@ -138,6 +138,14 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'Change of variables.';
+        $newarg['casstring'] = "[x=1,X=1]";
+        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
 
         $newarg = array();
@@ -539,16 +547,16 @@ class stack_equiv_test_data {
                 "a*x+b/2= +-sqrt(b^2/4-a*c),a*x=-b/2+sqrt(b^2/4-a*c) or a*x=-b/2-sqrt(b^2/4-a*c), ".
                 "(a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a)) or (a=0 or x=(-b-sqrt(b^2-4*a*c))/(2*a)), ".
                 "a=0 or x=(-b+sqrt(b^2-4*a*c))/(2*a) or x=(-b-sqrt(b^2-4*a*c))/(2*a)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving cubic equations 9 (11th centuary Hindu method)";
-        $newarg['narrative'] = '';
+        $newarg['narrative'] = 'We accept this as correct for now, even though it lacks auditing.';
         $newarg['casstring'] = "[a*x^2+b*x=-c,4*a^2*x^2+4*a*b*x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^2-4*a*c,2*a*x+b=+-sqrt(b^2-4*a*c),".
                 "2*a*x=-b+-sqrt(b^2-4*a*c),x=(-b+-sqrt(b^2-4*a*c))/(2*a)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -603,9 +611,9 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "";
-        $newarg['narrative'] = 'For the moment we do not support this case.  It needs the rule A=B <=> e^A=e^B.';
+        $newarg['narrative'] = 'For the moment we do not support this case.  That is we accept the failure to estabilsh equivalence.  To fix this it needs the rule A=B <=> e^A=e^B.';
         $newarg['casstring'] = "[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 
@@ -1051,9 +1059,9 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Integration by parts";
-        $newarg['narrative'] = '';
+        $newarg['narrative'] = 'The last QMCHAR occurs because of the missing constant of integration.';
         $newarg['casstring'] = "[nounint(x^3*log(x),x),stackeq(x^4/4*log(x)-1/4*nounint(x^3,x)),stackeq(x^4/4*log(x)-x^4/4)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,QMCHAR]";
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 

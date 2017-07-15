@@ -189,7 +189,11 @@ expressionp(ex) := block(
 );
 
 /* Checks that an expression is a polynomial. */
-polynomialpsimp(e):= polynomialp(e, listofvars(e))$
+polynomialpsimp(ex):= block([v],
+  v:listofvars(ex),
+  if is(v=[]) then return(simp_numberp(ex)),
+  polynomialp(ex, v)
+)$
 
 /* This is to fix a bug in Maxima 5.38.1.  */
 safe_setp(ex) := setp(ex) or safe_op(ex) = "{"$
@@ -1294,7 +1298,11 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       SA:ev(SA, logbase=logbasesimp),
       exmod[ev(id, simp)]:SA,
 
-      exmodsolve[ev(id, simp)]:ev(single_variable_solver_real(SA), simp),
+      if ev(is(equal(length(listofvars(SA)),1)), simp) then
+          exmodsolve[ev(id, simp)]:ev(single_variable_solver_real(SA), simp)
+      else
+          exmodsolve[ev(id, simp)]:ev(logical_normal(SA), simp),
+
       /* Try to turn things into polynomials.  Much more reliable equivalence checking. */
       /* End up in the form p(x) = 0                                                    */
       if (logicp(SA)) then block(
@@ -1337,15 +1345,38 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if (debug) then print("Solved as ", string(SAS), ", ", string(SBS)),
           if (debug) then print("ATAlgEquiv(", string(SAP), ", ", string(SBP), ");"),
           if is(SAS=SBS) then block
-              (
+              ([FAA, FAB],
               malrulecont:false,
               eqoutcome[ev(id, simp)]:true,
               eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-              tempnote:sconcat(tempnote, " | Solved_true")
+              tempnote:sconcat(tempnote, " | Solved_true"),
+              /* At this point we need to check for SAMEROOTS. We do use the polynomial form.
+                 This means logic goes to polys, e.g. x=1 or x=1 -> (x-1)^2=0, but we don't loose multiplicity. */
+              FAA:if equationp(SAP) then ev(lhs(SAP)-rhs(SAP), simp) else SAP,
+              FAB:if equationp(SBP) then ev(lhs(SBP)-rhs(SBP), simp) else SBP,
+              if (debug) then print("Check for SAMEROOTS with: ", string(FAA), ", ", string(FAB)),
+              if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA,facbB],
+                  ATres:ev(ATAlgEquiv(SAP, SBP), simp),
+                  if (debug) then print("SAMEROOTS first ATAlgEquiv check: ", SAP, SBP, ATres),
+                  /* In this case we establish they are *not* algebraically equivalent. */
+                  if not(second(ATres)) then block(
+                      facbA:factor_bag(SAP),
+                      facbB:factor_bag(SBP),
+                      if (debug) then print("Factor bags: ", string(facbA), "; ", string(facbB), "; "),
+                      facbA:apply("*", facbA),
+                      facbB:apply("*", facbB),
+                      ATres:ev(ATAlgEquiv(facbA, facbB), simp),
+                      if (debug) then print(ATres),
+                      if second(ATres) then block(
+                          eqoutsymb[ev(id, simp)]:SAMEROOTS,
+                          tempnote:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
+                      )
+                  )
               )
+          )
           else
              /* Needs to come before checking subsets.  Special cause of real single variable equations. */
-             if (assume_real and not(eqoutcome[ev(id, simp)])) then block([FAA, FBB, FGCD, ATres],
+             if assume_real then block([FAA, FBB, FGCD, ATres],
                FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
                FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
                if (debug) then print("Checking assume_real with ", FAA, " and ", FAB),
@@ -1363,12 +1394,13 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                     eqoutcome[ev(id, simp)]:true,
                     eqoutsymb[ev(id, simp)]:EQUIVCHARREAL
                     )
-                  )
+                )
              )
            else
            /* Check for subsets.  */
            if safe_op(SAS)="realset" and safe_op(SBS)="realset" and is(first(args(SAS))=first(args(SBS))) then block
                   (
+                  if (debug) then print("Found two realset, checking for subsets. ", string(SAS), ", ", string(SBS)),
                   if not(SAS=SBS) and setp(second(args(SAS))) and setp(second(args(SBS))) then
                   if ev(subsetp(second(args(SAS)), second(args(SBS))), simp) then block
                       (
@@ -1384,7 +1416,28 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
                       tempnote:sconcat(tempnote, " | Solved IMPLIED ")
                       )
-             ),
+             )
+          else
+          if  safe_setp(SAS) and safe_setp(SBS) then block
+                 (
+                 if (debug) then print("Found two sets, checking for subsets. ", string(SAS), ", ", string(SBS)),
+                 if not(SAS=SBS) then
+                   if ev(subsetp(SAS, SBS), simp) then block
+                     (
+                     malrulecont:false,
+                     eqoutcome[ev(id, simp)]:false,
+                     eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
+                     tempnote:sconcat(tempnote, " | Solved IMPLIES set")
+                     )
+                   elseif ev(subsetp(SBS, SAS), simp) then block
+                     (
+                     malrulecont:false,
+                     eqoutcome[ev(id, simp)]:false,
+                     eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                     tempnote:sconcat(tempnote, " | Solved IMPLIED set")
+                     )
+            ),
+
 
           if (malrulecont) then block
           (
@@ -1439,42 +1492,26 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
               FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
               if (debug) then print("Possible multiplicity and GCD with: ", string(FAA), ", ", string(FAB)),
-              if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA,facbB],
-                  facbA:factor_bag(SAP),
-                  facbB:factor_bag(SBP),
-                  if (debug) then print("Factor bags: ", string(facbA), "; ", string(facbB), "; "),
-                  facbA:apply("*", facbA),
-                  facbB:apply("*", facbB),
-                  ATres:ev(ATAlgEquiv(facbA, facbB), simp),
+              if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA, facbB, FGCD],
+                  /* We know at this point FAA and FAB are not equivalent, so they will not both equal the gcd. */
+                  if (debug) then print("Considering GCD of ", string(FAA), " and ", string(FAB), "."),
+                  FGCD:ev(gcd(FAA,FAB), simp),
+                  if (debug) then print("Calculated GCD as: ", FGCD),
+                  ATres:ev(ATAlgEquiv(FAA=0, FGCD=0), simp),
                   if (debug) then print(ATres),
                   if second(ATres) then block(
                       malrulecont:false,
-                      eqoutcome[ev(id, simp)]:true,
-                      eqoutsymb[ev(id, simp)]:SAMEROOTS,
-                      tempnote:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
-                  ),
-
-                  if malrulecont then block(
-                      /* We know at this point FAA and FAB are not equivalent, so they will not both equal the gcd. */
-                      if (debug) then print("Considering GCD of ", string(FAA), " and ", string(FAB), "."),
-                      FGCD:ev(gcd(FAA,FAB), simp),
-                      if (debug) then print("Calculated GCD as: ", FGCD),
-                      ATres:ev(ATAlgEquiv(FAA=0, FGCD=0), simp),
+                      eqoutcome[ev(id, simp)]:false,
+                      eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
+                      tempnote:sconcat(tempnote, " | GBD-IMPLIES | ", third(ATres))
+                  ) else (
+                      ATres:ATAlgEquiv(FAB=0, FGCD=0),
                       if (debug) then print(ATres),
                       if second(ATres) then block(
                           malrulecont:false,
                           eqoutcome[ev(id, simp)]:false,
-                          eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
-                          tempnote:sconcat(tempnote, " | GBD-IMPLIES | ", third(ATres))
-                      ) else (
-                          ATres:ATAlgEquiv(FAB=0, FGCD=0),
-                          if (debug) then print(ATres),
-                          if second(ATres) then block(
-                              malrulecont:false,
-                              eqoutcome[ev(id, simp)]:false,
-                              eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
-                              tempnote:sconcat(tempnote, " | GBD-IMPLIED | ", third(ATres))
-                          )
+                          eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
+                          tempnote:sconcat(tempnote, " | GBD-IMPLIED | ", third(ATres))
                       )
                   )
               )
@@ -1609,6 +1646,14 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
 stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, res, exnew, eqoutsymb, note],
     /* Evaluate the argument.      */
     A:transpose(stack_eval_arg(ex)),
+    /* Decide if the overall argument is true. */
+    res:first(A),
+    /* Remove first entry when this has not been set. */
+    if first(res)=null then res:rest(res),
+    if elementp(unknown, setify(res)) then
+        res:unknown
+    else
+        res:apply("and", res),
     /* If in debug mode check if we have what we expect. */
     eqoutsymb:A[2],
     /* Modify input expressions for implied equivalence to zero. */
@@ -1620,7 +1665,10 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
             simp:true,
             for k:2 thru length(eqoutsymb) step 1 do block([ATres, SA, SB],
                 if not(is(eqoutsymb[k]=debuglist[k])) then
-                    eqoutsymb[k]:[eqoutsymb[k], expected(debuglist[k])]
+                    (
+                    eqoutsymb[k]:[eqoutsymb[k], expected(debuglist[k])],
+                    res:fail
+                    )
             )
         ) else (
             print("ERROR, disp_stack_eval_arg: length of debuglist is ", string(length(debuglist)), ", but the length of the argument is ", string(length(eqoutsymb)), ".")
@@ -1643,14 +1691,6 @@ stack_eval_equiv_arg(ex, showlogic, equivdebug, debuglist) := block([A, k, ret, 
     ret:apply(argument, args(ret)),
     /* Construct a separate note. The note should be the same length as the argument, so normally has "EMPTYCHAR" as the first entry.*/
     note:second(A),
-    /* Decide if the overall argument is true. */
-    res:first(A),
-    /* Remove first entry when this has not been set. */
-    if first(res)=null then res:rest(res),
-    if elementp(unknown, setify(res)) then
-        res:unknown
-    else
-        res:apply("and", res),
     return([res, ret, note])
 )$
 

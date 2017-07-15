@@ -192,13 +192,15 @@ ineqorder(ex) := ineq_rem_redundant(ev(ineqprepare(ex), simp))$
 
 
 /*******************************************************************************/
-/* Takes a linear inequality in one variable and returns an interval. */
+/* Takes a real linear inequality in one variable and returns an interval. */
 linear_inequality_to_interval(ex) := block([ex2, v, p, Ans],
     if not(linear_inequalityp(ex)) then return(ex),
     ex2:ineqprepare(ex),
     v:first(listofvars(ex2)),
     /* We know this solution will exist. */
     p:rhs(first(solve(lhs(ex2), v))),
+    /* But we can only create an interval if the value is real! */
+    if not(real_numberp(p)) then return({}),
     Ans:ex,
     if equal(coeff(lhs(ex2), v), 1) then
         (

@@ -1279,7 +1279,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
   exmodpoly:copy(ex),
   exmodsolve:copy(ex),
   exnatdomain:copy(ex),
-  for id:1 thru length(ex) step 1 do block([SA, tempnote],
+  for id:1 thru length(ex) step 1 do block([SA, tempnote:""],
       SA:exmod[ev(id, simp)],
       if stack_eval_arg_equivzerop(ex) then SA:SA=0,
       if is(safe_op(SA)="stackeq") then SA:first(args(SA)),
@@ -1291,6 +1291,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if is(SA=true) then SA:all,
 
       SA:abs_replace_eq(SA),
+      SA:ev(SA, logbase=logbasesimp),
       exmod[ev(id, simp)]:SA,
 
       exmodsolve[ev(id, simp)]:ev(single_variable_solver_real(SA), simp),
@@ -1340,11 +1341,33 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               malrulecont:false,
               eqoutcome[ev(id, simp)]:true,
               eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-              eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Solved_true")
+              tempnote:sconcat(tempnote, " | Solved_true")
               )
           else
-              /* First thing, check for subsets.  */
-              if safe_op(SAS)="realset" and safe_op(SBS)="realset" and is(first(args(SAS))=first(args(SBS))) then block
+             /* Needs to come before checking subsets.  Special cause of real single variable equations. */
+             if (assume_real and not(eqoutcome[ev(id, simp)])) then block([FAA, FBB, FGCD, ATres],
+               FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
+               FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
+               if (debug) then print("Checking assume_real with ", FAA, " and ", FAB),
+               if (debug) then print("** Checking assume_real with: ", string(FAA), ", ", string(FAB), " **"),
+               if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and length(listofvars(FAA))=1 and length(listofvars(FAB))=1) then block(
+                  FAA:ev(solve(FAA), simp),
+                  FAB:ev(solve(FAB), simp),
+                  if (debug) then print("Solved as ", string(FAA), ", ", string(FAB)),
+                  FAA:ev(sublist(FAA, lambda([ex2], real_numberp(rhs(ex2))))),
+                  FAB:ev(sublist(FAB, lambda([ex2], real_numberp(rhs(ex2))))),
+                  if (debug) then print("Filtered as ", string(FAA), ", ", string(FAB)),
+                  if sort(FAA)=sort(FAB) then block
+                    (
+                    malrulecont:false,
+                    eqoutcome[ev(id, simp)]:true,
+                    eqoutsymb[ev(id, simp)]:EQUIVCHARREAL
+                    )
+                  )
+             )
+           else
+           /* Check for subsets.  */
+           if safe_op(SAS)="realset" and safe_op(SBS)="realset" and is(first(args(SAS))=first(args(SBS))) then block
                   (
                   if not(SAS=SBS) and setp(second(args(SAS))) and setp(second(args(SBS))) then
                   if ev(subsetp(second(args(SAS)), second(args(SBS))), simp) then block
@@ -1352,14 +1375,14 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Solved IMPLIES ")
+                      tempnote:sconcat(tempnote, " | Solved IMPLIES ")
                       )
                   elseif ev(subsetp(second(args(SBS)), second(args(SAS))), simp) then block
                       (
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | Solved IMPLIED ")
+                      tempnote:sconcat(tempnote, " | Solved IMPLIED ")
                       )
              ),
 
@@ -1373,7 +1396,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                 (
                 eqoutcome[ev(id, simp)]:true,
                 eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
+                tempnote:sconcat(tempnote, " | ATAlgEquiv_true | ", third(ATres))
                 ),
 
               /* Deal with special cases with assume_pos. */
@@ -1387,7 +1410,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       (
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_sq_abs | ", third(ATres))
+                      tempnote:sconcat(tempnote, " | assume_pos_sq_abs | ", third(ATres))
                       ),
                   if (debug) then print("ATAlgEquiv(", string(abs(SA)), ", ", string(SB^2), ");"),
                   ATres:ev(ATAlgEquiv(abs(SA), SB^2), simp),
@@ -1396,29 +1419,9 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       (
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | assume_pos_abs_sq | ", third(ATres))
+                      tempnote:sconcat(tempnote, " | assume_pos_abs_sq | ", third(ATres))
                       )
-                ),
-
-              /* Special cause of real single variable equations. */
-              if (assume_real and not(eqoutcome[ev(id, simp)])) then block([FAA, FBB, FGCD, ATres],
-                  FAA:lhs(SAP),
-                  FAB:lhs(SBP),
-                  if (debug) then print("** Checking assume_real with: ", string(FAA), ", ", string(FAB), " **"),
-                  if (polynomialpsimp(FAA) and polynomialpsimp(FAB) and length(listofvars(FAA))=1 and length(listofvars(FAB))=1) then block(
-                    FAA:ev(solve(FAA), simp),
-                    FAB:ev(solve(FAB), simp),
-                    if (debug) then print("Solved as ", string(FAA), ", ", string(FAB)),
-                    FAA:ev(sublist(FAA, lambda([ex2], real_numberp(rhs(ex2))))),
-                    FAB:ev(sublist(FAB, lambda([ex2], real_numberp(rhs(ex2))))),
-                    if (debug) then print("Filtered as ", string(FAA), ", ", string(FAB)),
-                    if sort(FAA)=sort(FAB) then block
-                        (
-                        eqoutcome[ev(id, simp)]:true,
-                        eqoutsymb[ev(id, simp)]:EQUIVCHARREAL
-                        )
-                 )
-              )
+                )
           ),
 
           /* Can we work out what has gone wrong?  */
@@ -1433,8 +1436,8 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           if malrulecont then block([FAA, FBB, FGCD, ATres],
               /* (0) Multiplicity of roots. */
               /* (1) Look at the GCD. */
-              FAA:lhs(SAP),
-              FAB:lhs(SBP),
+              FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
+              FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
               if (debug) then print("Possible multiplicity and GCD with: ", string(FAA), ", ", string(FAB)),
               if ev(is(polynomialpsimp(FAA) and polynomialpsimp(FAB)), simp) then block([facbA,facbB],
                   facbA:factor_bag(SAP),
@@ -1448,7 +1451,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:SAMEROOTS,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
+                      tempnote:sconcat(tempnote, " | SAMEROOTS | ", third(ATres))
                   ),
 
                   if malrulecont then block(
@@ -1462,7 +1465,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                           malrulecont:false,
                           eqoutcome[ev(id, simp)]:false,
                           eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
-                          eqoutnote[ev(id, simp)]:sconcat(tempnote, " | GBD-IMPLIES | ", third(ATres))
+                          tempnote:sconcat(tempnote, " | GBD-IMPLIES | ", third(ATres))
                       ) else (
                           ATres:ATAlgEquiv(FAB=0, FGCD=0),
                           if (debug) then print(ATres),
@@ -1470,7 +1473,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                               malrulecont:false,
                               eqoutcome[ev(id, simp)]:false,
                               eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
-                              eqoutnote[ev(id, simp)]:sconcat(tempnote, " | GBD-IMPLIED | ", third(ATres))
+                              tempnote:sconcat(tempnote, " | GBD-IMPLIED | ", third(ATres))
                           )
                       )
                   )
@@ -1489,7 +1492,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:ANDOR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ANDOR ")
+                      tempnote:sconcat(tempnote, " | ANDOR ")
                   )
               )
           ),
@@ -1506,7 +1509,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:ANDOR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | ANDOR ")
+                      tempnote:sconcat(tempnote, " | ANDOR ")
                   )
               )
           ),
@@ -1523,7 +1526,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:MISSINGVAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | MISSINGVAR ")
+                      tempnote:sconcat(tempnote, " | MISSINGVAR ")
                   )
               )
           ),
@@ -1540,11 +1543,11 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   if assume_pos then block(
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:EQUIVCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredFirstEquiv | ", third(ATres))
+                      tempnote:sconcat(tempnote, " | SquaredFirstEquiv | ", third(ATres))
                   ) else block(
                       eqoutcome[ev(id, simp)]:false,
                       eqoutsymb[ev(id, simp)]:IMPLIESCHAR,
-                      eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredFirst | ", third(ATres))
+                      tempnote:sconcat(tempnote, " | SquaredFirst | ", third(ATres))
                   )
               )
           ),
@@ -1559,11 +1562,12 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   malrulecont:false,
                   eqoutcome[ev(id, simp)]:false,
                   eqoutsymb[ev(id, simp)]:IMPLIEDCHAR,
-                  eqoutnote[ev(id, simp)]:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
+                  tempnote:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
               )
           )
 
       ),
+      eqoutnote[ev(id, simp)]:tempnote,
       if (debug) then print("Outcome: ", eqoutcome[ev(id, simp)]),
       if (debug) then print("Note: ", eqoutnote[ev(id, simp)])
   ),
@@ -1591,11 +1595,11 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           eqoutsymb[ev(k,simp)]:CHECKMARK
   ),
   /* Display natural domains. */
-  for k:1 thru length(ex) step 1 do block([tempnote],
-    tempnote:ev(natural_domain(exnatdomain[k]), simp),
+  for k:1 thru length(ex) step 1 do block([natdom],
+    natdom:ev(natural_domain(exnatdomain[k]), simp),
     exnatdomain[ev(k,simp)]:EMPTYCHAR,
-    if not(is(tempnote=all) or is(tempnote=unknown)) then
-        exnatdomain[ev(k,simp)]:texcolorplain("blue", tempnote)
+    if not(is(natdom=all) or is(natdom=unknown)) then
+        exnatdomain[ev(k,simp)]:texcolorplain("blue", natdom)
   ),
   res:matrix(eqoutcome, eqoutsymb, ex, exnatdomain, eqoutnote),
   return(transpose(res))

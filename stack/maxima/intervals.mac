@@ -119,7 +119,7 @@ texput(realset, realset_tex)$
 /* Returns True if p is an element of A. False, otherwise: */
 
 inintervalp(p, A) :=
-    block ( [Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1],
+    block ( [Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1, n],
         cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
         Ans:false,
@@ -214,7 +214,7 @@ trivialintervalp(ex) := block(
 )$
 
 SimpleUnion(X,Y) :=
-    block ( [A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1],
+    block ( [A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, j:1, n],
         cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
         if atom(A) then
@@ -758,7 +758,7 @@ Intersection(X,Y) :=
 
 /* Given a *list* of intervals, returns the intersection of all of them. */
 ListIntersect(X) :=
-    block ( [A:X, Ans, n, simp],
+    block ( [A:X, Ans, n, i, simp],
         simp:true,
         if X=[] then return({}),
         n:length(A),
@@ -882,8 +882,7 @@ SetComplement(X):=
         apply(%union, Ans)
         );
 
-/* Turns a single variable system over the reals in to a set of real number, together with insoluable bits (if any) */
-
+/* Turns a single variable system over the reals in to a set of real numbers, together with insoluable bits (if any). */
 single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
     if atom(ex) then return(ex),
     v:listofvars(ex),
@@ -982,6 +981,8 @@ natural_domain(ex):=block([v, ex2],
   v:listofvars(ex),
   if is(v=[]) then return(all),
   if not(is(length(v)=1)) then return(unknown),
+  /* We only work over real expressions. */
+  if not(is(freeof(%i, ex))) then return(unknown),
   v:first(v),
   /* Recurse using true/false instead of all/none, then convert. */
   ex2:natural_domain_rec(ex),
@@ -1003,7 +1004,7 @@ natural_domain_rec(ex):=block([v, ex2],
     return(unknown),
   if safe_op(ex)="sqrt" then
     return(single_variable_solver_real(first(args(ex))>=0)),
-  if safe_op(ex)="ln" or safe_op(ex)="log" then
+  if safe_op(ex)="ln" or safe_op(ex)="log" or safe_op(ex)="logbase" then
     return(single_variable_solver_real(first(args(ex))>0)),
   if safe_op(ex)="/" then
         ex2:[natural_domain_rec(first(args(ex))), single_variable_solver_real((second(args(ex))>0) %or (second(args(ex))<0))]

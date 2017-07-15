@@ -217,16 +217,8 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
-        $newarg['casstring'] = "[a=b,abs(a)=abs(b)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR]";
-        $newarg['outcome']   = false;
-        $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Absolute value";
-        $newarg['narrative'] = '';
-        $newarg['casstring'] = "[abs(a)=abs(b),a=b]";
-        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIEDCHAR]";
+        $newarg['casstring'] = "[a=b,abs(a)=abs(b),a=b]";
+        $newarg['debuglist'] = "[EMPTYCHAR,IMPLIESCHAR,IMPLIEDCHAR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -594,7 +586,27 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x*(x-1)*(x-2)=0,x*(x-1)=0,x*(x-1)*(x-2)=0,x*(x^2-2)=0]";
         $newarg['debuglist'] = "[EMPTYCHAR,IMPLIEDCHAR,IMPLIESCHAR,QMCHAR]";
         $newarg['outcome']   = false;
-        $newarg['assumepos'] = false;
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Exponential and logarithmic equations';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[2^x=4,x*log(2)=log(4),x=log(2^2)/log(2),x=2*log(2)/log(2),x=2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'For the moment we do not support this case.  It needs the rule A=B <=> e^A=e^B.';
+        $newarg['casstring'] = "[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 
         //******************************************************************************
@@ -836,6 +848,14 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[abs(x-1/2)+abs(x+1/2)-2,stackeq(abs(x)-1)]";
         $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR]";
         $newarg['outcome']   = false;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Non-trivial partial fractions";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[1/(x^2+1)=1/((x+%i)*(x-%i)), stackeq(1/(2*%i)*(1/(x-%i)-1/(x+%i)))]";
+        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1091,10 +1111,14 @@ class stack_equiv_test_data {
                 $arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
 
                 if (array_key_exists('assumepos', $equivarg)) {
-                    $options[] = 'assumepos';
+                    if ($equivarg['assumepos']) {
+                      $options[] = 'assumepos';
+                    }
                 }
                 if (array_key_exists('assumereal', $equivarg)) {
-                    $options[] = 'assumereal';
+                    if ($equivarg['assumereal']) {
+                        $options[] = 'assumereal';
+                    }
                 }
                 $options = implode(',', $options);
                 if ('' !== $options) {

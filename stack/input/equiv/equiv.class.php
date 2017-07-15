@@ -116,6 +116,8 @@ class stack_equiv_input extends stack_input {
                 $values = stack_utils::list_to_array($tavalue, false);
                 $current = stack_utils::logic_nouns_sort($values[0], 'remove');
             }
+            // Remove % characters, e.g. %pi should be printed just as "pi".
+            $current = str_replace('%', '', $current);
         } else {
             $current = implode("\n", $state->contents);
             $rows = $state->contents;
@@ -131,7 +133,7 @@ class stack_equiv_input extends stack_input {
             'name' => $fieldname,
             'id'   => $fieldname,
             'rows' => max(3, count($rows) + 1),
-            'cols' => min($boxwidth, 90)
+            'cols' => min($boxwidth, 50)
         );
 
         if ($readonly) {
@@ -147,8 +149,10 @@ class stack_equiv_input extends stack_input {
         }
         $rendervalidation = html_writer::tag('div', $rendervalidation, array('class' => $class, 'id' => $fieldname.'_val'));
 
-        $output = html_writer::tag('p', html_writer::tag('textarea', htmlspecialchars($current), $attributes));
-        $output .= html_writer::tag('p', $rendervalidation);
+        $output = html_writer::tag('td', html_writer::tag('textarea', htmlspecialchars($current), $attributes));
+        $output .= html_writer::tag('td', $rendervalidation);
+        $output = html_writer::tag('tr', $output);
+        $output = html_writer::tag('table', $output);
 
         return $output;
     }

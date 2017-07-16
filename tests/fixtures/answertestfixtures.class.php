@@ -252,6 +252,13 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '{}', '1=2', 0, 'ATAlgEquiv_SA_not_equation.', ''),
         array('AlgEquiv', '', '[]', '1=2', 0, 'ATAlgEquiv_SA_not_equation.', ''),
 
+        array('AlgEquiv', '', 'a=b/%i', '%i*a=b', 1, 'ATEquation_num_i', 'Complex numbers'),
+        array('AlgEquiv', '', 'b/%i=a', '%i*a=b', 1, 'ATEquation_num_i', ''),
+        array('AlgEquiv', '', 'b=a/%i', '%i*a=b', 0, 'ATEquation_lhs_notrhs_op', ''),
+        array('AlgEquiv', '', 'a*(2+%i)=b', 'a=b/(2+%i)', 1, 'ATEquation_ratio', ''),
+        array('AlgEquiv', '', 'a*(2+%i)=b', 'a=b*(2-%i)/5', 1, 'ATEquation_num_i', ''),
+        array('AlgEquiv', '', 'a*(2+%i)=b', 'a=b*(2-%i)/4', 0, 'ATEquation_default', ''),
+
         array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y', 0, 'ATEquation_default', 'Absolute value in equations'),
         array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y or x=-y', 1, 'ATEquation_sides', ''),
         array('AlgEquiv', '', 'abs(x)=abs(y)', '(x-y)*(x+y)=0', 1, '', ''),
@@ -331,6 +338,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '-inf', 'minf', -2, 'CASError: sign: sign of und is undefined.', ''),
         array('AlgEquiv', '', '(sqrt(108)+10)^(1/3)-(sqrt(108)-10)^(1/3)', '2', -2, '', ''),
         array('AlgEquiv', '', '(sqrt(2+sqrt(2))+sqrt(2-sqrt(2)))/(2*sqrt(2))', 'sqrt(sqrt(2)+2)/2', -2, '', ''),
+        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -2, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -2, '', 'This is only equivalent for x>=0...', ''),
         array('AlgEquiv', '', '((x+3)^2*(x+3))^(1/3)', '((x+3)*(x^2+6*x+9))^(1/3)', -2, '', 'Need to factor internally.'),
 

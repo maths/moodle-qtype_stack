@@ -878,7 +878,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "The Van Schooten Example";
         $newarg['narrative'] = 'This example is based on the Van Schooten Example, which has appeared in many algebra books since Van Schooten\'s Principia Mathesos Universalis.  See Heller 1940.';
         $newarg['casstring'] = "[((a-b)/(a^2+a*b))/((a^2-2*a*b+b^2)/(a^4-b^4)),stackeq(((a-b)*(a-b)*(a+b)*(a^2+b^2))/(a*(a+b)*(a-b)^2)),stackeq((a^2+b^2)/a),stackeq(a+b^2/a)]";
-        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1093,7 +1093,7 @@ class stack_equiv_test_data {
              'x=1/%i*(e^(2*%i*y)-1)/(e^(2*%i*y)+1),x=1/%i*(e^(%i*y)-e^(-%i*y))/(e^(%i*y)+e^(-%i*y)),'.
              'x=(e^(%i*y)-e^(-%i*y))/(2*%i)*(2/(e^(%i*y)+e^(-%i*y))),x=sin(y)/cos(y),x=tan(y)]';
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
-             "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+             "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 

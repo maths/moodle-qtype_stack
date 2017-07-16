@@ -1240,7 +1240,9 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgec
     R:ratsimp(R1/R2),
     if numberp(float(abs(R))) then
         return([true, true, "ATEquation_num", ""]),
-
+    R:ratsimp(rectform((%i*R1)/R2)),
+    if numberp(float(abs(R))) then
+        return([true, true, "ATEquation_num_i", ""]),
     /* Guard clause for efficiency. */
     if freeof(abs, SA) and freeof(abs, SB) then
         return([true, false, "ATEquation_default", ""]),
@@ -1262,6 +1264,9 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, R1, R2, R, edgec
     R:ratsimp(R1/R2),
     if numberp(float(abs(R))) then
         return([true, true, "ATEquation_abs_num", ""]),
+    R:ratsimp(rectform((%i*R1)/R2)),
+    if numberp(float(abs(R))) then
+        return([true, true, "ATEquation_abs_num_i", ""]),
 
     return([true, false, "ATEquation_default", ""])
     )$

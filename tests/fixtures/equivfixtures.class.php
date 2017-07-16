@@ -617,6 +617,14 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'Problematic case with nth roots.  (Needed for intrging integrals.)';
+        $newarg['casstring'] = "[x=(1+y/n)^n,x^(1/n)=(1+y/n),y/n=x^(1/n)-1,y=n*(x^(1/n)-1)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = 'unsupported';
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Working over the real numbers';
@@ -867,6 +875,14 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "The Van Schooten Example";
+        $newarg['narrative'] = 'This example is based on the Van Schooten Example, which has appeared in many algebra books since Van Schooten\'s Principia Mathesos Universalis.  See Heller 1940.';
+        $newarg['casstring'] = "[((a-b)/(a^2+a*b))/((a^2-2*a*b+b^2)/(a^4-b^4)),stackeq(((a-b)*(a-b)*(a+b)*(a^2+b^2))/(a*(a+b)*(a-b)^2)),stackeq((a^2+b^2)/a),stackeq(a+b^2/a)]";
+        $newarg['debuglist'] = "[CHECKMARK,CHECKMARK,CHECKMARK,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Induction step";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[sum(k,k,1,n+1),stackeq(sum(k,k,1,n)+(n+1)),stackeq(n*(n+1)/2 +n+1),".
@@ -1062,6 +1078,22 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'The last QMCHAR occurs because of the missing constant of integration.';
         $newarg['casstring'] = "[nounint(x^3*log(x),x),stackeq(x^4/4*log(x)-1/4*nounint(x^3,x)),stackeq(x^4/4*log(x)-x^4/4)]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,QMCHAR]";
+        $newarg['outcome']   = 'unsupported';
+        $samplearguments[] = $newarg;
+
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'This argument is aspirational.';
+        $newarg['casstring'] = '[y=nounint(1/(x^2+1),x),y=nounint(1/((1+%i*x)*(1-%i*x)),x),'.
+             'y=1/2*nounint(1/(1+%i*x)+1/(1-%i*x),x),"Perform the integral",'.
+             'y=1/(2*%i)*(log(1+%i*x)-log(1-%i*x)),y=1/(2*%i)*log((1+%i*x)/(1-%i*x)),'.
+             '2*%i*y=log((1+%i*x)/(1-%i*x)),(1+%i*x)/(1-%i*x)=e^(2*%i*y),'.
+             '1+%i*x=e^(2*%i*y)*(1-%i*x),%i*x*(1+e^(2*%i*y))=e^(2*%i*y)-1,'.
+             'x=1/%i*(e^(2*%i*y)-1)/(e^(2*%i*y)+1),x=1/%i*(e^(%i*y)-e^(-%i*y))/(e^(%i*y)+e^(-%i*y)),'.
+             'x=(e^(%i*y)-e^(-%i*y))/(2*%i)*(2/(e^(%i*y)+e^(-%i*y))),x=sin(y)/cos(y),x=tan(y)]';
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
+             "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 

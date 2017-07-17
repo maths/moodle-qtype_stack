@@ -85,15 +85,15 @@ $debug = true;
 // Set this to display only one argument.  Use the number.
 $onlyarg = false;
 if (array_key_exists('only', $_GET)) {
-  $onlyarg = (int) $_GET['only'];
+    $onlyarg = (int) $_GET['only'];
 };
 $failing = false;
 $failingcount = 0;
 // Only print the failing tests.
 if (array_key_exists('fail', $_GET)) {
-  $failing = true;
-  $debug = true;
-  $onlyarg = false;
+    $failing = true;
+    $debug = true;
+    $onlyarg = false;
 };
 $verbose = $debug;
 /* Just consider the last in the array. */
@@ -104,7 +104,7 @@ $timestart = microtime(true);
 foreach ($samplearguments as $argument) {
     if (array_key_exists('section', $argument)) {
         if (false === $onlyarg && false === $failing) {
-          echo html_writer::tag('h2', $argument['section']);
+            echo html_writer::tag('h2', $argument['section']);
         }
     } else {
         $i++;

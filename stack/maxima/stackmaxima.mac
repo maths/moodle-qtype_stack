@@ -173,7 +173,7 @@ stack_disp_fractions(ex) := block(
 
 /* This is needed to tweak the display of noun derivatives. */
 nary("blankmult", 0, 0);
-texput("blankmult", " # ", nary);
+texput("blankmult", " ", nary);
 
 /* ****************************************************** */
 /* Random numbers                                         */

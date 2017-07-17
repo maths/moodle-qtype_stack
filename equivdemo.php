@@ -81,7 +81,7 @@ $options->set_option('multiplicationsign', 'none');
 
 $casstrings = array();
 $i = 0;
-$debug = true;
+$debug = false;
 // Set this to display only one argument.  Use the number.
 $onlyarg = false;
 if (array_key_exists('only', $_GET)) {
@@ -184,7 +184,7 @@ foreach ($samplearguments as $argument) {
                 $errs = "<font color='red'>".$ct->get_errors()."</font>";
                 $errs .= $ct->get_debuginfo();
             }
-            $debuginfo    = $ct->get_debuginfo();
+            $debuginfo = $ct->get_debuginfo();
 
             $title = $argument['title'];
             if ('unsupported' === $argument['outcome']) {

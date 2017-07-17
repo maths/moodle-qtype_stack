@@ -116,6 +116,8 @@ class stack_equiv_input extends stack_input {
                 $values = stack_utils::list_to_array($tavalue, false);
                 $current = stack_utils::logic_nouns_sort($values[0], 'remove');
             }
+            // Remove % characters, e.g. %pi should be printed just as "pi".
+            $current = str_replace('%', '', $current);
         } else {
             $current = implode("\n", $state->contents);
             $rows = $state->contents;
@@ -131,7 +133,7 @@ class stack_equiv_input extends stack_input {
             'name' => $fieldname,
             'id'   => $fieldname,
             'rows' => max(3, count($rows) + 1),
-            'cols' => min($boxwidth, 90)
+            'cols' => min($boxwidth, 50)
         );
 
         if ($readonly) {

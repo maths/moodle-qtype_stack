@@ -246,7 +246,7 @@ class stack_cas_casstring_test extends basic_testcase {
 
     /* TODO: we need a full parser to check for mismatched string delimiters.
      * Below are some test cases which need a parser.
-     * 
+     *
      *  $s = 'a:"hello';
      *  $at1 = new stack_cas_casstring($s);
      *  $this->assertEquals('You are missing a quotation sign <code>"</code>. ', $at1->get_errors());

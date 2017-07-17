@@ -7,7 +7,7 @@ Maxima chooses an order in which to write terms in an expression.  By default, t
 To alter the order in STACK you can use the Maxima commands `orderless` and `ordergreat`.  To have \(a+b\) you can use
 
     ordergreat(a,b);
-    
+
 See Maxima's documentation for more details.  
 
 Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  No warnings or errors are issued if more than one is encountered.
@@ -64,14 +64,14 @@ Notice the first subtraction is fine, but the second one is not.  To understand 
 
     ?print(p);
     ((MPLUS) ((MEXPT) $Y 3) ((MMINUS) ((MTIMES) 2 ((MEXPT) $Y 2))) ((MTIMES) ((MMINUS) 8) $Y))
-   
+
 In the structure of this expression the first negative coefficient is `-(2*y^2)` BUT the second is `-(8)*y`.   This again is a crucial but subtle difference!  To address this issue we have a function
-   
+
     unary_minus_sort(p);
 
 which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.  The result here is the anticipated `y^3-2*y^2-8*y`.
 
-Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed. 
+Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed.
 
 ## Tips for manipulating expressions
 
@@ -79,7 +79,7 @@ How do we do the following in Maxima?
 \[ (1-x)^a \times (x-1) \rightarrow  -(1-x)^{a+1}.\]
 Try
 
-    q:(1-x)^a*(x-1); 
+    q:(1-x)^a*(x-1);
     q:ratsubst(z,1-x,q);
     q:subst(z=1-x ,q);
 
@@ -87,7 +87,7 @@ Try
 How do we do the following in Maxima?
 \[ (x-1)(k(x-1))^a \rightarrow  (x-1)^{a+1}k^a.\]
 
-     factor(radcan((x-1)*(k*(x-1))^a)) 
+     factor(radcan((x-1)*(k*(x-1))^a))
 
 ## Boolean functions
 
@@ -126,6 +126,17 @@ This causes a problem because `ATComAss` thinks that \[ 2\sqrt{5}−3 \neq \sqrt
 So you can't use `ATComAss` here, and gurantee that all random versions will work by testing that we really have \(5+4\sqrt{2}\) for example.
 
 What we really want is for the functions `sqrt` and `+` to appear precicely once in the student's answer, or that the answer is a sum of two things.
+
+### Control of surds ###
+
+See also the Maxima documentation on `radexpand`.  For example
+
+    radexpand:false$
+    sqrt((2*x+10)/10);
+    radexpand:true$
+    sqrt((2*x+10)/10);
+
+The first of these does not pull out a numerical denominator.  The second does.
 
 ## If you really insist on a cludge....
 

@@ -45,7 +45,7 @@
 (defprop &? ("?") texsym)
 
 ;; Allow colour into TeX expressions from Maxima
-;; Thanks to andrej.vodopivec@fmf.uni-lj.si Fri Jan 14 09:32:42 2005 
+;; Thanks to andrej.vodopivec@fmf.uni-lj.si Fri Jan 14 09:32:42 2005
 
 (defun tex-texcolor (x l r)
   (let
@@ -59,6 +59,20 @@
 
 (defprop $texcolor tex-texcolor tex)
 
+;; Allow colour into TeX expressions from Maxima
+;; Thanks to andrej.vodopivec@fmf.uni-lj.si Fri Jan 14 09:32:42 2005
+
+(defun tex-texcolorplain (x l r)
+  (let
+      ((front (append '("{\\color{")
+                      (list (stripdollar (cadr x)))
+                      '("}")))
+       (back (append '("{")
+                     (tex (caddr x) nil nil 'mparen 'mparen)
+                     '("}}"))))
+    (append l front back r)))
+
+(defprop $texcolorplain tex-texcolorplain tex)
 
 (defun tex-texdecorate (x l r)
   (let
@@ -122,7 +136,7 @@
 
     (%sech "{\\rm sech}")
     (%csch "{\\rm csch}")
-    
+
     (%asinh "{\\rm asinh}")
     (%acosh "{\\rm acosh}")
     (%atanh "{\\rm atanh}")
@@ -172,7 +186,7 @@
                 vars ords))))
     `((mquotient) (($blankmult) ,(simplifya numer nil) ,arg) ,denom)
      ))
-     
+
 
 (defun tex-dabbrev (x)
   ;; Format diff(f,x,1,y,1) so that it looks like
@@ -208,7 +222,7 @@
         ;; 1st item is 0
         (hi (tex (nth 4 x) nil nil 'mparen 'mparen)))
         (append l `("\\int_{" ,@low "}^{" ,@hi "}{" ,@s1 "\\;\\mathrm{d}" ,@var "}") r))))))
-        
+
 
 ;; Fine tune the display to enable us to print gamma07 as \gammma_{07},
 ;; Chris Sangwin 7/6/2016.

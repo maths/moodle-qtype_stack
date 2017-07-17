@@ -177,6 +177,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $result = strstr($rawresult, '[TimeStamp'); // Remove everything before the timestamp.
         }
 
+        // The line below is used because Maxima uses '#' to indicate variable nemaes in some functions.
+        // A minimal example is in "'diff(a,b)".  Note the first apostophie, which indicates the noun form.
+        // One option is to change Maxima's output function.
         $result = trim(str_replace('#', '', $result));
         $result = trim(str_replace("\n ", '', $result));
         $result = trim(str_replace("\n", '', $result));

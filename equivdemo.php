@@ -222,7 +222,7 @@ foreach ($samplearguments as $argument) {
             /* Use the real validation code, and also create something which can be pasted into a live input box. */
             if ($onlyarg) {
                 $teacheranswer = $cs1->get_casstring();
-                $input = new stack_equiv_input('ans1', $teacheranswer, $options);
+                $input = new stack_equiv_input('ans1', $teacheranswer, $options, array('options' => 'comments'));
                 $response = $input->get_correct_response($teacheranswer);
                 $state = $input->validate_student_response($response, $options, $teacheranswer, null);
                 echo $input->render($state, 'ans1', false, $teacheranswer);

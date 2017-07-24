@@ -74,6 +74,7 @@ alias(cosec,csc);            /* Corresponds to current student expectations */
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
+
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */

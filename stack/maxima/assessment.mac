@@ -31,9 +31,10 @@ MAXIMA_VERSION_NUM:float(MAXIMA_VERSION[2]+MAXIMA_VERSION[3]/10)$
 
 if not(?functionp('poly_reduced_grobner)) then load("grobner");
 
-/* Package dependency: makes use of the %and and %or functions from to_poly_solver
-   for representing and dealing with inequalities.              */
-if not(?functionp('to_poly_solve)) then load("to_poly_solve");
+/* Package dependency: makes use of the %and and %or functions from to_poly_solver.
+   Taken from version 5.38.1 to be definite, and for back compatability.              */
+load("to_poly_solve_extra_5.38.1.lisp");
+load("opsubst");
 
 if not(?functionp('rempart)) then load(functs);
 
@@ -1222,7 +1223,7 @@ mediant(ex1,ex2) := (num(ex1)+num(ex2))/(denom(ex1)+denom(ex2));
 /* Establish an argument and display it together with equivalences.    */
 /***********************************************************************/
 
-texput(EMPTYCHAR, "\\ ");
+texput(EMPTYCHAR, " ");
 texput(EQUIVCHAR, "\\color{green}{\\Leftrightarrow}");
 texput(EQUIVCHARREAL, "\\color{green}{\\Leftrightarrow}\\, \\color{blue}{(\\mathbb{R})}");
 texput(CHECKMARK, "\\color{green}{\\checkmark}");
@@ -1237,7 +1238,7 @@ texput(ASSUMEPOSVARS, "\\color{blue}{\\mbox{!ASSUMEPOSVARS!}}");
 texput(ASSUMEREALVARS, "\\color{blue}{(\\mathbb{R})}");
 texput(ASSUMEPOSREALVARS, "\\color{blue}{\\mbox{!ASSUMEPOSREALVARS!}}");
 /* For now we suppress this. */
-texput(unknown, "\\ ");
+texput(unknown, " ");
 
 
 /* We assume the token "all" is the set of real numbers, and "none" means it is empty. */

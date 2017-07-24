@@ -247,9 +247,9 @@ inequality_factor_solve(ex):=block([ex2],
     p:sublist(maplist(listify, listify(powerset(setify(makelist(n, n, length(ex2)))))), lambda([ex], evenp(length(ex)))),
     ex3:maplist(lambda([l], neg_ineq_list(copylist(ex2), l)), p),
     /* Tidy up the list */
-    ex3:maplist(lambda([ex], ineq_rem_redundant(apply(?%and, ex))), ex3),
+    ex3:maplist(lambda([ex], ineq_rem_redundant(apply("%and", ex))), ex3),
     ex3:reverse(sort(ex3)),
-    if is(length(ex3)=1) then first(ex3) else apply(?%or, ex3)
+    if is(length(ex3)=1) then first(ex3) else apply("%or", ex3)
 )$
 
 /* Return factors of the expression over the reals, but with the parity of the multiplicity.  */

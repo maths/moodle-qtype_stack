@@ -1266,8 +1266,8 @@ texput(stackeq, stackeqtex);
 /* String: note is some deugging information.                                                  */
 stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargument, tempnote, exmod, exmodpoly, exmodsolve, exnatdomain, SA, SAL, SB, SBL, malrulecont],
   if not(listp(ex)) then (print("stack_disp_arg expects to receive a list."), return(false)),
-  if emptyp(ex) then return(matrix([true, EMPTYCHAR, EMPTYCHAR, [], ""])),
-  if length(ex)=1 then return(matrix([true, EMPTYCHAR, EMPTYCHAR, first(ex), ""])),
+  if emptyp(ex) then return(matrix([true, EMPTYCHAR, [], EMPTYCHAR, ""])),
+  if length(ex)=1 then return(matrix([true, EMPTYCHAR, first(ex), EMPTYCHAR, ""])),
   /* Set up empty rows to hold the answer. */
   eqoutcome:makelist(false, length(ex)),
   eqoutsymb:makelist(QMCHAR, length(ex)),

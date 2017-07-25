@@ -25,8 +25,6 @@
 /*                                                                  */
 /********************************************************************/
 
-
-
 /* Reduces an inequality to either ? > 0 or ? >=0, which is monic in its variable. */
 ineqprepare(ex) := block([op2, ex2],
     if mapatom(ex) then return(ex),
@@ -135,12 +133,12 @@ neg_ineq_list(ex, l) := block([k],
 /* This block of functions removes unessary inequalities from a collection.    */
 ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv, simp],
     if atom(ex) then return(ex),
-    if not(safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="%and" or safe_op(ex)="%or") then
+    if not(safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="%and" or safe_op(ex)="%or" or safe_op(ex)="and") then
         return(ex),
     /* Recurse over the expression. */
     ex:apply(op(ex), maplist(ineq_rem_redundant, args(ex))),
 
-    if (safe_op(ex)="nounand" or safe_op(ex)="%and") then exo:[max, min] else exo:[min, max],
+    if (safe_op(ex)="nounand" or safe_op(ex)="%and" or safe_op(ex)="and") then exo:[max, min] else exo:[min, max],
     exn:sublist(args(ex), lambda([ex2], not(linear_inequalityp(ex2)))),
     exl:sublist(args(ex), linear_inequalityp),
     /* Separate out expressions in a single variable. */
@@ -153,7 +151,6 @@ ineq_rem_redundant(ex) := block([exl,exn,exg,exl,exo,exv, simp],
     if is(length(exl)=1) then return(first(exl)),
     ex:apply(op(ex), exl)
 )$
-
 
 /* Take a list of linear inequalities the same single variable, and a list of operators, min/max.
    Returns the equivalent inequalities.

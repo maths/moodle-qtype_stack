@@ -4,34 +4,44 @@ error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 ini_set('html_errors', 1);
 
-require_once(__DIR__ . '../config.php');
+require_once(__DIR__ . '/../config.php');
 
-require_once(__DIR__ . './api.php');
-require_once(__DIR__ . '../question.php');
+require_once(__DIR__ . '/api.php');
+require_once(__DIR__ . '/../question.php');
 
 function printData($data) {
   header('Content-Type: application/json');
   echo json_encode($data);
 }
 
+function printSuccess($data) {
+  printData([
+    "error" => false,
+    "message" => $data
+  ]);
+}
+
 function printError($message) {
   $res = [
-    "error": true,
-    "message": $message,
+    "error" => true,
+    "message" => $message,
   ];
   printData($res);
-  exit;
+  die();
 }
 
 function validateData($data) {
   // TODO:
+  if (!array_key_exists('question', $data)) {
+    printError('No question');
+  }
 }
 
 function parseInput() {
-  $data = $_POST['data']
-  if ($data === null) {
-    printError('No data sent')
+  if (!array_key_exists('data', $_POST)) {
+    printError('No data sent');
   }
+  $data = $_POST['data'];
   $parsed = json_decode($data, true);
   validateData($parsed);
   return $parsed;
@@ -68,6 +78,6 @@ $json = [
   "formatcorrectresponse" => $res->formatcorrectresponse,
   "summariseresponse" => $res->summariseresponse,
   "answernotes" => $res->answernotes
-]
+];
 
-printData($json)
+printData($json);

@@ -909,8 +909,8 @@ class stack_answertest_test_data {
         array('Int', 'x', 'log(abs(x-3))/6-log(abs(x+3))/6+c', '-acoth(x/3)/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'log(x-3)/6-log(x+3)/6', '-acoth(x/3)/3', 0, 'ATInt_const.', ''),
         // Non-trivial example from JHD, July 2017.
-        array('Int', 'x', 'atan(2*x-3)+c', 'atan(2*x-3)', 1, 'ATInt_true', ''),
-        array('Int', 'x', 'atan((x-2)/(x-1))+c', 'atan(2*x-3)', 1, 'ATInt_true', ''),
+        array('Int', 'x', 'atan(2*x-3)+c', 'atan(2*x-3)', 1, 'ATInt_true.', ''),
+        array('Int', 'x', 'atan((x-2)/(x-1))+c', 'atan(2*x-3)', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'atan((x-2)/(x-1))', 'atan(2*x-3)', 0, 'ATInt_const.', ''),
         array('Int', 'x', 'atan((x-1)/(x-2))', 'atan(2*x-3)', 0, 'ATInt_generic.', ''),
         // These onse currently fail for mathematical reasons.

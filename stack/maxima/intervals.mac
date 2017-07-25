@@ -885,6 +885,8 @@ SetComplement(X):=
 
 /* Turns a single variable system over the reals in to a set of real numbers, together with insoluable bits (if any). */
 single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
+    if is(ex=false) then return(none),
+    if is(ex=true) then return(all),
     if atom(ex) then return(ex),
     v:listofvars(ex),
     if is(length(v)=0) then block
@@ -918,10 +920,9 @@ single_variable_solver_real(ex) := block([v, rs1, rs2, simp],
     if ((safe_op(ex)="[" or safe_op(ex)="%union") and length(args(ex))=1) then ex:first(ex),
 
     if is(ex={}) then return(none),
-    if is(ex=false) then return(none),
     if is(ex={v}) then return(all),
-    if is(ex=true) then return(all),
     if logic_edgep(ex) then return(ex),
+    if is(equal(ex,oo(-inf,inf))) then return(all),
 
     rs1:ex,
     rs2:false,

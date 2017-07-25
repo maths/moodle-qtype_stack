@@ -57,3 +57,6 @@ realset(x,%union(oo(2,inf),oo(-inf,-2)))$
 
 single_variable_solver_real(2*x/abs(x-1)<1);
 (1-(2*x)/(x-1) > 0) %or ((2*x)/(x-1)+1 > 0)$
+
+single_variable_solver_real(x>1 or x<2);
+all;

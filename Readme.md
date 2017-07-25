@@ -1,12 +1,12 @@
 # STACK 3.6
 
-[STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
+[STACK](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/index.md) is an assessment system for mathematics, science and related disciplines.
 
 STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of many [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md). A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo).
 
 ## Current state of development
 
-Stack 3.6 is a major release containing significant new features and improvements, based on continuing use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.
+Stack 3.6 is a major release containing significant new features and improvements, based on continuing research and use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.
 
 Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 

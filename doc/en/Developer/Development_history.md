@@ -2,6 +2,23 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## TODO before release.
+
+* Ensure comments in equivalence inputs are correctly displayed by the answer tests, not by EQUIVCOMMENT tags.
+
+## STACK 3.6
+
+Released July 2017. 
+
+New features and enhancements in this release.
+
+* Modify the text area input so that each line is validated separately.
+* Add a "scratch working" input type in which students can record their thinking etc. alongside the final answer.
+* Support for intervals in STACK, using the Maxima syntax `oo(a,b)` for an open inteval \((a,b)\), `cc(a,b)` for an open inteval \([a,b]\) and `oc(a,b)`, `co(a,b)` for the half open intervals.
+* Much better support for solving and dealing with single variable inequalities.
+
+This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../CAS/Equivalence_reasoning.md).
+
 ## Version 3.5.7
 
 Released June 2017. 

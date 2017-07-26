@@ -60,8 +60,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
     public function test_render_firstline() {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         $el->set_parameter('syntaxHint', 'firstline');
-        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25">x^2=4</textarea></td>' .
-                '<td><div class="stackinputfeedback" id="stack1__ans1_val">' .
+        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25">' .
+                'x^2=4</textarea></td><td><div class="stackinputfeedback" id="stack1__ans1_val">' .
                 '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></td></tr></table>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
@@ -71,8 +71,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         // Note the syntax hint must be a list.
         $el->set_parameter('syntaxHint', '[x^2=3]');
-        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25">x^2=3</textarea></td>' .
-                '<td><div class="stackinputfeedback" id="stack1__ans1_val">' .
+        $this->assertEquals('<table><tr><td><textarea name="stack1__ans1" id="stack1__ans1" rows="3" cols="25">x^2=3' .
+                '</textarea></td><td><div class="stackinputfeedback" id="stack1__ans1_val">' .
                 '<input type="hidden" name="stack1__ans1_val" value="[]" /></div></td></tr></table>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'stack1__ans1', false, '[x^2=4,x=2 or x=-2]'));
@@ -86,7 +86,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => 'x^2-2*x+1=0');
         $this->assertEquals($excont, $state->contents);
         $this->assertEquals('[x^2-2*x+1=0]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2-2\cdot x+1=0\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll} &x^2-2\cdot x+1=0& \cr \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 
@@ -162,8 +162,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\nx=2 or x=3"), $options, '[x^2-5*x+6=0]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2-5\cdot x+6=0\cr'.
-            ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll} &x^2-5\cdot x+6=0& \cr'.
+            ' \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_without_equiv() {
@@ -173,8 +173,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6=0\nx=2 or x=3"), $options, '[x^2-5*x+6=0]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2-5*x+6=0,x=2 nounor x=3]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}x^2-5\cdot x+6=0\cr'.
-                ' x=2\,{\mbox{ or }}\, x=3\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll}x^2-5\cdot x+6=0& \cr'.
+                ' x=2\,{\mbox{ or }}\, x=3& \cr \end{array} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_without_assume_pos() {
@@ -183,7 +183,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2 or x=-2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2\cr'.
+        $this->assertEquals('\[ \begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
     }
 
@@ -194,7 +194,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
         // Note this is an implication, not equivalence.
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{red}{\Leftarrow}&x=2\cr \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll} &x^2=4& \cr \color{red}{\Leftarrow}&x=2& \cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -206,8 +206,8 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2]', $state->contentsmodified);
         // In this example, we have assumed x is positive so we do have an equivalence. Note the feedback.
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4\cr '.
-                '\color{green}{\Leftrightarrow}&x=2\cr \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4& \cr '.
+                '\color{green}{\Leftrightarrow}&x=2& \cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -218,7 +218,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=4\nx=2 or x=-2"), $options, '[x^2=4,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2=4,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^2=4\cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2\cr'.
+        $this->assertEquals('\[ \begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
     }
 
@@ -246,8 +246,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => '(x-1)(x+4)', 1 => '=x^2-x+4x-4', 2 => '=x^2+3x-4');
         $this->assertEquals($excont, $state->contents);
         $this->assertEquals('[(x-1)*(x+4),stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr \color{green}{\checkmark}'.
-                '&=x^2-x+4\cdot x-4\cr \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll} &\left(x-1\right)\cdot \left(x+4\right)& \cr \color{green}{\checkmark}'.
+                '&=x^2-x+4\cdot x-4& \cr \color{green}{\checkmark}&=x^2+3\cdot x-4& \cr \end{array} \]',
+                $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('  ', $state->errors);
     }
@@ -274,8 +275,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => '(x-1)*(x+4)', 1 => '=x^2-x+4*x-4', 2 => '=x^2+3*x-4');
         $this->assertEquals($excont, $state->contents);
         $this->assertEquals('[(x-1)*(x+4),stackeq(x^2-x+4*x-4),stackeq(x^2+3*x-4)]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &\left(x-1\right)\cdot \left(x+4\right)\cr \color{green}{\checkmark}'.
-                '&=x^2-x+4\cdot x-4\cr \color{green}{\checkmark}&=x^2+3\cdot x-4\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll} &\left(x-1\right)\cdot \left(x+4\right)& \cr \color{green}{\checkmark}'.
+                '&=x^2-x+4\cdot x-4& \cr \color{green}{\checkmark}&=x^2+3\cdot x-4& \cr \end{array} \]',
+                $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('  ', $state->errors);
     }
@@ -291,7 +293,7 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $excont = array(0 => 'a^2-ab', 1 => '=a*(a-b)');
         $this->assertEquals($excont, $state->contents);
         $this->assertEquals('[a^2-a*b,stackeq(a*(a-b))]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &a^2-a\cdot b\cr \color{green}{\checkmark}&=a\cdot \left(a-b\right)\cr'.
+        $this->assertEquals('\[ \begin{array}{lll} &a^2-a\cdot b& \cr \color{green}{\checkmark}&=a\cdot \left(a-b\right)& \cr'.
                 ' \end{array} \]', $state->contentsdisplayed);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals(' ', $state->errors);
@@ -300,10 +302,12 @@ class stack_equiv_input_test extends qtype_stack_testcase {
     public function test_validate_student_response_without_assume_real() {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
-        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]',
+                null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\ &x^4=16\cr \color{red}{\Leftarrow}&x=2\,{\mbox{ or }}\, x=-2\cr \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll} &x^4=16& \cr \color{red}{\Leftarrow}&x=2\,{\mbox{ or }}\, '.
+                'x=-2& \cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -311,22 +315,24 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
         $el->set_parameter('options', 'assume_real');
-        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=2 or x=-2"), $options, '[x^4=16,x=2 nounor x=-2]',
+                null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=2 nounor x=-2]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr \color{green}{\Leftrightarrow}\, '.
-                '\color{blue}{(\mathbb{R})}&x=2\,{\mbox{ or }}\, x=-2\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16& \cr \color{green}{\Leftrightarrow}\, '.
+                '\color{blue}{(\mathbb{R})}&x=2\,{\mbox{ or }}\, x=-2& \cr \end{array} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_with_assume_wrong() {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
         $el->set_parameter('options', 'assume_real');
-        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options, '[x^4=16,x=2 nounor x=-2]',
+                null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr '.
-                '\color{red}{?}&x=1\,{\mbox{ or }}\, x=-1\cr \end{array} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16& \cr '.
+                '\color{red}{?}&x=1\,{\mbox{ or }}\, x=-1& \cr \end{array} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_with_assume_real_complex() {
@@ -337,9 +343,9 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 '[x^4=16,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=2 nounor x=-2 nounor x=2*i nounor x=-2*i]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16\cr '.
-                '\color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, '.
-                'x=-2\,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot \mathrm{i}\cr \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll}\color{blue}{(\mathbb{R})}&x^4=16& \cr '.
+                '\color{green}{\Leftrightarrow}\, \color{blue}{(\mathbb{R})}&x=2\,{\mbox{ or }}\, '.
+                'x=-2\,{\mbox{ or }}\, x=2\cdot \mathrm{i}\,{\mbox{ or }}\, x=-2\cdot \mathrm{i}& \cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 
@@ -347,12 +353,147 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('equiv', 'sans1', '[x^4=16,x=2 nounor x=-2]');
         $el->set_parameter('options', 'hideequiv');
-        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options, '[x^4=16,x=2 nounor x=-2]', null);
+        $state = $el->validate_student_response(array('sans1' => "x^4=16\nx=1 or x=-1"), $options,
+            '[x^4=16,x=2 nounor x=-2]', null);
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^4=16,x=1 nounor x=-1]', $state->contentsmodified);
-        $this->assertEquals('\[ \begin{array}{lll}x^4=16\cr x=1\,{\mbox{ or }}\, x=-1\cr \end{array} \]',
+        $this->assertEquals('\[ \begin{array}{lll}x^4=16& \cr x=1\,{\mbox{ or }}\, x=-1& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_natural_domain_sqrt() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 '.
+                '= 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 nounor x=-1]';
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => "sqrt(3*x+4) = 2+sqrt(x+2)\n3*x+4=4+4*sqrt(x+2)+(x+2)\n".
+            "x-1=2*sqrt(x+2)\nx^2-2*x+1 = 4*x+8\nx^2-6*x-7 = 0\n(x-7)*(x+1) = 0\nx=7 or x=-1"), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[sqrt(3*x+4) = 2+sqrt(x+2),3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),'.
+                    'x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 nounor x=-1]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &\sqrt{3\,x+4}=2+\sqrt{x+2}&'.
+            '{\color{blue}{{x \in {\left[ -\frac{4}{3},\, \infty \right)}}}}\cr \color{red}{\Rightarrow}&3\,x+4=4+4\,'.
+            '\sqrt{x+2}+\left(x+2\right)&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}'.
+            '&x-1=2\,\sqrt{x+2}&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{red}{\Rightarrow}'.
+            '&x^2-2\,x+1=4\,x+8& \cr \color{green}{\Leftrightarrow}&x^2-6\,x-7=0& \cr \color{green}{\Leftrightarrow}'.
+            '&\left(x-7\right)\,\left(x+1\right)=0& \cr \color{green}{\Leftrightarrow}'.
+            '&x=7\,{\mbox{ or }}\, x=-1& \cr \end{array} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_natural_domain_rational() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),(x-2)*(3*x+2)=0,x=2 nounor x=-2/3];';
+        $sa = "5*x/(2*x+1)-3/(x+1) = 1\n5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1)\n(x-2)*(3*x+2)=0\nx=2 or x=-2/3";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),(x-2)*(3*x+2)=0,x=2 nounor x=-2/3]',
+                $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &\frac{5\,x}{2\,x+1}-\frac{3}{x+1}=1'.
+                '&{\color{blue}{{x \not\in {\left \{-1 , -\frac{1}{2} \right \}}}}}\cr \color{green}{\Leftrightarrow}&'.
+                '5\,x\,\left(x+1\right)-3\,\left(2\,x+1\right)=\left(x+1\right)\,\left(2\,x+1\right)'.
+                '& \cr \color{green}{\Leftrightarrow}&\left(x-2\right)\,\left(3\,x+2\right)=0& \cr \color{green}{\Leftrightarrow}'.
+                '&x=2\,{\mbox{ or }}\, x=\frac{-2}{3}& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_natural_domain_logs() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        // Note, as of 25/7/17 we do not support this kind of logarithm equivalence.  When this changes this unit test should fail.
+        $ta = '[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]';
+        $sa = "lg(x+17,3)-2=lg(2*x,3)\nlg(x+17,3)-lg(2*x,3)=2\nlg((x+17)/(2*x),3)=2\n(x+17)/(2*x)=3^2\n(x+17)=18*x\n17*x=17\nx=1";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[lg(x+17,3)-2=lg(2*x,3),lg(x+17,3)-lg(2*x,3)=2,lg((x+17)/(2*x),3)=2,'.
+                '(x+17)/(2*x)=3^2,(x+17)=18*x,17*x=17,x=1]',
+                $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &\log_{3}\left(x+17\right)-2=\log_{3}\left(2\,x\right)&'.
+                '{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}'.
+                '&\log_{3}\left(x+17\right)-\log_{3}\left(2\,x\right)=2&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}'.
+                '\cr \color{green}{\Leftrightarrow}&\log_{3}\left(\frac{x+17}{2\,x}\right)=2& \cr \color{red}{?}'.
+                '&\frac{x+17}{2\,x}=3^2&{\color{blue}{{x \not\in {\left \{0 \right \}}}}}\cr '.
+                '\color{green}{\Leftrightarrow}&x+17=18\,x'.
+                '& \cr \color{green}{\Leftrightarrow}&17\,x=17& \cr \color{green}{\Leftrightarrow}&x=1& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_equational_reasoning() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[x^2+2*a*x,stackeq(x^2+2*a*x+a^2-a^2),stackeq((x+a)^2-a^2)]';
+        $sa = "x^2+2*a*x\n= x^2+2*a*x+a^2-a^2\n= (x+a)^2-a^2";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2+2*a*x,stackeq(x^2+2*a*x+a^2-a^2),stackeq((x+a)^2-a^2)]',
+                $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &x^2+2\,a\,x& \cr \color{green}{\checkmark}&=x^2+2\,a\,x+a^2-a^2& '.
+                '\cr \color{green}{\checkmark}&=\left(x+a\right)^2-a^2& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_equational_nontrivial_difference() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[abs(x-1/2)+abs(x+1/2)-2,stackeq(abs(x)-1)]';
+        $sa = "abs(x-1/2)+abs(x+1/2)-2\n= abs(x)-1";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[abs(x-1/2)+abs(x+1/2)-2,stackeq(abs(x)-1)]',
+                $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &\left| x-\frac{1}{2}\right| +\left| x+\frac{1}{2}\right| -2& \cr '.
+                '\color{red}{?}&=\left| x\right| -1& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_equation_then_equational() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+1)]';
+        $sa = "(x-1)^2=(x-1)*(x-1)\n=x^2-2*x+1";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[(x-1)^2=(x-1)*(x-1),stackeq(x^2-2*x+1)]',
+                $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\color{green}{\checkmark}&'.
+                '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{green}{\checkmark}&=x^2-2\,x+1'.
+                '& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_equation_then_equational_1() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[(x-1)^2=(x-1)*(x-1), stackeq(x^2-2*x+2)]';
+        $sa = "(x-1)^2=(x-1)*(x-1)\n= x^2-2*x+2";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[(x-1)^2=(x-1)*(x-1),stackeq(x^2-2*x+2)]',
+                $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\color{green}{\checkmark}&'.
+                '\left(x-1\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr \color{red}{?}&=x^2-2\,x+2& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_equation_then_equational_2() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
+        $sa = "(x-2)^2=(x-1)*(x-1)\n= x^2-2*x+1";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[(x-2)^2=(x-1)*(x-1),stackeq(x^2-2*x+1)]',
+                $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll}\color{red}{?}&\left(x-2\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr '.
+                '\color{green}{\checkmark}&=x^2-2\,x+1& \cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 }
-
-

@@ -173,13 +173,3 @@ naivesqrthelper(ex):=block(
 );
 
 
-/****************************************************************/
-/*  Solver for single variable systems over R                   */
-/*                                                              */
-/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
-/*  V0.1 August 2015                                            */
-/*                                                              */
-/****************************************************************/
-
-s
-

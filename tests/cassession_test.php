@@ -1102,4 +1102,36 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $this->assertEquals('\mathbf{false}', $s->get_display_key('p2'));
         $this->assertEquals('false', $s->get_value_key('p3'));
     }
+
+    public function test_natural_domain() {
+
+        // Cases should be in the form array('input', 'value', 'display').
+        $cases = array();
+        $cmds = array();
+
+        $cases[] = array('x', 'all', '\mathbb{R}');
+        $cases[] = array('1/(x^2+1)', 'all', '\mathbb{R}');
+        $cases[] = array('1/x', 'realset(x,%union(oo(0,inf),oo(-inf,0)))', '{x \not\in {\left \{0 \right \}}}');
+        $cases[] = array('1+1/x^2+1/(x-1)', 'realset(x,%union(oo(0,1),oo(1,inf),oo(-inf,0)))',
+                '{x \not\in {\left \{0 , 1 \right \}}}');
+        $cases[] = array('log(x)', 'realset(x,oo(0,inf))', '{x \in {\left( 0,\, \infty \right)}}');
+        $i = 0;
+        foreach ($cases as $case) {
+            $cmds[$i] = 'd'.$i.':natural_domain('.$case[0].')';
+            $i++;
+        }
+
+        $options = new stack_options();
+        $kv = new stack_cas_keyval(implode(';', $cmds), $options, 0, 't');
+        $s = $kv->get_session(); // This does a validation on the side.
+
+        $s->instantiate();
+
+        $i = 0;
+        foreach ($cases as $case) {
+            $this->assertEquals($case[1], $s->get_value_key('d'.$i));
+            $this->assertEquals($case[2], $s->get_display_key('d'.$i));
+            $i++;
+        }
+    }
 }

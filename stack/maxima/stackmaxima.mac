@@ -74,6 +74,7 @@ alias(cosec,csc);            /* Corresponds to current student expectations */
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
+
 /* ********************************** */
 /* Load contributed packages          */
 /* ********************************** */
@@ -173,7 +174,7 @@ stack_disp_fractions(ex) := block(
 
 /* This is needed to tweak the display of noun derivatives. */
 nary("blankmult", 0, 0);
-texput("blankmult", " # ", nary);
+texput("blankmult", " ", nary);
 
 /* ****************************************************** */
 /* Random numbers                                         */
@@ -726,6 +727,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     ral:sublist(ra, listp), /* The actual arguments used by plot. */
     /* Check expressions to be plotted has/have only one variable. */
     ex:ev(ex, nouns, simp),
+    /* Remove logarithms to other bases from expressions. */
+    if not(freeof(logbase, ex)) then
+        ex:ev(ex, logbase=logbasesimp),
     lvs:listofvars(ex),
     lvs:sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
     if length(lvs)>1 then
@@ -1079,11 +1083,13 @@ ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
       else
         return(ATFunction(SA, SB)),
     /* Are we dealing with an equation? */
-    if equationp(SB) or SB = all or SB = none then
-      if equationp(SA)#true and logicp(SA)#true then
-        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation"))
-      else
-        return(ATEquation(SA, SB)),
+    /* Don't use logic_edgep(SB) here, as this include "true" and "false".  A teacher should use all/none if they mean equations. */
+    if (equationp(SB) or SB = all or SB = none) then
+      /* But the student can also use true/false here.  Note the concious asymetry. */
+      if (equationp(SA) or logic_edgep(SA)) then
+        return(ATEquation(SA, SB))
+      else if equationp(SB) and not equationp(SA) then
+        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_equation")),
     /* Did the student type in a simple equation, but the teacher did not? */
     if (equationp(SA) and not(op_usedp(SA, abs)) and not(op_usedp(SA, "+-"))) then return(StackBasicReturn(false, false, "ATAlgEquiv_TA_not_equation")),
     /* Are we dealing with an inequality? */
@@ -1295,7 +1301,11 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     SA:logical_normal(SA),
     SB:logical_normal(SB),
     if debug then print("ATInequality(", SA, ", ", SB, ")"),
-    if SA = SB then RawMark:true,
+    if SA = SB then RawMark:true
+    else if single_variable_solver_real(SA)=single_variable_solver_real(SB) then block(
+        RawMark:true,
+        AnswerNote:StackAddNote("", "ATInequality_solver")
+    ),
     /* Now try to give some basic feedback: potential for more work to recurse over complex expressions... */
     if safe_op(SA) = ">"  and safe_op(SB) =">=" then block(
         AnswerNote:StackAddNote("", "ATInequality_strict"),
@@ -1497,6 +1507,11 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     if (debug) then print("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then
         return([true, true, "ATLogic_True", ""]),
+    SAP:ev(single_variable_solver_real(SA), simp),
+    SBP:ev(single_variable_solver_real(SB), simp),
+    if (debug) then print("ATLogic_to_poly_solver: [", string(SAP), " | ", string(SBP), "]"),
+    if SAP=SBP then 
+        return([true, true, "ATLogic_Solver_True", ""]),
     SAP:ev(logic_to_poly(SA), simp),
     SBP:ev(logic_to_poly(SB), simp),
     if (debug) then print("ATLogic_to_poly: [", string(SAP), " | ", string(SBP), "]"),

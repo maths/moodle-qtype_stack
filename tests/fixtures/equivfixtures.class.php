@@ -974,11 +974,11 @@ class stack_equiv_test_data {
                 'Each internal bit is fine, but the logic uses a universal quantifier which we cannot assess. '.
                 'This argument will need semi-automatic marking.';
         $newarg['casstring'] = "[-x^2+a*x+a-3<0, a-3<x^2-a*x, a-3<(x-a/2)^2-a^2/4, a^2/4+a-3<(x-a/2)^2, a^2+4*a-12<4*(x-a/2)^2, ".
-                "(a-2)*(a+6)<4*(x-a/2)^2, \"This inequality is required to be true for all x, it must be true when the right hand side takes its minimum value.  This happens for x=a/2\", ".
+                "(a-2)*(a+6)<4*(x-a/2)^2, \"This inequality is required to be true for all x.\", \"So it must be true when the right hand side takes its minimum value.\", \"This happens for x=a/2.\", ".
                 "(a-2)*(a+6)<0, ((a-2)<0 and (a+6)>0) or ((a-2)>0 and (a+6)<0), (a<2 and a>-6) or (a>2 and a<-6), ".
                 "(-6<a and a<2) or false, (-6<a and a<2)]";
-        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,".
-                "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EMPTYCHAR,".
+                "EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported'; //'unknown';
         $samplearguments[] = $newarg;
 

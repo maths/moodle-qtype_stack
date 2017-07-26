@@ -30,8 +30,9 @@ require_once(__DIR__ . '/stack/cas/casstring.class.php');
 require_once(__DIR__ . '/stack/cas/cassession.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/installhelper.class.php');
+require_once(__DIR__ . '/stack/input/inputbase.class.php');
+require_once(__DIR__ . '/stack/input/equiv/equiv.class.php');
 require_once(__DIR__ . '/tests/fixtures/equivfixtures.class.php');
-
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);
@@ -87,6 +88,7 @@ $debug = false;
 // Set this to display only one argument.  Use the number.
 $onlyarg = false;
 if (array_key_exists('only', $_GET)) {
+    $debug = true;
     $onlyarg = (int) $_GET['only'];
 };
 $failing = false;
@@ -219,6 +221,14 @@ foreach ($samplearguments as $argument) {
                         html_writer::tag('p', $errs);
                 }
                 echo "\n<hr/>\n\n\n";
+            }
+            /* Use the real validation code, and also create something which can be pasted into a live input box. */
+            if ($onlyarg) {
+                $teacheranswer = $cs1->get_casstring();
+                $input = new stack_equiv_input('ans1', $teacheranswer, $options, array('options' => 'comments'));
+                $response = $input->get_correct_response($teacheranswer);
+                $state = $input->validate_student_response($response, $options, $teacheranswer, null);
+                echo $input->render($state, 'ans1', false, $teacheranswer);
             }
         }
 

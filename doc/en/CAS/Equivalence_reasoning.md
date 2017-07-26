@@ -1,8 +1,8 @@
 # Reasoning by equivalence
 
-__NOTE: this is experimental code and the features and behaviour are very likely to change significantly in the near future.__
+__NOTE: This code is new in STACK 3.6.  Features and behaviour may change significantly in future versions, subject to trials with students and feedback from colleagues.__
 
-__NOTE: for the first release we are providing no support at all for inequalities, or simultaneous equations.  Wider support is intended for future versions.__
+__NOTE: In this release we are providing support for basic single variable polynomials, and very simple inequalities.  There is no support for simultaneous equations, logarithms and trig functions although individual examples may work.  Wider support is intended for future versions.__
 
 ##  What is reasoning by equivalence and this input type?
 
@@ -107,33 +107,28 @@ This test establishes that all the items in the list are equivalent.
 
 To test the last line of an argument is in the correct form will require a separate node in the potential response tree.  To add this to the answer test gives too many possibilities.
 
+# Natural domains #
+
+The equivalence reasoning input tracks natural domains of expressions.  This is via the Maxima `natural_domain(ex)` function.  Natural domains are shown to students in the validation feedback.
+\[ \begin{array}{lll} &\frac{5\,x}{2\,x+1}-\frac{3}{x+1}=1&{\color{blue}{{x \not\in {\left \{-1 , -\frac{1}{2} \right \}}}}}\cr \color{green}{\Leftrightarrow}&5\,x\,\left(x+1\right)-3\,\left(2\,x+1\right)=\left(x+1\right)\,\left(2\,x+1\right)& \end{array} \]
+At the moment STACK quietly condones silent domain enlargements such as in the above example.
+
 # Other functions #
 
 The maxima function `stack_disp_arg(ex, showlogic)` can be used to display a list of expressions `ex` in the same form as used in the input and answer tests.  This is useful for displaying the teacher's worked solution in the general feedback.  The boolean variable `showlogic` dertemines whether the equivalence symbols are shown.  For a worked solution you probably need to use the following:
 
     \[ @stack_disp_arg(ta, true)@ \]
 
-# TODO
-
-1. Document and enforce only specific types of problems which we support reasoning by equivalence with.
-2. Reject equations containing trig functions (for the moment) as invalid.
-3. Track down Maxima's internal <= commands.  When did these appear?!  Refactor and remove STACK version.
-4. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
-5. Reject any use of the \(\pm\) operator in normal algebraic input.
-6. Removal of redundant inequalities from conjunctive and disjunctive expressions.  Deal with end points, e.g. this includes expressions like x<3 or x=3 which come from to_poly_solver.
-8. Calculate the natural domain, and use this information, i.e. auditing.
-9. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
-10. Assume we solve over the real numbers, but if a student used complex numbers correctly it will not be marked as incorrect.
-
 ## Longer term plans
 
-Provide better feedback to students about what what steps they have taken and what goes wrong.
+1. Provide better feedback to students about what what steps they have taken and what goes wrong.
+2. Define \(x\neq a\) operator.  Needed to exclude single numbers from the domain.
+3. Equivalence using a substitution of one variable for another.  See simultaneous equation example.
+4. Implement "equate coefficients" as a step.
+5. Fully implement the ideas in the paper Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 
 In the future students might also be expected to say what they are doing, e.g. ``add \(a\) to both sides", as well as just do it.  Quite how it does this, and the options available to the teacher is what is most likely to change!  
 
 We would like to introduce the idea of a *model answer*.  STACK will then establish the extent to which the student's answer follows this model solution.
 
-The longer term goal is to implement the ideas in the paper 
-
-* Sangwin, C.J. __An Audited Elementary Algebra__ The Mathematical Gazette, July 2015.
 

@@ -2276,9 +2276,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
-        $expectedvalidation = '\\[ \\begin{array}{lll}\\ &x^2-3\cdot x+2=0\\cr '.
-            '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1\\right)=0\\cr '.
-            '\\color{red}{?}&\\left\{\\begin{array}{l}x=-1\\cr x=-2\\cr \\end{array}\\right.\\cr \\end{array} \]';
+        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\cdot x+2=0& \\cr '.
+            '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1\\right)=0& \\cr '.
+            '\\color{red}{?}&\\left\{\\begin{array}{l}x=-1\\cr x=-2\\cr \\end{array}\\right.& \\cr \\end{array} \]';
         $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
 
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2",
@@ -2300,9 +2300,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
-        $expectedvalidation = '\\[ \\begin{array}{lll}\\ &x^2-3\cdot x+2=0\\cr '.
-                '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1 \\right)=0\\cr '.
-                '\\color{green}{\Leftrightarrow}&x=1\\,{\mbox{ or }}\\, x=2 \\cr \\end{array} \]';
+        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
+                '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
+                '\\color{green}{\\Leftrightarrow}&x=1\\,{\\mbox{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
 
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2",
@@ -2315,9 +2315,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_stray_placeholders();
-        $expectedvalidation = '\\[ \\begin{array}{lll}\\ &x^2-3\cdot x+2=0\\cr '.
-                '\\color{green}{\Leftrightarrow}&\\left(x-2\\right)\cdot \\left(x-1 \\right)=0\\cr '.
-                '\\color{green}{\Leftrightarrow}&x=1\\,{\mbox{ or }}\\, x=2 \\cr \\end{array} \]';
+        $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
+                '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
+                '\\color{green}{\\Leftrightarrow}&x=1\\,{\\mbox{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
     }
 
@@ -2425,8 +2425,9 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         // This non-trivial sumbission should be shown without equivalence symbols.
-        $expectedvalidation = '\\[ \\begin{array}{lll}x^2-3\cdot x+2=0\\cr '.
-                '\\left(x-2\\right)\cdot \\left(x-1\\right)=0\\cr \\end{array} \]';
+        $expectedvalidation = '\\[ \\begin{array}{lll}x^2-3\cdot x+2=0& \\cr '.
+                '\\left(x-2\\right)\cdot \\left(x-1\\right)=0& \\cr \\end{array} \]';
         $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
     }
+
 }

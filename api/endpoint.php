@@ -38,11 +38,11 @@ function validateData($data) {
 }
 
 function parseInput() {
-  if (!array_key_exists('data', $_POST)) {
-    printError('No data sent');
-  }
-  $data = $_POST['data'];
+  $data = file_get_contents("php://input");
   $parsed = json_decode($data, true);
+  if ($parsed === null) {
+    printError('no valid json');
+  }
   validateData($parsed);
   return $parsed;
 }

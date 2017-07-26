@@ -2,10 +2,6 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## TODO before release.
-
-* Ensure comments in equivalence inputs are correctly displayed by the answer tests, not by EQUIVCOMMENT tags.
-
 ## STACK 3.6
 
 Released July 2017. 

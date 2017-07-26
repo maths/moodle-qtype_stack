@@ -2281,8 +2281,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
             '\\color{red}{?}&\\left\{\\begin{array}{l}x=-1\\cr x=-2\\cr \\end{array}\\right.& \\cr \\end{array} \]';
         $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
 
+        // @codingStandardsIgnoreStart
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2",
                  'ans1_val' => "[x^2-3*x+2=0,(x-2)*(x-1)=0,x=-1 and x=-2]",'-submit' => 1));
+        // @codingStandardsIgnoreEnd
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.2);
@@ -2305,8 +2307,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
                 '\\color{green}{\\Leftrightarrow}&x=1\\,{\\mbox{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assertContentWithMathsContains($expectedvalidation, $this->currentoutput);
 
+        // @codingStandardsIgnoreStart
         $this->process_submission(array('ans1' => "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2",
                  'ans1_val' => "[x^2-3*x+2=0,(x-2)*(x-1)=0,x=1 or x=2]",'-submit' => 1));
+        // @codingStandardsIgnoreEnd
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.8);
         $this->check_prt_score('firsttree', 1, 0);

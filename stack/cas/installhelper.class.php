@@ -381,7 +381,6 @@ END;
         self::create_maximalocal();
         // Try to actually connect to Maxima.
         list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
-        var_dump($genuinedebug);
         // Check if the libraries look like they are messing things up.
         if (strpos($genuinedebug, 'eval_string not found') > 0) {
             // If so, get rid of the libraries and try again.

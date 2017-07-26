@@ -365,6 +365,7 @@ abstract class stack_connection_helper {
         self::ensure_config_loaded();
 
         $imagename = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/maxima_opt_auto');
+
         $lisp = '1';
         // Try to guess the lisp version.
         if (!(false === strpos($genuinedebug, 'GNU Common Lisp (GCL)'))) {

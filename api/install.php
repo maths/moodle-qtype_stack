@@ -12,4 +12,3 @@ $api = new qtype_stack_api();
 
 // Run this command once at install time to compile Maxima on your machine.
 $api->install();
-

@@ -69,7 +69,7 @@ $options->score = $parsed['score'];
 
 $attempt = $parsed['answer'];
 
-$result = $api->formulation_and_controls($question, $attempt, $options, '');
+$res = $api->formulation_and_controls($question, $attempt, $options, '');
 
 $json = [
   "questiontext" => $res->questiontext,

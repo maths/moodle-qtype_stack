@@ -1,8 +1,7 @@
 <?php
 
-error_reporting(E_ALL | E_STRICT);
-ini_set('display_errors', 1);
-ini_set('html_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 require_once(__DIR__ . '/../config.php');
 
@@ -35,6 +34,18 @@ function validateData($data) {
   if (!array_key_exists('question', $data)) {
     printError('No question');
   }
+
+  if (!array_key_exists('seed', $data)) {
+    printError('Seed is required');
+  }
+
+  // default values
+  $data['prefix'] = (array_key_exists('prefix', $data)) ? $data['prefix'] : '';
+  $data['readOnly'] = (array_key_exists('readOnly', $data)) ? $data['readOnly'] : false;
+  $data['feedback'] = (array_key_exists('feedback', $data)) ? $data['feedback'] : false;
+  $data['score'] = (array_key_exists('score', $data)) ? $data['score'] : false;
+  $data['answer'] = (array_key_exists('answer', $data)) ? $data['answer'] : [];
+  return $data;
 }
 
 function parseInput() {
@@ -43,7 +54,7 @@ function parseInput() {
   if ($parsed === null) {
     printError('no valid json');
   }
-  validateData($parsed);
+  $parsed = validateData($parsed);
   return $parsed;
 }
 
@@ -69,7 +80,7 @@ $options->score = $parsed['score'];
 
 $attempt = $parsed['answer'];
 
-$res = $api->formulation_and_controls($question, $attempt, $options, '');
+$res = $api->formulation_and_controls($question, $attempt, $options, $parsed['prefix']);
 
 $json = [
   "questiontext" => $res->questiontext,

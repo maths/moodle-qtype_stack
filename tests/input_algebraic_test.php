@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @group qtype_stack
  */
 class stack_algebra_input_test extends qtype_stack_testcase {
-
+/*
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $this->assertTrue($el->validate_parameter('boxWidth', 30));
@@ -459,5 +459,15 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('x=1 nounor x=1', $state->contentsmodified);
         $this->assertEquals('\[ x=1\,{\mbox{ or }}\, x=1 \]', $state->contentsdisplayed);
+    }
+*/
+    public function test_validate_units() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '9');
+        $state = $el->validate_student_response(array('sans1' => '9*hz'), $options, '9', null);
+        // In the units input this would be INVALID as hz should be Hz.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('9*hz', $state->contentsmodified);
+        $this->assertEquals('\[ 9\cdot {\it hz} \]', $state->contentsdisplayed);
     }
 }

@@ -87,8 +87,8 @@ $json = [
   "score" => $res->score,
   "generalfeedback" => $res->generalfeedback,
   "formatcorrectresponse" => $res->formatcorrectresponse,
-  "summariseresponse" => $res->summariseresponse,
-  "answernotes" => $res->answernotes
+  "summariseresponse" => json_decode($res->summariseresponse),
+  "answernotes" => json_decode($res->answernotes)
 ];
 
 printData($json);

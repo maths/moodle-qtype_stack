@@ -45,6 +45,9 @@ function validateData($data) {
   $data['feedback'] = (array_key_exists('feedback', $data)) ? $data['feedback'] : false;
   $data['score'] = (array_key_exists('score', $data)) ? $data['score'] : false;
   $data['answer'] = (array_key_exists('answer', $data)) ? $data['answer'] : [];
+  foreach($data['answer'] as $key => $value) {
+    $data['answer'][$key . '_val'] = $value;
+  }
   return $data;
 }
 

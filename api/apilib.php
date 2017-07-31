@@ -10,13 +10,13 @@ function stack_string($key, $a = null) {
         case 'en':
             static $string = array();
             if (empty($string)) {
-                include __DIR__ .'/../lang/en/qtype_stack.php';
+                include 'lang/en/qtype_stack.php';
             }
             break;
         default:
             static $string = array();
             if (empty($string)) {
-                include  __DIR__ .'/../lang/en/qtype_stack.php';
+                include 'lang/en/qtype_stack.php';
             }
             break;
     }

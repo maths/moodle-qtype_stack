@@ -1,6 +1,10 @@
 # About the STACK Project
 
-STACK is a designed to enable students to answer questions with a mathematical expression, such as a polynomial.  STACK enables teachers to design sophisticated computer-aided assessments in Mathematics and related disciplines which give specific formative feedback based on objective properties of students' answers.  This moves assessments well beyond multiple choice and other types.
+STACK is an assessment system for mathematics, science and related disciplines.
+
+STACK is a designed to enable students to answer questions with a mathematical expression, such as a polynomial.  Students are not limted to multiple choice.
+
+STACK enables teachers to design sophisticated computer-aided assessments in Mathematics and related disciplines which give specific formative feedback based on objective properties of students' answers.  This moves assessments well beyond multiple choice and other types.
 
 Sensible students do not solve multiple choice problems directly but merely check each suggested answer.  This is a serious threat to validity:  it is impossible to set many questions as multiple choice items without giving the game away.
 

@@ -177,7 +177,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $result = strstr($rawresult, '[TimeStamp'); // Remove everything before the timestamp.
         }
 
-        $result = trim(str_replace('#', '', $result));
         $result = trim(str_replace("\n ", '', $result));
         $result = trim(str_replace("\n", '', $result));
 

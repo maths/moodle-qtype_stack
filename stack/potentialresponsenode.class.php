@@ -310,7 +310,7 @@ class stack_potentialresponse_node {
         $this->tans->set_key('PRTANS' . $key);
         $variables[] = $this->tans;
 
-        if ($this->process_atoptions()) {
+        if ($this->process_atoptions() && trim($this->atoptions) != '') {
             $atopts = new stack_cas_casstring($this->atoptions);
             $atopts->get_valid('t', false, 0);
             $atopts->set_key('PRATOPT' . $key);

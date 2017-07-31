@@ -208,14 +208,18 @@ class stack_cas_session {
                 }
 
                 if (array_key_exists('display', $result)) {
-                    // Need to add this in here also because strings may contain question mark characters.
-                    $disp = str_replace('QMCHAR', '?', $result['display']);
+                    $disp = $result['display'];
                     $disp = $this->translate_displayed_tex($disp);
                     $cs->set_display($disp);
                 }
 
                 if (array_key_exists('dispvalue', $result)) {
-                    $val = str_replace('QMCHAR', '?', $result['dispvalue']);
+                    $valfix = array('QMCHAR' => '?');
+                      // Need to add this in here also because strings may contain question mark characters.
+                    $val = $result['dispvalue'];
+                    foreach ($valfix as $key => $fix) {
+                        $val = str_replace($key, $fix, $val);
+                    }
                     $val = str_replace('"!! ', '', $val);
                     $val = str_replace(' !!"', '', $val);
                     $cs->set_dispvalue(trim($val));
@@ -262,6 +266,12 @@ class stack_cas_session {
      * @param string $str
      */
     private function translate_displayed_tex($str) {
+        $dispfix = array('QMCHAR' => '?', '!LEFTSQ!' => '\left[', '!LEFTR!' => '\left(',
+            '!RIGHTSQ!' => '\right]', '!RIGHTR!' => '\right)');
+        // Need to add this in here also because strings may contain question mark characters.
+        foreach ($dispfix as $key => $fix) {
+            $str = str_replace($key, $fix, $str);
+        }
         $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS');
         foreach ($loctags as $tag) {
             $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);

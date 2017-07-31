@@ -17,20 +17,20 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Inputs ###
 
-* (done) Modify the text area input so that each line is validated separately.
 * (underway) Reasoning by equivalence input type.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * Add new input types
- 1. (done - in equiv branch) "scratch working" area in which students can record their thinking etc. alongside the final answer.
- 2. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
- 3. Sliders.
- 4. Geogebra input (protoype already exisits: needs documentation, testing and support).
- 5. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
+ 1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
+ 2. Sliders.
+ 3. Geogebra input (protoype already exisits: needs documentation, testing and support).
+ 4. Re-sizable matrix input.  See NUMBAS examples here, with Javascript.
 * It is very useful to be able to embed input elements in equations, and this was working in STACK 2.0. However is it possible with MathJax or other Moodle maths filters?
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
 * A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
 * We need to add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
+* Make the syntax hint CAS text, to depend on the question variables.
+
 
 ### Improve the editing form ###
 
@@ -79,6 +79,32 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
  2. Remove many versions at once.
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 * You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
+
+## Improvements to the "equiv" input type 
+
+* Add an option to display and/or using language strings not '\wedge', '\vee'.
+* Improve spacing of comments, e.g. \intertext{...}?
+* Auto identify what the student has done in a particular step.
+
+Model solutions.
+
+* Follow a "model solution", and give feedback based on the steps used.  E.g. identify where in the students' solution a student deviates from the model solution.
+* Develop a metric to measure the distance between expressions.  Use this as a measure of "step size" when working with expressions.
+
+Add mathematical support in the following order.
+
+1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
+2. Solving simple simultaneous equations.  (Interface)
+3. Logarithms and simple logarithmic equations.
+4. Include calculus operations.
+
+* Add a "Not equals" operator.  For example:
+
+    infix("<>");
+    p:x<>y;
+    texput("<>","{\neq}", infix);
+    tex(p);
+
 
 ## STACK custom reports
 

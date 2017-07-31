@@ -9,7 +9,7 @@ STACK is being used live at a number of institutions, including the UK Open Univ
 
 ## 2. Install GNUPlot and Maxima
 
-Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.25.1 to 5.36.1 then 5.38.0 to 5.39.0 are supported.  Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  Please contact the developers to request support for other versions.  
+Ensure GNUPlot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.34.1 to 5.36.1 then 5.38.0 to 5.39.0 are supported.  Please avoid versions 5.37.x which are known to have a minor bug which affects STACK.  STACK has been used with Maxaim 5.25.1 to 5.36.1, but older versions are not being actively tested. Please contact the developers to request support for other versions.  
 
 On Linux we currently recommend that you compile maxima 5.36.1 from sourceforge-sources with sbcl enabled.  On Linux also ensure you also have maxima-share and texinfo.
 

@@ -2,13 +2,17 @@
 
 [![STACK Logo](%CONTENT/logo-trans.png)](About/Logo.md)
 
-**S**ystem for **T**eaching and **A**ssessment using a **C**omputer algebra **K**ernel
+STACK is an assessment system for mathematics, science and related disciplines.
+
+* Sophisticate assessment of mathematical expressions.
+* An emphasis on formative assessment.
+* Random generation of questions.
+* Students type in an answer, and are not restricted to multiple choice.
+* A wide variety of input types, including line by line working.
+* An open-source system (GPL).
 
 Welcome to the official user documentation for the [STACK project](About/index.md).
 
-STACK is an open-source system for computer-aided assessment in Mathematics and related disciplines, with emphasis on formative assessment.
-This documentation is for STACK, which provides a question type for the Moodle quiz.
-More about what we are trying to achieve can be found under [the philosophy of STACK](About/The_philosophy_of_STACK.md).
 
 ## Where to start ##
 
@@ -27,4 +31,5 @@ More about what we are trying to achieve can be found under [the philosophy of S
 * **[Developers](Developer/index.md)**
   * [Developer docs](Developer/index.md)
 
+More about what we are trying to achieve can be found under [the philosophy of STACK](About/The_philosophy_of_STACK.md).
 

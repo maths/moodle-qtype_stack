@@ -630,6 +630,17 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('unknownUnitsCase', $state->note);
     }
 
+    public function test_student_response_units_hz() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9');
+        $state = $el->validate_student_response(array('sans1' => '9*hz'), $options, '9', null);
+        // In the algebraic input this would be VALID as the hz/Hz test is only done for units.
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('9*hz', $state->contentsmodified);
+        $this->assertEquals('unitssynonym', $state->note);
+        $this->assertEquals('<span class="stacksyntaxexample">9*hz</span>', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_hours() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '5*hr');
@@ -696,4 +707,5 @@ class stack_units_input_test extends qtype_stack_testcase {
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
     }
+
 }

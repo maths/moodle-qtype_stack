@@ -213,7 +213,6 @@ class stack_answertest_general_cas extends stack_anstest {
         }
         $this->atfeedback = $result->get_feedback();
         $this->atvalid    = $result->get_valid();
-
         if ($this->atmark) {
             return true;
         } else {

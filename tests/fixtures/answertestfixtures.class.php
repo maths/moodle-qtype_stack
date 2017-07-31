@@ -1293,6 +1293,11 @@ class stack_answertest_test_data {
         array('Units', '1', '0.0*km/s', '0.0*m/s', 1, 'ATUnits_compatible_units: m/s.', ''),
         array('Units', '1', '0.0*m', '0.0*m/s', 0, 'ATUnits_incompatible_units. ATUnits_correct_numerical.', ''),
         array('Units', '1', '0.0', '0.0*m/s', 0, 'ATUnits_SA_no_units.', ''),
+        array('Units', '1', '7*in', '7*in', 1, 'ATUnits_units_match.', 'Imperial'),
+        array('Units', '1', '6*in', '0.5*ft', 1, 'ATUnits_compatible_units: in.', ''),
+        array('Units', '4', '2640*ft', '0.5*mi', 1, 'ATUnitsSigFigs_WithinRange. ATUnits_compatible_units: in.', ''),
+        array('Units', '4', '2650*ft', '0.5*mi', 0,
+            'ATUnitsSigFigs_WithinRange. ATNumSigFigs_VeryInaccurate. ATUnits_compatible_units: in.', ''),
         array('Units', '4', '142.8*C', '415.9*K', -2, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
 
         array('UnitsStrict', '2', '25*g', '0.025*kg', 0, 'ATUnits_compatible_units: kg.', 'Differences from the Units test only'),

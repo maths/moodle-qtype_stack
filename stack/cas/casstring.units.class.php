@@ -115,7 +115,7 @@ class stack_cas_casstring_units {
         array('gal', '3.785*l', 'gal', 'US gallon'),
         array('mbar', '10^2*Pa', 'mbar', 'millibar'),
         array('atm', '101325*Pa', 'atm', 'Standard atmosphere'),
-        array('Torr', '101325/760*Pa', 'Torr', 'torr'),
+        array('torr', '101325/760*Pa', 'torr', 'torr'),
         array('rev', '2*pi*rad', 'rev', 'revolutions'),
         array('deg', 'pi*rad/180', '{}^{o}', 'degrees'),
         array('rpm', 'pi*rad/(30*s)', 'rpm', 'revolutions per minute'),
@@ -128,6 +128,10 @@ class stack_cas_casstring_units {
         // We know these two are not really correct, but there we are.
         array('day', '86400*s', 'day', 'day'),
         array('year', '3.156e7*s', 'year', 'year'),
+        // Some countries are only inching towards the metric system.  Added by user request.
+        array('in', 'in', 'in', 'inch'),
+        array('ft', '12*in', 'ft', 'foot'),
+        array('mi', '5280*12*in', 'mi', 'mile'),
     );
 
     /* This array keeps a list of synoymns which students are likely to use.
@@ -137,7 +141,7 @@ class stack_cas_casstring_units {
         'mol' => array('mols', 'moles', 'mole'),
         'kat' => array('kats', 'katal', 'katals'),
         'rad' => array('radian', 'radians'),
-        'Torr' => array('tor', 'tors', 'torrs'),
+        'torr' => array('Torr', 'tor', 'tors', 'torrs'),
         'amu' => array('amus', 'dalton'),
         'cc' => array('ccm'),
         'Hz' => array('hz'),

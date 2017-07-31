@@ -207,11 +207,11 @@ class stack_anstest {
 
         $ta   = $this->tanskey;
         $atopt = $this->atoption;
+        $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ')';
         if ('' != trim($atopt)) {
-            $ta = "[$this->tanskey,$atopt]";
+            $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ', '. trim($atopt) .')';
         }
-        $traceline = $this->get_casfunction() . '(' . $this->sanskey . ', ' . $ta . ') = ['.$this->atmark. ', "'
-                . $this->atansnote .'"];';
+        $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';
 
         return $traceline;
     }

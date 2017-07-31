@@ -271,6 +271,8 @@ class stack_equiv_input extends stack_input {
 
             $forbiddenwords = $this->get_parameter('forbidWords', '');
 
+            // Forbid function definition for now.
+            $forbiddenwords .= ', :=';
             if ($forbiddenwords) {
                 $answer->check_external_forbidden_words_literal($forbiddenwords);
             }

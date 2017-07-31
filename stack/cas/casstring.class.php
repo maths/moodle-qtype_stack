@@ -36,8 +36,11 @@ class stack_cas_casstring {
     /** @var bool if the string has passed validation. */
     private $valid;
 
-    /** @var bool */
+    /** @var string */
     private $key;
+
+    /** @var bool whether the string has scientific units. */
+    private $units;
 
     /** @var string any error messages to display to the user. */
     private $errors;
@@ -591,6 +594,9 @@ class stack_cas_casstring {
         }
         $this->check_constants($stringles);
 
+        if ($this->units) {
+            $stringles = stack_cas_casstring_units::make_units_substitutions($stringles);
+        }
         // We do this before checking security to provide helpful feedback to students.
         if ($security == 's') {
             $this->check_bad_trig($stringles);
@@ -1130,12 +1136,14 @@ class stack_cas_casstring {
                 $this->valid = false;
             }
 
-            // Check for unit synonyms.
-            list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
-            if ($security == 's' and $fndsynonym and !isset($allow[$key])) {
-                $this->add_error($synonymerr);
-                $this->answernote[] = $answernote;
-                $this->valid = false;
+            if ($this->units) {
+                // Check for unit synonyms.
+                list ($fndsynonym, $answernote, $synonymerr) = stack_cas_casstring_units::find_units_synonyms($key);
+                if ($security == 's' and $fndsynonym and !isset($allow[$key])) {
+                    $this->add_error($synonymerr);
+                    $this->answernote[] = $answernote;
+                    $this->valid = false;
+                }
             }
 
         }
@@ -1461,6 +1469,10 @@ class stack_cas_casstring {
         } else {
             $this->key = $key;
         }
+    }
+
+    public function set_units($val) {
+        $this->units = $val;
     }
 
     public function set_value($val) {

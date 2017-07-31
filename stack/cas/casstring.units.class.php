@@ -150,7 +150,6 @@ class stack_cas_casstring_units {
     );
 
     /* This array keeps a list of substitutions which are made when we deal with units.
-     * These arrays are used for generating helpful feedback.
      */
     private static $unitsubstitutions = array(
         'Torr' => 'torr',

@@ -566,7 +566,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('unknownFunction', $at1->get_answernote());
     }
 
-    public function test_units_2_U() {
+    public function test_units_2_u() {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
         $at1->set_units(true);
@@ -581,7 +581,7 @@ class stack_cas_casstring_test extends basic_testcase {
         $this->assertEquals('unknownFunction', $at1->get_answernote());
     }
 
-    public function test_units_3_U() {
+    public function test_units_3_u() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
         $at1->set_units(true);

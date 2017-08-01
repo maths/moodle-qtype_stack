@@ -4,7 +4,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-## Features to add for STACK 3.6 or later ##
+## Features to add for STACK 4.1 or later ##
 
 ### Units Inputs ###
 
@@ -17,7 +17,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Inputs ###
 
-* (underway) Reasoning by equivalence input type.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * Add new input types
  1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
@@ -28,7 +27,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
 * A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
-* We need to add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
+* Add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
 * Make the syntax hint CAS text, to depend on the question variables.
 
 

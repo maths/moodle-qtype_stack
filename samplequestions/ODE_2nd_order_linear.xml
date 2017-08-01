@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 156  -->
+<!-- question: 24  -->
   <question type="stack">
     <name>
       <text>ODE_2nd_order_linear_1</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Find the general solution to \[ @q@ =0 \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p>Find the general solution to \[ {@q@} =0 \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -26,10 +26,11 @@ ta:A*%e^(l1*t)+B*%e^(l2*t);</text>
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
     </specificfeedback>
     <questionnote>
-      <text>@ta@</text>
+      <text>{@ta@}</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
@@ -42,6 +43,8 @@ ta:A*%e^(l1*t)+B*%e^(l2*t);</text>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -51,12 +54,15 @@ ta:A*%e^(l1*t)+B*%e^(l2*t);</text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <prt>
       <name>Result</name>
@@ -94,7 +100,7 @@ m:float(m);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>Fails to satisfy DE</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[@p@\] which is not zero, so you must have done something wrong.</p>]]></text>
+          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[{@p@}\] which is not zero, so you must have done something wrong.</p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -200,13 +206,13 @@ m:float(m);</text>
     </qtest>
   </question>
 
-<!-- question: 157  -->
+<!-- question: 25  -->
   <question type="stack">
     <name>
       <text>ODE_2nd_order_linear_2</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Find the general solution to \[ @q@ =0 \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p>Find the general solution to \[ {@q@} =0 \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -226,10 +232,11 @@ ta:(A*t+B)*%e^(l1*t);</text>
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
     </specificfeedback>
     <questionnote>
-      <text>@ta@</text>
+      <text>{@ta@}</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
@@ -242,6 +249,8 @@ ta:(A*t+B)*%e^(l1*t);</text>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -251,12 +260,15 @@ ta:(A*t+B)*%e^(l1*t);</text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <prt>
       <name>Result</name>
@@ -294,7 +306,7 @@ m:float(m);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>Fails to satisfy DE</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[@p@\] which is not zero, so you must have done something wrong.</p>]]></text>
+          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[{@p@}\] which is not zero, so you must have done something wrong.</p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -400,13 +412,13 @@ m:float(m);</text>
     </qtest>
   </question>
 
-<!-- question: 158  -->
+<!-- question: 26  -->
   <question type="stack">
     <name>
       <text>ODE_2nd_order_linear_3</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Find the solution to \[ @q@ =0 \] subject to \[ y(0) = @y0@ \] and \[ y'(0) = @y1@ \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p>Find the solution to \[ {@q@} =0 \] subject to \[ y(0) = {@y0@} \] and \[ y'(0) = {@y1@} \] [[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -431,10 +443,11 @@ y1:ev(da,t=0);</text>
       <text><![CDATA[<p>[[feedback:Result]]</p>]]></text>
     </specificfeedback>
     <questionnote>
-      <text>@ta@</text>
+      <text>{@ta@}</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
     </prtcorrect>
@@ -447,6 +460,8 @@ y1:ev(da,t=0);</text>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
       <name>ans1</name>
@@ -456,12 +471,15 @@ y1:ev(da,t=0);</text>
       <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>
+      <allowwords></allowwords>
       <forbidfloat>1</forbidfloat>
       <requirelowestterms>1</requirelowestterms>
       <checkanswertype>1</checkanswertype>
       <mustverify>1</mustverify>
       <showvalidation>1</showvalidation>
+      <options></options>
     </input>
     <prt>
       <name>Result</name>
@@ -494,7 +512,7 @@ b1:ev(dsa,t=0,fullratsimp);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>Fails to satisfy DE</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[@p@\] which is not zero, so you must have done something wrong.</p>]]></text>
+          <text><![CDATA[<p>Your answer should satisfy the differential equation, but in fact when we substitute your expression into the differential equation we get \[{@p@}\] which is not zero, so you must have done something wrong.</p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -518,7 +536,7 @@ b1:ev(dsa,t=0,fullratsimp);</text>
         <falsenextnode>2</falsenextnode>
         <falseanswernote>$y(0)$ wrong.</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Your answer should satisfy \[ y(0) = @y0@ \] but does not. When we substitute $t=0$ in your answer we get @b0@ instead.</p>]]></text>
+          <text><![CDATA[<p>Your answer should satisfy \[ y(0) = {@y0@} \] but does not. When we substitute \(t=0\) in your answer we get {@b0@} instead.</p>]]></text>
         </falsefeedback>
       </node>
       <node>
@@ -542,7 +560,7 @@ b1:ev(dsa,t=0,fullratsimp);</text>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>$y'(0)$ wrong.</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[<p>Your answer should satisfy \[ y'(0) = @y1@ \] but does not. When we substitute $t=0$ into the derivative of your answer we get @b1@ instead.</p>]]></text>
+          <text><![CDATA[<p>Your answer should satisfy \[ y'(0) = {@y1@} \] but does not. When we substitute \(t=0\) into the derivative of your answer we get {@b1@} instead.</p>]]></text>
         </falsefeedback>
       </node>
     </prt>

@@ -368,7 +368,7 @@ $string['settingplatformmaximacommand_desc'] = 'For Platform type: Server, this 
 $string['settingplatformplotcommand'] = 'Plot command';
 $string['settingplatformplotcommand_desc'] = 'Normally this can be left blank, but if graph plotting is not working, you may need to supply the full path to the gnuplot command here.';
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
-$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to user the \'Fix maths delimiters\' script which is referred to below.';
+$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to use the \'Fix maths delimiters\' script which is referred to below.';
 $string['settingserveruserpass'] = 'Server username:password';
 $string['settingserveruserpass_desc'] = 'If you are using Platform type: Server, and if you have set up your Maxima pool server with HTTP authentication, then you can put the username and password here. That is slighly safer than putting them in the URL. The format is username:password.';
 $string['settingusefullinks'] = 'Useful links';
@@ -515,7 +515,7 @@ $string['healthautomaxopt_notok'] = 'Maxima image not created automatically.';
 $string['healthautomaxopt_nolisp'] = 'Unable to determine LISP version, so Maxima image not created automatically.';
 $string['healthautomaxopt_nolisprun'] = 'Unable to automatically locate lisp.run.  Try "sudo updatedb" from the command line and refer to the optimization docs.';
 $string['healthcheckcreateimage'] = 'Create Maxima image';
-$string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
+$string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>@...@</code>, <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>{@...@}</code>, <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
 $string['stackInstall_testsuite_intro'] = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';

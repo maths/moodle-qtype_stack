@@ -82,6 +82,31 @@ As the Question Note, you might like to consider just takeing the first item fro
 
 This note stores both the correct answer and the order shown to the student without the clutter of the `true/false` values or the optional display strings.  Remember, random versions of a question are considered to be the same if and only if the question note is the same, so the random order must be part of the question note if you shuffle the options.
 
+## Constructing MCQ arrays in Maxima ##
+
+It is not easy to construct MCQ arrays in Maxima.  This section contains some tips for creating them, using Maxima's `lambda` command.  Below is an example of a correctly constructed teacher's answer.
+
+    ta:[[x^2-1,true],[x^2+1,false],[(x-1)*(x+1),true],[(x-i)*(x+i),false]]
+
+To create a list of correct answers you could use
+
+    maplist(first, sublist(ta, lambda([ex], second(ex))));
+
+To create a list of incorrect answers you could use
+
+    maplist(first, sublist(ta, lambda([ex], not(second(ex)))));
+
+To go in the other direction, the first list `ta1` is considered "correct" and the second `ta2` is considered incorrect.
+
+    ta1:[x^2-1,(x-1)*(x+1)];
+    ta1:maplist(lambda([ex],[ex, true]), ta1);
+    ta2:[x^2+1,(x-i)*(x+i)];
+    ta2:maplist(lambda([ex],[ex, false]), ta2);
+    ta:append(ta1,ta2);
+    ta:random_permutation(ta);
+
+Also, you can use STACK's `rand_selection(L, n)` to select \(n\) different elements from the list \(L\).
+
 ## Dealing with strings in MCQ ##
 
 A likely situation is that a teacher wants to include a language string as one of the options for a student's answer in a multiple choice question.

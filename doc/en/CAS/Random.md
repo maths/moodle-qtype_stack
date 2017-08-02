@@ -32,7 +32,7 @@ For example, if you want a matrix with integer elements in the range -5..5 you n
 
     A:matrix([5,5],[5,5])-rand(matrix([11,11],[11,11]));
 
-### rand_with_step (lower,upper,step) ###
+### rand_with_step(lower,upper,step) ###
 
 Returns a random number from the set {lower, lower+step, lower+2*step, ... , final}. The examples below explain behaviour the best.
 Examples:
@@ -40,6 +40,8 @@ Examples:
 * `rand_with_step(-5,5,1)` returns a random number from the set \(\{-5,-4,-3,-2,-1,0,1,2,3,4,5\}\).
 * `rand_with_step(-5,5,2)` returns a random number from the set \(\{-5,-3,-1,1,3,5\}\).
 * `rand_with_step(-5,3,3)` returns a random number from the set \(\{-5,-2,1\}\).
+
+The function `rand_range(lower,upper,step)` does the same thing.
 
 ### rand_with_prohib(lower,upper,list) ###
 
@@ -83,9 +85,9 @@ Now, the output from the first expression will be a random expression in constan
 It is often necessary to generate a random object with a number of separate aspects to it.  For example, if you have scientific data and you need to include this in a question.
 
     t:rand(5)+3;
-    idx:rand(3)+1;
+    idx:rand(3)+1;  /* Array indexes in Maxima start at 1, rand(n) returns 0,...,n-1.  */
     l1:["Mercury","Earth","Mars"];
-    l2[3.61,9.8,3.75];
+    l2:[3.61,9.8,3.75];
     p:l1[idx];
     ta:t*l2[idx]/(4*%pi^2);
 

@@ -620,9 +620,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at2->get_display_castext();
 
         $this->assertEquals(
-                '\[\frac{\mathrm{d}^2 y}{\mathrm{d} x^2}+2\cdot y=0\] ' .
-                '\[2\cdot \left(\frac{\mathrm{d}^5 y}{\mathrm{d} x^2 \mathrm{d} z^3}\right)' .
-                '+\frac{\mathrm{d}^2 y}{\mathrm{d} x^2}=0\]',
+                '\[{\frac{\mathrm{d}^2 y}{\mathrm{d} x^2}+2\cdot y=0}\] ' .
+                '\[{2\cdot \left(\frac{\mathrm{d}^5 y}{\mathrm{d} x^2 \mathrm{d} z^3}\right)' .
+                '+\frac{\mathrm{d}^2 y}{\mathrm{d} x^2}=0}\]',
                 $at2->get_display_castext());
     }
 
@@ -636,7 +636,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $at2->get_display_castext();
 
         $this->assertEquals(
-                '\[y_{x x}+2\cdot y=0\] \[2\cdot y_{x x z z z}+y_{x x}=0\]',
+                '\[{y_{x x}+2\cdot y=0}\] \[{2\cdot y_{x x z z z}+y_{x x}=0}\]',
                 $at2->get_display_castext());
     }
 

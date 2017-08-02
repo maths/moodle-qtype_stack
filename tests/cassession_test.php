@@ -31,7 +31,6 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
  * @group qtype_stack
  */
 class stack_cas_session_test extends qtype_stack_testcase {
-
     public function get_valid($cs, $val) {
 
         if (is_array($cs)) {
@@ -856,7 +855,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
-        $this->assertEquals('x = (-b +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $at1->get_display_key('c2'));
         $this->assertEquals('b +- a^2', $at1->get_value_key('c3'));
         $this->assertEquals('{b \pm a^2}', $at1->get_display_key('c3'));
@@ -901,7 +900,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         $at1->instantiate();
         $this->assertEquals('a +- b', $at1->get_value_key('c1'));
         $this->assertEquals('{a \pm b}', $at1->get_display_key('c1'));
-        $this->assertEquals('x = (-b +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
+        $this->assertEquals('x = ((-b) +- sqrt(b^2-4*a*c))/(2*a)', $at1->get_value_key('c2'));
         $this->assertEquals('x=\frac{{-b \pm \sqrt{b^2-4\cdot a\cdot c}}}{2\cdot a}', $at1->get_display_key('c2'));
         $this->assertEquals('b +- a^2', $at1->get_value_key('c3'));
         $this->assertEquals('{b \pm a^2}', $at1->get_display_key('c3'));
@@ -970,7 +969,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // @codingStandardsIgnoreEnd
 
         $tests = array(
-            array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
+/*            array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
             array('-2.998e8', '2', '-3.00 \times 10^{8}', '-3.00E8'),
             array('6.626e-34', '2', '6.63 \times 10^{-34}', '6.63E-34'),
             array('-6.626e-34', '2', '-6.63 \times 10^{-34}', '-6.63E-34'),
@@ -1029,12 +1028,15 @@ class stack_cas_session_test extends qtype_stack_testcase {
             // This is displayed normally (without a \times) and always returns a *float*.
             array('9000', '', '9.0\cdot 10^3', '9.0*10^3'),
             array('1000', '', '1.0\cdot 10^3', '1.0*10^3'),
-            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3'),
+            array('-1000', '', '-1.0\cdot 10^3', '(-1.0)*10^3'),
             array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50'),
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
             // Adding in compile(scientific_notation)$ after the function definition cures this,
             // but breaks some versions of Maxima.
-            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0E-8'),
+            // Maxima 5.38.1 gives -1.0)*10^-8, which is what we actually want.
+*/            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '(-1.0)*10^-8'),
+            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '(-1.0)*10^-9'),
+            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '(-1.0)*10^-12'),
         );
 
         foreach ($tests as $key => $c) {

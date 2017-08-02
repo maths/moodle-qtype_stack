@@ -103,9 +103,26 @@ To go in the other direction, the first list `ta1` is considered "correct" and t
     ta2:[x^2+1,(x-i)*(x+i)];
     ta2:maplist(lambda([ex],[ex, false]), ta2);
     ta:append(ta1,ta2);
+    /* If you want to shuffle the responses then use the next line. */
     ta:random_permutation(ta);
 
-Also, you can use STACK's `rand_selection(L, n)` to select \(n\) different elements from the list \(L\).
+Also, you can use STACK's `rand_selection(L, n)` to select \(n\) different elements from the list \(L\).  Say you have the following list of wrong answers and you want to take only 3 out of 5.
+
+   ta2:[x^2,w^2,w^6,z^4,2*z^4];
+   ta2:rand_selection(ta2, 3);
+   /* Then, as before. */
+   ta2:maplist(lambda([ex],[ex, false]), ta2);
+
+
+Another way to create a MCQ answer list is to have Maxima decide which of the answers are true.  For example, in this question the student has to choose which of the answers are integers.
+
+    L:[1,4/2,3.0,2.7,1/4,%pi,10028];
+    /* Map the appropriate predicate to the list to create the true/false list. */
+    A:maplist(integerp,L);
+    /* Note the use of zip_with together with the list constructing function "[". */
+    ta:zip_with("[",L,A);
+    /* If you want to shuffle the responses then use the next line. */
+    ta:random_permutation(ta);
 
 ## Dealing with strings in MCQ ##
 

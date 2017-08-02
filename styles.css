@@ -241,7 +241,7 @@ body.ie:not(.ie11) .stack_abstract_graph {
     fill: #00f;
 }
 
-/* this should all be inherited in some way from the theme settings */
+/* This should all be inherited in some way from the theme settings. */
 #basic-modal-content {display:none;}
 
 /* Overlay */

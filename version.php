@@ -24,11 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017072600;
+$plugin->version   = 2017080200;
 $plugin->requires  = 2014051200;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
-$plugin->maturity  = MATURITY_ALPHA;
+$plugin->maturity  = MATURITY_RC;
 $plugin->release   = '4.0.0 for Moodle 2.7+';
 
 $plugin->dependencies = array(

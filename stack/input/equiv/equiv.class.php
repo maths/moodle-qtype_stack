@@ -127,7 +127,7 @@ class stack_equiv_input extends stack_input {
             'name' => $fieldname,
             'id'   => $fieldname,
             'rows' => max(3, count($rows) + 1),
-            'cols' => min($boxwidth, 50)
+            'cols' => min($boxwidth, 50),
         );
 
         if ($readonly) {

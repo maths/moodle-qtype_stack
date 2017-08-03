@@ -26,12 +26,6 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_equiv_input extends stack_input {
 
     /**
-     * @var array
-     * This array stores any comments and protects them from going through the CAS.
-     */
-    private $comments = array();
-
-    /**
      * @var bool
      * Does a student see the equivalence signs at validation time?
      */
@@ -133,7 +127,7 @@ class stack_equiv_input extends stack_input {
             'name' => $fieldname,
             'id'   => $fieldname,
             'rows' => max(3, count($rows) + 1),
-            'cols' => min($boxwidth, 50)
+            'cols' => min($boxwidth, 50),
         );
 
         if ($readonly) {
@@ -249,8 +243,7 @@ class stack_equiv_input extends stack_input {
 
         foreach ($contents as $index => $val) {
             if ($this->identify_comments($val)) {
-                $answer = new stack_cas_casstring('"'.$this->comment_tag($index).'"');
-                $this->comments[$index] = $val;
+                $answer = new stack_cas_casstring($val);
                 // Is the student permitted to include comments in their answer?
                 if (!$this->optcomments) {
                     $valid = false;
@@ -278,6 +271,8 @@ class stack_equiv_input extends stack_input {
 
             $forbiddenwords = $this->get_parameter('forbidWords', '');
 
+            // Forbid function definition for now.
+            $forbiddenwords .= ', :=';
             if ($forbiddenwords) {
                 $answer->check_external_forbidden_words_literal($forbiddenwords);
             }
@@ -508,12 +503,6 @@ class stack_equiv_input extends stack_input {
             return '';
         }
         $feedback = stack_maths::process_lang_string($state->contentsdisplayed);
-
-        foreach ($this->comments as $index => $val) {
-            // Strip off "s from the comment.
-            $val = substr(trim($val), 1, -1);
-            $feedback = str_replace($this->comment_tag($index), $val, $feedback);
-        }
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',

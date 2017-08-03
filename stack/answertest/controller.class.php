@@ -126,6 +126,7 @@ class stack_ans_test_controller {
 
             case 'Equiv':
                 if (trim($casoption) == '' ) {
+                    // Note the *string* 'null' here is not mistake: this is passed to Maxima.
                     $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', true, 'null', $options);
                 } else {
                     $this->at = new stack_answertest_general_cas($sans, $tans, 'ATEquiv', true, $casoption, $options);

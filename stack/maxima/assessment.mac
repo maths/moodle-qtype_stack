@@ -825,6 +825,7 @@ free_of_logicp(ex) := block([logicops, logiconsts, res, k],
     %not(A %or B) -> %not(A) %and %not(B)  */
 de_morgan(ex):=block(
    if mapatom(ex) then return(ex),
+   if safe_op(ex)=":=" then return(ex),
    if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="%and") then
             return(apply(?%or, maplist(lambda([ex2], de_morgan(%not(ex2))), args(first(args(ex)))))),
    if is(safe_op(ex)="%not") and is(safe_op(first(args(ex)))="%or") then

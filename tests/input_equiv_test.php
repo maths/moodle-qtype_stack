@@ -21,10 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $CFG;
-require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-
 require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
@@ -133,27 +130,6 @@ class stack_equiv_input_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('  \'^\' is an invalid final character in <span class="stacksyntaxexample">=(x-2)*x^</span>',
                 $state->errors);
-    }
-
-    public function test_validate_student_response_invalid_comments() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
-        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n \"Factoring gives \"\n=(x-2)*(x-3)"), $options,
-                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
-        $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('[x^2-5*x+6,"EQUIVCOMMENT1",stackeq((x-2)*(x-3))]', $state->contentsmodified);
-        $this->assertEquals('  You are not permitted to use comments in this input type.  '.
-                'Please just work line by line. ', $state->errors);
-    }
-
-    public function test_validate_student_response_valid_comments() {
-        $options = new stack_options();
-        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
-        $el->set_parameter('options', 'comments');
-        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n\"Factoring gives \"\n=(x-2)*(x-3)"), $options,
-                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
-        $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('  ', $state->errors);
     }
 
     public function test_validate_student_response_with_equiv() {
@@ -494,6 +470,66 @@ class stack_equiv_input_test extends qtype_stack_testcase {
                 $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll}\color{red}{?}&\left(x-2\right)^2=\left(x-1\right)\,\left(x-1\right)& \cr '.
                 '\color{green}{\checkmark}&=x^2-2\,x+1& \cr \end{array} \]',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_invalid_comments() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n \"Factoring gives \"\n=(x-2)*(x-3)"), $options,
+                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('[x^2-5*x+6,"Factoring gives ",stackeq((x-2)*(x-3))]', $state->contentsmodified);
+        $this->assertEquals('  You are not permitted to use comments in this input type.  '.
+                'Please just work line by line. ', $state->errors);
+    }
+
+    public function test_validate_student_response_valid_comments() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $el->set_parameter('options', 'comments');
+        $state = $el->validate_student_response(array('sans1' => "x^2-5*x+6\n\"Factoring gives \"\n=(x-2)*(x-3)"), $options,
+                '[x^2-5*x+6,stackeq((x-2)*(x-3))]', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('  ', $state->errors);
+    }
+
+    public function test_validate_student_response_forbid_comments() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
+        $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are forbidden normally\"\nx^2-1=0\n(x-1)*(x+1)=0";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('[x^2-1,stackeq((x-1)*(x+1)),"Comments are forbidden normally",x^2-1=0,(x-1)*(x+1)=0]',
+                $state->contentsmodified);
+        $this->assertEquals('<center><table style="vertical-align: middle;" border="0" cellpadding="4" cellspacing="0"><tbody>'.
+                '<tr><td>\(\displaystyle x^2-1 \)</td></tr><tr><td>\(\displaystyle =\left(x-1\right)\,\left(x+1\right) \)</td>'.
+                '</tr><tr><td><span class="stacksyntaxexample">"Comments are forbidden normally"</span></td>'.
+                '<td>You are not permitted to use comments in this input type.  Please just work line by line.</td></tr>'.
+                '</tr><tr><td>\(\displaystyle x^2-1=0 \)</td></tr>'.
+                '<tr><td>\(\displaystyle \left(x-1\right)\,\left(x+1\right)=0 \)</td></tr></tbody></table></center>',
+                $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_with_comments() {
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'none');
+        $ta = '[(x-2)^2=x^2-2*x+1, stackeq(x^2-2*x+1)]';
+        // This long example also tests a switch from equational reasoning to equivalence reasoning and back again.
+        $sa = "x^2-1\nstackeq((x-1)*(x+1))\n\"Comments are not forbidden!\"\nx^2-1=0\n(x-1)*(x+1)=0\n\"Comment 2\"\n".
+            "x^2-1\n=(x-1)*(x+1)";
+        $el = stack_input_factory::make('equiv', 'sans1', $ta);
+        $el->set_parameter('options', 'comments');
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('[x^2-1,stackeq((x-1)*(x+1)),"Comments are not forbidden!",x^2-1=0,(x-1)*(x+1)=0,'.
+                '"Comment 2",x^2-1,stackeq((x-1)*(x+1))]', $state->contentsmodified);
+        $this->assertEquals('\[ \begin{array}{lll} &x^2-1& \cr \color{green}{\checkmark}&=\left(x-1\right)\,\left(x+1\right)&'.
+                ' \cr  &\mbox{Comments are not forbidden!}& \cr  &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)'.
+                '\,\left(x+1\right)=0& \cr  &\mbox{Comment 2}& \cr  &x^2-1& \cr \color{green}{\checkmark}'.
+                '&=\left(x-1\right)\,\left(x+1\right)& \cr \end{array} \]',
                 $state->contentsdisplayed);
     }
 }

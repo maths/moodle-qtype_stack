@@ -24,6 +24,12 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_units_input extends stack_input {
 
+    /**
+     * Decide if the student's expression should have units.
+     * @var bool.
+     */
+    protected $units = true;
+
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
         if ($this->errors) {
@@ -80,7 +86,7 @@ class stack_units_input extends stack_input {
             // The answer is essantially required to be a number and units, other types are rejected.
             'sameType'           => false,
             // Currently this can only be "negpow", or "mul".
-            'options'            => ''
+            'options'            => '',
         );
     }
 

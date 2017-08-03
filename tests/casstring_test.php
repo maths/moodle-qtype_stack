@@ -563,12 +563,28 @@ class stack_cas_casstring_test extends basic_testcase {
         $s = 'sa:3.14*moles';
         $at1 = new stack_cas_casstring($s);
         $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_2_u() {
+        $s = 'sa:3.14*moles';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
+        $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
 
     public function test_units_3() {
         $s = 'sa:3.14*Moles';
         $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_3_u() {
+        $s = 'sa:3.14*Moles';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
         $this->assertFalse($at1->get_valid('s', true, 0));
         $this->assertEquals('unitssynonym', $at1->get_answernote());
     }
@@ -599,6 +615,44 @@ class stack_cas_casstring_test extends basic_testcase {
         $err = 'Input of units is case sensitive:  <span class="stacksyntaxexample">Mhz</span> is an unknown unit. '
                    . 'Did you mean one from the following list <span class="stacksyntaxexample">[mHz, MHz]</span>?';
         $this->assertEquals($err, $at1->get_errors());
+    }
+
+    public function test_units_7() {
+        $s = '56.7*hr';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*hr', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('', $at1->get_answernote());
+    }
+
+    public function test_units_8() {
+        $s = '56.7*hr';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*hr', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('unitssynonym', $at1->get_answernote());
+    }
+
+    public function test_units_9() {
+        $s = '56.7*kgm/s';
+        $at1 = new stack_cas_casstring($s);
+        $this->assertFalse($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*kgm/s', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('unknownFunction', $at1->get_answernote());
+    }
+
+    public function test_units_10() {
+        $s = '56.7*kgm/s';
+        $at1 = new stack_cas_casstring($s);
+        $at1->set_units(true);
+        $this->assertTrue($at1->get_valid('s', true, 0));
+        $this->assertEquals('56.7*kg*m/s', $at1->get_casstring());
+        $this->assertEquals('', $at1->get_key());
+        $this->assertEquals('', $at1->get_answernote());
     }
 
     public function test_units_amu() {

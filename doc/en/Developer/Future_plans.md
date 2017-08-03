@@ -71,7 +71,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * Wiris
 * Possible Maxima packages:
  * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
- * Support for inequalities.  This includes real intervals and sets of real numbers.
  * Support for the "draw" package.
 * Add support for qtype_stack in Moodle's lesson module.
 * Improve the way questions are deployed.
@@ -97,6 +96,7 @@ Add mathematical support in the following order.
 2. Solving simple simultaneous equations.  (Interface)
 3. Logarithms and simple logarithmic equations.
 4. Include calculus operations.
+5. Allow students to create and use functions of their own (currently forbidden).
 
 * Add a "Not equals" operator.  For example:
 

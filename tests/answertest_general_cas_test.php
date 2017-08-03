@@ -466,4 +466,37 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('ATUnits_units_match.', $at->get_at_answernote());
     }
+
+    public function test_equiv_true() {
+        $at = new stack_answertest_general_cas('[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
+                'ATEquiv', true, 'null', null);
+        $this->assertTrue($at->do_test());
+        $this->assertEquals(1, $at->get_at_mark());
+        $this->assertEquals('[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]', $at->get_at_answernote());
+        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
+            '\cr \color{green}{\Leftrightarrow}&x=1\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
+        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+    }
+
+    public function test_equiv_false() {
+        $at = new stack_answertest_general_cas('[x^2-1=0,(x-1)*(x+1)=0,x=i or x=-1]', '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]',
+                'ATEquiv', true, 'null', null);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('[EMPTYCHAR,EQUIVCHAR,QMCHAR]', $at->get_at_answernote());
+        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0&'.
+            ' \cr \color{red}{?}&x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
+        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+    }
+
+    public function test_equiv_comment() {
+        $at = new stack_answertest_general_cas('[x^2-1=0,(x-1)*(x+1)=0,"Could be",x=i or x=-1]',
+                '[x^2-1=0,(x-1)*(x+1)=0,x=1 or x=-1]', 'ATEquiv', true, 'null', null);
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+        $this->assertEquals('[EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR]', $at->get_at_answernote());
+        $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
+            '\cr  &\mbox{Could be}& \cr  &x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
+        $this->assertContentWithMathsEquals($fbt, stack_maxima_translate($at->get_at_feedback()));
+    }
 }

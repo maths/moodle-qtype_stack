@@ -264,6 +264,40 @@ rand_range([ex]) := block(
   if is(length(ex)=3) then return(ev(ex[1]+ex[3]*rand(floor((ex[2]-ex[1])/ex[3])), simp))
 );
 
+/* Helper function for constructing MCQ arrays. */
+multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
+  if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+
+  ta1:maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
+  ta2:maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, numwrong)),
+  ta:random_permutation(append(ta1, ta2)),
+  version:map(first, ta),
+  return([ta, version])
+)$
+
+/* Helper function for constructing MCQ arrays where the values should not be shown to students. */
+multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
+  if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+
+  corbase:zip_with("[", ev(makelist(k,k,1,length(corbase)),simp), corbase),
+  wrongbase:zip_with("[", ev(makelist(k,k,1+length(corbase),1+length(corbase)+length(wrongbase)),simp), wrongbase),
+  ta1:maplist(lambda([ex], [first(ex), true, second(ex)]), rand_selection(corbase, numcor)),
+  ta2:maplist(lambda([ex], [first(ex), false, second(ex)]), rand_selection(wrongbase, numwrong)),
+  ta:random_permutation(append(ta1, ta2)),
+  version:map(first, ta),
+  return([ta, version])
+)$
+
 /* ********************************** */
 /* Display                            */
 /* ********************************** */

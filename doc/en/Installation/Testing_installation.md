@@ -10,7 +10,7 @@ STACK provides a number of options.  To set these you must login as the Moodle s
     Plugins ->
     Question Types ->
     STACK
-    
+
 ## Health-check script
 
 To confirm if the PHP scripts are connecting to Maxima navigate to the `STACK configuration page`.  Choose the link to the healthcheck script.

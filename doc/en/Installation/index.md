@@ -1,6 +1,6 @@
 # Installation instructions.
 
-STACK is being used live at a number of institutions, including the UK Open University, Loughborough University, and the University of Birmingham in the UK.  
+STACK is being used live at a number of institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.  
 
 ## 1. Set up Moodle.
 
@@ -63,7 +63,13 @@ You must be able to connect to the CAS, and for the CAS to successfully create p
 
 You should now have a question type available to the Moodle quiz.
 
-## 5. Add the STACK quiz report {#Report}
+## 5. Post-install confirmation.
+
+It is essential to confirm that the PHP scripts are connecting to the CAS.  
+
+We have special scripts which provide confirmation and trouble-shooting data to [test the installation](Testing_installation.md).
+
+## 6. Optional: Add the STACK quiz report {#Report}
 
 The reports are still in a beta development stage and you can skip this step.   If you wish to take advantage of bespoke reports on attempts at an individual STACK question you will need to install the STACK quiz report format separately.  This is distributed as `quiz_stack`.  
 
@@ -74,13 +80,26 @@ The reports are still in a beta development stage and you can skip this step.   
         git clone git://github.com/maths/quiz_stack.git mod/quiz/report/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-## 6. Optional: Add the LTI provider plugin
+## 7. Optional: Add the LTI provider plugin
 
 This optional step is for people who wish to use STACK through another interface than Moodle (or ILIAS).  Details are in the [LTI](LTI.md) page.
 
-## 7. Very Optional: Add the STACK question format
+# Migration from STACK 3.X to STACK 4.0
 
-This is for legacy questions from Version 2 of STACK.  You can probably skip this step. If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
+STACK 4.0 has one important change in the question authoring.  [CAS text](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
+
+You will need to update all your existing questions which inlcude CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
+
+    Site administration -> 
+    Plugins ->
+    Question Types ->
+    STACK
+
+Then choose the link "The fix maths delimiters script".  If you have any difficulties with this process please contact the developers.
+
+# Migration from STACK 2.X to STACK 3.0
+
+If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
 
 1. Obtain the code. Either [download the zip file](https://github.com/maths/moodle-qformat_stack/zipball/master), unzip it, and place it in the directory `moodle/question/format/stack`. (You will need to rename the directory `moodle-qformat_stack -> stack`.) 
 
@@ -90,8 +109,3 @@ This is for legacy questions from Version 2 of STACK.  You can probably skip thi
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
 There have been a number of changes between STACK 2 and STACK 3.  Please read the [notes on the importer](../Authoring/ImportExport.md) before using it.
-
-## 8. Confirming the installation is successful.
-
-At this stage it is important to confirm that the PHP scripts are connecting to the CAS.  To facilitate this we have special scripts which provide confirmation and trouble-shooting data.
-Now is the time to [test the installation](Testing_installation.md).

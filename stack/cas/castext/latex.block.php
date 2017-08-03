@@ -29,7 +29,7 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_cas_castext_latex extends stack_cas_castext_block {
 
     /**
-     * remembers the number for this instance
+     * Remembers the number for this instance.
      */
     private $number;
 

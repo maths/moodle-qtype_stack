@@ -1078,7 +1078,14 @@ class qtype_stack_edit_form extends question_edit_form {
         // Question note.
         $errors['questionnote'] = array();
         if ('' == $fromform['questionnote']) {
+            $foundrandom = false;
             if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
+                $foundrandom = true;
+            }
+            if (!(false === strpos($fromform['questionvariables'], 'multiselqn'))) {
+                $foundrandom = true;
+            }
+            if ($foundrandom) {
                 $errors['questionnote'][] = stack_string('questionnotempty');
             }
         } else {

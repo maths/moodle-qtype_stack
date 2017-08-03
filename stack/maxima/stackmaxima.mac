@@ -282,12 +282,12 @@ multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
 
 /* Helper function for constructing MCQ arrays where the values should not be shown to students. */
 multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
-  if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
-  if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
-  if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
-  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
-  if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
-  if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+  if not(listp(corbase)) then error("multiselqndisplay: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqndisplay: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqndisplay: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqndisplay: forth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
 
   corbase:zip_with("[", ev(makelist(k,k,1,length(corbase)),simp), corbase),
   wrongbase:zip_with("[", ev(makelist(k,k,1+length(corbase),1+length(corbase)+length(wrongbase)),simp), wrongbase),
@@ -1545,7 +1545,7 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     SAP:ev(single_variable_solver_real(SA), simp),
     SBP:ev(single_variable_solver_real(SB), simp),
     if (debug) then print("ATLogic_to_poly_solver: [", string(SAP), " | ", string(SBP), "]"),
-    if SAP=SBP then 
+    if SAP=SBP then
         return([true, true, "ATLogic_Solver_True", ""]),
     SAP:ev(logic_to_poly(SA), simp),
     SBP:ev(logic_to_poly(SB), simp),

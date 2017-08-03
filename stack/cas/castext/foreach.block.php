@@ -39,7 +39,7 @@ require_once("block.interface.php");
 class stack_cas_castext_foreach extends stack_cas_castext_block {
 
     /**
-     * remembers the numbers for this instance
+     * Remembers the numbers for this instance.
      */
     private $numbers = array();
 
@@ -103,7 +103,7 @@ class stack_cas_castext_foreach extends stack_cas_castext_block {
 
         $this->get_node()->convert_to_text($newtext);
 
-        // As the block generates code to be evaluated...
+        // As the block generates code to be evaluated.
         return true;
     }
 

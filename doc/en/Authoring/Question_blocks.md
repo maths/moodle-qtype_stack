@@ -110,6 +110,12 @@ Note, the use of define provides an alternative to using the question variables.
 1. the readability of the code will suffer.
 2. question variables are available elsewhere in the question, but `define` blocks are only available in that CAStext.  This feature can also be used to your advantage.
 
+## Coment blocks ##
+
+Comment blocks allow you to put content into castext which will not be seen by students.
+
+    [[ comment ]] Place comments here which will not appear to students. [[/ comment ]]
+
 ## Empty blocks ##
 
 Some blocks do not have content.  For example, the `[[ define x='1' /]]` block above does not include content.

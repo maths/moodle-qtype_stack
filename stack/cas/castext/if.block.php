@@ -27,7 +27,7 @@ require_once("block.interface.php");
 class stack_cas_castext_if extends stack_cas_castext_block {
 
     /**
-     * remembers the number for this instance
+     * Remembers the number for this instance.
      */
     private $number;
 

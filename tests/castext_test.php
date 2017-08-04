@@ -196,6 +196,19 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_comment_block_define() {
+        $a1 = array('a:2');
+
+        $cases = array(
+                array('{#a#} [[ define a="1" /]][[ comment ]] Ignore comment. [[/ comment]]{#a#}', $a1, true, "2 1"),
+                array('{#a#} [[ define a="a^2" /]][[ comment ]]Ignore[[/ comment]]{#a#}', $a1, true, "2 4"),
+        );
+
+        foreach ($cases as $case) {
+            $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
+        }
+    }
+
     public function test_not_confused_by_pluginfile() {
         $ct = new stack_cas_text('Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input', null, 0);
         $this->assertTrue($ct->get_valid());

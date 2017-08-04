@@ -891,6 +891,14 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Likelihood";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[log((a-1)^n*product(x_i^(-a),i,1,n)),stackeq(n*log(a-1)-a*sum(log(x_i),i,1,n))]";
+        $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
         //******************************************************************************
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';

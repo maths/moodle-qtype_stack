@@ -110,7 +110,7 @@ Note, the use of define provides an alternative to using the question variables.
 1. the readability of the code will suffer.
 2. question variables are available elsewhere in the question, but `define` blocks are only available in that CAStext.  This feature can also be used to your advantage.
 
-## Coment blocks ##
+## Comment blocks ##
 
 Comment blocks allow you to put content into castext which will not be seen by students.
 
@@ -130,4 +130,3 @@ But we think the following is much more direct, and clean.
 There are other kinds of `[[ emptyblocks /]]`, which are useful in certain cases and developers of new blocks might like to consider this as a possibility.
 
 While the define block does not generate any visible content like all block also empty blocks may be used to generate output. `[[ debug /]]` is an example of this.
-

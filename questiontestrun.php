@@ -188,7 +188,7 @@ if (!$question->has_random_variants()) {
 
         $iconurl = '';
         if ($bulktestresults[0]) {
-            $iconurl = " <img src=\"" . $OUTPUT->pix_url('t/' . 'check') . "\" alt=\"\" />";
+            $iconurl = " <img src=\"" . $OUTPUT->image_url('t/' . 'check') . "\" alt=\"\" />";
         }
 
         $notestable->data[] = array(

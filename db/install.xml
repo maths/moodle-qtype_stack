@@ -14,6 +14,7 @@
         <FIELD NAME="questionnote" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This should be a short summary of which random variant of the question the student saw."/>
         <FIELD NAME="questionsimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to simplify expressions in the question text, question variables, etc."/>
         <FIELD NAME="assumepositive" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to assume that variables are positive."/>
+        <FIELD NAME="assumereal" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to assume that variables are real."/>
         <FIELD NAME="prtcorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 1."/>
         <FIELD NAME="prtcorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for prtcorrect."/>
         <FIELD NAME="prtpartiallycorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score between 0 and 1."/>

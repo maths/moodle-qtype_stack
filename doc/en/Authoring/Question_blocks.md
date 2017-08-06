@@ -116,6 +116,8 @@ Comment blocks allow you to put content into castext which will not be seen by s
 
     [[ comment ]] Place comments here which will not appear to students. [[/ comment ]]
 
+Note that, in it’s current form the comment block requires that the contents are syntactically correct so no mismatched blocks are possible inside comments.  (We intend to change this in the future.)
+
 ## Empty blocks ##
 
 Some blocks do not have content.  For example, the `[[ define x='1' /]]` block above does not include content.

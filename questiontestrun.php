@@ -186,19 +186,10 @@ if (!$question->has_random_variants()) {
             $variantdeployed = true;
         }
 
-        $iconurl = '';
-        if ($bulktestresults[0]) {
-            if (method_exists($OUTPUT, 'image_url')) {
-                $iconurl = " <img src=\"" . $OUTPUT->image_url('t/' . 'check') . "\" alt=\"\" />";
-            } else {
-                $iconurl = " <img src=\"" . $OUTPUT->pix_url('t/' . 'check') . "\" alt=\"\" />";
-            }
-        }
-
         $notestable->data[] = array(
             $choice,
             stack_ouput_castext($qn->get_question_summary()),
-            $iconurl,
+            $OUTPUT->pix_icon('t/check', stack_string('questiontestspass')),
             $bulktestresults[1]
             );
     }

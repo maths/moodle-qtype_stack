@@ -441,6 +441,7 @@ $string['questiondoesnotuserandomisation'] = 'This question does not use randomi
 $string['questionnotdeployedyet'] = 'No variants of this question have been deployed yet.';
 $string['questionpreview'] = 'Question preview';
 $string['questiontests'] = 'Question tests';
+$string['questiontestspass'] = 'All question tests passed.';
 $string['runquestiontests'] = 'Question tests & deployed versions';
 $string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';

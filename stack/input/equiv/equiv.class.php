@@ -86,7 +86,7 @@ class stack_equiv_input extends stack_input {
                         break;
 
                     default:
-                        $this->errors = stack_string('inputoptionunknown', $option);
+                        $this->errors[] = stack_string('inputoptionunknown', $option);
                 }
             }
         }

@@ -319,7 +319,11 @@ abstract class stack_input {
 
         if (array() == $contents or $this->is_blank_response($contents)) {
             // Runtime errors may make it appear as if this response is blank, so we put any errors in here.
-            return new stack_input_state(self::BLANK, array(), '', '', $this->errors, '', '');
+            $errors = $this->errors;
+            if ($errors) {
+                $errors = implode(' ', $this->errors);
+            }
+            return new stack_input_state(self::BLANK, array(), '', '', $errors, '', '');
         }
 
         $singlevarchars = false;
@@ -596,11 +600,15 @@ abstract class stack_input {
     public abstract function render(stack_input_state $state, $fieldname, $readonly, $tavalue);
 
     /*
-     * Render any error message.
+     * Render any error messages.
      */
     protected function render_error($error) {
+        $errors = $this->errors;
+        if ($errors) {
+            $errors = implode(' ', $this->errors);
+        }
         $result = html_writer::tag('p', stack_string('ddl_runtime'));
-        $result .= html_writer::tag('p', $error);
+        $result .= html_writer::tag('p', $errors);
         return html_writer::tag('div', $result, array('class' => 'error'));
     }
 

@@ -1,17 +1,16 @@
 # Random objects #
 
-One of the features of STACK is the ability to generate structured random objects.
-To do this STACK provides a [Maxima](Maxima.md) function `rand()` which can be used in the question and answer variables.
-Other related functions make use of this.
+STACK can generate structured random objects.  STACK provides a [Maxima](Maxima.md) function `rand()` which can be used in the question and answer variables.
+
+**Note:** it is important not to use Maxima's own `random()` function.
+STACK creates pseudo-random numbers from a definite seed.
+This ensures that when a particular student returns they see the same version of the question.
+Hence, STACK provides its own function `rand()`.
 
 For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect.
 We are much more interested in simplicity, efficiency and reproducibility across platforms.
 Hence, we adopt a linear recurrence method of generating pseudo-random numbers.
 
-**Note** it is important not to use Maxima's own `random()` function.
-STACK creates pseudo-random numbers from a definite seed.
-This ensures that when a particular student returns they see the same version of the question.
-Hence, STACK provides its own function `rand()`.
 
 ## rand() {#rand}
 

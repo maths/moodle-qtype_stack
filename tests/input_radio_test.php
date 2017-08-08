@@ -100,7 +100,7 @@ class stack_radio_input_test extends qtype_stack_walkthrough_test_base {
         $el = $this->make_radio();
         $el->adapt_to_model_answer('[x]');
         $expected = '<div class="error"><p>The input has generated the following runtime error which prevents you from answering.'
-                .' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>.'
+                .' Please contact your teacher.</p><p>The model answer field for this input is malformed: <code>[x]</code>. '
                 .' The teacher did not indicate at least one correct answer. </p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));

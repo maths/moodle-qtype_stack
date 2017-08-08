@@ -35,7 +35,7 @@ class stack_matrix_input extends stack_input {
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
-            $this->errors = $at1->get_errors();
+            $this->errors[] = $at1->get_errors();
             return;
         }
 

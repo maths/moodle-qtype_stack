@@ -81,7 +81,7 @@ class stack_dropdown_input extends stack_input {
                         break;
 
                     default:
-                        $this->errors = stack_string('inputoptionunknown', $option);
+                        $this->errors[] = stack_string('inputoptionunknown', $option);
                 }
             }
         }
@@ -121,7 +121,7 @@ class stack_dropdown_input extends stack_input {
         }
         $values = stack_utils::list_to_array($str, false);
         if (empty($values)) {
-            $this->errors = stack_string('ddl_badanswer', $teacheranswer);
+            $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
             $this->teacheranswerdisplay = '<code>'.'[ERR]'.'</code>';
             $this->ddlvalues = null;
@@ -147,7 +147,7 @@ class stack_dropdown_input extends stack_input {
                 if (count($value) >= 2) {
                     // Check for duplicates in the teacher's answer.
                     if (array_key_exists($value[0], $duplicatevalues)) {
-                        $this->errors = stack_string('ddl_duplicates');
+                        $this->errors[] = stack_string('ddl_duplicates');
                     }
                     $duplicatevalues[$value[0]] = true;
                     // Store the answers.
@@ -168,7 +168,7 @@ class stack_dropdown_input extends stack_input {
                     }
                     $ddlvalues[] = $ddlvalue;
                 } else {
-                    $this->errors = stack_string('ddl_badanswer', $teacheranswer);
+                    $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
                 }
             }
         }
@@ -180,7 +180,7 @@ class stack_dropdown_input extends stack_input {
          * list of the values of those things the teacher said are correct.
          */
         if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
-            $this->errors .= stack_string('ddl_nocorrectanswersupplied');
+            $this->errors[] = stack_string('ddl_nocorrectanswersupplied');
             return;
         }
         if ($this->ddltype == 'checkbox') {
@@ -230,7 +230,7 @@ class stack_dropdown_input extends stack_input {
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
-            $this->errors .= $at1->get_errors();
+            $this->errors[] = $at1->get_errors();
             return;
         }
 
@@ -296,9 +296,7 @@ class stack_dropdown_input extends stack_input {
         return $this->get_input_ddl_value($contents[0]);
     }
 
-    /* This function always returns an array where the key is the CAS "value".
-     * This is needed in various places, e.g. when we check the an answer received is actually
-     * in the list of possible answers.
+    /* This function always returns an array where the key is the key in the ddlvalues.
      */
     protected function get_choices() {
         if (empty($this->ddlvalues)) {
@@ -307,19 +305,13 @@ class stack_dropdown_input extends stack_input {
 
         $values = $this->ddlvalues;
         if (empty($values)) {
-            $this->errors .= stack_string('ddl_empty');
+            $this->errors[] = stack_string('ddl_empty');
             return array();
         }
 
-        // We need to do this step after array_merge.
-        // If the 'value' is an integer, array_merge may renumber it.
         $choices = array();
         foreach ($values as $key => $val) {
-            if (!array_key_exists($val['value'], $choices)) {
-                $choices[$key] = $val['display'];
-            } else {
-                $this->errors .= stack_string('ddl_duplicates');
-            }
+            $choices[$key] = $val['display'];
         }
         return $choices;
     }
@@ -484,7 +476,7 @@ class stack_dropdown_input extends stack_input {
                 return $key;
             }
         }
-        $this->errors = stack_string('ddl_unknown', $value);
+        $this->errors[] = stack_string('ddl_unknown', $value);
 
         return false;
     }

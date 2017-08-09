@@ -298,6 +298,21 @@ multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, ve
   return([ta, version])
 )$
 
+/* Helper functions for MCQ arrays. */
+mcq_correct(ta):=block(
+    if not(listp(ta)) then error("mcq_correct: first argument must be a list, but was passed: ", string(ta)),
+    if not(all_listp(listp, ta)) then error("mcq_correct: all list elements must be lists, but was passed: ", string(ta)),
+    if not(all_listp(lambda([ex], is(length(ex)>=2)), ta)) then error("mcq_correct: all list elements must be lists of length at least 2, but was passed: ", string(ta)),
+    maplist(first, sublist(ta, lambda([ex], second(ex))))
+)$
+
+mcq_incorrect(ta):=block(
+    if not(listp(ta)) then error("mcq_incorrect: first argument must be a list, but was passed: ", string(ta)),
+    if not(all_listp(listp, ta)) then error("mcq_incorrect: all list elements must be lists, but was passed: ", string(ta)),
+    if not(all_listp(lambda([ex], is(length(ex)>=2)), ta)) then error("mcq_incorrect: all list elements must be lists of length at least 2, but was passed: ", string(ta)),
+    maplist(first, sublist(ta, lambda([ex], not(second(ex)))))
+)$
+
 /* ********************************** */
 /* Display                            */
 /* ********************************** */

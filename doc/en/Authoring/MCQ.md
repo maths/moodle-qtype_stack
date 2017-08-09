@@ -24,6 +24,11 @@ For example
 
 At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".  You must still use a [potential response tree](Potential_response_trees.md) to assess the student's answer as normal.
 
+STACK provides some helper functions
+
+1. `mcq_correct(ta)` takes the "model answer" list and returns a list of values for which `correct` is true.
+2. `mcq_incorrect(ta)` takes the "model answer" list and returns a list of values for which `correct` is false.
+
 Note, that the optional `display` field is *only* used when constructing the choices seen by the student when displaying the question.  The student's answer will be the `value`, and this value is normally displayed to the student using the validation feedback, i.e. "Your last answer was interpreted as...".  A fundamental design principal of STACK is that the student's answer should be a mathematical expression, and this input type is no exception.  In situations where there is a significant difference between the optional `display` and the `value` which would be confusing, the only current option is to turn off validation feedback.  After all, this should not be needed anyway with this input type.  In the example above when a student is asked to choose the right method the `value` could be an integer and the display is some kind of string.  In this example the validation feedback would be confusing, since an integer (which might be shuffled) has no correspondence to the choices selected.  *This behaviour is a design decision and not a bug! It may change in the future if there is sufficient demand, but it requires a significant change in STACK's internals to have parallel "real answer" and "indicated answer".  Such a change might have other unintended and confusing consequences.*
 
 Normally we don't permit duplicate values in the values of the teacher's answer.  If the input type receives duplicate values STACK will throw an error.  This probably arises from poor randomisation.  However it may be needed.  If duplicate entries are permitted use the display option to create unique value keys with the same display. *This behaviour is a design decision may change in the future.*
@@ -42,9 +47,9 @@ If, when authoring a question, you switch from radio/dropdown to checkboxes or b
 
 For the select and radio types the first option on the list will always be "Not answered".  This enables a student to retract an answer and return a "blank" response.
 
-For the checkbox type there is a fundamental ambiguity between a blank response and actively not selecting any of the provided choices, which indicates "none of the others".  Internally STACK has a number of "states" for a student's answer, including `BLANK`, `VALID`, `INVALID`, `SCORE` etc.  A student who has not answered will be considered `BLANK`. This is not invalid, and potential response trees which rely on this input type will not activate.  To enable a student to indicate "none of the others", the teacher must add this as an explicit option.  Note, this will not return an empty list as the answer as might be expected: it will be the `value` of that selection.  For the radio and dropdown types STACK always adds a "not answered" option as the first option.  This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, validated and possibly assessed (to their potential detriment).
+For the checkbox type there is a fundamental ambiguity between a blank response and actively not selecting any of the provided choices, which indicates "none of the others".  Internally STACK has a number of "states" for a student's answer, including `BLANK`, `VALID`, `INVALID`, `SCORE` etc.  A student who has not answered will be considered `BLANK`. This is not invalid, and potential response trees which rely on this input type will not activate.  To enable a student to indicate "none of the others", the teacher must add this as an explicit option.  Note, this will not return an empty list as the answer as might be expected: it will be the `value` of that selection and you could give this option the value of `null`, for example, which is a Maxima atom.  For the radio and dropdown types STACK always adds a "not answered" option as the first option.  This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, validated and possibly assessed (to their potential detriment).
 
-We did not add support for a special internal "none of the others" because the teacher still needs to indicate wether this is the true or false answer to the question.  To support randomisation, this needs to be done as an option in the teacher's answer list.
+We did not add support for a special internal "none of the others" because the teacher still needs to indicate whether this is the true or false answer to the question.  To support randomisation, this needs to be done as an option in the teacher's answer list.
 
 ## Extra options ##
 
@@ -88,13 +93,11 @@ It is not easy to construct MCQ arrays in Maxima.  This section contains some ti
 
     ta:[[x^2-1,true],[x^2+1,false],[(x-1)*(x+1),true],[(x-i)*(x+i),false]]
 
-To create a list of correct answers you could use
+To create a list of correct answers you could use the function `mcq_correct(ta)`.  This essentially consists of the following code.
 
     maplist(first, sublist(ta, lambda([ex], second(ex))));
 
-To create a list of incorrect answers you could use
-
-    maplist(first, sublist(ta, lambda([ex], not(second(ex)))));
+The function `sublist` "filters" out those entries of `ta` for which the second element of the list is true.  We then "map" first onto these entries to pull out the value.  It is relatively simple to modify this code to extract the incorrect entries, the displayed forms of the correct entries etc.
 
 To go in the other direction, the first list `ta1` is considered "correct" and the second `ta2` is considered incorrect.
 

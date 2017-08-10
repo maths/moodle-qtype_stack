@@ -31,33 +31,37 @@ require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 class stack_maths_stack_maths_test extends advanced_testcase {
 
     public function test_replace_dollars_and_abacus() {
-      $test0 = 'Test $\frac12$ $$\frac14$$ @1/8@ \(\frac{@a@}{2}\).';
-      $expected0 = 'Test \(\frac12\) \[\frac14\] {@1/8@} \(\frac{@a@}{2}\).';
-      $this->assertEquals($expected0, stack_maths::replace_dollars($test0));
+        $test0 = 'Test $\frac12$ $$\frac14$$ @1/8@ \(\frac{@a@}{2}\).';
+        $expected0 = 'Test \(\frac12\) \[\frac14\] {@1/8@} \(\frac{@a@}{2}\).';
+        $this->assertEquals($expected0, stack_maths::replace_dollars($test0));
 
-      $test1 = '@1/8@ {@a@}';
-      $expected1 = '{@1/8@} {@a@}';
-      $this->assertEquals($expected1, stack_maths::replace_dollars($test1));
+        $test1 = '@1/8@ {@a@}';
+        $expected1 = '{@1/8@} {@a@}';
+        $this->assertEquals($expected1, stack_maths::replace_dollars($test1));
 
-      $test2 = '{@1/8@} @a@';
-      $expected2 = '{@1/8@} {@a@}';
-      $this->assertEquals($expected2, stack_maths::replace_dollars($test2));
+        $test2 = '{@1/8@} @a@';
+        $expected2 = '{@1/8@} {@a@}';
+        $this->assertEquals($expected2, stack_maths::replace_dollars($test2));
 
-      $test3 = '{@1/8@';
-      $expected3 = '{{@1/8@}';
-      $this->assertEquals($expected3, stack_maths::replace_dollars($test3));
+        $test3 = '{@1/8@';
+        $expected3 = '{{@1/8@}';
+        $this->assertEquals($expected3, stack_maths::replace_dollars($test3));
 
-      $test4 = '@1/8@}';
-      $expected4 = '{@1/8@}}';
-      $this->assertEquals($expected4, stack_maths::replace_dollars($test4));
+        $test4 = '@1/8@}';
+        $expected4 = '{@1/8@}}';
+        $this->assertEquals($expected4, stack_maths::replace_dollars($test4));
 
-      $test5 = '{@ 1/8@} @a @ @ b@';
-      $expected5 = '{@ 1/8@} {@a@} {@b@}';
-      $this->assertEquals($expected5, stack_maths::replace_dollars($test5));
+        $test5 = '{@ 1/8@} @a @ @ b@';
+        $expected5 = '{@ 1/8@} {@a@} {@b@}';
+        $this->assertEquals($expected5, stack_maths::replace_dollars($test5));
 
-      $test6 = '<p>First write each term over a common denominator \[ @(A*x+B)*D/D+C/D = ((A*x+B)*D+C)/D @\] Then expand out brackets on the top and collect like terms to get \[ @ ev(expand((A*x+B)*D+C),simp)/D@.\]&nbsp;</p>';
-      $expected6 = '<p>First write each term over a common denominator \[ {@(A*x+B)*D/D+C/D = ((A*x+B)*D+C)/D@}\] Then expand out brackets on the top and collect like terms to get \[ {@ev(expand((A*x+B)*D+C),simp)/D@}.\]&nbsp;</p>';
-      $this->assertEquals($expected6, stack_maths::replace_dollars($test6));
+        $test6 = '<p>First write each term over a common denominator \[ @(A*x+B)*D/D+C/D = ((A*x+B)*D+C)/D @\]'
+            . ' Then expand out brackets on the top and collect like terms to get \[ @ ev(expand((A*x+B)*D+C),simp)/D@.\]'
+            . '&nbsp;</p>';
+        $expected6 = '<p>First write each term over a common denominator \[ {@(A*x+B)*D/D+C/D = ((A*x+B)*D+C)/D@}\] '
+            . 'Then expand out brackets on the top and collect like terms to get \[ {@ev(expand((A*x+B)*D+C),simp)/D@}.\]'
+            . '&nbsp;</p>';
+        $this->assertEquals($expected6, stack_maths::replace_dollars($test6));
     }
 }
 

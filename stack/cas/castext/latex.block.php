@@ -78,7 +78,6 @@ class stack_cas_castext_latex extends stack_cas_castext_block {
                 }
             }
         } else {
-            
             $value = stack_utils::maxima_string_to_php_string($value);
             $this->get_node()->convert_to_text($value);
         }

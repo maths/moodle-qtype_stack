@@ -328,7 +328,12 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         $this->assertEquals($matches[1][5], $matches[1][8]);
 
         // Test the same equalitys with the full text.
-        $testpattern = '[[ define stackparsecond' . $matches[1][0] . '="a" stackparsecond' . $matches[1][1] . '="not (stackparsecond' . $matches[1][0] . ')" /]][[ if test="stackparsecond' . $matches[1][0] . '" ]]1[[/ if ]][[ if test="stackparsecond' . $matches[1][1] . '" ]][[ define stackparsecond' . $matches[1][5] . '="c" stackparsecond' . $matches[1][6] . '="not (stackparsecond' . $matches[1][5] . ')" /]][[ if test="stackparsecond' . $matches[1][5] . '" ]]2[[/ if ]][[ if test="stackparsecond' . $matches[1][6] . '" ]]3[[/ if ]][[/ if ]]';
+        $testpattern = '[[ define stackparsecond' . $matches[1][0] . '="a" stackparsecond' . $matches[1][1]
+            . '="not (stackparsecond' . $matches[1][0] . ')" /]][[ if test="stackparsecond' . $matches[1][0]
+            . '" ]]1[[/ if ]][[ if test="stackparsecond' . $matches[1][1] . '" ]][[ define stackparsecond'
+            . $matches[1][5] . '="c" stackparsecond' . $matches[1][6] . '="not (stackparsecond'
+            . $matches[1][5] . ')" /]][[ if test="stackparsecond' . $matches[1][5]
+            . '" ]]2[[/ if ]][[ if test="stackparsecond' . $matches[1][6] . '" ]]3[[/ if ]][[/ if ]]';
         $this->assertEquals($testpattern, $parsed['tree_form']->to_string());
     }
 
@@ -347,8 +352,8 @@ class stack_cas_castext_parser_test extends qtype_stack_testcase {
         // stackparsecond20="not (stackparsecond19)" /]][[ if test="stackparsecond18" ]]1[[/ if ]][[ if test="stackparsecond19"
         // ]]2[[/ if ]][[ if test="stackparsecond20" ]][[ define stackparsecond21="c" stackparsecond22="not (stackparsecond21)"
         // /]][[ if test="stackparsecond21" ]]3[[/ if ]][[ if test="stackparsecond22" ]]4[[/ if ]][[/ if ]]'
-        // Problem is that the numbers in those stackparsecond?? variables can change depending on excecution order. So we do some
-        // Logic checking. Could do a regexp but the amount of escapes...
+        // Problem is that the numbers in those stackparsecond?? Variables can change depending on excecution order.
+        // We do some logic checking. Could do a regexp but the amount of escapes...
 
         $matches = array();
         preg_match_all('/stackparsecond([0-9]*)/' , $parsed['tree_form']->to_string() , $matches);

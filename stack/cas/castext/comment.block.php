@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 // Comments blocks allow you to include comments in question text.
-// This could be achieved with an [[ if test='false' ]] etc. but having comments as logically 
+// This could be achieved with an [[ if test='false' ]] etc. but having comments as logically
 // separate means we could extend the functionality to display them in the testing form etc.
 //
 // @copyright  2017 University of Edinburgh.

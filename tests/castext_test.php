@@ -42,7 +42,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_text($strin, $cs1, 0, $security);
         $at1->get_valid();
-        //print_r($at1);
         $this->assertEquals($val, $at1->get_valid());
         $this->assertEquals($disp, $at1->get_display_castext());
     }
@@ -90,7 +89,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('[[ if test="a" ]][[ if test="a" ]]ok6[[/ if ]][[/ if ]]', $a1, true, "ok6"),
                 array('[[ if test="a" ]][[ if test="b" ]]ok7[[/ if ]][[/ if ]]', $a1, true, ""),
                 array('[[ if test="a" ]][[ if test="b" ]]ok8[[else]]OK8[[/ if ]][[/ if ]]', $a1, true, "OK8"),
-                array('[[if test="is(5>3)"]]OK9[[/if]]',$a1,true,"OK9"),
+                array('[[if test="is(5>3)"]]OK9[[/if]]', $a1, true, "OK9"),
         );
 
         foreach ($cases as $case) {
@@ -984,7 +983,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval('a:true;b:is(1>2);c:false');
         $s = $kv->get_session(); // This does a validation on the side.
 
-        // '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' is the castext.
+        // Take '[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]' as the castext.
         // Then we start to add some new variables into it as the castext is evaluated.
         // First the conditions that have been extracted from a if-elif-else construct during the "compilation"-step.
         $s->add_vars(array(new stack_cas_casstring('stackparsecond8:b')));

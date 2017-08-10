@@ -194,8 +194,16 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $this->assertTrue($kv->get_valid());
         $kv->instantiate();
         foreach ($kv->get_session() as $cs) {
-            $expect = (strpos($cs->get_key(),'t') === 0)?'true':'false';
-            $this->assertEquals($expect,$cs->get_value());
+            $expect = (strpos($cs->get_key(), 't') === 0) ? 'true' : 'false';
+            $this->assertEquals($expect, $cs->get_value());
         }
+    }
+
+    public function test_keyval_input_capture() {
+        $s = 'a:x^2; ans1:a+1; ta:a^2';
+        $kv = new stack_cas_keyval($s, null, 123, 's', true, 0);
+        $this->assertFalse($kv->get_valid(array('ans1')));
+        $this->assertEquals('You may not use input names as variables.  '.
+            'You have tried to define <code>ans1</code>', $kv->get_errors());
     }
 }

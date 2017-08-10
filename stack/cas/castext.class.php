@@ -240,8 +240,8 @@ class stack_cas_text {
             case 'block':
                 $block = null;
                 if (array_key_exists($node->get_content(), $types)) {
-                    $block = castext_block_factory::make($node->get_content(), $node, $session, $this->seed, $this->security, $this->syntax,
-                            $this->insertstars);
+                    $block = castext_block_factory::make($node->get_content(), $node, $session,
+                            $this->seed, $this->security, $this->syntax, $this->insertstars);
                 } else {
                     $this->errors[] = stack_string('stackBlock_unknownBlock') . " '" . $node->get_content() . "'";
                     $valid = false;
@@ -293,8 +293,8 @@ class stack_cas_text {
             case 'block':
                 $block = null;
                 if (array_key_exists($node->get_content(), $types)) {
-                    $block = castext_block_factory::make($node->get_content(), $node, $session, $this->seed, $this->security, $this->syntax,
-                            $this->insertstars);
+                    $block = castext_block_factory::make($node->get_content(), $node, $session, $this->seed,
+                            $this->security, $this->syntax, $this->insertstars);
                 } else {
                     throw new stack_exception('stack_cas_text: UNKNOWN NODE '.$node->get_content());
                 }
@@ -461,7 +461,7 @@ class stack_cas_text {
             $this->validate();
         }
 
-        // 31/10/2013
+        // Changes made on 31/10/2013.
         // This function is only used by the unit tests.  It is essential to
         // look *inside* the session to make sure all variables are grabbed from the
         // text.  However, there is no harm in instantiating it to get the full session.

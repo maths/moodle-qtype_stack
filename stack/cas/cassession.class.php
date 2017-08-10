@@ -123,7 +123,7 @@ class stack_cas_session {
         return $this->valid;
     }
 
-    /* A helper function which enables an array of stack_cas_casstring to be validated */
+    /* A helper function which enables an array of stack_cas_casstring to be validated. */
     private function validate_array($cmd) {
         $valid  = true;
         foreach ($cmd as $key => $val) {
@@ -139,7 +139,7 @@ class stack_cas_session {
         return $valid;
     }
 
-    /* Check each of the CASStrings for any of the keywords */
+    /* Check each of the CASStrings for any of the keywords. */
     public function check_external_forbidden_words($keywords) {
         if (null === $this->valid) {
             $this->validate();

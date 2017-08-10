@@ -18,7 +18,8 @@
  * Interface/base class for the blocks. For each block found by the castext-processor an instance of
  * this kind of a class will be created, so feel free to store state.
  *
- * Implementations of this class should reside in files with the prefix '.block.php' in this directory. And the class name should be the blockname with the prefix 'stack_cas_castext_'
+ * Implementations of this class should reside in files with the prefix '.block.php' in this directory.
+ * And the class name should be the blockname with the prefix 'stack_cas_castext_'
  *
  * @copyright  2013 Aalto University
  * @copyright  2012 University of Birmingham

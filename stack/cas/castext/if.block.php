@@ -36,7 +36,6 @@ class stack_cas_castext_if extends stack_cas_castext_block {
     public function extract_attributes(&$tobeevaluatedcassession, $conditionstack = null) {
         $condition = $this->get_node()->get_parameter("test", "false");
 
-
         $key = false;
         $sessionkeys = $tobeevaluatedcassession->get_all_keys();
         $i = 0;
@@ -74,7 +73,6 @@ class stack_cas_castext_if extends stack_cas_castext_block {
         return false;
     }
 
-
     public function validate_extract_attributes() {
         $condition = $this->get_node()->get_parameter('test', 'false');
         $r = array(new stack_cas_casstring($condition));
@@ -92,6 +90,5 @@ class stack_cas_castext_if extends stack_cas_castext_block {
 
         return $valid;
     }
-
 
 }

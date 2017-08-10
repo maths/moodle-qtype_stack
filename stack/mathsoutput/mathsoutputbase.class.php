@@ -125,13 +125,13 @@ abstract class stack_maths_output {
             $pos = strpos($text, '@', $i);
             $post = false;
             while (!$post) {
-              $post = strpos($text, '@', $pos + 1);
-              if (strpos($text, $cmd, $pos) > $post || trim(substr($text, $pos + 1, $post - $pos - 1)) != $cmd) {
-                $pos = $post;
-                $post = false;
-              } else {
-                $post = $post + 1;
-              }
+                $post = strpos($text, '@', $pos + 1);
+                if (strpos($text, $cmd, $pos) > $post || trim(substr($text, $pos + 1, $post - $pos - 1)) != $cmd) {
+                    $pos = $post;
+                    $post = false;
+                } else {
+                    $post = $post + 1;
+                }
             }
             $front = $pos > 0 && $text[$pos - 1] == '{';
             $back = $post < strlen($text) && $text[$post] == '}';

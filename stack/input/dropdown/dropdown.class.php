@@ -76,6 +76,10 @@ class stack_dropdown_input extends stack_input {
                         $this->ddldisplay = 'LaTeXdisplay';
                         break;
 
+                    case 'latexdisplaystyle':
+                        $this->ddldisplay = 'LaTeXdisplaystyle';
+                        break;
+
                     case 'casstring':
                         $this->ddldisplay = 'casstring';
                         break;
@@ -244,10 +248,18 @@ class stack_dropdown_input extends stack_input {
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
                 $disp = $at1->get_display_key('val'.$key);
-                if ($this->ddldisplay === 'LaTeX') {
-                    $ddlvalues[$key]['display'] = '\('.$disp.'\)';
-                } else {
-                    $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                switch ($this->ddldisplay) {
+                    case 'LaTeX':
+                        $ddlvalues[$key]['display'] = '\('.$disp.'\)';
+                        break;
+                    case 'LaTeXdisplay':
+                        $ddlvalues[$key]['display'] = '\['.$disp.'\]';
+                        break;
+                    case 'LaTeXdisplaystyle':
+                        $ddlvalues[$key]['display'] = '\(\displaystyle '.$disp.'\)';
+                        break;
+                    default:
+                        $ddlvalues[$key]['display'] = '\(\displaystyle '.$disp.'\)';
                 }
             }
         }

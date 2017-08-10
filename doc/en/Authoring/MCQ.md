@@ -60,6 +60,7 @@ The way the items are displayed can be controlled by the following options.
 * `LaTeX` The default option is to use LaTeX to display the options, using an inline maths environment `\(...\)`.  This is probably better for radio and checkboxes.  It sometimes works in dropdowns, but not always and we need to test this in a wider variety of browsers.
 * `LaTeXdisplay` use LaTeX to display the options, using the display maths environment `\[...\]`.
 * `LaTeXinline` use LaTeX to display the options, using the inline maths environment `\(...\)`.
+* `LaTeXdisplaystyle` use LaTeX to display the options, using the inline maths environment and the displaystyle option `\(\displaystyle...\)`.
 * `casstring` does not use the LaTeX value, but just prints the casstring value in `<code>...</code>` tags.
 
 ## Randomly shuffling the options ##

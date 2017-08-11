@@ -78,7 +78,7 @@ if (!is_null($deploy)) {
         redirect($nexturl);
     }
 
-    $maxfailedattempts = 3;
+    $maxfailedattempts = 10;
     $failedattempts = 0;
     $numberdeployed = 0;
 

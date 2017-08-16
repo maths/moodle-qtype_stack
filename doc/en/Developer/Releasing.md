@@ -1,4 +1,4 @@
-���# STACK release process notes.
+# STACK release process notes.
 
 Note, these notes are designed for developers releasing a new version through the Moodle plugin database.  They are probably not useful for anyone else.
 

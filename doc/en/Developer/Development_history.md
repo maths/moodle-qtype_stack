@@ -1,8 +1,10 @@
-# History of previous versions of STACK
+# STACK Development History
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
 ## STACK 4.0
+
+Released August 2017.
 
 **STACK 4.0 represents a major release of STACK and is a non-reversible change, with important differences which break back-compatability.**
 
@@ -22,7 +24,7 @@ Other changes.
 
 ## STACK 3.6
 
-(July 2017) 
+Released July 2017.
 
 This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../CAS/Equivalence_reasoning.md).
 

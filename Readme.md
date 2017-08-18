@@ -8,7 +8,7 @@ STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of th
 
 STACK 4.0 is a major release containing significant new features and improvements, based on continuing research and use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.
 
-**Note: please read the release notes before upgrading from STACK 3.X to STACK 4.X.  STACK 4.0 represents a major release of STACK and is a non-reversible change, with important differences which break back-compatability.**
+**Note: please read the release notes before upgrading from STACK 3.X to STACK 4.X.  STACK 4.0 represents a major release of STACK and is a non-reversible change, with important differences which break back-compatability. Especially, note the [conversion of old materials](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Authoring/ImportExport.md#migrating-stack-3-questions-to-stack-4).**
 
 Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 

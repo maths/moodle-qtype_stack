@@ -26,7 +26,7 @@ There are two ways to export STACK questions.
 
 STACK 4.0 has one important change in the question authoring.  [CAS text](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
 
-You will need to update all your existing questions which inlcude CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
+You will need to update all your existing questions which include CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
 
     Site administration -> 
     Plugins ->

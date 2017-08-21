@@ -170,10 +170,11 @@ if (!$question->has_random_variants()) {
 
         // Bulk test all versions.
         $bulktester = new stack_bulk_tester();
-        $bulktestresults = $bulktester->qtype_stack_test_question($question, $testscases, $deployedseed, true);
+        $qn = question_bank::load_question($questionid);
+
+        $bulktestresults = $bulktester->qtype_stack_test_question($qn, $testscases, $deployedseed, true);
 
         // Print out question notes of all deployed versions.
-        $qn = question_bank::load_question($questionid);
         $qn->seed = (int) $deployedseed;
         $cn = $qn->get_context();
         $qunote = question_engine::make_questions_usage_by_activity('qtype_stack', $cn);
@@ -186,10 +187,14 @@ if (!$question->has_random_variants()) {
             $variantdeployed = true;
         }
 
+        $icon = '';
+        if ($bulktestresults[0]) {
+            $icon = $OUTPUT->pix_icon('t/check', stack_string('questiontestspass'));
+        }
         $notestable->data[] = array(
             $choice,
             stack_ouput_castext($qn->get_question_summary()),
-            $OUTPUT->pix_icon('t/check', stack_string('questiontestspass')),
+            $icon,
             $bulktestresults[1]
             );
     }

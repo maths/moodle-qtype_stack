@@ -68,9 +68,10 @@ class stack_cas_configuration {
 
         // These are used by the GNUplot "set terminal" command. Currently no user interface...
         $this->blocksettings['PLOT_TERMINAL'] = 'png';
-        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 600,400';
+        $this->blocksettings['PLOT_TERM_OPT'] = 'large transparent size 450,300';
         $this->blocksettings['PLOT_TERMINAL'] = 'svg';
-        $this->blocksettings['PLOT_TERM_OPT'] = '';
+        // Note, the quotes need to be protected below.
+        $this->blocksettings['PLOT_TERM_OPT'] = 'size 480,300 font \",12\" linewidth 1.2';
 
         if ($this->settings->platform === 'win') {
             $this->blocksettings['DEL_CMD']     = 'del';

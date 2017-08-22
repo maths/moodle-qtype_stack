@@ -830,10 +830,13 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Note, the axes option in Maxima doesn't seem to work.... */
     if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
 set output ", afn),
-    if PLOT_TERMINAL="svg" then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL),
+    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
-    set_plot_option([gnuplot_preamble, preamble]),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
+    if PLOT_TERMINAL="svg" then 
+        set_plot_option([gnuplot_svg_term_command, preamble])
+    else 
+        set_plot_option([gnuplot_preamble, preamble]),
     /* Sort out the name and location of temporary Gnuplot files. */
     tfn:concat(filename, ".plt"),
     /* Temporary file is referred to three times.            */

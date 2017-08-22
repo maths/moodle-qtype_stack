@@ -112,10 +112,10 @@ To go in the other direction, the first list `ta1` is considered "correct" and t
 
 Also, you can use STACK's `rand_selection(L, n)` to select \(n\) different elements from the list \(L\).  Say you have the following list of wrong answers and you want to take only 3 out of 5.
 
-   ta2:[x^2,w^2,w^6,z^4,2*z^4];
-   ta2:rand_selection(ta2, 3);
-   /* Then, as before. */
-   ta2:maplist(lambda([ex],[ex, false]), ta2);
+    ta2:[x^2,w^2,w^6,z^4,2*z^4];
+    ta2:rand_selection(ta2, 3);
+    /* Then, as before. */
+    ta2:maplist(lambda([ex],[ex, false]), ta2);
 
 
 Another way to create a MCQ answer list is to have Maxima decide which of the answers are true.  For example, in this question the student has to choose which of the answers are integers.
@@ -127,6 +127,47 @@ Another way to create a MCQ answer list is to have Maxima decide which of the an
     ta:zip_with("[",L,A);
     /* If you want to shuffle the responses then use the next line. */
     ta:random_permutation(ta);
+
+## MCQ helper functions ##
+
+STACK has two helper functions to create MCQ arrays in Maxima.
+
+    multiselqn(corbase, numcor, wrongbase, numwrong)
+
+This function takes two lists `corbase` and `wrongbase` and two integers `numcor` and `numwrong`.  It randomly selects `numcor` from `corbase`, and `numwrong` from `wrongbase` and then creates the MCQ list with these selections, and an answernote.
+
+The function returns a list with two arguments.  The first argument of the list is the MCQ array, the second is just the list of answers which is useful for the answer note.  Note, this function does use `random_permutation` internally to randomly order the random selections.
+
+For example, the following generates random expressions for an MCQ calculus question.  Note the use of `ev(...)` later to evaluate the derivative.
+
+    trg:rand([sin(p), cos(p)]);
+    dtrg:diff(trg, p);
+    wrongbase:[a*trg, 2*a*x*trg, -2*a*x*trg, ev(dtrg, p=2*a*x), 2*a*x*ev(dtrg, p=2*a*x)];
+    p:a*x^2+b;
+    wrongbase:ev(wrongbase); /* Now we have a value for p, the extra evaluation will use it. */
+    ans:diff(ev(trg), x)$
+    multisel:multiselqn([ans], 1, wrongbase, 3);
+    ta1:multisel[1];
+    version:multisel[2];
+
+In the above example there is only one correct answer, so we just select `1` from `[ans]`.  This is fine, and we then choose three randomly generated wrong answers.
+
+This returns (for example) the values
+
+    ta1 = [[-2*a*x*cos(a*x^2+b),false],[-sin(2*a*x),false],[a*cos(a*x^2+b),false],[-2*a*x*sin(a*x^2+b),true]];
+    version = [-2*a*x*cos(a*x^2+b),-sin(2*a*x),a*cos(a*x^2+b),-2*a*x*sin(a*x^2+b)];
+
+The following function does a similar job when we have MCQ display strings.
+
+    multiselqndisplay(corbase, numcor, wrongbase, numwrong)
+
+For example, here the return values could be
+
+    ta1 = [[3,false,2*a*x*sin(a*x^2+b)],[2,false,a*sin(a*x^2+b)],[5,false,cos(2*a*x)],[1,true,2*a*x*cos(a*x^2+b)]]
+    version = [3,2,5,1]
+
+The function `multiselqndisplay` automatically assigns numbers \(1,\cdots, k\) to the `corbase` entries, and then \(k+1,\cdots, n\) to the `wrongbase` entries so that the numbers returned by the input type uniqely map to the entries in the two lists regardless of which random version is generated.
+
 
 ## Dealing with strings in MCQ ##
 

@@ -232,8 +232,8 @@ if ($question->has_random_variants()) {
     echo html_writer::end_tag('p');
     echo html_writer::end_tag('form');
 
-    // Deploy many variants.
     if ($canedit) {
+        // Deploy many variants.
         echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
                 'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
         echo html_writer::start_tag('p');
@@ -244,6 +244,18 @@ if ($question->has_random_variants()) {
                 'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => ''));
         echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
         echo html_writer::tag('label', ' '.stack_string('deploymanynotes'));
+
+        echo html_writer::end_tag('p');
+        echo html_writer::end_tag('form');
+
+        // Undeploy all the variants.
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+        echo html_writer::start_tag('p');
+        echo stack_string('deployremoveall');
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
+            'undeployall' => 'true')));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
 
         echo html_writer::end_tag('p');
         echo html_writer::end_tag('form');

@@ -64,6 +64,16 @@ if (!is_null($undeploy)) {
     redirect($nexturl);
 }
 
+// Process undeployall if applicable.
+$undeploy = optional_param('undeployall', null, PARAM_INT);
+if (!is_null($undeploy) && $question->deployedseeds) {
+    foreach ($question->deployedseeds as $seed) {
+        $question->undeploy_variant($seed);
+    }
+    $nexturl->param('seed', $seed);
+    redirect($nexturl);
+}
+
 $deploy = optional_param('deploymany', null, PARAM_INT);
 $deploytxt = optional_param('deploymany', null, PARAM_TEXT);
 if (!is_null($deploy)) {

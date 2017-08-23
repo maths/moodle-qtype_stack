@@ -828,7 +828,8 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Note, the axes option in Maxima doesn't seem to work.... */
     if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
 set output ", afn),
-    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT),
+    /* Gnuplot only allows alpha-numeric characters in the plot name.  This is a problem with the string function. */
+    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, " name \"STACK auto generated plot\" ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then 

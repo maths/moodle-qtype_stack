@@ -238,14 +238,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                     $local['display'] = str_replace($this->wwwrootfixupfind,
                             $this->wwwrootfixupreplace, $local['display']);
                 }
-                if(preg_match('/<html><svn>!ploturl!(.*)<\/svn><\/html>/', $local['display'],
-                        $matches, PREG_OFFSET_CAPTURE)) {
-                    global $CFG;
-                    $plot = $CFG->dataroot . '/stack/plots/' . clean_filename($matches[1][0]);
-                    $local['display'] = '<html>'.file_get_contents($plot).'</html>';
-                    $local['dispvalue'] = $plot;
-                    $local['value'] = $plot;
-                }
             }
             foreach ($local as $key => $val) {
                 $local[$key] = trim(str_replace('!NEWLINE!', '', $val));

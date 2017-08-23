@@ -809,8 +809,6 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if PLOT_TERMINAL="svg" then
         afn:concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
     ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='450' /></div>"),
-    if PLOT_TERMINAL="svg" then
-        ufn:concat("<svn>", URL_BASE, filename, ".", PLOT_TERMINAL, "</svn>"),
     if OPT_OUTPUT#"MathML" then
       ufn:concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/

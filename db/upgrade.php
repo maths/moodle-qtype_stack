@@ -703,19 +703,6 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016082000, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2017080800) {
-
-        // Define field assumepositive to be added to qtype_stack_options.
-        $table = new xmldb_table('qtype_stack_options');
-        $field = new xmldb_field('assumereal', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assumepositive');
-
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        upgrade_plugin_savepoint(true, 2017080800, 'qtype', 'stack');
-    }
-
     if ($oldversion < 2017060501) {
         // Changing type of field questionnote on table qtype_stack_options to text.
         $table = new xmldb_table('qtype_stack_options');
@@ -727,6 +714,19 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2017060501, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2017082300) {
+
+        // Define field assumepositive to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('assumereal', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'assumepositive');
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 2017082300, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.

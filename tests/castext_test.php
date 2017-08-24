@@ -421,7 +421,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
 
         $this->assertTrue(is_int(strpos($at1->get_display_castext(),
-                ".png' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
+                ".svg' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
     }
 
     public function test_plot_alttext() {
@@ -442,7 +442,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $session = $at1->get_session();
         $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
-        $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".png' alt='Hello World!'")));
+        $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".svg' alt='Hello World!'")));
     }
 
     public function test_plot_alttext_error() {

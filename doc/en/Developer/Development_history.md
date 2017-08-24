@@ -2,6 +2,16 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## STACK 4.0.1
+
+Released August 2017.
+
+This is a bug-fix release, mostly associated with the upgrade process from version 3.X to 4.X.
+
+* Fix a bug in the upgrade script.
+* Fix a bug in the testing procedure in the "question test" script, and improve the way deployed versions are tested.
+* Make SVG the default image format for pictures created by Maxima.  (Old .png code left in place in this release, but no user option to access this functionality.)
+
 ## STACK 4.0
 
 Released August 2017.

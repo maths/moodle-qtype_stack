@@ -12,3 +12,4 @@ To do for version 4.1:
 * Remove hard-coded "not answered" option from Radio input type.
 * (Done) On the questiontestrun page, have options to (a) delete all question variants.
 * (Done) Make SVG the default image format in Maxima generate plots.
+* Enable individual questions to load Maxima libraries.  (See issue #305).

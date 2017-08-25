@@ -101,7 +101,7 @@ $settings->add(new admin_setting_configtext('qtype_stack/plotcommand',
 
 $settings->add(new admin_setting_configtext('qtype_stack/maximalibraries',
         get_string('settingmaximalibraries', 'qtype_stack'),
-        get_string('settingmaximalibraries_desc', 'qtype_stack'), 'stats, distrib, descriptive'));
+        get_string('settingmaximalibraries_desc', 'qtype_stack'), 'stats, distrib, descriptive, simplex'));
 
 $settings->add(new admin_setting_configcheckbox('qtype_stack/casdebugging',
         get_string('settingcasdebugging', 'qtype_stack'),

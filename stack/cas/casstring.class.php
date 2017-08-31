@@ -230,7 +230,7 @@ class stack_cas_casstring {
                 'optimprefix' => true, 'optionset' => true, 'orbit' => true, 'orbits' => true, 'orthopoly_recur' => true,
                 'orthopoly_returns_intervals' => true, 'orthopoly_weight' => true, 'outofpois' => true, 'palette' => true,
                 'parametric_surface' => true, 'pargosper' => true, 'partpol' => true, 'pdf_width' => true, 'permut' => true,
-                'permutation' => true, 'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
+                'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
                 'picturep' => true, 'piechart' => true, 'plot2d' => true, 'plot3d' => true, 'ploteq' => true,
                 'plot_format' => true, 'plot_options' => true, 'plot_real_part' => true, 'plsquares' => true,
                 'pochhammer' => true, 'pochhammer_max_index' => true, 'points_joined' => true,  'polar' => true,

@@ -268,6 +268,7 @@ commonfaclist(l) := block([i, a, ret],
 factorlist(ex) := block([simp:false, ret:"", ex2],
   ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),
+  if safe_op(ex)="-" then ex:first(args(ex)),
   if op(ex)#"*" then
      ret:[ex]
   else

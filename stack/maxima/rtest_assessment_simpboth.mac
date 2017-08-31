@@ -352,5 +352,22 @@ g$
 stackunits_to_product(stackunits(6,NULLUNITS));
 6$
 
-
+factorlist(15); 
+[3,5]$ 
+factorlist(x^2);
+[x]$
+factorlist(x^2-1);
+[x-1,x+1]$
+factorlist(x^2-2);
+[x^2-2]$
+factorlist(-x^2);
+[x]$
+factorlist(1-x^2);
+[x-1,x+1]$
+factorlist(x^2-5*x+6);
+[x-3,x-2]$
+factorlist(-x^2-5*x+6);
+[x-1,x+6]$
+factorlist(x^3-1); 
+[x-1,x^2+x+1]$ 
 

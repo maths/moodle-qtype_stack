@@ -219,7 +219,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
                 $local['error'] = '';
             }
             // If there are plots in the output.
-            $plot = isset($local['display']) ? substr_count($local['display'], '<img') : 0;
+            $plot = isset($local['display']) ? substr_count($local['display'], '!ploturl!') : 0;
             if ($plot > 0) {
                 // Plots always contain errors, so remove.
                 $local['error'] = '';

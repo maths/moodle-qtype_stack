@@ -806,7 +806,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
     /* Sort out the name of the image file and its url. */
     afn:concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
-    ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' /></div>"),
+    if PLOT_TERMINAL="svg" then
+        afn:concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
+    ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='450' /></div>"),
     if OPT_OUTPUT#"MathML" then
       ufn:concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
@@ -824,10 +826,16 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral:append(ral, [grid2d]),
     /* Note, the axes option in Maxima doesn't seem to work.... */
-    preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
+    if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
 set output ", afn),
+    /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
+    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, " ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
-    set_plot_option([gnuplot_preamble, preamble]),
+    if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
+    if PLOT_TERMINAL="svg" then 
+        set_plot_option([gnuplot_svg_term_command, preamble])
+    else 
+        set_plot_option([gnuplot_preamble, preamble]),
     /* Sort out the name and location of temporary Gnuplot files. */
     tfn:concat(filename, ".plt"),
     /* Temporary file is referred to three times.            */
@@ -858,6 +866,7 @@ set output ", afn),
     simp:old_simp,
     return(ufn)
 )$
+
 
 /* ********************************** */
 /* Numerical operations               */
@@ -2727,4 +2736,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017081600$
+stackmaximaversion:2017082400$

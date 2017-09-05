@@ -47,11 +47,6 @@ x-1$
 commonfaclist([x = 6,8]); 
 1$ 
 
-factorlist(15); 
-[3,5]$ 
-factorlist(x^3-1); 
-[x-1,1+x+x^2]$ 
-
 lowesttermsp(x); 
 true$ 
 lowesttermsp(0.5); 

@@ -79,6 +79,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_if_block() {
         $a1 = array('a:true', 'b:is(1>2)', 'c:false');
+        // From iss309.
+        $c = '[[ if test="false" ]]Alpha[[ elif test="true"]]Beta[[ elif test="false"]]Gamma'
+                . '[[ else ]]Delta[[/ if]]';
+
 
         $cases = array(
                 array('[[ if test="a" ]]ok1[[/ if ]]', $a1, true, "ok1"),
@@ -90,6 +94,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('[[ if test="a" ]][[ if test="b" ]]ok7[[/ if ]][[/ if ]]', $a1, true, ""),
                 array('[[ if test="a" ]][[ if test="b" ]]ok8[[else]]OK8[[/ if ]][[/ if ]]', $a1, true, "OK8"),
                 array('[[if test="is(5>3)"]]OK9[[/if]]', $a1, true, "OK9"),
+                array($c . ' ' . $c, $a1, true, "Beta Beta"),
+                array($c . $c, $a1, true, "BetaBeta"),
         );
 
         foreach ($cases as $case) {
@@ -421,7 +427,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
 
         $this->assertTrue(is_int(strpos($at1->get_display_castext(),
-                ".png' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
+                ".svg' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
     }
 
     public function test_plot_alttext() {
@@ -442,7 +448,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
         $session = $at1->get_session();
         $this->assertEquals(array('p', 'caschat0'), $session->get_all_keys());
-        $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".png' alt='Hello World!'")));
+        $this->assertTrue(is_int(strpos($at1->get_display_castext(), ".svg' alt='Hello World!'")));
     }
 
     public function test_plot_alttext_error() {

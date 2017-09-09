@@ -19,7 +19,20 @@ The accessibility features supported by MathJax are given detailed [here](http:/
 
 If the MathJax filter is not available then you can include it in the head of every page by adding additional HTML to every page.  We don't recommend you do this, but have retained this information in the documentation for completeness.
 
-### Option 1: link to external MathJax setup. ###
+### Option 1: install MathJax locally. ###
+
+A local installation may be preferable, e.g., if you want your STACK-equipped Moodle to work off-line, or if you want to try to speed up LaTeX rendering.
+
+1. Download [MathJax](http://www.mathjax.org/)
+2. Unpack the archive and rename folder to "mathjax".
+3. Place the mathjax folder in .../moodle/lib and set appropriate ownership, e.g., `chown -R root.root mathjax`.
+4. Carry out the procedure in Option 1, editing the script above to reflect your path to MathJax. The last line can resemble the following:<br>
+`<script type="text/javascript" src="http://localhost/moodle/lib/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>`
+
+
+### Option 2: link to external MathJax setup. ###
+
+As of August 2017, you can use an external CDN at `cdnjs.cloudflare.com`.
 
 1. Admin -> Appearance -> Additional HTML -> Within HEAD
 2. Put the following script in it and save
@@ -37,7 +50,7 @@ If the MathJax filter is not available then you can include it in the head of ev
 `             }`<br>
 `      });`<br>
 `</script>`<br>
-`<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>`
+`<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>`
 
 Please note the following.
 
@@ -46,19 +59,9 @@ Please note the following.
 * The line `extensions: ['enclose.js'],` enables support for [actuarial notation](../Authoring/Actuarial.md).
 * The line `Macros: { pounds: '{\\it\\unicode{xA3}}', euro: '\\unicode{x20AC}' }` enables support for the UK pounds sign and the Euro symbol in LaTeX using `\pounds` and `\euro` macros respectively.  E.g. \(\pounds\) and \(\euro\).
 
-### Option 2: install MathJax locally. ###
-
-A local installation may be preferable, e.g., if you want your STACK-equipped Moodle to work off-line, or if you want to try to speed up LaTeX rendering.
-
-1. Download [MathJax](http://www.mathjax.org/)
-2. Unpack the archive and rename folder to "mathjax".
-3. Place the mathjax folder in .../moodle/lib and set appropriate ownership, e.g., `chown -R root.root mathjax`.
-4. Carry out the procedure in Option 1, editing the script above to reflect your path to MathJax. The last line can resemble the following:<br>
-`<script type="text/javascript" src="http://localhost/moodle/lib/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>`
-
 ### What about dollar mathematics delimiters? ###  {#delimiters}
 
-Please note that we strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments such as `$...$` and `$$...$$` for inline and displayed mathematics respectively.  
+Please note that we strongly discourage the use of dollar symbols for denoting LaTeX mathematics environments such as `$...$` and `$$...$$` for inline and displayed mathematics respectively.  As of STACK 4.0 use of dollars are officially unsupported.
 The reasons are (1) they do not match, which makes parsing more difficult, and (2) many courses use [currency](../Authoring/CASText.md#currency) which needs this symbol and protecting it is always problematic.
 
 If you have extensive existing materials using these delimiters then we have scripts which will automatically convert them for you.  All fields within existing questions can be converted with the automatic scripts available from

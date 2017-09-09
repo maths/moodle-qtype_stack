@@ -5,7 +5,7 @@ _This list is currently incomplete_.
 More details of our development history is given in the [development track](../Developer/Development_track.md).
 
 * [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh. STACK is the brainchild of Chris Sangwin.
-* [Tim Hunt](http://tjhunt.blogspot.co.uk/)and Time Lowe of the Open University.
+* [Tim Hunt](http://tjhunt.blogspot.co.uk/) and Time Lowe of the Open University.
 * Matti Harjula of Aalto University, Finland.
 * Matti Pauna of the University of Helsinki.
 
@@ -57,11 +57,11 @@ School of Physics, The University of Birmingham
 School of Computing, Information and Mathematical Sciences, The University of the South Pacific
 : Contact [Dhiraj bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
 
-Gymnasium Himmelsthür, Hildesheim, Deutschland
-: Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
+Gymnasium Himmelstherr, Hildesheim, Deutschland
+: Contact [Frank Schuette](mailto:fschuett@gymnasium-himmelsthuer.de)
 
 Universidad Michoacana de San Nicolas de Hidalgo
-: Contcat [V�ctor Hugo Huerta](mailto:v2hugo@gmail.com)
+: Contcat [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
 
 e-MAIO project, Coimbra Institute of Engineering, Portugal
 : Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)

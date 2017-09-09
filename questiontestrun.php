@@ -38,7 +38,6 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
 
-
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 
@@ -168,12 +167,16 @@ if (!$question->has_random_variants()) {
                     new pix_icon('t/delete', stack_string('undeploy')));
         }
 
-        // Bulk test all versions.
-        $bulktester = new stack_bulk_tester();
-        $bulktestresults = $bulktester->qtype_stack_test_question($question, $testscases, $deployedseed, true);
+        $qn = question_bank::load_question($questionid);
+
+        $bulktestresults = array(false, '');
+        if (optional_param('testall', null, PARAM_INT)) {
+            // Bulk test all versions.
+            $bulktester = new stack_bulk_tester();
+            $bulktestresults = $bulktester->qtype_stack_test_question($qn, $testscases, $deployedseed, true);
+        }
 
         // Print out question notes of all deployed versions.
-        $qn = question_bank::load_question($questionid);
         $qn->seed = (int) $deployedseed;
         $cn = $qn->get_context();
         $qunote = question_engine::make_questions_usage_by_activity('qtype_stack', $cn);
@@ -186,12 +189,17 @@ if (!$question->has_random_variants()) {
             $variantdeployed = true;
         }
 
+        $icon = '';
+        if ($bulktestresults[0]) {
+            $icon = $OUTPUT->pix_icon('t/check', stack_string('questiontestspass'));
+        }
         $notestable->data[] = array(
             $choice,
             stack_ouput_castext($qn->get_question_summary()),
-            $OUTPUT->pix_icon('t/check', stack_string('questiontestspass')),
+            $icon,
             $bulktestresults[1]
             );
+        flush();
     }
 
     echo html_writer::table($notestable);
@@ -214,35 +222,48 @@ if (!$variantmatched) {
 }
 
 if ($question->has_random_variants()) {
+    echo html_writer::start_tag('p');
     echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'switchtovariant',
             'action' => new moodle_url('/question/type/stack/questiontestrun.php')));
-    echo html_writer::start_tag('p');
     echo html_writer::input_hidden_params($PAGE->url, array('seed'));
 
-    echo html_writer::tag('label', stack_string('switchtovariant'), array('for' => 'seedfield'));
+    echo stack_string('switchtovariant');
     echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 7,
             'id' => 'seedfield', 'name' => 'seed', 'value' => mt_rand()));
     echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
-
-    echo html_writer::end_tag('p');
     echo html_writer::end_tag('form');
 
-    // Deploy many variants.
     if ($canedit) {
+        // Run tests on all the variants.
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
+            'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams)));
+        echo stack_string('deploytestall');
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
+            'testall' => '1')));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+        echo html_writer::end_tag('form');
+
+        // Deploy many variants.
         echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
                 'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
-        echo html_writer::start_tag('p');
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
-
-        echo html_writer::tag('label', stack_string('deploymany'));
+        echo stack_string('deploymany');
         echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 4,
                 'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => ''));
         echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
-        echo html_writer::tag('label', ' '.stack_string('deploymanynotes'));
+        echo ' ' . stack_string('deploymanynotes');
+        echo html_writer::end_tag('form');
 
-        echo html_writer::end_tag('p');
+        // Undeploy all the variants.
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+        echo stack_string('deployremoveall');
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
+            'undeployall' => 'true')));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
         echo html_writer::end_tag('form');
     }
+    echo html_writer::end_tag('p');
 }
 
 // Display the controls to add another question test.

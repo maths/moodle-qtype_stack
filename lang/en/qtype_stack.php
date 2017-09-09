@@ -101,11 +101,10 @@ $string['feedbackfromprtx'] = '[ Feedback from {$a}. ]';
 $string['feedbackvariables'] = 'Feedback variables';
 $string['feedbackvariables_help'] = 'The feedback variables enable you to manipulate any of the inputs, together with the question variables, prior to traversing the tree.  Variables defined here may be used anywhere else in this tree.';
 $string['feedbackvariables_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/KeyVals.md#Feedback_variables';
-$string['feedbackvariableskeys'] = 'You many not redefine the value of an input within the feedback variables, but you have redefined \'{$a}\'.';
 $string['fieldshouldnotcontainplaceholder'] = '{$a->field} should not contain any [[{$a->type}:...]] placeholders.';
 $string['firstnodemusthavelowestnumber'] = 'The first node must have the lowest number.';
 $string['fixdollars'] = 'Fix dollars';
-$string['fixdollarslabel'] = 'Replace <code>$...$</code> with <code>\(...\)</code> and <code>$$...$$</code> with <code>\[...\]</code> on save.';
+$string['fixdollarslabel'] = 'Replace <code>$...$</code> with <code>\(...\)</code>, <code>$$...$$</code> with <code>\[...\]</code> and <code>@...@</code> with <code>{@...@}</code> on save.';
 $string['fixdollars_help'] = 'This option is useful if are copying and pasting (or typing) TeX with <code>$...$</code> and <code>$$...$$</code> delimiters. Those delimiters will be replaced by the recommended delimiters during the save process.';
 $string['forbiddendoubledollars'] = 'Please use the delimiters <code>\(...\)</code> for inline maths and <code>\[...\]</code> for display maths. <code>$...$</code> and <code>$$...$$</code> are not permitted. There is an option at the end of the form to fix this automatically.';
 $string['forbidfloat'] = 'Forbid float';
@@ -368,7 +367,7 @@ $string['settingplatformmaximacommand_desc'] = 'For Platform type: Server, this 
 $string['settingplatformplotcommand'] = 'Plot command';
 $string['settingplatformplotcommand_desc'] = 'Normally this can be left blank, but if graph plotting is not working, you may need to supply the full path to the gnuplot command here.';
 $string['settingreplacedollars'] = 'Replace <code>$</code> and <code>$$</code>';
-$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to user the \'Fix maths delimiters\' script which is referred to below.';
+$string['settingreplacedollars_desc'] = 'Replace <code>$...$</code> and <code>$$...$$</code> delimiters in question text, in addition to <code>\\\\[...\\\\]</code> and <code>\\\\(...\\\\)</code>. A better option is to use the \'Fix maths delimiters\' script which is referred to below.';
 $string['settingserveruserpass'] = 'Server username:password';
 $string['settingserveruserpass_desc'] = 'If you are using Platform type: Server, and if you have set up your Maxima pool server with HTTP authentication, then you can put the username and password here. That is slighly safer than putting them in the URL. The format is username:password.';
 $string['settingusefullinks'] = 'Useful links';
@@ -385,6 +384,7 @@ $string['replacedollarsindexintro'] = 'Clicking on any of the links will take yo
 $string['replacedollarsindextitle'] = 'Replace $s in question texts';
 $string['replacedollarsnoproblems'] = 'No problem delimiters found.';
 $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
+$string['replacedollarserrors'] = 'The following questions generated errors.';
 
 // Strings used by the bulk run question tests script.
 $string['bulktestcontinuefromhere'] = 'Run again or resume, starting from here';
@@ -415,8 +415,10 @@ $string['deploymany'] = 'Attempt to automatically deploy the following number of
 $string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" variants.';
 $string['deploytoomanyerror'] = 'STACK will try to deploy up to at most 100 new variants in any one request.  No new variants deployed.';
 $string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
-$string['deploymanynotes'] = 'Note, STACK will give up if there are 3 failed attempts to generate a new question note, or when one question test fails.';
+$string['deploymanynotes'] = 'Note, STACK will give up if there are 10 failed attempts to generate a new question note, or when one question test fails.';
 $string['deploymanysuccess'] = 'Number of new variants successfully created, tested and deployed: {$a->no}.';
+$string['deployremoveall'] = 'Undeploy all variants: ';
+$string['deploytestall'] = 'Run all tests on all deployed variants (slow): ';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
 $string['editthistestcase'] = 'Edit this test case...';
 $string['expectedanswernote'] = 'Expected answer note';
@@ -486,12 +488,12 @@ $string['healthchecklatexmathjax'] = 'STACK relies on the Moodle MathJax filter.
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
-$string['healthchecksamplecas'] = 'The derivative of @ x^4/(1+x^4) @ is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = @ diff(x^4/(1+x^4),x) @. \]';
+$string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]';
 $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
-$string['healthchecksampleplots'] = 'Two example plots below.  @plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@ @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@  A third plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) @plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3])@';
+$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3])@}';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
@@ -515,7 +517,7 @@ $string['healthautomaxopt_notok'] = 'Maxima image not created automatically.';
 $string['healthautomaxopt_nolisp'] = 'Unable to determine LISP version, so Maxima image not created automatically.';
 $string['healthautomaxopt_nolisprun'] = 'Unable to automatically locate lisp.run.  Try "sudo updatedb" from the command line and refer to the optimization docs.';
 $string['healthcheckcreateimage'] = 'Create Maxima image';
-$string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>\(...\)</code> and <code>\[...\]</code>.';
+$string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>@...@</code>, <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>{@...@}</code>, <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
 $string['stackInstall_testsuite_intro'] = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';
@@ -594,12 +596,18 @@ $string['stackCas_allFailed']               = 'CAS failed to return any evaluate
 $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 $string['stackCas_failedReturnOne']         = 'CAS failed to return some data.';
 
+// Used in keyval.class.php.
+$string['stackCas_inputsdefined']           = 'You may not use input names as variables.  You have tried to define <code>{$a}</code>';
+
 // Used in castext.class.php.
-$string['stackCas_tooLong']                 = 'CASText statement is too long. ';
 $string['stackCas_MissingAt']               = 'You are missing a <code>@</code> sign. ';
 $string['stackCas_MissingDollar']           = 'You are missing a <code>$</code> sign. ';
 $string['stackCas_MissingString']           = 'You are missing a quotation sign <code>"</code>. ';
 $string['stackCas_StringOperation']         = 'A string appears to be in the wrong place. This is the issue: <code>{$a->issue}</code>. ';
+$string['stackCas_MissingOpenTeXCAS']       = 'Missing <code>{@</code>. ';
+$string['stackCas_MissingClosingTeXCAS']    = 'Missing <code>@}</code>. ';
+$string['stackCas_MissingOpenRawCAS']       = 'Missing <code>{#</code>. ';
+$string['stackCas_MissingClosingRawCAS']    = 'Missing <code>#}</code>. ';
 $string['stackCas_MissingOpenDisplay']      = 'Missing <code>\[</code>. ';
 $string['stackCas_MissingCloseDisplay']     = 'Missing <code>\]</code>. ';
 $string['stackCas_MissingOpenInline']       = 'Missing <code>\(</code>. ';
@@ -610,6 +618,15 @@ $string['stackCas_failedValidation']        = 'CASText failed validation. ';
 $string['stackCas_invalidCommand']          = 'CAS commands not valid. ';
 $string['stackCas_CASErrorCaused']          = 'caused the following error:';
 
+// Used in blocks.
+$string['stackBlock_ifNeedsCondition']       = 'If-block needs a test attribute. ';
+$string['stackBlock_escapeNeedsValue']       = 'Escape-block needs a value attribute. ';
+$string['stackBlock_unknownBlock']           = 'The following block is unknown: ';
+$string['stackBlock_missmatch']              = 'has no match. ';
+$string['stackBlock_else_out_of_an_if']      = '"else" cannot exist outside an if block.';
+$string['stackBlock_elif_out_of_an_if']      = '"elif" cannot exist outside an if block.';
+$string['stackBlock_multiple_else']          = 'Multiple else branches in an if block.';
+$string['stackBlock_elif_after_else']        = '"elif" after an "else" in an if block.';
 $string['unrecognisedfactstags']            = 'The following facts tag(s) are not recognized: {$a->tags}.';
 $string['stackHintOld']                     = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
 

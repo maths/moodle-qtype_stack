@@ -1,19 +1,49 @@
-# History of previous versions of STACK
+# STACK Development History
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## STACK 4.0.1
+
+Released August 2017.
+
+This is a bug-fix release, mostly associated with the upgrade process from version 3.X to 4.X.
+
+* Fix a bug in the upgrade script.
+* Fix a bug in the testing procedure in the "question test" script, and improve the way deployed versions are tested.
+* Make SVG the default image format for pictures created by Maxima.  (Old .png code left in place in this release, but no user option to access this functionality.)
+
+## STACK 4.0
+
+Released August 2017.
+
+**STACK 4.0 represents a major release of STACK and is a non-reversible change, with important differences which break back-compatability.**
+
+Note that much of the underlying code in this development have been used at Aalto for many years, with complex questions.  We believe these are battle tested improvements in the functionality.
+
+STACK 4.0 includes the block features and other important changes in CASText.
+
+* To generate the LaTeX displayed form of a CAS variable in castext you must use `{@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
+* To generate the Maxima value of a CAS variable in castext you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
+* CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks.md).
+
+Other changes.
+
+* The question note is no longer limited in size.
+* Mathematics in LaTeX can no longer be supported with `$..$` or `$$..$$`.  This useage has been discouraged for many years, and we have a long-standing "fix" script to convert from dollars to the forms `\(..\)` and `\[..\]`.
+* Remove the artificial limit on the size of CASText.  We now rely on surrounding limits, like POST requests and database limits.  This may result in ugly errors, but we need larger limits to accommodate interactive elements embedded into text fields.
+
 ## STACK 3.6
 
-Released July 2017. 
+Released July 2017.
 
-New features and enhancements in this release.
+This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../CAS/Equivalence_reasoning.md).
+
+Other new features and enhancements in this release.
 
 * Modify the text area input so that each line is validated separately.
 * Add a "scratch working" input type in which students can record their thinking etc. alongside the final answer.
 * Support for intervals in STACK, using the Maxima syntax `oo(a,b)` for an open inteval \((a,b)\), `cc(a,b)` for an open inteval \([a,b]\) and `oc(a,b)`, `co(a,b)` for the half open intervals.
 * Much better support for solving and dealing with single variable inequalities.
-
-This release developed the first version of an input to assess line by line "reasoning by equivalence" input.  See the documentation on [equivalence reasoning](../CAS/Equivalence_reasoning.md).
 
 ## Version 3.5.7
 
@@ -37,7 +67,7 @@ Note, many of these changes have resulted in stricter rules on the acceptability
 1 You can no longer have a feedback variable, or a question variable, with a name that is the same as an input.
 2. `log10` function and `log_b` functions are now handled by STACK, by manipulating the CAS string before it is sent to Maxima. Therefore, if your question previously defined a function with names like that, it will now break.
 3. Variable names with a digit in the middle `eqn1gen` no longer work. (They should never have been used, but used not to break quesitons.)
-4. Previously, unnecessary `\` in CAS text were ignored. E.g. if you have a question variable called `vangle2` then `@\vangle2@` used to work, it does not any more.
+4. Previously, unnecessary `\` in CAS text were ignored. E.g. if you have a question variable called `vangle2` then `{@\vangle2@}` used to work, it does not any more.
 
 ## Version 3.5.5
 

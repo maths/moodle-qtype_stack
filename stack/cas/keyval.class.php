@@ -73,7 +73,7 @@ class stack_cas_keyval {
         }
     }
 
-    private function validate() {
+    private function validate($inputs) {
         if (empty($this->raw) or '' == trim($this->raw)) {
             $this->valid = true;
             return true;
@@ -120,18 +120,32 @@ class stack_cas_keyval {
         $this->session->add_vars($vars);
         $this->valid       = $this->session->get_valid();
         $this->errors      = $this->session->get_errors();
+        // Prevent reference to inputs in the values of the question variables.
+        if (is_array($inputs)) {
+            $keys = $this->session->get_all_keys();
+            foreach ($keys as $key) {
+                if (in_array($key, $inputs)) {
+                    $this->valid = false;
+                    $this->errors .= stack_string('stackCas_inputsdefined', $key);
+                }
+            }
+        }
     }
 
-    public function get_valid() {
-        if (null === $this->valid) {
-            $this->validate();
+    /*
+     * @array $inputs Holds an array of the input names which are forbidden as keys.
+     * @bool $inputstrict Decides if we should forbid any reference to the inputs in the values of variables.
+     */
+    public function get_valid($inputs = null) {
+        if (null === $this->valid || is_array($inputs)) {
+            $this->validate($inputs);
         }
         return $this->valid;
     }
 
     public function get_errors($casdebug=false) {
         if (null === $this->valid) {
-            $this->validate();
+            $this->validate(null);
         }
         if ($casdebug) {
             return $this->errors.$this->session->get_debuginfo();
@@ -141,7 +155,7 @@ class stack_cas_keyval {
 
     public function instantiate() {
         if (null === $this->valid) {
-            $this->validate();
+            $this->validate(null);
         }
         if (!$this->valid) {
             return false;
@@ -152,7 +166,7 @@ class stack_cas_keyval {
 
     public function get_session() {
         if (null === $this->valid) {
-            $this->validate();
+            $this->validate(null);
         }
         return $this->session;
     }

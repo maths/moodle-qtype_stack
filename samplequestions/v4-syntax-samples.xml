@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 37  -->
+  <question type="stack">
+    <name>
+      <text>Blocks</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>With v4.0 of STACK the CASText parts of the question gain <i>blocks</i> which allow the text to contain segments that are evaluated further and which may have parameters that define their behaviour. Those parameters and the contents of the blocks can naturally contain values evaluated by the CAS and even randomisation. The block system is extensible and may receive various new features in the future but for start the initial set of blocks should already allow new things to be done in question authoring.</p>
+
+<p>In general when authoring questions with blocks or for example JavaScript one should turn of the WYSIWYG editor in ones Moodle user preferences and start using the plain text area as it tends to respect white space and line changes and does not try to be helpful. One should also know that opening and saving questions using JavaScript in WYSIWYG editors may break them, blocks will survive WYSIWYG editors but may pick up extra line changes and spaces which may make the questions look less than perfect.</p>
+
+<br/>
+
+<h5>The <code>[[escape value="[[ if test='...' ]]...[[/ if ]]"/]]</code>-block</h5>
+<p>The simplest of the blocks is the if-block which takes the value given to it in the argument named 'test' and gives it to the CAS to be evaluated and if and only if the argument evaluates to the value 'true' will the block evaluate to the value of its contents otherwise it will simply disappear. To complicate things the contents of the if-block may have been divided to multiple branches by including <code>[[escape value="[[ elif test='...' ]]"/]]</code> and <code>[[escape value="[[ else ]]"/]]</code> style dividers into the blocks contents. Those branches will only fire if all the branches before them have been 'false', should any argument not evaluate to 'true' or 'false' then the matching branch and all branches after it will remain hidden as unknown values will break the raw logic of the block.</p>
+
+<table>
+<tr><th>Example</th><th>Result</th></tr>
+<tr><td><code style="display:block;white-space: pre-wrap;"> [[escape value="[[ if test='oddp(1)' ]]1 is odd [[/ if ]]" /]]
+[[escape value='[[ if test="evenp(1)" ]]1 is even [[/ if ]]'/]]</code></td>
+<td><code "display:block;white-space: pre-wrap;">[[ if test='oddp(1)' ]]1 is odd [[/ if ]]
+[[ if test="evenp(1)" ]]1 is even [[/ if ]]
+</code></td></tr>
+<tr><td><code style="display:block;white-space: pre-wrap;">[[escape value="[[ if test='oddp(2)' ]]2 is odd [[ else ]]2 is even[[/ if ]]" /]]</td>
+<td><code "display:block;white-space: pre-wrap;">[[ if test='oddp(2)' ]]2 is odd [[ else ]]2 is even[[/ if ]]</code></td></tr>
+<tr><td><code style="display:block;white-space: pre-wrap;"> [[escape value="[[ define x='2'/]]
+[[ if test='is(x>2)']]
+{@x@} is larger than 2.
+[[ elif test='is(x<2)']]
+{@x@} is smaller than 2.
+[[ else ]]
+  [[ if test='oddp(x)' ]]
+  {@x@} is odd.
+  [[ else ]]
+  {@x@} is even.
+  [[/ if ]]
+[[/ if ]]" /]]</td>
+<td><code "display:block;white-space: pre-wrap;"> [[ define x='2'/]]
+[[ if test='is(x>2)']]
+{@x@} is larger than 2.
+[[ elif test='is(x<2)']]
+{@x@} is smaller than 2.
+[[ else ]]
+[[ if test='oddp(x)' ]]
+{@x@} is odd.
+[[ else ]]
+{@x@} is even.
+[[/ if ]]
+[[/ if ]]</code></td></tr>
+</table>
+
+<p>The if-block has been designed to be used in the general feedback or model solution context to point out short cuts or pitfalls present for the current values of the random parameters of the question. But naturally, like all the blocks you may use it in the question text and PRT-feedback as well. In PRT-feedback you may actually reference the students inputs as well.</p>
+
+<br/>
+
+<h5>The <code>[[escape value="[[ foreach ...='...' ]]...[[/ foreach ]]"/]]</code>-block</h5>
+<p>The foreach-block is designed for repeating its contents for each element of a given list or a set. To use it construct a list or a set and give it as a parameter to the block the name of the parameter defines the variable to which the block places the current element when iterating. You may also give multiple parameters with different lists and the block will iterate them all in parallel.</p>
+<p>You may nest multiple foreach-blocks but note that each level of nesting leads to one extra evaluation cycle when instantiating the CASText and those cycles cost time.</p>
+
+
+<table>
+<tr><th>Example</th><th>Result</th></tr>
+<tr><td><code style="display:block;white-space: pre-wrap;">[[ escape value="[[ foreach k='[1,2,3]' ]]{#k#},[[/foreach]]"/]]</code></td>
+<td><code "display:block;white-space: pre-wrap;">[[ foreach k='[1,2,3]' ]]{#k#},[[/foreach]]
+</code></td></tr>
+<tr><td><code style="display:block;white-space: pre-wrap;">[[ escape value="[[ foreach k='[1,2,3]' l='makelist(x^3,x,3)' ]]
+({#k#},{#l#}),
+[[/foreach]]" /]]</code></td>
+<td><code "display:block;white-space: pre-wrap;">[[ foreach k='[1,2,3]' l='makelist(x^3,x,3)' ]]
+({#k#},{#l#}),
+[[/foreach]]</code></td></tr>
+<tr><td><code style="display:block;white-space: pre-wrap;"> [[ escape value="&lt;table>
+[[ foreach row='args(matrix([1,2],[3,4]))']]
+  &lt;tr>
+  [[ foreach c='row']]
+    &lt;td>
+    [[ if test='oddp(c)']]&lt;b>{#c#}&lt;/b>[[ else ]]{#c#}[[/if]]
+    &lt;/td>
+  [[/foreach ]]
+  &lt;/tr>
+[[/foreach ]]
+&lt;/table>" /]]</code></td>
+<td><table>
+[[ foreach row='args(matrix([1,2],[3,4]))']]
+<tr>
+[[ foreach c='row']]
+<td>
+[[ if test="oddp(c)"]]<b>{#c#}</b>[[ else ]]{#c#}[[/if]]
+</td>
+[[/foreach ]]
+</tr>
+[[/foreach ]]
+</table></td></tr>
+
+</table>
+
+<br/>
+
+<h5>Other blocks</h5>
+<p><code>[[ escape value="[[ debug /]]" /]]</code>, <code>[[ escape value="[[ define ...='...' /]]" /]]</code> and <code>[[ escape value="[[ escape value="..." /]]" /]]</code> blocks provide other tools for those special cases where you need to do something complex. In general you should not need them but try to remember them they may solve some problem at some point.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+  </question>
+
+<!-- question: 36  -->
+  <question type="stack">
+    <name>
+      <text><![CDATA[Presenting "strings"]]></text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>STACKs support for "strings" has improved during the last few years and the use of textual values e.g. in MCQ options has led to more use cases becoming apparent. However, as inputting "strings" to Maxima requires some escaping to be done like in most programming languages and as that escaping slightly differs from the escaping used in the other languages used (e.g. (X)HTML, JavaScript) when authoring STACK questions there are certain things one needs to note.</p>
+
+<p>Presenting how a string should be inputted is the easiest part as it uses the same logic as mathematical expressions. Just use the <code>[[escape value="{#expression#}"/]]</code>-syntax, note that it will also output the wrapping "-chars for the string:</p>
+
+<table>
+<tr><th><code>[[escape value="{@str@}"/]]</code></th><th><code>[[escape value="{#str#}"/]]</code></th></tr>
+<tr><td><code>{@teststring1@}</code></td><td><code>{#teststring1#}</code></td></tr>
+<tr><td><code>{@teststring2@}</code></td><td><code>{#teststring2#}</code></td></tr>
+<tr><td><code>{@teststring3@}</code></td><td><code>{#teststring3#}</code></td></tr>
+<tr><td><code>{@teststring4@}</code></td><td><code>{#teststring4#}</code></td></tr>
+</table>
+
+<p>When mixing "strings" with (X)HTML or JavaScript you need to note the special escapes those languages need, STACK provides two functions <code>str_to_html(str)</code> and <code>str_to_js(str)</code> that do the escaping and entity conversions so that one can simply output the string where needed.</p>
+
+
+<!-- Note. that for display reasons we actually escape the HTML-output twice to show that we escaped it... In practical use (e.g. attribute values for 'style' or such) you probably only want to escape it once. -->
+<table>
+<tr><th><code>[[escape value="{@str_to_html(str)@}"/]]</code></th><th><code>[[escape value="{@str_to_js(str)@}"/]]</code></th></tr>
+<tr><td><code>{@str_to_html(str_to_html(teststring1))@}</code></td><td><code>{@str_to_js(teststring1)@}</code></td></tr>
+<tr><td><code>{@str_to_html(str_to_html(teststring2))@}</code></td><td><code>{@str_to_js(teststring2)@}</code></td></tr>
+<tr><td><code>{@str_to_html(str_to_html(teststring3))@}</code></td><td><code>{@str_to_js(teststring3)@}</code></td></tr>
+<tr><td><code>{@str_to_html(str_to_html(teststring4))@}</code></td><td><code>{@str_to_js(teststring4)@}</code></td></tr></table>
+
+<p>Note! Moodles output filtering does often handle &, < and other such characters that have special meanings in HTML automatically in the textual content of HTML-output but when you wish to push those characters  to attributes or more complex code you will need to do these messy things yourself.</p>
+
+<p>Also remember that while you may construct complex "strings" at the CAS level some things may be better left to the CASText level. While some "string" trickery may be necessary when dealing with randomly generated options for MCQ questions generally one should try to leave the textual content of the question outside of the CAS, both of the following examples generate the same output but the later one is the preferred one:</p>
+<ul>
+<li><code>[[ escape value='{@sconcat("The derivative of \\(f(x)\\) is \\(", tex1(diff(f(x),x)), "\\).")@}' /]]</code></li>
+<li><code>[[ escape value="The derivative of {@'f(x)@} is {@diff(f(x),x)@}." /]]</code></li>
+</ul>
+
+<p>Note that if you need to build the output conditionally or loop over something there are new tools for those tasks and you generally do not need to do that at CAS-level. Check the other examples in the question set for those.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text><![CDATA[teststring1: "abcd...XYZÅÄÖ";
+teststring2: "Quotes in \"strings\": 'test'";
+teststring3: "\\LaTeX like this \\frac{a}{b}";
+teststring4: "& < >";
+
+f(x):=x^2+sin(x)]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text></text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+  </question>
+
+</quiz>

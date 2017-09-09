@@ -4,7 +4,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-## Features to add for STACK 3.6 or later ##
+## Features to add for STACK 4.1 or later ##
 
 ### Units Inputs ###
 
@@ -17,7 +17,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Inputs ###
 
-* (underway) Reasoning by equivalence input type.
 * Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * Add new input types
  1. Dragmath (actually, probably use javascript from NUMBAS instead here, or the MathDox editor).
@@ -28,7 +27,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   This might offer one option:  http://stackoverflow.com/questions/23818478/html-input-field-within-a-mathjax-tex-equation
 * In the MCQ input type: Add choose N (correct) from M feature (used at Aalto).
 * A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
-* We need to add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
+* Add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
 * Make the syntax hint CAS text, to depend on the question variables.
 
 
@@ -46,7 +45,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Implement "Banker's rounding" option which applies over a whole question, and for all answer tests.
 * Implement "CommaError" checking for CAS strings.  Make comma an option for the decimal separator.
 * Implement "BracketError" option for inputs.  This allows the student's answer to have only those types of parentheses which occur in the teacher's answer.  Types are `(`,`[` and `{`.  So, if a teacher's answer doesn't have any `{` then a student's answer with any `{` or `}` will be invalid.
-* Enable individual questions to load Maxima libraries.
 * It would be very useful to have finer control over the validation feedback. For example, if we have a polynomial with answer boxes for the coefficients, then we should be able to echo back "Your last answer was..." with the whole polynomial, not just the numbers.
 * Make the mark and penalty fields accept arbitrary maxima statements.
 * Decimal separator, both input and output.
@@ -59,6 +57,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
  3. Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).
 * Make the PRT Score element CAS text, so that a value calculated in the "Feedback variables" could be included here.
 * Refactor the STACK return object in maxima as a structure. ` ? defstruct`.  Note that `@` is the element access operator.
+* Refector blocks parser so that evaluation of anything inside a comment block is ignored, this will allow it to contain contents are syntactically incorrect, e.g. mismatched blocks.
 
 ## Features that might be attempted in the future - possible self contained projects ##
 

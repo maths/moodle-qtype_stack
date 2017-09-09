@@ -1,0 +1,19 @@
+While one can always add and remove blocks in this directory. It is unwise to remove the core blocks:
+
+- define.block.php is required for the implementation of both "if" and "foreach" blocks, it also provides
+  the "define" block which has its own use.
+
+- if.block.php while the "if" block is not required by any of the other core blocks it has obvious uses and is expected to be a requirement for any future blocks.
+
+- foreach.block.php the same applies to the "foreach" block.
+
+- latex.block.php should the latex block be removed the system will lose the ability to handle "{@...@}" syntax
+  and as that is a core requirement it will break due to somewhat static binding to this block.
+
+- raw.block.php should the raw block be removed the system will lose the ability to handle "{#...#}" syntax
+  and as that is a core requirement it will break due to somewhat static binding to this block.
+
+
+Basically, you may dumb down the system by dropping the control structure type blocks but why would you do so?
+
+The name of the file defines the name of the block, except for "latex" and "raw" blocks which do not actually work as "[[raw]]...[[/raw]]" and act slightly differently all the way from tokeniser level upwards.

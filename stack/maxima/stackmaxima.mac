@@ -32,6 +32,7 @@ stack_reset(rand_seed) := block(
   simpsum:true,
   negdistrib:true,  /* When negdistrib is true, -1 distributes over an expression. E.g., -(x + y) becomes - y - x. */
   display2d:false,
+  linel:2047,
   nolabels:true,
   logabs:true,
   exptdispflag:true,
@@ -262,6 +263,55 @@ rand_range([ex]) := block(
   if not(integerp(ex[3])) then error("rand_range expects its first argument to be an integer."),
   if is(length(ex)=3) then return(ev(ex[1]+ex[3]*rand(floor((ex[2]-ex[1])/ex[3])), simp))
 );
+
+/* Helper function for constructing MCQ arrays. */
+multiselqn(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
+  if not(listp(corbase)) then error("multiselqn: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqn: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqn: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqn: forth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqn: you have asked for more correct responses than are supplied in the list!"),
+
+  ta1:maplist(lambda([ex], [ex, true]), rand_selection(corbase, numcor)),
+  ta2:maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, numwrong)),
+  ta:random_permutation(append(ta1, ta2)),
+  version:map(first, ta),
+  return([ta, version])
+)$
+
+/* Helper function for constructing MCQ arrays where the values should not be shown to students. */
+multiselqndisplay(corbase, numcor, wrongbase, numwrong):=block([ta1, ta2, ta, version],
+  if not(listp(corbase)) then error("multiselqndisplay: first argument must be a list."),
+  if not(listp(wrongbase)) then error("multiselqndisplay: third argument must be a list."),
+  if not(integerp(numcor)) then error("multiselqndisplay: second argument must be an integer."),
+  if not(integerp(numwrong)) then error("multiselqndisplay: forth argument must be an integer."),
+  if length(corbase)<numcor then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
+  if length(wrongbase)<numwrong then error("multiselqndisplay: you have asked for more correct responses than are supplied in the list!"),
+
+  corbase:zip_with("[", ev(makelist(k,k,1,length(corbase)),simp), corbase),
+  wrongbase:zip_with("[", ev(makelist(k,k,1+length(corbase),1+length(corbase)+length(wrongbase)),simp), wrongbase),
+  ta1:maplist(lambda([ex], [first(ex), true, second(ex)]), rand_selection(corbase, numcor)),
+  ta2:maplist(lambda([ex], [first(ex), false, second(ex)]), rand_selection(wrongbase, numwrong)),
+  ta:random_permutation(append(ta1, ta2)),
+  version:map(first, ta),
+  return([ta, version])
+)$
+
+/* Helper functions for MCQ arrays. */
+mcq_correct(ta):=block(
+    if not(listp(ta)) then error("mcq_correct: first argument must be a list, but was passed: ", string(ta)),
+    if not(all_listp(listp, ta)) then error("mcq_correct: all list elements must be lists, but was passed: ", string(ta)),
+    if not(all_listp(lambda([ex], is(length(ex)>=2)), ta)) then error("mcq_correct: all list elements must be lists of length at least 2, but was passed: ", string(ta)),
+    maplist(first, sublist(ta, lambda([ex], second(ex))))
+)$
+
+mcq_incorrect(ta):=block(
+    if not(listp(ta)) then error("mcq_incorrect: first argument must be a list, but was passed: ", string(ta)),
+    if not(all_listp(listp, ta)) then error("mcq_incorrect: all list elements must be lists, but was passed: ", string(ta)),
+    if not(all_listp(lambda([ex], is(length(ex)>=2)), ta)) then error("mcq_incorrect: all list elements must be lists of length at least 2, but was passed: ", string(ta)),
+    maplist(first, sublist(ta, lambda([ex], not(second(ex)))))
+)$
 
 /* ********************************** */
 /* Display                            */
@@ -756,7 +806,9 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
     /* Sort out the name of the image file and its url. */
     afn:concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
-    ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' /></div>"),
+    if PLOT_TERMINAL="svg" then
+        afn:concat(IMAGE_DIR, filename, ".", PLOT_TERMINAL),
+    ufn:concat("<div class=\"stack_plot\"><img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", alttext, "' width='450' /></div>"),
     if OPT_OUTPUT#"MathML" then
       ufn:concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
@@ -774,10 +826,16 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral:append(ral, [grid2d]),
     /* Note, the axes option in Maxima doesn't seem to work.... */
-    preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
+    if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, "
 set output ", afn),
+    /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
+    if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, " ", PLOT_TERM_OPT),
     if plotdebug then print(preamble),
-    set_plot_option([gnuplot_preamble, preamble]),
+    if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
+    if PLOT_TERMINAL="svg" then 
+        set_plot_option([gnuplot_svg_term_command, preamble])
+    else 
+        set_plot_option([gnuplot_preamble, preamble]),
     /* Sort out the name and location of temporary Gnuplot files. */
     tfn:concat(filename, ".plt"),
     /* Temporary file is referred to three times.            */
@@ -808,6 +866,7 @@ set output ", afn),
     simp:old_simp,
     return(ufn)
 )$
+
 
 /* ********************************** */
 /* Numerical operations               */
@@ -1510,7 +1569,7 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     SAP:ev(single_variable_solver_real(SA), simp),
     SBP:ev(single_variable_solver_real(SB), simp),
     if (debug) then print("ATLogic_to_poly_solver: [", string(SAP), " | ", string(SBP), "]"),
-    if SAP=SBP then 
+    if SAP=SBP then
         return([true, true, "ATLogic_Solver_True", ""]),
     SAP:ev(logic_to_poly(SA), simp),
     SBP:ev(logic_to_poly(SB), simp),
@@ -2677,4 +2736,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2017080800$
+stackmaximaversion:2017082400$

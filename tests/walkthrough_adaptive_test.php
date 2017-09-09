@@ -630,7 +630,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_prt_feedback('oddeven');
         $this->check_output_does_not_contain_stray_placeholders();
         $this->assertContentWithMathsContains('Your answer is not an even function. Look,'
-                .' \[ f(x)-f(-x)=2\\cdot x \neq 0.\]', $this->currentoutput);
+                .' \[ f(x)-f(-x)={2\\cdot x} \neq 0.\]', $this->currentoutput);
 
         // Score ans3 => 'x'. (put it an ans1 to validate, to force the creation of a new step.)
         $this->process_submission(array('ans3' => 'x', 'ans3_val' => 'x', 'ans1' => 'x', '-submit' => 1));

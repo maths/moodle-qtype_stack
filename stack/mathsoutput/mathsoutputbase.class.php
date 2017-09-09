@@ -108,14 +108,41 @@ abstract class stack_maths_output {
             $displayend   = '<ins>\]</ins>';
             $inlinestart  = '<ins>\(</ins>';
             $inlineend    = '<ins>\)</ins>';
+            $v4start      = '<ins>{@</ins>';
+            $v4end        = '<ins>@}</ins>';
         } else {
             $displaystart = '\[';
             $displayend   = '\]';
             $inlinestart  = '\(';
             $inlineend    = '\)';
+            $v4start      = '{@';
+            $v4end        = '@}';
         }
         $text = preg_replace('~(?<!\\\\)\$\$(.*?)(?<!\\\\)\$\$~', $displaystart . '$1' . $displayend, $text);
         $text = preg_replace('~(?<!\\\\)\$(.*?)(?<!\\\\)\$~', $inlinestart . '$1' . $inlineend, $text);
+
+        $temp = stack_utils::all_substring_between($text, '@', '@', true);
+        $i = 0;
+        foreach ($temp as $cmd) {
+            $pos = strpos($text, '@', $i);
+            $post = false;
+            while (!$post) {
+                $post = strpos($text, '@', $pos + 1);
+                if (strpos($text, $cmd, $pos) > $post || trim(substr($text, $pos + 1, $post - $pos - 1)) != $cmd) {
+                    $pos = $post;
+                    $post = false;
+                } else {
+                    $post = $post + 1;
+                }
+            }
+            $front = $pos > 0 && $text[$pos - 1] == '{';
+            $back = $post < strlen($text) && $text[$post] == '}';
+            if (!($front && $back)) {
+                $text = substr($text, 0, $pos) . $v4start . trim($cmd) . $v4end . substr($text, $post);
+            }
+            $i = $pos + strlen($v4start);
+        }
+
         return $text;
     }
 }

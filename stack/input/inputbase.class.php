@@ -288,6 +288,14 @@ abstract class stack_input {
         return stack_string('teacheranswershow_disp', array('display' => '\( '.$display.' \)'));
     }
 
+    /* Convert an expression starting with a stackeq to an equals sign. */
+    protected function stackeq_to_equals($val) {
+        if (substr(trim($val), 0, 8) == 'stackeq(') {
+            $val = '= ' . substr(trim($val), 8, -1);
+        }
+        return $val;
+    }
+
     /**
      * Validate any attempts at this question.
      *

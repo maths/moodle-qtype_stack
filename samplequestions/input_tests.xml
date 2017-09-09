@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 1  -->
+<!-- question: 0  -->
+  <question type="category">
+    <category>
+        <text>$course$/Default for scratch/input_samples</text>
+
+    </category>
+  </question>
+
+<!-- question: 7  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Type in @ta@.<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+      <text><![CDATA[<p>Type in {@ta@}.<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -25,6 +33,7 @@
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -92,7 +101,7 @@
     </prt>
   </question>
 
-<!-- question: 2  -->
+<!-- question: 8  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -117,6 +126,7 @@
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -328,13 +338,13 @@
     </prt>
   </question>
 
-<!-- question: 3  -->
+<!-- question: 9  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Differentiate @p@ with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+      <text><![CDATA[<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -360,6 +370,7 @@ ta:append(ta,[tao]);]]></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -427,13 +438,13 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 4  -->
+<!-- question: 10  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Differentiate @p@ with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+      <text><![CDATA[<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -457,10 +468,11 @@ ta:append(ta,[tao]);]]></text>
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote>
-      <text>@ta@</text>
+      <text>{@ta@}</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -528,13 +540,13 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 5  -->
+<!-- question: 11  -->
   <question type="stack">
     <name>
       <text>Equiv input test</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Solve @p@.<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+      <text><![CDATA[<p>Solve {@p@}.<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[<p>sangwinc<br></p>]]></text>
@@ -555,6 +567,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -622,13 +635,13 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </prt>
   </question>
 
-<!-- question: 6  -->
+<!-- question: 12  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Type in @M@<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+      <text><![CDATA[<p>Type in {@M@}<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -647,6 +660,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -714,13 +728,13 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </prt>
   </question>
 
-<!-- question: 7  -->
+<!-- question: 13  -->
   <question type="stack">
     <name>
       <text>Notes</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Show your working in this box! \(x\).<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+      <text><![CDATA[<p>Show your working in this box!<br></p><p>[[input:ans1]] [[validation:ans1]]</p><p>[This input is not automatically assessed.]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -739,6 +753,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -806,13 +821,13 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </prt>
   </question>
 
-<!-- question: 8  -->
+<!-- question: 14  -->
   <question type="stack">
     <name>
       <text>Radio</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>Differentiate @p@ with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+      <text><![CDATA[<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -838,6 +853,7 @@ ta:append(ta,[tao]);]]></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -905,7 +921,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 9  -->
+<!-- question: 15  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -930,6 +946,7 @@ ta:append(ta,[tao]);]]></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -997,13 +1014,13 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 10  -->
+<!-- question: 16  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[Dummy maths input:&nbsp; \(@ta@\).<br>[[input:ans1]] [[validation:ans1]]]]></text>
+      <text><![CDATA[<p>Dummy maths input:&nbsp; \({@ta@}\).<br>[[input:ans1]] [[validation:ans1]]</p><p>[This input is a textarea, and the result is sent to STACK as a list.&nbsp; This is not equivalence reasoning]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text></text>
@@ -1015,13 +1032,14 @@ ta:append(ta,[tao]);]]></text>
       <text>ta:[x=1,x=2]</text>
     </questionvariables>
     <specificfeedback format="html">
-      <text><![CDATA[[[feedback:prt1]]&lt;/p&gt;&lt;div&gt;]]></text>
+      <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote>
-      <text>vendor/bin/phpunit --group qtype_stack</text>
+      <text></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -1089,7 +1107,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 11  -->
+<!-- question: 17  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -1114,6 +1132,7 @@ ta:append(ta,[tao]);]]></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -1181,7 +1200,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 12  -->
+<!-- question: 18  -->
   <question type="stack">
     <name>
       <text>Units</text>
@@ -1206,6 +1225,7 @@ ta:append(ta,[tao]);]]></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
     <prtcorrect format="html">
       <text>Correct answer, well done.</text>
     </prtcorrect>
@@ -1227,7 +1247,7 @@ ta:append(ta,[tao]);]]></text>
       <tans>ta</tans>
       <boxsize>15</boxsize>
       <strictsyntax>1</strictsyntax>
-      <insertstars>0</insertstars>
+      <insertstars>5</insertstars>
       <syntaxhint></syntaxhint>
       <syntaxattribute>0</syntaxattribute>
       <forbidwords></forbidwords>

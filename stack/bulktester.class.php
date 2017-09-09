@@ -154,8 +154,8 @@ class stack_bulk_tester  {
         }
 
         $flag = '';
-        $ok = $fails == 0;
-        if ($ok) {
+        $ok = $fails === 0;
+        if ($ok === false) {
             $class = 'pass';
         } else {
             $class = 'fail';

@@ -1004,10 +1004,6 @@ class qtype_stack_edit_form extends question_edit_form {
         // and implod (' ', ...) any arrays that are non-empty. This makes our
         // rather complex validation easier to implement.
 
-        // 1) Validate all the fixed question fields.
-        // Question variables.
-        $errors = $this->validate_cas_keyval($errors, $fromform['questionvariables'], 'questionvariables');
-
         // Question text.
         $errors['questiontext'] = array();
         $errors = $this->validate_cas_text($errors, $fromform['questiontext']['text'], 'questiontext', $fixingdollars);
@@ -1050,6 +1046,10 @@ class qtype_stack_edit_form extends question_edit_form {
             $errors['questiontext'][] = stack_string('noprtsifnoinputs');
         }
 
+        // Question variables.
+        $errors = $this->validate_cas_keyval($errors, $fromform['questionvariables'], 'questionvariables',
+                array_keys($inputs));
+
         // Default mark.
         if (empty($inputs) && $fromform['defaultmark'] != 0) {
             $errors['defaultmark'][] = stack_string('defaultmarkzeroifnoprts');
@@ -1078,7 +1078,14 @@ class qtype_stack_edit_form extends question_edit_form {
         // Question note.
         $errors['questionnote'] = array();
         if ('' == $fromform['questionnote']) {
+            $foundrandom = false;
             if (!(false === strpos($fromform['questionvariables'], 'rand'))) {
+                $foundrandom = true;
+            }
+            if (!(false === strpos($fromform['questionvariables'], 'multiselqn'))) {
+                $foundrandom = true;
+            }
+            if ($foundrandom) {
                 $errors['questionnote'][] = stack_string('questionnotempty');
             }
         } else {
@@ -1180,20 +1187,9 @@ class qtype_stack_edit_form extends question_edit_form {
         }
 
         // Check the fields that belong to the PRT as a whole.
+        $inputs = array_keys($this->get_input_names_from_question_text());
         $errors = $this->validate_cas_keyval($errors, $fromform[$prtname . 'feedbackvariables'],
-                $prtname . 'feedbackvariables');
-        // Prevent teachers re-defining the input variables here.
-        if ('' != trim($fromform[$prtname . 'feedbackvariables'])) {
-            $keyval = new stack_cas_keyval($fromform[$prtname . 'feedbackvariables'], $this->options, $this->seed, 't');
-            $session = $keyval->get_session();
-            $keys = $session->get_all_keys();
-            $inputs = $this->get_input_names_from_question_text();
-            foreach ($inputs as $iname => $input) {
-                if (in_array($iname, $keys)) {
-                    $errors[$prtname . 'feedbackvariables'][] = stack_string('feedbackvariableskeys', $iname);
-                }
-            }
-        }
+                $prtname . 'feedbackvariables', $inputs);
 
         if ($fromform[$prtname . 'value'] < 0) {
             $errors[$prtname . 'value'][] = stack_string('questionvaluepostive');
@@ -1394,13 +1390,13 @@ class qtype_stack_edit_form extends question_edit_form {
      * @param string $fieldname the name of the field add any errors to.
      * @return array updated $errors array.
      */
-    protected function validate_cas_keyval($errors, $value, $fieldname) {
+    protected function validate_cas_keyval($errors, $value, $fieldname, $inputs = null) {
         if ('' == trim($value)) {
             return $errors;
         }
 
         $keyval = new stack_cas_keyval($value, $this->options, $this->seed, 't');
-        if (!$keyval->get_valid()) {
+        if (!$keyval->get_valid($inputs)) {
             $errors[$fieldname][] = $keyval->get_errors();
         }
 

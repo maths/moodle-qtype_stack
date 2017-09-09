@@ -165,6 +165,18 @@ class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
+    public function test_render_latexdisplaystyle() {
+        $el = $this->make_checkbox(array('options' => 'LaTeXdisplaystyle'));
+        $expected = '<div class="answer"><div><input type="checkbox" name="stack1__ans1_1" value="1" id="stack1__ans1_1" />'
+            . '<label>\(\displaystyle x+1\)</label></div><div>'
+            . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" />'
+            . '<label>\(\displaystyle x+2\)</label></div><div>'
+            . '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />'
+            . '<label>\(\displaystyle \sin \left( \pi\cdot n \right)\)</label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+                        stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+    }
+
     public function test_validate_student_response_blank() {
         $options = new stack_options();
         $el = $this->make_checkbox();

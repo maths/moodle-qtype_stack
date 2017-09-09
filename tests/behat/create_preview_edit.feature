@@ -25,7 +25,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I add a "STACK" question filling the form with:
       | Question name      | Test STACK question                                                           |
       | Question variables | p : (x-1)^3;                                                                  |
-      | Question text      | Differentiate @p@ with respect to \(x\). [[input:ans1]] [[validation:ans1]] |
+      | Question text      | Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] |
       | Model answer       | diff(p,x)                                                                     |
       | SAns               | ans1                                                                          |
       | TAns               | diff(p,x)                                                                     |
@@ -91,7 +91,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then the following fields match these values:
       | Question name      | Test STACK question                                                         |
       | Question variables | p : (x-1)^3;                                                                |
-      | Question text      | Differentiate @p@ with respect to \(x\). [[input:ans]] [[validation:ans]] |
+      | Question text      | Differentiate {@p@} with respect to \(x\). [[input:ans]] [[validation:ans]] |
       | Specific feedback  | [[feedback:prt]]                                                            |
       | Model answer       | diff(p,x)                                                                   |
       | SAns               | ans                                                                         |

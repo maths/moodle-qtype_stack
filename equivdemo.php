@@ -161,7 +161,7 @@ foreach ($samplearguments as $argument) {
             } else if (false === $argument['outcome']) {
                 $expected = 'false';
             }
-            $string       = "\[@second(S1)@\]";
+            $string       = "\[{@second(S1)@}\]";
             $ct           = new stack_cas_text($string, $session, 0, 't');
 
             $start = microtime(true);

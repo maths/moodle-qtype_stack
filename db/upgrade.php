@@ -422,11 +422,11 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     }
 
     if ($oldversion < 2012061500) {
-        // Define field questionnote to be dropped from qtype_stack.
+        // Define field markmode to be dropped from qtype_stack.
         $table = new xmldb_table('qtype_stack');
         $field = new xmldb_field('markmode');
 
-        // Conditionally launch drop field questionnote.
+        // Conditionally launch drop field markmode.
         if ($dbman->field_exists($table, $field)) {
             $dbman->drop_field($table, $field);
         }
@@ -703,7 +703,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016082000, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2017080800) {
+    if ($oldversion < 2017082300) {
 
         // Define field assumepositive to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
@@ -713,7 +713,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        upgrade_plugin_savepoint(true, 2017080800, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2017082300, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2017082400) {
+        // Changing type of field questionnote on table qtype_stack_options to text.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('questionnote', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, null);
+
+        // Launch change of type for field questionnote.
+        $dbman->change_field_type($table, $field);
+        $dbman->change_field_default($table, $field);
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2017082400, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.

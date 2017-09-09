@@ -51,6 +51,12 @@ class stack_cas_casstring {
     private $value;
 
     /**
+     * @array of additional CAS strings which are conditions when the main expression can
+     * be evaluated.  I.e. this encapsulates restrictions on the domain of the main value.
+     */
+    private $conditions;
+
+    /**
      * @var string A sanitised version of the value, e.g. with decimal places printed
      *             and stackunits replaced by multiplication.  Used sparingly, e.g. for
      *             the teacher's answer, and testing inputs.
@@ -223,7 +229,7 @@ class stack_cas_casstring {
                 'optimprefix' => true, 'optionset' => true, 'orbit' => true, 'orbits' => true, 'orthopoly_recur' => true,
                 'orthopoly_returns_intervals' => true, 'orthopoly_weight' => true, 'outofpois' => true, 'palette' => true,
                 'parametric_surface' => true, 'pargosper' => true, 'partpol' => true, 'pdf_width' => true, 'permut' => true,
-                'permutation' => true, 'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
+                'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
                 'picturep' => true, 'piechart' => true, 'plot2d' => true, 'plot3d' => true, 'ploteq' => true,
                 'plot_format' => true, 'plot_options' => true, 'plot_real_part' => true, 'plsquares' => true,
                 'pochhammer' => true, 'pochhammer_max_index' => true, 'points_joined' => true,  'polar' => true,
@@ -535,16 +541,21 @@ class stack_cas_casstring {
             ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT',
             ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND');
 
-    public function __construct($rawstring) {
+    public function __construct($rawstring, $conditions = null) {
         $this->rawcasstring   = $rawstring;
         $this->answernote     = array();
-
         $this->valid          = null;  // If null then the validate command has not yet been run.
 
         if (!is_string($this->rawcasstring)) {
             throw new stack_exception('stack_cas_casstring: rawstring must be a string.');
         }
-
+        $this->rawcasstring = $rawstring;
+        if (!($conditions === null || is_array($conditions))) {
+            throw new stack_exception('stack_cas_casstring: conditions must be null or an array.');
+        }
+        if (count($conditions) != 0) {
+            $this->conditions   = $conditions;
+        }
     }
 
     /*********************************************************/
@@ -1456,6 +1467,10 @@ class stack_cas_casstring {
 
     public function get_dispvalue() {
         return $this->dispvalue;
+    }
+
+    public function get_conditions() {
+        return $this->conditions;
     }
 
     public function set_key($key, $appendkey=true) {

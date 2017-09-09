@@ -564,3 +564,7 @@ ATUnitsFun(SA, SB, SO, strictp, numtest) := block([validity, rawmk, sb, ansnote,
   ret:[validity, rawmk, ansnote, fb],
   return(ret)
   )$
+
+
+/* Legacy function alias for old unit users. */
+backtosibase(expression) := block([simp],return(stack_unit_si_to_si_base(expression)))$

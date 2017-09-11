@@ -62,6 +62,7 @@ The way the items are displayed can be controlled by the following options.
 * `LaTeXinline` use LaTeX to display the options, using the inline maths environment `\(...\)`.
 * `LaTeXdisplaystyle` use LaTeX to display the options, using the inline maths environment and the displaystyle option `\(\displaystyle...\)`.
 * `casstring` does not use the LaTeX value, but just prints the casstring value in `<code>...</code>` tags.
+* `nonotanswered` removes the ``Not answered'' option from radio and dropdown.  This is _not recommended_ as it means a student has no opportunity to "uncheck" a radio button once selected.  They may wish not to answer, rather than save an incorrect answer.
 
 ## Randomly shuffling the options ##
 

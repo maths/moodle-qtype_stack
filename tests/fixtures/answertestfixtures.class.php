@@ -621,6 +621,7 @@ class stack_answertest_test_data {
         array('FacForm', 'x', '7', '7', 1, 'ATFacForm_int_true.', ''),
         array('FacForm', 'x', '24*(x-1/4)', '24*x-6', 1, 'ATFacForm_default_true.', 'Factors over other fields'),
         array('FacForm', 'x', '(x-sqrt(2))*(x+sqrt(2))', 'x^2-2', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', 'x^2-2', 'x^2-2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(%i*x-2*%i)', '%i*(x-2)', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'x', '%i*(x-2)', '(%i*x-2*%i)', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(x-%i)*(x+%i)', 'x^2+1', 1, 'ATFacForm_true.', ''),

@@ -184,6 +184,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,3])', 1, '', 'Matrices'),
         array('AlgEquiv', '', 'matrix([1,2],[2,3])', 'matrix([1,2,3],[2,3,3])', 0, 'ATMatrix_wrongsz_columns.', ''),
         array('AlgEquiv', '', 'matrix([1,2],[2,3])', 'matrix([1,2],[2,5])', 0, 'ATMatrix_wrongentries.', ''),
+        array('AlgEquiv', '', 'matrix([0.33,1],[1,1])', 'matrix([0.333,1],[1,1])', 0, 'ATMatrix_wrongentries.', ''),
+        array('AlgEquiv', '', 'matrix([x+x,2],[2,x*x])', 'matrix([2*x,2],[2,x^2])', 1, '', ''),
         array('AlgEquiv', '', 'matrix([epsilon[0],2],[2,x^2])', 'matrix([epsilon[0],2],[2,x^2])', 1, '', ''),
         array('AlgEquiv', '', 'matrix([epsilon[2],2],[2,x^2])', 'matrix([epsilon[0],2],[2,x^3])', 0, 'ATMatrix_wrongentries.', ''),
         array('AlgEquiv', '', 'matrix([x>4,{1,x^2}],[[1,2],[1,3]])', 'matrix([4-x<0,{x^2, 1}],[[1,2],[1,3]])', 1, '', ''),
@@ -1134,6 +1136,8 @@ class stack_answertest_test_data {
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),
         array('NumSigFigs', '3', '3.15', 'pi', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '6', '1.73205', 'sqrt(3)', 1, '', ''),
+        array('NumSigFigs', '2', 'matrix([0.33,1],[1,1])', 'matrix([0.333,1],[1,1])', 0, 'ATNumSigFigs_NotDecimal.',
+                'No support for matrices!'),
 
         array('NumDecPlaces', '', '3.141', '3.1415927', -1, 'ATNumDecPlaces_STACKERROR_Option.', 'Basic tests'),
         array('NumDecPlaces', '2', '1/0', '3', -1, 'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_STACKERROR_SAns.', ''),
@@ -1230,6 +1234,7 @@ class stack_answertest_test_data {
         array('SigFigsStrict', '3', '15.10', '15.1', 0, '', ''),
         array('SigFigsStrict', '3', '15.100', '15.1', 0, '', ''),
         array('SigFigsStrict', '3', '9.81*m/s^2', 'null', 1, '', 'Units are ignored'),
+
 
         array('Units', '2', '1/0', '1', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_SAns.', ''),
         array('Units', '2', '1', '1/0', -1, 'CASError: Division by zero. | ATUnits_STACKERROR_TAns.', ''),

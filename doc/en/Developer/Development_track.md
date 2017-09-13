@@ -13,3 +13,4 @@ To do for version 4.1:
 * (Done) On the questiontestrun page, have options to (a) delete all question variants.
 * (Done) Make SVG the default image format in Maxima generate plots.
 * Enable individual questions to load Maxima libraries.  (See issue #305).
+* Add support for matrices with floating point entries, and numerical accuracy.

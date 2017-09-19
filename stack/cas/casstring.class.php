@@ -270,7 +270,7 @@ class stack_cas_casstring {
                 'treinat' => true, 'trivial_solutions' => true, 'tube' => true, 'tube_extremes' => true, 'tutte_graph' => true,
                 'ueivects' => true, 'ufg' => true, 'uforget' => true, 'ug' => true, 'ultraspherical' => true, 'undiff' => true,
                 'unit_step' => true, 'unit_vectors' => true, 'uniteigenvectors' => true, 'unitvector' => true,
-                'unknown' => true, 'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
+                'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
                 'use_fast_arrays' => true, 'usersetunits' => true, 'uvect' => true, 'vector' => true, 'verbose' => true,
                 'vers' => true, 'warnings' => true, 'weyl' => true, 'wronskian' => true, 'x_voxel' => true, 'xaxis' => true,
                 'xaxis_color' => true, 'xaxis_secondary' => true, 'xaxis_type' => true, 'xaxis_width' => true, 'xrange' => true,

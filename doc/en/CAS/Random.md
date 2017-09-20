@@ -31,6 +31,8 @@ For example, if you want a matrix with integer elements in the range -5..5 you n
 
     A:matrix([5,5],[5,5])-rand(matrix([11,11],[11,11]));
 
+There are also Maxima's random functions.  For example, to create a random list use `random_permutation`.
+
 ### rand_with_step(lower,upper,step) ###
 
 Returns a random number from the set {lower, lower+step, lower+2*step, ... , final}. The examples below explain behaviour the best.

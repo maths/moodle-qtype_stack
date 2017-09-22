@@ -272,7 +272,7 @@ class stack_cas_session {
         foreach ($dispfix as $key => $fix) {
             $str = str_replace($key, $fix, $str);
         }
-        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS');
+        $loctags = array('ANDOR', 'SAMEROOTS', 'MISSINGVAR', 'ASSUMEPOSVARS', 'ASSUMEPOSREALVARS', 'LET');
         foreach ($loctags as $tag) {
             $str = str_replace('!'.$tag.'!', stack_string('equiv_'.$tag), $str);
         }

@@ -1221,9 +1221,20 @@ class stack_utils {
                     $str = 'stackeq(' . $trimmed . ')';
                 }
             }
+            // Safely wrap "let" statements.
+            $langlet = strtolower(stack_string('equiv_LET'));
+            if (strtolower(substr($str, 0, strlen($langlet))) === $langlet) {
+                $nv = explode('=', substr($str, strlen($langlet) + 1));
+                if (sizeof($nv) === 2) {
+                    $str = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
+                }
+            }
         } else {
             if (substr(trim($str), 0, 8) == 'stackeq(' && substr(trim($str), -1, 1) == ')') {
                 $str = '=' . substr(trim($str), 8, -1);
+            }
+            if (substr(trim($str), 0, 9) == 'stacklet(' && substr(trim($str), -1, 1) == ')') {
+                $str = stack_string('equiv_LET') . ' ' . implode('=', explode(',', substr(trim($str), 9, -1)));
             }
         }
 

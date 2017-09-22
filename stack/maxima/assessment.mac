@@ -1250,11 +1250,17 @@ texput(all, "\\mathbb{R}");
 declare(none, constant);
 texput(none, "\\emptyset");
 
-/* stackeq is an intert prefix equality symbol. */
-stackeqtex(ex):=block([ss, n, dp],
+/* stackeq is an inert prefix equality symbol. */
+stackeqtex(ex):=block(
   sconcat("=", tex1(first(args(ex))))
 );
 texput(stackeq, stackeqtex);
+
+/* stacklet is an inert "let" operator, e.g. let x=1. */
+stacklettex(ex):=block(
+  sconcat("\\mbox{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
+);
+texput(stacklet, stacklettex);
 
 /* This function actually evaluates the correctness of an argument "ex".                       */
 /* It answers the question, "Is this list of steps correct reasoning by equivalence?".         */
@@ -1323,6 +1329,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       tempnote:"",
       SA:exmod[ev(id-1, simp)],
       SB:exmod[ev(id, simp)],
+
       SAP:exmodpoly[ev(id-1, simp)],
       SBP:exmodpoly[ev(id, simp)],
       SAS:exmodsolve[ev(id-1, simp)],
@@ -1330,6 +1337,21 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
 
       if (debug) then print("-------------------------------"),
       if (debug) then print("Line: ", ev(id-1,simp)),
+
+      /* Work back to find the previous real expression. */
+      if safe_op(SA) = "stacklet" and is(id>2) then block([k1, k2, l:[]],
+          k1:ev(id-1,simp),
+          ev(for k2:(id-1) step -1 while (is(k2>1) and is(safe_op(exmod[k2]) = "stacklet")) do block(
+              l:append([first(args(exmod[k2]))=second(args(exmod[k2]))], l),
+              k1:k2
+              ), simp),
+          if (debug) then print("Detected stacklet.  Going back to line ", string(ev(k1-1, simp))),
+          if (debug) then print("Got lets: ", string(l)),
+          SA:ev(exmod[ev(k1-1,simp)], l),
+          SAP:ev(exmodpoly[ev(k1-1,simp)], l),
+          SAS:ev(exmodsolve[ev(k1-1,simp)], l)
+      ),
+ 
       if (debug) then print(SA),
       if (debug) then print(SB),
       if (debug) then print(SAP),
@@ -1340,6 +1362,9 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
       if stringp(SA) or stringp(SB) then block(
           eqoutsymb[ev(id, simp)]:EMPTYCHAR,
           eqoutcome[ev(id, simp)]:unknown
+      ) else if safe_op(SB) = "stacklet" then block(
+          eqoutsymb[ev(id, simp)]:EMPTYCHAR,
+          eqoutcome[ev(id, simp)]:true
       ) else (
           malrulecont:true,
           /* Now check for equivalences. */

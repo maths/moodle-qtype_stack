@@ -814,6 +814,7 @@ $string['equiv_ANDOR']                   = 'and/or confusion!';
 $string['equiv_MISSINGVAR']              = 'Missing assignments';
 $string['equiv_ASSUMEPOSVARS']           = 'Assume +ve vars';
 $string['equiv_ASSUMEPOSREALVARS']       = 'Assume +ve real vars';
+$string['equiv_LET']                     = 'Let';
 
 $string['studentValidation_yourLastAnswer']     = 'Your last answer was interpreted as follows: {$a}';
 $string['studentValidation_listofvariables']    = 'The variables found in your answer were: {$a}';

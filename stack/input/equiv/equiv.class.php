@@ -411,10 +411,19 @@ class stack_equiv_input extends stack_input {
 
     /* Convert an expression starting with an = sign to one with stackeq. */
     private function equals_to_stackeq($val) {
-        if (substr(trim($val), 0, 1) === "=") {
-            $trimmed = trim(substr(trim($val), 1));
+        $val = trim($val);
+        if (substr($val, 0, 1) === "=") {
+            $trimmed = trim(substr($val, 1));
             if ( $trimmed !== '') {
                 $val = 'stackeq(' . $trimmed . ')';
+            }
+        }
+        // Safely wrap "let" statements.
+        $langlet = strtolower(stack_string('equiv_LET'));
+        if (strtolower(substr($val, 0, strlen($langlet))) === $langlet) {
+            $nv = explode('=', substr($val, strlen($langlet) + 1));
+            if (sizeof($nv) === 2) {
+                $val = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
             }
         }
         return $val;

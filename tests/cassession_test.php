@@ -781,6 +781,59 @@ class stack_cas_session_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_dispdp_systematic() {
+        $cs = new stack_cas_casstring("L:makelist(dispdp(10^-1+10^-k,k+1),k,12,20)");
+        $cs->get_valid('t');
+        $s1[] = $cs;
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        // The purpose of this test is to ilustrate how numerical precision runs out.
+        // This is currently in the 16th decimal place, where we loose the 10^-k from the displayed output.
+        $this->assertEquals('\left[ 0.1000000000010 , 0.10000000000010 , 0.100000000000010 , 0.1000000000000010 , '.
+                '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , '.
+                '0.100000000000000000000 \right]', $at1->get_display_key('L'));
+        // Even more worryingly, the "value" of the expression looses this at the 14th place.
+        // This is because of the precision specified in the "string" routine of Maxima, which sends "values" from Maxima to PHP.
+        $this->assertEquals('[displaydp(0.100000000001,13),displaydp(0.1,14),displaydp(0.1,15),displaydp(0.1,16),'.
+                'displaydp(0.1,17),displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]',
+                $at1->get_value_key('L', false));
+        // The internal printf function is perfectly capable of printing more, if we use the "dispval" field.
+        // This gives up at the same point as the displayed values above.
+        $this->assertEquals('[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,'.
+                '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]',
+                $at1->get_value_key('L', true));
+    }
+
+    public function test_dispdp_systematic_longer() {
+
+        $cs = new stack_cas_casstring("fpprintprec:16");
+        $cs->get_valid('t');
+        $s1[] = $cs;
+        $cs = new stack_cas_casstring("L:makelist(dispdp(10^-1+10^-k,k+1),k,12,20)");
+        $cs->get_valid('t');
+        $s1[] = $cs;
+
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $at1 = new stack_cas_session($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('\left[ 0.1000000000010 , 0.10000000000010 , 0.100000000000010 , 0.1000000000000010 , '.
+                '0.10000000000000010 , 0.100000000000000000 , 0.1000000000000000000 , 0.10000000000000000000 , '.
+                '0.100000000000000000000 \right]', $at1->get_display_key('L'));
+        // Note the difference, having increased fpprintprec:16 which is the maximum value permitted in Maxima.
+        $this->assertEquals('[displaydp(0.100000000001,13),displaydp(0.1000000000001,14),displaydp(0.10000000000001,15),'.
+                'displaydp(0.100000000000001,16),displaydp(0.1000000000000001,17),'.
+                // We get more decimal places preserved here that the above test cases.
+                'displaydp(0.1,18),displaydp(0.1,19),displaydp(0.1,20),displaydp(0.1,21)]',
+                $at1->get_value_key('L', false));
+        $this->assertEquals('[0.1000000000010,0.10000000000010,0.100000000000010,0.1000000000000010,0.10000000000000010,'.
+                '0.100000000000000000,0.1000000000000000000,0.10000000000000000000,0.100000000000000000000]',
+                $at1->get_value_key('L', true));
+    }
+
     public function test_dispsf() {
         // @codingStandardsIgnoreStart
 
@@ -969,7 +1022,7 @@ class stack_cas_session_test extends qtype_stack_testcase {
         // @codingStandardsIgnoreEnd
 
         $tests = array(
-/*            array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
+            array('2.998e8', '2', '3.00 \times 10^{8}', '3.00E8'),
             array('-2.998e8', '2', '-3.00 \times 10^{8}', '-3.00E8'),
             array('6.626e-34', '2', '6.63 \times 10^{-34}', '6.63E-34'),
             array('-6.626e-34', '2', '-6.63 \times 10^{-34}', '-6.63E-34'),
@@ -1028,15 +1081,15 @@ class stack_cas_session_test extends qtype_stack_testcase {
             // This is displayed normally (without a \times) and always returns a *float*.
             array('9000', '', '9.0\cdot 10^3', '9.0*10^3'),
             array('1000', '', '1.0\cdot 10^3', '1.0*10^3'),
-            array('-1000', '', '-1.0\cdot 10^3', '(-1.0)*10^3'),
+            array('-1000', '', '-1.0\cdot 10^3', '-1.0*10^3'),
             array('1e50', '', '1.0\cdot 10^{50}', '1.0*10^50'),
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
             // Adding in compile(scientific_notation)$ after the function definition cures this,
             // but breaks some versions of Maxima.
-            // Maxima 5.38.1 gives -1.0)*10^-8, which is what we actually want.
-*/            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '(-1.0)*10^-8'),
-            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '(-1.0)*10^-9'),
-            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '(-1.0)*10^-12'),
+            // Maxima 5.38.1 gives -1.0*10^-8, which is what we actually want.
+            array('-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1.0*10^-8'),
+            array('-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1.0*10^-9'),
+            array('-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1.0*10^-12'),
         );
 
         foreach ($tests as $key => $c) {

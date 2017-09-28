@@ -57,10 +57,11 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if (substr($atopt, 0, 1) == '[') {
             $opts = substr(substr($atopt, 0 , -1), 1);
             $opts = explode(',', $opts);
-            $requiredsigfigs = $opts[0];
-            $requiredaccuracy = $opts[1];
+            $requiredsigfigs = trim($opts[0]);
+            $requiredaccuracy = trim($opts[1]);
         }
         $strictsigfigs = false;
+        $condoneextrasigfigs = false;
         $numaccuracy   = true;
         if ('ATSigFigsStrict' == $this->casfunction) {
             $strictsigfigs = true;
@@ -69,9 +70,15 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
         if ($requiredaccuracy == 0) {
             $numaccuracy   = false;
         }
+        if ('ATNumSigFigs' == $this->casfunction && $requiredaccuracy == -1) {
+            $condoneextrasigfigs = true;
+            $requiredaccuracy = $requiredsigfigs;
+            // Change the options going into the CAS.
+            $atopt = "[$requiredsigfigs,$requiredsigfigs]";
+        }
 
-        if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0 or $requiredaccuracy < 0
-                or !ctype_digit($requiredsigfigs) or !ctype_digit($requiredaccuracy)) {
+        if (null == $atopt or '' == $atopt or 0 === $atopt or $requiredsigfigs <= 0
+                or $requiredaccuracy < 0 or !ctype_digit($requiredsigfigs) or !ctype_digit($requiredaccuracy)) {
             $this->aterror      = 'TEST_FAILED';
             $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
             $this->atansnote    = 'STACKERROR_OPTION.';
@@ -105,6 +112,18 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             } else if ($r['lowerbound'] <= $this->atoption && $this->atoption <= $r['upperbound']) {
                 $this->atansnote    = $this->casfunction.'_WithinRange. ';
             }
+        } else if ($condoneextrasigfigs) {
+            if ($requiredsigfigs <= $r['lowerbound']) {
+                $withinrange = true;
+                $this->atmark = 1;
+            } else {
+                $this->atansnote = $this->casfunction.'_WrongDigits. ';
+                // Note, we combine with feedback from the CAS, so we set up a situation which can be combined with
+                // other CAS-generated feedback here.
+                $this->atfeedback = "stack_trans('ATNumSigFigs_WrongDigits');";
+                $this->atmark = 0;
+                $withinrange = false;
+            }
         } else {
             if ($requiredsigfigs == $r['lowerbound']) {
                 $withinrange = true;
@@ -123,7 +142,7 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
             }
         }
 
-        // Do we need to check establish numerical precision with a CAS call?
+        // Do we need to establish numerical precision with a CAS call?
         if (!$numaccuracy) {
             if ($this->atmark) {
                 return true;

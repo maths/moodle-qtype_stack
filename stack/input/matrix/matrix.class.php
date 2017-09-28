@@ -135,7 +135,7 @@ class stack_matrix_input extends stack_input {
         $firstrow = array_fill(0, $this->width, '');
         $tc       = array_fill(0, $this->height, $firstrow);
 
-        // Turn the student's answer into a PHP array.
+        // Turn the student's answer, syntax hint, etc., into a PHP array.
         $t = trim($in);
         if ('matrix(' == substr($t, 0, 7)) {
             // @codingStandardsIgnoreStart
@@ -220,6 +220,13 @@ class stack_matrix_input extends stack_input {
 
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
+        if ($blank) {
+            $syntaxhint = stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove');
+            if (trim($syntaxhint) != '') {
+                $tc = $this->maxima_to_array($syntaxhint);
+                $blank = false;
+            }
+        }
 
         if ($readonly) {
             $readonlyattr = ' readonly="readonly"';
@@ -244,9 +251,6 @@ class stack_matrix_input extends stack_input {
                 $val = '';
                 if (!$blank) {
                     $val = trim($tc[$i][$j]);
-                }
-                if ('?' == $val) {
-                    $val = '';
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
                 $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.

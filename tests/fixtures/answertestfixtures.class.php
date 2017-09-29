@@ -356,7 +356,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'A and (B or C)', 'A and (B or C)', 1, 'ATLogic_True', ''),
         array('AlgEquiv', '', '(A and B) or (A and C)', 'A and (B or C)', 1, 'ATLogic_True', ''),
         array('AlgEquiv', '', 'x=-b+-c^2', 'x=c^2-b or x=-c^2-b', 1, 'ATLogic_True', ''),
-
+        array('AlgEquiv', '', 'not(A) and not(B)', 'not(A or B)', 1, 'ATLogic_True', ''),
+        array('AlgEquiv', '', 'not(A) and not(B)', 'not(A and B)', 0, '', ''),
+        
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero.', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^2+1', 1, '', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^3+1', 0, '', ''),

@@ -102,7 +102,6 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
 
         // Use PHP to establish that the range of significant figures from the student's expression
         // contains the number of significant figures specified by the teacher.
-        $sa = trim($this->sanskey);
         $r = stack_utils::decimal_digits($this->sanskey);
 
         if ($strictsigfigs) {
@@ -113,6 +112,8 @@ class stack_anstest_atnumsigfigs extends stack_anstest {
                 $this->atansnote    = $this->casfunction.'_WithinRange. ';
             }
         } else if ($condoneextrasigfigs) {
+            // Round the student's answer.
+            $this->sanskey = 'significantfigures('.$this->sanskey.','.$requiredsigfigs.')';
             if ($requiredsigfigs <= $r['lowerbound']) {
                 $withinrange = true;
                 $this->atmark = 1;

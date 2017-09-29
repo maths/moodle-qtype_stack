@@ -1145,14 +1145,16 @@ class stack_answertest_test_data {
         array('NumSigFigs', '[4,-1]', '0.1429' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[4,-1]', '0.1428' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         array('NumSigFigs', '[4,-1]', '0.143' ,'1/7', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''),
-        array('NumSigFigs', '[4,-1]', '0.14285' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[4,-1]', '0.14285' ,'1/7', 1, '', ''),
         // Rounded correctly to 5 s.f.
         array('NumSigFigs', '[4,-1]', '0.14286' ,'1/7', 1, '', ''),
         // Extra final digit, incorrectly rounded but condoned.
         array('NumSigFigs', '[2,-1]', '0.142' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.143' ,'1/7', 1, '', ''),
+        array('NumSigFigs', '[2,-1]', '0.144' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.14290907676' ,'1/7', 1, '', ''),
         array('NumSigFigs', '[2,-1]', '0.145' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
+        array('NumSigFigs', '[2,-1]', '0.146' ,'1/7', 0, 'ATNumSigFigs_Inaccurate.', ''),
         // Teacher does not give a float.
         array('NumSigFigs', '4', '1.279', 'ev(lg(19),logbase=logbasesimp)', 1, '', 'Logarithms, numbers and surds'),
         array('NumSigFigs', '3', '3.14', 'pi', 1, '', ''),

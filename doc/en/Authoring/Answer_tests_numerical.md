@@ -15,7 +15,7 @@ There are two issues of which a question author should be aware.
 * Limits on numerical accuracy.
 * Dealing with trailing zeros.
 
-All software have limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5���48, March 1991.
+All software have limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5-48, March 1991.
 
 # Answer tests in STACK#
 
@@ -76,7 +76,7 @@ If the option is a list `[n,m]` then we check the answer has been written to `n`
 
 If the options are of the form `[n,0]` then only the number of significant figures in `sa` will be checked.  This ignores any numerical accuracy and completely ignores the second argument to the function.  Note, that this test is liberal in establishing the number of significant figures.  For strict enforcement of the rules, use `StrictSigFigs` instead.
 
-If the options are of the form `[n,-1]` then the test checks the student has _at least_ the `n` significant figures.
+If the options are of the form `[n,-1]` then the test checks the student has _at least_ `n` significant figures in the answer, and that numerical accuracy is correct.
 
 This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes about numerical rounding](../CAS/Numbers.md) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
 

@@ -111,8 +111,9 @@ neg_ineq(ex):=block(
     return(ex)
 )$
 
-/* Negates the inequality. */
+/* Negates an inequality. */
 not_ineq(ex):=block(
+    if atom(ex) then return(not(ex)),
     if safe_op(ex) = "<" then return(lhs(ex) >= rhs(ex)),
     if safe_op(ex) = "<=" then return(lhs(ex) > rhs(ex)),
     if safe_op(ex) = ">" then return(lhs(ex) <= rhs(ex)),

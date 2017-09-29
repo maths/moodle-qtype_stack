@@ -83,7 +83,6 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $c = '[[ if test="false" ]]Alpha[[ elif test="true"]]Beta[[ elif test="false"]]Gamma'
                 . '[[ else ]]Delta[[/ if]]';
 
-
         $cases = array(
                 array('[[ if test="a" ]]ok1[[/ if ]]', $a1, true, "ok1"),
                 array('[[ if test="b" ]]ok2[[/ if ]]', $a1, true, ""),

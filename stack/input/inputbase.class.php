@@ -294,6 +294,9 @@ abstract class stack_input {
         if (substr(trim($val), 0, 8) == 'stackeq(') {
             $val = '= ' . substr(trim($val), 8, -1);
         }
+        if (substr(trim($val), 0, 9) == 'stacklet(' && substr(trim($val), -1, 1) == ')') {
+            $val = stack_string('equiv_LET') . ' ' . implode('=', explode(',', substr(trim($val), 9, -1)));
+        }
         return $val;
     }
 

@@ -449,6 +449,36 @@ make_displayscivalue(ex):= block([n, d, expo, ss],
 )$
 
 /* ********************************** */
+/* Some notes on numerical rounding   */
+/* ********************************** */
+
+/* CJS, Oct 2017.
+
+   To illustrate the problems of numerical rounding with binary floats, see the following examples.
+   printf(false,"~,0f",14.5);
+   printf(false,"~,1f",1.45);
+   printf(false,"~,2f",0.145);
+   printf(false,"~,3f",0.0145);
+   printf(false,"~,4f",0.00145);
+   printf(false,"~,5f",0.000145);
+   printf(false,"~,6f",0.0000145);
+   printf(false,"~,7f",0.00000145);
+   printf(false,"~,8f",0.000000145);
+
+   We might reasonably expect all these to have the last digit as "5", however many of them have "4".
+   This is not caused by bankers' rounding (which round does).
+   This is caused by internal rounding.  To demonstrate this:
+   p:0.145;
+   ex1:(p*100)-floor(p*100);
+   Then ask is "ex1=0.5"?  Actually
+   ex1-0.5;
+   returns −1.776356839*10^−15 which shows that (p*100)-floor(p*100)<0.5.  This is due to rounding.
+   Both the internal printf, and our attempts in sigfigsfun(...) to write our own function will suffer from
+   this kind of problem.
+*/
+
+
+/* ********************************** */
 /* Equivalence                        */
 /* ********************************** */
 

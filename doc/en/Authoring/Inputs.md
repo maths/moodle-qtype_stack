@@ -77,6 +77,11 @@ _The student may not fill in part of a matrix._  If they do so, the remaining en
 This input is a text area into which students may type whatever they choose.  It can be used to gather their notes or "working".  However, this input always returns an empty value to the CAS, so that the contents are never assessed.
 Note that any potential response tree which relies on this input will never get evaluated!
 
+#### String input ####
+
+This is a normal input into which students may type whatever they choose.  It is always converted into a Maxima string internally.
+Note that there is no way whatsoever to parse the student's string into a Maxima expresison.  If you accept a string, then it will always remain a string! You can't later check for algebraic equivalence, the only tests available will be simple string matches, regular expressions etc.
+
 #### Equivalence reasoning input ####
 
 The purpose of this input type is to enable students to "reason by equivalence.  See the specific documentation for more information:  [Equivalence reasoning](../CAS/Equivalence_reasoning.md).

@@ -358,7 +358,12 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x=-b+-c^2', 'x=c^2-b or x=-c^2-b', 1, 'ATLogic_True', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A or B)', 1, 'ATLogic_True', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A and B)', 0, '', ''),
-        
+
+        array('AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'),
+        array('AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''),
+        array('AlgEquiv', '', 'W', '"Hello"', 0, 'ATAlgEquiv_SA_not_string.', ''),
+        array('AlgEquiv', '', '"Hello"', 'x^2', 0, '', ''),
+
         array('SubstEquiv', '', '1/0', 'x^2-2*x+1', -1, 'CASError: Division by zero.', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^2+1', 1, '', ''),
         array('SubstEquiv', '', 'x^2+1', 'x^3+1', 0, '', ''),

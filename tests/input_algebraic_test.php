@@ -470,4 +470,34 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('9*hz', $state->contentsmodified);
         $this->assertEquals('\[ 9\cdot {\it hz} \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_string_same_type() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '"A random string"');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, '"A random string"', null);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('"Hello world"', $state->contentsmodified);
+        $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_string_same_type_invalid1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^2');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, 'x^2', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('"Hello world"', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">"Hello world"</span>', $state->contentsdisplayed);
+    }
+
+    public function test_validate_string_same_type_invalid2() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '"A random string"');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, '"A random string"', null);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2', $state->contentsmodified);
+        $this->assertEquals('\[ x^2 \]', $state->contentsdisplayed);
+    }
 }

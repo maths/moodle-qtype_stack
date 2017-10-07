@@ -130,7 +130,7 @@ class stack_potentialresponse_node {
     public function do_test($nsans, $ntans, $ncasopts, $options,
             stack_potentialresponse_tree_state $results) {
 
-        if (false === $ncasopts) {
+        if (null === $ncasopts) {
             $ncasopts = $this->atoptions;
         }
 

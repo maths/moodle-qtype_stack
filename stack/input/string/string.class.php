@@ -49,7 +49,9 @@ class stack_string_input extends stack_algebraic_input {
             }
             $attributes[$field] = $this->strip_string(stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove'));
         } else {
-            $attributes['value'] = $this->strip_string($this->contents_to_maxima($state->contents));
+            $value = $this->strip_string($this->contents_to_maxima($state->contents));
+            $value = stack_utils::maxima_string_to_php_string($value);
+            $attributes['value'] = $value;
         }
 
         if ($readonly) {
@@ -70,7 +72,12 @@ class stack_string_input extends stack_algebraic_input {
 
         $contents = array();
         if (array_key_exists($this->name, $response)) {
-            $contents = array($this->ensure_string($response[$this->name]));
+            // First strip off any outer string delimeters.
+            $converted = $this->strip_string($response[$this->name]);
+            // Then protect any other quotes etc.
+            $converted = stack_utils::php_string_to_maxima_string($converted);
+            // Finally make sure we actually have a Maxima string!
+            $contents = array($this->ensure_string($converted));
         }
         return $contents;
     }
@@ -80,6 +87,7 @@ class stack_string_input extends stack_algebraic_input {
      */
     public function get_teacher_answer_display($value, $display) {
         $value = $this->strip_string($value);
+        $value = stack_utils::maxima_string_to_php_string($value);
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 

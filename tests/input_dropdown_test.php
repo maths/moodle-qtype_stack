@@ -139,6 +139,16 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
+    public function test_render_nonotanswered() {
+        $el = $this->make_dropdown(array('options' => 'nonotanswered'));
+        $el->adapt_to_model_answer($this->make_ta());
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+                .'<option value="1"><code>x+1</code></option><option value="2"><code>x+2</code></option>'
+                .'<option selected="selected" value="3"><code>sin(pi*n)</code></option></select>';
+        $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+    }
+
     public function test_render_latex() {
         $el = $this->make_dropdown(array('options' => 'LaTeX'));
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'

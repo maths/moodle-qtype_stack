@@ -1070,7 +1070,23 @@ class stack_equiv_test_data {
 
         //******************************************************************************
         $newarg = array();
-        $newarg['section'] = 'Other cases';
+        $newarg['section'] = 'Calculus';
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Various calculus cases";
+        $newarg['narrative'] = 'Calculus, with and without the constant.';
+        $newarg['casstring'] = "[x^2+1,x^3/3+x,x^2+1,x^3/3+x+c]";
+        $newarg['debuglist'] = "[EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x)]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Calculus cases";
+        $newarg['narrative'] = 'Calculus cases, with an equals sign, not equivalent.';
+        $newarg['casstring'] = "[x^2+1,stackeq(x^3/3+x),stackeq(x^2+1),stackeq(x^3/3+x+c)]";
+        $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR]";
+        $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1078,7 +1094,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
         $newarg = array();
@@ -1086,9 +1102,8 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'The last QMCHAR occurs because of the missing constant of integration.';
         $newarg['casstring'] = "[nounint(x^3*log(x),x),stackeq(x^4/4*log(x)-1/4*nounint(x^3,x)),stackeq(x^4/4*log(x)-x^4/4)]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,QMCHAR]";
-        $newarg['outcome']   = 'unsupported';
+        $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
 
         $newarg = array();
         $newarg['title']     = "";
@@ -1103,6 +1118,11 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
              "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = 'unsupported';
+        $samplearguments[] = $newarg;
+
+        //******************************************************************************
+        $newarg = array();
+        $newarg['section'] = 'Other cases';
         $samplearguments[] = $newarg;
 
         $newarg = array();

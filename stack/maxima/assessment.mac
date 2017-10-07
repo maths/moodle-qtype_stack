@@ -1242,6 +1242,15 @@ texput(ASSUMEPOSREALVARS, "\\color{blue}{\\mbox{!ASSUMEPOSREALVARS!}}");
 /* For now we suppress this. */
 texput(unknown, " ");
 
+DIFFCHARtex(ex):=block(
+  sconcat("\\color{blue}{\\frac{\\mathrm{d}}{\\mathrm{d}", tex1(first(args(ex))), "}\\ldots}")
+);
+texput(DIFFCHAR, DIFFCHARtex);
+INTCHARtex(ex):=block(
+  sconcat("\\color{blue}{\\int\\ldots\\mathrm{d}", tex1(first(args(ex))), "}")
+);
+texput(INTCHAR, INTCHARtex);
+
 
 /* We assume the token "all" is the set of real numbers, and "none" means it is empty. */
 declare(all, constant);
@@ -1403,7 +1412,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               )
           )
           else
-             /* Needs to come before checking subsets.  Special cause of real single variable equations. */
+             /* Needs to come before checking subsets.  Special case of real single variable equations. */
              if assume_real then block([FAA, FBB, FGCD, ATres],
                FAA:if equationp(SAP) then lhs(SAP)-rhs(SAP) else SAP,
                FAB:if equationp(SBP) then lhs(SBP)-rhs(SBP) else SBP,
@@ -1513,6 +1522,32 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
           /* In the edge cases we don't look for malrules.  Edge cases are turned into equations.  */
           if is(lhs(SA)=all) or is(lhs(SB)=all) or is(lhs(SA)=none) or is(lhs(SB)=none) then
               malrulecont:false,
+
+          /* We don't allow the stackeq operator for the second argument with calculus. */
+          if malrulecont and not(safe_op(ex[ev(id, simp)])="stackeq") then block([SAD, SBD, var, ATres],
+              /* (C0) Calculus operations. */
+              var:last(sort(listofvars(SA))),
+              SAD:ev(SA, nouns, simp),
+              SAD:ev(diff(SAD,var), simp),
+              SBD:ev(SB, nouns, simp),
+              SBD:ev(diff(SBD,var), simp),
+              if (debug) then print("Calculated derivatives as SA->", string(SAD), ", SB->", string(SBD), " wrt ", var),
+              ATres:ev(ATAlgEquiv(SAD, SB), simp),
+              if second(ATres) then block(
+                  malrulecont:false,
+                  eqoutcome[ev(id, simp)]:true,
+                  eqoutsymb[ev(id, simp)]:DIFFCHAR(var),
+                  tempnote:sconcat(tempnote, " | Differentiated ")
+              ) else (
+                  ATres:ev(ATAlgEquiv(SA, SBD), simp),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:INTCHAR(var),
+                      tempnote:sconcat(tempnote, " | Integrated ")
+                  )
+              )
+          ),
 
           if malrulecont then block([FAA, FBB, FGCD, ATres],
               /* (0) Multiplicity of roots. */
@@ -1630,7 +1665,6 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                   tempnote:sconcat(tempnote, " | SquaredSecond | ", third(ATres))
               )
           )
-
       ),
       eqoutnote[ev(id, simp)]:tempnote,
       if (debug) then print("Outcome: ", eqoutcome[ev(id, simp)]),

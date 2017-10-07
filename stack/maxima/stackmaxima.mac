@@ -1117,6 +1117,12 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
 ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
+    /* Are we dealing with strings? */
+    if stringp(SB) then
+      if stringp(SA)#true then
+        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_string"))
+      else
+        return([true, is(SA=SB), "ATAlgEquiv_String", ""]),
     /* Are we dealing with matrices? */
     if matrixp(SB) then
       if matrixp(SA)#true then

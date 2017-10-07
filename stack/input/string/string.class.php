@@ -49,8 +49,7 @@ class stack_string_input extends stack_algebraic_input {
             }
             $attributes[$field] = $this->strip_string(stack_utils::logic_nouns_sort($this->parameters['syntaxHint'], 'remove'));
         } else {
-            $value = $this->strip_string($this->contents_to_maxima($state->contents));
-            $value = stack_utils::maxima_string_to_php_string($value);
+            $value = stack_utils::maxima_string_to_php_string($this->contents_to_maxima($state->contents));
             $attributes['value'] = $value;
         }
 

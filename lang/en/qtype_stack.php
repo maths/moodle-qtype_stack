@@ -317,7 +317,7 @@ $string['pleasecheckyourinputs'] = 'Please verify that what you entered was inte
 $string['singlechargotmorethanone'] = 'You can only enter a single character here.';
 
 $string['false'] = 'False';
-$string['notanswered'] = 'Not answered';
+$string['notanswered'] = '(No answer given)';
 $string['true'] = 'True';
 $string['ddl_runtime'] = 'The input has generated the following runtime error which prevents you from answering. Please contact your teacher.';
 $string['ddl_empty'] = 'No choices were provided for this drop-down.';

@@ -993,7 +993,7 @@ class stack_cas_casstring {
         }
 
         if ($security == 's') {
-            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212 (.
+            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212(.
             $patterns[] = "|(\Wi)(\()|";    // I.e. i( , the single pattern of i with a bracket, which is always wrong for students.
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.

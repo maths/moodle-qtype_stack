@@ -64,7 +64,7 @@ class stack_cas_session {
     private $debuginfo;
 
     /** @var array Global variables. */
-    private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true);
+    private static $maximaglobals = array('stackintfmt' => true, 'stackfltfmt' => true, 'ibase' => true, 'obase' => true);
 
     public function __construct($session, $options = null, $seed = null) {
 

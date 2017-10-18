@@ -71,10 +71,8 @@ class stack_string_input extends stack_algebraic_input {
 
         $contents = array();
         if (array_key_exists($this->name, $response)) {
-            // First strip off any outer string delimeters.
-            $converted = $this->strip_string($response[$this->name]);
-            // Then protect any other quotes etc.
-            $converted = stack_utils::php_string_to_maxima_string($converted);
+            // Protect any other quotes etc.
+            $converted = stack_utils::php_string_to_maxima_string($response[$this->name]);
             // Finally make sure we actually have a Maxima string!
             $contents = array($this->ensure_string($converted));
         }

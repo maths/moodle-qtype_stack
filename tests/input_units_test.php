@@ -254,6 +254,18 @@ class stack_units_input_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 1\, \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_student_powers_ten() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
+        $el->set_parameter('insertStars', 5);
+        $el->set_parameter('strictSyntax', true);
+        $state = $el->validate_student_response(array('sans1' => '9*10^2m^2'), $options, '9.81*m/s^2', array('tans'));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals("", $state->note);
+        $this->assertEquals('9*10^2*m^2', $state->contentsmodified);
+        $this->assertEquals('\[ 9\cdot 10^2\, \mathrm{m}^2 \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_student_trailingzeros() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');

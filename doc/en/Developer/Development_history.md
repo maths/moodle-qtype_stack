@@ -2,6 +2,16 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## STACK 4.0.1
+
+Released August 2017.
+
+This is a bug-fix release, mostly associated with the upgrade process from version 3.X to 4.X.
+
+* Fix a bug in the upgrade script.
+* Fix a bug in the testing procedure in the "question test" script, and improve the way deployed versions are tested.
+* Make SVG the default image format for pictures created by Maxima.  (Old .png code left in place in this release, but no user option to access this functionality.)
+
 ## STACK 4.0
 
 Released August 2017.
@@ -37,13 +47,13 @@ Other new features and enhancements in this release.
 
 ## Version 3.5.7
 
-Released June 2017. 
+Released June 2017.
 
 Numerous minor bug fixes and improvements.
 
 ## Version 3.5.6
 
-Released December 2016. 
+Released December 2016.
 
 Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
@@ -61,7 +71,7 @@ Note, many of these changes have resulted in stricter rules on the acceptability
 
 ## Version 3.5.5
 
-Released August 2016. 
+Released August 2016.
 
 Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
@@ -87,7 +97,7 @@ Numerous minor bug fixes and improvements.
 
 ## Version 3.4
 
-Released September 2015. 
+Released September 2015.
 
 This contains numerous minor bug fixes and improvements.
 
@@ -102,7 +112,7 @@ This contains numerous minor bug fixes and improvements.
 
 ## Version 3.3
 
-Released September 2014. 
+Released September 2014.
 
 This contains numerous minor bug fixes and improvements.
 
@@ -122,7 +132,7 @@ This contains numerous minor bug fixes and improvements.
  9.  Better install (auto OS detection), healtcheck and testing.
  10. When using the Maxima Pool servlet, it is now possible to use any type of HTTP authenication
     (e.g. basic or digest), and there is a separate configuration option, so that you don't need to put the username and password in the URL.
- 
+
 
 ## Version 3.2
 
@@ -166,7 +176,7 @@ Changes since 3.0:
 ### Other improvements
 
 * Create a "tidy question" script that can be used to rename Inputs, PRTs and/or Nodes everywhere in a question.
-* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of. 
+* Add CAStext-enabled ALT tags to the automatically generated images. For example, adding a final, optional, string argument to the "plot" command that the system uses as the ALT text of the image. That way, we can say the function that the graph is of.
 * New option for how inverse trig functions are displayed.
 * A script to run question tests in bulk.
 * Add a new answer test to deal with decimal places.

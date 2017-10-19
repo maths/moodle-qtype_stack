@@ -1414,6 +1414,9 @@ class stack_cas_castext_parsetreenode {
                         $i->firstchild = $i->nextsibling;
                         $i->firstchild->previoussibling = null;
                         $i->nextsibling = $iter->nextsibling;
+                        if ($iter->nextsibling !== null) {
+                            $iter->nextsibling->previoussibling = $i;
+                        }
                         $i->previoussibling = $iter;
                         $iter->nextsibling = $i;
                         $iter = $i;
@@ -1435,6 +1438,9 @@ class stack_cas_castext_parsetreenode {
                         $i->firstchild = $i->nextsibling;
                         $i->firstchild->previoussibling = null;
                         $i->nextsibling = $iter->nextsibling;
+                        if ($iter->nextsibling !== null) {
+                            $iter->nextsibling->previoussibling = $i;
+                        }
                         $i->previoussibling = $iter;
                         $iter->nextsibling = $i;
                         $iter = $i;
@@ -1479,7 +1485,11 @@ class stack_cas_castext_parsetreenode {
                         if ($cc == 0) {
                             $newdef->params[$key] = $n->get_parameter('test', 'false');
                         } else if ($n->get_parameter('test', 'false') == 'else') {
-                            $newdef->params[$key] = 'not (' . $reconds[$cc - 1]->get_parameter('test', 'false') . ')';
+                            $keys = array();
+                            foreach (array_slice($reconds, 0, -1) as $b) {
+                                $keys[] = $b->get_parameter('test', 'false');
+                            }
+                            $newdef->params[$key] = 'not (' . implode(' or ', $keys). ')';
                         } else {
                             $newdef->params[$key] = 'not (' . $reconds[$cc - 1]->get_parameter('test', 'false') . ') and (' .
                                     $n->get_parameter('test', 'false') . ')';

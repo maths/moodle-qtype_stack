@@ -79,6 +79,9 @@ class stack_cas_text_test extends qtype_stack_testcase {
 
     public function test_if_block() {
         $a1 = array('a:true', 'b:is(1>2)', 'c:false');
+        // From iss309.
+        $c = '[[ if test="false" ]]Alpha[[ elif test="true"]]Beta[[ elif test="false"]]Gamma'
+                . '[[ else ]]Delta[[/ if]]';
 
         $cases = array(
                 array('[[ if test="a" ]]ok1[[/ if ]]', $a1, true, "ok1"),
@@ -90,6 +93,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('[[ if test="a" ]][[ if test="b" ]]ok7[[/ if ]][[/ if ]]', $a1, true, ""),
                 array('[[ if test="a" ]][[ if test="b" ]]ok8[[else]]OK8[[/ if ]][[/ if ]]', $a1, true, "OK8"),
                 array('[[if test="is(5>3)"]]OK9[[/if]]', $a1, true, "OK9"),
+                array($c . ' ' . $c, $a1, true, "Beta Beta"),
+                array($c . $c, $a1, true, "BetaBeta"),
         );
 
         foreach ($cases as $case) {

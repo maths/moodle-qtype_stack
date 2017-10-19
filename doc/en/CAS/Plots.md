@@ -2,11 +2,11 @@
 
 Plots and graphics can be placed into any of the [CAStext](../Authoring/CASText.md) fields.
 
-The main way to create plots is using Maxima.  
+The main way to create plots with the core STACK commands is using Maxima.  As of version 4.0, the tags `{#...#}` provide the possibility to interact with 3rd party scripts.  If you have examples of this, please contact the developers.  This page is about core supported functionality.
 
 ## plot() {#plot}
 
-In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and returns a URL to the image.  Not all of the features of `plot2d` are available through `plot`.  In particular only a very few of Maxima's `plot_options` are respected by `plot`, mainly for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)  Note that the `draw` package is currently not supported.
+In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and that Maxima returns a URL to the user giving the image.  Not all of the features of `plot2d` are available through `plot`.  
 
 Try, for example, the following in the question stem.
 
@@ -23,6 +23,12 @@ However, Maxima will not always allow you to get the axes you want (this is a bu
 This can be done with Maxima's `makelist` command
 
     (p(k):=x^k,pl:makelist(p(k),k,1,5),plot(pl,[x,-1,1]))
+
+Notes:
+
+* Currently STACK has `gnuplot` return a basic SVG image.
+* Only a very few of Maxima's `plot_options` are respected by `plot`, mainly for security reasons.  (`plot` calls an external command `gnuplot` which writes to the server filesystem.)
+* The `draw` package is currently not supported.
 
 ## Traditional axes
 
@@ -73,8 +79,6 @@ If you would like an expression as part of this then try
 
     p:sin(x);
     plot(p,[x,-2,2],[alt,sconcat("Here is ",string(p))]);
-
-(Note, previous versions of STACK had the alt-text as an equation.  This has been re-factored as a list, in line with other `plot2d` options.)
 
 ## A catalogue of plots
 
@@ -132,6 +136,8 @@ Hence, STACK does not currently support implicit plots.
 Note also that images can be included as HTML.  It is easiest to place your image somewhere on the internet and include a URL in the body of your STACK question.
 
 ## Google charts  {#google}
+
+__Note that Google deprecated the API in 2012 with guaranteed availability until April 2015.__
 
 You can dynamically generate a URL for
 [Google charts](http://code.google.com/apis/chart/) and in this way include randomly generated diagrams.

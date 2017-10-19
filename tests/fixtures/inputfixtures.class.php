@@ -113,7 +113,7 @@ class stack_inputvalidation_test_data {
         "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\)."),
         array('0.1..1.2', 'php_false', '', '', '', 'spuriousop', ""),
-        array('not x', 'php_true', 'not x', 'cas_true', '\neg \left( x \right)', '', ""),
+        array('not x', 'php_true', 'not x', 'cas_true', '{\rm not}\left( x \right)', '', ""),
         array('x and y', 'php_true', 'x nounand y', 'cas_true', 'x\,{\mbox{ and }}\, y', '', ""),
         array('x or y', 'php_true', 'x nounor y', 'cas_true', 'x\,{\mbox{ or }}\, y', '', ""),
         array('x xor y', 'php_false', '', '', '', 'spaces', ""),

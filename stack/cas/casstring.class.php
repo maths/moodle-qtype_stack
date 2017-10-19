@@ -230,7 +230,7 @@ class stack_cas_casstring {
                 'optimprefix' => true, 'optionset' => true, 'orbit' => true, 'orbits' => true, 'orthopoly_recur' => true,
                 'orthopoly_returns_intervals' => true, 'orthopoly_weight' => true, 'outofpois' => true, 'palette' => true,
                 'parametric_surface' => true, 'pargosper' => true, 'partpol' => true, 'pdf_width' => true, 'permut' => true,
-                'permutation' => true, 'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
+                'petrov' => true, 'pic_height' => true, 'pic_width' => true, 'picture_equalp' => true,
                 'picturep' => true, 'piechart' => true, 'plot2d' => true, 'plot3d' => true, 'ploteq' => true,
                 'plot_format' => true, 'plot_options' => true, 'plot_real_part' => true, 'plsquares' => true,
                 'pochhammer' => true, 'pochhammer_max_index' => true, 'points_joined' => true,  'polar' => true,
@@ -270,7 +270,7 @@ class stack_cas_casstring {
                 'treinat' => true, 'trivial_solutions' => true, 'tube' => true, 'tube_extremes' => true, 'tutte_graph' => true,
                 'ueivects' => true, 'ufg' => true, 'uforget' => true, 'ug' => true, 'ultraspherical' => true, 'undiff' => true,
                 'unit_step' => true, 'unit_vectors' => true, 'uniteigenvectors' => true, 'unitvector' => true,
-                'unknown' => true, 'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
+                'unorder' => true, 'uric' => true, 'uricci' => true, 'uriem' => true, 'uriemann' => true,
                 'use_fast_arrays' => true, 'usersetunits' => true, 'uvect' => true, 'vector' => true, 'verbose' => true,
                 'vers' => true, 'warnings' => true, 'weyl' => true, 'wronskian' => true, 'x_voxel' => true, 'xaxis' => true,
                 'xaxis_color' => true, 'xaxis_secondary' => true, 'xaxis_type' => true, 'xaxis_width' => true, 'xrange' => true,
@@ -993,7 +993,7 @@ class stack_cas_casstring {
         }
 
         if ($security == 's') {
-            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212 (.
+            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212(.
             $patterns[] = "|(\Wi)(\()|";    // I.e. i( , the single pattern of i with a bracket, which is always wrong for students.
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.

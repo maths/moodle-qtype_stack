@@ -264,7 +264,7 @@ stack_units_rational_number(ex) := block(
     return(ex),
   if not(integerp(first(ex))) or atom(second(ex)) then return(ex),
   if safe_op(second(ex))="noun^" and is(second(args(second(ex)))=-1) then return([first(ex)/first(args(second(ex)))]),
-  true
+  ex
 )$
 
 /* We have a special case  x*1/s which we need to filter out at this stage. */

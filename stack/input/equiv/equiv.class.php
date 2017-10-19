@@ -409,14 +409,6 @@ class stack_equiv_input extends stack_input {
         return 'EQUIVCOMMENT'.$index;
     }
 
-    /* Convert an expression starting with a stackeq to an equals sign. */
-    private function stackeq_to_equals($val) {
-        if (substr(trim($val), 0, 8) == 'stackeq(') {
-            $val = '= ' . substr(trim($val), 8, -1);
-        }
-        return $val;
-    }
-
     /* Convert an expression starting with an = sign to one with stackeq. */
     private function equals_to_stackeq($val) {
         if (substr(trim($val), 0, 1) === "=") {

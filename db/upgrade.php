@@ -719,7 +719,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     if ($oldversion < 2017082400) {
         // Changing type of field questionnote on table qtype_stack_options to text.
         $table = new xmldb_table('qtype_stack_options');
-        $field = new xmldb_field('questionnote', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, '');
+        $field = new xmldb_field('questionnote', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, null);
 
         // Launch change of type for field questionnote.
         $dbman->change_field_type($table, $field);

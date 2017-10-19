@@ -59,7 +59,9 @@ ALG_TRANS:["assAdd","assMul","unaryAdd","unaryMul","comAdd","comMul"]$
 NEG_TRANS:["negZero","negDef","negNeg","negInt","negMinusOne","negDistAdd","negProdA","negProdB"]$
 INT_ARITH:["intAdd","intMul","intPow"]$
 DIV_TRANS:["oneDiv","idDiv","divDivA","divDivB","recipDef","recipNeg","recipMul"]$
-ALL_TRANS:append(ALG_TRANS,ID_TRANS,INT_ARITH,NEG_TRANS,DIV_TRANS)$
+DIS_TRANS:["disAddMul"]$
+POW_TRANS:["powLaw"]$
+ALL_TRANS:append(ALG_TRANS,ID_TRANS,INT_ARITH,NEG_TRANS,DIV_TRANS,DIS_TRANS,POW_TRANS)$
 
 BUG_RULES:["buggyPow","buggyNegDistAdd"]$
 
@@ -235,10 +237,11 @@ orderelementaryp(exa,exb):=block(
 )$
 
 /* sort(args(ex),orderelementaryp) does not work :-(  */
-elsort(l):=block([l1,l2],
-  l1:sublist(l, lambda([ex],safe_op(ex)#"RECIP")),
-  l2:sublist(l, lambda([ex],safe_op(ex)="RECIP")),
-  append(sort(l1,orderelementaryp),sort(l2,orderelementaryp))  
+elsort(l):=block([l1,l2,la],
+  la:sublist(l, lambda([ex],atom(ex))),
+  l1:sublist(l, lambda([ex],not(atom(ex)) and safe_op(ex)#"RECIP")),
+  l2:sublist(l, lambda([ex],not(atom(ex)) and safe_op(ex)="RECIP")),
+  append(sort(la,orderelementaryp),sort(l1,orderelementaryp),sort(l2,orderelementaryp))  
 )$
 
 /* Sort out the order of elements, i.e. commutativity */
@@ -450,6 +453,47 @@ recipMul(ex) := block([p1,p2],
   l:reverse(args(ex)),
   apply("*",append(reverse(rest(rest(l))),[RECIP(part(second(l),1)*part(first(l),1))]))
 )$
+
+/*******************************************/
+/* Distribution  rules                     */
+
+/* Write (a+b)*c as a*c+b*c */
+disAddMulp(ex):= if safe_op(ex)="*" then 
+   if safe_op(last(ex))="+" then true else false$
+
+disAddMul(ex):= block([S,P],
+  S:last(ex),
+  P:reverse(rest(reverse(args(ex)))),
+  P:if length(P)=1 then first(P) else apply("*", P),
+  S:map(lambda([ex], P*ex), S)
+)$
+
+/*******************************************/
+/* Power rules                             */
+
+/* Write a*a^n as a^(n+m) */
+powLawp(ex):= block([B],
+   if not(safe_op(ex)="*") then return(false),
+   B:sort(maplist(lambda([ex], if safe_op(ex)="^" then first(args(ex)) else ex), args(ex))),
+   if emptyp(powLawpduplicates(B)) then return(false) else return(true)
+)$
+
+powLawpduplicates(l):=block(
+    if length(l)<2 then return([]),
+    if first(l)=second(l) then return([first(l)]),
+    return(powLawpduplicates(rest(l)))
+)$
+
+powLaw(ex):= block([B,l1,l2],
+   B:sort(maplist(lambda([ex], if safe_op(ex)="^" then first(args(ex)) else ex), args(ex))),
+   B:first(powLawpduplicates(B)),
+   l1:sublist(args(ex), lambda([ex], is(ex=B) or (is(safe_op(ex)="^") and is(first(args(ex))=B)))),
+   l1:maplist(lambda([ex], if is(ex=B) then 1 else second(args(ex))), l1),
+   l2:sublist(args(ex), lambda([ex], not(is(ex=B) or (is(safe_op(ex)="^") and is(first(args(ex))=B))))),
+   if l2=[] then return(B^apply("+",l1)),
+   if length(l2)=1 then l2:first(l2) else l2:apply("*",l2),
+   return(B^apply("+",l1)*l2)
+);
 
 /*******************************************/
 /* Buggy rules */

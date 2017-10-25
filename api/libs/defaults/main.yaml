@@ -4,27 +4,26 @@
 default_mark: 1
 
 options:
-  hidden: 0
-  simplify: 1
-  assume_positive: 0
-  assume_real: 0
+  simplify: true
+  assume_positive: false
+  assume_real: false
   multiplication_sign: dot
-  sqrt_sign: 1
+  sqrt_sign: true
   complex_no: i
   inverse_trig: cos-1
   matrix_parens: square
 
 input:
   box_size: 30
-  strict_syntax: 1
+  strict_syntax: true
   insert_stars: none
-  syntax_attribute: 0
+  syntax_attribute: false
   forbid_words: "" ## good doc explanation required here
   allow_words: ""
   syntax_hint: "" # i.e {?,?,...} doc it
-  forbid_float: 1
-  require_lowest_terms: 0
-  check_answer_type: 0
+  forbid_float: true
+  require_lowest_terms: false
+  check_answer_type: false
   must_verify: true
   show_validations: with_varlist
   options: ""
@@ -32,7 +31,7 @@ input:
 response_trees:
   tree:
     value: 1
-    auto_simplify: yes
+    auto_simplify: true
     node:
       answer_test: AlgEquiv
       quiet: 0

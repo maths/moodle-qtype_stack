@@ -178,6 +178,7 @@ class qtype_stack_api {
     }
 
     public function initialise_question(array $q) {
+
         $question = new qtype_stack_question();
         $question->type = 'stack';
         $question->defaultmark               = (float) $q['default_mark'];
@@ -197,7 +198,7 @@ class qtype_stack_api {
         $question->prtpartiallycorrect       = (string) $q['prt_partially_correct_html'];
         $question->prtpartiallycorrectformat = 'html';
         $question->prtincorrect              = (string) $q['prt_incorrect_html'];
-        $question->prtincorrectformat        = 'html';
+        $question->prtincorrectformat        = '';
         $question->variantsselectionseed     = "";
 
         $question->options = new stack_options();
@@ -208,7 +209,7 @@ class qtype_stack_api {
             'matrixparens' => 'matrix_parens'
             );
         foreach ($stringoptions as $key => $value) {
-            $opt = trim((string) $q[$value]);
+            $opt = trim((string) $q['options'][$value]);
             if ('' != $opt) {
                 $question->options->set_option($key, $opt);
             }
@@ -220,7 +221,7 @@ class qtype_stack_api {
             'simplify' => 'simplify'
         );
         foreach ($booloptions as $key => $value) {
-            $opt = (bool) $questionob[$value];
+            $opt = (bool) $q['options'][$value];
             $question->options->set_option($key, $opt);
         }
 
@@ -263,7 +264,7 @@ class qtype_stack_api {
         }
 
         foreach ($q['response_trees'] as $key => $prtdata) {
-            $name = (string) $prtdata['name'];
+            $name = (string) $key;
             $nodes = array();
 
 
@@ -328,7 +329,6 @@ class qtype_stack_api {
         $questionob = $qob->question;
 
         $question = new qtype_stack_question();
-
         $question->type = 'stack';
         $question->defaultmark               = (float) $questionob->defaultgrade;
         $question->penalty                   = (float) $questionob->penalty;

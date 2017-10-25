@@ -33,7 +33,7 @@ class qtype_stack_api_export
             case "float":
                 return (float) $value;
             case "bool":
-                return (bool) $value;
+                return (bool) ($value == "1");
         }
     }
 
@@ -49,6 +49,7 @@ class qtype_stack_api_export
         self::property($yaml, 'question_html', $q->questiontext->text, 'string', $section);
         self::property($yaml, 'penalty', $q->penalty, 'float', $section);
         self::property($yaml, 'variables', $q->questionvariables->text, 'string', $section);
+        self::property($yaml, 'specific_feedback_html', $q->specificfeedback->text, 'string', $section);
         self::property($yaml, 'note', $q->questionnote->text, 'string', $section);
         self::property($yaml, 'worked_solution_html', $q->generalfeedback->text, 'string', $section);
         self::property($yaml, 'prt_correct_html', $q->prtcorrect->text, 'string', $section);
@@ -61,7 +62,7 @@ class qtype_stack_api_export
 
         $options = array(
             'sqrtsign' => 'sqrt_sign',
-            'assumepos' => 'assume_positive',
+            'assumepositive' => 'assume_positive',
             'assumereal' => 'assume_real',
             'questionsimplify' => 'simplify'
         );
@@ -104,7 +105,6 @@ class qtype_stack_api_export
         $this->property($res, 'must_verify', $input->mustverify, 'bool', $section);
         $this->property($res, 'show_validations', $input->showvalidation, 'string', $section);
         $this->property($res, 'options', $input->options, 'string', $section);
-
         return $res;
     }
 
@@ -155,9 +155,11 @@ class qtype_stack_api_export
     {
         $section = 'tree';
         $res = array();
-        $this->property($res, 'auto_simplify', $tree->type, 'bool', $section);
+        $this->property($res, 'auto_simplify', $tree->autosimplify, 'bool', $section);
+//        $this->property($res, 'type', $tree->type, 'string', $section);
         $this->property($res, 'value', $tree->value, 'float', $section);
         $this->property($res, 'first_node', 'node_' . (int) $tree->firstnodename, 'string', $section);
+        $this->property($res, 'feedback_variables',  (string    ) $tree->feedbackvariables->text, 'string', $section);
 
         $res['nodes'] = array();
         foreach ($tree->node as $node) {

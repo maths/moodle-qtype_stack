@@ -59,6 +59,10 @@ class qtype_stack_api_yaml_defaults {
 
     public function isDefault($section, $path, $value) {
         $root = $this->get_root($section);
+        if (!array_key_exists($path, $root)) {
+            return false;
+        }
+
         return ($root[$path] == $value);
     }
 }

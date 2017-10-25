@@ -18,21 +18,18 @@ function processRequest() {
     $api = new qtype_stack_api();
     $parsed = validateData(parseInput());
 
-    $question = trim($parsed['question']);
+    $question_yaml = trim($parsed['question']);
     $defaults = new qtype_stack_api_yaml_defaults($parsed['defaults']);
-
-    if ($question[0] === '<') {
-        $export = new qtype_stack_api_export($question, $defaults);
-        $question = $export->YAML();
+    if ($question_yaml[0] === '<') {
+        $export = new qtype_stack_api_export($question_yaml, $defaults);
+        $question_yaml = $export->YAML();
     }
 
-    $importer = new qtype_stack_api_yaml($question, $defaults);
+    $importer = new qtype_stack_api_yaml($question_yaml, $defaults);
     $data = $importer->get_question();
     $question = $api->initialise_question($data);
-
     // Make this a definite number, to fix the random numbers.
     $question->seed = $parsed['seed'];
-    //print_r($question);
 
     $question->initialise_question_from_seed();
 

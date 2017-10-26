@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/Parsedown/Parsedown.php');
+require_once(__DIR__ . '/../../thirdparty/Parsedown/Parsedown.php');
 
 class qtype_stack_api_input_values {
     const MAP = array(

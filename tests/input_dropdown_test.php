@@ -62,7 +62,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
         // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">Not answered</option><option value="1"><code>1+x</code></option>'
+                .'<option value="">(No answer given)</option><option value="1"><code>1+x</code></option>'
                 .'<option selected="selected" value="2"><code>2+y</code></option></select>';
         $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
@@ -106,7 +106,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                . '<option value="">Not answered</option><option value="1"><code>1</code></option>'
+                . '<option value="">(No answer given)</option><option value="1"><code>1</code></option>'
                 . '<option selected="selected" value="2"><code>1</code></option></select>';
         $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
@@ -132,17 +132,27 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $el = $this->make_dropdown();
         $el->adapt_to_model_answer($this->make_ta());
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">Not answered</option>'
+                .'<option value="">(No answer given)</option>'
                 .'<option value="1"><code>x+1</code></option><option value="2"><code>x+2</code></option>'
                 .'<option selected="selected" value="3"><code>sin(pi*n)</code></option></select>';
         $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(
                         stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
+    public function test_render_nonotanswered() {
+        $el = $this->make_dropdown(array('options' => 'nonotanswered'));
+        $el->adapt_to_model_answer($this->make_ta());
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
+                .'<option value="1"><code>x+1</code></option><option value="2"><code>x+2</code></option>'
+                .'<option selected="selected" value="3"><code>sin(pi*n)</code></option></select>';
+        $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(
+                stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
+    }
+
     public function test_render_latex() {
         $el = $this->make_dropdown(array('options' => 'LaTeX'));
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">Not answered</option><option value="1">\(x+1\)</option>'
+                .'<option value="">(No answer given)</option><option value="1">\(x+1\)</option>'
                 .'<option value="2">\(x+2\)</option>'
                 .'<option selected="selected" value="3">\(\sin \left( \pi\cdot n \right)\)</option></select>';
         $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(
@@ -152,7 +162,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
     public function test_render_latexdisplay() {
         $el = $this->make_dropdown(array('options' => 'LaTeXdisplay'));
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">Not answered</option><option value="1">\[x+1\]</option>'
+                .'<option value="">(No answer given)</option><option value="1">\[x+1\]</option>'
                 .'<option value="2">\[x+2\]</option>'
                 .'<option selected="selected" value="3">\[\sin \left( \pi\cdot n \right)\]</option></select>';
         $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(
@@ -201,7 +211,7 @@ class stack_dropdown_input_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, array());
         $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                . '<option value="">Not answered</option><option value="1"><code>1+x</code></option>'
+                . '<option value="">(No answer given)</option><option value="1"><code>1+x</code></option>'
                 . '<option selected="selected" value="2"><code>2+x^2</code></option>'
                 . '<option value="3">None of these</option></select>';
         $this->assertSameSelectHtml($expected, $el->render(new stack_input_state(

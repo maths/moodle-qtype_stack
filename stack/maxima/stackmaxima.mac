@@ -910,8 +910,7 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
         return(ATNumerical_set(SA, SB, numtype, tol)),
 
     /* Are we dealing with numbers? */
-    /*print(ev(abs(float(SA-SB)), simp)),
-    print(ev(abs(tol)+STACK_NUM_TOL, simp)),*/
+    if (debug) then print ([SA,SB,tol]),
     if numberp(SAN) then
       if numberp(TA) then
         return(StackBasicReturn(false, false, "ATNumerical_SA_not_number"))
@@ -928,7 +927,8 @@ ATNumerical(SA, SB, SO, numtype) := block([simp:true, RawMark, FeedBack, AnswerN
 /* We have to define our own working precision. */
 STACK_NUM_TOL:10E-10$
 numabsolutep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(tol)+STACK_NUM_TOL, simp)  then true else false;
-numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) < ev(abs(ta*tol)+STACK_NUM_TOL, simp) then true else false;
+/* The equality sign below is to accommodate the edge case numrelativep(0.0,0.0,0.0?).  Needed for units tests with things like 0m/s. */ 
+numrelativep(sa,ta,tol) :=  if ev(abs(float(sa-ta)), simp) <= ev(abs(ta*tol*(1+STACK_NUM_TOL)), simp) then true else false;
 
 ATNumerical_list(SA, SB, numtype, tol) := block([SAl, SBl, cl, res, fb:"", an:""],
     SAl:length(SA),
@@ -1117,6 +1117,12 @@ ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN],
 ATAlgEquivfun(SA, SB) :=  block([keepfloat, RawMark, FeedBack, AnswerNote, ret],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
+    /* Are we dealing with strings? */
+    if stringp(SB) then
+      if stringp(SA)#true then
+        return(StackBasicReturn(false, false, "ATAlgEquiv_SA_not_string"))
+      else
+        return([true, is(SA=SB), "ATAlgEquiv_String", ""]),
     /* Are we dealing with matrices? */
     if matrixp(SB) then
       if matrixp(SA)#true then
@@ -2137,7 +2143,7 @@ PartFracfun(sExpr, tExpr, wrt) := block([val, rawmk, ansnote, fb],
 /*              True(0) otherwise                                       */
 /* ******************************************************************** */
 ATSingleFrac(SA, SB) := block(
-    [simp:false,negdistrib, validity, rawmk, fb, fbn, ansnote, ret, SAA, SBB],
+    [simp:false, negdistrib, validity, rawmk, fb, fbn, ansnote, ret, SAA, SBB],
     negdistrib: false,
     validity:true, rawmk:false, fb:"", ansnote:"",
 

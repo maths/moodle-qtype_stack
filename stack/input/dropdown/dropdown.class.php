@@ -44,6 +44,11 @@ class stack_dropdown_input extends stack_input {
     protected $ddldisplay = 'casstring';
 
     /*
+     * Controls whether a "not answered" option is presented to the students.
+     */
+    protected $nonotanswered = true;
+
+    /*
      * This holds the value of those
      * entries which the teacher has indicated are correct.
      */
@@ -82,6 +87,10 @@ class stack_dropdown_input extends stack_input {
 
                     case 'casstring':
                         $this->ddldisplay = 'casstring';
+                        break;
+
+                    case 'nonotanswered':
+                        $this->nonotanswered = false;
                         break;
 
                     default:
@@ -272,12 +281,18 @@ class stack_dropdown_input extends stack_input {
 
         // Make sure the array keys start at 1.  This avoids
         // potential confusion between keys 0 and ''.
-        $values = array_merge(array('' => array('value' => '',
-            'display' => stack_string('notanswered'), 'correct' => false), 0 => null), $values);
+        if ($this->nonotanswered) {
+            $values = array_merge(array('' => array('value' => '',
+                'display' => stack_string('notanswered'), 'correct' => false), 0 => null), $values);
+        } else {
+            $values = array_merge(array(0 => null), $values);
+        }
         unset($values[0]);
         // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
         if ('checkbox' == $this->ddltype) {
-            unset($values['']);
+            if (array_key_exists('', $values)) {
+                unset($values['']);
+            }
         }
         return $values;
     }
@@ -349,7 +364,10 @@ class stack_dropdown_input extends stack_input {
             $inputattributes['disabled'] = 'disabled';
         }
 
-        $notanswered = $values[''];
+        $notanswered = '';
+        if (array_key_exists('', $values)) {
+            $notanswered = $values[''];
+        }
         if ($this->ddltype == 'select') {
             unset($values['']);
         }

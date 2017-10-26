@@ -3,12 +3,12 @@
 <!-- question: 0  -->
   <question type="category">
     <category>
-        <text>Default for scratch/Input sample questions</text>
+        <text>Default for Scratch/Input sample questions</text>
 
     </category>
   </question>
 
-<!-- question: 28  -->
+<!-- question: 4  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -101,7 +101,7 @@
     </prt>
   </question>
 
-<!-- question: 29  -->
+<!-- question: 5  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -338,7 +338,7 @@
     </prt>
   </question>
 
-<!-- question: 30  -->
+<!-- question: 6  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -438,7 +438,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 24  -->
+<!-- question: 7  -->
   <question type="stack">
     <name>
       <text>Checkbox: display strings.</text>
@@ -673,7 +673,109 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     </qtest>
   </question>
 
-<!-- question: 31  -->
+<!-- question: 20  -->
+  <question type="stack">
+    <name>
+      <text>Dropdown (nonotanswered)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.1000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text><![CDATA[/* Create a list of potential answers. */
+p:sin(2*x);
+ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+/* The actual correct answer.    */
+tac:diff(p,x)
+/* Randomly shuffle the list "ta". */
+ta:random_permutation(ta);
+/* Add in a "None of these" to the end of the list.  The Maxima value is the atom null. */
+tao:[null, false, "None of these"];
+ta:append(ta,[tao]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@ta@}</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>dropdown</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options>nonotanswered</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>Diff</answertest>
+        <sans>first(ans1)</sans>
+        <tans>diff(p,x)</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+<!-- question: 8  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -775,7 +877,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 32  -->
+<!-- question: 9  -->
   <question type="stack">
     <name>
       <text>Equiv input test</text>
@@ -870,7 +972,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </prt>
   </question>
 
-<!-- question: 33  -->
+<!-- question: 10  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -963,7 +1065,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </prt>
   </question>
 
-<!-- question: 35  -->
+<!-- question: 11  -->
   <question type="stack">
     <name>
       <text>Multi-part-MCQ-algebraic</text>
@@ -1198,7 +1300,7 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     </qtest>
   </question>
 
-<!-- question: 36  -->
+<!-- question: 12  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -1291,7 +1393,7 @@ ta2:int(sin(x)*cos(x),x)]]></text>
     </prt>
   </question>
 
-<!-- question: 26  -->
+<!-- question: 13  -->
   <question type="stack">
     <name>
       <text>Radio (casstring)</text>
@@ -1419,7 +1521,135 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 27  -->
+<!-- question: 19  -->
+  <question type="stack">
+    <name>
+      <text>Radio (nonotanswered)</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>Differentiate {@p@} with respect to {@x@}.&nbsp;</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3000000</penalty>
+    <hidden>0</hidden>
+    <questionvariables>
+      <text><![CDATA[/* Create a list of potential answers. */
+p:sin(2*x);
+ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+/* The actual correct answer.    */
+tac:diff(p,x)
+/* Randomly shuffle the list "ta". */
+ta:random_permutation(ta);
+/* Add in a "None of these" to the end of the list.  The Maxima value is the atom null. */
+tao:[null, false, "None of these"];
+ta:append(ta,[tao]);]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text>{@maplist(first,ta)@}.  Correct answer is {@tac@}.</text>
+    </questionnote>
+    <questionsimplify>1</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text>Correct answer, well done.</text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text>Your answer is partially correct.</text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text>Incorrect answer.</text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>1</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <matrixparens>[</matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>radio</type>
+      <tans>ta</tans>
+      <boxsize>15</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>1</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options>nonotanswered</options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <answertest>Diff</answertest>
+        <sans>ans1</sans>
+        <tans>diff(p,x)</tans>
+        <testoptions>x</testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1.0000000</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0.0000000</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text></text>
+        </falsefeedback>
+      </node>
+    </prt>
+    <qtest>
+      <testcase>1</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>2*cos(2*x)</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>1.0000000</expectedscore>
+        <expectedpenalty>0.0000000</expectedpenalty>
+        <expectedanswernote>prt1-1-T</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>2</testcase>
+      <testinput>
+        <name>ans1</name>
+        <value>cos(2*x)+c</value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty>0.3000000</expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+    </qtest>
+  </question>
+
+<!-- question: 14  -->
   <question type="stack">
     <name>
       <text>Radio (shuffle)</text>
@@ -1547,7 +1777,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 38  -->
+<!-- question: 15  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -1640,7 +1870,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 39  -->
+<!-- question: 16  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
@@ -1733,7 +1963,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 40  -->
+<!-- question: 17  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -1826,7 +2056,7 @@ ta:append(ta,[tao]);]]></text>
     </prt>
   </question>
 
-<!-- question: 41  -->
+<!-- question: 18  -->
   <question type="stack">
     <name>
       <text>Units</text>

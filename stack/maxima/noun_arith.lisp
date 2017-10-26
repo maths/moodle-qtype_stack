@@ -41,3 +41,7 @@
 (defprop $nounor 70. tex-lbp)
 (defprop $nounor 70. tex-rbp)
 
+;; Chris Sangwin 29 Sept 2017.
+
+(defprop mnot tex-prefix tex)
+(defprop mnot ("{\\rm not}") texsym)

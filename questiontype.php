@@ -400,7 +400,8 @@ class qtype_stack extends question_type {
         $question->options->set_option('assumereal',  (bool) $questiondata->options->assumereal);
 
         $requiredparams = stack_input_factory::get_parameters_used();
-        foreach ($questiondata->inputs as $name => $inputdata) {
+        foreach (stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
+            $inputdata = $questiondata->inputs[$name];
             $allparameters = array(
                 'boxWidth'        => $inputdata->boxsize,
                 'strictSyntax'    => (bool) $inputdata->strictsyntax,
@@ -437,7 +438,9 @@ class qtype_stack extends question_type {
                     $question->name);
         }
 
-        foreach ($questiondata->prts as $name => $prtdata) {
+        $combinedtext = $question->questiontext . $question->specificfeedback;
+        foreach (stack_utils::extract_placeholders($combinedtext, 'feedback') as $name) {
+            $prtdata = $questiondata->prts[$name];
             $nodes = array();
             foreach ($prtdata->nodes as $nodedata) {
                 $sans = new stack_cas_casstring($nodedata->sans);

@@ -1,5 +1,16 @@
 <html>
   <head>
+      <meta charset="utf-8"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.min.css" />
+      <style>
+        .CodeMirror { border: 1px solid #ddd;}
+        .CodeMirror {
+          width: 49%;
+          float: left;
+          height: 500px;
+        }
+      </style>
       <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
           tex2jax: {
@@ -16,14 +27,19 @@
         src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"
       >
       </script>
-  </head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.10.0/js-yaml.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/yaml-lint.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/yaml/yaml.js"></script>
+    </head>
   <body>
     <script>
       function collectData() {
-        var defaults = document.getElementById('defaults').value;
+        var defaults = defaultsEditor.getDoc().getValue();
 
         var res = {
-          question: document.getElementById('xml').value,
+          question: yamlEditor.getDoc().getValue(),
           readOnly: document.getElementById('readOnly').checked,
           feedback: document.getElementById('feedback').checked,
           score: document.getElementById('hasScore').checked,
@@ -81,9 +97,22 @@
         }
         http.send(JSON.stringify(collectData()))
       }
+
+      function saveState(key, value) {
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem(key, value)
+        }
+      }
+
+      function loadState(key) {
+        if (typeof(Storage) !== "undefined") {
+          return localStorage.getItem(key) || ''
+        }
+        return ''
+      }
     </script>
     Yaml/XML<span style="width: 700px;display: inline-block;">&nbsp;</span>Defaults<br>
-    <textarea id='xml' cols="100" rows="50"></textarea>|<textarea id='defaults' cols="60" rows="50"></textarea><br/>
+    <textarea id='xml' cols="100" rows="50"></textarea><textarea id='defaults' cols="60" rows="50"></textarea><br/>
     <input type="checkbox" id="readOnly"/>Read Only |
     <input type="checkbox" id="feedback"/>Feedback |
     <input type="checkbox" id="hasScore"/>Score |
@@ -103,4 +132,28 @@
     <div id="time"></div>
 
   </body>
+  <script>
+        var yamlEditor = CodeMirror.fromTextArea(document.getElementById("xml"),
+          {
+            lineNumbers: true,
+            mode: "yaml",
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
+          });
+          yamlEditor.getDoc().on('change', function (cm) {
+            saveState('yaml', cm.getValue())
+          })
+          yamlEditor.getDoc().setValue(loadState('yaml'));
+        var defaultsEditor = CodeMirror.fromTextArea(document.getElementById("defaults"),
+          {
+            lineNumbers: true,
+            mode: "yaml",
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
+          });
+          defaultsEditor.getDoc().on('change', function (cm) {
+            saveState('defaults', cm.getValue())
+          })
+          defaultsEditor.getDoc().setValue(loadState('defaults'));
+        </script>
 </html>

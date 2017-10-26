@@ -1,6 +1,5 @@
 <?php
-require_once(__DIR__ . '/Michelf/Markdown.inc.php');
-use Michelf\Markdown;
+require_once(__DIR__ . '/Parsedown/Parsedown.php');
 
 class qtype_stack_api_input_values {
     const MAP = array(
@@ -65,7 +64,8 @@ class qtype_stack_api_input_values {
     }
 
     private static function process_markdown(string $value) {
-        return Markdown::defaultTransform($value);
+        $Parsedown = new Parsedown();
+        return $Parsedown->text($value);
     }
 
     private static function set_content(&$node, $field, $value) {

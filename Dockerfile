@@ -3,7 +3,6 @@ RUN mkdir -p /var/data/api
 RUN chmod a+rw /var/data/api
 RUN mkdir -p /var/data/api/stack/logs && mkdir mkdir -p /var/data/api/stack/tmp
 RUN apt-get update && apt-get install maxima gnuplot libyaml-dev unzip git -y
-RUN apt-get update && apt-get install libyaml-dev -y
 RUN pecl install yaml
 RUN echo "extension=yaml.so" > /usr/local/etc/php/conf.d/yaml.ini
 #RUN pecl install xdebug-2.5.0 && docker-php-ext-enable xdebug

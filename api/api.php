@@ -109,7 +109,7 @@ class qtype_stack_api {
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($index, $attempt, false);
-            //echo "<pre>"; print_r($result); echo "</pre>";
+//            echo "<pre>"; var_dump($result->get_feedback()); echo "</pre>";
             $resultfeedback = $result->get_feedback();
             $scores[$index] = $result->score;
             $notes[$index] = implode(' | ', $result->answernotes);
@@ -117,7 +117,6 @@ class qtype_stack_api {
                 $feedback .= $fb->feedback;
             }
             $fbct = new stack_cas_text($feedback, $result->cascontext);
-
             if ($options->feedback) {
                 $feedback = html_writer::nonempty_tag('div', $fbct->get_display_castext(),
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
@@ -132,7 +131,6 @@ class qtype_stack_api {
                     $feedback .= "<p class='stackpartmark'>Your mark for this part is ".$result->score.".</p>";
                 }
             }
-
             $target = "[[feedback:{$index}]]";
             $questiontext = str_replace($target, $feedback, $questiontext);
         }
@@ -267,7 +265,6 @@ class qtype_stack_api {
             $name = (string) $key;
             $nodes = array();
 
-
             foreach ($prtdata['nodes'] as $nodedata) {
                 $sans = new stack_cas_casstring((string) $nodedata['answer']);
                 $sans->get_valid('t');
@@ -286,22 +283,18 @@ class qtype_stack_api {
                 }
 
                 $nodeid = (int) $nodedata['name'];
-                $quiet = true;
-                if ('0' == $nodedata['quiet']) {
-                    $quiet = false;
-                }
-
+                $quiet = $nodedata['quiet'];
                 $node = new stack_potentialresponse_node($sans, $tans,
                         (string) $nodedata['answer_test'], (string) $nodedata['test_options'],
                         $quiet, '', $nodeid);
                 $node->add_branch(0, (string) $nodedata['F']['score_mode'], (float) $nodedata['F']['score'],
                         $falsepenalty, (int) $nodedata['F']['next_node'],
-                        (string) $nodedata['feedback_html'],
+                        (string) $nodedata['F']['feedback_html'],
                         'html',
                         $nodedata['F']['answer_note']);
                 $node->add_branch(1, (string) $nodedata['T']['score_mode'], (float) $nodedata['T']['score'],
                         $falsepenalty, (int) $nodedata['T']['next_node'],
-                        (string) $nodedata['feedback_html'],
+                        (string) $nodedata['T']['feedback_html'],
                         'html',
                         $nodedata['T']['answer_note']);
                 $nodes[$nodeid] = $node;

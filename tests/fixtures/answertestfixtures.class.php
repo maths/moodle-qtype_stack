@@ -103,6 +103,15 @@ class stack_answertest_test_data {
             'Expressions with subscripts'),
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0, '', ''),
 
+        array('AlgEquiv', '', 'rationalized(1+sqrt(3)/3)', 'true', 1, 'ATLogic_True', 'Bad things in denominators'),
+        array('AlgEquiv', '', 'rationalized(1+1/sqrt(3))', '[sqrt(3)]', 1, '', ''),
+        array('AlgEquiv', '', 'rationalized(1/sqrt(3))', '[sqrt(3)]', 1, '', ''),
+        array('AlgEquiv', '', 'rationalized(1/sqrt(2)+i/sqrt(2))', '[sqrt(2),sqrt(2)]', 1, '', ''),
+        array('AlgEquiv', '', 'rationalized(sqrt(2)/2+1/sqrt(3))', '[sqrt(3)]', 1, '', ''),
+        array('AlgEquiv', '', 'rationalized(1/sqrt(2)+1/sqrt(3))', '[sqrt(2),sqrt(3)]', 1, '', ''),
+        array('AlgEquiv', '', 'rationalized(1/(1+i))', '[i]', 1, '', ''),
+        array('AlgEquiv', '', 'rationalized(1/(1+1/root(3,2)))', '[root(3,2)]', 1, '', ''),
+
         array('AlgEquiv', '', '(x-1)^2', 'x^2-2*x+1', 1, '', 'Polynomials and rational function'),
         array('AlgEquiv', '', '(x-1)*(x^2+x+1)', 'x^3-1', 1, '', ''),
         array('AlgEquiv', '', '(x-1)^(-2)', '1/(x^2-2*x+1)', 1, '', ''),

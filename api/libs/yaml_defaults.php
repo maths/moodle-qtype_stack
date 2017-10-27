@@ -6,7 +6,7 @@ class qtype_stack_api_yaml_defaults {
 
     function qtype_stack_api_yaml_defaults($defaults) {
 
-        if ($defaults == NULL) {
+        if ($defaults == null) {
             $defaults = yaml_parse_file(__DIR__ . '/defaults/main.yaml');
         } else {
             $defaults = yaml_parse($defaults);

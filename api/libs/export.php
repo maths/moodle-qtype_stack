@@ -136,6 +136,7 @@ class qtype_stack_api_export
         $this->property($res['T'], 'next_node', $next_node, 'string', $section);
         $this->property($res['T'], 'answer_note', $node->trueanswernote, 'string', $section);
         $this->property($res['T'], 'feedback_html', $node->truefeedback->text, 'string', $section);
+
         # false branch
         $section = 'branch-F';
         $res['F'] = array();
@@ -143,7 +144,6 @@ class qtype_stack_api_export
         $this->property($res['F'], 'score', $node->falsescore, 'float', $section);
         $this->property($res['F'], 'penalty', $node->falsepenalty, 'float', $section);
         $next_node = ($node->falsenextnode == -1)? -1 : 'node_' . (string)$node->falsenextnode;
-
         $this->property($res['F'], 'next_node', $next_node, 'string', $section);
         $this->property($res['F'], 'answer_note', $node->falseanswernote, 'string', $section);
         $this->property($res['F'], 'feedback_html', $node->falsefeedback->text, 'string', $section);

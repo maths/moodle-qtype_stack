@@ -64,22 +64,10 @@ class qtype_stack_api {
         $inputstovaldiate = array();
         $qaid = null;
         foreach ($question->inputs as $name => $input) {
-            // Get the actual value of the teacher's answer at this point.
 
-            if (!$options->validate) { // get hidden inputs for score
-                $state = $question->get_input_state($name, $attempt);
-
-                $skip_validation = stack_input::BLANK == $state->status ||
-                stack_input::INVALID == $state->status;
-
-                if (!$skip_validation && $input->requires_validation() && '' !== $state->contents) {
-                    $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
-                }
-            } if (!$options->validate) { // get hidden inputs for score
-                $state = $question->get_input_state($name, $attempt);
-
-                $skip_validation = stack_input::BLANK == $state->status ||
-                stack_input::INVALID == $state->status;
+            $state = $question->get_input_state($name, $attempt);
+            if (property_exists($options, 'validate')) {
+                $skip_validation = stack_input::BLANK == $state->status || stack_input::INVALID == $state->status;
 
                 if (!$skip_validation && $input->requires_validation() && '' !== $state->contents) {
                     $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);

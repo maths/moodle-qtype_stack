@@ -14,7 +14,7 @@ class question_graded_automatically_with_countback {
 
 }
 
-interface question_automatically_gradable_with_multiple_parts{
+interface question_automatically_gradable_with_multiple_parts {
 
 }
 

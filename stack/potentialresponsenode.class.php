@@ -52,6 +52,11 @@ class stack_potentialresponse_node {
     private $answertest;
 
     /*
+     * @var string Options taken by the answer test.
+     */
+    private $atoptions;
+
+    /*
     * @var boolean Suppress any feedback from the answer test itself?
      */
     private $quiet;
@@ -130,7 +135,8 @@ class stack_potentialresponse_node {
     public function do_test($nsans, $ntans, $ncasopts, $options,
             stack_potentialresponse_tree_state $results) {
 
-        if (false === $ncasopts) {
+        // If an option is required by the answer test, but not processed by the CAS then take the raw value.
+        if ($this->required_atoptions() && !$this->process_atoptions()) {
             $ncasopts = $this->atoptions;
         }
 
@@ -252,11 +258,19 @@ class stack_potentialresponse_node {
     }
 
     /*
-     * Does this answer test actually require options?
+     * Does this answer test actually require options to be processed by the CAS?
      */
     public function process_atoptions() {
         $at = new stack_ans_test_controller($this->answertest, '', '', null, '');
         return $at->process_atoptions();
+    }
+
+    /*
+     * Does this answer test actually require options?
+     */
+    public function required_atoptions() {
+        $at = new stack_ans_test_controller($this->answertest, '', '', null, '');
+        return $at->required_atoptions();
     }
 
     protected function update_score($oldscore, $resultbranch) {

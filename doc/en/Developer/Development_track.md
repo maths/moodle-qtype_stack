@@ -15,5 +15,5 @@ To do for version 4.1:
 * Enable individual questions to load Maxima libraries.  (See issue #305).
 * Add support for matrices with floating point entries, and testing numerical accuracy.
 * Add test which checks if there are any rational expressions in the denominator of a fraction.
-
 * Add in support for the syntaxHint in the matrix input.
+* Add in the "string" input type.

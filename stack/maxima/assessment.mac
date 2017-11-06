@@ -92,7 +92,6 @@ poly_equate_coeffs(p1,p2,v) := block([deg,kloop,cl],
 get_ops(ex):= setify(flatten(get_ops_helper(ex)))$
 get_ops_helper(ex):=if mapatom(ex) then [] else append([op(ex)],maplist(get_ops_helper,args(ex)))$
 
-
 /* Predicate to test if an operator is used in an expression. */
 op_usedp(ex, opused) := block(
    if atom(ex) then return(false),
@@ -228,6 +227,38 @@ root([ex]) := block(
   if length(ex) = 2 then return(first(ex)^(1/second(ex)))
 )$
 
+/* Denominators of fractions should not contain sqrt, root, %i or fractional powers. */
+rational_fail(ex) := block(
+  if is(ex=%i) then return([%i]),
+  /* Other atoms are fine. */
+  if atom(ex) then return([]),
+  /* Look for forbidden operators. */
+  if safe_op(ex)="root" then return([ex]),
+  if safe_op(ex)="sqrt" then return([ex]),
+  if safe_op(ex)="^" and rational_numberp(second(args(ex))) then return([ex]),
+  maplist(rational_fail, args(ex))
+)$
+
+/* This function picks out any rationals in the expression. */
+find_rationals(ex) := block(
+  if atom(ex) then return([]),
+  if safe_op(ex)="/" then return(ex),
+  maplist(find_rationals, args(ex))
+)$
+
+/* Toplevel function.
+   This returns "true" if the denominators of expressionss are free of sqrt, root, %i or fractional powers.
+   It returns a list of offending terms otherwise.
+*/ 
+rationalized(ex):= block(
+  ex:find_rationals(ex),
+  if not(listp(ex)) then ex:[ex],
+  ex:maplist(denom, find_rationals(ex)),
+  ex:flatten(maplist(rational_fail, ex)),
+  if emptyp(ex) then return(true),
+  return(ex)  
+)$
+
 /* ********************************** */
 /* Numerical operations               */
 /* ********************************** */
@@ -239,6 +270,19 @@ simp_numberp(ex) := block(
   if op(ex)="-" and numberp(first(args(ex))) then return(true),
   false
 )$
+
+simp_integerp(ex) := block(
+  if integerp(ex) then return(true),
+  if atom(ex) then return(false),
+  if op(ex)="-" and integerp(first(args(ex))) then return(true),
+  false
+)$
+
+/* Do we have a rational number?  */
+rational_numberp(ex) := block(
+   if safe_op(ex)="/" and simp_integerp(num(ex)) and simp_integerp(denom(ex)) then return(true),
+   return(false)
+);
 
 /* Do we have a real number?  */
 /* Code taken from Stack_Test */

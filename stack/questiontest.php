@@ -121,7 +121,6 @@ class stack_question_test {
                 }
             }
         }
-
         $cascontext->add_vars($vars);
         $cascontext->instantiate();
 

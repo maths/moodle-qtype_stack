@@ -29,6 +29,9 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * A new MCQ input type with a "none of these" option which uses Javascript to degrade to an algebraic input: https://community.articulate.com/articles/how-to-use-an-other-please-specify-answer-option
 * Add an option for "no functions" which will always insert stars and transform "x(" -> "x*(" even when x occurs as both a function and a variable.
 * Make the syntax hint CAS text, to depend on the question variables.
+* Add in much more flexible validation options
+ 1. Enforce a certain number of significant figures or decimal places at validation time.
+ 2. Reject expressions not correctly rationalized, using `rationalized(ex)`.
 
 
 ### Improve the editing form ###

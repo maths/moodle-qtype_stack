@@ -204,7 +204,7 @@ class stack_cas_casstring {
                 'lc_u' => true, 'lcharp' => true, 'legendre_p' => true, 'legendre_q' => true, 'leinstein' => true,
                 'let' => true, 'let_rule_packages' => true, 'letrat' => true, 'letrules' => true, 'letsimp' => true,
                 'levi_civita' => true, 'lfg' => true, 'lg' => true, 'lgtreillis' => true, 'li' => true, 'liediff' => true,
-                'lindstedt' => true, 'line_type' => true, 'line_width' => true, 'linear' => true, 'linear_program' => true,
+                'lindstedt' => true, 'line_type' => true, 'line_width' => true, 'linear' => true,
                 'linear_solver' => true, 'lispdisp' => true, 'list_nc_monomials' => true, 'listarray' => true,
                 'listoftens' => true, 'logand' => true, 'logcb' => true, 'logor' => true, 'logxor' => true, 'logz' => true,
                 'lorentz_gauge' => true, 'lpart' => true, 'lriem' => true, 'lriemann' => true, 'lsquares_estimates' => true,
@@ -213,18 +213,18 @@ class stack_cas_casstring {
                 'mainvar' => true, 'make_array' => true, 'make_level_picture' => true, 'make_poly_continent' => true,
                 'make_poly_country' => true, 'make_polygon' => true, 'make_random_state' => true, 'make_rgb_picture' => true,
                 'makebox' => true, 'makeorders' => true, 'mandelbrot' => true, 'maperror' => true, 'mat_function' => true,
-                'max_ord' => true, 'maxapplydepth' => true, 'maxapplyheight' => true, 'maxi' => true, 'maximize_lp' => true,
+                'max_ord' => true, 'maxapplydepth' => true, 'maxapplyheight' => true, 'maxi' => true,
                 'maxnegex' => true, 'maxposex' => true, 'maxpsifracdenom' => true, 'maxpsifracnum' => true,
                 'maxpsinegint' => true, 'maxpsiposint' => true, 'maxtayorder' => true, 'maybe' => true, 'mesh' => true,
                 'mesh_lines_color' => true, 'metricexpandall' => true, 'mini' => true, 'minimalpoly' => true,
-                'minimize_lp' => true, 'minor' => true, 'mnewton' => true, 'mod_big_prime' => true, 'mod_test' => true,
+                'minor' => true, 'mnewton' => true, 'mod_big_prime' => true, 'mod_test' => true,
                 'mod_threshold' => true, 'mode_check_errorp' => true, 'mode_check_warnp' => true, 'mode_checkp' => true,
                 'mode_declare' => true, 'mode_identity' => true, 'modematrix' => true, 'modular_linear_solver' => true,
                 'mon2schur' => true, 'mono' => true, 'monomial_dimensions' => true, 'multi_elem' => true, 'multi_orbit' => true,
                 'multi_pui' => true, 'multinomial' => true, 'multsym' => true, 'natural_unit' => true, 'nc_degree' => true,
                 'negative_picture' => true, 'newcontext' => true, 'newton' => true, 'newtonepsilon' => true,
                 'newtonmaxiter' => true, 'nextlayerfactor' => true, 'niceindices' => true, 'niceindicespref' => true,
-                'nm' => true, 'nmc' => true, 'nonegative_lp' => true, 'nonmetricity' => true, 'nonzeroandfreeof' => true,
+                'nm' => true, 'nmc' => true, 'nonmetricity' => true, 'nonzeroandfreeof' => true,
                 'noundisp' => true, 'np' => true, 'npi' => true, 'nptetrad' => true, 'ntermst' => true, 'ntrig' => true,
                 'numbered_boundaries' => true, 'ode2' => true, 'ode_check' => true, 'odelin' => true, 'optimize' => true,
                 'optimprefix' => true, 'optionset' => true, 'orbit' => true, 'orbits' => true, 'orthopoly_recur' => true,
@@ -309,7 +309,7 @@ class stack_cas_casstring {
                 'eighth' => true, 'eivals' => true, 'eivects' => true, 'elementp' => true, 'eliminate' => true,
                 'elliptic_e' => true, 'elliptic_ec' => true, 'elliptic_eu' => true, 'elliptic_f' => true,
                 'elliptic_kc' => true, 'elliptic_pi' => true, 'ematrix' => true, 'emptyp' => true, 'endcons' => true,
-                'epsilon_lp' => true, 'equal' => true, 'equalp' => true, 'equiv_classes' => true, 'erf' => true,
+                'equal' => true, 'equalp' => true, 'equiv_classes' => true, 'erf' => true,
                 'euler' => true, 'ev' => true, 'eval' => true, 'evenp' => true, 'every' => true, 'exp' => true,
                 'expand' => true, 'expandwrt' => true, 'expandwrt_denom' => true, 'expandwrt_factored' => true,
                 'express' => true, 'extremal_subset' => true, 'ezgcd' => true, 'facsum' => true, 'facsum_combine' => true,
@@ -993,7 +993,7 @@ class stack_cas_casstring {
         }
 
         if ($security == 's') {
-            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212 (.
+            $patterns[] = "|([0-9]+)(\()|";           // E.g. 3212(.
             $patterns[] = "|(\Wi)(\()|";    // I.e. i( , the single pattern of i with a bracket, which is always wrong for students.
             if (!$syntax) {
                 $patterns[] = "|(^[A-Za-z])(\()|";    // E.g. a( , that is a single letter.

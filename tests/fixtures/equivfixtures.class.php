@@ -1078,6 +1078,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'Calculus, with and without the constant.';
         $newarg['casstring'] = "[x^2+1,x^3/3+x,x^2+1,x^3/3+x+c]";
         $newarg['debuglist'] = "[EMPTYCHAR,INTCHAR(x),DIFFCHAR(x),INTCHAR(x)]";
+        $newarg['calculus'] = true;
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1086,6 +1087,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'Calculus cases, with an equals sign, not equivalent.';
         $newarg['casstring'] = "[x^2+1,stackeq(x^3/3+x),stackeq(x^2+1),stackeq(x^3/3+x+c)]";
         $newarg['debuglist'] = "[EMPTYCHAR,QMCHAR,QMCHAR,QMCHAR]";
+        $newarg['calculus'] = true;
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
@@ -1094,6 +1096,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[-12+3*diff(y(x),x)+8-8*diff(y(x),x)=0,-5*diff(y(x),x)=4,diff(y(x),x)=-4/5]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus'] = true;
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1102,6 +1105,7 @@ class stack_equiv_test_data {
         $newarg['narrative'] = 'The last QMCHAR occurs because of the missing constant of integration.';
         $newarg['casstring'] = "[nounint(x^3*log(x),x),stackeq(x^4/4*log(x)-1/4*nounint(x^3,x)),stackeq(x^4/4*log(x)-x^4/4)]";
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,QMCHAR]";
+        $newarg['calculus'] = true;
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
@@ -1117,6 +1121,7 @@ class stack_equiv_test_data {
              'x=(e^(%i*y)-e^(-%i*y))/(2*%i)*(2/(e^(%i*y)+e^(-%i*y))),x=sin(y)/cos(y),x=tan(y)]';
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,".
              "EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['calculus'] = true;
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 

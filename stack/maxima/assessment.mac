@@ -13,7 +13,6 @@
     You should have received a copy of the GNU General Public License
     along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
-
 /****************************************************************/
 /*  An assessment package for Maxima                            */
 /*                                                              */
@@ -1568,7 +1567,7 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               malrulecont:false,
 
           /* We don't allow the stackeq operator for the second argument with calculus. */
-          if malrulecont and not(safe_op(ex[ev(id, simp)])="stackeq") then block([SAD, SBD, var, ATres],
+          if malrulecont and is(stack_calculus=true) and not(safe_op(ex[ev(id, simp)])="stackeq") then block([SAD, SBD, var, ATres],
               /* (C0) Calculus operations. */
               var:last(sort(listofvars(SA))),
               SAD:ev(SA, nouns, simp),
@@ -1589,6 +1588,15 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:INTCHAR(var),
                       tempnote:sconcat(tempnote, " | Integrated ")
+                  ) else (
+                  /* Check if a constant of integration is missing? */
+                  ATres:ev(ATAlgEquiv(SAD, SBD), simp),
+                  if second(ATres) then block(
+                      malrulecont:false,
+                      eqoutcome[ev(id, simp)]:true,
+                      eqoutsymb[ev(id, simp)]:INTCHAR(var),
+                      tempnote:sconcat(tempnote, " | IntegratedConst ")
+                      )
                   )
               )
           ),

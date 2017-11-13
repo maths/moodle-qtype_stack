@@ -1202,18 +1202,17 @@ class stack_utils {
             throw new stack_exception('logic_nouns_sort: direction must be "add" or "remove", but received: '. $direction);
         }
 
-        $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
+        $connectives = array('and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
         // The last two patterns are fine in the reverse direction as these patterns will have gone.
-
-        foreach ($connectives as $key => $val) {
-            if ($direction === 'add') {
-                $str = str_replace($key, $val, $str);
-            } else {
-                $str = str_replace($val, $key, $str);
-            }
-        }
+        $regexnouns = array('int' => 'nounint', 'diff' => 'noundiff');
 
         if ($direction === 'add') {
+            foreach ($connectives as $key => $val) {
+                $str = str_replace($key, $val, $str);
+            }
+            foreach ($regexnouns as $key => $val) {
+                $str = preg_replace('!(\b)(' . $key . '\\()!', $val . '(', $str);
+            }
             // Check if we are using equational reasoning.
             if (substr(trim($str), 0, 1) === "=") {
                 $trimmed = trim(substr(trim($str), 1));
@@ -1230,6 +1229,9 @@ class stack_utils {
                 }
             }
         } else {
+            foreach (array_merge($connectives, $regexnouns) as $key => $val) {
+                $str = str_replace($val, $key, $str);
+            }
             if (substr(trim($str), 0, 8) == 'stackeq(' && substr(trim($str), -1, 1) == ')') {
                 $str = '=' . substr(trim($str), 8, -1);
             }

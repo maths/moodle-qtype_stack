@@ -55,6 +55,12 @@ class stack_equiv_input extends stack_input {
      */
     private $optassumereal = false;
 
+    /**
+     * @var bool
+     * Sets the value of the stack_calculus variable, which affects how we deal with calulus in arguments.
+     */
+    private $optcalculus = false;
+
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
 
@@ -83,6 +89,10 @@ class stack_equiv_input extends stack_input {
 
                     case 'assume_real':
                         $this->optassumereal = true;
+                        break;
+
+                    case 'calculus':
+                        $this->optcalculus = true;
                         break;
 
                     default:
@@ -331,7 +341,7 @@ class stack_equiv_input extends stack_input {
         }
         $display .= '</tbody></table></center>';
         if ($valid) {
-            $equiv = $additionalvars[2];
+            $equiv = $additionalvars[3];
             $display = '\[ ' . $equiv->get_display() . ' \]';
         }
 
@@ -388,7 +398,14 @@ class stack_equiv_input extends stack_input {
         $ar = new stack_cas_casstring('assume_real:'.$assumereal);
         $ar->get_valid('t');
 
-        return array($ap, $ar, $an, $fl);
+        $calculus = 'false';
+        if ($this->optcalculus) {
+            $calculus = 'true';
+        }
+        $ac = new stack_cas_casstring('stack_calculus:'.$calculus);
+        $ac->get_valid('t');
+
+        return array($ap, $ar, $ac, $an, $fl);
     }
 
     protected function get_validation_method() {

@@ -1202,7 +1202,8 @@ class stack_utils {
             throw new stack_exception('logic_nouns_sort: direction must be "add" or "remove", but received: '. $direction);
         }
 
-        $connectives = array('and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
+        // Note, the spaces before these connectives are essential.
+        $connectives = array(' and' => ' nounand', ' or' => ' nounor', ')and' => ') nounand', ')or' => ') nounor');
         // The last two patterns are fine in the reverse direction as these patterns will have gone.
         $regexnouns = array('int' => 'nounint', 'diff' => 'noundiff');
 

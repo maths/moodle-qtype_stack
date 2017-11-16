@@ -1174,6 +1174,8 @@ class stack_equiv_test_data {
     public function get_answertestfixtures() {
         // Reformulate the data into answer test fixtures.
         $answertestfixtures = array();
+        $validoptions = array('assumepos', 'assumereal', 'calculus');
+
         foreach ($this->rawdata as $equivarg) {
             if (!array_key_exists('section', $equivarg)) {
                 $options = array();
@@ -1183,14 +1185,11 @@ class stack_equiv_test_data {
                 }
                 $arg = stack_utils::logic_nouns_sort($equivarg['casstring'], 'add');
 
-                if (array_key_exists('assumepos', $equivarg)) {
-                    if ($equivarg['assumepos']) {
-                      $options[] = 'assumepos';
-                    }
-                }
-                if (array_key_exists('assumereal', $equivarg)) {
-                    if ($equivarg['assumereal']) {
-                        $options[] = 'assumereal';
+                foreach ($validoptions as $opt) {
+                    if (array_key_exists($opt, $equivarg)) {
+                        if ($equivarg[$opt]) {
+                            $options[] = $opt;
+                        }
                     }
                 }
                 $options = implode(',', $options);

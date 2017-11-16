@@ -86,7 +86,7 @@ To enter options for this input use the "extra options field".   Options should 
 
 `assume_real` sets an internal flag to work over the real numbers.  If `true` then \(x=1\) will be considered equivalent to \(x^3=1\).  Note, this option is only for the input type. You will also need to set this in the question options to also affect the answer test.
 
-`calculus` sets an internal flag `stack_calculus:true` which allows calculus operations in an argument.  In particular it checks is adjacent lines are the result of integrating or differentiating.  Note, this option is only for the input type. You will also need to set `stack_calculus:true` in the question options to also affect the answer test.
+`calculus` allows calculus operations in an argument.  Note, this option is only for the input type. You will also need to set this in the answer test options to also affect the answer test.
 
 If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  This enables a randomly generated syntax hint to appear in the box.
 

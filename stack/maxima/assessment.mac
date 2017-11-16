@@ -1862,6 +1862,7 @@ ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack]
     if listp(SO) then opts:setify(SO) else opts:{SO},
     if elementp(assumepos, opts) then assume_pos:true,
     if elementp(assumereal, opts) then assume_real:true,
+    if elementp(calculus, opts) then stack_calculus:true,
 
     /* Are both answers lists? */
     if not listp(SA) then

@@ -439,7 +439,7 @@ class stack_equiv_input extends stack_input {
         $langlet = strtolower(stack_string('equiv_LET'));
         if (strtolower(substr($val, 0, strlen($langlet))) === $langlet) {
             $nv = explode('=', substr($val, strlen($langlet) + 1));
-            if (sizeof($nv) === 2) {
+            if (count($nv) === 2) {
                 $val = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
             }
         }

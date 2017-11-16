@@ -1115,7 +1115,7 @@ class stack_utils {
         if ($output == array()) {
             return $rawcasstring;
         }
-        $rawcasstring = stack_utils::logic_nouns_sort($rawcasstring, 'add');
+        $rawcasstring = self::logic_nouns_sort($rawcasstring, 'add');
         $cs = new stack_cas_casstring($rawcasstring);
         // We need to use the student here to allow a wider range of star patterns.
         $cs->get_valid('s', true, $stars, $allowwords);
@@ -1225,7 +1225,7 @@ class stack_utils {
             $langlet = strtolower(stack_string('equiv_LET'));
             if (strtolower(substr($str, 0, strlen($langlet))) === $langlet) {
                 $nv = explode('=', substr($str, strlen($langlet) + 1));
-                if (sizeof($nv) === 2) {
+                if (count($nv) === 2) {
                     $str = 'stacklet('.trim($nv[0]).','.trim($nv[1]).')';
                 }
             }

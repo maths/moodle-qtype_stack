@@ -33,21 +33,21 @@ class qtype_stack_api_input_values {
         )
     );
 
-    const bool_fields = array(
+    const BOOL_FIELDS = array(
         'strict_syntax', 'forbid_float', 'require_lowest_terms', 'check_answer_type', 'must_verify', 'quiet',
         'auto_simplify'
     );
 
-    const trueValues = array(
+    const TRUE_VALUES = array(
         'True', 'true', true, 1, '1','Yes', 'yes'
     );
 
-    const falseValues = array(
+    const FALSE_VALUES = array(
         'False', 'false', false, 0, '0', 'no', 'no'
     );
 
-    const content_fields = array(
-        'specific_feedback', 'question', 'worked_solution', 'prt_correct', 'prt_partially_correct','prt_incorrect',
+    const CONTENT_FIELDS = array(
+        'specific_feedback', 'question', 'worked_solution', 'prt_correct', 'prt_partially_correct', 'prt_incorrect',
         'feedback'
     );
 
@@ -60,12 +60,12 @@ class qtype_stack_api_input_values {
     }
 
     private static function bool_field($value) {
-            return in_array($value, self::trueValues);
+            return in_array($value, self::TRUE_VALUES);
     }
 
     private static function process_markdown(string $value) {
-        $Parsedown = new Parsedown();
-        return $Parsedown->text($value);
+        $parsedown = new Parsedown();
+        return $parsedown->text($value);
     }
 
     private static function set_content(&$node, $field, $value) {
@@ -76,10 +76,10 @@ class qtype_stack_api_input_values {
 
     public static function get_stack_value(&$node, string $key, string $value) {
 
-        if (in_array($key, self::bool_fields)) {
+        if (in_array($key, self::BOOL_FIELDS)) {
             return self::bool_field($value);
         }
-        if (in_array($key, self::content_fields)) {
+        if (in_array($key, self::CONTENT_FIELDS)) {
             self::set_content($node, $key, $value);
             return $value;
         }

@@ -7,20 +7,20 @@ class qtype_stack_api_yaml {
     private $defaults;
     private $question;
 
-    function checkKey(&$question, $key, $default) {
+    private function checkkey(&$question, $key, $default) {
         if (!array_key_exists($key, $question)) {
             $question[$key] = $default;
         }
     }
 
-    function qtype_stack_api_yaml(string $yaml, $defaults) {
+    public function __construct(string $yaml, $defaults) {
         $question = yaml_parse($yaml);
-        if ($question === FALSE || !is_array($question)) {
+        if ($question === false || !is_array($question)) {
             throw new Exception("can't parse yaml");
         }
-        $this->checkKey($question, 'options', array());
-        $this->checkKey($question, 'inputs', array());
-        $this->checkKey($question, 'response_trees', array());
+        $this->checkkey($question, 'options', array());
+        $this->checkkey($question, 'inputs', array());
+        $this->checkkey($question, 'response_trees', array());
         $this->defaults = $defaults;
         $this->question = $question;
     }
@@ -47,47 +47,44 @@ class qtype_stack_api_yaml {
         foreach ($question as $key => &$value) {
             if (is_array($value)) {
                 $this->convert_values($value);
-            }
-            else {
+            } else {
                 $question[$key] = qtype_stack_api_input_values::get_stack_value($question, $key, $value);
             }
         }
     }
 
     private function num_nodes(&$question) {
-        $i = 0;
-        $nodes_map = array();
-        $new_nodes = array();
-        foreach ($question['response_trees'] as $tree_name => &$tree) {
-            # collect
-            foreach ($tree['nodes'] as $node_name => $node) {
-                $nodes_map[$node_name] = $i;
+        foreach ($question['response_trees'] as $treename => &$tree) {
+            $newnodes = array();
+            $nodesmap = array();
+            $i = 0;
+            // Collect.
+            foreach ($tree['nodes'] as $nodename => $node) {
+                $nodesmap[$nodename] = $i;
 
                 if (!array_key_exists('answer_note', $node['T'])) {
-                    $node['T']['answer_note'] = $tree_name . '-' . $node_name . '-T';
+                    $node['T']['answer_note'] = $treename . '-' . $nodename . '-T';
                 }
                 if (!array_key_exists('answer_note', $node['F'])) {
-                    $node['F']['answer_note'] = $tree_name . '-' . $node_name . '-F';
+                    $node['F']['answer_note'] = $treename . '-' . $nodename . '-F';
                 }
 
-                $new_nodes[$i] = $node;
+                $newnodes[$i] = $node;
                 $i++;
             }
-
-            # replace
-            foreach ($new_nodes as $node_name => &$node) {
-                if (array_key_exists('next_node', $node['T']) && $node['T']['next_node'] != -1) {
-                    $node['T']['next_node'] = $nodes_map[$node['T']['next_node']];
+            // Replace.
+            foreach ($newnodes as $nodename => &$nodenew) {
+                if (array_key_exists('next_node', $nodenew['T']) && $nodenew['T']['next_node'] != -1) {
+                    $nodenew['T']['next_node'] = $nodesmap[$nodenew['T']['next_node']];
                 }
-                if (array_key_exists('next_node', $node['F']) && $node['F']['next_node'] != -1) {
-                    $node['F']['next_node'] = $nodes_map[$node['F']['next_node']];
+                if (array_key_exists('next_node', $nodenew['F']) && $nodenew['F']['next_node'] != -1) {
+                    $nodenew['F']['next_node'] = $nodesmap[$nodenew['F']['next_node']];
                 }
             }
-            $tree['nodes'] = $new_nodes;
+            $tree['nodes'] = $newnodes;
             if (array_key_exists('first_node', $tree)) {
-                $tree['first_node'] = $nodes_map[$tree['first_node']];
-            }
-            else {
+                $tree['first_node'] = $nodesmap[$tree['first_node']];
+            } else {
                 $tree['first_node'] = 0;
             }
         }

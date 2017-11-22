@@ -53,15 +53,30 @@
         return res;
       }
 
-      function collectAnswer() {
-        var inputs = document.getElementsByTagName('input')
-        var res = {};
-        for (i = 0; i < inputs.length; i++) {
-          var element = inputs[i];
+      function processNodes(res, nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+          var element = nodes[i];
           if (element.name.indexOf('codio_') === 0 && element.name.indexOf('_val') === -1) {
-            res[element.name] = element.value
+            if (element.type === 'checkbox' || element.type === 'radio') {
+              if (element.checked) {
+                res[element.name] = element.value
+              }
+            } else {
+              res[element.name] = element.value
+            }
           }
         }
+        return res;
+      }
+
+      function collectAnswer() {
+        var inputs = document.getElementsByTagName('input')
+        var textareas = document.getElementsByTagName('textarea')
+        var selects = document.getElementsByTagName('select')
+        var res = {};
+        res = processNodes(res, inputs);
+        res = processNodes(res, textareas);
+        res = processNodes(res, selects);
         return res;
       }
 

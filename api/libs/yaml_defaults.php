@@ -4,9 +4,9 @@ class qtype_stack_api_yaml_defaults {
 
     private $defaults = array();
 
-    function qtype_stack_api_yaml_defaults($defaults) {
+    public function __construct($defaults) {
 
-        if ($defaults == NULL) {
+        if ($defaults == null) {
             $defaults = yaml_parse_file(__DIR__ . '/defaults/main.yaml');
         } else {
             $defaults = yaml_parse($defaults);
@@ -57,7 +57,7 @@ class qtype_stack_api_yaml_defaults {
         }
     }
 
-    public function isDefault($section, $path, $value) {
+    public function isdefault($section, $path, $value) {
         $root = $this->get_root($section);
         if (!array_key_exists($path, $root)) {
             return false;

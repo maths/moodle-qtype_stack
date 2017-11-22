@@ -66,22 +66,22 @@ class qtype_stack_api {
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
 
-            if (!$options->validate) { // get hidden inputs for score
+            if (!$options->validate) { // Get hidden inputs for score.
                 $state = $question->get_input_state($name, $attempt);
 
-                $skip_validation = stack_input::BLANK == $state->status ||
+                $skipvalidation = stack_input::BLANK == $state->status ||
                 stack_input::INVALID == $state->status;
 
-                if (!$skip_validation && $input->requires_validation() && '' !== $state->contents) {
+                if (!$skipvalidation && $input->requires_validation() && '' !== $state->contents) {
                     $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
                 }
-            } if (!$options->validate) { // get hidden inputs for score
+            } if (!$options->validate) { // Get hidden inputs for score.
                 $state = $question->get_input_state($name, $attempt);
 
-                $skip_validation = stack_input::BLANK == $state->status ||
+                $skipvalidation = stack_input::BLANK == $state->status ||
                 stack_input::INVALID == $state->status;
 
-                if (!$skip_validation && $input->requires_validation() && '' !== $state->contents) {
+                if (!$skipvalidation && $input->requires_validation() && '' !== $state->contents) {
                     $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
                 }
             }
@@ -225,7 +225,7 @@ class qtype_stack_api {
 
         $requiredparams = stack_input_factory::get_parameters_used();
         // Note, we need to increment over this variable to get at the SimpleXMLElement array elements.
-        $k=-1;
+        $k = -1;
         foreach ($q['inputs'] as $key => $inputdata) {
             $name = (string) $key;
             $type = (string) $inputdata['type'];
@@ -247,7 +247,7 @@ class qtype_stack_api {
             $parameters = array();
             foreach ($requiredparams[$type] as $paramname) {
                 if ($paramname == 'inputType') {
-                continue;
+                    continue;
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
@@ -265,7 +265,7 @@ class qtype_stack_api {
             $name = (string) $key;
             $nodes = array();
 
-            foreach ($prtdata['nodes'] as $nodedata) {
+            foreach ($prtdata['nodes'] as $nodeid => $nodedata) {
                 $sans = new stack_cas_casstring((string) $nodedata['answer']);
                 $sans->get_valid('t');
                 $tans = new stack_cas_casstring((string) $nodedata['model_answer']);
@@ -282,7 +282,6 @@ class qtype_stack_api {
                     $truepenalty = (float) $nodedata['T']['penalty'];
                 }
 
-                $nodeid = (int) $nodedata['name'];
                 $quiet = $nodedata['quiet'];
                 $node = new stack_potentialresponse_node($sans, $tans,
                         (string) $nodedata['answer_test'], (string) $nodedata['test_options'],
@@ -309,8 +308,8 @@ class qtype_stack_api {
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                 (bool) $prtdata['auto_simplify'], (float) $prtdata['value'] / $totalvalue,
                 $feedbackvariables, $nodes, (int) $prtdata['first_node']);
-         }
-         return $question;
+        }
+        return $question;
     }
 
     public function initialise_question_from_xml($questionxml) {
@@ -319,7 +318,7 @@ class qtype_stack_api {
         $json = json_encode($xml);
         $array = json_decode($json, true);
         $qob = new SimpleXMLElement($questionxml);
-        $questionob = $qob->question;
+        $questionob = ($qob->question) ? $qob->question : $qob;
 
         $question = new qtype_stack_question();
         $question->type = 'stack';
@@ -362,10 +361,10 @@ class qtype_stack_api {
 
         $requiredparams = stack_input_factory::get_parameters_used();
         // Note, we need to increment over this variable to get at the SimpleXMLElement array elements.
-        $k=-1;
+        $k = -1;
         foreach ($questionob->input as $key => $input) {
             $k++;
-            $inputdata=$questionob->input[$k];
+            $inputdata = $questionob->input[$k];
             $name = (string) $inputdata->name;
             $type = (string) $inputdata->type;
             $allparameters = array(
@@ -386,7 +385,7 @@ class qtype_stack_api {
             $parameters = array();
             foreach ($requiredparams[$type] as $paramname) {
                 if ($paramname == 'inputType') {
-                continue;
+                    continue;
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
@@ -451,7 +450,8 @@ class qtype_stack_api {
                 $nodes[$nodeid] = $node;
             }
             if ($prtdata->feedbackvariables) {
-                $feedbackvariables = new stack_cas_keyval((string) $prtdata->feedbackvariables->text, $question->options, null, 't');
+                $feedbackvariables = new stack_cas_keyval((string) $prtdata->feedbackvariables->text,
+                        $question->options, null, 't');
                 $feedbackvariables = $feedbackvariables->get_session();
             } else {
                 $feedbackvariables = null;
@@ -460,9 +460,9 @@ class qtype_stack_api {
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                 (bool) $prtdata->autosimplify, (float) $prtdata->value / $totalvalue,
                 $feedbackvariables, $nodes, (int) $prtdata->firstnodename);
-    }
+        }
 
-    return($question);
+        return($question);
     }
 
 
@@ -477,7 +477,8 @@ class qtype_stack_api {
         $helper->create_maximalocal();
         $helper->create_auto_maxima_image();
 
-        echo "You must now update the setting <tt>maximacommand</tt> in <tt>config.php</tt> to be <pre>". $CFG->maximacommand . "</pre>";
+        echo "You must now update the setting <tt>maximacommand</tt> in <tt>config.php</tt> to be <pre>".
+                $CFG->maximacommand . "</pre>";
         die();
     }
 }

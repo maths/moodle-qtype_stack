@@ -1,40 +1,35 @@
 <?php
 
-function parseInput()
-{
+function parseinput() {
     $data = file_get_contents("php://input");
     $parsed = json_decode($data, true);
     if ($parsed === null) {
-        printError('no valid json');
+        printerror('no valid json');
     }
     return $parsed;
 }
 
-function printData($data)
-{
+function printdata($data) {
     header('Content-Type: application/json');
     echo json_encode($data);
 }
 
-function printSuccess($data)
-{
-    printData([
+function printsuccess($data) {
+    printdata([
         "error" => false,
         "message" => $data
     ]);
 }
 
-function printError($message)
-{
+function printerror($message) {
     header("HTTP/1.0 500 Error");
-    printData([
+    printdata([
         "error" => true,
         "message" => $message
     ]);
     die();
 }
 
-function replace_plots($text)
-{
+function replace_plots($text) {
     return str_replace('!ploturl!', $GLOBALS['DOMAIN'] . '/plots/', $text);
 }

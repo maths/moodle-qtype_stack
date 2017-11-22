@@ -8,23 +8,22 @@ class qtype_stack_api_export
     private $defaults;
     private $question;
 
-    function qtype_stack_api_export(string $questionxml, $defaults)
-    {
+    public function __construct(string $questionxml, $defaults) {
         $qob = new SimpleXMLElement($questionxml);
-        $question = ($qob->question)? $qob->question: $qob;
+        $question = ($qob->question) ? $qob->question : $qob;
         $this->defaults = $defaults;
         $this->question = $question;
     }
 
-    private function property(&$yaml, $propertyName, $value, $type, $section) {
-        $value = self::processValue($value, $type);
-        $value = qtype_stack_api_input_values::get_yaml_value($propertyName, $value);
-        if (!$this->defaults->isDefault($section, $propertyName, $value)) {
-            $yaml[$propertyName] = $value;
+    private function property(&$yaml, $propertyname, $value, $type, $section) {
+        $value = self::processvalue($value, $type);
+        $value = qtype_stack_api_input_values::get_yaml_value($propertyname, $value);
+        if (!$this->defaults->isdefault($section, $propertyname, $value)) {
+            $yaml[$propertyname] = $value;
         }
     }
 
-    private static function processValue($value, string $type) {
+    private static function processvalue($value, string $type) {
         switch($type) {
             case "string":
                 return (string) $value;
@@ -37,11 +36,10 @@ class qtype_stack_api_export
         }
     }
 
-    public function YAML()
-    {
+    public function yaml() {
 
         $yaml = array();
-        // general properties
+        // General properties.
         $q = $this->question;
         $section = 'main';
         self::property($yaml, 'name', $q->name->text, 'string', $section);
@@ -55,7 +53,6 @@ class qtype_stack_api_export
         self::property($yaml, 'prt_correct_html', $q->prtcorrect->text, 'string', $section);
         self::property($yaml, 'prt_partially_correct_html', $q->prtpartiallycorrect->text, 'string', $section);
         self::property($yaml, 'prt_incorrect_html', $q->prtincorrect->text, 'string', $section);
-
 
         $section = 'options';
         $yaml['options'] = array();
@@ -80,14 +77,13 @@ class qtype_stack_api_export
             self::property($yaml['options'], $value, $q->$key, 'string', $section);
         }
 
-        $this->processInputs($yaml);
-        $this->processResponseTrees($yaml);
+        $this->processinputs($yaml);
+        $this->processresponsetrees($yaml);
 
         return yaml_emit($yaml, YAML_UTF8_ENCODING);
     }
 
-    private function getInput($input)
-    {
+    private function getinput($input) {
         $section = 'input';
         $res = array();
         $this->property($res, 'type', $input->type, 'string', $section);
@@ -108,16 +104,14 @@ class qtype_stack_api_export
         return $res;
     }
 
-    private function processInputs(array &$yaml)
-    {
+    private function processinputs(array &$yaml) {
         $yaml['inputs'] = array();
         foreach ($this->question->input as $value) {
-            $yaml['inputs'][(string)$value->name] = self::getInput($value);
+            $yaml['inputs'][(string)$value->name] = self::getinput($value);
         }
     }
 
-    private function getResponseTreeNode( $node)
-    {
+    private function getresponsetreenode( $node) {
         $section = 'node';
         $res = array();
         $this->property($res, 'answer_test', $node->answertest, 'string', $section);
@@ -126,53 +120,51 @@ class qtype_stack_api_export
         $this->property($res, 'model_answer', $node->tans, 'string', $section);
         $this->property($res, 'test_options', $node->testoptions, 'string', $section);
 
-        # true branch
+        // True branch.
         $section = 'branch-T';
         $res['T'] = array();
         $this->property($res['T'], 'score_mode', $node->truescoremode, 'string', $section);
         $this->property($res['T'], 'score', $node->truescore, 'float', $section);
         $this->property($res['T'], 'penalty', $node->truepenalty, 'float', $section);
-        $next_node = ($node->truenextnode == -1)? -1 : 'node_' . (string)$node->truenextnode;
-        $this->property($res['T'], 'next_node', $next_node, 'string', $section);
+        $nextnode = ($node->truenextnode == -1) ? -1 : 'node_' . (string)$node->truenextnode;
+        $this->property($res['T'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['T'], 'answer_note', $node->trueanswernote, 'string', $section);
         $this->property($res['T'], 'feedback_html', $node->truefeedback->text, 'string', $section);
-        # false branch
+        // False branch.
         $section = 'branch-F';
         $res['F'] = array();
         $this->property($res['F'], 'score_mode', $node->falsescoremode, 'string', $section);
         $this->property($res['F'], 'score', $node->falsescore, 'float', $section);
         $this->property($res['F'], 'penalty', $node->falsepenalty, 'float', $section);
-        $next_node = ($node->falsenextnode == -1)? -1 : 'node_' . (string)$node->falsenextnode;
+        $nextnode = ($node->falsenextnode == -1) ? -1 : 'node_' . (string)$node->falsenextnode;
 
-        $this->property($res['F'], 'next_node', $next_node, 'string', $section);
+        $this->property($res['F'], 'next_node', $nextnode, 'string', $section);
         $this->property($res['F'], 'answer_note', $node->falseanswernote, 'string', $section);
         $this->property($res['F'], 'feedback_html', $node->falsefeedback->text, 'string', $section);
 
         return $res;
     }
 
-    private function getResponseTree($tree)
-    {
+    private function getresponsetree($tree) {
         $section = 'tree';
         $res = array();
         $this->property($res, 'auto_simplify', $tree->autosimplify, 'bool', $section);
 //        $this->property($res, 'type', $tree->type, 'string', $section);
         $this->property($res, 'value', $tree->value, 'float', $section);
         $this->property($res, 'first_node', 'node_' . (int) $tree->firstnodename, 'string', $section);
-        $this->property($res, 'feedback_variables',  (string    ) $tree->feedbackvariables->text, 'string', $section);
+        $this->property($res, 'feedback_variables',  (string) $tree->feedbackvariables->text, 'string', $section);
 
         $res['nodes'] = array();
         foreach ($tree->node as $node) {
-            $res['nodes']["node_" . (string) $node->name] = $this->getResponseTreeNode($node);
+            $res['nodes']["node_" . (string) $node->name] = $this->getresponsetreenode($node);
         }
         return $res;
     }
 
-    private function processResponseTrees(array &$yaml)
-    {
+    private function processresponsetrees(array &$yaml) {
         $yaml['response_trees'] = array();
         foreach ($this->question->prt as $tree) {
-            $yaml['response_trees'][(string) $tree->name] = $this->getResponseTree($tree);
+            $yaml['response_trees'][(string) $tree->name] = $this->getresponsetree($tree);
         }
     }
 }

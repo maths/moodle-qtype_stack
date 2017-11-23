@@ -57,7 +57,7 @@ is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscipts to be
 
     texsub(F,1-2)
 
-with simplicifation off will be displayed as \({F}_{1-2}\) (with simplifcation off).  The complex expression in the subscript cannot form an atomic Maxima expression.
+with simplification off will be displayed as \({F}_{1-2}\) (with simplification off).  The complex expression in the subscript cannot form an atomic Maxima expression.
 
 Note however there is a subtle (and perhaps confusing) difference in the display between the Maxima atoms `a1` and `a_1` in STACK.  The atom `a1` will follow the Maxima default and generate the LaTeX `{\it a_1}` and so the numeral 1 will be in italic, which some people consider incorrect.  The atom `a_1` will use the `texsub` function as an intermediate and generate the LaTeX `{a}_{1}` and so the normal LaTeX rules will render the numeral 1 in Roman, which is correct.  
 

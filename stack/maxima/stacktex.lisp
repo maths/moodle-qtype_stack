@@ -10,6 +10,10 @@
 ;; Fateman's code was ported to Common Lisp by William
 ;; Schelter.
 
+;; 26 Nov 2017.
+;; Note, this commit in Maxmia changed (getcharn f) to (get-first-char).
+;; https://sourceforge.net/p/maxima/code/ci/b27acfa194281f42ef6d2a4ef2434d8dea4705f1/
+
 ;; If you want LaTeX style quotients, first load mactex and second
 ;; define tex-mquotient as follows
 
@@ -257,7 +261,7 @@
                  (expon (caddr x)) ;; this is the exponent
                  (doit (and
                         f ; there is such a function
-                        (member (getcharn f 1) '(#\% #\$)) ;; insist it is a % or $ function
+                        (member (get-first-char f) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
                         (not (member f '(%sum %product %derivative %integrate %at $texsub
                                          %lsum %limit $pderivop $+-) :test #'eq)) ;; what else? what a hack...
@@ -321,7 +325,7 @@
 ;; DANGER: no error checking on the type of arguments.
 (defprop $floatgrind msz-floatgrind grind)
 (defun msz-floatgrind (x l r)
-  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
+  (msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (concatenate 'string "floatgrind(" (format nil (cadr (cdr x)) (cadr x)) ",\"" (cadr (cdr x)) "\")"))) l r)
 )
 
 ;; This function has grind (and hence "string") output the number with the following number of decimal places.
@@ -329,15 +333,17 @@
 ;; DO NOT USE: no error checking on the types of the arguments.
 ;;(defprop $dispdp msz-dispdp grind)
 ;;(defun msz-dispdp (x l r)
-;;  (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (concatenate 'string "dispdp(" (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) "," (format nil "~d" (cadr (cdr x))) ")" ))) l r)
+;;  (msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (concatenate 'string "dispdp(" (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) "," (format nil "~d" (cadr (cdr x))) ")" ))) l r)
 ;;)
 
 ;; This function has grind (and hence "string") output the number with the following number of decimal places.
 ;; displaydp(number, ndps).
 (defprop $dispdpvalue msz-dispdpvalue grind)
 (defun msz-dispdpvalue (x l r)
- (msz (mapcar #'(lambda (l) (getcharn l 1)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
+ (msz (mapcar #'(lambda (l) (get-first-char l)) (makestring (format nil (concatenate 'string "~," (format nil "~d" (cadr (cdr x))) "f" ) (cadr x)) )) l r)
 )
 
 ;; Define an "arrayp" function to check if we have a Maxima array.
 (defmfun $arrayp (x) (and (not (atom x)) (cond ((member 'array (car x) :test #'eq) $true) (T $false))))
+
+

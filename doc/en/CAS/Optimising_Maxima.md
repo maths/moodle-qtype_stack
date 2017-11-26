@@ -45,9 +45,6 @@ This is the default lisp used by most of the binary distributions, and therefore
 ~~~~
     load("<path>/maximalocal.mac");
     load("<path>/stackmaxima.mac");
-    load(stats);
-    load(distrib);
-    load(descriptive);
     :lisp (si::save-system "/path/to/moodledata/stack/maxima-optimised")  
     quit();
 ~~~~
@@ -69,9 +66,6 @@ This is the default lisp used by most of the binary distributions, and therefore
 ~~~~
     load("<path>/maximalocal.mac");
     load("<path>/stackmaxima.mac");
-    load(stats);
-    load(distrib);
-    load(descriptive);
     :lisp (ext:saveinitmem "/path/to/moodledata/stack/maxima-optimised.mem" :init-function #'user::run)
     quit();
 ~~~~

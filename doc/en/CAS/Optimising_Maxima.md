@@ -24,17 +24,20 @@ The above can be used with either a direct maxima connection, or with the image 
 [Maxima](../CAS/Maxima.md) can be run with a number of different [lisp implementations](http://maxima.sourceforge.net/lisp.html).
 Although CLISP is the most portable - due to being interpreted - other lisps can give faster execution.
 
+## Create Maxima Image ##
 
-## Preloading ##
+Lisp is able to save a snapshot of its current state to a file. This file can then be used to re-start Lisp, and hence Maxima, in exactly that state. This optimisation involves creating a snap-shot of Lisp with Maxima and all the STACK code loaded, which can speed up launch times by an order of magnitude on Linux. This tip was originally provided Niels Walet.
 
-Lisp is able to save a snapshot of its current state to a file. This file can then be used to re-start Lisp, and hence Maxima, in exactly that state. This optimisation involves creating a snap-shot of Lisp with Maxima and all the STACK code loaded, which can speed up launch times be an order of magnitude on Linux. This tip was originally provided Niels Walet.
+The principle is to save an image of Maxima running with STACK libraries already loaded then run this directly.  The healtcheck page contains a link at the bottom "Create Maxima Image".  We strongly recommend you use the automated option to create a Maxima image.
 
-The principle is to save an image of Maxima running with STACK libraries already loaded then run this directly.  It is fairly straightforward with the following steps.
+## Create Maxima Image by hand ##
 
-* Check your Maxima Lisp with **maxima --list-avail** to see what Lisps you have to run Maxima.
-* Load Maxima, using switches for a particular version if you need, e.g. `maxima -l CLISP -u 5.19.2`.
-* Load relevant packages, including the stackmaxima.mac package
-* Save image
+These steps should not be needed.  Our goal is to do this automatically.  If your OS and Maxima version do not work, please contact the developers with details and we will try to automate this process.
+
+For reference:
+
+* Check your Maxima Lisp with `maxima --list-avail` to see what versions of Maxima and which Lisp you have.  This information is available through the healthcheck page.
+* Load Maxima, using switches for the particular version you want, e.g. `maxima -l CLISP -u 5.19.2` or `maxima --use-version=5.40.1`.
 
 ### GCL ###
 
@@ -52,7 +55,9 @@ This is the default lisp used by most of the binary distributions, and therefore
 * Go into the STACK settings and set Platform type to 'Linux (Optimised)'.
 * Set Maxima command to.
 
+~~~~
     /path/to/moodledata/stack/maxima-optimised  -eval '(cl-user::run)'
+~~~~
 
 
 ### CLISP ###

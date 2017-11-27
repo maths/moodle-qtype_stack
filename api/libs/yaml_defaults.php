@@ -36,6 +36,11 @@ class qtype_stack_api_yaml_defaults {
         return $root;
     }
 
+    /**
+     * Apply default values to node
+     * @param $node
+     * @param string $section
+     */
     public function apply(&$node, $section) {
         $root = $this->get_root($section);
         foreach ($root as $key => $value) {

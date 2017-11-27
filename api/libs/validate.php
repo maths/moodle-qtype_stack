@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Validate input data
+ * @param array $data
+ * @return array
+ */
 function validatedata(array $data) {
     if (!array_key_exists('question', $data)) {
         printError('No question');

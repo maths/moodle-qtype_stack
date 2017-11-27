@@ -25,6 +25,12 @@ class qtype_stack_api_yaml {
         $this->question = $question;
     }
 
+    /**
+     * Apply default values to question
+     * @param mixed $question yaml question
+     * @param qtype_stack_api_yaml_defaults $defaults
+     * @return mixed
+     */
     private function apply_defaults($question, $defaults) {
         $defaults->apply($question, 'main');
 
@@ -43,6 +49,10 @@ class qtype_stack_api_yaml {
         return $question;
     }
 
+    /**
+     * Convert yaml question values to stack values
+     * @param mixed $question yaml question
+     */
     private function convert_values(&$question) {
         foreach ($question as $key => &$value) {
             if (is_array($value)) {
@@ -53,6 +63,10 @@ class qtype_stack_api_yaml {
         }
     }
 
+    /**
+     * Num nodes instead user friendly node names
+     * @param mixed $question yaml question
+     */
     private function num_nodes(&$question) {
         foreach ($question['response_trees'] as $treename => &$tree) {
             $newnodes = array();
@@ -90,6 +104,10 @@ class qtype_stack_api_yaml {
         }
     }
 
+    /**
+     * Returns question
+     * @return mixed
+     */
     public function get_question() {
         $question = $this->apply_defaults($this->question, $this->defaults);
         $this->convert_values($question);

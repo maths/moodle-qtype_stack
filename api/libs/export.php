@@ -15,6 +15,15 @@ class qtype_stack_api_export
         $this->question = $question;
     }
 
+    /**
+     * Set yaml property
+     * @param array $yaml the resulting yaml array.
+     * @param string $propertyname the property name in yaml
+     * @param mixed $value value to store in yaml
+     * @param string $type property type
+     * @param string @section property section
+     * @return string HTML ready to output.
+     */
     private function property(&$yaml, $propertyname, $value, $type, $section) {
         $value = self::processvalue($value, $type);
         $value = qtype_stack_api_input_values::get_yaml_value($propertyname, $value);
@@ -23,6 +32,12 @@ class qtype_stack_api_export
         }
     }
 
+    /**
+     * Type coercion
+     * @param $value
+     * @param string $type
+     * @return bool|float|int|string
+     */
     private static function processvalue($value, string $type) {
         switch($type) {
             case "string":
@@ -36,6 +51,10 @@ class qtype_stack_api_export
         }
     }
 
+    /**
+     * Exports question as yaml encoded string
+     * @return string
+     */
     public function yaml() {
 
         $yaml = array();
@@ -77,12 +96,19 @@ class qtype_stack_api_export
             self::property($yaml['options'], $value, $q->$key, 'string', $section);
         }
 
+        // Process inputs.
         $this->processinputs($yaml);
+        // Process trees.
         $this->processresponsetrees($yaml);
 
         return yaml_emit($yaml, YAML_UTF8_ENCODING);
     }
 
+    /**
+     * Process question input and returns it as array
+     * @param SimpleXMLElement $input question input
+     * @return array
+     */
     private function getinput($input) {
         $section = 'input';
         $res = array();
@@ -104,6 +130,10 @@ class qtype_stack_api_export
         return $res;
     }
 
+    /**
+     * Process all question inputs and store it in yaml array
+     * @param array $yaml
+     */
     private function processinputs(array &$yaml) {
         $yaml['inputs'] = array();
         foreach ($this->question->input as $value) {
@@ -111,6 +141,11 @@ class qtype_stack_api_export
         }
     }
 
+    /**
+     * Process question tree node and returns it as array
+     * @param SimpleXMLElement $node question tree node
+     * @return array
+     */
     private function getresponsetreenode( $node) {
         $section = 'node';
         $res = array();
@@ -145,6 +180,11 @@ class qtype_stack_api_export
         return $res;
     }
 
+    /**
+     * Process question response tree and returns as array
+     * @param SimpleXMLElement $tree question tree
+     * @return array
+     */
     private function getresponsetree($tree) {
         $section = 'tree';
         $res = array();
@@ -161,6 +201,10 @@ class qtype_stack_api_export
         return $res;
     }
 
+    /**
+     * Process all response trees and store it in yaml array
+     * @param array $yaml
+     */
     private function processresponsetrees(array &$yaml) {
         $yaml['response_trees'] = array();
         foreach ($this->question->prt as $tree) {

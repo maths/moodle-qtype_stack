@@ -31,23 +31,23 @@ function processrequest() {
     $then = microtime(true);
 
     $api = new qtype_stack_api();
+    // Parse input JSON and validate it.
     $parsed = validatedata(parseinput());
 
     $questionyaml = trim($parsed['question']);
 
-    //$question = $api->initialise_question_from_xml($questionyaml);
-
     $defaults = new qtype_stack_api_yaml_defaults($parsed['defaults']);
+    // If question data starts with "<" sign - export it to yaml.
     if ($questionyaml[0] === '<') {
         $export = new qtype_stack_api_export($questionyaml, $defaults);
         $questionyaml = $export->yaml();
     }
 
+    // Import stack question from yaml string.
     $importer = new qtype_stack_api_yaml($questionyaml, $defaults);
     $data = $importer->get_question();
     $question = $api->initialise_question($data);
     // Make this a definite number, to fix the random numbers.
-    //print_r($question);
     $question->seed = $parsed['seed'];
 
     $question->initialise_question_from_seed();

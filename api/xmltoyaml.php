@@ -32,14 +32,18 @@ function validate_converter(array $data) {
 
 function process_request() {
     $then = microtime(true);
+    // Parse JSON input.
     $input = parseinput();
 
+    // Validate input data.
     validate_converter($input);
 
     $xml = $input['xml'];
 
+    // Create defaults object.
     $defaults = new qtype_stack_api_yaml_defaults($input['defaults'] ?? null);
     $export = new qtype_stack_api_export($xml, $defaults);
+    // Export question as yaml string.
     $yamlstring = $export->yaml();
     $now = microtime(true);
 

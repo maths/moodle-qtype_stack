@@ -14,9 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("config.php");
+
 use PHPUnit\Framework\TestCase;
 
-require_once("config.php");
 require_once("api/apilib.php");
 
 

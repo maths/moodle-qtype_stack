@@ -54,7 +54,7 @@ class qtype_stack_api_input_values {
     );
 
     const TRUE_VALUES = array(
-        'True', 'true', true, 1, '1','Yes', 'yes'
+        'True', 'true', true, 1, '1', 'Yes', 'yes'
     );
 
     const FALSE_VALUES = array(

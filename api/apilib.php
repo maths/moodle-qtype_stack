@@ -1,30 +1,44 @@
 <?php
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 
 function stack_string($key, $a = null) {
 
-    $user_language = 'en';
-    switch ($user_language)
+    $userlanguage = 'en';
+    switch ($userlanguage)
     {
         case 'en':
             static $string = array();
             if (empty($string)) {
-                include 'lang/en/qtype_stack.php';
+                include __DIR__ .'/../lang/en/qtype_stack.php';
             }
             break;
         default:
             static $string = array();
             if (empty($string)) {
-                include 'lang/en/qtype_stack.php';
+                include  __DIR__ .'/../lang/en/qtype_stack.php';
             }
             break;
     }
 
-    return getString($key, $string, $a);
+    return getstring($key, $string, $a);
 }
 
-function getString($identifier, $string, $a = null) {
+function getstring($identifier, $string, $a = null) {
     $string = $string[$identifier];
     if ($a !== null) {
         if (is_object($a) or is_array($a)) {
@@ -64,18 +78,18 @@ function stack_trans() {
     $nargs = func_num_args();
 
     if ($nargs > 0) {
-        $arg_list = func_get_args();
+        $arglist = func_get_args();
         $identifier = func_get_arg(0);
         $a = array();
         if ($nargs > 1) {
             for ($i = 1; $i < $nargs; $i++) {
-            $index = $i - 1;
-            $a["m{$index}"] = func_get_arg($i);
+                $index = $i - 1;
+                $a["m{$index}"] = func_get_arg($i);
+            }
         }
+        $return = stack_string($identifier, $a);
+        echo $return;
     }
-    $return = stack_string($identifier, $a);
-    echo $return;
-}
 }
 
 function stack_maxima_translate($rawfeedback) {
@@ -127,7 +141,7 @@ function set_config($var, $val, $mod) {
 
 // We expect API users to create their own directories on the server.
 function make_upload_directory($directory, $exceptiononerror = true) {
-  return true;
+    return true;
 }
 
 /**
@@ -152,8 +166,8 @@ function s($var) {
 }
 
 /**
-* Exceptions.
-*/
+ * Exceptions.
+ */
 
 class stack_exception extends exception {
 }
@@ -242,7 +256,7 @@ class html_writer {
             return ' ' . $name . '="' . $value->out() . '"';
         }
 
-        // Special case, we do not want these in output
+        // Special case, we do not want these in output.
         if ($value === null) {
             return '';
         }
@@ -331,8 +345,7 @@ class html_writer {
 
         $output .= self::empty_tag('input', $attributes);
 
-        if ($label !== '' and !is_null($label))
-        {
+        if ($label !== '' and !is_null($label)) {
             $output .= self::tag('label', $label, array('for' => $attributes['id']));
         }
 
@@ -367,7 +380,8 @@ class html_writer {
      * @param array $attributes html select element attributes
      * @return string HTML fragment
      */
-    public static function select(array $options, $name, $selected = '', $nothing = array('' => 'choosedots'), array $attributes = null) {
+    public static function select(
+            array $options, $name, $selected = '', $nothing = array('' => 'choosedots'), array $attributes = null) {
         $attributes = (array)$attributes;
         if (is_array($nothing)) {
             foreach ($nothing as $k => $v) {
@@ -375,15 +389,15 @@ class html_writer {
                     $nothing[$k] = get_string('choosedots');
                 }
             }
-            $options = $nothing + $options; // keep keys, do not override
+            $options = $nothing + $options; // Keep keys, do not override.
         } else {
             if (is_string($nothing) and $nothing !== '') {
-                // BC
+                // BC.
                 $options = array('' => $nothing) + $options;
             }
         }
 
-        // we may accept more values if multiple attribute specified
+        // We may accept more values if multiple attribute specified.
         $selected = (array)$selected;
         foreach ($selected as $k => $v) {
             $selected[$k] = (string)$v;
@@ -391,7 +405,8 @@ class html_writer {
 
         if (!isset($attributes['id'])) {
             $id = 'menu' . $name;
-            // name may contaion [], which would make an invalid id. e.g. numeric question type editing form, assignment quickgrading
+            // Name may contaion [], which would make an invalid id. e.g. numeric question type editing form,
+            // assignment quickgrading.
             $id = str_replace('[', '', $id);
             $id = str_replace(']', '', $id);
             $attributes['id'] = $id;
@@ -399,12 +414,13 @@ class html_writer {
 
         if (!isset($attributes['class'])) {
             $class = 'menu' . $name;
-            // name may contaion [], which would make an invalid class. e.g. numeric question type editing form, assignment quickgrading
+            // Name may contaion [], which would make an invalid class. e.g. numeric question type editing form,
+            // assignment quickgrading.
             $class = str_replace('[', '', $class);
             $class = str_replace(']', '', $class);
             $attributes['class'] = $class;
         }
-        $attributes['class'] = 'select ' . $attributes['class']; // Add 'select' selector always
+        $attributes['class'] = 'select ' . $attributes['class']; // Add 'select' selector always.
 
         $attributes['name'] = $name;
 
@@ -417,7 +433,7 @@ class html_writer {
         $output = '';
         foreach ($options as $value => $label) {
             if (is_array($label)) {
-                // ignore key, it just has to be unique
+                // Ignore key, it just has to be unique.
                 $output .= self::select_optgroup(key($label), current($label), $selected);
             } else {
                 $output .= self::select_option($label, $value, $selected);
@@ -527,7 +543,8 @@ class html_writer {
             $attributes['id'] = self::random_id('ts_');
         }
         $timerselector = self::select($timeunits, $name, $currentdate[$userdatetype], null, array('id' => $attributes['id']));
-        $label = self::tag('label', get_string(substr($type, 0, -1), 'form'), array('for' => $attributes['id'], 'class' => 'accesshide'));
+        $label = self::tag('label', get_string(substr($type, 0, -1), 'form'),
+                array('for' => $attributes['id'], 'class' => 'accesshide'));
 
         return $label . $timerselector;
     }
@@ -546,12 +563,12 @@ class html_writer {
         $output = '';
 
         foreach ($items as $item) {
-            $output .= html_writer::start_tag('li') . "\n";
+            $output .= self::start_tag('li') . "\n";
             $output .= $item . "\n";
-            $output .= html_writer::end_tag('li') . "\n";
+            $output .= self::end_tag('li') . "\n";
         }
 
-        return html_writer::tag($tag, $output, $attributes);
+        return self::tag($tag, $output, $attributes);
     }
 
     /**
@@ -612,11 +629,11 @@ class html_writer {
      * @return string HTML code
      */
     public static function table(html_table $table) {
-        // prepare table data and populate missing properties with reasonable defaults
+        // Prepare table data and populate missing properties with reasonable defaults.
         if (!empty($table->align)) {
             foreach ($table->align as $key => $aa) {
                 if ($aa) {
-                    $table->align[$key] = 'text-align:' . fix_align_rtl($aa) . ';'; // Fix for RTL languages
+                    $table->align[$key] = 'text-align:' . fix_align_rtl($aa) . ';'; // Fix for RTL languages.
                 } else {
                     $table->align[$key] = null;
                 }
@@ -660,23 +677,24 @@ class html_writer {
             $table->attributes['class'] .= ' boxalign' . $table->tablealign;
         }
 
-        // explicitly assigned properties override those defined via $table->attributes
+        // Explicitly assigned properties override those defined via $table->attributes.
         $table->attributes['class'] = trim($table->attributes['class']);
-        $attributes = array_merge($table->attributes, array('id' => $table->id, 'width' => $table->width, 'summary' => $table->summary, 'cellpadding' => $table->cellpadding, 'cellspacing' => $table->cellspacing,));
-        $output = html_writer::start_tag('table', $attributes) . "\n";
+        $attributes = array_merge($table->attributes, array('id' => $table->id, 'width' => $table->width,
+                'summary' => $table->summary, 'cellpadding' => $table->cellpadding, 'cellspacing' => $table->cellspacing));
+        $output = self::start_tag('table', $attributes) . "\n";
 
         $countcols = 0;
 
         if (!empty($table->head)) {
             $countcols = count($table->head);
 
-            $output .= html_writer::start_tag('thead', array()) . "\n";
-            $output .= html_writer::start_tag('tr', array()) . "\n";
+            $output .= self::start_tag('thead', array()) . "\n";
+            $output .= self::start_tag('tr', array()) . "\n";
             $keys = array_keys($table->head);
             $lastkey = end($keys);
 
             foreach ($table->head as $key => $heading) {
-                // Convert plain string headings into html_table_cell objects
+                // Convert plain string headings into html_table_cell objects.
                 if (!($heading instanceof html_table_cell)) {
                     $headingtext = $heading;
                     $heading = new html_table_cell();
@@ -705,23 +723,24 @@ class html_writer {
                     $heading->attributes['class'] .= ' ' . $table->colclasses[$key];
                 }
                 $heading->attributes['class'] = trim($heading->attributes['class']);
-                $attributes = array_merge($heading->attributes, array('style' => $table->align[$key] . $table->size[$key] . $heading->style, 'scope' => $heading->scope, 'colspan' => $heading->colspan,));
+                $attributes = array_merge($heading->attributes, array('style' => $table->align[$key] . $table->size[$key] .
+                        $heading->style, 'scope' => $heading->scope, 'colspan' => $heading->colspan));
 
                 $tagtype = 'td';
                 if ($heading->header === true) {
                     $tagtype = 'th';
                 }
-                $output .= html_writer::tag($tagtype, $heading->text, $attributes) . "\n";
+                $output .= self::tag($tagtype, $heading->text, $attributes) . "\n";
             }
-            $output .= html_writer::end_tag('tr') . "\n";
-            $output .= html_writer::end_tag('thead') . "\n";
+            $output .= self::end_tag('tr') . "\n";
+            $output .= self::end_tag('thead') . "\n";
 
             if (empty($table->data)) {
                 // For valid XHTML strict every table must contain either a valid tr
-                // or a valid tbody... both of which must contain a valid td
-                $output .= html_writer::start_tag('tbody', array('class' => 'empty'));
-                $output .= html_writer::tag('tr', html_writer::tag('td', '', array('colspan' => count($table->head))));
-                $output .= html_writer::end_tag('tbody');
+                // r a valid tbody... both of which must contain a valid td.
+                $output .= self::start_tag('tbody', array('class' => 'empty'));
+                $output .= self::tag('tr', self::tag('td', '', array('colspan' => count($table->head))));
+                $output .= self::end_tag('tbody');
             }
         }
 
@@ -729,13 +748,14 @@ class html_writer {
             $oddeven = 1;
             $keys = array_keys($table->data);
             $lastrowkey = end($keys);
-            $output .= html_writer::start_tag('tbody', array());
+            $output .= self::start_tag('tbody', array());
 
             foreach ($table->data as $key => $row) {
                 if (($row === 'hr') && ($countcols)) {
-                    $output .= html_writer::tag('td', html_writer::tag('div', '', array('class' => 'tabledivider')), array('colspan' => $countcols));
+                    $output .= self::tag('td', self::tag('div', '',
+                            array('class' => 'tabledivider')), array('colspan' => $countcols));
                 } else {
-                    // Convert array rows to html_table_rows and cell strings to html_table_cell objects
+                    // Convert array rows to html_table_rows and cell strings to html_table_cell objects.
                     if (!($row instanceof html_table_row)) {
                         $newrow = new html_table_row();
 
@@ -758,7 +778,8 @@ class html_writer {
                         $row->attributes['class'] .= ' lastrow';
                     }
 
-                    $output .= html_writer::start_tag('tr', array('class' => trim($row->attributes['class']), 'style' => $row->style, 'id' => $row->id)) . "\n";
+                    $output .= self::start_tag('tr', array('class' => trim($row->attributes['class']),
+                                    'style' => $row->style, 'id' => $row->id)) . "\n";
                     $keys2 = array_keys($row->cells);
                     $lastkey = end($keys2);
 
@@ -793,20 +814,21 @@ class html_writer {
                         $tdstyle .= isset($table->size[$key]) ? $table->size[$key] : '';
                         $tdstyle .= isset($table->wrap[$key]) ? $table->wrap[$key] : '';
                         $cell->attributes['class'] = trim($cell->attributes['class']);
-                        $tdattributes = array_merge($cell->attributes, array('style' => $tdstyle . $cell->style, 'colspan' => $cell->colspan, 'rowspan' => $cell->rowspan, 'id' => $cell->id, 'abbr' => $cell->abbr, 'scope' => $cell->scope,));
+                        $tdattributes = array_merge($cell->attributes, array('style' => $tdstyle .
+                                $cell->style, 'colspan' => $cell->colspan, 'rowspan' => $cell->rowspan,
+                                'id' => $cell->id, 'abbr' => $cell->abbr, 'scope' => $cell->scope));
                         $tagtype = 'td';
-                        if ($cell->header === true)
-                        {
+                        if ($cell->header === true) {
                             $tagtype = 'th';
                         }
-                        $output .= html_writer::tag($tagtype, $cell->text, $tdattributes) . "\n";
+                        $output .= self::tag($tagtype, $cell->text, $tdattributes) . "\n";
                     }
                 }
-                $output .= html_writer::end_tag('tr') . "\n";
+                $output .= self::end_tag('tr') . "\n";
             }
-            $output .= html_writer::end_tag('tbody') . "\n";
+            $output .= self::end_tag('tbody') . "\n";
         }
-        $output .= html_writer::end_tag('table') . "\n";
+        $output .= self::end_tag('table') . "\n";
 
         return $output;
     }

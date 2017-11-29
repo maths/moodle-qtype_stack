@@ -14,22 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("config.php");
+require_once(__DIR__ . '/../config.php');
 
-use PHPUnit\Framework\TestCase;
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', 1);
+ini_set('html_errors', 1);
 
-require_once("api/apilib.php");
+require_once(__DIR__ . '/../api/api.php');
+require_once(__DIR__ . '/../question.php');
 
+$api = new qtype_stack_api();
 
-class stack_api_apilib_test extends TestCase {
-
-    public function test_stack_string() {
-        $this->assertEquals(stack_string('debuginfo'), 'Debug info');
-    }
-
-    public function test_html_writer() {
-        $w = new html_writer;
-        $t = $w->tag('p', 'This is a paragraph');
-        $this->assertEquals($t, '<p>This is a paragraph</p>');
-    }
-}
+// Run this command once at install time to compile Maxima on your machine.
+$api->install();

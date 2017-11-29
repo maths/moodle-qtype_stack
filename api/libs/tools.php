@@ -14,22 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("config.php");
-
-use PHPUnit\Framework\TestCase;
-
-require_once("api/apilib.php");
-
-
-class stack_api_apilib_test extends TestCase {
-
-    public function test_stack_string() {
-        $this->assertEquals(stack_string('debuginfo'), 'Debug info');
+function parseinput() {
+    $data = file_get_contents("php://input");
+    $parsed = json_decode($data, true);
+    if ($parsed === null) {
+        printerror('no valid json');
     }
+    return $parsed;
+}
 
-    public function test_html_writer() {
-        $w = new html_writer;
-        $t = $w->tag('p', 'This is a paragraph');
-        $this->assertEquals($t, '<p>This is a paragraph</p>');
-    }
+function printdata($data) {
+    header('Content-Type: application/json');
+    echo json_encode($data);
+}
+
+function printsuccess($data) {
+    printdata([
+        "error" => false,
+        "message" => $data
+    ]);
+}
+
+function printerror($message) {
+    header("HTTP/1.0 500 Error");
+    printdata([
+        "error" => true,
+        "message" => $message
+    ]);
+    die();
+}
+
+function replace_plots($text) {
+    return str_replace('!ploturl!', $GLOBALS['DOMAIN'] . '/plots/', $text);
 }

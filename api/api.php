@@ -1,4 +1,18 @@
 <?php
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
  * Minimal functionality needed to display and grade a question in a stateless way.
@@ -19,13 +33,13 @@ interface question_automatically_gradable_with_multiple_parts{
 }
 
 /*
- * 
+ *
  */
 class qtype_stack_api {
 
-    /* 
+    /*
      * This is based closely on the render.php formulation_and_controls.
-     * 
+     *
      */
     public function formulation_and_controls($question, $attempt, $options, $fieldprefix) {
 
@@ -65,9 +79,29 @@ class qtype_stack_api {
         $qaid = null;
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
-            $tavalue = $question->get_session_variable($name);
+
+            if (!$options->validate) { // Get hidden inputs for score.
+                $state = $question->get_input_state($name, $attempt);
+
+                $skipvalidation = stack_input::BLANK == $state->status ||
+                stack_input::INVALID == $state->status;
+
+                if (!$skipvalidation && $input->requires_validation() && '' !== $state->contents) {
+                    $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
+                }
+            } if (!$options->validate) { // Get hidden inputs for score.
+                $state = $question->get_input_state($name, $attempt);
+
+                $skipvalidation = stack_input::BLANK == $state->status ||
+                stack_input::INVALID == $state->status;
+
+                if (!$skipvalidation && $input->requires_validation() && '' !== $state->contents) {
+                    $attempt[$name.'_val'] = $input->contents_to_maxima($state->contents);
+                }
+            }
 
             $fieldname = $fieldprefix.$name;
+            $tavalue = $question->get_session_variable($name);
             $state = $question->get_input_state($name, $attempt);
 
             $questiontext = str_replace("[[input:{$name}]]",
@@ -89,7 +123,7 @@ class qtype_stack_api {
         foreach ($question->prts as $index => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($index, $attempt, false);
-            //echo "<pre>"; print_r($result); echo "</pre>";
+//            echo "<pre>"; var_dump($result->get_feedback()); echo "</pre>";
             $resultfeedback = $result->get_feedback();
             $scores[$index] = $result->score;
             $notes[$index] = implode(' | ', $result->answernotes);
@@ -97,7 +131,6 @@ class qtype_stack_api {
                 $feedback .= $fb->feedback;
             }
             $fbct = new stack_cas_text($feedback, $result->cascontext);
-
             if ($options->feedback) {
                 $feedback = html_writer::nonempty_tag('div', $fbct->get_display_castext(),
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
@@ -109,10 +142,9 @@ class qtype_stack_api {
             if ($options->score) {
                 if (null !== $result->score) {
                     // TODO: language support etc.
-                    $feedback .= "<p>Your mark for this part is ".$result->score.".</p>";
+                    $feedback .= "<p class='stackpartmark'>Your mark for this part is ".$result->score.".</p>";
                 }
             }
-
             $target = "[[feedback:{$index}]]";
             $questiontext = str_replace($target, $feedback, $questiontext);
         }
@@ -157,16 +189,152 @@ class qtype_stack_api {
         return stack_ouput_castext($feedback);
     }
 
+    public function initialise_question(array $q) {
+
+        $question = new qtype_stack_question();
+        $question->type = 'stack';
+        $question->defaultmark               = (float) $q['default_mark'];
+        $question->penalty                   = (float) $q['penalty'];
+
+        $question->name                      = (string) $q['name'];
+        $question->questiontext              = (string) $q['question_html'];
+        $question->questiontextformat        = 'html';
+        $question->generalfeedback           = (string) $q['worked_solution_html'];
+        $question->generalfeedbackformat     = 'html';
+        $question->questionvariables         = (string) $q['variables'];
+        $question->questionnote              = (string) $q['note'];
+        $question->specificfeedback          = (string) $q['specific_feedback_html'];
+        $question->specificfeedbackformat    = 'html';
+        $question->prtcorrect                = (string) $q['prt_correct_html'];
+        $question->prtcorrectformat          = 'html';
+        $question->prtpartiallycorrect       = (string) $q['prt_partially_correct_html'];
+        $question->prtpartiallycorrectformat = 'html';
+        $question->prtincorrect              = (string) $q['prt_incorrect_html'];
+        $question->prtincorrectformat        = '';
+        $question->variantsselectionseed     = "";
+
+        $question->options = new stack_options();
+        $stringoptions = array(
+            'multiplicationsign' => 'multiplication_sign',
+            'complexno' => 'complex_no',
+            'inversetrig' => 'inverse_trig',
+            'matrixparens' => 'matrix_parens'
+            );
+        foreach ($stringoptions as $key => $value) {
+            $opt = trim((string) $q['options'][$value]);
+            if ('' != $opt) {
+                $question->options->set_option($key, $opt);
+            }
+        }
+        $booloptions = array(
+            'sqrtsign' => 'sqrt_sign',
+            'assumepos' => 'assume_positive',
+            'assumereal' => 'assume_real',
+            'simplify' => 'simplify'
+        );
+        foreach ($booloptions as $key => $value) {
+            $opt = (bool) $q['options'][$value];
+            $question->options->set_option($key, $opt);
+        }
+
+        $requiredparams = stack_input_factory::get_parameters_used();
+        // Note, we need to increment over this variable to get at the SimpleXMLElement array elements.
+        $k = -1;
+        foreach ($q['inputs'] as $key => $inputdata) {
+            $name = (string) $key;
+            $type = (string) $inputdata['type'];
+            $allparameters = array(
+                'boxWidth'        => (int) $inputdata['box_size'],
+                'strictSyntax'    => (bool) $inputdata['strict_syntax'],
+                'insertStars'     => (int) $inputdata['insert_stars'],
+                'syntaxHint'      => (string) $inputdata['syntax_hint'],
+                'syntaxAttribute' => (string) $inputdata['syntax_attribute'],
+                'forbidWords'     => (string) $inputdata['forbid_words'],
+                'allowWords'      => (string) $inputdata['allow_words'],
+                'forbidFloats'    => (bool) $inputdata['forbid_float'],
+                'lowestTerms'     => (bool) $inputdata['require_lowest_terms'],
+                'sameType'        => (bool) $inputdata['check_answer_type'],
+                'mustVerify'      => (bool) $inputdata['must_verify'],
+                'showValidation'  => (string) $inputdata['show_validations'],
+                'options'         => (string) $inputdata['options'],
+            );
+            $parameters = array();
+            foreach ($requiredparams[$type] as $paramname) {
+                if ($paramname == 'inputType') {
+                    continue;
+                }
+                $parameters[$paramname] = $allparameters[$paramname];
+            }
+            $question->inputs[$name] = stack_input_factory::make(
+                $inputdata['type'], $name, (string) $inputdata['model_answer'], $question->options, $parameters);
+        }
+
+        $totalvalue = 0;
+        foreach ($q['response_trees'] as $key => $prtdata) {
+
+            $totalvalue += (float) $prtdata['value'];
+        }
+
+        foreach ($q['response_trees'] as $key => $prtdata) {
+            $name = (string) $key;
+            $nodes = array();
+
+            foreach ($prtdata['nodes'] as $nodeid => $nodedata) {
+                $sans = new stack_cas_casstring((string) $nodedata['answer']);
+                $sans->get_valid('t');
+                $tans = new stack_cas_casstring((string) $nodedata['model_answer']);
+                $tans->get_valid('t');
+
+                if (is_null($nodedata['F']['penalty']) || $nodedata['F']['penalty'] === '') {
+                    $falsepenalty = $question->penalty;
+                } else {
+                    $falsepenalty = (float) $nodedata['F']['penalty'];
+                }
+                if (is_null($nodedata['T']['penalty']) || $nodedata['T']['penalty'] === '') {
+                    $truepenalty = $question->penalty;
+                } else {
+                    $truepenalty = (float) $nodedata['T']['penalty'];
+                }
+
+                $quiet = $nodedata['quiet'];
+                $node = new stack_potentialresponse_node($sans, $tans,
+                        (string) $nodedata['answer_test'], (string) $nodedata['test_options'],
+                        $quiet, '', $nodeid);
+                $node->add_branch(0, (string) $nodedata['F']['score_mode'], (float) $nodedata['F']['score'],
+                        $falsepenalty, (int) $nodedata['F']['next_node'],
+                        (string) $nodedata['F']['feedback_html'],
+                        'html',
+                        $nodedata['F']['answer_note']);
+                $node->add_branch(1, (string) $nodedata['T']['score_mode'], (float) $nodedata['T']['score'],
+                        $falsepenalty, (int) $nodedata['T']['next_node'],
+                        (string) $nodedata['T']['feedback_html'],
+                        'html',
+                        $nodedata['T']['answer_note']);
+                $nodes[$nodeid] = $node;
+            }
+            if ($prtdata['feedback_variables']) {
+                $feedbackvariables = new stack_cas_keyval((string) $prtdata['feedback_variables'], $question->options, null, 't');
+                $feedbackvariables = $feedbackvariables->get_session();
+            } else {
+                $feedbackvariables = null;
+            }
+
+            $question->prts[$name] = new stack_potentialresponse_tree($name, '',
+                (bool) $prtdata['auto_simplify'], (float) $prtdata['value'] / $totalvalue,
+                $feedbackvariables, $nodes, (int) $prtdata['first_node']);
+        }
+        return $question;
+    }
+
     public function initialise_question_from_xml($questionxml) {
 
         $xml = simplexml_load_string($questionxml, null, LIBXML_NOCDATA);
         $json = json_encode($xml);
         $array = json_decode($json, true);
         $qob = new SimpleXMLElement($questionxml);
-        $questionob = $qob->question;
+        $questionob = ($qob->question) ? $qob->question : $qob;
 
         $question = new qtype_stack_question();
-
         $question->type = 'stack';
         $question->defaultmark               = (float) $questionob->defaultgrade;
         $question->penalty                   = (float) $questionob->penalty;
@@ -207,10 +375,10 @@ class qtype_stack_api {
 
         $requiredparams = stack_input_factory::get_parameters_used();
         // Note, we need to increment over this variable to get at the SimpleXMLElement array elements.
-        $k=-1;
+        $k = -1;
         foreach ($questionob->input as $key => $input) {
             $k++;
-            $inputdata=$questionob->input[$k];
+            $inputdata = $questionob->input[$k];
             $name = (string) $inputdata->name;
             $type = (string) $inputdata->type;
             $allparameters = array(
@@ -231,7 +399,7 @@ class qtype_stack_api {
             $parameters = array();
             foreach ($requiredparams[$type] as $paramname) {
                 if ($paramname == 'inputType') {
-                continue;
+                    continue;
                 }
                 $parameters[$paramname] = $allparameters[$paramname];
             }
@@ -290,13 +458,14 @@ class qtype_stack_api {
                         $nodedata->falseanswernote);
                 $node->add_branch(1, (string) $nodedata->truescoremode, (float) $nodedata->truescore,
                         $truepenalty, (int) $nodedata->truenextnode,
-                        (string) $nodedata->truefeedback->text, 
-                        $nodedata->truefeedbackformat, 
+                        (string) $nodedata->truefeedback->text,
+                        $nodedata->truefeedbackformat,
                         $nodedata->trueanswernote);
                 $nodes[$nodeid] = $node;
             }
             if ($prtdata->feedbackvariables) {
-                $feedbackvariables = new stack_cas_keyval((string) $prtdata->feedbackvariables->text, $question->options, null, 't');
+                $feedbackvariables = new stack_cas_keyval((string) $prtdata->feedbackvariables->text,
+                        $question->options, null, 't');
                 $feedbackvariables = $feedbackvariables->get_session();
             } else {
                 $feedbackvariables = null;
@@ -305,10 +474,11 @@ class qtype_stack_api {
             $question->prts[$name] = new stack_potentialresponse_tree($name, '',
                 (bool) $prtdata->autosimplify, (float) $prtdata->value / $totalvalue,
                 $feedbackvariables, $nodes, (int) $prtdata->firstnodename);
+        }
+
+        return($question);
     }
 
-    return($question);
-    }
 
     /*
      * This function writes the maximalocal.mac file into the data directory,
@@ -321,7 +491,8 @@ class qtype_stack_api {
         $helper->create_maximalocal();
         $helper->create_auto_maxima_image();
 
-        echo "You must now update the setting <tt>maximacommand</tt> in <tt>config.php</tt> to be <pre>". $CFG->maximacommand . "</pre>";
+        echo "You must now update the setting <tt>maximacommand</tt> in <tt>config.php</tt> to be <pre>".
+                $CFG->maximacommand . "</pre>";
         die();
     }
 }
